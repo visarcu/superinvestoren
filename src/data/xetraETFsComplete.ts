@@ -110,6 +110,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.08
   },
   {
     symbol: '0P00006DAQ.F',
@@ -118,6 +120,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.27
   },
   {
     symbol: '0P00015OFP.F',
@@ -126,6 +130,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.27
   },
   {
     symbol: '10AH.DE',
@@ -141,7 +147,9 @@ export const xetraETFs: ETF[] = [
     price: 70.23,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    ter: 0.12
+
   },
   {
     symbol: '10AJ.DE',
@@ -150,6 +158,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.24
   },
   {
     symbol: '10AK.DE',
@@ -158,6 +168,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: '10AK.F',
@@ -166,6 +178,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: '10AL.DE',
@@ -174,6 +188,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.09
   },
   {
     symbol: '10AM.DE',
@@ -182,6 +198,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: '18M0.DE',
@@ -190,6 +208,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: '18M1.DE',
@@ -198,6 +218,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: '18M2.DE',
@@ -206,6 +228,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: '18M3.DE',
@@ -230,6 +254,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: '18MF.DE',
@@ -238,6 +264,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.5
   },
   {
     symbol: '18MG.DE',
@@ -254,6 +282,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.8
   },
   {
     symbol: '18MM.DE',
@@ -262,6 +292,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.45
   },
   {
     symbol: '18MP.DE',
@@ -278,6 +310,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: '18MU.DE',
@@ -286,6 +320,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.27
   },
   {
     symbol: '18MW.DE',
@@ -326,6 +362,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: '2B76.DE',
@@ -334,6 +372,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: '2B77.DE',
@@ -342,6 +382,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: '2B78.DE',
@@ -350,6 +392,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: '2B79.DE',
@@ -358,6 +402,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: '2B7A.DE',
@@ -366,6 +412,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: '2B7B.DE',
@@ -373,7 +421,9 @@ export const xetraETFs: ETF[] = [
     price: 8.723,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'US'
+    category: 'US',
+    ter: 0.15
+
   },
   {
     symbol: '2B7C.DE',
@@ -382,6 +432,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: '2B7D.DE',
@@ -390,6 +442,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: '2B7F.DE',
@@ -398,6 +452,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: '2B7J.DE',
@@ -406,6 +462,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: '2B7K.DE',
@@ -414,6 +472,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global',
+
+
     ter: 0.2
   },
   {
@@ -423,6 +483,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: '36B1.DE',
@@ -431,6 +493,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.45
   },
   {
     symbol: '36B3.DE',
@@ -439,6 +503,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: '36B4.DE',
@@ -447,6 +513,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: '36B5.DE',
@@ -455,6 +523,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: '36B6.DE',
@@ -463,6 +533,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: '36B7.DE',
@@ -471,6 +543,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: '36B7.F',
@@ -479,6 +553,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: '36BA.DE',
@@ -487,6 +563,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: '36BA.F',
@@ -495,6 +573,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: '36BB.DE',
@@ -503,6 +583,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: '36BB.F',
@@ -511,6 +593,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: '36BE.DE',
@@ -519,6 +603,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: '36BZ.DE',
@@ -527,6 +613,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.4
   },
   {
     symbol: '3DEL.DE',
@@ -535,6 +623,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.75
   },
   {
     symbol: '3DIE.DE',
@@ -543,6 +633,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Leverage',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.75
   },
   {
     symbol: '3LV.DE',
@@ -551,6 +643,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.75
   },
   {
     symbol: '3NFE.F',
@@ -567,6 +661,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: '3SUD.F',
@@ -575,6 +671,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: '3SUE.DE',
@@ -583,6 +681,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: '3SUE.F',
@@ -591,6 +691,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: '3SUR.DE',
@@ -599,6 +701,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.23
   },
   {
     symbol: '4BRZ.DE',
@@ -607,6 +711,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.31
   },
   {
     symbol: '4COP.F',
@@ -615,6 +721,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: '4UB1.F',
@@ -623,6 +731,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.22
   },
   {
     symbol: '4UB9.F',
@@ -631,6 +741,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: '4UBK.F',
@@ -639,6 +751,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.19
   },
   {
     symbol: '4UBR.F',
@@ -647,6 +761,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.16
   },
   {
     symbol: '540F.DE',
@@ -655,6 +771,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: '540G.DE',
@@ -671,6 +789,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: '540J.DE',
@@ -679,6 +799,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: '540J.F',
@@ -687,6 +809,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: '540K.DE',
@@ -703,6 +827,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: '5ESG.DE',
@@ -711,6 +837,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: '5HED.DE',
@@ -719,6 +847,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.75
   },
   {
     symbol: '5HEE.DE',
@@ -727,6 +857,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.75
   },
   {
     symbol: '5HEU.F',
@@ -735,6 +867,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.75
   },
   {
     symbol: '5MVL.DE',
@@ -743,6 +877,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: '5MVW.DE',
@@ -751,6 +887,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: '5MVW.F',
@@ -759,6 +897,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: '5UOA.DE',
@@ -767,6 +907,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: '5X62.DE',
@@ -783,6 +925,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HAN-GINS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.59
   },
   {
     symbol: '6AQQ.DE',
@@ -791,6 +935,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.23
   },
   {
     symbol: '6FIN.DE',
@@ -799,6 +945,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: '6PSA.DE',
@@ -807,6 +955,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: '6PSC.DE',
@@ -815,6 +965,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.39
   },
   {
     symbol: '6PSC.F',
@@ -823,6 +975,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.39
   },
   {
     symbol: '6PSK.DE',
@@ -831,6 +985,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.49
   },
   {
     symbol: '6TVL.DE',
@@ -839,6 +995,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: '6TVM.DE',
@@ -847,6 +1005,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: '7USH.DE',
@@ -855,6 +1015,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Government Bonds'
+  ,
+    ter: 0.06
   },
   {
     symbol: '8522.DE',
@@ -879,6 +1041,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.14
   },
   {
     symbol: '9E0E.DE',
@@ -887,6 +1051,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'ABN3.DE',
@@ -895,6 +1061,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Leverage',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'ACU2.DE',
@@ -903,6 +1071,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'AE50.DE',
@@ -911,6 +1081,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'AEMD.DE',
@@ -919,6 +1091,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'AEMD.F',
@@ -927,6 +1101,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'AFI1.F',
@@ -951,6 +1127,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'AHYE.DE',
@@ -959,6 +1137,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Dividend'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'AHYQ.DE',
@@ -967,6 +1147,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'AKWA.F',
@@ -975,6 +1157,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'ALQD.DE',
@@ -991,6 +1175,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'AMEA.DE',
@@ -999,6 +1185,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'AMEC.DE',
@@ -1007,6 +1195,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.44999999999999996
   },
   {
     symbol: 'AMED.DE',
@@ -1015,6 +1205,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'ESG'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'AMEE.DE',
@@ -1023,6 +1215,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'AMEI.DE',
@@ -1031,6 +1225,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'AMEL.DE',
@@ -1039,6 +1235,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'AMEM.DE',
@@ -1047,6 +1245,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'AMEQ.DE',
@@ -1055,6 +1255,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'AMES.DE',
@@ -1063,6 +1265,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'AMEW.DE',
@@ -1071,6 +1275,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'APXJ.DE',
@@ -1079,6 +1285,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'ASR3.DE',
@@ -1087,6 +1295,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'ASR5.DE',
@@ -1095,6 +1305,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.47000000000000003
   },
   {
     symbol: 'ASRI.DE',
@@ -1103,6 +1315,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ASRR.DE',
@@ -1111,6 +1325,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'ASRS.F',
@@ -1119,6 +1335,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ASWA.DE',
@@ -1127,6 +1345,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HANetf',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'AUM5.DE',
@@ -1135,6 +1355,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'AW10.F',
@@ -1143,6 +1365,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'AW1B.F',
@@ -1151,6 +1375,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'AW1Q.DE',
@@ -1159,6 +1385,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'AW1R.DE',
@@ -1167,6 +1395,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'AYE2.DE',
@@ -1175,6 +1405,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'AYEM.DE',
@@ -1183,6 +1415,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'AYEP.DE',
@@ -1191,6 +1425,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'AYEP.F',
@@ -1199,6 +1435,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'AYEU.DE',
@@ -1207,6 +1445,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'AYEW.DE',
@@ -1215,6 +1455,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'B500.DE',
@@ -1223,6 +1465,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'B500.F',
@@ -1231,6 +1475,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'BATE.DE',
@@ -1239,6 +1485,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'BBCK.DE',
@@ -1247,6 +1495,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'BBEG.DE',
@@ -1255,6 +1505,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'BBLL.DE',
@@ -1263,6 +1515,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPM',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'BBTR.DE',
@@ -1271,6 +1525,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'BBUD.DE',
@@ -1279,6 +1535,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'BBUS.DE',
@@ -1287,6 +1545,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'BCFE.DE',
@@ -1295,6 +1555,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'BCFU.DE',
@@ -1303,6 +1565,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'BGX.DE',
@@ -1311,6 +1575,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 2.18
   },
   {
     symbol: 'BGX.F',
@@ -1327,6 +1593,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Rize',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'BNXG.DE',
@@ -1335,6 +1603,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'BUNH.DE',
@@ -1343,6 +1613,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'C001.DE',
@@ -1351,6 +1623,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'C003.DE',
@@ -1359,6 +1633,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'C004.DE',
@@ -1375,6 +1651,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.7
   },
   {
     symbol: 'C006.DE',
@@ -1383,6 +1661,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'C006.F',
@@ -1391,6 +1671,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'C007.DE',
@@ -1399,6 +1681,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'C007.F',
@@ -1407,6 +1691,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'C010.DE',
@@ -1423,6 +1709,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'C024.DE',
@@ -1431,6 +1719,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'C029.DE',
@@ -1439,6 +1729,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'C030.DE',
@@ -1447,6 +1739,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'C051.DE',
@@ -1455,6 +1749,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'C060.DE',
@@ -1471,6 +1767,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'C090.DE',
@@ -1487,6 +1785,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'C101.DE',
@@ -1495,6 +1795,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CAB3.DE',
@@ -1511,6 +1813,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&GE',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.88
   },
   {
     symbol: 'CB3G.DE',
@@ -1519,6 +1823,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'CBSX.DE',
@@ -1527,6 +1833,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'The',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.8
   },
   {
     symbol: 'CBU0.DE',
@@ -1535,6 +1843,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CBU2.DE',
@@ -1543,6 +1853,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'CBUC.DE',
@@ -1551,6 +1863,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CBUC.F',
@@ -1559,6 +1873,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CBUD.DE',
@@ -1567,6 +1883,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'CBUE.DE',
@@ -1575,6 +1893,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CBUE.F',
@@ -1583,6 +1903,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CBUF.DE',
@@ -1591,6 +1913,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'CBUF.F',
@@ -1599,6 +1923,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CBUG.DE',
@@ -1607,6 +1933,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CBUH.DE',
@@ -1615,6 +1943,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CBUI.DE',
@@ -1623,6 +1953,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CBUJ.DE',
@@ -1631,6 +1963,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'CBUJ.F',
@@ -1639,6 +1973,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'CBUL.DE',
@@ -1647,6 +1983,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'CBUL.F',
@@ -1655,6 +1993,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'CBUM.DE',
@@ -1663,6 +2003,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Shares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CBUP.DE',
@@ -1671,6 +2013,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'CBUS.DE',
@@ -1679,6 +2023,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'CBUX.DE',
@@ -1687,6 +2033,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'CBUY.DE',
@@ -1695,6 +2043,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'CCNV.DE',
@@ -1711,6 +2061,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'CE8G.DE',
@@ -1719,6 +2071,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'CEBB.DE',
@@ -1727,6 +2081,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'CEBD.DE',
@@ -1735,6 +2091,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'CEBG.DE',
@@ -1743,6 +2101,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'CEBL.DE',
@@ -1751,6 +2111,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'CEBP.DE',
@@ -1759,6 +2121,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'CEBU.DE',
@@ -1767,6 +2131,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CEMG.DE',
@@ -1775,6 +2141,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'CEMQ.DE',
@@ -1783,6 +2151,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CEMR.DE',
@@ -1791,6 +2161,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CEMS.DE',
@@ -1799,6 +2171,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CEMT.DE',
@@ -1807,6 +2181,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CEUG.DE',
@@ -1815,6 +2191,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'CG1G.DE',
@@ -1823,6 +2201,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CGB.DE',
@@ -1831,6 +2211,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'China'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'CMTX.F',
@@ -1839,6 +2221,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Government Bonds'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'CN1G.DE',
@@ -1847,6 +2231,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CNAA.DE',
@@ -1855,6 +2241,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'CNUA.DE',
@@ -1863,6 +2251,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'COVR.DE',
@@ -1871,6 +2261,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.43
   },
   {
     symbol: 'CSTA.DE',
@@ -1879,6 +2271,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'CSTD.DE',
@@ -1887,6 +2281,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'CSY1.DE',
@@ -1895,6 +2291,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'CSY2.DE',
@@ -1903,6 +2301,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'CSY5.DE',
@@ -1911,6 +2311,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'CSY5.F',
@@ -1919,6 +2321,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'MSCI',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'CSY7.DE',
@@ -1927,6 +2331,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'CSY7.F',
@@ -1935,6 +2341,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Credit',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'CSY8.F',
@@ -1943,6 +2351,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Credit',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'CSY9.F',
@@ -1951,6 +2361,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Credit',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CSYU.F',
@@ -1959,6 +2371,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Credit',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'CSYZ.DE',
@@ -1967,6 +2381,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'CUIK.F',
@@ -1975,6 +2391,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'CZX.DE',
@@ -1983,6 +2401,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 1.3800000000000001
   },
   {
     symbol: 'D100.F',
@@ -1991,6 +2411,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'D3V3.DE',
@@ -2007,6 +2429,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'D5BB.DE',
@@ -2015,6 +2439,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'D5BC.DE',
@@ -2023,6 +2449,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'D5BE.DE',
@@ -2031,6 +2459,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'D5BG.DE',
@@ -2039,6 +2469,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'D5BH.DE',
@@ -2047,6 +2479,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'D5BI.DE',
@@ -2055,6 +2489,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'D5BK.DE',
@@ -2063,6 +2499,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'D5BL.DE',
@@ -2071,6 +2509,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'D5BM.DE',
@@ -2079,6 +2519,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'D6RA.DE',
@@ -2087,6 +2529,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'D6RP.F',
@@ -2095,6 +2539,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'DBPD.DE',
@@ -2103,6 +2549,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'DBPE.DE',
@@ -2111,6 +2559,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'DBPG.DE',
@@ -2119,6 +2569,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'DBPK.DE',
@@ -2127,6 +2579,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.7
   },
   {
     symbol: 'DBX0.DE',
@@ -2135,6 +2589,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.7
   },
   {
     symbol: 'DBX1.DE',
@@ -2143,6 +2599,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'DBX2.DE',
@@ -2151,6 +2609,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'DBX2.F',
@@ -2159,6 +2619,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'DBX3.DE',
@@ -2167,6 +2629,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'DBX4.DE',
@@ -2175,6 +2639,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'DBX5.DE',
@@ -2183,6 +2649,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'DBX6.DE',
@@ -2199,6 +2667,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.85
   },
   {
     symbol: 'DBX8.DE',
@@ -2207,6 +2677,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'DBX9.DE',
@@ -2215,6 +2687,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'DBXA.DE',
@@ -2223,6 +2697,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'DBXB.DE',
@@ -2231,6 +2707,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXD.DE',
@@ -2239,6 +2717,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'DBXE.DE',
@@ -2247,6 +2727,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'DBXF.DE',
@@ -2255,6 +2737,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXG.DE',
@@ -2263,6 +2747,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXH.DE',
@@ -2271,6 +2757,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'DBXI.DE',
@@ -2279,6 +2767,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'DBXJ.DE',
@@ -2287,6 +2777,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'DBXK.DE',
@@ -2295,6 +2787,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXM.DE',
@@ -2311,6 +2805,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXP.DE',
@@ -2319,6 +2815,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXQ.DE',
@@ -2327,6 +2825,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXR.DE',
@@ -2335,6 +2835,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXR.F',
@@ -2343,6 +2845,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXS.DE',
@@ -2351,6 +2855,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'DBXT.DE',
@@ -2359,6 +2865,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'DBXU.DE',
@@ -2367,6 +2875,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXV.DE',
@@ -2383,6 +2893,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'DBXX.DE',
@@ -2391,6 +2903,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'DBXY.DE',
@@ -2399,6 +2913,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DBXZ.DE',
@@ -2407,6 +2923,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'DBZB.DE',
@@ -2415,6 +2933,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'DBZN.DE',
@@ -2423,6 +2943,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'DDOC.DE',
@@ -2431,6 +2953,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.68
   },
   {
     symbol: 'DE5A.DE',
@@ -2439,6 +2963,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'DEAM.DE',
@@ -2447,6 +2973,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'DECD.F',
@@ -2455,6 +2983,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DECR.DE',
@@ -2463,6 +2993,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'DECR.F',
@@ -2471,6 +3003,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'DEL2.DE',
@@ -2479,6 +3013,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'DELF.DE',
@@ -2487,6 +3023,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'DELG.DE',
@@ -2495,6 +3033,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'DES2.DE',
@@ -2503,6 +3043,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'DFEN.DE',
@@ -2511,6 +3053,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'DFOA.DE',
@@ -2519,6 +3063,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'DFOB.DE',
@@ -2527,6 +3073,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'DFOP.DE',
@@ -2535,6 +3083,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'DJAD.DE',
@@ -2543,6 +3093,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'DJAM.DE',
@@ -2551,6 +3103,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'DNRA.DE',
@@ -2567,6 +3121,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Fixed Income',
     category: 'China'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'DRUP.DE',
@@ -2575,6 +3131,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'DX22.DE',
@@ -2583,6 +3141,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'DX2D.DE',
@@ -2591,6 +3151,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.7
   },
   {
     symbol: 'DX2E.DE',
@@ -2599,6 +3161,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'DX2G.DE',
@@ -2607,6 +3171,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'DX2I.DE',
@@ -2615,6 +3181,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'DX2J.DE',
@@ -2623,6 +3191,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'DX2K.DE',
@@ -2631,6 +3201,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'DX2S.DE',
@@ -2639,6 +3211,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'DX2X.DE',
@@ -2647,6 +3221,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'DX2Z.DE',
@@ -2655,6 +3231,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.95
   },
   {
     symbol: 'DXET.DE',
@@ -2671,6 +3249,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'DXS1.DE',
@@ -2679,6 +3259,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'DXS3.DE',
@@ -2687,6 +3269,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'DXS5.DE',
@@ -2695,6 +3279,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'DXS6.DE',
@@ -2703,6 +3289,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'DXS7.DE',
@@ -2711,6 +3299,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.85
   },
   {
     symbol: 'DXSA.DE',
@@ -2719,6 +3309,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'DXSB.DE',
@@ -2727,6 +3319,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'DXSC.DE',
@@ -2735,6 +3329,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'DXSD.DE',
@@ -2751,6 +3347,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'DXSF.DE',
@@ -2767,6 +3365,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'DXSH.DE',
@@ -2783,6 +3383,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'DXSK.DE',
@@ -2791,6 +3393,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'DXSL.DE',
@@ -2799,6 +3403,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'DXSM.DE',
@@ -2807,6 +3413,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'DXSM.F',
@@ -2823,6 +3431,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'DXSP.DE',
@@ -2831,6 +3441,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'DXSQ.DE',
@@ -2847,6 +3459,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'DXSU.DE',
@@ -2855,6 +3469,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'DXSV.DE',
@@ -2863,6 +3479,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DXSW.DE',
@@ -2871,6 +3489,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'DXSZ.DE',
@@ -2879,6 +3499,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'E127.DE',
@@ -2895,6 +3517,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'E15H.DE',
@@ -2903,6 +3527,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'E500.DE',
@@ -2911,6 +3537,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'E500.F',
@@ -2919,6 +3547,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'E6BR.F',
@@ -2927,6 +3557,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'E903.DE',
@@ -2935,6 +3567,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'E903.F',
@@ -2943,6 +3577,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'E905.DE',
@@ -2959,6 +3595,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'E907.F',
@@ -2967,6 +3605,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'E908.DE',
@@ -2975,6 +3615,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'E909.DE',
@@ -2983,6 +3625,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'E909.F',
@@ -2991,6 +3635,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'E950.DE',
@@ -3015,6 +3661,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'EB3M.DE',
@@ -3023,6 +3671,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'EB3M.F',
@@ -3031,6 +3681,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'EBUY.DE',
@@ -3039,6 +3691,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'ECBC.DE',
@@ -3047,6 +3701,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SI',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'ECBD.DE',
@@ -3055,6 +3711,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SI',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'ECBI.DE',
@@ -3063,6 +3721,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SI',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'ECBI.F',
@@ -3071,6 +3731,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SI',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'ECDC.DE',
@@ -3079,6 +3741,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 3.02
   },
   {
     symbol: 'ECR1.F',
@@ -3087,6 +3751,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'ESG'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'ECR3.DE',
@@ -3095,6 +3761,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EDEU.DE',
@@ -3103,6 +3771,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EDM2.DE',
@@ -3111,6 +3781,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'EDM4.DE',
@@ -3119,6 +3791,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EDM6.DE',
@@ -3127,6 +3801,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EDMJ.DE',
@@ -3135,6 +3811,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EDMU.DE',
@@ -3143,6 +3821,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'EDMW.DE',
@@ -3151,6 +3831,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EEAA.DE',
@@ -3159,6 +3841,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'EEP.DE',
@@ -3167,6 +3851,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'EEPG.DE',
@@ -3175,6 +3861,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'EESM.DE',
@@ -3183,6 +3871,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'EEUX.DE',
@@ -3191,6 +3881,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNPP',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EEXU.DE',
@@ -3207,6 +3899,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EFQ8.DE',
@@ -3215,6 +3909,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EFRN.DE',
@@ -3223,6 +3919,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EGV1.DE',
@@ -3231,6 +3929,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EGV2.DE',
@@ -3239,6 +3939,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EGV3.DE',
@@ -3247,6 +3949,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EGV3.F',
@@ -3255,6 +3959,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.165
   },
   {
     symbol: 'EGV5.DE',
@@ -3263,6 +3969,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EGV5.F',
@@ -3271,6 +3979,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.165
   },
   {
     symbol: 'EGV7.DE',
@@ -3279,6 +3989,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EGV7.F',
@@ -3287,6 +3999,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'EH1Y.DE',
@@ -3295,6 +4009,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EH1Y.F',
@@ -3303,6 +4019,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'EHBA.DE',
@@ -3311,6 +4029,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'EHDL.DE',
@@ -3319,6 +4039,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'EHDV.DE',
@@ -3327,6 +4049,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EHF1.DE',
@@ -3335,6 +4059,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'EHLT.DE',
@@ -3343,6 +4069,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EIB3.DE',
@@ -3351,6 +4079,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIB3.F',
@@ -3359,6 +4089,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIB5.DE',
@@ -3367,6 +4099,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIB5.F',
@@ -3375,6 +4109,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIB7.DE',
@@ -3383,6 +4119,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIB7.F',
@@ -3391,6 +4129,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIBB.DE',
@@ -3399,6 +4139,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'EIBB.F',
@@ -3407,6 +4149,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIBX.DE',
@@ -3415,6 +4159,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EIBX.F',
@@ -3423,6 +4169,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EJAH.DE',
@@ -3431,6 +4179,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNPP',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EJAP.DE',
@@ -3439,6 +4189,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EKLD.DE',
@@ -3447,6 +4199,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.26
   },
   {
     symbol: 'EKUS.DE',
@@ -3455,6 +4209,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.26
   },
   {
     symbol: 'EL40.DE',
@@ -3463,6 +4219,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'EL41.DE',
@@ -3471,6 +4229,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EL42.DE',
@@ -3479,6 +4239,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EL43.DE',
@@ -3487,6 +4249,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.36
   },
   {
     symbol: 'EL44.DE',
@@ -3495,6 +4259,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.52
   },
   {
     symbol: 'EL45.DE',
@@ -3503,6 +4269,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.26
   },
   {
     symbol: 'EL46.DE',
@@ -3511,6 +4279,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'EL48.DE',
@@ -3519,6 +4289,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'EL49.DE',
@@ -3527,6 +4299,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EL4A.DE',
@@ -3535,6 +4309,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4B.DE',
@@ -3543,6 +4319,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4C.DE',
@@ -3551,6 +4329,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'EL4D.DE',
@@ -3559,6 +4339,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'EL4E.DE',
@@ -3567,6 +4349,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.66
   },
   {
     symbol: 'EL4F.DE',
@@ -3575,6 +4359,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4G.DE',
@@ -3583,6 +4369,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.32
   },
   {
     symbol: 'EL4H.DE',
@@ -3591,6 +4379,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'EL4I.DE',
@@ -3599,6 +4389,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EL4J.DE',
@@ -3607,6 +4399,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'EL4K.DE',
@@ -3615,6 +4409,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4L.DE',
@@ -3623,6 +4419,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4M.DE',
@@ -3631,6 +4429,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4N.DE',
@@ -3639,6 +4439,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4P.DE',
@@ -3647,6 +4449,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4Q.DE',
@@ -3655,6 +4459,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4R.DE',
@@ -3663,6 +4469,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4S.DE',
@@ -3671,6 +4479,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4T.DE',
@@ -3679,6 +4489,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4U.DE',
@@ -3687,6 +4499,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4V.DE',
@@ -3695,6 +4509,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EL4W.DE',
@@ -3703,6 +4519,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EL4X.DE',
@@ -3711,6 +4529,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EL4Y.DE',
@@ -3719,6 +4539,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'EL4Z.DE',
@@ -3727,6 +4549,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ELCR.DE',
@@ -3735,6 +4559,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'ELEC.F',
@@ -3751,6 +4577,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'ELF1.DE',
@@ -3759,6 +4587,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ELF5.DE',
@@ -3767,6 +4597,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'ELFA.DE',
@@ -3775,6 +4607,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ELFB.DE',
@@ -3783,6 +4617,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'ELFC.DE',
@@ -3791,6 +4627,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'ELFD.DE',
@@ -3799,6 +4637,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ELFE.DE',
@@ -3807,6 +4647,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'ELFF.DE',
@@ -3815,6 +4657,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ELFG.DE',
@@ -3823,6 +4667,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'ELFG.F',
@@ -3839,6 +4685,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EM1C.DE',
@@ -3847,6 +4695,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EMEC.DE',
@@ -3855,6 +4705,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EMEH.DE',
@@ -3863,6 +4715,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Energy'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'EMEH.F',
@@ -3871,6 +4725,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Energy'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'EMIE.DE',
@@ -3879,6 +4735,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.43
   },
   {
     symbol: 'EMIE.F',
@@ -3887,6 +4745,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.43
   },
   {
     symbol: 'EMIG.DE',
@@ -3895,6 +4755,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'EMKX.DE',
@@ -3903,6 +4765,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.26
   },
   {
     symbol: 'EMND.DE',
@@ -3911,6 +4775,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EMNE.DE',
@@ -3919,6 +4785,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EMNJ.DE',
@@ -3927,6 +4795,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EMNU.DE',
@@ -3935,6 +4805,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EMQQ.DE',
@@ -3943,6 +4815,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'EMQQ',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.86
   },
   {
     symbol: 'EMSM.DE',
@@ -3951,6 +4825,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'EMSV.DE',
@@ -3975,6 +4851,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'EMUX.DE',
@@ -3983,6 +4861,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.14550000000000002
   },
   {
     symbol: 'EMWE.DE',
@@ -3991,6 +4871,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2425
   },
   {
     symbol: 'EMXC.DE',
@@ -3999,6 +4881,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EN4C.F',
@@ -4007,6 +4891,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ENDH.F',
@@ -4015,6 +4901,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'ENOA.DE',
@@ -4023,6 +4911,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'ESG'
+  ,
+    ter: 0.159
   },
   {
     symbol: 'EQEU.DE',
@@ -4031,6 +4921,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'EQQQ.DE',
@@ -4039,6 +4931,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EQQX.F',
@@ -4047,6 +4941,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ERNX.DE',
@@ -4055,6 +4951,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'ES5R.DE',
@@ -4071,6 +4969,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ESEA.DE',
@@ -4079,6 +4979,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ESEE.DE',
@@ -4087,6 +4989,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ESEH.DE',
@@ -4095,6 +4999,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ESGE.DE',
@@ -4103,6 +5009,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'ESGU.DE',
@@ -4111,6 +5019,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'ESGW.DE',
@@ -4119,6 +5029,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'ESGX.DE',
@@ -4127,6 +5039,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'ESIC.DE',
@@ -4135,6 +5049,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIC.F',
@@ -4143,6 +5059,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIE.DE',
@@ -4151,6 +5069,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIF.DE',
@@ -4159,6 +5079,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIH.DE',
@@ -4167,6 +5089,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIN.DE',
@@ -4175,6 +5099,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIS.DE',
@@ -4183,6 +5109,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESIT.DE',
@@ -4191,6 +5119,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ESNB.DE',
@@ -4199,6 +5129,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 3.0700000000000003
   },
   {
     symbol: 'ESNB.F',
@@ -4207,6 +5139,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 3.0700000000000003
   },
   {
     symbol: 'ESP0.DE',
@@ -4215,6 +5149,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'ESRI.DE',
@@ -4223,6 +5159,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ESTE.F',
@@ -4231,6 +5169,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Europe'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'ETBB.DE',
@@ -4239,6 +5179,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ETDD.DE',
@@ -4247,6 +5189,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ETL2.DE',
@@ -4255,6 +5199,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ETLE.DE',
@@ -4271,6 +5217,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ETLH.DE',
@@ -4279,6 +5227,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'ETLI.DE',
@@ -4287,6 +5237,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'ETLK.DE',
@@ -4295,6 +5247,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'ETLN.DE',
@@ -4303,6 +5257,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'ETLQ.DE',
@@ -4311,6 +5267,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'ETLR.DE',
@@ -4319,6 +5277,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'ETLS.DE',
@@ -4327,6 +5287,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'ETLX.DE',
@@ -4335,6 +5297,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'ETLZ.DE',
@@ -4343,6 +5307,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ETSA.DE',
@@ -4351,6 +5317,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ETSZ.DE',
@@ -4359,6 +5327,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EUED.DE',
@@ -4367,6 +5337,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'EUHA.DE',
@@ -4375,6 +5347,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'EUHA.F',
@@ -4383,6 +5357,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'EUHI.DE',
@@ -4391,6 +5367,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'EUHI.F',
@@ -4399,6 +5377,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'EUIN.DE',
@@ -4407,6 +5387,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'EUN0.DE',
@@ -4415,6 +5397,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'EUN1.DE',
@@ -4423,6 +5407,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'EUN2.DE',
@@ -4431,6 +5417,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EUN3.DE',
@@ -4439,6 +5427,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EUN4.DE',
@@ -4447,6 +5437,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EUN5.DE',
@@ -4455,6 +5447,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'EUN6.DE',
@@ -4463,6 +5457,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'EUN8.DE',
@@ -4471,6 +5467,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EUN9.DE',
@@ -4479,6 +5477,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EUNA.DE',
@@ -4487,6 +5487,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EUNH.DE',
@@ -4495,6 +5497,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'EUNI.DE',
@@ -4503,6 +5507,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'EUNJ.DE',
@@ -4511,6 +5517,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'EUNK.DE',
@@ -4519,6 +5527,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EUNL.DE',
@@ -4526,7 +5536,9 @@ export const xetraETFs: ETF[] = [
     price: 104.62,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+
+    ter: 0.2
   },
   {
     symbol: 'EUNM.DE',
@@ -4535,6 +5547,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'EUNN.DE',
@@ -4543,6 +5557,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EUNR.DE',
@@ -4551,6 +5567,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EUNS.DE',
@@ -4559,6 +5577,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EUNT.DE',
@@ -4567,6 +5587,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EUNU.DE',
@@ -4575,6 +5597,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EUNW.DE',
@@ -4583,6 +5607,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'EUNX.DE',
@@ -4591,6 +5617,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'EUNY.DE',
@@ -4599,6 +5627,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'EUNZ.DE',
@@ -4607,6 +5637,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'EUPE.DE',
@@ -4615,6 +5647,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'EWRD.DE',
@@ -4623,6 +5657,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2425
   },
   {
     symbol: 'EXAG.DE',
@@ -4631,6 +5667,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'EXH1.DE',
@@ -4639,6 +5677,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'EXH2.DE',
@@ -4647,6 +5687,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH3.DE',
@@ -4655,6 +5697,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH4.DE',
@@ -4663,6 +5707,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH5.DE',
@@ -4671,6 +5717,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH6.DE',
@@ -4679,6 +5727,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH7.DE',
@@ -4687,6 +5737,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH8.DE',
@@ -4695,6 +5747,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXH9.DE',
@@ -4703,6 +5757,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'EXHA.DE',
@@ -4711,6 +5767,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXHB.DE',
@@ -4719,6 +5777,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXHC.DE',
@@ -4727,6 +5787,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXHD.DE',
@@ -4735,6 +5797,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXHE.DE',
@@ -4743,6 +5807,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EXHE.F',
@@ -4751,6 +5817,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'EXHF.DE',
@@ -4759,6 +5827,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'EXI1.DE',
@@ -4767,6 +5837,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXI2.DE',
@@ -4775,6 +5847,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXI3.DE',
@@ -4783,6 +5857,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXI3.F',
@@ -4791,6 +5867,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXI5.DE',
@@ -4799,6 +5877,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXI5.F',
@@ -4807,6 +5887,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'EXIA.DE',
@@ -4815,6 +5897,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EXIA.F',
@@ -4823,6 +5907,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'EXIB.DE',
@@ -4831,6 +5917,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXIC.DE',
@@ -4839,6 +5927,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXIC.F',
@@ -4847,6 +5937,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXID.DE',
@@ -4855,6 +5947,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXID.F',
@@ -4863,6 +5957,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXIE.DE',
@@ -4871,6 +5967,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXS1.DE',
@@ -4879,6 +5977,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXS2.DE',
@@ -4887,6 +5987,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXS3.DE',
@@ -4895,6 +5997,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXSA.DE',
@@ -4903,6 +6007,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXSB.DE',
@@ -4911,6 +6017,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'EXSC.DE',
@@ -4919,6 +6027,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.21
   },
   {
     symbol: 'EXSC.F',
@@ -4927,6 +6037,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXSD.DE',
@@ -4935,6 +6047,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.21
   },
   {
     symbol: 'EXSD.F',
@@ -4943,6 +6057,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXSE.DE',
@@ -4951,6 +6067,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXSE.F',
@@ -4959,6 +6077,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXSG.DE',
@@ -4967,6 +6087,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.32
   },
   {
     symbol: 'EXSH.DE',
@@ -4975,6 +6097,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.32
   },
   {
     symbol: 'EXSI.DE',
@@ -4983,6 +6107,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXSI.F',
@@ -4991,6 +6117,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'EXV1.DE',
@@ -4999,6 +6127,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'EXV2.DE',
@@ -5007,6 +6137,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'EXV3.DE',
@@ -5015,6 +6147,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXV4.DE',
@@ -5023,6 +6157,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXV5.DE',
@@ -5031,6 +6167,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXV6.DE',
@@ -5039,6 +6177,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXV7.DE',
@@ -5047,6 +6187,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXV8.DE',
@@ -5055,6 +6197,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXV9.DE',
@@ -5063,6 +6207,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'EXVM.DE',
@@ -5071,6 +6217,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.13
   },
   {
     symbol: 'EXW1.DE',
@@ -5079,6 +6227,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'EXW3.DE',
@@ -5087,6 +6237,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.52
   },
   {
     symbol: 'EXX1.DE',
@@ -5095,6 +6247,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.52
   },
   {
     symbol: 'EXX5.DE',
@@ -5103,6 +6257,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'EXX6.DE',
@@ -5111,6 +6267,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'EXX7.DE',
@@ -5119,6 +6277,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.51
   },
   {
     symbol: 'EXXT.DE',
@@ -5127,6 +6287,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'EXXU.DE',
@@ -5135,6 +6297,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.61
   },
   {
     symbol: 'EXXV.DE',
@@ -5143,6 +6307,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.43
   },
   {
     symbol: 'EXXW.DE',
@@ -5151,6 +6317,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'EXXX.DE',
@@ -5159,6 +6327,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.32
   },
   {
     symbol: 'EXXY.DE',
@@ -5167,6 +6337,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'F4DE.DE',
@@ -5175,6 +6347,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'F500.DE',
@@ -5183,6 +6357,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'F701.DE',
@@ -5191,6 +6367,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.42
   },
   {
     symbol: 'F702.DE',
@@ -5199,6 +6377,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'F703.DE',
@@ -5207,6 +6387,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'FAEU.DE',
@@ -5215,6 +6397,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'FAHY.DE',
@@ -5223,6 +6407,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'FEEM.DE',
@@ -5239,6 +6425,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'FEUI.DE',
@@ -5247,6 +6435,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'FEUQ.DE',
@@ -5255,6 +6445,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'FGEQ.DE',
@@ -5263,6 +6455,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'FGEU.DE',
@@ -5271,6 +6465,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'FGEU.F',
@@ -5279,6 +6475,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'FLRG.DE',
@@ -5287,6 +6485,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'FLXB.DE',
@@ -5295,6 +6495,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FLXB.F',
@@ -5303,6 +6505,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FLXC.DE',
@@ -5311,6 +6515,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FLXC.F',
@@ -5319,6 +6525,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FLXD.DE',
@@ -5327,6 +6535,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'FLXE.DE',
@@ -5335,6 +6545,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'FLXG.DE',
@@ -5343,6 +6555,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'FLXI.DE',
@@ -5351,6 +6565,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FLXK.DE',
@@ -5359,6 +6575,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'FLXP.F',
@@ -5367,6 +6585,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'FLXT.F',
@@ -5375,6 +6595,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FLXU.DE',
@@ -5383,6 +6605,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'FLXX.DE',
@@ -5391,6 +6615,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'FRC3.DE',
@@ -5399,6 +6625,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'FRC4.DE',
@@ -5407,6 +6635,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'FRCJ.DE',
@@ -5415,6 +6645,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'FRCK.DE',
@@ -5423,6 +6655,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'FRNE.DE',
@@ -5431,6 +6665,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'ESG'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'FRNH.DE',
@@ -5439,6 +6675,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'ESG'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'FRNU.DE',
@@ -5447,6 +6685,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'ESG'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'FTGG.DE',
@@ -5455,6 +6695,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'First Trust',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'FTGG.F',
@@ -5463,6 +6705,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'First Trust',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'FTGT.F',
@@ -5471,6 +6715,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'First Trust',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'FTGU.DE',
@@ -5479,6 +6725,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'First Trust',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'FTWD.DE',
@@ -5487,6 +6735,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'FUSA.DE',
@@ -5495,6 +6745,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'FUSD.DE',
@@ -5503,6 +6755,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'FUSU.DE',
@@ -5511,6 +6765,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'FUSU.F',
@@ -5519,6 +6775,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'FVSJ.DE',
@@ -5527,6 +6785,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'FVUE.DE',
@@ -5535,6 +6795,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'FYEM.DE',
@@ -5543,6 +6805,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'FYEQ.DE',
@@ -5551,6 +6815,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'G1CE.DE',
@@ -5559,6 +6825,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'G2X.DE',
@@ -5567,6 +6835,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.53
   },
   {
     symbol: 'G2XJ.DE',
@@ -5575,6 +6845,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'GACA.DE',
@@ -5583,6 +6855,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Goldman',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'GACB.DE',
@@ -5591,6 +6865,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Goldman',
     assetClass: 'Commodity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'GASF.DE',
@@ -5599,6 +6875,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Goldman',
     assetClass: 'Fixed Income',
     category: 'China'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'GC2U.DE',
@@ -5607,6 +6885,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'GC40.DE',
@@ -5615,6 +6895,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'GENY.DE',
@@ -5623,6 +6905,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'GFEA.DE',
@@ -5631,6 +6915,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'GGUE.DE',
@@ -5639,6 +6925,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'GLUX.DE',
@@ -5647,6 +6935,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'GMVM.DE',
@@ -5655,6 +6945,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'GNAR.DE',
@@ -5671,6 +6963,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'GRID.F',
@@ -5679,6 +6973,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'First Trust',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.7000000000000001
   },
   {
     symbol: 'GRX.DE',
@@ -5687,6 +6983,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 2.04
   },
   {
     symbol: 'GSDE.DE',
@@ -5695,6 +6993,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Energy'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'GSDE.F',
@@ -5703,6 +7003,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Energy'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'H1D5.DE',
@@ -5711,6 +7013,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'H1D5.F',
@@ -5719,6 +7023,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'H410.DE',
@@ -5727,6 +7033,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'H411.DE',
@@ -5735,6 +7043,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'H41J.DE',
@@ -5743,6 +7053,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'H41K.DE',
@@ -5751,6 +7063,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'H41K.F',
@@ -5759,6 +7073,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'H4ZA.DE',
@@ -5767,6 +7083,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'H4ZB.DE',
@@ -5775,6 +7093,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'H4ZC.DE',
@@ -5783,6 +7103,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'H4ZD.DE',
@@ -5791,6 +7113,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'H4ZE.DE',
@@ -5799,6 +7123,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'H4ZF.DE',
@@ -5807,6 +7133,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'H4ZH.DE',
@@ -5815,6 +7143,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'H4ZI.DE',
@@ -5823,6 +7153,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'H4ZJ.DE',
@@ -5831,6 +7163,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'H4ZK.DE',
@@ -5839,6 +7173,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'H4ZP.DE',
@@ -5847,6 +7183,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'H4ZR.DE',
@@ -5855,6 +7193,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'H4ZS.DE',
@@ -5863,6 +7203,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'H4ZT.DE',
@@ -5871,6 +7213,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'H4ZU.DE',
@@ -5879,6 +7223,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'H4ZV.DE',
@@ -5887,6 +7233,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'H4ZW.DE',
@@ -5895,6 +7243,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'HAB.DE',
@@ -5911,6 +7261,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'HJAP.F',
@@ -5919,6 +7271,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'HNDX.DE',
@@ -5927,6 +7281,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'HNDX.F',
@@ -5935,6 +7291,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'HTMW.DE',
@@ -5943,6 +7301,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'HUBE.DE',
@@ -5951,6 +7311,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 1.56
   },
   {
     symbol: 'HUBE.F',
@@ -5959,6 +7321,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 1.56
   },
   {
     symbol: 'HVJ9.F',
@@ -5967,6 +7331,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'DWS',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 1.55
   },
   {
     symbol: 'HY3M.DE',
@@ -5975,6 +7341,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'HYLE.DE',
@@ -5983,6 +7351,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'HYLE.F',
@@ -5991,6 +7361,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'IBB1.DE',
@@ -5999,6 +7371,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'IBB1.F',
@@ -6007,6 +7381,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'IBC0.DE',
@@ -6015,6 +7391,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Mixed',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IBC2.DE',
@@ -6023,6 +7401,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'IBC3.DE',
@@ -6031,6 +7411,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'IBC3.F',
@@ -6039,6 +7421,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'IBC4.DE',
@@ -6047,6 +7431,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'IBC5.DE',
@@ -6055,6 +7441,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'IBC6.DE',
@@ -6063,6 +7451,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IBC7.DE',
@@ -6071,6 +7461,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'IBC9.DE',
@@ -6079,6 +7471,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IBCA.DE',
@@ -6087,6 +7481,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IBCC.DE',
@@ -6095,6 +7491,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'IBCD.DE',
@@ -6103,6 +7501,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IBCF.DE',
@@ -6111,6 +7511,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IBCG.DE',
@@ -6119,6 +7521,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.64
   },
   {
     symbol: 'IBCH.DE',
@@ -6127,6 +7531,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'IBCI.DE',
@@ -6135,6 +7541,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'IBCJ.DE',
@@ -6143,6 +7551,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IBCK.DE',
@@ -6151,6 +7561,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IBCL.DE',
@@ -6159,6 +7571,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IBCM.DE',
@@ -6167,6 +7581,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IBCN.DE',
@@ -6175,6 +7591,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IBCQ.DE',
@@ -6183,6 +7601,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IBCS.DE',
@@ -6191,6 +7611,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'IBCY.DE',
@@ -6199,6 +7621,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Mixed',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IBCZ.DE',
@@ -6207,6 +7631,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ICFP.DE',
@@ -6215,6 +7641,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ICGA.DE',
@@ -6223,6 +7651,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'ICGA.F',
@@ -6231,6 +7661,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'ICGB.DE',
@@ -6239,6 +7671,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'China'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'ICNT.F',
@@ -6247,6 +7681,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'ICW5.DE',
@@ -6263,6 +7699,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IE3E.DE',
@@ -6271,6 +7709,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'IE3E.F',
@@ -6279,6 +7719,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IEVD.DE',
@@ -6287,6 +7729,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IEXA.DE',
@@ -6295,6 +7739,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IM2A.DE',
@@ -6303,6 +7749,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'INDA.DE',
@@ -6311,6 +7759,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'INDU.DE',
@@ -6319,6 +7769,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IPAB.DE',
@@ -6327,6 +7779,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IPAB.F',
@@ -6335,6 +7789,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IPRE.DE',
@@ -6343,6 +7799,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IPRE.F',
@@ -6351,6 +7809,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQCY.DE',
@@ -6359,6 +7819,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'IQQ0.DE',
@@ -6367,6 +7829,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IQQ4.DE',
@@ -6375,6 +7839,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'IQQ5.DE',
@@ -6383,6 +7849,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IQQ6.DE',
@@ -6391,6 +7859,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'IQQ7.DE',
@@ -6399,6 +7869,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQ9.DE',
@@ -6407,6 +7879,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IQQA.DE',
@@ -6415,6 +7889,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQB.DE',
@@ -6423,6 +7899,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IQQC.DE',
@@ -6431,6 +7909,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IQQD.DE',
@@ -6439,6 +7919,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQE.DE',
@@ -6447,6 +7929,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'IQQF.DE',
@@ -6455,6 +7939,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IQQG.DE',
@@ -6463,6 +7949,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQH.DE',
@@ -6471,6 +7959,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'IQQI.DE',
@@ -6479,6 +7969,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'IQQJ.DE',
@@ -6487,6 +7979,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'IQQK.DE',
@@ -6495,6 +7989,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'IQQL.DE',
@@ -6503,6 +7999,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'IQQM.DE',
@@ -6511,6 +8009,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQN.DE',
@@ -6519,6 +8019,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQP.DE',
@@ -6527,6 +8029,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQQ.DE',
@@ -6535,6 +8039,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'IQQR.DE',
@@ -6551,6 +8057,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQT.DE',
@@ -6559,6 +8067,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IQQU.DE',
@@ -6567,6 +8077,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'IQQW.DE',
@@ -6575,6 +8087,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IQQX.DE',
@@ -6583,6 +8097,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'IQQY.DE',
@@ -6591,6 +8107,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'IQSA.DE',
@@ -6599,6 +8117,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IQSE.DE',
@@ -6607,6 +8127,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IROB.DE',
@@ -6615,6 +8137,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.8
   },
   {
     symbol: 'IS04.DE',
@@ -6623,6 +8147,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'IS05.DE',
@@ -6631,6 +8157,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IS06.DE',
@@ -6639,6 +8167,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS07.DE',
@@ -6647,6 +8177,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'IS0D.DE',
@@ -6655,6 +8187,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'IS0E.DE',
@@ -6663,6 +8197,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'IS0L.DE',
@@ -6671,6 +8207,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Germany'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS0M.DE',
@@ -6679,6 +8217,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS0P.DE',
@@ -6687,6 +8227,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS0Q.DE',
@@ -6695,6 +8237,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IS0R.DE',
@@ -6703,6 +8247,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IS0S.DE',
@@ -6711,6 +8257,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IS0X.DE',
@@ -6719,6 +8267,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS0Y.DE',
@@ -6727,6 +8277,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS0Z.DE',
@@ -6735,6 +8287,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS31.DE',
@@ -6743,6 +8297,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS3B.DE',
@@ -6751,6 +8307,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS3C.DE',
@@ -6759,6 +8317,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IS3F.DE',
@@ -6767,6 +8327,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS3G.DE',
@@ -6775,6 +8337,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'IS3H.DE',
@@ -6783,6 +8347,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'IS3J.DE',
@@ -6791,6 +8357,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS3K.DE',
@@ -6799,6 +8367,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'IS3L.DE',
@@ -6807,6 +8377,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'IS3M.DE',
@@ -6815,6 +8387,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'IS3N.DE',
@@ -6823,6 +8397,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'IS3Q.DE',
@@ -6831,6 +8407,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS3R.DE',
@@ -6839,6 +8417,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS3S.DE',
@@ -6847,6 +8427,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS3T.DE',
@@ -6855,6 +8437,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IS3U.DE',
@@ -6863,6 +8447,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'IS3V.DE',
@@ -6871,6 +8457,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IS4S.DE',
@@ -6879,6 +8467,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'ISPA.DE',
@@ -6887,6 +8477,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'IU0E.DE',
@@ -6895,6 +8487,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'IU5C.DE',
@@ -6903,6 +8497,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'IUS2.DE',
@@ -6911,6 +8507,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'IUS3.DE',
@@ -6919,6 +8517,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IUS4.DE',
@@ -6927,6 +8527,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.58
   },
   {
     symbol: 'IUS5.DE',
@@ -6935,6 +8537,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IUS6.DE',
@@ -6943,6 +8547,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IUS7.DE',
@@ -6951,6 +8557,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'IUS8.DE',
@@ -6959,6 +8567,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.74
   },
   {
     symbol: 'IUSA.DE',
@@ -6967,6 +8577,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'IUSC.DE',
@@ -6975,6 +8587,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IUSK.DE',
@@ -6983,6 +8597,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IUSL.DE',
@@ -6991,6 +8607,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'IUSM.DE',
@@ -6999,6 +8617,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'IUSN.DE',
@@ -7006,7 +8626,9 @@ export const xetraETFs: ETF[] = [
     price: 7.344,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+
+    ter: 0.35
   },
   {
     symbol: 'IUSP.DE',
@@ -7015,6 +8637,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'IUSQ.DE',
@@ -7023,6 +8647,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'IUSS.DE',
@@ -7031,6 +8657,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'IUST.DE',
@@ -7039,6 +8667,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'IUSU.DE',
@@ -7047,6 +8677,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'IUSW.DE',
@@ -7055,6 +8687,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'IUSZ.DE',
@@ -7063,6 +8697,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'IWLE.DE',
@@ -7071,6 +8707,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'IWLE.F',
@@ -7079,6 +8717,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'J1GR.DE',
@@ -7087,6 +8727,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'JA13.DE',
@@ -7095,6 +8737,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'JARH.F',
@@ -7103,6 +8747,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JARI.F',
@@ -7111,6 +8757,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'JBEM.DE',
@@ -7119,6 +8767,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
     category: 'ESG'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'JC11.DE',
@@ -7127,6 +8777,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'China'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'JCHE.F',
@@ -7135,6 +8787,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'China'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'JE13.DE',
@@ -7143,6 +8797,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'JER5.DE',
@@ -7151,6 +8807,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'JEST.DE',
@@ -7159,6 +8817,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'JGHY.DE',
@@ -7167,6 +8827,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'JGPI.DE',
@@ -7175,6 +8837,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPM',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'JMBA.DE',
@@ -7183,6 +8847,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'JMBE.DE',
@@ -7191,6 +8857,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'JNHA.DE',
@@ -7199,6 +8867,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'JNHD.DE',
@@ -7207,6 +8877,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JNHD.F',
@@ -7215,6 +8887,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JP40.DE',
@@ -7223,6 +8897,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'JP4H.DE',
@@ -7239,6 +8915,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'JPGL.DE',
@@ -7247,6 +8925,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPM',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'JPNE.DE',
@@ -7255,6 +8935,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JPNE.F',
@@ -7263,6 +8945,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'JPNH.DE',
@@ -7271,6 +8955,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'JPPA.DE',
@@ -7279,6 +8965,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'JPPS.DE',
@@ -7287,6 +8975,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'JREB.DE',
@@ -7295,6 +8985,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'JREE.DE',
@@ -7303,6 +8995,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'JREG.DE',
@@ -7311,6 +9005,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'JREM.DE',
@@ -7319,6 +9015,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'JREU.DE',
@@ -7327,6 +9025,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JREZ.DE',
@@ -7335,6 +9035,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPM',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'JRUB.DE',
@@ -7343,6 +9045,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'JRUD.DE',
@@ -7351,6 +9055,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JRUE.DE',
@@ -7359,6 +9065,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'JRZD.F',
@@ -7367,6 +9075,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPM',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'JSRI.DE',
@@ -7375,6 +9085,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'JUHE.DE',
@@ -7383,6 +9095,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'JUMF.DE',
@@ -7391,6 +9105,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'JPM',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'JUPI.DE',
@@ -7399,6 +9115,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'KFTK.DE',
@@ -7407,6 +9125,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'KLMH.DE',
@@ -7415,6 +9135,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'KLMH.F',
@@ -7423,6 +9145,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'KLMT.DE',
@@ -7431,6 +9155,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'KROP.F',
@@ -7439,6 +9165,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'KX1G.DE',
@@ -7447,6 +9175,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'L0CK.DE',
@@ -7455,6 +9185,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'L0CK.F',
@@ -7463,6 +9195,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'L4K3.DE',
@@ -7471,6 +9205,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'L8I3.DE',
@@ -7479,6 +9215,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'LASI.DE',
@@ -7487,6 +9225,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'LASP.DE',
@@ -7495,6 +9235,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Asia'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'LAUT.DE',
@@ -7503,6 +9245,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LBNK.DE',
@@ -7511,6 +9255,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LBRA.DE',
@@ -7519,6 +9265,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'LBRE.DE',
@@ -7527,6 +9275,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LCEU.DE',
@@ -7535,6 +9285,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'LCHI.DE',
@@ -7543,6 +9295,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'LCHI.F',
@@ -7551,6 +9305,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'LCHM.DE',
@@ -7559,6 +9315,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LCST.DE',
@@ -7567,6 +9325,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LCTR.DE',
@@ -7583,6 +9343,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'LCUJ.DE',
@@ -7591,6 +9353,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'LCUK.DE',
@@ -7599,6 +9363,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'LCUS.DE',
@@ -7607,6 +9373,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.04
   },
   {
     symbol: 'LCUW.DE',
@@ -7615,6 +9383,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'LCVB.DE',
@@ -7623,6 +9393,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'LCVB.F',
@@ -7631,6 +9403,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 1.6500000000000001
   },
   {
     symbol: 'LDCE.DE',
@@ -7639,6 +9413,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCo',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'LEER.DE',
@@ -7647,6 +9423,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'LEEU.DE',
@@ -7655,6 +9433,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LERN.DE',
@@ -7663,6 +9443,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Rize',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LESE.DE',
@@ -7671,6 +9453,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'LESG.DE',
@@ -7687,6 +9471,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LESW.DE',
@@ -7703,6 +9489,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LFOD.DE',
@@ -7711,6 +9499,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LGQG.DE',
@@ -7719,6 +9509,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'LGQI.DE',
@@ -7727,6 +9519,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LGQK.DE',
@@ -7735,6 +9529,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'LGQM.DE',
@@ -7743,6 +9539,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.85
   },
   {
     symbol: 'LGWS.DE',
@@ -7751,6 +9549,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'LGWT.DE',
@@ -7759,6 +9559,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'LGWU.DE',
@@ -7767,6 +9569,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'LHKG.DE',
@@ -7775,6 +9579,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'LHTC.DE',
@@ -7783,6 +9589,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LI7U.F',
@@ -7791,6 +9599,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'LIGS.DE',
@@ -7799,6 +9609,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LIRU.DE',
@@ -7807,6 +9619,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LKOR.DE',
@@ -7815,6 +9629,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LLAM.DE',
@@ -7823,6 +9639,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'LMDA.DE',
@@ -7831,6 +9649,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LMVF.DE',
@@ -7839,6 +9659,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'LMWE.DE',
@@ -7847,6 +9669,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LOGS.DE',
@@ -7855,6 +9679,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LPHG.DE',
@@ -7863,6 +9689,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LRET.DE',
@@ -7871,6 +9699,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LRUS.DE',
@@ -7879,6 +9709,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'LSK7.DE',
@@ -7887,6 +9719,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'LSK8.DE',
@@ -7895,6 +9729,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'LSMC.DE',
@@ -7903,6 +9739,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'LTCM.DE',
@@ -7911,6 +9749,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LTUG.DE',
@@ -7919,6 +9759,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LTUR.DE',
@@ -7927,6 +9769,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LTVL.DE',
@@ -7935,6 +9779,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LTWN.DE',
@@ -7943,6 +9789,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LUTI.DE',
@@ -7951,6 +9799,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LWCR.DE',
@@ -7959,6 +9809,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'LYBF.DE',
@@ -7967,6 +9819,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'LYBK.DE',
@@ -7975,6 +9829,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYEB.DE',
@@ -7983,6 +9839,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'LYM7.DE',
@@ -7991,6 +9849,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'LYM8.DE',
@@ -7999,6 +9859,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'LYM9.DE',
@@ -8007,6 +9869,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'LYMD.DE',
@@ -8015,6 +9879,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.85
   },
   {
     symbol: 'LYMH.DE',
@@ -8023,6 +9889,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LYMS.DE',
@@ -8031,6 +9899,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'LYMZ.DE',
@@ -8039,6 +9909,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'LYP2.DE',
@@ -8047,6 +9919,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'LYP6.DE',
@@ -8055,6 +9929,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'LYPA.DE',
@@ -8063,6 +9939,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPB.DE',
@@ -8071,6 +9949,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPC.DE',
@@ -8079,6 +9959,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPD.DE',
@@ -8087,6 +9969,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPE.DE',
@@ -8095,6 +9979,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPF.DE',
@@ -8103,6 +9989,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPG.DE',
@@ -8111,6 +9999,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPH.DE',
@@ -8119,6 +10009,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPI.DE',
@@ -8127,6 +10019,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPQ.DE',
@@ -8135,6 +10029,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYPS.DE',
@@ -8143,6 +10039,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'LYPU.DE',
@@ -8151,6 +10049,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'LYQ1.DE',
@@ -8159,6 +10059,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'LYQ2.DE',
@@ -8167,6 +10069,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYQ3.DE',
@@ -8175,6 +10079,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYQ6.DE',
@@ -8183,6 +10089,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYQ7.DE',
@@ -8191,6 +10099,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'LYQK.DE',
@@ -8199,6 +10109,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'LYQL.DE',
@@ -8207,6 +10119,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'LYQS.DE',
@@ -8215,6 +10129,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'LYQY.DE',
@@ -8223,6 +10139,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'LYS4.DE',
@@ -8231,6 +10149,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.165
   },
   {
     symbol: 'LYS5.DE',
@@ -8239,6 +10159,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.165
   },
   {
     symbol: 'LYSX.DE',
@@ -8247,6 +10169,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'LYTR.DE',
@@ -8255,6 +10179,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYX7.DE',
@@ -8263,6 +10189,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'LYXA.DE',
@@ -8271,6 +10199,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.165
   },
   {
     symbol: 'LYXC.DE',
@@ -8279,6 +10209,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYXD.DE',
@@ -8287,6 +10219,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYXF.DE',
@@ -8295,6 +10229,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYXI.DE',
@@ -8303,6 +10239,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LYY0.DE',
@@ -8311,6 +10249,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LYY4.DE',
@@ -8319,6 +10259,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'LYY5.DE',
@@ -8327,6 +10269,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'LYY7.DE',
@@ -8335,6 +10279,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'LYY8.DE',
@@ -8343,6 +10289,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'LYY8.F',
@@ -8351,6 +10299,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Germany'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'LYYA.DE',
@@ -8359,6 +10309,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'LYYB.DE',
@@ -8367,6 +10319,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'M9SA.DE',
@@ -8375,6 +10329,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Market',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'M9SD.DE',
@@ -8383,6 +10339,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Market',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'M9SV.DE',
@@ -8391,6 +10349,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Market',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'MACV.DE',
@@ -8399,6 +10359,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BlackRock',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'MAGR.DE',
@@ -8407,6 +10369,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BlackRock',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'MD4X.DE',
@@ -8415,6 +10379,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'MDBA.DE',
@@ -8423,6 +10389,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'MDBE.DE',
@@ -8431,6 +10399,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'MDBU.DE',
@@ -8439,6 +10409,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'MIVA.DE',
@@ -8447,6 +10419,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'MIVB.DE',
@@ -8455,6 +10429,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'MIVU.DE',
@@ -8463,6 +10439,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'MJMT.DE',
@@ -8471,6 +10449,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'MKK1.DE',
@@ -8479,6 +10459,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 3.09
   },
   {
     symbol: 'MKK1.F',
@@ -8487,6 +10469,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 3.09
   },
   {
     symbol: 'MODR.DE',
@@ -8495,6 +10479,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BlackRock',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'MOED.DE',
@@ -8503,6 +10489,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'MOED.F',
@@ -8511,6 +10499,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'MOEU.DE',
@@ -8519,6 +10509,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'MSED.DE',
@@ -8527,6 +10519,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'MTDA.DE',
@@ -8535,6 +10529,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'MTDB.DE',
@@ -8543,6 +10539,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'MTDD.DE',
@@ -8551,6 +10549,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'MVEA.DE',
@@ -8559,6 +10559,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'MVEE.DE',
@@ -8567,6 +10569,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'MVEE.F',
@@ -8575,6 +10579,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'MVEW.DE',
@@ -8583,6 +10589,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'MWSH.DE',
@@ -8591,6 +10599,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'MWSH.F',
@@ -8599,6 +10609,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'MXUK.DE',
@@ -8607,6 +10619,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'NADA.DE',
@@ -8615,6 +10629,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'NADB.DE',
@@ -8623,6 +10639,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'NADB.F',
@@ -8631,6 +10649,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.165
   },
   {
     symbol: 'NADQ.DE',
@@ -8639,6 +10659,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'NK4L.DE',
@@ -8647,6 +10669,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'NQSE.DE',
@@ -8655,6 +10679,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'NQSE.F',
@@ -8663,6 +10689,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.36
   },
   {
     symbol: 'NS4E.DE',
@@ -8671,6 +10699,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'OIGS.DE',
@@ -8679,6 +10709,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'OM3F.DE',
@@ -8687,6 +10719,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'OM3L.DE',
@@ -8695,6 +10729,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'OM3M.DE',
@@ -8703,6 +10739,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'OM3M.F',
@@ -8711,6 +10749,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'OM3X.DE',
@@ -8719,6 +10759,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'OM3Y.DE',
@@ -8727,6 +10769,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'OPEN.DE',
@@ -8735,6 +10779,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'OSX2.DE',
@@ -8743,6 +10789,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'OSX4.DE',
@@ -8751,6 +10799,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'OSX6.DE',
@@ -8759,6 +10809,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'OSX9.DE',
@@ -8775,6 +10827,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.44999999999999996
   },
   {
     symbol: 'OSXF.DE',
@@ -8783,6 +10837,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'OSXM.DE',
@@ -8791,6 +10847,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'OUFE.DE',
@@ -8799,6 +10857,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'OUFE.F',
@@ -8807,6 +10867,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'OUFU.DE',
@@ -8815,6 +10877,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'OWLE.DE',
@@ -8823,6 +10887,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'OWLU.DE',
@@ -8831,6 +10897,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'P500.DE',
@@ -8839,6 +10907,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PABC.F',
@@ -8855,6 +10925,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'PABW.DE',
@@ -8863,6 +10935,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'PAC.DE',
@@ -8871,6 +10945,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'PAC5.F',
@@ -8879,6 +10955,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'PAUD.F',
@@ -8887,6 +10965,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'PAUE.F',
@@ -8895,6 +10975,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'PAUJ.F',
@@ -8903,6 +10985,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'PAUS.F',
@@ -8911,6 +10995,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'PDSE.DE',
@@ -8919,6 +11005,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'PDSE.F',
@@ -8927,6 +11015,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'PJEU.DE',
@@ -8935,6 +11025,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'PJS1.DE',
@@ -8943,6 +11035,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'PJSR.DE',
@@ -8951,6 +11045,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'PJSR.F',
@@ -8959,6 +11055,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'PIMCO',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'PLGS.DE',
@@ -8975,6 +11073,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 2.84
   },
   {
     symbol: 'PR1C.DE',
@@ -8983,6 +11083,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'PR1E.DE',
@@ -8991,6 +11093,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1E.F',
@@ -8999,6 +11103,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1G.DE',
@@ -9007,6 +11113,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1H.DE',
@@ -9015,6 +11123,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'PR1J.DE',
@@ -9023,6 +11133,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1P.DE',
@@ -9031,6 +11143,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'PR1R.DE',
@@ -9039,6 +11153,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1S.DE',
@@ -9047,6 +11163,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1U.DE',
@@ -9055,6 +11173,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'PR1W.DE',
@@ -9063,6 +11183,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PR1Z.DE',
@@ -9071,6 +11193,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAB.F',
@@ -9079,6 +11203,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAC.DE',
@@ -9087,6 +11213,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'PRAE.DE',
@@ -9095,6 +11223,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAG.DE',
@@ -9103,6 +11233,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAJ.DE',
@@ -9111,6 +11243,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAJ.F',
@@ -9119,6 +11253,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'PRAP.DE',
@@ -9127,6 +11263,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Corporate Bonds'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'PRAR.DE',
@@ -9135,6 +11273,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAR.F',
@@ -9143,6 +11283,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAS.DE',
@@ -9151,6 +11293,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Government Bonds'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAS.F',
@@ -9159,6 +11303,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Government Bonds'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAU.DE',
@@ -9167,6 +11313,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAU.F',
@@ -9175,6 +11323,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAW.DE',
@@ -9183,6 +11333,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PRAZ.DE',
@@ -9191,6 +11343,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'PSFE.DE',
@@ -9199,6 +11353,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'PSWD.DE',
@@ -9207,6 +11363,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'PUIG.DE',
@@ -9215,6 +11373,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'QDV5.DE',
@@ -9223,6 +11383,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'QDVA.DE',
@@ -9231,6 +11393,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'QDVB.DE',
@@ -9239,6 +11403,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'QDVC.DE',
@@ -9247,6 +11413,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'QDVD.DE',
@@ -9255,6 +11423,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'QDVE.DE',
@@ -9263,6 +11433,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'QDVF.DE',
@@ -9271,6 +11443,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'QDVG.DE',
@@ -9279,6 +11453,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'QDVH.DE',
@@ -9287,6 +11463,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'QDVI.DE',
@@ -9295,6 +11473,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'QDVK.DE',
@@ -9303,6 +11483,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'QDVL.DE',
@@ -9311,6 +11493,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'QDVN.DE',
@@ -9319,6 +11503,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'QDVN.F',
@@ -9327,6 +11513,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'QDVP.DE',
@@ -9335,6 +11523,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'QDVQ.DE',
@@ -9343,6 +11533,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'QDVR.DE',
@@ -9351,6 +11543,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'QDVS.DE',
@@ -9359,6 +11553,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'QDVW.DE',
@@ -9367,6 +11563,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'QDVX.DE',
@@ -9375,6 +11573,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'QDVX.F',
@@ -9383,6 +11583,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'QDVY.DE',
@@ -9391,6 +11593,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'QUED.DE',
@@ -9399,6 +11603,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'QUEU.DE',
@@ -9407,6 +11613,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'QVMP.DE',
@@ -9415,6 +11623,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'RA7Z.F',
@@ -9423,6 +11633,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'RCRS.DE',
@@ -9431,6 +11643,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Rize',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'REAL.DE',
@@ -9447,6 +11661,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'RIZF.DE',
@@ -9455,6 +11671,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Rize',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'RM8U.DE',
@@ -9463,6 +11681,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'The',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'ROAI.DE',
@@ -9471,6 +11691,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'ROX.DE',
@@ -9479,6 +11701,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 1.83
   },
   {
     symbol: 'RQFI.DE',
@@ -9487,6 +11711,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'RS2K.DE',
@@ -9495,6 +11721,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'RXRGEX.DE',
@@ -9503,6 +11731,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'S0LR.F',
@@ -9519,6 +11749,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'S5SG.DE',
@@ -9527,6 +11759,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.13
   },
   {
     symbol: 'S6DW.DE',
@@ -9535,6 +11769,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'S6X0.DE',
@@ -9543,6 +11779,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'S7XE.DE',
@@ -9551,6 +11789,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'S7XE.F',
@@ -9559,6 +11799,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SADE.DE',
@@ -9567,6 +11809,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'SADH.F',
@@ -9575,6 +11819,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'SADM.DE',
@@ -9583,6 +11829,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SADU.F',
@@ -9591,6 +11839,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SBIE.F',
@@ -9599,6 +11849,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SBIU.DE',
@@ -9607,6 +11859,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SBIU.F',
@@ -9615,6 +11869,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SBIW.F',
@@ -9623,6 +11879,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SBU3.DE',
@@ -9631,6 +11889,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SC00.DE',
@@ -9639,6 +11899,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC00.F',
@@ -9647,6 +11909,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC01.DE',
@@ -9655,6 +11919,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC01.F',
@@ -9663,6 +11929,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC02.DE',
@@ -9671,6 +11939,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC02.F',
@@ -9679,6 +11949,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC03.DE',
@@ -9687,6 +11959,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC03.F',
@@ -9695,6 +11969,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC04.DE',
@@ -9703,6 +11979,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC04.F',
@@ -9711,6 +11989,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC05.DE',
@@ -9719,6 +11999,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC05.F',
@@ -9727,6 +12009,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC06.DE',
@@ -9735,6 +12019,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC06.F',
@@ -9743,6 +12029,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0C.DE',
@@ -9751,6 +12039,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0C.F',
@@ -9759,6 +12049,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0D.DE',
@@ -9767,6 +12059,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'SC0E.DE',
@@ -9775,6 +12069,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0F.DE',
@@ -9799,6 +12095,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'SC0I.DE',
@@ -9807,6 +12105,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0I.F',
@@ -9815,6 +12115,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0J.DE',
@@ -9823,6 +12125,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0J.F',
@@ -9831,6 +12135,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SC0K.DE',
@@ -9839,6 +12145,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'SC0P.DE',
@@ -9847,6 +12155,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0P.F',
@@ -9855,6 +12165,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0Q.DE',
@@ -9863,6 +12175,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0Q.F',
@@ -9871,6 +12185,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0R.DE',
@@ -9879,6 +12195,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0R.F',
@@ -9887,6 +12205,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0S.DE',
@@ -9895,6 +12215,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0S.F',
@@ -9903,6 +12225,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0T.DE',
@@ -9911,6 +12235,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0T.F',
@@ -9919,6 +12245,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0U.DE',
@@ -9927,6 +12255,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0U.F',
@@ -9935,6 +12265,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0V.DE',
@@ -9943,6 +12275,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Commodity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0V.F',
@@ -9951,6 +12285,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Commodity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0W.DE',
@@ -9959,6 +12295,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0X.DE',
@@ -9967,6 +12305,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0X.F',
@@ -9975,6 +12315,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0Y.DE',
@@ -9983,6 +12325,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0Y.F',
@@ -9991,6 +12335,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SC0Z.DE',
@@ -9999,6 +12345,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SDIE.DE',
@@ -10007,6 +12355,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Leverage',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'SEAA.DE',
@@ -10015,6 +12365,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'SEAA.F',
@@ -10023,6 +12375,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'SEAB.DE',
@@ -10031,6 +12385,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'SEAC.DE',
@@ -10039,6 +12395,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'SEC0.F',
@@ -10047,6 +12405,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'SECA.DE',
@@ -10055,6 +12415,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'SECD.DE',
@@ -10063,6 +12425,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'SECD.F',
@@ -10071,6 +12435,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'SELD.DE',
@@ -10079,6 +12445,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SGAJ.DE',
@@ -10087,6 +12455,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SGAS.DE',
@@ -10095,6 +12465,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SJD.DE',
@@ -10103,6 +12475,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Leverage',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.75
   },
   {
     symbol: 'SK9A.DE',
@@ -10111,6 +12485,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 5.63
   },
   {
     symbol: 'SLMA.DE',
@@ -10119,6 +12495,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SLMB.DE',
@@ -10127,6 +12505,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SLMC.DE',
@@ -10135,6 +12515,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SLMD.DE',
@@ -10143,6 +12525,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SLMG.DE',
@@ -10151,6 +12535,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'SLQX.DE',
@@ -10159,6 +12545,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Expat',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 2.14
   },
   {
     symbol: 'SLUS.DE',
@@ -10167,6 +12555,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SLVR.F',
@@ -10175,6 +12565,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Commodity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'SM8T.DE',
@@ -10183,6 +12575,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'SMLD.DE',
@@ -10191,6 +12585,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'SMLN.DE',
@@ -10199,6 +12595,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SMLP.DE',
@@ -10207,6 +12605,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'SMLU.DE',
@@ -10247,6 +12647,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SNAV.DE',
@@ -10255,6 +12657,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SNAW.DE',
@@ -10263,6 +12667,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SNAZ.DE',
@@ -10271,6 +12677,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.53
   },
   {
     symbol: 'SODJ.DE',
@@ -10279,6 +12687,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPF1.DE',
@@ -10287,6 +12697,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SPF2.DE',
@@ -10295,6 +12707,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SPF5.F',
@@ -10303,6 +12717,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPF6.F',
@@ -10311,6 +12727,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SPFA.DE',
@@ -10319,6 +12737,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SPFB.DE',
@@ -10327,6 +12747,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SPFD.DE',
@@ -10335,6 +12757,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'SPFE.DE',
@@ -10343,6 +12767,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SPFU.DE',
@@ -10351,6 +12777,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SPFV.DE',
@@ -10359,6 +12787,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SPFW.F',
@@ -10367,6 +12797,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPP1.DE',
@@ -10375,6 +12807,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'SPP3.DE',
@@ -10383,6 +12817,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPP7.DE',
@@ -10391,6 +12827,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPP8.F',
@@ -10399,6 +12837,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SPPD.DE',
@@ -10407,6 +12847,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'SPPE.DE',
@@ -10415,6 +12857,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'SPPQ.F',
@@ -10423,6 +12867,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'SPPR.F',
@@ -10431,6 +12877,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPPW.DE',
@@ -10439,6 +12887,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SPPX.DE',
@@ -10447,6 +12897,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SPPY.DE',
@@ -10455,6 +12907,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.03
   },
   {
     symbol: 'SPY1.DE',
@@ -10463,6 +12917,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'SPY2.DE',
@@ -10471,6 +12927,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'SPY4.DE',
@@ -10479,6 +12937,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SPY5.DE',
@@ -10487,6 +12947,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.03
   },
   {
     symbol: 'SPYA.DE',
@@ -10495,6 +12957,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SPYC.DE',
@@ -10503,6 +12967,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYD.DE',
@@ -10511,6 +12977,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'SPYE.DE',
@@ -10519,6 +12987,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'SPYF.DE',
@@ -10527,6 +12997,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SPYG.DE',
@@ -10535,6 +13007,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SPYH.DE',
@@ -10543,6 +13017,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYI.DE',
@@ -10551,6 +13027,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'SPYJ.DE',
@@ -10559,6 +13037,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'SPYK.DE',
@@ -10567,6 +13047,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYM.DE',
@@ -10575,6 +13057,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYN.DE',
@@ -10583,6 +13067,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYP.DE',
@@ -10591,6 +13077,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYQ.DE',
@@ -10599,6 +13087,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYR.DE',
@@ -10607,6 +13097,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYT.DE',
@@ -10615,6 +13107,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYU.DE',
@@ -10623,6 +13117,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SPYV.DE',
@@ -10631,6 +13127,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SPYW.DE',
@@ -10639,6 +13137,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SPYX.DE',
@@ -10647,6 +13147,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SPYY.DE',
@@ -10655,6 +13157,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SPYZ.DE',
@@ -10663,6 +13167,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'SRHE.DE',
@@ -10671,6 +13177,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'STXH.DE',
@@ -10679,6 +13187,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SUA0.DE',
@@ -10687,6 +13197,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'SX3PEX.DE',
@@ -10695,6 +13207,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SX4PEX.DE',
@@ -10703,6 +13217,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SX6PEX.DE',
@@ -10711,6 +13227,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'SX7EEX.DE',
@@ -10719,6 +13237,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.52
   },
   {
     symbol: 'SX7PEX.DE',
@@ -10727,6 +13247,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'SX8PEX.DE',
@@ -10735,6 +13257,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXAPEX.DE',
@@ -10743,6 +13267,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXDPEX.DE',
@@ -10751,6 +13277,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXEPEX.DE',
@@ -10759,6 +13287,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'SXFPEX.DE',
@@ -10767,6 +13297,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXIPEX.DE',
@@ -10775,6 +13307,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXKPEX.DE',
@@ -10783,6 +13317,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'SXMPEX.DE',
@@ -10791,6 +13327,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXNPEX.DE',
@@ -10799,6 +13337,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXOPEX.DE',
@@ -10807,6 +13347,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXPPEX.DE',
@@ -10815,6 +13357,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXQPEX.DE',
@@ -10823,6 +13367,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXR0.DE',
@@ -10831,6 +13377,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'SXR1.DE',
@@ -10839,6 +13387,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SXR2.DE',
@@ -10847,6 +13397,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.48
   },
   {
     symbol: 'SXR3.DE',
@@ -10855,6 +13407,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'SXR4.DE',
@@ -10863,6 +13417,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SXR5.DE',
@@ -10871,6 +13427,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SXR6.DE',
@@ -10879,6 +13437,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SXR7.DE',
@@ -10887,6 +13447,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SXR8.DE',
@@ -10895,6 +13457,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SXRD.DE',
@@ -10903,6 +13467,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.58
   },
   {
     symbol: 'SXRF.DE',
@@ -10911,6 +13477,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SXRG.DE',
@@ -10919,6 +13487,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.43
   },
   {
     symbol: 'SXRH.DE',
@@ -10927,6 +13497,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SXRJ.DE',
@@ -10935,6 +13507,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.58
   },
   {
     symbol: 'SXRL.DE',
@@ -10943,6 +13517,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SXRM.DE',
@@ -10951,6 +13527,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SXRP.DE',
@@ -10959,6 +13537,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SXRPEX.DE',
@@ -10967,6 +13547,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SXRQ.DE',
@@ -10975,6 +13557,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SXRR.DE',
@@ -10983,6 +13567,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SXRS.DE',
@@ -10991,6 +13577,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'SXRT.DE',
@@ -10999,6 +13587,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SXRU.DE',
@@ -11007,6 +13597,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'SXRV.DE',
@@ -11015,6 +13607,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SXRW.DE',
@@ -11023,6 +13617,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SXRY.DE',
@@ -11031,6 +13627,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'SXRZ.DE',
@@ -11039,6 +13637,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.48
   },
   {
     symbol: 'SXTPEX.DE',
@@ -11047,6 +13647,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'SYB3.DE',
@@ -11055,6 +13657,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYB4.DE',
@@ -11063,6 +13667,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYB4.F',
@@ -11071,6 +13677,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYB5.DE',
@@ -11079,6 +13687,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYBA.DE',
@@ -11087,6 +13697,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'SYBB.DE',
@@ -11095,6 +13707,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'SYBB.F',
@@ -11103,6 +13717,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'SYBC.DE',
@@ -11111,6 +13727,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SYBD.DE',
@@ -11119,6 +13737,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SYBF.DE',
@@ -11127,6 +13747,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SYBG.DE',
@@ -11135,6 +13757,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYBI.DE',
@@ -11143,6 +13767,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5499999999999999
   },
   {
     symbol: 'SYBJ.DE',
@@ -11151,6 +13777,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'SYBK.DE',
@@ -11159,6 +13787,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'SYBL.DE',
@@ -11167,6 +13797,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYBM.DE',
@@ -11175,6 +13807,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'SYBN.DE',
@@ -11183,6 +13817,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SYBQ.DE',
@@ -11191,6 +13827,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SYBR.DE',
@@ -11199,6 +13837,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'SYBS.DE',
@@ -11207,6 +13847,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'SYBT.DE',
@@ -11215,6 +13857,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYBU.DE',
@@ -11223,6 +13867,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'SYBV.DE',
@@ -11231,6 +13877,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYBW.DE',
@@ -11239,6 +13887,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'SYBY.DE',
@@ -11247,6 +13897,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'SYBZ.DE',
@@ -11255,6 +13907,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'T1EU.DE',
@@ -11263,6 +13917,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'T1EU.F',
@@ -11271,6 +13927,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'T3KE.DE',
@@ -11279,6 +13937,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'HAN-GINS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'T3RE.F',
@@ -11287,6 +13947,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'T6ET.DE',
@@ -11303,6 +13965,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'TAB1.DE',
@@ -11311,6 +13975,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Tabula',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'TABC.F',
@@ -11319,6 +13985,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Tabula',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'TABD.DE',
@@ -11327,6 +13995,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Tabula',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'TABX.DE',
@@ -11343,6 +14013,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'TCC4.DE',
@@ -11359,6 +14031,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Tabula',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'TGBT.DE',
@@ -11367,6 +14041,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'THEP.F',
@@ -11375,6 +14051,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Tabula',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'TIUP.DE',
@@ -11383,6 +14061,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'TRD1.DE',
@@ -11391,6 +14071,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'TRD3.DE',
@@ -11399,6 +14081,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'TRD7.DE',
@@ -11407,6 +14091,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'TRDE.DE',
@@ -11415,6 +14101,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'TRDE.F',
@@ -11423,6 +14111,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'TRDS.DE',
@@ -11431,6 +14121,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'TRDX.DE',
@@ -11439,6 +14131,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'TRET.DE',
@@ -11447,6 +14141,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'TRFE.DE',
@@ -11455,6 +14151,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'TS3S.F',
@@ -11471,6 +14169,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'TTPX.DE',
@@ -11479,6 +14179,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.48
   },
   {
     symbol: 'TY3S.DE',
@@ -11487,6 +14189,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'U1FB.DE',
@@ -11495,6 +14199,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'U1FB.F',
@@ -11503,6 +14209,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'UBF6.F',
@@ -11511,6 +14219,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UBF7.F',
@@ -11519,6 +14229,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UBU3.DE',
@@ -11527,6 +14239,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'UBU5.DE',
@@ -11535,6 +14249,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'UBU7.DE',
@@ -11543,6 +14259,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'UBU9.DE',
@@ -11551,6 +14269,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.03
   },
   {
     symbol: 'UBUD.DE',
@@ -11559,6 +14279,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Commodity',
     category: 'Global'
+  ,
+    ter: 0.43
   },
   {
     symbol: 'UBUJ.DE',
@@ -11567,6 +14289,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'UBUM.DE',
@@ -11575,6 +14299,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'UBUR.DE',
@@ -11583,6 +14309,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'UBUS.DE',
@@ -11591,6 +14319,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UBUT.DE',
@@ -11599,6 +14329,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UBUV.DE',
@@ -11607,6 +14339,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.21
   },
   {
     symbol: 'UBUW.DE',
@@ -11615,6 +14349,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'UBUX.DE',
@@ -11623,6 +14359,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'UCRH.F',
@@ -11631,6 +14369,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'UCRP.DE',
@@ -11639,6 +14379,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'UCT2.DE',
@@ -11647,6 +14389,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'UDIV.F',
@@ -11655,6 +14399,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'UEEF.DE',
@@ -11663,6 +14409,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'UEEF.F',
@@ -11671,6 +14419,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'UEEG.DE',
@@ -11679,6 +14429,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'UEEH.DE',
@@ -11687,6 +14439,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'UEEH.F',
@@ -11695,6 +14449,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'UEF0.DE',
@@ -11703,6 +14459,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'UEF0.F',
@@ -11711,6 +14469,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'UEF5.DE',
@@ -11719,6 +14479,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'UEF6.DE',
@@ -11727,6 +14489,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'UEF7.DE',
@@ -11735,6 +14499,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'UEF7.F',
@@ -11743,6 +14509,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'UEF8.DE',
@@ -11751,6 +14519,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'UEF9.DE',
@@ -11759,6 +14529,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'UEFD.DE',
@@ -11767,6 +14539,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'UEFE.DE',
@@ -11775,6 +14549,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'UEFF.DE',
@@ -11783,6 +14559,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'UEFI.DE',
@@ -11791,6 +14569,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'UEFR.DE',
@@ -11807,6 +14587,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UEFY.DE',
@@ -11815,6 +14597,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'UEFZ.DE',
@@ -11823,6 +14607,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'UEQ3.DE',
@@ -11831,6 +14617,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UEQ7.DE',
@@ -11847,6 +14635,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UEQD.DE',
@@ -11855,6 +14645,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'UEQU.DE',
@@ -11863,6 +14655,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UET0.DE',
@@ -11871,6 +14665,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'UET1.DE',
@@ -11879,6 +14675,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UET5.DE',
@@ -11887,6 +14685,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'UET5.F',
@@ -11895,6 +14695,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'UETC.DE',
@@ -11903,6 +14705,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'UETE.DE',
@@ -11911,6 +14715,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'UETW.DE',
@@ -11919,6 +14725,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'UFMA.F',
@@ -11927,6 +14735,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'UFMB.F',
@@ -11935,6 +14745,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'UIC2.DE',
@@ -11943,6 +14755,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'UIFH.F',
@@ -11951,6 +14765,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.11
   },
   {
     symbol: 'UIM1.DE',
@@ -11959,6 +14775,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'UIM2.DE',
@@ -11967,6 +14785,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UIM3.DE',
@@ -11975,6 +14795,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'UIM4.DE',
@@ -11983,6 +14805,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'UIM5.DE',
@@ -11991,6 +14815,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'UIM6.DE',
@@ -11999,6 +14825,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'UIM7.DE',
@@ -12007,6 +14835,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'UIM9.DE',
@@ -12015,6 +14845,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'UIMA.DE',
@@ -12023,6 +14855,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'UIMA.F',
@@ -12031,6 +14865,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'UIMB.DE',
@@ -12039,6 +14875,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'UIMC.DE',
@@ -12047,6 +14885,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.13
   },
   {
     symbol: 'UIMD.DE',
@@ -12055,6 +14895,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'UIME.DE',
@@ -12063,6 +14905,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UIME.F',
@@ -12071,6 +14915,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UIMF.DE',
@@ -12079,6 +14925,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'UIMI.DE',
@@ -12087,6 +14935,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'UIMM.DE',
@@ -12095,6 +14945,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'UIMP.DE',
@@ -12103,6 +14955,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'UIMR.DE',
@@ -12111,6 +14965,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'UIMT.DE',
@@ -12119,6 +14975,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'UIMY.DE',
@@ -12127,6 +14985,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UIMZ.DE',
@@ -12135,6 +14995,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UINE.DE',
@@ -12143,6 +15005,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Mixed',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'UINF.DE',
@@ -12151,6 +15015,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'UIQ1.DE',
@@ -12159,6 +15025,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UIQI.DE',
@@ -12167,6 +15035,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'UIQK.DE',
@@ -12175,6 +15045,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UIQL.DE',
@@ -12183,6 +15055,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'UIQN.DE',
@@ -12191,6 +15065,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.34
   },
   {
     symbol: 'UIW2.F',
@@ -12199,6 +15075,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'UKPH.DE',
@@ -12207,6 +15085,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.42
   },
   {
     symbol: 'URNU.F',
@@ -12215,6 +15095,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Global',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'USAB.F',
@@ -12223,6 +15105,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'USCP.DE',
@@ -12231,6 +15115,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Value'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'USPY.DE',
@@ -12239,6 +15125,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.69
   },
   {
     symbol: 'USTP.DE',
@@ -12247,6 +15135,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Mixed'
+  ,
+    ter: 0.31
   },
   {
     symbol: 'USUE.DE',
@@ -12255,6 +15145,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'USUP.DE',
@@ -12263,6 +15155,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.28
   },
   {
     symbol: 'V20A.DE',
@@ -12271,6 +15165,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V20A.F',
@@ -12279,6 +15175,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V20D.DE',
@@ -12287,6 +15185,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V3AL.F',
@@ -12295,6 +15195,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.24
   },
   {
     symbol: 'V3ET.DE',
@@ -12303,6 +15205,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'V3GE.DE',
@@ -12311,6 +15215,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'V3GF.F',
@@ -12319,6 +15225,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'V40A.DE',
@@ -12327,6 +15235,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V40D.DE',
@@ -12335,6 +15245,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V50A.DE',
@@ -12343,6 +15255,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'V50D.DE',
@@ -12351,6 +15265,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'V60A.DE',
@@ -12359,6 +15275,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V60A.F',
@@ -12367,6 +15285,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V60D.DE',
@@ -12375,6 +15295,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V80A.DE',
@@ -12383,6 +15305,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'V80D.DE',
@@ -12391,6 +15315,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'VAGE.DE',
@@ -12399,6 +15325,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'VAGF.DE',
@@ -12407,6 +15335,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.08
   },
   {
     symbol: 'VAGF.F',
@@ -12415,6 +15345,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VALD.DE',
@@ -12423,6 +15355,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VALU.DE',
@@ -12431,6 +15365,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VCAV.F',
@@ -12439,6 +15375,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.85
   },
   {
     symbol: 'VDCE.DE',
@@ -12447,6 +15385,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'VDIV.DE',
@@ -12455,6 +15395,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'VDTE.DE',
@@ -12463,6 +15405,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VDXX.DE',
@@ -12479,6 +15423,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VECP.DE',
@@ -12487,6 +15433,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VERE.DE',
@@ -12495,6 +15443,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VERX.DE',
@@ -12503,6 +15453,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VFEA.DE',
@@ -12511,6 +15463,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'VFEM.DE',
@@ -12519,6 +15473,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'VGEA.DE',
@@ -12527,6 +15483,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VGEB.DE',
@@ -12535,6 +15493,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VGEJ.DE',
@@ -12543,6 +15503,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'VGEK.DE',
@@ -12551,6 +15513,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Asia'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'VGEM.DE',
@@ -12559,6 +15523,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'VGER.DE',
@@ -12567,6 +15533,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VGER.F',
@@ -12575,6 +15543,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VGEU.DE',
@@ -12583,6 +15553,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VGOV.DE',
@@ -12591,6 +15563,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'VGTY.DE',
@@ -12599,6 +15573,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.05
   },
   {
     symbol: 'VGUE.DE',
@@ -12607,6 +15583,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VGUE.F',
@@ -12615,6 +15593,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'VGVE.DE',
@@ -12623,6 +15603,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'VGVF.DE',
@@ -12631,6 +15613,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'VGWD.DE',
@@ -12639,6 +15623,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'VGWE.DE',
@@ -12646,7 +15632,9 @@ export const xetraETFs: ETF[] = [
     price: 73.76,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    ter: 0.29
+
   },
   {
     symbol: 'VGWL.DE',
@@ -12656,6 +15644,8 @@ export const xetraETFs: ETF[] = [
     assetClass: 'Equity',
     category: 'Global',
     ter: 0.22
+  
+
   },
   {
     symbol: 'VGWL.F',
@@ -12664,6 +15654,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.22
   },
   {
     symbol: 'VIGB.DE',
@@ -12672,6 +15664,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'VJPA.DE',
@@ -12680,6 +15674,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'VJPE.DE',
@@ -12688,6 +15684,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'VJPN.DE',
@@ -12696,6 +15694,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'VLED.DE',
@@ -12704,6 +15704,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VLEU.DE',
@@ -12712,6 +15714,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VLUD.DE',
@@ -12720,6 +15724,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VLUS.DE',
@@ -12728,6 +15734,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VLUU.DE',
@@ -12736,6 +15744,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'VMID.DE',
@@ -12744,6 +15754,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VMUS.DE',
@@ -12760,6 +15772,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VNRT.DE',
@@ -12768,6 +15782,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'VOOL.DE',
@@ -12776,6 +15792,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.6
   },
   {
     symbol: 'VOOM.DE',
@@ -12784,6 +15802,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'VUAA.DE',
@@ -12792,6 +15812,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VUCE.DE',
@@ -12800,6 +15822,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VUCP.DE',
@@ -12808,6 +15832,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VUKE.DE',
@@ -12816,6 +15842,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'VUSA.DE',
@@ -12824,6 +15852,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'VUSC.DE',
@@ -12832,6 +15862,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'VVGM.F',
@@ -12840,6 +15872,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.52
   },
   {
     symbol: 'VVSM.DE',
@@ -12848,6 +15882,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'VWCE.DE',
@@ -12857,6 +15893,7 @@ export const xetraETFs: ETF[] = [
     assetClass: 'Equity',
     category: 'Global',
     ter: 0.22
+
   },
   {
     symbol: 'VWCG.DE',
@@ -12865,6 +15902,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'W1TA.DE',
@@ -12873,6 +15912,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'W1TG.DE',
@@ -12881,6 +15922,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'W1TG.F',
@@ -12889,6 +15932,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
     category: 'Europe'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'W311.DE',
@@ -12897,6 +15942,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Harbor',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.59
   },
   {
     symbol: 'WDFI.DE',
@@ -12913,6 +15960,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'WEBA.DE',
@@ -12921,6 +15970,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'WELJ.DE',
@@ -12929,6 +15980,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'WELN.DE',
@@ -12937,6 +15990,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'WGES.F',
@@ -12945,6 +16000,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'WMIN.DE',
@@ -12953,6 +16010,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'WRNA.F',
@@ -12961,6 +16020,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'WTD7.DE',
@@ -12969,6 +16030,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'WTD8.DE',
@@ -12977,6 +16040,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'WTD9.DE',
@@ -12985,6 +16050,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'WTDF.DE',
@@ -12993,6 +16060,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.32
   },
   {
     symbol: 'WTDH.DE',
@@ -13001,6 +16070,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.58
   },
   {
     symbol: 'WTDI.DE',
@@ -13009,6 +16080,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'WTDM.DE',
@@ -13017,6 +16090,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'WTDP.DE',
@@ -13049,6 +16124,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.48
   },
   {
     symbol: 'WTDY.DE',
@@ -13057,6 +16134,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'WTEB.DE',
@@ -13065,6 +16144,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'WTED.DE',
@@ -13073,6 +16154,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.54
   },
   {
     symbol: 'WTEE.DE',
@@ -13081,6 +16164,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'WTEH.DE',
@@ -13089,6 +16174,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'WTEI.DE',
@@ -13097,6 +16184,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.46
   },
   {
     symbol: 'WTEJ.DE',
@@ -13105,6 +16194,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'WTEM.DE',
@@ -13113,6 +16204,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'WTER.F',
@@ -13121,6 +16214,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'WTES.DE',
@@ -13129,6 +16224,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.38
   },
   {
     symbol: 'WTEU.DE',
@@ -13137,6 +16234,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'WTI2.DE',
@@ -13145,6 +16244,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'WTIC.DE',
@@ -13153,6 +16254,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'WTIF.DE',
@@ -13161,6 +16264,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'WTIM.DE',
@@ -13169,6 +16274,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.29
   },
   {
     symbol: 'WTIZ.DE',
@@ -13177,6 +16284,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'WTRD.F',
@@ -13193,6 +16302,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Comgest',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.27
   },
   {
     symbol: 'X010.DE',
@@ -13225,6 +16336,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'X020.DE',
@@ -13241,6 +16354,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.34999999
   },
   {
     symbol: 'X023.DE',
@@ -13265,6 +16380,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.23
   },
   {
     symbol: 'X03B.DE',
@@ -13273,6 +16390,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'X03C.DE',
@@ -13281,6 +16400,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'X03F.DE',
@@ -13289,6 +16410,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'X03G.DE',
@@ -13297,6 +16420,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'X03G.F',
@@ -13305,6 +16430,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'X13G.DE',
@@ -13321,6 +16448,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Mixed'
+  ,
+    ter: 0.14
   },
   {
     symbol: 'XAAG.DE',
@@ -13329,6 +16458,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Commodity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'XAIN.DE',
@@ -13337,6 +16468,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'XAIX.DE',
@@ -13345,6 +16478,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'XAIX.F',
@@ -13353,6 +16488,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'XAMB.DE',
@@ -13361,6 +16498,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'XAT1.DE',
@@ -13369,6 +16508,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'XB4A.DE',
@@ -13377,6 +16518,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XB4F.DE',
@@ -13385,6 +16528,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'XBAE.DE',
@@ -13393,6 +16538,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'XBAG.DE',
@@ -13401,6 +16548,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'XBAI.DE',
@@ -13417,6 +16566,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.85
   },
   {
     symbol: 'XBAK.F',
@@ -13425,6 +16576,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.8500000000000001
   },
   {
     symbol: 'XBAS.DE',
@@ -13433,6 +16586,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'XBAT.DE',
@@ -13441,6 +16596,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XBCD.DE',
@@ -13457,6 +16614,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XCHA.DE',
@@ -13465,6 +16624,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'XCO2.DE',
@@ -13473,6 +16634,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XCS2.DE',
@@ -13481,6 +16644,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XCS3.DE',
@@ -13489,6 +16654,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'XCS4.DE',
@@ -13497,6 +16664,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'XCS5.DE',
@@ -13505,6 +16674,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'XCS6.DE',
@@ -13513,6 +16684,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'XCTE.F',
@@ -13521,6 +16694,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'China'
+  ,
+    ter: 0.44
   },
   {
     symbol: 'XD5E.DE',
@@ -13529,6 +16704,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XD9D.DE',
@@ -13537,6 +16714,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'XD9E.DE',
@@ -13545,6 +16724,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XD9U.DE',
@@ -13553,6 +16734,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'XDDA.F',
@@ -13561,6 +16744,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'XDDX.DE',
@@ -13569,6 +16754,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'XDEB.DE',
@@ -13577,6 +16764,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDEE.DE',
@@ -13585,6 +16774,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XDEM.DE',
@@ -13593,6 +16784,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDEP.DE',
@@ -13601,6 +16794,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDEQ.DE',
@@ -13609,6 +16804,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDEV.DE',
@@ -13617,6 +16814,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDEW.DE',
@@ -13625,6 +16824,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XDGE.DE',
@@ -13633,6 +16834,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.21
   },
   {
     symbol: 'XDGM.DE',
@@ -13641,6 +16844,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'XDGU.DE',
@@ -13649,6 +16854,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XDJE.DE',
@@ -13657,6 +16864,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'XDJP.DE',
@@ -13665,6 +16874,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'XDN0.DE',
@@ -13673,6 +16884,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XDND.DE',
@@ -13681,6 +16894,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'XDNE.DE',
@@ -13689,6 +16904,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDNY.DE',
@@ -13697,6 +16914,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XDNY.F',
@@ -13705,6 +16924,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XDPD.DE',
@@ -13713,6 +16934,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XDPD.F',
@@ -13721,6 +16944,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XDPE.DE',
@@ -13729,6 +16954,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XDUK.DE',
@@ -13737,6 +16964,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'XDW0.DE',
@@ -13745,6 +16974,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWC.DE',
@@ -13753,6 +16984,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWD.DE',
@@ -13761,6 +16994,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XDWF.DE',
@@ -13769,6 +17004,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWH.DE',
@@ -13777,6 +17014,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWI.DE',
@@ -13785,6 +17024,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWL.DE',
@@ -13793,6 +17034,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XDWM.DE',
@@ -13801,6 +17044,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWS.DE',
@@ -13809,6 +17054,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWT.DE',
@@ -13817,6 +17064,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWU.DE',
@@ -13825,6 +17074,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XDWY.DE',
@@ -13833,6 +17084,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'XEC1.F',
@@ -13841,6 +17094,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XEIN.DE',
@@ -13849,6 +17104,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XESD.DE',
@@ -13857,6 +17114,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XESP.DE',
@@ -13865,6 +17124,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XETC.DE',
@@ -13881,6 +17142,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XGBE.DE',
@@ -13889,6 +17152,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XGII.DE',
@@ -13897,6 +17162,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XGIU.DE',
@@ -13905,6 +17172,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XGIU.F',
@@ -13913,6 +17182,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XGLF.DE',
@@ -13921,6 +17192,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'XGVD.DE',
@@ -13929,6 +17202,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XHY1.DE',
@@ -13937,6 +17212,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XHYA.DE',
@@ -13945,6 +17222,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XHYG.DE',
@@ -13953,6 +17232,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XIEE.DE',
@@ -13961,6 +17242,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XIEE.F',
@@ -13969,6 +17252,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XJSE.DE',
@@ -13977,6 +17262,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Japan'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XLIQ.DE',
@@ -13985,6 +17272,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XMA1.F',
@@ -13993,6 +17282,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.35000000000000003
   },
   {
     symbol: 'XMAE.F',
@@ -14001,6 +17292,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.37
   },
   {
     symbol: 'XMAW.DE',
@@ -14009,6 +17302,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XMK9.DE',
@@ -14017,6 +17312,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'XMKA.DE',
@@ -14025,6 +17322,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'XMLC.DE',
@@ -14033,6 +17332,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'XMLD.DE',
@@ -14041,6 +17342,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'XMLH.DE',
@@ -14049,6 +17352,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.49
   },
   {
     symbol: 'XMLP.DE',
@@ -14065,6 +17370,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'XMME.F',
@@ -14073,6 +17380,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'XMOV.DE',
@@ -14081,6 +17390,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'XMVE.DE',
@@ -14089,6 +17400,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XNAS.F',
@@ -14097,6 +17410,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XNKY.F',
@@ -14105,6 +17420,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'XNZW.F',
@@ -14113,6 +17430,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'XPQP.DE',
@@ -14121,6 +17440,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'XQUA.DE',
@@ -14129,6 +17450,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'XQUE.DE',
@@ -14137,6 +17460,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'XREA.DE',
@@ -14145,6 +17470,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.33
   },
   {
     symbol: 'XRME.F',
@@ -14153,6 +17480,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XRS2.DE',
@@ -14161,6 +17490,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XRS2.F',
@@ -14169,6 +17500,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XRSM.DE',
@@ -14177,6 +17510,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.07
   },
   {
     symbol: 'XS5E.DE',
@@ -14185,6 +17520,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XS7W.DE',
@@ -14193,6 +17530,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.65
   },
   {
     symbol: 'XSXE.DE',
@@ -14201,6 +17540,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XSXE.F',
@@ -14209,6 +17550,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XU61.DE',
@@ -14217,6 +17560,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XU6C.DE',
@@ -14225,6 +17570,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'XUCD.DE',
@@ -14233,6 +17580,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUCM.DE',
@@ -14241,6 +17590,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUCM.F',
@@ -14249,6 +17600,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUCS.DE',
@@ -14257,6 +17610,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUEK.DE',
@@ -14265,6 +17620,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.09
   },
   {
     symbol: 'XUEM.DE',
@@ -14273,6 +17630,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XUEN.DE',
@@ -14281,6 +17640,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUFN.DE',
@@ -14289,6 +17650,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUHC.DE',
@@ -14297,6 +17660,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUHE.DE',
@@ -14305,6 +17670,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XUHY.DE',
@@ -14313,6 +17680,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XUIN.F',
@@ -14321,6 +17690,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUTC.DE',
@@ -14329,6 +17700,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'XUTD.DE',
@@ -14337,6 +17710,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.06
   },
   {
     symbol: 'XUTE.DE',
@@ -14345,6 +17720,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'XWD1.F',
@@ -14353,6 +17730,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.19
   },
   {
     symbol: 'XWEH.DE',
@@ -14361,6 +17740,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'XWEH.F',
@@ -14369,6 +17750,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.39
   },
   {
     symbol: 'XWTS.DE',
@@ -14377,6 +17760,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XY1D.DE',
@@ -14393,6 +17778,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XYLD.DE',
@@ -14401,6 +17788,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'XYLE.DE',
@@ -14409,6 +17798,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.21
   },
   {
     symbol: 'XYP1.DE',
@@ -14417,6 +17808,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XYP1.F',
@@ -14425,6 +17818,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XYPD.DE',
@@ -14433,6 +17828,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XZBE.F',
@@ -14441,6 +17838,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.21
   },
   {
     symbol: 'XZBU.F',
@@ -14449,6 +17848,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Technology'
+  ,
+    ter: 0.16
   },
   {
     symbol: 'XZEC.DE',
@@ -14457,6 +17858,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'XZEM.DE',
@@ -14465,6 +17868,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'XZEU.DE',
@@ -14473,6 +17878,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XZME.F',
@@ -14481,6 +17888,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XZMJ.DE',
@@ -14489,6 +17898,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'XZMU.DE',
@@ -14497,6 +17908,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'XZW0.DE',
@@ -14505,6 +17918,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ZPAB.DE',
@@ -14513,6 +17928,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ZPD6.F',
@@ -14521,6 +17938,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.35
   },
   {
     symbol: 'ZPD9.F',
@@ -14529,6 +17948,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZPDD.DE',
@@ -14537,6 +17958,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDE.DE',
@@ -14545,6 +17968,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDF.DE',
@@ -14553,6 +17978,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDH.DE',
@@ -14561,6 +17988,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDI.DE',
@@ -14569,6 +17998,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDJ.DE',
@@ -14577,6 +18008,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'ZPDJ.F',
@@ -14585,6 +18018,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'ZPDK.DE',
@@ -14593,6 +18028,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDM.DE',
@@ -14601,6 +18038,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDS.DE',
@@ -14609,6 +18048,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDT.DE',
@@ -14617,6 +18058,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDU.DE',
@@ -14625,6 +18068,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.15
   },
   {
     symbol: 'ZPDW.DE',
@@ -14633,6 +18078,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'ZPDW.F',
@@ -14641,6 +18088,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
+  ,
+    ter: 0.17
   },
   {
     symbol: 'ZPDX.DE',
@@ -14649,6 +18098,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.12
   },
   {
     symbol: 'ZPR1.DE',
@@ -14657,6 +18108,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'ZPR5.DE',
@@ -14665,6 +18118,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.42
   },
   {
     symbol: 'ZPR6.DE',
@@ -14673,6 +18128,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
+  ,
+    ter: 0.47
   },
   {
     symbol: 'ZPRA.DE',
@@ -14681,6 +18138,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.55
   },
   {
     symbol: 'ZPRC.DE',
@@ -14689,6 +18148,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
+  ,
+    ter: 0.5
   },
   {
     symbol: 'ZPRD.DE',
@@ -14697,6 +18158,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ZPRE.DE',
@@ -14705,6 +18168,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ZPRE.F',
@@ -14713,6 +18178,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.18
   },
   {
     symbol: 'ZPRG.DE',
@@ -14721,6 +18188,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'ZPRI.DE',
@@ -14729,6 +18198,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Mixed',
     category: 'Global'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'ZPRL.DE',
@@ -14737,6 +18208,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZPRL.F',
@@ -14745,6 +18218,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZPRM.DE',
@@ -14753,6 +18228,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.1
   },
   {
     symbol: 'ZPRP.DE',
@@ -14761,6 +18238,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZPRR.DE',
@@ -14769,6 +18248,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Technology'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZPRS.DE',
@@ -14777,6 +18258,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
+  ,
+    ter: 0.45
   },
   {
     symbol: 'ZPRU.DE',
@@ -14785,6 +18268,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ZPRV.DE',
@@ -14793,6 +18278,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZPRW.DE',
@@ -14801,6 +18288,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.2
   },
   {
     symbol: 'ZPRX.DE',
@@ -14809,6 +18298,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.3
   },
   {
     symbol: 'ZSRI.DE',
@@ -14817,6 +18308,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.25
   },
   {
     symbol: 'ZSRL.DE',
@@ -14825,6 +18318,8 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
+  ,
+    ter: 0.4
   },
   {
     symbol: 'ZZRG.F',

@@ -1,4 +1,4 @@
-// Simple script to test a few ETFs and add TER data
+// Complete script to update TER data for ALL XETRA ETFs
 const fs = require('fs')
 const path = require('path')
 
@@ -6,15 +6,10 @@ const path = require('path')
 require('dotenv').config({ path: path.join(__dirname, '../.env.local') })
 const FMP_API_KEY = process.env.FMP_API_KEY
 
-// Test with just a few popular ETFs first
-const testSymbols = [
-  'VGWL.DE',  // Vanguard FTSE All-World  
-  'VGWE.DE',  // Vanguard FTSE All-World
-  'VWCE.DE',  // Vanguard FTSE All-World Acc
-  '2B7K.DE',  // iShares MSCI World SRI
-  '10AI.DE',  // Amundi MSCI Europe
-  '2B7B.DE',  // iShares S&P 500
-]
+if (!FMP_API_KEY) {
+  console.error('❌ FMP_API_KEY not found in .env.local')
+  process.exit(1)
+}
 
 async function fetchETFInfo(symbol) {
   try {
@@ -42,16 +37,36 @@ async function fetchETFInfo(symbol) {
   }
 }
 
-async function updateTERData() {
-  console.log('🚀 Testing TER data update for popular ETFs...')
+async function updateAllTERData() {
+  console.log('🚀 Starting COMPLETE TER data update for all XETRA ETFs...')
   
   const dataPath = path.join(__dirname, '../src/data/xetraETFsComplete.ts')
   let fileContent = fs.readFileSync(dataPath, 'utf-8')
   
-  let updated = 0
+  // Extract all symbols from file
+  const symbolMatches = [...fileContent.matchAll(/symbol: '([^']+)'/g)]
+  const allSymbols = symbolMatches.map(match => match[1])
   
-  for (const symbol of testSymbols) {
-    console.log(`Processing ${symbol}...`)
+  console.log(`📊 Found ${allSymbols.length} ETF symbols to process`)
+  
+  let updated = 0
+  let failed = 0
+  let skipped = 0
+  
+  for (let i = 0; i < allSymbols.length; i++) {
+    const symbol = allSymbols[i]
+    console.log(`[${i + 1}/${allSymbols.length}] Processing ${symbol}...`)
+    
+    // Skip if TER already exists
+    const alreadyHasTER = fileContent.includes(`symbol: '${symbol}'`) && 
+                         fileContent.match(new RegExp(`symbol: '${symbol.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}'[\\s\\S]*?ter:`))
+    
+    if (alreadyHasTER) {
+      console.log(`⏭️  ${symbol}: Already has TER, skipping`)
+      skipped++
+      continue
+    }
+    
     const ter = await fetchETFInfo(symbol)
     
     if (ter !== null) {
@@ -69,18 +84,32 @@ async function updateTERData() {
       })
       
       updated++
+    } else {
+      failed++
     }
     
-    // Rate limiting
-    await new Promise(resolve => setTimeout(resolve, 200))
+    // Rate limiting: 5 requests per second
+    if (i < allSymbols.length - 1) {
+      await new Promise(resolve => setTimeout(resolve, 200))
+    }
+    
+    // Save progress every 100 ETFs
+    if ((i + 1) % 100 === 0) {
+      fs.writeFileSync(dataPath, fileContent)
+      console.log(`💾 Progress saved: ${i + 1}/${allSymbols.length} processed`)
+    }
   }
   
-  // Write back to file
+  // Final save
   fs.writeFileSync(dataPath, fileContent)
   
-  console.log(`\n✅ Test update complete!`)
+  console.log(`\n🎉 COMPLETE UPDATE FINISHED!`)
   console.log(`📈 Updated: ${updated} ETFs`)
+  console.log(`❌ Failed: ${failed} ETFs`) 
+  console.log(`⏭️  Skipped: ${skipped} ETFs`)
   console.log(`📁 File updated: ${dataPath}`)
+  console.log(`\n⏱️  Total time: ${Math.floor((Date.now() - startTime) / 1000)} seconds`)
 }
 
-updateTERData().catch(console.error)
+const startTime = Date.now()
+updateAllTERData().catch(console.error)
