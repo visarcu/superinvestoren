@@ -112,8 +112,17 @@ export const investors: Investor[] = [
     imageUrl: '/images/gates.png',
     updatedAt: '31.12.2024',    
     holdings: [],
-  },  
+  }, 
+  
+  {
+    name: 'Catherine Wood - ARK Investment Management LLC',
+    slug: 'ark_investment_management',
+    imageUrl: '/images/ark_investment_management.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
 
+  
   {
     name: 'Seth Klarman - Baupost Group',
     slug: 'klarman',

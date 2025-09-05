@@ -4,6 +4,7 @@
 import React, { useState, useMemo, useEffect } from 'react'
 import Link from 'next/link'
 import InvestorAvatar from '@/components/InvestorAvatar'
+import InvestorCard from '@/components/InvestorCard'
 import { ArrowTopRightOnSquareIcon, UserIcon, BuildingOffice2Icon, Squares2X2Icon, MagnifyingGlassIcon } from '@heroicons/react/24/outline'
 import holdingsHistory from '@/data/holdings'
 
@@ -371,6 +372,13 @@ const investorMetadata: Record<string, {
     subtitle: 'Baupost Group',
     type: 'investor'
   },
+
+  ark_investment_management: {
+    name: 'Catherine Wood',
+    subtitle: 'ARK Investment Management',
+    type: 'investor'
+  },
+
   burn: {
     name: 'Harry Burn',
     subtitle: 'Sound Shore Management Inc',
@@ -577,40 +585,59 @@ if (isInitialLoad) {
       </div>
 
       {/* Grid Skeleton */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
         {[...Array(12)].map((_, i) => (
-          <div key={i} className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06] animate-pulse">
+          <div key={i} className="bg-[#161618] rounded-2xl p-5 border border-white/[0.06] animate-pulse flex flex-col" style={{ width: '360px', height: '280px' }}>
+            {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gray-700 rounded-full"></div>
+                <div className="w-8 h-8 bg-gray-700 rounded-full flex-shrink-0"></div>
                 <div>
-                  <div className="h-4 bg-gray-700 rounded w-24 mb-2"></div>
-                  <div className="h-3 bg-gray-700 rounded w-16"></div>
+                  <div className="h-3 bg-gray-700 rounded w-24 mb-2"></div>
+                  <div className="h-2 bg-gray-700 rounded w-16"></div>
                 </div>
               </div>
-              <div className="w-4 h-4 bg-gray-700 rounded"></div>
+              <div className="w-4 h-4 bg-gray-700 rounded flex-shrink-0"></div>
             </div>
             
-            <div className="space-y-3 mb-4">
-              <div className="flex justify-between">
-                <div className="h-3 bg-gray-700 rounded w-16"></div>
-                <div className="h-3 bg-gray-700 rounded w-20"></div>
-              </div>
-              <div className="flex justify-between">
-                <div className="h-3 bg-gray-700 rounded w-16"></div>
+            {/* Chart area */}
+            <div className="h-16 mb-3 bg-gray-700/20 rounded"></div>
+            
+            {/* Metrics */}
+            <div className="grid grid-cols-3 gap-3 mb-3">
+              <div>
+                <div className="h-2 bg-gray-700 rounded w-12 mb-1"></div>
                 <div className="h-3 bg-gray-700 rounded w-8"></div>
               </div>
-              <div className="flex justify-between">
-                <div className="h-3 bg-gray-700 rounded w-16"></div>
-                <div className="h-3 bg-gray-700 rounded w-16"></div>
+              <div>
+                <div className="h-2 bg-gray-700 rounded w-8 mb-1"></div>
+                <div className="h-3 bg-gray-700 rounded w-10"></div>
+              </div>
+              <div>
+                <div className="h-2 bg-gray-700 rounded w-12 mb-1"></div>
+                <div className="h-3 bg-gray-700 rounded w-8"></div>
               </div>
             </div>
             
-            <div className="pt-3 border-t border-white/10">
-              <div className="flex items-center justify-between">
-                <div className="h-5 bg-gray-700 rounded w-16"></div>
-                <div className="h-3 bg-gray-700 rounded w-20"></div>
+            {/* Holdings */}
+            <div className="flex-1 min-h-0">
+              <div className="h-2 bg-gray-700 rounded w-16 mb-2"></div>
+              <div className="space-y-1">
+                <div className="flex justify-between">
+                  <div className="h-2 bg-gray-700 rounded w-12"></div>
+                  <div className="h-2 bg-gray-700 rounded w-8"></div>
+                </div>
+                <div className="flex justify-between">
+                  <div className="h-2 bg-gray-700 rounded w-10"></div>
+                  <div className="h-2 bg-gray-700 rounded w-6"></div>
+                </div>
               </div>
+            </div>
+            
+            {/* Footer */}
+            <div className="pt-3 mt-auto border-t border-white/10 flex items-center justify-between">
+              <div className="h-4 bg-gray-700 rounded w-16"></div>
+              <div className="h-2 bg-gray-700 rounded w-20"></div>
             </div>
           </div>
         ))}
@@ -692,95 +719,13 @@ return (
       </div>
 
       {/* Results */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {filteredInvestors.map((investor) => {
-          const data = getLatestData(investor.slug)
-          
-          return (
-            <Link
-              key={investor.slug}
-              href={`/superinvestor/${investor.slug}`}
-              className="group bg-[#161618] rounded-2xl p-6 hover:bg-[#1A1A1D] transition-all duration-300 border border-white/[0.06] hover:border-white/[0.1]"
-            >
-              {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div className="flex items-center gap-3">
-                  <InvestorAvatar
-                    name={investor.name}
-                    imageUrl={`/images/${investor.slug}.png`}
-                    size="md"
-                    className="ring-2 ring-white/10 group-hover:ring-white/20 transition-all duration-200"
-                  />
-                  <div>
-                    <h3 className="font-semibold text-white text-base group-hover:text-green-400 transition-colors line-clamp-1">
-                      {investor.name}
-                    </h3>
-                    {investor.subtitle && (
-                      <p className="text-sm text-gray-400 line-clamp-1">
-                        {investor.subtitle}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                
-                <ArrowTopRightOnSquareIcon className="w-4 h-4 text-gray-600 group-hover:text-green-400 transition-colors" />
-              </div>
-
-              {/* Stats */}
-              <div className="space-y-3">
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-400">Portfolio:</span>
-                  <span className="font-medium text-green-400">
-                    {formatLargeNumber(data.totalValue)}
-                  </span>
-                </div>
-                
-                <div className="flex justify-between items-center text-sm">
-                  <span className="text-gray-400">Positionen:</span>
-                  <span className="font-medium text-white">
-                    {data.positionsCount}
-                  </span>
-                </div>
-                
-                {data.lastUpdate && (
-                  <div className="flex justify-between items-center text-sm">
-                    <span className="text-gray-400">Update:</span>
-                    <span className="font-medium text-gray-300">
-                      {formatDate(data.lastUpdate)}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {/* Type Badge */}
-              <div className="mt-4 pt-3 border-t border-white/10">
-                <div className="flex items-center justify-between">
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                    investor.type === 'investor' 
-                      ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
-                      : 'bg-purple-500/10 text-purple-400 border border-purple-500/20'
-                  }`}>
-                    {investor.type === 'investor' ? (
-                      <>
-                        <UserIcon className="w-3 h-3" />
-                        Investor
-                      </>
-                    ) : (
-                      <>
-                        <BuildingOffice2Icon className="w-3 h-3" />
-                        Fonds
-                      </>
-                    )}
-                  </span>
-                  
-                  <span className="text-xs text-gray-500 group-hover:text-green-400 transition-colors">
-                    Portfolio ansehen →
-                  </span>
-                </div>
-              </div>
-            </Link>
-          )
-        })}
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
+        {filteredInvestors.map((investor) => (
+          <InvestorCard
+            key={investor.slug}
+            investor={investor}
+          />
+        ))}
       </div>
 
 

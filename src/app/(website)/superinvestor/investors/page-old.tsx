@@ -371,6 +371,13 @@ const investorMetadata: Record<string, {
     subtitle: 'Baupost Group',
     type: 'investor'
   },
+
+  ark_investment_management: {
+    name: 'Catherine Wood',
+    subtitle: 'ARK Investment Management',
+    type: 'investor'
+  },
+
   burn: {
     name: 'Harry Burn',
     subtitle: 'Sound Shore Management Inc',

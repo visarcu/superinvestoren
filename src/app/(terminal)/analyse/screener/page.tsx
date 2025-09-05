@@ -148,13 +148,13 @@ const PRESET_SCREENERS: PresetScreener[] = [
   {
     id: 'high-growth',
     name: 'High Growth',
-    description: 'Schnell wachsende Unternehmen (>20% 5-Jahres Umsatz-CAGR, >15% EPS-Wachstum, Marktkapitalisierung >1Mrd.)',
+    description: 'Schnell wachsende Unternehmen (>20% 5-Jahres Umsatz-CAGR, >15% EPS-Wachstum, Marktkapitalisierung >500M)',
     icon: ArrowTrendingUpIcon,
     color: 'purple',
     criteria: {
       revenueGrowthMoreThan: 20,
       epsGrowthMoreThan: 15,
-      marketCapMoreThan: 1000000000,
+      marketCapMoreThan: 500000000,
       isActivelyTrading: true,
       isEtf: false,
       limit: 50

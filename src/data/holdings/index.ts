@@ -737,6 +737,10 @@ import pzena_2024_Q4 from './pzena/2024-Q4.json'
 import pzena_2025_Q1 from './pzena/2025-Q1.json'
 import pzena_2025_Q2 from './pzena/2025-Q2.json'
 
+
+
+
+
 //soros
 import soros_2024_Q1 from './soros/2024-Q1.json'
 import soros_2024_Q2 from './soros/2024-Q2.json'
@@ -761,6 +765,17 @@ import kahn_2024_Q4 from './kahn/2024-Q4.json'
 import kahn_2025_Q1 from './kahn/2025-Q1.json'
 import kahn_2025_Q2 from './kahn/2025-Q2.json'
 import kahn_2025_Q3 from './kahn/2025-Q3.json'
+
+
+
+//ark_investment_management
+import ark_investment_management_2024_Q1 from './ark_investment_management/2024-Q1.json'
+import ark_investment_management_2024_Q2 from './ark_investment_management/2024-Q2.json'
+import ark_investment_management_2024_Q3 from './ark_investment_management/2024-Q3.json'
+import ark_investment_management_2024_Q4 from './ark_investment_management/2024-Q4.json'
+import ark_investment_management_2025_Q1 from './ark_investment_management/2025-Q1.json'
+import ark_investment_management_2025_Q2 from './ark_investment_management/2025-Q2.json'
+import ark_investment_management_2025_Q3 from './ark_investment_management/2025-Q3.json'
 
 
 //ariel_focus
@@ -1022,16 +1037,27 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q3', data: dalio_2025_Q3},
    ],
 
+ 
+
+   ark_investment_management: [
+    { quarter: '2024-Q1', data: ark_investment_management_2024_Q1},
+    { quarter: '2024-Q2', data: ark_investment_management_2024_Q2},
+    { quarter: '2024-Q3', data: ark_investment_management_2024_Q3},
+    { quarter: '2024-Q4', data: ark_investment_management_2024_Q4},
+    { quarter: '2025-Q1', data: ark_investment_management_2025_Q1},
+    { quarter: '2025-Q2', data: ark_investment_management_2025_Q2},
+    { quarter: '2025-Q3', data: ark_investment_management_2025_Q3},
+   ],
 
 
    gayner: [
     { quarter: '2024-Q1', data: gayner_2024_Q1},
-    { quarter: '2024-Q2', data: gayner_2024_Q2 },
+    { quarter: '2024-Q2', data: gayner_2024_Q2},
     { quarter: '2024-Q3', data: gayner_2024_Q3},
     { quarter: '2024-Q4', data: gayner_2024_Q4},
     { quarter: '2025-Q1', data: gayner_2025_Q1},
     { quarter: '2025-Q2', data: gayner_2025_Q2},
-    { quarter: '2025-Q3f', data: gayner_2025_Q3},
+    { quarter: '2025-Q3', data: gayner_2025_Q3},
    ],
 
    ainslie: [

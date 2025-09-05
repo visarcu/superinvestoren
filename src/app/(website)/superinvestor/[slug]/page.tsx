@@ -175,6 +175,7 @@ buffett: 'Warren Buffett – Berkshire Hathaway',
   welling: 'Glenn Welling - Engaged Capital',
   lou: 'Norbert Lou - Punch Card Management',
   munger: 'Charlie Munger',
+  ark_investment_management: 'Catherine Wood',
   
 
   //mutual funds

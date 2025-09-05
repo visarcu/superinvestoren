@@ -121,6 +121,7 @@ patientcapital:'0001854794',
 makaira:'0001540866',
 dalio: '0001350694',
 cunniff:'0001720792',
+ark_investment_management: '0001697748',
 
 //FUNDS:
 meridiancontrarian:'0000745467',
