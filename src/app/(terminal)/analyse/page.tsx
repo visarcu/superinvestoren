@@ -163,7 +163,38 @@ export default function ModernDashboard() {
   const [marketLoading, setMarketLoading] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
-  const { formatStockPrice, formatPercentage } = useCurrency()
+  const [currencyYieldData, setCurrencyYieldData] = useState<any>(null)
+  const [currencyYieldLoading, setCurrencyYieldLoading] = useState(true)
+  const { formatStockPrice, formatPercentage, formatNumber } = useCurrency()
+
+  // Deutsche Formatierung für Währungen und Yields
+  const formatCurrencyValue = useCallback((value: number | string, symbol: string) => {
+    const numValue = typeof value === 'string' ? parseFloat(value) : value
+    if (isNaN(numValue)) return value.toString()
+    
+    // Bitcoin als ganzzahl, andere Währungen mit 4 Dezimalstellen
+    const decimals = symbol === 'BTC/USD' ? 0 : 4
+    return numValue.toLocaleString('de-DE', {
+      minimumFractionDigits: decimals,
+      maximumFractionDigits: decimals
+    })
+  }, [])
+
+  const formatPercentChange = useCallback((value: string) => {
+    if (!value) return ''
+    
+    // Extrahiere Zahl aus String wie "+1.89%" oder "-0.28%"
+    const match = value.match(/([+-]?\d+\.?\d*)/)
+    if (!match) return value
+    
+    const numValue = parseFloat(match[1])
+    const sign = numValue > 0 ? '+' : ''
+    
+    return `${sign}${numValue.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    })}%`
+  }, [])
 
   const POPULAR_STOCKS = useMemo(() => [
     'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
@@ -206,6 +237,107 @@ export default function ModernDashboard() {
       const stored = localStorage.getItem('lastTicker')
       if (stored) setLastTicker(stored.toUpperCase())
     }
+  }, [])
+
+  // Load currency and yield data - ONLY REAL API DATA
+  useEffect(() => {
+    async function loadCurrencyYieldData() {
+      setCurrencyYieldLoading(true)
+      try {
+        // Parallel fetch für bessere Performance
+        const [exchangeRateRes, marketIndicatorsRes, fxDataRes] = await Promise.allSettled([
+          fetch('/api/exchange-rate?from=EUR&to=USD'),
+          fetch('/api/market-indicators'),
+          // Versuche FMP FX API direkt
+          fetch('/api/quotes?symbols=EURUSD,GBPUSD,USDJPY,BTCUSD')
+        ])
+
+        const data: any = {
+          currencies: [],
+          yields: []
+        }
+
+        // Exchange rates von unserer API verarbeiten
+        if (exchangeRateRes.status === 'fulfilled' && exchangeRateRes.value.ok) {
+          const rateData = await exchangeRateRes.value.json()
+          if (rateData.rate) {
+            data.currencies.push({
+              symbol: 'EUR/USD',
+              name: 'Euro',
+              flag: '🇪🇺',
+              value: rateData.rate, // Behalte numerischen Wert für deutsche Formatierung
+              change: 0,
+              changePercent: '',
+              status: 'neutral'
+            })
+          }
+        }
+
+        // Versuche zusätzliche FX Daten von Quotes API
+        if (fxDataRes.status === 'fulfilled' && fxDataRes.value.ok) {
+          const fxQuotes = await fxDataRes.value.json()
+          if (Array.isArray(fxQuotes)) {
+            fxQuotes.forEach(quote => {
+              let symbol = '', name = '', flag = ''
+              
+              if (quote.symbol === 'GBPUSD') {
+                symbol = 'GBP/USD'
+                name = 'British Pound'
+                flag = '🇬🇧'
+              } else if (quote.symbol === 'USDJPY') {
+                symbol = 'USD/JPY' 
+                name = 'Japanese Yen'
+                flag = '🇯🇵'
+              } else if (quote.symbol === 'BTCUSD') {
+                symbol = 'BTC/USD'
+                name = 'Bitcoin'
+                flag = '₿'
+              }
+              
+              if (symbol && quote.price) {
+                data.currencies.push({
+                  symbol,
+                  name,
+                  flag,
+                  value: quote.price, // Behalte numerischen Wert für deutsche Formatierung
+                  change: quote.change || 0,
+                  changePercent: quote.changesPercentage ? `${quote.changesPercentage > 0 ? '+' : ''}${quote.changesPercentage.toFixed(2)}%` : '',
+                  status: quote.changesPercentage > 0 ? 'up' : quote.changesPercentage < 0 ? 'down' : 'neutral'
+                })
+              }
+            })
+          }
+        }
+
+        // Market indicators für yields verarbeiten - NUR ECHTE DATEN
+        if (marketIndicatorsRes.status === 'fulfilled' && marketIndicatorsRes.value.ok) {
+          const indicatorsData = await marketIndicatorsRes.value.json()
+          if (indicatorsData.indicators) {
+            // Treasury yields filtern
+            const treasuries = indicatorsData.indicators.filter((ind: any) => ind.category === 'treasury')
+            data.yields = treasuries.map((treasury: any) => ({
+              symbol: treasury.id,
+              name: treasury.name,
+              country: treasury.id.includes('10y') ? '🇺🇸' : treasury.id.includes('2y') ? '🇺🇸' : '🇺🇸',
+              value: treasury.value,
+              change: treasury.change || '',
+              changePercent: treasury.changePercent ? `${treasury.changePercent}%` : '',
+              status: treasury.status
+            }))
+          }
+        }
+
+        setCurrencyYieldData(data)
+      } catch (error) {
+        console.error('Error loading currency/yield data:', error)
+        // Keine Fallback Mock-Daten - zeige leere Daten
+        setCurrencyYieldData({ currencies: [], yields: [] })
+      } finally {
+        setCurrencyYieldLoading(false)
+      }
+    }
+
+    loadCurrencyYieldData()
   }, [])
 
   // Two-phase loading: immediate cached data + full data
@@ -509,6 +641,130 @@ export default function ModernDashboard() {
               )
             })}
           </div>
+          </section>
+
+          {/* Currencies & Yields Section */}
+          <section>
+            <div className="flex items-center justify-between mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-theme-primary mb-2">Währungen & Renditen</h2>
+                <p className="text-theme-secondary text-sm">Wechselkurse und Staatsanleihen-Renditen</p>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              
+              {/* Currencies */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-theme-primary mb-4">Währungen</h3>
+                <div className="divide-y divide-theme/10">
+                  {currencyYieldLoading ? (
+                    Array.from({ length: 4 }).map((_, i) => (
+                      <div key={i} className="flex items-center justify-between p-3 first:pt-0 last:pb-0">
+                        <div className="flex items-center gap-3">
+                          <div className="w-6 h-4 bg-theme-secondary/20 rounded animate-pulse"></div>
+                          <div className="w-20 h-4 bg-theme-secondary/20 rounded animate-pulse"></div>
+                        </div>
+                        <div className="text-right space-y-1">
+                          <div className="w-16 h-4 bg-theme-secondary/20 rounded animate-pulse"></div>
+                          <div className="w-12 h-3 bg-theme-secondary/20 rounded animate-pulse"></div>
+                        </div>
+                      </div>
+                    ))
+                  ) : currencyYieldData?.currencies && currencyYieldData.currencies.length > 0 ? (
+                    currencyYieldData.currencies.map((currency: any) => (
+                      <div 
+                        key={currency.symbol}
+                        className="flex items-center justify-between p-3 first:pt-0 last:pb-0 hover:bg-theme-secondary/5 -mx-3 px-6 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{currency.flag}</span>
+                          <div>
+                            <div className="text-sm font-medium text-theme-primary">{currency.symbol}</div>
+                            <div className="text-xs text-theme-secondary">{currency.name}</div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-semibold text-theme-primary">
+                            {formatCurrencyValue(currency.value, currency.symbol)}
+                          </div>
+                          {currency.changePercent && (
+                            <div className={`text-xs font-medium ${
+                              currency.status === 'up' ? 'text-green-400' :
+                              currency.status === 'down' ? 'text-red-400' : 'text-theme-secondary'
+                            }`}>
+                              {formatPercentChange(currency.changePercent)}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-theme-secondary">
+                      <div className="text-2xl mb-2">💱</div>
+                      <p className="text-sm">Währungsdaten konnten nicht geladen werden</p>
+                      <p className="text-xs text-theme-tertiary mt-1">Überprüfe FMP API Konfiguration</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              {/* Yields */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                <h3 className="text-lg font-semibold text-theme-primary mb-4">Staatsanleihen-Renditen</h3>
+                <div className="divide-y divide-theme/10">
+                  {currencyYieldLoading ? (
+                    Array.from({ length: 3 }).map((_, i) => (
+                      <div key={i} className="flex items-center justify-between p-3 first:pt-0 last:pb-0">
+                        <div className="flex items-center gap-3">
+                          <div className="w-6 h-4 bg-theme-secondary/20 rounded animate-pulse"></div>
+                          <div className="w-24 h-4 bg-theme-secondary/20 rounded animate-pulse"></div>
+                        </div>
+                        <div className="text-right space-y-1">
+                          <div className="w-16 h-4 bg-theme-secondary/20 rounded animate-pulse"></div>
+                          <div className="w-12 h-3 bg-theme-secondary/20 rounded animate-pulse"></div>
+                        </div>
+                      </div>
+                    ))
+                  ) : currencyYieldData?.yields && currencyYieldData.yields.length > 0 ? (
+                    currencyYieldData.yields.map((yield_: any) => (
+                      <div 
+                        key={yield_.symbol}
+                        className="flex items-center justify-between p-3 first:pt-0 last:pb-0 hover:bg-theme-secondary/5 -mx-3 px-6 rounded-lg transition-colors cursor-pointer"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-lg">{yield_.country}</span>
+                          <div>
+                            <div className="text-sm font-medium text-theme-primary">{yield_.name}</div>
+                            <div className="text-xs text-theme-secondary">Treasury Bond</div>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-semibold text-theme-primary">
+                            {yield_.value}
+                          </div>
+                          {yield_.changePercent && (
+                            <div className={`text-xs font-medium ${
+                              yield_.status === 'up' ? 'text-green-400' :
+                              yield_.status === 'down' ? 'text-red-400' : 'text-theme-secondary'
+                            }`}>
+                              {formatPercentChange(yield_.changePercent)}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="text-center py-8 text-theme-secondary">
+                      <div className="text-2xl mb-2">📊</div>
+                      <p className="text-sm">Treasury-Daten konnten nicht geladen werden</p>
+                      <p className="text-xs text-theme-tertiary mt-1">Market Indicators API verfügbar?</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+              
+            </div>
           </section>
 
           {/* Section: Dashboard Components - Optimized Layout */}
