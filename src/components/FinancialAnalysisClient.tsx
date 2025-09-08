@@ -1880,16 +1880,9 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               </div>
             )}
             
-            {dataQuality === 'modern-data' && (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-lg text-xs">
-                <div className="w-2 h-2 bg-blue-400 rounded-full animate-pulse"></div>
-                <span>Moderne Daten (2005+)</span>
-              </div>
-            )}
+        
             
-            <div className="text-xs text-theme-muted">
-              10 Jahre • {currency} • {dataQuality.includes('validated') ? 'Multi-Source validiert' : 'FMP Native'}
-            </div>
+      
           </div>
         </div>
         

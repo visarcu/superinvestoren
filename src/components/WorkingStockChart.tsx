@@ -27,6 +27,7 @@ interface Props {
 }
 
 const TIME_RANGES = [
+  { label: '1D', days: 1 },
   { label: '5D', days: 5 },
   { label: '1M', days: 30 },
   { label: '3M', days: 90 },
@@ -35,7 +36,6 @@ const TIME_RANGES = [
   { label: '1Y', days: 365 },
   { label: '3Y', days: 1095 },
   { label: '5Y', days: 1825 },
-  { label: '10Y', days: 3650 },
   { label: 'MAX', days: 'max' as const },
 ]
 
@@ -80,7 +80,7 @@ const POPULAR_STOCKS = [
 
 export default function WorkingStockChart({ ticker, data, onAddComparison }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
-  const [selectedMode, setSelectedMode] = useState('total_return')
+  const [selectedMode, setSelectedMode] = useState('price')
   const [comparisonStocks, setComparisonStocks] = useState<Array<{ticker: string, data: StockData[], color: string}>>([])
   const [newTicker, setNewTicker] = useState('')
   const [isLoading, setIsLoading] = useState(false)
@@ -100,13 +100,13 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     formatMarketCap 
   } = useCurrency()
 
-  // Theme-aware colors
+  // Theme-aware colors - IMPROVED
   const getThemeColors = () => {
     const isDark = theme === 'dark'
     return {
       chartBg: isDark ? 'transparent' : 'transparent',
       textPrimary: isDark ? '#ffffff' : '#0f172a',
-      textSecondary: isDark ? '#d1d5db' : '#475569',
+      textSecondary: isDark ? '#d1d5db' : '#374151',
       textMuted: isDark ? '#9ca3af' : '#64748b',
       buttonBg: isDark ? '#374151' : '#f1f5f9',
       buttonBgActive: isDark ? '#ffffff' : '#ffffff',
@@ -117,7 +117,9 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       inputBorder: isDark ? '#4b5563' : '#d1d5db',
       inputText: isDark ? '#ffffff' : '#111827',
       inputPlaceholder: isDark ? '#9ca3af' : '#9ca3af',
-      gridColor: isDark ? '#374151' : '#e5e7eb',
+      // IMPROVED: Better contrast for grid and axes
+      gridColor: isDark ? '#4b5563' : '#cbd5e1',
+      axisColor: isDark ? '#6b7280' : '#64748b',
       tooltipBg: isDark ? '#1f2937' : '#ffffff',
       tooltipBorder: isDark ? '#4b5563' : '#d1d5db',
       tooltipText: isDark ? '#ffffff' : '#111827',
@@ -143,25 +145,45 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     })
   }
 
-  // Filter data by time range
+  // Filter data by time range - FIXED
   const getFilteredData = (stockData: StockData[]) => {
     if (!stockData.length) return []
     
     const now = new Date()
     let cutoffDate: Date
     
-    if (selectedRange === 'ytd') {
-      cutoffDate = new Date(now.getFullYear(), 0, 1)
+    if (selectedRange === 'YTD') {
+      cutoffDate = new Date(now.getFullYear(), 0, 1) // January 1st of current year
     } else if (selectedRange === 'MAX') {
       return stockData.sort((a, b) => a.date.localeCompare(b.date))
     } else {
-      const days = TIME_RANGES.find(r => r.label === selectedRange)?.days as number
+      const timeRange = TIME_RANGES.find(r => r.label === selectedRange)
+      if (!timeRange || typeof timeRange.days !== 'number') {
+        return stockData.sort((a, b) => a.date.localeCompare(b.date))
+      }
+      
+      const days = timeRange.days
+      // For very short periods like 1D, ensure we get at least some recent data
+      if (days === 1) {
+        // Get the most recent trading days (handle weekends)
+        const sortedData = stockData.sort((a, b) => b.date.localeCompare(a.date))
+        return sortedData.slice(0, Math.min(5, sortedData.length)).reverse()
+      }
+      
       cutoffDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000)
     }
 
-    return stockData
+    const filtered = stockData
       .filter(d => new Date(d.date) >= cutoffDate)
       .sort((a, b) => a.date.localeCompare(b.date))
+    
+    // Fallback: if no data found, return most recent data points
+    if (filtered.length === 0 && stockData.length > 0) {
+      const sortedData = stockData.sort((a, b) => b.date.localeCompare(a.date))
+      return sortedData.slice(0, Math.min(10, sortedData.length)).reverse()
+    }
+    
+    return filtered
   }
 
   // Chart Data Berechnung
@@ -285,7 +307,15 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     setShowSuggestions(matches.length > 0)
   }, [newTicker])
 
-  // Performance stats calculation
+  // FIXED: Current price should always be the latest available price, not from filtered data
+  const currentPrice = useMemo(() => {
+    if (!data.length) return 0
+    // Sort by date descending and get the most recent price
+    const sortedData = [...data].sort((a, b) => b.date.localeCompare(a.date))
+    return sortedData[0].close
+  }, [data])
+
+  // Performance stats calculation - FIXED
   const performanceStats = useMemo(() => {
     if (!chartData.length) return {}
     
@@ -306,13 +336,15 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         } else if (firstValue > 0) {
           const change = lastValue - firstValue
           const changePercent = (change / firstValue) * 100
-          stats[stockTicker] = { change, changePercent, endValue: lastValue }
+          // For main ticker, use actual current price as endValue, not chart value
+          const endValue = stockTicker === ticker ? currentPrice : lastValue
+          stats[stockTicker] = { change, changePercent, endValue }
         }
       }
     })
     
     return stats
-  }, [chartData, ticker, comparisonStocks, selectedMode])
+  }, [chartData, ticker, comparisonStocks, selectedMode, currentPrice])
 
   // Suggestion selection
   const handleSelectSuggestion = (suggestion: {symbol: string, name: string}) => {
@@ -450,9 +482,8 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     }
   }
 
-  const currentPrice = data.length > 0 ? data[data.length - 1].close : 0
   const mainStats = performanceStats[ticker]
-  const chartHeight = isFullscreen ? "h-[calc(100vh-120px)]" : "h-[480px]"
+  const chartHeight = isFullscreen ? "h-[calc(100vh-120px)]" : "h-[300px] sm:h-[400px] lg:h-[480px]"
 
   return (
     <div className="space-y-6" ref={chartContainerRef}>
@@ -479,24 +510,41 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         )}
       </button>
 
-      {/* Header with Price */}
-      <div>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3 mb-4">
-          <span 
-            className="text-2xl font-bold"
-            style={{ color: themeColors.textPrimary }}
+      {/* Header with Price & Performance */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-3">
+          <h2 
+            className="text-lg font-semibold"
+            style={{ color: themeColors.textSecondary }}
           >
-            {/* ✅ VERWENDE formatStockPrice für aktuellen Preis */}
-            {formatStockPrice(currentPrice)}
-          </span>
-          {mainStats && (
-            <span className={`text-sm font-medium px-3 py-1.5 rounded-lg ${
-              mainStats.changePercent >= 0 ? 'text-green-600 bg-green-500/10 dark:text-green-400 dark:bg-green-900/20' : 'text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-900/20'
-            }`}>
-              {/* ✅ VERWENDE formatPercentage für Änderung */}
-              {formatPercentage(mainStats.changePercent)} ({selectedRange})
+            {ticker} • Historischer Kursverlauf
+          </h2>
+        </div>
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <div className="flex items-center gap-3">
+            <span 
+              className="text-3xl font-bold"
+              style={{ color: themeColors.textPrimary }}
+            >
+              {formatStockPrice(currentPrice)}
             </span>
-          )}
+            {mainStats && (
+              <div className="flex items-center gap-2">
+                <span className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1.5 rounded-lg ${
+                  mainStats.changePercent >= 0 ? 'text-green-600 bg-green-500/10 dark:text-green-400 dark:bg-green-900/20' : 'text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-900/20'
+                }`}>
+                  {mainStats.changePercent >= 0 ? '↗' : '↘'}
+                  {formatPercentage(mainStats.changePercent)}
+                </span>
+                <span 
+                  className="text-sm"
+                  style={{ color: themeColors.textMuted }}
+                >
+                  ({selectedRange})
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
@@ -529,16 +577,18 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
             </select>
           </div>
 
-          {/* Time Range Buttons */}
+          {/* Time Range Buttons - Responsive */}
           <div 
-            className="flex items-center gap-1 rounded-lg p-1 flex-wrap"
+            className="flex items-center gap-0.5 rounded-lg p-1 flex-wrap"
             style={{ backgroundColor: themeColors.buttonBg }}
           >
             {TIME_RANGES.map((range) => (
               <button
                 key={range.label}
                 onClick={() => setSelectedRange(range.label)}
-                className="px-3 py-1.5 text-sm rounded-md transition-all duration-200 whitespace-nowrap"
+                className={`px-2 md:px-3 py-1.5 text-xs md:text-sm rounded-md transition-all duration-200 whitespace-nowrap font-medium ${
+                  selectedRange === range.label ? 'shadow-sm' : ''
+                }`}
                 style={{
                   backgroundColor: selectedRange === range.label ? themeColors.buttonBgActive : 'transparent',
                   color: selectedRange === range.label ? themeColors.buttonTextActive : themeColors.buttonText
@@ -706,27 +756,38 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
           {comparisonStocks.length > 0 || selectedMode === 'total_return' ? (
             <LineChart data={chartData} margin={{ top: 15, right: 25, left: 15, bottom: 25 }}>
               <CartesianGrid 
-                strokeDasharray="3 3" 
+                strokeDasharray="2 4" 
                 stroke={themeColors.gridColor} 
-                opacity={0.5} 
+                opacity={0.6}
+                horizontal={true}
+                vertical={false}
               />
               <XAxis 
                 dataKey="date"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
+                axisLine={true}
+                tickLine={true}
+                stroke={themeColors.axisColor}
+                tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatXAxisTick}
                 minTickGap={isFullscreen ? 80 : 60}
                 height={50}
               />
               <YAxis 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
+                axisLine={true}
+                tickLine={true}
+                stroke={themeColors.axisColor}
+                tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatYAxisTick}
                 width={70}
               />
-              <Tooltip content={renderTooltip} />
+              <Tooltip 
+                content={renderTooltip} 
+                cursor={{ 
+                  stroke: themeColors.axisColor, 
+                  strokeWidth: 1, 
+                  strokeDasharray: '3 3' 
+                }}
+              />
               
               {/* Performance Labels */}
               {Object.entries(performanceStats).map(([stockTicker, stats]) => {
@@ -801,43 +862,69 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
           ) : (
             <AreaChart data={chartData} margin={{ top: 15, right: 25, left: 15, bottom: 25 }}>
               <defs>
-                <linearGradient id="priceGradient" x1="0" y1="0" x2="0" y2="1">
+                <linearGradient id="priceGradientGreen" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#10B981" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="priceGradientRed" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="5%" stopColor="#EF4444" stopOpacity={0.4}/>
+                  <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+                </linearGradient>
+                <linearGradient id="priceGradientDefault" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="5%" stopColor={COLORS[0]} stopOpacity={0.3}/>
                   <stop offset="95%" stopColor={COLORS[0]} stopOpacity={0}/>
                 </linearGradient>
               </defs>
               
               <CartesianGrid 
-                strokeDasharray="3 3" 
+                strokeDasharray="2 4" 
                 stroke={themeColors.gridColor} 
-                opacity={0.5} 
+                opacity={0.6}
+                horizontal={true}
+                vertical={false}
               />
               <XAxis 
                 dataKey="date"
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
+                axisLine={true}
+                tickLine={true}
+                stroke={themeColors.axisColor}
+                tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatXAxisTick}
                 minTickGap={isFullscreen ? 80 : 60}
                 height={50}
               />
               <YAxis 
-                axisLine={false}
-                tickLine={false}
-                tick={{ fill: themeColors.textMuted, fontSize: isFullscreen ? 12 : 11 }}
+                axisLine={true}
+                tickLine={true}
+                stroke={themeColors.axisColor}
+                tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatYAxisTick}
                 width={70}
               />
-              <Tooltip content={renderTooltip} />
+              <Tooltip 
+                content={renderTooltip} 
+                cursor={{ 
+                  stroke: themeColors.axisColor, 
+                  strokeWidth: 1, 
+                  strokeDasharray: '3 3' 
+                }}
+              />
               
               <Area
                 type="monotone"
                 dataKey={ticker}
-                stroke={COLORS[0]}
+                stroke={mainStats && mainStats.changePercent >= 0 ? "#10B981" : mainStats && mainStats.changePercent < 0 ? "#EF4444" : COLORS[0]}
                 strokeWidth={2}
-                fill="url(#priceGradient)"
+                fill={
+                  mainStats && mainStats.changePercent >= 0 ? "url(#priceGradientGreen)" :
+                  mainStats && mainStats.changePercent < 0 ? "url(#priceGradientRed)" :
+                  "url(#priceGradientDefault)"
+                }
                 dot={false}
-                activeDot={{ r: 4, fill: COLORS[0] }}
+                activeDot={{ 
+                  r: 4, 
+                  fill: mainStats && mainStats.changePercent >= 0 ? "#10B981" : mainStats && mainStats.changePercent < 0 ? "#EF4444" : COLORS[0]
+                }}
               />
 
               {/* Moving Averages für Area Chart */}
