@@ -9,6 +9,9 @@ import {
   ChartBarIcon,
   ShieldCheckIcon
 } from '@heroicons/react/24/outline'
+import RatingHero from './RatingsPage/RatingHero'
+import FactorGrid from './RatingsPage/FactorGrid'
+import ComparisonCards from './RatingsPage/ComparisonCards'
 
 interface ScoreData {
   altmanZScore: number | null
@@ -169,304 +172,109 @@ export default function RatingsClient({ ticker }: { ticker: string }) {
   const mainScore = getScoreIndicator(scores.finclueScore)
 
   return (
-    <div className="max-w-11xl mx-auto p-6 space-y-6">
-      {/* Header Card - FinClue Rating */}
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
-          <div className="flex items-center justify-between">
+    <div className="max-w-7xl mx-auto p-6 space-y-8">
+      
+      {/* Modern Rating Hero - Terminal Style */}
+      <RatingHero 
+        ticker={ticker}
+        finclueScore={scores.finclueScore}
+        scoreTrend={scoreTrend}
+        historicalScores={scores.historicalScores}
+      />
+
+      {/* Factor Grid - Modern Cards but Terminal Colors */}
+      {scores.breakdown && Object.keys(scores.breakdown).length > 0 && (
+        <FactorGrid breakdown={scores.breakdown} />
+      )}
+
+      {/* Comparison Cards - Altman & Piotroski */}
+      <ComparisonCards 
+        altmanZScore={scores.altmanZScore}
+        piotroskiScore={scores.piotroskiScore}
+      />
+
+      {/* Info Section - Terminal Style */}
+      <div className="bg-theme-card/50 rounded-lg border border-theme/30 p-6">
+        <div className="flex items-start gap-3">
+          <InformationCircleIcon className="w-5 h-5 text-theme-secondary mt-0.5 flex-shrink-0" />
+          <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-bold text-theme-primary">FinClue Rating</h3>
-              <p className="text-theme-muted text-sm">Ganzheitliche Fundamentalanalyse</p>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              <span className="text-xs text-theme-muted">Aktuell</span>
-            </div>
-          </div>
-        </div>
-        
-        <div className="p-6">
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Main Score */}
-            <div className="text-center">
-              <div className={`inline-flex items-center justify-center w-20 h-20 rounded-full ${mainScore.bg} mb-3`}>
-                <span className={`text-3xl font-bold ${mainScore.color}`}>
-                  {mainScore.grade}
-                </span>
-              </div>
-              <div className="space-y-1">
-                <div className="text-2xl font-bold text-theme-primary">
-                  {scores.finclueScore}/100
-                </div>
-                <div className="text-theme-secondary text-sm">Gesamtbewertung</div>
-              </div>
-            </div>
-            
-            {/* Trend */}
-            <div className="text-center">
-              <div className="flex items-center justify-center mb-3">
-                <div className={`p-3 rounded-full ${scoreTrend >= 0 ? 'bg-green-500/10' : 'bg-red-500/10'}`}>
-                  {scoreTrend >= 0 ? (
-                    <ArrowTrendingUpIcon className={`w-6 h-6 ${scoreTrend >= 0 ? 'text-green-400' : 'text-red-400'}`} />
-                  ) : (
-                    <ArrowTrendingDownIcon className={`w-6 h-6 ${scoreTrend >= 0 ? 'text-green-400' : 'text-red-400'}`} />
-                  )}
-                </div>
-              </div>
-              <div className="space-y-1">
-                <div className={`text-lg font-semibold ${scoreTrend >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                  {scoreTrend >= 0 ? '+' : ''}{scoreTrend}
-                </div>
-                <div className="text-theme-secondary text-sm">Quartalstrend</div>
-              </div>
-            </div>
-            
-            {/* History Preview */}
-            <div className="space-y-3">
-              <div className="text-sm text-theme-secondary mb-3">Letzte Quartale</div>
-              {scores.historicalScores?.slice(-3).map((hist, idx) => {
-                const histIndicator = getScoreIndicator(hist.score)
-                return (
-                  <div key={idx} className="flex items-center justify-between py-1">
-                    <span className="text-theme-muted text-sm">{hist.period}</span>
-                    <div className="flex items-center gap-2">
-                      <span className="text-theme-primary text-sm font-medium">{hist.score}</span>
-                      <span className={`text-xs font-medium ${histIndicator.color}`}>
-                        {histIndicator.grade}
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Factor Breakdown */}
-      {scores.breakdown && (
-        <div className="bg-theme-card rounded-lg">
-          <div className="px-6 py-4 border-b border-theme/10">
-            <div className="flex items-center gap-2">
-              <ChartBarIcon className="w-5 h-5 text-theme-secondary" />
-              <h3 className="text-lg font-bold text-theme-primary">Faktor-Aufschlüsselung</h3>
-            </div>
-          </div>
-          
-          <div className="p-6">
-            <div className="space-y-4">
-              {Object.entries(scores.breakdown).map(([key, data]) => {
-                const indicator = getScoreIndicator(data.score)
-                const factorName = {
-                  profitability: 'Profitabilität',
-                  growth: 'Wachstum', 
-                  valuation: 'Bewertung',
-                  momentum: 'Momentum',
-                  safety: 'Sicherheit',
-                  quality: 'Qualität'
-                }[key] || key
-
-                return (
-                  <div key={key} className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <span className="text-theme-primary font-medium">{factorName}</span>
-                        <span className="text-xs text-theme-muted">({data.weight}% Gewichtung)</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-primary text-sm font-medium">{data.score}</span>
-                        <span className={`text-sm font-medium ${indicator.color}`}>
-                          {indicator.grade}
-                        </span>
-                      </div>
-                    </div>
-                    
-                    <div className="w-full bg-theme-tertiary rounded-full h-2">
-                      <div 
-                        className="bg-theme-accent rounded-full h-2 transition-all duration-300"
-                        style={{ width: `${data.score}%` }}
-                      />
-                    </div>
-                    
-                    {/* Key Metrics */}
-                    {data.metrics && (
-                      <div className="flex gap-4 text-xs">
-                        {Object.entries(data.metrics)
-                          .filter(([_, value]) => isValidNumber(value))
-                          .slice(0, 3)
-                          .map(([metric, value]: [string, any]) => (
-                            <div key={metric} className="flex items-center gap-1">
-                              <span className="text-theme-muted">{getMetricLabel(metric)}:</span>
-                              <span className="text-theme-secondary font-medium">
-                                {formatMetricValue(metric, value)}
-                              </span>
-                            </div>
-                          ))}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Traditional Scores Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Altman Z-Score */}
-        {isValidNumber(scores.altmanZScore) && (
-          <div className="bg-theme-card rounded-lg">
-            <div className="px-6 py-4 border-b border-theme/10">
-              <div className="flex items-center gap-2">
-                <ShieldCheckIcon className="w-5 h-5 text-theme-secondary" />
-                <h3 className="text-lg font-bold text-theme-primary">Altman Z-Score</h3>
-              </div>
-              <p className="text-theme-muted text-sm">Insolvenzrisiko-Bewertung</p>
-            </div>
-            
-            <div className="p-6">
-              <div className="text-center mb-6">
-                <div className={`text-4xl font-bold mb-2 ${
-                  scores.altmanZScore > 3 ? 'text-green-400' : 
-                  scores.altmanZScore > 1.8 ? 'text-yellow-400' : 'text-red-400'
-                }`}>
-                  {scores.altmanZScore.toFixed(2)}
-                </div>
-                <div className="text-theme-secondary text-sm">
-                  {scores.altmanZScore > 3 ? 'Sicher' : 
-                   scores.altmanZScore > 1.8 ? 'Grauzone' : 'Risiko'}
-                </div>
-              </div>
-              
-              <div className="space-y-2 text-sm">
-                <div className="flex justify-between py-1">
-                  <span className="text-theme-muted">&gt; 3.0</span>
-                  <span className="text-green-400">Sicher</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-theme-muted">1.8 - 3.0</span>
-                  <span className="text-yellow-400">Grauzone</span>
-                </div>
-                <div className="flex justify-between py-1">
-                  <span className="text-theme-muted">&lt; 1.8</span>
-                  <span className="text-red-400">Gefährdet</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Piotroski F-Score */}
-        {isValidNumber(scores.piotroskiScore) && (
-          <div className="bg-theme-card rounded-lg">
-            <div className="px-6 py-4 border-b border-theme/10">
-              <div className="flex items-center gap-2">
-                <ChartBarIcon className="w-5 h-5 text-theme-secondary" />
-                <h3 className="text-lg font-bold text-theme-primary">Piotroski F-Score</h3>
-              </div>
-              <p className="text-theme-muted text-sm">Fundamentalstärke-Indikator</p>
-            </div>
-            
-            <div className="p-6">
-              <div className="text-center mb-6">
-                <div className={`text-4xl font-bold mb-2 ${
-                  scores.piotroskiScore >= 8 ? 'text-green-400' : 
-                  scores.piotroskiScore >= 6 ? 'text-blue-400' : 
-                  scores.piotroskiScore >= 4 ? 'text-yellow-400' : 'text-red-400'
-                }`}>
-                  {scores.piotroskiScore}/9
-                </div>
-                <div className="text-theme-secondary text-sm">
-                  {scores.piotroskiScore >= 8 ? 'Sehr stark' : 
-                   scores.piotroskiScore >= 6 ? 'Stark' : 
-                   scores.piotroskiScore >= 4 ? 'Durchschnitt' : 'Schwach'}
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-9 gap-1 mb-4">
-                {[...Array(9)].map((_, i) => (
-                  <div 
-                    key={i}
-                    className={`h-4 rounded transition-all duration-300 ${
-                      i < scores.piotroskiScore! ? 'bg-theme-accent' : 'bg-theme-tertiary'
-                    }`}
-                  />
-                ))}
-              </div>
-              
-              <div className="text-xs text-theme-muted">
-                Prüft 9 fundamentale Kriterien aus Profitabilität, Liquidität und Effizienz.
-              </div>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* Score History */}
-      {scores.historicalScores && scores.historicalScores.length > 0 && (
-        <div className="bg-theme-card rounded-lg">
-          <div className="px-6 py-4 border-b border-theme/10">
-            <div className="flex items-center gap-2">
-              <ArrowTrendingUpIcon className="w-5 h-5 text-theme-secondary" />
-              <h3 className="text-lg font-bold text-theme-primary">Score-Verlauf</h3>
-            </div>
-          </div>
-          
-          <div className="p-6">
-            <div className="space-y-3">
-              {scores.historicalScores.map((item, index) => {
-                const indicator = getScoreIndicator(item.score)
-                return (
-                  <div key={index} className="flex items-center gap-4">
-                    <div className="text-sm text-theme-muted w-20">{item.period}</div>
-                    <div className="flex-1">
-                      <div className="bg-theme-tertiary rounded-full h-3">
-                        <div 
-                          className="bg-theme-accent rounded-full h-3 transition-all duration-300"
-                          style={{ width: `${item.score}%` }}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <div className="text-sm font-medium text-theme-primary w-8 text-right">
-                        {item.score}
-                      </div>
-                      <div className={`text-sm font-medium w-6 ${indicator.color}`}>
-                        {indicator.grade}
-                      </div>
-                    </div>
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Info Section */}
-      <div className="bg-theme-card/50 rounded-lg border border-theme/30">
-        <div className="p-6">
-          <div className="flex items-start gap-3">
-            <InformationCircleIcon className="w-5 h-5 text-theme-secondary mt-0.5 flex-shrink-0" />
-            <div className="text-sm text-theme-muted">
-              <p className="font-medium text-theme-secondary mb-2">Über die FinClue Bewertung</p>
-              <p className="mb-3">
+              <h3 className="text-lg font-bold text-theme-primary mb-2">
+                Über die FinClue Bewertung
+              </h3>
+              <p className="text-theme-muted leading-relaxed">
                 Die FinClue-Bewertung kombiniert verschiedene fundamentale Kennzahlen zu einem 
-                ganzheitlichen Score von 0-100 Punkten:
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-1 text-xs">
-                <div>• <strong>Profitabilität (25%):</strong> ROE, Nettogewinnmarge</div>
-                <div>• <strong>Momentum (15%):</strong> Kursentwicklung</div>
-                <div>• <strong>Wachstum (20%):</strong> Umsatz- und Gewinnwachstum</div>
-                <div>• <strong>Sicherheit (10%):</strong> Liquidität, Verschuldung</div>
-                <div>• <strong>Bewertung (20%):</strong> KGV im Branchenvergleich</div>
-                <div>• <strong>Qualität (10%):</strong> ROA, Free Cash Flow</div>
-              </div>
-              <p className="mt-3 text-xs">
-                Scores werden quartalsweise aktualisiert. Grade A (80+) = exzellent, Grade B (60+) = gut.
+                ganzheitlichen Score von 0-100 Punkten. Jeder Faktor wird individuell bewertet und 
+                entsprechend seiner Relevanz gewichtet.
               </p>
             </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              <div className="bg-theme-card rounded-lg p-3 border border-theme/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                  <span className="font-semibold text-theme-primary text-sm">Profitabilität (25%)</span>
+                </div>
+                <p className="text-xs text-theme-muted">
+                  ROE, Nettogewinnmarge, Operative Marge
+                </p>
+              </div>
+
+              <div className="bg-theme-card rounded-lg p-3 border border-theme/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <span className="font-semibold text-theme-primary text-sm">Wachstum (20%)</span>
+                </div>
+                <p className="text-xs text-theme-muted">
+                  Umsatz- und Gewinnwachstum, Expansion
+                </p>
+              </div>
+
+              <div className="bg-theme-card rounded-lg p-3 border border-theme/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                  <span className="font-semibold text-theme-primary text-sm">Bewertung (20%)</span>
+                </div>
+                <p className="text-xs text-theme-muted">
+                  KGV, KBV, PEG im Branchenvergleich
+                </p>
+              </div>
+
+              <div className="bg-theme-card rounded-lg p-3 border border-theme/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+                  <span className="font-semibold text-theme-primary text-sm">Momentum (15%)</span>
+                </div>
+                <p className="text-xs text-theme-muted">
+                  Kursentwicklung, Volumen-Trends
+                </p>
+              </div>
+
+              <div className="bg-theme-card rounded-lg p-3 border border-theme/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
+                  <span className="font-semibold text-theme-primary text-sm">Qualität (10%)</span>
+                </div>
+                <p className="text-xs text-theme-muted">
+                  ROA, Free Cash Flow, Dividendenstabilität
+                </p>
+              </div>
+
+              <div className="bg-theme-card rounded-lg p-3 border border-theme/10">
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="w-2 h-2 bg-cyan-400 rounded-full"></div>
+                  <span className="font-semibold text-theme-primary text-sm">Sicherheit (10%)</span>
+                </div>
+                <p className="text-xs text-theme-muted">
+                  Liquidität, Verschuldungsgrad, Stabilität
+                </p>
+              </div>
+            </div>
+
+            <p className="text-sm text-theme-muted">
+              <strong>Aktualisierung:</strong> Scores werden quartalsweise auf Basis der neuesten Geschäftsdaten berechnet. 
+              Alle Bewertungen sind automatisiert und objektiv basierend auf quantitativen Metriken.
+            </p>
           </div>
         </div>
       </div>
