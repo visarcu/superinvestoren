@@ -305,7 +305,7 @@ export default function ETFScreenerPage() {
               placeholder="Suche nach Symbol oder Namen..."
               value={filters.search}
               onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-              className="w-full pl-10 pr-4 py-3 bg-theme-card border border-theme/20 rounded-lg text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50 transition-all"
             />
           </div>
 
@@ -318,7 +318,7 @@ export default function ETFScreenerPage() {
               <select
                 value={filters.assetClass}
                 onChange={(e) => setFilters(prev => ({ ...prev, assetClass: e.target.value }))}
-                className="w-full px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
               >
                 <option value="">Alle</option>
                 {uniqueAssetClasses.map(ac => (
@@ -333,7 +333,7 @@ export default function ETFScreenerPage() {
               <select
                 value={filters.issuer}
                 onChange={(e) => setFilters(prev => ({ ...prev, issuer: e.target.value }))}
-                className="w-full px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
               >
                 <option value="">Alle</option>
                 {uniqueIssuers.map(issuer => (
@@ -370,7 +370,7 @@ export default function ETFScreenerPage() {
               <select
                 value={filters.category}
                 onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
               >
                 <option value="">Alle</option>
                 {uniqueCategories.map(cat => (
@@ -384,7 +384,7 @@ export default function ETFScreenerPage() {
           <div className="flex items-center justify-between">
             <button
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-              className="flex items-center gap-2 px-4 py-2 bg-theme-secondary/20 text-theme-secondary rounded-lg hover:bg-theme-secondary/30 transition-colors"
+              className="flex items-center gap-2 px-4 py-2 bg-black/20 dark:bg-white/5 text-theme-secondary rounded-lg hover:bg-black/30 hover:dark:bg-white/10 border border-theme/30 hover:border-theme/40 transition-all"
             >
               <AdjustmentsHorizontalIcon className="w-4 h-4" />
               Erweiterte Filter
@@ -417,7 +417,7 @@ export default function ETFScreenerPage() {
                         ...prev, 
                         priceRange: [parseFloat(e.target.value) || 0, prev.priceRange[1]] 
                       }))}
-                      className="w-full px-2 py-1 bg-theme-card border border-theme/20 rounded text-sm"
+                      className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-green-500/30"
                     />
                     <span className="text-theme-tertiary">-</span>
                     <input
@@ -428,7 +428,7 @@ export default function ETFScreenerPage() {
                         ...prev, 
                         priceRange: [prev.priceRange[0], parseFloat(e.target.value) || 1000] 
                       }))}
-                      className="w-full px-2 py-1 bg-theme-card border border-theme/20 rounded text-sm"
+                      className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-green-500/30"
                     />
                   </div>
                 </div>
@@ -439,7 +439,7 @@ export default function ETFScreenerPage() {
                   <select
                     value={filters.exchange}
                     onChange={(e) => setFilters(prev => ({ ...prev, exchange: e.target.value }))}
-                    className="w-full px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                    className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
                   >
                     <option value="">Alle</option>
                     {uniqueExchanges.map(ex => (
@@ -626,14 +626,14 @@ export default function ETFScreenerPage() {
                   <button
                     onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                     disabled={currentPage === 1}
-                    className="px-3 py-1 bg-theme-secondary/20 text-theme-secondary rounded-md hover:bg-theme-secondary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-3 py-1 bg-black/20 dark:bg-white/5 text-theme-secondary rounded-md hover:bg-black/30 hover:dark:bg-white/10 border border-theme/30 hover:border-theme/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     Zurück
                   </button>
                   <button
                     onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                     disabled={currentPage === totalPages}
-                    className="px-3 py-1 bg-theme-secondary/20 text-theme-secondary rounded-md hover:bg-theme-secondary/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    className="px-3 py-1 bg-black/20 dark:bg-white/5 text-theme-secondary rounded-md hover:bg-black/30 hover:dark:bg-white/10 border border-theme/30 hover:border-theme/40 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
                   >
                     Weiter
                   </button>
