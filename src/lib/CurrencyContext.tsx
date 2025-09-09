@@ -3,7 +3,7 @@
 
 import React, { createContext, useContext, useState, ReactNode } from 'react'
 
-type Currency = 'USD' | 'EUR'
+type Currency = 'USD' | 'EUR' | 'GBP' | 'JPY' | 'CHF' | 'CAD' | 'AUD'
 type FinancialUnit = 'millions' | 'billions' | 'auto'
 
 interface CurrencyContextType {
@@ -28,6 +28,50 @@ interface CurrencyContextType {
   formatPercentage: (value: number, showSign?: boolean) => string
   formatMarketCap: (value: number) => string // NEU: Für Marktkapitalisierung
   formatShares: (value: number) => string // NEU: Für Aktienanzahl (ohne Währung)
+  
+  // Neue Hilfsfunktionen
+  getCurrencySymbol: (currency: Currency) => string
+  detectCurrencyFromTicker: (ticker: string) => Currency
+  detectCurrencyFromAPI: (reportedCurrency?: string) => Currency
+}
+
+// Neue Funktion für Währungssymbole
+const getCurrencySymbol = (currency: Currency): string => {
+  const symbols = {
+    'USD': '$',
+    'EUR': '€',
+    'GBP': '£',
+    'JPY': '¥',
+    'CHF': 'CHF',
+    'CAD': 'C$',
+    'AUD': 'A$'
+  }
+  return symbols[currency] || currency
+}
+
+// Ticker-basierte Währungserkennung (Fallback)
+const detectCurrencyFromTicker = (ticker: string): Currency => {
+  if (ticker.match(/\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/)) return 'EUR'
+  if (ticker.endsWith('.L')) return 'EUR' // Unilever etc. berichten in EUR
+  if (ticker.endsWith('.TO')) return 'CAD'
+  if (ticker.endsWith('.T')) return 'JPY'
+  if (ticker.endsWith('.SW') || ticker.endsWith('.S')) return 'CHF'
+  if (ticker.endsWith('.AX')) return 'AUD'
+  return 'USD'
+}
+
+// API-basierte Währungserkennung (Priorität)
+const detectCurrencyFromAPI = (reportedCurrency?: string): Currency => {
+  const currencyMap: Record<string, Currency> = {
+    'USD': 'USD',
+    'EUR': 'EUR',
+    'GBP': 'GBP',
+    'JPY': 'JPY',
+    'CHF': 'CHF',
+    'CAD': 'CAD',
+    'AUD': 'AUD'
+  }
+  return (reportedCurrency && currencyMap[reportedCurrency]) || 'USD'
 }
 
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined)
@@ -53,27 +97,27 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
       return `${(amount / 1e12).toLocaleString('de-DE', {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1
-      })} Bio. ${currency === 'USD' ? '$' : '€'}`
+      })} Bio. ${getCurrencySymbol(currency)}`
     } else if (absAmount >= 1e9) {
       // Milliarden (deutsch) = Billions (englisch)
       return `${(amount / 1e9).toLocaleString('de-DE', {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1
-      })} Mrd. ${currency === 'USD' ? '$' : '€'}`
+      })} Mrd. ${getCurrencySymbol(currency)}`
     } else if (absAmount >= 1e6) {
       // Millionen
       return `${(amount / 1e6).toLocaleString('de-DE', {
         minimumFractionDigits: 1,
         maximumFractionDigits: 1
-      })} Mio. ${currency === 'USD' ? '$' : '€'}`
+      })} Mio. ${getCurrencySymbol(currency)}`
     }
     
     // Normale Beträge
     return new Intl.NumberFormat('de-DE', {
       style: 'currency',
       currency: currency,
-      minimumFractionDigits: 0,
-      maximumFractionDigits: currency === 'USD' ? 0 : 2,
+      minimumFractionDigits: currency === 'JPY' ? 0 : 0,
+      maximumFractionDigits: currency === 'JPY' ? 0 : 2,
     }).format(amount)
   }
 
@@ -187,13 +231,13 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     
     // Deutsche Formatierung mit Komma als Dezimaltrennzeichen
     const formatted = new Intl.NumberFormat('de-DE', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
+      minimumFractionDigits: currency === 'JPY' ? 0 : 2,
+      maximumFractionDigits: currency === 'JPY' ? 0 : 2,
     }).format(price)
     
     if (showCurrency) {
       // Währungssymbol hinten (deutsche Konvention)
-      return currency === 'USD' ? `${formatted} $` : `${formatted} €`
+      return `${formatted} ${getCurrencySymbol(currency)}`
     }
     
     return formatted
@@ -217,7 +261,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
     if (!value && value !== 0) return '–'
     
     const absValue = Math.abs(value)
-    const currencySymbol = currency === 'USD' ? '$' : '€'
+    const currencySymbol = getCurrencySymbol(currency)
     
     if (absValue >= 1e12) {
       // Billionen (deutsch) = Trillions (englisch)
@@ -268,6 +312,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
         formatPercentage,
         formatMarketCap,
         formatShares,
+        getCurrencySymbol,
+        detectCurrencyFromTicker,
+        detectCurrencyFromAPI,
       }}
     >
       {children}

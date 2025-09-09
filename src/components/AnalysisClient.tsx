@@ -172,7 +172,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     formatPercentage, 
     formatMarketCap,
     formatAxisValueDE,
-    setCurrency 
+    setCurrency,
+    detectCurrencyFromTicker 
   } = useCurrency()
   
   const stock = stocks.find((s) => s.ticker === ticker)
@@ -309,13 +310,15 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
   // Automatische Währungserkennung basierend auf Ticker
   useEffect(() => {
-    // Automatische Währungserkennung basierend auf Ticker
-    if (ticker?.endsWith('.DE')) {
-      setCurrency('EUR')
-    } else {
-      setCurrency('USD')
-    }
-  }, [ticker, setCurrency])
+    // Einfache Ticker-basierte Erkennung als Sofort-Lösung
+    const detectedCurrency = detectCurrencyFromTicker(ticker)
+    setCurrency(detectedCurrency)
+    
+    // TODO: Später aus API-Response nehmen:
+    // if (stockData?.reportedCurrency) {
+    //   setCurrency(detectCurrencyFromAPI(stockData.reportedCurrency))
+    // }
+  }, [ticker, setCurrency, detectCurrencyFromTicker])
 
   // Forward P/E Berechnung - MEMOIZED
   const forwardPECalculated = useMemo(() => {
