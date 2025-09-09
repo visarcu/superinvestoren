@@ -6,11 +6,11 @@ import {
   ChartPieIcon,
   GlobeAltIcon,
   BuildingOfficeIcon,
-  CurrencyDollarIcon,
   CurrencyEuroIcon,
   ScaleIcon,
   ArrowPathIcon,
-  SparklesIcon
+  SparklesIcon,
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 import { 
   getStockProfiles,
@@ -107,13 +107,13 @@ export default function PortfolioBreakdownsDE({
   cashPosition,
   currency = 'EUR'
 }: PortfolioBreakdownsDEProps) {
-  const { formatCurrency, formatPercentage } = useCurrency()
+  const { formatCurrency } = useCurrency()
   const [activeBreakdown, setActiveBreakdown] = useState<'asset' | 'sector' | 'country' | 'currency' | 'cap'>('asset')
   const [loading, setLoading] = useState(true)
   const [profiles, setProfiles] = useState<Map<string, any>>(new Map())
   const [showAll, setShowAll] = useState(false)
   const [exchangeRate, setExchangeRate] = useState<number>(0.93) // USD to EUR
-  const [displayCurrency, setDisplayCurrency] = useState<'EUR' | 'USD'>(currency)
+  const [displayCurrency] = useState<'EUR' | 'USD'>(currency)
 
   useEffect(() => {
     loadData()
@@ -147,11 +147,29 @@ export default function PortfolioBreakdownsDE({
   }
 
   const formatValue = (value: number): string => {
-    const convertedValue = displayCurrency === 'EUR' ? value * exchangeRate : value
+    // Handle invalid values
+    if (!value || isNaN(value) || !isFinite(value)) {
+      const symbol = displayCurrency === 'EUR' ? '€' : '$'
+      return `${symbol}0,00`
+    }
+    
+    // Handle invalid exchange rate
+    const validExchangeRate = exchangeRate && !isNaN(exchangeRate) && isFinite(exchangeRate) ? exchangeRate : 0.93
+    const convertedValue = displayCurrency === 'EUR' ? value * validExchangeRate : value
+    
+    // Handle converted value edge cases
+    if (!convertedValue || isNaN(convertedValue) || !isFinite(convertedValue)) {
+      const symbol = displayCurrency === 'EUR' ? '€' : '$'
+      return `${symbol}0,00`
+    }
     
     // Nutze den CurrencyContext formatter wenn möglich
     if (formatCurrency) {
-      return formatCurrency(convertedValue)
+      try {
+        return formatCurrency(convertedValue)
+      } catch (error) {
+        console.warn('CurrencyContext formatCurrency error:', error)
+      }
     }
     
     // Fallback
@@ -181,34 +199,48 @@ export default function PortfolioBreakdownsDE({
         data = calculateCurrencyBreakdown(holdings, profiles, cashPosition)
         break
       case 'asset':
-        const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
+        const stockValue = holdings.reduce((sum, h) => {
+          const value = h.value && !isNaN(h.value) && isFinite(h.value) ? h.value : 0
+          return sum + value
+        }, 0)
+        const validCashPosition = cashPosition && !isNaN(cashPosition) && isFinite(cashPosition) ? cashPosition : 0
+        
         data = [
           {
             name: 'Aktien',
             value: stockValue,
-            holdings: holdings.map(h => h.symbol)
+            holdings: holdings.map(h => h.symbol).filter(Boolean)
           },
           {
             name: 'Bargeld',
-            value: cashPosition,
+            value: validCashPosition,
             holdings: ['EUR']
           }
-        ]
+        ].filter(item => item.value > 0)
         break
     }
 
-    // Berechne Prozentsätze
+    // Berechne Prozentsätze mit robuster Fehlerbehandlung
     const total = activeBreakdown === 'asset' || activeBreakdown === 'currency' 
       ? totalValue 
       : totalValue - cashPosition
 
-    return data.map(item => ({
-      name: translateName(item.sector || item.country || item.category || item.currency || item.name),
-      value: item.value,
-      valueEUR: item.value * exchangeRate,
-      percentage: (item.value / total) * 100,
-      holdings: item.holdings
-    })).sort((a, b) => b.value - a.value)
+    // Prevent division by zero
+    const validTotal = total && total > 0 ? total : 1
+    const validExchangeRate = exchangeRate && !isNaN(exchangeRate) && isFinite(exchangeRate) ? exchangeRate : 0.93
+
+    return data.map(item => {
+      // Validate item.value
+      const itemValue = item.value && !isNaN(item.value) && isFinite(item.value) ? item.value : 0
+      
+      return {
+        name: translateName(item.sector || item.country || item.category || item.currency || item.name),
+        value: itemValue,
+        valueEUR: itemValue * validExchangeRate,
+        percentage: (itemValue / validTotal) * 100,
+        holdings: item.holdings || []
+      }
+    }).filter(item => item.value > 0).sort((a, b) => b.value - a.value)
   }
 
   const translateName = (name: string): string => {
@@ -299,7 +331,7 @@ export default function PortfolioBreakdownsDE({
 
   return (
     <div className="space-y-6">
-      {/* Währungsumschalter - Entfernt, da im Dashboard bereits vorhanden */}
+      {/* Header Section */}
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-semibold text-theme-primary">Portfolio-Aufschlüsselung</h2>
       </div>
@@ -386,7 +418,7 @@ export default function PortfolioBreakdownsDE({
                     {item.name}
                   </span>
                   <span className="font-semibold text-theme-primary">
-                    {item.percentage.toFixed(1)}%
+                    {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage) ? item.percentage.toFixed(1) : '0.0'}%
                   </span>
                 </div>
                 <div className="relative h-8 bg-theme-secondary/30 rounded-lg overflow-hidden">
@@ -430,7 +462,7 @@ export default function PortfolioBreakdownsDE({
             <div>
               <p className="text-xs text-theme-muted">Größte Position</p>
               <p className="text-lg font-semibold text-green-400">
-                {breakdownData[0]?.percentage.toFixed(1)}%
+                {breakdownData[0]?.percentage && !isNaN(breakdownData[0].percentage) && isFinite(breakdownData[0].percentage) ? breakdownData[0].percentage.toFixed(1) : '0.0'}%
               </p>
             </div>
           </div>
@@ -468,7 +500,7 @@ export default function PortfolioBreakdownsDE({
                       {formatValue(item.value)}
                     </p>
                     <p className="text-sm text-green-400">
-                      {item.percentage.toFixed(2)}%
+                      {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage) ? item.percentage.toFixed(2) : '0.00'}%
                     </p>
                   </div>
                 </div>
@@ -492,8 +524,8 @@ export default function PortfolioBreakdownsDE({
         </div>
       </div>
 
-      {/* Dynamic Insights - DEUTSCH */}
-      <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-xl p-6 border border-theme/10">
+      {/* Portfolio Insights */}
+      <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
         <div className="flex items-start gap-3">
           <SparklesIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
           <div>
@@ -502,7 +534,7 @@ export default function PortfolioBreakdownsDE({
             </h4>
             <p className="text-sm text-theme-secondary">
               {activeBreakdown === 'sector' && breakdownData[0] && 
-                `Ihr Portfolio hat ${breakdownData[0].percentage.toFixed(1)}% Exposure in ${breakdownData[0].name}. ${
+                `Ihr Portfolio hat ${breakdownData[0].percentage && !isNaN(breakdownData[0].percentage) ? breakdownData[0].percentage.toFixed(1) : '0.0'}% Exposure in ${breakdownData[0].name}. ${
                   breakdownData[0].percentage > 40 
                     ? 'Erwägen Sie eine Diversifizierung zur Risikominderung.'
                     : breakdownData.length < 5
@@ -511,15 +543,15 @@ export default function PortfolioBreakdownsDE({
                 }`}
               {activeBreakdown === 'country' && 
                 `Geografische Verteilung über ${breakdownData.length} ${breakdownData.length === 1 ? 'Land' : 'Länder'}. ${
-                  breakdownData[0]?.percentage > 80 
+                  breakdownData[0]?.percentage && !isNaN(breakdownData[0].percentage) && breakdownData[0].percentage > 80 
                     ? 'Erwägen Sie mehr internationale Diversifikation.'
                     : 'Gut diversifizierte geografische Allokation.'
                 }`}
               {activeBreakdown === 'asset' && 
-                `Bargeldanteil: ${(cashPosition / totalValue * 100).toFixed(1)}%. ${
-                  cashPosition / totalValue > 0.3 
+                `Bargeldanteil: ${totalValue && totalValue > 0 ? (cashPosition / totalValue * 100).toFixed(1) : '0.0'}%. ${
+                  totalValue > 0 && cashPosition / totalValue > 0.3 
                     ? 'Hohe Bargeldposition - erwägen Sie mehr Investitionen für bessere Renditen.'
-                    : cashPosition / totalValue < 0.05
+                    : totalValue > 0 && cashPosition / totalValue < 0.05
                     ? 'Niedrige Barreserve - halten Sie etwas Bargeld für Gelegenheiten bereit.'
                     : 'Ausgewogene Bargeldposition für Flexibilität.'
                 }`}
@@ -532,17 +564,35 @@ export default function PortfolioBreakdownsDE({
               {activeBreakdown === 'currency' && 
                 `Währungsexposure über ${breakdownData.length} ${breakdownData.length === 1 ? 'Währung' : 'Währungen'}. ${
                   breakdownData.find(d => d.name !== 'EUR' && d.name !== 'USD')
-                    ? `Fremdwährungsrisiko: ${breakdownData.filter(d => d.name !== 'EUR').reduce((sum, d) => sum + d.percentage, 0).toFixed(1)}%.`
+                    ? `Fremdwährungsrisiko: ${breakdownData.filter(d => d.name !== 'EUR').reduce((sum, d) => {
+                        const percentage = d.percentage && !isNaN(d.percentage) && isFinite(d.percentage) ? d.percentage : 0
+                        return sum + percentage
+                      }, 0).toFixed(1)}%.`
                     : 'Hauptsächlich EUR/USD Exposure - geringes Währungsrisiko.'
                 }`}
             </p>
             
             {/* Wechselkurs Info */}
-            {displayCurrency === 'EUR' && (
+            {displayCurrency === 'EUR' && exchangeRate && (
               <p className="text-xs text-theme-muted mt-2">
                 Aktueller Wechselkurs: 1 USD = {exchangeRate.toFixed(4)} EUR
               </p>
             )}
+            
+            {/* Wichtiger Disclaimer */}
+            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
+              <div className="flex items-start gap-2">
+                <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
+                <div>
+                  <p className="text-xs font-medium text-yellow-600 mb-1">Wichtiger Hinweis</p>
+                  <p className="text-xs text-theme-secondary leading-relaxed">
+                    Die hier dargestellten Analysen und Empfehlungen dienen nur zu Informationszwecken und stellen keine Anlageberatung dar. 
+                    Investmententscheidungen sollten immer auf Ihrer eigenen Recherche und Risikoeinschätzung basieren. 
+                    Vergangene Performance ist kein Indikator für zukünftige Ergebnisse.
+                  </p>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
