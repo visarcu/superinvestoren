@@ -124,20 +124,41 @@ export default function PortfolioPage() {
 
       if (portfolioError) throw portfolioError
 
-      // 2. Wenn Simple Setup und Positionen vorhanden
+      // 2. Wenn Simple Setup und Positionen vorhanden - MIT WÄHRUNGSKONVERTIERUNG
       if (setupMethod === 'simple' && positions.some(p => p.symbol)) {
-        const validPositions = positions
-          .filter(p => p.symbol && p.quantity > 0)
-          .map(p => ({
-            portfolio_id: portfolio.id,
-            symbol: p.symbol.toUpperCase(),
-            name: p.name || p.symbol,
-            quantity: p.quantity,
-            purchase_price: p.purchasePrice,
-            purchase_date: p.purchaseDate || new Date().toISOString().split('T')[0]
-          }))
+        // Import Currency Manager
+        const { currencyManager } = await import('@/lib/portfolioCurrency')
+        
+        const validPositions = await Promise.all(
+          positions
+            .filter(p => p.symbol && p.quantity > 0)
+            .map(async (p) => {
+              // Konvertiere Preis zu USD für konsistente DB-Speicherung
+              const conversionResult = await currencyManager.convertNewPositionToUSD(
+                p.purchasePrice,
+                currency as 'USD' | 'EUR',
+                p.purchaseDate || new Date().toISOString().split('T')[0]
+              )
+              
+              return {
+                portfolio_id: portfolio.id,
+                symbol: p.symbol.toUpperCase(),
+                name: p.name || p.symbol,
+                quantity: p.quantity,
+                // USD Preis für DB (konsistente Basis)
+                purchase_price: conversionResult.priceUSD,
+                purchase_date: p.purchaseDate || new Date().toISOString().split('T')[0],
+                // Neue Währungsfelder
+                purchase_currency: currency,
+                purchase_exchange_rate: conversionResult.exchangeRate,
+                purchase_price_original: p.purchasePrice,
+                currency_metadata: conversionResult.metadata
+              }
+            })
+        )
 
         if (validPositions.length > 0) {
+          console.log(`💾 Saving ${validPositions.length} positions with currency awareness`)
           const { error: holdingsError } = await supabase
             .from('portfolio_holdings')
             .insert(validPositions)

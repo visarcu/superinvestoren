@@ -113,6 +113,10 @@ export default function PortfolioDashboard() {
   const [positionType, setPositionType] = useState<'stock' | 'cash'>('stock')
   const [cashAmount, setCashAmount] = useState('')
   
+  // Neue Form-States für Währung und Gebühren
+  const [purchaseCurrency, setPurchaseCurrency] = useState<'EUR' | 'USD'>('EUR') // EUR als Standard
+  const [transactionFees, setTransactionFees] = useState('')
+  
   // Autocomplete State
   const [searchQuery, setSearchQuery] = useState('')
   const [searchResults, setSearchResults] = useState<SearchResult[]>([])
@@ -230,7 +234,7 @@ export default function PortfolioDashboard() {
         // Korrekte Währungskonvertierung mit Currency Manager
         enrichedHoldings = await currencyManager.convertHoldingsForDisplay(
           holdingsWithCurrentPrices,
-          currency,
+          currency as 'USD' | 'EUR', // Cast für currencyManager Kompatibilität
           true // includeHistoricalRates für präzise Performance
         )
       }
@@ -240,7 +244,7 @@ export default function PortfolioDashboard() {
       // Cash Position konvertieren
       const cashDisplay = await currencyManager.convertCashPosition(
         portfolioData.cash_position,
-        currency
+        currency as 'USD' | 'EUR' // Cast für currencyManager Kompatibilität
       )
       setCashPositionDisplay(cashDisplay)
       
@@ -328,10 +332,17 @@ export default function PortfolioDashboard() {
     
     try {
       if (positionType === 'stock') {
-        // Stock Position
+        // Stock Position mit Gebühren
+        const basePrice = parseFloat(newPurchasePrice)
+        const fees = parseFloat(transactionFees) || 0
+        const quantity = parseFloat(newQuantity)
+        
+        // Gebühren pro Aktie hinzufügen
+        const priceIncludingFees = basePrice + (fees / quantity)
+        
         const conversionResult = await currencyManager.convertNewPositionToUSD(
-          parseFloat(newPurchasePrice),
-          currency,
+          priceIncludingFees,
+          purchaseCurrency,
           newPurchaseDate
         )
         
@@ -341,12 +352,18 @@ export default function PortfolioDashboard() {
             portfolio_id: portfolio?.id,
             symbol: selectedStock?.symbol,
             name: selectedStock?.name,
-            quantity: parseFloat(newQuantity),
+            quantity: quantity,
             purchase_price: conversionResult.priceUSD,
             purchase_date: newPurchaseDate,
-            purchase_currency: currency,
+            purchase_currency: purchaseCurrency,
             purchase_exchange_rate: conversionResult.exchangeRate,
-            purchase_price_original: parseFloat(newPurchasePrice)
+            purchase_price_original: basePrice, // Originalpreis ohne Gebühren
+            currency_metadata: {
+              ...conversionResult.metadata,
+              transaction_fees: fees,
+              fees_currency: purchaseCurrency,
+              price_including_fees: priceIncludingFees
+            }
           })
 
         if (error) throw error
@@ -354,7 +371,7 @@ export default function PortfolioDashboard() {
         // Cash Position - update portfolio cash_position
         const conversionResult = await currencyManager.convertNewPositionToUSD(
           parseFloat(cashAmount),
-          currency
+          purchaseCurrency
         )
 
         // Add to existing cash position
@@ -390,6 +407,8 @@ export default function PortfolioDashboard() {
     setNewPurchaseDate(new Date().toISOString().split('T')[0])
     setCashAmount('')
     setPositionType('stock')
+    setPurchaseCurrency('EUR') // Reset zu EUR Standard
+    setTransactionFees('') // Reset Gebühren
     setShowAddPosition(false)
     setShowSearchResults(false)
   }
@@ -793,24 +812,107 @@ export default function PortfolioDashboard() {
                       />
                     </div>
 
+                    {/* Currency Selection */}
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-2">
+                        Kaufpreis-Währung
+                      </label>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => setPurchaseCurrency('EUR')}
+                          className={`flex-1 py-2 px-3 rounded-lg border transition-colors ${
+                            purchaseCurrency === 'EUR'
+                              ? 'border-green-400 bg-green-400/10 text-green-400'
+                              : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
+                          }`}
+                        >
+                          EUR €
+                        </button>
+                        <button
+                          onClick={() => setPurchaseCurrency('USD')}
+                          className={`flex-1 py-2 px-3 rounded-lg border transition-colors ${
+                            purchaseCurrency === 'USD'
+                              ? 'border-green-400 bg-green-400/10 text-green-400'
+                              : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
+                          }`}
+                        >
+                          USD $
+                        </button>
+                      </div>
+                    </div>
+
                     {/* Purchase Price Input */}
                     <div>
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Kaufpreis ({currency})
+                        Kaufpreis pro Aktie
                       </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={newPurchasePrice}
-                        onChange={(e) => setNewPurchasePrice(e.target.value)}
-                        placeholder={currency === 'EUR' ? "150,00" : "150.00"}
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
-                      />
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={newPurchasePrice}
+                          onChange={(e) => setNewPurchasePrice(e.target.value)}
+                          placeholder={purchaseCurrency === 'EUR' ? "150,00" : "150.00"}
+                          className="w-full px-3 py-2 pr-12 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        />
+                        <span className="absolute right-3 top-2 text-theme-muted text-sm">
+                          {purchaseCurrency === 'EUR' ? '€' : '$'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Transaction Fees */}
+                    <div>
+                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                        Gebühren (optional)
+                      </label>
+                      <div className="relative">
+                        <input
+                          type="number"
+                          min="0"
+                          step="0.01"
+                          value={transactionFees}
+                          onChange={(e) => setTransactionFees(e.target.value)}
+                          placeholder="0.00"
+                          className="w-full px-3 py-2 pr-12 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        />
+                        <span className="absolute right-3 top-2 text-theme-muted text-sm">
+                          {purchaseCurrency === 'EUR' ? '€' : '$'}
+                        </span>
+                      </div>
                       <p className="text-xs text-theme-muted mt-1">
-                        Preis pro Aktie in {currency} (wird automatisch für historische Performance konvertiert)
+                        Broker-Gebühren, Orderentgelt, etc.
                       </p>
                     </div>
+
+                    {/* Total Cost Display */}
+                    {newQuantity && newPurchasePrice && (
+                      <div className="bg-white/5 rounded-2xl p-4">
+                        <div className="space-y-2">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-theme-secondary">Aktien ({newQuantity}×)</span>
+                            <span className="text-theme-primary">
+                              {(parseFloat(newQuantity) * parseFloat(newPurchasePrice)).toFixed(2)} {purchaseCurrency}
+                            </span>
+                          </div>
+                          {transactionFees && parseFloat(transactionFees) > 0 && (
+                            <div className="flex justify-between text-sm">
+                              <span className="text-theme-secondary">Gebühren</span>
+                              <span className="text-theme-primary">
+                                {parseFloat(transactionFees).toFixed(2)} {purchaseCurrency}
+                              </span>
+                            </div>
+                          )}
+                          <div className="flex justify-between font-semibold border-t border-white/10 pt-2">
+                            <span className="text-white">Gesamtkosten</span>
+                            <span className="text-white">
+                              {((parseFloat(newQuantity) * parseFloat(newPurchasePrice)) + (parseFloat(transactionFees) || 0)).toFixed(2)} {purchaseCurrency}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    )}
 
                     {/* Purchase Date Input */}
                     <div>
@@ -1127,7 +1229,7 @@ export default function PortfolioDashboard() {
               }))}
               totalValue={totalValue}
               cashPosition={cashPositionDisplay}
-              currency={currency}
+              currency={currency as 'USD' | 'EUR'}
             />
             
             {/* Coming Soon für weitere Insights */}

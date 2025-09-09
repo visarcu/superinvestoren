@@ -81,6 +81,19 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
     const upcoming: DividendCalendarItem[] = []
     
     try {
+      // Echte Dividenden-Calendar API abrufen (kommende Termine)
+      console.log('🔍 Loading real dividend calendar data...')
+      const calendarResponse = await fetch(
+        `https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from=${new Date().toISOString().split('T')[0]}&to=${new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0]}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+      )
+      
+      let realUpcomingDividends = []
+      if (calendarResponse.ok) {
+        const calendarData = await calendarResponse.json()
+        console.log('📅 Real dividend calendar data:', calendarData)
+        realUpcomingDividends = calendarData || []
+      }
+
       for (const holding of holdings) {
         try {
           // Historical Dividends abrufen
@@ -93,15 +106,26 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
             if (histData.historical && histData.historical.length > 0) {
               divMap.set(holding.symbol, histData.historical)
               
-              // Berechne jährliche Dividende basierend auf den letzten 12 Monaten
+              const today = new Date()
               const twelveMonthsAgo = new Date()
               twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1)
               
-              const recentDividends = histData.historical.filter((d: DividendData) => 
+              // Trenne VERGANGENE und ZUKÜNFTIGE Dividenden
+              const pastDividends = histData.historical.filter((d: DividendData) => 
+                new Date(d.paymentDate) <= today
+              )
+              
+              const futureDividends = histData.historical.filter((d: DividendData) => 
+                new Date(d.paymentDate) > today
+              )
+              
+              console.log(`📊 ${holding.symbol}: ${pastDividends.length} past, ${futureDividends.length} future dividends`)
+              
+              const recentPastDividends = pastDividends.filter((d: DividendData) => 
                 new Date(d.date) > twelveMonthsAgo
               )
               
-              const annualDividendAmount = recentDividends.reduce((sum: number, d: DividendData) => 
+              const annualDividendAmount = recentPastDividends.reduce((sum: number, d: DividendData) => 
                 sum + d.adjDividend, 0
               )
               
@@ -111,12 +135,33 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
               
               const totalIncome = annualDividendAmount * holding.quantity
               
-              // Bestimme Payment Frequency
+              // Bestimme Payment Frequency basierend auf vergangenen Dividenden
               let frequency = 'N/A'
-              if (recentDividends.length >= 11) frequency = 'Monatlich'
-              else if (recentDividends.length >= 3) frequency = 'Vierteljährlich'
-              else if (recentDividends.length >= 2) frequency = 'Halbjährlich'
-              else if (recentDividends.length === 1) frequency = 'Jährlich'
+              if (recentPastDividends.length >= 11) frequency = 'Monatlich'
+              else if (recentPastDividends.length >= 3) frequency = 'Vierteljährlich'
+              else if (recentPastDividends.length >= 2) frequency = 'Halbjährlich'
+              else if (recentPastDividends.length === 1) frequency = 'Jährlich'
+              
+              // Bestimme ECHTE letzte und nächste Dividende
+              const lastPastDividend = pastDividends.length > 0 ? pastDividends[0] : null
+              const nextFutureDividend = futureDividends.length > 0 ? futureDividends[futureDividends.length - 1] : null // Sortierung ist absteigend, also letztes Element ist nächstes
+              
+              // Echte kommende Dividenden aus Calendar API prüfen
+              const realUpcoming = realUpcomingDividends.find((cal: any) => 
+                cal.symbol === holding.symbol
+              )
+              
+              // Bestimme nächstes Datum: API > Historisch-Future > Geschätzt
+              let nextPaymentDate = null
+              if (realUpcoming) {
+                nextPaymentDate = realUpcoming.date
+              } else if (nextFutureDividend) {
+                nextPaymentDate = nextFutureDividend.paymentDate
+                console.log(`🔮 Found future dividend for ${holding.symbol}: ${nextPaymentDate}`)
+              } else {
+                nextPaymentDate = estimateNextPaymentDate(pastDividends, frequency)
+                console.log(`📈 Estimated dividend for ${holding.symbol}: ${nextPaymentDate}`)
+              }
               
               annualDivs.push({
                 symbol: holding.symbol,
@@ -126,20 +171,44 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                 annualDividend: annualDividendAmount,
                 totalAnnualIncome: totalIncome,
                 paymentFrequency: frequency,
-                lastDividend: histData.historical[0]?.adjDividend || 0,
-                lastPaymentDate: histData.historical[0]?.paymentDate || '',
-                nextPaymentDate: estimateNextPaymentDate(histData.historical, frequency)
+                lastDividend: lastPastDividend?.adjDividend || 0,
+                lastPaymentDate: lastPastDividend?.paymentDate || '',
+                nextPaymentDate: nextPaymentDate
               })
               
-              // Upcoming Dividends (geschätzt basierend auf Historie)
-              const nextPayment = estimateNextPaymentDate(histData.historical, frequency)
-              if (nextPayment && new Date(nextPayment) > new Date()) {
+              // Kommende Dividenden für Calendar hinzufügen
+              if (realUpcoming) {
+                console.log(`📅 Found real upcoming dividend for ${holding.symbol}:`, realUpcoming)
                 upcoming.push({
-                  date: nextPayment,
+                  date: realUpcoming.date,
                   symbol: holding.symbol,
-                  adjDividend: histData.historical[0]?.adjDividend || 0,
-                  dividend: histData.historical[0]?.dividend || 0,
-                  paymentDate: nextPayment,
+                  adjDividend: realUpcoming.dividend || (lastPastDividend?.adjDividend || 0),
+                  dividend: realUpcoming.dividend || (lastPastDividend?.dividend || 0),
+                  paymentDate: realUpcoming.date,
+                  recordDate: realUpcoming.recordDate || '',
+                  declarationDate: realUpcoming.declarationDate || ''
+                })
+              } else if (nextFutureDividend) {
+                // Verwende echte zukünftige Dividende aus historischen Daten
+                console.log(`🔮 Using future historical dividend for ${holding.symbol}: ${nextFutureDividend.paymentDate}`)
+                upcoming.push({
+                  date: nextFutureDividend.paymentDate,
+                  symbol: holding.symbol,
+                  adjDividend: nextFutureDividend.adjDividend,
+                  dividend: nextFutureDividend.dividend,
+                  paymentDate: nextFutureDividend.paymentDate,
+                  recordDate: nextFutureDividend.recordDate || '',
+                  declarationDate: nextFutureDividend.declarationDate || ''
+                })
+              } else if (nextPaymentDate && new Date(nextPaymentDate) > new Date()) {
+                // Fallback: Geschätzte Dividenden nur wenn keine echten Daten
+                console.log(`⚠️ Using estimated dividend for ${holding.symbol}: ${nextPaymentDate}`)
+                upcoming.push({
+                  date: nextPaymentDate,
+                  symbol: holding.symbol,
+                  adjDividend: lastPastDividend?.adjDividend || 0,
+                  dividend: lastPastDividend?.dividend || 0,
+                  paymentDate: nextPaymentDate,
                   recordDate: '',
                   declarationDate: ''
                 })
@@ -176,6 +245,33 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
   const estimateNextPaymentDate = (historical: DividendData[], frequency: string): string | undefined => {
     if (!historical || historical.length < 2) return undefined
     
+    // Schaue nach dem Pattern der letzten 4 Zahlungen
+    const recentPayments = historical.slice(0, 4).map(h => new Date(h.paymentDate))
+    
+    // Für bessere Schätzung: Berechne durchschnittliches Intervall
+    if (recentPayments.length >= 2) {
+      const intervals = []
+      for (let i = 1; i < recentPayments.length; i++) {
+        const diff = recentPayments[i-1].getTime() - recentPayments[i].getTime()
+        intervals.push(diff)
+      }
+      
+      // Durchschnittliches Intervall in Tagen
+      const avgInterval = intervals.reduce((sum, int) => sum + int, 0) / intervals.length
+      const avgIntervalDays = avgInterval / (1000 * 60 * 60 * 24)
+      
+      console.log(`📊 ${historical[0]?.symbol || 'Stock'} payment pattern: avg ${Math.round(avgIntervalDays)} days`)
+      
+      // Nächste Zahlung basierend auf durchschnittlichem Intervall
+      const nextPayment = new Date(recentPayments[0].getTime() + avgInterval)
+      
+      // Sicherstellen, dass es in der Zukunft liegt
+      if (nextPayment > new Date()) {
+        return nextPayment.toISOString().split('T')[0]
+      }
+    }
+    
+    // Fallback: Einfaches Intervall basierend auf Frequenz
     const lastPayment = new Date(historical[0].paymentDate)
     let nextPayment = new Date(lastPayment)
     

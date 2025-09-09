@@ -77,7 +77,7 @@ const detectCurrencyFromAPI = (reportedCurrency?: string): Currency => {
 const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined)
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
-  const [currency, setCurrency] = useState<Currency>('USD')
+  const [currency, setCurrency] = useState<Currency>('EUR') // EUR als Standard für deutsche Nutzer
   const [financialUnit, setFinancialUnit] = useState<FinancialUnit>('auto')
 
   // ✅ Formatierung für Währungsbeträge - MIT DEUTSCHER FORMATIERUNG

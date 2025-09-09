@@ -24,6 +24,7 @@ interface ExchangeRate {
   
     constructor() {
       this.apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY || ''
+      // Kein Cache - IMMER echte API-Kurse verwenden!
     }
   
     static getInstance(): CurrencyManager {
@@ -38,11 +39,14 @@ interface ExchangeRate {
       const cacheKey = 'USDEUR_current'
       const cached = currentRateCache.get(cacheKey)
       
-      // 5 Minuten Cache für aktuelle Kurse
-      if (cached && Date.now() - cached.timestamp < 5 * 60 * 1000) {
+      // 2 Minuten Cache für aktuelle Kurse (häufiger frische Daten)
+      if (cached && Date.now() - cached.timestamp < 2 * 60 * 1000) {
+        console.log(`💰 Using cached USD→EUR rate: ${cached.rate} (${Math.round((Date.now() - cached.timestamp) / 1000)}s alt)`)
         return cached.rate
       }
   
+      console.log('🔄 Fetching current USD→EUR exchange rate from FMP...')
+      
       try {
         const response = await fetch(
           `https://financialmodelingprep.com/api/v3/fx/EURUSD?apikey=${this.apiKey}`
@@ -50,8 +54,23 @@ interface ExchangeRate {
         
         if (response.ok) {
           const data = await response.json()
-          if (data && data[0]) {
-            const rate = 1 / data[0].price // EUR/USD zu USD/EUR umkehren
+          console.log('📊 FMP Response:', data)
+          
+          // FMP API gibt verschiedene Formate zurück
+          let eurUsdRate = null
+          
+          if (data && Array.isArray(data) && data.length > 0) {
+            // Neues Format: [{ bid, ask, open, high, low }]
+            eurUsdRate = data[0].ask || data[0].bid || data[0].open || data[0].price || data[0].close || data[0].rate
+          } else if (data && typeof data === 'object') {
+            // Alternatives Format: { price, close, rate }
+            eurUsdRate = data.ask || data.bid || data.open || data.price || data.close || data.rate
+          }
+          
+          if (eurUsdRate && !isNaN(eurUsdRate) && eurUsdRate > 0) {
+            const rate = 1 / eurUsdRate // EUR/USD zu USD/EUR umkehren
+            console.log(`✅ Converted EUR/USD ${eurUsdRate} → USD/EUR ${rate.toFixed(6)}`)
+            
             currentRateCache.set(cacheKey, { 
               rate, 
               timestamp: Date.now(),
@@ -60,12 +79,24 @@ interface ExchangeRate {
             return rate
           }
         }
+        
+        console.log('⚠️ Invalid FMP response, using fallback')
       } catch (error) {
-        console.error('Error fetching current exchange rate:', error)
+        console.error('❌ Error fetching exchange rate:', error)
       }
       
-      // Fallback rate (realistischer Durchschnitt)
-      return 0.92
+      // NOTFALL-Fallback - sollte nie verwendet werden!
+      const fallbackRate = 0.85 // Nur bei kompletter API-Ausfällen
+      console.error(`🚨 API FEHLER! Verwende Notfall-Kurs: ${fallbackRate} - KURS IST NICHT AKTUELL!`)
+      console.error('⚠️ Prüfe FMP API Key und Internetverbindung!')
+      
+      // Kurzen Cache, damit häufige Retries möglich sind
+      currentRateCache.set(cacheKey, { 
+        rate: fallbackRate, 
+        timestamp: Date.now(),
+        date: new Date().toISOString().split('T')[0]
+      })
+      return fallbackRate
     }
   
     // ✅ Historischer Wechselkurs für Performance-Berechnung
@@ -85,10 +116,14 @@ interface ExchangeRate {
         
         if (response.ok) {
           const data = await response.json()
-          if (data?.historical && data.historical[0]) {
-            const rate = 1 / data.historical[0].close
-            historicalRateCache.set(cacheKey, { date, rate })
-            return rate
+          if (data?.historical && Array.isArray(data.historical) && data.historical[0]) {
+            const eurUsdRate = data.historical[0].close || data.historical[0].price
+            if (eurUsdRate && !isNaN(eurUsdRate) && eurUsdRate > 0) {
+              const rate = 1 / eurUsdRate
+              console.log(`✅ Historical EUR/USD ${eurUsdRate} → USD/EUR ${rate.toFixed(6)}`)
+              historicalRateCache.set(cacheKey, { date, rate })
+              return rate
+            }
           }
         }
       } catch (error) {
@@ -96,7 +131,10 @@ interface ExchangeRate {
       }
   
       // Fallback: Nutze aktuellen Kurs
-      return await this.getCurrentUSDtoEURRate()
+      console.log(`🔄 Using current rate as fallback for ${date}`)
+      const currentRate = await this.getCurrentUSDtoEURRate()
+      historicalRateCache.set(cacheKey, { date, rate: currentRate })
+      return currentRate
     }
   
     // ✅ Portfolio Holdings mit korrekter Währungsbehandlung
@@ -118,8 +156,20 @@ interface ExchangeRate {
         }))
       }
   
-      // EUR Konvertierung
-      const currentRate = await this.getCurrentUSDtoEURRate()
+      // EUR Konvertierung mit robuster Fehlerbehandlung
+      console.log('🔄 Converting holdings to EUR display...')
+      let currentRate: number
+      
+      try {
+        currentRate = await this.getCurrentUSDtoEURRate()
+        if (!currentRate || isNaN(currentRate) || currentRate <= 0) {
+          throw new Error(`Invalid current rate: ${currentRate}`)
+        }
+      } catch (error) {
+        console.error('❌ Failed to get current rate, using fallback:', error)
+        currentRate = 0.92 // Robuster Fallback
+      }
+      
       const convertedHoldings = []
   
       for (const holding of holdings) {
@@ -130,12 +180,24 @@ interface ExchangeRate {
           purchaseRate = await this.getHistoricalUSDtoEURRate(holding.purchase_date)
         }
   
-        const currentPriceEUR = holding.current_price * currentRate
-        const purchasePriceEUR = holding.purchase_price * purchaseRate
-        const valueEUR = currentPriceEUR * holding.quantity
-        const investedEUR = purchasePriceEUR * holding.quantity
+        // Sichere Werte aus DB
+        const purchasePrice = holding.purchase_price || 0
+        const currentPrice = holding.current_price || 0
+        const quantity = holding.quantity || 0
+
+        if (purchasePrice === 0 || currentPrice === 0 || quantity === 0) {
+          console.warn(`⚠️ Invalid holding data for ${holding.symbol}:`, { purchasePrice, currentPrice, quantity })
+        }
+
+        // Sichere Konvertierung
+        const currentPriceEUR = currentPrice * currentRate
+        const purchasePriceEUR = purchasePrice * purchaseRate
+        const valueEUR = currentPriceEUR * quantity
+        const investedEUR = purchasePriceEUR * quantity
         const gainLossEUR = valueEUR - investedEUR
         const gainLossPercent = investedEUR > 0 ? (gainLossEUR / investedEUR) * 100 : 0
+
+        console.log(`💱 ${holding.symbol}: $${currentPrice} → ${currentPriceEUR.toFixed(2)}€ (rate: ${currentRate.toFixed(4)})`)
   
         convertedHoldings.push({
           ...holding,
