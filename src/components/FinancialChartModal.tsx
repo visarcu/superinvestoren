@@ -127,11 +127,11 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
 
     const cutoffYear = 2005
     const currentYear = new Date().getFullYear()
+    // ✅ FIX: Für Quartalsdaten auch aktuelles Jahr einschließen, für jährliche nur bis Vorjahr
+    const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
     
     const filteredIncomeData = incomeData.filter((item: any) => {
       const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
-      // ✅ FIX: Für Quartalsdaten auch aktuelles Jahr einschließen, für jährliche nur bis Vorjahr
-      const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
       return year >= cutoffYear && year <= maxYear
     })
 
