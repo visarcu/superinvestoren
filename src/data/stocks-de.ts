@@ -1,10 +1,4 @@
-export interface Stock {
-  ticker: string
-  cusip:  string
-  name:   string
-  sector: string
-  metrics: any[]
-}
+import type { Stock } from './stocks'  // type Import!
 
 export const stocks: Stock[] = [
   {

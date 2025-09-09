@@ -40,7 +40,7 @@ import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import { useExchangeRate } from '@/hooks/useExchangeRate'
-import CurrencySelector from '@/components/CurrencySelector'
+
 import LearnSidebar from '@/components/LearnSidebar'
 import NotificationCenter from '@/components/NotificationCenter'
 import Logo from '@/components/Logo'
@@ -1043,7 +1043,7 @@ function LayoutContent({ children }: LayoutProps) {
             <GlobalLearnToggle />
             <NotificationCenter />
             
-            <CurrencySelector />
+         {/*   <CurrencySelector /> */}
             
             <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 bg-theme-tertiary/30 rounded-lg">
               <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-green-400' : 'text-red-400'}`} />
