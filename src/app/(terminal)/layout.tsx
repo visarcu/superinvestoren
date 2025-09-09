@@ -581,42 +581,14 @@ const CommandPalette = React.memo(({
         </div>
 
         <div className="max-h-72 overflow-y-auto">
-          {/* AI Quick Action - Immer oben wenn Query vorhanden */}
-          {query.length > 3 && (
-            <div className="p-1.5 border-b border-theme">
-              <div className="px-2 py-1 text-xs text-theme-muted font-medium uppercase tracking-wide">
-                AI ASSISTENT
-              </div>
-              <button
-                onClick={() => handleSelect({ 
-                  id: 'ai-query', 
-                  title: `"${query}" mit FinClue AI analysieren`, 
-                  subtitle: 'Premium Feature', 
-                  icon: SparklesIcon, 
-                  href: `/analyse/finclue-ai?query=${encodeURIComponent(query)}`, 
-                  category: 'actions' 
-                })}
-                className="w-full flex items-center gap-2 px-2 py-2 rounded-md hover:bg-green-500/10 transition-all text-left group"
-              >
-                <div className="w-6 h-6 bg-green-500/20 rounded-md flex items-center justify-center group-hover:bg-green-500/30 transition-colors">
-                  <SparklesIcon className="w-3 h-3 text-green-400 group-hover:text-green-300 transition-colors" />
-                </div>
-                <div className="flex-1">
-                  <div className="text-theme-primary text-sm font-medium">"{query}" mit AI analysieren</div>
-                  <div className="text-green-400 text-xs">Premium Feature</div>
-                </div>
-                <ChevronRightIcon className="w-3 h-3 text-theme-muted group-hover:text-green-400 transition-colors" />
-              </button>
-            </div>
-          )}
           
           {Object.entries(groupedCommands).map(([category, commands]) => {
             if (commands.length === 0) return null
             
             const categoryLabels = {
-              stocks: 'Aktien',
+              stocks: '🏢 AKTIEN',
               navigation: 'Navigation',
-              actions: 'Aktionen',
+              actions: 'Aktionen', 
               settings: 'Einstellungen'
             }
             
@@ -632,32 +604,36 @@ const CommandPalette = React.memo(({
                     <button
                       key={command.id}
                       onClick={() => handleSelect(command)}
-                      className={`w-full flex items-center gap-2 px-2 py-2 rounded-md transition-all text-left group ${
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-left group border ${
                         isStock 
-                          ? 'hover:bg-green-500/10 hover:border-green-500/20' 
-                          : 'hover:bg-theme-secondary'
+                          ? 'border-green-500/15 bg-green-500/5 hover:bg-green-500/8 hover:border-green-500/25' 
+                          : 'border-transparent hover:bg-theme-secondary'
                       }`}
                     >
-                      <div className={`w-6 h-6 rounded-md flex items-center justify-center transition-colors ${
+                      <div className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${
                         isStock
-                          ? 'bg-green-500/20 group-hover:bg-green-500/30'
+                          ? 'bg-green-500/20 group-hover:bg-green-500/25'
                           : 'bg-theme-secondary group-hover:bg-theme-tertiary'
                       }`}>
-                        <Icon className={`w-3 h-3 transition-colors ${
+                        <Icon className={`w-4 h-4 transition-colors ${
                           isStock
                             ? 'text-green-400 group-hover:text-green-300'
                             : 'text-theme-muted group-hover:text-green-400'
                         }`} />
                       </div>
                       <div className="flex-1">
-                        <div className="text-theme-primary text-sm font-medium">{command.title}</div>
+                        <div className={`text-sm font-medium ${isStock ? 'text-theme-primary' : 'text-theme-primary'}`}>
+                          {isStock ? command.title.split(' - ')[0] : command.title}
+                        </div>
                         {command.subtitle && (
-                          <div className={`text-xs ${isStock ? 'text-green-400/80' : 'text-theme-muted'}`}>{command.subtitle}</div>
+                          <div className={`text-xs ${isStock ? 'text-theme-secondary' : 'text-theme-muted'}`}>
+                            {isStock ? command.title.split(' - ')[1] || command.subtitle : command.subtitle}
+                          </div>
                         )}
                       </div>
-                      <ChevronRightIcon className={`w-3 h-3 transition-colors ${
+                      <ChevronRightIcon className={`w-4 h-4 transition-colors ${
                         isStock 
-                          ? 'text-theme-muted group-hover:text-green-400' 
+                          ? 'text-green-400/70 group-hover:text-green-400' 
                           : 'text-theme-muted group-hover:text-theme-secondary'
                       }`} />
                     </button>
@@ -671,6 +647,35 @@ const CommandPalette = React.memo(({
             <div className="p-6 text-center text-theme-muted">
               <MagnifyingGlassIcon className="w-6 h-6 mx-auto mb-2 opacity-50" />
               <p className="text-sm">Keine Ergebnisse für "{query}"</p>
+            </div>
+          )}
+          
+          {/* AI Assistant Option - Less Prominent at Bottom */}
+          {query.length > 0 && !query.match(/^[A-Z]{1,5}$/i) && (
+            <div className="p-1.5 border-t border-theme/20">
+              <div className="px-2 py-1 text-xs text-theme-muted/80 font-medium uppercase tracking-wide">
+                🤖 KI-Assistent
+              </div>
+              <button
+                onClick={() => {
+                  onNavigate(`/analyse/finclue-ai?q=${encodeURIComponent(query)}`)
+                  onClose()
+                }}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-left group border-transparent hover:bg-theme-secondary/50"
+              >
+                <div className="w-6 h-6 rounded-md bg-theme-secondary/60 group-hover:bg-blue-500/20 flex items-center justify-center transition-colors">
+                  <SparklesIcon className="w-3.5 h-3.5 text-theme-muted group-hover:text-blue-400 transition-colors" />
+                </div>
+                <div className="flex-1">
+                  <div className="text-sm font-medium text-theme-secondary group-hover:text-theme-primary">
+                    "{query}" mit FinClue AI analysieren
+                  </div>
+                  <div className="text-xs text-theme-muted">
+                    KI-gestützte Finanzanalyse und Antworten
+                  </div>
+                </div>
+                <ChevronRightIcon className="w-3.5 h-3.5 text-theme-muted/50 group-hover:text-theme-muted transition-colors" />
+              </button>
             </div>
           )}
         </div>
@@ -861,10 +866,6 @@ function LayoutContent({ children }: LayoutProps) {
   }, [router])
 
   // MEMOIZED CALLBACKS
-  const handleTickerSelect = useCallback((ticker: string) => {
-    router.push(`/analyse/stocks/${ticker.toLowerCase()}`)
-  }, [router])
-
   const getInitials = useCallback(() => {
     if (!user?.email) return 'U'
     return user.email.charAt(0).toUpperCase()

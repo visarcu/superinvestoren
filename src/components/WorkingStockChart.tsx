@@ -458,10 +458,67 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
 
   const formatXAxisTick = (value: string) => {
     const date = new Date(value)
+    const now = new Date()
+    const yearDiff = now.getFullYear() - date.getFullYear()
+    
+    // Für längere Zeiträume (3Y, 5Y, MAX) - zeige immer Jahr für bessere Orientierung
+    if (selectedRange === '3Y' || selectedRange === '5Y' || selectedRange === 'MAX') {
+      return date.toLocaleDateString('de-DE', { 
+        year: '2-digit',
+        month: 'short'
+      })
+    }
+    
+    // Für 1Y - zeige immer Monat und Jahr für bessere Orientierung
+    if (selectedRange === '1Y') {
+      return date.toLocaleDateString('de-DE', { 
+        year: '2-digit',
+        month: 'short'
+      })
+    }
+    
+    // Für sehr kurze Zeiträume (1D) - zeige Zeit wenn möglich, sonst Monat und Tag
+    if (selectedRange === '1D') {
+      // Prüfe ob wir Intraday-Daten haben (verschiedene Zeiten am selben Tag)
+      const time = date.toLocaleTimeString('de-DE', { 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      })
+      
+      // Wenn es nicht 00:00 ist, zeige die Zeit
+      if (time !== '00:00') {
+        return time
+      }
+    }
+    
+    // Für kurze Zeiträume (5D, 1M, 3M, 6M, YTD) - zeige Monat und Tag
     return date.toLocaleDateString('de-DE', { 
       month: 'short', 
       day: 'numeric' 
     })
+  }
+
+  // Intelligentes minTickGap basierend auf Zeitraum
+  const getMinTickGap = () => {
+    const baseGap = isFullscreen ? 80 : 60
+    
+    // Für lange Zeiträume mehr Abstand zwischen Labels
+    if (selectedRange === '5Y' || selectedRange === 'MAX') {
+      return baseGap * 2 // Doppelter Abstand
+    }
+    if (selectedRange === '3Y') {
+      return Math.floor(baseGap * 1.5) // 50% mehr Abstand
+    }
+    if (selectedRange === '1Y') {
+      return Math.floor(baseGap * 1.2) // 20% mehr Abstand
+    }
+    
+    // Für kurze Zeiträume weniger Abstand
+    if (selectedRange === '1D' || selectedRange === '5D') {
+      return Math.floor(baseGap * 0.8) // 20% weniger Abstand
+    }
+    
+    return baseGap // Standard für 1M, 3M, 6M, YTD
   }
 
   // ✅ Y-ACHSEN FORMATIERUNG AKTUALISIERT
@@ -769,7 +826,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 stroke={themeColors.axisColor}
                 tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatXAxisTick}
-                minTickGap={isFullscreen ? 80 : 60}
+                minTickGap={getMinTickGap()}
                 height={50}
               />
               <YAxis 
@@ -890,7 +947,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 stroke={themeColors.axisColor}
                 tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
                 tickFormatter={formatXAxisTick}
-                minTickGap={isFullscreen ? 80 : 60}
+                minTickGap={getMinTickGap()}
                 height={50}
               />
               <YAxis 
