@@ -172,7 +172,7 @@ export default function RatingsClient({ ticker }: { ticker: string }) {
   const mainScore = getScoreIndicator(scores.finclueScore)
 
   return (
-    <div className="max-w-7xl mx-auto p-6 space-y-8">
+    <div className="w-full p-6 space-y-8">
       
       {/* Modern Rating Hero - Terminal Style */}
       <RatingHero 

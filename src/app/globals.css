@@ -55,7 +55,7 @@
      --color-text-tertiary: #a1a1aa;
      --color-text-quaternary: #71717a;
      
-     --color-border-primary: rgba(63, 63, 70, 0.4);
+     --color-border-primary: rgba(65, 65, 71, 0.4);
      --color-border-hover: rgba(113, 113, 122, 0.3);
    }
    
@@ -301,7 +301,7 @@
    .dark .border-theme\/10,
    .dark .border-theme\/20,
    .dark .border-b {
-     border-color: rgba(63, 63, 70, 0.12) !important;
+     border-color: rgba(63, 63, 70, 0.22) !important;
    }
 
    /* ===== FORCE SUBTLE BORDERS ON HEADERS ===== */
