@@ -1,9 +1,13 @@
 // src/app/api/screener/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
-const FMP_API_KEY = process.env.FMP_API_KEY || 'KYadX7pZnaaP034Rb4GvLtWhoKvCNuaw'
+const FMP_API_KEY = process.env.FMP_API_KEY
 
 export async function GET(request: NextRequest) {
+  if (!FMP_API_KEY) {
+    return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams
     

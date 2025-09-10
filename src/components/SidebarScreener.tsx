@@ -108,7 +108,8 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
     setResults([])
 
     try {
-      params.append('apikey', process.env.NEXT_PUBLIC_FMP_API_KEY || 'KYadX7pZnaaP034Rb4GvLtWhoKvCNuaw')
+      // Remove any apikey param - backend will handle secure API key
+      params.delete('apikey')
       
       const response = await fetch(`/api/screener?${params.toString()}`)
       if (!response.ok) throw new Error('API error')
