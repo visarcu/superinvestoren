@@ -2,7 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stocks } from '@/data/stocks'
 
-const FMP_API_KEY = process.env.FMP_API_KEY || 'KYadX7pZnaaP034Rb4GvLtWhoKvCNuaw'
+const FMP_API_KEY = process.env.FMP_API_KEY
 
 interface FMPStock {
   symbol: string
@@ -1124,6 +1124,10 @@ async function runGrowthScreener(searchParams: URLSearchParams, isPreview = fals
 }
 
 export async function GET(request: NextRequest) {
+  if (!FMP_API_KEY) {
+    return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
+  }
+
   try {
     const searchParams = request.nextUrl.searchParams
     const isPreview = searchParams.get('preview') === 'true'
