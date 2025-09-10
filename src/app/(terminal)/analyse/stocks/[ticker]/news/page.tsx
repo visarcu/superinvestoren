@@ -156,36 +156,22 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
         let articles: NewsArticle[] = []
         
         try {
-          // FMP Stock News API - ticker-spezifisch
+          // Stock News über sichere Backend API Route (mit eingebauter Fallback-Logik)
           const newsRes = await fetch(
-            `https://financialmodelingprep.com/api/v3/stock_news?tickers=${ticker}&limit=${ARTICLES_PER_PAGE}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+            `/api/stock-news/${ticker}?page=${currentPage}&limit=${ARTICLES_PER_PAGE}`
           )
           
           if (newsRes.ok) {
-            const newsJson = await newsRes.json()
-            articles = Array.isArray(newsJson) ? newsJson : []
-            console.log('✅ Stock News API successful:', articles.length, 'articles')
+            const data = await newsRes.json()
+            articles = data.articles || []
+            console.log(`✅ Stock News API successful: ${articles.length} articles for ${ticker}`)
           } else {
-            console.warn('❌ Stock News API failed:', newsRes.status)
-            
-            // Fallback: General News API
-            const generalNewsRes = await fetch(
-              `https://financialmodelingprep.com/stable/news/stock-latest?page=${currentPage}&limit=${ARTICLES_PER_PAGE}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-            )
-            
-            if (generalNewsRes.ok) {
-              const generalNews = await generalNewsRes.json()
-              articles = Array.isArray(generalNews) ? generalNews.filter((article: any) => 
-                article.title.toLowerCase().includes(ticker.toLowerCase()) ||
-                article.text.toLowerCase().includes(ticker.toLowerCase())
-              ) : []
-              console.log('✅ General News API fallback successful:', articles.length, 'articles')
-            } else {
-              console.warn('❌ General News API also failed:', generalNewsRes.status)
-            }
+            console.error(`❌ Stock News API failed for ${ticker}:`, newsRes.status)
+            articles = []
           }
         } catch (err) {
-          console.warn('❌ News API error:', err)
+          console.warn(`❌ News API error for ${ticker}:`, err)
+          articles = []
         }
 
         // Fallback zu Mock-Daten wenn keine echten Daten
