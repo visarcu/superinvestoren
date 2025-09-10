@@ -29,21 +29,20 @@ function RevenueSegmentsChart({
   useEffect(() => {
     async function loadSegments() {
       try {
-        const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-        
         console.log('🔍 [RevenueSegments] Loading segments for:', ticker)
         
-        // v4 API für Product Segmentation
+        // Use secure API route for Product Segmentation
         const res = await fetch(
-          `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+          `/api/revenue-segmentation/${ticker}?type=product&period=annual&structure=flat`
         )
         
         console.log('🔍 [RevenueSegments] API Response status:', res.status, res.ok)
         
         if (res.ok) {
-          const data = await res.json()
-          console.log('📊 [RevenueSegments] Raw API data:', data)
+          const response = await res.json()
+          console.log('📊 [RevenueSegments] Raw API response:', response)
           
+          const data = response.success ? response.data : []
           if (Array.isArray(data) && data.length > 0) {
             // ✅ KORRIGIERTE TRANSFORMATION
             const transformed = data.map((yearData: any) => {
