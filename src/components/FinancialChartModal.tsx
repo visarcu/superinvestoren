@@ -97,33 +97,24 @@ const formatChartLabel = (date: string, period: 'annual' | 'quarterly'): string 
   return date.substring(0, 4) || '—'
 }
 
-// API Data Fetcher
+// API Data Fetcher - SECURE VERSION
 async function fetchFinancialData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-  const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-  
-  // ✅ FIX: Für Quartale mehr Datenpunkte laden (Jahre × 4)
-  const limit = period === 'quarterly' ? years * 4 : years
-  
   try {
-    const [incomeRes, balanceRes, cashFlowRes, keyMetricsRes, dividendRes] = await Promise.all([
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${limit}&apikey=${apiKey}`),
-      fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`)
-    ])
-
-    if (!incomeRes.ok || !balanceRes.ok || !cashFlowRes.ok || !keyMetricsRes.ok) {
-      throw new Error('API request failed')
+    // Use secure API route instead of direct FMP calls
+    const response = await fetch(`/api/financial-data/${ticker}?years=${years}&period=${period}`)
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch financial data from secure API')
     }
-
-    const [incomeData, balanceData, cashFlowData, keyMetricsData, dividendData] = await Promise.all([
-      incomeRes.json(),
-      balanceRes.json(), 
-      cashFlowRes.json(),
-      keyMetricsRes.json(),
-      dividendRes.json()
-    ])
+    
+    const financialData = await response.json()
+    
+    // Extract data from secure API response
+    const incomeData = financialData.incomeStatements
+    const balanceData = financialData.balanceSheets
+    const cashFlowData = financialData.cashFlows
+    const keyMetricsData = financialData.keyMetrics
+    const dividendData = { historical: financialData.dividends }
 
     const cutoffYear = 2005
     const currentYear = new Date().getFullYear()
@@ -200,18 +191,17 @@ ps: metrics.psRatio || metrics.priceToSalesRatio || 0
   }
 }
 
-// ✅ SEGMENT DATA FETCHER FUNCTIONS - MIT 0-WERTE FILTER
+// ✅ SEGMENT DATA FETCHER FUNCTIONS - SECURE VERSION
 async function fetchProductSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-  const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-  
   try {
     const res = await fetch(
-      `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+      `/api/revenue-segmentation/${ticker}?type=product&period=annual&structure=flat`
     )
     
     if (!res.ok) return []
     
-    const data = await res.json()
+    const response = await res.json()
+    const data = response.success ? response.data : []
     
     if (!Array.isArray(data) || data.length === 0) return []
     
@@ -253,16 +243,15 @@ async function fetchProductSegmentData(ticker: string, years: number, period: 'a
 }
 
 async function fetchGeographicSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-  const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-  
   try {
     const res = await fetch(
-      `https://financialmodelingprep.com/api/v4/revenue-geographic-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+      `/api/revenue-segmentation/${ticker}?type=geographic&period=annual&structure=flat`
     )
     
     if (!res.ok) return []
     
-    const data = await res.json()
+    const response = await res.json()
+    const data = response.success ? response.data : []
     
     if (!Array.isArray(data) || data.length === 0) return []
     
