@@ -262,35 +262,33 @@ export default function PortfolioDashboard() {
   const loadPortfolioNews = async () => {
     setNewsLoading(true)
     try {
-      const allNews: NewsArticle[] = []
+      // Extract symbols from holdings (Top 5)
+      const symbols = holdings.slice(0, 5).map(h => h.symbol)
       
-      // News für Top 5 Holdings laden
-      for (const holding of holdings.slice(0, 5)) {
-        try {
-          const response = await fetch(
-            `https://financialmodelingprep.com/api/v3/stock_news?tickers=${holding.symbol}&limit=3&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-          )
-          
-          if (response.ok) {
-            const news = await response.json()
-            if (Array.isArray(news)) {
-              allNews.push(...news.map((item: any) => ({
-                ...item,
-                symbol: holding.symbol
-              })))
-            }
-          }
-        } catch (err) {
-          console.error(`Error loading news for ${holding.symbol}:`, err)
-        }
+      if (symbols.length === 0) {
+        setPortfolioNews([])
+        return
       }
+
+      const response = await fetch('/api/portfolio-news', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ symbols })
+      })
       
-      // Nach Datum sortieren
-      allNews.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime())
-      setPortfolioNews(allNews.slice(0, 20))
+      if (response.ok) {
+        const data = await response.json()
+        setPortfolioNews(data.news?.slice(0, 20) || [])
+      } else {
+        console.error('Failed to load portfolio news:', response.status)
+        setPortfolioNews([])
+      }
       
     } catch (error) {
       console.error('Error loading portfolio news:', error)
+      setPortfolioNews([])
     } finally {
       setNewsLoading(false)
     }
