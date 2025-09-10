@@ -24,7 +24,7 @@ class FinancialDataService {
   private alphaKey?: string
 
   constructor() {
-    this.fmpKey = process.env.NEXT_PUBLIC_FMP_API_KEY || ''
+    this.fmpKey = '' // Removed for security - use API routes instead
     this.finnhubKey = process.env.NEXT_PUBLIC_FINNHUB_API_KEY || ''
     this.alphaKey = process.env.NEXT_PUBLIC_ALPHA_VANTAGE_KEY
   }
@@ -60,25 +60,21 @@ class FinancialDataService {
       // ✅ FIX: Für Quartale mehr Datenpunkte laden (Jahre × 4)
       const requestLimit = period === 'quarterly' ? requestYears * 4 : requestYears
       
-      const [incomeRes, balanceRes, cashFlowRes, keyMetricsRes, dividendRes] = await Promise.all([
-        fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${requestLimit}&apikey=${this.fmpKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${this.fmpKey}`)
-      ])
-
-      if (!incomeRes.ok || !balanceRes.ok || !cashFlowRes.ok || !keyMetricsRes.ok) {
-        throw new Error('FMP API request failed')
+      // Use secure API route instead of direct FMP calls
+      const response = await fetch(`/api/financial-data/${ticker}?years=${requestYears}&period=${period}`)
+      
+      if (!response.ok) {
+        throw new Error('Financial data API request failed')
       }
 
-      const [incomeData, balanceData, cashFlowData, keyMetricsData, dividendData] = await Promise.all([
-        incomeRes.json(),
-        balanceRes.json(), 
-        cashFlowRes.json(),
-        keyMetricsRes.json(),
-        dividendRes.json()
-      ])
+      const financialData = await response.json()
+      
+      // Extract data from secure API response
+      const incomeData = financialData.incomeStatements
+      const balanceData = financialData.balanceSheets
+      const cashFlowData = financialData.cashFlows
+      const keyMetricsData = financialData.keyMetrics
+      const dividendData = { historical: financialData.dividends }
 
       // ✅ FILTER: Nur moderne Daten (ab 2005)
       const cutoffYear = 2005
@@ -842,8 +838,7 @@ function RevenueSegmentsChart({
       }
 
       try {
-        const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-        const url = `https://financialmodelingprep.com/api/v4/revenue-product-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+        const url = `/api/revenue-segmentation/${ticker}?type=product&period=annual&structure=flat`
         
         console.log('🔍 [RevenueSegments] API URL:', url)
         
@@ -856,9 +851,10 @@ function RevenueSegmentsChart({
           return
         }
         
-        const data = await res.json()
-        console.log('📊 [RevenueSegments] Raw API Response:', JSON.stringify(data, null, 2))
+        const response = await res.json()
+        console.log('📊 [RevenueSegments] Raw API Response:', JSON.stringify(response, null, 2))
         
+        const data = response.success ? response.data : []
         if (!Array.isArray(data) || data.length === 0) {
           console.warn('⚠️ [RevenueSegments] No data or invalid format')
           setSegmentData([])
@@ -1203,14 +1199,14 @@ function GeographicSegmentsChart({
   useEffect(() => {
     async function loadSegments() {
       try {
-        const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
         const res = await fetch(
-          `https://financialmodelingprep.com/api/v4/revenue-geographic-segmentation?symbol=${ticker}&structure=flat&period=annual&apikey=${apiKey}`
+          `/api/revenue-segmentation/${ticker}?type=geographic&period=annual&structure=flat`
         )
         
         if (res.ok) {
-          const data = await res.json()
-          console.log('📊 Raw geographic data:', data)
+          const response = await res.json()
+          console.log('📊 Raw geographic data:', response)
+          const data = response.success ? response.data : []
           
           if (Array.isArray(data) && data.length > 0) {
             const transformed = data.map((yearData: any) => {
