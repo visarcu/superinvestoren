@@ -25,7 +25,7 @@ export async function GET(
     return NextResponse.json({ error: 'Invalid ticker format' }, { status: 400 })
   }
 
-  const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
+  const apiKey = process.env.FMP_API_KEY
   
   if (!apiKey) {
     return NextResponse.json({ error: 'API key not configured' }, { status: 500 })

@@ -58,7 +58,7 @@ export async function GET(
 
 async function gatherFinancialData(ticker: string): Promise<FinancialData> {
   const baseUrl = 'https://financialmodelingprep.com/api/v3';
-  const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY;
+  const apiKey = process.env.FMP_API_KEY;
 
   try {
     // Parallel alle benötigten Daten holen (nutzt eure bestehende API-Struktur)

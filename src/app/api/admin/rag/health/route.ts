@@ -102,7 +102,7 @@ async function testOpenAIConnection(): Promise<boolean> {
 
 async function testFMPConnection(): Promise<boolean> {
   try {
-    const fmpKey = process.env.FMP_API_KEY || process.env.NEXT_PUBLIC_FMP_API_KEY
+    const fmpKey = process.env.FMP_API_KEY
     if (!fmpKey) return false
     
     const response = await fetch(

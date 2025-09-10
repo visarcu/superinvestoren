@@ -12,7 +12,7 @@ const supabase = createClient(
 
 const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions'
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY!
-const FMP_API_KEY = process.env.NEXT_PUBLIC_FMP_API_KEY!
+const FMP_API_KEY = process.env.FMP_API_KEY!
 
 // RAG System Instance (singleton)
 let ragSystem: FinancialRAGSystem | null = null

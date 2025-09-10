@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
           try {
             // FMP API Call
             const res = await fetch(
-              `https://financialmodelingprep.com/api/v3/quote/${item.ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+              `https://financialmodelingprep.com/api/v3/quote/${item.ticker}?apikey=${process.env.FMP_API_KEY}`
             )
             
             if (!res.ok) continue
