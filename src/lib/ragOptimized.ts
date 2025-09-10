@@ -504,7 +504,7 @@ export class OptimizedDataIngestionService {
   }
 
   private getFmpApiKey(): string {
-    const key = process.env.FMP_API_KEY || process.env.NEXT_PUBLIC_FMP_API_KEY
+    const key = process.env.FMP_API_KEY
     if (!key) {
       throw new Error('FMP API Key not found')
     }

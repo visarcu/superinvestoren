@@ -17,7 +17,7 @@ class FMPDataService {
   private apiKey: string
 
   constructor() {
-    this.apiKey = process.env.FMP_API_KEY || process.env.NEXT_PUBLIC_FMP_API_KEY || ''
+    this.apiKey = process.env.FMP_API_KEY || ''
     if (!this.apiKey) {
       console.warn('FMP API Key nicht gefunden')
     }

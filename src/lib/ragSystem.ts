@@ -470,9 +470,9 @@ export class DataIngestionService {
 
   // Get FMP API Key (flexible - checks both locations)
   private getFmpApiKey(): string {
-    const key = process.env.FMP_API_KEY || process.env.NEXT_PUBLIC_FMP_API_KEY
+    const key = process.env.FMP_API_KEY
     if (!key) {
-      throw new Error('FMP API Key not found. Set FMP_API_KEY or NEXT_PUBLIC_FMP_API_KEY')
+      throw new Error('FMP API Key not found. Set FMP_API_KEY environment variable')
     }
     return key
   }
