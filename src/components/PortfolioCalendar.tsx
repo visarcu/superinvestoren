@@ -69,7 +69,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
 
     setLoading(true)
     const allEvents: CalendarEvent[] = []
-    const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
+    // API Key removed for security - will use existing secure routes
     const today = new Date()
     
     
@@ -83,7 +83,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
         // ✅ Historische + Zukünftige Dividenden laden
         
         const histResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${holding.symbol}?apikey=${apiKey}`
+          `/api/dividends/${holding.symbol}`
         )
         
         if (histResponse.ok) {
