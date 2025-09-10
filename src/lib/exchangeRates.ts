@@ -1,5 +1,5 @@
-// Exchange Rate Service using FMP API
-const FMP_API_KEY = process.env.FMP_API_KEY || process.env.NEXT_PUBLIC_FMP_API_KEY
+// Exchange Rate Service using FMP API - SECURE VERSION
+const FMP_API_KEY = process.env.FMP_API_KEY
 
 interface FXResponse {
   symbol: string

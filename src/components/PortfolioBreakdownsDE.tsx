@@ -73,14 +73,13 @@ function cacheExchangeRate(pair: string, rate: number) {
 
 async function getExchangeRate(from: string, to: string): Promise<number> {
   try {
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/fx/${from}${to}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-    )
+    // Use secure exchange rate API
+    const response = await fetch(`/api/exchange-rate?from=${from}&to=${to}`)
     
     if (response.ok) {
       const data = await response.json()
-      if (data && data[0]) {
-        return data[0].price
+      if (data && data.rate) {
+        return data.rate
       }
     }
     
