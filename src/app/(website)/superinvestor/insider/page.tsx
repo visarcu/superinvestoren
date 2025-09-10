@@ -238,13 +238,15 @@ export default function InsiderTradingPage() {
         
         for (const page of pages) {
           const response = await fetch(
-            `https://financialmodelingprep.com/api/v4/insider-trading?page=${page}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+            `/api/insider-trading?page=${page}`
           )
           
           if (response.ok) {
-            const data = await response.json()
-            allData.push(...data)
-            console.log(`✅ Page ${page}: ${data.length} transactions loaded`)
+            const result = await response.json()
+            if (result.success && result.data) {
+              allData.push(...result.data)
+              console.log(`✅ Page ${page}: ${result.data.length} transactions loaded`)
+            }
           } else {
             console.warn(`⚠️ Page ${page} failed to load`)
             break
@@ -255,7 +257,7 @@ export default function InsiderTradingPage() {
           }
         }
         
-        console.log('✅ Total FMP Insider data loaded:', allData.length, 'transactions')
+        console.log('✅ Total insider data loaded:', allData.length, 'transactions')
         
         const processedData = allData
           .filter((t: any) => t.symbol && t.reportingName)
