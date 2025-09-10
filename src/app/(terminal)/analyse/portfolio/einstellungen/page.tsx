@@ -70,26 +70,15 @@ const MOCK_PORTFOLIO: PortfolioPosition[] = [
   }
 ]
 
-// Stock validation via FMP API
+// Stock validation via secure API route
 async function validateStock(ticker: string): Promise<{ valid: boolean, name?: string, price?: number }> {
   try {
-    const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`
-    )
+    const response = await fetch(`/api/validate-stock?ticker=${encodeURIComponent(ticker)}`)
     
     if (!response.ok) return { valid: false }
     
-    const [data] = await response.json()
-    if (data && data.companyName) {
-      return {
-        valid: true,
-        name: data.companyName,
-        price: data.price || 0
-      }
-    }
-    
-    return { valid: false }
+    const data = await response.json()
+    return data
   } catch (error) {
     console.error('Stock validation error:', error)
     return { valid: false }
