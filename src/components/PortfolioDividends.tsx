@@ -82,40 +82,37 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
     
     try {
       // Echte Dividenden-Calendar API abrufen (kommende Termine)
-      console.log('🔍 Loading real dividend calendar data...')
-      const calendarResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from=${new Date().toISOString().split('T')[0]}&to=${new Date(Date.now() + 365*24*60*60*1000).toISOString().split('T')[0]}&apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-      )
+      console.log('🔍 Loading dividend data via secure API...')
+      
+      // Use secure API route for all dividend data
+      const dividendResponse = await fetch('/api/dividend-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ holdings })
+      })
       
       let realUpcomingDividends = []
-      if (calendarResponse.ok) {
-        const calendarData = await calendarResponse.json()
-        console.log('📅 Real dividend calendar data:', calendarData)
-        realUpcomingDividends = calendarData || []
-      }
-
-      for (const holding of holdings) {
-        try {
-          // Historical Dividends abrufen
-          const histResponse = await fetch(
-            `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${holding.symbol}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
-          )
+      if (dividendResponse.ok) {
+        const dividendData = await dividendResponse.json()
+        if (dividendData.success) {
+          realUpcomingDividends = dividendData.upcomingDividends || []
           
-          if (histResponse.ok) {
-            const histData = await histResponse.json()
-            if (histData.historical && histData.historical.length > 0) {
-              divMap.set(holding.symbol, histData.historical)
+          // Process historical dividends
+          for (const holding of holdings) {
+            const historicalDivs = dividendData.historicalDividends[holding.symbol]
+            if (historicalDivs && historicalDivs.length > 0) {
+              divMap.set(holding.symbol, historicalDivs)
               
               const today = new Date()
               const twelveMonthsAgo = new Date()
               twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1)
               
               // Trenne VERGANGENE und ZUKÜNFTIGE Dividenden
-              const pastDividends = histData.historical.filter((d: DividendData) => 
+              const pastDividends = historicalDivs.filter((d: DividendData) => 
                 new Date(d.paymentDate) <= today
               )
               
-              const futureDividends = histData.historical.filter((d: DividendData) => 
+              const futureDividends = historicalDivs.filter((d: DividendData) => 
                 new Date(d.paymentDate) > today
               )
               
@@ -215,9 +212,11 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
               }
             }
           }
-        } catch (err) {
-          console.error(`Error loading dividends for ${holding.symbol}:`, err)
+        } else {
+          console.warn(`❌ No dividend data received for ${holding.symbol}`)
         }
+      } else {
+        console.error('❌ Failed to fetch dividend data:', dividendResponse.status)
       }
       
       setDividendData(divMap)
