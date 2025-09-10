@@ -25,8 +25,8 @@ class FinancialDataService {
 
   constructor() {
     this.fmpKey = '' // Removed for security - use API routes instead
-    this.finnhubKey = process.env.NEXT_PUBLIC_FINNHUB_API_KEY || ''
-    this.alphaKey = process.env.NEXT_PUBLIC_ALPHA_VANTAGE_KEY
+    this.finnhubKey = '' // Removed for security - use API routes instead
+    this.alphaKey = '' // Removed for security - use API routes instead
   }
 
   // ✅ HAUPTMETHODE: Multi-Source Financial Data mit intelligenter Validierung
