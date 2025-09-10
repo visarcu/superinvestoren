@@ -67,12 +67,11 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
     let evToEbit = 0;
     
     try {
-      const apiKey = process.env.NEXT_PUBLIC_FMP_API_KEY;
       console.log(`🔍 Loading valuation data for ${ticker}...`);
       
-      // 1. Company Outlook für aktuelle Ratios
+      // 1. Company Outlook für aktuelle Ratios - use secure API
       const outlookResponse = await fetch(
-        `https://financialmodelingprep.com/api/v4/company-outlook?symbol=${ticker}&apikey=${apiKey}`
+        `/api/company-outlook/${ticker}`
       );
       
       if (!outlookResponse.ok) {
@@ -84,8 +83,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
       // 2. Key Metrics TTM + Profile für zusätzliche Ratios
       const [keyMetricsResponse, profileResponse] = await Promise.all([
-        fetch(`https://financialmodelingprep.com/api/v3/key-metrics-ttm/${ticker}?apikey=${apiKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${apiKey}`)
+        fetch(`/api/key-metrics-ttm/${ticker}`),
+        fetch(`/api/company-profile/${ticker}`)
       ]);
       
       let keyMetrics = {};
@@ -103,7 +102,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
       // 3. Aktuelle Kursdaten
       const quoteResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${apiKey}`
+        `/api/quotes?symbols=${ticker}`
       );
       
       if (quoteResponse.ok) {
@@ -113,8 +112,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
       // 4. Enterprise Value + Financial Data
       const [evResponse, incomeResponse] = await Promise.all([
-        fetch(`https://financialmodelingprep.com/api/v3/enterprise-values/${ticker}?period=quarter&limit=1&apikey=${apiKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=annual&limit=1&apikey=${apiKey}`)
+        fetch(`/api/enterprise-values/${ticker}?period=quarter&limit=1`),
+        fetch(`/api/income-statement/${ticker}?period=annual&limit=1`)
       ]);
 
       if (evResponse.ok && incomeResponse.ok) {
@@ -143,8 +142,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
       // 5. Historical Ratios + Key Metrics
       const [historicalResponse, historicalKeyMetricsResponse] = await Promise.all([
-        fetch(`https://financialmodelingprep.com/api/v3/ratios/${ticker}?period=annual&limit=5&apikey=${apiKey}`),
-        fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=annual&limit=5&apikey=${apiKey}`)
+        fetch(`/api/ratios/${ticker}?period=annual&limit=5`),
+        fetch(`/api/key-metrics/${ticker}?period=annual&limit=5`)
       ]);
       
       const historicalRatios = historicalResponse.ok ? await historicalResponse.json() : [];
@@ -192,7 +191,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       
       try {
         const estimatesResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?apikey=${apiKey}`
+          `/api/analyst-estimates/${ticker}`
         );
         
         if (estimatesResponse.ok) {
