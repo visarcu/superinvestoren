@@ -289,8 +289,8 @@ export default function TickerInsiderPage() {
         console.log(`🔍 Loading insider data for ${ticker} from backend...`)
         
         const [profileResponse, insiderResponse] = await Promise.all([
-          // Company Profile weiterhin direkt von FMP (nur einmaliger Call)
-          fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`),
+          // Company Profile über sichere Backend-API
+          fetch(`/api/company-profile/${ticker}`),
           // Insider Data über Backend-API
           fetch(`/api/insider-trading?symbol=${ticker}&page=0&limit=500`)
         ])
