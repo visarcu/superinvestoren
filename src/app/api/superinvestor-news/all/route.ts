@@ -74,7 +74,7 @@ async function findTrendingStocks(limit: number = 8): Promise<SuperinvestorNews[
     
     const headlines = generateTrendingNewsHeadlines(analysis)
     
-    const trendingNews: SuperinvestorNews[] = headlines.slice(0, limit).map((headline, index) => {
+    const trendingNews: SuperinvestorNews[] = headlines.slice(0, limit).map((headline) => {
       const stock = headline.stock
       const sentiment = stock.sentiment === 'BULLISH' ? 'Käufe' : 
                        stock.sentiment === 'BEARISH' ? 'Verkäufe' : 'unterschiedliche Bewegungen'

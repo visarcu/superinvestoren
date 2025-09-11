@@ -78,53 +78,82 @@ function calculateRelevanceScore(
   ticker?: string,
   holdingValue?: number
 ): number {
-  let score = 0.1; // Base score
-  
   const title = article.title?.toLowerCase() || '';
   const content = article.text?.toLowerCase() || '';
   const combinedText = `${title} ${content}`;
   
-  // Investor Name Matching (highest priority)
+  // HAUPTKRITERIUM: Investor muss explizit erwähnt werden
   const investorKeywords = investorName.toLowerCase().split(' ');
+  let investorMentioned = false;
+  let investorScore = 0;
+  
   for (const keyword of investorKeywords) {
-    if (keyword.length > 2) { // Skip short words like "of", "the"
-      if (title.includes(keyword)) score += 0.4;
-      if (content.includes(keyword)) score += 0.2;
+    if (keyword.length > 2) { // Skip short words like "of", "the", "co"
+      if (title.includes(keyword)) {
+        investorMentioned = true;
+        investorScore += 0.4;
+      }
+      if (content.includes(keyword)) {
+        investorMentioned = true;
+        investorScore += 0.2;
+      }
     }
   }
   
-  // Holdings relevance
-  if (ticker && holdingValue) {
-    const portfolioWeight = Math.min(holdingValue / 10_000_000_000, 1); // Max 1 for $10B+
-    score += portfolioWeight * 0.3;
+  // Spezielle Investor-Namen prüfen (z.B. "Berkshire" für Warren Buffett)
+  const specialNames = {
+    'Warren Buffett': ['berkshire', 'hathaway', 'omaha'],
+    'Bill Ackman': ['pershing', 'square'],
+    'Michael Burry': ['scion'],
+    'Carl Icahn': ['icahn'],
+    'Ray Dalio': ['bridgewater'],
+    'David Einhorn': ['greenlight'],
+    'Daniel Loeb': ['third point'],
+    'Bill Gates': ['gates foundation', 'bill gates'],
+    'George Soros': ['soros fund']
+  };
+  
+  if (specialNames[investorName]) {
+    for (const specialName of specialNames[investorName]) {
+      if (combinedText.includes(specialName)) {
+        investorMentioned = true;
+        investorScore += 0.3;
+      }
+    }
   }
   
-  // Ticker mentions
+  // KRITISCH: Wenn Investor nicht erwähnt wird, Score = 0
+  if (!investorMentioned) {
+    return 0;
+  }
+  
+  let score = investorScore;
+  
+  // Zusätzliche Relevanz nur wenn Investor erwähnt wird
   if (ticker && combinedText.includes(ticker.toLowerCase())) {
-    score += 0.3;
+    score += 0.2; // Reduziert, da Ticker allein nicht ausreicht
   }
   
-  // Investment-related keywords
+  // Investment-related keywords (nur wenn Investor erwähnt)
   const investmentKeywords = [
     'portfolio', 'position', 'stake', 'shares', 'holding', 'investment',
     'bought', 'sold', 'acquired', 'divested', 'increased', 'decreased',
-    '13f', 'filing', 'sec', 'quarterly', 'berkshire', 'fund', 'hedge'
+    '13f', 'filing', 'sec', 'quarterly'
   ];
   
   for (const keyword of investmentKeywords) {
     if (combinedText.includes(keyword)) {
-      score += 0.1;
+      score += 0.05; // Reduziert
     }
   }
   
-  // Recency bonus (newer articles get higher scores)
+  // Recency bonus
   const publishedDate = new Date(article.publishedDate);
   const daysSincePublished = (Date.now() - publishedDate.getTime()) / (1000 * 60 * 60 * 24);
-  if (daysSincePublished < 1) score += 0.2;      // Same day
-  else if (daysSincePublished < 7) score += 0.1;  // This week
-  else if (daysSincePublished < 30) score += 0.05; // This month
+  if (daysSincePublished < 1) score += 0.1;      // Same day
+  else if (daysSincePublished < 7) score += 0.05;  // This week
   
-  return Math.min(score, 1.0); // Cap at 1.0
+  return Math.min(score, 1.0);
 }
 
 /**
