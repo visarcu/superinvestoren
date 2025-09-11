@@ -49,10 +49,17 @@ export async function getExchangeRate(fromCurrency: string, toCurrency: string):
     
     console.log(`Fetching exchange rate USD<->EUR`)
     
-    // Always fetch EURUSD rate (EUR per USD)
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/fx/EURUSD?apikey=${FMP_API_KEY}`
+    // Try different FMP endpoints for exchange rate
+    let response = await fetch(
+      `https://financialmodelingprep.com/api/v3/quote/EURUSD?apikey=${FMP_API_KEY}`
     )
+    
+    // If that fails, try the forex endpoint
+    if (!response.ok) {
+      response = await fetch(
+        `https://financialmodelingprep.com/api/v3/fx/EURUSD?apikey=${FMP_API_KEY}`
+      )
+    }
     
     if (!response.ok) {
       console.warn(`FMP Exchange Rate API error: ${response.status}`)
@@ -60,22 +67,33 @@ export async function getExchangeRate(fromCurrency: string, toCurrency: string):
     }
     
     const data = await response.json()
-    console.log('FMP Exchange Rate API response:', data)
+    console.log('FMP Exchange Rate API response:', JSON.stringify(data, null, 2))
     
-    // Use only real API data - NO FALLBACKS
-    if (!data[0]?.price) {
-      console.warn('No exchange rate data returned from FMP API')
+    // Handle different response formats
+    let eurUsdRate: number
+    
+    if (Array.isArray(data) && data.length > 0) {
+      // Quote endpoint format: [{ symbol, price, ... }]
+      if (data[0].price) {
+        eurUsdRate = data[0].price
+        console.log(`✅ Got exchange rate from quote endpoint: ${eurUsdRate}`)
+      } else {
+        console.warn('No exchange rate data from quote endpoint')
+        return null
+      }
+    } else {
+      console.warn('No exchange rate data returned from FMP API, data structure:', JSON.stringify(data))
       return null
     }
-    const eurUsdRate = data[0].price
     
     let rate: number
     if (fromCurrency === 'USD' && toCurrency === 'EUR') {
-      // USD->EUR: use rate directly (0.855 EUR per USD)  
-      rate = eurUsdRate
-    } else {
-      // EUR->USD: invert the rate (1/0.855 = 1.17 USD per EUR)
+      // USD->EUR: EURUSD gives us EUR/USD (e.g., 1.17), so we need to invert it to get USD/EUR
+      // If 1 EUR = 1.17 USD, then 1 USD = 1/1.17 = 0.855 EUR
       rate = 1 / eurUsdRate
+    } else {
+      // EUR->USD: use EURUSD rate directly (1 EUR = eurUsdRate USD)
+      rate = eurUsdRate
     }
     
     console.log(`Exchange rate ${fromCurrency}->${toCurrency}: ${rate}`)
@@ -92,7 +110,7 @@ export async function getExchangeRate(fromCurrency: string, toCurrency: string):
 }
 
 // Helper function to convert USD amount to EUR with formatting
-export function formatPriceWithEuroEquivalent(usdAmount: number): string | null {
+export function formatPriceWithEuroEquivalent(_usdAmount: number): string | null {
   // This will be called on the client side with cached exchange rate
   return null // Implementation will be in a React hook
 }

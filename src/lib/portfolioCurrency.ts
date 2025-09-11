@@ -32,7 +32,7 @@ export class CurrencyManager {
   }
 
   // SECURE VERSION: Use exchange rate API route
-  async getCurrentUSDtoEURRate(): Promise<number> {
+  async getCurrentUSDtoEURRate(): Promise<number | null> {
     const cacheKey = 'USDEUR_current'
     const cached = currentRateCache.get(cacheKey)
     
@@ -45,7 +45,7 @@ export class CurrencyManager {
     console.log('🔄 Fetching current USD→EUR exchange rate via secure API...')
     
     try {
-      const response = await fetch('/api/exchange-rate?pair=USDEUR')
+      const response = await fetch('/api/exchange-rate?from=USD&to=EUR')
       
       if (response.ok) {
         const data = await response.json()
@@ -67,20 +67,13 @@ export class CurrencyManager {
       console.error('❌ Error fetching exchange rate:', error)
     }
     
-    // Fallback rate
-    const fallbackRate = 0.85
-    console.error(`🚨 API ERROR! Using fallback rate: ${fallbackRate}`)
-    
-    currentRateCache.set(cacheKey, { 
-      rate: fallbackRate, 
-      timestamp: Date.now(),
-      date: new Date().toISOString().split('T')[0]
-    })
-    return fallbackRate
+    // NO FALLBACK! Return null to indicate unavailable data
+    console.error('🚨 Exchange rate data unavailable - no fallback used for professional accuracy')
+    return null
   }
 
   // SECURE VERSION: Use historical exchange rate API route
-  async getHistoricalUSDtoEURRate(date: string): Promise<number> {
+  async getHistoricalUSDtoEURRate(date: string): Promise<number | null> {
     const cacheKey = `USDEUR_${date}`
     const cached = historicalRateCache.get(cacheKey)
     
@@ -89,7 +82,7 @@ export class CurrencyManager {
     }
 
     try {
-      const response = await fetch(`/api/exchange-rate?pair=USDEUR&date=${date}`)
+      const response = await fetch(`/api/exchange-rate?from=USD&to=EUR&date=${date}`)
       
       if (response.ok) {
         const data = await response.json()
@@ -103,11 +96,9 @@ export class CurrencyManager {
       console.error(`Error fetching historical rate for ${date}:`, error)
     }
 
-    // Fallback: Use current rate
-    console.log(`🔄 Using current rate as fallback for ${date}`)
-    const currentRate = await this.getCurrentUSDtoEURRate()
-    historicalRateCache.set(cacheKey, { date, rate: currentRate })
-    return currentRate
+    // NO FALLBACK for professional accuracy
+    console.log(`❌ Historical exchange rate for ${date} unavailable`)
+    return null
   }
 
   // Portfolio conversion methods remain the same but now use secure API calls
@@ -123,11 +114,26 @@ export class CurrencyManager {
         current_value_display: h.current_value,
         cost_basis_display: h.cost_basis,
         total_return_display: h.total_return,
+        purchase_price_display: h.purchase_price,
         display_currency: 'USD'
       }))
     }
 
     const rate = await this.getCurrentUSDtoEURRate()
+
+    if (rate === null) {
+      // If exchange rate is unavailable, return data in USD with warning
+      return holdings.map(h => ({
+        ...h,
+        current_price_display: h.current_price,
+        current_value_display: h.current_value,
+        cost_basis_display: h.cost_basis,
+        total_return_display: h.total_return,
+        purchase_price_display: h.purchase_price,
+        display_currency: 'USD',
+        exchange_rate_unavailable: true
+      }))
+    }
 
     return holdings.map(h => ({
       ...h,
@@ -135,8 +141,70 @@ export class CurrencyManager {
       current_value_display: h.current_value * rate,
       cost_basis_display: h.cost_basis * rate,
       total_return_display: h.total_return * rate,
+      purchase_price_display: h.purchase_price * rate,
       display_currency: 'EUR',
       exchange_rate_used: rate
     }))
   }
+
+  // Convert cash position for display
+  async convertCashPosition(
+    cashAmount: number,
+    displayCurrency: 'USD' | 'EUR'
+  ): Promise<{ amount: number; currency: string; unavailable?: boolean }> {
+    if (displayCurrency === 'USD') {
+      return { amount: cashAmount, currency: 'USD' }
+    }
+
+    const rate = await this.getCurrentUSDtoEURRate()
+    if (rate === null) {
+      // Return USD amount if exchange rate unavailable
+      return {
+        amount: cashAmount,
+        currency: 'USD',
+        unavailable: true
+      }
+    }
+
+    return {
+      amount: cashAmount * rate,
+      currency: 'EUR'
+    }
+  }
+
+  // Convert new position data to USD for storage
+  async convertNewPositionToUSD(
+    price: number,
+    currency: 'USD' | 'EUR'
+  ): Promise<{ priceUSD: number; exchangeRate: number | null; metadata: any }> {
+    if (currency === 'USD') {
+      return {
+        priceUSD: price,
+        exchangeRate: 1.0,
+        metadata: { originalCurrency: 'USD', conversionNeeded: false }
+      }
+    }
+
+    const rate = await this.getCurrentUSDtoEURRate()
+    if (rate === null) {
+      throw new Error('Exchange rate unavailable. Cannot convert EUR to USD for storage.')
+    }
+
+    // Convert EUR to USD (divide by EUR/USD rate)
+    const priceUSD = price / rate
+
+    return {
+      priceUSD,
+      exchangeRate: rate,
+      metadata: {
+        originalCurrency: 'EUR',
+        originalPrice: price,
+        conversionNeeded: true,
+        conversionDate: new Date().toISOString()
+      }
+    }
+  }
 }
+
+// Export singleton instance
+export const currencyManager = CurrencyManager.getInstance()

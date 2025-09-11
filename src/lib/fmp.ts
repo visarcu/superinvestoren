@@ -42,27 +42,32 @@ export interface StockQuote {
       if (symbols.length === 0) return {}
       
       const symbolsString = symbols.join(',')
+      console.log(`🔍 Fetching bulk quotes for: ${symbolsString}`)
       const response = await fetch(`/api/quotes?symbols=${symbolsString}`)
       
       if (!response.ok) {
-        console.error('Failed to fetch quotes:', response.status)
+        console.error('Failed to fetch quotes:', response.status, response.statusText)
         return {}
       }
       
       const data = await response.json()
+      console.log('📊 Raw quotes response:', data)
       
       const prices: Record<string, number> = {}
       if (Array.isArray(data)) {
         data.forEach((quote: StockQuote) => {
-          if (quote && quote.symbol && quote.price) {
-            prices[quote.symbol] = quote.price
+          if (quote && quote.symbol) {
+            const price = quote.price || 0
+            prices[quote.symbol] = price
+            console.log(`📈 ${quote.symbol}: $${price}`)
           }
         })
       }
       
+      console.log(`✅ Processed ${Object.keys(prices).length} quotes:`, prices)
       return prices
     } catch (error) {
-      console.error('Error fetching bulk quotes:', error)
+      console.error('❌ Error fetching bulk quotes:', error)
       return {}
     }
   }

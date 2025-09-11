@@ -1,6 +1,5 @@
 // src/app/api/dividends/[ticker]/route.ts - ENHANCED: Professional Dividend Analysis
 import { NextResponse } from 'next/server'
-import { dataService } from '@/lib/services/DataService'
 
 // ✅ ENHANCED INTERFACES
 interface PayoutSafetyResult {
@@ -63,6 +62,42 @@ function filterModernDividends(historicalDividends: Record<string, number>): Rec
   
   console.log(`📊 Filtered to modern years: ${Object.keys(historicalDividends).length} → ${Object.keys(filteredDividends).length} years`)
   return filteredDividends
+}
+
+
+// ✅ Growth Trend Analysis
+function analyzeDividendGrowth(dividendHistory: Record<string, number>) {
+  const years = Object.keys(dividendHistory)
+    .map(y => parseInt(y))
+    .sort((a, b) => a - b)
+    
+  if (years.length < 3) return null
+  
+  const growthRates: number[] = []
+  for (let i = 1; i < years.length; i++) {
+    const prevYear = years[i - 1]
+    const currYear = years[i]
+    const prevDiv = dividendHistory[prevYear.toString()]
+    const currDiv = dividendHistory[currYear.toString()]
+    
+    if (prevDiv > 0 && currDiv > 0) {
+      growthRates.push((currDiv - prevDiv) / prevDiv)
+    }
+  }
+  
+  if (growthRates.length === 0) return null
+  
+  const avgGrowth = growthRates.reduce((a, b) => a + b, 0) / growthRates.length
+  const increases = growthRates.filter(rate => rate > 0).length
+  const consistency = increases / growthRates.length
+  
+  return {
+    avgGrowthRate: avgGrowth,
+    consistency: consistency,
+    totalYears: years.length,
+    consecutiveIncreases: increases,
+    growthRates: growthRates
+  }
 }
 
 // ✅ NEW: Get Quarterly Dividend History
@@ -448,6 +483,19 @@ async function getFinancialContextModern(ticker: string, modernDividends: Record
   }
 }
 
+// Helper function to get stock quote directly from FMP
+async function getDirectStockQuote(ticker: string, apiKey: string) {
+  try {
+    const response = await fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${apiKey}`)
+    if (!response.ok) return null
+    const data = await response.json()
+    return Array.isArray(data) ? data[0] : data
+  } catch (error) {
+    console.error('Error fetching stock quote:', error)
+    return null
+  }
+}
+
 export async function GET(
   req: Request,
   { params }: { params: { ticker: string } }
@@ -462,16 +510,27 @@ export async function GET(
       throw new Error('FMP API key not configured')
     }
     
-    // ✅ Service Layer for Multi-Source Data
-    const dividendResult = await dataService.getDividendData(ticker)
+    // ✅ Direct FMP API Calls (no recursive dataService)
+    const dividendResponse = await fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`)
+    const dividendData = dividendResponse.ok ? await dividendResponse.json() : { historical: [] }
+    const dividendHistorical = (dividendData && dividendData.historical) || []
     
-    // ✅ Filter to modern data only
-    const modernDividends = filterModernDividends(dividendResult.historical)
+    // ✅ Convert array to yearly aggregates first
+    const yearlyDividends: Record<string, number> = {}
+    dividendHistorical.forEach((dividend: any) => {
+      if (dividend.date && dividend.dividend) {
+        const year = new Date(dividend.date).getFullYear().toString()
+        yearlyDividends[year] = (yearlyDividends[year] || 0) + dividend.dividend
+      }
+    })
+    
+    // ✅ Filter to modern data only  
+    const modernDividends = filterModernDividends(yearlyDividends)
     
     // ✅ PARALLEL: Load all enhanced data
     const [financialData, currentQuote, quarterlyData, payoutHistory, healthMetrics] = await Promise.allSettled([
       getFinancialContextModern(ticker, modernDividends),
-      dataService.getStockQuote(ticker),
+      getDirectStockQuote(ticker, apiKey),
       getQuarterlyDividendHistory(ticker, apiKey),
       getPayoutRatioHistory(ticker, apiKey, modernDividends),
       getFinancialHealthMetrics(ticker, apiKey)
@@ -483,8 +542,15 @@ export async function GET(
     const payoutRatioHistory = payoutHistory.status === 'fulfilled' ? payoutHistory.value : []
     const health = healthMetrics.status === 'fulfilled' ? healthMetrics.value : null
     
-    // ✅ Calculate CAGR analysis
-    const cagrAnalysis = calculateDividendCAGR(modernDividends)
+    // ✅ Calculate CAGR analysis - enhanced version
+    const growthAnalysis = analyzeDividendGrowth(modernDividends)
+    const cagrAnalysis = calculateDividendCAGR(modernDividends) // Keep existing function 
+    
+    // ✅ Add detailed CAGR periods - use existing function structure
+    const detailedCAGRs = {
+      summary: 'CAGR periods calculated from historical data',
+      periods: cagrAnalysis || []
+    }
     
     // ✅ Process modern data for categorization
     const processedData = Object.entries(modernDividends)
@@ -531,11 +597,15 @@ export async function GET(
       cagrAnalysis: cagrAnalysis,
       financialHealth: health,
       
+      // ✅ RESTORED: Growth analysis and detailed CAGRs
+      growthAnalysis: growthAnalysis,
+      detailedCAGRs: detailedCAGRs,
+      
       dataQuality: {
-        score: Math.min(100, dividendResult.quality.score + 20),
-        issues: dividendResult.quality.issues.filter(issue => !issue.includes('API deviation')),
-        sources: dividendResult.quality.sources,
-        coverage: dividendResult.quality.coverage,
+        score: Math.min(100, (dividendHistorical.length * 5) + 20),
+        issues: [],
+        sources: ['FMP Dividend History', 'FMP Financial Data'],
+        coverage: Math.min(100, dividendHistorical.length * 5),
         recommendations: [
           `20-Jahres Dividendendaten für Konsistenz`,
           `Split-adjusted Werte für Genauigkeit`,
@@ -549,7 +619,7 @@ export async function GET(
       status: {
         success: true,
         dataQuality: modernDividends && Object.keys(modernDividends).length >= 10 ? 'excellent' : 'good',
-        sourcesUsed: dividendResult.quality.sources.length,
+        sourcesUsed: 2,
         yearsOfData: Object.keys(modernDividends).length,
         ttmCalculationSuccess: (financial?.dividendPerShareTTM ?? 0) > 0,
         yieldCalculationSuccess: (financial?.dividendYield ?? 0) > 0,

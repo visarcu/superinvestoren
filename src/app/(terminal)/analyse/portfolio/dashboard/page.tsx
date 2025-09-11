@@ -101,7 +101,7 @@ export default function PortfolioDashboard() {
   const [newsLoading, setNewsLoading] = useState(false)
   
   // Currency State
-  const [exchangeRate, setExchangeRate] = useState<number>(0.92)
+  const [exchangeRate, setExchangeRate] = useState<number | null>(null)
   const [currencyLoading, setCurrencyLoading] = useState(false)
   
   // Add Position Form State
@@ -180,10 +180,10 @@ export default function PortfolioDashboard() {
     setCurrencyLoading(true)
     try {
       const rate = await currencyManager.getCurrentUSDtoEURRate()
-      setExchangeRate(rate)
+      setExchangeRate(rate) // rate can be null if unavailable
     } catch (error) {
       console.error('Error loading exchange rate:', error)
-      setExchangeRate(0.92) // Fallback
+      setExchangeRate(null) // No fallback for professional accuracy
     } finally {
       setCurrencyLoading(false)
     }
@@ -228,15 +228,35 @@ export default function PortfolioDashboard() {
         // USD Holdings mit aktuellen Preisen
         const holdingsWithCurrentPrices = holdingsData.map(holding => ({
           ...holding,
-          current_price: currentPricesUSD[holding.symbol] || holding.purchase_price
+          current_price: currentPricesUSD[holding.symbol] || holding.purchase_price || 0
         }))
+        
+        console.log('📊 Holdings with current prices:', holdingsWithCurrentPrices)
 
         // Korrekte Währungskonvertierung mit Currency Manager
-        enrichedHoldings = await currencyManager.convertHoldingsForDisplay(
+        const convertedHoldings = await currencyManager.convertHoldingsForDisplay(
           holdingsWithCurrentPrices,
           currency as 'USD' | 'EUR', // Cast für currencyManager Kompatibilität
           true // includeHistoricalRates für präzise Performance
         )
+        
+        // Calculate value field and gain/loss
+        enrichedHoldings = convertedHoldings.map(holding => {
+          const currentPrice = holding.current_price_display || 0
+          const purchasePrice = holding.purchase_price_display || 0
+          const quantity = holding.quantity || 0
+          const value = currentPrice * quantity
+          const costBasis = purchasePrice * quantity
+          const gainLoss = value - costBasis
+          const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
+          
+          return {
+            ...holding,
+            value,
+            gain_loss: gainLoss,
+            gain_loss_percent: gainLossPercent
+          }
+        })
       }
 
       setHoldings(enrichedHoldings)
@@ -246,10 +266,15 @@ export default function PortfolioDashboard() {
         portfolioData.cash_position,
         currency as 'USD' | 'EUR' // Cast für currencyManager Kompatibilität
       )
-      setCashPositionDisplay(cashDisplay)
+      setCashPositionDisplay(cashDisplay.amount)
+      
+      // Show warning if exchange rate unavailable
+      if (cashDisplay.unavailable) {
+        console.warn('⚠️ Exchange rate unavailable - displaying cash in USD')
+      }
       
       // Metriken berechnen
-      calculateMetrics(enrichedHoldings, cashDisplay)
+      calculateMetrics(enrichedHoldings, cashDisplay.amount)
       
     } catch (error: any) {
       console.error('Error loading portfolio:', error)
@@ -295,8 +320,21 @@ export default function PortfolioDashboard() {
   }
 
   const calculateMetrics = (holdings: Holding[], cashPosition: number) => {
-    const stockValue = holdings.reduce((sum, h) => sum + h.value, 0)
-    const stockCost = holdings.reduce((sum, h) => sum + (h.purchase_price_display * h.quantity), 0)
+    console.log('📊 Calculating metrics for holdings:', holdings)
+    
+    const stockValue = holdings.reduce((sum, h) => {
+      const value = h.value || 0
+      console.log(`${h.symbol}: value=${value}`)
+      return sum + value
+    }, 0)
+    
+    const stockCost = holdings.reduce((sum, h) => {
+      const cost = (h.purchase_price_display || 0) * (h.quantity || 0)
+      console.log(`${h.symbol}: cost=${cost} (price=${h.purchase_price_display}, qty=${h.quantity})`)
+      return sum + cost
+    }, 0)
+    
+    console.log(`📊 Totals: stockValue=${stockValue}, stockCost=${stockCost}, cash=${cashPosition}`)
     
     setTotalValue(stockValue + cashPosition)
     setTotalInvested(stockCost)
@@ -340,8 +378,7 @@ export default function PortfolioDashboard() {
         
         const conversionResult = await currencyManager.convertNewPositionToUSD(
           priceIncludingFees,
-          purchaseCurrency,
-          newPurchaseDate
+          purchaseCurrency
         )
         
         const { error } = await supabase
@@ -619,7 +656,8 @@ export default function PortfolioDashboard() {
               <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-theme-secondary">
                 <span className="font-medium text-theme-primary">Währungshinweis:</span> Alle Werte werden mit historischen und aktuellen Wechselkursen 
-                umgerechnet (aktuell: 1 USD = {exchangeRate.toFixed(4)} EUR). Performance-Berechnungen berücksichtigen Währungseffekte korrekt.
+                umgerechnet {exchangeRate ? `(aktuell: 1 USD = ${exchangeRate.toFixed(4)} EUR)` : '(Wechselkurs derzeit nicht verfügbar - Werte in USD)'}.
+                Performance-Berechnungen berücksichtigen Währungseffekte korrekt.
               </div>
             </div>
           </div>
@@ -989,9 +1027,11 @@ export default function PortfolioDashboard() {
                     </thead>
                     <tbody>
                       {holdings.map((holding) => {
-                        const dayChange = holding.current_price_display - holding.purchase_price_display
-                        const dayChangePercent = holding.purchase_price_display > 0 
-                          ? (dayChange / holding.purchase_price_display) * 100 
+                        const currentPrice = holding.current_price_display || 0
+                        const purchasePrice = holding.purchase_price_display || 0
+                        const dayChange = currentPrice - purchasePrice
+                        const dayChangePercent = purchasePrice > 0 
+                          ? (dayChange / purchasePrice) * 100 
                           : 0
                         
                         return (

@@ -631,7 +631,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                       {transaction.type !== 'dividend' && (
                         <>
                           <span>{transaction.quantity} Stück</span>
-                          <span>@ ${transaction.price.toFixed(2)}</span>
+                          <span>@ ${transaction.price ? transaction.price.toFixed(2) : '0.00'}</span>
                         </>
                       )}
                       <span className="flex items-center gap-1">
