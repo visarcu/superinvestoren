@@ -43,6 +43,9 @@ const MostFollowed = dynamic(() => import('@/components/MostFollowed'), {
 const LatestGuruTrades = dynamic(() => import('@/components/LatestGuruTrades'), {
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>
 })
+const SuperinvestorNewsDashboardWidget = dynamic(() => import('@/components/SuperinvestorNewsDashboardWidget'), {
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>
+})
 
 
 // ===== TYPES =====
@@ -866,17 +869,35 @@ export default function ModernDashboard() {
           </div>
           </section>
 
-          {/* Section: Guru Trades */}
+          {/* Section: Super-Investors */}
           <section>
             <div className="mb-6">
-              <h2 className="text-xl font-bold text-theme-primary mb-2">Super-Investor Trades</h2>
-              <p className="text-sm text-theme-muted">Neueste Käufe und Verkäufe der erfolgreichsten Investoren</p>
+              <h2 className="text-xl font-bold text-theme-primary mb-2">Super-Investor Intelligence</h2>
+              <p className="text-sm text-theme-muted">Trades und News der erfolgreichsten Investoren weltweit</p>
             </div>
             
-            <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
-              <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
-                <LatestGuruTrades variant="full" />
-              </React.Suspense>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Guru Trades */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <TrophyIcon className="w-5 h-5 text-yellow-400" />
+                  <h3 className="text-lg font-bold text-theme-primary">Trades</h3>
+                </div>
+                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
+                  <LatestGuruTrades variant="full" />
+                </React.Suspense>
+              </div>
+
+              {/* Superinvestor News */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-4">
+                  <SparklesIcon className="w-5 h-5 text-green-400" />
+                  <h3 className="text-lg font-bold text-theme-primary">News</h3>
+                </div>
+                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
+                  <SuperinvestorNewsDashboardWidget />
+                </React.Suspense>
+              </div>
             </div>
           </section>
 

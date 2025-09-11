@@ -517,6 +517,188 @@ export default function MyComponent() {
         </div>
       </div>
 
+      {/* Superinvestor News API */}
+      <div className="text-center mb-20">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-yellow-500/10 border border-yellow-500/20 text-yellow-400 rounded-full text-sm font-medium backdrop-blur-sm mb-8">
+          <span className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></span>
+          New API
+        </div>
+        <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+          Superinvestor News API
+        </h2>
+        <p className="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
+          Erhalte automatisch generierte News über Portfolio-Bewegungen von Top-Investoren basierend auf 13F-Filings und Marktanalysen.
+        </p>
+        
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          {/* All News Endpoint */}
+          <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                Alle News
+              </h3>
+              <button
+                onClick={() => copyToClipboard('/api/superinvestor-news/all?limit=10', 'news-all')}
+                className="flex items-center gap-2 px-3 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                {copied === 'news-all' ? (
+                  <>
+                    <CheckIcon className="w-3 h-3" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <ClipboardDocumentIcon className="w-3 h-3" />
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
+            <div className="text-left">
+              <p className="text-gray-300 text-sm mb-3">Aggregierte News aller Superinvestoren mit Trending-Analyse</p>
+              <div className="bg-black/50 rounded-lg p-3 font-mono text-xs text-green-400">
+                GET /api/superinvestor-news/all?limit=10
+              </div>
+            </div>
+          </div>
+
+          {/* Individual Investor Endpoint */}
+          <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-blue-400 flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                Investor-spezifisch
+              </h3>
+              <button
+                onClick={() => copyToClipboard('/api/superinvestor-news/buffett', 'news-investor')}
+                className="flex items-center gap-2 px-3 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                {copied === 'news-investor' ? (
+                  <>
+                    <CheckIcon className="w-3 h-3" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <ClipboardDocumentIcon className="w-3 h-3" />
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
+            <div className="text-left">
+              <p className="text-gray-300 text-sm mb-3">News für einen spezifischen Investor basierend auf 13F-Daten</p>
+              <div className="bg-black/50 rounded-lg p-3 font-mono text-xs text-blue-400">
+                GET /api/superinvestor-news/buffett
+              </div>
+            </div>
+          </div>
+
+          {/* Response Example */}
+          <div className="lg:col-span-2 bg-gray-900/50 border border-white/10 rounded-2xl p-6">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-semibold text-purple-400 flex items-center gap-2">
+                <div className="w-2 h-2 bg-purple-400 rounded-full"></div>
+                Response Example
+              </h3>
+              <button
+                onClick={() => copyToClipboard(`{
+  "news": [
+    {
+      "id": "buffett_apple_1",
+      "type": "major_move",
+      "investor": {
+        "slug": "buffett",
+        "name": "Warren Buffett",
+        "firm": "Berkshire Hathaway"
+      },
+      "title": "Warren Buffett increases Apple position by 15%",
+      "summary": "15% increase in AAPL position (+$8.6B)",
+      "relatedStock": "AAPL",
+      "publishedDate": "2025-09-11T08:00:00.000Z",
+      "relevanceScore": 0.95,
+      "metadata": {
+        "portfolioChange": {
+          "action": "increased",
+          "value": 8600000000,
+          "percentage": 15
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "totalValue": 32600000000
+  }
+}`, 'news-response')}
+                className="flex items-center gap-2 px-3 py-1 text-xs bg-white/10 hover:bg-white/20 rounded-lg transition-colors"
+              >
+                {copied === 'news-response' ? (
+                  <>
+                    <CheckIcon className="w-3 h-3" />
+                    Copied
+                  </>
+                ) : (
+                  <>
+                    <ClipboardDocumentIcon className="w-3 h-3" />
+                    Copy
+                  </>
+                )}
+              </button>
+            </div>
+            <SyntaxHighlighter 
+              language="json" 
+              style={tomorrow}
+              customStyle={{ 
+                background: 'rgba(0,0,0,0.3)', 
+                padding: '16px', 
+                borderRadius: '8px',
+                fontSize: '12px',
+                maxHeight: '300px',
+                overflow: 'auto'
+              }}
+            >
+{`{
+  "news": [
+    {
+      "id": "buffett_apple_1",
+      "type": "major_move",
+      "investor": {
+        "slug": "buffett",
+        "name": "Warren Buffett",
+        "firm": "Berkshire Hathaway"
+      },
+      "title": "Warren Buffett increases Apple position by 15%",
+      "summary": "15% increase in AAPL position (+$8.6B)",
+      "relatedStock": "AAPL",
+      "publishedDate": "2025-09-11T08:00:00.000Z",
+      "relevanceScore": 0.95,
+      "metadata": {
+        "portfolioChange": {
+          "action": "increased",
+          "value": 8600000000,
+          "percentage": 15
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "totalValue": 32600000000
+  }
+}`}
+            </SyntaxHighlighter>
+          </div>
+        </div>
+
+        <div className="mt-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-xl">
+          <p className="text-blue-300 text-sm">
+            <strong>Features:</strong> Portfolio-Change Detection, Cross-Investor Trending, Major Move Identification, Relevance Scoring, Demo Data Fallback
+          </p>
+        </div>
+      </div>
+
       {/* Pricing */}
       <div className="text-center">
         <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm mb-8">
