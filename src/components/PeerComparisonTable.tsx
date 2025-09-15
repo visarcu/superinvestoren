@@ -219,8 +219,8 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
           </thead>
           <tbody>
             {metrics.map(metric => {
-              const targetValue = data.targetCompany[metric.key] as number | null
-              const sectorAverage = data.sectorAverages[metric.key]
+              const targetValue = (data.targetCompany as any)[metric.key] as number | null
+              const sectorAverage = (data.sectorAverages as any)[metric.key]
               
               return (
                 <tr key={metric.key} className="border-b border-theme/5 hover:bg-theme-secondary/5">
@@ -237,7 +237,7 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
                     {getComparisonIndicator(targetValue, sectorAverage, metric.higherIsBetter)}
                   </td>
                   {data.peers.slice(0, 3).map(peer => {
-                    const peerValue = peer[metric.key] as number | null
+                    const peerValue = (peer as any)[metric.key] as number | null
                     return (
                       <td key={peer.ticker} className="py-3 px-2 text-right text-theme-secondary text-sm font-mono">
                         {formatValue(peerValue, metric.type)}
