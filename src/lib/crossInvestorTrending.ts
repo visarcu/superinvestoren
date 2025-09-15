@@ -19,7 +19,7 @@ export interface TrendingStock {
   ticker?: string;
   investorsInvolved: {
     investor: string;
-    changeType: 'NEW_POSITION' | 'INCREASED' | 'DECREASED' | 'SOLD';
+    changeType: 'NEW_POSITION' | 'INCREASED' | 'DECREASED' | 'SOLD' | 'UNCHANGED';
     sharesChange: number;
     valueChange: number;
     percentChange: number;

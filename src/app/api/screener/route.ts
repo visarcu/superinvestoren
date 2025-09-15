@@ -69,15 +69,16 @@ export async function GET(request: NextRequest) {
     if (searchParams.get('exchange')) {
       fmpParams.append('exchange', searchParams.get('exchange')!)
     }
-    if (searchParams.get('isEtf')) {
-      fmpParams.append('isEtf', searchParams.get('isEtf')!)
-    }
+    
+    // Force ETFs to be excluded for stock screener
+    fmpParams.append('isEtf', 'false')
+    
     if (searchParams.get('isActivelyTrading')) {
       fmpParams.append('isActivelyTrading', searchParams.get('isActivelyTrading')!)
     }
     
-    // Limit
-    const limit = searchParams.get('limit') || '100'
+    // Limit - maximize premium FMP plan potential
+    const limit = searchParams.get('limit') || '1000'
     fmpParams.append('limit', limit)
     
     // Add API key
@@ -97,13 +98,38 @@ export async function GET(request: NextRequest) {
     
     const data = await response.json()
     
-    // Zusätzlicher Filter für Dividenden im Frontend
-    // FMP's dividendYieldMoreThan funktioniert nicht immer zuverlässig
-    let filteredData = data
+    // Additional filtering for better stock screening
+    let filteredData = data.filter((stock: any) => {
+      // Remove ETFs, Funds, and other non-stock instruments
+      if (!stock.symbol || !stock.companyName) return false
+      
+      const name = stock.companyName.toUpperCase()
+      const symbol = stock.symbol.toUpperCase()
+      
+      // More precise ETF/Fund filtering - only clear indicators
+      const etfFundPatterns = [
+        'INDEX FUND', 'ETF', ' FUND', 'SPDR', 'ISHARES', 'VANGUARD TOTAL',
+        'VANGUARD S&P', 'VANGUARD 500', 'INVESCO QQQ', 'PROSHARES', 'DIREXION'
+      ]
+      
+      for (const pattern of etfFundPatterns) {
+        if (name.includes(pattern)) {
+          return false
+        }
+      }
+      
+      // Filter symbols that are clearly ETFs
+      if (symbol.endsWith('ETF') || symbol.includes('SPY') || symbol.includes('QQQ')) {
+        return false
+      }
+      
+      return true
+    })
     
+    // Additional dividend filtering
     if (searchParams.get('dividendMoreThan')) {
       const minDividend = parseFloat(searchParams.get('dividendMoreThan')!) / 100
-      filteredData = data.filter((stock: any) => {
+      filteredData = filteredData.filter((stock: any) => {
         // Berechne Dividendenrendite aus lastAnnualDividend und price
         if (stock.lastAnnualDividend && stock.price) {
           const calculatedYield = stock.lastAnnualDividend / stock.price
