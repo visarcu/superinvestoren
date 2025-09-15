@@ -414,11 +414,6 @@ const productLinks = [
     label: 'Markt Heatmap',
     description: 'Visualisiere Marktbewegungen'
   },
-  { 
-    href: '/developers', 
-    label: 'API & Widgets',
-    description: 'Für Entwickler & Integration'
-  },
 ]
 
 const superinvestorLinks = [
@@ -575,9 +570,9 @@ export default function ModernNavbar() {
               </button>
               
               {/* Products Dropdown Content */}
-              <div className="absolute left-0 mt-3 w-[950px] bg-black/95 border border-white/10 rounded-3xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
+              <div className="absolute left-0 mt-3 w-[650px] bg-black/95 border border-white/10 rounded-3xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
                 <div className="p-8">
-                  <div className="grid grid-cols-3 gap-6">
+                  <div className="grid grid-cols-2 gap-6">
                     <Link
                       href="/analyse"
                       className="block p-6 rounded-2xl hover:bg-white transition-all duration-300 group/item"
@@ -624,32 +619,6 @@ export default function ModernNavbar() {
                       </div>
                     </Link>
 
-                    <Link
-                      href="/developers"
-                      className="block p-6 rounded-2xl hover:bg-white transition-all duration-300 group/item"
-                    >
-                      <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-purple-500/10 to-pink-500/10 border border-white/10">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="text-center">
-                            <div className="w-16 h-16 bg-gradient-to-br from-purple-400 to-pink-400 rounded-2xl flex items-center justify-center mx-auto mb-2">
-                              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                              </svg>
-                            </div>
-                            <div className="text-xs text-gray-400 group-hover/item:text-black/60 transition-colors">Code Ready</div>
-                          </div>
-                        </div>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent group-hover/item:from-transparent transition-all"></div>
-                      </div>
-                      <div className="space-y-2">
-                        <h3 className="font-bold text-white text-lg group-hover/item:text-black transition-colors">
-                          API & Widgets
-                        </h3>
-                        <p className="text-sm text-gray-400 group-hover/item:text-black/70 transition-colors">
-                          Für Entwickler & Integration
-                        </p>
-                      </div>
-                    </Link>
                   </div>
                 </div>
               </div>
@@ -697,13 +666,6 @@ export default function ModernNavbar() {
             </div>
   
             {/* Regular Nav Links */}
-            <Link
-              href="/marktindikatoren"
-              className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
-            >
-              Märkte
-            </Link>
-            
             <Link
               href="/news"
               className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
@@ -801,13 +763,6 @@ export default function ModernNavbar() {
                     </div>
   
                     {/* Mobile Nav Links */}
-                    <Link
-                      href="/marktindikatoren"
-                      onClick={() => close()}
-                      className="block px-3 py-3 text-base font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
-                    >
-                      Märkte
-                    </Link>
                     {navLinks.map(link => (
                       <Link
                         key={link.href}
