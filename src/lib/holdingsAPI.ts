@@ -22,6 +22,24 @@ interface HoldingsResponse {
   investor?: string
 }
 
+// Helper function to transform raw snapshot to HoldingsSnapshot
+function transformRawSnapshot(rawSnapshot: any): HoldingsSnapshot {
+  return {
+    quarter: rawSnapshot.quarterKey || '',
+    data: {
+      form: rawSnapshot.form || '',
+      date: rawSnapshot.date || '',
+      period: rawSnapshot.period || '',
+      accession: rawSnapshot.accession || '',
+      quarterKey: rawSnapshot.quarterKey || '',
+      positions: rawSnapshot.positions || [],
+      totalValue: rawSnapshot.totalValue || 0,
+      positionsCount: rawSnapshot.positionsCount || 0,
+      portfolioSummary: rawSnapshot.portfolioSummary || {}
+    }
+  }
+}
+
 // Get latest holdings for specific investor (performance optimized)
 export async function getLatestHoldings(slug: string): Promise<HoldingsSnapshot | null> {
   try {
@@ -38,7 +56,8 @@ export async function getLatestHoldings(slug: string): Promise<HoldingsSnapshot 
     console.log(`Using fallback for ${slug} latest holdings`)
     const investorHoldings = holdingsHistory[slug as keyof typeof holdingsHistory]
     if (investorHoldings && Array.isArray(investorHoldings) && investorHoldings.length > 0) {
-      return investorHoldings[investorHoldings.length - 1]
+      const rawSnapshot = investorHoldings[investorHoldings.length - 1] as any
+      return transformRawSnapshot(rawSnapshot)
     }
     
     return null
@@ -49,7 +68,7 @@ export async function getLatestHoldings(slug: string): Promise<HoldingsSnapshot 
     try {
       const investorHoldings = holdingsHistory[slug as keyof typeof holdingsHistory]
       if (investorHoldings && Array.isArray(investorHoldings) && investorHoldings.length > 0) {
-        return investorHoldings[investorHoldings.length - 1]
+        return transformRawSnapshot(investorHoldings[investorHoldings.length - 1])
       }
     } catch (fallbackError) {
       console.error(`Fallback also failed for ${slug}:`, fallbackError)
@@ -75,7 +94,7 @@ export async function getAllHoldings(slug: string): Promise<HoldingsSnapshot[] |
     console.log(`Using fallback for ${slug} all holdings`)
     const investorHoldings = holdingsHistory[slug as keyof typeof holdingsHistory]
     if (investorHoldings && Array.isArray(investorHoldings)) {
-      return investorHoldings
+      return investorHoldings.map(transformRawSnapshot)
     }
     
     return null
@@ -86,7 +105,7 @@ export async function getAllHoldings(slug: string): Promise<HoldingsSnapshot[] |
     try {
       const investorHoldings = holdingsHistory[slug as keyof typeof holdingsHistory]
       if (investorHoldings && Array.isArray(investorHoldings)) {
-        return investorHoldings
+        return investorHoldings.map(transformRawSnapshot)
       }
     } catch (fallbackError) {
       console.error(`Fallback also failed for ${slug}:`, fallbackError)
