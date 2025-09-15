@@ -101,7 +101,7 @@ function calculateRelevanceScore(
   }
   
   // Spezielle Investor-Namen prüfen (z.B. "Berkshire" für Warren Buffett)
-  const specialNames = {
+  const specialNames: Record<string, string[]> = {
     'Warren Buffett': ['berkshire', 'hathaway', 'omaha'],
     'Bill Ackman': ['pershing', 'square'],
     'Michael Burry': ['scion'],
