@@ -55,9 +55,8 @@ export function useTheme() {
         setTheme(savedTheme)
         applyTheme(savedTheme)
       } else {
-        // System-Präferenz für Terminal
-        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
-        const initialTheme = prefersDark ? 'dark' : 'light'
+        // Standard: Terminal immer dunkel (wenn keine Einstellung gespeichert)
+        const initialTheme = 'dark'
         setTheme(initialTheme)
         applyTheme(initialTheme)
         localStorage.setItem('finclue-terminal-theme', initialTheme)
