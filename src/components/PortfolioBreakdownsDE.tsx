@@ -13,11 +13,7 @@ import {
   ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 import { 
-  getStockProfiles,
-  calculateSectorBreakdown,
-  calculateCountryBreakdown,
-  calculateMarketCapBreakdown,
-  calculateCurrencyBreakdown
+  getStockProfiles
 } from '@/lib/portfolioData'
 import { useCurrency } from '@/lib/CurrencyContext'
 
@@ -182,20 +178,84 @@ export default function PortfolioBreakdownsDE({
   const getBreakdownData = (): BreakdownItem[] => {
     if (loading) return []
 
-    let data: any[] = []
+    let data: BreakdownItem[] = []
     
     switch (activeBreakdown) {
       case 'sector':
-        data = calculateSectorBreakdown(holdings, profiles)
+        // For now, create a simple sector breakdown from profiles
+        const sectorMap = new Map<string, number>()
+        holdings.forEach(holding => {
+          const profile = profiles.get(holding.symbol)
+          const sector = profile?.sector || 'Unknown'
+          const value = holding.value || 0
+          sectorMap.set(sector, (sectorMap.get(sector) || 0) + value)
+        })
+        data = Array.from(sectorMap.entries()).map(([sector, value]) => ({
+          name: sector,
+          value,
+          percentage: totalValue > 0 ? (value / totalValue) * 100 : 0,
+          holdings: holdings.filter(h => profiles.get(h.symbol)?.sector === sector).map(h => h.symbol)
+        }))
         break
       case 'country':
-        data = calculateCountryBreakdown(holdings, profiles)
+        const countryMap = new Map<string, number>()
+        holdings.forEach(holding => {
+          const profile = profiles.get(holding.symbol)
+          const country = profile?.country || 'Unknown'
+          const value = holding.value || 0
+          countryMap.set(country, (countryMap.get(country) || 0) + value)
+        })
+        data = Array.from(countryMap.entries()).map(([country, value]) => ({
+          name: country,
+          value,
+          percentage: totalValue > 0 ? (value / totalValue) * 100 : 0,
+          holdings: holdings.filter(h => profiles.get(h.symbol)?.country === country).map(h => h.symbol)
+        }))
         break
       case 'cap':
-        data = calculateMarketCapBreakdown(holdings, profiles)
+        const getMarketCapCategory = (marketCap: number) => {
+          if (marketCap > 200000000000) return 'Mega Cap (>$200B)'
+          if (marketCap > 10000000000) return 'Large Cap ($10B-$200B)'
+          if (marketCap > 2000000000) return 'Mid Cap ($2B-$10B)'
+          if (marketCap > 300000000) return 'Small Cap ($300M-$2B)'
+          return 'Micro Cap (<$300M)'
+        }
+        const capMap = new Map<string, number>()
+        holdings.forEach(holding => {
+          const profile = profiles.get(holding.symbol)
+          const category = profile?.marketCap ? getMarketCapCategory(profile.marketCap) : 'Unknown'
+          const value = holding.value || 0
+          capMap.set(category, (capMap.get(category) || 0) + value)
+        })
+        data = Array.from(capMap.entries()).map(([category, value]) => ({
+          name: category,
+          value,
+          percentage: totalValue > 0 ? (value / totalValue) * 100 : 0,
+          holdings: holdings.filter(h => {
+            const profile = profiles.get(h.symbol)
+            return profile?.marketCap ? getMarketCapCategory(profile.marketCap) === category : category === 'Unknown'
+          }).map(h => h.symbol)
+        }))
         break
       case 'currency':
-        data = calculateCurrencyBreakdown(holdings, profiles, cashPosition)
+        const currencyMap = new Map<string, number>()
+        holdings.forEach(holding => {
+          const profile = profiles.get(holding.symbol)
+          const currency = profile?.currency || 'Unknown'
+          const value = holding.value || 0
+          currencyMap.set(currency, (currencyMap.get(currency) || 0) + value)
+        })
+        if (cashPosition > 0) {
+          currencyMap.set('EUR', (currencyMap.get('EUR') || 0) + cashPosition)
+        }
+        data = Array.from(currencyMap.entries()).map(([currency, value]) => ({
+          name: currency,
+          value,
+          percentage: totalValue > 0 ? (value / totalValue) * 100 : 0,
+          holdings: currency === 'EUR' && cashPosition > 0 
+            ? [...holdings.filter(h => profiles.get(h.symbol)?.currency === currency).map(h => h.symbol), 'EUR']
+            : holdings.filter(h => profiles.get(h.symbol)?.currency === currency).map(h => h.symbol)
+        }))
         break
       case 'asset':
         const stockValue = holdings.reduce((sum, h) => {
@@ -208,11 +268,13 @@ export default function PortfolioBreakdownsDE({
           {
             name: 'Aktien',
             value: stockValue,
+            percentage: totalValue > 0 ? (stockValue / totalValue) * 100 : 0,
             holdings: holdings.map(h => h.symbol).filter(Boolean)
           },
           {
             name: 'Bargeld',
             value: validCashPosition,
+            percentage: totalValue > 0 ? (validCashPosition / totalValue) * 100 : 0,
             holdings: ['EUR']
           }
         ].filter(item => item.value > 0)
@@ -228,12 +290,18 @@ export default function PortfolioBreakdownsDE({
     const validTotal = total && total > 0 ? total : 1
     const validExchangeRate = exchangeRate && !isNaN(exchangeRate) && isFinite(exchangeRate) ? exchangeRate : 0.93
 
+    // Ensure data is an array before mapping
+    if (!Array.isArray(data)) {
+      console.warn('PortfolioBreakdownsDE: data is not an array:', data)
+      return []
+    }
+
     return data.map(item => {
       // Validate item.value
       const itemValue = item.value && !isNaN(item.value) && isFinite(item.value) ? item.value : 0
       
       return {
-        name: translateName(item.sector || item.country || item.category || item.currency || item.name),
+        name: translateName(item.name),
         value: itemValue,
         valueEUR: itemValue * validExchangeRate,
         percentage: (itemValue / validTotal) * 100,
