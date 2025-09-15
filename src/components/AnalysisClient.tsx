@@ -375,69 +375,88 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       loadAllDataFallback()
     }
     
-    // Fallback function with original individual API calls  
+    // Optimized fallback function with parallel API calls  
     async function loadAllDataFallback() {
-      console.log(`🔄 [AnalysisClient] Using fallback individual API calls for ${ticker}`)
+      console.log(`🚀 [AnalysisClient] Using optimized parallel API calls for ${ticker}`)
       
-      // ✅ Profile laden über eigene API Route
-      try {
-        const res = await fetch(`/api/profile/${ticker}`)
-        if (res.ok) {
-          const data = await res.json()
+      // Start all API calls in parallel using Promise.allSettled
+      const apiCalls = await Promise.allSettled([
+        fetch(`/api/profile/${ticker}`),           // 0
+        fetch(`/api/historical/${ticker}`),        // 1
+        fetch(`/api/financials/${ticker}`),        // 2
+        fetch(`/api/dividends/${ticker}`),         // 3
+        fetch(`/api/quote/${ticker}`),             // 4
+        fetch(`/api/shares/${ticker}`),            // 5
+        fetch(`/api/outlook/${ticker}`),           // 6
+        fetch(`/api/balance-sheet/${ticker}`),     // 7
+        fetch(`/api/income-statement/${ticker}`),  // 8
+        fetch(`/api/enterprise-values/${ticker}`), // 9
+        fetch(`/api/estimates/${ticker}`),         // 10
+        fetch(`/api/recommendations/${ticker}`),   // 11
+        fetch(`/api/cash-flow-statement/${ticker}`) // 12
+      ])
+
+      // Process Profile data
+      if (apiCalls[0].status === 'fulfilled' && apiCalls[0].value.ok) {
+        try {
+          const data = await apiCalls[0].value.json()
           const [p] = data as Profile[]
           setProfileData(p)
           setIrWebsite(p.website ?? null)
+        } catch {
+          console.warn(`[AnalysisClient] Profile für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] Profile für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Historische Kurse über eigene API Route
-      try {
-        const res = await fetch(`/api/historical/${ticker}`)
-        if (res.ok) {
-          const { historical = [] } = await res.json()
+      // Process Historical data
+      if (apiCalls[1].status === 'fulfilled' && apiCalls[1].value.ok) {
+        try {
+          const { historical = [] } = await apiCalls[1].value.json()
           const arr = (historical as any[])
             .slice()
             .reverse()
             .map((h) => ({ date: h.date, close: h.close }))
           setHistory(arr)
+        } catch {
+          console.warn(`[AnalysisClient] History für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] History für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Key Metrics (bereits sicher über eigene API)
-      try {
-        const res = await fetch(`/api/financials/${ticker}`)
-        if (res.ok) {
-          const { keyMetrics: km = {} } = await res.json()
+      // Process Key Metrics
+      if (apiCalls[2].status === 'fulfilled' && apiCalls[2].value.ok) {
+        try {
+          const { keyMetrics: km = {} } = await apiCalls[2].value.json()
           setKeyMetrics(km)
           setHasKeyMetrics(Object.keys(km).length > 0)
+        } catch {
+          console.warn(`[AnalysisClient] KeyMetrics für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] KeyMetrics für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Enhanced Dividend Data (bereits sicher über eigene API)
-      try {
-        console.log(`🔍 [AnalysisClient] Loading enhanced dividend data...`)
-        const dividendResponse = await fetch(`/api/dividends/${ticker}`)
-        
-        if (dividendResponse.ok) {
-          const dividendData = await dividendResponse.json()
+      // Process Enhanced Dividend Data
+      if (apiCalls[3].status === 'fulfilled' && apiCalls[3].value.ok) {
+        try {
+          console.log(`🔍 [AnalysisClient] Loading enhanced dividend data...`)
+          const dividendData = await apiCalls[3].value.json()
           setEnhancedDividendData(dividendData.currentInfo)
           console.log(`✅ [AnalysisClient] Enhanced dividend data loaded:`, dividendData.currentInfo)
+        } catch (error) {
+          console.warn(`⚠️ [AnalysisClient] Enhanced dividend data failed for ${ticker}:`, error)
         }
-      } catch (error) {
-        console.warn(`⚠️ [AnalysisClient] Enhanced dividend data failed for ${ticker}:`, error)
+      } else {
+        console.warn(`⚠️ [AnalysisClient] Enhanced dividend data failed for ${ticker}`)
       }
 
-      // ✅ Live Quote über eigene API Route
-      try {
-        const res = await fetch(`/api/quote/${ticker}`)
-        if (res.ok) {
-          const [q] = (await res.json()) as any[]
+      // Process Live Quote
+      if (apiCalls[4].status === 'fulfilled' && apiCalls[4].value.ok) {
+        try {
+          const [q] = (await apiCalls[4].value.json()) as any[]
           setLivePrice(q.price)
           setLiveMarketCap(q.marketCap)
           setLiveChangePct(q.changesPercentage)
@@ -446,100 +465,105 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           setPreviousClose(q.previousClose)
           setWeek52Low(q.yearLow)
           setWeek52High(q.yearHigh)
+        } catch {
+          console.warn(`[AnalysisClient] LiveQuote für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] LiveQuote für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Current Shares über eigene API Route  
-      try {
-        const res = await fetch(`/api/shares/${ticker}`)
-        if (res.ok) {
-          const sharesData = (await res.json()) as any[]
+      // Process Current Shares
+      if (apiCalls[5].status === 'fulfilled' && apiCalls[5].value.ok) {
+        try {
+          const sharesData = (await apiCalls[5].value.json()) as any[]
           if (Array.isArray(sharesData) && sharesData.length > 0) {
             setCurrentShares(sharesData[0].outstandingShares)
           }
+        } catch {
+          console.warn(`[AnalysisClient] CurrentShares für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] CurrentShares für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Company Outlook über eigene API Route
-      try {
-        const res = await fetch(`/api/outlook/${ticker}`)
-        if (res.ok) {
-          const { ratios = [] } = (await res.json()) as any
+      // Process Company Outlook
+      if (apiCalls[6].status === 'fulfilled' && apiCalls[6].value.ok) {
+        try {
+          const { ratios = [] } = (await apiCalls[6].value.json()) as any
           const r = ratios[0] ?? {}
           setPeTTM(r.peRatioTTM ?? null)
           setPegTTM(r.pegRatioTTM ?? null)
           setPbTTM(r.priceToBookRatioTTM ?? null)
           setPsTTM(r.priceSalesRatioTTM ?? null)
+        } catch {
+          console.warn(`[AnalysisClient] CompanyOutlook für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] CompanyOutlook für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Balance Sheet über eigene API Route
-      try {
-        const res = await fetch(`/api/balance-sheet/${ticker}`)
-        if (res.ok) {
-          const fin = (await res.json()) as any
+      // Process Balance Sheet
+      if (apiCalls[7].status === 'fulfilled' && apiCalls[7].value.ok) {
+        try {
+          const fin = (await apiCalls[7].value.json()) as any
           const L = Array.isArray(fin.financials) ? fin.financials[0] : fin[0]
           setCashBS(L.cashAndShortTermInvestments ?? null)
           setDebtBS(L.totalDebt ?? null)
           setNetDebtBS(L.netDebt ?? null)
+        } catch {
+          console.warn(`[AnalysisClient] Bilanzdaten für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] Bilanzdaten für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Margins über eigene API Route
-      try {
-        const res = await fetch(`/api/income-statement/${ticker}`)
-        if (res.ok) {
-          const [inc] = (await res.json()) as any[]
+      // Process Income Statement (for Margins)
+      if (apiCalls[8].status === 'fulfilled' && apiCalls[8].value.ok) {
+        try {
+          const [inc] = (await apiCalls[8].value.json()) as any[]
           setGrossMargin(inc.grossProfitRatio ?? null)
           setOperatingMargin(inc.operatingIncomeRatio ?? null)
           setProfitMargin(inc.netIncomeRatio ?? null)
+        } catch {
+          console.warn(`[AnalysisClient] Margins für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] Margins für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ EV/EBIT über eigene API Route
-      try {
-        const [resEV, resInc] = await Promise.all([
-          fetch(`/api/enterprise-values/${ticker}`),
-          fetch(`/api/income-statement/${ticker}`)
-        ])
-        if (resEV.ok && resInc.ok) {
-          const [e] = (await resEV.json()) as any[]
-          const [i] = (await resInc.json()) as any[]
+      // Process EV/EBIT calculation (requires both Enterprise Values and Income Statement)
+      if (apiCalls[9].status === 'fulfilled' && apiCalls[9].value.ok && 
+          apiCalls[8].status === 'fulfilled' && apiCalls[8].value.ok) {
+        try {
+          const [e] = (await apiCalls[9].value.json()) as any[]
+          const [i] = (await apiCalls[8].value.json()) as any[]
           if (e.enterpriseValue && i.operatingIncome) {
             setEvEbit(e.enterpriseValue / i.operatingIncome)
           }
+        } catch {
+          console.warn(`[AnalysisClient] EV/EBIT für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] EV/EBIT für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Estimates über eigene API Route
-      try {
-        const res = await fetch(`/api/estimates/${ticker}`)
-        if (res.ok) {
-          const all = (await res.json()) as any[]
+      // Process Estimates
+      if (apiCalls[10].status === 'fulfilled' && apiCalls[10].value.ok) {
+        try {
+          const all = (await apiCalls[10].value.json()) as any[]
           const thisYear = new Date().getFullYear()
           setEstimates(all.filter((e) => parseInt(e.date.slice(0, 4), 10) >= thisYear))
+        } catch {
+          console.warn(`[AnalysisClient] Estimates für ${ticker} fehlgeschlagen.`)
         }
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] Estimates für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Recommendations über eigene API Route
-      try {
-        const res = await fetch(`/api/recommendations/${ticker}`)
-        if (res.ok) {
-          const [a] = (await res.json()) as any[]
+      // Process Recommendations
+      if (apiCalls[11].status === 'fulfilled' && apiCalls[11].value.ok) {
+        try {
+          const [a] = (await apiCalls[11].value.json()) as any[]
           setRecs({
             strongBuy: a.analystRatingsStrongBuy ?? 0,
             buy: a.analystRatingsbuy ?? 0,
@@ -547,17 +571,17 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             sell: a.analystRatingsSell ?? 0,
             strongSell: a.analystRatingsStrongSell ?? 0,
           })
+        } catch {
+          console.warn(`[AnalysisClient] Recs für ${ticker} fehlgeschlagen.`)
         }
-
-      } catch {
+      } else {
         console.warn(`[AnalysisClient] Recs für ${ticker} fehlgeschlagen.`)
       }
 
-      // ✅ Free Cash Flow Yield berechnen
-      try {
-        const cfRes = await fetch(`/api/cash-flow-statement/${ticker}`)
-        if (cfRes.ok && liveMarketCap) {
-          const cfData = await cfRes.json()
+      // Process Free Cash Flow Yield calculation
+      if (apiCalls[12].status === 'fulfilled' && apiCalls[12].value.ok && liveMarketCap) {
+        try {
+          const cfData = await apiCalls[12].value.json()
           const latestCF = Array.isArray(cfData) ? cfData[0] : cfData.financials?.[0]
           
           if (latestCF?.freeCashFlow) {
@@ -566,9 +590,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             setFcfYield(fcfYieldValue)
             console.log(`✅ FCF Yield for ${ticker}: ${(fcfYieldValue * 100).toFixed(2)}%`)
           }
+        } catch (error) {
+          console.warn(`[AnalysisClient] FCF Yield calculation failed for ${ticker}:`, error)
         }
-      } catch (error) {
-        console.warn(`[AnalysisClient] FCF Yield calculation failed for ${ticker}:`, error)
+      } else {
+        console.warn(`[AnalysisClient] FCF Yield calculation failed for ${ticker}`)
       }
     }
 

@@ -7,7 +7,7 @@ import {
   ChevronDownIcon,
   ChevronUpIcon
 } from '@heroicons/react/24/outline'
-import { useCurrency } from '@/contexts/CurrencyContext'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 interface Position {
   cusip: string
@@ -126,11 +126,11 @@ export default function PortfolioAnalysisInline({
   investorName, 
   currentPositions
 }: AnalysisInlineProps) {
-  const { formatLargeNumber } = useCurrency()
+  const { formatFinancialNumber } = useCurrency()
   const [isExpanded, setIsExpanded] = useState(false)
   
   const insights = generateCleanInsights(currentPositions, investorName)
-  const additionalInsights = generateAdditionalInsights(currentPositions, formatLargeNumber)
+  const additionalInsights = generateAdditionalInsights(currentPositions, formatFinancialNumber)
 
   if (insights.length === 0) {
     return null
