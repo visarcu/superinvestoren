@@ -157,7 +157,6 @@ const ModernStockChart: React.FC<Props> = ({ ticker, data, onAddComparison }) =>
       },
       rightPriceScale: {
         borderColor: colors.borderColor,
-        textColor: colors.textColor,
         entireTextOnly: true,
         scaleMargins: {
           top: 0.1,
@@ -167,7 +166,6 @@ const ModernStockChart: React.FC<Props> = ({ ticker, data, onAddComparison }) =>
       },
       timeScale: {
         borderColor: colors.borderColor,
-        textColor: colors.textColor,
         timeVisible: true,
         secondsVisible: false,
         rightOffset: 12,
