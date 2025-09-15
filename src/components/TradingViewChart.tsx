@@ -2,7 +2,6 @@
 'use client'
 
 import React, { useEffect, useRef } from 'react'
-import { AdvancedRealTimeChart } from 'react-ts-tradingview-widgets'
 import { useTheme } from '@/lib/useTheme'
 
 interface StockData {
@@ -116,7 +115,58 @@ const TradingViewDividends: React.FC<{ ticker: string; theme: string }> = ({ tic
   )
 }
 
-const TradingViewChart: React.FC<Props> = ({ ticker, data, onAddComparison }) => {
+// Custom Advanced Real Time Chart
+const CustomAdvancedChart: React.FC<{ ticker: string; theme: string }> = ({ ticker, theme }) => {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!containerRef.current) return
+
+    // Clear any existing content
+    containerRef.current.innerHTML = ''
+
+    const script = document.createElement('script')
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js'
+    script.type = 'text/javascript'
+    script.async = true
+    script.innerHTML = JSON.stringify({
+      autosize: true,
+      symbol: `NASDAQ:${ticker}`,
+      interval: "D",
+      timezone: "Etc/UTC",
+      theme: theme,
+      style: "1",
+      locale: "de_DE",
+      enable_publishing: false,
+      allow_symbol_change: false,
+      calendar: false,
+      hide_top_toolbar: false,
+      hide_legend: false,
+      save_image: false,
+      studies: [],
+      show_popup_button: true,
+      popup_width: "1400",
+      popup_height: "800",
+      withdateranges: true,
+      range: "12M",
+      hide_side_toolbar: false,
+      details: true,
+      container_id: `tradingview_advanced_${ticker}`
+    })
+
+    containerRef.current.appendChild(script)
+  }, [ticker, theme])
+
+  return (
+    <div ref={containerRef} className="w-full h-full">
+      <div className="tradingview-widget-container">
+        <div className="tradingview-widget-container__widget"></div>
+      </div>
+    </div>
+  )
+}
+
+const TradingViewChart: React.FC<Props> = ({ ticker }) => {
   const { theme } = useTheme()
   const isDark = theme === 'dark'
 
@@ -146,31 +196,9 @@ const TradingViewChart: React.FC<Props> = ({ ticker, data, onAddComparison }) =>
           ? 'bg-gray-900/10 border border-gray-700/50' 
           : 'bg-gray-50/50 border border-gray-200'
       }`}>
-        <AdvancedRealTimeChart
+        <CustomAdvancedChart
+          ticker={ticker}
           theme={isDark ? 'dark' : 'light'}
-          autosize={true}
-          symbol={`NASDAQ:${ticker}`}
-          interval="D"
-          timezone="Etc/UTC"
-          style="1"
-          locale="de_DE"
-          enable_publishing={false}
-          allow_symbol_change={false}
-          calendar={false}
-          container_id={`tradingview_optimized_${ticker}`}
-          hide_top_toolbar={false}
-          hide_legend={false}
-          save_image={false}
-          studies={[]}
-          show_popup_button={true}
-          popup_width="1400"
-          popup_height="800"
-          withdateranges={true}
-          range="12M"
-          height={600}
-          width="100%"
-          hide_side_toolbar={false}
-          details={true}
         />
       </div>
 
