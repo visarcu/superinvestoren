@@ -213,7 +213,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
             }
           }
         } else {
-          console.warn(`❌ No dividend data received for ${holding.symbol}`)
+          console.warn(`❌ No dividend data received`)
         }
       } else {
         console.error('❌ Failed to fetch dividend data:', dividendResponse.status)
