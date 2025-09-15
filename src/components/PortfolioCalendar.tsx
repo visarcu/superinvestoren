@@ -111,8 +111,8 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
                 // Payment Date Event hinzufügen (wenn im aktuellen Monat)
               if (paymentDate >= monthStart && paymentDate <= monthEnd && dividendPerShare > 0) {
                 // EUR Konvertierung für Dividenden
-                const dividendPerShareEUR = dividendPerShare * exchangeRate
-                const totalDividendEUR = totalDividend * exchangeRate
+                const dividendPerShareEUR = dividendPerShare * (exchangeRate || 1)
+                const totalDividendEUR = totalDividend * (exchangeRate || 1)
                 
                 allEvents.push({
                   date: div.paymentDate,
@@ -134,9 +134,9 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
           }
         }
 
-        // Earnings laden (unverändert)
+        // Earnings laden (sicher über eigene API Route)
         const earnResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/earning_calendar?from=${getMonthStart()}&to=${getMonthEnd()}&apikey=${apiKey}`
+          `/api/earnings-calendar?from=${getMonthStart()}&to=${getMonthEnd()}&symbol=${holding.symbol}`
         )
         if (earnResponse.ok) {
           const earnData = await earnResponse.json()
