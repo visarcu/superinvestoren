@@ -77,9 +77,9 @@ const InvestorCard: React.FC<{ investor: InvestorCardData }> = ({ investor }) =>
     const chartPoints: ChartDataPoint[] = snapshots
       .slice(-8) // Last 8 quarters (2 years)
       .map((snapshot, index) => ({
-        date: snapshot.data.date || snapshot.quarterKey || '',
+        date: snapshot.data.date || snapshot.quarter || '',
         value: snapshot.data.totalValue || 0,
-        quarter: snapshot.quarterKey || `Q${index + 1}`
+        quarter: snapshot.quarter || `Q${index + 1}`
       }))
       .filter(point => point.value > 0)
 
@@ -122,7 +122,7 @@ const InvestorCard: React.FC<{ investor: InvestorCardData }> = ({ investor }) =>
           ticker: extractTicker(data.name),
           name: data.name,
           value: data.value,
-          percent: (data.value / latestSnapshot.data.totalValue) * 100
+          percent: (data.value / (latestSnapshot.data.totalValue || 1)) * 100
         }))
         .sort((a, b) => b.value - a.value)
         .slice(0, 5)
