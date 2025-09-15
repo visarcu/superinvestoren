@@ -136,8 +136,7 @@ export default function PortfolioPage() {
               // Konvertiere Preis zu USD für konsistente DB-Speicherung
               const conversionResult = await currencyManager.convertNewPositionToUSD(
                 p.purchasePrice,
-                currency as 'USD' | 'EUR',
-                p.purchaseDate || new Date().toISOString().split('T')[0]
+                currency as 'USD' | 'EUR'
               )
               
               return {

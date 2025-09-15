@@ -107,6 +107,13 @@ export default function PortfolioDashboard() {
   // Add Position Form State
   const [newSymbol, setNewSymbol] = useState('')
   const [newQuantity, setNewQuantity] = useState('')
+
+  // Set EUR as default currency for portfolio (German users)
+  useEffect(() => {
+    if (currency !== 'EUR') {
+      setCurrency('EUR')
+    }
+  }, [currency, setCurrency])
   const [newPurchasePrice, setNewPurchasePrice] = useState('')
   const [newPurchaseDate, setNewPurchaseDate] = useState(new Date().toISOString().split('T')[0])
   const [addingPosition, setAddingPosition] = useState(false)
