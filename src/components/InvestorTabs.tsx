@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { 
   ChartBarIcon,
   ArrowsRightLeftIcon,
-  CurrencyDollarIcon,
   ChartPieIcon,
   DocumentTextIcon,
   SparklesIcon,
@@ -42,7 +41,7 @@ interface HistoryGroup {
   items: Position[]
 }
 
-export type Tab = 'portfolio' | 'transactions' | 'dividends' | 'analytics' | 'filings' | 'ai'
+export type Tab = 'portfolio' | 'transactions' | 'analytics' | 'filings' | 'ai'
 
 type TransactionFilter = 'all' | 'buys' | 'sells'
 
@@ -65,14 +64,12 @@ export default function InvestorTabs({
   holdings,
   buys,
   sells,
-  investorSlug,
 }: {
   tab: Tab
   onTabChange: (t: Tab) => void
   holdings: Position[]
   buys: HistoryGroup[]
   sells: HistoryGroup[]
-  investorSlug: string
 }) {
   const [transactionFilter, setTransactionFilter] = useState<TransactionFilter>('all')
   const [showAll, setShowAll] = useState(false)
@@ -80,7 +77,7 @@ export default function InvestorTabs({
   // Currency Formatting aus Context
   const { formatCurrency, formatShares, formatPercentage } = useCurrency()
 
-  const getTabsForInvestor = (slug: string): TabConfig[] => {
+  const getTabsForInvestor = (): TabConfig[] => {
     const baseTabs: TabConfig[] = [
       { 
         key: 'portfolio', 
@@ -96,15 +93,6 @@ export default function InvestorTabs({
       },
     ]
 
-    if (['buffett', 'gates'].includes(slug)) {
-      baseTabs.push({ 
-        key: 'dividends', 
-        label: 'Dividenden', 
-        icon: CurrencyDollarIcon,
-        isHighlighted: true,
-        description: 'Dividenden-Strategie & Yield-Analyse'
-      })
-    }
 
     baseTabs.push(
       { 
@@ -130,7 +118,7 @@ export default function InvestorTabs({
     return baseTabs
   }
 
-  const availableTabs = getTabsForInvestor(investorSlug)
+  const availableTabs = getTabsForInvestor()
 
   // Verwende Context-Formatter für konsistente deutsche Formatierung
   const fmtShares = formatShares

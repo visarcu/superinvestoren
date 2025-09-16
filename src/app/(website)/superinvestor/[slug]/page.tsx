@@ -42,7 +42,6 @@ import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 import AdvancedSectorAnalysis from '@/components/AdvancedSectorAnalysis'
 import SectorBreakdownChart from '@/components/SectorBreakdownChart'
 import Logo from '@/components/Logo'
-import DividendAnalysisSection from '@/components/DividendAnalysisSection'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 
 import articlesBuffett from '@/data/articles/buffett.json'
@@ -696,7 +695,7 @@ type InvestorPageProps = {
 // Main Component
 function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   const router = useRouter()
-  const { formatCurrency, formatShares } = useCurrency()
+  const { formatCurrency } = useCurrency()
   const titleFull = investorNames[slug] ?? slug
   const { name: mainName, subtitle } = splitInvestorName(titleFull)
 
@@ -1058,7 +1057,6 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             holdings={holdings}
             buys={buysHistory}
             sells={sellsHistory}
-            investorSlug={slug}
           />
         </div>
 
@@ -1233,25 +1231,6 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           </div>
         )}
 
-        {/* DIVIDENDS TAB */}
-        {tab === 'dividends' && (
-          <div className="space-y-8">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-light text-white mb-4">
-                Dividenden-Analyse
-              </h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">
-                {mainName}s Dividenden-Strategie und jährliche Ausschüttungserträge
-              </p>
-            </div>
-            
-            <DividendAnalysisSection
-              investorName={mainName}
-              currentPositions={holdings}
-              snapshots={snapshots}
-            />
-          </div>
-        )}
 
         {/* ANALYTICS TAB */}
         {tab === 'analytics' && (
