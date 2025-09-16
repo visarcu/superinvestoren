@@ -89,8 +89,8 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
         if (histResponse.ok) {
           const histData = await histResponse.json()
           
-          if (histData?.historical && Array.isArray(histData.historical)) {
-            if (histData.historical.length === 0) {
+          if (histData?.quarterlyHistory && Array.isArray(histData.quarterlyHistory)) {
+            if (histData.quarterlyHistory.length === 0) {
               continue
             }
             
@@ -98,10 +98,10 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
             const exchangeRate = await currencyManager.getCurrentUSDtoEURRate()
             
             // Dividenden nach Payment Date gruppieren
-            histData.historical.forEach((div: any) => {
-              const paymentDate = new Date(div.paymentDate)
+            histData.quarterlyHistory.forEach((div: any) => {
+              const paymentDate = new Date(div.date)
               const quantity = holding.quantity || 0
-              const dividendPerShare = parseFloat(div.adjDividend || div.dividend || 0)
+              const dividendPerShare = parseFloat(div.adjAmount || div.amount || 0)
               const totalDividend = dividendPerShare * quantity
               
               // Nur Dividenden im relevanten Zeitraum des aktuellen Monats anzeigen
@@ -115,7 +115,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
                 const totalDividendEUR = totalDividend * (exchangeRate || 1)
                 
                 allEvents.push({
-                  date: div.paymentDate,
+                  date: div.date,
                   type: 'dividend',
                   symbol: holding.symbol,
                   name: holding.name,
@@ -124,8 +124,8 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
                   amountEUR: dividendPerShareEUR,
                   totalAmountEUR: totalDividendEUR,
                   isPaymentDate: true,
-                  paymentDate: div.paymentDate,
-                  exDate: div.date,
+                  paymentDate: div.date,
+                  exDate: div.exDividendDate,
                   time: paymentDate > today ? 'Erwartete Zahlung' : 'Erhaltene Zahlung'
                 })
                 
@@ -136,11 +136,11 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
 
         // Earnings laden (sicher über eigene API Route)
         const earnResponse = await fetch(
-          `/api/earnings-calendar?from=${getMonthStart()}&to=${getMonthEnd()}&symbol=${holding.symbol}`
+          `/api/earnings-calendar?tickers=${holding.symbol}`
         )
         if (earnResponse.ok) {
           const earnData = await earnResponse.json()
-          const stockEarnings = earnData.filter((e: any) => e.symbol === holding.symbol)
+          const stockEarnings = earnData.filter((e: any) => e.ticker === holding.symbol)
           
           stockEarnings.forEach((earn: any) => {
             allEvents.push({
@@ -148,8 +148,8 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
               type: 'earnings',
               symbol: holding.symbol,
               name: holding.name,
-              estimate: earn.epsEstimated,
-              actual: earn.eps,
+              estimate: earn.estimatedEPS,
+              actual: earn.actualEPS,
               time: earn.time || 'TBD'
             })
           })
@@ -165,15 +165,6 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
     setLoading(false)
   }
 
-  const getMonthStart = () => {
-    const start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
-    return start.toISOString().split('T')[0]
-  }
-
-  const getMonthEnd = () => {
-    const end = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)
-    return end.toISOString().split('T')[0]
-  }
 
   const getDaysInMonth = () => {
     return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
