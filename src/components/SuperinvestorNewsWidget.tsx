@@ -88,30 +88,38 @@ export default function SuperinvestorNewsWidget({
         setLoading(true)
         setError(null)
 
-        // Try real API first, fallback to demo if no data
-        let response = await fetch(`/api/superinvestor-news/all?limit=${limit}`)
-        let data: NewsResponse = await response.json()
+        // Make both API calls in parallel for faster loading
+        const [realResponse, demoResponse] = await Promise.allSettled([
+          fetch(`/api/superinvestor-news/all?limit=${limit}`),
+          showDemo ? fetch('/api/superinvestor-news/demo') : Promise.reject('Demo disabled')
+        ])
 
-        // Check if we got real data
-        const hasRealData = data.news && data.news.length > 0 && (data.meta?.isRealData === true || !data.meta?.isDemo);
-        
-        // If no real news and demo is enabled, use demo data
-        if (!hasRealData && showDemo) {
-          console.log('📰 No real superinvestor news found, loading demo data...')
-          response = await fetch('/api/superinvestor-news/demo')
-          data = await response.json()
+        // Process real data first
+        if (realResponse.status === 'fulfilled' && realResponse.value.ok) {
+          const realData: NewsResponse = await realResponse.value.json()
+          const hasRealData = realData.news && realData.news.length > 0 && (realData.meta?.isRealData === true || !realData.meta?.isDemo)
+          
+          if (hasRealData) {
+            console.log('✅ Real superinvestor news loaded:', realData.news?.length, 'items')
+            setNews(realData.news || [])
+            setSummary(realData.summary || null)
+            setIsDemo(false)
+            return
+          }
+        }
+
+        // Fallback to demo data if available
+        if (demoResponse.status === 'fulfilled' && demoResponse.value.ok) {
+          console.log('📰 No real superinvestor news found, using demo data...')
+          const demoData: NewsResponse = await demoResponse.value.json()
+          setNews(demoData.news || [])
+          setSummary(demoData.summary || null)
           setIsDemo(true)
-        } else if (hasRealData) {
-          console.log('✅ Real superinvestor news loaded:', data.news?.length, 'items')
-          setIsDemo(false)
+          return
         }
 
-        if (response.ok) {
-          setNews(data.news || [])
-          setSummary(data.summary || null)
-        } else {
-          throw new Error('Failed to fetch news')
-        }
+        // If neither worked, show error
+        throw new Error('No data available')
       } catch (err) {
         console.error('Error fetching superinvestor news:', err)
         setError('Failed to load news')
