@@ -760,7 +760,7 @@ export default function PortfolioDashboard() {
                 {/* Portfolio Diversity */}
                 <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
                   <h4 className="font-semibold text-theme-primary mb-3 text-sm">
-                    Portfolio Diversität
+                    Portfolio Diversifkation
                   </h4>
                   <div className="space-y-3">
                     <div className="flex justify-between items-center">
