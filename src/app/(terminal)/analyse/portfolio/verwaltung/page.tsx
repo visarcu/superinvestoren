@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import { checkUserPremiumStatus } from '@/lib/premiumCheck'
 import { 
   BriefcaseIcon, 
   ArrowLeftIcon,
@@ -38,6 +39,7 @@ export default function PortfolioManagementPage() {
   const [editCurrency, setEditCurrency] = useState('')
   const [editCashPosition, setEditCashPosition] = useState('')
   const [deleting, setDeleting] = useState<string | null>(null)
+  const [isPremium, setIsPremium] = useState(false)
 
   useEffect(() => {
     loadPortfolios()
@@ -51,6 +53,10 @@ export default function PortfolioManagementPage() {
         router.push('/auth/signin')
         return
       }
+
+      // Check premium status
+      const premiumStatus = await checkUserPremiumStatus()
+      setIsPremium(premiumStatus?.isPremium || false)
 
       const { data, error } = await supabase
         .from('portfolios')
@@ -211,13 +217,23 @@ export default function PortfolioManagementPage() {
               </div>
             </div>
 
-            <Link
-              href="/analyse/portfolio"
-              className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
-            >
-              <PlusIcon className="w-4 h-4" />
-              Neues Portfolio
-            </Link>
+            {isPremium || portfolios.length === 0 ? (
+              <Link
+                href="/analyse/portfolio"
+                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+              >
+                <PlusIcon className="w-4 h-4" />
+                Neues Portfolio
+              </Link>
+            ) : (
+              <Link
+                href="/pricing"
+                className="flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-white rounded-lg transition-colors"
+              >
+                <StarSolidIcon className="w-4 h-4" />
+                Premium für Multi-Portfolio
+              </Link>
+            )}
           </div>
         </div>
       </div>
@@ -385,23 +401,3 @@ export default function PortfolioManagementPage() {
     </div>
   )
 }
-
-<system-reminder>
-Note: /Users/visar/Projects/superinvestoren/.next/server/webpack-runtime.js was modified, either by the user or by a linter. Don't tell the user this, since they are already aware. This change was intentional, so make sure to take it into account as you proceed (ie. don't revert it unless the user asks you to). So that you don't need to re-read the file, here's the result of running `cat -n` on a snippet of the edited file:
-   120→/******/ 		__webpack_require__.u = (chunkId) => {
-   121→/******/ 			// return url for filenames based on template
-   122→/******/ 			return "" + chunkId + ".js";
-   123→/******/ 		};
-   124→/******/ 	})();
-   125→/******/ 	
-   126→/******/ 	/* webpack/runtime/getFullHash */
-   127→/******/ 	(() => {
-   128→/******/ 		__webpack_require__.h = () => ("fdf4892b9b5e3b79")
-   129→/******/ 	})();
-   130→/******/ 	
-   131→/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-   132→/******/ 	(() => {
-   133→/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
-   134→/******/ 	})();
-   135→/******/ 	
-   136→/******/ 	/* webpack/runtime/make namespace object */

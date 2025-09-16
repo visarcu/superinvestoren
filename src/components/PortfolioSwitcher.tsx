@@ -2,9 +2,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { ChevronDownIcon, PlusIcon, BriefcaseIcon } from '@heroicons/react/24/outline'
+import { ChevronDownIcon, PlusIcon, BriefcaseIcon, StarIcon } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
+import { checkUserPremiumStatus, getPortfolioLimits } from '@/lib/premiumCheck'
 
 interface Portfolio {
   id: string
@@ -29,6 +30,7 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
   const [activePortfolio, setActivePortfolio] = useState<Portfolio | null>(null)
   const [isOpen, setIsOpen] = useState(false)
   const [loading, setLoading] = useState(true)
+  const [isPremium, setIsPremium] = useState(false)
 
   useEffect(() => {
     loadPortfolios()
@@ -52,6 +54,10 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+
+      // Check premium status
+      const premiumStatus = await checkUserPremiumStatus()
+      setIsPremium(premiumStatus?.isPremium || false)
 
       const { data, error } = await supabase
         .from('portfolios')
@@ -173,14 +179,28 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
             ))}
             
             {/* Neues Portfolio erstellen */}
-            <Link
-              href="/analyse/portfolio"
-              className="w-full text-left px-4 py-3 hover:bg-theme-secondary/20 transition-colors border-t border-theme/10 flex items-center gap-2 text-green-400"
-              onClick={() => setIsOpen(false)}
-            >
-              <PlusIcon className="w-4 h-4" />
-              <span className="text-sm font-medium">Neues Portfolio erstellen</span>
-            </Link>
+            {isPremium || portfolios.length === 0 ? (
+              <Link
+                href="/analyse/portfolio"
+                className="w-full text-left px-4 py-3 hover:bg-theme-secondary/20 transition-colors border-t border-theme/10 flex items-center gap-2 text-green-400"
+                onClick={() => setIsOpen(false)}
+              >
+                <PlusIcon className="w-4 h-4" />
+                <span className="text-sm font-medium">Neues Portfolio erstellen</span>
+              </Link>
+            ) : (
+              <Link
+                href="/pricing"
+                className="w-full text-left px-4 py-3 hover:bg-theme-secondary/20 transition-colors border-t border-theme/10 flex items-center gap-2"
+                onClick={() => setIsOpen(false)}
+              >
+                <StarIcon className="w-4 h-4 text-yellow-400" />
+                <div className="flex-1">
+                  <span className="text-sm font-medium text-theme-primary">Weitere Portfolios</span>
+                  <p className="text-xs text-theme-muted">Premium für Multi-Portfolio</p>
+                </div>
+              </Link>
+            )}
           </div>
         </>
       )}

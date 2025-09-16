@@ -13,11 +13,13 @@ import {
   TrashIcon,
   DocumentTextIcon,
   ArrowPathIcon,
-  Cog6ToothIcon
+  Cog6ToothIcon,
+  StarIcon
 } from '@heroicons/react/24/outline'
 
 // Supabase Client initialisieren (sollte in einer separaten Datei sein)
 import { supabase } from '@/lib/supabaseClient'
+import { checkUserPremiumStatus, getPortfolioLimits } from '@/lib/premiumCheck'
 
 interface StockPosition {
   symbol: string
@@ -32,6 +34,8 @@ export default function PortfolioPage() {
   const [hasPortfolio, setHasPortfolio] = useState<boolean | null>(null)
   const [loading, setLoading] = useState(true)
   const [creating, setCreating] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
+  const [existingPortfolios, setExistingPortfolios] = useState(0)
   
   // Portfolio Create Form State
   const [portfolioName, setPortfolioName] = useState('')
@@ -56,8 +60,29 @@ export default function PortfolioPage() {
         return
       }
 
-      // Immer Portfolio-Erstellungsseite anzeigen - auch wenn bereits Portfolios vorhanden
-      // Benutzer können mehrere Portfolios haben
+      // Check premium status and existing portfolios
+      const premiumStatus = await checkUserPremiumStatus()
+      setIsPremium(premiumStatus?.isPremium || false)
+
+      // Count existing portfolios
+      const { data: portfolios, error } = await supabase
+        .from('portfolios')
+        .select('id')
+        .eq('user_id', user.id)
+
+      if (error) throw error
+      const portfolioCount = portfolios?.length || 0
+      setExistingPortfolios(portfolioCount)
+
+      // Check if user can create more portfolios
+      const limits = getPortfolioLimits(premiumStatus?.isPremium || false)
+      
+      if (portfolioCount >= limits.maxPortfolios) {
+        // Redirect to pricing for free users who hit limit
+        router.push('/pricing')
+        return
+      }
+
       setHasPortfolio(false)
     } catch (error) {
       console.error('Error checking portfolio:', error)
@@ -207,10 +232,12 @@ export default function PortfolioPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-theme-primary">
-                Neues Portfolio erstellen
+                {existingPortfolios === 0 ? 'Portfolio erstellen' : 'Neues Portfolio erstellen'}
               </h1>
               <p className="text-sm text-theme-muted mt-1">
-                Erstellen Sie ein zusätzliches Portfolio für verschiedene Strategien
+                {existingPortfolios === 0 
+                  ? 'Starten Sie mit Ihrem ersten Portfolio' 
+                  : `Portfolio ${existingPortfolios + 1} erstellen`}
               </p>
             </div>
           </div>
@@ -220,6 +247,31 @@ export default function PortfolioPage() {
       {/* Main Content */}
       <main className="w-full px-6 lg:px-8 py-8">
         <div className="max-w-3xl mx-auto">
+          
+          {/* Premium Info für Multi-Portfolio */}
+          {existingPortfolios > 0 && !isPremium && (
+            <div className="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-6 mb-6">
+              <div className="flex items-start gap-3">
+                <StarIcon className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                <div>
+                  <h3 className="font-semibold text-theme-primary mb-2">
+                    Multi-Portfolio ist ein Premium Feature
+                  </h3>
+                  <p className="text-sm text-theme-secondary mb-4">
+                    Sie haben bereits ein Portfolio erstellt. Mit Premium können Sie unbegrenzt viele Portfolios 
+                    für verschiedene Strategien verwalten (z.B. Tech-Aktien, Dividenden, ETFs).
+                  </p>
+                  <Link
+                    href="/pricing"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-yellow-500 hover:bg-yellow-400 text-white rounded-lg transition-colors text-sm font-medium"
+                  >
+                    <StarIcon className="w-4 h-4" />
+                    Premium upgraden
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
           
           {/* Step 1: Basic Information */}
           <div className="bg-theme-card rounded-xl p-6 border border-theme/10 mb-6">
