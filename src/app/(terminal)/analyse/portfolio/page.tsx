@@ -12,7 +12,8 @@ import {
   PlusIcon,
   TrashIcon,
   DocumentTextIcon,
-  ArrowPathIcon
+  ArrowPathIcon,
+  Cog6ToothIcon
 } from '@heroicons/react/24/outline'
 
 // Supabase Client initialisieren (sollte in einer separaten Datei sein)
@@ -55,20 +56,9 @@ export default function PortfolioPage() {
         return
       }
 
-      const { data: portfolios, error } = await supabase
-        .from('portfolios')
-        .select('id')
-        .eq('user_id', user.id)
-        .limit(1)
-
-      if (error) throw error
-      
-      if (portfolios && portfolios.length > 0) {
-        // Hat bereits Portfolio -> zur Übersicht
-        router.push('/analyse/portfolio/dashboard')
-      } else {
-        setHasPortfolio(false)
-      }
+      // Immer Portfolio-Erstellungsseite anzeigen - auch wenn bereits Portfolios vorhanden
+      // Benutzer können mehrere Portfolios haben
+      setHasPortfolio(false)
     } catch (error) {
       console.error('Error checking portfolio:', error)
       setHasPortfolio(false)
@@ -193,13 +183,23 @@ export default function PortfolioPage() {
       {/* Header */}
       <div className="border-b border-theme/5">
         <div className="w-full px-6 lg:px-8 py-6">
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
-          >
-            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-            Zurück zum Dashboard
-          </Link>
+          <div className="flex items-center gap-4 mb-6">
+            <Link
+              href="/analyse/portfolio/dashboard"
+              className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 group"
+            >
+              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
+              Zurück zum Portfolio
+            </Link>
+            <span className="text-theme-muted">•</span>
+            <Link
+              href="/analyse/portfolio/verwaltung"
+              className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200"
+            >
+              <Cog6ToothIcon className="w-4 h-4" />
+              Portfolios verwalten
+            </Link>
+          </div>
 
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
@@ -207,10 +207,10 @@ export default function PortfolioPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-theme-primary">
-                Portfolio erstellen
+                Neues Portfolio erstellen
               </h1>
               <p className="text-sm text-theme-muted mt-1">
-                Nahtlose Investmentverfolgung für smartere Entscheidungen
+                Erstellen Sie ein zusätzliches Portfolio für verschiedene Strategien
               </p>
             </div>
           </div>

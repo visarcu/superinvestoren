@@ -13,6 +13,7 @@ import PortfolioDividends from '@/components/PortfolioDividends'
 import PortfolioHistory from '@/components/PortfolioHistory'
 import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
 import PortfolioAllocationChart from '@/components/PortfolioAllocationChart'
+import PortfolioSwitcher from '@/components/PortfolioSwitcher'
 import { 
   BriefcaseIcon, 
   ArrowLeftIcon,
@@ -197,7 +198,7 @@ export default function PortfolioDashboard() {
     }
   }
 
-  const loadPortfolio = async () => {
+  const loadPortfolio = async (specificPortfolioId?: string) => {
     setLoading(true)
     setError(null)
     
@@ -208,12 +209,19 @@ export default function PortfolioDashboard() {
         return
       }
 
-      // Portfolio laden
-      const { data: portfolioData, error: portfolioError } = await supabase
+      // Portfolio laden - entweder spezifisches oder Standard-Portfolio
+      let portfolioQuery = supabase
         .from('portfolios')
         .select('*')
         .eq('user_id', user.id)
-        .single()
+      
+      if (specificPortfolioId) {
+        portfolioQuery = portfolioQuery.eq('id', specificPortfolioId)
+      } else {
+        portfolioQuery = portfolioQuery.order('is_default', { ascending: false }).order('created_at', { ascending: true })
+      }
+      
+      const { data: portfolioData, error: portfolioError } = await portfolioQuery.single()
 
       if (portfolioError) throw portfolioError
       setPortfolio(portfolioData)
@@ -522,7 +530,7 @@ export default function PortfolioDashboard() {
           <h2 className="text-xl font-bold text-theme-primary mb-2">Fehler beim Laden</h2>
           <p className="text-theme-secondary mb-4">{error}</p>
           <button
-            onClick={loadPortfolio}
+            onClick={() => loadPortfolio()}
             className="px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
           >
             Erneut versuchen
@@ -546,18 +554,30 @@ export default function PortfolioDashboard() {
           </Link>
 
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
-                <BriefcaseIcon className="w-6 h-6 text-green-400" />
+            <div className="flex items-center gap-6">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
+                  <BriefcaseIcon className="w-6 h-6 text-green-400" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-theme-primary">
+                    Portfolio Dashboard
+                  </h1>
+                  <p className="text-sm text-theme-muted mt-1">
+                    Verwalten Sie Ihre Investments
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-theme-primary">
-                  {portfolio?.name || 'Mein Portfolio'}
-                </h1>
-                <p className="text-sm text-theme-muted mt-1">
-                  Erstellt am {portfolio?.created_at ? new Date(portfolio.created_at).toLocaleDateString('de-DE') : ''}
-                </p>
-              </div>
+              
+              {/* Portfolio Switcher */}
+              <PortfolioSwitcher 
+                activePortfolioId={portfolio?.id}
+                onPortfolioChange={(portfolioId) => {
+                  // Portfolio wechseln - reload dashboard with new portfolio
+                  loadPortfolio(portfolioId)
+                }}
+                className="min-w-[220px]"
+              />
             </div>
 
             <div className="flex items-center gap-3">
@@ -597,9 +617,13 @@ export default function PortfolioDashboard() {
                 <ArrowPathIcon className={`w-5 h-5 text-theme-secondary ${refreshing ? 'animate-spin' : ''}`} />
               </button>
               
-              <button className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors">
+              <Link
+                href="/analyse/portfolio/verwaltung"
+                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
+                title="Portfolio verwalten"
+              >
                 <Cog6ToothIcon className="w-5 h-5 text-theme-secondary" />
-              </button>
+              </Link>
             </div>
           </div>
         </div>
