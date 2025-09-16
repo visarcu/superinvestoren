@@ -150,8 +150,25 @@ export default function SurprisesClient({ ticker }: { ticker: string }) {
     return ((actual - estimated) / Math.abs(estimated)) * 100
   }
 
-  // Helper function to format quarter from date
-  const formatQuarter = (dateString: string) => {
+  // Helper function to format fiscal quarter properly for Google/Alphabet
+  const formatQuarter = (dateString: string, fiscalDateEnding?: string) => {
+    if (fiscalDateEnding) {
+      const fiscalDate = new Date(fiscalDateEnding)
+      const month = fiscalDate.getMonth() // 0-based: Jan=0, Feb=1, ..., Dec=11
+      const year = fiscalDate.getFullYear()
+      
+      // Google's fiscal year = calendar year, but we need to map to "FQ" format like Seeking Alpha
+      // Q1 = Jan-Mar (months 0,1,2), Q2 = Apr-Jun (months 3,4,5), etc.
+      let quarter: number
+      if (month >= 0 && month <= 2) quarter = 1      // Jan-Mar = Q1
+      else if (month >= 3 && month <= 5) quarter = 2  // Apr-Jun = Q2  
+      else if (month >= 6 && month <= 8) quarter = 3  // Jul-Sep = Q3
+      else quarter = 4                                // Oct-Dec = Q4
+      
+      return `FQ${quarter} ${year}`
+    }
+    
+    // Fallback to announcement date
     const date = new Date(dateString)
     const month = date.getMonth()
     const year = date.getFullYear()
@@ -168,16 +185,58 @@ export default function SurprisesClient({ ticker }: { ticker: string }) {
     beat: s.actualEarningResult > s.estimatedEarning
   })).reverse()
 
-  // Prepare revenue surprise data from calendar
+  // Define interface for revenue surprise data
+  interface RevenueSurpriseEntry {
+    id: string
+    date: string
+    surprise: number
+    actual: number
+    estimated: number
+    beat: boolean
+    fiscalDateEnding: string
+    originalDate: string
+  }
+
+  // Prepare revenue surprise data from calendar - with duplicate filtering
   const revenueSurpriseData = calendar
     .filter(c => c.revenue && c.revenueEstimated)
-    .map(c => ({
-      date: formatQuarter(c.date),
-      surprise: calculateSurprise(c.revenue, c.revenueEstimated),
-      actual: c.revenue,
-      estimated: c.revenueEstimated,
-      beat: c.revenue > c.revenueEstimated
-    })).reverse()
+    .map((c, originalIndex) => {
+      const surprise = calculateSurprise(c.revenue, c.revenueEstimated)
+      const beat = c.revenue > c.revenueEstimated
+      const formattedDate = formatQuarter(c.date, c.fiscalDateEnding)
+      
+      
+      return {
+        id: `revenue-${c.date}-${originalIndex}`,
+        date: formattedDate,
+        surprise: Number(surprise),
+        actual: c.revenue,
+        estimated: c.revenueEstimated,
+        beat,
+        fiscalDateEnding: c.fiscalDateEnding,
+        originalDate: c.date
+      }
+    })
+    .reduce((acc: RevenueSurpriseEntry[], current) => {
+      // Remove duplicates and keep the most recent/relevant entry per quarter
+      const existingIndex = acc.findIndex(item => item.date === current.date)
+      
+      if (existingIndex === -1) {
+        // First entry for this quarter
+        acc.push(current)
+      } else {
+        const existing = acc[existingIndex]
+        
+        // Keep the most recent entry for duplicate quarters
+        if (new Date(current.originalDate) > new Date(existing.originalDate)) {
+          acc[existingIndex] = current
+        }
+      }
+      
+      return acc
+    }, [])
+    .reverse()
+
 
   // Calculate statistics
   const epsBeats = epsSurpriseData.filter(d => d.beat).length
@@ -329,7 +388,7 @@ export default function SurprisesClient({ ticker }: { ticker: string }) {
       {revenueSurpriseData.length > 0 && (
         <div className="bg-theme-card rounded-lg p-6">
           <h3 className="text-xl font-bold text-theme-primary mb-6">Revenue Surprises (%)</h3>
-          <ResponsiveContainer width="100%" height={350}>
+          <ResponsiveContainer width="100%" height={350} key={`revenue-chart-${revenueSurpriseData.length}`}>
             <BarChart data={revenueSurpriseData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis 
@@ -348,29 +407,37 @@ export default function SurprisesClient({ ticker }: { ticker: string }) {
                 content={({ active, payload }) => {
                   if (!active || !payload?.[0]) return null
                   const data = payload[0].payload
+                  
                   return (
                     <div className="bg-theme-card rounded-lg px-3 py-2 border border-theme">
                       <p className="text-theme-secondary text-xs mb-1">{data.date}</p>
                       <p className="text-theme-primary text-sm">
-                        Tatsächlich: {formatCurrency(data.actual)}
+                        Tatsächlich: {(data.actual / 1e9).toFixed(2)} Mrd. $
                       </p>
                       <p className="text-theme-muted text-sm">
-                        Erwartet: {formatCurrency(data.estimated)}
+                        Erwartet: {(data.estimated / 1e9).toFixed(2)} Mrd. $
                       </p>
                       <p className={`text-sm font-bold ${
                         data.surprise >= 0 ? 'text-green-400' : 'text-red-400'
                       }`}>
-                        Surprise: {formatPercentage(data.surprise)}
+                        Surprise: {data.surprise.toFixed(2)}%
                       </p>
                     </div>
                   )
                 }}
               />
               <ReferenceLine y={0} stroke="var(--text-muted)" />
-              <Bar dataKey="surprise">
-                {revenueSurpriseData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.surprise >= 0 ? '#10B981' : '#EF4444'} />
-                ))}
+              <Bar dataKey="surprise" fill="#10B981">
+                {revenueSurpriseData.map((entry, index) => {
+                  const color = entry.surprise >= 0 ? '#10B981' : '#EF4444'
+                  
+                  return (
+                    <Cell 
+                      key={entry.id || `revenue-cell-${index}`}
+                      fill={color}
+                    />
+                  )
+                })}
               </Bar>
             </BarChart>
           </ResponsiveContainer>

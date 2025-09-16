@@ -12,6 +12,7 @@ import PortfolioCalendar from '@/components/PortfolioCalendar'
 import PortfolioDividends from '@/components/PortfolioDividends'
 import PortfolioHistory from '@/components/PortfolioHistory'
 import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
+import PortfolioAllocationChart from '@/components/PortfolioAllocationChart'
 import { 
   BriefcaseIcon, 
   ArrowLeftIcon,
@@ -695,6 +696,101 @@ export default function PortfolioDashboard() {
           ))}
         </div>
 
+        {/* Asset Allocation Chart - Moved to Top */}
+        {activeTab === 'overview' && (
+          <div className="mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Asset Allocation Chart */}
+              <div className="lg:col-span-2">
+                <PortfolioAllocationChart 
+                  holdings={holdings.map(h => ({
+                    symbol: h.symbol,
+                    name: h.name,
+                    value: h.value,
+                    quantity: h.quantity
+                  }))}
+                  totalValue={totalValue}
+                  cashPosition={cashPositionDisplay}
+                  activeInvestments={activeInvestments}
+                />
+              </div>
+
+              {/* Portfolio Stats */}
+              <div className="space-y-4">
+                {/* Top Holdings */}
+                <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+                  <h4 className="font-semibold text-theme-primary mb-3 text-sm">
+                    Top Positionen
+                  </h4>
+                  <div className="space-y-3">
+                    {holdings
+                      .sort((a, b) => b.value - a.value)
+                      .slice(0, 5)
+                      .map((holding, index) => {
+                        const percentage = totalValue > 0 ? (holding.value / totalValue) * 100 : 0
+                        return (
+                          <div key={holding.symbol} className="flex items-center justify-between">
+                            <div className="flex items-center gap-2">
+                              <div className="w-6 h-6 bg-theme-secondary rounded flex items-center justify-center">
+                                <span className="text-xs font-bold text-green-400">
+                                  {index + 1}
+                                </span>
+                              </div>
+                              <div>
+                                <p className="font-semibold text-theme-primary text-xs">
+                                  {holding.symbol}
+                                </p>
+                                <p className="text-xs text-theme-muted">
+                                  {formatCurrency(holding.value)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <span className="text-xs font-medium text-theme-secondary">
+                                {percentage.toFixed(1)}%
+                              </span>
+                            </div>
+                          </div>
+                        )
+                      })
+                    }
+                  </div>
+                </div>
+
+                {/* Portfolio Diversity */}
+                <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+                  <h4 className="font-semibold text-theme-primary mb-3 text-sm">
+                    Portfolio Diversität
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-theme-secondary">Positionen</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {activeInvestments}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-theme-secondary">Cash %</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {totalValue > 0 ? ((cashPositionDisplay / totalValue) * 100).toFixed(1) : '0.0'}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-xs text-theme-secondary">Größte Position</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {holdings.length > 0 
+                          ? ((Math.max(...holdings.map(h => h.value)) / totalValue) * 100).toFixed(1) + '%'
+                          : '0.0%'
+                        }
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Tab Content */}
         {activeTab === 'overview' && (
           <>
@@ -1066,13 +1162,13 @@ export default function PortfolioDashboard() {
                               <p className="font-semibold text-theme-primary">
                                 {holding.quantity.toLocaleString('de-DE')}
                               </p>
-                              <p className="text-xs text-theme-muted">Shares</p>
+                              <p className="text-xs text-theme-muted">Stück</p>
                             </td>
                             <td className="text-right px-4 py-4">
                               <p className="font-semibold text-theme-primary">
                                 {formatStockPrice(holding.purchase_price_display)}
                               </p>
-                              <p className="text-xs text-theme-muted">Avg Cost</p>
+                              <p className="text-xs text-theme-muted">Ø Kaufpreis</p>
                             </td>
                             <td className="text-right px-4 py-4">
                               <p className="font-semibold text-theme-primary">
@@ -1092,7 +1188,7 @@ export default function PortfolioDashboard() {
                                 {formatCurrency(holding.value)}
                               </p>
                               <p className="text-xs text-theme-muted">
-                                {totalValue > 0 ? formatPercentage((holding.value / totalValue) * 100, false) : '0%'} of Portfolio
+                                {totalValue > 0 ? formatPercentage((holding.value / totalValue) * 100, false) : '0%'} des Portfolios
                               </p>
                             </td>
                             <td className="text-right px-4 py-4">
@@ -1146,14 +1242,6 @@ export default function PortfolioDashboard() {
               )}
             </div>
 
-            {/* Coming Soon Message */}
-            <div className="mt-8 bg-theme-card rounded-xl p-6 border border-theme/10">
-              <h3 className="text-lg font-semibold text-theme-primary mb-2">📊 Charts Coming Soon</h3>
-              <p className="text-theme-secondary">
-                Portfolio Performance Charts und Asset Allocation Visualisierungen werden in der nächsten Version hinzugefügt. 
-                Aktuell können Sie Ihre Positionen verwalten und die Performance in der Tabelle verfolgen.
-              </p>
-            </div>
           </>
         )}
 
