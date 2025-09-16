@@ -443,7 +443,8 @@ const superinvestorLinks = [
     href: '/superinvestor/fear-greed-index', 
     label: 'Fear & Greed Index',
     description: 'Markt-Sentiment Indikator',
-    badge: 'Soon'
+    badge: 'Soon',
+    disabled: true
   },
   { 
     href: '/superinvestor/insider', 
@@ -634,33 +635,60 @@ export default function ModernNavbar() {
               {/* Superinvestoren Dropdown */}
               <div className="absolute left-0 top-full mt-3 w-80 bg-black/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
                 <div className="p-2">
-                  {superinvestorLinks.map((link) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      className="block px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white hover:text-black group/item"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div>
-                          <div className="font-medium text-sm text-gray-300 group-hover/item:text-black transition-colors">
-                            {link.label}
-                          </div>
-                          <div className="text-xs text-gray-500 group-hover/item:text-black/60 transition-colors">
-                            {link.description}
+                  {superinvestorLinks.map((link) => {
+                    if (link.disabled) {
+                      return (
+                        <div
+                          key={link.href}
+                          className="block px-4 py-3 rounded-xl opacity-60 cursor-not-allowed"
+                        >
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <div className="font-medium text-sm text-gray-400">
+                                {link.label}
+                              </div>
+                              <div className="text-xs text-gray-600">
+                                {link.description}
+                              </div>
+                            </div>
+                            {link.badge && (
+                              <span className="text-xs px-2 py-0.5 rounded-full font-medium bg-gray-800 text-gray-500">
+                                {link.badge}
+                              </span>
+                            )}
                           </div>
                         </div>
-                        {link.badge && (
-                          <span className={`text-xs px-2 py-0.5 rounded-full font-medium transition-colors ${
-                            link.badge === 'Live'
-                              ? 'bg-green-500/20 text-green-400 group-hover/item:bg-black group-hover/item:text-white'
-                              : 'bg-gray-800 text-gray-400 group-hover/item:bg-black/10 group-hover/item:text-black'
-                          }`}>
-                            {link.badge}
-                          </span>
-                        )}
-                      </div>
-                    </Link>
-                  ))}
+                      )
+                    }
+                    
+                    return (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className="block px-4 py-3 rounded-xl transition-all duration-200 hover:bg-white hover:text-black group/item"
+                      >
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <div className="font-medium text-sm text-gray-300 group-hover/item:text-black transition-colors">
+                              {link.label}
+                            </div>
+                            <div className="text-xs text-gray-500 group-hover/item:text-black/60 transition-colors">
+                              {link.description}
+                            </div>
+                          </div>
+                          {link.badge && (
+                            <span className={`text-xs px-2 py-0.5 rounded-full font-medium transition-colors ${
+                              link.badge === 'Live'
+                                ? 'bg-green-500/20 text-green-400 group-hover/item:bg-black group-hover/item:text-white'
+                                : 'bg-gray-800 text-gray-400 group-hover/item:bg-black/10 group-hover/item:text-black'
+                            }`}>
+                              {link.badge}
+                            </span>
+                          )}
+                        </div>
+                      </Link>
+                    )
+                  })}
                 </div>
               </div>
             </div>
@@ -739,27 +767,47 @@ export default function ModernNavbar() {
                       <div className="px-3 py-2 text-base font-bold text-white">
                         Superinvestoren
                       </div>
-                      {superinvestorLinks.map(link => (
-                        <Link
-                          key={link.href}
-                          href={link.href}
-                          onClick={() => close()}
-                          className="block px-6 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
-                        >
-                          <div className="flex items-center justify-between">
-                            <span>{link.label}</span>
-                            {link.badge && (
-                              <span className={`text-xs px-2 py-0.5 rounded ${
-                                link.badge === 'Live' 
-                                  ? 'bg-green-500/20 text-green-400' 
-                                  : 'bg-gray-800 text-gray-400'
-                              }`}>
-                                {link.badge}
-                              </span>
-                            )}
-                          </div>
-                        </Link>
-                      ))}
+                      {superinvestorLinks.map(link => {
+                        if (link.disabled) {
+                          return (
+                            <div
+                              key={link.href}
+                              className="block px-6 py-3 text-sm text-gray-600 opacity-60 cursor-not-allowed"
+                            >
+                              <div className="flex items-center justify-between">
+                                <span>{link.label}</span>
+                                {link.badge && (
+                                  <span className="text-xs px-2 py-0.5 rounded bg-gray-800 text-gray-500">
+                                    {link.badge}
+                                  </span>
+                                )}
+                              </div>
+                            </div>
+                          )
+                        }
+                        
+                        return (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            onClick={() => close()}
+                            className="block px-6 py-3 text-sm text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
+                          >
+                            <div className="flex items-center justify-between">
+                              <span>{link.label}</span>
+                              {link.badge && (
+                                <span className={`text-xs px-2 py-0.5 rounded ${
+                                  link.badge === 'Live' 
+                                    ? 'bg-green-500/20 text-green-400' 
+                                    : 'bg-gray-800 text-gray-400'
+                                }`}>
+                                  {link.badge}
+                                </span>
+                              )}
+                            </div>
+                          </Link>
+                        )
+                      })}
                     </div>
   
                     {/* Mobile Nav Links */}

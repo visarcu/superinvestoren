@@ -38,21 +38,33 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
     setError(null);
     
     try {
-      console.log(`🔍 [Bulls&Bears] Loading for ${ticker}`);
-      const response = await fetch(`/api/bulls-bears/${ticker}`);
+      console.log(`🚀 [Bulls&Bears] Fast-loading for ${ticker}`);
+      
+      // Use AbortController for faster timeout
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // 5s timeout
+      
+      const response = await fetch(`/api/bulls-bears/${ticker}`, {
+        signal: controller.signal,
+        headers: {
+          'Cache-Control': 'max-age=300' // 5 minutes cache
+        }
+      });
+      
+      clearTimeout(timeoutId);
       
       if (!response.ok) {
         throw new Error('Failed to load bulls/bears data');
       }
       
       const bullsBearsData = await response.json();
-      console.log(`✅ [Bulls&Bears] Loaded for ${ticker}`);
+      console.log(`✅ [Bulls&Bears] Fast-loaded for ${ticker}`);
       setData(bullsBearsData);
       
     } catch (err) {
       console.error('Error loading bulls/bears:', err);
       setError('Fehler beim Laden der Analyse');
-      // Mock data für Demo
+      // Faster fallback with immediate mock data
       setData({
         ticker,
         bulls: [

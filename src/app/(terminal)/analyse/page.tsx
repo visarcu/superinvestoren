@@ -164,11 +164,12 @@ export default function ModernDashboard() {
   const [marketQuotes, setMarketQuotes] = useState<Record<string, MarketQuote>>({})
   const [loading, setLoading] = useState(false)
   const [marketLoading, setMarketLoading] = useState(false)
+  const [stocksInteractive, setStocksInteractive] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
   const [currencyYieldData, setCurrencyYieldData] = useState<any>(null)
   const [currencyYieldLoading, setCurrencyYieldLoading] = useState(true)
-  const { formatStockPrice, formatPercentage, formatNumber } = useCurrency()
+  const { formatStockPrice, formatPercentage } = useCurrency()
 
   // Deutsche Formatierung für Währungen und Yields
   const formatCurrencyValue = useCallback((value: number | string, symbol: string) => {
@@ -354,7 +355,10 @@ export default function ModernDashboard() {
         const cachedResponse = await fetch('/api/dashboard-cached')
         if (cachedResponse.ok) {
           const cachedData = await cachedResponse.json()
-          if (cachedData.quotes) setQuotes(cachedData.quotes)
+          if (cachedData.quotes) {
+            setQuotes(cachedData.quotes)
+            setStocksInteractive(true) // Stocks are now clickable
+          }
           if (cachedData.markets) setMarketQuotes(cachedData.markets)
           setMarketLoading(false) // Markets loaded immediately
         }
@@ -386,11 +390,22 @@ export default function ModernDashboard() {
   }, [POPULAR_STOCKS, watchlistTickers])
 
   const handleTickerSelect = useCallback((ticker: string) => {
+    // Immediate localStorage update
     if (typeof window !== 'undefined') {
       localStorage.setItem('lastTicker', ticker.toUpperCase())
     }
-    router.push(`/analyse/stocks/${ticker.toLowerCase()}`)
-  }, [router])
+    
+    // Use window.location for immediate navigation (faster than router.push during loading)
+    const targetUrl = `/analyse/stocks/${ticker.toLowerCase()}`
+    
+    if (loading || marketLoading) {
+      // During loading state, use direct navigation for better UX
+      window.location.href = targetUrl
+    } else {
+      // Normal state, use router for better transitions
+      router.push(targetUrl)
+    }
+  }, [router, loading, marketLoading])
 
   const marketData = useMemo(() => [
     { 
@@ -589,7 +604,12 @@ export default function ModernDashboard() {
                 <button
                   key={ticker}
                   onClick={() => handleTickerSelect(ticker)}
-                  className="group bg-theme-card border border-theme/10 rounded-xl p-5 hover:border-green-500/30 transition-all duration-200 h-[140px] flex flex-col justify-between"
+                  disabled={!stocksInteractive}
+                  className={`group bg-theme-card border border-theme/10 rounded-xl p-5 transition-all duration-200 h-[140px] flex flex-col justify-between ${
+                    stocksInteractive 
+                      ? 'hover:border-green-500/30 cursor-pointer' 
+                      : 'cursor-not-allowed opacity-60'
+                  }`}
                 >
                   {/* Header */}
                   <div className="flex items-center justify-between mb-3">
@@ -788,7 +808,12 @@ export default function ModernDashboard() {
                   
                   <button
                     onClick={() => handleTickerSelect(lastTicker)}
-                    className="group flex items-center gap-3 p-3 rounded-lg hover:bg-theme-secondary transition-all duration-200 flex-1"
+                    disabled={!stocksInteractive}
+                    className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 flex-1 ${
+                      stocksInteractive 
+                        ? 'hover:bg-theme-secondary cursor-pointer' 
+                        : 'cursor-not-allowed opacity-60'
+                    }`}
                   >
                     <Logo 
                       ticker={lastTicker} 

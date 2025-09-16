@@ -645,17 +645,16 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ✅ ULTRA CLEAN ÜBERSICHT */}
-      {hasKeyMetrics ? (
-        <div className="bg-theme-card rounded-lg">
-          <div className="px-6 py-4 border-b border-theme/5">
-            <h3 className="text-xl font-bold text-theme-primary">Übersicht</h3>
-          </div>
+      {/* ✅ ULTRA CLEAN ÜBERSICHT - Show immediately with available data */}
+      <div className="bg-theme-card rounded-lg">
+        <div className="px-6 py-4 border-b border-theme/5">
+          <h3 className="text-xl font-bold text-theme-primary">Übersicht</h3>
+        </div>
           
           <div className="p-6">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
               
-              {/* MARKTDATEN - KORRIGIERT */}
+              {/* MARKTDATEN - Always show immediately */}
               <div className="bg-theme-secondary/20 rounded-lg p-4 border-l-4 border-theme-primary">
                 <h4 className="text-theme-primary font-semibold text-sm flex items-center mb-4">
                   <div className="w-3 h-3 bg-theme-primary rounded-full mr-3"></div>
@@ -1003,42 +1002,17 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             </div>
           </div>
         </div>
-      ) : (
-        <div className="bg-theme-card rounded-lg p-6 text-center">
-          <LoadingSpinner />
-          <p className="text-theme-secondary mt-3">Key Metrics werden geladen...</p>
-        </div>
-      )}
 
       {/* ✅ BULLS/BEARS + GROWTH + CHART SEKTION - ULTRA CLEAN */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* LINKE SPALTE: BULLS/BEARS + GROWTH */}
         <div className="lg:col-span-1 space-y-6">
-          {/* BULLS/BEARS SEKTION - LAZY LOADED */}
-          <LazyWrapper 
-            minHeight="400px" 
-            rootMargin="300px"
-            className="bg-theme-card rounded-lg"
-            fallback={
-              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '400px' }}>
-                <div className="text-center">
-                  <div className="animate-pulse flex space-x-4">
-                    <div className="flex-1 space-y-3 py-1">
-                      <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
-                      <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
-                    </div>
-                  </div>
-                  <p className="text-theme-muted text-sm mt-4">Lade Bulls & Bears Analyse...</p>
-                </div>
-              </div>
-            }
-          >
-            <BullsBearsSection 
-              ticker={ticker}
-              isPremium={user?.isPremium || false}
-            />
-          </LazyWrapper>
+          {/* BULLS/BEARS SEKTION - EARLY LOADING (No Lazy Loading) */}
+          <BullsBearsSection 
+            ticker={ticker}
+            isPremium={user?.isPremium || false}
+          />
           
           {/* GROWTH SEKTION - LAZY LOADED */}
           <LazyWrapper 

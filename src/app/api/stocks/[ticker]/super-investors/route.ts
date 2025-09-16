@@ -23,13 +23,13 @@ function getStockName(position: any): string {
 
 function formatMarketCap(value: number): string {
   if (value >= 1_000_000_000_000) {
-    return `${(value / 1_000_000_000_000).toFixed(2)} Bio. $`
+    return `${(value / 1_000_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Bio. $`
   } else if (value >= 1_000_000_000) {
-    return `${(value / 1_000_000_000).toFixed(2)} Mrd. $`
+    return `${(value / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} Mrd. $`
   } else if (value >= 1_000_000) {
-    return `${(value / 1_000_000).toFixed(0)} Mio. $`
+    return `${(value / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`
   }
-  return `${(value / 1_000).toFixed(0)}K $`
+  return `${(value / 1_000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}K $`
 }
 
 function formatNumber(num: number): string {
@@ -37,7 +37,7 @@ function formatNumber(num: number): string {
 }
 
 function formatPercentage(value: number): string {
-  return `${value >= 0 ? '+' : ''}${value.toFixed(2)}%`
+  return `${value >= 0 ? '+' : ''}${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`
 }
 
 export async function GET(
@@ -151,7 +151,7 @@ export async function GET(
           ...pos.position,
           formattedValue: formatMarketCap(pos.position.value),
           formattedShares: formatNumber(pos.position.shares),
-          formattedPortfolioPercentage: `${pos.position.portfolioPercentage.toFixed(2)}%`,
+          formattedPortfolioPercentage: `${pos.position.portfolioPercentage.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`,
           formattedChangeValue: pos.position.changeValue !== 0 ? formatPercentage((pos.position.changeValue / (pos.position.value - pos.position.changeValue)) * 100) : '0%'
         }
       }))

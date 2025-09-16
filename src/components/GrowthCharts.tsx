@@ -236,16 +236,63 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
     return isFinite(cagr) ? cagr : 0;
   };
 
-  // Custom Tooltip für deutsche Formatierung
+  // Deutsche Label-Übersetzungen für Tooltips
+  const getGermanLabel = (englishKey: string): string => {
+    const translations: { [key: string]: string } = {
+      // Growth rates
+      'revenueGrowth': 'Umsatzwachstum',
+      'epsGrowth': 'EPS-Wachstum', 
+      'ebitdaGrowth': 'EBITDA-Wachstum',
+      'netIncomeGrowth': 'Nettogewinn-Wachstum',
+      'fcfGrowth': 'FCF-Wachstum',
+      'operatingIncomeGrowth': 'Betriebsergebnis-Wachstum',
+      
+      // CAGR values
+      'revenue': 'Umsatz',
+      'eps': 'EPS',
+      'ebitda': 'EBITDA', 
+      'netIncome': 'Nettogewinn',
+      'fcf': 'Free Cash Flow',
+      
+      // Indexed values
+      'revenueIndexed': 'Umsatz (Index)',
+      'epsIndexed': 'EPS (Index)',
+      'netIncomeIndexed': 'Nettogewinn (Index)',
+      
+      // Fallbacks for other fields
+      'operatingIncome': 'Betriebsergebnis',
+      'freeCashFlow': 'Free Cash Flow',
+      'totalAssets': 'Bilanzsumme',
+      'workingCapital': 'Umlaufvermögen',
+      'capex': 'Investitionen',
+      'dividend': 'Dividende',
+      'roe': 'Eigenkapitalrendite'
+    };
+    
+    return translations[englishKey] || englishKey;
+  };
+
+  // Custom Tooltip für deutsche Formatierung - Improved Styling
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-theme-card p-3 rounded-lg border border-theme/20 shadow-lg">
-          <p className="text-theme-primary font-semibold mb-2">{label}</p>
+        <div className="bg-gray-900/95 backdrop-blur-sm p-3 rounded-lg border border-gray-700/50 shadow-xl">
+          <p className="text-white font-semibold mb-2 text-sm">
+            {typeof label === 'number' ? `${label}` : label}
+          </p>
           {payload.map((entry: any, index: number) => (
-            <p key={index} className="text-sm" style={{ color: entry.color }}>
-              {entry.name}: {formatPercentage(entry.value, true)}
-            </p>
+            <div key={index} className="flex items-center gap-2 text-sm">
+              <div 
+                className="w-2 h-2 rounded-full flex-shrink-0" 
+                style={{ backgroundColor: entry.color }}
+              />
+              <span className="text-gray-200">
+                {getGermanLabel(entry.dataKey || entry.name)}: 
+              </span>
+              <span className="text-white font-medium">
+                {formatPercentage(entry.value, true)}
+              </span>
+            </div>
           ))}
         </div>
       );
@@ -286,7 +333,7 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
   }
 
   return (
-    <div className="space-y-8">
+    <div className="growth-charts space-y-8">
       
       {/* Wachstumstrend über Zeit */}
       {historicalData.length > 0 && (
@@ -446,7 +493,10 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
                   tickFormatter={(value) => `${value}`}
                 />
                 <Tooltip 
-                  formatter={(value: any) => `${Number(value).toFixed(1)}`}
+                  formatter={(value: any, name: string) => [
+                    `${Number(value).toFixed(1)}`, 
+                    getGermanLabel(name)
+                  ]}
                   labelFormatter={(label) => `Jahr: ${label}`}
                 />
                 <Legend 
