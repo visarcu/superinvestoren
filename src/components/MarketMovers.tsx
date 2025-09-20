@@ -71,19 +71,19 @@ const MarketMovers = React.memo(({
         const gainers = stocks
           .filter(s => s.changePct > 0)
           .sort((a, b) => b.changePct - a.changePct)
-          .slice(0, 3) // Nur 3 für kompaktere Ansicht
+          .slice(0, 6) // Erweitert auf 6 für mehr Daten
         
         // Top Losers (größte negative Bewegung)
         const losers = stocks
           .filter(s => s.changePct < 0)
           .sort((a, b) => a.changePct - b.changePct)
-          .slice(0, 3) // Nur 3 für kompaktere Ansicht
+          .slice(0, 6) // Erweitert auf 6 für mehr Daten
         
         // Most Active (höchstes Volume im Vergleich zum Average)
         const mostActive = stocks
           .filter(s => s.volumeRatio > 1.5) // Mindestens 50% über Average
           .sort((a, b) => b.volumeRatio - a.volumeRatio)
-          .slice(0, 3) // Nur 3 für kompaktere Ansicht
+          .slice(0, 6) // Erweitert auf 6 für mehr Daten
         
         setMoversData({
           gainers,

@@ -35,17 +35,21 @@ export default function MostFollowed({ onSelect, quotes }: MostFollowedProps) {
     async function fetchMostFollowed() {
       try {
         const response = await fetch('/api/watchlist-stats', {
-          next: { revalidate: 900 } // 15 minute cache
+          cache: 'force-cache', // Aggressive caching for better performance
+          next: { revalidate: 600 } // 10 minute cache (shorter for faster updates)
         })
+        
+        if (!response.ok) throw new Error('Failed to fetch')
+        
         const data = await response.json()
         
-        if (data.mostFollowed) {
+        if (data.mostFollowed && data.mostFollowed.length > 0) {
           const followedWithQuotes = data.mostFollowed.map((item: any) => ({
             ...item,
-            quote: quotes[item.ticker.toLowerCase()]
+            quote: quotes[item.ticker.toLowerCase()] || item.quote // Preserve existing quote if no new one
           }))
           setMostFollowed(followedWithQuotes)
-          setTotalUsers(data.totalUsers || 0)
+          setTotalUsers(data.totalUsers || totalUsers)
         }
       } catch (error) {
         console.error('Error fetching most followed:', error)

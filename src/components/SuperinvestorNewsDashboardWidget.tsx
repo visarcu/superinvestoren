@@ -48,21 +48,17 @@ export default function SuperinvestorNewsDashboardWidget() {
       try {
         setLoading(true)
 
-        // Try real API first, fallback to demo if no data
-        let response = await fetch('/api/superinvestor-news/all?limit=4')
-        let data: NewsResponse = await response.json()
-
-        // If no real news, use demo data
-        if (!data.news || data.news.length === 0) {
-          response = await fetch('/api/superinvestor-news/demo')
-          data = await response.json()
-        }
+        // Use demo data directly for faster loading - real API calls are too slow for dashboard
+        const response = await fetch('/api/superinvestor-news/demo')
+        const data: NewsResponse = await response.json()
 
         if (response.ok && data.news) {
           setNews(data.news.slice(0, 4)) // Limit to 4 for dashboard
         }
       } catch (err) {
         console.error('Error fetching superinvestor news:', err)
+        // Fallback to static demo data if API fails
+        setNews([])
       } finally {
         setLoading(false)
       }

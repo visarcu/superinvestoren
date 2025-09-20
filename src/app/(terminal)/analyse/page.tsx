@@ -32,19 +32,20 @@ import { stocks } from '@/data/stocks'
 import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
 const OptimizedWatchlistNews = dynamic(() => import('@/components/OptimizedWatchlistNews'), {
-  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
+  ssr: false
 })
 const MarketMovers = dynamic(() => import('@/components/MarketMovers'), {
-  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
+  ssr: false
 })
 const MostFollowed = dynamic(() => import('@/components/MostFollowed'), {
-  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
+  ssr: false
 })
 const LatestGuruTrades = dynamic(() => import('@/components/LatestGuruTrades'), {
-  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>
-})
-const SuperinvestorNewsDashboardWidget = dynamic(() => import('@/components/SuperinvestorNewsDashboardWidget'), {
-  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>,
+  ssr: false
 })
 
 
@@ -869,24 +870,14 @@ export default function ModernDashboard() {
               </React.Suspense>
             </div>
 
-            {/* Right Column - Market Movers + Most Followed - Lazy loaded */}
+            {/* Right Column - Market Movers (full height) */}
             <div className="space-y-6">
-              {/* Market Movers */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
+              {/* Market Movers - Now takes full height */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[416px] flex flex-col">
                 <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
                   <MarketMovers 
                     watchlistTickers={watchlistTickers}
                     popularTickers={POPULAR_STOCKS}
-                  />
-                </React.Suspense>
-              </div>
-
-              {/* Most Followed */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
-                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
-                  <MostFollowed 
-                    onSelect={handleTickerSelect}
-                    quotes={quotes}
                   />
                 </React.Suspense>
               </div>
@@ -902,26 +893,33 @@ export default function ModernDashboard() {
             </div>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Guru Trades */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+              {/* Guru Trades - Smaller height */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6 h-[380px] overflow-hidden">
                 <div className="flex items-center gap-2 mb-4">
                   <TrophyIcon className="w-5 h-5 text-yellow-400" />
                   <h3 className="text-lg font-bold text-theme-primary">Trades</h3>
                 </div>
-                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
-                  <LatestGuruTrades variant="full" />
-                </React.Suspense>
+                <div className="h-[320px] overflow-y-auto">
+                  <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
+                    <LatestGuruTrades variant="full" />
+                  </React.Suspense>
+                </div>
               </div>
 
-              {/* Superinvestor News */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+              {/* Most Followed - Smaller height, no unused space */}
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-6 h-[380px] overflow-hidden">
                 <div className="flex items-center gap-2 mb-4">
-                  <SparklesIcon className="w-5 h-5 text-green-400" />
-                  <h3 className="text-lg font-bold text-theme-primary">News</h3>
+                  <StarIcon className="w-5 h-5 text-yellow-400" />
+                  <h3 className="text-lg font-bold text-theme-primary">Beliebte Aktien</h3>
                 </div>
-                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
-                  <SuperinvestorNewsDashboardWidget />
-                </React.Suspense>
+                <div className="h-[320px] overflow-y-auto">
+                  <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
+                    <MostFollowed 
+                      onSelect={handleTickerSelect}
+                      quotes={quotes}
+                    />
+                  </React.Suspense>
+                </div>
               </div>
             </div>
           </section>
