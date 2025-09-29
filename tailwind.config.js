@@ -18,7 +18,7 @@ module.exports = {
         section3: '#1d2430',   // noch heller
         },
         fontFamily: {
-          sans:    ['Poppins','system-ui','sans-serif'],
+          sans:    ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
           orbitron:['Orbitron','sans-serif'],
         },
       },
