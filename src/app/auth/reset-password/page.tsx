@@ -31,22 +31,55 @@ export default function ResetPasswordPage() {
     });
 
     // Prüfe ob es ein Password-Reset-Link ist
-    if (type === 'recovery' && accessToken && refreshToken) {
-      // Session mit den Tokens setzen
-      supabase.auth.setSession({
-        access_token: accessToken,
-        refresh_token: refreshToken
-      }).then(({ data, error }) => {
-        if (error) {
-          console.error('Session Error:', error);
-          setErrorMsg('Ungültiger oder abgelaufener Reset-Link.');
-          setIsValidToken(false);
-        } else {
-          console.log('Session erfolgreich gesetzt:', data);
-          setIsValidToken(true);
-        }
-      });
+    if (type === 'recovery' && accessToken) {
+      console.log('🔍 Processing password reset token...');
+      
+      // Bei Password-Reset ist der access_token bereits gültig für die Session
+      // Lass uns direkt die Session damit setzen wenn auch refresh_token vorhanden
+      if (refreshToken) {
+        console.log('🔄 Setting session with both tokens...');
+        supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken
+        }).then(({ data, error }) => {
+          if (error) {
+            console.error('❌ Session Error:', error);
+            setErrorMsg('Ungültiger oder abgelaufener Reset-Link.');
+            setIsValidToken(false);
+          } else {
+            console.log('✅ Session erfolgreich gesetzt:', data);
+            setIsValidToken(true);
+          }
+        });
+      } else {
+        // Ohne refresh_token versuchen wir den access_token zu validieren
+        console.log('⚠️ Only access token available, trying to validate...');
+        
+        // Einfache Validierung: Versuche ein User-Update (ohne Parameter)
+        // Das schlägt nur fehl wenn der Token ungültig ist
+        supabase.auth.getUser(accessToken).then(({ data, error }) => {
+          if (error) {
+            console.error('❌ Token validation failed:', error);
+            setErrorMsg('Ungültiger oder abgelaufener Reset-Link.');
+            setIsValidToken(false);
+          } else {
+            console.log('✅ Token validation successful:', data);
+            // Setze temporäre Session für das Update
+            supabase.auth.setSession({
+              access_token: accessToken,
+              refresh_token: '' // Leer, aber erlaubt das Update
+            }).then(() => {
+              setIsValidToken(true);
+            }).catch((sessionError) => {
+              console.error('❌ Session creation failed:', sessionError);
+              setErrorMsg('Fehler beim Setzen der Session.');
+              setIsValidToken(false);
+            });
+          }
+        });
+      }
     } else {
+      console.log('❌ Missing required parameters:', { type, accessToken, refreshToken });
       setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
       setIsValidToken(false);
     }
