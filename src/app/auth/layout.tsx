@@ -1,31 +1,13 @@
-// src/app/auth/layout.tsx - MINOR THEME UPDATES
+// src/app/auth/layout.tsx - FIXED FOR APP ROUTER
 'use client'
 
-import '../globals.css'
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import { Analytics } from "@vercel/analytics/next"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="de" className="dark">
-      <head>
-        <title>FinClue - Login & Registrierung</title>
-        <meta name="description" content="Melde dich an oder registriere dich für FinClue" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
-        {/* Google Fonts */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect" href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-screen bg-theme-bg text-white font-['Poppins',system-ui,sans-serif] antialiased">
+    <div className="min-h-screen bg-theme-bg text-white font-['Poppins',system-ui,sans-serif] antialiased">
         
         {/* Header */}
         <header className="absolute top-0 left-0 right-0 z-50">
@@ -166,7 +148,6 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </div>
 
         <Analytics />
-      </body>
-    </html>
+    </div>
   )
 }

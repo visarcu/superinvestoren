@@ -102,83 +102,79 @@ export default function ResetPasswordPage() {
   // Loading-State während Token-Validierung
   if (isValidToken === null) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900 p-6">
-        <div className="text-white text-center">
-          <div className="animate-spin w-8 h-8 border-2 border-accent border-t-transparent rounded-full mx-auto mb-4"></div>
-          <p>Validiere Reset-Link...</p>
-        </div>
+      <div className="text-white text-center">
+        <div className="animate-spin w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+        <p>Validiere Reset-Link...</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-900 p-6">
-      <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md bg-gray-800 p-8 rounded-lg">
-        <h1 className="text-2xl font-bold text-white text-center">
-          Passwort zurücksetzen
-        </h1>
+    <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
+      <h1 className="text-2xl font-bold text-white text-center mb-6">
+        Passwort zurücksetzen
+      </h1>
 
-        {errorMsg && (
-          <div className="bg-red-900 text-red-200 px-4 py-2 rounded">
-            {errorMsg}
-          </div>
-        )}
+      {errorMsg && (
+        <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
+          {errorMsg}
+        </div>
+      )}
 
-        {infoMsg && (
-          <div className="bg-green-900 text-green-200 px-4 py-2 rounded">
-            {infoMsg}
-          </div>
-        )}
+      {infoMsg && (
+        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg">
+          {infoMsg}
+        </div>
+      )}
 
-        {isValidToken && (
-          <>
-            <div>
-              <label className="block text-gray-200 mb-1">Neues Passwort</label>
-              <input
-                type="password"
-                value={password}
-                onChange={e => setPassword(e.target.value)}
-                className="w-full p-3 rounded bg-gray-700 text-white"
-                required
-                minLength={6}
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <div>
-              <label className="block text-gray-200 mb-1">Passwort bestätigen</label>
-              <input
-                type="password"
-                value={confirmPassword}
-                onChange={e => setConfirmPassword(e.target.value)}
-                className="w-full p-3 rounded bg-gray-700 text-white"
-                required
-                minLength={6}
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <button
-              type="submit"
+      {isValidToken && (
+        <>
+          <div>
+            <label className="block text-theme-secondary text-sm mb-2">Neues Passwort</label>
+            <input
+              type="password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              className="w-full p-3 rounded-lg bg-theme-card border border-theme/10 text-white focus:border-green-500 focus:outline-none transition-colors"
+              required
+              minLength={6}
               disabled={isSubmitting}
-              className="w-full bg-accent text-black py-3 rounded hover:bg-accent/90 transition disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? 'Speichere Passwort...' : 'Passwort speichern'}
-            </button>
-          </>
-        )}
-
-        {!isValidToken && (
-          <div className="text-center">
-            <a 
-              href="/auth/forgot-password"
-              className="text-accent hover:underline"
-            >
-              Neuen Reset-Link anfordern
-            </a>
+            />
           </div>
-        )}
-      </form>
-    </div>
+
+          <div>
+            <label className="block text-theme-secondary text-sm mb-2">Passwort bestätigen</label>
+            <input
+              type="password"
+              value={confirmPassword}
+              onChange={e => setConfirmPassword(e.target.value)}
+              className="w-full p-3 rounded-lg bg-theme-card border border-theme/10 text-white focus:border-green-500 focus:outline-none transition-colors"
+              required
+              minLength={6}
+              disabled={isSubmitting}
+            />
+          </div>
+
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
+          >
+            {isSubmitting ? 'Speichere Passwort...' : 'Passwort speichern'}
+          </button>
+        </>
+      )}
+
+      {!isValidToken && (
+        <div className="text-center">
+          <a 
+            href="/auth/forgot-password"
+            className="text-green-500 hover:text-green-400 transition-colors hover:underline"
+          >
+            Neuen Reset-Link anfordern
+          </a>
+        </div>
+      )}
+    </form>
   );
 }

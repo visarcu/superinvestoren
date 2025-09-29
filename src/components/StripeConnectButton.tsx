@@ -293,6 +293,8 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
 
   // PREMIUM AKTIV (nach Trial) mit Theme
   if (premiumStatus.isPremium) {
+    const isCanceled = premiumStatus.status === 'canceled';
+    
     return (
       <div className="space-y-4">
         {/* Premium Status */}
@@ -300,10 +302,12 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-theme-tertiary/50 rounded-full flex items-center justify-center border border-theme">
-                <span className="text-lg">⭐</span>
+                <span className="text-lg">{isCanceled ? '🔄' : '⭐'}</span>
               </div>
               <div>
-                <h3 className="text-theme-primary font-semibold">Premium aktiv</h3>
+                <h3 className="text-theme-primary font-semibold">
+                  {isCanceled ? 'Premium gekündigt' : 'Premium aktiv'}
+                </h3>
                 <div className="space-y-1">
                   {premiumStatus.status && (
                     <p className="text-theme-secondary text-sm">
@@ -312,12 +316,12 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
                   )}
                   {premiumStatus.endDate && (
                     <p className="text-theme-secondary text-sm">
-                      Verlängert bis: {premiumStatus.endDate.toLocaleDateString('de-DE')}
+                      {isCanceled ? 'Läuft bis:' : 'Verlängert bis:'} {premiumStatus.endDate.toLocaleDateString('de-DE')}
                     </p>
                   )}
                   {premiumStatus.daysRemaining !== null && premiumStatus.daysRemaining > 0 && (
                     <p className="text-theme-primary text-sm">
-                      Noch {premiumStatus.daysRemaining} Tage
+                      Noch {premiumStatus.daysRemaining} Tage{isCanceled ? ' Premium-Zugang' : ''}
                     </p>
                   )}
                 </div>

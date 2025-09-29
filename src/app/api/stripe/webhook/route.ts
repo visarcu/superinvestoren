@@ -453,7 +453,17 @@ async function handleSubscriptionUpdated(subscriptionData: any) {
     }
 
     const userId = profile.user_id;
-    const isActive = subscriptionData.status === 'active' || subscriptionData.status === 'trialing';
+    
+    // Check if subscription is canceled (has canceled_at but not yet deleted)
+    const isCanceled = subscriptionData.canceled_at !== null;
+    const isActive = (subscriptionData.status === 'active' || subscriptionData.status === 'trialing') && !isCanceled;
+    
+    console.log('📊 Subscription Status Check:', {
+      status: subscriptionData.status,
+      canceled_at: subscriptionData.canceled_at,
+      isCanceled,
+      isActive
+    });
     
     // FIX: Verwende trial_end für Trial Subscriptions
     const subscriptionAny = subscriptionData as any;
@@ -469,7 +479,7 @@ async function handleSubscriptionUpdated(subscriptionData: any) {
     
     const updateData = {
       is_premium: isActive,
-      subscription_status: subscriptionData.status,
+      subscription_status: isCanceled ? 'canceled' : subscriptionData.status,
       subscription_end_date: endDate.toISOString(),
       updated_at: new Date().toISOString()
     };
