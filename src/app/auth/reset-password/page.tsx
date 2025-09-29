@@ -23,66 +23,90 @@ export default function ResetPasswordPage() {
 
   useEffect(() => {
     // Debug: Log alle URL-Parameter
-    console.log('URL Parameters:', {
+    console.log('🔍 URL Parameters:', {
       accessToken,
       refreshToken,
       type,
       allParams: Object.fromEntries(searchParams)
     });
 
-    // Prüfe ob es ein Password-Reset-Link ist
-    if (type === 'recovery' && accessToken) {
-      console.log('🔍 Processing password reset token...');
-      
-      // Bei Password-Reset ist der access_token bereits gültig für die Session
-      // Lass uns direkt die Session damit setzen wenn auch refresh_token vorhanden
-      if (refreshToken) {
-        console.log('🔄 Setting session with both tokens...');
-        supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken
-        }).then(({ data, error }) => {
-          if (error) {
-            console.error('❌ Session Error:', error);
-            setErrorMsg('Ungültiger oder abgelaufener Reset-Link.');
-            setIsValidToken(false);
+    // Supabase Magic Links haben verschiedene Parameter-Namen
+    // Checke alle möglichen Parameter-Kombinationen
+    const token = accessToken || searchParams.get('token');
+    const recoveryType = type || searchParams.get('recovery_type');
+    
+    console.log('🔍 Checking all possible parameters:', {
+      token,
+      recoveryType,
+      type,
+      accessToken,
+      refreshToken
+    });
+
+    if (!token) {
+      console.log('❌ No token found in URL');
+      setErrorMsg('Kein Reset-Token in der URL gefunden. Bitte fordere einen neuen Reset-Link an.');
+      setIsValidToken(false);
+      return;
+    }
+
+    // Versuche Session direkt zu setzen mit verfügbaren Tokens
+    async function validateToken() {
+      try {
+        console.log('🔄 Attempting session setup...');
+        
+        if (refreshToken) {
+          // Verwende beide Tokens wenn verfügbar
+          const { data, error } = await supabase.auth.setSession({
+            access_token: token,
+            refresh_token: refreshToken
+          });
+          
+          if (error) throw error;
+          console.log('✅ Session set with both tokens:', data);
+          setIsValidToken(true);
+          
+        } else {
+          // Nur access token - versuche direkte Validierung
+          console.log('⚠️ Only access token, validating...');
+          
+          // Versuche den User mit dem Token zu holen
+          const { data: userData, error: userError } = await supabase.auth.getUser(token);
+          
+          if (userError) {
+            console.log('❌ Direct user fetch failed, trying session approach...');
+            
+            // Fallback: Versuche Session mit leerem refresh token
+            const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
+              access_token: token,
+              refresh_token: ''
+            });
+            
+            if (sessionError) {
+              throw sessionError;
+            }
+            console.log('✅ Session set with empty refresh token');
+            setIsValidToken(true);
+            
           } else {
-            console.log('✅ Session erfolgreich gesetzt:', data);
+            console.log('✅ User validated:', userData);
+            // Setze Session für das Password Update
+            await supabase.auth.setSession({
+              access_token: token,
+              refresh_token: ''
+            });
             setIsValidToken(true);
           }
-        });
-      } else {
-        // Ohne refresh_token versuchen wir den access_token zu validieren
-        console.log('⚠️ Only access token available, trying to validate...');
+        }
         
-        // Einfache Validierung: Versuche ein User-Update (ohne Parameter)
-        // Das schlägt nur fehl wenn der Token ungültig ist
-        supabase.auth.getUser(accessToken).then(({ data, error }) => {
-          if (error) {
-            console.error('❌ Token validation failed:', error);
-            setErrorMsg('Ungültiger oder abgelaufener Reset-Link.');
-            setIsValidToken(false);
-          } else {
-            console.log('✅ Token validation successful:', data);
-            // Setze temporäre Session für das Update
-            supabase.auth.setSession({
-              access_token: accessToken,
-              refresh_token: '' // Leer, aber erlaubt das Update
-            }).then(() => {
-              setIsValidToken(true);
-            }).catch((sessionError) => {
-              console.error('❌ Session creation failed:', sessionError);
-              setErrorMsg('Fehler beim Setzen der Session.');
-              setIsValidToken(false);
-            });
-          }
-        });
+      } catch (error) {
+        console.error('❌ Token validation failed:', error);
+        setErrorMsg('Ungültiger oder abgelaufener Reset-Link. Bitte fordere einen neuen an.');
+        setIsValidToken(false);
       }
-    } else {
-      console.log('❌ Missing required parameters:', { type, accessToken, refreshToken });
-      setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
-      setIsValidToken(false);
     }
+
+    validateToken();
   }, [accessToken, refreshToken, type, searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
