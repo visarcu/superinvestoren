@@ -58,7 +58,7 @@ export default function ResetPasswordPage() {
         if (refreshToken) {
           // Verwende beide Tokens wenn verfügbar
           const { data, error } = await supabase.auth.setSession({
-            access_token: token,
+            access_token: token!,
             refresh_token: refreshToken
           });
           
@@ -71,14 +71,14 @@ export default function ResetPasswordPage() {
           console.log('⚠️ Only access token, validating...');
           
           // Versuche den User mit dem Token zu holen
-          const { data: userData, error: userError } = await supabase.auth.getUser(token);
+          const { data: userData, error: userError } = await supabase.auth.getUser(token!);
           
           if (userError) {
             console.log('❌ Direct user fetch failed, trying session approach...');
             
             // Fallback: Versuche Session mit leerem refresh token
             const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
-              access_token: token,
+              access_token: token!,
               refresh_token: ''
             });
             
@@ -92,7 +92,7 @@ export default function ResetPasswordPage() {
             console.log('✅ User validated:', userData);
             // Setze Session für das Password Update
             await supabase.auth.setSession({
-              access_token: token,
+              access_token: token!,
               refresh_token: ''
             });
             setIsValidToken(true);
