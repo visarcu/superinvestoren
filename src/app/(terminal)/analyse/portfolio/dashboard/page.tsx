@@ -419,7 +419,7 @@ export default function PortfolioDashboard() {
 
         if (error) throw error
       } else {
-        // Cash Position - update portfolio cash_position
+        // Cash Position - update portfolio cash_position__
         const conversionResult = await currencyManager.convertNewPositionToUSD(
           parseFloat(cashAmount),
           purchaseCurrency
@@ -779,8 +779,7 @@ export default function PortfolioDashboard() {
                       })
                     }
                   </div>
-                </div>
-
+                </div> 
                 {/* Portfolio Diversity */}
                 <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
                   <h4 className="font-semibold text-theme-primary mb-3 text-sm">
