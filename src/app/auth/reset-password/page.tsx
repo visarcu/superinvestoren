@@ -1,4 +1,3 @@
-// src/app/auth/reset-password/page.tsx
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
@@ -8,11 +7,6 @@ import { supabase } from '@/lib/supabaseClient';
 export default function ResetPasswordPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  
-  // Supabase sendet verschiedene Parameter - wir checken alle
-  const accessToken = searchParams.get('access_token');
-  const refreshToken = searchParams.get('refresh_token');
-  const type = searchParams.get('type');
   
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,7 +21,6 @@ export default function ResetPasswordPage() {
     console.log('🔍 Hash:', window.location.hash);
     console.log('🔍 Search:', window.location.search);
     
-    // EINFACHER ANSATZ: Direkt prüfen was verfügbar ist
     async function handlePasswordReset() {
       try {
         // 1. Prüfe aktuelle Session
@@ -38,21 +31,73 @@ export default function ResetPasswordPage() {
           return;
         }
 
-        // 2. Prüfe URL Parameter (Supabase verwendet URL-Parameter, nicht Hash!)
-        const urlParams = new URLSearchParams(window.location.search);
+        // 2. Check Hash-Fragment (Supabase Standard)
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        let accessToken = hashParams.get('access_token');
+        let refreshToken = hashParams.get('refresh_token');
+        let type = hashParams.get('type');
         
-        const accessToken = urlParams.get('access_token');
-        const refreshToken = urlParams.get('refresh_token');
-        const type = urlParams.get('type');
+        // 3. Falls nicht im Hash, check URL-Parameter
+        if (!accessToken) {
+          const urlParams = new URLSearchParams(window.location.search);
+          accessToken = urlParams.get('access_token');
+          refreshToken = urlParams.get('refresh_token');
+          type = urlParams.get('type');
+          
+          // 4. Alternative: Check für token_hash oder code
+          if (!accessToken) {
+            const tokenHash = urlParams.get('token_hash') || hashParams.get('token_hash');
+            const code = urlParams.get('code') || hashParams.get('code');
+            
+            console.log('🔍 Alternative tokens:', { tokenHash, code });
+            
+            // HIER IST DIE KORREKTUR:
+            if (tokenHash) {
+              try {
+                const { data, error } = await supabase.auth.verifyOtp({
+                  token_hash: tokenHash,
+                  type: 'recovery'
+                });
+                
+                if (!error && data.session) {
+                  console.log('✅ OTP verified with token_hash');
+                  setIsValidToken(true);
+                  return;
+                } else if (error) {
+                  console.error('❌ Token hash verification failed:', error);
+                }
+              } catch (otpError: any) {
+                console.error('❌ Token hash error:', otpError);
+              }
+            }
+            
+            // Separat für code probieren
+            if (code) {
+              try {
+                const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+                
+                if (!error && data.session) {
+                  console.log('✅ Code exchanged for session');
+                  setIsValidToken(true);
+                  return;
+                } else if (error) {
+                  console.error('❌ Code exchange failed:', error);
+                }
+              } catch (codeError: any) {
+                console.error('❌ Code exchange error:', codeError);
+              }
+            }
+          }
+        }
         
         console.log('🔍 Tokens found:', {
           accessToken: accessToken ? `YES (${accessToken.length} chars)` : 'NO',
-          refreshToken: refreshToken ? `YES (${refreshToken.length} chars)` : 'NO', 
+          refreshToken: refreshToken ? 'YES' : 'NO',
           type,
-          fullAccessToken: accessToken // Debug: zeige kompletten Token
+          source: accessToken && window.location.hash ? 'hash' : 'search'
         });
 
-        // 3. Token-Länge prüfen (Debug)
+        // 5. Keine Tokens gefunden
         if (!accessToken) {
           console.log('❌ No access token found');
           setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
@@ -60,49 +105,44 @@ export default function ResetPasswordPage() {
           return;
         }
 
+        // 6. Token-Länge prüfen
         if (accessToken.length < 20) {
-          console.log('⚠️ Token seems too short, might be invalid');
-          setErrorMsg(`Token zu kurz (${accessToken.length} Zeichen). Möglicherweise Supabase-Konfigurationsfehler.`);
+          console.log('⚠️ Token too short');
+          setErrorMsg(`Token zu kurz (${accessToken.length} Zeichen).`);
           setIsValidToken(false);
           return;
         }
 
-        // 4. Versuche Session mit Tokens zu setzen
+        // 7. Session mit Tokens setzen
         console.log('🔄 Setting session with tokens...');
-        try {
-          const { data, error } = await supabase.auth.setSession({
-            access_token: accessToken,
-            refresh_token: refreshToken || ''
-          });
+        const { data, error } = await supabase.auth.setSession({
+          access_token: accessToken,
+          refresh_token: refreshToken || ''
+        });
 
-          if (error) {
-            console.error('❌ Session error:', error);
-            if (error.message.includes('AuthSessionMissingError')) {
-              setErrorMsg('Supabase-Konfigurationsfehler: Token wird nicht akzeptiert. Prüfe Site URL und Email Template.');
-            } else {
-              setErrorMsg(`Reset-Link ungültig: ${error.message}`);
-            }
-            setIsValidToken(false);
-            return;
-          }
-
-          if (data.session?.user) {
-            console.log('✅ Password reset session created:', data.session.user.email);
-            setIsValidToken(true);
-            setErrorMsg(null);
+        if (error) {
+          console.error('❌ Session error:', error);
+          if (error.message.includes('expired')) {
+            setErrorMsg('Der Reset-Link ist abgelaufen. Bitte fordere einen neuen an.');
           } else {
-            console.log('❌ No user in session');
-            setErrorMsg('Session erstellt aber kein User gefunden.');
-            setIsValidToken(false);
+            setErrorMsg(`Reset-Link ungültig: ${error.message}`);
           }
-        } catch (err: any) {
-          console.error('❌ Unexpected error:', err);
-          setErrorMsg(`Unerwarteter Fehler: ${err.message}`);
+          setIsValidToken(false);
+          return;
+        }
+
+        if (data.session?.user) {
+          console.log('✅ Session created:', data.session.user.email);
+          setIsValidToken(true);
+          setErrorMsg(null);
+        } else {
+          console.log('❌ No user in session');
+          setErrorMsg('Keine gültige Session erstellt.');
           setIsValidToken(false);
         }
 
       } catch (error: any) {
-        console.error('❌ Password reset failed:', error);
+        console.error('❌ Unexpected error:', error);
         setErrorMsg(`Fehler: ${error.message}`);
         setIsValidToken(false);
       }
@@ -139,101 +179,111 @@ export default function ResetPasswordPage() {
       });
 
       if (error) {
-        console.error('Password Update Error:', error);
-        setErrorMsg('Fehler beim Setzen des neuen Passworts: ' + error.message);
+        console.error('❌ Password update error:', error);
+        setErrorMsg(`Fehler: ${error.message}`);
       } else {
-        console.log('Password erfolgreich geändert:', data);
-        setInfoMsg('Dein Passwort wurde erfolgreich geändert! Du wirst zur Anmeldung weitergeleitet...');
+        console.log('✅ Password updated');
+        setInfoMsg('Passwort erfolgreich geändert! Du wirst weitergeleitet...');
         
-        // Nach 2 Sekunden zur Login-Seite weiterleiten
+        await supabase.auth.signOut();
+        
         setTimeout(() => {
-          router.push('/auth/signin');
+          router.push('/auth/signin?message=password_reset_success');
         }, 2000);
       }
-    } catch (err) {
-      console.error('Unexpected Error:', err);
+    } catch (err: any) {
+      console.error('❌ Error:', err);
       setErrorMsg('Ein unerwarteter Fehler ist aufgetreten.');
     } finally {
       setIsSubmitting(false);
     }
   }
 
-  // Loading-State während Token-Validierung
+  // Loading
   if (isValidToken === null) {
     return (
-      <div className="text-white text-center">
-        <div className="animate-spin w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full mx-auto mb-4"></div>
+      <div className="flex flex-col items-center justify-center min-h-[400px] text-white">
+        <div className="animate-spin w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full mb-4"></div>
         <p>Validiere Reset-Link...</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md">
-      <h1 className="text-2xl font-bold text-white text-center mb-6">
-        Passwort zurücksetzen
-      </h1>
+    <div className="flex items-center justify-center min-h-screen bg-gray-900 p-4">
+      <form onSubmit={handleSubmit} className="space-y-6 w-full max-w-md bg-gray-800 p-8 rounded-xl">
+        <h1 className="text-2xl font-bold text-white text-center mb-6">
+          Passwort zurücksetzen
+        </h1>
 
-      {errorMsg && (
-        <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
-          {errorMsg}
-        </div>
-      )}
-
-      {infoMsg && (
-        <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg">
-          {infoMsg}
-        </div>
-      )}
-
-      {isValidToken && (
-        <>
-          <div>
-            <label className="block text-theme-secondary text-sm mb-2">Neues Passwort</label>
-            <input
-              type="password"
-              value={password}
-              onChange={e => setPassword(e.target.value)}
-              className="w-full p-3 rounded-lg bg-theme-card border border-theme/10 text-white focus:border-green-500 focus:outline-none transition-colors"
-              required
-              minLength={6}
-              disabled={isSubmitting}
-            />
+        {errorMsg && (
+          <div className="bg-red-500/10 border border-red-500/20 text-red-400 px-4 py-3 rounded-lg">
+            {errorMsg}
           </div>
+        )}
 
-          <div>
-            <label className="block text-theme-secondary text-sm mb-2">Passwort bestätigen</label>
-            <input
-              type="password"
-              value={confirmPassword}
-              onChange={e => setConfirmPassword(e.target.value)}
-              className="w-full p-3 rounded-lg bg-theme-card border border-theme/10 text-white focus:border-green-500 focus:outline-none transition-colors"
-              required
-              minLength={6}
-              disabled={isSubmitting}
-            />
+        {infoMsg && (
+          <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg">
+            {infoMsg}
           </div>
+        )}
 
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium"
-          >
-            {isSubmitting ? 'Speichere Passwort...' : 'Passwort speichern'}
-          </button>
-        </>
-      )}
+        {isValidToken ? (
+          <>
+            <div>
+              <label className="block text-gray-300 text-sm mb-2">
+                Neues Passwort
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={e => setPassword(e.target.value)}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:border-green-500 focus:outline-none"
+                required
+                minLength={6}
+                disabled={isSubmitting}
+                placeholder="Min. 6 Zeichen"
+              />
+            </div>
 
-      {!isValidToken && (
-        <div className="text-center">
-          <a 
-            href="/auth/forgot-password"
-            className="text-green-500 hover:text-green-400 transition-colors hover:underline"
-          >
-            Neuen Reset-Link anfordern
-          </a>
-        </div>
-      )}
-    </form>
+            <div>
+              <label className="block text-gray-300 text-sm mb-2">
+                Passwort bestätigen
+              </label>
+              <input
+                type="password"
+                value={confirmPassword}
+                onChange={e => setConfirmPassword(e.target.value)}
+                className="w-full p-3 rounded-lg bg-gray-700 border border-gray-600 text-white focus:border-green-500 focus:outline-none"
+                required
+                minLength={6}
+                disabled={isSubmitting}
+                placeholder="Passwort wiederholen"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 disabled:opacity-50"
+            >
+              {isSubmitting ? 'Speichern...' : 'Neues Passwort speichern'}
+            </button>
+          </>
+        ) : (
+          <div className="text-center space-y-4">
+            <p className="text-gray-400">
+              Der Reset-Link ist ungültig oder abgelaufen.
+            </p>
+            <a 
+              href="/auth/forgot-password"
+              className="inline-block bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600"
+            >
+              Neuen Link anfordern
+            </a>
+          </div>
+        )}
+      </form>
+    </div>
   );
 }
