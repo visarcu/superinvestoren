@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/next"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen text-white font-['Poppins',system-ui,sans-serif] antialiased" style={{ backgroundColor: '#111827' }}>
+    <div className="min-h-screen text-white font-['Poppins',system-ui,sans-serif] antialiased" style={{ backgroundColor: '#000000' }}>
         
         {/* Header */}
         <header className="absolute top-0 left-0 right-0 z-50">
@@ -30,13 +30,13 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               <div className="flex items-center gap-4">
                 <Link 
                   href="/" 
-                  className="text-theme-secondary hover:text-white transition-colors text-sm"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
                   Startseite
                 </Link>
                 <Link 
                   href="/pricing" 
-                  className="text-theme-secondary hover:text-white transition-colors text-sm"
+                  className="text-gray-400 hover:text-white transition-colors text-sm"
                 >
                   Preise
                 </Link>
@@ -46,7 +46,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </header>
 
         {/* Main Content Container */}
-        <div className="min-h-screen relative" style={{ backgroundColor: '#111827' }}>
+        <div className="min-h-screen relative" style={{ backgroundColor: '#000000' }}>
           
           {/* Content Area */}
           <main className="min-h-screen flex items-center justify-center px-4 py-16 relative z-20">
@@ -54,9 +54,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               
               {/* LINKS: Login Form */}
               <div className="w-full max-w-md">
-                <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-                     className="backdrop-blur-xl 
-                      rounded-lg p-8 shadow-xl">
+                <div className="backdrop-blur-xl rounded-lg p-8 shadow-xl" style={{ backgroundColor: '#1a1a1a' }}>
                   
                   <div className="text-center mb-8">
                     <div className="flex items-center justify-center gap-2 mb-4">
