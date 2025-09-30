@@ -7,7 +7,7 @@ import { Analytics } from "@vercel/analytics/next"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-gray-900 text-white font-['Poppins',system-ui,sans-serif] antialiased">
+    <div className="min-h-screen text-white font-['Poppins',system-ui,sans-serif] antialiased" style={{ backgroundColor: '#111827' }}>
         
         {/* Header */}
         <header className="absolute top-0 left-0 right-0 z-50">
@@ -46,7 +46,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </header>
 
         {/* Main Content Container */}
-        <div className="min-h-screen bg-gray-900 relative">
+        <div className="min-h-screen relative" style={{ backgroundColor: '#111827' }}>
           
           {/* Content Area */}
           <main className="min-h-screen flex items-center justify-center px-4 py-16 relative z-20">

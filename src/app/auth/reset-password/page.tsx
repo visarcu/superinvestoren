@@ -38,13 +38,12 @@ export default function ResetPasswordPage() {
           return;
         }
 
-        // 2. Prüfe URL Parameter UND Hash
+        // 2. Prüfe URL Parameter (Supabase verwendet URL-Parameter, nicht Hash!)
         const urlParams = new URLSearchParams(window.location.search);
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
         
-        const accessToken = urlParams.get('access_token') || hashParams.get('access_token');
-        const refreshToken = urlParams.get('refresh_token') || hashParams.get('refresh_token');
-        const type = urlParams.get('type') || hashParams.get('type');
+        const accessToken = urlParams.get('access_token');
+        const refreshToken = urlParams.get('refresh_token');
+        const type = urlParams.get('type');
         
         console.log('🔍 Tokens found:', {
           accessToken: accessToken ? 'YES' : 'NO',
