@@ -62,14 +62,35 @@ export default function ResetPasswordPage() {
           console.log('✅ Valid session found:', session.user.email);
           setIsValidToken(true);
         } else {
-          console.log('⚠️ No valid session, waiting for auth state change...');
-          // Hier warten wir auf den Auth State Listener
-          setTimeout(() => {
-            if (isValidToken === null) {
-              setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
-              setIsValidToken(false);
-            }
-          }, 3000); // 3 Sekunden warten
+          console.log('⚠️ No valid session, checking URL for auth data...');
+          
+          // Prüfe URL Hash für Supabase Magic Link Parameter
+          const hash = window.location.hash.substring(1);
+          const params = new URLSearchParams(hash);
+          const hasAuthData = params.get('access_token') || params.get('type');
+          
+          console.log('🔍 URL Hash check:', { hash, hasAuthData });
+          
+          if (hasAuthData) {
+            console.log('✅ Auth data found in URL, waiting for auth processing...');
+            setTimeout(() => {
+              if (isValidToken === null) {
+                console.log('⚠️ Auth processing timeout, manually triggering...');
+                setErrorMsg('Reset-Link wird verarbeitet...');
+                // Länger warten für Auth-Verarbeitung
+                setTimeout(() => {
+                  if (isValidToken === null) {
+                    setErrorMsg('Reset-Link Verarbeitung fehlgeschlagen. Bitte erneut versuchen.');
+                    setIsValidToken(false);
+                  }
+                }, 5000);
+              }
+            }, 2000);
+          } else {
+            console.log('❌ No auth data in URL');
+            setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
+            setIsValidToken(false);
+          }
         }
       } catch (error) {
         console.error('❌ Session check failed:', error);
