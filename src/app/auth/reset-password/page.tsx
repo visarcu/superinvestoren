@@ -22,99 +22,69 @@ export default function ResetPasswordPage() {
   const [isValidToken, setIsValidToken] = useState<boolean | null>(null);
 
   useEffect(() => {
-    // Debug: Log alle URL-Parameter
-    console.log('🔍 URL Parameters:', {
-      accessToken,
-      refreshToken,
-      type,
-      allParams: Object.fromEntries(searchParams)
-    });
-
-    // Supabase Magic Links haben verschiedene Parameter-Namen
-    // Checke alle möglichen Parameter-Kombinationen
-    const token = accessToken || searchParams.get('token');
-    const recoveryType = type || searchParams.get('recovery_type');
+    console.log('🔄 Reset Password Page mounted');
     
-    console.log('🔍 Checking all possible parameters:', {
-      token,
-      recoveryType,
-      type,
-      accessToken,
-      refreshToken
+    // Auth State Listener - reagiert auf Auth-Änderungen automatisch
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log('🔍 Auth state changed:', event, session?.user?.email);
+      
+      if (event === 'PASSWORD_RECOVERY') {
+        console.log('✅ Password recovery detected, user is authenticated');
+        setIsValidToken(true);
+        setErrorMsg(null);
+      } else if (event === 'SIGNED_IN' && session) {
+        console.log('✅ User signed in, checking if this is password recovery');
+        setIsValidToken(true);
+        setErrorMsg(null);
+      } else if (event === 'SIGNED_OUT') {
+        console.log('❌ User signed out');
+        setIsValidToken(false);
+      } else if (event === 'TOKEN_REFRESHED' && session) {
+        console.log('✅ Token refreshed');
+        setIsValidToken(true);
+        setErrorMsg(null);
+      }
     });
 
-    if (!token) {
-      console.log('❌ No token found in URL');
-      setErrorMsg('Kein Reset-Token in der URL gefunden. Bitte fordere einen neuen Reset-Link an.');
-      setIsValidToken(false);
-      return;
-    }
-
-    // Simpler approach: Prüfe ob wir bereits eine gültige Session haben oder erstelle eine neue
-    async function validateToken() {
+    // Initial session check
+    async function checkInitialSession() {
       try {
-        console.log('🔄 Starting token validation...');
+        const { data: { session }, error } = await supabase.auth.getSession();
         
-        // Schritt 1: Aktuelle Session prüfen
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-        
-        if (session && session.user) {
-          console.log('✅ Existing valid session found:', session.user.email);
-          setIsValidToken(true);
+        if (error) {
+          console.error('❌ Session check error:', error);
+          setErrorMsg('Fehler beim Prüfen der Session.');
+          setIsValidToken(false);
           return;
         }
-
-        console.log('⚠️ No existing session, processing reset token...');
         
-        // Schritt 2: Prüfe ob der URL Hash Parameter enthält (Magic Link Format)
-        const hashParams = new URLSearchParams(window.location.hash.substring(1));
-        const hashAccessToken = hashParams.get('access_token');
-        const hashRefreshToken = hashParams.get('refresh_token');
-        const hashType = hashParams.get('type');
-        
-        console.log('🔍 Hash parameters:', {
-          hashAccessToken: hashAccessToken?.substring(0, 20) + '...',
-          hashRefreshToken: hashRefreshToken?.substring(0, 20) + '...',
-          hashType
-        });
-        
-        // Schritt 3: Verwende Hash-Token falls verfügbar, sonst URL-Parameter
-        const finalAccessToken = hashAccessToken || token;
-        const finalRefreshToken = hashRefreshToken || refreshToken;
-        
-        if (!finalAccessToken) {
-          throw new Error('Kein Access Token gefunden');
-        }
-        
-        // Schritt 4: Session mit verfügbaren Tokens setzen
-        console.log('🔄 Setting session with tokens...');
-        
-        const { data: sessionData, error: setSessionError } = await supabase.auth.setSession({
-          access_token: finalAccessToken,
-          refresh_token: finalRefreshToken || ''
-        });
-        
-        if (setSessionError) {
-          console.error('❌ Session setting failed:', setSessionError);
-          throw setSessionError;
-        }
-        
-        if (sessionData?.session && sessionData.session.user) {
-          console.log('✅ Session successfully set:', sessionData.session.user.email);
+        if (session && session.user) {
+          console.log('✅ Valid session found:', session.user.email);
           setIsValidToken(true);
         } else {
-          throw new Error('Session wurde gesetzt aber enthält keinen User');
+          console.log('⚠️ No valid session, waiting for auth state change...');
+          // Hier warten wir auf den Auth State Listener
+          setTimeout(() => {
+            if (isValidToken === null) {
+              setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
+              setIsValidToken(false);
+            }
+          }, 3000); // 3 Sekunden warten
         }
-        
-      } catch (error: any) {
-        console.error('❌ Complete token validation failed:', error);
-        setErrorMsg(`Reset-Link ungültig: ${error.message || 'Unbekannter Fehler'}`);
+      } catch (error) {
+        console.error('❌ Session check failed:', error);
+        setErrorMsg('Fehler beim Laden der Session.');
         setIsValidToken(false);
       }
     }
 
-    validateToken();
-  }, [accessToken, refreshToken, type, searchParams]);
+    checkInitialSession();
+
+    // Cleanup subscription
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
