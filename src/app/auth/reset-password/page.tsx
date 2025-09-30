@@ -46,12 +46,13 @@ export default function ResetPasswordPage() {
         const type = urlParams.get('type');
         
         console.log('🔍 Tokens found:', {
-          accessToken: accessToken ? 'YES' : 'NO',
-          refreshToken: refreshToken ? 'YES' : 'NO', 
-          type
+          accessToken: accessToken ? `YES (${accessToken.length} chars)` : 'NO',
+          refreshToken: refreshToken ? `YES (${refreshToken.length} chars)` : 'NO', 
+          type,
+          fullAccessToken: accessToken // Debug: zeige kompletten Token
         });
 
-        // 3. Wenn keine Tokens, zeige Fehler
+        // 3. Token-Länge prüfen (Debug)
         if (!accessToken) {
           console.log('❌ No access token found');
           setErrorMsg('Kein gültiger Reset-Link. Bitte fordere einen neuen an.');
@@ -59,27 +60,44 @@ export default function ResetPasswordPage() {
           return;
         }
 
-        // 4. Versuche Session mit Tokens zu setzen
-        console.log('🔄 Setting session with tokens...');
-        const { data, error } = await supabase.auth.setSession({
-          access_token: accessToken,
-          refresh_token: refreshToken || ''
-        });
-
-        if (error) {
-          console.error('❌ Session error:', error);
-          setErrorMsg(`Reset-Link ungültig: ${error.message}`);
+        if (accessToken.length < 20) {
+          console.log('⚠️ Token seems too short, might be invalid');
+          setErrorMsg(`Token zu kurz (${accessToken.length} Zeichen). Möglicherweise Supabase-Konfigurationsfehler.`);
           setIsValidToken(false);
           return;
         }
 
-        if (data.session?.user) {
-          console.log('✅ Password reset session created:', data.session.user.email);
-          setIsValidToken(true);
-          setErrorMsg(null);
-        } else {
-          console.log('❌ No user in session');
-          setErrorMsg('Session erstellt aber kein User gefunden.');
+        // 4. Versuche Session mit Tokens zu setzen
+        console.log('🔄 Setting session with tokens...');
+        try {
+          const { data, error } = await supabase.auth.setSession({
+            access_token: accessToken,
+            refresh_token: refreshToken || ''
+          });
+
+          if (error) {
+            console.error('❌ Session error:', error);
+            if (error.message.includes('AuthSessionMissingError')) {
+              setErrorMsg('Supabase-Konfigurationsfehler: Token wird nicht akzeptiert. Prüfe Site URL und Email Template.');
+            } else {
+              setErrorMsg(`Reset-Link ungültig: ${error.message}`);
+            }
+            setIsValidToken(false);
+            return;
+          }
+
+          if (data.session?.user) {
+            console.log('✅ Password reset session created:', data.session.user.email);
+            setIsValidToken(true);
+            setErrorMsg(null);
+          } else {
+            console.log('❌ No user in session');
+            setErrorMsg('Session erstellt aber kein User gefunden.');
+            setIsValidToken(false);
+          }
+        } catch (err: any) {
+          console.error('❌ Unexpected error:', err);
+          setErrorMsg(`Unerwarteter Fehler: ${err.message}`);
           setIsValidToken(false);
         }
 
