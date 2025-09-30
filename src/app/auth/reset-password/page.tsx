@@ -50,58 +50,65 @@ export default function ResetPasswordPage() {
       return;
     }
 
-    // Versuche Session direkt zu setzen mit verfügbaren Tokens
+    // Simpler approach: Prüfe ob wir bereits eine gültige Session haben oder erstelle eine neue
     async function validateToken() {
       try {
-        console.log('🔄 Attempting session setup...');
+        console.log('🔄 Starting token validation...');
         
-        if (refreshToken) {
-          // Verwende beide Tokens wenn verfügbar
-          const { data, error } = await supabase.auth.setSession({
-            access_token: token!,
-            refresh_token: refreshToken
-          });
-          
-          if (error) throw error;
-          console.log('✅ Session set with both tokens:', data);
+        // Schritt 1: Aktuelle Session prüfen
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+        
+        if (session && session.user) {
+          console.log('✅ Existing valid session found:', session.user.email);
           setIsValidToken(true);
-          
-        } else {
-          // Nur access token - versuche direkte Validierung
-          console.log('⚠️ Only access token, validating...');
-          
-          // Versuche den User mit dem Token zu holen
-          const { data: userData, error: userError } = await supabase.auth.getUser(token!);
-          
-          if (userError) {
-            console.log('❌ Direct user fetch failed, trying session approach...');
-            
-            // Fallback: Versuche Session mit leerem refresh token
-            const { data: sessionData, error: sessionError } = await supabase.auth.setSession({
-              access_token: token!,
-              refresh_token: ''
-            });
-            
-            if (sessionError) {
-              throw sessionError;
-            }
-            console.log('✅ Session set with empty refresh token');
-            setIsValidToken(true);
-            
-          } else {
-            console.log('✅ User validated:', userData);
-            // Setze Session für das Password Update
-            await supabase.auth.setSession({
-              access_token: token!,
-              refresh_token: ''
-            });
-            setIsValidToken(true);
-          }
+          return;
+        }
+
+        console.log('⚠️ No existing session, processing reset token...');
+        
+        // Schritt 2: Prüfe ob der URL Hash Parameter enthält (Magic Link Format)
+        const hashParams = new URLSearchParams(window.location.hash.substring(1));
+        const hashAccessToken = hashParams.get('access_token');
+        const hashRefreshToken = hashParams.get('refresh_token');
+        const hashType = hashParams.get('type');
+        
+        console.log('🔍 Hash parameters:', {
+          hashAccessToken: hashAccessToken?.substring(0, 20) + '...',
+          hashRefreshToken: hashRefreshToken?.substring(0, 20) + '...',
+          hashType
+        });
+        
+        // Schritt 3: Verwende Hash-Token falls verfügbar, sonst URL-Parameter
+        const finalAccessToken = hashAccessToken || token;
+        const finalRefreshToken = hashRefreshToken || refreshToken;
+        
+        if (!finalAccessToken) {
+          throw new Error('Kein Access Token gefunden');
         }
         
-      } catch (error) {
-        console.error('❌ Token validation failed:', error);
-        setErrorMsg('Ungültiger oder abgelaufener Reset-Link. Bitte fordere einen neuen an.');
+        // Schritt 4: Session mit verfügbaren Tokens setzen
+        console.log('🔄 Setting session with tokens...');
+        
+        const { data: sessionData, error: setSessionError } = await supabase.auth.setSession({
+          access_token: finalAccessToken,
+          refresh_token: finalRefreshToken || ''
+        });
+        
+        if (setSessionError) {
+          console.error('❌ Session setting failed:', setSessionError);
+          throw setSessionError;
+        }
+        
+        if (sessionData?.session && sessionData.session.user) {
+          console.log('✅ Session successfully set:', sessionData.session.user.email);
+          setIsValidToken(true);
+        } else {
+          throw new Error('Session wurde gesetzt aber enthält keinen User');
+        }
+        
+      } catch (error: any) {
+        console.error('❌ Complete token validation failed:', error);
+        setErrorMsg(`Reset-Link ungültig: ${error.message || 'Unbekannter Fehler'}`);
         setIsValidToken(false);
       }
     }
