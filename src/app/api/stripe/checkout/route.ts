@@ -1,4 +1,4 @@
-// src/app/api/stripe/checkout/route.ts - FINAL VERSION mit Trial + Customer Fix
+// src/app/api/stripe/checkout/route.ts - FINAL VERSION mit Trial-Schutz
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { supabase } from '@/lib/supabaseClient';
@@ -55,25 +55,66 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // 5. Check/Create Customer mit robuster Fehlerbehandlung
+    // 5. Check/Create Customer mit DUPLIKAT-VERMEIDUNG
     console.log('👤 Managing Stripe customer...');
     let customerId = '';
     
-    const { data: profile } = await supabase
-      .from('profiles')
-      .select('stripe_customer_id')
-      .eq('user_id', userId)
-      .single();
+    // FIX 1: Erst in Stripe nach Email suchen um Duplikate zu vermeiden
+    try {
+      const existingCustomers = await stripe.customers.list({
+        email: user.email,
+        limit: 10
+      });
+      
+      if (existingCustomers.data.length > 0) {
+        customerId = existingCustomers.data[0].id;
+        console.log('✅ Found existing Stripe customer by email:', customerId);
+        
+        // Update die Supabase DB mit dieser Customer ID
+        await supabase
+          .from('profiles')
+          .update({ stripe_customer_id: customerId })
+          .eq('user_id', userId);
+      }
+    } catch (searchError) {
+      console.log('⚠️ Could not search for existing customers:', searchError);
+    }
+    
+    // Falls kein Customer gefunden, dann normale Logik
+    if (!customerId) {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('stripe_customer_id')
+        .eq('user_id', userId)
+        .single();
 
-    if (profile?.stripe_customer_id) {
-      // Prüfe ob Customer in Stripe existiert
-      try {
-        await stripe.customers.retrieve(profile.stripe_customer_id);
-        customerId = profile.stripe_customer_id;
-        console.log('✅ Using existing customer:', customerId);
-      } catch (customerError) {
-        console.log('⚠️ Customer not found in Stripe, creating new one...');
-        // Customer existiert nicht mehr in Stripe, erstelle neuen
+      if (profile?.stripe_customer_id) {
+        // Prüfe ob Customer in Stripe existiert
+        try {
+          await stripe.customers.retrieve(profile.stripe_customer_id);
+          customerId = profile.stripe_customer_id;
+          console.log('✅ Using existing customer:', customerId);
+        } catch (customerError) {
+          console.log('⚠️ Customer not found in Stripe, creating new one...');
+          // Customer existiert nicht mehr in Stripe, erstelle neuen
+          const customer = await stripe.customers.create({
+            email: user.email,
+            metadata: {
+              supabase_user_id: userId,
+            },
+          });
+          customerId = customer.id;
+          
+          // Update mit neuer Customer ID
+          await supabase
+            .from('profiles')
+            .update({ stripe_customer_id: customerId })
+            .eq('user_id', userId);
+          
+          console.log('✅ New customer created and saved:', customerId);
+        }
+      } else {
+        console.log('📝 Creating new customer...');
         const customer = await stripe.customers.create({
           email: user.email,
           metadata: {
@@ -82,43 +123,58 @@ export async function POST(request: NextRequest) {
         });
         customerId = customer.id;
         
-        // Update mit neuer Customer ID
+        // Save to database
         await supabase
           .from('profiles')
           .update({ stripe_customer_id: customerId })
           .eq('user_id', userId);
         
-        console.log('✅ New customer created and saved:', customerId);
+        console.log('✅ Customer created and saved:', customerId);
       }
-    } else {
-      console.log('📝 Creating new customer...');
-      const customer = await stripe.customers.create({
-        email: user.email,
-        metadata: {
-          supabase_user_id: userId,
-        },
-      });
-      customerId = customer.id;
-      
-      // Save to database
-      await supabase
-        .from('profiles')
-        .update({ stripe_customer_id: customerId })
-        .eq('user_id', userId);
-      
-      console.log('✅ Customer created and saved:', customerId);
     }
 
-    // 6. Trial Days Logic - Extended Trial für Eric
+    // 6. FIX 2: Trial-Check Logic - Prüfe ob Customer schon mal Trial hatte
     let trialDays = 14; // Standard Trial für alle
+    let allowTrial = withTrial; // Respektiere den withTrial Parameter
     
-    if (user.email === 'goossens.eric@icloud.com') {
-      trialDays = 30; // 4 Wochen für Eric als Entschuldigung
-      console.log('🎁 Extended trial for Eric: 30 days');
+    if (withTrial) {
+      // Check ob dieser Customer schon mal eine Trial hatte
+      try {
+        const subscriptions = await stripe.subscriptions.list({
+          customer: customerId,
+          limit: 100,
+          status: 'all' // Wichtig: auch cancelled subscriptions
+        });
+        
+        const hadTrial = subscriptions.data.some(sub => {
+          // Check ob die Subscription jemals eine Trial hatte
+          const subAny = sub as any;
+          return subAny.trial_start || subAny.trial_end || sub.status === 'trialing';
+        });
+        
+        if (hadTrial) {
+          console.log('⚠️ Customer already had a trial, disabling trial period');
+          allowTrial = false;
+          trialDays = 0;
+        } else {
+          console.log('✅ Customer never had a trial, allowing trial period');
+          
+          // Special case für Eric
+          if (user.email === 'goossens.eric@icloud.com') {
+            trialDays = 30; // 4 Wochen für Eric als Entschuldigung
+            console.log('🎁 Extended trial for Eric: 30 days');
+          }
+        }
+      } catch (subError) {
+        console.error('⚠️ Could not check trial history:', subError);
+        // Im Zweifel: keine Trial wenn wir nicht sicher sind
+        allowTrial = false;
+        trialDays = 0;
+      }
     }
 
-    // 7. Create Checkout Session (MIT oder OHNE Trial)
-    console.log(`🛒 Creating checkout session ${withTrial ? `with ${trialDays}-day trial` : 'without trial'}...`);
+    // 7. Create Checkout Session (MIT oder OHNE Trial basierend auf History)
+    console.log(`🛒 Creating checkout session ${allowTrial ? `with ${trialDays}-day trial` : 'without trial (already used)'}...`);
     
     const sessionData: any = {
       customer: customerId,
@@ -131,15 +187,16 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/profile?stripe_success=true${withTrial ? '&trial=true' : ''}`,
+      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/profile?stripe_success=true${allowTrial ? '&trial=true' : ''}`,
       cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/profile?stripe_canceled=true`,
       metadata: {
         supabase_user_id: userId,
+        had_trial: !allowTrial ? 'true' : 'false', // Tracking für Debugging
       },
     };
 
-    // Trial nur hinzufügen wenn gewünscht
-    if (withTrial) {
+    // Trial nur hinzufügen wenn wirklich erlaubt
+    if (allowTrial && trialDays > 0) {
       sessionData.subscription_data = {
         trial_period_days: trialDays,
         metadata: {
@@ -151,7 +208,12 @@ export async function POST(request: NextRequest) {
     
     const session = await stripe.checkout.sessions.create(sessionData);
 
-    console.log('✅ Session created:', { id: session.id, hasUrl: !!session.url });
+    console.log('✅ Session created:', { 
+      id: session.id, 
+      hasUrl: !!session.url,
+      trialAllowed: allowTrial,
+      trialDays: allowTrial ? trialDays : 0
+    });
     
     if (!session.url) {
       throw new Error('No checkout URL returned from Stripe');
@@ -159,7 +221,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ 
       url: session.url,
-      trial_days: withTrial ? trialDays : 0
+      trial_days: allowTrial ? trialDays : 0
     });
 
   } catch (error: any) {
