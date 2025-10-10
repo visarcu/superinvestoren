@@ -66,32 +66,20 @@ interface User {
   isPremium: boolean
 }
 
-// Mock Data
-const MOCK_PORTFOLIO: PortfolioPosition[] = [
-  { 
-    id: 1, ticker: 'AAPL', name: 'Apple Inc.', shares: 100, avgPrice: 150.00, 
-    currentPrice: 175.50, totalValue: 17550, gainLoss: 2550, gainLossPercent: 17.0,
-    weight: 27.8, sector: 'Technology'
-  },
-  { 
-    id: 2, ticker: 'MSFT', name: 'Microsoft Corp.', shares: 50, avgPrice: 280.00, 
-    currentPrice: 420.00, totalValue: 21000, gainLoss: 7000, gainLossPercent: 50.0,
-    weight: 33.2, sector: 'Technology'
-  },
-  { 
-    id: 3, ticker: 'JNJ', name: 'Johnson & Johnson', shares: 75, avgPrice: 160.00, 
-    currentPrice: 165.20, totalValue: 12390, gainLoss: 390, gainLossPercent: 3.25,
-    weight: 19.6, sector: 'Healthcare'
-  },
-  { 
-    id: 4, ticker: 'KO', name: 'Coca-Cola Co.', shares: 200, avgPrice: 55.00, 
-    currentPrice: 62.30, totalValue: 12460, gainLoss: 1460, gainLossPercent: 13.27,
-    weight: 19.7, sector: 'Consumer Staples'
+// Echte Portfolio-Daten laden
+const loadPortfolioData = async (): Promise<PortfolioPosition[]> => {
+  try {
+    // TODO: Implementiere echte Portfolio-API
+    // Vorläufig leere Liste zurückgeben
+    return []
+  } catch (error) {
+    console.error('Error loading portfolio:', error)
+    return []
   }
-]
+}
 
-// Generate mock performance data
-const generatePerformanceData = (): PerformanceData[] => {
+// Echte Performance-Daten laden
+const loadPerformanceData = async (): Promise<PerformanceData[]> => {
   const data: PerformanceData[] = []
   const startDate = new Date()
   startDate.setMonth(startDate.getMonth() - 12)
@@ -159,8 +147,10 @@ export default function PerformancePage() {
         }
 
         // Load portfolio and performance data
-        setPortfolio(MOCK_PORTFOLIO)
-        setPerformanceData(generatePerformanceData())
+        const portfolioData = await loadPortfolioData()
+        const performanceData = await loadPerformanceData()
+        setPortfolio(portfolioData)
+        setPerformanceData(performanceData)
         
       } catch (error) {
         console.error('Error loading performance data:', error)

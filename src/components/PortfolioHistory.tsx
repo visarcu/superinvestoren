@@ -69,41 +69,23 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
       if (error) {
         console.error('Error loading transactions:', error)
-        // Wenn die Tabelle nicht existiert, erstelle Mock-Daten aus holdings
-        createMockTransactions()
+        // Keine Transaktionshistorie verfügbar
+        setTransactions([])
         return
       }
 
       if (data && data.length > 0) {
         setTransactions(data)
       } else {
-        // Erstelle initiale Transaktionen aus holdings
-        createMockTransactions()
+        // Keine Transaktionshistorie verfügbar
+        setTransactions([])
       }
     } catch (error) {
       console.error('Error:', error)
-      createMockTransactions()
+      setTransactions([])
     } finally {
       setLoading(false)
     }
-  }
-
-  const createMockTransactions = () => {
-    // Erstelle Buy-Transaktionen aus aktuellen Holdings
-    const mockTransactions: Transaction[] = holdings.map(holding => ({
-      id: `mock-${holding.symbol}`,
-      type: 'buy' as const,
-      symbol: holding.symbol,
-      name: holding.name,
-      quantity: holding.quantity,
-      price: holding.purchase_price,
-      total_value: holding.quantity * holding.purchase_price,
-      date: holding.purchase_date,
-      created_at: holding.purchase_date,
-      notes: 'Initial position'
-    }))
-    
-    setTransactions(mockTransactions)
   }
 
   const handleAddTransaction = async () => {

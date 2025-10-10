@@ -63,27 +63,8 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
       
     } catch (err) {
       console.error('Error loading bulls/bears:', err);
-      setError('Fehler beim Laden der Analyse');
-      // Faster fallback with immediate mock data
-      setData({
-        ticker,
-        bulls: [
-          { id: '1', text: 'Starkes Umsatzwachstum in den letzten Quartalen zeigt robuste Nachfrage', category: 'financial' },
-          { id: '2', text: 'Marktführende Position in wichtigen Segmenten sichert langfristige Wettbewerbsvorteile', category: 'competitive' },
-          { id: '3', text: 'Innovative Produktpipeline mit vielversprechenden neuen Technologien', category: 'market' },
-          { id: '4', text: 'Solide Bilanz mit niedriger Verschuldung und starkem Cash Flow', category: 'financial' },
-          { id: '5', text: 'Expansion in wachstumsstarke internationale Märkte', category: 'market' }
-        ],
-        bears: [
-          { id: '6', text: 'Zunehmender Wettbewerbsdruck könnte Margen unter Druck setzen', category: 'competitive' },
-          { id: '7', text: 'Abhängigkeit von wenigen großen Kunden erhöht das Risiko', category: 'risk' },
-          { id: '8', text: 'Hohe Bewertung lässt wenig Raum für Enttäuschungen', category: 'market' },
-          { id: '9', text: 'Regulatorische Unsicherheit in Kernmärkten', category: 'risk' },
-          { id: '10', text: 'Konjunkturelle Abschwächung könnte Nachfrage dämpfen', category: 'market' }
-        ],
-        lastUpdated: new Date().toISOString(),
-        source: 'AI Analysis'
-      });
+      setError('Bulls & Bears Analyse momentan nicht verfügbar. Versuchen Sie es später nochmal.');
+      setData(null);
     } finally {
       setLoading(false);
     }

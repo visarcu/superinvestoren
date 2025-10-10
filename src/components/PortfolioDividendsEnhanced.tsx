@@ -67,44 +67,26 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
   const [yieldOnCost, setYieldOnCost] = useState(3.2)
 
   useEffect(() => {
-    generateMockData()
+    loadDividendData()
   }, [holdings])
 
-  const generateMockData = () => {
-    // Generate monthly forecast
-    const forecast: DividendForecast[] = []
-    const currentMonth = new Date().getMonth()
-    const currentYear = new Date().getFullYear()
-    
-    for (let i = 0; i < 12; i++) {
-      const month = (currentMonth + i) % 12
-      const year = currentYear + Math.floor((currentMonth + i) / 12)
-      forecast.push({
-        month: getMonthName(month),
-        year,
-        estimated: Math.random() * 500 + 200,
-        confirmed: i < 3 ? Math.random() * 400 + 150 : 0
-      })
+  const loadDividendData = async () => {
+    setLoading(true)
+    try {
+      // Hier würde echte Dividenden-API aufgerufen werden
+      // TODO: Implementiere echte Dividenden-Daten Abfrage
+      
+      // Vorläufig leere Arrays setzen bis echte API verfügbar ist
+      setMonthlyForecast([])
+      setStockDividends([])
+      
+    } catch (error) {
+      console.error('Error loading dividend data:', error)
+      setMonthlyForecast([])
+      setStockDividends([])
+    } finally {
+      setLoading(false)
     }
-    setMonthlyForecast(forecast)
-
-    // Generate stock dividend data
-    const stockData: DividendByStock[] = holdings.map(h => ({
-      symbol: h.symbol,
-      name: h.name,
-      lastDividend: Math.random() * 2 + 0.5,
-      yield: Math.random() * 4 + 1,
-      frequency: ['Quarterly', 'Monthly', 'Semi-Annual'][Math.floor(Math.random() * 3)],
-      exDate: new Date(Date.now() + Math.random() * 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      payDate: new Date(Date.now() + Math.random() * 120 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
-      totalAnnual: Math.random() * 1000 + 200,
-      growth5Year: Math.random() * 20 - 5,
-      payoutRatio: Math.random() * 60 + 20,
-      consecutiveYears: Math.floor(Math.random() * 25)
-    }))
-    setStockDividends(stockData)
-
-    setLoading(false)
   }
 
   const getMonthName = (month: number) => {

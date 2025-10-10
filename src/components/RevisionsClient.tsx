@@ -134,12 +134,12 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
           const data = await res.json()
           setEstimates(data)
           
-          // Simuliere Revision History (in echten Anwendung würde das von API kommen)
-          const mockRevisionHistory = generateMockRevisionHistory(data)
-          setRevisionHistory(mockRevisionHistory)
+          // Revision History würde von separater API kommen
+          const revisionHistory = await loadRevisionHistory(data)
+          setRevisionHistory(revisionHistory)
           
           // Berechne Revision Summary
-          const summary = calculateRevisionSummary(mockRevisionHistory)
+          const summary = calculateRevisionSummary(revisionHistory)
           setRevisionSummary(summary)
         }
       } catch (error) {
@@ -152,41 +152,16 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
     loadData()
   }, [ticker])
 
-  // Mock-Funktion für Revision History (würde normalerweise von API kommen)
-  const generateMockRevisionHistory = (estimatesData: any[]): EstimateRevision[] => {
-    const currentYear = new Date().getFullYear()
-    const history: EstimateRevision[] = []
-    
-    // Generiere die letzten 6 Monate an Revisionen
-    for (let i = 5; i >= 0; i--) {
-      const date = new Date()
-      date.setMonth(date.getMonth() - i)
-      
-      estimatesData.slice(0, 4).forEach((estimate, idx) => {
-        const year = parseInt(estimate.date.slice(0, 4))
-        if (year >= currentYear && year <= currentYear + 2) {
-          // Simuliere zufällige Änderungen
-          const epsChange = (Math.random() - 0.5) * 0.2
-          const revenueChange = (Math.random() - 0.5) * 1e9
-          
-          history.push({
-            date: date.toISOString().slice(0, 10),
-            period: `FY ${year}`,
-            epsEstimate: estimate.estimatedEpsAvg + epsChange,
-            epsPreviousEstimate: estimate.estimatedEpsAvg,
-            epsChange: epsChange,
-            epsChangePercent: (epsChange / estimate.estimatedEpsAvg) * 100,
-            revenueEstimate: estimate.estimatedRevenueAvg + revenueChange,
-            revenuePreviousEstimate: estimate.estimatedRevenueAvg,
-            revenueChange: revenueChange,
-            revenueChangePercent: (revenueChange / estimate.estimatedRevenueAvg) * 100,
-            analystCount: estimate.numberAnalystEstimatedRevenue || 20
-          })
-        }
-      })
+  // Revision History - echte Daten würden von separater API kommen
+  const loadRevisionHistory = async (estimatesData: any[]): Promise<EstimateRevision[]> => {
+    try {
+      // TODO: Implementiere echte Revision History API
+      // Vorläufig leere Liste zurückgeben
+      return []
+    } catch (error) {
+      console.error('Error loading revision history:', error)
+      return []
     }
-    
-    return history
   }
 
   // Berechne Revision Summary

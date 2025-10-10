@@ -46,54 +46,17 @@ interface User {
   isPremium: boolean
 }
 
-// Mock News Data für Fallback
-const mockNewsData: NewsArticle[] = [
-  {
-    title: "Apple Reports Strong Q4 Earnings with Record Revenue Growth",
-    url: "https://example.com/apple-earnings",
-    publishedDate: "2024-11-08T10:30:00.000Z",
-    text: "Apple Inc. reported exceptional fourth-quarter earnings with revenue growing 8% year-over-year, driven by strong iPhone and Services performance. The company's diversified portfolio continues to show resilience amid global economic uncertainties.",
-    image: "https://images.unsplash.com/photo-1611532736853-04841ac2c85b?w=400",
-    site: "Financial News",
-    symbol: "AAPL"
-  },
-  {
-    title: "Apple Vision Pro Sales Exceed Expectations in First Quarter",
-    url: "https://example.com/vision-pro-sales",
-    publishedDate: "2024-11-07T14:20:00.000Z",
-    text: "The Apple Vision Pro has shown remarkable market adoption with sales figures surpassing initial projections, marking a successful entry into spatial computing. Industry analysts are optimistic about the long-term potential of this new product category.",
-    image: "https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=400",
-    site: "Tech Today",
-    symbol: "AAPL"
-  },
-  {
-    title: "Apple Announces New AI Features Coming to iOS 18.2",
-    url: "https://example.com/ios-ai-features",
-    publishedDate: "2024-11-06T16:45:00.000Z",
-    text: "Apple unveiled groundbreaking AI capabilities that will be integrated into iOS 18.2, including enhanced Siri functionality and improved machine learning capabilities across the ecosystem. These features represent a major step forward in Apple's AI strategy.",
-    image: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400",
-    site: "Apple Insider",
-    symbol: "AAPL"
-  },
-  {
-    title: "Institutional Investors Increase Apple Holdings in Q3",
-    url: "https://example.com/institutional-holdings",
-    publishedDate: "2024-11-05T11:15:00.000Z",
-    text: "Major institutional investors have significantly increased their Apple holdings during Q3, with Warren Buffett's Berkshire Hathaway leading the charge. This reflects continued confidence in Apple's long-term growth prospects and financial stability.",
-    image: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=400",
-    site: "Market Watch",
-    symbol: "AAPL"
-  },
-  {
-    title: "Apple Supplier Chain Optimization Boosts Profit Margins",
-    url: "https://example.com/supply-chain",
-    publishedDate: "2024-11-04T09:30:00.000Z",
-    text: "Apple's strategic supply chain improvements have resulted in enhanced profit margins and reduced production costs across multiple product lines. The company continues to demonstrate operational excellence in managing global manufacturing partnerships.",
-    image: "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400",
-    site: "Supply Chain Digest",
-    symbol: "AAPL"
+// Echte News laden - keine Mock-Daten für Finanznachrichten!
+const loadRealNewsData = async (ticker: string): Promise<NewsArticle[]> => {
+  try {
+    // TODO: Implementiere echte News-API
+    // Vorläufig leere Liste zurückgeben bis echte API verfügbar ist
+    return []
+  } catch (error) {
+    console.error('Error loading news:', error)
+    return []
   }
-]
+}
 
 export default function NewsPage({ params }: { params: { ticker: string } }) {
   const ticker = params.ticker.toUpperCase()
@@ -176,7 +139,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
 
         // Fallback zu Mock-Daten wenn keine echten Daten
         if (articles.length === 0) {
-          articles = mockNewsData
+          articles = await loadRealNewsData(ticker)
           console.log('⚠️ Using mock news data')
           setError('Keine aktuellen Nachrichten verfügbar. Beispieldaten werden angezeigt.')
         }
@@ -187,7 +150,8 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
       } catch (error) {
         console.error('❌ Critical error loading news:', error)
         setError('Fehler beim Laden der Nachrichten')
-        setNewsData(mockNewsData)
+        const newsArticles = await loadRealNewsData(ticker)
+        setNewsData(newsArticles)
         setTotalPages(1)
       } finally {
         setLoading(false)
