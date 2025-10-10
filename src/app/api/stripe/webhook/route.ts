@@ -455,8 +455,9 @@ async function handleSubscriptionUpdated(subscriptionData: any) {
     const userId = profile.user_id;
     
     // Check if subscription is canceled (has canceled_at but not yet deleted)
-    const isCanceled = subscriptionData.canceled_at !== null;
-    const isActive = (subscriptionData.status === 'active' || subscriptionData.status === 'trialing') && !isCanceled;
+// Zeile 426-427 in webhook/route.ts ändern zu:
+const isCanceled = subscriptionData.cancel_at_period_end === true;
+const isActive = subscriptionData.status === 'active' || subscriptionData.status === 'trialing';
     
     console.log('📊 Subscription Status Check:', {
       status: subscriptionData.status,
