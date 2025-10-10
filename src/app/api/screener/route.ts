@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from 'next/server'
 const FMP_API_KEY = process.env.FMP_API_KEY
 
 export async function GET(request: NextRequest) {
+  const startTime = Date.now()
+  
   if (!FMP_API_KEY) {
     return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
   }
@@ -175,8 +177,12 @@ export async function GET(request: NextRequest) {
       const topSymbols = cleanedData.slice(0, 20).map(stock => stock.symbol)
       
       try {
+        // Add timeout to prevent slow responses
         const quotesResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/quote/${topSymbols.join(',')}?apikey=${FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/quote/${topSymbols.join(',')}?apikey=${FMP_API_KEY}`,
+          { 
+            signal: AbortSignal.timeout(3000) // 3 second timeout
+          }
         )
         
         if (quotesResponse.ok) {
@@ -204,6 +210,9 @@ export async function GET(request: NextRequest) {
         console.warn('⚠️ Live quotes failed, using screener data:', error)
       }
     }
+    
+    const totalTime = Date.now() - startTime
+    console.log(`⏱️ Screener API completed in ${totalTime}ms (${liveQuotes === 'true' ? 'with' : 'without'} live quotes)`)
     
     return NextResponse.json(cleanedData)
     

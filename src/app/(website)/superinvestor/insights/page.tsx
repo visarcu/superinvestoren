@@ -22,7 +22,9 @@ import {
   ClockIcon,
   ArrowUpIcon,
   ArrowDownIcon,
-  ArrowRightIcon
+  ArrowRightIcon,
+  ScaleIcon,
+
 } from '@heroicons/react/24/outline'
 import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
@@ -195,15 +197,17 @@ function getPeriodFromDate(dateStr: string): string {
 
 function formatCurrencyGerman(amount: number, showCurrency = true): string {
   const suffix = showCurrency ? ' $' : ''
+  const absAmount = Math.abs(amount)
+  const sign = amount < 0 ? '-' : ''
   
-  if (amount >= 1_000_000_000) {
-    return `${(amount / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.${suffix}`
-  } else if (amount >= 1_000_000) {
-    return `${(amount / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mio.${suffix}`
-  } else if (amount >= 1_000) {
-    return `${(amount / 1_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Tsd.${suffix}`
+  if (absAmount >= 1_000_000_000) {
+    return `${sign}${(absAmount / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.${suffix}`
+  } else if (absAmount >= 1_000_000) {
+    return `${sign}${(absAmount / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mio.${suffix}`
+  } else if (absAmount >= 1_000) {
+    return `${sign}${(absAmount / 1_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Tsd.${suffix}`
   }
-  return `${amount.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}${suffix}`
+  return `${sign}${absAmount.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}${suffix}`
 }
 
 function formatCurrency(amount: number, currency: 'USD' | 'EUR' = 'USD', maximumFractionDigits = 0): string {
@@ -268,6 +272,8 @@ function calculateTopBuys(targetQuarters: string[]): TopBuyItem[] {
   
   const buyCounts = new Map<string, number>()
   
+  
+  
   preprocessedData.activeInvestors.forEach(slug => {
     const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
     if (!snaps || snaps.length === 0) return
@@ -315,11 +321,21 @@ function calculateTopBuys(targetQuarters: string[]): TopBuyItem[] {
     })
   })
 
-  const result = Array.from(buyCounts.entries())
+  const stocksArray = Array.from(buyCounts.entries())
     .sort(([, a], [, b]) => b - a)
     .slice(0, 20)
     .map(([ticker, count]) => ({ ticker, count }))
 
+  // DEBUG: Check buy distribution  
+  console.log('🔍 TopBuys DEBUG:')
+  console.log('Total unique stocks with buys:', buyCounts.size)
+  console.log('Total buy activities:', Array.from(buyCounts.values()).reduce((sum, count) => sum + count, 0))
+  console.log('Top 5 most bought:', Array.from(buyCounts.entries()).sort(([,a], [,b]) => b - a).slice(0, 5))
+
+  // Add the total count to the result for UI
+  const result = stocksArray as any
+  result.totalUniqueStocks = buyCounts.size
+  
   return result
 }
 
@@ -344,11 +360,22 @@ function calculateTopOwned(): TopOwnedItem[] {
     })
   })
 
-  const result = Array.from(ownershipCount.entries())
+  const stocksArray = Array.from(ownershipCount.entries())
     .sort(([, a], [, b]) => b - a)
     .slice(0, 20)
     .map(([ticker, count]) => ({ ticker, count }))
-    
+
+  // DEBUG: Check the ownership distribution
+  console.log('🔍 TopOwned DEBUG:')
+  console.log('Total stocks found:', ownershipCount.size)
+  console.log('Stocks held by 2+ investors:', Array.from(ownershipCount.values()).filter(count => count >= 2).length)
+  console.log('Stocks held by 5+ investors:', Array.from(ownershipCount.values()).filter(count => count >= 5).length)
+  console.log('Stocks held by 10+ investors:', Array.from(ownershipCount.values()).filter(count => count >= 10).length)
+  console.log('Max ownership count:', Math.max(...Array.from(ownershipCount.values())))
+  
+  // Add the total count to the result for UI (only stocks with 5+ investors for "popular")
+  const result = stocksArray as any
+  result.totalUniqueStocks = Array.from(ownershipCount.values()).filter(count => count >= 5).length
 
   return result
 }
@@ -986,6 +1013,123 @@ function calculateSectorNetFlows(targetQuarters: string[]): Map<string, number> 
   return sectorFlows;
 }
 
+// 5. BUY/SELL BALANCE - Gesamtmarkt Sentiment der Superinvestoren
+interface BuySellBalance {
+  quarter: string;
+  totalBuys: number;
+  totalSells: number;
+  netFlow: number;
+  sentiment: 'bullish' | 'bearish' | 'neutral';
+  buysCount: number;
+  sellsCount: number;
+}
+
+function calculateBuySellBalance(quarters: string[]): BuySellBalance[] {
+  const balanceData: BuySellBalance[] = [];
+  
+  // Quartale chronologisch sortieren (neueste zuerst)
+  const sortedQuarters = [...quarters].sort((a, b) => {
+    const [qA, yearA] = a.split(' ')
+    const [qB, yearB] = b.split(' ')
+    
+    if (yearA !== yearB) return parseInt(yearB) - parseInt(yearA)
+    return parseInt(qB.substring(1)) - parseInt(qA.substring(1))
+  });
+  
+  // Für jedes Quartal die Buy/Sell Balance berechnen
+  sortedQuarters.forEach((quarter, qIndex) => {
+    let totalBuys = 0;
+    let totalSells = 0;
+    let buysCount = 0;
+    let sellsCount = 0;
+    
+    preprocessedData.activeInvestors.forEach(slug => {
+      const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
+      if (!snaps || snaps.length < 2) return;
+      
+      // Finde Current Quarter und Previous Quarter Snapshots
+      const currentSnap = snaps.find(snap => 
+        getPeriodFromDate(snap.data.date) === quarter
+      );
+      
+      // Previous quarter (ein Quartal früher)
+      const previousSnap = snaps.find(snap => {
+        const snapQuarter = getPeriodFromDate(snap.data.date);
+        const [currentQ, currentY] = quarter.split(' ');
+        const currentQNum = parseInt(currentQ.replace('Q', ''));
+        const currentYear = parseInt(currentY);
+        
+        let prevQNum = currentQNum - 1;
+        let prevYear = currentYear;
+        if (prevQNum === 0) {
+          prevQNum = 4;
+          prevYear = currentYear - 1;
+        }
+        
+        return snapQuarter === `Q${prevQNum} ${prevYear}`;
+      });
+      
+      if (!currentSnap || !previousSnap) return;
+      
+      // Position Maps erstellen
+      const previousPositions = new Map<string, number>();
+      const currentPositions = new Map<string, number>();
+      
+      previousSnap.data.positions?.forEach((p: Position) => {
+        const ticker = getTicker(p);
+        if (ticker) {
+          previousPositions.set(ticker, p.value);
+        }
+      });
+      
+      currentSnap.data.positions?.forEach((p: Position) => {
+        const ticker = getTicker(p);
+        if (ticker) {
+          currentPositions.set(ticker, p.value);
+        }
+      });
+      
+      // Alle Tickers analysieren
+      const allTickers = new Set([...previousPositions.keys(), ...currentPositions.keys()]);
+      
+      allTickers.forEach(ticker => {
+        const prevValue = previousPositions.get(ticker) || 0;
+        const currentValue = currentPositions.get(ticker) || 0;
+        const change = currentValue - prevValue;
+        
+        // Nur signifikante Änderungen zählen (>1M USD)
+        if (Math.abs(change) > 1000000) {
+          if (change > 0) {
+            totalBuys += change;
+            buysCount++;
+          } else {
+            totalSells += Math.abs(change);
+            sellsCount++;
+          }
+        }
+      });
+    });
+    
+    const netFlow = totalBuys - totalSells;
+    let sentiment: 'bullish' | 'bearish' | 'neutral' = 'neutral';
+    
+    if (netFlow > totalBuys * 0.1) sentiment = 'bullish';
+    else if (netFlow < -totalSells * 0.1) sentiment = 'bearish';
+    
+    balanceData.push({
+      quarter,
+      totalBuys,
+      totalSells,
+      netFlow,
+      sentiment,
+      buysCount,
+      sellsCount
+    });
+  });
+  
+  return balanceData; // Bereits sortiert (neueste zuerst)
+}
+
 // MEMOIZED Stock Item Component
 interface StockItemProps {
   ticker: string
@@ -1226,6 +1370,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
     calculateNewDiscoveries(targetQuarters), [targetQuarters]
   );
 
+  const buySellBalance = useMemo(() => {
+    const selectedOption = quarterOptions.find(opt => opt.id === selectedPeriod)
+    const quarters = selectedOption?.quarters || [actualLatestQuarter]
+    // Erweitere auf 4 Quartale für historische Analyse
+    const allAvailableQuarters = preprocessedData.allQuarters
+    const startIndex = allAvailableQuarters.indexOf(quarters[0])
+    const quartersForBalance = startIndex >= 0 ? 
+      allAvailableQuarters.slice(startIndex, startIndex + 4) : 
+      allAvailableQuarters.slice(0, 4)
+    return calculateBuySellBalance(quartersForBalance)
+  }, [selectedPeriod, quarterOptions, actualLatestQuarter, preprocessedData.allQuarters]);
+
   const sectorNetFlows = useMemo(() => {
     const selectedOption = quarterOptions.find(opt => opt.id === sectorPeriod)
     const quarters = selectedOption?.quarters || preprocessedData.allQuarters.slice(0, 2)
@@ -1300,7 +1456,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               </div>
               <div>
                 <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
-                  {topBuys.filter(buy => buy.count > 0).length}
+                  {(topBuys as any).totalUniqueStocks || topBuys.filter(buy => buy.count > 0).length}
                 </p>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">Gekaufte Aktien</p>
                 <p className="text-xs text-neutral-500 dark:text-neutral-500">
@@ -1317,10 +1473,10 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               </div>
               <div>
                 <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
-                  {topOwned.length}
+                  {(topOwned as any).totalUniqueStocks || topOwned.length}
                 </p>
                 <p className="text-sm text-neutral-600 dark:text-neutral-400">Beliebte Aktien</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-500">Von 2+ Investoren gehalten</p>
+                <p className="text-xs text-neutral-500 dark:text-neutral-500">Von 5+ Investoren gehalten</p>
               </div>
             </div>
           </div>
@@ -2232,6 +2388,194 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   </div>
 </div>
 
+{/* ========== BUY/SELL BALANCE SECTION - Quartr Style ========== */}
+<div className="mb-16">
+  <div className="text-center mb-12">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium mb-6">
+      <ScaleIcon className="w-4 h-4" />
+      Market Sentiment
+    </div>
+    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+      Buy/Sell Balance
+    </h2>
+    <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+      Aggregate Kauf- und Verkaufsaktivitäten aller Superinvestoren zur Bestimmung der Marktstimmung
+    </p>
+  </div>
+
+  <div className="max-w-6xl mx-auto">
+    {/* Current Quarter Balance */}
+    {buySellBalance.length > 0 && (
+      <div className="bg-white dark:bg-zinc-900 rounded-lg p-8 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+        {/* Header with icon and sentiment badge */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+              <ScaleIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
+                {buySellBalance[0].quarter} Market Sentiment
+              </h3>
+              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+                Neuestes verfügbares Quartal
+              </p>
+            </div>
+          </div>
+          
+          <div className={`px-4 py-2 rounded-full text-sm font-semibold border ${
+            buySellBalance[0].sentiment === 'bullish' 
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800' :
+            buySellBalance[0].sentiment === 'bearish' 
+              ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800' :
+              'bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800'
+          }`}>
+            {buySellBalance[0].sentiment === 'bullish' ? '📈 Bullish Market' :
+             buySellBalance[0].sentiment === 'bearish' ? '📉 Bearish Market' : '⚖️ Neutral Market'}
+          </div>
+        </div>
+
+        {/* Main Stats Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div className="bg-green-50 dark:bg-green-900/10 rounded-lg p-6 border border-green-200 dark:border-green-800">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
+                <ArrowUpIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+              </div>
+              <span className="text-sm font-medium text-green-700 dark:text-green-400">Käufe</span>
+            </div>
+            <div className="text-2xl font-bold text-green-700 dark:text-green-400 mb-1">
+              {formatCurrencyGerman(buySellBalance[0].totalBuys, false)}
+            </div>
+            <div className="text-sm text-green-600 dark:text-green-500">
+              {buySellBalance[0].buysCount} Positionen
+            </div>
+          </div>
+          
+          <div className="bg-red-50 dark:bg-red-900/10 rounded-lg p-6 border border-red-200 dark:border-red-800">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
+                <ArrowDownIcon className="w-4 h-4 text-red-600 dark:text-red-400" />
+              </div>
+              <span className="text-sm font-medium text-red-700 dark:text-red-400">Verkäufe</span>
+            </div>
+            <div className="text-2xl font-bold text-red-700 dark:text-red-400 mb-1">
+              {formatCurrencyGerman(buySellBalance[0].totalSells, false)}
+            </div>
+            <div className="text-sm text-red-600 dark:text-red-500">
+              {buySellBalance[0].sellsCount} Positionen
+            </div>
+          </div>
+          
+          <div className={`rounded-lg p-6 border ${
+            buySellBalance[0].netFlow > 0 
+              ? 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800'
+              : buySellBalance[0].netFlow < 0
+              ? 'bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-800'
+              : 'bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800'
+          }`}>
+            <div className="flex items-center gap-3 mb-3">
+              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                buySellBalance[0].netFlow > 0 
+                  ? 'bg-emerald-100 dark:bg-emerald-900/30'
+                  : buySellBalance[0].netFlow < 0
+                  ? 'bg-orange-100 dark:bg-orange-900/30'
+                  : 'bg-gray-100 dark:bg-gray-900/30'
+              }`}>
+                <ScaleIcon className={`w-4 h-4 ${
+                  buySellBalance[0].netFlow > 0 
+                    ? 'text-emerald-600 dark:text-emerald-400'
+                    : buySellBalance[0].netFlow < 0
+                    ? 'text-orange-600 dark:text-orange-400'
+                    : 'text-gray-600 dark:text-gray-400'
+                }`} />
+              </div>
+              <span className={`text-sm font-medium ${
+                buySellBalance[0].netFlow > 0 
+                  ? 'text-emerald-700 dark:text-emerald-400'
+                  : buySellBalance[0].netFlow < 0
+                  ? 'text-orange-700 dark:text-orange-400'
+                  : 'text-gray-700 dark:text-gray-400'
+              }`}>Netto-Flow</span>
+            </div>
+            <div className={`text-2xl font-bold mb-1 ${
+              buySellBalance[0].netFlow > 0 
+                ? 'text-emerald-700 dark:text-emerald-400'
+                : buySellBalance[0].netFlow < 0
+                ? 'text-orange-700 dark:text-orange-400'
+                : 'text-gray-700 dark:text-gray-400'
+            }`}>
+              {buySellBalance[0].netFlow > 0 ? '+' : ''}{formatCurrencyGerman(buySellBalance[0].netFlow, false)}
+            </div>
+            <div className={`text-sm ${
+              buySellBalance[0].netFlow > 0 
+                ? 'text-emerald-600 dark:text-emerald-500'
+                : buySellBalance[0].netFlow < 0
+                ? 'text-orange-600 dark:text-orange-500'
+                : 'text-gray-600 dark:text-gray-500'
+            }`}>
+              {buySellBalance[0].netFlow > 0 ? 'Netto-Käufe' : buySellBalance[0].netFlow < 0 ? 'Netto-Verkäufe' : 'Ausgeglichen'}
+            </div>
+          </div>
+        </div>
+
+        {/* Historical Trend */}
+        <div className="border-t border-neutral-200 dark:border-neutral-700 pt-8">
+          <div className="flex items-center gap-3 mb-6">
+            <ChartBarIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
+            <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
+              Historischer Trend
+            </h4>
+            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+              (Letzte 4 Quartale)
+            </span>
+          </div>
+          
+          {/* Trend Cards Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {buySellBalance.map((quarter, index) => (
+              <div key={quarter.quarter} className={`p-4 rounded-lg border transition-all ${
+                index === 0 
+                  ? 'border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200 dark:ring-blue-700' 
+                  : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/50 hover:border-neutral-300 dark:hover:border-neutral-600'
+              }`}>
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                    {quarter.quarter}
+                  </span>
+                  {index === 0 && (
+                    <span className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 rounded-full">
+                      Aktuell
+                    </span>
+                  )}
+                </div>
+                
+                <div className={`text-lg font-bold mb-2 ${
+                  quarter.netFlow > 0 ? 'text-green-600 dark:text-green-400' : 
+                  quarter.netFlow < 0 ? 'text-red-600 dark:text-red-400' :
+                  'text-gray-600 dark:text-gray-400'
+                }`}>
+                  {quarter.netFlow > 0 ? '+' : ''}{formatCurrencyGerman(quarter.netFlow, true)}
+                </div>
+                
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                    {quarter.sentiment === 'bullish' ? '📈 Bullish' :
+                     quarter.sentiment === 'bearish' ? '📉 Bearish' : '⚖️ Neutral'}
+                  </span>
+                  <div className={`w-3 h-3 rounded-full ${
+                    quarter.netFlow > 0 ? 'bg-green-400' : 
+                    quarter.netFlow < 0 ? 'bg-red-400' : 'bg-gray-400'
+                  }`} />
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+</div>
 
 {/* ========== SECTOR NET FLOWS SECTION - Quartr Style ========== */}
 <div className="mb-16">
