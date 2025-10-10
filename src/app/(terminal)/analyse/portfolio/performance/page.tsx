@@ -80,33 +80,14 @@ const loadPortfolioData = async (): Promise<PortfolioPosition[]> => {
 
 // Echte Performance-Daten laden
 const loadPerformanceData = async (): Promise<PerformanceData[]> => {
-  const data: PerformanceData[] = []
-  const startDate = new Date()
-  startDate.setMonth(startDate.getMonth() - 12)
-  
-  let portfolioValue = 50000
-  let sp500Value = 100
-  
-  for (let i = 0; i < 12; i++) {
-    const date = new Date(startDate)
-    date.setMonth(date.getMonth() + i)
-    
-    // Random market movement
-    const portfolioChange = (Math.random() - 0.4) * 0.1 // Slight positive bias
-    const sp500Change = (Math.random() - 0.45) * 0.08 // Market benchmark
-    
-    portfolioValue *= (1 + portfolioChange)
-    sp500Value *= (1 + sp500Change)
-    
-    data.push({
-      date: date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' }),
-      value: portfolioValue,
-      gainLoss: portfolioValue - 50000,
-      sp500: sp500Value
-    })
+  try {
+    // TODO: Implementiere echte Portfolio-Performance API
+    // Vorläufig leere Liste zurückgeben - KEINE ZUFÄLLIGEN FINANZDATEN!
+    return []
+  } catch (error) {
+    console.error('Error loading performance data:', error)
+    return []
   }
-  
-  return data
 }
 
 // Sector colors

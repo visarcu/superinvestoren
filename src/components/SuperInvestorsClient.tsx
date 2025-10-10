@@ -176,6 +176,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
     switch (trend) {
       case 'increasing': return <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
       case 'decreasing': return <ArrowTrendingDownIcon className="w-4 h-4 text-red-400" />
+      case 'new': return <PlusIcon className="w-4 h-4 text-blue-400" />
       default: return <div className="w-4 h-4 rounded-full bg-theme-muted" />
     }
   }
@@ -184,6 +185,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
     switch (trend) {
       case 'increasing': return 'text-green-400'
       case 'decreasing': return 'text-red-400'
+      case 'new': return 'text-blue-400'
       default: return 'text-theme-muted'
     }
   }

@@ -50,25 +50,17 @@ interface EditStockForm extends AddStockForm {
   name: string
 }
 
-// Mock Portfolio Data
-const MOCK_PORTFOLIO: PortfolioPosition[] = [
-  { 
-    id: 1, ticker: 'AAPL', name: 'Apple Inc.', shares: 100, avgPrice: 150.00, 
-    currentPrice: 175.50, dividendYield: 0.51, totalValue: 17550, gainLoss: 2550, gainLossPercent: 17.0
-  },
-  { 
-    id: 2, ticker: 'MSFT', name: 'Microsoft Corp.', shares: 50, avgPrice: 280.00, 
-    currentPrice: 420.00, dividendYield: 0.73, totalValue: 21000, gainLoss: 7000, gainLossPercent: 50.0
-  },
-  { 
-    id: 3, ticker: 'JNJ', name: 'Johnson & Johnson', shares: 75, avgPrice: 160.00, 
-    currentPrice: 165.20, dividendYield: 2.95, totalValue: 12390, gainLoss: 390, gainLossPercent: 3.25
-  },
-  { 
-    id: 4, ticker: 'KO', name: 'Coca-Cola Co.', shares: 200, avgPrice: 55.00, 
-    currentPrice: 62.30, dividendYield: 3.10, totalValue: 12460, gainLoss: 1460, gainLossPercent: 13.27
+// Echte Portfolio-Daten laden - KEINE MOCK-FINANZDATEN!
+const loadPortfolioPositions = async (): Promise<PortfolioPosition[]> => {
+  try {
+    // TODO: Implementiere echte Portfolio-API  
+    // Vorläufig leere Liste zurückgeben
+    return []
+  } catch (error) {
+    console.error('Error loading portfolio positions:', error)
+    return []
   }
-]
+}
 
 // Stock validation via secure API route
 async function validateStock(ticker: string): Promise<{ valid: boolean, name?: string, price?: number }> {
@@ -127,7 +119,8 @@ export default function EinstellungenPage() {
         }
 
         // Load portfolio (später aus Supabase)
-        setPortfolio(MOCK_PORTFOLIO)
+        const portfolioPositions = await loadPortfolioPositions()
+        setPortfolio(portfolioPositions)
         
       } catch (error) {
         console.error('Error loading data:', error)

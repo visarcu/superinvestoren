@@ -84,11 +84,11 @@ export async function GET(request: NextRequest) {
     // Add API key
     fmpParams.append('apikey', FMP_API_KEY)
     
-    // Fetch from FMP
+    // Fetch from FMP - reduced cache time for fresher data
     const response = await fetch(
       `https://financialmodelingprep.com/api/v3/stock-screener?${fmpParams.toString()}`,
       {
-        next: { revalidate: 300 } // Cache for 5 minutes
+        next: { revalidate: 60 } // Cache for 1 minute only
       }
     )
     
@@ -141,7 +141,7 @@ export async function GET(request: NextRequest) {
     }
     
     // Bereinige die Daten und füge PE Ratio hinzu
-    const cleanedData = filteredData.map((stock: any) => ({
+    let cleanedData = filteredData.map((stock: any) => ({
       symbol: stock.symbol,
       companyName: stock.companyName,
       marketCap: stock.marketCap,
@@ -168,6 +168,42 @@ export async function GET(request: NextRequest) {
       industry: stock.industry,
       country: stock.country
     }))
+
+    // Get live quotes for top 20 results if requested
+    const liveQuotes = searchParams.get('liveQuotes')
+    if (liveQuotes === 'true' && cleanedData.length > 0) {
+      const topSymbols = cleanedData.slice(0, 20).map(stock => stock.symbol)
+      
+      try {
+        const quotesResponse = await fetch(
+          `https://financialmodelingprep.com/api/v3/quote/${topSymbols.join(',')}?apikey=${FMP_API_KEY}`
+        )
+        
+        if (quotesResponse.ok) {
+          const liveData = await quotesResponse.json()
+          const quotesMap = new Map(liveData.map((quote: any) => [quote.symbol, quote]))
+          
+          // Update prices with live data
+          cleanedData = cleanedData.map(stock => {
+            const liveQuote = quotesMap.get(stock.symbol)
+            if (liveQuote) {
+              return {
+                ...stock,
+                price: liveQuote.price,
+                changesPercentage: liveQuote.changesPercentage || stock.changesPercentage,
+                change: liveQuote.change || stock.change,
+                volume: liveQuote.volume || stock.volume
+              }
+            }
+            return stock
+          })
+          
+          console.log(`✅ Updated ${topSymbols.length} stocks with live quotes`)
+        }
+      } catch (error) {
+        console.warn('⚠️ Live quotes failed, using screener data:', error)
+      }
+    }
     
     return NextResponse.json(cleanedData)
     

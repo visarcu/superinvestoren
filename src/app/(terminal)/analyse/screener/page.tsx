@@ -293,6 +293,9 @@ export default function StockScreener() {
         }
       })
 
+      // Add live quotes parameter for more accurate prices
+      params.append('liveQuotes', 'true')
+      
       // Use basic FMP screener API
       const response = await fetch(`/api/screener?${params.toString()}`)
       
@@ -1087,7 +1090,7 @@ export default function StockScreener() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-theme/10">
-                      {paginatedResults.map((stock) => (
+                      {paginatedResults.map((stock, index) => (
                         <tr
                           key={stock.symbol}
                           onClick={() => router.push(`/analyse/stocks/${stock.symbol.toLowerCase()}`)}
@@ -1110,7 +1113,12 @@ export default function StockScreener() {
                             {stock.companyName}
                           </td>
                           <td className="px-4 py-3 text-right font-mono text-theme-primary">
-                            {formatStockPrice(stock.price || 0)}
+                            <div className="flex items-center justify-end gap-1">
+                              {formatStockPrice(stock.price || 0)}
+                              {(currentPage * itemsPerPage + index) < 20 && (
+                                <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse" title="Live-Kurs"></div>
+                              )}
+                            </div>
                           </td>
                           <td className="px-4 py-3 text-right text-theme-primary hidden md:table-cell">
                             {formatMarketCap(stock.marketCap)}

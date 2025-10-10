@@ -83,19 +83,35 @@ export async function GET(
       const totalPortfolioValue = latest.positions.reduce((sum: number, p: any) => sum + (p.value || 0), 0)
       const portfolioPercentage = totalPortfolioValue > 0 ? (mergedPosition.value / totalPortfolioValue) * 100 : 0
 
-      // Get historical data for trend
+      // Get historical data for trend and determine if truly "new"
       let trend = 'stable'
       let changeValue = 0
+      let isNewPosition = false
+      
       if (snapshots.length >= 2) {
         const previous = snapshots[snapshots.length - 2]?.data
         if (previous?.positions) {
           const prevPositions = previous.positions.filter((p: any) => getTicker(p) === ticker)
           const prevValue = prevPositions.reduce((sum: number, p: any) => sum + (p.value || 0), 0)
           
-          changeValue = mergedPosition.value - prevValue
-          if (changeValue > prevValue * 0.05) trend = 'increasing'
-          else if (changeValue < -prevValue * 0.05) trend = 'decreasing'
+          // Check if this is a completely new position (no previous value)
+          if (prevValue === 0 && mergedPosition.value > 5000000) {
+            isNewPosition = true
+            trend = 'new'
+          } else if (prevValue > 0) {
+            changeValue = mergedPosition.value - prevValue
+            if (changeValue > prevValue * 0.05) trend = 'increasing'
+            else if (changeValue < -prevValue * 0.05) trend = 'decreasing'
+          }
+        } else if (mergedPosition.value > 5000000) {
+          // No previous data available, assume new
+          isNewPosition = true
+          trend = 'new'
         }
+      } else if (mergedPosition.value > 5000000) {
+        // Only one snapshot available, assume new
+        isNewPosition = true
+        trend = 'new'
       }
 
       superInvestorPositions.push({
@@ -113,6 +129,7 @@ export async function GET(
           portfolioPercentage,
           trend,
           changeValue,
+          isNewPosition,
           lastUpdated: latest.date,
           quarter: `Q${Math.ceil(new Date(latest.date).getMonth() / 3)} ${new Date(latest.date).getFullYear()}`,
         }
@@ -128,6 +145,7 @@ export async function GET(
     const averagePosition = totalPositions > 0 ? totalValue / totalPositions : 0
     const increasingTrends = superInvestorPositions.filter(pos => pos.position.trend === 'increasing').length
     const decreasingTrends = superInvestorPositions.filter(pos => pos.position.trend === 'decreasing').length
+    const newPositions = superInvestorPositions.filter(pos => pos.position.isNewPosition).length
 
     const result = {
       ticker,
@@ -142,6 +160,7 @@ export async function GET(
         averagePosition,
         increasingTrends,
         decreasingTrends,
+        newPositions,
         formattedTotalValue: formatMarketCap(totalValue),
         formattedAveragePosition: formatMarketCap(averagePosition)
       },
@@ -152,7 +171,10 @@ export async function GET(
           formattedValue: formatMarketCap(pos.position.value),
           formattedShares: formatNumber(pos.position.shares),
           formattedPortfolioPercentage: `${pos.position.portfolioPercentage.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`,
-          formattedChangeValue: pos.position.changeValue !== 0 ? formatPercentage((pos.position.changeValue / (pos.position.value - pos.position.changeValue)) * 100) : '0%'
+          formattedChangeValue: pos.position.isNewPosition ? 'Neu' : 
+            (pos.position.changeValue !== 0 && (pos.position.value - pos.position.changeValue) > 0) ? 
+              formatPercentage((pos.position.changeValue / (pos.position.value - pos.position.changeValue)) * 100) : 
+              '0%'
         }
       }))
     }
