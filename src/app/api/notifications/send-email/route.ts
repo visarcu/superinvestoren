@@ -43,46 +43,45 @@ export async function POST(request: NextRequest) {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Investment-Gelegenheiten | FinClue</title>
+          <title>Watchlist Alert | FinClue</title>
         </head>
-        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background-color: #f8fafc;">
+        <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1f2937; background-color: #f9fafb;">
           
-          <!-- Clean Header -->
-          <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px 20px 20px; text-align: center;">
-            <h1 style="color: #10b981; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">FinClue</h1>
-            <p style="color: #64748b; margin: 8px 0 0 0; font-size: 16px;">Investment-Gelegenheiten entdeckt</p>
+          <!-- Header -->
+          <div style="max-width: 600px; margin: 0 auto; padding: 32px 20px 0 20px; text-align: center;">
+            <h1 style="color: #374151; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.025em;">FinClue</h1>
+            <p style="color: #6b7280; margin: 4px 0 0 0; font-size: 14px;">Watchlist Benachrichtigung</p>
           </div>
 
           <!-- Main Content -->
-          <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); overflow: hidden;">
+          <div style="max-width: 600px; margin: 24px auto; background: #ffffff; border-radius: 8px; border: 1px solid #e5e7eb; overflow: hidden;">
             
             <div style="padding: 32px;">
-              <h2 style="color: #1a202c; font-size: 24px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.3;">
-                📈 Neue Schnäppchen in deiner Watchlist
+              <h2 style="color: #111827; font-size: 20px; font-weight: 600; margin: 0 0 8px 0; line-height: 1.3;">
+                Neue Korrekturen in deiner Watchlist
               </h2>
               
-              <p style="color: #4a5568; font-size: 16px; margin: 0 0 32px 0;">
-                Hi! 👋<br><br>
-                Die folgenden Aktien aus deiner Watchlist zeigen signifikante Korrekturen von über ${data.threshold}% und könnten interessante Einstiegsmöglichkeiten darstellen:
+              <p style="color: #6b7280; font-size: 15px; margin: 0 0 24px 0; line-height: 1.5;">
+                Die folgenden Aktien sind um über ${data.threshold}% vom 52-Wochen-Hoch gefallen und könnten interessante Einstiegsgelegenheiten darstellen:
               </p>
 
-              <!-- Stocks Container -->
-              <div style="margin: 32px 0;">
+              <!-- Stocks List -->
+              <div style="margin: 24px 0;">
                 ${data.dippedStocks.map((stock: DippedStock) => `
-                  <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 12px; padding: 24px; margin: 0 0 16px 0; border-left: 4px solid #10b981; transition: all 0.2s;">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-                      <h3 style="color: #1a202c; font-size: 20px; font-weight: 600; margin: 0;">${stock.ticker}</h3>
-                      <span style="background: #fee2e2; color: #dc2626; padding: 6px 12px; border-radius: 6px; font-size: 14px; font-weight: 600;">
+                  <div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 20px; margin: 0 0 12px 0; background: #fafafa;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px;">
+                      <h3 style="color: #111827; font-size: 18px; font-weight: 600; margin: 0; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;">${stock.ticker}</h3>
+                      <span style="background: #fef2f2; color: #b91c1c; padding: 4px 8px; border-radius: 4px; font-size: 13px; font-weight: 500; border: 1px solid #fecaca;">
                         ${stock.dipPercent}%
                       </span>
                     </div>
-                    <div style="color: #64748b; font-size: 15px; line-height: 1.5;">
-                      <div style="margin-bottom: 6px;">
-                        <strong style="color: #374151;">Aktueller Kurs:</strong> $${stock.currentPrice}
+                    <div style="color: #6b7280; font-size: 14px; line-height: 1.4;">
+                      <div style="margin-bottom: 4px;">
+                        <span style="color: #374151; font-weight: 500;">Aktueller Kurs:</span> $${stock.currentPrice}
                       </div>
                       <div>
-                        <strong style="color: #374151;">52W-Hoch:</strong> $${stock.yearHigh} 
-                        <span style="color: #dc2626; font-weight: 500;">(-${Math.abs(parseFloat(stock.dipPercent)).toFixed(1)}%)</span>
+                        <span style="color: #374151; font-weight: 500;">52W-Hoch:</span> $${stock.yearHigh} 
+                        <span style="color: #9ca3af;">(-${Math.abs(parseFloat(stock.dipPercent)).toFixed(1)}%)</span>
                       </div>
                     </div>
                   </div>
@@ -90,37 +89,39 @@ export async function POST(request: NextRequest) {
               </div>
 
               <!-- CTA Button -->
-              <div style="text-align: center; margin: 40px 0 32px 0;">
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL}/analyse/watchlist" 
-                   style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.2s; transform: translateY(0);">
-                  📊 Watchlist analysieren
+              <div style="text-align: center; margin: 32px 0 24px 0;">
+                <a href="https://finclue.de/analyse/watchlist?utm_source=email&utm_campaign=watchlist_alert" 
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   style="display: inline-block; background: #374151; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-size: 14px; border: 1px solid #374151;">
+                  Watchlist analysieren →
                 </a>
               </div>
 
               <!-- Disclaimer -->
-              <div style="background: #fffbeb; border: 1px solid #fbbf24; border-radius: 12px; padding: 20px; margin: 32px 0 0 0;">
-                <p style="color: #92400e; font-size: 14px; margin: 0; line-height: 1.6;">
-                  <strong>💡 Wichtiger Hinweis:</strong> Diese Mitteilung stellt keine Anlageberatung dar. Kursrückgänge können verschiedene Ursachen haben. Bitte führe vor jeder Investitionsentscheidung eine gründliche Analyse durch.
+              <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin: 24px 0 0 0;">
+                <p style="color: #6b7280; font-size: 13px; margin: 0; line-height: 1.5;">
+                  <strong style="color: #374151;">Hinweis:</strong> Diese Mitteilung stellt keine Anlageberatung dar. Kursrückgänge können verschiedene Ursachen haben. Bitte führe vor jeder Investitionsentscheidung eine gründliche Analyse durch.
                 </p>
               </div>
             </div>
 
             <!-- Footer -->
-            <div style="background: #f8fafc; padding: 24px 32px; border-top: 1px solid #e2e8f0;">
-              <p style="color: #64748b; font-size: 14px; margin: 0 0 12px 0; text-align: center;">
-                Du erhältst diese E-Mail aufgrund deiner Watchlist-Benachrichtigungseinstellungen.
+            <div style="background: #f9fafb; padding: 20px 32px; border-top: 1px solid #e5e7eb;">
+              <p style="color: #9ca3af; font-size: 13px; margin: 0 0 8px 0; text-align: center;">
+                Du erhältst diese E-Mail aufgrund deiner Watchlist-Einstellungen.
               </p>
               <div style="text-align: center;">
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL}/notifications" style="color: #10b981; text-decoration: none; font-weight: 500; margin: 0 12px;">⚙️ Einstellungen</a>
-                <span style="color: #cbd5e0;">|</span>
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL}" style="color: #10b981; text-decoration: none; font-weight: 500; margin: 0 12px;">🏠 FinClue</a>
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL}/notifications/settings" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">Einstellungen</a>
+                <span style="color: #d1d5db;">•</span>
+                <a href="${process.env.NEXT_PUBLIC_BASE_URL}" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">FinClue</a>
               </div>
             </div>
 
           </div>
 
           <!-- Spacer -->
-          <div style="height: 40px;"></div>
+          <div style="height: 32px;"></div>
 
         </body>
         </html>

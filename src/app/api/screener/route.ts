@@ -174,7 +174,7 @@ export async function GET(request: NextRequest) {
     // Get live quotes for top 20 results if requested
     const liveQuotes = searchParams.get('liveQuotes')
     if (liveQuotes === 'true' && cleanedData.length > 0) {
-      const topSymbols = cleanedData.slice(0, 20).map(stock => stock.symbol)
+      const topSymbols = cleanedData.slice(0, 20).map((stock: any) => stock.symbol)
       
       try {
         // Add timeout to prevent slow responses
@@ -190,15 +190,15 @@ export async function GET(request: NextRequest) {
           const quotesMap = new Map(liveData.map((quote: any) => [quote.symbol, quote]))
           
           // Update prices with live data
-          cleanedData = cleanedData.map(stock => {
+          cleanedData = cleanedData.map((stock: any) => {
             const liveQuote = quotesMap.get(stock.symbol)
             if (liveQuote) {
               return {
                 ...stock,
-                price: liveQuote.price,
-                changesPercentage: liveQuote.changesPercentage || stock.changesPercentage,
-                change: liveQuote.change || stock.change,
-                volume: liveQuote.volume || stock.volume
+                price: (liveQuote as any).price,
+                changesPercentage: (liveQuote as any).changesPercentage || (stock as any).changesPercentage,
+                change: (liveQuote as any).change || (stock as any).change,
+                volume: (liveQuote as any).volume || (stock as any).volume
               }
             }
             return stock

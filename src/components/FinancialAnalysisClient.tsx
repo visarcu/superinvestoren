@@ -16,6 +16,8 @@ import {
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
 import { useCurrency } from '@/lib/CurrencyContext'
 import FinancialChartModal from './FinancialChartModal'
+import { useChartPresets } from '@/hooks/useChartPresets'
+import { ChartPreset } from '@/types/chartPresets'
 
 // ✅ GLEICHE Multi-Source Financial Data Service - nur ohne Split-Tracking
 class FinancialDataService {
@@ -323,20 +325,13 @@ interface Props {
 }
 
 // ─── PRESET SYSTEM ───────────────────────────────────────────────────────────
-interface ChartPreset {
+interface LocalChartPreset {
   name: string
   description: string
   charts: MetricKey[]
   icon?: string
 }
 
-interface CustomPreset {
-  id: string
-  name: string
-  charts: MetricKey[]
-  created: string
-  lastUsed?: string
-}
 
 
 
@@ -482,7 +477,7 @@ const ALL_METRICS: MetricKey[] = [
   'valuationMetrics',
 ]
 
-const CHART_PRESETS: Record<string, ChartPreset> = {
+const CHART_PRESETS: Record<string, LocalChartPreset> = {
   'essentials': {
     name: 'Basis-Analyse',
     description: 'Die wichtigsten Kennzahlen',
@@ -1653,41 +1648,27 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   
   // ✅ NEUE STATES FÜR PRESET SYSTEM
   const [selectedPreset, setSelectedPreset] = useState<string>('')
-  const [customPresets, setCustomPresets] = useState<CustomPreset[]>([])
   const [showSavePresetDialog, setShowSavePresetDialog] = useState(false)
   const [newPresetName, setNewPresetName] = useState('')
+  const [saveStatus, setSaveStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle')
+  
+  // ✅ NEW: Chart Presets Hook mit Supabase + LocalStorage Fallback
+  const {
+    presets: customPresets,
+    loading: presetsLoading,
+    error: presetsError,
+    createPreset,
+    updatePreset,
+    deletePreset: deletePresetFromStorage,
+    refreshPresets
+  } = useChartPresets(userId || null, isPremium)
   
   const { currency } = useCurrency()
  
   const overviewYears = 10
  
-  // ✅ LOAD CUSTOM PRESETS FROM LOCALSTORAGE
-  useEffect(() => {
-    const loadCustomPresets = () => {
-      try {
-        const saved = localStorage.getItem(`chartPresets_${userId || 'default'}`)
-        if (saved) {
-          setCustomPresets(JSON.parse(saved))
-        }
-      } catch (error) {
-        console.error('Failed to load custom presets:', error)
-      }
-    }
-    loadCustomPresets()
-  }, [userId])
- 
-  // ✅ SAVE CUSTOM PRESETS TO LOCALSTORAGE
-  const saveCustomPresets = (presets: CustomPreset[]) => {
-    try {
-      localStorage.setItem(`chartPresets_${userId || 'default'}`, JSON.stringify(presets))
-      setCustomPresets(presets)
-    } catch (error) {
-      console.error('Failed to save custom presets:', error)
-    }
-  }
- 
   // ✅ APPLY PRESET
-  const applyPreset = (presetKey: string) => {
+  const applyPreset = async (presetKey: string) => {
     if (!isPremium) {
       window.location.href = '/pricing'
       return
@@ -1697,26 +1678,29 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
     
     // Check if it's a built-in preset
     if (CHART_PRESETS[presetKey]) {
-      setVisibleCharts(CHART_PRESETS[presetKey].charts)
+      setVisibleCharts(CHART_PRESETS[presetKey].charts as MetricKey[])
       return
     }
     
     // Check if it's a custom preset
     const customPreset = customPresets.find(p => p.id === presetKey)
     if (customPreset) {
-      setVisibleCharts(customPreset.charts)
-      // Update last used
-      const updated = customPresets.map(p => 
-        p.id === presetKey 
-          ? { ...p, lastUsed: new Date().toISOString() }
-          : p
-      )
-      saveCustomPresets(updated)
+      setVisibleCharts(customPreset.charts as MetricKey[])
+      // Update last used via the hook
+      await updatePreset({
+        id: presetKey,
+        lastUsed: new Date().toISOString()
+      })
     }
   }
  
   // ✅ SAVE CURRENT SELECTION AS PRESET
-  const saveCurrentAsPreset = () => {
+  const saveCurrentAsPreset = async () => {
+    console.log('🚀 [saveCurrentAsPreset] Called with:', {
+      isPremium,
+      newPresetName: newPresetName.trim(),
+      visibleCharts
+    })
     if (!isPremium) {
       window.location.href = '/pricing'
       return
@@ -1724,24 +1708,34 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
  
     if (!newPresetName.trim()) return
  
-    const newPreset: CustomPreset = {
-      id: `custom_${Date.now()}`,
+    setSaveStatus('saving')
+
+    const savedPreset = await createPreset({
       name: newPresetName.trim(),
-      charts: visibleCharts,
-      created: new Date().toISOString()
+      charts: visibleCharts
+    })
+
+    if (savedPreset) {
+      setSaveStatus('success')
+      setNewPresetName('')
+      setSelectedPreset(savedPreset.id)
+      
+      // Success feedback für 2 Sekunden, dann Dialog schließen
+      setTimeout(() => {
+        setShowSavePresetDialog(false)
+        setSaveStatus('idle')
+      }, 2000)
+    } else {
+      setSaveStatus('error')
+      // Error zurücksetzen nach 3 Sekunden
+      setTimeout(() => setSaveStatus('idle'), 3000)
     }
- 
-    saveCustomPresets([...customPresets, newPreset])
-    setNewPresetName('')
-    setShowSavePresetDialog(false)
-    setSelectedPreset(newPreset.id)
   }
  
   // ✅ DELETE CUSTOM PRESET
-  const deleteCustomPreset = (presetId: string) => {
-    const updated = customPresets.filter(p => p.id !== presetId)
-    saveCustomPresets(updated)
-    if (selectedPreset === presetId) {
+  const deleteCustomPreset = async (presetId: string) => {
+    const success = await deletePresetFromStorage(presetId)
+    if (success && selectedPreset === presetId) {
       setSelectedPreset('')
     }
   }
@@ -1898,9 +1892,9 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                         ? 'bg-green-500 text-white'
                         : 'bg-theme-tertiary text-theme-secondary hover:bg-green-500/10 hover:text-green-400'
                     }`}
-                    title={preset.description}
+                    title={(preset as LocalChartPreset).description}
                   >
-                    <span className="mr-1">{preset.icon}</span>
+                    <span className="mr-1">{(preset as LocalChartPreset).icon}</span>
                     {preset.name}
                   </button>
                 ))}
@@ -1917,7 +1911,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               <optgroup label="Standard Presets">
                 {Object.entries(CHART_PRESETS).slice(5).map(([key, preset]) => (
                   <option key={key} value={key}>
-                    {preset.icon} {preset.name}
+                    {(preset as LocalChartPreset).icon} {preset.name}
                   </option>
                 ))}
               </optgroup>
@@ -2025,17 +2019,38 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             Abbrechen
           </button>
           <button
-            onClick={saveCurrentAsPreset}
-            disabled={!newPresetName.trim()}
-            className="flex-1 px-4 py-2.5 text-sm font-medium bg-green-500 text-white rounded-lg 
-                     hover:bg-green-600 disabled:opacity-50 disabled:cursor-not-allowed 
-                     transition-all transform hover:scale-[1.02] disabled:hover:scale-100"
+            onClick={() => {
+              console.log('🔘 [Button] Click detected, newPresetName:', newPresetName.trim())
+              saveCurrentAsPreset()
+            }}
+            disabled={!newPresetName.trim() || saveStatus === 'saving'}
+            className={`flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-all transform disabled:cursor-not-allowed ${
+              saveStatus === 'success' 
+                ? 'bg-green-600 text-white' 
+                : saveStatus === 'error'
+                ? 'bg-red-500 text-white'
+                : 'bg-green-500 text-white hover:bg-green-600 hover:scale-[1.02]'
+            } ${(!newPresetName.trim() || saveStatus === 'saving') ? 'opacity-50 hover:scale-100' : ''}`}
           >
             <div className="flex items-center justify-center gap-2">
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-              Speichern
+              {saveStatus === 'saving' ? (
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+              ) : saveStatus === 'success' ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              ) : saveStatus === 'error' ? (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                </svg>
+              )}
+              {saveStatus === 'saving' ? 'Speichert...' : 
+               saveStatus === 'success' ? 'Gespeichert!' : 
+               saveStatus === 'error' ? 'Fehler!' : 'Speichern'}
             </div>
           </button>
         </div>

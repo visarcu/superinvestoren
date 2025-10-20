@@ -114,21 +114,44 @@ export async function POST(request: NextRequest) {
 
             // Dip berechnen
             const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100
-            // TEST MODE: Nur für bestimmte User-ID
-            //const isDip = (userSettings.user_id === 'c5d048f7-fb5e-44e1-a6e7-ac7619f0d9f7') ? true : dipPercent <= -userSettings.watchlist_threshold_percent
             const isDip = dipPercent <= -userSettings.watchlist_threshold_percent
+            
             if (isDip) {
-              // Prüfen ob wir heute schon eine Notification für diesen Stock gesendet haben
-              const { data: recentNotification } = await supabaseService
+              // Prüfen letzte Notification für diese Aktie
+              const { data: lastNotification } = await supabaseService
                 .from('notification_log')
-                .select('id')
+                .select('sent_at, notification_type')
                 .eq('user_id', userSettings.user_id)
                 .eq('notification_type', 'watchlist_dip')
                 .eq('reference_id', item.ticker)
-                .gte('sent_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+                .order('sent_at', { ascending: false })
+                .limit(1)
                 .maybeSingle()
 
-              if (!recentNotification) {
+              const now = new Date()
+              let shouldSendEmail = false
+              let alertType = 'new_dip'
+
+              if (!lastNotification) {
+                // Erste E-Mail für diese Aktie
+                shouldSendEmail = true
+                alertType = 'new_dip'
+                console.log(`📧 [NEW DIP] ${item.ticker}: Erste E-Mail für ${userSettings.user_id}`)
+              } else {
+                const lastSent = new Date(lastNotification.sent_at)
+                const daysSinceLastEmail = (now.getTime() - lastSent.getTime()) / (1000 * 60 * 60 * 24)
+                
+                if (daysSinceLastEmail >= 7) {
+                  // Wöchentlicher Reminder für persistente Dips
+                  shouldSendEmail = true
+                  alertType = 'persistent_dip'
+                  console.log(`📧 [WEEKLY REMINDER] ${item.ticker}: ${daysSinceLastEmail.toFixed(1)} Tage seit letzter E-Mail`)
+                } else {
+                  console.log(`⏰ [SKIP] ${item.ticker}: Nur ${daysSinceLastEmail.toFixed(1)} Tage seit letzter E-Mail`)
+                }
+              }
+
+              if (shouldSendEmail) {
                 const stockData = {
                   ticker: item.ticker,
                   currentPrice: quote.price,
@@ -140,12 +163,16 @@ export async function POST(request: NextRequest) {
                 dippedStocks.push(stockData)
 
                 // ✅ In-App Notification vorbereiten
+                const title = alertType === 'new_dip' 
+                  ? `${item.ticker} ist um ${Math.abs(dipPercent).toFixed(1)}% gefallen`
+                  : `${item.ticker} weiterhin ${Math.abs(dipPercent).toFixed(1)}% unter 52W-Hoch`
+                
                 inAppNotificationsToCreate.push({
                   userId: userSettings.user_id,
                   type: 'watchlist_dip',
-                  title: `${item.ticker} ist um ${Math.abs(dipPercent).toFixed(1)}% gefallen`,
+                  title,
                   message: `Aktueller Kurs: $${quote.price.toFixed(2)} (${dipPercent.toFixed(1)}% vom 52W-Hoch)`,
-                  data: stockData,
+                  data: { ...stockData, alertType },
                   href: `/analyse/stocks/${item.ticker.toLowerCase()}`
                 })
               }

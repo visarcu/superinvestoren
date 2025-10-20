@@ -25,6 +25,7 @@ model User {
   updatedAt               DateTime                 @updatedAt
   watchlist               WatchlistItem[]
   passwordResetTokens     PasswordResetToken[]
+  chartPresets            ChartPreset[]
 }
 
 model WatchlistItem {
@@ -59,6 +60,19 @@ model PasswordResetToken {
   @@index([expiresAt])
 }
 
+model ChartPreset {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  name      String
+  charts    String[] // Array of chart keys like ["revenue", "profit", "debt"]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lastUsed  DateTime?
+
+  @@index([userId])
+  @@index([lastUsed])
+}
 
 model Subscriber {
   id            Int     @id @default(autoincrement())
