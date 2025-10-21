@@ -36,77 +36,80 @@ export async function POST(request: NextRequest) {
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>${subject} | FinClue</title>
       </head>
-      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; background-color: #f8fafc;">
+      <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #111827; background-color: #f9fafb;">
         
-        <!-- Clean Header -->
-        <div style="max-width: 600px; margin: 0 auto; padding: 40px 20px 20px 20px; text-align: center;">
-          <h1 style="color: #10b981; margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">FinClue</h1>
-          <p style="color: #64748b; margin: 8px 0 0 0; font-size: 16px;">Neues Superinvestor-Filing</p>
-          ${isTest ? '<p style="background: #fbbf24; color: #92400e; padding: 8px 16px; border-radius: 6px; font-size: 14px; font-weight: 600; margin: 12px auto; display: inline-block;">🧪 TEST E-MAIL</p>' : ''}
+        <!-- Header -->
+        <div style="max-width: 600px; margin: 0 auto; padding: 32px 20px 16px 20px;">
+          <div style="text-align: center; margin-bottom: 24px;">
+            <h1 style="color: #374151; margin: 0; font-size: 24px; font-weight: 700;">FinClue</h1>
+            <p style="color: #9ca3af; margin: 4px 0 0 0; font-size: 14px;">Neues Superinvestor-Filing</p>
+            ${isTest ? '<p style="background: #fbbf24; color: #92400e; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 500; margin: 8px auto; display: inline-block;">🧪 TEST E-MAIL</p>' : ''}
+          </div>
         </div>
 
         <!-- Main Content -->
-        <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 16px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); overflow: hidden;">
+        <div style="max-width: 600px; margin: 0 auto; background: #ffffff; border-radius: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); overflow: hidden;">
           
           <div style="padding: 32px;">
-            <h2 style="color: #1a202c; font-size: 24px; font-weight: 600; margin: 0 0 16px 0; line-height: 1.3;">
+            <h2 style="color: #111827; font-size: 20px; font-weight: 600; margin: 0 0 8px 0; line-height: 1.3;">
               📊 ${investorName} hat neue Holdings veröffentlicht
             </h2>
             
-            <p style="color: #4a5568; font-size: 16px; margin: 0 0 24px 0;">
-              Hi! 👋<br><br>
-              ${investorName} hat soeben ein neues 13F-Filing eingereicht. Das bedeutet, du kannst jetzt sehen:
+            <p style="color: #6b7280; font-size: 15px; margin: 0 0 24px 0; line-height: 1.5;">
+              ${investorName} hat soeben ein neues 13F-Filing eingereicht. Das bedeutet, du kannst jetzt die neuesten Portfolio-Änderungen einsehen:
             </p>
 
             <!-- Features List -->
-            <div style="background: #f8fafc; border-radius: 12px; padding: 24px; margin: 24px 0;">
-              <ul style="color: #374151; font-size: 15px; line-height: 1.6; margin: 0; padding-left: 20px;">
-                <li style="margin-bottom: 8px;"><strong>Neue Käufe</strong> - Welche Aktien wurden hinzugefügt</li>
-                <li style="margin-bottom: 8px;"><strong>Verkäufe</strong> - Was wurde aus dem Portfolio entfernt</li>
-                <li style="margin-bottom: 8px;"><strong>Position-Änderungen</strong> - Auf- und Abstockungen</li>
+            <div style="border: 1px solid #e5e7eb; border-radius: 6px; padding: 20px; margin: 24px 0; background: #fafafa;">
+              <ul style="color: #374151; font-size: 14px; line-height: 1.6; margin: 0; padding-left: 18px;">
+                <li style="margin-bottom: 6px;"><strong>Neue Käufe</strong> - Welche Aktien wurden hinzugefügt</li>
+                <li style="margin-bottom: 6px;"><strong>Verkäufe</strong> - Was wurde aus dem Portfolio entfernt</li>
+                <li style="margin-bottom: 6px;"><strong>Position-Änderungen</strong> - Auf- und Abstockungen</li>
                 <li style="margin-bottom: 0;"><strong>Portfolio-Zusammensetzung</strong> - Aktuelle Gewichtung</li>
               </ul>
             </div>
 
             <!-- CTA Button -->
-            <div style="text-align: center; margin: 32px 0;">
-              <a href="${process.env.NEXT_PUBLIC_BASE_URL}/superinvestor/${investorSlug}" 
-                 style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: #ffffff; padding: 16px 32px; text-decoration: none; border-radius: 12px; font-weight: 600; font-size: 16px; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3); transition: all 0.2s;">
-                📈 Portfolio von ${investorName} ansehen
+            <div style="text-align: center; margin: 32px 0 24px 0;">
+              <a href="https://finclue.de/superinvestor/${investorSlug}" 
+                 target="_blank"
+                 rel="noopener noreferrer"
+                 style="display: inline-block; background: #374151; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-size: 14px; border: 1px solid #374151;">
+                Portfolio von ${investorName} ansehen →
               </a>
             </div>
 
-            <div style="text-align: center; margin: 24px 0;">
-              <a href="${process.env.NEXT_PUBLIC_BASE_URL}/superinvestor" 
-                 style="color: #64748b; text-decoration: none; font-size: 14px;">
-                🔍 Alle Superinvestoren vergleichen
+            <div style="text-align: center; margin: 16px 0;">
+              <a href="https://finclue.de/superinvestor" 
+                 style="color: #6b7280; text-decoration: none; font-size: 13px;">
+                Alle Superinvestoren vergleichen
               </a>
             </div>
 
             <!-- Disclaimer -->
-            <div style="background: #fffbeb; border: 1px solid #fbbf24; border-radius: 12px; padding: 20px; margin: 32px 0 0 0;">
-              <p style="color: #92400e; font-size: 14px; margin: 0; line-height: 1.6;">
-                <strong>💡 Hinweis:</strong> 13F-Filings zeigen Holdings zum Stichtag Ende des Quartals. Die Daten können bis zu 45 Tage alt sein. Dies stellt keine Anlageberatung dar.
+            <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 6px; padding: 16px; margin: 24px 0 0 0;">
+              <p style="color: #6b7280; font-size: 13px; margin: 0; line-height: 1.5;">
+                <strong style="color: #374151;">Hinweis:</strong> 13F-Filings zeigen Holdings zum Stichtag Ende des Quartals. Die Daten können bis zu 45 Tage alt sein. Dies stellt keine Anlageberatung dar.
               </p>
             </div>
           </div>
 
           <!-- Footer -->
-          <div style="background: #f8fafc; padding: 24px 32px; border-top: 1px solid #e2e8f0;">
-            <p style="color: #64748b; font-size: 14px; margin: 0 0 12px 0; text-align: center;">
+          <div style="background: #f9fafb; padding: 20px 32px; border-top: 1px solid #e5e7eb;">
+            <p style="color: #9ca3af; font-size: 13px; margin: 0 0 8px 0; text-align: center;">
               Du erhältst diese E-Mail, weil du ${investorName} folgst.
             </p>
             <div style="text-align: center;">
-              <a href="${process.env.NEXT_PUBLIC_BASE_URL}/notifications" style="color: #10b981; text-decoration: none; font-weight: 500; margin: 0 12px;">⚙️ Einstellungen</a>
-              <span style="color: #cbd5e0;">|</span>
-              <a href="${process.env.NEXT_PUBLIC_BASE_URL}/superinvestor/${investorSlug}" style="color: #10b981; text-decoration: none; font-weight: 500; margin: 0 12px;">👤 ${investorName}</a>
+              <a href="https://finclue.de/notifications" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Einstellungen</a>
+              <span style="color: #d1d5db;">•</span>
+              <a href="https://finclue.de/superinvestor/${investorSlug}" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">${investorName}</a>
             </div>
           </div>
 
         </div>
 
         <!-- Spacer -->
-        <div style="height: 40px;"></div>
+        <div style="height: 32px;"></div>
 
       </body>
       </html>

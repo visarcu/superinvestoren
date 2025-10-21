@@ -257,19 +257,122 @@ export default function NotificationSettings() {
             </button>
           </div>
 
-          {/* VEREINFACHT: Nur Hinweis, kein komplexes Interface */}
+          {/* Investor-Auswahl */}
           {settings.filings_enabled && (
             <div className="p-4 bg-theme-secondary rounded-lg">
-              <p className="text-sm text-theme-muted">
-                📊 Du erhältst E-Mails für alle Investoren, denen du folgst.
-              </p>
-              <p className="text-xs text-theme-muted mt-2">
-                <strong>Tipp:</strong> Folge Investoren direkt auf ihren Profil-Seiten.
+              <p className="text-sm text-theme-muted mb-4">
+                📊 Wähle Investoren aus, für die du Filing-Benachrichtigungen erhalten möchtest:
               </p>
               
+              {/* Verfügbare Investoren */}
+              <div className="grid grid-cols-2 gap-2 mb-4 max-h-96 overflow-y-auto">
+                {[
+                  { slug: 'buffett', name: 'Warren Buffett' },
+                  { slug: 'ackman', name: 'Bill Ackman' },
+                  { slug: 'gates', name: 'Bill Gates' },
+                  { slug: 'torray', name: 'Torray Investment Partners' },
+                  { slug: 'davis', name: 'Christopher Davis' },
+                  { slug: 'altarockpartners', name: 'Mark Massey' },
+                  { slug: 'greenhaven', name: 'Edgar Wachenheim III' },
+                  { slug: 'vinall', name: 'Robert Vinall' },
+                  { slug: 'meridiancontrarian', name: 'Meridian Contrarian Fund' },
+                  { slug: 'hawkins', name: 'Mason Hawkins' },
+                  { slug: 'olstein', name: 'Robert Olstein' },
+                  { slug: 'peltz', name: 'Nelson Peltz' },
+                  { slug: 'gregalexander', name: 'Greg Alexander' },
+                  { slug: 'miller', name: 'Bill Miller' },
+                  { slug: 'tangen', name: 'Nicolai Tangen' },
+                  { slug: 'burry', name: 'Michael Burry' },
+                  { slug: 'pabrai', name: 'Mohnish Pabrai' },
+                  { slug: 'kantesaria', name: 'Dev Kantesaria' },
+                  { slug: 'greenblatt', name: 'Joel Greenblatt' },
+                  { slug: 'fisher', name: 'Ken Fisher' },
+                  { slug: 'soros', name: 'George Soros' },
+                  { slug: 'haley', name: 'Connor Haley' },
+                  { slug: 'vandenberg', name: 'Arnold Van Den Berg' },
+                  { slug: 'dodgecox', name: 'Dodge & Cox' },
+                  { slug: 'pzena', name: 'Richard Pzena' },
+                  { slug: 'mairspower', name: 'Mairs & Power Inc' },
+                  { slug: 'weitz', name: 'Wallace Weitz' },
+                  { slug: 'yacktman', name: 'Yacktman Asset Management' },
+                  { slug: 'gayner', name: 'Thomas Gayner' },
+                  { slug: 'armitage', name: 'John Armitage' },
+                  { slug: 'burn', name: 'Harry Burn' },
+                  { slug: 'cantillon', name: 'William von Mueffling' },
+                  { slug: 'jensen', name: 'Eric Schoenstein' },
+                  { slug: 'abrams', name: 'David Abrams' },
+                  { slug: 'firsteagle', name: 'First Eagle Investment' },
+                  { slug: 'polen', name: 'Polen Capital Management' },
+                  { slug: 'tarasoff', name: 'Josh Tarasoff' },
+                  { slug: 'rochon', name: 'Francois Rochon' },
+                  { slug: 'russo', name: 'Thomas Russo' },
+                  { slug: 'akre', name: 'Chuck Akre' },
+                  { slug: 'triplefrond', name: 'Triple Frond Partners' },
+                  { slug: 'whitman', name: 'Marty Whitman' },
+                  { slug: 'patientcapital', name: 'Samantha McLemore' },
+                  { slug: 'klarman', name: 'Seth Klarman' },
+                  { slug: 'makaira', name: 'Tom Bancroft' },
+                  { slug: 'ketterer', name: 'Sarah Ketterer' },
+                  { slug: 'train', name: 'Lindsell Train' },
+                  { slug: 'smith', name: 'Terry Smith' },
+                  { slug: 'watsa', name: 'Prem Watsa' },
+                  { slug: 'lawrence', name: 'Bryan Lawrence' },
+                  { slug: 'dorsey', name: 'Pat Dorsey' },
+                  { slug: 'hohn', name: 'Chris Hohn' },
+                  { slug: 'hong', name: 'Dennis Hong' },
+                  { slug: 'kahn', name: 'Kahn Brothers Group' },
+                  { slug: 'coleman', name: 'Chase Coleman' },
+                  { slug: 'dalio', name: 'Ray Dalio' },
+                  { slug: 'loeb', name: 'Daniel Loeb' },
+                  { slug: 'tepper', name: 'David Tepper' },
+                  { slug: 'icahn', name: 'Carl Icahn' },
+                  { slug: 'lilu', name: 'Li Lu' },
+                  { slug: 'ainslie', name: 'Lee Ainslie' },
+                  { slug: 'greenberg', name: 'Glenn Greenberg' },
+                  { slug: 'mandel', name: 'Stephen Mandel' },
+                  { slug: 'marks', name: 'Howard Marks' },
+                  { slug: 'rogers', name: 'John Rogers' },
+                  { slug: 'ariel_appreciation', name: 'Ariel Appreciation Fund' },
+                  { slug: 'ariel_focus', name: 'Ariel Focus Fund' },
+                  { slug: 'cunniff', name: 'Ruane, Cunniff & Goldfarb' },
+                  { slug: 'spier', name: 'Guy Spier' },
+                  { slug: 'chou', name: 'Francis Chou' },
+                  { slug: 'sosin', name: 'Clifford Sosin' },
+                  { slug: 'welling', name: 'Glenn Welling' },
+                  { slug: 'lou', name: 'Norbert Lou' },
+                  { slug: 'munger', name: 'Charlie Munger' },
+                  { slug: 'ark_investment_management', name: 'Catherine Wood' },
+                  { slug: 'cunniff_sequoia', name: 'Sequoia Fund' },
+                  { slug: 'katz', name: 'David Katz' },
+                  { slug: 'tweedy_browne_fund_inc', name: 'Tweedy Browne' }
+                ].map(investor => {
+                  const isSelected = settings.preferred_investors.includes(investor.slug)
+                  return (
+                    <button
+                      key={investor.slug}
+                      onClick={() => {
+                        const newInvestors = isSelected
+                          ? settings.preferred_investors.filter(i => i !== investor.slug)
+                          : [...settings.preferred_investors, investor.slug]
+                        updateSetting('preferred_investors', newInvestors)
+                      }}
+                      className={`p-2 rounded-lg text-xs font-medium transition-colors ${
+                        isSelected 
+                          ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                          : 'bg-theme-card border border-theme/10 text-theme-muted hover:text-theme-primary hover:border-theme/20'
+                      }`}
+                    >
+                      {isSelected && '✓ '}{investor.name}
+                    </button>
+                  )
+                })}
+              </div>
+              
               {settings.preferred_investors.length > 0 && (
-                <div className="mt-3">
-                  <p className="text-xs text-theme-muted mb-2">Aktuell gefolgten Investoren:</p>
+                <div className="mt-3 pt-3 border-t border-theme/10">
+                  <p className="text-xs text-theme-muted mb-2">
+                    Du folgst {settings.preferred_investors.length} Investor{settings.preferred_investors.length !== 1 ? 'en' : ''}:
+                  </p>
                   <div className="flex flex-wrap gap-1">
                     {settings.preferred_investors.map(investor => (
                       <span key={investor} className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">

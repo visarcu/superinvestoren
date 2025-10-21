@@ -133,7 +133,7 @@ function getInvestorName(slug: string): string {
     burry: 'Michael Burry',
     soros: 'George Soros',
     icahn: 'Carl Icahn',
-    // Füge hier weitere hinzu...
+    spier: 'Guy Spier'
   }
   return names[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
 }

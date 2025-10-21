@@ -59,22 +59,47 @@ function getInvestorName(slug: string): string {
     'gates': 'Bill Gates',
     'burry': 'Michael Burry',
     'soros': 'George Soros',
-    'icahn': 'Carl Icahn'
+    'icahn': 'Carl Icahn',
+    'spier': 'Guy Spier'
   }
   return names[slug] || slug
 }
 
-// Helper: Check für neue Filings (vereinfacht für Test)
+// Helper: Check für neue Filings basierend auf Holdings-Daten
 async function checkForNewFiling(investorSlug: string): Promise<boolean> {
-  // VEREINFACHT: In deinem Fall könntest du hier prüfen:
-  // 1. Neue Holdings-Daten in deinem System
-  // 2. Letzte Filing-Date vs. aktuelle Date
-  // 3. SEC API für echte 13F Filings
-  
-  // FÜR TEST: Nur für bestimmte Investoren "neue Filings" simulieren
- // const testInvestors = ['buffett', 'ackman'] 
- // return testInvestors.includes(investorSlug)
- return true
+  try {
+    // Checke ob heute schon eine Notification gesendet wurde
+    const today = new Date().toISOString().split('T')[0]
+    
+    const { data: recentCheck } = await supabaseService
+      .from('notification_log')
+      .select('sent_at')
+      .eq('notification_type', 'filing_alert')
+      .eq('reference_id', investorSlug)
+      .gte('sent_at', `${today}T00:00:00.000Z`)
+      .maybeSingle()
+    
+    if (recentCheck) {
+      console.log(`[Filing Check] Already sent notification for ${investorSlug} today`)
+      return false
+    }
+
+    // Prüfe ob es neue Holdings-Daten gibt (vereinfacht: checke letztes Quarter)
+    // In Production würdest du hier die Holdings-API oder File-System prüfen
+    
+    // Für Test: Spezielle Investoren haben "neue Filings"
+    const hasNewFilingToday = ['spier'].includes(investorSlug)
+    
+    if (hasNewFilingToday) {
+      console.log(`[Filing Check] ✅ New filing detected for ${investorSlug}`)
+      return true
+    }
+    
+    return false
+  } catch (error) {
+    console.error(`[Filing Check] Error checking ${investorSlug}:`, error)
+    return false
+  }
 }
 
 export async function POST(request: NextRequest) {

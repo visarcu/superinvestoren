@@ -616,6 +616,7 @@ import spier_2024_Q4 from './spier/2024-Q4.json'
 import spier_2025_Q1 from './spier/2025-Q1.json'
 import spier_2025_Q2 from './spier/2025-Q2.json'
 import spier_2025_Q3 from './spier/2025-Q3.json'
+import spier_2025_Q4 from './spier/2025-Q4.json'
 
 //triplefrond
 import triplefrond_2024_Q2 from './triplefrond/2024-Q2.json'
@@ -646,6 +647,8 @@ import dodgecox_2024_Q3 from './dodgecox/2024-Q3.json'
 import dodgecox_2024_Q4 from './dodgecox/2024-Q4.json'
 import dodgecox_2025_Q1 from './dodgecox/2025-Q1.json'
 import dodgecox_2025_Q2 from './dodgecox/2025-Q2.json'
+import dodgecox_2025_Q3 from './dodgecox/2025-Q3.json'
+import dodgecox_2025_Q4 from './dodgecox/2025-Q4.json'
 
 //whitman
 import whitman_2024_Q2 from './whitman/2024-Q2.json'
@@ -1644,6 +1647,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: spier_2025_Q1},
     { quarter: '2025-Q2', data: spier_2025_Q2},
     { quarter: '2025-Q3', data: spier_2025_Q3},
+    { quarter: '2025-Q4', data: spier_2025_Q4},
    ],
 
    triplefrond: [
@@ -1678,6 +1682,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q4', data: dodgecox_2024_Q4},
     { quarter: '2025-Q1', data: dodgecox_2025_Q1},
     { quarter: '2025-Q2', data: dodgecox_2025_Q2},
+    { quarter: '2025-Q3', data: dodgecox_2025_Q3},
+  //  { quarter: '2025-Q4', data: dodgecox_2025_Q4},
    ],
 
    whitman: [

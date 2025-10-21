@@ -12,6 +12,7 @@
     "fetch13f": "node --experimental-json-modules scripts/fetch13f.js",
     "fetchNportP": "node --experimental-json-modules scripts/fetchNportP.js",
     "update-holdings": "node scripts/updateHoldingsIndex.js",
+    "notify-filings": "node scripts/trigger-filing-notifications.js",
     "update-stocks": "ts-node scripts/update-stocks.ts",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
