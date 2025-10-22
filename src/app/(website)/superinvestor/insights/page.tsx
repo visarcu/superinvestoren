@@ -957,9 +957,188 @@ function calculateNewDiscoveries(targetQuarters: string[]): Array<{
     .slice(0, 10);
 }
 
-// 4. SECTOR ROTATION MATRIX - Zeigt Umschichtungen zwischen Sektoren
+// 4. RESEARCH GEMS - Hidden Gems und deutsche Aktien
+function calculateResearchGems(): {
+  unknownStocks: Array<{
+    ticker: string;
+    name: string;
+    investorCount: number;
+    investors: string[];
+    totalValue: number;
+  }>;
+  germanStocks: Array<{
+    ticker: string;
+    name: string;
+    investorCount: number;
+    investors: string[];
+    totalValue: number;
+  }>;
+} {
+  // Deutsche Unternehmen - Namen basierte Erkennung (sicherer als Ticker)
+  const GERMAN_COMPANY_NAMES = new Set([
+    'SAP SE', 'SAP', 
+    'SIEMENS', 'SIEMENS AG',
+    'ALLIANZ', 'ALLIANZ SE', 'ALLIANZ AG',
+    'BASF', 'BASF SE',
+    'BAYER', 'BAYER AG',
+    'BEIERSDORF', 'BEIERSDORF AG',
+    'BMW', 'BAYERISCHE MOTOREN WERKE',
+    'BRENNTAG', 'BRENNTAG SE',
+    'COMMERZBANK', 'COMMERZBANK AG',
+    'CONTINENTAL', 'CONTINENTAL AG',
+    'DAIMLER TRUCK', 'DAIMLER TRUCK HOLDING',
+    'DEUTSCHE BANK', 'DEUTSCHE BANK AG', 'DEUTSCHE BANK A G',
+    'DEUTSCHE BÖRSE', 'DEUTSCHE BOERSE', 'DEUTSCHE BOERSE (ADR)',
+    'DEUTSCHE TELEKOM', 'DEUTSCHE TELEKOM AG',
+    'DEUTSCHE POST', 'DHL GROUP',
+    'E\\.ON', 'EON SE', 'E ON SE',
+    'FRESENIUS', 'FRESENIUS SE',
+    'FRESENIUS MEDICAL CARE',
+    'GEA GROUP', 'GEA',
+    'HANNOVER RUECK', 'HANNOVER RÜCK', 'HANNOVER RE',
+    'HEIDELBERG MATERIALS', 'HEIDELBERGCEMENT',
+    'HENKEL', 'HENKEL AG',
+    'INFINEON', 'INFINEON TECHNOLOGIES',
+    'MERCEDES-BENZ', 'MERCEDES BENZ GROUP', 'MERCEDES-BENZ GROUP',
+    'MERCK KGAA', 'MERCK KOMMANDITGESELLSCHAFT',
+    'MTU AERO ENGINES',
+    'MUENCHENER RUECK', 'MÜNCHENER RÜCK',
+    'PORSCHE', 'PORSCHE AG', 'PORSCHE AUTOMOBIL', 'PORSCHE AUTOMOBIL HOLDING',
+    'QIAGEN',
+    'RHEINMETALL',
+    'RWE', 'RWE AG',
+    'SCOUT24',
+    'SIEMENS ENERGY', 'SIEMENS HEALTHINEERS',
+    'SYMRISE', 'SYMRISE AG',
+    'VOLKSWAGEN', 'VOLKSWAGEN AG',
+    'VONOVIA', 'VONOVIA SE',
+    'ZALANDO', 'ZALANDO SE',
+    'ADIDAS', 'ADIDAS AG'
+  ]);
+  
+  // Funktion zur Erkennung deutscher Aktien
+  function isGermanStock(ticker: string, name?: string): boolean {
+    // Ticker-basierte Erkennung aller deutschen ADRs aus stocks-us.ts
+    const germanTickers = new Set([
+      'DB', 'SAP', 'MBGYY', 'DTEGY', 'POAHY', 'MTUAY', 'RWEOY', 
+      'SIEGY', 'SCCTY', 'SMMNY', 'SMNEY', 'VWAGY', 'VONOY', 
+      'DHLGY', 'ZLNDY', 'RNMBY', 'HVRRY', 'HDLMY', 'IFNNY'
+    ]);
+    
+    if (germanTickers.has(ticker.toUpperCase())) {
+      return true;
+    }
+    
+    // Fallback: Namen-basierte Erkennung für ganze Wörter
+    if (name) {
+      const upperName = name.toUpperCase();
+      for (const germanName of GERMAN_COMPANY_NAMES) {
+        // Word boundary check - nur ganze Wörter matchen
+        const regex = new RegExp(`\\b${germanName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`);
+        if (regex.test(upperName)) {
+          return true;
+        }
+      }
+    }
+    
+    return false;
+  }
+  
+  // Market Cap Grenze für Hidden Gems (unter $15B = Small-Mid Cap)
+  const MAX_MARKET_CAP_FOR_HIDDEN_GEMS = 15_000_000_000; // $15B
+  
+  // Funktion um Market Cap aus stocks-us.ts zu holen oder zu schätzen
+  function getMarketCapEstimate(ticker: string, totalValue: number, investorCount: number): number {
+    // Bekannte Large/Mega Caps hardcoded für bessere Performance
+    const knownLargeCaps = new Set([
+      'AAPL', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'TSLA', 'META', 'NVDA', 
+      'BRK.A', 'BRK.B', 'BRKB', 'JPM', 'JNJ', 'V', 'UNH', 'MA', 'PG'
+    ]);
+    
+    if (knownLargeCaps.has(ticker.toUpperCase())) {
+      return 100_000_000_000; // $100B+ (definitiv keine Hidden Gem)
+    }
+    
+    // Grobe Schätzung basierend auf Portfolio-Werten
+    // Annahme: Superinvestoren halten typisch 1-5% einer Small-Mid Cap
+    const estimatedMarketCap = (totalValue * investorCount) * 50; // Grober Multiplikator
+    return estimatedMarketCap;
+  }
 
-// 4. SECTOR NET FLOWS - Zeigt Zu- und Abflüsse pro Sektor
+  const stockData = new Map<string, {
+    name: string;
+    investors: Set<string>;
+    totalValue: number;
+    isGerman: boolean;
+  }>();
+
+  // Durchlaufe alle aktiven Investoren
+  preprocessedData.activeInvestors.forEach(slug => {
+    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
+    if (!snaps || snaps.length === 0) return;
+    
+    const latest = snaps[snaps.length - 1];
+    if (!latest?.data?.positions) return;
+
+    latest.data.positions.forEach((position: Position) => {
+      const ticker = getTicker(position);
+      if (!ticker) return;
+
+      // Erkennung deutscher Aktien auch über Name, nicht nur Ticker
+      const isGerman = isGermanStock(ticker, position.name);
+      
+      if (!stockData.has(ticker)) {
+        stockData.set(ticker, {
+          name: getStockName(position),
+          investors: new Set(),
+          totalValue: 0,
+          isGerman
+        });
+      }
+
+      const stock = stockData.get(ticker)!;
+      stock.investors.add(investorNames[slug] || slug);
+      stock.totalValue += position.value;
+    });
+  });
+
+  // Filtere und konvertiere zu Arrays
+  const unknownStocks = Array.from(stockData.entries())
+    .filter(([ticker, data]) => {
+      if (data.isGerman || data.investors.size < 3) return false;
+      
+      // Market Cap Check: Nur Small-Mid Caps als Hidden Gems
+      const estimatedMarketCap = getMarketCapEstimate(ticker, data.totalValue, data.investors.size);
+      return estimatedMarketCap < MAX_MARKET_CAP_FOR_HIDDEN_GEMS;
+    })
+    .map(([ticker, data]) => ({
+      ticker,
+      name: data.name,
+      investorCount: data.investors.size,
+      investors: Array.from(data.investors),
+      totalValue: data.totalValue
+    }))
+    .sort((a, b) => b.investorCount - a.investorCount)  // Sortiere nach höchster Investor-Anzahl
+    .slice(0, 10);
+
+  const germanStocks = Array.from(stockData.entries())
+    .filter(([, data]) => data.isGerman && data.investors.size >= 1)
+    .map(([ticker, data]) => ({
+      ticker,
+      name: data.name,
+      investorCount: data.investors.size,
+      investors: Array.from(data.investors),
+      totalValue: data.totalValue
+    }))
+    .sort((a, b) => b.investorCount - a.investorCount)
+    .slice(0, 10);
+
+  return { unknownStocks, germanStocks };
+}
+
+// 5. SECTOR ROTATION MATRIX - Zeigt Umschichtungen zwischen Sektoren
+
+// 5. SECTOR NET FLOWS - Zeigt Zu- und Abflüsse pro Sektor
 function calculateSectorNetFlows(targetQuarters: string[]): Map<string, number> {
   if (targetQuarters.length < 2) return new Map();
   
@@ -1368,6 +1547,10 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   
   const newDiscoveries = useMemo(() => 
     calculateNewDiscoveries(targetQuarters), [targetQuarters]
+  );
+  
+  const researchGems = useMemo(() => 
+    calculateResearchGems(), []
   );
 
   const buySellBalance = useMemo(() => {
@@ -2381,6 +2564,136 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <StarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
             <p className="text-sm">Keine neuen Entdeckungen</p>
             <p className="text-xs mt-1">Min. 2 Investoren & 5M Position</p>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+{/* ========== SPECIAL INSIGHTS SECTION - Quartr Style ========== */}
+<div className="mb-16">
+  <div className="text-center mb-12">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 rounded-full text-sm font-medium mb-6">
+      <EyeIcon className="w-4 h-4" />
+      Special Insights
+    </div>
+    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+      Hidden Gems & 
+      <span className="text-purple-600 dark:text-purple-400"> Deutsche Aktien</span>
+    </h2>
+    <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+      Wenig bekannte Small-Mid Caps und deutsche Unternehmen in Superinvestor-Portfolios
+    </p>
+  </div>
+  
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+    
+    {/* Unknown Stocks */}
+    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+          <span className="text-xl">💎</span>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Hidden Gems</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Unbekannte Small-Mid Caps</p>
+        </div>
+      </div>
+      
+      <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        {researchGems.unknownStocks.length > 0 ? (
+          researchGems.unknownStocks.map((stock, index) => (
+            <Link
+              key={stock.ticker}
+              href={`/analyse/stocks/${stock.ticker.toLowerCase()}/super-investors`}
+              className="block p-4 border border-gray-100 dark:border-neutral-700 rounded-lg hover:border-blue-200 dark:hover:border-blue-600 hover:bg-blue-50/30 dark:hover:bg-blue-900/20 transition-all"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {stock.ticker}
+                  </h4>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                    {stock.name}
+                  </p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-xs bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-400 px-2 py-1 rounded">
+                      {stock.investorCount} Investor{stock.investorCount !== 1 ? 'en' : ''}
+                    </span>
+                    {stock.totalValue > 0 && (
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                        ${(stock.totalValue / 1000000).toFixed(0)}M
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-xl text-neutral-400 dark:text-neutral-500">
+                  #{index + 1}
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
+            <span className="text-3xl mb-2 block">💎</span>
+            <p className="text-sm">Keine Hidden Gems gefunden</p>
+            <p className="text-xs mt-1">Nur 1-3 Investoren, nicht bekannt</p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* German Stocks */}
+    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+      <div className="flex items-center gap-3 mb-6">
+        <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+          <span className="text-xl">🇩🇪</span>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Deutsche Aktien</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Deutsche Unternehmen bei US-Giganten</p>
+        </div>
+      </div>
+      
+      <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        {researchGems.germanStocks.length > 0 ? (
+          researchGems.germanStocks.map((stock, index) => (
+            <Link
+              key={stock.ticker}
+              href={`/analyse/stocks/${stock.ticker.toLowerCase()}/super-investors`}
+              className="block p-4 border border-gray-100 dark:border-neutral-700 rounded-lg hover:border-red-200 dark:hover:border-red-600 hover:bg-red-50/30 dark:hover:bg-red-900/20 transition-all"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {stock.ticker}
+                  </h4>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                    {stock.name}
+                  </p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-xs bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-400 px-2 py-1 rounded">
+                      {stock.investorCount} Investor{stock.investorCount !== 1 ? 'en' : ''}
+                    </span>
+                    {stock.totalValue > 0 && (
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                        ${(stock.totalValue / 1000000).toFixed(0)}M
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-xl text-neutral-400 dark:text-neutral-500">
+                  #{index + 1}
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
+            <span className="text-3xl mb-2 block">🇩🇪</span>
+            <p className="text-sm">Keine deutschen Aktien gefunden</p>
+            <p className="text-xs mt-1">Erweitere die deutsche Aktien-Liste</p>
           </div>
         )}
       </div>

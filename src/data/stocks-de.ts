@@ -3,14 +3,28 @@ import type { Stock } from './stocks'  // type Import!
 export const stocks: Stock[] = [
   {
     ticker: 'SAP.DE',
-    cusip:  '',
-    name:   'Sap Se',
+    cusip:  '803054204',
+    name:   'SAP SE',
+    sector: 'Technology',
+    metrics: [],
+  },
+  {
+    ticker: 'SAP',
+    cusip:  '803054204',
+    name:   'SAP SE',
     sector: 'Technology',
     metrics: [],
   },
   {
     ticker: 'SIE.DE',
-    cusip:  '',
+    cusip:  '826197501',
+    name:   'Siemens AG',
+    sector: 'Industrials',
+    metrics: [],
+  },
+  {
+    ticker: 'SIE',
+    cusip:  '826197501',
     name:   'Siemens AG',
     sector: 'Industrials',
     metrics: [],
@@ -52,7 +66,14 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'DBK.DE',
-    cusip:  '',
+    cusip:  'D18190898',
+    name:   'Deutsche Bank AG',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+  {
+    ticker: 'DB',
+    cusip:  'D18190898',
     name:   'Deutsche Bank AG',
     sector: 'Financial Services',
     metrics: [],

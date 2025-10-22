@@ -2,6 +2,193 @@ import type { Stock } from './stocks'  // type Import!
 
 
 export const stocks: Stock[] = [
+  // Deutsche ADRs an US-Börsen
+  {
+    ticker: 'DB',
+    cusip:  'D18190898',
+    name:   'Deutsche Bank AG',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+
+  {
+    ticker: 'DB',
+    cusip:  'D18190898',
+    name:   'Deutsche Bank AG',
+    sector: 'Financial Services',
+    metrics: [],
+  },
+
+  {
+    ticker: 'MBGYY',
+    cusip:  '233825207',
+    name:   'Mercedes-Benz Group AG. (ADR)',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+
+  {
+    ticker: 'DTEGY',
+    cusip:  '251566105',
+    name:   'Deutsche Telekom AG (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'MRK',
+    cusip:  '58933Y105',
+    name:   'Merck & Co., Inc.',
+    sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  {
+    ticker: 'POAHY',
+    cusip:  '73328P106',
+    name:   'Porsche Automobil Holding (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'MTUAY',
+    cusip:  '62473G102',
+    name:   'MTU Aero Engines AG (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'RWEOY',
+    cusip:  '74975E303',
+    name:   'RWE AG (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'SIEGY',
+    cusip:  '826197501',
+    name:   'Siemens AG (ADR)',
+    sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  {
+    ticker: 'SCCTY',
+    cusip:  '81064H105',
+    name:   'Scout24 AG',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  {
+    ticker: 'SMMNY',
+    cusip:  '82622J104',
+    name:   'Siemens Healthineers AG (ADR)',
+    sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  {
+    ticker: 'SMNEY',
+    cusip:  '82621A104',
+    name:   'Siemens Energy AG (ADR)',
+    sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+
+  {
+    ticker: 'VWAGY',
+    cusip:  '928662501',
+    name:   'Volkswagen AG (ADR)',
+    sector: 'Consumer Cyclical',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+  {
+    ticker: 'VWAGY',
+    cusip:  '928662600',
+    name:   'Volkswagen AG (ADR)',
+    sector: 'Consumer Cyclical',            // OTC Version
+    metrics: [],
+  },
+
+  {
+    ticker: 'VONOY',
+    cusip:  '92887H107',
+    name:   'Vonovia SE (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'DHLGY',
+    cusip:  '25157Y202',
+    name:   'Deutsche Post AG (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'ZLNDY',
+    cusip:  '98887L105',
+    name:   'Zalando (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'ZLNDY',
+    cusip:  '98423102',
+    name:   'Zalando (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  
+
+  {
+    ticker: 'RNMBY',
+    cusip:  '76206K107',
+    name:   'Rheinmetall (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'SAP',
+    cusip:  '803054204',
+    name:   'SAP SE',
+    sector: 'Technology',
+    metrics: [],
+  },
+  {
+    ticker: 'HVRRY',
+    cusip:  '410693105',
+    name:   'Hannover Re (ADR)',
+    sector: '',
+    metrics: [],
+  },
+
+  {
+    ticker: 'HDLMY',
+    cusip:  '42281P304',
+    name:   'Heidelberg Materials (ADR)',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  {
+    ticker: 'IFNNY',
+    cusip:  '45662N103',
+    name:   'Infineon (ADR)',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+  
   {
     ticker: 'UNH.NE',
     cusip:  '',
@@ -1689,6 +1876,13 @@ export const stocks: Stock[] = [
     ticker: 'DB',
     cusip:  '',
     name:   'Deutsche Bank AG',
+    sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+  {
+    ticker: 'DBOEY',
+    cusip:  '251542106',
+    name:   'Deutsche Boerse AG (ADR)',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
@@ -3808,6 +4002,8 @@ export const stocks: Stock[] = [
     sector: 'Industrials',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+
   {
     ticker: 'MYE',
     cusip:  '628464109',
@@ -10685,13 +10881,7 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
-  {
-    ticker: 'MRK',
-    cusip:  '58933Y105',
-    name:   'Merck & Co., Inc.',
-    sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
-    metrics: [],
-  },
+
   {
     ticker: 'MSB',
     cusip:  '590672101',
@@ -14476,11 +14666,21 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'QGEN',
-    cusip:  '',
+    cusip:  'N72482149',
     name:   'Qiagen N.V.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+  {
+    ticker: 'QGEN',
+    cusip:  'N72482123',
+    name:   'Qiagen N.V.',
+    sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
+  
+
   {
     ticker: 'RNST',
     cusip:  '75970E107',
@@ -15778,6 +15978,15 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'CTTAY',
+    cusip:  '210771200',
+    name:   'Continental AG (ADR)',
+    sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'EMXC',
     cusip:  '46434G764',
@@ -16184,11 +16393,12 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
   {
-    ticker: 'AMZD',
-    cusip:  '',
-    name:   'Direxion Daily AMZN Bear 1X Shares',
-    sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    ticker: 'DTRUY',
+    cusip:  '23384L101',
+    name:   'Daimler Truck Holding AG (ADR)',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
   {
@@ -22093,6 +22303,13 @@ export const stocks: Stock[] = [
     metrics: [],
   },
   {
+    ticker: 'BASFY',
+    cusip:  '055262505',
+    name:   'BASF SE',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+  {
     ticker: 'BLFY',
     cusip:  '',
     name:   'Blue Foundry Bancorp',
@@ -22379,6 +22596,7 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
   {
     ticker: 'HSII',
     cusip:  '',
@@ -29511,6 +29729,10 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+
+
+
   {
     ticker: 'YCL',
     cusip:  '74347W270',
@@ -32766,6 +32988,16 @@ export const stocks: Stock[] = [
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+
+  {
+    ticker: 'BMWWKY',
+    cusip:  '072743404',
+    name:   'Bayerische Motoren Werke AG',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'PAYO',
     cusip:  '70451X104',
@@ -33081,6 +33313,15 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'BNTGY',
+    cusip:  '107180101',
+    name:   'Brenntag SE',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'BNO',
     cusip:  '91167Q100',
@@ -36603,6 +36844,13 @@ export const stocks: Stock[] = [
     metrics: [],
   },
   {
+    ticker: 'CRZBY',
+    cusip:  '202597605',
+    name:   'Commerzbank AG (ADR)',
+    sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+  {
     ticker: 'EBON',
     cusip:  'G3R33A106',
     name:   'Ebang International Holdings Inc.',
@@ -36882,6 +37130,15 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'EADSY',
+    cusip:  '009279100',
+    name:   'Airbus SE',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'HBANP',
     cusip:  '446150823',
@@ -39320,6 +39577,9 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  
+
   {
     ticker: 'VONG',
     cusip:  '92206C680',
@@ -40652,7 +40912,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'EONR',
-    cusip:  '',
+    cusip:  '951009401',
     name:   'EON Resources Inc.',
     sector: 'Energy',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -46467,6 +46727,15 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'ALIZY',
+    cusip:  '018820100',
+    name:   'Allianz SE',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'AENT',
     cusip:  '01861F102',
@@ -59775,6 +60044,15 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'BAYRY',
+    cusip:  '072730302',
+    name:   'Bayer AG',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'DGRE',
     cusip:  '97717W323',
@@ -60566,13 +60844,7 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
-  {
-    ticker: 'VWAGY',
-    cusip:  '928662600',
-    name:   'Volkswagen AG',
-    sector: 'Consumer Cyclical',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
-    metrics: [],
-  },
+
   {
     ticker: 'FLAU',
     cusip:  '35473P843',

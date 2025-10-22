@@ -262,18 +262,24 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
             {data.positions.map((position, index) => (
               <div key={position.investor.slug} className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-colors">
                 <div className="flex items-start gap-4">
-                  <InvestorAvatar 
-                    name={position.investor.name}
-                    imageUrl={position.investor.avatar}
-                    size="lg"
-                  />
+                  <Link href={`/superinvestor/${position.investor.slug}`}>
+                    <InvestorAvatar 
+                      name={position.investor.name}
+                      imageUrl={position.investor.avatar}
+                      size="lg"
+                      className="hover:ring-2 hover:ring-green-400 transition-all duration-200 cursor-pointer"
+                    />
+                  </Link>
                   
                   <div className="flex-1 min-w-0">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="text-lg font-bold text-theme-primary">
+                        <Link 
+                          href={`/superinvestor/${position.investor.slug}`}
+                          className="text-lg font-bold text-theme-primary hover:text-green-400 transition-colors duration-200"
+                        >
                           {position.investor.name}
-                        </h3>
+                        </Link>
                         <p className="text-sm text-theme-muted line-clamp-2">
                           {position.investor.description}
                         </p>
