@@ -16,6 +16,7 @@ import {
   Cog6ToothIcon,
   StarIcon
 } from '@heroicons/react/24/outline'
+import StockSymbolAutocomplete from '@/components/StockSymbolAutocomplete'
 
 // Supabase Client initialisieren (sollte in einer separaten Datei sein)
 import { supabase } from '@/lib/supabaseClient'
@@ -45,7 +46,7 @@ export default function PortfolioPage() {
   
   // Stock Positions
   const [positions, setPositions] = useState<StockPosition[]>([
-    { symbol: '', name: '', quantity: 0, purchasePrice: 0, purchaseDate: '' }
+    { symbol: '', name: '', quantity: 0, purchasePrice: 0, purchaseDate: new Date().toISOString().split('T')[0] }
   ])
 
   useEffect(() => {
@@ -98,7 +99,7 @@ export default function PortfolioPage() {
       name: '', 
       quantity: 0, 
       purchasePrice: 0, 
-      purchaseDate: '' 
+      purchaseDate: new Date().toISOString().split('T')[0] // Default to today
     }])
   }
 
@@ -428,12 +429,13 @@ export default function PortfolioPage() {
                       <label className="block text-xs text-theme-secondary mb-1">
                         Symbol
                       </label>
-                      <input
-                        type="text"
+                      <StockSymbolAutocomplete
                         value={position.symbol}
-                        onChange={(e) => updatePosition(index, 'symbol', e.target.value)}
+                        onChange={(symbol, name) => {
+                          updatePosition(index, 'symbol', symbol)
+                          if (name) updatePosition(index, 'name', name)
+                        }}
                         placeholder="AAPL"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded text-theme-primary text-sm"
                       />
                     </div>
                     
@@ -459,6 +461,18 @@ export default function PortfolioPage() {
                         value={position.purchasePrice || ''}
                         onChange={(e) => updatePosition(index, 'purchasePrice', parseFloat(e.target.value) || 0)}
                         placeholder="150.00"
+                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded text-theme-primary text-sm"
+                      />
+                    </div>
+                    
+                    <div className="flex-1">
+                      <label className="block text-xs text-theme-secondary mb-1">
+                        Kaufdatum
+                      </label>
+                      <input
+                        type="date"
+                        value={position.purchaseDate}
+                        onChange={(e) => updatePosition(index, 'purchaseDate', e.target.value)}
                         className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded text-theme-primary text-sm"
                       />
                     </div>

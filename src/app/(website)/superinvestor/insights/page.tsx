@@ -29,6 +29,7 @@ import {
 import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
+import { etfs } from '@/data/etfs'
 import Logo from '@/components/Logo'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 
@@ -973,6 +974,14 @@ function calculateResearchGems(): {
     investors: string[];
     totalValue: number;
   }>;
+  popularETFs: Array<{
+    ticker: string;
+    name: string;
+    investorCount: number;
+    investors: string[];
+    totalValue: number;
+    category?: string;
+  }>;
 } {
   // Deutsche Unternehmen - Namen basierte Erkennung (sicherer als Ticker)
   const GERMAN_COMPANY_NAMES = new Set([
@@ -1044,6 +1053,31 @@ function calculateResearchGems(): {
     return false;
   }
   
+  // ETF-Erkennung basierend auf Name und Ticker
+  function isETF(ticker: string, name?: string): boolean {
+    // Prüfe zuerst exakte Ticker-Matches in ETF-Liste
+    const etfTicker = etfs.find(etf => etf.symbol.toUpperCase() === ticker.toUpperCase());
+    if (etfTicker) return true;
+    
+    // Strenge Namen-basierte Prüfung - nur wenn Name explizit ETF enthält
+    if (name) {
+      const upperName = name.toUpperCase();
+      // Nur wenn "ETF" direkt im Namen steht, nicht andere Keywords
+      if (upperName.includes(' ETF') || upperName.endsWith('ETF') || upperName.startsWith('ETF ')) {
+        return true;
+      }
+      
+      // Bekannte ETF-Provider mit spezifischen Mustern
+      if ((upperName.includes('ISHARES') || upperName.includes('VANGUARD') || 
+           upperName.includes('SPDR') || upperName.includes('INVESCO QQQ')) && 
+          (upperName.includes('ETF') || upperName.includes('TRUST'))) {
+        return true;
+      }
+    }
+    
+    return false;
+  }
+  
   // Market Cap Grenze für Hidden Gems (unter $15B = Small-Mid Cap)
   const MAX_MARKET_CAP_FOR_HIDDEN_GEMS = 15_000_000_000; // $15B
   
@@ -1070,6 +1104,8 @@ function calculateResearchGems(): {
     investors: Set<string>;
     totalValue: number;
     isGerman: boolean;
+    isETF: boolean;
+    etfCategory?: string;
   }>();
 
   // Durchlaufe alle aktiven Investoren
@@ -1084,15 +1120,19 @@ function calculateResearchGems(): {
       const ticker = getTicker(position);
       if (!ticker) return;
 
-      // Erkennung deutscher Aktien auch über Name, nicht nur Ticker
+      // Erkennung deutscher Aktien und ETFs
       const isGerman = isGermanStock(ticker, position.name);
+      const isETFFlag = isETF(ticker, position.name);
+      const etfData = etfs.find(etf => etf.symbol.toUpperCase() === ticker.toUpperCase());
       
       if (!stockData.has(ticker)) {
         stockData.set(ticker, {
           name: getStockName(position),
           investors: new Set(),
           totalValue: 0,
-          isGerman
+          isGerman,
+          isETF: isETFFlag,
+          etfCategory: etfData?.category
         });
       }
 
@@ -1105,7 +1145,7 @@ function calculateResearchGems(): {
   // Filtere und konvertiere zu Arrays
   const unknownStocks = Array.from(stockData.entries())
     .filter(([ticker, data]) => {
-      if (data.isGerman || data.investors.size < 3) return false;
+      if (data.isGerman || data.isETF || data.investors.size < 3) return false;
       
       // Market Cap Check: Nur Small-Mid Caps als Hidden Gems
       const estimatedMarketCap = getMarketCapEstimate(ticker, data.totalValue, data.investors.size);
@@ -1133,7 +1173,20 @@ function calculateResearchGems(): {
     .sort((a, b) => b.investorCount - a.investorCount)
     .slice(0, 10);
 
-  return { unknownStocks, germanStocks };
+  const popularETFs = Array.from(stockData.entries())
+    .filter(([, data]) => data.isETF && data.investors.size >= 2) // Mindestens 2 Investoren für ETFs
+    .map(([ticker, data]) => ({
+      ticker,
+      name: data.name,
+      investorCount: data.investors.size,
+      investors: Array.from(data.investors),
+      totalValue: data.totalValue,
+      category: data.etfCategory
+    }))
+    .sort((a, b) => b.investorCount - a.investorCount)
+    .slice(0, 10);
+
+  return { unknownStocks, germanStocks, popularETFs };
 }
 
 // 5. SECTOR ROTATION MATRIX - Zeigt Umschichtungen zwischen Sektoren
@@ -2579,15 +2632,16 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
       Special Insights
     </div>
     <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
-      Hidden Gems & 
-      <span className="text-purple-600 dark:text-purple-400"> Deutsche Aktien</span>
+      Hidden Gems, 
+      <span className="text-red-600 dark:text-red-400"> Deutsche Aktien</span> & 
+      <span className="text-purple-600 dark:text-purple-400"> ETFs</span>
     </h2>
     <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
-      Wenig bekannte Small-Mid Caps und deutsche Unternehmen in Superinvestor-Portfolios
+      Small-Mid Caps, deutsche Unternehmen und beliebte ETFs in Superinvestor-Portfolios
     </p>
   </div>
   
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+  <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
     
     {/* Unknown Stocks */}
     <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
@@ -2694,6 +2748,66 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <span className="text-3xl mb-2 block">🇩🇪</span>
             <p className="text-sm">Keine deutschen Aktien gefunden</p>
             <p className="text-xs mt-1">Erweitere die deutsche Aktien-Liste</p>
+          </div>
+        )}
+      </div>
+    </div>
+
+    {/* Popular ETFs */}
+    <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl p-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
+          <span className="text-xl">📊</span>
+        </div>
+        <div>
+          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Beliebte ETFs</h3>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">ETF-Favoriten der Superinvestoren</p>
+        </div>
+      </div>
+      
+      <div className="space-y-3 max-h-[500px] overflow-y-auto">
+        {researchGems.popularETFs.length > 0 ? (
+          researchGems.popularETFs.map((etf, index) => (
+            <Link
+              key={etf.ticker}
+              href={`/analyse/stocks/${etf.ticker.toLowerCase()}/super-investors`}
+              className="block p-4 border border-gray-100 dark:border-neutral-700 rounded-lg hover:border-purple-200 dark:hover:border-purple-600 hover:bg-purple-50/30 dark:hover:bg-purple-900/20 transition-all"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                    {etf.ticker}
+                  </h4>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                    {etf.name}
+                  </p>
+                  <div className="flex items-center gap-2 mt-2">
+                    <span className="text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-400 px-2 py-1 rounded">
+                      {etf.investorCount} Investor{etf.investorCount !== 1 ? 'en' : ''}
+                    </span>
+                    {etf.category && (
+                      <span className="text-xs bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-300 px-2 py-1 rounded">
+                        {etf.category}
+                      </span>
+                    )}
+                    {etf.totalValue > 0 && (
+                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                        ${(etf.totalValue / 1000000).toFixed(0)}M
+                      </span>
+                    )}
+                  </div>
+                </div>
+                <div className="text-xl text-neutral-400 dark:text-neutral-500">
+                  #{index + 1}
+                </div>
+              </div>
+            </Link>
+          ))
+        ) : (
+          <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
+            <span className="text-3xl mb-2 block">📊</span>
+            <p className="text-sm">Keine ETFs gefunden</p>
+            <p className="text-xs mt-1">Erweitere die ETF-Suche</p>
           </div>
         )}
       </div>

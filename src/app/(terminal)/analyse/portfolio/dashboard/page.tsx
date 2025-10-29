@@ -64,6 +64,15 @@ interface Holding {
   purchase_price_original?: number
   current_exchange_rate?: number
   currency_aware?: boolean
+  // Superinvestor data
+  superinvestors?: {
+    count: number
+    investors: Array<{
+      investor: string
+      investorName: string
+      portfolioPercentage: number
+    }>
+  }
 }
 
 interface NewsArticle {
@@ -273,6 +282,53 @@ export default function PortfolioDashboard() {
             gain_loss_percent: gainLossPercent
           }
         })
+
+        // Load superinvestor data for each holding using existing API
+        const holdingsWithSuperinvestors = await Promise.all(
+          enrichedHoldings.map(async (holding) => {
+            try {
+              // Symbol mapping for common mismatches
+              const symbolMapping: { [key: string]: string } = {
+                'BOOKING': 'BKNG',
+                'ALPHABET': 'GOOGL',
+                'META': 'META',
+                'TESLA': 'TSLA'
+              }
+              
+              const correctSymbol = symbolMapping[holding.symbol] || holding.symbol
+              
+              const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000'
+              const response = await fetch(`${baseUrl}/api/stocks/${correctSymbol}/super-investors`)
+
+              if (response.ok) {
+                const data = await response.json()
+                return {
+                  ...holding,
+                  superinvestors: {
+                    count: data.summary?.totalInvestors || 0,
+                    investors: data.positions?.slice(0, 3).map((pos: any) => ({
+                      investor: pos.investor.slug,
+                      investorName: pos.investor.name,
+                      portfolioPercentage: pos.position.portfolioPercentage
+                    })) || []
+                  }
+                }
+              }
+            } catch (error) {
+              console.error(`Error loading superinvestors for ${holding.symbol}:`, error)
+            }
+
+            return {
+              ...holding,
+              superinvestors: {
+                count: 0,
+                investors: []
+              }
+            }
+          })
+        )
+
+        enrichedHoldings = holdingsWithSuperinvestors
       }
 
       setHoldings(enrichedHoldings)
@@ -1148,6 +1204,7 @@ export default function PortfolioDashboard() {
                         <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Aktueller Preis</th>
                         <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Wert</th>
                         <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Gewinn/Verlust</th>
+                        <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Superinvestoren</th>
                         <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Aktionen</th>
                       </tr>
                     </thead>
@@ -1225,6 +1282,59 @@ export default function PortfolioDashboard() {
                                   {formatPercentage(holding.gain_loss_percent)}
                                 </p>
                               </div>
+                            </td>
+                            <td className="text-center px-4 py-4">
+                              {holding.superinvestors && holding.superinvestors.count > 0 ? (
+                                <div className="group relative">
+                                  {/* Main count badge */}
+                                  <div className="flex items-center justify-center">
+                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg hover:bg-green-500/20 transition-all cursor-pointer">
+                                      <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                                        <span className="text-xs font-bold text-white">
+                                          {holding.superinvestors.count}
+                                        </span>
+                                      </div>
+                                      <span className="text-sm font-medium text-green-600">
+                                        Investoren
+                                      </span>
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Tooltip on hover */}
+                                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
+                                    <div className="bg-theme-card border border-theme/20 rounded-lg shadow-xl p-3 min-w-[220px]">
+                                      {/* Arrow pointing up */}
+                                      <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-card border-l border-t border-theme/20 rotate-45"></div>
+                                      <div className="text-xs font-medium text-theme-secondary mb-2">
+                                        Top Superinvestoren:
+                                      </div>
+                                      <div className="space-y-1">
+                                        {holding.superinvestors.investors.slice(0, 3).map((investor, idx) => (
+                                          <div key={idx} className="flex justify-between items-center text-xs">
+                                            <span className="text-theme-primary font-medium truncate mr-2">
+                                              {investor.investorName.split(' - ')[0]}
+                                            </span>
+                                            <span className="text-green-500 font-bold">
+                                              {investor.portfolioPercentage.toFixed(1)}%
+                                            </span>
+                                          </div>
+                                        ))}
+                                        {holding.superinvestors.count > 3 && (
+                                          <div className="text-xs text-theme-muted pt-1 border-t border-theme/10">
+                                            +{holding.superinvestors.count - 3} weitere Investoren
+                                          </div>
+                                        )}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              ) : (
+                                <div className="inline-flex items-center px-3 py-1.5 bg-theme-secondary/30 rounded-lg">
+                                  <span className="text-xs text-theme-muted">
+                                    Keine Daten
+                                  </span>
+                                </div>
+                              )}
                             </td>
                             <td className="px-4 py-4">
                               <div className="flex items-center justify-center gap-1">
