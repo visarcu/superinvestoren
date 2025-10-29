@@ -106,6 +106,7 @@ export default function PortfolioDashboard() {
   // UI State
   const [showAddPosition, setShowAddPosition] = useState(false)
   const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'dividends' | 'insights' | 'history'>('overview')
+  const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
   
   // News State
   const [portfolioNews, setPortfolioNews] = useState<NewsArticle[]>([])
@@ -594,6 +595,69 @@ export default function PortfolioDashboard() {
         </div>
       </div>
     )
+  }
+
+  const handleUpdatePosition = async () => {
+    if (!editingPosition) return
+
+    setRefreshing(true)
+    try {
+      // Import Currency Manager for proper conversion
+      const { currencyManager } = await import('@/lib/portfolioCurrency')
+      
+      // The user input is already in the display currency (EUR)
+      // We need to convert it to USD for database storage
+      let finalPurchasePrice = parseFloat(newPurchasePrice) || editingPosition.purchase_price
+      let originalPrice = parseFloat(newPurchasePrice) || editingPosition.purchase_price_original
+      
+      // If user is inputting in EUR but database expects USD
+      if (currency === 'EUR') {
+        const conversionResult = await currencyManager.convertNewPositionToUSD(
+          parseFloat(newPurchasePrice),
+          'EUR'
+        )
+        finalPurchasePrice = conversionResult.priceUSD
+        originalPrice = parseFloat(newPurchasePrice) // Keep the EUR amount
+      } else {
+        // USD input
+        finalPurchasePrice = parseFloat(newPurchasePrice)
+        originalPrice = parseFloat(newPurchasePrice)
+      }
+
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .update({
+          quantity: parseFloat(newQuantity) || editingPosition.quantity,
+          purchase_price: finalPurchasePrice,
+          purchase_date: newPurchaseDate || editingPosition.purchase_date,
+          // Update currency fields if they exist
+          purchase_currency: currency,
+          purchase_price_original: originalPrice
+        })
+        .eq('id', editingPosition.id)
+
+      if (error) throw error
+
+      setEditingPosition(null)
+      setNewQuantity('')
+      setNewPurchasePrice('')
+      setNewPurchaseDate(new Date().toISOString().split('T')[0])
+      await loadPortfolio()
+
+    } catch (error: any) {
+      console.error('Error updating position:', error)
+      alert(`Fehler beim Aktualisieren: ${error.message}`)
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
+  const openEditModal = (holding: Holding) => {
+    setEditingPosition(holding)
+    setNewQuantity(holding.quantity.toString())
+    // Use the display price (already converted to current currency)
+    setNewPurchasePrice(holding.purchase_price_display?.toString() || holding.purchase_price_original?.toString() || holding.purchase_price.toString())
+    setNewPurchaseDate(holding.purchase_date)
   }
 
   return (
@@ -1346,6 +1410,13 @@ export default function PortfolioDashboard() {
                                   <EyeIcon className="w-4 h-4 text-theme-secondary" />
                                 </button>
                                 <button 
+                                  onClick={() => openEditModal(holding)}
+                                  className="p-2 hover:bg-blue-400/20 rounded-lg transition-colors"
+                                  title="Position bearbeiten"
+                                >
+                                  <PencilIcon className="w-4 h-4 text-blue-400" />
+                                </button>
+                                <button 
                                   onClick={() => handleDeletePosition(holding.id)}
                                   className="p-2 hover:bg-red-400/20 rounded-lg transition-colors"
                                   title="Position löschen"
@@ -1527,6 +1598,111 @@ export default function PortfolioDashboard() {
               purchase_date: h.purchase_date
             }))}
           />
+        )}
+
+        {/* Edit Position Modal */}
+        {editingPosition && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-theme-primary">Position bearbeiten</h2>
+                <button
+                  onClick={() => setEditingPosition(null)}
+                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                >
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                </button>
+              </div>
+              
+              <div className="space-y-4">
+                {/* Stock Info Display */}
+                <div className="bg-theme-secondary/20 rounded-lg p-3">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                      <span className="text-white font-bold text-sm">
+                        {editingPosition.symbol.slice(0, 2)}
+                      </span>
+                    </div>
+                    <div>
+                      <div className="font-semibold text-theme-primary">{editingPosition.symbol}</div>
+                      <div className="text-sm text-theme-muted">{editingPosition.name}</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Quantity Input */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Anzahl
+                  </label>
+                  <input
+                    type="number"
+                    value={newQuantity}
+                    onChange={(e) => setNewQuantity(e.target.value)}
+                    placeholder="z.B. 100"
+                    step="0.001"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-400 transition-colors"
+                  />
+                </div>
+
+                {/* Purchase Price Input */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Kaufpreis (pro Aktie in {currency})
+                  </label>
+                  <input
+                    type="number"
+                    value={newPurchasePrice}
+                    onChange={(e) => setNewPurchasePrice(e.target.value)}
+                    placeholder="z.B. 150.00"
+                    step="0.01"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-400 transition-colors"
+                  />
+                </div>
+
+                {/* Purchase Date Input */}
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Kaufdatum
+                  </label>
+                  <input
+                    type="date"
+                    value={newPurchaseDate}
+                    onChange={(e) => setNewPurchaseDate(e.target.value)}
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:outline-none focus:border-green-400 transition-colors"
+                  />
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex gap-3 pt-4">
+                  <button
+                    onClick={handleUpdatePosition}
+                    disabled={refreshing}
+                    className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:opacity-50 text-white font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    {refreshing ? (
+                      <>
+                        <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                        Speichern...
+                      </>
+                    ) : (
+                      <>
+                        <CheckIcon className="w-4 h-4" />
+                        Änderungen speichern
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setEditingPosition(null)}
+                    disabled={refreshing}
+                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         )}
       </main>
     </div>

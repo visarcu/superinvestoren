@@ -32,6 +32,7 @@ interface EarningsEvent {
   fiscalYear: string
   estimatedEPS: number | null
   actualEPS: number | null
+  marketCap?: number
 }
 
 export default function EarningsCalendarPage() {
@@ -41,6 +42,8 @@ export default function EarningsCalendarPage() {
   const [earningsLoading, setEarningsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [selectedMonth, setSelectedMonth] = useState(new Date())
+  const [showMyStocksOnly, setShowMyStocksOnly] = useState(false)
+  const [displayCount, setDisplayCount] = useState(50) // Show 50 initially
   const router = useRouter()
 
   // Fetch user watchlist
@@ -73,9 +76,8 @@ export default function EarningsCalendarPage() {
         } else {
           setWatchlistItems(data || [])
           
-          if (data && data.length > 0) {
-            await loadEarningsData(data.map(item => item.ticker))
-          }
+          // Load all earnings data, not just watchlist
+          await loadAllEarningsData()
         }
       } catch (error) {
         console.error('[Earnings Calendar] Unexpected error:', error)
@@ -87,6 +89,27 @@ export default function EarningsCalendarPage() {
 
     fetchWatchlist()
   }, [router])
+
+  // Load all earnings data (not filtered by watchlist)
+  async function loadAllEarningsData() {
+    setEarningsLoading(true)
+    try {
+      const response = await fetch(`/api/earnings-calendar-all`)
+      
+      if (response.ok) {
+        const events = await response.json()
+        setEarningsEvents(events)
+      } else {
+        console.error('Failed to load earnings data')
+        setError('Fehler beim Laden der Earnings-Daten')
+      }
+    } catch (error) {
+      console.error('Error loading earnings data:', error)
+      setError('Fehler beim Laden der Earnings-Daten')
+    } finally {
+      setEarningsLoading(false)
+    }
+  }
 
   // Load earnings data for watchlist tickers
   async function loadEarningsData(tickers: string[]) {
@@ -113,13 +136,32 @@ export default function EarningsCalendarPage() {
 
   // Refresh earnings data
   const refreshEarnings = () => {
-    if (watchlistItems.length > 0) {
+    if (showMyStocksOnly && watchlistItems.length > 0) {
       loadEarningsData(watchlistItems.map(item => item.ticker))
+    } else {
+      loadAllEarningsData()
     }
   }
 
+  // Toggle between all stocks and my stocks
+  const toggleStockFilter = () => {
+    setShowMyStocksOnly(!showMyStocksOnly)
+    setDisplayCount(50) // Reset display count when switching modes
+    
+    if (!showMyStocksOnly && watchlistItems.length > 0) {
+      // Switch to my stocks only
+      loadEarningsData(watchlistItems.map(item => item.ticker))
+    } else {
+      // Switch to all stocks
+      loadAllEarningsData()
+    }
+  }
+
+  // Filter and limit earnings events for display
+  const displayedEvents = showMyStocksOnly ? earningsEvents : earningsEvents.slice(0, displayCount)
+  
   // Group earnings by date
-  const groupedEarnings = earningsEvents.reduce((groups, event) => {
+  const groupedEarnings = displayedEvents.reduce((groups, event) => {
     const date = new Date(event.date).toDateString()
     if (!groups[date]) {
       groups[date] = []
@@ -221,10 +263,6 @@ export default function EarningsCalendarPage() {
     return time
   }
 
-  const formatEPS = (eps: number | null) => {
-    if (eps === null) return '-'
-    return eps.toFixed(2).replace('.', ',') + ' $'
-  }
 
   if (loading) {
     return (
@@ -265,7 +303,10 @@ export default function EarningsCalendarPage() {
               </div>
               <div className="flex items-center gap-4 text-theme-secondary">
                 <span className="text-sm">
-                  {watchlistItems.length} {watchlistItems.length === 1 ? 'Aktie' : 'Aktien'} aus deiner Watchlist
+                  {showMyStocksOnly 
+                    ? `${watchlistItems.length} ${watchlistItems.length === 1 ? 'Aktie' : 'Aktien'} aus deiner Watchlist`
+                    : 'Alle verfügbaren Earnings'
+                  }
                 </span>
                 {earningsEvents.length > 0 && (
                   <>
@@ -278,21 +319,32 @@ export default function EarningsCalendarPage() {
               </div>
             </div>
             
-            {/* Refresh Button */}
-            {watchlistItems.length > 0 && (
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={refreshEarnings}
-                  disabled={earningsLoading}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
-                >
-                  <ArrowPathIcon className={`w-4 h-4 ${earningsLoading ? 'animate-spin' : ''}`} />
-                  <span className="font-medium">
-                    {earningsLoading ? 'Laden...' : 'Aktualisieren'}
-                  </span>
-                </button>
-              </div>
-            )}
+            {/* Action Buttons */}
+            <div className="flex items-center gap-3">
+              <button
+                onClick={toggleStockFilter}
+                className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors duration-200 ${
+                  showMyStocksOnly 
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                    : 'bg-theme-secondary hover:bg-theme-secondary/70 text-theme-primary border border-theme/20'
+                }`}
+              >
+                <BookmarkIcon className="w-4 h-4" />
+                <span className="font-medium">
+                  {showMyStocksOnly ? 'Nur meine Aktien' : 'Alle Aktien'}
+                </span>
+              </button>
+              <button
+                onClick={refreshEarnings}
+                disabled={earningsLoading}
+                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
+              >
+                <ArrowPathIcon className={`w-4 h-4 ${earningsLoading ? 'animate-spin' : ''}`} />
+                <span className="font-medium">
+                  {earningsLoading ? 'Laden...' : 'Aktualisieren'}
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -529,9 +581,17 @@ export default function EarningsCalendarPage() {
                               <div className="flex-1 min-w-0">
                                 <div className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors">
                                   {event.ticker}
+                                  {event.marketCap && event.marketCap > 1000000000 && (
+                                    <span className="ml-2 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">
+                                      {event.marketCap > 1000000000000 ? 
+                                        `${(event.marketCap / 1000000000000).toFixed(1)}T` : 
+                                        `${(event.marketCap / 1000000000).toFixed(1)}B`
+                                      }
+                                    </span>
+                                  )}
                                 </div>
                                 <div className="text-xs text-theme-muted truncate">
-                                  {formatTime(event.time)} • {event.quarter}
+                                  {event.companyName !== event.ticker ? event.companyName : formatTime(event.time)} • {event.quarter}
                                 </div>
                               </div>
                               <div className={`w-3 h-3 rounded-full ${
@@ -546,6 +606,19 @@ export default function EarningsCalendarPage() {
                     )
                   })}
                 </div>
+              </div>
+            )}
+
+            {/* Show More Button - Only show for "All Stocks" mode */}
+            {!showMyStocksOnly && earningsEvents.length > displayCount && (
+              <div className="flex justify-center mt-6">
+                <button
+                  onClick={() => setDisplayCount(prev => prev + 50)}
+                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
+                >
+                  <ChartBarIcon className="w-4 h-4" />
+                  Mehr anzeigen ({earningsEvents.length - displayCount} weitere)
+                </button>
               </div>
             )}
 

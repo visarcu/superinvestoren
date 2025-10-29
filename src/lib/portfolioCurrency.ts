@@ -135,16 +135,20 @@ export class CurrencyManager {
       }))
     }
 
-    return holdings.map(h => ({
-      ...h,
-      current_price_display: h.current_price * rate,
-      current_value_display: h.current_value * rate,
-      cost_basis_display: h.cost_basis * rate,
-      total_return_display: h.total_return * rate,
-      purchase_price_display: h.purchase_price * rate,
-      display_currency: 'EUR',
-      exchange_rate_used: rate
-    }))
+    return holdings.map(h => {
+      const convertedHolding = {
+        ...h,
+        current_price_display: h.current_price * rate,
+        current_value_display: (h.current_value || 0) * rate,
+        cost_basis_display: (h.cost_basis || 0) * rate,
+        total_return_display: (h.total_return || 0) * rate,
+        purchase_price_display: h.purchase_price * rate,
+        display_currency: 'EUR',
+        exchange_rate_used: rate
+      }
+      
+      return convertedHolding
+    })
   }
 
   // Convert cash position for display
