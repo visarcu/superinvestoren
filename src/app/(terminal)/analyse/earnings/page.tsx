@@ -581,11 +581,13 @@ export default function EarningsCalendarPage() {
                               <div className="flex-1 min-w-0">
                                 <div className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors">
                                   {event.ticker}
-                                  {event.marketCap && event.marketCap > 1000000000 && (
+                                  {event.marketCap && event.marketCap > 100000000 && (
                                     <span className="ml-2 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">
                                       {event.marketCap > 1000000000000 ? 
                                         `${(event.marketCap / 1000000000000).toFixed(1)}T` : 
-                                        `${(event.marketCap / 1000000000).toFixed(1)}B`
+                                        event.marketCap > 1000000000 ?
+                                        `${(event.marketCap / 1000000000).toFixed(1)}B` :
+                                        `${(event.marketCap / 1000000).toFixed(0)}M`
                                       }
                                     </span>
                                   )}

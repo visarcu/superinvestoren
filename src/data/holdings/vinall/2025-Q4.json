@@ -1,15 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2025-07-08",
-  "period": "2025-07-08",
-  "accession": "0001172661-25-002493",
-  "quarterKey": "2025-Q3",
+  "date": "2025-10-22",
+  "period": "2025-10-22",
+  "accession": "0001172661-25-004353",
+  "quarterKey": "2025-Q4",
   "positions": [
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
-      "shares": 510352,
-      "value": 171968210,
+      "shares": 445255,
+      "value": 167967996,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -22,8 +22,8 @@
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
-      "shares": 142988,
-      "value": 105538013,
+      "shares": 139712,
+      "value": 102601699,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -36,8 +36,8 @@
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
-      "shares": 128929,
-      "value": 65680300,
+      "shares": 130431,
+      "value": 60902147,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -50,8 +50,8 @@
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
-      "shares": 338000,
-      "value": 53559480,
+      "shares": 314996,
+      "value": 55952739,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -64,8 +64,8 @@
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
-      "shares": 849920,
-      "value": 47094067,
+      "shares": 799267,
+      "value": 54997562,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -78,8 +78,8 @@
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
-      "shares": 335569,
-      "value": 35120652,
+      "shares": 301232,
+      "value": 39813833,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -92,8 +92,8 @@
     {
       "name": "H WORLD GROUP LTD",
       "cusip": "44332N106",
-      "shares": 659652,
-      "value": 22375396,
+      "shares": 603416,
+      "value": 23599600,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -106,8 +106,8 @@
     {
       "name": "YUM CHINA HLDGS INC",
       "cusip": "98850P109",
-      "shares": 492265,
-      "value": 22009168,
+      "shares": 444321,
+      "value": 19070257,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -121,7 +121,7 @@
       "name": "ALPHABET INC",
       "cusip": "02079K305",
       "shares": 32520,
-      "value": 5731000,
+      "value": 7905612,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -135,7 +135,21 @@
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 11500,
-      "value": 5720215,
+      "value": 5956425,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 10980,
+      "value": 2602260,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -149,7 +163,7 @@
       "name": "PAYCOM SOFTWARE INC",
       "cusip": "70432V102",
       "shares": 12395,
-      "value": 2868203,
+      "value": 2579895,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -163,7 +177,7 @@
       "name": "DEERE & CO",
       "cusip": "244199105",
       "shares": 5001,
-      "value": 2542958,
+      "value": 2286757,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -174,11 +188,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 540207662,
-  "positionsCount": 12,
+  "totalValue": 546236782,
+  "positionsCount": 13,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 540207662
+      "STOCK": 546236782
     },
     "percentages": {
       "STOCK": "100.0%"

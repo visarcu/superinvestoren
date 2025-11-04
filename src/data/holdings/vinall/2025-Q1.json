@@ -9,69 +9,165 @@
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 547514,
-      "value": 111342447
+      "value": 111342447,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 149583,
-      "value": 87582342
+      "value": 87582342,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 359780,
-      "value": 77190799
+      "value": 77190799,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 131588,
-      "value": 61775302
+      "value": 61775302,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 224347,
-      "value": 40146896
+      "value": 40146896,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 345489,
-      "value": 33508978
+      "value": 33508978,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "YUM CHINA HLDGS INC",
       "cusip": "98850P109",
       "shares": 522729,
-      "value": 25179856
+      "value": 25179856,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "H WORLD GROUP LTD",
       "cusip": "44332N106",
       "shares": 616337,
-      "value": 20357611
+      "value": 20357611,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 11500,
-      "value": 4847250
+      "value": 4847250,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PAYCOM SOFTWARE INC",
       "cusip": "70432V102",
       "shares": 12395,
-      "value": 2540603
+      "value": 2540603,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DEERE & CO",
       "cusip": "244199105",
       "shares": 5001,
-      "value": 2118924
+      "value": 2118924,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 466591008,
-  "positionsCount": 11
+  "positionsCount": 11,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 466591008
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

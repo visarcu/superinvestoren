@@ -9,51 +9,123 @@
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 145888,
-      "value": 77718914
+      "value": 77718914,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 198383,
-      "value": 70219647
+      "value": 70219647,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 448287,
-      "value": 55148267
+      "value": 55148267,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "SALESFORCE INC",
       "cusip": "79466L302",
       "shares": 186849,
-      "value": 49167446
+      "value": 49167446,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 715412,
-      "value": 37873911
+      "value": 37873911,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 199100,
-      "value": 29130321
+      "value": 29130321,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 309947,
-      "value": 25694606
+      "value": 25694606,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "TRUPANION INC",
       "cusip": "898202106",
       "shares": 25000,
-      "value": 762750
+      "value": 762750,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 345715862,
-  "positionsCount": 8
+  "positionsCount": 8,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 345715862
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

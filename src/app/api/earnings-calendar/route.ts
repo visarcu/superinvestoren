@@ -32,17 +32,13 @@ export async function GET(request: NextRequest) {
     const tickerArray = tickers.split(',').map(t => t.trim()).filter(Boolean)
     const earningsEvents: EarningsEvent[] = []
 
-    // Try different FMP APIs for earnings calendar
-    // Method 1: General earnings calendar (get upcoming dates)
+    // Use the same stable API as the all-earnings endpoint for consistency
     try {
-      const today = new Date().toISOString().split('T')[0]
-      const nextMonth = new Date()
-      nextMonth.setMonth(nextMonth.getMonth() + 3)
-      const endDate = nextMonth.toISOString().split('T')[0]
+      console.log('📅 Loading current earnings from stable FMP endpoint for watchlist...')
       
       const calendarResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${today}&to=${endDate}&apikey=${FMP_API_KEY}`,
-        { next: { revalidate: 3600 } }
+        `https://financialmodelingprep.com/stable/earnings-calendar?apikey=${FMP_API_KEY}`,
+        { next: { revalidate: 1800 } } // 30 min cache
       )
       
       if (calendarResponse.ok) {
@@ -51,35 +47,32 @@ export async function GET(request: NextRequest) {
         if (Array.isArray(calendarData)) {
           const relevantEvents = calendarData
             .filter(event => tickerArray.includes(event.symbol))
-            .slice(0, 20)
+            .slice(0, 50) // Increase limit for watchlist
             .map(event => {
-              // Calculate quarter from date if not provided
-              let quarter = event.quarter
-              if (!quarter && event.date) {
-                const eventDate = new Date(event.date)
-                const month = eventDate.getMonth() + 1 // 1-12
-                if (month >= 1 && month <= 3) quarter = 1
-                else if (month >= 4 && month <= 6) quarter = 2
-                else if (month >= 7 && month <= 9) quarter = 3
-                else quarter = 4
-              }
+              const eventDate = new Date(event.date)
+              const month = eventDate.getMonth() + 1 // 1-12
+              let quarter
+              if (month >= 1 && month <= 3) quarter = 1
+              else if (month >= 4 && month <= 6) quarter = 2
+              else if (month >= 7 && month <= 9) quarter = 3
+              else quarter = 4
               
-              const year = event.fiscalYear || new Date(event.date).getFullYear()
+              const year = eventDate.getFullYear()
               
               return {
                 ticker: event.symbol,
-                companyName: event.name || event.symbol,
+                companyName: event.symbol, // Use symbol as name for consistency
                 date: event.date,
-                time: event.time || 'TBD',
-                quarter: `Q${quarter || '?'} ${year}`,
-                fiscalYear: year?.toString() || new Date().getFullYear().toString(),
-                estimatedEPS: event.eps ? parseFloat(event.eps) : null,
-                actualEPS: event.epsEstimated ? parseFloat(event.epsEstimated) : null
+                time: 'amc', // Default to after market close like all-earnings API
+                quarter: `Q${quarter} ${year}`,
+                fiscalYear: year.toString(),
+                estimatedEPS: event.epsEstimated ? parseFloat(event.epsEstimated) : null,
+                actualEPS: event.epsActual ? parseFloat(event.epsActual) : null
               }
             })
           
           earningsEvents.push(...relevantEvents)
-          console.log(`📅 Found ${relevantEvents.length} events from general calendar`)
+          console.log(`📅 Found ${relevantEvents.length} watchlist events from stable calendar`)
         }
       }
     } catch (error) {

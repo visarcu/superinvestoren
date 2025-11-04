@@ -9,39 +9,95 @@
       "name": "META PLATFORMS INC",
       "cusip": "30303M102",
       "shares": 198383,
-      "value": 96330817
+      "value": 96330817,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "CREDIT ACCEP CORP MICH",
       "cusip": "225310101",
       "shares": 137688,
-      "value": 75941816
+      "value": 75941816,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 847531,
-      "value": 74506450
+      "value": 74506450,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "WIX COM LTD",
       "cusip": "M98068105",
       "shares": 431280,
-      "value": 59292374
+      "value": 59292374,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
     },
     {
       "name": "INTERACTIVE BROKERS GROUP IN",
       "cusip": "45841N107",
       "shares": 309947,
-      "value": 34624179
+      "value": 34624179,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "PDD HOLDINGS INC",
       "cusip": "722304102",
       "shares": 290400,
-      "value": 33759000
+      "value": 33759000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
     }
   ],
   "totalValue": 374454636,
-  "positionsCount": 6
+  "positionsCount": 6,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 374454636
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }
