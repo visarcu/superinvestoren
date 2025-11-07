@@ -9,147 +9,347 @@
       "name": "Lennar Corporation - A (LEN)",
       "cusip": "526057104",
       "shares": 9087186,
-      "value": 1703665631
+      "value": 1703665631,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "General Motors Co (GM)",
       "cusip": "35045V100",
       "shares": 23830856,
-      "value": 1068575583
+      "value": 1068575583,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Citigroup Inc (C)",
       "cusip": "172967424",
       "shares": 16883391,
-      "value": 1056900277
+      "value": 1056900277,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "CRH PLC (CRH)",
       "cusip": "G25508105",
       "shares": 11155273,
-      "value": 1034540018
+      "value": 1034540018,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Toll Brothers, Inc (TOL)",
       "cusip": "889478103",
       "shares": 5542130,
-      "value": 856203664
+      "value": 856203664,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "PulteGroup Inc (PHM)",
       "cusip": "745867101",
       "shares": 5593179,
-      "value": 802788982
+      "value": 802788982,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "D R Horton, Inc (DHI)",
       "cusip": "23331A109",
       "shares": 3671505,
-      "value": 700413009
+      "value": 700413009,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Oshkosh Corp (OSK)",
       "cusip": "688239201",
       "shares": 2536484,
-      "value": 254181062
+      "value": 254181062,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Arrow Electronics Inc (ARW)",
       "cusip": "042735100",
       "shares": 1884373,
-      "value": 250301266
+      "value": 250301266,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Avnet Inc (AVT)",
       "cusip": "053807103",
       "shares": 3924652,
-      "value": 213147850
+      "value": 213147850,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Lear Corporation (LEA)",
       "cusip": "521865204",
       "shares": 1819646,
-      "value": 198614361
+      "value": 198614361,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Meritage Homes Corp (MTH)",
       "cusip": "59001A102",
       "shares": 744363,
-      "value": 152646520
+      "value": 152646520,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Terex Corp (TEX)",
       "cusip": "880779103",
       "shares": 1499843,
-      "value": 79356693
+      "value": 79356693,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Lennar Corporation - B SHS (LEN/B)",
       "cusip": "526057302",
       "shares": 364331,
-      "value": 63007403
+      "value": 63007403,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Genpact LTD (G)",
       "cusip": "G3922B107",
       "shares": 1243813,
-      "value": 48769908
+      "value": 48769908,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "NOV INC (NOV)",
       "cusip": "62955J103",
       "shares": 2035376,
-      "value": 32504955
+      "value": 32504955,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Goldman Sachs (GS)",
       "cusip": "38141G104",
       "shares": 9040,
-      "value": 4475794
+      "value": 4475794,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "International Paper Co (IP)",
       "cusip": "460146103",
       "shares": 35288,
-      "value": 1723819
+      "value": 1723819,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Agilent Technologies, Inc (A)",
       "cusip": "00846U101",
       "shares": 10700,
-      "value": 1588736
+      "value": 1588736,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Charles Schwab Corporation (SCHW)",
       "cusip": "808513105",
       "shares": 20000,
-      "value": 1296200
+      "value": 1296200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "J P Morgan Chase (JPM)",
       "cusip": "46625H100",
       "shares": 5000,
-      "value": 1054300
+      "value": 1054300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Morgan Stanley (MS)",
       "cusip": "617446448",
       "shares": 10000,
-      "value": 1042400
+      "value": 1042400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Union Pacific Corp (UNP)",
       "cusip": "907818108",
       "shares": 2032,
-      "value": 500847
+      "value": 500847,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     },
     {
       "name": "Berkshire Hathaway Inc Class B (BRK/B)",
       "cusip": "084670702",
       "shares": 1001,
-      "value": 460720
+      "value": 460720,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON",
+      "putCall": null
     }
   ],
   "totalValue": 8527759998,
-  "positionsCount": 24
+  "positionsCount": 24,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 8527759998
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }
