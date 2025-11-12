@@ -492,6 +492,7 @@ const investorNames: Record<string, string> = {
   ariel_focus: 'Ariel Focus Fund', 
   cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
   spier: 'Guy Spier',
+  druckenmiller: 'druckenmiller',
 }
 
 // Hook für Intersection Observer (nur für Hero)

@@ -213,6 +213,14 @@ const investorMetadata: Record<string, {
     subtitle: 'Scion Asset Management',
     type: 'investor'
   },
+
+  druckenmiller: {
+    name: '',
+    subtitle: '',
+    type: 'investor'
+  },
+
+
   akre: {
     name: 'Chuck Akre',
     subtitle: 'Akre Capital Management',

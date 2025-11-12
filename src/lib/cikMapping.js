@@ -29,7 +29,7 @@ export const investorCiks = {
   jensen:'0001106129',
   russo: '0000860643',    // Thomas Russo – Gardner Russo & Quinn
   armitage:'0001581811', // John Armitage – Egerton Capital
-
+druckenmiller: '0001536411',
   icahn: '0000921669',// Carl Icahn – Icahn Capital (Beispiel)
 
   greenhaven: '0000846222',    // Greenhaven Associates

@@ -138,6 +138,15 @@ import   miller_2025_Q1 from './miller/2025-Q1.json'
 import   miller_2025_Q2 from './miller/2025-Q2.json'
 import   miller_2025_Q3 from './miller/2025-Q3.json'
 
+//Druckenmiller
+import   druckenmiller_2024_Q1 from './druckenmiller/2024-Q1.json'
+import   druckenmiller_2024_Q2 from './druckenmiller/2024-Q2.json'
+import   druckenmiller_2024_Q3 from './druckenmiller/2024-Q3.json'
+import   druckenmiller_2024_Q4 from './druckenmiller/2024-Q4.json'
+import   druckenmiller_2025_Q1 from './druckenmiller/2025-Q1.json'
+import   druckenmiller_2025_Q2 from './druckenmiller/2025-Q2.json'
+import   druckenmiller_2025_Q3 from './druckenmiller/2025-Q3.json'
+
 //Rochon - Giverny Capital
 import   rochon_2024_Q1 from './rochon/2024-Q1.json'
 import   rochon_2024_Q2 from './rochon/2024-Q2.json'
@@ -334,6 +343,7 @@ import abrams_2024_Q4 from './abrams/2024-Q4.json'
 import abrams_2025_Q1 from './abrams/2025-Q1.json'
 import abrams_2025_Q2 from './abrams/2025-Q2.json'
 import abrams_2025_Q3 from './abrams/2025-Q3.json'
+import abrams_2025_Q4 from './abrams/2025-Q4.json'
 
 //fred martin
 import martin_2024_Q2 from './martin/2024-Q2.json'
@@ -1187,6 +1197,15 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q3', data: polen_2025_Q3},
    ],
 
+      druckenmiller: [
+    { quarter: '2024-Q2', data: druckenmiller_2024_Q2},
+    { quarter: '2024-Q3', data: druckenmiller_2024_Q3},
+    { quarter: '2024-Q4', data: druckenmiller_2024_Q4},
+    { quarter: '2025-Q1', data: druckenmiller_2025_Q1},
+    { quarter: '2025-Q2', data: druckenmiller_2025_Q2},
+    { quarter: '2025-Q3', data: druckenmiller_2025_Q3},
+   ],
+
    patientcapital: [
     { quarter: '2024-Q2', data: patientcapital_2024_Q2},
     { quarter: '2024-Q3', data: patientcapital_2024_Q3},
@@ -1308,12 +1327,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    abrams: [
-    { quarter: '2024-Q2', data: abrams_2024_Q2},
-    { quarter: '2024-Q3', data: abrams_2024_Q3},
-    { quarter: '2024-Q4', data: abrams_2024_Q4},
-    { quarter: '2025-Q1', data: abrams_2025_Q1},
-    { quarter: '2025-Q2', data: abrams_2025_Q2},
-    { quarter: '2025-Q3', data: abrams_2025_Q3},
+    {quarter: '2024-Q2', data: abrams_2024_Q2},
+    {quarter: '2024-Q3', data: abrams_2024_Q3},
+    {quarter: '2024-Q4', data: abrams_2024_Q4},
+    {quarter: '2025-Q1', data: abrams_2025_Q1},
+    {quarter: '2025-Q2', data: abrams_2025_Q2},
+    {quarter: '2025-Q3', data: abrams_2025_Q3},
+    {quarter: '2025-Q4', data: abrams_2025_Q4},
    ],
 
    martin: [

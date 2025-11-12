@@ -51,6 +51,13 @@ export const investors: Investor[] = [
     holdings: [],
   },
   {
+    name: 'druckenmiller',
+    slug: 'druckenmiller',
+    imageUrl: '/images/druckenmiller-cartoon.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  },
+  {
     name: 'Howard Marks – Oaktree Capital Management',
     slug: 'marks',
     imageUrl: '/images/marks-cartoon.png',
