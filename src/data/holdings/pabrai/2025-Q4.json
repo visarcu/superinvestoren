@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2025-11-13",
+  "period": "2025-11-13",
+  "accession": "0001549575-25-000012",
+  "quarterKey": "2025-Q4",
+  "positions": [
+    {
+      "name": "WARRIOR MET COAL INC",
+      "cusip": "93627C101",
+      "shares": 1799831,
+      "value": 114541245,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
+      "shares": 532000,
+      "value": 87295880,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 24442332,
+      "value": 76260076,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "REGISTERED SHS",
+      "putCall": null
+    },
+    {
+      "name": "VALARIS LTD",
+      "cusip": "G9460G101",
+      "shares": 1066255,
+      "value": 52001256,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "NOBLE CORP PLC",
+      "cusip": "G65431127",
+      "shares": 239000,
+      "value": 6758920,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS A",
+      "putCall": null
+    }
+  ],
+  "totalValue": 336857377,
+  "positionsCount": 5,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 336857377
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

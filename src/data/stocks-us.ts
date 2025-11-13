@@ -38769,7 +38769,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'BREA',
-    cusip:  '',
+    cusip:  'G13311116',
     name:   'Brera Holdings PLC Class B Ordinary Shares',
     sector: 'Communication Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -39397,6 +39397,15 @@ export const stocks: Stock[] = [
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'BLSH',
+    cusip:  'G16910120',
+    name:   'Bullish',
+    sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'NG',
     cusip:  '66987E206',
