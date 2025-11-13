@@ -129,16 +129,36 @@ export default function InvestorTabs({
     const sGroup = sells[idx] || { period: bGroup.period, items: [] }
     return {
       period: bGroup.period,
-      items: [...bGroup.items, ...sGroup.items].sort((a, b) => 
-        Math.abs(b.value) - Math.abs(a.value)
-      ),
+      items: [...bGroup.items, ...sGroup.items].sort((a, b) => {
+        // Calculate transaction value (change in shares * estimated price per share)
+        const aTransactionValue = Math.abs(a.deltaShares * (a.value / a.shares))
+        const bTransactionValue = Math.abs(b.deltaShares * (b.value / b.shares))
+        return bTransactionValue - aTransactionValue
+      }),
     }
   })
 
   const getFilteredTransactions = (): HistoryGroup[] => {
+    const sortByTransactionValue = (items: Position[]) => {
+      return [...items].sort((a, b) => {
+        // Calculate transaction value (change in shares * estimated price per share)
+        const aTransactionValue = Math.abs(a.deltaShares * (a.value / a.shares))
+        const bTransactionValue = Math.abs(b.deltaShares * (b.value / b.shares))
+        return bTransactionValue - aTransactionValue
+      })
+    }
+
     switch (transactionFilter) {
-      case 'buys': return buys
-      case 'sells': return sells
+      case 'buys': 
+        return buys.map(group => ({
+          ...group,
+          items: sortByTransactionValue(group.items)
+        }))
+      case 'sells': 
+        return sells.map(group => ({
+          ...group,
+          items: sortByTransactionValue(group.items)
+        }))
       default: return allTransactions
     }
   }
@@ -410,6 +430,7 @@ export default function InvestorTabs({
                     <tr className="text-sm text-gray-400 border-b border-white/[0.1] bg-[#0F0F11]">
                       <th className="text-left px-6 py-4 font-semibold tracking-wide">Unternehmen</th>
                       <th className="text-right px-6 py-4 font-semibold tracking-wide">Δ Aktien</th>
+                      <th className="text-right px-6 py-4 font-semibold tracking-wide">Transaktionswert</th>
                       <th className="text-right px-6 py-4 font-semibold tracking-wide">Typ</th>
                       <th className="text-right px-6 py-4 font-semibold tracking-wide">% Veränderung</th>
                     </tr>
@@ -419,7 +440,7 @@ export default function InvestorTabs({
                       <React.Fragment key={gi}>
                         <tr>
                           <td 
-                            colSpan={4} 
+                            colSpan={5} 
                             className="px-6 py-5 border-t border-white/[0.06] font-bold text-white uppercase tracking-wide text-sm bg-[#0F0F11]"
                           >
                             <div className="flex items-center gap-3">
@@ -453,6 +474,14 @@ export default function InvestorTabs({
                                   </span>
                                 </td>
                                 <td className="px-6 py-5 text-right">
+                                  <span className="text-white font-semibold font-mono">
+                                    {(() => {
+                                      const transactionValue = Math.abs(p.deltaShares * (p.value / p.shares))
+                                      return formatCurrency(transactionValue)
+                                    })()}
+                                  </span>
+                                </td>
+                                <td className="px-6 py-5 text-right">
                                   <span className={`text-sm font-semibold ${
                                     p.deltaShares > 0 ? 'text-green-400' : 'text-red-400'
                                   }`}>
@@ -472,7 +501,7 @@ export default function InvestorTabs({
                             ))
                           : (
                             <tr>
-                              <td colSpan={4} className="px-6 py-12 text-center text-gray-500">
+                              <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
                                 <div className="flex flex-col items-center gap-3">
                                   <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-900/50 border border-gray-800/50">
                                     {transactionFilter === 'buys' ? (

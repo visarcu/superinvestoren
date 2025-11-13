@@ -121,7 +121,8 @@ patientcapital:'0001854794',
 makaira:'0001540866',
 dalio: '0001350694',
 cunniff:'0001720792',
-ark_investment_management: '0001697748',
+ark_investment_management: '0001697748',  // ARK Management - alle Funds
+ark_innovation_etf: 'S000042977',          // ARK Innovation ETF (ARKK) - Series ID
 
 //FUNDS:
 meridiancontrarian:'0000745467',
@@ -131,6 +132,7 @@ ariel_appreciation:           '0000798365',    // John Rogers – Ariel Apprecia
 baron_partners_fund: '0001836023', //0 filings
 tweedy_browne_fund_inc: '0000896975',
 ariel_focus: '0000798365', //former bobrinskoy
+ark_innovation_etf: 'S000042977'
 
 
 

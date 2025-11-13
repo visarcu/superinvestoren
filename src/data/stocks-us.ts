@@ -7506,7 +7506,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'RBLX',
-    cusip:  '',
+    cusip:  '771049103',
     name:   'Roblox Corporation',
     sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -7518,6 +7518,15 @@ export const stocks: Stock[] = [
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'CRCL',
+    cusip:  '172573107',
+    name:   'Circle Internet Group',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'INSP',
     cusip:  '',
@@ -17719,7 +17728,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'HOOD',
-    cusip:  '',
+    cusip:  '770700102',
     name:   'Robinhood Markets, Inc.',
     sector: 'Technology',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -22886,7 +22895,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'COIN',
-    cusip:  '',
+    cusip:  '19260Q107',
     name:   'Coinbase Global, Inc.',
     sector: 'Financial Services',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -41463,7 +41472,7 @@ export const stocks: Stock[] = [
   },
   {
     ticker: 'TEM',
-    cusip:  '71535D106',
+    cusip:  '88023B103',
     name:   'Tempus AI, Inc.',
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
@@ -42924,6 +42933,15 @@ export const stocks: Stock[] = [
     sector: 'Healthcare',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
     metrics: [],
   },
+
+  {
+    ticker: 'BMNR',
+    cusip:  '09175A206',
+    name:   'Bitmine Immersion Technologies, Inc.',
+    sector: '',            // falls Du Industry/Sektor aus dem Profil willst, hier setzen
+    metrics: [],
+  },
+
   {
     ticker: 'STFS',
     cusip:  '',

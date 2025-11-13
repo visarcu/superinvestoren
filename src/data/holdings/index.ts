@@ -803,6 +803,7 @@ import ark_investment_management_2024_Q4 from './ark_investment_management/2024-
 import ark_investment_management_2025_Q1 from './ark_investment_management/2025-Q1.json'
 import ark_investment_management_2025_Q2 from './ark_investment_management/2025-Q2.json'
 import ark_investment_management_2025_Q3 from './ark_investment_management/2025-Q3.json'
+import ark_investment_management_2025_Q4 from './ark_investment_management/2025-Q4.json'
 
 
 //ariel_focus
@@ -1071,13 +1072,14 @@ const holdingsHistory: Record<string, Snapshot[]> = {
  
 
    ark_investment_management: [
-    { quarter: '2024-Q1', data: ark_investment_management_2024_Q1},
-    { quarter: '2024-Q2', data: ark_investment_management_2024_Q2},
-    { quarter: '2024-Q3', data: ark_investment_management_2024_Q3},
-    { quarter: '2024-Q4', data: ark_investment_management_2024_Q4},
-    { quarter: '2025-Q1', data: ark_investment_management_2025_Q1},
-    { quarter: '2025-Q2', data: ark_investment_management_2025_Q2},
-    { quarter: '2025-Q3', data: ark_investment_management_2025_Q3},
+    {quarter: '2024-Q1', data: ark_investment_management_2024_Q1},
+    {quarter: '2024-Q2', data: ark_investment_management_2024_Q2},
+    {quarter: '2024-Q3', data: ark_investment_management_2024_Q3},
+    {quarter: '2024-Q4', data: ark_investment_management_2024_Q4},
+    {quarter: '2025-Q1', data: ark_investment_management_2025_Q1},
+    {quarter: '2025-Q2', data: ark_investment_management_2025_Q2},
+    {quarter: '2025-Q3', data: ark_investment_management_2025_Q3},
+    {quarter: '2025-Q4', data: ark_investment_management_2025_Q4},
    ],
 
 
