@@ -1,15 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2024-08-14",
-  "period": "2024-08-14",
-  "accession": "0001420506-24-001459",
-  "quarterKey": "2024-Q3",
+  "date": "2024-05-15",
+  "period": "2024-05-15",
+  "accession": "0001420506-24-000926",
+  "quarterKey": "2024-Q2",
   "positions": [
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
       "shares": 6530894,
-      "value": 840656676,
+      "value": 574130892,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -23,7 +23,7 @@
       "name": "HILTON GRAND VACATIONS INC",
       "cusip": "43283X105",
       "shares": 6446661,
-      "value": 260638504,
+      "value": 304346866,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -36,8 +36,8 @@
     {
       "name": "CAPITAL ONE FINL CORP",
       "cusip": "14040H105",
-      "shares": 686052,
-      "value": 94983899,
+      "shares": 645252,
+      "value": 96071570,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -50,8 +50,8 @@
     {
       "name": "CARDLYTICS INC",
       "cusip": "14161W105",
-      "shares": 6464859,
-      "value": 53076492,
+      "shares": 6373676,
+      "value": 92354565,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -64,8 +64,8 @@
     {
       "name": "WORLD ACCEP CORPORATION",
       "cusip": "981419104",
-      "shares": 251772,
-      "value": 31113984,
+      "shares": 338164,
+      "value": 49027017,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -76,11 +76,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 1280469555,
+  "totalValue": 1115930910,
   "positionsCount": 5,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 1280469555
+      "STOCK": 1115930910
     },
     "percentages": {
       "STOCK": "100.0%"

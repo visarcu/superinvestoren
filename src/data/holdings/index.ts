@@ -55,6 +55,7 @@ import marks_2024_Q4 from './marks/2024-Q4.json'
 import marks_2025_Q1 from './marks/2025-Q1.json'
 import marks_2025_Q2 from './marks/2025-Q2.json'
 import marks_2025_Q3 from './marks/2025-Q3.json'
+import marks_2025_Q4 from './marks/2025-Q4.json'
 
 //akre
 import akre_2024_Q1 from './akre/2024-Q1.json'
@@ -102,12 +103,14 @@ import gregalexander_2024_Q4 from './gregalexander/2024-Q4.json'
 import gregalexander_2025_Q1 from './gregalexander/2025-Q1.json'
 import gregalexander_2025_Q2 from './gregalexander/2025-Q2.json'
 import gregalexander_2025_Q3 from './gregalexander/2025-Q3.json'
+import gregalexander_2025_Q4 from './gregalexander/2025-Q4.json'
 
 //Terry Smith
 import smith_2024_Q4 from './smith/2024-Q4.json'
 import smith_2025_Q1 from './smith/2025-Q1.json'
 import smith_2025_Q2 from './smith/2025-Q2.json'
 import smith_2025_Q3 from './smith/2025-Q3.json'
+import smith_2025_Q4 from './smith/2025-Q4.json'
 
 //Michael Burry
 import burry_2024_Q3 from './burry/2024-Q3.json'
@@ -129,6 +132,7 @@ import   altarockpartners_2024_Q4 from './altarockpartners/2024-Q4.json'
 import   altarockpartners_2025_Q1 from './altarockpartners/2025-Q1.json'
 import   altarockpartners_2025_Q2 from './altarockpartners/2025-Q2.json'
 import   altarockpartners_2025_Q3 from './altarockpartners/2025-Q3.json'
+import   altarockpartners_2025_Q4 from './altarockpartners/2025-Q4.json'
 
 //Bill Miller
 import   miller_2024_Q1 from './miller/2024-Q1.json'
@@ -138,6 +142,7 @@ import   miller_2024_Q4 from './miller/2024-Q4.json'
 import   miller_2025_Q1 from './miller/2025-Q1.json'
 import   miller_2025_Q2 from './miller/2025-Q2.json'
 import   miller_2025_Q3 from './miller/2025-Q3.json'
+import   miller_2025_Q4 from './miller/2025-Q4.json'
 
 //Druckenmiller
 import   druckenmiller_2024_Q1 from './druckenmiller/2024-Q1.json'
@@ -156,6 +161,7 @@ import   rochon_2024_Q4 from './rochon/2024-Q4.json'
 import   rochon_2025_Q1 from './rochon/2025-Q1.json'
 import   rochon_2025_Q2 from './rochon/2025-Q2.json'
 import   rochon_2025_Q3 from './rochon/2025-Q3.json'
+import   rochon_2025_Q4 from './rochon/2025-Q4.json'
 
 // Chase Coleman
 import coleman_2024_Q1 from './coleman/2024-Q1.json'
@@ -165,6 +171,7 @@ import coleman_2024_Q4 from './coleman/2024-Q4.json'
 import coleman_2025_Q1 from './coleman/2025-Q1.json'
 import coleman_2025_Q2 from './coleman/2025-Q2.json'
 import coleman_2025_Q3 from './coleman/2025-Q3.json'
+import coleman_2025_Q4 from './coleman/2025-Q4.json'
 
 //gayner
 import gayner_2024_Q1 from './gayner/2024-Q1.json'
@@ -193,6 +200,7 @@ import tepper_2024_Q4 from './tepper/2024-Q4.json'
 import tepper_2025_Q1 from './tepper/2025-Q1.json'
 import tepper_2025_Q2 from './tepper/2025-Q2.json'
 import tepper_2025_Q3 from './tepper/2025-Q3.json'
+import tepper_2025_Q4 from './tepper/2025-Q4.json'
 
 //pabrai
 import pabrai_2024_Q1 from './pabrai/2024-Q1.json'
@@ -292,6 +300,7 @@ import duan_2024_Q4 from './duan/2024-Q4.json'
 import duan_2025_Q1 from './duan/2025-Q1.json'
 import duan_2025_Q2 from './duan/2025-Q2.json'
 import duan_2025_Q3 from './duan/2025-Q3.json'
+import duan_2025_Q4 from './duan/2025-Q4.json'
 
 //Mandel
 import mandel_2024_Q2 from './mandel/2024-Q2.json'
@@ -388,6 +397,7 @@ import dorsey_2024_Q4 from './dorsey/2024-Q4.json'
 import dorsey_2025_Q1 from './dorsey/2025-Q1.json'
 import dorsey_2025_Q2 from './dorsey/2025-Q2.json'
 import dorsey_2025_Q3 from './dorsey/2025-Q3.json'
+import dorsey_2025_Q4 from './dorsey/2025-Q4.json'
 
 //chou
 import chou_2024_Q2 from './chou/2024-Q2.json'
@@ -396,6 +406,7 @@ import chou_2024_Q4 from './chou/2024-Q4.json'
 import chou_2025_Q1 from './chou/2025-Q1.json'
 import chou_2025_Q2 from './chou/2025-Q2.json'
 import chou_2025_Q3 from './chou/2025-Q3.json'
+import chou_2025_Q4 from './chou/2025-Q4.json'
 
 //lawrence
 import lawrence_2024_Q2 from './lawrence/2024-Q2.json'
@@ -404,6 +415,7 @@ import lawrence_2024_Q4 from './lawrence/2024-Q4.json'
 import lawrence_2025_Q1 from './lawrence/2025-Q1.json'
 import lawrence_2025_Q2 from './lawrence/2025-Q2.json'
 import lawrence_2025_Q3 from './lawrence/2025-Q3.json'
+import lawrence_2025_Q4 from './lawrence/2025-Q4.json'
 
 //roepers
 import roepers_2024_Q2 from './roepers/2024-Q2.json'
@@ -446,6 +458,7 @@ import tarasoff_2024_Q4 from './tarasoff/2024-Q4.json'
 import tarasoff_2025_Q1 from './tarasoff/2025-Q1.json'
 import tarasoff_2025_Q2 from './tarasoff/2025-Q2.json'
 import tarasoff_2025_Q3 from './tarasoff/2025-Q3.json'
+import tarasoff_2025_Q4 from './tarasoff/2025-Q4.json'
 
 //welling
 import welling_2024_Q2 from './welling/2024-Q2.json'
@@ -454,6 +467,7 @@ import welling_2024_Q4 from './welling/2024-Q4.json'
 import welling_2025_Q1 from './welling/2025-Q1.json'
 import welling_2025_Q2 from './welling/2025-Q2.json'
 import welling_2025_Q3 from './welling/2025-Q3.json'
+import welling_2025_Q4 from './welling/2025-Q4.json'
 
 //rolfe
 import rolfe_2024_Q2 from './rolfe/2024-Q2.json'
@@ -476,6 +490,7 @@ import hong_2024_Q4 from './hong/2024-Q4.json'
 import hong_2025_Q1 from './hong/2025-Q1.json'
 import hong_2025_Q2 from './hong/2025-Q2.json'
 import hong_2025_Q3 from './hong/2025-Q3.json'
+import hong_2025_Q4 from './hong/2025-Q4.json'
 
 //bares
 import bares_2024_Q2 from './bares/2024-Q2.json'
@@ -498,6 +513,7 @@ import watsa_2024_Q4 from './watsa/2024-Q4.json'
 import watsa_2025_Q1 from './watsa/2025-Q1.json'
 import watsa_2025_Q2 from './watsa/2025-Q2.json'
 import watsa_2025_Q3 from './watsa/2025-Q3.json'
+import watsa_2025_Q4 from './watsa/2025-Q4.json'
 
 //sosin
 
@@ -506,6 +522,7 @@ import sosin_2024_Q4 from './sosin/2024-Q4.json'
 import sosin_2025_Q1 from './sosin/2025-Q1.json'
 import sosin_2025_Q2 from './sosin/2025-Q2.json'
 import sosin_2025_Q3 from './sosin/2025-Q3.json'
+import sosin_2025_Q4 from './sosin/2025-Q4.json'
 
 //meritage
 import meritage_2024_Q2 from './meritage/2024-Q2.json'
@@ -638,6 +655,7 @@ import klarman_2024_Q4 from './klarman/2024-Q4.json'
 import klarman_2025_Q1 from './klarman/2025-Q1.json'
 import klarman_2025_Q2 from './klarman/2025-Q2.json'
 import klarman_2025_Q3 from './klarman/2025-Q3.json'
+import klarman_2025_Q4 from './klarman/2025-Q4.json'
 
 //spier
 import spier_2024_Q2 from './spier/2024-Q2.json'
@@ -655,6 +673,7 @@ import triplefrond_2024_Q4 from './triplefrond/2024-Q4.json'
 import triplefrond_2025_Q1 from './triplefrond/2025-Q1.json'
 import triplefrond_2025_Q2 from './triplefrond/2025-Q2.json'
 import triplefrond_2025_Q3 from './triplefrond/2025-Q3.json'
+import triplefrond_2025_Q4 from './triplefrond/2025-Q4.json'
 
 //ubben
 import ubben_2024_Q2 from './ubben/2024-Q2.json'
@@ -763,6 +782,7 @@ import dalio_2024_Q4 from './dalio/2024-Q4.json'
 import dalio_2025_Q1 from './dalio/2025-Q1.json'
 import dalio_2025_Q2 from './dalio/2025-Q2.json'
 import dalio_2025_Q3 from './dalio/2025-Q3.json'
+import dalio_2025_Q4 from './dalio/2025-Q4.json'
 
 //pzena
 import pzena_2024_Q1 from './pzena/2024-Q1.json'
@@ -937,11 +957,12 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    
     //{ quarter: '2024-Q1', data: marks_2024_Q1 },
     //{ quarter: '2024-Q2', data: marks_2024_Q2 },
-    { quarter: '2024-Q3', data: marks_2024_Q3 },
-    { quarter: '2024-Q4', data: marks_2024_Q4 },
-    { quarter: '2025-Q1', data: marks_2025_Q1 },
-    { quarter: '2025-Q2', data: marks_2025_Q2 },
-    { quarter: '2025-Q3', data: marks_2025_Q3 },
+    {quarter: '2024-Q3', data: marks_2024_Q3},
+    {quarter: '2024-Q4', data: marks_2024_Q4},
+    {quarter: '2025-Q1', data: marks_2025_Q1},
+    {quarter: '2025-Q2', data: marks_2025_Q2},
+    {quarter: '2025-Q3', data: marks_2025_Q3},
+    {quarter: '2025-Q4', data: marks_2025_Q4},
   
    ],
 
@@ -1009,22 +1030,24 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
    gregalexander: [
    
-    { quarter: '2024-Q1', data: gregalexander_2024_Q1},
-    { quarter: '2024-Q2', data: gregalexander_2024_Q2},
-    { quarter: '2024-Q3', data: gregalexander_2024_Q3},
-    { quarter: '2024-Q4', data: gregalexander_2024_Q4},
-    { quarter: '2025-Q1', data: gregalexander_2025_Q1},
-    { quarter: '2025-Q2', data: gregalexander_2025_Q2},
-    { quarter: '2025-Q3', data: gregalexander_2025_Q3}
+    {quarter: '2024-Q1', data: gregalexander_2024_Q1},
+    {quarter: '2024-Q2', data: gregalexander_2024_Q2},
+    {quarter: '2024-Q3', data: gregalexander_2024_Q3},
+    {quarter: '2024-Q4', data: gregalexander_2024_Q4},
+    {quarter: '2025-Q1', data: gregalexander_2025_Q1},
+    {quarter: '2025-Q2', data: gregalexander_2025_Q2},
+    {quarter: '2025-Q3', data: gregalexander_2025_Q3},
+    {quarter: '2025-Q4', data: gregalexander_2025_Q4},
   
    
    ],
    
    smith: [
-    { quarter: '2024-Q4', data: smith_2024_Q4},
-    { quarter: '2025-Q1', data: smith_2025_Q1},
-    { quarter: '2025-Q2', data: smith_2025_Q2},
-    { quarter: '2025-Q3', data: smith_2025_Q3},
+    {quarter: '2024-Q4', data: smith_2024_Q4},
+    {quarter: '2025-Q1', data: smith_2025_Q1},
+    {quarter: '2025-Q2', data: smith_2025_Q2},
+    {quarter: '2025-Q3', data: smith_2025_Q3},
+    {quarter: '2025-Q4', data: smith_2025_Q4},
    ],
 
    burry: [
@@ -1050,7 +1073,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: altarockpartners_2025_Q1},
     { quarter: '2025-Q2', data: altarockpartners_2025_Q2},
     { quarter: '2025-Q3', data: altarockpartners_2025_Q3},
-   ],
+    { quarter: '2025-Q4', data: altarockpartners_2025_Q4},   ],
 
    miller: [
     { quarter: '2024-Q1', data: miller_2024_Q1},
@@ -1060,26 +1083,29 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: miller_2025_Q1},
     { quarter: '2025-Q2', data: miller_2025_Q2},
     { quarter: '2025-Q3', data: miller_2025_Q3},
+    { quarter: '2025-Q4', data: miller_2025_Q4},
    ],
 
    coleman: [
-    { quarter: '2024-Q1', data: coleman_2024_Q1},
-    { quarter: '2024-Q2', data: coleman_2024_Q2},
-    { quarter: '2024-Q3', data: coleman_2024_Q3},
-    { quarter: '2024-Q4', data: coleman_2024_Q4},
-    { quarter: '2025-Q1', data: coleman_2025_Q1},
-    { quarter: '2025-Q2', data: coleman_2025_Q2},
-    { quarter: '2025-Q3', data: coleman_2025_Q3},
+    {quarter: '2024-Q1', data: coleman_2024_Q1},
+    {quarter: '2024-Q2', data: coleman_2024_Q2},
+    {quarter: '2024-Q3', data: coleman_2024_Q3},
+    {quarter: '2024-Q4', data: coleman_2024_Q4},
+    {quarter: '2025-Q1', data: coleman_2025_Q1},
+    {quarter: '2025-Q2', data: coleman_2025_Q2},
+    {quarter: '2025-Q3', data: coleman_2025_Q3},
+    {quarter: '2025-Q4', data: coleman_2025_Q4},
    ],
 
    dalio: [
-    { quarter: '2024-Q1', data: dalio_2024_Q1},
-    { quarter: '2024-Q2', data: dalio_2024_Q2},
-    { quarter: '2024-Q3', data: dalio_2024_Q3},
-    { quarter: '2024-Q4', data: dalio_2024_Q4},
-    { quarter: '2025-Q1', data: dalio_2025_Q1},
-    { quarter: '2025-Q2', data: dalio_2025_Q2},
-    { quarter: '2025-Q3', data: dalio_2025_Q3},
+    {quarter: '2024-Q1', data: dalio_2024_Q1},
+    {quarter: '2024-Q2', data: dalio_2024_Q2},
+    {quarter: '2024-Q3', data: dalio_2024_Q3},
+    {quarter: '2024-Q4', data: dalio_2024_Q4},
+    {quarter: '2025-Q1', data: dalio_2025_Q1},
+    {quarter: '2025-Q2', data: dalio_2025_Q2},
+    {quarter: '2025-Q3', data: dalio_2025_Q3},
+    {quarter: '2025-Q4', data: dalio_2025_Q4},
    ],
 
  
@@ -1118,23 +1144,25 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    rochon: [
-    { quarter: '2024-Q1', data: rochon_2024_Q1},
-    { quarter: '2024-Q2', data: rochon_2024_Q2},
-    { quarter: '2024-Q3', data: rochon_2024_Q3},
-    { quarter: '2024-Q4', data: rochon_2024_Q4},
-    { quarter: '2025-Q1', data: rochon_2025_Q1},
-    { quarter: '2025-Q2', data: rochon_2025_Q2},
-    { quarter: '2025-Q3', data: rochon_2025_Q3},
+    {quarter: '2024-Q1', data: rochon_2024_Q1},
+    {quarter: '2024-Q2', data: rochon_2024_Q2},
+    {quarter: '2024-Q3', data: rochon_2024_Q3},
+    {quarter: '2024-Q4', data: rochon_2024_Q4},
+    {quarter: '2025-Q1', data: rochon_2025_Q1},
+    {quarter: '2025-Q2', data: rochon_2025_Q2},
+    {quarter: '2025-Q3', data: rochon_2025_Q3},
+    {quarter: '2025-Q4', data: rochon_2025_Q4},
    ],
 
    tepper: [
-    { quarter: '2024-Q1', data: tepper_2024_Q1},
-    { quarter: '2024-Q2', data: tepper_2024_Q2},
-    { quarter: '2024-Q3', data: tepper_2024_Q3},
-    { quarter: '2024-Q4', data: tepper_2024_Q4},
-    { quarter: '2025-Q1', data: tepper_2025_Q1},
-    { quarter: '2025-Q2', data: tepper_2025_Q2},
-    { quarter: '2025-Q3', data: tepper_2025_Q3},
+    {quarter: '2024-Q1', data: tepper_2024_Q1},
+    {quarter: '2024-Q2', data: tepper_2024_Q2},
+    {quarter: '2024-Q3', data: tepper_2024_Q3},
+    {quarter: '2024-Q4', data: tepper_2024_Q4},
+    {quarter: '2025-Q1', data: tepper_2025_Q1},
+    {quarter: '2025-Q2', data: tepper_2025_Q2},
+    {quarter: '2025-Q3', data: tepper_2025_Q3},
+    {quarter: '2025-Q4', data: tepper_2025_Q4},
    ],
 
    greenblatt: [
@@ -1286,6 +1314,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: duan_2025_Q1},
     { quarter: '2025-Q2', data: duan_2025_Q2},
     { quarter: '2025-Q3', data: duan_2025_Q3},
+    { quarter: '2025-Q4', data: duan_2025_Q4},
    ],
 
    mandel: [
@@ -1400,31 +1429,34 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    dorsey: [
-    { quarter: '2024-Q2', data: dorsey_2024_Q2},
-    { quarter: '2024-Q3', data: dorsey_2024_Q3},
-    { quarter: '2024-Q4', data: dorsey_2024_Q4},
-    { quarter: '2025-Q1', data: dorsey_2025_Q1},
-    { quarter: '2025-Q2', data: dorsey_2025_Q2},
-    { quarter: '2025-Q3', data: dorsey_2025_Q3},
+    {quarter: '2024-Q2', data: dorsey_2024_Q2},
+    {quarter: '2024-Q3', data: dorsey_2024_Q3},
+    {quarter: '2024-Q4', data: dorsey_2024_Q4},
+    {quarter: '2025-Q1', data: dorsey_2025_Q1},
+    {quarter: '2025-Q2', data: dorsey_2025_Q2},
+    {quarter: '2025-Q3', data: dorsey_2025_Q3},
+    {quarter: '2025-Q4', data: dorsey_2025_Q4},
    ],
 
 
    chou: [
-    { quarter: '2024-Q2', data: chou_2024_Q2},
-    { quarter: '2024-Q3', data: chou_2024_Q3},
-    { quarter: '2024-Q4', data: chou_2024_Q4},
-    { quarter: '2025-Q1', data: chou_2025_Q1},
-    { quarter: '2025-Q2', data: chou_2025_Q2},
-    { quarter: '2025-Q3', data: chou_2025_Q3},
+    {quarter: '2024-Q2', data: chou_2024_Q2},
+    {quarter: '2024-Q3', data: chou_2024_Q3},
+    {quarter: '2024-Q4', data: chou_2024_Q4},
+    {quarter: '2025-Q1', data: chou_2025_Q1},
+    {quarter: '2025-Q2', data: chou_2025_Q2},
+    {quarter: '2025-Q3', data: chou_2025_Q3},
+    {quarter: '2025-Q4', data: chou_2025_Q4},
    ],
 
    lawrence: [
-    { quarter: '2024-Q2', data: lawrence_2024_Q2},
-    { quarter: '2024-Q3', data: lawrence_2024_Q3},
-    { quarter: '2024-Q4', data: lawrence_2024_Q4},
-    { quarter: '2025-Q1', data: lawrence_2025_Q1},
-    { quarter: '2025-Q2', data: lawrence_2025_Q2},
-    { quarter: '2025-Q3', data: lawrence_2025_Q3},
+    {quarter: '2024-Q2', data: lawrence_2024_Q2},
+    {quarter: '2024-Q3', data: lawrence_2024_Q3},
+    {quarter: '2024-Q4', data: lawrence_2024_Q4},
+    {quarter: '2025-Q1', data: lawrence_2025_Q1},
+    {quarter: '2025-Q2', data: lawrence_2025_Q2},
+    {quarter: '2025-Q3', data: lawrence_2025_Q3},
+    {quarter: '2025-Q4', data: lawrence_2025_Q4},
    ],
 
    roepers: [
@@ -1468,21 +1500,23 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    tarasoff: [
-    { quarter: '2024-Q2', data: tarasoff_2024_Q2},
-    { quarter: '2024-Q3', data: tarasoff_2024_Q3},
-    { quarter: '2024-Q4', data: tarasoff_2024_Q4},
-    { quarter: '2025-Q1', data: tarasoff_2025_Q1},
-    { quarter: '2025-Q2', data: tarasoff_2025_Q2},
-    { quarter: '2025-Q3', data: tarasoff_2025_Q3},
+    {quarter: '2024-Q2', data: tarasoff_2024_Q2},
+    {quarter: '2024-Q3', data: tarasoff_2024_Q3},
+    {quarter: '2024-Q4', data: tarasoff_2024_Q4},
+    {quarter: '2025-Q1', data: tarasoff_2025_Q1},
+    {quarter: '2025-Q2', data: tarasoff_2025_Q2},
+    {quarter: '2025-Q3', data: tarasoff_2025_Q3},
+    {quarter: '2025-Q4', data: tarasoff_2025_Q4},
    ],
 
    welling: [
-    { quarter: '2024-Q2', data: welling_2024_Q2},
-    { quarter: '2024-Q3', data: welling_2024_Q3},
-    { quarter: '2024-Q4', data: welling_2024_Q4},
-    { quarter: '2025-Q1', data: welling_2025_Q1},
-    { quarter: '2025-Q2', data: welling_2025_Q2},
-    { quarter: '2025-Q3', data: welling_2025_Q3},
+    {quarter: '2024-Q2', data: welling_2024_Q2},
+    {quarter: '2024-Q3', data: welling_2024_Q3},
+    {quarter: '2024-Q4', data: welling_2024_Q4},
+    {quarter: '2025-Q1', data: welling_2025_Q1},
+    {quarter: '2025-Q2', data: welling_2025_Q2},
+    {quarter: '2025-Q3', data: welling_2025_Q3},
+    {quarter: '2025-Q4', data: welling_2025_Q4},
    ],
 
    rolfe: [
@@ -1504,12 +1538,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
 
    hong: [
-    { quarter: '2024-Q2', data: hong_2024_Q2},
-    { quarter: '2024-Q3', data: hong_2024_Q3},
-    { quarter: '2024-Q4', data: hong_2024_Q4},
-    { quarter: '2025-Q1', data: hong_2025_Q1},
-    { quarter: '2025-Q2', data: hong_2025_Q2},
-    { quarter: '2025-Q3', data: hong_2025_Q3},
+    {quarter: '2024-Q2', data: hong_2024_Q2},
+    {quarter: '2024-Q3', data: hong_2024_Q3},
+    {quarter: '2024-Q4', data: hong_2024_Q4},
+    {quarter: '2025-Q1', data: hong_2025_Q1},
+    {quarter: '2025-Q2', data: hong_2025_Q2},
+    {quarter: '2025-Q3', data: hong_2025_Q3},
+    {quarter: '2025-Q4', data: hong_2025_Q4},
    ],
 
    bares: [
@@ -1537,15 +1572,17 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: watsa_2025_Q1},
     { quarter: '2025-Q2', data: watsa_2025_Q2},
     { quarter: '2025-Q3', data: watsa_2025_Q3},
+    { quarter: '2025-Q4', data: watsa_2025_Q4},
    ],
 
    sosin: [
 
 
-    { quarter: '2024-Q4', data: sosin_2024_Q4},
-    { quarter: '2025-Q1', data: sosin_2025_Q1},
-    { quarter: '2025-Q2', data: sosin_2025_Q2},
-    { quarter: '2025-Q3', data: sosin_2025_Q3},
+    {quarter: '2024-Q4', data: sosin_2024_Q4},
+    {quarter: '2025-Q1', data: sosin_2025_Q1},
+    {quarter: '2025-Q2', data: sosin_2025_Q2},
+    {quarter: '2025-Q3', data: sosin_2025_Q3},
+    {quarter: '2025-Q4', data: sosin_2025_Q4},
    ],
    meridiancontrarian: [
     { quarter: '2024-Q2', data: meridiancontrarian_2024_Q2},
@@ -1710,6 +1747,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q1', data: klarman_2025_Q1},
     {quarter: '2025-Q2', data: klarman_2025_Q2},
     {quarter: '2025-Q3', data: klarman_2025_Q3},
+    {quarter: '2025-Q4', data: klarman_2025_Q4},
    ],
 
    spier: [
@@ -1723,12 +1761,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    triplefrond: [
-    { quarter: '2024-Q2', data: triplefrond_2024_Q2},
-    { quarter: '2024-Q3', data: triplefrond_2024_Q3},
-    { quarter: '2024-Q4', data: triplefrond_2024_Q4},
-    { quarter: '2025-Q1', data: triplefrond_2025_Q1},
-    { quarter: '2025-Q2', data: triplefrond_2025_Q2},
-    { quarter: '2025-Q3', data: triplefrond_2025_Q3},
+    {quarter: '2024-Q2', data: triplefrond_2024_Q2},
+    {quarter: '2024-Q3', data: triplefrond_2024_Q3},
+    {quarter: '2024-Q4', data: triplefrond_2024_Q4},
+    {quarter: '2025-Q1', data: triplefrond_2025_Q1},
+    {quarter: '2025-Q2', data: triplefrond_2025_Q2},
+    {quarter: '2025-Q3', data: triplefrond_2025_Q3},
+    {quarter: '2025-Q4', data: triplefrond_2025_Q4},
    ],
 
    ubben: [

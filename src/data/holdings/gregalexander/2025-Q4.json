@@ -1,29 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2024-08-14",
-  "period": "2024-08-14",
-  "accession": "0001420506-24-001459",
-  "quarterKey": "2024-Q3",
+  "date": "2025-11-14",
+  "period": "2025-11-14",
+  "accession": "0000919574-25-006771",
+  "quarterKey": "2025-Q4",
   "positions": [
     {
-      "name": "CARVANA CO",
-      "cusip": "146869102",
-      "shares": 6530894,
-      "value": 840656676,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "HILTON GRAND VACATIONS INC",
-      "cusip": "43283X105",
-      "shares": 6446661,
-      "value": 260638504,
+      "name": "GROUP 1 AUTOMOTIVE INC",
+      "cusip": "398905109",
+      "shares": 568424,
+      "value": 248691184,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -34,10 +20,10 @@
       "putCall": null
     },
     {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 686052,
-      "value": 94983899,
+      "name": "EQUITABLE HLDGS INC",
+      "cusip": "29452E101",
+      "shares": 4200000,
+      "value": 213276000,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -48,10 +34,10 @@
       "putCall": null
     },
     {
-      "name": "CARDLYTICS INC",
-      "cusip": "14161W105",
-      "shares": 6464859,
-      "value": 53076492,
+      "name": "LITHIA MTRS INC",
+      "cusip": "536797103",
+      "shares": 400000,
+      "value": 126400000,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -62,10 +48,10 @@
       "putCall": null
     },
     {
-      "name": "WORLD ACCEP CORPORATION",
-      "cusip": "981419104",
-      "shares": 251772,
-      "value": 31113984,
+      "name": "RIMINI STR INC DEL",
+      "cusip": "76674Q107",
+      "shares": 5913199,
+      "value": 27673771,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -73,14 +59,28 @@
         "strategy": "equity"
       },
       "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SMITH DOUGLAS HOMES CORP",
+      "cusip": "83207R107",
+      "shares": 851556,
+      "value": 15038479,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS CL A",
       "putCall": null
     }
   ],
-  "totalValue": 1280469555,
+  "totalValue": 631079434,
   "positionsCount": 5,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 1280469555
+      "STOCK": 631079434
     },
     "percentages": {
       "STOCK": "100.0%"

@@ -1,15 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2024-08-14",
-  "period": "2024-08-14",
-  "accession": "0001420506-24-001459",
-  "quarterKey": "2024-Q3",
+  "date": "2024-02-14",
+  "period": "2024-02-14",
+  "accession": "0001420506-24-000370",
+  "quarterKey": "2024-Q1",
   "positions": [
     {
       "name": "CARVANA CO",
       "cusip": "146869102",
-      "shares": 6530894,
-      "value": 840656676,
+      "shares": 6827803,
+      "value": 361463891,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -22,36 +22,8 @@
     {
       "name": "HILTON GRAND VACATIONS INC",
       "cusip": "43283X105",
-      "shares": 6446661,
-      "value": 260638504,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "CAPITAL ONE FINL CORP",
-      "cusip": "14040H105",
-      "shares": 686052,
-      "value": 94983899,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "CARDLYTICS INC",
-      "cusip": "14161W105",
-      "shares": 6464859,
-      "value": 53076492,
+      "shares": 6768920,
+      "value": 271975206,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -64,8 +36,36 @@
     {
       "name": "WORLD ACCEP CORPORATION",
       "cusip": "981419104",
-      "shares": 251772,
-      "value": 31113984,
+      "shares": 562491,
+      "value": 73421950,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 533460,
+      "value": 69947275,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CARDLYTICS INC",
+      "cusip": "14161W105",
+      "shares": 5416116,
+      "value": 49882428,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -76,11 +76,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 1280469555,
+  "totalValue": 826690750,
   "positionsCount": 5,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 1280469555
+      "STOCK": 826690750
     },
     "percentages": {
       "STOCK": "100.0%"
