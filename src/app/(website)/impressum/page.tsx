@@ -53,8 +53,9 @@ export default function ImpressumPage() {
             <div className="bg-white/5 rounded-2xl p-6">
               <div className="space-y-2 text-gray-300">
                 <p className="font-medium text-white text-lg">Visar Curraj</p>
-                <p>Schützenstrasse 5</p>
-                <p>83943 Bad Aibling</p>
+                <p>c/o Postflex #9551</p>
+                <p>Emsdettener Str. 10</p>
+                <p>48268 Greven</p>
                 <p>Deutschland</p>
               </div>
             </div>

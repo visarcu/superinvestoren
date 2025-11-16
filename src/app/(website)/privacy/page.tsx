@@ -64,8 +64,10 @@ export default function Page() {
             <div className="bg-white/5 rounded-2xl p-6">
               <div className="space-y-2 text-gray-300">
                 <p className="font-medium text-white">Visar Curraj</p>
-                <p>83943 Bad Aibling</p>
-                <p>Schützenstrasse 5</p>
+                <p>c/o Postflex #9551</p>
+                <p>Emsdettener Str. 10</p>
+                <p>48268 Greven</p>
+                <p>Deutschland</p>
                 <p>
                   E-Mail: <a href="mailto:team@finclue.de" className="text-white hover:text-gray-300 transition-colors">
                   team@finclue.de

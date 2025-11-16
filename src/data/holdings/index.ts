@@ -34,6 +34,7 @@ import buffett_2024_Q4 from './buffett/2024-Q4.json'
 import buffett_2025_Q1 from './buffett/2025-Q1.json'
 import buffett_2025_Q2 from './buffett/2025-Q2.json'
 import buffett_2025_Q3 from './buffett/2025-Q3.json'
+import buffett_2025_Q4 from './buffett/2025-Q4.json'
 
 //Bill Ackman
 import ackman_2023_Q1 from './ackman/2023-Q1.json'
@@ -265,6 +266,7 @@ import bloomstran_2024_Q4 from './bloomstran/2024-Q4.json'
 import bloomstran_2025_Q1 from './bloomstran/2025-Q1.json'
 import bloomstran_2025_Q2 from './bloomstran/2025-Q2.json'
 import bloomstran_2025_Q3 from './bloomstran/2025-Q3.json'
+import bloomstran_2025_Q4 from './bloomstran/2025-Q4.json'
 
 //vinall
 import vinall_2024_Q2 from './vinall/2024-Q2.json'
@@ -309,6 +311,7 @@ import mandel_2024_Q4 from './mandel/2024-Q4.json'
 import mandel_2025_Q1 from './mandel/2025-Q1.json'
 import mandel_2025_Q2 from './mandel/2025-Q2.json'
 import mandel_2025_Q3 from './mandel/2025-Q3.json'
+import mandel_2025_Q4 from './mandel/2025-Q4.json'
 
 //ellenbogen
 import ellenbogen_2024_Q2 from './ellenbogen/2024-Q2.json'
@@ -350,6 +353,7 @@ import icahn_2024_Q4 from './icahn/2024-Q4.json'
 import icahn_2025_Q1 from './icahn/2025-Q1.json'
 import icahn_2025_Q2 from './icahn/2025-Q2.json'
 import icahn_2025_Q3 from './icahn/2025-Q3.json'
+import icahn_2025_Q4 from './icahn/2025-Q4.json'
 
 //abrams
 import abrams_2024_Q2 from './abrams/2024-Q2.json'
@@ -424,6 +428,7 @@ import roepers_2024_Q4 from './roepers/2024-Q4.json'
 import roepers_2025_Q1 from './roepers/2025-Q1.json'
 import roepers_2025_Q2 from './roepers/2025-Q2.json'
 import roepers_2025_Q3 from './roepers/2025-Q3.json'
+import roepers_2025_Q4 from './roepers/2025-Q4.json'
 
 //munger
 import munger_2024_Q2 from './munger/2024-Q2.json'
@@ -936,6 +941,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: buffett_2025_Q1},
     { quarter: '2025-Q2', data: buffett_2025_Q2},
     { quarter: '2025-Q3', data: buffett_2025_Q3},
+    { quarter: '2025-Q4', data: buffett_2025_Q4},
 
   ],
   ackman: [
@@ -1270,12 +1276,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    bloomstran: [
-    { quarter: '2024-Q2', data: bloomstran_2024_Q2},
-    { quarter: '2024-Q3', data: bloomstran_2024_Q3},
-    { quarter: '2024-Q4', data: bloomstran_2024_Q4},
-    { quarter: '2025-Q1', data: bloomstran_2025_Q1},
-    { quarter: '2025-Q2', data: bloomstran_2025_Q2},
-    { quarter: '2025-Q3', data: bloomstran_2025_Q3},
+    {quarter: '2024-Q2', data: bloomstran_2024_Q2},
+    {quarter: '2024-Q3', data: bloomstran_2024_Q3},
+    {quarter: '2024-Q4', data: bloomstran_2024_Q4},
+    {quarter: '2025-Q1', data: bloomstran_2025_Q1},
+    {quarter: '2025-Q2', data: bloomstran_2025_Q2},
+    {quarter: '2025-Q3', data: bloomstran_2025_Q3},
+    {quarter: '2025-Q4', data: bloomstran_2025_Q4},
    ],
 
    vinall: [
@@ -1318,12 +1325,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    mandel: [
-    { quarter: '2024-Q2', data: mandel_2024_Q2},
-    { quarter: '2024-Q3', data: mandel_2024_Q3},
-    { quarter: '2024-Q4', data: mandel_2024_Q4},
-    { quarter: '2025-Q1', data: mandel_2025_Q1},
-    { quarter: '2025-Q2', data: mandel_2025_Q2},
-    { quarter: '2025-Q3', data: mandel_2025_Q3},
+    {quarter: '2024-Q2', data: mandel_2024_Q2},
+    {quarter: '2024-Q3', data: mandel_2024_Q3},
+    {quarter: '2024-Q4', data: mandel_2024_Q4},
+    {quarter: '2025-Q1', data: mandel_2025_Q1},
+    {quarter: '2025-Q2', data: mandel_2025_Q2},
+    {quarter: '2025-Q3', data: mandel_2025_Q3},
+    {quarter: '2025-Q4', data: mandel_2025_Q4},
    ],
 
 
@@ -1366,12 +1374,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
 
    icahn: [
-    { quarter: '2024-Q2', data: icahn_2024_Q2},
-    { quarter: '2024-Q3', data: icahn_2024_Q3},
-    { quarter: '2024-Q4', data: icahn_2024_Q4},
-    { quarter: '2025-Q1', data: icahn_2025_Q1},
-    { quarter: '2025-Q2', data: icahn_2025_Q2},
-    { quarter: '2025-Q3', data: icahn_2025_Q3},
+    {quarter: '2024-Q2', data: icahn_2024_Q2},
+    {quarter: '2024-Q3', data: icahn_2024_Q3},
+    {quarter: '2024-Q4', data: icahn_2024_Q4},
+    {quarter: '2025-Q1', data: icahn_2025_Q1},
+    {quarter: '2025-Q2', data: icahn_2025_Q2},
+    {quarter: '2025-Q3', data: icahn_2025_Q3},
+    {quarter: '2025-Q4', data: icahn_2025_Q4},
    ],
 
    abrams: [
@@ -1460,12 +1469,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    roepers: [
-    { quarter: '2024-Q2', data: roepers_2024_Q2},
-    { quarter: '2024-Q3', data: roepers_2024_Q3},
-    { quarter: '2024-Q4', data: roepers_2024_Q4},
-    { quarter: '2025-Q1', data: roepers_2025_Q1},
-    { quarter: '2025-Q2', data: roepers_2025_Q2},
-    { quarter: '2025-Q3', data: roepers_2025_Q3},
+    {quarter: '2024-Q2', data: roepers_2024_Q2},
+    {quarter: '2024-Q3', data: roepers_2024_Q3},
+    {quarter: '2024-Q4', data: roepers_2024_Q4},
+    {quarter: '2025-Q1', data: roepers_2025_Q1},
+    {quarter: '2025-Q2', data: roepers_2025_Q2},
+    {quarter: '2025-Q3', data: roepers_2025_Q3},
+    {quarter: '2025-Q4', data: roepers_2025_Q4},
    ],
 
    munger: [
