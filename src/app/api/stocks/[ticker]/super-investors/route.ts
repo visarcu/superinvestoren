@@ -40,6 +40,17 @@ function formatPercentage(value: number): string {
   return `${value >= 0 ? '+' : ''}${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`
 }
 
+function getPeriodFromDate(dateStr: string): string {
+  const [year, month] = dateStr.split('-').map(Number)
+  const filingQ = Math.ceil(month / 3)
+  let reportQ = filingQ - 1, reportY = year
+  if (reportQ === 0) {
+    reportQ = 4
+    reportY = year - 1
+  }
+  return `Q${reportQ} ${reportY}`
+}
+
 export async function GET(
   req: NextRequest,
   { params }: { params: { ticker: string } }
@@ -79,6 +90,11 @@ export async function GET(
         return acc
       }, { shares: 0, value: 0, cusip: tickerPositions[0].cusip })
 
+      // Skip if position has been completely sold (shares = 0 or value < $100K)
+      if (mergedPosition.shares <= 0 || mergedPosition.value < 100000) {
+        return
+      }
+
       // Calculate percentage of portfolio
       const totalPortfolioValue = latest.positions.reduce((sum: number, p: any) => sum + (p.value || 0), 0)
       const portfolioPercentage = totalPortfolioValue > 0 ? (mergedPosition.value / totalPortfolioValue) * 100 : 0
@@ -101,7 +117,7 @@ export async function GET(
           } else if (prevValue > 0) {
             changeValue = mergedPosition.value - prevValue
             if (changeValue > prevValue * 0.05) trend = 'increasing'
-            else if (changeValue < -prevValue * 0.05) trend = 'decreasing'
+            else if (changeValue < -500000) trend = 'decreasing' // Any reduction > $500K counts as decreasing
           }
         } else if (mergedPosition.value > 5000000) {
           // No previous data available, assume new
@@ -131,7 +147,7 @@ export async function GET(
           changeValue,
           isNewPosition,
           lastUpdated: latest.date,
-          quarter: `Q${Math.ceil(new Date(latest.date).getMonth() / 3)} ${new Date(latest.date).getFullYear()}`,
+          quarter: getPeriodFromDate(latest.date),
         }
       })
     })
@@ -183,7 +199,7 @@ export async function GET(
 
     return NextResponse.json(result, {
       headers: {
-        'Cache-Control': 'public, max-age=3600, stale-while-revalidate=7200', // 1 hour cache
+        'Cache-Control': 'no-cache, no-store, must-revalidate', // Temporarily disable cache for testing
       }
     })
 

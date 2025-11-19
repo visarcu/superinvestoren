@@ -7,6 +7,7 @@ import {
   UsersIcon,
   ChartBarIcon,
   EyeIcon,
+  FireIcon,
 } from '@heroicons/react/24/outline'
 
 interface NavItem {
@@ -34,6 +35,15 @@ const navItems: NavItem[] = [
     href: '/superinvestor/insights',
     label: 'Market Insights',
     icon: ChartBarIcon,
+    badge: {
+      text: 'NEU',
+      type: 'new'
+    }
+  },
+  {
+    href: '/superinvestor/activity',
+    label: 'Aktivität',
+    icon: FireIcon,
     badge: {
       text: 'NEU',
       type: 'new'
