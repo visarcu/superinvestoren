@@ -113,6 +113,11 @@ const investorMetadata: Record<string, {
     subtitle: 'Gates Foundation Trust',
     type: 'investor'
   },
+  thiel: {
+    name: 'Peter Thiel',
+    subtitle: 'Thiel Macro LLC',
+    type: 'investor'
+  },
   polen: {
     name: 'Polen Capital Management',
     subtitle: '',

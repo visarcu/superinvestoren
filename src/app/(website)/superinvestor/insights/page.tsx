@@ -425,6 +425,7 @@ const investorNames: Record<string, string> = {
   buffett: 'Warren Buffett',
   einhorn: 'David Einhorn',
   ackman: 'Bill Ackman',
+  thiel:'Peter Thiel',
   gates: 'Bill & Melinda Gates Foundation Trust',
   torray: 'Torray Investment Partners LLC',
   davis: 'Christoper Davis',

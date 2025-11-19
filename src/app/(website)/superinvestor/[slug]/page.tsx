@@ -175,7 +175,8 @@ buffett: 'Warren Buffett – Berkshire Hathaway',
   lou: 'Norbert Lou - Punch Card Management',
   munger: 'Charlie Munger',
   ark_investment_management: 'Catherine Wood',
-  druckenmiller: 'druckenmiller',
+  druckenmiller: 'Stanley Druckenmiller',
+  thiel: 'Peter Thiel - Thiel Macro LLC',
 
   //mutual funds
   cunniff_sequoia: 'Ruane Cunniff – Sequoia Fund',

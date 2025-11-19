@@ -1,0 +1,61 @@
+{
+  "form": "13F-HR",
+  "date": "2025-02-14",
+  "period": "2025-02-14",
+  "accession": "0001315863-25-000183",
+  "quarterKey": "2025-Q1",
+  "positions": [
+    {
+      "name": "TESLA INC",
+      "cusip": "88160R101",
+      "shares": 105460,
+      "value": 42588966,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 192611,
+      "value": 42256927,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 246893,
+      "value": 33155261,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 118001154,
+  "positionsCount": 3,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 118001154
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

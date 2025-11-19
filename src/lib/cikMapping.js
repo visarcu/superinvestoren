@@ -96,6 +96,7 @@ druckenmiller: '0001536411',
  smith:    '0001569205',
 
 //Datarom
+thiel: '0001562087',
 spier:  '0001953324',
 pabrai:  '0001549575',
  burry:   '0001649339',

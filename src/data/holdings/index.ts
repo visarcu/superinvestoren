@@ -156,6 +156,7 @@ import   druckenmiller_2024_Q4 from './druckenmiller/2024-Q4.json'
 import   druckenmiller_2025_Q1 from './druckenmiller/2025-Q1.json'
 import   druckenmiller_2025_Q2 from './druckenmiller/2025-Q2.json'
 import   druckenmiller_2025_Q3 from './druckenmiller/2025-Q3.json'
+import   druckenmiller_2025_Q4 from './druckenmiller/2025-Q4.json'
 
 //Rochon - Giverny Capital
 import   rochon_2024_Q1 from './rochon/2024-Q1.json'
@@ -771,6 +772,7 @@ import kantesaria_2024_Q4 from './kantesaria/2024-Q4.json'
 import kantesaria_2025_Q1 from './kantesaria/2025-Q1.json'
 import kantesaria_2025_Q2 from './kantesaria/2025-Q2.json'
 import kantesaria_2025_Q3 from './kantesaria/2025-Q3.json'
+import kantesaria_2025_Q4 from './kantesaria/2025-Q4.json'
 
 //meridiancontrarian
 import meridiancontrarian_2024_Q2 from './meridiancontrarian/2024-Q2.json'
@@ -818,6 +820,8 @@ import soros_2024_Q3 from './soros/2024-Q3.json'
 import soros_2024_Q4 from './soros/2024-Q4.json'
 import soros_2025_Q1 from './soros/2025-Q1.json'
 import soros_2025_Q2 from './soros/2025-Q2.json'
+import soros_2025_Q3 from './soros/2025-Q3.json'
+import soros_2025_Q4 from './soros/2025-Q4.json'
 
 //vandenberg
 import vandenberg_2024_Q1 from './vandenberg/2024-Q1.json'
@@ -865,6 +869,13 @@ import loeb_2025_Q1 from './loeb/2025-Q1.json'
 import loeb_2025_Q2 from './loeb/2025-Q2.json'
 import loeb_2025_Q3 from './loeb/2025-Q3.json'
 import loeb_2025_Q4 from './loeb/2025-Q4.json'
+
+//thiel
+
+import thiel_2025_Q1 from './thiel/2025-Q1.json'
+import thiel_2025_Q2 from './thiel/2025-Q2.json'
+import thiel_2025_Q3 from './thiel/2025-Q3.json'
+import thiel_2025_Q4 from './thiel/2025-Q4.json'
 
 //funds
 //bob
@@ -1270,6 +1281,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: druckenmiller_2025_Q1},
     { quarter: '2025-Q2', data: druckenmiller_2025_Q2},
     { quarter: '2025-Q3', data: druckenmiller_2025_Q3},
+    { quarter: '2025-Q4', data: druckenmiller_2025_Q4},
    ],
 
    patientcapital: [
@@ -1707,12 +1719,14 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    soros: [
-    { quarter: '2024-Q1', data: soros_2024_Q1},
-    { quarter: '2024-Q2', data: soros_2024_Q2},
-    { quarter: '2024-Q3', data: soros_2024_Q3},
-    { quarter: '2024-Q4', data: soros_2024_Q4},
-    { quarter: '2025-Q1', data: soros_2025_Q1},
-    { quarter: '2025-Q2', data: soros_2025_Q2},
+    {quarter: '2024-Q1', data: soros_2024_Q1},
+    {quarter: '2024-Q2', data: soros_2024_Q2},
+    {quarter: '2024-Q3', data: soros_2024_Q3},
+    {quarter: '2024-Q4', data: soros_2024_Q4},
+    {quarter: '2025-Q1', data: soros_2025_Q1},
+    {quarter: '2025-Q2', data: soros_2025_Q2},
+    {quarter: '2025-Q3', data: soros_2025_Q3},
+    {quarter: '2025-Q4', data: soros_2025_Q4},
    ],
 
    torray: [
@@ -1854,12 +1868,13 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    kantesaria: [
-    { quarter: '2024-Q2', data: kantesaria_2024_Q2},
-    { quarter: '2024-Q3', data: kantesaria_2024_Q3},
-    { quarter: '2024-Q4', data: kantesaria_2024_Q4},
-    { quarter: '2025-Q1', data: kantesaria_2025_Q1},
-    { quarter: '2025-Q2', data: kantesaria_2025_Q2},
-    { quarter: '2025-Q3', data: kantesaria_2025_Q3},
+    {quarter: '2024-Q2', data: kantesaria_2024_Q2},
+    {quarter: '2024-Q3', data: kantesaria_2024_Q3},
+    {quarter: '2024-Q4', data: kantesaria_2024_Q4},
+    {quarter: '2025-Q1', data: kantesaria_2025_Q1},
+    {quarter: '2025-Q2', data: kantesaria_2025_Q2},
+    {quarter: '2025-Q3', data: kantesaria_2025_Q3},
+    {quarter: '2025-Q4', data: kantesaria_2025_Q4},
    ],
 
    tangen: [
@@ -1888,6 +1903,14 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: loeb_2025_Q2},
     {quarter: '2025-Q3', data: loeb_2025_Q3},
     {quarter: '2025-Q4', data: loeb_2025_Q4},
+   ],
+
+   thiel: [
+
+    {quarter: '2025-Q1', data: thiel_2025_Q1},
+    {quarter: '2025-Q2', data: thiel_2025_Q2},
+    {quarter: '2025-Q3', data: thiel_2025_Q3},
+    {quarter: '2025-Q4', data: thiel_2025_Q4},
    ],
 
 

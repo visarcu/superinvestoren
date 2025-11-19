@@ -465,6 +465,7 @@ const investorNames: Record<string, string> = {
   cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
   spier: 'Guy Spier',
   druckenmiller: 'druckenmiller',
+  thiel: 'Peter Thiel'
 }
 
 // Hook für Intersection Observer (nur für Hero)

@@ -787,6 +787,14 @@ export const investors: Investor[] = [
     updatedAt: '31.12.2024',    
     holdings: [],
   }, 
+
+  {
+    name: 'Peter Thiel - Thiel Marco LLC',
+    slug: 'thiel',
+    imageUrl: '/images/neuer-investor.png',
+    updatedAt: '31.12.2024',    
+    holdings: [],
+  }, 
  
 
   

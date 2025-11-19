@@ -119,6 +119,11 @@ const investorMetadata: Record<string, {
     subtitle: '',
     type: 'investor'
   },
+  thiel: {
+    name: 'Peter Thiel',
+    subtitle: 'Thiel Macro LLC',
+    type: 'investor'
+  },
   kantesaria: {
     name: 'Dev Kantesaria',
     subtitle: 'Valley Forge Capital Management',
