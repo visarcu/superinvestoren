@@ -389,7 +389,6 @@ function ModernGuestActions() {
 
 // Navigation Links
 const navLinks = [
-  { href: '/news', label: 'Blog' },
   { href: '/lexikon', label: 'Lexikon' }, 
 ]
 
@@ -432,12 +431,6 @@ const superinvestorLinks = [
     href: '/superinvestor/insights', 
     label: 'Market Insights',
     description: 'Analysen & Markt-Trends'
-  },
-  { 
-    href: '/superinvestor/news', 
-    label: 'Superinvestor News',
-    description: 'Portfolio-Moves & 13F Updates',
-    badge: 'New'
   },
   { 
     href: '/superinvestor/fear-greed-index', 
@@ -694,12 +687,6 @@ export default function ModernNavbar() {
             </div>
   
             {/* Regular Nav Links */}
-            <Link
-              href="/news"
-              className="px-4 py-2.5 text-sm font-semibold text-gray-400 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300"
-            >
-              Blog
-            </Link>
             
             <Link
               href="/lexikon"
