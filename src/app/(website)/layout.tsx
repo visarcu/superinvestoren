@@ -10,6 +10,7 @@ import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { useTheme } from '@/lib/useTheme'
 import { useEffect, useState } from 'react'
 import PageTransitionLoader from '@/components/PageTransitionLoader'
+import SuperinvestorSecondaryNav from '@/components/SuperinvestorSecondaryNav'
 import { usePathname } from 'next/navigation'
 
 export default function OptimizedWebsiteLayout({ children }: { children: ReactNode }) {
@@ -49,6 +50,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
         <PageTransitionLoader />
         
         <Navbar />
+        <SuperinvestorSecondaryNav />
  
         <main className="flex-grow pt-40">
           {children}

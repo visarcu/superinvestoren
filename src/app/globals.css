@@ -2,6 +2,15 @@
    SUPERINVESTOR DESIGN SYSTEM - OPTIMIZED & CLEAN VERSION
    ===================================================================== */
 
+   /* Custom scrollbar utilities */
+   .scrollbar-none {
+     scrollbar-width: none;
+     -ms-overflow-style: none;
+   }
+   .scrollbar-none::-webkit-scrollbar {
+     display: none;
+   }
+
    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
    /* ===== CSS VARIABLES ===== */
