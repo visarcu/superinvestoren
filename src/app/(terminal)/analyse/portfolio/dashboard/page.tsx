@@ -14,6 +14,8 @@ import PortfolioHistory from '@/components/PortfolioHistory'
 import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
 import PortfolioAllocationChart from '@/components/PortfolioAllocationChart'
 import PortfolioSwitcher from '@/components/PortfolioSwitcher'
+import SearchTickerInput from '@/components/SearchTickerInput'
+import { stocks } from '@/data/stocks'
 import { 
   BriefcaseIcon, 
   ArrowLeftIcon,
@@ -85,12 +87,6 @@ interface NewsArticle {
   symbol: string
 }
 
-interface SearchResult {
-  symbol: string
-  name: string
-  stockExchange: string
-  exchangeShortName: string
-}
 
 export default function PortfolioDashboard() {
   const router = useRouter()
@@ -107,6 +103,7 @@ export default function PortfolioDashboard() {
   const [showAddPosition, setShowAddPosition] = useState(false)
   const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'dividends' | 'insights' | 'history'>('overview')
   const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
+  const [showSuperinvestorsModal, setShowSuperinvestorsModal] = useState<Holding | null>(null)
   
   // News State
   const [portfolioNews, setPortfolioNews] = useState<NewsArticle[]>([])
@@ -120,28 +117,22 @@ export default function PortfolioDashboard() {
   const [newSymbol, setNewSymbol] = useState('')
   const [newQuantity, setNewQuantity] = useState('')
 
-  // Set EUR as default currency for portfolio (German users)
+  // Force EUR for German portfolio app
   useEffect(() => {
-    if (currency !== 'EUR') {
-      setCurrency('EUR')
-    }
-  }, [currency, setCurrency])
+    setCurrency('EUR')
+  }, [])
   const [newPurchasePrice, setNewPurchasePrice] = useState('')
   const [newPurchaseDate, setNewPurchaseDate] = useState(new Date().toISOString().split('T')[0])
   const [addingPosition, setAddingPosition] = useState(false)
   const [positionType, setPositionType] = useState<'stock' | 'cash'>('stock')
   const [cashAmount, setCashAmount] = useState('')
   
-  // Neue Form-States für Währung und Gebühren
-  const [purchaseCurrency, setPurchaseCurrency] = useState<'EUR' | 'USD'>('EUR') // EUR als Standard
+  // Fixed to EUR for German users
+  const purchaseCurrency = 'EUR'
   const [transactionFees, setTransactionFees] = useState('')
   
-  // Autocomplete State
-  const [searchQuery, setSearchQuery] = useState('')
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([])
-  const [showSearchResults, setShowSearchResults] = useState(false)
+  // Stock Selection State
   const [selectedStock, setSelectedStock] = useState<{symbol: string, name: string} | null>(null)
-  const [searchLoading, setSearchLoading] = useState(false)
   
   // Portfolio Metrics - In Anzeige-Währung
   const [totalValue, setTotalValue] = useState(0)
@@ -154,39 +145,19 @@ export default function PortfolioDashboard() {
   // Effects
   useEffect(() => {
     loadPortfolio()
-  }, [currency]) // Reload wenn Währung wechselt
+  }, []) // Initial load only
+
+  useEffect(() => {
+    // When currency changes, reload current portfolio data without switching portfolios
+    if (portfolio?.id) {
+      loadPortfolio(portfolio.id)
+    }
+  }, [currency]) // Reload when currency changes
 
   useEffect(() => {
     loadExchangeRate()
   }, [])
 
-  useEffect(() => {
-    const searchStocks = async () => {
-      if (searchQuery.length < 2) {
-        setSearchResults([])
-        setShowSearchResults(false)
-        return
-      }
-
-      setSearchLoading(true)
-      try {
-        const response = await fetch(`/api/search?query=${encodeURIComponent(searchQuery)}`)
-        if (response.ok) {
-          const data = await response.json()
-          setSearchResults(data || [])
-          setShowSearchResults(data.length > 0)
-        }
-      } catch (error) {
-        console.error('Error searching stocks:', error)
-        setSearchResults([])
-      } finally {
-        setSearchLoading(false)
-      }
-    }
-
-    const timer = setTimeout(searchStocks, 300)
-    return () => clearTimeout(timer)
-  }, [searchQuery])
 
   useEffect(() => {
     if (activeTab === 'news' && holdings.length > 0 && portfolioNews.length === 0) {
@@ -220,20 +191,35 @@ export default function PortfolioDashboard() {
       }
 
       // Portfolio laden - entweder spezifisches oder Standard-Portfolio
-      let portfolioQuery = supabase
-        .from('portfolios')
-        .select('*')
-        .eq('user_id', user.id)
+      let portfolioData: any
       
       if (specificPortfolioId) {
-        portfolioQuery = portfolioQuery.eq('id', specificPortfolioId)
+        const { data, error } = await supabase
+          .from('portfolios')
+          .select('*')
+          .eq('user_id', user.id)
+          .eq('id', specificPortfolioId)
+          .single()
+        
+        if (error) throw error
+        portfolioData = data
       } else {
-        portfolioQuery = portfolioQuery.order('is_default', { ascending: false }).order('created_at', { ascending: true })
+        // Load all portfolios and pick the first one (either default or latest)
+        const { data: portfoliosData, error } = await supabase
+          .from('portfolios')
+          .select('*')
+          .eq('user_id', user.id)
+          .order('is_default', { ascending: false })
+          .order('created_at', { ascending: true })
+        
+        if (error) throw error
+        if (!portfoliosData || portfoliosData.length === 0) {
+          throw new Error('Kein Portfolio gefunden. Bitte erstellen Sie zunächst ein Portfolio.')
+        }
+        
+        portfolioData = portfoliosData[0] // Take the first (default or latest)
       }
       
-      const { data: portfolioData, error: portfolioError } = await portfolioQuery.single()
-
-      if (portfolioError) throw portfolioError
       setPortfolio(portfolioData)
 
       // Holdings laden
@@ -334,20 +320,12 @@ export default function PortfolioDashboard() {
 
       setHoldings(enrichedHoldings)
       
-      // Cash Position konvertieren
-      const cashDisplay = await currencyManager.convertCashPosition(
-        portfolioData.cash_position,
-        currency as 'USD' | 'EUR' // Cast für currencyManager Kompatibilität
-      )
-      setCashPositionDisplay(cashDisplay.amount)
-      
-      // Show warning if exchange rate unavailable
-      if (cashDisplay.unavailable) {
-        console.warn('⚠️ Exchange rate unavailable - displaying cash in USD')
-      }
+      // Cash Position - stored directly in EUR, no conversion needed
+      const cashAmount = portfolioData.cash_position || 0
+      setCashPositionDisplay(cashAmount)
       
       // Metriken berechnen
-      calculateMetrics(enrichedHoldings, cashDisplay.amount)
+      calculateMetrics(enrichedHoldings, cashAmount)
       
     } catch (error: any) {
       console.error('Error loading portfolio:', error)
@@ -418,7 +396,8 @@ export default function PortfolioDashboard() {
 
   const refreshPrices = async () => {
     setRefreshing(true)
-    await loadPortfolio()
+    // Reload current portfolio, not the default one
+    await loadPortfolio(portfolio?.id)
     await loadExchangeRate()
     setRefreshing(false)
   }
@@ -476,14 +455,11 @@ export default function PortfolioDashboard() {
 
         if (error) throw error
       } else {
-        // Cash Position - update portfolio cash_position__
-        const conversionResult = await currencyManager.convertNewPositionToUSD(
-          parseFloat(cashAmount),
-          purchaseCurrency
-        )
-
-        // Add to existing cash position
-        const newCashPosition = (portfolio?.cash_position || 0) + conversionResult.priceUSD
+        // Cash Position - store directly in EUR
+        const cashAmountEUR = parseFloat(cashAmount)
+        
+        // Add to existing cash position (stored in EUR)
+        const newCashPosition = (portfolio?.cash_position || 0) + cashAmountEUR
 
         const { error } = await supabase
           .from('portfolios')
@@ -497,7 +473,8 @@ export default function PortfolioDashboard() {
 
       // Form reset
       resetAddPositionForm()
-      await loadPortfolio()
+      // Reload current portfolio, not the default one
+      await loadPortfolio(portfolio?.id)
       
     } catch (error: any) {
       console.error('Error adding position:', error)
@@ -509,22 +486,13 @@ export default function PortfolioDashboard() {
 
   const resetAddPositionForm = () => {
     setSelectedStock(null)
-    setSearchQuery('')
     setNewQuantity('')
     setNewPurchasePrice('')
     setNewPurchaseDate(new Date().toISOString().split('T')[0])
     setCashAmount('')
     setPositionType('stock')
-    setPurchaseCurrency('EUR') // Reset zu EUR Standard
     setTransactionFees('') // Reset Gebühren
     setShowAddPosition(false)
-    setShowSearchResults(false)
-  }
-
-  const handleStockSelect = (stock: SearchResult) => {
-    setSelectedStock({ symbol: stock.symbol, name: stock.name })
-    setSearchQuery(`${stock.symbol} - ${stock.name}`)
-    setShowSearchResults(false)
   }
 
   const handleViewStock = (symbol: string) => {
@@ -701,34 +669,6 @@ export default function PortfolioDashboard() {
             </div>
 
             <div className="flex items-center gap-3">
-              {/* Currency Toggle */}
-              <div className="flex gap-1 p-1 bg-theme-card rounded-lg border border-theme/10">
-                <button
-                  onClick={() => setCurrency('EUR')}
-                  disabled={currencyLoading}
-                  className={`px-3 py-1.5 rounded transition-colors flex items-center gap-1 disabled:opacity-50 ${
-                    currency === 'EUR'
-                      ? 'bg-green-500 text-white'
-                      : 'text-theme-secondary hover:text-theme-primary'
-                  }`}
-                >
-                  <CurrencyEuroIcon className="w-4 h-4" />
-                  EUR
-                </button>
-                <button
-                  onClick={() => setCurrency('USD')}
-                  disabled={currencyLoading}
-                  className={`px-3 py-1.5 rounded transition-colors flex items-center gap-1 disabled:opacity-50 ${
-                    currency === 'USD'
-                      ? 'bg-green-500 text-white'
-                      : 'text-theme-secondary hover:text-theme-primary'
-                  }`}
-                >
-                  <CurrencyDollarIcon className="w-4 h-4" />
-                  USD
-                </button>
-              </div>
-
               <button
                 onClick={refreshPrices}
                 disabled={refreshing}
@@ -801,19 +741,6 @@ export default function PortfolioDashboard() {
           </div>
         </div>
 
-        {/* Currency Info */}
-        {currency === 'EUR' && (
-          <div className="mb-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-            <div className="flex items-start gap-2">
-              <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-              <div className="text-sm text-theme-secondary">
-                <span className="font-medium text-theme-primary">Währungshinweis:</span> Alle Werte werden mit historischen und aktuellen Wechselkursen 
-                umgerechnet {exchangeRate ? `(aktuell: 1 USD = ${exchangeRate.toFixed(4)} EUR)` : '(Wechselkurs derzeit nicht verfügbar - Werte in USD)'}.
-                Performance-Berechnungen berücksichtigen Währungseffekte korrekt.
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Tab Navigation */}
         <div className="flex gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
@@ -991,7 +918,7 @@ export default function PortfolioDashboard() {
                     {positionType === 'cash' && (
                       <div>
                         <label className="block text-sm font-medium text-theme-secondary mb-2">
-                          Cash-Betrag ({currency})
+                          Cash-Betrag (EUR)
                         </label>
                         <input
                           type="number"
@@ -999,7 +926,7 @@ export default function PortfolioDashboard() {
                           step="0.01"
                           value={cashAmount}
                           onChange={(e) => setCashAmount(e.target.value)}
-                          placeholder={currency === 'EUR' ? "1.000,00" : "1000.00"}
+                          placeholder="1.000,00"
                           className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                         />
                         <p className="text-xs text-theme-muted mt-1">
@@ -1011,57 +938,25 @@ export default function PortfolioDashboard() {
                     {/* Stock Fields */}
                     {positionType === 'stock' && (
                       <>
-                        {/* Stock Search */}
-                    <div className="relative">
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Aktie suchen
-                      </label>
-                      <input
-                        type="text"
-                        value={searchQuery}
-                        onChange={(e) => {
-                          setSearchQuery(e.target.value)
-                          setSelectedStock(null)
-                        }}
-                        placeholder="Symbol oder Name eingeben (z.B. MSFT oder Microsoft)"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
-                      />
-                      
-                      {/* Loading Indicator */}
-                      {searchLoading && (
-                        <div className="absolute right-3 top-[38px] transform -translate-y-1/2">
-                          <ArrowPathIcon className="w-4 h-4 text-theme-secondary animate-spin" />
+                        {/* Stock Search - Using existing SearchTickerInput */}
+                        <div>
+                          <label className="block text-sm font-medium text-theme-secondary mb-2">
+                            Aktie suchen
+                          </label>
+                          <SearchTickerInput
+                            onSelect={(ticker) => {
+                              const stock = stocks.find(s => s.ticker === ticker)
+                              if (stock) {
+                                setSelectedStock({ symbol: stock.ticker, name: stock.name })
+                              }
+                            }}
+                            placeholder="z.B. AAPL oder Apple"
+                            className="w-full"
+                            inputClassName="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent placeholder-theme-muted"
+                            dropdownClassName="absolute z-10 w-full mt-1 bg-theme-card border border-theme/20 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                            itemClassName="px-4 py-3 hover:bg-theme-secondary/50 transition-colors border-b border-theme/10 last:border-0 text-theme-primary cursor-pointer"
+                          />
                         </div>
-                      )}
-                      
-                      {/* Autocomplete Dropdown */}
-                      {showSearchResults && searchResults.length > 0 && (
-                        <div className="absolute z-10 w-full mt-1 bg-theme-card border border-theme/20 rounded-lg shadow-lg max-h-60 overflow-y-auto">
-                          {searchResults.map((stock) => (
-                            <button
-                              key={stock.symbol}
-                              onClick={() => handleStockSelect(stock)}
-                              className="w-full px-4 py-3 text-left hover:bg-theme-secondary/50 transition-colors border-b border-theme/10 last:border-0"
-                            >
-                              <div className="flex justify-between items-center">
-                                <div>
-                                  <span className="font-bold text-theme-primary text-sm">{stock.symbol}</span>
-                                  <p className="text-xs text-theme-secondary mt-0.5 truncate">{stock.name}</p>
-                                </div>
-                                <div className="text-right">
-                                  <span className="text-xs text-theme-muted">{stock.stockExchange}</span>
-                                  {stock.exchangeShortName && (
-                                    <span className="ml-2 text-xs px-2 py-0.5 bg-theme-secondary rounded">
-                                      {stock.exchangeShortName}
-                                    </span>
-                                  )}
-                                </div>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
 
                     {/* Selected Stock Display */}
                     {selectedStock && (
@@ -1094,39 +989,12 @@ export default function PortfolioDashboard() {
                       />
                     </div>
 
-                    {/* Currency Selection */}
-                    <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-2">
-                        Kaufpreis-Währung
-                      </label>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => setPurchaseCurrency('EUR')}
-                          className={`flex-1 py-2 px-3 rounded-lg border transition-colors ${
-                            purchaseCurrency === 'EUR'
-                              ? 'border-green-400 bg-green-400/10 text-green-400'
-                              : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
-                          }`}
-                        >
-                          EUR €
-                        </button>
-                        <button
-                          onClick={() => setPurchaseCurrency('USD')}
-                          className={`flex-1 py-2 px-3 rounded-lg border transition-colors ${
-                            purchaseCurrency === 'USD'
-                              ? 'border-green-400 bg-green-400/10 text-green-400'
-                              : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
-                          }`}
-                        >
-                          USD $
-                        </button>
-                      </div>
-                    </div>
+                    {/* Fixed to EUR for German users - no currency selection needed */}
 
                     {/* Purchase Price Input */}
                     <div>
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Kaufpreis pro Aktie
+                        Kaufpreis pro Aktie (EUR)
                       </label>
                       <div className="relative">
                         <input
@@ -1135,11 +1003,11 @@ export default function PortfolioDashboard() {
                           step="0.01"
                           value={newPurchasePrice}
                           onChange={(e) => setNewPurchasePrice(e.target.value)}
-                          placeholder={purchaseCurrency === 'EUR' ? "150,00" : "150.00"}
+                          placeholder="150,00"
                           className="w-full px-3 py-2 pr-12 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                         />
                         <span className="absolute right-3 top-2 text-theme-muted text-sm">
-                          {purchaseCurrency === 'EUR' ? '€' : '$'}
+                          €
                         </span>
                       </div>
                     </div>
@@ -1147,7 +1015,7 @@ export default function PortfolioDashboard() {
                     {/* Transaction Fees */}
                     <div>
                       <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Gebühren (optional)
+                        Gebühren (optional, EUR)
                       </label>
                       <div className="relative">
                         <input
@@ -1160,7 +1028,7 @@ export default function PortfolioDashboard() {
                           className="w-full px-3 py-2 pr-12 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
                         />
                         <span className="absolute right-3 top-2 text-theme-muted text-sm">
-                          {purchaseCurrency === 'EUR' ? '€' : '$'}
+                          €
                         </span>
                       </div>
                       <p className="text-xs text-theme-muted mt-1">
@@ -1175,21 +1043,21 @@ export default function PortfolioDashboard() {
                           <div className="flex justify-between text-sm">
                             <span className="text-theme-secondary">Aktien ({newQuantity}×)</span>
                             <span className="text-theme-primary">
-                              {(parseFloat(newQuantity) * parseFloat(newPurchasePrice)).toFixed(2)} {purchaseCurrency}
+                              {(parseFloat(newQuantity) * parseFloat(newPurchasePrice)).toFixed(2)} €
                             </span>
                           </div>
                           {transactionFees && parseFloat(transactionFees) > 0 && (
                             <div className="flex justify-between text-sm">
                               <span className="text-theme-secondary">Gebühren</span>
                               <span className="text-theme-primary">
-                                {parseFloat(transactionFees).toFixed(2)} {purchaseCurrency}
+                                {parseFloat(transactionFees).toFixed(2)} €
                               </span>
                             </div>
                           )}
                           <div className="flex justify-between font-semibold border-t border-white/10 pt-2">
                             <span className="text-white">Gesamtkosten</span>
                             <span className="text-white">
-                              {((parseFloat(newQuantity) * parseFloat(newPurchasePrice)) + (parseFloat(transactionFees) || 0)).toFixed(2)} {purchaseCurrency}
+                              {((parseFloat(newQuantity) * parseFloat(newPurchasePrice)) + (parseFloat(transactionFees) || 0)).toFixed(2)} €
                             </span>
                           </div>
                         </div>
@@ -1349,49 +1217,19 @@ export default function PortfolioDashboard() {
                             </td>
                             <td className="text-center px-4 py-4">
                               {holding.superinvestors && holding.superinvestors.count > 0 ? (
-                                <div className="group relative">
-                                  {/* Main count badge */}
-                                  <div className="flex items-center justify-center">
-                                    <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg hover:bg-green-500/20 transition-all cursor-pointer">
-                                      <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
-                                        <span className="text-xs font-bold text-white">
-                                          {holding.superinvestors.count}
-                                        </span>
-                                      </div>
-                                      <span className="text-sm font-medium text-green-600">
-                                        Investoren
-                                      </span>
-                                    </div>
+                                <button
+                                  onClick={() => setShowSuperinvestorsModal(holding)}
+                                  className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg hover:bg-green-500/20 transition-all cursor-pointer"
+                                >
+                                  <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                                    <span className="text-xs font-bold text-white">
+                                      {holding.superinvestors.count}
+                                    </span>
                                   </div>
-                                  
-                                  {/* Tooltip on hover */}
-                                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none z-50">
-                                    <div className="bg-theme-card border border-theme/20 rounded-lg shadow-xl p-3 min-w-[220px]">
-                                      {/* Arrow pointing up */}
-                                      <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-theme-card border-l border-t border-theme/20 rotate-45"></div>
-                                      <div className="text-xs font-medium text-theme-secondary mb-2">
-                                        Top Superinvestoren:
-                                      </div>
-                                      <div className="space-y-1">
-                                        {holding.superinvestors.investors.slice(0, 3).map((investor, idx) => (
-                                          <div key={idx} className="flex justify-between items-center text-xs">
-                                            <span className="text-theme-primary font-medium truncate mr-2">
-                                              {investor.investorName.split(' - ')[0]}
-                                            </span>
-                                            <span className="text-green-500 font-bold">
-                                              {investor.portfolioPercentage.toFixed(1)}%
-                                            </span>
-                                          </div>
-                                        ))}
-                                        {holding.superinvestors.count > 3 && (
-                                          <div className="text-xs text-theme-muted pt-1 border-t border-theme/10">
-                                            +{holding.superinvestors.count - 3} weitere Investoren
-                                          </div>
-                                        )}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
+                                  <span className="text-sm font-medium text-green-600">
+                                    Investoren
+                                  </span>
+                                </button>
                               ) : (
                                 <div className="inline-flex items-center px-3 py-1.5 bg-theme-secondary/30 rounded-lg">
                                   <span className="text-xs text-theme-muted">
@@ -1598,6 +1436,64 @@ export default function PortfolioDashboard() {
               purchase_date: h.purchase_date
             }))}
           />
+        )}
+
+        {/* Superinvestors Modal */}
+        {showSuperinvestorsModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-theme-card rounded-xl p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto">
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <h2 className="text-xl font-bold text-theme-primary">Super-Investoren</h2>
+                  <p className="text-sm text-theme-secondary">
+                    {showSuperinvestorsModal.symbol} • {showSuperinvestorsModal.superinvestors?.count} Investoren
+                  </p>
+                </div>
+                <button
+                  onClick={() => setShowSuperinvestorsModal(null)}
+                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                >
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                </button>
+              </div>
+              
+              <div className="space-y-3">
+                {showSuperinvestorsModal.superinvestors?.investors.map((investor, idx) => (
+                  <div key={idx} className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded-lg hover:bg-theme-secondary/30 transition-colors">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                        <span className="text-xs font-bold text-white">#{idx + 1}</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-theme-primary">
+                          {investor.investorName.split(' - ')[0]}
+                        </p>
+                        <p className="text-xs text-theme-muted">
+                          {investor.portfolioPercentage.toFixed(1)}% des Portfolios
+                        </p>
+                      </div>
+                    </div>
+                    <Link
+                      href={`/superinvestor/${investor.investor}`}
+                      className="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 rounded-lg transition-colors text-green-400 text-sm font-medium"
+                    >
+                      Details →
+                    </Link>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-theme/10">
+                <Link
+                  href={`/analyse/stocks/${showSuperinvestorsModal.symbol.toLowerCase()}/super-investors`}
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                >
+                  <span>Alle Investoren anzeigen</span>
+                  <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                </Link>
+              </div>
+            </div>
+          </div>
         )}
 
         {/* Edit Position Modal */}

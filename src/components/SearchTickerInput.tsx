@@ -9,6 +9,8 @@ interface Props
   onSelect: (ticker: string) => void
   inputClassName?: string
   buttonClassName?: string
+  dropdownClassName?: string
+  itemClassName?: string
 }
 
 export default function SearchTickerInput({
@@ -17,6 +19,8 @@ export default function SearchTickerInput({
   className = '',
   inputClassName = '',
   buttonClassName = '',
+  dropdownClassName = '',
+  itemClassName = '',
   ...inputProps
 }: Props) {
   const [query, setQuery] = useState('')
@@ -45,11 +49,11 @@ export default function SearchTickerInput({
         value={query}
         onChange={(e) => setQuery(e.target.value)}
         placeholder={placeholder}
-        className={`w-full px-4 py-2 rounded bg-gray-800 text-gray-100 focus:outline-none ${inputClassName}`}
+        className={inputClassName || `w-full px-4 py-2 rounded bg-gray-800 text-gray-100 focus:outline-none`}
         {...inputProps}
       />
       {suggestions.length > 0 && (
-        <ul className="absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-gray-900 rounded shadow-lg">
+        <ul className={dropdownClassName || "absolute z-10 w-full mt-1 max-h-60 overflow-auto bg-gray-900 rounded shadow-lg"}>
           {suggestions.map((s) => (
             <li
               key={s.ticker}
@@ -58,9 +62,14 @@ export default function SearchTickerInput({
                 setQuery('')
                 setSuggestions([])
               }}
-              className="px-4 py-2 hover:bg-gray-700 cursor-pointer text-gray-100"
+              className={itemClassName || "px-4 py-2 hover:bg-gray-700 cursor-pointer text-gray-100"}
             >
-              <strong>{s.ticker}</strong> – {s.name}
+              <div className="flex justify-between items-center">
+                <div>
+                  <span className="font-bold text-sm">{s.ticker}</span>
+                  <p className="text-xs opacity-70 truncate">{s.name}</p>
+                </div>
+              </div>
             </li>
           ))}
         </ul>
