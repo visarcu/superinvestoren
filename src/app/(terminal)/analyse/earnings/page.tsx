@@ -201,11 +201,25 @@ export default function EarningsCalendarPage() {
     })
   }, [earningsEvents, watchlistTickerSet, marketCapThreshold, timeFilter, searchTerm])
 
+  const today = new Date()
+  const minMonth = new Date(today.getFullYear(), today.getMonth() - 3, 1)
+  const maxMonth = new Date(today.getFullYear(), today.getMonth() + 6, 1)
+  const canGoPrevious = selectedMonth > minMonth
+  const canGoNext = selectedMonth < maxMonth
+
   const watchlistEvents = filteredEvents.filter(event => watchlistTickerSet.has(event.ticker.toUpperCase()))
   const marketLeaderEvents = filteredEvents.filter(event => !watchlistTickerSet.has(event.ticker.toUpperCase()))
   const additionalMarketLeaders = showMyStocksOnly ? [] : marketLeaderEvents.slice(0, Math.max(displayCount - watchlistEvents.length, 0))
   const remainingMarketLeaders = Math.max(marketLeaderEvents.length - additionalMarketLeaders.length, 0)
   const displayedEvents = showMyStocksOnly ? watchlistEvents : [...watchlistEvents, ...additionalMarketLeaders]
+  const nextWatchlistEvent = watchlistEvents.find(event => new Date(event.date) >= today)
+  const nextMarketEvent = marketLeaderEvents.find(event => new Date(event.date) >= today)
+  const nextSevenDays = new Date(today)
+  nextSevenDays.setDate(today.getDate() + 7)
+  const thisWeekEvents = filteredEvents.filter(event => {
+    const eventDate = new Date(event.date)
+    return eventDate >= today && eventDate <= nextSevenDays
+  })
   
   // Group earnings by date
   const groupedEarnings = displayedEvents.reduce((groups, event) => {
@@ -221,6 +235,7 @@ export default function EarningsCalendarPage() {
   const sortedDates = Object.keys(groupedEarnings).sort((a, b) => 
     new Date(a).getTime() - new Date(b).getTime()
   )
+  const timelineDates = sortedDates.slice(0, Math.min(8, sortedDates.length))
 
   // Generate single calendar month
   const generateCalendarMonth = (date: Date) => {
@@ -274,13 +289,6 @@ export default function EarningsCalendarPage() {
   const goToCurrentMonth = () => {
     setSelectedMonth(new Date())
   }
-
-  // Get month navigation boundaries (3 months forward and backward)
-  const today = new Date()
-  const minMonth = new Date(today.getFullYear(), today.getMonth() - 3, 1)
-  const maxMonth = new Date(today.getFullYear(), today.getMonth() + 6, 1)
-  const canGoPrevious = selectedMonth > minMonth
-  const canGoNext = selectedMonth < maxMonth
 
   // Format functions
   const formatDate = (dateString: string) => {
@@ -451,6 +459,32 @@ export default function EarningsCalendarPage() {
               </span>
             </div>
           </div>
+
+          {/* KPI grid */}
+          <div className="mt-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-4">
+              <p className="text-theme-muted text-xs uppercase tracking-wide mb-1">Anstehende Termine</p>
+              <div className="text-2xl font-bold text-theme-primary">{filteredEvents.length}</div>
+              <p className="text-xs text-theme-muted mt-1">Nächste 12 Monate nach Filter</p>
+            </div>
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-4">
+              <p className="text-theme-muted text-xs uppercase tracking-wide mb-1">Watchlist</p>
+              <div className="text-2xl font-bold text-green-400">{watchlistEvents.length}</div>
+              <p className="text-xs text-theme-muted mt-1">Termine für deine Favoriten</p>
+            </div>
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-4">
+              <p className="text-theme-muted text-xs uppercase tracking-wide mb-1">Diese Woche</p>
+              <div className="text-2xl font-bold text-theme-primary">{thisWeekEvents.length}</div>
+              <p className="text-xs text-theme-muted mt-1">Earnings innerhalb 7 Tage</p>
+            </div>
+            <div className="bg-theme-card border border-theme/10 rounded-xl p-4">
+              <p className="text-theme-muted text-xs uppercase tracking-wide mb-1">Nächster Termin</p>
+              <div className="text-sm font-semibold text-theme-primary">
+                {nextWatchlistEvent ? `${nextWatchlistEvent.ticker} • ${formatDate(nextWatchlistEvent.date)}` : 'Noch kein Termin'}
+              </div>
+              <p className="text-xs text-theme-muted mt-1">Watchlist-Highlight</p>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -521,240 +555,264 @@ export default function EarningsCalendarPage() {
             </button>
           </div>
         ) : (
-          /* Single Calendar with Navigation */
-          <div className="space-y-6">
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-semibold text-theme-primary">
-                Earnings Kalender
-              </h2>
-              <div className="text-sm text-theme-muted">
-                Wähle einen Monat aus
-              </div>
-            </div>
-
-            {/* Single Calendar */}
-            <div className="bg-theme-card border border-theme/10 rounded-xl overflow-hidden">
-              {/* Month Header with Navigation */}
-              <div className="px-6 py-4 bg-theme-secondary/30 border-b border-theme/10">
-                <div className="flex items-center justify-between">
-                  <button
-                    onClick={goToPreviousMonth}
-                    disabled={!canGoPrevious}
-                    className="p-2 rounded-lg border border-theme/20 hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  >
-                    <ChevronLeftIcon className="w-5 h-5 text-theme-primary" />
-                  </button>
-                  
-                  <div className="flex items-center gap-4">
-                    <h3 className="text-lg font-semibold text-theme-primary capitalize">
-                      {currentCalendarMonth.name}
-                    </h3>
-                    
-                    {/* Today Button */}
-                    <button
-                      onClick={goToCurrentMonth}
-                      className="px-3 py-1 text-sm bg-green-500/20 text-green-400 rounded-md hover:bg-green-500/30 transition-colors"
-                    >
-                      Heute
-                    </button>
+          <div className="space-y-8">
+            <div className="grid grid-cols-1 xl:grid-cols-3 gap-8">
+              <div className="xl:col-span-2 space-y-8">
+                <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <div>
+                      <h3 className="text-lg font-semibold text-theme-primary">Nächste Earnings</h3>
+                      <p className="text-sm text-theme-muted">Chronologische Übersicht der kommenden Wochen</p>
+                    </div>
+                    <span className="text-xs uppercase tracking-wide text-theme-muted">
+                      {timelineDates.length} Termine
+                    </span>
                   </div>
-                  
-                  <button
-                    onClick={goToNextMonth}
-                    disabled={!canGoNext}
-                    className="p-2 rounded-lg border border-theme/20 hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-                  >
-                    <ChevronRightIcon className="w-5 h-5 text-theme-primary" />
-                  </button>
-                </div>
-              </div>
-
-              {/* Weekday Headers */}
-              <div className="grid grid-cols-7 border-b border-theme/10 bg-theme-secondary/10">
-                {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day) => (
-                  <div key={day} className="p-3 text-center text-sm font-medium text-theme-muted border-r border-theme/10 last:border-r-0">
-                    {day}
-                  </div>
-                ))}
-              </div>
-
-              {/* Calendar Grid */}
-              <div className="grid grid-cols-7">
-                {currentCalendarMonth.days.map((dayData, index) => (
-                  <div
-                    key={index}
-                    className={`min-h-[120px] border-r border-b border-theme/10 last:border-r-0 ${
-                      index >= currentCalendarMonth.days.length - 7 ? 'border-b-0' : ''
-                    } ${
-                      !dayData ? 'bg-theme-secondary/5' : dayData.isPast ? 'bg-theme-secondary/5' : ''
-                    }`}
-                  >
-                    {dayData && (
-                      <div className="p-2 h-full">
-                        {/* Day Number */}
-                        <div className={`flex items-center justify-between mb-2 ${
-                          dayData.isToday ? 'text-green-400' : dayData.isPast ? 'text-theme-muted' : 'text-theme-primary'
-                        }`}>
-                          <span className={`text-sm font-semibold ${
-                            dayData.isToday ? 'w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center' : ''
-                          }`}>
-                            {dayData.day}
-                          </span>
-                          {dayData.events.length > 0 && (
-                            <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                          )}
-                        </div>
-
-                        {/* Events */}
-                        <div className="space-y-1">
-                          {dayData.events.slice(0, 3).map((event, eventIndex) => {
-                            const isWatchlistEvent = watchlistTickerSet.has(event.ticker.toUpperCase())
-                            return (
-                              <Link
-                                key={eventIndex}
-                                href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
-                                className={`block text-xs px-2 py-1 rounded-md cursor-pointer transition-all hover:scale-105 border ${
-                                  isWatchlistEvent
-                                    ? 'bg-green-500/15 text-green-400 border-green-500/40'
-                                    : event.time === 'amc'
-                                      ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 hover:bg-orange-500/30'
-                                      : event.time === 'bmo'
-                                        ? 'bg-blue-500/20 text-blue-400 border-blue-500/30 hover:bg-blue-500/30'
-                                        : 'bg-theme-secondary/50 text-theme-primary border-theme/20 hover:bg-theme-secondary'
-                                }`}
-                                title={`${event.ticker} - ${event.companyName} (${formatTime(event.time)})`}
-                              >
-                                <div className="font-semibold truncate flex items-center gap-1">
-                                  {event.ticker}
-                                  {isWatchlistEvent && (
-                                    <span className="text-[10px] uppercase tracking-wide bg-green-500/40 text-black rounded-full px-1">
-                                      WL
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="text-xs opacity-80 truncate">
-                                  {formatTime(event.time)}
-                                </div>
-                              </Link>
-                            )
-                          })}
-                          
-                          {dayData.events.length > 3 && (
-                            <div className="text-xs text-theme-muted text-center">
-                              +{dayData.events.length - 3} weitere
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Detailed Events List */}
-            {sortedDates.length > 0 && (
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
-                <h3 className="text-lg font-semibold text-theme-primary mb-4">
-                  Detaillierte Earnings-Termine
-                </h3>
-                <div className="space-y-4">
-                  {sortedDates.slice(0, 10).map((dateString) => {
-                    const events = groupedEarnings[dateString]
-                    const date = new Date(dateString)
-                    const isToday = date.toDateString() === new Date().toDateString()
-                    
-                    return (
-                      <div key={dateString} className={`p-4 rounded-lg border ${
-                        isToday ? 'border-green-500/30 bg-green-500/5' : 'border-theme/20'
-                      }`}>
-                        <div className="flex items-center gap-3 mb-3">
-                          <div className={`text-center ${isToday ? 'text-green-400' : 'text-theme-primary'}`}>
+                  <div className="space-y-4">
+                    {timelineDates.map(dateString => {
+                      const date = new Date(dateString)
+                      const events = groupedEarnings[dateString]
+                      const isToday = date.toDateString() === today.toDateString()
+                      return (
+                        <div key={dateString} className="flex gap-4">
+                          <div className={`w-16 text-right ${isToday ? 'text-green-400' : 'text-theme-muted'}`}>
                             <div className="text-lg font-bold">{date.getDate()}</div>
-                            <div className="text-xs uppercase">
-                              {date.toLocaleDateString('de-DE', { month: 'short' })}
+                            <div className="text-xs uppercase">{date.toLocaleDateString('de-DE', { month: 'short' })}</div>
+                          </div>
+                          <div className="flex-1 space-y-2">
+                            {events.slice(0, 4).map(event => {
+                              const isWatchlist = watchlistTickerSet.has(event.ticker.toUpperCase())
+                              return (
+                                <Link
+                                  key={`${event.ticker}-${event.date}`}
+                                  href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+                                  className={`flex items-center gap-3 px-3 py-2 border rounded-lg transition-all ${
+                                    isWatchlist ? 'border-green-500/40 bg-green-500/5 hover:border-green-500/60' : 'border-theme/20 hover:border-theme/40'
+                                  }`}
+                                >
+                                  <Logo ticker={event.ticker} alt={`${event.ticker} Logo`} className="w-8 h-8 rounded-lg" />
+                                  <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 text-sm font-semibold text-theme-primary">
+                                      {event.ticker}
+                                      {isWatchlist && <span className="text-[10px] uppercase tracking-wide text-green-400">Watchlist</span>}
+                                    </div>
+                                    <p className="text-xs text-theme-muted truncate">{event.companyName} • {formatTime(event.time)}</p>
+                                  </div>
+                                  <div className={`w-3 h-3 rounded-full ${event.time === 'amc' ? 'bg-orange-400' : event.time === 'bmo' ? 'bg-blue-400' : 'bg-theme-muted'}`} />
+                                </Link>
+                              )
+                            })}
+                            {events.length > 4 && (
+                              <p className="text-xs text-theme-muted">+{events.length - 4} weitere Unternehmen</p>
+                            )}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Calendar */}
+                <div className="bg-theme-card border border-theme/10 rounded-xl overflow-hidden">
+                  <div className="px-6 py-4 bg-theme-secondary/30 border-b border-theme/10">
+                    <div className="flex items-center justify-between">
+                      <button onClick={goToPreviousMonth} disabled={!canGoPrevious} className="p-2 rounded-lg border border-theme/20 hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                        <ChevronLeftIcon className="w-5 h-5 text-theme-primary" />
+                      </button>
+                      <div className="flex items-center gap-4">
+                        <h3 className="text-lg font-semibold text-theme-primary capitalize">{currentCalendarMonth.name}</h3>
+                        <button onClick={goToCurrentMonth} className="px-3 py-1 text-sm bg-green-500/20 text-green-400 rounded-md hover:bg-green-500/30 transition-colors">
+                          Heute
+                        </button>
+                      </div>
+                      <button onClick={goToNextMonth} disabled={!canGoNext} className="p-2 rounded-lg border border-theme/20 hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed transition-all">
+                        <ChevronRightIcon className="w-5 h-5 text-theme-primary" />
+                      </button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-7 border-b border-theme/10 bg-theme-secondary/10">
+                    {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day) => (
+                      <div key={day} className="p-3 text-center text-sm font-medium text-theme-muted border-r border-theme/10 last:border-r-0">
+                        {day}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="grid grid-cols-7">
+                    {currentCalendarMonth.days.map((dayData, index) => (
+                      <div key={index} className={`min-h-[120px] border-r border-b border-theme/10 last:border-r-0 ${index >= currentCalendarMonth.days.length - 7 ? 'border-b-0' : ''} ${!dayData ? 'bg-theme-secondary/5' : dayData.isPast ? 'bg-theme-secondary/5' : ''}`}>
+                        {dayData && (
+                          <div className="p-2 h-full">
+                            <div className={`flex items-center justify-between mb-2 ${dayData.isToday ? 'text-green-400' : dayData.isPast ? 'text-theme-muted' : 'text-theme-primary'}`}>
+                              <span className={`text-sm font-semibold ${dayData.isToday ? 'w-6 h-6 bg-green-500 text-white rounded-full flex items-center justify-center' : ''}`}>
+                                {dayData.day}
+                              </span>
+                              {dayData.events.length > 0 && <div className="w-2 h-2 bg-green-400 rounded-full"></div>}
+                            </div>
+                            <div className="space-y-1">
+                              {dayData.events.slice(0, 3).map((event, eventIndex) => {
+                                const isWatchlistEvent = watchlistTickerSet.has(event.ticker.toUpperCase())
+                                return (
+                                  <Link
+                                    key={eventIndex}
+                                    href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+                                    className={`block text-xs px-2 py-1 rounded-md cursor-pointer transition-all hover:scale-105 border ${
+                                      isWatchlistEvent
+                                        ? 'bg-green-500/15 text-green-400 border-green-500/40'
+                                        : event.time === 'amc'
+                                          ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 hover:bg-orange-500/30'
+                                          : event.time === 'bmo'
+                                            ? 'bg-blue-500/20 text-blue-400 border-blue-500/30 hover:bg-blue-500/30'
+                                            : 'bg-theme-secondary/50 text-theme-primary border-theme/20 hover:bg-theme-secondary'
+                                    }`}
+                                    title={`${event.ticker} - ${event.companyName} (${formatTime(event.time)})`}
+                                  >
+                                    <div className="font-semibold truncate flex items-center gap-1">
+                                      {event.ticker}
+                                      {isWatchlistEvent && (
+                                        <span className="text-[10px] uppercase tracking-wide bg-green-500/40 text-black rounded-full px-1">
+                                          WL
+                                        </span>
+                                      )}
+                                    </div>
+                                    <div className="text-xs opacity-80 truncate">
+                                      {formatTime(event.time)}
+                                    </div>
+                                  </Link>
+                                )
+                              })}
+                              {dayData.events.length > 3 && (
+                                <div className="text-xs text-theme-muted text-center">
+                                  +{dayData.events.length - 3} weitere
+                                </div>
+                              )}
                             </div>
                           </div>
-                          <div>
-                            <h4 className={`font-semibold ${isToday ? 'text-green-400' : 'text-theme-primary'}`}>
-                              {formatDate(dateString)}
-                            </h4>
-                            <p className="text-sm text-theme-muted">
-                              {events.length} Earnings-Termine
-                            </p>
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                          {events.map((event, eventIndex) => {
-                            const isWatchlist = watchlistTickerSet.has(event.ticker.toUpperCase())
-                            return (
-                            <Link
-                              key={eventIndex}
-                              href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
-                              className={`flex items-center gap-3 p-3 border rounded-lg transition-all group ${
-                                isWatchlist 
-                                  ? 'border-green-500/40 bg-green-500/5 hover:border-green-500/60' 
-                                  : 'border-theme/20 hover:border-theme/40'
-                              }`}
-                            >
-                              <Logo 
-                                ticker={event.ticker} 
-                                alt={`${event.ticker} Logo`} 
-                                className="w-8 h-8 rounded-lg flex-shrink-0" 
-                              />
-                              <div className="flex-1 min-w-0">
-                                <div className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors flex items-center gap-2">
-                                  <span>{event.ticker}</span>
-                                  {isWatchlist && (
-                                    <span className="text-[10px] uppercase tracking-wide text-green-400 bg-green-500/15 px-1.5 py-0.5 rounded-full">
-                                      Watchlist
-                                    </span>
-                                  )}
-                                  {event.marketCap && event.marketCap > 100000000 && (
-                                    <span className="text-[11px] bg-theme-secondary/50 text-theme-primary px-1.5 py-0.5 rounded border border-theme/20">
-                                      {event.marketCap > 1_000_000_000_000 ? 
-                                        `${(event.marketCap / 1_000_000_000_000).toFixed(1)} Bio.` : 
-                                        event.marketCap > 1_000_000_000 ?
-                                        `${(event.marketCap / 1_000_000_000).toFixed(1)} Mrd.` :
-                                        `${(event.marketCap / 1_000_000).toFixed(0)} Mio.`
-                                      }
-                                    </span>
-                                  )}
-                                </div>
-                                <div className="text-xs text-theme-muted truncate">
-                                  {event.companyName !== event.ticker ? event.companyName : formatTime(event.time)} • {event.quarter}
-                                </div>
-                              </div>
-                              <div className={`w-3 h-3 rounded-full ${
-                                event.time === 'amc' ? 'bg-orange-400' :
-                                event.time === 'bmo' ? 'bg-blue-400' :
-                                'bg-theme-muted'
-                              }`}></div>
-                            </Link>
-                          )})}
-                        </div>
+                        )}
                       </div>
-                    )
-                  })}
+                    ))}
+                  </div>
+                </div>
+
+                {sortedDates.length > 0 && (
+                  <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="text-lg font-semibold text-theme-primary">Alle Termine</h3>
+                      <span className="text-sm text-theme-muted">Ausgewählte Tage</span>
+                    </div>
+                    <div className="space-y-4">
+                      {sortedDates.slice(0, 8).map((dateString) => {
+                        const events = groupedEarnings[dateString]
+                        const date = new Date(dateString)
+                        return (
+                          <div key={dateString} className="p-4 rounded-lg border border-theme/15">
+                            <div className="flex items-center justify-between mb-3">
+                              <div>
+                                <h4 className="font-semibold text-theme-primary">{formatDate(dateString)}</h4>
+                                <p className="text-xs text-theme-muted">{events.length} Termine</p>
+                              </div>
+                              <span className="text-xs text-theme-muted uppercase">{date.toLocaleDateString('de-DE', { month: 'short', day: 'numeric' })}</span>
+                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                              {events.map((event, eventIndex) => {
+                                const isWatchlist = watchlistTickerSet.has(event.ticker.toUpperCase())
+                                return (
+                                  <Link
+                                    key={eventIndex}
+                                    href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+                                    className={`flex items-center gap-3 p-3 border rounded-lg transition-all group ${
+                                      isWatchlist 
+                                        ? 'border-green-500/40 bg-green-500/5 hover:border-green-500/60' 
+                                        : 'border-theme/20 hover:border-theme/40'
+                                    }`}
+                                  >
+                                    <Logo ticker={event.ticker} alt={`${event.ticker} Logo`} className="w-8 h-8 rounded-lg flex-shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                      <div className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors flex items-center gap-2">
+                                        <span>{event.ticker}</span>
+                                        {isWatchlist && (
+                                          <span className="text-[10px] uppercase tracking-wide text-green-400 bg-green-500/15 px-1.5 py-0.5 rounded-full">
+                                            Watchlist
+                                          </span>
+                                        )}
+                                      </div>
+                                      <div className="text-xs text-theme-muted truncate">
+                                        {event.companyName !== event.ticker ? event.companyName : formatTime(event.time)} • {event.quarter}
+                                      </div>
+                                    </div>
+                                    <div className={`w-3 h-3 rounded-full ${
+                                      event.time === 'amc' ? 'bg-orange-400' :
+                                      event.time === 'bmo' ? 'bg-blue-400' :
+                                      'bg-theme-muted'
+                                    }`}></div>
+                                  </Link>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* Sidebar */}
+              <div className="space-y-8">
+                <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-theme-primary mb-4">Watchlist Fokus</h3>
+                  {nextWatchlistEvent ? (
+                    <div className="space-y-3">
+                      <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/30">
+                        <div className="text-sm text-theme-muted mb-1">Nächster Termin</div>
+                        <div className="text-xl font-bold text-theme-primary">{nextWatchlistEvent.ticker}</div>
+                        <p className="text-sm text-theme-muted">{formatDate(nextWatchlistEvent.date)} • {formatTime(nextWatchlistEvent.time)}</p>
+                      </div>
+                      <div className="divide-y divide-theme/15">
+                        {watchlistEvents.slice(0, 5).map(event => (
+                          <Link key={`${event.ticker}-${event.date}`} href={`/analyse/stocks/${event.ticker.toLowerCase()}`} className="py-3 flex items-center justify-between hover:text-green-400 transition-colors">
+                            <div>
+                              <p className="font-semibold text-theme-primary">{event.ticker}</p>
+                              <p className="text-xs text-theme-muted">{formatDate(event.date)}</p>
+                            </div>
+                            <span className="text-xs text-theme-muted">{formatTime(event.time)}</span>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  ) : (
+                    <p className="text-theme-muted text-sm">Keine anstehenden Watchlist-Termine gefunden.</p>
+                  )}
+                </div>
+
+                <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
+                  <h3 className="text-lg font-semibold text-theme-primary mb-4">Marktführer</h3>
+                  <div className="space-y-3">
+                    {(nextMarketEvent ? [nextMarketEvent, ...marketLeaderEvents.filter(e => e !== nextMarketEvent)] : marketLeaderEvents)
+                      .slice(0, 5)
+                      .map(event => (
+                        <Link key={`${event.ticker}-${event.date}`} href={`/analyse/stocks/${event.ticker.toLowerCase()}`} className="flex items-center gap-3 rounded-lg border border-theme/15 px-3 py-2 hover:border-green-400/40 transition">
+                          <Logo ticker={event.ticker} alt={`${event.ticker} Logo`} className="w-8 h-8 rounded-lg" />
+                          <div className="flex-1 min-w-0">
+                            <p className="font-semibold text-theme-primary">{event.ticker}</p>
+                            <p className="text-xs text-theme-muted">{formatDate(event.date)}</p>
+                          </div>
+                          {event.marketCap && <span className="text-xs text-theme-muted">{(event.marketCap / 1_000_000_000).toFixed(1)} Mrd.</span>}
+                        </Link>
+                      ))}
+                  </div>
                 </div>
               </div>
-            )}
+            </div>
 
-            {/* Show More Button - Only show for "All Stocks" mode */}
             {!showMyStocksOnly && remainingMarketLeaders > 0 && (
-              <div className="flex justify-center mt-6">
-                <button
-                  onClick={() => setDisplayCount(prev => prev + 50)}
-                  className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
-                >
+              <div className="flex justify-center">
+                <button onClick={() => setDisplayCount(prev => prev + 50)} className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium">
                   <ChartBarIcon className="w-4 h-4" />
                   Mehr anzeigen ({remainingMarketLeaders} weitere)
                 </button>
               </div>
             )}
 
-            {/* Legend */}
             <div className="bg-theme-secondary/20 border border-theme/10 rounded-lg p-4">
               <h4 className="text-sm font-semibold text-theme-primary mb-3">Zeitangaben:</h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
