@@ -21,6 +21,18 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
     }
 
+    const { searchParams } = new URL(request.url)
+    const priorityParam = searchParams.get('priority') || ''
+    const priorityTickers = priorityParam
+      .split(',')
+      .map(t => t.trim().toUpperCase())
+      .filter(Boolean)
+    const prioritySet = new Set(priorityTickers)
+
+    const minMarketCap = Number(searchParams.get('minMarketCap') || 5_000_000_000) // default $5B
+    const maxResults = Number(searchParams.get('limit') || 250)
+    const maxTickersForMarketCap = Number(searchParams.get('maxTickers') || 1000)
+
     console.log(`📅 Loading ALL earnings calendar...`)
 
     const earningsEvents: EarningsEvent[] = []
@@ -99,7 +111,7 @@ export async function GET(request: NextRequest) {
               
               return true
             })
-            .slice(0, 5000) // Increase limit to catch all major companies
+            .slice(0, maxTickersForMarketCap)
           
           console.log(`📊 Filtered ${allCalendarData.length} events down to ${relevantEvents.length} relevant US companies`)
           
@@ -113,68 +125,51 @@ export async function GET(request: NextRequest) {
           console.log(`🎯 Found ${priorityEvents.length} major companies: ${priorityEvents.map(e => e.symbol).join(', ')}`)
           
           // Get market cap data efficiently (priority events first, then sample of others)
-          const batchSize = 100
-          const allEventsWithMarketCap = []
-          
-          // Process priority events first
-          if (priorityEvents.length > 0) {
-            const priorityPromises = priorityEvents.map(async (event) => {
-              try {
-                const marketCapResponse = await fetch(
-                  `https://financialmodelingprep.com/api/v3/market-capitalization/${event.symbol}?apikey=${FMP_API_KEY}`
-                )
-                if (marketCapResponse.ok) {
-                  const marketCapData = await marketCapResponse.json()
-                  return {
-                    ...event,
-                    marketCap: marketCapData[0]?.marketCap || 0
+          // Fetch market caps in bulk via quote endpoint to avoid per-ticker calls
+          const eventsForMarketCap = [...priorityEvents, ...otherEvents].slice(0, maxTickersForMarketCap)
+          const uniqueTickers = Array.from(new Set(eventsForMarketCap.map(event => event.symbol)))
+          const marketCapMap = new Map<string, number>()
+          const quoteBatchSize = 200
+          for (let i = 0; i < uniqueTickers.length; i += quoteBatchSize) {
+            const batch = uniqueTickers.slice(i, i + quoteBatchSize)
+            try {
+              const quoteResponse = await fetch(
+                `https://financialmodelingprep.com/api/v3/quote/${batch.join(',')}?apikey=${FMP_API_KEY}`
+              )
+              if (quoteResponse.ok) {
+                const quoteData = await quoteResponse.json()
+                quoteData.forEach((quote: any) => {
+                  if (quote.symbol) {
+                    marketCapMap.set(quote.symbol.toUpperCase(), quote.marketCap || 0)
                   }
-                }
-              } catch (error) {
-                // Continue on errors
+                })
               }
-              return { ...event, marketCap: 0 }
-            })
-            
-            const priorityResults = await Promise.all(priorityPromises)
-            allEventsWithMarketCap.push(...priorityResults)
-            console.log(`✅ Processed ${priorityEvents.length} priority companies`)
+            } catch (error) {
+              console.error('Error fetching market caps for batch:', error)
+            }
           }
+
+          const eventsWithMarketCap = eventsForMarketCap.map(event => ({
+            ...event,
+            marketCap: marketCapMap.get(event.symbol.toUpperCase()) || 0
+          }))
+
+          const filteredByCap = eventsWithMarketCap.filter(event => {
+            const cap = event.marketCap || 0
+            return cap >= minMarketCap || prioritySet.has(event.symbol.toUpperCase())
+          })
           
-          // Process sample of other events
-          const sampleOtherEvents = otherEvents.slice(0, 300) // Take first 300 others
-          for (let i = 0; i < sampleOtherEvents.length; i += batchSize) {
-            const batch = sampleOtherEvents.slice(i, i + batchSize)
-            
-            const marketCapPromises = batch.map(async (event) => {
-              try {
-                const marketCapResponse = await fetch(
-                  `https://financialmodelingprep.com/api/v3/market-capitalization/${event.symbol}?apikey=${FMP_API_KEY}`
-                )
-                if (marketCapResponse.ok) {
-                  const marketCapData = await marketCapResponse.json()
-                  return {
-                    ...event,
-                    marketCap: marketCapData[0]?.marketCap || 0
-                  }
-                }
-              } catch (error) {
-                // Continue on errors
+          // Sort by market cap (highest first) and ensure priority tickers bubble to top if missing cap
+          const sortedEvents = filteredByCap
+            .sort((a, b) => {
+              const aPriority = prioritySet.has(a.symbol.toUpperCase()) ? 1 : 0
+              const bPriority = prioritySet.has(b.symbol.toUpperCase()) ? 1 : 0
+              if (aPriority !== bPriority) {
+                return bPriority - aPriority
               }
-              return { ...event, marketCap: 0 }
+              return (b.marketCap || 0) - (a.marketCap || 0)
             })
-            
-            const batchResults = await Promise.all(marketCapPromises)
-            allEventsWithMarketCap.push(...batchResults)
-            
-            // Limit to avoid too many API calls
-            if (i >= 200) break
-          }
-          
-          // Sort ALL events by market cap (highest first)
-          const sortedEvents = allEventsWithMarketCap
-            .sort((a, b) => (b.marketCap || 0) - (a.marketCap || 0))
-            .slice(0, 150) // Top 150 companies by market cap
+            .slice(0, maxResults)
           
           console.log(`🎯 Final sorted list - Top 5: ${sortedEvents.slice(0, 5).map(e => `${e.symbol} (${e.marketCap ? '$' + (e.marketCap/1000000000).toFixed(1) + 'B' : 'N/A'})`).join(', ')}`)
           

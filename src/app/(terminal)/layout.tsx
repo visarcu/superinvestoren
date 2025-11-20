@@ -205,6 +205,13 @@ interface NavCategory {
   items: NavigationItem[]
 }
 
+interface NavigationSubItem {
+  id: string
+  label: string
+  href: string
+  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
+}
+
 interface NavigationItem {
   id: string
   label: string
@@ -212,6 +219,7 @@ interface NavigationItem {
   href: string
   premium?: boolean
   comingSoon?: boolean
+  subItems?: NavigationSubItem[]
 }
 
 // NAVIGATION CATEGORIES - MEMOIZED
@@ -257,16 +265,24 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         href: '/analyse/portfolio'
       },
       {
-        id: 'screener',
-        label: 'Aktien Screener',
+        id: 'screeners',
+        label: 'Screener',
         icon: FunnelIcon,
-        href: '/analyse/screener'
-      },
-      {
-        id: 'etf-screener',
-        label: 'ETF Screener',
-        icon: ChartBarIcon,
-        href: '/analyse/etf-screener'
+        href: '/analyse/screener',
+        subItems: [
+          {
+            id: 'stock-screener',
+            label: 'Aktien Screener',
+            href: '/analyse/screener',
+            icon: FunnelIcon
+          },
+          {
+            id: 'etf-screener',
+            label: 'ETF Screener',
+            href: '/analyse/etf-screener',
+            icon: ChartBarIcon
+          }
+        ]
       },
       {
         id: 'dcf-calculator',
@@ -335,66 +351,122 @@ interface LayoutProps {
 
 // KATEGORISIERTE NAVIGATION - MEMOIZED
 const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown, setShowSettingsDropdown, handleSignOut, theme, toggleTheme, allowsThemeToggle }: { user: User, pathname: string, showSettingsDropdown: boolean, setShowSettingsDropdown: (show: boolean) => void, handleSignOut: () => void, theme: 'light' | 'dark', toggleTheme: () => void, allowsThemeToggle: boolean }) => {
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null)
+
   return (
-    <nav className="flex-1 p-2 overflow-y-auto">
-      <div className="space-y-3">
+    <nav className="flex-1 px-4 py-5 overflow-y-auto relative z-10">
+      <div className="space-y-4">
         {NAVIGATION_CATEGORIES.map((category) => (
-          <div key={category.id} className="space-y-1">
-            <div className="px-2 py-1">
-              <h3 className="text-xs font-bold text-theme-muted uppercase tracking-wider">
+          <div key={category.id} className="space-y-1.5">
+            <div className="px-2">
+              <h3 className="text-[0.6rem] font-semibold text-theme-muted uppercase tracking-[0.35em]">
                 {category.label}
               </h3>
             </div>
             
-            <div className="space-y-0.5">
+            <div className="space-y-1">
               {category.items.map((item) => {
                 const Icon = item.icon
-                const isActive = pathname === item.href
+                const hasSubItems = (item.subItems?.length ?? 0) > 0
+                const isActive = pathname === item.href || (hasSubItems && item.subItems?.some((sub) => pathname === sub.href))
                 const isPremiumItem = item.premium && !user.isPremium
                 
                 return (
-                  <Link
+                  <div
                     key={item.id}
-                    href={item.href}
-                    className={`group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
-                      isActive 
-                        ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30' 
-                        : category.id === 'premium'
-                          ? 'text-green-400 hover:bg-green-500/10 hover:text-green-300'
-                          : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
-                    }`}
+                    className={hasSubItems ? 'relative' : undefined}
+                    onMouseEnter={() => hasSubItems && setOpenSubMenu(item.id)}
+                    onMouseLeave={() => hasSubItems && setOpenSubMenu(null)}
+                    onFocus={() => hasSubItems && setOpenSubMenu(item.id)}
+                    onBlur={(e) => {
+                      if (!hasSubItems) return
+                      const relatedTarget = e.relatedTarget as Node | null
+                      if (!relatedTarget || !e.currentTarget.contains(relatedTarget)) {
+                        setOpenSubMenu(null)
+                      }
+                    }}
                   >
-                    <div className={`w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                      isActive 
-                        ? 'bg-green-500/30' 
-                        : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
-                    }`}>
-                      <Icon className={`w-5 h-5 ${
+                    <Link
+                      href={item.href}
+                      className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
                         isActive 
-                          ? 'text-green-300' 
+                          ? 'bg-green-500/15 text-green-300 shadow-sm ring-1 ring-green-500/30' 
                           : category.id === 'premium'
-                            ? 'text-green-400'
-                            : 'text-theme-muted group-hover:text-theme-primary'
-                      }`} />
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span className="truncate">{item.label}</span>
-                        {isPremiumItem && (
-                          <SparklesIcon className="w-3 h-3 text-yellow-400 flex-shrink-0" />
+                            ? 'text-green-400 hover:bg-green-500/10 hover:text-green-300'
+                            : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
+                      }`}
+                    >
+                      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                        isActive 
+                          ? 'bg-green-500/25' 
+                          : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/70'
+                      }`}>
+                        <Icon className={`w-5 h-5 ${
+                          isActive 
+                            ? 'text-green-200' 
+                            : category.id === 'premium'
+                              ? 'text-green-400'
+                              : 'text-theme-muted group-hover:text-theme-primary'
+                        }`} />
+                      </div>
+                      
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="truncate">{item.label}</span>
+                          {isPremiumItem && (
+                            <SparklesIcon className="w-4 h-4 text-yellow-300 flex-shrink-0" />
+                          )}
+                        </div>
+                        {hasSubItems && (
+                          <p className="text-xs text-theme-muted mt-0.5">Schneller Zugriff</p>
                         )}
                       </div>
-                    </div>
-                    
-                    {!isActive && (
-                      <ArrowRightIcon className="w-3.5 h-3.5 opacity-0 group-hover:opacity-60 transition-all duration-200 flex-shrink-0" />
+
+                      <div className="flex items-center gap-2 flex-shrink-0">
+                        {hasSubItems && (
+                          <ChevronRightIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-secondary" />
+                        )}
+                        {!hasSubItems && !isActive && (
+                          <ArrowRightIcon className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-all duration-200" />
+                        )}
+                        {isActive && (
+                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
+                        )}
+                      </div>
+                    </Link>
+
+                    {hasSubItems && (
+                      <div className={`flex flex-col absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-theme-secondary border border-theme/40 rounded-2xl shadow-2xl z-40 min-w-[200px] p-2 transition-all duration-200 ${
+                        openSubMenu === item.id
+                          ? 'opacity-100 pointer-events-auto translate-x-0'
+                          : 'opacity-0 pointer-events-none -translate-x-2'
+                      }`}>
+                        {item.subItems?.map((sub) => {
+                          const SubIcon = sub.icon || Icon
+                          const subActive = pathname === sub.href
+                          return (
+                            <Link
+                              key={sub.id}
+                              href={sub.href}
+                              className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all text-sm ${
+                                subActive
+                                  ? 'bg-green-500/15 text-green-300'
+                                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
+                              }`}
+                              >
+                                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
+                                  subActive ? 'bg-green-500/20' : 'bg-theme-tertiary/40'
+                                }`}>
+                                  <SubIcon className={`w-5 h-5 ${subActive ? 'text-green-300' : 'text-theme-muted'}`} />
+                                </div>
+                              <span className="flex-1 text-left">{sub.label}</span>
+                              {subActive && <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>}
+                            </Link>
+                          )
+                        })}
+                      </div>
                     )}
-                    
-                    {isActive && (
-                      <div className="w-2 h-2 bg-green-400 rounded-full flex-shrink-0"></div>
-                    )}
-                  </Link>
+                  </div>
                 )
               })}
             </div>
@@ -402,9 +474,9 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
         ))}
         
         {/* EINSTELLUNGEN MIT DROPDOWN */}
-        <div className="space-y-1">
-          <div className="px-2 py-1">
-            <h3 className="text-xs font-bold text-theme-muted uppercase tracking-wider">
+        <div className="space-y-2">
+          <div className="px-1.5">
+            <h3 className="text-[0.65rem] font-semibold text-theme-muted uppercase tracking-[0.35em]">
               ACCOUNT
             </h3>
           </div>
@@ -412,17 +484,17 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
           <div className="relative">
             <button
               onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
-              className="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
+              className="group flex items-center gap-4 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
             >
-              <div className="w-7 h-7 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
-                <Cog6ToothIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
+              <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/70">
+                <Cog6ToothIcon className="w-6 h-6 text-theme-muted group-hover:text-theme-primary" />
               </div>
               
               <div className="flex-1 min-w-0">
                 <span className="truncate">Einstellungen</span>
               </div>
               
-              <ChevronRightIcon className={`w-3.5 h-3.5 transition-all duration-200 flex-shrink-0 ${
+              <ChevronRightIcon className={`w-4 h-4 transition-all duration-200 flex-shrink-0 ${
                 showSettingsDropdown 
                   ? 'rotate-90 text-theme-primary' 
                   : 'text-theme-muted group-hover:text-theme-secondary'
@@ -431,21 +503,21 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
             
             {/* DROPDOWN MENU */}
             {showSettingsDropdown && (
-              <div className="mt-1 ml-3 space-y-1 border-l border-theme/30 pl-3">
+              <div className="mt-2 ml-3.5 space-y-1.5 border-l border-theme/30 pl-4">
                 <Link
                   href="/notifications"
-                  className={`group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
                     pathname === '/notifications'
                       ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30'
                       : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
                   }`}
                 >
-                  <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                     pathname === '/notifications'
                       ? 'bg-green-500/30'
                       : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
                   }`}>
-                    <BellIcon className={`w-4 h-4 ${
+                    <BellIcon className={`w-5 h-5 ${
                       pathname === '/notifications'
                         ? 'text-green-300'
                         : 'text-theme-muted group-hover:text-theme-primary'
@@ -456,18 +528,18 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                 
                 <Link
                   href="/profile"
-                  className={`group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
                     pathname === '/profile'
                       ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30'
                       : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
                   }`}
                 >
-                  <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                     pathname === '/profile'
                       ? 'bg-green-500/30'
                       : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
                   }`}>
-                    <UserCircleIcon className={`w-4 h-4 ${
+                    <UserCircleIcon className={`w-5 h-5 ${
                       pathname === '/profile'
                         ? 'text-green-300'
                         : 'text-theme-muted group-hover:text-theme-primary'
@@ -478,18 +550,18 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                 
                 <Link
                   href="/settings"
-                  className={`group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
                     pathname === '/settings'
                       ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30'
                       : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
                   }`}
                 >
-                  <div className={`w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
+                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
                     pathname === '/settings'
                       ? 'bg-green-500/30'
                       : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
                   }`}>
-                    <Cog6ToothIcon className={`w-4 h-4 ${
+                    <Cog6ToothIcon className={`w-5 h-5 ${
                       pathname === '/settings'
                         ? 'text-green-300'
                         : 'text-theme-muted group-hover:text-theme-primary'
@@ -500,24 +572,24 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                 
                 <button
                   onClick={() => window.location.href = 'mailto:team@finclue.de'}
-                  className="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
+                  className="group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
                 >
-                  <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
-                    <EnvelopeIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-primary" />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
+                    <EnvelopeIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
                   </div>
                   <span className="truncate">Support</span>
                 </button>
                 
-{allowsThemeToggle && (
+                {allowsThemeToggle && (
                   <button
                     onClick={toggleTheme}
-                    className="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
+                  className="group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
                   >
-                    <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
+                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
                       {theme === 'dark' ? (
-                        <SunIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-primary" />
+                        <SunIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
                       ) : (
-                        <MoonIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-primary" />
+                        <MoonIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
                       )}
                     </div>
                     <span className="truncate">{theme === 'dark' ? 'Helles Design' : 'Dunkles Design'}</span>
@@ -526,10 +598,10 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                 
                 <button
                   onClick={handleSignOut}
-                  className="group flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-red-400 hover:bg-red-500/10"
+                  className="group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 w-full text-left text-red-300 hover:text-red-200 hover:bg-red-500/10"
                 >
-                  <div className="w-6 h-6 rounded-md flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-red-500/20">
-                    <ArrowLeftOnRectangleIcon className="w-4 h-4 text-theme-muted group-hover:text-red-400" />
+                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-red-500/10 group-hover:bg-red-500/20">
+                    <ArrowLeftOnRectangleIcon className="w-5 h-5" />
                   </div>
                   <span className="truncate">Abmelden</span>
                 </button>
@@ -1005,18 +1077,33 @@ function LayoutContent({ children }: LayoutProps) {
       <LearnSidebar />
       
       {/* SIDEBAR - FISCAL STYLE WIDER */}
-      <div className="w-64 bg-theme-secondary border-r border-theme flex flex-col">
-        <div className="p-3 border-b border-theme">
-          <Link href="/" className="flex items-center gap-2 group">
-            <div className="flex items-end gap-0.5">
-              <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
-              <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
-              <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
+      <div className="w-72 bg-theme-secondary border-r border-theme flex flex-col relative z-20">
+        <div className="px-3 pt-6 pb-4 border-b border-theme/60">
+          <Link href="/" className="flex flex-col items-center gap-2 group">
+            <div className="w-14 h-14 rounded-3xl bg-theme-primary/80 border border-theme/60 shadow-lg flex items-center justify-center transition-colors group-hover:border-green-400/70">
+              <div className="flex items-end gap-1">
+                <span className="w-1.5 h-4 rounded-full bg-green-500"></span>
+                <span className="w-1.5 h-6 rounded-full bg-green-400"></span>
+                <span className="w-1.5 h-8 rounded-full bg-green-300"></span>
+              </div>
             </div>
-            <span className="text-lg font-bold text-theme-primary group-hover:text-green-400 transition-colors">
-              FinClue
-            </span>
+            <div className="text-center space-y-0.5">
+              <p className="text-lg font-black tracking-tight text-theme-primary group-hover:text-green-400 transition-colors">
+                FinClue
+              </p>
+              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.6em] text-theme-muted">
+                Terminal
+              </p>
+            </div>
           </Link>
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <span className="px-2.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-theme-secondary bg-theme-tertiary/40 rounded-full border border-theme/40">
+              v2.1.2
+            </span>
+            <span className="px-2.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-green-300 bg-green-500/15 rounded-full border border-green-500/30">
+              Live
+            </span>
+          </div>
         </div>
 
 
@@ -1031,10 +1118,10 @@ function LayoutContent({ children }: LayoutProps) {
           allowsThemeToggle={allowsThemeToggle}
         />
 
-        <div className="p-3 border-t border-theme">
-          <div className="flex items-center gap-2 mb-3">
+        <div className="px-3 py-4 border-t border-theme/60 mt-auto">
+          <div className="flex items-center gap-2.5 mb-3">
             <div className="relative">
-              <div className="w-7 h-7 bg-green-500 rounded-lg flex items-center justify-center text-black font-semibold text-sm">
+              <div className="w-9 h-9 bg-green-500 rounded-2xl flex items-center justify-center text-black font-semibold text-sm">
                 {getInitials()}
               </div>
               {user.isPremium && (
@@ -1042,7 +1129,7 @@ function LayoutContent({ children }: LayoutProps) {
               )}
             </div>
             <div className="flex-1 min-w-0">
-              <div className="text-sm font-medium">
+              <div className="text-xs font-semibold tracking-wide text-theme-secondary">
                 {user.isPremium ? (
                   <span className="text-green-400">Premium</span>
                 ) : (
@@ -1056,7 +1143,7 @@ function LayoutContent({ children }: LayoutProps) {
           {!user.isPremium && (
             <Link 
               href="/pricing"
-              className="flex items-center justify-center gap-2 w-full py-2 bg-green-500 hover:bg-green-400 text-black rounded-lg text-sm font-semibold transition-colors mb-2"
+              className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-500 hover:bg-green-400 text-black rounded-2xl text-xs font-semibold transition-colors mb-2"
             >
               <SparklesIcon className="w-4 h-4" />
               Upgrade

@@ -102,6 +102,8 @@ export async function GET(
       // Get historical data for trend and determine if truly "new"
       let trend = 'stable'
       let changeValue = 0
+      let changeShares = 0
+      let changeSharePercentage = 0
       let isNewPosition = false
       
       if (snapshots.length >= 2) {
@@ -109,6 +111,7 @@ export async function GET(
         if (previous?.positions) {
           const prevPositions = previous.positions.filter((p: any) => getTicker(p) === ticker)
           const prevValue = prevPositions.reduce((sum: number, p: any) => sum + (p.value || 0), 0)
+          const prevShares = prevPositions.reduce((sum: number, p: any) => sum + (p.shares || 0), 0)
           
           // Check if this is a completely new position (no previous value)
           if (prevValue === 0 && mergedPosition.value > 5000000) {
@@ -116,8 +119,49 @@ export async function GET(
             trend = 'new'
           } else if (prevValue > 0) {
             changeValue = mergedPosition.value - prevValue
-            if (changeValue > prevValue * 0.05) trend = 'increasing'
-            else if (changeValue < -500000) trend = 'decreasing' // Any reduction > $500K counts as decreasing
+            changeShares = mergedPosition.shares - prevShares
+            changeSharePercentage = prevShares > 0 ? (changeShares / prevShares) * 100 : 0
+            const changePercentage = (changeValue / prevValue) * 100
+            const shareChangeMagnitude = Math.abs(changeSharePercentage)
+            const shareCountMagnitude = Math.abs(changeShares)
+            const percentThreshold = 1 // consider >=1% change in shares significant
+            const shareCountThreshold = Math.max(prevShares * 0.01, 10000)
+            
+            // Debug logging for Apple/Buffett/Berkshire
+            if (ticker === 'AAPL' && (investorInfo?.name?.toLowerCase().includes('buffett') || investorInfo?.name?.toLowerCase().includes('berkshire') || slug.includes('buffett') || slug.includes('berkshire'))) {
+              console.log(`🔍 DEBUG ${investorInfo.name} (${ticker}):`, {
+                currentValue: formatMarketCap(mergedPosition.value),
+                previousValue: formatMarketCap(prevValue), 
+                change: formatMarketCap(changeValue),
+                changePercentage: changePercentage.toFixed(2) + '%',
+                shareChange: changeShares.toLocaleString(),
+                shareChangePercentage: changeSharePercentage.toFixed(2) + '%'
+              })
+            }
+            
+            const shareChangeSignificant = shareChangeMagnitude >= percentThreshold || shareCountMagnitude >= shareCountThreshold
+
+            // Prioritize share-based classification
+            if (shareChangeSignificant) {
+              trend = changeShares > 0 ? 'increasing' : 'decreasing'
+            }
+            // Fallback to value-based classification for minor share fluctuations
+            else if (changeValue > 0 && (changePercentage > 5 || changeValue > 500000000)) {
+              trend = 'increasing'
+            }
+            // Any decrease >$100K counts as decreasing 
+            else if (changeValue < -100000) {
+              trend = 'decreasing'
+            }
+            // Otherwise stable
+            else {
+              trend = 'stable'
+            }
+            
+            // Debug trend result for Buffett/Berkshire
+            if (ticker === 'AAPL' && (investorInfo?.name?.toLowerCase().includes('buffett') || investorInfo?.name?.toLowerCase().includes('berkshire') || slug.includes('buffett') || slug.includes('berkshire'))) {
+              console.log(`📊 ${investorInfo.name} trend result: ${trend}`)
+            }
           }
         } else if (mergedPosition.value > 5000000) {
           // No previous data available, assume new
@@ -145,6 +189,8 @@ export async function GET(
           portfolioPercentage,
           trend,
           changeValue,
+          changeShares,
+          changeSharePercentage,
           isNewPosition,
           lastUpdated: latest.date,
           quarter: getPeriodFromDate(latest.date),
@@ -187,19 +233,30 @@ export async function GET(
           formattedValue: formatMarketCap(pos.position.value),
           formattedShares: formatNumber(pos.position.shares),
           formattedPortfolioPercentage: `${pos.position.portfolioPercentage.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`,
-          formattedChangeValue: pos.position.isNewPosition ? 'Neu' : 
-            (pos.position.changeValue !== 0 && (pos.position.value - pos.position.changeValue) > 0) ? 
-              formatPercentage((pos.position.changeValue / (pos.position.value - pos.position.changeValue)) * 100) : 
-              '0%'
+          formattedChangeValue: pos.position.isNewPosition ? 'Neu' : (
+            pos.position.changeSharePercentage && pos.position.changeSharePercentage !== 0
+              ? `${formatPercentage(pos.position.changeSharePercentage)} Aktien`
+              : (pos.position.changeValue !== 0 && (pos.position.value - pos.position.changeValue) > 0)
+                ? formatPercentage((pos.position.changeValue / (pos.position.value - pos.position.changeValue)) * 100)
+                : '0%'
+          )
         }
       }))
     }
 
     console.log(`✅ Super investor data calculated for ${ticker}: ${totalPositions} investors, ${formatMarketCap(totalValue)} total value`)
+    
+    // Debug: Show who has what trend for AAPL
+    if (ticker === 'AAPL') {
+      const trends = superInvestorPositions.map(p => `${p.investor.name}: ${p.position.trend}`).join(', ')
+      console.log(`📈 AAPL Trends: ${trends}`)
+    }
 
     return NextResponse.json(result, {
       headers: {
-        'Cache-Control': 'no-cache, no-store, must-revalidate', // Temporarily disable cache for testing
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0'
       }
     })
 

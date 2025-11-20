@@ -1,7 +1,7 @@
 // src/app/(terminal)/analyse/earnings/page.tsx - Earnings Calendar for Watchlist
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
@@ -43,7 +43,7 @@ export default function EarningsCalendarPage() {
   const [error, setError] = useState<string | null>(null)
   const [selectedMonth, setSelectedMonth] = useState(new Date())
   const [showMyStocksOnly, setShowMyStocksOnly] = useState(false)
-  const [displayCount, setDisplayCount] = useState(50) // Show 50 initially
+  const [displayCount, setDisplayCount] = useState(50) // Show 50 initial non-watchlist entries
   const router = useRouter()
 
   // Fetch user watchlist
@@ -91,10 +91,14 @@ export default function EarningsCalendarPage() {
   }, [router])
 
   // Load all earnings data (not filtered by watchlist)
-  async function loadAllEarningsData() {
+  async function loadAllEarningsData(priorityTickers: string[] = []) {
     setEarningsLoading(true)
     try {
-      const response = await fetch(`/api/earnings-calendar-all`)
+      const params = new URLSearchParams()
+      if (priorityTickers.length > 0) {
+        params.set('priority', priorityTickers.join(','))
+      }
+      const response = await fetch(`/api/earnings-calendar-all${params.toString() ? `?${params.toString()}` : ''}`)
       
       if (response.ok) {
         const events = await response.json()
@@ -139,7 +143,7 @@ export default function EarningsCalendarPage() {
     if (showMyStocksOnly && watchlistItems.length > 0) {
       loadEarningsData(watchlistItems.map(item => item.ticker))
     } else {
-      loadAllEarningsData()
+      loadAllEarningsData(watchlistItems.map(item => item.ticker))
     }
   }
 
@@ -153,12 +157,16 @@ export default function EarningsCalendarPage() {
       loadEarningsData(watchlistItems.map(item => item.ticker))
     } else {
       // Switch to all stocks
-      loadAllEarningsData()
+      loadAllEarningsData(watchlistItems.map(item => item.ticker))
     }
   }
 
-  // Filter and limit earnings events for display
-  const displayedEvents = showMyStocksOnly ? earningsEvents : earningsEvents.slice(0, displayCount)
+  const watchlistTickerSet = useMemo(() => new Set(watchlistItems.map(item => item.ticker.toUpperCase())), [watchlistItems])
+  const watchlistEvents = earningsEvents.filter(event => watchlistTickerSet.has(event.ticker.toUpperCase()))
+  const marketLeaderEvents = earningsEvents.filter(event => !watchlistTickerSet.has(event.ticker.toUpperCase()))
+  const additionalMarketLeaders = showMyStocksOnly ? [] : marketLeaderEvents.slice(0, Math.max(displayCount - watchlistEvents.length, 0))
+  const remainingMarketLeaders = Math.max(marketLeaderEvents.length - additionalMarketLeaders.length, 0)
+  const displayedEvents = showMyStocksOnly ? watchlistEvents : [...watchlistEvents, ...additionalMarketLeaders]
   
   // Group earnings by date
   const groupedEarnings = displayedEvents.reduce((groups, event) => {
@@ -567,11 +575,17 @@ export default function EarningsCalendarPage() {
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                          {events.map((event, eventIndex) => (
+                          {events.map((event, eventIndex) => {
+                            const isWatchlist = watchlistTickerSet.has(event.ticker.toUpperCase())
+                            return (
                             <Link
                               key={eventIndex}
                               href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
-                              className="flex items-center gap-3 p-3 border border-theme/20 rounded-lg hover:border-theme/40 transition-all group"
+                              className={`flex items-center gap-3 p-3 border rounded-lg transition-all group ${
+                                isWatchlist 
+                                  ? 'border-green-500/40 bg-green-500/5 hover:border-green-500/60' 
+                                  : 'border-theme/20 hover:border-theme/40'
+                              }`}
                             >
                               <Logo 
                                 ticker={event.ticker} 
@@ -579,8 +593,13 @@ export default function EarningsCalendarPage() {
                                 className="w-8 h-8 rounded-lg flex-shrink-0" 
                               />
                               <div className="flex-1 min-w-0">
-                                <div className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors">
-                                  {event.ticker}
+                                <div className="font-semibold text-theme-primary group-hover:text-green-400 transition-colors flex items-center gap-2">
+                                  <span>{event.ticker}</span>
+                                  {isWatchlist && (
+                                    <span className="text-[10px] uppercase tracking-wide text-green-400 bg-green-500/15 px-1.5 py-0.5 rounded-full">
+                                      Watchlist
+                                    </span>
+                                  )}
                                   {event.marketCap && event.marketCap > 100000000 && (
                                     <span className="ml-2 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">
                                       {event.marketCap > 1000000000000 ? 
@@ -602,7 +621,7 @@ export default function EarningsCalendarPage() {
                                 'bg-theme-muted'
                               }`}></div>
                             </Link>
-                          ))}
+                          )})}
                         </div>
                       </div>
                     )
@@ -612,14 +631,14 @@ export default function EarningsCalendarPage() {
             )}
 
             {/* Show More Button - Only show for "All Stocks" mode */}
-            {!showMyStocksOnly && earningsEvents.length > displayCount && (
+            {!showMyStocksOnly && remainingMarketLeaders > 0 && (
               <div className="flex justify-center mt-6">
                 <button
                   onClick={() => setDisplayCount(prev => prev + 50)}
                   className="flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 font-medium"
                 >
                   <ChartBarIcon className="w-4 h-4" />
-                  Mehr anzeigen ({earningsEvents.length - displayCount} weitere)
+                  Mehr anzeigen ({remainingMarketLeaders} weitere)
                 </button>
               </div>
             )}
