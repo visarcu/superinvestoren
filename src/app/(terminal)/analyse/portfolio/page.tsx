@@ -61,11 +61,7 @@ export default function PortfolioPage() {
         return
       }
 
-      // Check premium status and existing portfolios
-      const premiumStatus = await checkUserPremiumStatus()
-      setIsPremium(premiumStatus?.isPremium || false)
-
-      // Count existing portfolios
+      // Check if user already has portfolios - redirect to dashboard if so
       const { data: portfolios, error } = await supabase
         .from('portfolios')
         .select('id')
@@ -73,16 +69,17 @@ export default function PortfolioPage() {
 
       if (error) throw error
       const portfolioCount = portfolios?.length || 0
-      setExistingPortfolios(portfolioCount)
-
-      // Check if user can create more portfolios
-      const limits = getPortfolioLimits(premiumStatus?.isPremium || false)
       
-      if (portfolioCount >= limits.maxPortfolios) {
-        // Redirect to pricing for free users who hit limit
-        router.push('/pricing')
+      // If user has portfolios, redirect to dashboard instead of create page
+      if (portfolioCount > 0) {
+        router.push('/analyse/portfolio/dashboard')
         return
       }
+
+      // Check premium status for portfolio creation limits
+      const premiumStatus = await checkUserPremiumStatus()
+      setIsPremium(premiumStatus?.isPremium || false)
+      setExistingPortfolios(portfolioCount)
 
       setHasPortfolio(false)
     } catch (error) {
