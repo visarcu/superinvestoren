@@ -11,11 +11,28 @@ import {
   ArrowLeftIcon,
   ArrowPathIcon,
   BookmarkIcon,
+  MagnifyingGlassIcon,
+  AdjustmentsHorizontalIcon,
   ExclamationCircleIcon,
   ChevronLeftIcon,
   ChevronRightIcon
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
+
+const MARKET_CAP_FILTERS = [
+  { id: 'mega', label: 'Mega & Large Cap', min: 20000000000, hint: '> 20 Mrd. $' },
+  { id: 'mid', label: 'Mid Cap +', min: 3000000000, hint: '> 3 Mrd. $' },
+  { id: 'all', label: 'Alle Caps', min: 0, hint: 'inkl. Small Caps' }
+] as const
+
+const TIME_FILTERS = [
+  { id: 'all', label: 'Alle Zeiten' },
+  { id: 'bmo', label: 'Vor Börse' },
+  { id: 'amc', label: 'Nach Börse' }
+] as const
+
+type MarketCapFilterId = typeof MARKET_CAP_FILTERS[number]['id']
+type TimeFilterId = typeof TIME_FILTERS[number]['id']
 
 interface WatchlistItem {
   id: string
@@ -44,6 +61,9 @@ export default function EarningsCalendarPage() {
   const [selectedMonth, setSelectedMonth] = useState(new Date())
   const [showMyStocksOnly, setShowMyStocksOnly] = useState(false)
   const [displayCount, setDisplayCount] = useState(50) // Show 50 initial non-watchlist entries
+  const [marketCapFilter, setMarketCapFilter] = useState<MarketCapFilterId>('mega')
+  const [timeFilter, setTimeFilter] = useState<TimeFilterId>('all')
+  const [searchTerm, setSearchTerm] = useState('')
   const router = useRouter()
 
   // Fetch user watchlist
@@ -162,8 +182,27 @@ export default function EarningsCalendarPage() {
   }
 
   const watchlistTickerSet = useMemo(() => new Set(watchlistItems.map(item => item.ticker.toUpperCase())), [watchlistItems])
-  const watchlistEvents = earningsEvents.filter(event => watchlistTickerSet.has(event.ticker.toUpperCase()))
-  const marketLeaderEvents = earningsEvents.filter(event => !watchlistTickerSet.has(event.ticker.toUpperCase()))
+  const marketCapThreshold = useMemo(() => {
+    const filter = MARKET_CAP_FILTERS.find(filter => filter.id === marketCapFilter)
+    return filter ? filter.min : 0
+  }, [marketCapFilter])
+
+  const filteredEvents = useMemo(() => {
+    const term = searchTerm.trim().toLowerCase()
+    return earningsEvents.filter(event => {
+      const tickerUpper = event.ticker?.toUpperCase() || ''
+      const isWatchlist = watchlistTickerSet.has(tickerUpper)
+      const marketCap = event.marketCap || 0
+      const meetsCap = isWatchlist || marketCap >= marketCapThreshold
+      const eventTime = (event.time || '').toLowerCase()
+      const matchesTime = timeFilter === 'all' || eventTime === timeFilter
+      const matchesSearch = !term || event.ticker.toLowerCase().includes(term) || (event.companyName?.toLowerCase().includes(term))
+      return meetsCap && matchesTime && matchesSearch
+    })
+  }, [earningsEvents, watchlistTickerSet, marketCapThreshold, timeFilter, searchTerm])
+
+  const watchlistEvents = filteredEvents.filter(event => watchlistTickerSet.has(event.ticker.toUpperCase()))
+  const marketLeaderEvents = filteredEvents.filter(event => !watchlistTickerSet.has(event.ticker.toUpperCase()))
   const additionalMarketLeaders = showMyStocksOnly ? [] : marketLeaderEvents.slice(0, Math.max(displayCount - watchlistEvents.length, 0))
   const remainingMarketLeaders = Math.max(marketLeaderEvents.length - additionalMarketLeaders.length, 0)
   const displayedEvents = showMyStocksOnly ? watchlistEvents : [...watchlistEvents, ...additionalMarketLeaders]
@@ -280,6 +319,8 @@ export default function EarningsCalendarPage() {
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
             <p className="text-theme-secondary">Lade Earnings Kalender...</p>
           </div>
+
+          {/* Filter Controls */}
         </div>
       </div>
     )
@@ -312,15 +353,15 @@ export default function EarningsCalendarPage() {
               <div className="flex items-center gap-4 text-theme-secondary">
                 <span className="text-sm">
                   {showMyStocksOnly 
-                    ? `${watchlistItems.length} ${watchlistItems.length === 1 ? 'Aktie' : 'Aktien'} aus deiner Watchlist`
-                    : 'Alle verfügbaren Earnings'
+                    ? `${watchlistEvents.length} ${watchlistEvents.length === 1 ? 'Aktie' : 'Aktien'} aus deiner Watchlist`
+                    : `${filteredEvents.length} Earnings nach Filter`
                   }
                 </span>
-                {earningsEvents.length > 0 && (
+                {filteredEvents.length > 0 && (
                   <>
                     <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
                     <span className="text-sm text-green-400">
-                      {earningsEvents.length} anstehende Earnings
+                      Watchlist: {watchlistEvents.length} • Market Leaders: {marketLeaderEvents.length}
                     </span>
                   </>
                 )}
@@ -352,6 +393,62 @@ export default function EarningsCalendarPage() {
                   {earningsLoading ? 'Laden...' : 'Aktualisieren'}
                 </span>
               </button>
+            </div>
+          </div>
+
+          {/* Filter Controls */}
+          <div className="mt-8 bg-theme-secondary/30 border border-theme/10 rounded-xl p-4 space-y-3">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+              <div className="relative">
+                <MagnifyingGlassIcon className="w-4 h-4 text-theme-muted absolute left-3 top-1/2 -translate-y-1/2" />
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Nach Ticker oder Unternehmen suchen..."
+                  className="w-full bg-theme-primary border border-theme/20 rounded-lg py-2 pl-9 pr-3 text-sm focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/30"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                {TIME_FILTERS.map(filter => (
+                  <button
+                    key={filter.id}
+                    onClick={() => setTimeFilter(filter.id)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-semibold transition-colors ${
+                      timeFilter === filter.id
+                        ? 'bg-green-500 text-black'
+                        : 'bg-theme-primary text-theme-muted border border-theme/20 hover:border-green-500/40'
+                    }`}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </div>
+
+              <div className="flex items-center gap-2 flex-wrap">
+                {MARKET_CAP_FILTERS.map(filter => (
+                  <button
+                    key={filter.id}
+                    onClick={() => setMarketCapFilter(filter.id)}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all border ${
+                      marketCapFilter === filter.id
+                        ? 'bg-green-500/10 text-green-400 border-green-500/40'
+                        : 'bg-theme-primary text-theme-muted border-theme/20 hover:border-green-500/30'
+                    }`}
+                    title={filter.hint}
+                  >
+                    {filter.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="flex items-center gap-2 text-xs text-theme-muted">
+              <AdjustmentsHorizontalIcon className="w-4 h-4" />
+              <span>
+                Filter aktiv: {timeFilter === 'all' ? 'alle Zeiten' : timeFilter === 'bmo' ? 'Vor Börse' : 'Nach Börse'} •
+                Mindest-Marktkapitalisierung {MARKET_CAP_FILTERS.find(filter => filter.id === marketCapFilter)?.hint}
+              </span>
             </div>
           </div>
         </div>
@@ -510,23 +607,37 @@ export default function EarningsCalendarPage() {
 
                         {/* Events */}
                         <div className="space-y-1">
-                          {dayData.events.slice(0, 3).map((event, eventIndex) => (
-                            <Link
-                              key={eventIndex}
-                              href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
-                              className={`block text-xs px-2 py-1 rounded-md cursor-pointer transition-all hover:scale-105 ${
-                                event.time === 'amc' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30 hover:bg-orange-500/30' :
-                                event.time === 'bmo' ? 'bg-blue-500/20 text-blue-400 border border-blue-500/30 hover:bg-blue-500/30' :
-                                'bg-theme-secondary/50 text-theme-primary border border-theme/20 hover:bg-theme-secondary'
-                              }`}
-                              title={`${event.ticker} - ${event.companyName} (${formatTime(event.time)})`}
-                            >
-                              <div className="font-semibold truncate">{event.ticker}</div>
-                              <div className="text-xs opacity-80 truncate">
-                                {formatTime(event.time)}
-                              </div>
-                            </Link>
-                          ))}
+                          {dayData.events.slice(0, 3).map((event, eventIndex) => {
+                            const isWatchlistEvent = watchlistTickerSet.has(event.ticker.toUpperCase())
+                            return (
+                              <Link
+                                key={eventIndex}
+                                href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+                                className={`block text-xs px-2 py-1 rounded-md cursor-pointer transition-all hover:scale-105 border ${
+                                  isWatchlistEvent
+                                    ? 'bg-green-500/15 text-green-400 border-green-500/40'
+                                    : event.time === 'amc'
+                                      ? 'bg-orange-500/20 text-orange-400 border-orange-500/30 hover:bg-orange-500/30'
+                                      : event.time === 'bmo'
+                                        ? 'bg-blue-500/20 text-blue-400 border-blue-500/30 hover:bg-blue-500/30'
+                                        : 'bg-theme-secondary/50 text-theme-primary border-theme/20 hover:bg-theme-secondary'
+                                }`}
+                                title={`${event.ticker} - ${event.companyName} (${formatTime(event.time)})`}
+                              >
+                                <div className="font-semibold truncate flex items-center gap-1">
+                                  {event.ticker}
+                                  {isWatchlistEvent && (
+                                    <span className="text-[10px] uppercase tracking-wide bg-green-500/40 text-black rounded-full px-1">
+                                      WL
+                                    </span>
+                                  )}
+                                </div>
+                                <div className="text-xs opacity-80 truncate">
+                                  {formatTime(event.time)}
+                                </div>
+                              </Link>
+                            )
+                          })}
                           
                           {dayData.events.length > 3 && (
                             <div className="text-xs text-theme-muted text-center">
@@ -601,12 +712,12 @@ export default function EarningsCalendarPage() {
                                     </span>
                                   )}
                                   {event.marketCap && event.marketCap > 100000000 && (
-                                    <span className="ml-2 text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded">
-                                      {event.marketCap > 1000000000000 ? 
-                                        `${(event.marketCap / 1000000000000).toFixed(1)}T` : 
-                                        event.marketCap > 1000000000 ?
-                                        `${(event.marketCap / 1000000000).toFixed(1)}B` :
-                                        `${(event.marketCap / 1000000).toFixed(0)}M`
+                                    <span className="text-[11px] bg-theme-secondary/50 text-theme-primary px-1.5 py-0.5 rounded border border-theme/20">
+                                      {event.marketCap > 1_000_000_000_000 ? 
+                                        `${(event.marketCap / 1_000_000_000_000).toFixed(1)} Bio.` : 
+                                        event.marketCap > 1_000_000_000 ?
+                                        `${(event.marketCap / 1_000_000_000).toFixed(1)} Mrd.` :
+                                        `${(event.marketCap / 1_000_000).toFixed(0)} Mio.`
                                       }
                                     </span>
                                   )}

@@ -38,11 +38,6 @@ const WallStreetRatingDonut = dynamic(
   { ssr: false }
 )
 
-// ✨ Bulls/Bears Integration
-const BullsBearsSection = dynamic(
-  () => import('@/components/BullsBearsSection'),
-  { ssr: false, loading: () => <LoadingSpinner /> }
-)
 
 // ✨ Growth Section Integration
 const GrowthSection = dynamic(
@@ -1003,46 +998,39 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           </div>
         </div>
 
-      {/* ✅ BULLS/BEARS + GROWTH + CHART SEKTION - ULTRA CLEAN */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* ✅ GROWTH + CHART SEKTION - OPTIMIERT */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         
-        {/* LINKE SPALTE: BULLS/BEARS + GROWTH */}
-        <div className="lg:col-span-1 space-y-6">
-          {/* BULLS/BEARS SEKTION - EARLY LOADING (No Lazy Loading) */}
-          <BullsBearsSection 
-            ticker={ticker}
-            isPremium={user?.isPremium || false}
-          />
-          
-          {/* GROWTH SEKTION - LAZY LOADED */}
+        {/* GROWTH SEKTION - LINKE SPALTE (2/5) */}
+        <div className="lg:col-span-2">
           <LazyWrapper 
             minHeight="300px" 
             rootMargin="250px"
             className="bg-theme-card rounded-lg"
-            fallback={
-              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
-                <div className="text-center">
-                  <div className="animate-pulse flex space-x-4">
-                    <div className="flex-1 space-y-3 py-1">
-                      <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
-                      <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
-                      <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
-                    </div>
+          fallback={
+            <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
+              <div className="text-center">
+                <div className="animate-pulse flex space-x-4">
+                  <div className="flex-1 space-y-3 py-1">
+                    <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
+                    <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
+                    <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
                   </div>
-                  <p className="text-theme-muted text-sm mt-4">Lade Wachstums-Analyse...</p>
                 </div>
+                <p className="text-theme-muted text-sm mt-4">Lade Wachstums-Analyse...</p>
               </div>
-            }
-          >
-            <GrowthSection 
-              ticker={ticker}
-              isPremium={user?.isPremium || false}
-            />
+            </div>
+          }
+        >
+          <GrowthSection 
+            ticker={ticker}
+            isPremium={user?.isPremium || false}
+          />
           </LazyWrapper>
         </div>
 
-        {/* ✅ HISTORISCHER KURSVERLAUF - ULTRA CLEAN */}
-        <div className="lg:col-span-2">
+        {/* ✅ HISTORISCHER KURSVERLAUF - RECHTE SPALTE (3/5) */}
+        <div className="lg:col-span-3">
           {history.length > 0 ? (
             <div className="bg-theme-card rounded-lg">
               <div className="px-6 py-4 border-b border-theme/5">
