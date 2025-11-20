@@ -291,18 +291,6 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
     ]
   },
   {
-    id: 'data-lists',
-    label: 'LISTEN',
-    items: [
-      {
-        id: 'stock-lists',
-        label: 'Aktien Listen',
-        icon: ListBulletIcon,
-        href: '/analyse/lists'
-      }
-    ]
-  },
-  {
     id: 'premium',
     label: 'PREMIUM FEATURES',
     items: [

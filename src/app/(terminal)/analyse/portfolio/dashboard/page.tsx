@@ -1373,7 +1373,9 @@ export default function PortfolioDashboard() {
             holdings={holdings.map(h => ({
               symbol: h.symbol,
               name: h.name,
-              quantity: h.quantity
+              quantity: h.quantity,
+              current_price: h.current_price_display,
+              value: h.value
             }))} 
           />
         )}
