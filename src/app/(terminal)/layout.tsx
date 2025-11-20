@@ -8,7 +8,6 @@ import { supabase } from '@/lib/supabaseClient'
 import {
   ChartBarIcon,
   BookmarkIcon,
-  MapIcon,
   CalendarIcon,
   MagnifyingGlassIcon,
   NewspaperIcon,
@@ -240,12 +239,6 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         href: '/analyse/watchlist'
       },
       {
-        id: 'heatmap',
-        label: 'Heatmap',
-        icon: MapIcon,
-        href: '/analyse/heatmap'
-      },
-      {
         id: 'earnings',
         label: 'Earnings Kalender',
         icon: CalendarIcon,
@@ -463,10 +456,8 @@ const CommandPalette = React.memo(({
       { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/notifications', category: 'settings' },
       { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
       { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
-      { id: 'nav-heatmap', title: 'Heatmap', subtitle: 'Visuelle Marktansicht', icon: MapIcon, href: '/analyse/heatmap', category: 'navigation' },
       { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
       { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/finclue-ai', category: 'navigation' },
-      { id: 'nav-lists', title: 'Aktien Listen', subtitle: 'Kuratierte Listen', icon: ListBulletIcon, href: '/analyse/lists', category: 'navigation' },
       { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
       { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
       
