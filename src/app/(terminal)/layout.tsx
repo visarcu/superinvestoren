@@ -32,7 +32,8 @@ import {
   BellIcon,
   ArrowTrendingUpIcon,
   FunnelIcon,
-  ArrowTrendingDownIcon
+  ArrowTrendingDownIcon,
+  CurrencyDollarIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
 import { useTheme } from '@/lib/useTheme'
@@ -251,6 +252,12 @@ const NAVIGATION_CATEGORIES: NavCategory[] = [
         label: 'Earnings Kalender',
         icon: CalendarIcon,
         href: '/analyse/earnings'
+      },
+      {
+        id: 'dividends',
+        label: 'Dividenden Kalender',
+        icon: CurrencyDollarIcon,
+        href: '/analyse/dividends'
       }
     ]
   },
@@ -579,6 +586,7 @@ const CommandPalette = React.memo(({
       { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
       { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
       { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
+      { id: 'nav-dividends', title: 'Dividenden Calendar', subtitle: 'Dividenden-Termine', icon: CurrencyDollarIcon, href: '/analyse/dividends', category: 'navigation' },
       { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/finclue-ai', category: 'navigation' },
       { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
       { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
