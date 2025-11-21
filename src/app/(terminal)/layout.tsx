@@ -28,12 +28,12 @@ import {
   ListBulletIcon,
   AcademicCapIcon,
   EyeIcon,
+  CurrencyDollarIcon,
   CalculatorIcon,
   BellIcon,
   ArrowTrendingUpIcon,
   FunnelIcon,
-  ArrowTrendingDownIcon,
-  CurrencyDollarIcon
+  ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline'
 import { Analytics } from "@vercel/analytics/next"
 import { useTheme } from '@/lib/useTheme'

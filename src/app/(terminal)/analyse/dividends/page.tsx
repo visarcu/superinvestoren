@@ -11,7 +11,8 @@ import {
   ArrowPathIcon,
   BookmarkIcon,
   ExclamationCircleIcon,
-  CurrencyDollarIcon
+  CurrencyDollarIcon,
+  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 
@@ -29,6 +30,8 @@ interface DividendEvent {
   paymentDate: string
   recordDate: string
   dividend: number
+  yield: number | null
+  currentPrice: number | null
   frequency: string
 }
 
@@ -156,6 +159,11 @@ export default function DividendsCalendarPage() {
   const upcomingEvents = sortedDates.filter(date => isUpcoming(date))
   const pastEvents = sortedDates.filter(date => !isUpcoming(date)).reverse()
 
+  // Calculate total expected dividends
+  const totalExpectedDividends = upcomingEvents.reduce((sum, date) => 
+    sum + groupedEvents[date].reduce((eventSum, event) => eventSum + event.dividend, 0), 0
+  )
+
   return (
     <div className="min-h-screen bg-theme-primary">
       {/* Header */}
@@ -165,7 +173,7 @@ export default function DividendsCalendarPage() {
             <Link href="/analyse" className="text-theme-secondary hover:text-theme-primary transition-colors">
               <ArrowLeftIcon className="h-5 w-5" />
             </Link>
-            <Logo className="h-6" />
+            <Logo className="h-6" alt="FinClue Logo" />
             <div>
               <h1 className="text-lg font-semibold text-theme-primary">Dividenden-Kalender</h1>
               <p className="text-sm text-theme-secondary">
@@ -238,12 +246,24 @@ export default function DividendsCalendarPage() {
         {!loading && !dividendsLoading && watchlistItems.length > 0 && (
           <>
             {/* Summary Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-theme-card rounded-lg p-4">
                 <div className="flex items-center space-x-3">
                   <CurrencyDollarIcon className="h-8 w-8 text-green-400" />
                   <div>
-                    <p className="text-theme-secondary text-sm">Kommende Dividenden</p>
+                    <p className="text-theme-secondary text-sm">Erwartete Dividenden</p>
+                    <p className="text-theme-primary text-lg font-semibold">
+                      {formatCurrency(totalExpectedDividends)}
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-theme-card rounded-lg p-4">
+                <div className="flex items-center space-x-3">
+                  <CalendarIcon className="h-8 w-8 text-blue-400" />
+                  <div>
+                    <p className="text-theme-secondary text-sm">Kommende Termine</p>
                     <p className="text-theme-primary text-lg font-semibold">
                       {upcomingEvents.reduce((sum, date) => sum + groupedEvents[date].length, 0)}
                     </p>
@@ -253,7 +273,7 @@ export default function DividendsCalendarPage() {
               
               <div className="bg-theme-card rounded-lg p-4">
                 <div className="flex items-center space-x-3">
-                  <CalendarIcon className="h-8 w-8 text-blue-400" />
+                  <CalendarIcon className="h-8 w-8 text-theme-secondary" />
                   <div>
                     <p className="text-theme-secondary text-sm">Termine insgesamt</p>
                     <p className="text-theme-primary text-lg font-semibold">{dividendEvents.length}</p>
@@ -304,29 +324,62 @@ export default function DividendsCalendarPage() {
                       </div>
                       
                       <div className="grid gap-3">
-                        {groupedEvents[date].map((event, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-theme-hover rounded-lg">
-                            <div className="flex items-center space-x-3">
-                              <Link
-                                href={`/analyse/stocks/${event.ticker}`}
-                                className="font-mono font-medium text-green-400 hover:text-green-300 transition-colors"
-                              >
-                                {event.ticker}
-                              </Link>
-                              <div>
-                                <p className="text-theme-primary text-sm">{event.companyName}</p>
-                                <p className="text-theme-muted text-xs">{event.frequency}</p>
+                        {groupedEvents[date].map((event, index) => {
+                          // Calculate urgency for Ex-Date
+                          const daysUntilEx = Math.ceil((new Date(event.exDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
+                          const isUrgent = daysUntilEx <= 3 && daysUntilEx >= 0
+                          
+                          // Frequency translations
+                          const frequencyLabels = {
+                            'Quarterly': 'Vierteljährlich',
+                            'Annual': 'Jährlich', 
+                            'Monthly': 'Monatlich',
+                            'Semi-Annual': 'Halbjährlich'
+                          }
+
+                          return (
+                            <div key={index} className="p-3 bg-theme-hover rounded-lg">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                  <Link
+                                    href={`/analyse/stocks/${event.ticker}`}
+                                    className="font-mono font-medium text-green-400 hover:text-green-300 transition-colors"
+                                  >
+                                    {event.ticker}
+                                  </Link>
+                                  <div>
+                                    <p className="text-theme-primary text-sm">{event.companyName}</p>
+                                    <div className="flex items-center gap-2 mt-1">
+                                      <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded">
+                                        {frequencyLabels[event.frequency as keyof typeof frequencyLabels] || event.frequency}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div className="text-right">
+                                  <p className="text-theme-primary font-medium">{formatCurrency(event.dividend)}</p>
+                                  {event.yield && (
+                                    <p className="text-green-400 text-xs font-medium">
+                                      {event.yield.toFixed(2)}% Rendite
+                                    </p>
+                                  )}
+                                  <p className="text-theme-muted text-xs">
+                                    Ex-Date: {formatDate(event.exDate)}
+                                  </p>
+                                </div>
                               </div>
+
+                              {/* Urgency Indicator */}
+                              {isUrgent && (
+                                <div className="flex items-center gap-1 text-orange-400 text-xs mt-2 pt-2 border-t border-theme/20">
+                                  <ExclamationTriangleIcon className="w-3 h-3" />
+                                  <span>⚠️ Ex-Date in {daysUntilEx} {daysUntilEx === 1 ? 'Tag' : 'Tagen'}</span>
+                                </div>
+                              )}
                             </div>
-                            
-                            <div className="text-right">
-                              <p className="text-theme-primary font-medium">{formatCurrency(event.dividend)}</p>
-                              <p className="text-theme-muted text-xs">
-                                Ex-Date: {formatDate(event.exDate)}
-                              </p>
-                            </div>
-                          </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     </div>
                   ))}
@@ -353,26 +406,46 @@ export default function DividendsCalendarPage() {
                       </div>
                       
                       <div className="grid gap-3">
-                        {groupedEvents[date].map((event, index) => (
-                          <div key={index} className="flex items-center justify-between p-3 bg-theme-hover rounded-lg">
-                            <div className="flex items-center space-x-3">
-                              <Link
-                                href={`/analyse/stocks/${event.ticker}`}
-                                className="font-mono font-medium text-theme-secondary hover:text-theme-primary transition-colors"
-                              >
-                                {event.ticker}
-                              </Link>
-                              <div>
-                                <p className="text-theme-secondary text-sm">{event.companyName}</p>
-                                <p className="text-theme-muted text-xs">{event.frequency}</p>
+                        {groupedEvents[date].map((event, index) => {
+                          const frequencyLabels = {
+                            'Quarterly': 'Vierteljährlich',
+                            'Annual': 'Jährlich', 
+                            'Monthly': 'Monatlich',
+                            'Semi-Annual': 'Halbjährlich'
+                          }
+
+                          return (
+                            <div key={index} className="p-3 bg-theme-hover rounded-lg opacity-75">
+                              <div className="flex items-center justify-between">
+                                <div className="flex items-center space-x-3">
+                                  <Link
+                                    href={`/analyse/stocks/${event.ticker}`}
+                                    className="font-mono font-medium text-theme-secondary hover:text-theme-primary transition-colors"
+                                  >
+                                    {event.ticker}
+                                  </Link>
+                                  <div>
+                                    <p className="text-theme-secondary text-sm">{event.companyName}</p>
+                                    <div className="flex items-center gap-2 mt-1">
+                                      <span className="text-xs px-2 py-0.5 bg-theme-secondary/20 text-theme-secondary rounded">
+                                        {frequencyLabels[event.frequency as keyof typeof frequencyLabels] || event.frequency}
+                                      </span>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                <div className="text-right">
+                                  <p className="text-theme-secondary font-medium">{formatCurrency(event.dividend)}</p>
+                                  {event.yield && (
+                                    <p className="text-theme-muted text-xs font-medium">
+                                      {event.yield.toFixed(2)}% Rendite
+                                    </p>
+                                  )}
+                                </div>
                               </div>
                             </div>
-                            
-                            <div className="text-right">
-                              <p className="text-theme-secondary font-medium">{formatCurrency(event.dividend)}</p>
-                            </div>
-                          </div>
-                        ))}
+                          )
+                        })}
                       </div>
                     </div>
                   ))}

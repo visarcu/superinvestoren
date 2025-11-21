@@ -37,22 +37,40 @@ export async function GET(request: NextRequest) {
           return null
         }
 
+        // Get current stock price for yield calculation
+        const quoteResponse = await fetch(
+          `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${process.env.FMP_API_KEY}`
+        )
+        
+        let currentPrice = null
+        if (quoteResponse.ok) {
+          const quoteData = await quoteResponse.json()
+          currentPrice = quoteData[0]?.price || null
+        }
+
         // Get upcoming and recent dividends (next 6 months + last 6 months)
         const now = new Date()
         const sixMonthsAgo = new Date(now.getTime() - (6 * 30 * 24 * 60 * 60 * 1000))
         const sixMonthsFromNow = new Date(now.getTime() + (6 * 30 * 24 * 60 * 60 * 1000))
 
         const relevantDividends = data.historical
-          .map((div: any) => ({
-            ticker,
-            companyName: data.symbol || ticker,
-            date: div.date,
-            exDate: div.date,
-            paymentDate: div.paymentDate || div.date,
-            recordDate: div.recordDate || div.date,
-            dividend: div.dividend || div.adjDividend || 0,
-            frequency: estimateFrequency(data.historical)
-          }))
+          .map((div: any) => {
+            const dividendAmount = div.dividend || div.adjDividend || 0
+            const yield_ = currentPrice && dividendAmount > 0 ? (dividendAmount / currentPrice) * 100 : null
+            
+            return {
+              ticker,
+              companyName: data.symbol || ticker,
+              date: div.date,
+              exDate: div.date,
+              paymentDate: div.paymentDate || div.date,
+              recordDate: div.recordDate || div.date,
+              dividend: dividendAmount,
+              yield: yield_,
+              currentPrice,
+              frequency: estimateFrequency(data.historical)
+            }
+          })
           .filter((div: any) => {
             const divDate = new Date(div.date)
             return divDate >= sixMonthsAgo && divDate <= sixMonthsFromNow
