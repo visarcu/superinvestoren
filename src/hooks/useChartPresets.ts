@@ -3,6 +3,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { ChartPreset, CreateChartPresetRequest, UpdateChartPresetRequest, LegacyCustomPreset } from '@/types/chartPresets'
+import { supabase } from '@/lib/supabaseClient'
 
 interface UseChartPresetsReturn {
   presets: ChartPreset[]
@@ -18,6 +19,19 @@ export function useChartPresets(userId: string | null, isPremium: boolean): UseC
   const [presets, setPresets] = useState<ChartPreset[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // Helper function to get auth headers
+  const getAuthHeaders = useCallback(async () => {
+    const { data: { session }, error } = await supabase.auth.getSession()
+    if (error || !session?.access_token) {
+      throw new Error('No valid session')
+    }
+    
+    return {
+      'Authorization': `Bearer ${session.access_token}`,
+      'Content-Type': 'application/json'
+    }
+  }, [])
 
   // Migrate legacy localStorage presets to Supabase
   const migrateLegacyPresets = useCallback(async () => {
@@ -69,7 +83,10 @@ export function useChartPresets(userId: string | null, isPremium: boolean): UseC
 
       if (isPremium) {
         // Premium users: fetch from Supabase
-        const response = await fetch('/api/chart-presets')
+        const headers = await getAuthHeaders()
+        const response = await fetch('/api/chart-presets', {
+          headers
+        })
         
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}`)
@@ -118,13 +135,11 @@ export function useChartPresets(userId: string | null, isPremium: boolean): UseC
       if (isPremium) {
         console.log('💾 [createPreset] Using Supabase for Premium user')
         // Premium users: save to Supabase
+        const headers = await getAuthHeaders()
         const response = await fetch('/api/chart-presets', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            ...preset,
-            userId
-          })
+          headers,
+          body: JSON.stringify(preset)
         })
 
         if (!response.ok) {
@@ -138,7 +153,7 @@ export function useChartPresets(userId: string | null, isPremium: boolean): UseC
         console.log('💾 [createPreset] Using localStorage for Free user')
         // Free users: save to localStorage
         const newPreset: ChartPreset = {
-          id: `custom_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+          id: `custom_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
           user_id: userId,
           name: preset.name,
           charts: preset.charts,
@@ -179,9 +194,10 @@ export function useChartPresets(userId: string | null, isPremium: boolean): UseC
     try {
       if (isPremium) {
         // Premium users: update in Supabase
+        const headers = await getAuthHeaders()
         const response = await fetch('/api/chart-presets', {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers,
           body: JSON.stringify(update)
         })
 
@@ -242,8 +258,10 @@ export function useChartPresets(userId: string | null, isPremium: boolean): UseC
     try {
       if (isPremium) {
         // Premium users: delete from Supabase
+        const headers = await getAuthHeaders()
         const response = await fetch(`/api/chart-presets?id=${id}`, {
-          method: 'DELETE'
+          method: 'DELETE',
+          headers
         })
 
         if (!response.ok) {

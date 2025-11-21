@@ -349,98 +349,81 @@ interface LayoutProps {
 // Diese Funktionen werden jetzt durch CurrencyContext ersetzt
 // Siehe formatPrice, formatPercentage, formatMarketCap unten in der LayoutContent Komponente
 
-// KATEGORISIERTE NAVIGATION - MEMOIZED
+// KATEGORISIERTE NAVIGATION - MEMOIZED - FISCAL.AI STYLE
+// KATEGORISIERTE NAVIGATION - MEMOIZED - FISCAL.AI STYLE MIT FUNKTIONIERENDEM DROPDOWN
+// KATEGORISIERTE NAVIGATION - MEMOIZED - FISCAL.AI STYLE MIT KLICK-DROPDOWNS
 const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown, setShowSettingsDropdown, handleSignOut, theme, toggleTheme, allowsThemeToggle }: { user: User, pathname: string, showSettingsDropdown: boolean, setShowSettingsDropdown: (show: boolean) => void, handleSignOut: () => void, theme: 'light' | 'dark', toggleTheme: () => void, allowsThemeToggle: boolean }) => {
   const [openSubMenu, setOpenSubMenu] = useState<string | null>(null)
 
+  const handleItemClick = (e: React.MouseEvent, itemId: string, hasSubItems: boolean) => {
+    if (hasSubItems) {
+      e.preventDefault()
+      setOpenSubMenu(openSubMenu === itemId ? null : itemId)
+    }
+  }
+
   return (
-    <nav className="flex-1 px-4 py-5 overflow-y-auto relative z-10">
-      <div className="space-y-4">
-        {NAVIGATION_CATEGORIES.map((category) => (
-          <div key={category.id} className="space-y-1.5">
-            <div className="px-2">
-              <h3 className="text-[0.6rem] font-semibold text-theme-muted uppercase tracking-[0.35em]">
-                {category.label}
-              </h3>
-            </div>
+    <nav className="flex-1 px-2 py-4 overflow-y-auto relative z-10">
+      <div className="space-y-0.5">
+        {NAVIGATION_CATEGORIES.map((category, categoryIndex) => (
+          <div key={category.id} className="space-y-0.5">
+            {/* Subtiler Divider statt Label - nur zwischen Kategorien */}
+            {categoryIndex > 0 && (
+              <div className="mx-3 my-3 h-px bg-white/[0.03]"></div>
+            )}
             
-            <div className="space-y-1">
+            <div className="space-y-0.5">
               {category.items.map((item) => {
                 const Icon = item.icon
                 const hasSubItems = (item.subItems?.length ?? 0) > 0
                 const isActive = pathname === item.href || (hasSubItems && item.subItems?.some((sub) => pathname === sub.href))
                 const isPremiumItem = item.premium && !user.isPremium
+                const isOpen = openSubMenu === item.id
                 
                 return (
-                  <div
-                    key={item.id}
-                    className={hasSubItems ? 'relative' : undefined}
-                    onMouseEnter={() => hasSubItems && setOpenSubMenu(item.id)}
-                    onMouseLeave={() => hasSubItems && setOpenSubMenu(null)}
-                    onFocus={() => hasSubItems && setOpenSubMenu(item.id)}
-                    onBlur={(e) => {
-                      if (!hasSubItems) return
-                      const relatedTarget = e.relatedTarget as Node | null
-                      if (!relatedTarget || !e.currentTarget.contains(relatedTarget)) {
-                        setOpenSubMenu(null)
-                      }
-                    }}
-                  >
+                  <div key={item.id}>
                     <Link
-                      href={item.href}
-                      className={`group flex items-center gap-3 px-3.5 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
-                        isActive 
-                          ? 'bg-green-500/15 text-green-300 shadow-sm ring-1 ring-green-500/30' 
+                      href={hasSubItems ? '#' : item.href}
+                      onClick={(e) => handleItemClick(e, item.id, hasSubItems)}
+                      className={`
+                        group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150
+                        ${isActive 
+                          ? 'bg-white/[0.08] text-white border-l-2 border-green-400 -ml-[2px] pl-[14px]' 
                           : category.id === 'premium'
-                            ? 'text-green-400 hover:bg-green-500/10 hover:text-green-300'
-                            : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
-                      }`}
+                            ? 'text-green-400/80 hover:bg-white/[0.04] hover:text-green-400'
+                            : 'text-gray-400 hover:bg-white/[0.04] hover:text-gray-200'
+                        }
+                      `}
                     >
-                      <div className={`w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                        isActive 
-                          ? 'bg-green-500/25' 
-                          : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/70'
-                      }`}>
-                        <Icon className={`w-5 h-5 ${
-                          isActive 
-                            ? 'text-green-200' 
-                            : category.id === 'premium'
-                              ? 'text-green-400'
-                              : 'text-theme-muted group-hover:text-theme-primary'
-                        }`} />
-                      </div>
+                      <Icon className={`
+                        w-4 h-4 flex-shrink-0
+                        ${isActive 
+                          ? 'text-white' 
+                          : category.id === 'premium'
+                            ? 'text-green-400/60 group-hover:text-green-400/80'
+                            : 'text-gray-500 group-hover:text-gray-400'
+                        }
+                      `} />
                       
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2">
-                          <span className="truncate">{item.label}</span>
-                          {isPremiumItem && (
-                            <SparklesIcon className="w-4 h-4 text-yellow-300 flex-shrink-0" />
-                          )}
-                        </div>
-                        {hasSubItems && (
-                          <p className="text-xs text-theme-muted mt-0.5">Schneller Zugriff</p>
-                        )}
-                      </div>
+                      <span className="flex-1 min-w-0 truncate">
+                        {item.label}
+                      </span>
 
-                      <div className="flex items-center gap-2 flex-shrink-0">
-                        {hasSubItems && (
-                          <ChevronRightIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-secondary" />
-                        )}
-                        {!hasSubItems && !isActive && (
-                          <ArrowRightIcon className="w-4 h-4 opacity-0 group-hover:opacity-60 transition-all duration-200" />
-                        )}
-                        {isActive && (
-                          <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                        )}
-                      </div>
+                      {isPremiumItem && (
+                        <SparklesIcon className="w-3.5 h-3.5 text-yellow-400/70 flex-shrink-0" />
+                      )}
+                      
+                      {hasSubItems && (
+                        <ChevronRightIcon className={`
+                          w-3.5 h-3.5 text-gray-600 transition-all duration-150 flex-shrink-0
+                          ${isOpen ? 'rotate-90' : ''}
+                        `} />
+                      )}
                     </Link>
 
-                    {hasSubItems && (
-                      <div className={`flex flex-col absolute left-full ml-2 top-1/2 -translate-y-1/2 bg-theme-secondary border border-theme/40 rounded-2xl shadow-2xl z-40 min-w-[200px] p-2 transition-all duration-200 ${
-                        openSubMenu === item.id
-                          ? 'opacity-100 pointer-events-auto translate-x-0'
-                          : 'opacity-0 pointer-events-none -translate-x-2'
-                      }`}>
+                    {/* Submenu - als eingeklappte Liste wie bei Einstellungen */}
+                    {hasSubItems && isOpen && (
+                      <div className="mt-1 ml-7 space-y-0.5 border-l border-white/[0.03] pl-3">
                         {item.subItems?.map((sub) => {
                           const SubIcon = sub.icon || Icon
                           const subActive = pathname === sub.href
@@ -448,19 +431,16 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                             <Link
                               key={sub.id}
                               href={sub.href}
-                              className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all text-sm ${
-                                subActive
-                                  ? 'bg-green-500/15 text-green-300'
-                                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
-                              }`}
-                              >
-                                <div className={`w-8 h-8 rounded-xl flex items-center justify-center ${
-                                  subActive ? 'bg-green-500/20' : 'bg-theme-tertiary/40'
-                                }`}>
-                                  <SubIcon className={`w-5 h-5 ${subActive ? 'text-green-300' : 'text-theme-muted'}`} />
-                                </div>
-                              <span className="flex-1 text-left">{sub.label}</span>
-                              {subActive && <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>}
+                              className={`
+                                flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all text-[12px]
+                                ${subActive
+                                  ? 'bg-white/[0.06] text-white'
+                                  : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                                }
+                              `}
+                            >
+                              <SubIcon className={`w-3.5 h-3.5 ${subActive ? 'text-gray-300' : 'text-gray-600'}`} />
+                              <span className="flex-1">{sub.label}</span>
                             </Link>
                           )
                         })}
@@ -473,141 +453,98 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
           </div>
         ))}
         
-        {/* EINSTELLUNGEN MIT DROPDOWN */}
-        <div className="space-y-2">
-          <div className="px-1.5">
-            <h3 className="text-[0.65rem] font-semibold text-theme-muted uppercase tracking-[0.35em]">
-              ACCOUNT
-            </h3>
-          </div>
+        {/* EINSTELLUNGEN SECTION - bleibt gleich wie vorher */}
+        <div className="space-y-0.5 pt-3">
+          <div className="mx-3 mb-2 h-px bg-white/[0.03]"></div>
           
-          <div className="relative">
-            <button
-              onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
-              className="group flex items-center gap-4 px-3.5 py-3 rounded-2xl text-sm font-semibold transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
-            >
-              <div className="w-10 h-10 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/70">
-                <Cog6ToothIcon className="w-6 h-6 text-theme-muted group-hover:text-theme-primary" />
-              </div>
+          <button
+            onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
+            className="group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150 w-full text-left text-gray-400 hover:bg-white/[0.04] hover:text-gray-200"
+          >
+            <Cog6ToothIcon className="w-4 h-4 text-gray-500 group-hover:text-gray-400 flex-shrink-0" />
+            <span className="flex-1 truncate">Einstellungen</span>
+            <ChevronRightIcon className={`
+              w-3.5 h-3.5 transition-all duration-150 flex-shrink-0
+              ${showSettingsDropdown ? 'rotate-90 text-gray-400' : 'text-gray-600'}
+            `} />
+          </button>
+          
+          {/* DROPDOWN MENU - Fiscal Style */}
+          {showSettingsDropdown && (
+            <div className="ml-7 space-y-0.5 border-l border-white/[0.03] pl-3">
+              <Link
+                href="/notifications"
+                className={`
+                  group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
+                  ${pathname === '/notifications'
+                    ? 'bg-white/[0.06] text-white'
+                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                  }
+                `}
+              >
+                <BellIcon className="w-3.5 h-3.5" />
+                <span>Benachrichtigungen</span>
+              </Link>
               
-              <div className="flex-1 min-w-0">
-                <span className="truncate">Einstellungen</span>
-              </div>
+              <Link
+                href="/profile"
+                className={`
+                  group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
+                  ${pathname === '/profile'
+                    ? 'bg-white/[0.06] text-white'
+                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                  }
+                `}
+              >
+                <UserCircleIcon className="w-3.5 h-3.5" />
+                <span>Profil</span>
+              </Link>
               
-              <ChevronRightIcon className={`w-4 h-4 transition-all duration-200 flex-shrink-0 ${
-                showSettingsDropdown 
-                  ? 'rotate-90 text-theme-primary' 
-                  : 'text-theme-muted group-hover:text-theme-secondary'
-              }`} />
-            </button>
-            
-            {/* DROPDOWN MENU */}
-            {showSettingsDropdown && (
-              <div className="mt-2 ml-3.5 space-y-1.5 border-l border-theme/30 pl-4">
-                <Link
-                  href="/notifications"
-                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
-                    pathname === '/notifications'
-                      ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30'
-                      : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
-                  }`}
-                >
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                    pathname === '/notifications'
-                      ? 'bg-green-500/30'
-                      : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
-                  }`}>
-                    <BellIcon className={`w-5 h-5 ${
-                      pathname === '/notifications'
-                        ? 'text-green-300'
-                        : 'text-theme-muted group-hover:text-theme-primary'
-                    }`} />
-                  </div>
-                  <span className="truncate">Benachrichtigungen</span>
-                </Link>
-                
-                <Link
-                  href="/profile"
-                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
-                    pathname === '/profile'
-                      ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30'
-                      : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
-                  }`}
-                >
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                    pathname === '/profile'
-                      ? 'bg-green-500/30'
-                      : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
-                  }`}>
-                    <UserCircleIcon className={`w-5 h-5 ${
-                      pathname === '/profile'
-                        ? 'text-green-300'
-                        : 'text-theme-muted group-hover:text-theme-primary'
-                    }`} />
-                  </div>
-                  <span className="truncate">Profil</span>
-                </Link>
-                
-                <Link
-                  href="/settings"
-                  className={`group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 ${
-                    pathname === '/settings'
-                      ? 'bg-green-500/20 text-green-400 shadow-sm ring-1 ring-green-500/30'
-                      : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60'
-                  }`}
-                >
-                  <div className={`w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 ${
-                    pathname === '/settings'
-                      ? 'bg-green-500/30'
-                      : 'bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60'
-                  }`}>
-                    <Cog6ToothIcon className={`w-5 h-5 ${
-                      pathname === '/settings'
-                        ? 'text-green-300'
-                        : 'text-theme-muted group-hover:text-theme-primary'
-                    }`} />
-                  </div>
-                  <span className="truncate">Einstellungen</span>
-                </Link>
-                
+              <Link
+                href="/settings"
+                className={`
+                  group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
+                  ${pathname === '/settings'
+                    ? 'bg-white/[0.06] text-white'
+                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                  }
+                `}
+              >
+                <Cog6ToothIcon className="w-3.5 h-3.5" />
+                <span>Einstellungen</span>
+              </Link>
+              
+              <button
+                onClick={() => window.location.href = 'mailto:team@finclue.de'}
+                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-gray-500 hover:bg-white/[0.03] hover:text-gray-300"
+              >
+                <EnvelopeIcon className="w-3.5 h-3.5" />
+                <span>Support</span>
+              </button>
+              
+              {allowsThemeToggle && (
                 <button
-                  onClick={() => window.location.href = 'mailto:team@finclue.de'}
-                  className="group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
+                  onClick={toggleTheme}
+                  className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-gray-500 hover:bg-white/[0.03] hover:text-gray-300"
                 >
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
-                    <EnvelopeIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
-                  </div>
-                  <span className="truncate">Support</span>
+                  {theme === 'dark' ? (
+                    <SunIcon className="w-3.5 h-3.5" />
+                  ) : (
+                    <MoonIcon className="w-3.5 h-3.5" />
+                  )}
+                  <span>{theme === 'dark' ? 'Helles Design' : 'Dunkles Design'}</span>
                 </button>
-                
-                {allowsThemeToggle && (
-                  <button
-                    onClick={toggleTheme}
-                  className="group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 w-full text-left text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/60"
-                  >
-                    <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-theme-tertiary/40 group-hover:bg-theme-tertiary/60">
-                      {theme === 'dark' ? (
-                        <SunIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
-                      ) : (
-                        <MoonIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
-                      )}
-                    </div>
-                    <span className="truncate">{theme === 'dark' ? 'Helles Design' : 'Dunkles Design'}</span>
-                  </button>
-                )}
-                
-                <button
-                  onClick={handleSignOut}
-                  className="group flex items-center gap-3 px-3 py-2.5 rounded-2xl text-sm font-medium transition-all duration-200 w-full text-left text-red-300 hover:text-red-200 hover:bg-red-500/10"
-                >
-                  <div className="w-9 h-9 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-200 bg-red-500/10 group-hover:bg-red-500/20">
-                    <ArrowLeftOnRectangleIcon className="w-5 h-5" />
-                  </div>
-                  <span className="truncate">Abmelden</span>
-                </button>
-              </div>
-            )}
-          </div>
+              )}
+              
+              <button
+                onClick={handleSignOut}
+                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-red-400/70 hover:bg-red-500/10 hover:text-red-400"
+              >
+                <ArrowLeftOnRectangleIcon className="w-3.5 h-3.5" />
+                <span>Abmelden</span>
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </nav>
@@ -615,7 +552,7 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
 })
 
 // COMMAND PALETTE - MEMOIZED
-const CommandPalette = React.memo(({ 
+const CommandPalette = React.memo(({
   isOpen, 
   onClose, 
   onNavigate,
@@ -1076,36 +1013,27 @@ function LayoutContent({ children }: LayoutProps) {
       
       <LearnSidebar />
       
-      {/* SIDEBAR - FISCAL STYLE WIDER */}
-      <div className="w-72 bg-theme-secondary border-r border-theme flex flex-col relative z-20">
-        <div className="px-3 pt-6 pb-4 border-b border-theme/60">
-          <Link href="/" className="flex flex-col items-center gap-2 group">
-            <div className="w-14 h-14 rounded-3xl bg-theme-primary/80 border border-theme/60 shadow-lg flex items-center justify-center transition-colors group-hover:border-green-400/70">
-              <div className="flex items-end gap-1">
-                <span className="w-1.5 h-4 rounded-full bg-green-500"></span>
-                <span className="w-1.5 h-6 rounded-full bg-green-400"></span>
-                <span className="w-1.5 h-8 rounded-full bg-green-300"></span>
-              </div>
-            </div>
-            <div className="text-center space-y-0.5">
-              <p className="text-lg font-black tracking-tight text-theme-primary group-hover:text-green-400 transition-colors">
-                FinClue
-              </p>
-              <p className="text-[0.65rem] font-semibold uppercase tracking-[0.6em] text-theme-muted">
-                Terminal
-              </p>
-            </div>
-          </Link>
-          <div className="mt-4 flex items-center justify-center gap-2">
-            <span className="px-2.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-theme-secondary bg-theme-tertiary/40 rounded-full border border-theme/40">
-              v2.1.2
-            </span>
-            <span className="px-2.5 py-0.5 text-[0.6rem] font-semibold uppercase tracking-wider text-green-300 bg-green-500/15 rounded-full border border-green-500/30">
-              Live
-            </span>
-          </div>
+   {/* SIDEBAR - FISCAL STYLE WIDER */}
+<div className="w-64 bg-[#141416] border-r border-white/[0.06] flex flex-col relative z-20">
+  <div className="px-4 pt-5 pb-4 border-b border-white/[0.04]">
+    <Link href="/" className="flex items-center gap-3 group">
+      <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center transition-all group-hover:border-green-400/40">
+        <div className="flex items-end gap-0.5">
+          <span className="w-1 h-3 rounded-full bg-green-500"></span>
+          <span className="w-1 h-4 rounded-full bg-green-400"></span>
+          <span className="w-1 h-5 rounded-full bg-green-300"></span>
         </div>
-
+      </div>
+      <div className="flex-1">
+        <p className="text-base font-bold text-white group-hover:text-green-400 transition-colors">
+          FinClue
+        </p>
+        <p className="text-[10px] font-medium uppercase tracking-wider text-gray-500">
+          Terminal
+        </p>
+      </div>
+    </Link>
+  </div>
 
         <CategorizedNavigation 
           user={user} 
@@ -1319,18 +1247,6 @@ function LayoutContent({ children }: LayoutProps) {
                          {/* Score Badge hinzufügen */}
     <ScoreBadge ticker={currentTicker} />
 
-                      {/* Action Buttons */}
-                      <div className="flex items-center gap-2">
-                        {/* Watchlist Button */}
-                        <button className="p-2 text-theme-secondary hover:text-green-400 hover:bg-theme-secondary/50 rounded-lg transition-all">
-                          <BookmarkIcon className="w-5 h-5" />
-                        </button>
-                        
-                        {/* Share Button */}
-                        <button className="p-2 text-theme-secondary hover:text-green-400 hover:bg-theme-secondary/50 rounded-lg transition-all">
-                          <ChartBarIcon className="w-5 h-5" />
-                        </button>
-                      </div>
                     </div>
                   </div>
                 ) : (

@@ -89,13 +89,19 @@ export function useTheme() {
   // Hilfsfunktion um Theme anzuwenden
   const applyTheme = (newTheme: Theme) => {
     const root = document.documentElement
-    root.classList.remove('light', 'dark')
-    root.classList.add(newTheme)
+    
+    if (newTheme === 'dark') {
+      root.classList.add('dark')
+    } else {
+      root.classList.remove('dark')
+    }
   }
 
   // Theme wechseln (nur für Terminal-Routen)
   const toggleTheme = () => {
-    if (!mounted || !allowsThemeToggle || isAlwaysDark) return
+    if (!mounted || !allowsThemeToggle || isAlwaysDark) {
+      return
+    }
     
     const newTheme: Theme = theme === 'dark' ? 'light' : 'dark'
     

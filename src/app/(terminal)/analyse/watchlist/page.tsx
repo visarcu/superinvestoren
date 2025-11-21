@@ -1,4 +1,4 @@
-// src/app/watchlist/page.tsx - KONSISTENT MIT DASHBOARD DESIGN
+// src/app/watchlist/page.tsx - KOMPLETT MIT ALLEN ANPASSUNGEN
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -15,7 +15,9 @@ import {
   ArrowLeftIcon,
   Squares2X2Icon,
   ViewColumnsIcon,
-  TableCellsIcon
+  TableCellsIcon,
+  ChevronUpIcon,
+  ChevronDownIcon
 } from '@heroicons/react/24/outline';
 import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import Logo from '@/components/Logo';
@@ -41,6 +43,9 @@ interface StockData {
   daysSinceATH?: number;
 }
 
+type SortColumn = 'ticker' | 'price' | 'changePercent' | 'week52High' | 'dipPercent' | 'marketCap' | 'peRatio';
+type SortDirection = 'asc' | 'desc';
+
 export default function WatchlistPage() {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
   const [stockData, setStockData] = useState<Record<string, StockData>>({});
@@ -50,6 +55,8 @@ export default function WatchlistPage() {
   const [showOnlyDips, setShowOnlyDips] = useState(false);
   const [dipThreshold, setDipThreshold] = useState(10);
   const [viewMode, setViewMode] = useState<'cards' | 'compact' | 'table'>('table');
+  const [sortColumn, setSortColumn] = useState<SortColumn>('ticker');
+  const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const router = useRouter();
 
   useEffect(() => {
@@ -101,7 +108,6 @@ export default function WatchlistPage() {
     const stockDataMap: Record<string, StockData> = {};
 
     try {
-      // Use internal API endpoint for better reliability
       const res = await fetch(`/api/quotes?symbols=${tickers.join(',')}`);
       
       if (res.ok) {
@@ -164,6 +170,58 @@ export default function WatchlistPage() {
     }
   }
 
+  const handleSort = (column: SortColumn) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
+
+  const getSortedItems = () => {
+    const itemsToSort = showOnlyDips 
+      ? watchlistItems.filter(item => stockData[item.ticker]?.isDip)
+      : watchlistItems;
+
+    return [...itemsToSort].sort((a, b) => {
+      const dataA = stockData[a.ticker];
+      const dataB = stockData[b.ticker];
+
+      if (!dataA && !dataB) return 0;
+      if (!dataA) return 1;
+      if (!dataB) return -1;
+
+      let compareValue = 0;
+
+      switch(sortColumn) {
+        case 'ticker':
+          compareValue = a.ticker.localeCompare(b.ticker);
+          break;
+        case 'price':
+          compareValue = (dataA.price || 0) - (dataB.price || 0);
+          break;
+        case 'changePercent':
+          compareValue = (dataA.changePercent || 0) - (dataB.changePercent || 0);
+          break;
+        case 'week52High':
+          compareValue = (dataA.week52High || 0) - (dataB.week52High || 0);
+          break;
+        case 'dipPercent':
+          compareValue = (dataA.dipPercent || 0) - (dataB.dipPercent || 0);
+          break;
+        case 'marketCap':
+          compareValue = (dataA.marketCap || 0) - (dataB.marketCap || 0);
+          break;
+        case 'peRatio':
+          compareValue = (dataA.peRatio || 0) - (dataB.peRatio || 0);
+          break;
+      }
+
+      return sortDirection === 'asc' ? compareValue : -compareValue;
+    });
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-theme-primary">
@@ -177,13 +235,9 @@ export default function WatchlistPage() {
     );
   }
 
-  const filteredItems = showOnlyDips 
-    ? watchlistItems.filter(item => stockData[item.ticker]?.isDip)
-    : watchlistItems;
-
+  const sortedItems = getSortedItems();
   const dipCount = watchlistItems.filter(item => stockData[item.ticker]?.isDip).length;
 
-  // German formatting functions
   const formatMarketCap = (marketCap: number) => {
     if (marketCap >= 1e12) return `${(marketCap / 1e12).toFixed(1).replace('.', ',')} Bio. $`;
     if (marketCap >= 1e9) return `${(marketCap / 1e9).toFixed(1).replace('.', ',')} Mrd. $`;
@@ -195,23 +249,33 @@ export default function WatchlistPage() {
     return `${price.toFixed(2).replace('.', ',')} $`;
   };
 
+  const SortIndicator = ({ column }: { column: SortColumn }) => {
+    if (sortColumn !== column) {
+      return <div className="w-3 h-3" />;
+    }
+    return sortDirection === 'asc' ? (
+      <ChevronUpIcon className="w-3 h-3 text-green-400" />
+    ) : (
+      <ChevronDownIcon className="w-3 h-3 text-green-400" />
+    );
+  };
+
   return (
     <div className="min-h-screen bg-theme-primary">
       
-      {/* Professional Header - wie Dashboard */}
+      {/* Professional Header */}
       <div className="border-b border-theme/5">
-        <div className="w-full px-6 lg:px-8 py-8">
+        <div className="w-full px-6 lg:px-8 py-6">
           
-          {/* Zurück-Link */}
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-4 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zur Analyse
           </Link>
 
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
                 <BookmarkIcon className="w-6 h-6 text-green-400" />
@@ -236,7 +300,6 @@ export default function WatchlistPage() {
               </div>
             </div>
             
-            {/* Quick Actions */}
             {watchlistItems.length > 0 && (
               <div className="flex items-center gap-3">
                 <button
@@ -253,55 +316,41 @@ export default function WatchlistPage() {
         </div>
       </div>
 
-      <main className="w-full px-6 lg:px-8 py-8 space-y-8">
-
-        {/* Notification-Hinweis - NEU HINZUFÜGEN */}
-        {watchlistItems.length > 0 && (
-          <section>
-            <div className="bg-green-500/10 border border-green-500/20 rounded-xl p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                  📧
-                </div>
-                <div className="flex-1">
-                  <p className="text-theme-primary text-sm font-medium">
-                    Du erhältst E-Mail-Benachrichtigungen bei Kursrückgängen deiner Watchlist-Aktien.
-                  </p>
-                </div>
-                <Link
-                  href="/notifications"
-                  className="text-green-400 hover:text-green-300 text-sm font-medium underline transition-colors"
-                >
-                  Einstellungen
-                </Link>
-              </div>
-            </div>
-          </section>
-        )}
-
+      <main className="w-full px-6 lg:px-8 py-6 space-y-6">
         
-        {/* Schnäppchen-Radar Controls */}
+        {/* Schnäppchen-Radar mit integriertem E-Mail Hinweis */}
         {watchlistItems.length > 0 && (
           <section>
-            <div className="bg-theme-card border border-theme/5 rounded-xl p-6">
-              <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div className="bg-theme-card border border-theme/5 rounded-xl p-5">
+              <div className="flex flex-col gap-4">
                 
-                <div className="flex items-center gap-4">
-                  <div className="flex items-center gap-3">
-                    <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
-                    <h2 className="text-xl font-semibold text-theme-primary">
-                      Schnäppchen-Radar
-                    </h2>
+                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
+                      <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
+                      <h2 className="text-xl font-semibold text-theme-primary">
+                        Schnäppchen-Radar
+                      </h2>
+                    </div>
+                    {dipCount > 0 && (
+                      <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-lg font-medium">
+                        {dipCount} Schnäppchen gefunden
+                      </span>
+                    )}
                   </div>
-                  {dipCount > 0 && (
-                    <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-lg font-medium">
-                      {dipCount} Schnäppchen gefunden
-                    </span>
-                  )}
+                  
+                  <div className="flex items-center gap-2 text-xs text-theme-muted">
+                    <span>📧 E-Mail-Benachrichtigungen aktiv</span>
+                    <Link
+                      href="/notifications"
+                      className="text-green-400 hover:text-green-300 underline"
+                    >
+                      Anpassen
+                    </Link>
+                  </div>
                 </div>
                 
                 <div className="flex flex-wrap items-center gap-4">
-                  {/* Dip Threshold Slider */}
                   <div className="flex items-center gap-3">
                     <AdjustmentsHorizontalIcon className="w-4 h-4 text-theme-secondary" />
                     <label className="text-theme-secondary text-sm">Schwelle:</label>
@@ -323,7 +372,6 @@ export default function WatchlistPage() {
                     <span className="text-theme-primary text-sm w-12">-{dipThreshold}%</span>
                   </div>
 
-                  {/* Filter Toggle */}
                   <button
                     onClick={() => setShowOnlyDips(!showOnlyDips)}
                     className={`px-4 py-2 rounded-lg transition font-medium text-sm ${
@@ -335,7 +383,6 @@ export default function WatchlistPage() {
                     {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
                   </button>
 
-                  {/* View Mode Toggles */}
                   <div className="flex bg-theme-secondary/20 rounded-lg p-1">
                     <button
                       onClick={() => setViewMode('table')}
@@ -379,7 +426,7 @@ export default function WatchlistPage() {
 
         {/* Watchlist Content */}
         <section>
-          {filteredItems.length === 0 ? (
+          {sortedItems.length === 0 ? (
             <div className="bg-theme-card border border-theme/5 rounded-xl p-12 text-center">
               <div className="w-24 h-24 mx-auto bg-theme-secondary rounded-2xl flex items-center justify-center mb-6">
                 {showOnlyDips ? (
@@ -425,31 +472,81 @@ export default function WatchlistPage() {
             </div>
           ) : (
             <>
-              <h3 className="text-lg font-semibold text-theme-primary mb-6">
-                {showOnlyDips ? 'Schnäppchen in deiner Watchlist' : 'Deine beobachteten Aktien'}
-              </h3>
-              
-              {/* DYNAMIC VIEW MODES */}
               {viewMode === 'table' && (
-                /* BLOOMBERG TERMINAL TABLE */
                 <div className="bg-theme-card border border-theme/5 rounded-xl overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead className="bg-theme-secondary/20">
                         <tr className="text-left">
-                          <th className="px-4 py-3 font-semibold text-theme-primary">Aktie</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Kurs</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Änderung</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">52W High</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Max Drawdown</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">Marktkapitalisierung</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary text-right">P/E</th>
+                          <th className="px-4 py-3">
+                            <button 
+                              onClick={() => handleSort('ticker')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1"
+                            >
+                              Aktie
+                              <SortIndicator column="ticker" />
+                            </button>
+                          </th>
+                          <th className="px-4 py-3 text-right">
+                            <button 
+                              onClick={() => handleSort('price')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                            >
+                              Kurs
+                              <SortIndicator column="price" />
+                            </button>
+                          </th>
+                          <th className="px-4 py-3 text-right">
+                            <button 
+                              onClick={() => handleSort('changePercent')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                            >
+                              Änderung
+                              <SortIndicator column="changePercent" />
+                            </button>
+                          </th>
+                          <th className="px-4 py-3 text-right">
+                            <button 
+                              onClick={() => handleSort('week52High')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                            >
+                              52W High
+                              <SortIndicator column="week52High" />
+                            </button>
+                          </th>
+                          <th className="px-4 py-3 text-right">
+                            <button 
+                              onClick={() => handleSort('dipPercent')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                            >
+                              Max Drawdown
+                              <SortIndicator column="dipPercent" />
+                            </button>
+                          </th>
+                          <th className="px-4 py-3 text-right">
+                            <button 
+                              onClick={() => handleSort('marketCap')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                            >
+                              Marktkapitalisierung
+                              <SortIndicator column="marketCap" />
+                            </button>
+                          </th>
+                          <th className="px-4 py-3 text-right">
+                            <button 
+                              onClick={() => handleSort('peRatio')}
+                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                            >
+                              P/E
+                              <SortIndicator column="peRatio" />
+                            </button>
+                          </th>
                           <th className="px-4 py-3 font-semibold text-theme-primary">Status</th>
                           <th className="px-4 py-3 font-semibold text-theme-primary"></th>
                         </tr>
                       </thead>
                       <tbody>
-                        {filteredItems.map((item) => {
+                        {sortedItems.map((item) => {
                           const data = stockData[item.ticker];
                           const hasData = !!data;
                           
@@ -546,9 +643,8 @@ export default function WatchlistPage() {
               )}
 
               {viewMode === 'compact' && (
-                /* COMPACT BLOOMBERG-STYLE GRID */
                 <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
-                  {filteredItems.map((item) => {
+                  {sortedItems.map((item) => {
                     const data = stockData[item.ticker];
                     const hasData = !!data;
                     
@@ -621,16 +717,14 @@ export default function WatchlistPage() {
               )}
 
               {viewMode === 'cards' && (
-                /* ORIGINAL LARGE CARDS */
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {filteredItems.map((item) => {
+                  {sortedItems.map((item) => {
                     const data = stockData[item.ticker];
                     const hasData = !!data;
                     
                     return (
                     <div key={item.id} className="bg-theme-card border border-theme/5 rounded-xl p-6 hover:border-theme/10 transition-all duration-200 group">
                       
-                      {/* Header */}
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
                           <Logo
@@ -659,10 +753,8 @@ export default function WatchlistPage() {
                         </button>
                       </div>
 
-                      {/* Stock Data */}
                       {hasData ? (
                         <div className="space-y-4">
-                          {/* Price & Change */}
                           <div className="space-y-3">
                             <div className="text-2xl font-bold text-theme-primary">
                               {formatPrice(data.price)}
@@ -684,7 +776,6 @@ export default function WatchlistPage() {
                             </div>
                           </div>
 
-                          {/* 52W Data */}
                           <div className="space-y-2 pt-3 border-t border-theme/5">
                             <div className="flex justify-between text-xs">
                               <span className="text-theme-muted">52W High:</span>
@@ -703,7 +794,6 @@ export default function WatchlistPage() {
                               </span>
                             </div>
 
-                            {/* Subtle Professional Alert */}
                             {data.isDip && (
                               <div className="p-3 bg-theme-secondary border border-theme/10 rounded-lg mt-3">
                                 <div className="flex items-center gap-2">
@@ -729,7 +819,6 @@ export default function WatchlistPage() {
                         </div>
                       )}
 
-                      {/* Action Button */}
                       <div className="mt-6">
                         <Link
                           href={`/analyse/stocks/${item.ticker.toLowerCase()}`}

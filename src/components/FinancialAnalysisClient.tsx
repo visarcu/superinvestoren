@@ -22,33 +22,22 @@ import { ChartPreset } from '@/types/chartPresets'
 // ✅ GLEICHE Multi-Source Financial Data Service - nur ohne Split-Tracking
 class FinancialDataService {
   private fmpKey: string
-  private finnhubKey: string
-  private alphaKey?: string
 
   constructor() {
     this.fmpKey = '' // Removed for security - use API routes instead
-    this.finnhubKey = '' // Removed for security - use API routes instead
-    this.alphaKey = '' // Removed for security - use API routes instead
   }
 
-  // ✅ HAUPTMETHODE: Multi-Source Financial Data mit intelligenter Validierung
+  // ✅ HAUPTMETHODE: FMP Financial Data Service
   async getFinancialData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-    console.log(`🔍 [FinancialDataService] Multi-source loading for ${ticker} (${years} years)`)
+    console.log(`🔍 [FinancialDataService] Loading for ${ticker} (${years} years)`)
     
-    // Parallel alle Quellen laden
-    const [fmpData, finnhubData] = await Promise.allSettled([
-      this.getFMPFinancialData(ticker, years, period),
-      this.getFinnhubBasicData(ticker)
-    ])
+    // Nur FMP Daten laden
+    const fmpFinancials = await this.getFMPFinancialData(ticker, years, period)
 
-    // Daten extrahieren
-    const fmpFinancials = fmpData.status === 'fulfilled' ? fmpData.value : []
-    const finnhubBasics = finnhubData.status === 'fulfilled' ? finnhubData.value : null
+    console.log(`📊 Source: FMP=${fmpFinancials.length} years`)
 
-    console.log(`📊 Sources: FMP=${fmpFinancials.length} years, Finnhub=${finnhubBasics ? 'OK' : 'Failed'}`)
-
-    // Intelligente Daten-Fusion und Validierung
-    const validatedData = this.validateAndMergeFinancialData(fmpFinancials, finnhubBasics, ticker)
+    // Intelligente Daten-Validierung und Processing
+    const validatedData = this.validateAndMergeFinancialData(fmpFinancials, null, ticker)
     
     console.log(`✅ [FinancialDataService] Validated data for ${ticker}: ${validatedData.length} years`)
     return validatedData
@@ -193,40 +182,9 @@ class FinancialDataService {
     }
   }
 
-  // ✅ Finnhub Basic Data (Validation Source) - UNVERÄNDERT
-  private async getFinnhubBasicData(ticker: string) {
-    try {
-      const [quoteRes, metricsRes] = await Promise.all([
-        fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${this.finnhubKey}`),
-        fetch(`https://finnhub.io/api/v1/stock/metric?symbol=${ticker}&metric=all&token=${this.finnhubKey}`)
-      ])
 
-      if (!quoteRes.ok || !metricsRes.ok) {
-        throw new Error('Finnhub API request failed')
-      }
-
-      const [quote, metrics] = await Promise.all([
-        quoteRes.json(),
-        metricsRes.json()
-      ])
-
-      return {
-        currentPrice: quote.c || 0,
-        marketCap: metrics.metric?.marketCapitalization || 0,
-        peRatio: metrics.metric?.peBasicExclExtraTTM || 0,
-        eps: metrics.metric?.epsBasicExclExtraTTM || 0,
-        revenue: metrics.metric?.revenueTTM || 0,
-        source: 'finnhub',
-        confidence: 80
-      }
-    } catch (error) {
-      console.error('❌ Finnhub basic data failed:', error)
-      return null
-    }
-  }
-
-  // ✅ INTELLIGENTE VALIDIERUNG UND FUSION - KEINE SPLIT-ADJUSTMENTS MEHR!
-  private validateAndMergeFinancialData(fmpData: any[], finnhubData: any, ticker: string) {
+  // ✅ INTELLIGENTE VALIDIERUNG UND PROCESSING - KEINE SPLIT-ADJUSTMENTS MEHR!
+  private validateAndMergeFinancialData(fmpData: any[], _unusedParam: any, ticker: string) {
     if (fmpData.length === 0) {
       console.warn(`⚠️ No FMP data for ${ticker}`)
       return []
@@ -238,45 +196,8 @@ class FinancialDataService {
 
     console.log(`🔍 [Validation] ${ticker} - Problematic: ${isProblematic}`)
 
-    return fmpData.map((yearData, index) => {
+    return fmpData.map((yearData) => {
       let correctedData = { ...yearData }
-
-      // ✅ EPS VALIDIERUNG mit Finnhub Cross-Check (ABER KEINE SPLIT-ADJUSTMENTS!)
-      if (finnhubData && index === fmpData.length - 1) { // Latest year
-        const fmpEPS = yearData.eps
-        const finnhubEPS = finnhubData.eps
-
-        if (fmpEPS > 0 && finnhubEPS > 0) {
-          const epsRatio = fmpEPS / finnhubEPS
-          
-          // Großer Unterschied erkannt
-          if (epsRatio > 10 || epsRatio < 0.1) {
-            console.warn(`⚠️ [${ticker}] EPS mismatch: FMP=${fmpEPS.toFixed(3)}, Finnhub=${finnhubEPS.toFixed(3)}, Ratio=${epsRatio.toFixed(1)}`)
-            
-            // ✅ NUR CURRENCY CORRECTIONS, KEINE SPLIT-ADJUSTMENTS!
-            if (epsRatio > 10 && ticker.toUpperCase() === 'TSM') {
-              // TSM: Nur Currency-Korrektur (TWD zu USD)
-              correctedData.eps = fmpEPS / 30 // TWD to USD approximate
-              console.log(`🔧 [TSM] Currency correction applied: EPS ${fmpEPS.toFixed(3)} → ${correctedData.eps.toFixed(3)}`)
-            }
-            // Für andere Ticker: KEINE automatischen Korrekturen mehr, FMP sollte richtig sein
-          }
-        }
-      }
-
-      // ✅ REVENUE SCALE VALIDIERUNG - UNVERÄNDERT
-      if (finnhubData && index === fmpData.length - 1) {
-        const fmpRevenue = yearData.revenue
-        const finnhubRevenue = finnhubData.revenue
-
-        if (fmpRevenue > 0 && finnhubRevenue > 0) {
-          const revenueRatio = Math.abs(fmpRevenue - finnhubRevenue) / finnhubRevenue
-          
-          if (revenueRatio > 0.5) { // 50% Abweichung
-            console.warn(`⚠️ [${ticker}] Revenue mismatch: FMP=${(fmpRevenue/1e9).toFixed(1)}B, Finnhub=${(finnhubRevenue/1e9).toFixed(1)}B`)
-          }
-        }
-      }
 
       // ✅ PLAUSIBILITÄTSPRÜFUNGEN - UNVERÄNDERT
       if (correctedData.eps > 100 && ticker !== 'BRK.A') {
@@ -1676,16 +1597,28 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
  
     setSelectedPreset(presetKey)
     
+    // ✅ SIMPLE: Save last selected preset to localStorage
+    console.log('💾 [applyPreset] Saving preset to localStorage:', presetKey)
+    localStorage.setItem('finclue-last-preset', presetKey)
+    
     // Check if it's a built-in preset
     if (CHART_PRESETS[presetKey]) {
+      console.log('📊 [applyPreset] Built-in preset found:', CHART_PRESETS[presetKey].charts)
       setVisibleCharts(CHART_PRESETS[presetKey].charts as MetricKey[])
+      // ✅ SIMPLE: Also save the visible charts
+      localStorage.setItem('finclue-last-charts', JSON.stringify(CHART_PRESETS[presetKey].charts))
+      console.log('✅ [applyPreset] Built-in preset applied and saved')
       return
     }
     
     // Check if it's a custom preset
     const customPreset = customPresets.find(p => p.id === presetKey)
     if (customPreset) {
+      console.log('📊 [applyPreset] Custom preset found:', customPreset.charts)
       setVisibleCharts(customPreset.charts as MetricKey[])
+      // ✅ SIMPLE: Also save the visible charts
+      localStorage.setItem('finclue-last-charts', JSON.stringify(customPreset.charts))
+      console.log('✅ [applyPreset] Custom preset applied and saved')
       // Update last used via the hook
       await updatePreset({
         id: presetKey,
@@ -1719,6 +1652,12 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       setSaveStatus('success')
       setNewPresetName('')
       setSelectedPreset(savedPreset.id)
+      
+      // ✅ SIMPLE: Save newly created preset to localStorage immediately
+      console.log('💾 [saveCurrentAsPreset] Saving new preset to localStorage:', savedPreset.id, visibleCharts)
+      localStorage.setItem('finclue-last-preset', savedPreset.id)
+      localStorage.setItem('finclue-last-charts', JSON.stringify(visibleCharts))
+      console.log('✅ [saveCurrentAsPreset] New preset saved to localStorage')
       
       // Success feedback für 2 Sekunden, dann Dialog schließen
       setTimeout(() => {
@@ -1785,6 +1724,39 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       loadRealData()
     }
   }, [ticker, period])
+
+  // ✅ SIMPLE AUTO-LOAD LAST PRESET FROM LOCALSTORAGE
+  useEffect(() => {
+    console.log('🔍 [FinancialAnalysisClient] useEffect running, isPremium:', isPremium, 'userId:', userId)
+    
+    // Wait for user/premium state to be loaded
+    if (!userId) {
+      console.log('⏳ [FinancialAnalysisClient] Waiting for userId to be set')
+      return
+    }
+    
+    if (!isPremium) {
+      console.log('❌ [FinancialAnalysisClient] Not premium, skipping preset restore')
+      return
+    }
+    
+    try {
+      const lastPreset = localStorage.getItem('finclue-last-preset')
+      const lastCharts = localStorage.getItem('finclue-last-charts')
+      
+      console.log('📦 [FinancialAnalysisClient] localStorage items:', { lastPreset, lastCharts })
+      
+      if (lastPreset && lastCharts) {
+        console.log('🔄 [FinancialAnalysisClient] Restoring last preset:', lastPreset)
+        setSelectedPreset(lastPreset)
+        setVisibleCharts(JSON.parse(lastCharts))
+      } else {
+        console.log('❌ [FinancialAnalysisClient] No preset to restore')
+      }
+    } catch (error) {
+      console.warn('❌ [FinancialAnalysisClient] Failed to restore last preset:', error)
+    }
+  }, [isPremium, userId])
  
   if (loadingData) {
     return (
@@ -1935,7 +1907,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             </button>
  
             {/* Delete Custom Preset Button (if custom preset selected) */}
-            {selectedPreset.startsWith('custom_') && (
+            {customPresets.some(preset => preset.id === selectedPreset) && (
               <button
                 onClick={() => deleteCustomPreset(selectedPreset)}
                 className="px-3 py-1.5 text-xs bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors"
@@ -1983,6 +1955,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             className="w-full px-4 py-2.5 bg-theme-tertiary text-theme-primary rounded-lg 
                      border border-theme/20 focus:outline-none focus:ring-2 focus:ring-green-500 
                      focus:border-transparent transition-all"
+            style={{ color: 'var(--color-text-primary)' }}
             onKeyDown={(e) => e.key === 'Enter' && newPresetName.trim() && saveCurrentAsPreset()}
             autoFocus
           />
