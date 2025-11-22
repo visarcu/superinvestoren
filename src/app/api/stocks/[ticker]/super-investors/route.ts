@@ -99,7 +99,7 @@ export async function GET(
       const totalPortfolioValue = latest.positions.reduce((sum: number, p: any) => sum + (p.value || 0), 0)
       const portfolioPercentage = totalPortfolioValue > 0 ? (mergedPosition.value / totalPortfolioValue) * 100 : 0
 
-      // Get historical data for trend and determine if truly "new"
+      // Use the same logic as individual investor pages to calculate correct changes
       let trend = 'stable'
       let changeValue = 0
       let changeShares = 0
@@ -109,67 +109,46 @@ export async function GET(
       if (snapshots.length >= 2) {
         const previous = snapshots[snapshots.length - 2]?.data
         if (previous?.positions) {
+          // Use the same merging logic as individual investor pages
           const prevPositions = previous.positions.filter((p: any) => getTicker(p) === ticker)
           const prevValue = prevPositions.reduce((sum: number, p: any) => sum + (p.value || 0), 0)
           const prevShares = prevPositions.reduce((sum: number, p: any) => sum + (p.shares || 0), 0)
           
-          // Check if this is a completely new position (no previous value)
-          if (prevValue === 0 && mergedPosition.value > 5000000) {
+          console.log(`📊 ${investorInfo?.name} (${ticker}) - Prev: ${prevShares} shares, Current: ${mergedPosition.shares} shares`)
+          
+          // Check if this is a completely new position
+          if (prevShares === 0 && mergedPosition.shares > 0) {
             isNewPosition = true
             trend = 'new'
-          } else if (prevValue > 0) {
+          } else if (prevShares > 0) {
             changeValue = mergedPosition.value - prevValue
             changeShares = mergedPosition.shares - prevShares
             changeSharePercentage = prevShares > 0 ? (changeShares / prevShares) * 100 : 0
-            const changePercentage = (changeValue / prevValue) * 100
-            const shareChangeMagnitude = Math.abs(changeSharePercentage)
-            const shareCountMagnitude = Math.abs(changeShares)
-            const percentThreshold = 1 // consider >=1% change in shares significant
-            const shareCountThreshold = Math.max(prevShares * 0.01, 10000)
             
-            // Debug logging for Apple/Buffett/Berkshire
-            if (ticker === 'AAPL' && (investorInfo?.name?.toLowerCase().includes('buffett') || investorInfo?.name?.toLowerCase().includes('berkshire') || slug.includes('buffett') || slug.includes('berkshire'))) {
-              console.log(`🔍 DEBUG ${investorInfo.name} (${ticker}):`, {
-                currentValue: formatMarketCap(mergedPosition.value),
-                previousValue: formatMarketCap(prevValue), 
-                change: formatMarketCap(changeValue),
-                changePercentage: changePercentage.toFixed(2) + '%',
-                shareChange: changeShares.toLocaleString(),
-                shareChangePercentage: changeSharePercentage.toFixed(2) + '%'
-              })
-            }
+            // Use more precise threshold - only significant changes >1% of shares AND minimum threshold
+            const shareChangePercent = Math.abs(changeSharePercentage)
+            const minShareThreshold = Math.max(1000, prevShares * 0.001) // 0.1% or min 1000 shares
             
-            const shareChangeSignificant = shareChangeMagnitude >= percentThreshold || shareCountMagnitude >= shareCountThreshold
-
-            // Prioritize share-based classification
-            if (shareChangeSignificant) {
+            console.log(`📊 ${investorInfo?.name} (${ticker}) - Change: ${changeShares} shares (${changeSharePercentage.toFixed(2)}%)`)
+            
+            // Only consider it activity if there's a real change above threshold
+            if (Math.abs(changeShares) >= minShareThreshold && shareChangePercent >= 1.0) {
               trend = changeShares > 0 ? 'increasing' : 'decreasing'
-            }
-            // Fallback to value-based classification for minor share fluctuations
-            else if (changeValue > 0 && (changePercentage > 5 || changeValue > 500000000)) {
-              trend = 'increasing'
-            }
-            // Any decrease >$100K counts as decreasing 
-            else if (changeValue < -100000) {
-              trend = 'decreasing'
-            }
-            // Otherwise stable
-            else {
+            } else {
+              // No significant activity - it's stable
               trend = 'stable'
-            }
-            
-            // Debug trend result for Buffett/Berkshire
-            if (ticker === 'AAPL' && (investorInfo?.name?.toLowerCase().includes('buffett') || investorInfo?.name?.toLowerCase().includes('berkshire') || slug.includes('buffett') || slug.includes('berkshire'))) {
-              console.log(`📊 ${investorInfo.name} trend result: ${trend}`)
+              changeValue = 0
+              changeShares = 0
+              changeSharePercentage = 0
             }
           }
-        } else if (mergedPosition.value > 5000000) {
-          // No previous data available, assume new
+        } else if (mergedPosition.value > 1000000) {
+          // No previous data available, but has significant value
           isNewPosition = true
           trend = 'new'
         }
-      } else if (mergedPosition.value > 5000000) {
-        // Only one snapshot available, assume new
+      } else if (mergedPosition.value > 1000000) {
+        // Only one snapshot available
         isNewPosition = true
         trend = 'new'
       }
@@ -234,11 +213,13 @@ export async function GET(
           formattedShares: formatNumber(pos.position.shares),
           formattedPortfolioPercentage: `${pos.position.portfolioPercentage.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`,
           formattedChangeValue: pos.position.isNewPosition ? 'Neu' : (
-            pos.position.changeSharePercentage && pos.position.changeSharePercentage !== 0
+            // Show share percentage change if it's significant and shares changed
+            Math.abs(pos.position.changeSharePercentage) >= 1.0 && pos.position.changeShares !== 0
               ? `${formatPercentage(pos.position.changeSharePercentage)} Aktien`
-              : (pos.position.changeValue !== 0 && (pos.position.value - pos.position.changeValue) > 0)
-                ? formatPercentage((pos.position.changeValue / (pos.position.value - pos.position.changeValue)) * 100)
-                : '0%'
+              // Show value change if shares didn't change but value did
+              : pos.position.changeValue !== 0 && Math.abs(pos.position.changeValue) >= 100000
+                ? `${pos.position.changeValue >= 0 ? '+' : ''}${formatMarketCap(Math.abs(pos.position.changeValue))} Wert`
+                : '0% Änderung'
           )
         }
       }))

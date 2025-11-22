@@ -678,7 +678,7 @@ const CommandPalette = React.memo(({
               placeholder="Nach Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 text-sm"
+              className="w-full pl-10 pr-10 py-2 bg-gray-900/90 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 text-sm"
             />
             <button
               onClick={onClose}
