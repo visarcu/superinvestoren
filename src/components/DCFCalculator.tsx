@@ -1,909 +1,423 @@
-// src/components/DCFCalculator.tsx - ENHANCED LEARN MODE VERSION
+// src/components/DCFCalculator.tsx - VOLLSTÄNDIGE VERSION MIT CUSTOM DCF
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { 
   CalculatorIcon,
-  AdjustmentsHorizontalIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   InformationCircleIcon,
-  ExclamationTriangleIcon,
-  ChartBarIcon,
-  LockClosedIcon,
-  SparklesIcon,
+  AdjustmentsHorizontalIcon,
   ShieldCheckIcon,
-  PresentationChartBarIcon,
+  ChartBarIcon,
   RocketLaunchIcon,
-  CheckCircleIcon,
-  XCircleIcon,
-  EyeIcon,
-  BookOpenIcon,
-  LightBulbIcon,
-  ArrowRightIcon
+  ArrowPathIcon
 } from '@heroicons/react/24/outline'
-import { LearnTooltipButton } from '@/components/LearnSidebar'
-import LoadingSpinner from '@/components/LoadingSpinner'
-import Link from 'next/link'
-import { supabase } from '@/lib/supabaseClient'
-import { useLearnMode } from '@/lib/LearnModeContext'
-import Logo from '@/components/Logo'
-import { DCFCalculationBreakdown } from '@/components/DCFCalculationBreakdown'
 
-// ✅ FIXED: Complete Types with currentFreeCashFlow
-interface DCFData {
-  currentRevenue: number
-  currentPrice: number
-  currentShares: number
-  currentFreeCashFlow: number // ✅ ADDED: Real current FCF
-  assumptions: DCFAssumptions
-  companyInfo: {
-    name: string
-    sector: string
-    industry: string
-  }
-  historical: {
-    avgRevenueGrowth: number
-    avgOperatingMargin: number
-    estimatedWACC: number
-  }
-  // ✅ ENHANCED: Data Quality Info
-  dataQuality?: {
-    fcfDataSource?: string
-    fcfIsEstimated?: boolean
-    fcfSourceDescription?: string
-    fcfValue?: number        // ✅ ADDED: Raw FCF value
-    fcfDate?: string         // ✅ ADDED: FCF date
-    fcfDataType?: string     // ✅ ADDED: Annual vs TTM
-  }
-}
-
-interface DCFAssumptions {
-  revenueGrowthY1: number
-  revenueGrowthY2: number
-  revenueGrowthY3: number
-  revenueGrowthY4: number
-  revenueGrowthY5: number
-  terminalGrowthRate: number
-  discountRate: number
-  operatingMargin: number
+interface DCFParams {
+  revenueGrowthPct: number
+  ebitdaPct: number
+  operatingCashFlowPct: number
+  capitalExpenditurePct: number
   taxRate: number
-  capexAsRevenuePercent: number
-  workingCapitalChange: number
-  netCash: number
+  longTermGrowthRate: number
+  costOfEquity: number
+  beta: number
+  riskFreeRate: number
 }
 
-interface User {
-  id: string
-  email: string
-  isPremium: boolean
+interface DCFResult {
+  year: string
+  revenue: number
+  ebitda: number
+  ebit: number
+  ufcf: number
+  wacc: number
+  terminalValue: number
+  enterpriseValue: number
+  equityValue: number
+  equityValuePerShare: number
+  price: number
+  sumPvUfcf: number
+  netDebt: number
 }
 
-// ✅ PROFESSIONAL: Number Formatting & Validation Utilities
-const formatAssumption = (value: number, decimals: number = 1): number => {
-  return Math.round(value * Math.pow(10, decimals)) / Math.pow(10, decimals)
-}
-
-const formatPercentage = (value: number, decimals: number = 1): string => {
-  return `${formatAssumption(value, decimals)}%`
-}
-
-// ✅ NEW: Input validation functions
-const validateAndClampGrowthRate = (value: number, max: number = 25): number => {
-  return Math.max(Math.min(value, max), -10)
-}
-
-const validateTerminalGrowthRate = (value: number, wacc: number): number => {
-  // Terminal Growth Rate muss immer < WACC sein
-  const maxTerminal = Math.min(wacc - 0.5, 4.0) // Max 4% oder WACC-0.5%
-  return Math.max(Math.min(value, maxTerminal), 0)
-}
-
-const validateDiscountRate = (value: number): number => {
-  return Math.max(Math.min(value, 20), 5) // Between 5% and 20%
-}
-
-// Premium CTA Component
-const PremiumCTA = ({ title, description }: { title: string; description: string }) => (
-  <div className="text-center py-12 px-6">
-    <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-      {/* ✅ NUR DIESE ZEILE ÄNDERN - von CalculatorIcon zu LockClosedIcon */}
-      <LockClosedIcon className="w-8 h-8 text-green-500" />
-    </div>
-    <h3 className="text-xl font-semibold text-theme-primary mb-3">{title}</h3>
-    <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">{description}</p>
-    
-    <Link
-      href="/pricing"
-      className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
-    >
-      {/* ✅ NUR DIESE ZEILE ÄNDERN - von SparklesIcon zu LockClosedIcon */}
-      <LockClosedIcon className="w-5 h-5" />
-      14 Tage kostenlos testen
-    </Link>
-  </div>
-)
-
-// Premium Blur Component  
-const PremiumBlur = ({ 
-  children, 
-  featureName 
-}: { 
-  children: React.ReactNode; 
-  featureName: string 
-}) => (
-  <div className="relative">
-    <div className="filter blur-sm opacity-60 pointer-events-none select-none">
-      {children}
-    </div>
-    <div className="absolute inset-0 flex items-center justify-center">
-      <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg">
-        {/* ✅ NUR DIESE ZEILE ÄNDERN - zu LockClosedIcon */}
-        <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
-        <p className="text-theme-secondary text-xs font-medium">{featureName}</p>
-        <p className="text-theme-muted text-xs">Premium erforderlich</p>
-      </div>
-    </div>
-  </div>
-)
-
-// Main DCF Calculator Component
 export default function DCFCalculator({ ticker }: { ticker: string }) {
-  // ✅ Self-Loading User State
-  const [user, setUser] = useState<User | null>(null)
-  const [loadingUser, setLoadingUser] = useState(true)
-  
-  // ✅ Global Learn Mode
-  const { isLearnMode } = useLearnMode()
-
-  // States
-  const [dcfData, setDcfData] = useState<DCFData | null>(null)
-  const [assumptions, setAssumptions] = useState<DCFAssumptions | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const [dcfResult, setDcfResult] = useState<DCFResult | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [calculating, setCalculating] = useState(false)
   const [activeScenario, setActiveScenario] = useState<'conservative' | 'base' | 'optimistic'>('base')
-  const [showDetails, setShowDetails] = useState(false)
-  const [validationErrors, setValidationErrors] = useState<string[]>([])
-  const [showBreakdown, setShowBreakdown] = useState(false)
+  
+  // Default Parameters (will be updated from API)
+  const [params, setParams] = useState<DCFParams>({
+    revenueGrowthPct: 0.10,
+    ebitdaPct: 0.30,
+    operatingCashFlowPct: 0.28,
+    capitalExpenditurePct: 0.03,
+    taxRate: 0.21,
+    longTermGrowthRate: 0.025,
+    costOfEquity: 0.095,
+    beta: 1.2,
+    riskFreeRate: 0.045
+  })
 
-  // ✅ Load User Data
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_premium')
-            .eq('user_id', session.user.id)
-            .maybeSingle()
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            isPremium: profile?.is_premium || false
-          })
-        }
-      } catch (error) {
-        console.error('[DCFCalculator] Error loading user:', error)
-      } finally {
-        setLoadingUser(false)
-      }
+  // Scenario Presets
+  const scenarios = {
+    conservative: {
+      revenueGrowthPct: 0.05,
+      ebitdaPct: 0.25,
+      longTermGrowthRate: 0.02,
+      costOfEquity: 0.11
+    },
+    base: {
+      revenueGrowthPct: 0.10,
+      ebitdaPct: 0.30,
+      longTermGrowthRate: 0.025,
+      costOfEquity: 0.095
+    },
+    optimistic: {
+      revenueGrowthPct: 0.15,
+      ebitdaPct: 0.35,
+      longTermGrowthRate: 0.03,
+      costOfEquity: 0.085
     }
+  }
 
-    loadUser()
+  // Calculate DCF with current params
+  const calculateDCF = useCallback(async () => {
+    setCalculating(true)
+    try {
+      const queryParams = new URLSearchParams({
+        symbol: ticker,
+        ...Object.entries(params).reduce((acc, [key, value]) => ({
+          ...acc,
+          [key]: value.toString()
+        }), {})
+      })
+
+      const response = await fetch(`/api/fmp/dcf-custom?${queryParams}`)
+      
+      if (!response.ok) {
+        throw new Error('Failed to calculate DCF')
+      }
+      
+      const data = await response.json()
+      if (data && data.length > 0) {
+        setDcfResult(data[0])
+      }
+    } catch (error) {
+      console.error('DCF calculation error:', error)
+    } finally {
+      setCalculating(false)
+    }
+  }, [ticker, params])
+
+  // Load initial data
+  useEffect(() => {
+    calculateDCF()
   }, [])
 
-  // Load DCF data
-  useEffect(() => {
-    async function loadDCFData() {
-      setLoading(true)
-      setError(null)
-      
-      try {
-        const response = await fetch(`/api/dcf/${ticker}`)
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        
-        const data = await response.json()
-        
-        // ✅ ENHANCED: Log FCF Data Source for Debugging
-        console.log(`🔍 [DCFCalculator] Complete FCF Data for ${ticker}:`, {
-          currentFreeCashFlow: data.currentFreeCashFlow,
-          fcfDataSource: data.dataQuality?.fcfDataSource,
-          fcfDataType: data.dataQuality?.fcfDataType,
-          isEstimated: data.dataQuality?.fcfIsEstimated,
-          description: data.dataQuality?.fcfSourceDescription,
-          fcfValue: data.dataQuality?.fcfValue,
-          fcfDate: data.dataQuality?.fcfDate
-        })
-        
-        setDcfData(data)
-        
-        // ✅ PROFESSIONAL: Clean up assumptions with proper formatting
-        const cleanAssumptions = {
-          ...data.assumptions,
-          revenueGrowthY1: formatAssumption(data.assumptions.revenueGrowthY1, 1),
-          revenueGrowthY2: formatAssumption(data.assumptions.revenueGrowthY2, 1),
-          revenueGrowthY3: formatAssumption(data.assumptions.revenueGrowthY3, 1),
-          revenueGrowthY4: formatAssumption(data.assumptions.revenueGrowthY4, 1),
-          revenueGrowthY5: formatAssumption(data.assumptions.revenueGrowthY5, 1),
-          terminalGrowthRate: formatAssumption(data.assumptions.terminalGrowthRate, 1),
-          discountRate: formatAssumption(data.assumptions.discountRate, 1),
-          operatingMargin: formatAssumption(data.assumptions.operatingMargin, 1),
-          taxRate: formatAssumption(data.assumptions.taxRate, 1),
-          capexAsRevenuePercent: formatAssumption(data.assumptions.capexAsRevenuePercent, 1),
-          workingCapitalChange: formatAssumption(data.assumptions.workingCapitalChange, 1),
-          netCash: Math.round(data.assumptions.netCash)
-        }
-        
-        setAssumptions(cleanAssumptions)
-        
-        console.log('✅ DCF data loaded:', data)
-        
-      } catch (err) {
-        console.error('❌ Error loading DCF data:', err)
-        setError(err instanceof Error ? err.message : 'Failed to load DCF data')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadDCFData()
-  }, [ticker])
-
-  // ✅ IMPROVED: Robust DCF Calculation with Validation
-  const dcfResults = useMemo(() => {
-    if (!assumptions || !dcfData) return null
-
-    // ✅ NEW: Input validation
-    const errors: string[] = []
-    
-    if (assumptions.discountRate <= assumptions.terminalGrowthRate) {
-      errors.push("WACC muss höher sein als Terminal-Wachstumsrate")
-    }
-    
-    if (assumptions.terminalGrowthRate > 4.0) {
-      errors.push("Terminal-Wachstumsrate sollte nicht über 4% liegen")
-    }
-
-    if (assumptions.discountRate < 5 || assumptions.discountRate > 20) {
-      errors.push("WACC sollte zwischen 5% und 20% liegen")
-    }
-    
-    setValidationErrors(errors)
-    
-    if (errors.length > 0) {
-      return null // Keine Berechnung bei Fehlern
-    }
-
-    const { 
-      revenueGrowthY1, revenueGrowthY2, revenueGrowthY3, revenueGrowthY4, revenueGrowthY5,
-      terminalGrowthRate, discountRate, operatingMargin, taxRate, 
-      capexAsRevenuePercent, workingCapitalChange, netCash
-    } = assumptions
-
-    // Calculate 5-year projections
-    const projections = []
-    let revenue = dcfData.currentRevenue
-    const growthRates = [revenueGrowthY1, revenueGrowthY2, revenueGrowthY3, revenueGrowthY4, revenueGrowthY5]
-    
-    for (let year = 1; year <= 5; year++) {
-      revenue = revenue * (1 + growthRates[year - 1] / 100)
-      const operatingIncome = revenue * (operatingMargin / 100)
-      const tax = operatingIncome * (taxRate / 100)
-      const nopat = operatingIncome - tax
-      const capex = revenue * (capexAsRevenuePercent / 100)
-      const workingCapChange = revenue * (workingCapitalChange / 100)
-      const fcf = nopat - capex - workingCapChange
-      
-      projections.push({
-        year,
-        revenue,
-        operatingIncome,
-        nopat,
-        capex,
-        workingCapChange,
-        fcf,
-        presentValue: fcf / Math.pow(1 + discountRate / 100, year)
-      })
-    }
-
-    // ✅ FIXED: Safe Terminal Value calculation
-    const terminalFCF = projections[4].fcf * (1 + terminalGrowthRate / 100)
-    const denominator = discountRate / 100 - terminalGrowthRate / 100
-    
-    // Additional safety check
-    if (denominator <= 0.001) {
-      console.error("Terminal Value calculation impossible: WACC ≤ Terminal Growth Rate")
-      return null
-    }
-    
-    const terminalValue = terminalFCF / denominator
-    const terminalPV = terminalValue / Math.pow(1 + discountRate / 100, 5)
-
-    // Enterprise Value
-    const pvOfProjections = projections.reduce((sum, p) => sum + p.presentValue, 0)
-    const enterpriseValue = pvOfProjections + terminalPV
-
-    // Equity Value
-    const equityValue = enterpriseValue + netCash
-    const valuePerShare = equityValue / dcfData.currentShares
-
-    return {
-      projections,
-      terminalValue,
-      terminalPV,
-      pvOfProjections,
-      enterpriseValue,
-      equityValue,
-      valuePerShare,
-      currentPrice: dcfData.currentPrice,
-      upside: ((valuePerShare - dcfData.currentPrice) / dcfData.currentPrice) * 100
-    }
-  }, [assumptions, dcfData])
-
-  // ✅ IMPROVED: Realistic scenario presets
-  const scenarios = useMemo(() => {
-    if (!dcfData) return {}
-    
-    const baseGrowth = dcfData.historical.avgRevenueGrowth
-    const baseMargin = dcfData.historical.avgOperatingMargin
-    const baseWACC = dcfData.historical.estimatedWACC
-
-    return {
-      conservative: {
-        revenueGrowthY1: formatAssumption(Math.max(baseGrowth * 0.7, 3.0), 1),
-        revenueGrowthY2: formatAssumption(Math.max(baseGrowth * 0.6, 2.5), 1),
-        revenueGrowthY3: formatAssumption(Math.max(baseGrowth * 0.5, 2.0), 1),
-        revenueGrowthY4: formatAssumption(Math.max(baseGrowth * 0.4, 1.5), 1),
-        revenueGrowthY5: formatAssumption(Math.max(baseGrowth * 0.3, 1.0), 1),
-        terminalGrowthRate: 2.0,
-        discountRate: formatAssumption(Math.min(baseWACC + 1.5, 16.0), 1),
-        operatingMargin: formatAssumption(Math.max(baseMargin * 0.9, 8.0), 1)
-      },
-      base: dcfData.assumptions,
-      optimistic: {
-        revenueGrowthY1: formatAssumption(Math.min(baseGrowth * 1.2, 18.0), 1),
-        revenueGrowthY2: formatAssumption(Math.min(baseGrowth * 1.1, 15.0), 1),
-        revenueGrowthY3: formatAssumption(Math.min(baseGrowth * 1.0, 12.0), 1),
-        revenueGrowthY4: formatAssumption(Math.min(baseGrowth * 0.9, 10.0), 1),
-        revenueGrowthY5: formatAssumption(Math.min(baseGrowth * 0.8, 8.0), 1),
-        terminalGrowthRate: 3.0,
-        discountRate: formatAssumption(Math.max(baseWACC - 1.0, 8.0), 1),
-        operatingMargin: formatAssumption(Math.min(baseMargin * 1.1, 25.0), 1)
-      }
-    }
-  }, [dcfData])
-
-  // Event handlers with improved validation
+  // Apply scenario
   const applyScenario = (scenario: keyof typeof scenarios) => {
     setActiveScenario(scenario)
-    const scenarioData = scenarios[scenario]
-    if (scenarioData && assumptions) {
-      // ✅ PROFESSIONAL: Clean formatting when applying scenarios
-      const cleanScenario = {
-        ...assumptions,
-        ...scenarioData,
-        revenueGrowthY1: formatAssumption(scenarioData.revenueGrowthY1 || assumptions.revenueGrowthY1, 1),
-        revenueGrowthY2: formatAssumption(scenarioData.revenueGrowthY2 || assumptions.revenueGrowthY2, 1),
-        revenueGrowthY3: formatAssumption(scenarioData.revenueGrowthY3 || assumptions.revenueGrowthY3, 1),
-        revenueGrowthY4: formatAssumption(scenarioData.revenueGrowthY4 || assumptions.revenueGrowthY4, 1),
-        revenueGrowthY5: formatAssumption(scenarioData.revenueGrowthY5 || assumptions.revenueGrowthY5, 1),
-        terminalGrowthRate: formatAssumption(scenarioData.terminalGrowthRate || assumptions.terminalGrowthRate, 1),
-        discountRate: formatAssumption(scenarioData.discountRate || assumptions.discountRate, 1),
-        operatingMargin: formatAssumption(scenarioData.operatingMargin || assumptions.operatingMargin, 1)
-      }
-      setAssumptions(cleanScenario)
-    }
+    setParams(prev => ({
+      ...prev,
+      ...scenarios[scenario]
+    }))
   }
 
-  // ✅ IMPROVED: Smart input validation
-  const updateAssumption = (key: keyof DCFAssumptions, value: number) => {
-    let validatedValue = value
-    
-    // Validierung je nach Parameter
-    if (key.includes('Growth') && !key.includes('terminal')) {
-      validatedValue = validateAndClampGrowthRate(value, 25)
-    } else if (key === 'terminalGrowthRate') {
-      validatedValue = validateTerminalGrowthRate(value, assumptions?.discountRate || 10)
-    } else if (key === 'discountRate') {
-      validatedValue = validateDiscountRate(value)
-    } else if (key === 'netCash') {
-      validatedValue = Math.round(value)
-    } else {
-      validatedValue = formatAssumption(value, 1)
-    }
-    
-    setAssumptions(prev => prev ? { 
-      ...prev, 
-      [key]: validatedValue
-    } : null)
+  // Update single parameter
+  const updateParam = (key: keyof DCFParams, value: number) => {
+    setParams(prev => ({
+      ...prev,
+      [key]: value
+    }))
   }
 
-  // Utility functions
-  const formatCurrency = (value: number) => 
-    `$${value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`
-
-  const formatNumber = (value: number, decimals = 1) => 
-    value.toLocaleString('en-US', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
-
-  const getUpsideColor = (upside: number) => {
-    if (upside > 20) return 'text-green-400'
-    if (upside > 0) return 'text-green-300'
-    if (upside > -10) return 'text-yellow-400'
-    return 'text-red-400'
+  // Format functions
+  const formatBillion = (value: number) => {
+    return `$${(value / 1e9).toFixed(1)}B`
   }
 
-  // Loading states
-  if (loadingUser || loading) {
-    return (
-      <div className="bg-theme-card rounded-lg p-8">
-        <div className="flex flex-col items-center justify-center">
-          <LoadingSpinner />
-          <p className="text-theme-secondary mt-4">
-            {loadingUser ? 'Benutzerdaten werden geladen...' : 'DCF-Daten werden geladen...'}
-          </p>
-        </div>
-      </div>
-    )
+  const formatPercentage = (value: number) => {
+    return `${(value * 100).toFixed(1)}%`
   }
 
-  // Error state
-  if (error || !dcfData || !assumptions) {
-    return (
-      <div className="bg-theme-card rounded-lg p-8">
-        <div className="text-center">
-          <ExclamationTriangleIcon className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h3 className="text-lg font-semibold text-theme-primary mb-2">DCF-Daten nicht verfügbar</h3>
-          <p className="text-theme-secondary">
-            {error || 'Keine ausreichenden Finanzdaten für DCF-Berechnung verfügbar.'}
-          </p>
-        </div>
-      </div>
-    )
-  }
+  // Calculate upside/downside
+  const upside = dcfResult 
+    ? ((dcfResult.equityValuePerShare - dcfResult.price) / dcfResult.price) * 100 
+    : 0
 
-  // Premium check
-  if (!user?.isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
-          <div className="flex items-center gap-3">
-            <CalculatorIcon className="w-6 h-6 text-green-400" />
-            <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
-            <div className="flex items-center gap-1 px-2 py-1 bg-green-500/20 rounded-lg">
-              <SparklesIcon className="w-3 h-3 text-amber-400" />
-              <span className="text-xs text-amber-400 font-medium">Premium</span>
+  return (
+    <div className="space-y-6">
+      {/* Header Section - Clean like Dividends */}
+      <div className="bg-[#0a0a0a] rounded-xl border border-gray-800/50">
+        <div className="p-6">
+          <div className="flex items-center justify-between mb-6">
+            <div>
+              <h2 className="text-xl font-semibold text-white mb-2">
+                DCF Calculator
+              </h2>
+              <p className="text-sm text-gray-400">
+                Interaktive Discounted Cash Flow Analyse für {ticker}
+              </p>
             </div>
+            <button
+              onClick={calculateDCF}
+              disabled={calculating}
+              className="flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 hover:bg-green-500/20 transition-colors disabled:opacity-50"
+            >
+              <ArrowPathIcon className={`w-4 h-4 ${calculating ? 'animate-spin' : ''}`} />
+              {calculating ? 'Berechne...' : 'Neu berechnen'}
+            </button>
+          </div>
+
+          {/* Main Results */}
+          {dcfResult && (
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              {/* Fair Value */}
+              <div className="bg-gray-900/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <ChartBarIcon className="w-4 h-4 text-blue-400" />
+                  <span className="text-xs text-gray-500">FAIRER WERT</span>
+                </div>
+                <div className="text-2xl font-bold text-white">
+                  ${dcfResult.equityValuePerShare.toFixed(2)}
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  pro Aktie
+                </div>
+              </div>
+
+              {/* Current Price */}
+              <div className="bg-gray-900/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-xs text-gray-500">AKTUELLER KURS</span>
+                </div>
+                <div className="text-2xl font-bold text-white">
+                  ${dcfResult.price.toFixed(2)}
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  Marktpreis
+                </div>
+              </div>
+
+              {/* Upside/Downside */}
+              <div className="bg-gray-900/50 rounded-lg p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  {upside > 0 ? (
+                    <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+                  ) : (
+                    <ArrowTrendingDownIcon className="w-4 h-4 text-red-400" />
+                  )}
+                  <span className="text-xs text-gray-500">POTENZIAL</span>
+                </div>
+                <div className={`text-2xl font-bold ${upside > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  {upside > 0 ? '+' : ''}{upside.toFixed(1)}%
+                </div>
+                <div className="text-xs text-gray-400 mt-1">
+                  {upside > 0 ? 'Unterbewertet' : 'Überbewertet'}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Scenarios */}
+      <div className="bg-[#0a0a0a] rounded-xl border border-gray-800/50 p-6">
+        <h3 className="text-lg font-semibold text-white mb-4">Szenarien</h3>
+        <div className="grid grid-cols-3 gap-3">
+          <button
+            onClick={() => applyScenario('conservative')}
+            className={`p-4 rounded-lg border transition-all ${
+              activeScenario === 'conservative'
+                ? 'bg-orange-500/20 border-orange-500 text-orange-400'
+                : 'bg-gray-900/50 border-gray-800 text-gray-400 hover:border-gray-700'
+            }`}
+          >
+            <ShieldCheckIcon className="w-5 h-5 mx-auto mb-2" />
+            <div className="text-sm font-medium">Konservativ</div>
+            <div className="text-xs opacity-70 mt-1">5% Wachstum</div>
+          </button>
+
+          <button
+            onClick={() => applyScenario('base')}
+            className={`p-4 rounded-lg border transition-all ${
+              activeScenario === 'base'
+                ? 'bg-blue-500/20 border-blue-500 text-blue-400'
+                : 'bg-gray-900/50 border-gray-800 text-gray-400 hover:border-gray-700'
+            }`}
+          >
+            <ChartBarIcon className="w-5 h-5 mx-auto mb-2" />
+            <div className="text-sm font-medium">Basis</div>
+            <div className="text-xs opacity-70 mt-1">10% Wachstum</div>
+          </button>
+
+          <button
+            onClick={() => applyScenario('optimistic')}
+            className={`p-4 rounded-lg border transition-all ${
+              activeScenario === 'optimistic'
+                ? 'bg-green-500/20 border-green-500 text-green-400'
+                : 'bg-gray-900/50 border-gray-800 text-gray-400 hover:border-gray-700'
+            }`}
+          >
+            <RocketLaunchIcon className="w-5 h-5 mx-auto mb-2" />
+            <div className="text-sm font-medium">Optimistisch</div>
+            <div className="text-xs opacity-70 mt-1">15% Wachstum</div>
+          </button>
+        </div>
+      </div>
+
+      {/* Custom Parameters */}
+      <div className="bg-[#0a0a0a] rounded-xl border border-gray-800/50">
+        <div className="p-6 border-b border-gray-800/50">
+          <div className="flex items-center gap-2">
+            <AdjustmentsHorizontalIcon className="w-5 h-5 text-gray-400" />
+            <h3 className="text-lg font-semibold text-white">Annahmen anpassen</h3>
           </div>
         </div>
         
-        <PremiumCTA
-          title="Professioneller DCF Calculator"
-          description="Bewerte Aktien mit unserem interaktiven DCF Calculator. Anpassbare Annahmen, Szenario-Analyse und detaillierte Berechnungen."
-        />
-      </div>
-    )
-  }
-
-  return (
-    <div className="bg-theme-card rounded-lg">
-      {/* ✅ IMPROVED: Header with Real Logo */}
-      <div className="px-6 py-4 border-b border-theme/10">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-3">
-              <CalculatorIcon className="w-6 h-6 text-green-400" />
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xl font-bold text-theme-primary">DCF Calculator</h3>
-                  {/* ✅ LEARN TOOLTIP für DCF Begriff */}
-                  <LearnTooltipButton term="DCF" />
-                </div>
-                <div className="flex items-center gap-2 mt-1">
-                  <Logo 
-                    ticker={ticker} 
-                    className="w-5 h-5"
-                    alt={`${ticker} company logo`}
-                  />
-                  <p className="text-theme-secondary text-sm">
-                    Discounted Cash Flow Bewertung für {dcfData.companyInfo.name} ({ticker})
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-3">
-            {/* ✅ FIXED: German Button */}
-            {dcfResults && (
-              <button
-                onClick={() => setShowBreakdown(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white rounded-lg text-sm font-medium transition-colors"
-              >
-                <EyeIcon className="w-4 h-4" />
-                Berechnung anzeigen
-              </button>
-            )}
-            
-            <button
-              onClick={() => setShowDetails(!showDetails)}
-              className="px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary rounded-lg text-sm font-medium transition-colors"
-            >
-              {showDetails ? 'Details ausblenden' : 'Details anzeigen'}
-            </button>
-          </div>
-        </div>
-      </div>
-
-      <div className="p-6">
-        {/* ✅ ENHANCED Learn Mode Info mit Lexikon-Links */}
-        {isLearnMode && (
-          <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <InformationCircleIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-green-400 font-semibold mb-2">DCF Calculator erklärt</h4>
-                <p className="text-theme-secondary text-sm leading-relaxed mb-4">
-                  Ein DCF Calculator projiziert die zukünftigen freien Cashflows eines Unternehmens für 5 Jahre, 
-                  berechnet einen Terminalwert und diskontiert alle Cashflows auf den heutigen Wert zurück. 
-                  Das Ergebnis ist der theoretische "faire Wert" der Aktie basierend auf fundamentalen Daten.
-                </p>
-                
-                {/* ✅ LEXIKON CROSS-LINKS */}
-                <div className="flex flex-wrap gap-2 mb-3">
-                  <Link 
-                    href="/lexikon/dcf"
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
-                  >
-                    <BookOpenIcon className="w-3 h-3" />
-                    DCF erklärt
-                  </Link>
-                  <Link 
-                    href="/lexikon/wacc"
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
-                  >
-                    <BookOpenIcon className="w-3 h-3" />
-                    Was ist WACC?
-                  </Link>
-                  <Link 
-                    href="/lexikon/terminal_value"
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
-                  >
-                    <BookOpenIcon className="w-3 h-3" />
-                    Terminal Value
-                  </Link>
-                  <Link 
-                    href="/lexikon/free_cash_flow"
-                    className="inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 text-blue-400 rounded-md text-xs hover:bg-blue-500/30 transition-colors"
-                  >
-                    <BookOpenIcon className="w-3 h-3" />
-                    Free Cash Flow
-                  </Link>
-                </div>
-                
-                {/* ✅ BLOG ARTIKEL LINK */}
-                <div className="border-t border-green-500/20 pt-3">
-                  <Link 
-                    href="/blog/dcf-bewertung-guide" // ✅ Dein zukünftiger Blog-Artikel
-                    className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 text-sm font-medium"
-                  >
-                    <LightBulbIcon className="w-4 h-4" />
-                    Vollständigen DCF-Guide lesen
-                    <ArrowRightIcon className="w-3 h-3" />
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ✅ PROFESSIONAL: Simplified FCF Data Source Info */}
-        {dcfData.dataQuality && (
-          <div className="p-4 bg-theme-secondary border border-theme/10 rounded-lg mb-6">
-            <div className="flex items-center gap-3">
-              <InformationCircleIcon className="w-5 h-5 text-blue-400" />
-              <div>
-                <div className="flex items-center gap-2">
-                  <p className="text-theme-primary font-medium">
-                    FCF-Datenquelle: {dcfData.dataQuality.fcfSourceDescription}
-                  </p>
-                  {/* ✅ LEARN TOOLTIP für Free Cash Flow */}
-                  <LearnTooltipButton term="Free Cash Flow" />
-                </div>
-                <p className="text-theme-muted text-sm mt-1">
-                  {dcfData.dataQuality.fcfDate ? `Daten vom ${dcfData.dataQuality.fcfDate}` : 'Aktuelle Finanzdaten'} • 
-                  {dcfData.dataQuality.fcfIsEstimated ? ' Geschätzte Werte' : ' Echte Finanzdaten'}
-                </p>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* ✅ NEW: Validation Error Display */}
-        {validationErrors.length > 0 && (
-          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
-            <div className="flex items-start gap-3">
-              <XCircleIcon className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <h4 className="text-red-400 font-semibold mb-2">Eingabefehler</h4>
-                <ul className="text-theme-secondary text-sm space-y-1">
-                  {validationErrors.map((error, index) => (
-                    <li key={index}>• {error}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Results Summary */}
-        {dcfResults && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-            <div className="bg-theme-secondary rounded-lg p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
-                <div className="flex items-center gap-2">
-                  <h4 className="text-theme-primary font-semibold">DCF Faire Bewertung</h4>
-                  {/* ✅ LEARN TOOLTIP für Intrinsischer Wert */}
-                  <LearnTooltipButton term="Intrinsischer Wert" />
-                </div>
-              </div>
-              <div className="text-2xl font-bold text-theme-primary mb-1">
-                {formatCurrency(dcfResults.valuePerShare)}
-              </div>
-              <div className="text-xs text-theme-muted">Pro Aktie</div>
-            </div>
-
-            <div className="bg-theme-secondary rounded-lg p-4">
-              <div className="flex items-center gap-3 mb-3">
-                <ChartBarIcon className="w-5 h-5 text-green-400" />
-                <h4 className="text-theme-primary font-semibold">Aktueller Preis</h4>
-              </div>
-              <div className="text-2xl font-bold text-theme-primary mb-1">
-                {formatCurrency(dcfResults.currentPrice)}
-              </div>
-              <div className="text-xs text-theme-muted">Marktpreis</div>
-            </div>
-
-            <div className="bg-theme-secondary rounded-lg p-4">
-              <div className="flex items-center gap-3 mb-3">
-                {dcfResults.upside > 0 ? (
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
-                ) : (
-                  <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
-                )}
-                <h4 className="text-theme-primary font-semibold">Upside/Downside</h4>
-              </div>
-              <div className={`text-2xl font-bold mb-1 ${getUpsideColor(dcfResults.upside)}`}>
-                {dcfResults.upside > 0 ? '+' : ''}{formatNumber(dcfResults.upside)}%
-              </div>
-              <div className="text-xs text-theme-muted">
-                {dcfResults.upside > 0 ? 'Unterbewertet' : 'Überbewertet'}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* Scenario Buttons */}
-        <div className="flex flex-wrap gap-3 mb-6">
-          <button
-            onClick={() => applyScenario('conservative')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeScenario === 'conservative'
-                ? 'bg-orange-500 text-white'
-                : 'bg-theme-secondary text-theme-primary hover:bg-theme-tertiary'
-            }`}
-          >
-            <ShieldCheckIcon className="w-4 h-4" />
-            Konservativ
-          </button>
-          
-          <button
-            onClick={() => applyScenario('base')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeScenario === 'base'
-                ? 'bg-blue-500 text-white'
-                : 'bg-theme-secondary text-theme-primary hover:bg-theme-tertiary'
-            }`}
-          >
-            <PresentationChartBarIcon className="w-4 h-4" />
-            Basis
-          </button>
-          
-          <button
-            onClick={() => applyScenario('optimistic')}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-              activeScenario === 'optimistic'
-                ? 'bg-green-500 text-white'
-                : 'bg-theme-secondary text-theme-primary hover:bg-theme-tertiary'
-            }`}
-          >
-            <RocketLaunchIcon className="w-4 h-4" />
-            Optimistisch
-          </button>
-        </div>
-
-        {/* Assumptions Panel */}
-        <div className="bg-theme-secondary rounded-lg mb-6">
-          <div className="px-4 py-3 border-b border-theme/10">
-            <div className="flex items-center gap-2">
-              <AdjustmentsHorizontalIcon className="w-5 h-5 text-theme-muted" />
-              <h4 className="font-semibold text-theme-primary">Annahmen anpassen</h4>
-              {dcfResults && validationErrors.length === 0 && (
-                <CheckCircleIcon className="w-4 h-4 text-green-400 ml-2" />
-              )}
-            </div>
-          </div>
-          
-          <div className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              
-              {/* Revenue Growth */}
-              <div className="space-y-3">
-                <h5 className="text-sm font-medium text-theme-secondary">Umsatzwachstum (%)</h5>
-                {[1, 2, 3, 4, 5].map((year) => (
-                  <div key={year} className="space-y-1">
-                    <label className="text-xs text-theme-muted">Jahr {year}</label>
-                    <input
-                      type="number"
-                      value={assumptions[`revenueGrowthY${year}` as keyof DCFAssumptions] as number}
-                      onChange={(e) => updateAssumption(`revenueGrowthY${year}` as keyof DCFAssumptions, parseFloat(e.target.value) || 0)}
-                      className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                      step="0.1"
-                      min="-10"
-                      max="25"
-                    />
-                  </div>
-                ))}
-              </div>
-
-              {/* Key Rates */}
-              <div className="space-y-3">
-                <h5 className="text-sm font-medium text-theme-secondary">Zentrale Kennzahlen (%)</h5>
-                
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs text-theme-muted">
-                      Terminal-Wachstumsrate (max {Math.min(assumptions.discountRate - 0.5, 4.0).toFixed(1)}%)
-                    </label>
-                    {/* ✅ LEARN TOOLTIP für Terminal Value */}
-                    <LearnTooltipButton term="Terminal Value" />
-                  </div>
-                  <input
-                    type="number"
-                    value={assumptions.terminalGrowthRate}
-                    onChange={(e) => updateAssumption('terminalGrowthRate', parseFloat(e.target.value) || 0)}
-                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                    step="0.1"
-                    min="0"
-                    max="4"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs text-theme-muted">Diskontierungssatz (WACC) (5-20%)</label>
-                    {/* ✅ LEARN TOOLTIP für WACC */}
-                    <LearnTooltipButton term="WACC" />
-                  </div>
-                  <input
-                    type="number"
-                    value={assumptions.discountRate}
-                    onChange={(e) => updateAssumption('discountRate', parseFloat(e.target.value) || 0)}
-                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                    step="0.1"
-                    min="5"
-                    max="20"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs text-theme-muted">Operative Marge</label>
-                    {/* ✅ LEARN TOOLTIP für Operating Margin */}
-                    <LearnTooltipButton term="Operative Marge" />
-                  </div>
-                  <input
-                    type="number"
-                    value={assumptions.operatingMargin}
-                    onChange={(e) => updateAssumption('operatingMargin', parseFloat(e.target.value) || 0)}
-                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                    step="0.1"
-                    min="0"
-                    max="50"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <label className="text-xs text-theme-muted">Steuersatz</label>
-                  <input
-                    type="number"
-                    value={assumptions.taxRate}
-                    onChange={(e) => updateAssumption('taxRate', parseFloat(e.target.value) || 0)}
-                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                    step="0.1"
-                    min="0"
-                    max="50"
-                  />
-                </div>
-              </div>
-
-              {/* Other Assumptions */}
-              <div className="space-y-3">
-                <h5 className="text-sm font-medium text-theme-secondary">Weitere Kennzahlen</h5>
-                
-                <div className="space-y-1">
-                  <label className="text-xs text-theme-muted">Investitionen (% vom Umsatz)</label>
-                  <input
-                    type="number"
-                    value={assumptions.capexAsRevenuePercent}
-                    onChange={(e) => updateAssumption('capexAsRevenuePercent', parseFloat(e.target.value) || 0)}
-                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                    step="0.1"
-                    min="0"
-                    max="20"
-                  />
-                </div>
-
-                <div className="space-y-1">
-                  <div className="flex items-center gap-2">
-                    <label className="text-xs text-theme-muted">Working Capital Änderung (%)</label>
-                    {/* ✅ LEARN TOOLTIP für Working Capital */}
-                    <LearnTooltipButton term="Working Capital" />
-                  </div>
-                  <input
-                    type="number"
-                    value={assumptions.workingCapitalChange}
-                    onChange={(e) => updateAssumption('workingCapitalChange', parseFloat(e.target.value) || 0)}
-                    className="w-full bg-theme-tertiary border border-theme/20 rounded-md px-3 py-2 text-theme-primary text-sm focus:border-green-500 focus:outline-none"
-                    step="0.1"
-                    min="-10"
-                    max="10"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Enhanced Disclaimer */}
-        <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mt-6">
-          <div className="flex items-start gap-3">
-            <ExclamationTriangleIcon className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+        <div className="p-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+            {/* Revenue Growth */}
             <div>
-              <h5 className="text-yellow-400 font-medium mb-1">Wichtiger Hinweis</h5>
-              <p className="text-theme-secondary text-sm">
-                Diese DCF-Berechnung basiert auf Annahmen über zukünftige Entwicklungen und dient nur zu Informationszwecken. 
-                Alle Daten stammen aus FMP APIs. Sie stellt keine Anlageberatung dar.
-              </p>
+              <label className="block text-xs text-gray-500 mb-2">
+                Umsatzwachstum (%)
+              </label>
+              <input
+                type="number"
+                value={(params.revenueGrowthPct * 100).toFixed(1)}
+                onChange={(e) => updateParam('revenueGrowthPct', parseFloat(e.target.value) / 100)}
+                className="w-full bg-gray-900/50 border border-gray-800 rounded-lg px-3 py-2 text-white text-sm focus:border-green-500 focus:outline-none"
+                step="0.5"
+                min="0"
+                max="30"
+              />
+            </div>
+
+            {/* EBITDA Margin */}
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">
+                EBITDA Marge (%)
+              </label>
+              <input
+                type="number"
+                value={(params.ebitdaPct * 100).toFixed(1)}
+                onChange={(e) => updateParam('ebitdaPct', parseFloat(e.target.value) / 100)}
+                className="w-full bg-gray-900/50 border border-gray-800 rounded-lg px-3 py-2 text-white text-sm focus:border-green-500 focus:outline-none"
+                step="0.5"
+                min="5"
+                max="50"
+              />
+            </div>
+
+            {/* Operating Cash Flow */}
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">
+                Operating Cash Flow (%)
+              </label>
+              <input
+                type="number"
+                value={(params.operatingCashFlowPct * 100).toFixed(1)}
+                onChange={(e) => updateParam('operatingCashFlowPct', parseFloat(e.target.value) / 100)}
+                className="w-full bg-gray-900/50 border border-gray-800 rounded-lg px-3 py-2 text-white text-sm focus:border-green-500 focus:outline-none"
+                step="0.5"
+                min="5"
+                max="50"
+              />
+            </div>
+
+            {/* CapEx */}
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">
+                CapEx (%)
+              </label>
+              <input
+                type="number"
+                value={(params.capitalExpenditurePct * 100).toFixed(1)}
+                onChange={(e) => updateParam('capitalExpenditurePct', parseFloat(e.target.value) / 100)}
+                className="w-full bg-gray-900/50 border border-gray-800 rounded-lg px-3 py-2 text-white text-sm focus:border-green-500 focus:outline-none"
+                step="0.5"
+                min="0"
+                max="20"
+              />
+            </div>
+
+            {/* Terminal Growth */}
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">
+                Terminal Growth (%)
+              </label>
+              <input
+                type="number"
+                value={(params.longTermGrowthRate * 100).toFixed(1)}
+                onChange={(e) => updateParam('longTermGrowthRate', parseFloat(e.target.value) / 100)}
+                className="w-full bg-gray-900/50 border border-gray-800 rounded-lg px-3 py-2 text-white text-sm focus:border-green-500 focus:outline-none"
+                step="0.5"
+                min="0"
+                max="5"
+              />
+            </div>
+
+            {/* Cost of Equity */}
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">
+                Cost of Equity (%)
+              </label>
+              <input
+                type="number"
+                value={(params.costOfEquity * 100).toFixed(1)}
+                onChange={(e) => updateParam('costOfEquity', parseFloat(e.target.value) / 100)}
+                className="w-full bg-gray-900/50 border border-gray-800 rounded-lg px-3 py-2 text-white text-sm focus:border-green-500 focus:outline-none"
+                step="0.5"
+                min="5"
+                max="20"
+              />
             </div>
           </div>
         </div>
       </div>
 
-      {/* ✅ FIXED: DCF Calculation Breakdown Modal with REAL Current FCF */}
-      {dcfResults && dcfData && assumptions && (
-        <DCFCalculationBreakdown
-          isOpen={showBreakdown}
-          onClose={() => setShowBreakdown(false)}
-          results={dcfResults}
-          assumptions={assumptions}
-          currentRevenue={dcfData.currentRevenue}
-          currentShares={dcfData.currentShares}
-          companyName={dcfData.companyInfo.name}
-          ticker={ticker}
-          fcfDataSource={dcfData.dataQuality?.fcfDataSource}
-          isEstimated={dcfData.dataQuality?.fcfIsEstimated}
-          currentFreeCashFlow={dcfData.currentFreeCashFlow}
-          fcfDataType={dcfData.dataQuality?.fcfDataType}
-          fcfDate={dcfData.dataQuality?.fcfDate}
-        />
+      {/* Key Metrics */}
+      {dcfResult && (
+        <div className="bg-[#0a0a0a] rounded-xl border border-gray-800/50 p-6">
+          <h3 className="text-lg font-semibold text-white mb-4">Berechnungsdetails</h3>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+            <div>
+              <span className="text-gray-500">Enterprise Value</span>
+              <p className="text-white font-semibold">{formatBillion(dcfResult.enterpriseValue)}</p>
+            </div>
+            <div>
+              <span className="text-gray-500">Terminal Value</span>
+              <p className="text-white font-semibold">{formatBillion(dcfResult.terminalValue)}</p>
+            </div>
+            <div>
+              <span className="text-gray-500">WACC</span>
+              <p className="text-white font-semibold">{formatPercentage(dcfResult.wacc / 100)}</p>
+            </div>
+            <div>
+              <span className="text-gray-500">Net Debt</span>
+              <p className="text-white font-semibold">{formatBillion(dcfResult.netDebt)}</p>
+            </div>
+          </div>
+        </div>
       )}
+
+      {/* Info Box */}
+      <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4">
+        <div className="flex gap-3">
+          <InformationCircleIcon className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+          <div>
+            <p className="text-yellow-400 font-medium text-sm">Hinweis</p>
+            <p className="text-gray-400 text-sm mt-1">
+              DCF-Bewertungen basieren auf Zukunftsannahmen. Nutze verschiedene Szenarien für eine ausgewogene Einschätzung.
+              Datenquelle: Financial Modeling Prep API.
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

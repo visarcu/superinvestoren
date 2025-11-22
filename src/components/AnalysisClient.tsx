@@ -1090,12 +1090,12 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
                         <span className="text-sm text-theme-muted">Wachstum (3Y)</span>
                         <span className={`text-sm font-medium ${
-                          dividendApiData.cagrAnalysis.find(item => item.years === 3)?.cagr > 0 ? 'text-green-400' : 
-                          dividendApiData.cagrAnalysis.find(item => item.years === 3)?.cagr < 0 ? 'text-red-400' : 
+                          dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr > 0 ? 'text-green-400' : 
+                          dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr < 0 ? 'text-red-400' : 
                           'text-theme-muted'
                         }`}>
                           {(() => {
-                            const threeYearCAGR = dividendApiData.cagrAnalysis.find(item => item.years === 3)?.cagr || 0;
+                            const threeYearCAGR = dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr || 0;
                             return `${threeYearCAGR > 0 ? '+' : ''}${threeYearCAGR.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
                           })()}
                         </span>

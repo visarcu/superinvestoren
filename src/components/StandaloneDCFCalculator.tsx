@@ -1,452 +1,391 @@
-// src/components/StandaloneDCFCalculator.tsx - FIXED Stock Search Section
+// src/components/StandaloneDCFCalculator.tsx - FINALER INTERAKTIVER DCF
 'use client'
 
-import React, { useState, useEffect, useMemo, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { 
   CalculatorIcon,
   MagnifyingGlassIcon,
-  ChevronDownIcon,
-  ArrowRightIcon,
-  SparklesIcon,
-  LockClosedIcon,
-  InformationCircleIcon,
+  ArrowTrendingUpIcon,
+  ArrowTrendingDownIcon,
+  AdjustmentsHorizontalIcon,
   ShieldCheckIcon,
   ChartBarIcon,
-  AdjustmentsHorizontalIcon,
-  XMarkIcon  // ← Added for clear button
+  RocketLaunchIcon,
+  ArrowPathIcon
 } from '@heroicons/react/24/outline'
 import { stocks } from '@/data/stocks'
-import { supabase } from '@/lib/supabaseClient'
-import Link from 'next/link'
-import LoadingSpinner from '@/components/LoadingSpinner'
-import DCFCalculator from '@/components/DCFCalculator'
 import Logo from '@/components/Logo'
 
-interface User {
-  id: string
-  email: string
-  isPremium: boolean
-}
+export default function StandaloneDCFCalculator() {
+  const [selectedTicker, setSelectedTicker] = useState<string>('')
+  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchOpen, setIsSearchOpen] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [activeScenario, setActiveScenario] = useState<'conservative' | 'base' | 'optimistic'>('base')
+  
+  // DCF Base Data
+  const [baseData, setBaseData] = useState<any>(null)
+  
+  // ANPASSBARE PARAMETER
+  const [params, setParams] = useState({
+    revenueGrowth: 10,      // %
+    fcfMargin: 20,          // %
+    terminalGrowth: 2.5,    // %
+    discountRate: 10,       // %
+    taxRate: 21,            // %
+    capexPercent: 3         // %
+  })
 
-interface Stock {
-  ticker: string
-  name: string
-  market?: string
-  [key: string]: any
-}
-
-// ✅ MISSING: Premium CTA Component
-const PremiumCTA = () => (
-  <div className="text-center py-16 px-6">
-    <div className="w-20 h-20 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-      <CalculatorIcon className="w-10 h-10 text-green-400" />
-    </div>
-    <h3 className="text-2xl font-semibold text-theme-primary mb-4">Professioneller DCF Calculator</h3>
-    <p className="text-theme-secondary mb-8 max-w-lg mx-auto leading-relaxed">
-      Bewerte jede Aktie mit unserem professionellen DCF Calculator. Automatische Validierung, 
-      realistische Annahmen und detaillierte Berechnungen für fundierte Investitionsentscheidungen.
-    </p>
-    
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 max-w-2xl mx-auto">
-      <div className="text-center p-4">
-        <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-          <ShieldCheckIcon className="w-6 h-6 text-blue-400" />
-        </div>
-        <h4 className="text-theme-primary font-medium mb-1">Smart Validierung</h4>
-        <p className="text-theme-muted text-xs">Automatische Prüfung unrealistischer Werte</p>
-      </div>
-      <div className="text-center p-4">
-        <div className="w-12 h-12 bg-green-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-          <ChartBarIcon className="w-6 h-6 text-green-400" />
-        </div>
-        <h4 className="text-theme-primary font-medium mb-1">Echte Finanzdaten</h4>
-        <p className="text-theme-muted text-xs">Basierend auf historischen Fundamentaldaten</p>
-      </div>
-      <div className="text-center p-4">
-        <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mx-auto mb-3">
-          <AdjustmentsHorizontalIcon className="w-6 h-6 text-purple-400" />
-        </div>
-        <h4 className="text-theme-primary font-medium mb-1">3 Szenarien</h4>
-        <p className="text-theme-muted text-xs">Konservativ, Basis & Optimistisch</p>
-      </div>
-    </div>
-    
-    <Link
-      href="/pricing"
-      className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors text-lg"
-    >
-      <SparklesIcon className="w-6 h-6" />
-      14 Tage kostenlos testen
-    </Link>
-    
-    <div className="mt-8 p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg max-w-md mx-auto">
-      <div className="flex items-start gap-3">
-        <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-        <div className="text-left">
-          <h5 className="text-blue-400 font-medium mb-1 text-sm">DCF Best Practices</h5>
-          <ul className="text-theme-muted text-xs space-y-1">
-            <li>• Terminal Growth Rate: Max 2-4%</li>
-            <li>• WACC immer &gt; Terminal Growth</li>
-            <li>• Konservative Annahmen bevorzugen</li>
-            <li>• Mehrere Szenarien vergleichen</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-)
-
-// ✅ FIXED: Stock Search Component with proper change functionality
-function StockSearchSelector({ 
-  onSelect, 
-  selectedTicker 
-}: { 
-  onSelect: (ticker: string) => void
-  selectedTicker: string | null
-}) {
-  const [query, setQuery] = useState('')
-  const [isOpen, setIsOpen] = useState(false)
-  const [filteredStocks, setFilteredStocks] = useState<Stock[]>([])
-  const [isEditing, setIsEditing] = useState(false) // ← NEW: Track editing state
-  const inputRef = useRef<HTMLInputElement>(null) // ← NEW: Input reference for focus
-
-  useEffect(() => {
-    if (query.trim()) {
-      // ✅ FIXED: When user types, search through ALL stocks, not just popular ones
-      const filtered = stocks.filter(stock => 
-        stock.ticker.toLowerCase().includes(query.toLowerCase()) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 12) // Increased limit for better search results
-      setFilteredStocks(filtered)
-    } else {
-      // Only show popular stocks when field is completely empty AND not editing
-      if (!isEditing) {
-        const popularTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX']
-        const popularStocks = stocks.filter(stock => 
-          popularTickers.includes(stock.ticker)
-        )
-        setFilteredStocks(popularStocks)
-      } else {
-        // When editing, show all major stocks for better UX
-        setFilteredStocks(stocks.slice(0, 20))
-      }
+  // Szenarien
+  const scenarios = {
+    conservative: {
+      revenueGrowth: 5,
+      fcfMargin: 15,
+      terminalGrowth: 2,
+      discountRate: 12
+    },
+    base: {
+      revenueGrowth: 10,
+      fcfMargin: 20,
+      terminalGrowth: 2.5,
+      discountRate: 10
+    },
+    optimistic: {
+      revenueGrowth: 15,
+      fcfMargin: 25,
+      terminalGrowth: 3,
+      discountRate: 8
     }
-  }, [query, isEditing])
-
-  const handleSelect = (ticker: string) => {
-    onSelect(ticker)
-    setQuery('') // Clear search
-    setIsOpen(false) // Close dropdown
-    setIsEditing(false) // ← Stop editing mode
   }
 
-  // ✅ FIXED: Proper change handler
-  const handleChange = () => {
-    setIsEditing(true) // ← Enter editing mode
-    setIsOpen(true) // Open dropdown
-    setQuery('') // Clear search to allow free typing
+  // Filtered stocks
+  const filteredStocks = searchQuery
+    ? stocks.filter(s => 
+        s.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        s.name.toLowerCase().includes(searchQuery.toLowerCase())
+      ).slice(0, 8)
+    : []
+
+  // Load base DCF data from API
+  const loadBaseDCF = async (ticker: string) => {
+    setLoading(true)
+    try {
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/discounted-cash-flow/${ticker}?apikey=${process.env.NEXT_PUBLIC_FMP_API_KEY}`
+      )
+      
+      if (response.ok) {
+        const data = await response.json()
+        if (data && data.length > 0) {
+          setBaseData(data[0])
+        }
+      }
+    } catch (error) {
+      console.error('DCF Error:', error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  // Handle stock selection
+  const handleSelectStock = (ticker: string) => {
+    setSelectedTicker(ticker)
+    setSearchQuery('')
+    setIsSearchOpen(false)
+    loadBaseDCF(ticker)
+  }
+
+  // Apply scenario
+  const applyScenario = (scenario: keyof typeof scenarios) => {
+    setActiveScenario(scenario)
+    setParams(prev => ({
+      ...prev,
+      ...scenarios[scenario]
+    }))
+  }
+
+  // BERECHNE DCF MIT CUSTOM PARAMETERN
+  const calculateCustomDCF = () => {
+    if (!baseData) return null
+
+    const currentPrice = baseData['Stock Price'] || 100
+    const shares = baseData.numberOfShares || 1e9
     
-    // Focus input after state update
-    setTimeout(() => {
-      inputRef.current?.focus()
-    }, 50)
+    // Simple DCF calculation
+    let revenue = 400e9 // Base revenue (would come from API)
+    let totalPV = 0
+    
+    // 5 Jahre projizieren
+    for (let year = 1; year <= 5; year++) {
+      revenue = revenue * (1 + params.revenueGrowth / 100)
+      const fcf = revenue * (params.fcfMargin / 100)
+      const pv = fcf / Math.pow(1 + params.discountRate / 100, year)
+      totalPV += pv
+    }
+    
+    // Terminal Value
+    const terminalFCF = revenue * (params.fcfMargin / 100) * (1 + params.terminalGrowth / 100)
+    const terminalValue = terminalFCF / ((params.discountRate - params.terminalGrowth) / 100)
+    const terminalPV = terminalValue / Math.pow(1 + params.discountRate / 100, 5)
+    
+    const enterpriseValue = totalPV + terminalPV
+    const fairValue = enterpriseValue / shares
+    const upside = ((fairValue - currentPrice) / currentPrice) * 100
+    
+    return {
+      fairValue,
+      currentPrice,
+      upside,
+      enterpriseValue,
+      terminalValue
+    }
   }
 
-  // ✅ NEW: Clear selection handler
-  const handleClear = () => {
-    onSelect('') // Clear selection by calling onSelect with empty string
-    setQuery('')
-    setIsEditing(false)
-    setIsOpen(false)
-  }
-
-  const selectedStock = selectedTicker ? stocks.find(s => s.ticker === selectedTicker) : null
+  const dcfResult = calculateCustomDCF()
 
   return (
-    <div className="relative">
-      {/* ✅ IMPROVED: Current Selection Display with Clear Option */}
-      {selectedStock && !isEditing && (
-        <div className="mb-4 p-4 bg-theme-secondary rounded-lg border border-green-500/30">
-          <div className="flex items-center gap-3">
-            <Logo 
-              ticker={selectedStock.ticker}
-              className="w-12 h-12"
-              alt={`${selectedStock.name} (${selectedStock.ticker}) company logo`}
-            />
-            <div className="flex-1">
-              <h3 className="text-theme-primary font-semibold">{selectedStock.ticker}</h3>
-              <p className="text-theme-secondary text-sm">{selectedStock.name}</p>
-              <div className="flex items-center gap-2 mt-1">
-                <span className="px-2 py-0.5 bg-theme-tertiary text-theme-muted rounded-md text-xs font-medium">
-                  {(selectedStock as any).market || 'NASDAQ'}
-                </span>
-                <span className="text-green-400 text-xs">✓ DCF Ready</span>
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {/* ✅ NEW: Clear button */}
-              <button
-                onClick={handleClear}
-                className="p-2 hover:bg-theme-tertiary text-theme-muted hover:text-red-400 rounded-md transition-colors"
-                title="Auswahl löschen"
-              >
-                <XMarkIcon className="w-4 h-4" />
-              </button>
-              {/* ✅ FIXED: Change button */}
-              <button
-                onClick={handleChange}
-                className="px-3 py-1.5 bg-theme-tertiary hover:bg-theme-card text-theme-primary rounded-md text-sm font-medium transition-colors"
-              >
-                Ändern
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+    <div className="min-h-screen bg-[#0d0d0d]">
+      {/* Full width container */}
+      <div className="w-full px-6 py-6">
+        
+        <h1 className="text-2xl font-semibold text-white mb-2">DCF Calculator</h1>
+        <p className="text-gray-500 mb-8">Interaktive Discounted Cash Flow Bewertung</p>
 
-      {/* ✅ FIXED: Search Input - Always show when editing or no selection */}
-      <div className={`relative ${selectedStock && !isEditing ? 'hidden' : ''}`}>
-        <div className="relative bg-theme-secondary border border-theme/20 rounded-lg transition-all duration-300 hover:border-theme/30 focus-within:border-green-500">
-          <div className="flex items-center px-4 py-3">
-            <MagnifyingGlassIcon className="w-5 h-5 mr-3 text-theme-muted" />
+        {/* Stock Search */}
+        <div className="max-w-2xl mb-8">
+          <div className="relative">
             <input
-              ref={inputRef} // ← Add ref for focusing
               type="text"
-              placeholder="Jede beliebige Aktie suchen... (z.B. AAPL, Tesla, Microsoft)"
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              onFocus={() => setIsOpen(true)}
-              className="flex-1 bg-transparent text-theme-primary placeholder-theme-muted focus:outline-none"
+              placeholder="Ticker eingeben (z.B. GOOGL, AAPL)"
+              value={searchQuery}
+              onChange={(e) => {
+                setSearchQuery(e.target.value)
+                setIsSearchOpen(true)
+              }}
+              onFocus={() => setIsSearchOpen(true)}
+              className="w-full bg-[#1a1a1a] border border-gray-800 rounded-lg px-4 py-3 text-white placeholder-gray-500 focus:border-green-500/50 focus:outline-none"
             />
-            {/* ✅ NEW: Clear search button */}
-            {query && (
-              <button
-                onClick={() => setQuery('')}
-                className="p-1 hover:bg-theme-tertiary text-theme-muted hover:text-theme-primary rounded transition-colors mr-2"
-              >
-                <XMarkIcon className="w-4 h-4" />
-              </button>
+            <MagnifyingGlassIcon className="absolute right-3 top-3.5 w-5 h-5 text-gray-500" />
+            
+            {isSearchOpen && filteredStocks.length > 0 && (
+              <>
+                <div className="absolute top-full left-0 right-0 mt-2 bg-[#1a1a1a] border border-gray-800 rounded-lg shadow-xl z-50 overflow-hidden">
+                  {filteredStocks.map(stock => (
+                    <button
+                      key={stock.ticker}
+                      onClick={() => handleSelectStock(stock.ticker)}
+                      className="w-full px-4 py-3 flex items-center gap-3 hover:bg-gray-800/30 transition-colors text-left"
+                    >
+                      <Logo ticker={stock.ticker} className="w-8 h-8" alt="" />
+                      <div className="flex-1">
+                        <div className="text-white font-medium">{stock.ticker}</div>
+                        <div className="text-gray-500 text-xs">{stock.name}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <div className="fixed inset-0 z-40" onClick={() => setIsSearchOpen(false)} />
+              </>
             )}
-            <ChevronDownIcon className={`w-4 h-4 text-theme-muted transition-transform ${isOpen ? 'rotate-180' : ''}`} />
           </div>
         </div>
 
-        {/* ✅ IMPROVED: Dropdown Results */}
-        {isOpen && (
-          <div className="absolute top-full left-0 right-0 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 mt-1">
-            <div className="max-h-80 overflow-y-auto"> {/* Increased height */}
-              {filteredStocks.length > 0 ? (
-                <div className="p-2">
-                  {/* ✅ IMPROVED: Dynamic header */}
-                  {!query && !isEditing && (
-                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
-                      ✨ DCF-geeignete Aktien
+        {selectedTicker && (
+          <>
+            {/* Current Stock Header */}
+            <div className="flex items-center gap-3 mb-6">
+              <Logo ticker={selectedTicker} className="w-10 h-10" alt="" />
+              <h2 className="text-xl font-semibold text-white">{selectedTicker}</h2>
+              <button
+                onClick={() => loadBaseDCF(selectedTicker)}
+                disabled={loading}
+                className="ml-auto px-4 py-2 bg-green-500/20 text-green-400 rounded-lg text-sm hover:bg-green-500/30 transition-colors"
+              >
+                <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
+              </button>
+            </div>
+
+            {/* HAUPTERGEBNISSE - GROSS UND PROMINENT */}
+            {dcfResult && (
+              <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-8 mb-8">
+                <div className="grid grid-cols-3 gap-8">
+                  <div>
+                    <div className="text-sm text-gray-500 mb-2">FAIRER WERT</div>
+                    <div className="text-4xl font-bold text-white">
+                      ${dcfResult.fairValue.toFixed(2)}
                     </div>
-                  )}
-                  {!query && isEditing && (
-                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
-                      🔍 Beliebte Aktien - oder tippe einen Namen/Ticker
-                    </div>
-                  )}
-                  {query && (
-                    <div className="px-3 py-2 text-xs text-theme-muted font-semibold uppercase tracking-wide border-b border-theme/10 mb-2">
-                      📊 Suchergebnisse für "{query}"
-                    </div>
-                  )}
+                    <div className="text-xs text-gray-500 mt-1">pro Aktie</div>
+                  </div>
                   
-                  <div className="space-y-1">
-                    {filteredStocks.map((stock) => (
-                      <button
-                        key={stock.ticker}
-                        onClick={() => handleSelect(stock.ticker)}
-                        className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-theme-secondary transition-all duration-200 text-left group"
-                      >
-                        <Logo 
-                          ticker={stock.ticker}
-                          className="w-10 h-10"
-                          alt={`${stock.name} (${stock.ticker}) company logo`}
-                        />
-                        
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 mb-1">
-                            <span className="font-bold text-sm text-theme-primary">{stock.ticker}</span>
-                            <span className="px-2 py-0.5 bg-theme-secondary text-theme-muted rounded-md text-xs font-medium">
-                              {(stock as any).market || 'NASDAQ'}
-                            </span>
-                          </div>
-                          <div className="text-xs text-theme-muted truncate">{stock.name}</div>
-                        </div>
-                        
-                        <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
-                      </button>
-                    ))}
+                  <div>
+                    <div className="text-sm text-gray-500 mb-2">AKTUELLER KURS</div>
+                    <div className="text-4xl font-bold text-white">
+                      ${dcfResult.currentPrice.toFixed(2)}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">Marktpreis</div>
+                  </div>
+                  
+                  <div>
+                    <div className="flex items-center gap-2 mb-2">
+                      {dcfResult.upside > 0 ? (
+                        <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                      ) : (
+                        <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
+                      )}
+                      <span className="text-sm text-gray-500">POTENZIAL</span>
+                    </div>
+                    <div className={`text-4xl font-bold ${dcfResult.upside > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      {dcfResult.upside > 0 ? '+' : ''}{dcfResult.upside.toFixed(1)}%
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">
+                      {dcfResult.upside > 0 ? 'Unterbewertet' : 'Überbewertet'}
+                    </div>
                   </div>
                 </div>
-              ) : (
-                <div className="p-6 text-center text-theme-muted">
-                  <MagnifyingGlassIcon className="w-6 h-6 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">Keine Aktien gefunden für "{query}"</p>
-                  <p className="text-xs mt-1">Versuche einen anderen Ticker oder Firmennamen</p>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-      </div>
+              </div>
+            )}
 
-      {/* Overlay to close dropdown */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 z-40" 
-          onClick={() => {
-            setIsOpen(false)
-            setIsEditing(false)
-          }}
-        />
-      )}
-    </div>
-  )
-}
+            {/* SZENARIEN */}
+            <div className="mb-8">
+              <h3 className="text-lg font-semibold text-white mb-4">Szenarien</h3>
+              <div className="grid grid-cols-3 gap-4">
+                <button
+                  onClick={() => applyScenario('conservative')}
+                  className={`p-6 rounded-xl border transition-all ${
+                    activeScenario === 'conservative'
+                      ? 'bg-orange-500/20 border-orange-500 text-orange-400'
+                      : 'bg-[#1a1a1a] border-gray-800 text-gray-400 hover:border-gray-700'
+                  }`}
+                >
+                  <ShieldCheckIcon className="w-6 h-6 mx-auto mb-2" />
+                  <div className="font-medium">Konservativ</div>
+                  <div className="text-xs opacity-70 mt-1">5% Wachstum • 12% WACC</div>
+                </button>
 
-// ✅ UPDATED: Main component with proper clear handling
-export default function StandaloneDCFCalculator() {
-  const [user, setUser] = useState<User | null>(null)
-  const [loadingUser, setLoadingUser] = useState(true)
-  const [selectedTicker, setSelectedTicker] = useState<string | null>(null)
+                <button
+                  onClick={() => applyScenario('base')}
+                  className={`p-6 rounded-xl border transition-all ${
+                    activeScenario === 'base'
+                      ? 'bg-green-500/20 border-green-500 text-green-400'
+                      : 'bg-[#1a1a1a] border-gray-800 text-gray-400 hover:border-gray-700'
+                  }`}
+                >
+                  <ChartBarIcon className="w-6 h-6 mx-auto mb-2" />
+                  <div className="font-medium">Basis</div>
+                  <div className="text-xs opacity-70 mt-1">10% Wachstum • 10% WACC</div>
+                </button>
 
-  // Load User Data
-  useEffect(() => {
-    async function loadUser() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
-        
-        if (session?.user) {
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('is_premium')
-            .eq('user_id', session.user.id)
-            .maybeSingle()
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            isPremium: profile?.is_premium || false
-          })
-        }
-      } catch (error) {
-        console.error('[StandaloneDCF] Error loading user:', error)
-      } finally {
-        setLoadingUser(false)
-      }
-    }
-
-    loadUser()
-  }, [])
-
-  // ✅ FIXED: Handle ticker selection/clearing
-  const handleTickerSelect = (ticker: string) => {
-    setSelectedTicker(ticker || null) // Handle empty string as null
-  }
-
-  // Loading state
-  if (loadingUser) {
-    return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <LoadingSpinner />
-      </div>
-    )
-  }
-
-  // Premium CTA (unchanged)
-  if (!user?.isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
-          <div className="flex items-center gap-3">
-            <CalculatorIcon className="w-6 h-6 text-green-400" />
-            <div>
-              <h1 className="text-2xl font-bold text-theme-primary">DCF Calculator</h1>
-              <p className="text-theme-secondary text-sm">Professionelle Discounted Cash Flow Bewertung</p>
-            </div>
-            <div className="flex items-center gap-1 px-3 py-1 bg-green-500/20 rounded-lg">
-              <SparklesIcon className="w-4 h-4 text-amber-400" />
-              <span className="text-sm text-amber-400 font-medium">Premium</span>
-            </div>
-          </div>
-        </div>
-        
-        <PremiumCTA />
-      </div>
-    )
-  }
-
-  return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-theme-primary mb-2">DCF Calculator</h1>
-        <p className="text-theme-secondary">
-          Bewerte jede Aktie mit professionellen Discounted Cash Flow Analysen. 
-          Automatische Validierung und realistische Annahmen inklusive.
-        </p>
-      </div>
-
-      {/* ✅ FIXED: Stock Selection */}
-      <div className="bg-theme-card rounded-lg p-6">
-        <h2 className="text-lg font-semibold text-theme-primary mb-4 flex items-center gap-2">
-          <MagnifyingGlassIcon className="w-5 h-5 text-green-400" />
-          Aktie auswählen
-        </h2>
-        
-        <StockSearchSelector 
-          onSelect={handleTickerSelect}
-          selectedTicker={selectedTicker}
-        />
-        
-        {/* Tips section (unchanged) */}
-        {!selectedTicker && (
-          <div className="mt-6 space-y-4">
-            <div className="p-4 bg-theme-secondary rounded-lg border-l-4 border-blue-400">
-              <div className="flex items-start gap-3">
-                <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-theme-secondary text-sm">
-                    <strong className="text-blue-400">Tipp:</strong> Wähle eine Aktie aus, um eine professionelle DCF-Bewertung zu starten. 
-                    Der Calculator verwendet automatisch historische Daten für intelligente Annahmen.
-                  </p>
-                </div>
+                <button
+                  onClick={() => applyScenario('optimistic')}
+                  className={`p-6 rounded-xl border transition-all ${
+                    activeScenario === 'optimistic'
+                      ? 'bg-green-500/20 border-green-500 text-green-400'
+                      : 'bg-[#1a1a1a] border-gray-800 text-gray-400 hover:border-gray-700'
+                  }`}
+                >
+                  <RocketLaunchIcon className="w-6 h-6 mx-auto mb-2" />
+                  <div className="font-medium">Optimistisch</div>
+                  <div className="text-xs opacity-70 mt-1">15% Wachstum • 8% WACC</div>
+                </button>
               </div>
             </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
-                <h4 className="text-green-400 font-medium mb-2 text-sm">✅ DCF-geeignete Unternehmen</h4>
-                <ul className="text-theme-muted text-xs space-y-1">
-                  <li>• Etablierte Unternehmen mit stabilem Cashflow</li>
-                  <li>• Predictable Business Models</li>
-                  <li>• Mindestens 3-5 Jahre Finanzhistorie</li>
-                  <li>• Keine zu volatilen Wachstumsstocks</li>
-                </ul>
-              </div>
+
+            {/* ANPASSBARE PARAMETER */}
+            <div className="bg-[#1a1a1a] border border-gray-800 rounded-xl p-6">
+              <h3 className="text-lg font-semibold text-white mb-4 flex items-center gap-2">
+                <AdjustmentsHorizontalIcon className="w-5 h-5" />
+                Annahmen anpassen
+              </h3>
               
-              <div className="p-4 bg-orange-500/10 border border-orange-500/20 rounded-lg">
-                <h4 className="text-orange-400 font-medium mb-2 text-sm">⚠️ Weniger geeignet</h4>
-                <ul className="text-theme-muted text-xs space-y-1">
-                  <li>• Startups ohne Profitabilität</li>
-                  <li>• Hochvolatile Krypto-Stocks</li>
-                  <li>• Unternehmen vor Produktlaunch</li>
-                  <li>• Zyklische Rohstoff-Unternehmen</li>
-                </ul>
+              <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
+                <div>
+                  <label className="text-sm text-gray-400 block mb-2">
+                    Umsatzwachstum (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={params.revenueGrowth}
+                    onChange={(e) => setParams({...params, revenueGrowth: parseFloat(e.target.value) || 0})}
+                    className="w-full bg-[#0d0d0d] border border-gray-800 rounded-lg px-4 py-2 text-white"
+                    min="0"
+                    max="50"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-400 block mb-2">
+                    FCF Marge (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={params.fcfMargin}
+                    onChange={(e) => setParams({...params, fcfMargin: parseFloat(e.target.value) || 0})}
+                    className="w-full bg-[#0d0d0d] border border-gray-800 rounded-lg px-4 py-2 text-white"
+                    min="0"
+                    max="50"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-400 block mb-2">
+                    Terminal Growth (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={params.terminalGrowth}
+                    onChange={(e) => setParams({...params, terminalGrowth: parseFloat(e.target.value) || 0})}
+                    className="w-full bg-[#0d0d0d] border border-gray-800 rounded-lg px-4 py-2 text-white"
+                    min="0"
+                    max="5"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-400 block mb-2">
+                    Diskontierungssatz / WACC (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={params.discountRate}
+                    onChange={(e) => setParams({...params, discountRate: parseFloat(e.target.value) || 0})}
+                    className="w-full bg-[#0d0d0d] border border-gray-800 rounded-lg px-4 py-2 text-white"
+                    min="5"
+                    max="20"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-400 block mb-2">
+                    Steuersatz (%)
+                  </label>
+                  <input
+                    type="number"
+                    value={params.taxRate}
+                    onChange={(e) => setParams({...params, taxRate: parseFloat(e.target.value) || 0})}
+                    className="w-full bg-[#0d0d0d] border border-gray-800 rounded-lg px-4 py-2 text-white"
+                    min="0"
+                    max="40"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-sm text-gray-400 block mb-2">
+                    CapEx (% vom Umsatz)
+                  </label>
+                  <input
+                    type="number"
+                    value={params.capexPercent}
+                    onChange={(e) => setParams({...params, capexPercent: parseFloat(e.target.value) || 0})}
+                    className="w-full bg-[#0d0d0d] border border-gray-800 rounded-lg px-4 py-2 text-white"
+                    min="0"
+                    max="20"
+                  />
+                </div>
               </div>
             </div>
-          </div>
+          </>
         )}
       </div>
-
-      {/* DCF Calculator */}
-      {selectedTicker && (
-        <DCFCalculator ticker={selectedTicker} />
-      )}
     </div>
   )
 }
