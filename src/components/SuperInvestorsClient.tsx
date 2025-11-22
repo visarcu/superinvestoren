@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import InvestorAvatar from '@/components/InvestorAvatar'
+import PositionTimingIntelligence from '@/components/PositionTimingIntelligence'
 import { 
   ArrowLeftIcon, 
   UserGroupIcon,
@@ -17,7 +18,8 @@ import {
   CalendarIcon,
   BanknotesIcon,
   TrophyIcon,
-  FireIcon
+  FireIcon,
+  SparklesIcon
 } from '@heroicons/react/24/outline'
 
 interface SuperInvestorData {
@@ -74,7 +76,8 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
   const [data, setData] = useState<SuperInvestorData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-  const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'ownership'>('overview')
+  const [currentPrice, setCurrentPrice] = useState<number>(271) // Default for AAPL
+  const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'ownership' | 'intelligence'>('overview')
 
   useEffect(() => {
     async function fetchSuperInvestorData() {
@@ -94,6 +97,19 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
         const result = await response.json()
         setData(result)
         console.log(`✅ Super investor data loaded for ${ticker}: ${result.summary.totalInvestors} investors`)
+        
+        // Fetch current price for timing intelligence
+        try {
+          const priceResponse = await fetch(`/api/quote/${ticker}`)
+          if (priceResponse.ok) {
+            const priceData = await priceResponse.json()
+            if (priceData.price) {
+              setCurrentPrice(priceData.price)
+            }
+          }
+        } catch (priceError) {
+          console.log('Could not fetch current price, using default')
+        }
         
       } catch (err) {
         console.error('Error fetching super investor data:', err)
@@ -295,6 +311,19 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
                 <span className="flex items-center gap-2">
                   <TrophyIcon className="w-4 h-4" />
                   Top Holdings
+                </span>
+              </button>
+              <button
+                onClick={() => setActiveTab('intelligence')}
+                className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
+                  activeTab === 'intelligence'
+                    ? 'border-green-500 text-green-400'
+                    : 'border-transparent text-theme-muted hover:text-theme-secondary hover:border-theme/30'
+                }`}
+              >
+                <span className="flex items-center gap-2">
+                  <SparklesIcon className="w-4 h-4" />
+                  Timing Intelligence
                 </span>
               </button>
             </div>
@@ -587,6 +616,17 @@ export default function SuperInvestorsClient({ ticker, initialStockName }: Super
                   </div>
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* Timing Intelligence Tab */}
+          {activeTab === 'intelligence' && data && (
+            <div className="space-y-8">
+              <PositionTimingIntelligence 
+                ticker={ticker}
+                positions={data.positions}
+                currentPrice={currentPrice}
+              />
             </div>
           )}
         </div>
