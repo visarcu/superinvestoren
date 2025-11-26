@@ -496,6 +496,31 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
     )
   }
 
+  // ✅ DATEN VALIDIERUNG - Prüfe ob Daten für diese Metrik verfügbar sind
+  const validData = data.filter(d => {
+    const value = d[metricKey]
+    return value !== undefined && value !== null && value !== 0
+  })
+  
+  if (validData.length === 0) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+          <button 
+            onClick={onExpand}
+            className="p-1 hover:bg-theme-tertiary rounded transition-colors"
+          >
+            <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
+          </button>
+        </div>
+        <div className="aspect-square flex items-center justify-center">
+          <p className="text-theme-secondary text-xs">Keine Daten verfügbar</p>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
@@ -511,7 +536,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart 
-            data={data} 
+            data={validData} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
             <CartesianGrid 
