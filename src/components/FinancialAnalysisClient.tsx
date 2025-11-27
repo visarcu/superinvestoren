@@ -1,7 +1,7 @@
 // src/components/FinancialAnalysisClient.tsx - ULTRA CLEAN: KEINE BORDERS + PROFESSIONELLE CONTROLS
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
   ResponsiveContainer,
   BarChart,
@@ -13,7 +13,7 @@ import {
   CartesianGrid,
   Tooltip as RechartsTooltip,
 } from 'recharts'
-import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
+import { ArrowsPointingOutIcon, InformationCircleIcon } from '@heroicons/react/24/solid'
 import { useCurrency } from '@/lib/CurrencyContext'
 import FinancialChartModal from './FinancialChartModal'
 import { useChartPresets } from '@/hooks/useChartPresets'
@@ -256,6 +256,78 @@ interface LocalChartPreset {
 
 
 
+// ─── FINANZKENNZAHLEN DEFINITIONEN ─────────────────────────────────────
+const METRIC_DEFINITIONS = {
+  revenue: {
+    description: "Gesamterlöse aus dem Verkauf von Produkten und Dienstleistungen",
+    calculation: "Nettoumsatz = Bruttoumsatz - Retouren - Rabatte"
+  },
+  ebitda: {
+    description: "Gewinn vor Zinsen, Steuern und Abschreibungen",
+    calculation: "EBITDA = Betriebsergebnis + Abschreibungen"
+  },
+  eps: {
+    description: "Gewinn je Aktie - Jahresüberschuss geteilt durch Aktienanzahl",
+    calculation: "EPS = Nettogewinn / Durchschnittliche Aktienanzahl"
+  },
+  freeCashFlow: {
+    description: "Verfügbare Liquidität nach allen Betriebsausgaben und Investitionen",
+    calculation: "FCF = Operativer Cash Flow - Investitionen"
+  },
+  netIncome: {
+    description: "Jahresüberschuss nach Abzug aller Kosten und Steuern",
+    calculation: "Nettogewinn = Umsatz - alle Aufwendungen - Steuern"
+  },
+  dividendPS: {
+    description: "Ausgeschüttete Dividende pro Aktie an die Aktionäre",
+    calculation: "Dividende je Aktie = Gesamtdividende / Aktienanzahl"
+  },
+  sharesOutstanding: {
+    description: "Anzahl der ausgegebenen Aktien im Markt",
+    calculation: "Aktien im Umlauf = Emittierte Aktien - Eigene Aktien"
+  },
+  returnOnEquity: {
+    description: "Eigenkapitalrendite - Gewinn im Verhältnis zum Eigenkapital",
+    calculation: "ROE = Nettogewinn / Eigenkapital × 100%"
+  },
+  capEx: {
+    description: "Investitionen in Sachanlagen wie Maschinen, Gebäude und Ausrüstung",
+    calculation: "CapEx = Käufe von Anlagevermögen - Verkäufe"
+  },
+  researchAndDevelopment: {
+    description: "Ausgaben für Forschung und Entwicklung neuer Produkte",
+    calculation: "F&E = Personalkosten + Materialkosten + externe F&E"
+  },
+  operatingIncome: {
+    description: "Gewinn vor Zinsen und Steuern",
+    calculation: "EBIT = EBITDA - Abschreibungen"
+  },
+  profitMargin: {
+    description: "Gewinnmarge - Nettogewinn im Verhältnis zum Umsatz",
+    calculation: "Gewinnmarge = (Nettogewinn / Umsatz) × 100%"
+  },
+  cashDebt: {
+    description: "Gegenüberstellung von verfügbarer Liquidität und Schulden",
+    calculation: "Nettoverschuldung = Gesamtschulden - Liquidität"
+  },
+  pe: {
+    description: "Kurs-Gewinn-Verhältnis - Aktienkurs geteilt durch Gewinn je Aktie",
+    calculation: "KGV = Aktienkurs / Gewinn je Aktie"
+  },
+  valuationMetrics: {
+    description: "Bewertungskennzahlen zur Einschätzung der Aktienattraktivität",
+    calculation: "KGV, KBV, KUV - verschiedene Preis-zu-Wert Verhältnisse"
+  },
+  revenueSegments: {
+    description: "Aufschlüsselung des Umsatzes nach Produktkategorien",
+    calculation: "Segmentumsatz = Umsatz je Geschäftsbereich"
+  },
+  geographicSegments: {
+    description: "Umsatzverteilung nach geografischen Regionen",
+    calculation: "Regionaler Umsatz = Umsatz je geografischem Markt"
+  }
+}
+
 // ─── ALLE METRICS MIT DEUTSCHEN NAMEN ─────────────────────────────────────
 const METRICS = [
   { 
@@ -273,6 +345,20 @@ const METRICS = [
     gradient: 'from-emerald-500 to-emerald-600'
   },
   { 
+    key: 'operatingIncome' as const, 
+    name: 'EBIT', 
+    shortName: 'EBIT', 
+    color: '#F97316',
+    gradient: 'from-orange-500 to-orange-600'
+  },
+  { 
+    key: 'netIncome' as const, 
+    name: 'Nettogewinn', 
+    shortName: 'Nettogewinn', 
+    color: '#EF4444',
+    gradient: 'from-red-500 to-red-600'
+  },
+  { 
     key: 'eps' as const, 
     name: 'Gewinn je Aktie', 
     shortName: 'Gewinn je Aktie', 
@@ -285,13 +371,6 @@ const METRICS = [
     shortName: 'Free Cash Flow', 
     color: '#8B5CF6',
     gradient: 'from-violet-500 to-violet-600'
-  },
-  { 
-    key: 'netIncome' as const, 
-    name: 'Nettogewinn', 
-    shortName: 'Nettogewinn', 
-    color: '#EF4444',
-    gradient: 'from-red-500 to-red-600'
   },
   { 
     key: 'dividendPS' as const, 
@@ -327,13 +406,6 @@ const METRICS = [
     shortName: 'Forschung & Entwicklung Ausgaben', 
     color: '#84CC16',
     gradient: 'from-lime-500 to-lime-600'
-  },
-  { 
-    key: 'operatingIncome' as const, 
-    name: 'Betriebsergebnis', 
-    shortName: 'Betriebsergebnis', 
-    color: '#F97316',
-    gradient: 'from-orange-500 to-orange-600'
   },
 
 ]
@@ -455,6 +527,69 @@ const CHART_PRESETS: Record<string, LocalChartPreset> = {
   }
 }
 
+// ─── INFO TOOLTIP KOMPONENTE ─────────────────────────────────────
+function MetricTooltip({ metricKey, className = "" }: { metricKey: MetricKey, className?: string }) {
+  const [showTooltip, setShowTooltip] = useState(false)
+  const [position, setPosition] = useState<'center' | 'right'>('center')
+  const buttonRef = useRef<HTMLButtonElement>(null)
+  const definition = METRIC_DEFINITIONS[metricKey as keyof typeof METRIC_DEFINITIONS]
+  
+  if (!definition) return null
+
+  const handleMouseEnter = () => {
+    setShowTooltip(true)
+    
+    // Überprüfe die Position des Buttons im Viewport
+    if (buttonRef.current) {
+      const rect = buttonRef.current.getBoundingClientRect()
+      const viewportWidth = window.innerWidth
+      
+      // Wenn das Element im linken Drittel des Bildschirms ist, zeige Tooltip rechts
+      if (rect.left < viewportWidth / 3) {
+        setPosition('right')
+      } else {
+        setPosition('center')
+      }
+    }
+  }
+  
+  return (
+    <div className="relative">
+      <button
+        ref={buttonRef}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={() => setShowTooltip(false)}
+        className={`p-0.5 hover:bg-theme-tertiary rounded transition-colors ${className}`}
+      >
+        <InformationCircleIcon className="w-3.5 h-3.5 text-theme-muted hover:text-theme-secondary" />
+      </button>
+      
+      {showTooltip && (
+        <div className={`absolute bottom-full mb-2 z-50 ${
+          position === 'right' 
+            ? 'left-0' 
+            : 'left-1/2 transform -translate-x-1/2'
+        }`}>
+          <div className="bg-theme-card border border-theme/20 rounded-lg shadow-xl p-3 min-w-[280px] max-w-[320px]">
+            <div className="text-xs text-theme-primary font-medium mb-1">
+              {definition.description}
+            </div>
+            <div className="text-xs text-theme-muted font-mono">
+              {definition.calculation}
+            </div>
+            {/* Kleiner Pfeil nach unten - Position anpassen je nach Tooltip-Position */}
+            <div className={`absolute top-full w-2 h-2 bg-theme-card border-r border-b border-theme/20 rotate-45 -mt-1 ${
+              position === 'right' 
+                ? 'left-4' 
+                : 'left-1/2 transform -translate-x-1/2'
+            }`}></div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── ULTRA CLEAN CHART COMPONENTS - KOMPLETT OHNE BORDERS ─────────────────────────────────────
 interface ChartCardProps {
   title: string
@@ -506,7 +641,10 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
     return (
       <div className="bg-theme-card rounded-lg p-4">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+            <MetricTooltip metricKey={metricKey} />
+          </div>
           <button 
             onClick={onExpand}
             className="p-1 hover:bg-theme-tertiary rounded transition-colors"
@@ -524,7 +662,10 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
+          <MetricTooltip metricKey={metricKey} />
+        </div>
         <button 
           onClick={onExpand}
           className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
@@ -663,8 +804,6 @@ function PremiumLockedChart({ title, onExpand }: { title: string, onExpand: () =
 }
 
 function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
-  const { formatCurrency } = useCurrency()
-
   if (!isPremium) {
     return <PremiumLockedChart title="Gewinnmarge" onExpand={onExpand} />
   }
@@ -676,27 +815,25 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
     return (
       <div className="bg-theme-card rounded-lg p-4">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
+            <MetricTooltip metricKey="profitMargin" />
+          </div>
         </div>
         <div className="aspect-square flex items-center justify-center">
-          <p className="text-theme-secondary text-xs">Keine Gewinnmarge-Daten verfügbar</p>
+          <p className="text-theme-secondary text-xs">Keine Daten verfügbar</p>
         </div>
       </div>
     )
   }
 
-  console.log('🔍 ProfitMargin Data Debug:', validData.map(d => ({ 
-    year: d.label, 
-    margin: d.profitMargin,
-    revenue: d.revenue,
-    netIncome: d.netIncome,
-    calculation: d.revenue > 0 ? `${d.netIncome} / ${d.revenue} = ${(d.netIncome / d.revenue * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%` : 'N/A'
-  })))
-
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-medium text-theme-primary">Gewinnmarge</h3>
+          <MetricTooltip metricKey="profitMargin" />
+        </div>
         <button 
           onClick={onExpand}
           className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
@@ -965,14 +1102,17 @@ function RevenueSegmentsChart({
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-theme-primary">
-        Umsatz nach Produkten
-          {segmentData.length > 0 && (
-            <span className="text-xs text-theme-muted ml-2">
-              ({segmentData[0]?.label} - {segmentData[segmentData.length - 1]?.label})
-            </span>
-          )}
-        </h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-medium text-theme-primary">
+          Umsatz nach Produkten
+            {segmentData.length > 0 && (
+              <span className="text-xs text-theme-muted ml-2">
+                ({segmentData[0]?.label} - {segmentData[segmentData.length - 1]?.label})
+              </span>
+            )}
+          </h3>
+          <MetricTooltip metricKey="revenueSegments" />
+        </div>
         <button 
           onClick={onExpand}
           className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
@@ -1073,7 +1213,10 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-theme-primary">Bewertung</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-medium text-theme-primary">Bewertung</h3>
+          <MetricTooltip metricKey="valuationMetrics" />
+        </div>
         <button onClick={onExpand} className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100">
           <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary hover:text-theme-primary" />
         </button>
@@ -1360,7 +1503,7 @@ function GeographicSegmentsChart({
 
 
 function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
-  const { formatCurrency, formatAxisValueDE } = useCurrency()
+  const { formatAxisValueDE } = useCurrency()
 
   if (!isPremium) {
     return (
@@ -1392,7 +1535,10 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
-        <h3 className="text-sm font-medium text-theme-primary">Cash & Schulden</h3>
+        <div className="flex items-center gap-2">
+          <h3 className="text-sm font-medium text-theme-primary">Cash & Schulden</h3>
+          <MetricTooltip metricKey="cashDebt" />
+        </div>
         <button 
           onClick={onExpand}
           className="p-1 hover:bg-theme-tertiary rounded transition-colors opacity-0 group-hover:opacity-100"
@@ -1448,7 +1594,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                     <p className="text-theme-secondary text-xs mb-1">{label}</p>
                     {payload.map((entry, index) => (
                       <p key={index} className="text-theme-primary text-sm font-medium">
-                        <span style={{ color: entry.color }}>{entry.name}:</span> {formatCurrency(entry.value as number)}
+                        <span style={{ color: entry.color }}>{entry.name}:</span> {formatAxisValueDE(entry.value as number)}
                       </p>
                     ))}
                   </div>
@@ -1814,7 +1960,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
     if (key === 'pe') return 'KGV TTM'
     if (key === 'capEx') return 'CapEx'
     if (key === 'researchAndDevelopment') return 'Forschung & Entwicklung'
-    if (key === 'operatingIncome') return 'Betriebsergebnis'
+    if (key === 'operatingIncome') return 'EBIT'
     if (key === 'revenueSegments') return 'Umsatz nach Produkten'
     if (key === 'geographicSegments') return 'Umsatz nach Regionen' 
     if (key === 'profitMargin') return 'Gewinnmarge'

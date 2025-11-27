@@ -9,9 +9,13 @@ import Logo from '@/components/Logo'
 import { 
   ArrowLeftIcon,
   BanknotesIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  CalendarIcon,
+  ArrowPathRoundedSquareIcon,
+  BuildingLibraryIcon
 } from '@heroicons/react/24/outline'
 import EnhancedDividendSection from '@/components/EnhancedDividendSection'
+import StockSplitsSection from '@/components/StockSplitsSection'
 import LoadingSpinner from '@/components/LoadingSpinner'
 
 interface User {
@@ -24,6 +28,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
   const ticker = params.ticker.toUpperCase()
   const [user, setUser] = useState<User | null>(null)
   const [loadingUser, setLoadingUser] = useState(true)
+  const [activeTab, setActiveTab] = useState<'dividends' | 'splits'>('dividends')
 
   // Get stock info for header
   const stock = stocks.find(s => s.ticker === ticker)
@@ -74,28 +79,58 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
       {/* ✅ MAIN CONTENT - Clean and professional */}
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
         
-        {/* ✅ CLEAN Status Indicator - No API details */}
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-theme-secondary">
-              Professionelle Dividenden-Analyse mit historischen Daten
-            </p>
-            <div className="text-sm text-theme-muted mt-1">
-              20 Jahre Dividendenhistorie • Split-adjusted
-            </div>
+        {/* ✅ TAB NAVIGATION - Like Morningstar */}
+        <div className="bg-theme-card rounded-lg">
+          <div className="border-b border-theme/10">
+            <nav className="flex space-x-8 px-6">
+              {[
+                { id: 'dividends', label: 'Dividenden', icon: BanknotesIcon },
+                { id: 'splits', label: 'Splits', icon: ArrowPathRoundedSquareIcon }
+              ].map((tab) => {
+                const Icon = tab.icon
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id as any)}
+                    className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-colors ${
+                      activeTab === tab.id
+                        ? 'border-blue-400 text-blue-400'
+                        : 'border-transparent text-theme-secondary hover:text-theme-primary'
+                    }`}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {tab.label}
+                  </button>
+                )
+              })}
+            </nav>
           </div>
-          
-          <div className="flex items-center gap-2 px-3 py-2 bg-green-500/20 border border-green-500/30 text-green-400 rounded-lg text-sm">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span>Aktuelle Daten</span>
+
+          {/* ✅ TAB CONTENT */}
+          <div className="p-6">
+            {activeTab === 'dividends' ? (
+              <div>
+                <div className="mb-6">
+                  <p className="text-theme-secondary">
+                    Professionelle Dividenden-Analyse mit historischen Daten
+                  </p>
+                  <div className="text-sm text-theme-muted mt-1">
+                    20 Jahre Dividendenhistorie • Split-adjusted
+                  </div>
+                </div>
+                <EnhancedDividendSection 
+                  ticker={ticker} 
+                  isPremium={user?.isPremium || false}
+                />
+              </div>
+            ) : (
+              <StockSplitsSection 
+                ticker={ticker} 
+                isPremium={user?.isPremium || false}
+              />
+            )}
           </div>
         </div>
-
-        {/* ✅ ENHANCED DIVIDEND SECTION */}
-        <EnhancedDividendSection 
-          ticker={ticker} 
-          isPremium={user?.isPremium || false}
-        />
 
         {/* ✅ KONSISTENTE PREMIUM CTA - Goldenes Schloss + Amber */}
         {!user?.isPremium && (

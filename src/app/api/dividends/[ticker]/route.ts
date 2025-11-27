@@ -1,6 +1,54 @@
 // src/app/api/dividends/[ticker]/route.ts - ENHANCED: Professional Dividend Analysis
 import { NextResponse } from 'next/server'
 
+// ✅ SPLIT ADJUSTMENT INTERFACE
+interface StockSplit {
+  date: string
+  numerator: number
+  denominator: number
+}
+
+// ✅ SPLIT-ADJUSTED DIVIDEND CALCULATION
+async function fetchStockSplits(ticker: string, apiKey: string): Promise<StockSplit[]> {
+  try {
+    const response = await fetch(`https://financialmodelingprep.com/stable/splits?symbol=${ticker}&apikey=${apiKey}`)
+    if (!response.ok) return []
+    const splits = await response.json()
+    return splits || []
+  } catch (error) {
+    console.warn(`⚠️ Stock splits fetch failed for ${ticker}:`, error)
+    return []
+  }
+}
+
+function applySplitAdjustments(
+  dividendHistory: Record<string, number>, 
+  stockSplits: StockSplit[]
+): Record<string, number> {
+  if (!stockSplits || stockSplits.length === 0) return dividendHistory
+  
+  const adjustedHistory: Record<string, number> = {}
+  
+  for (const [year, dividend] of Object.entries(dividendHistory)) {
+    let adjustedDividend = dividend
+    const dividendDate = new Date(`${year}-12-31`)
+    
+    // Apply all splits that occurred after this dividend date
+    for (const split of stockSplits) {
+      const splitDate = new Date(split.date)
+      if (splitDate > dividendDate) {
+        // Adjust backward: multiply by denominator/numerator
+        adjustedDividend = adjustedDividend * (split.numerator / split.denominator)
+      }
+    }
+    
+    adjustedHistory[year] = adjustedDividend
+  }
+  
+  console.log(`📊 Applied ${stockSplits.length} split adjustments for ${Object.keys(dividendHistory).length} dividend years`)
+  return adjustedHistory
+}
+
 // ✅ ENHANCED INTERFACES
 interface PayoutSafetyResult {
   text: string
@@ -527,12 +575,30 @@ export async function GET(
     // ✅ Filter to modern data only  
     const modernDividends = filterModernDividends(yearlyDividends)
     
-    // ✅ PARALLEL: Load all enhanced data
+    // 🔧 SPLIT ADJUSTMENT: Load stock splits and adjust dividends
+    const stockSplits = await fetchStockSplits(ticker, apiKey)
+    const splitAdjustedDividends = applySplitAdjustments(modernDividends, stockSplits)
+    
+    console.log(`📊 Split adjustment for ${ticker}: ${stockSplits.length} splits found`)
+    if (stockSplits.length > 0) {
+      console.log(`📊 Original vs Adjusted (sample):`, {
+        original: Object.keys(modernDividends).slice(0, 3).reduce((acc, year) => ({
+          ...acc, 
+          [year]: modernDividends[year]
+        }), {}),
+        adjusted: Object.keys(splitAdjustedDividends).slice(0, 3).reduce((acc, year) => ({
+          ...acc, 
+          [year]: splitAdjustedDividends[year]
+        }), {})
+      })
+    }
+    
+    // ✅ PARALLEL: Load all enhanced data (using split-adjusted dividends)
     const [financialData, currentQuote, quarterlyData, payoutHistory, healthMetrics] = await Promise.allSettled([
-      getFinancialContextModern(ticker, modernDividends),
+      getFinancialContextModern(ticker, splitAdjustedDividends),
       getDirectStockQuote(ticker, apiKey),
       getQuarterlyDividendHistory(ticker, apiKey),
-      getPayoutRatioHistory(ticker, apiKey, modernDividends),
+      getPayoutRatioHistory(ticker, apiKey, splitAdjustedDividends),
       getFinancialHealthMetrics(ticker, apiKey)
     ])
     
@@ -542,9 +608,9 @@ export async function GET(
     const payoutRatioHistory = payoutHistory.status === 'fulfilled' ? payoutHistory.value : []
     const health = healthMetrics.status === 'fulfilled' ? healthMetrics.value : null
     
-    // ✅ Calculate CAGR analysis - enhanced version
-    const growthAnalysis = analyzeDividendGrowth(modernDividends)
-    const cagrAnalysis = calculateDividendCAGR(modernDividends) // Keep existing function 
+    // ✅ Calculate CAGR analysis - enhanced version (using split-adjusted data)
+    const growthAnalysis = analyzeDividendGrowth(splitAdjustedDividends)
+    const cagrAnalysis = calculateDividendCAGR(splitAdjustedDividends) // Use split-adjusted data 
     
     // ✅ Add detailed CAGR periods - use existing function structure
     const detailedCAGRs = {
@@ -573,7 +639,7 @@ export async function GET(
     
     // 🚀 ENHANCED Response with professional dividend analysis
     const response = {
-      historical: modernDividends,
+      historical: splitAdjustedDividends,
       forecasts: [], // TODO: Add analyst estimates if available
       
       // ✅ Current dividend information
@@ -582,8 +648,8 @@ export async function GET(
         payoutRatio: financial.payoutRatio || 0,
         exDividendDate: financial.exDividendDate,
         dividendPerShareTTM: financial.dividendPerShareTTM || 0,
-        lastDividendDate: getLastDividendDateModern(modernDividends, quarterly),
-        dividendGrowthRate: calculateDividendGrowthRateModern(modernDividends),
+        lastDividendDate: getLastDividendDateModern(splitAdjustedDividends, quarterly),
+        dividendGrowthRate: calculateDividendGrowthRateModern(splitAdjustedDividends),
         
         // ✅ PROFESSIONAL categorization
         dividendQuality: getDividendQualityModern(processedData),

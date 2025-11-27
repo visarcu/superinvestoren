@@ -16,7 +16,8 @@ import {
   CalendarIcon,
   ChartBarIcon,
   DocumentTextIcon,
-  BuildingLibraryIcon
+  BuildingLibraryIcon,
+  ArrowPathRoundedSquareIcon
 } from '@heroicons/react/24/outline'
 import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, ComposedChart, Area, AreaChart } from 'recharts'
 import { useCurrency } from '@/lib/CurrencyContext' // ✅ CURRENCY CONTEXT HINZUGEFÜGT
@@ -62,6 +63,16 @@ interface FinancialHealthMetrics {
   quickRatio: number
   roe: number
   roa: number
+}
+
+interface StockSplit {
+  symbol: string
+  date: string
+  numerator: number
+  denominator: number
+  ratio: string
+  type: string
+  description: string
 }
 
 interface PayoutSafetyData {
@@ -151,6 +162,7 @@ export default function EnhancedDividendSection({
       loadEnhancedDividendData()
     }
   }, [ticker])
+
 
   // ✅ DEUTSCHE FORMATIERUNG - Helper functions
   const formatCurrencyDE = (value: number): string => {
@@ -410,40 +422,16 @@ export default function EnhancedDividendSection({
         </div>
       )}
 
-      {/* ✅ Tab Navigation */}
-      <div className="professional-card">
-        <div className="border-b border-theme/10">
-          <nav className="flex space-x-8 px-6">
-            {[
-              { id: 'overview', label: 'Übersicht', icon: BanknotesIcon },
-              { id: 'quarterly', label: 'Quartalsweise', icon: CalendarIcon },
-              { id: 'health', label: 'Finanzstärke', icon: BuildingLibraryIcon }
-            ].map((tab) => {
-              const Icon = tab.icon
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-colors ${
-                    activeTab === tab.id
-                      ? 'border-blue-400 text-blue-400'
-                      : 'border-transparent text-theme-secondary hover:text-theme-primary'
-                  }`}
-                >
-                  <Icon className="w-4 h-4" />
-                  {tab.label}
-                </button>
-              )
-            })}
-          </nav>
-        </div>
-
-        {/* ✅ Tab Content - DEUTSCHE FORMATIERUNG */}
-        <div className="p-6">
-          {activeTab === 'overview' && (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              
-              {/* Growth Trend Chart - DEUTSCHE FORMATIERUNG */}
+      {/* ✅ Simplified Content - All Dividend Analysis */}
+      <div className="space-y-6">
+        
+        {/* ✅ Key Statistics */}
+        <div className="professional-card p-6">
+          <h4 className="text-lg font-bold text-theme-primary mb-4">Kernanalyse</h4>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            
+            {/* Growth Trend Chart */}
+            {dividendData.length > 0 && (
               <div>
                 <h5 className="text-lg font-semibold text-theme-primary mb-4">Wachstumstrend (10 Jahre)</h5>
                 <div className="h-48">
@@ -479,151 +467,89 @@ export default function EnhancedDividendSection({
                   </ResponsiveContainer>
                 </div>
               </div>
+            )}
 
-              {/* Key Statistics */}
-              <div>
-                <h5 className="text-lg font-semibold text-theme-primary mb-4">Kernkennzahlen</h5>
-                <div className="space-y-4">
-                  
-                  <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
-                    <span className="text-theme-secondary">Dividenden-Qualität</span>
-                    <span className="text-theme-primary font-semibold">
-                      {currentInfo?.dividendQuality || 'N/A'}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
-                    <span className="text-theme-secondary">Wachstumstrend</span>
-                    <span className="text-theme-primary font-semibold">
-                      {currentInfo?.growthTrend || 'N/A'}
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
-                    <span className="text-theme-secondary">Jahre Historie</span>
-                    <span className="text-theme-primary font-semibold">
-                      {dividendData.length} Jahre
-                    </span>
-                  </div>
-
-                  <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
-                    <span className="text-theme-secondary">Letzte Zahlung</span>
-                    <span className="text-theme-primary font-semibold">
-                      {currentInfo?.lastDividendDate ? 
-                        new Date(currentInfo.lastDividendDate).toLocaleDateString('de-DE', {
-                          year: 'numeric',
-                          month: 'short'
-                        }) : 'N/A'}
-                    </span>
-                  </div>
+            {/* Key Stats */}
+            <div>
+              <h5 className="text-lg font-semibold text-theme-primary mb-4">Kennzahlen</h5>
+              <div className="space-y-4">
+                <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
+                  <span className="text-theme-secondary">Dividenden-Qualität</span>
+                  <span className="text-theme-primary font-semibold">
+                    {currentInfo?.dividendQuality || 'N/A'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
+                  <span className="text-theme-secondary">Jahre Historie</span>
+                  <span className="text-theme-primary font-semibold">
+                    {dividendData.length} Jahre
+                  </span>
                 </div>
               </div>
             </div>
-          )}
-
-          {activeTab === 'quarterly' && (
-            <div>
-              <h5 className="text-lg font-semibold text-theme-primary mb-4">Quartalsweise Dividendenhistorie</h5>
-              
-              {quarterlyHistory.length > 0 ? (
-                <div className="overflow-hidden rounded-lg border border-theme">
-                  <table className="w-full">
-                    <thead className="bg-theme-tertiary/50">
-                      <tr>
-                        <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Datum</th>
-                        <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Quartal</th>
-                        <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Betrag</th>
-                        <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Split-Adj.</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {quarterlyHistory.slice(0, 20).map((quarter, index) => (
-                        <tr key={`${quarter.date}-${index}`} className="hover:bg-theme-tertiary/30 transition-colors border-b border-theme/50">
-                          <td className="py-3 px-4 text-theme-primary font-medium">
-                            {new Date(quarter.date).toLocaleDateString('de-DE')}
-                          </td>
-                          <td className="py-3 px-4 text-right text-theme-secondary">
-                            {quarter.quarter} {quarter.year}
-                          </td>
-                          <td className="py-3 px-4 text-right text-theme-primary font-semibold">
-                            {formatCurrencyDE(quarter.amount)}
-                          </td>
-                          <td className="py-3 px-4 text-right text-green-400 font-medium">
-                            {formatCurrencyDE(quarter.adjAmount)}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              ) : (
-                <div className="text-center py-8 text-theme-muted">
-                  <CalendarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                  <p>Keine quartalsweisen Daten verfügbar</p>
-                </div>
-              )}
-            </div>
-          )}
-
-          {activeTab === 'health' && (
-            <div>
-              <h5 className="text-lg font-semibold text-theme-primary mb-4">Finanzielle Gesundheit</h5>
-              
-              {financialHealth ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  
-                  <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                    <div className="text-sm text-theme-secondary mb-1">FCF Coverage</div>
-                    <div className={`text-2xl font-bold ${getMetricColor(financialHealth.freeCashFlowCoverage, { good: 2, ok: 1 })}`}>
-                      {formatRatioDE(financialHealth.freeCashFlowCoverage)}
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                    <div className="text-sm text-theme-secondary mb-1">Debt/Equity</div>
-                    <div className={`text-2xl font-bold ${getMetricColor(1 / (financialHealth.debtToEquity + 0.001), { good: 0.5, ok: 0.3 })}`}>
-                      {formatRatioDE(financialHealth.debtToEquity, '')}
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                    <div className="text-sm text-theme-secondary mb-1">Interest Coverage</div>
-                    <div className={`text-2xl font-bold ${getMetricColor(financialHealth.interestCoverage, { good: 10, ok: 3 })}`}>
-                      {formatRatioDE(financialHealth.interestCoverage)}
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                    <div className="text-sm text-theme-secondary mb-1">Current Ratio</div>
-                    <div className={`text-2xl font-bold ${getMetricColor(financialHealth.currentRatio, { good: 2, ok: 1.2 })}`}>
-                      {formatRatioDE(financialHealth.currentRatio, '')}
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                    <div className="text-sm text-theme-secondary mb-1">ROE</div>
-                    <div className={`text-2xl font-bold ${getMetricColor(financialHealth.roe, { good: 15, ok: 10 })}`}>
-                      {formatPercentDE(financialHealth.roe)}
-                    </div>
-                  </div>
-
-                  <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                    <div className="text-sm text-theme-secondary mb-1">ROA</div>
-                    <div className={`text-2xl font-bold ${getMetricColor(financialHealth.roa, { good: 10, ok: 5 })}`}>
-                      {formatPercentDE(financialHealth.roa)}
-                    </div>
-                  </div>
-                  
-                </div>
-              ) : (
-                <div className="text-center py-8 text-theme-muted">
-                  <BuildingLibraryIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
-                  <p>Finanzielle Gesundheitsdaten nicht verfügbar</p>
-                </div>
-              )}
-            </div>
-          )}
+          </div>
         </div>
+
+        {/* ✅ Quarterly History */}
+        {quarterlyHistory.length > 0 && (
+          <div className="professional-card p-6">
+            <h4 className="text-lg font-bold text-theme-primary mb-4">Quartalsweise Historie</h4>
+            <div className="overflow-hidden rounded-lg border border-theme">
+              <table className="w-full">
+                <thead className="bg-theme-tertiary/50">
+                  <tr>
+                    <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Datum</th>
+                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Quartal</th>
+                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Betrag</th>
+                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Split-Adj.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {quarterlyHistory.slice(0, 20).map((quarter, index) => (
+                    <tr key={`${quarter.date}-${index}`} className="hover:bg-theme-tertiary/30 transition-colors border-b border-theme/50">
+                      <td className="py-3 px-4 text-theme-primary font-medium">
+                        {new Date(quarter.date).toLocaleDateString('de-DE')}
+                      </td>
+                      <td className="py-3 px-4 text-right text-theme-secondary">
+                        {quarter.quarter} {quarter.year}
+                      </td>
+                      <td className="py-3 px-4 text-right text-theme-primary font-semibold">
+                        {formatCurrencyDE(quarter.amount)}
+                      </td>
+                      <td className="py-3 px-4 text-right text-green-400 font-medium">
+                        {formatCurrencyDE(quarter.adjAmount)}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+
+        {/* ✅ Financial Health */}
+        {financialHealth && (
+          <div className="professional-card p-6">
+            <h4 className="text-lg font-bold text-theme-primary mb-4">Finanzielle Gesundheit</h4>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              
+              <div className="p-4 bg-theme-tertiary/30 rounded-lg">
+                <div className="text-sm text-theme-secondary mb-1">FCF Coverage</div>
+                <div className={`text-2xl font-bold ${getMetricColor(financialHealth.freeCashFlowCoverage, { good: 2, ok: 1 })}`}>
+                  {formatRatioDE(financialHealth.freeCashFlowCoverage)}
+                </div>
+              </div>
+
+              <div className="p-4 bg-theme-tertiary/30 rounded-lg">
+                <div className="text-sm text-theme-secondary mb-1">ROE</div>
+                <div className={`text-2xl font-bold ${getMetricColor(financialHealth.roe, { good: 15, ok: 10 })}`}>
+                  {formatPercentDE(financialHealth.roe)}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+        )}
       </div>
 
       {/* ✅ Complete Historical Table - DEUTSCHE FORMATIERUNG */}
