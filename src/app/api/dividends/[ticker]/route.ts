@@ -21,32 +21,112 @@ async function fetchStockSplits(ticker: string, apiKey: string): Promise<StockSp
   }
 }
 
-function applySplitAdjustments(
-  dividendHistory: Record<string, number>, 
+// ✅ NEW: Apply split adjustments based on quarterly dividend dates
+async function applySplitAdjustmentsQuarterly(
+  ticker: string,
+  apiKey: string,
   stockSplits: StockSplit[]
-): Record<string, number> {
-  if (!stockSplits || stockSplits.length === 0) return dividendHistory
-  
-  const adjustedHistory: Record<string, number> = {}
-  
-  for (const [year, dividend] of Object.entries(dividendHistory)) {
-    let adjustedDividend = dividend
-    const dividendDate = new Date(`${year}-12-31`)
-    
-    // Apply all splits that occurred after this dividend date
-    for (const split of stockSplits) {
-      const splitDate = new Date(split.date)
-      if (splitDate > dividendDate) {
-        // Adjust backward: multiply by denominator/numerator
-        adjustedDividend = adjustedDividend * (split.numerator / split.denominator)
-      }
-    }
-    
-    adjustedHistory[year] = adjustedDividend
+): Promise<Record<string, number>> {
+  if (!stockSplits || stockSplits.length === 0) {
+    // If no splits, use the original yearly aggregation
+    return await getOriginalYearlyDividends(ticker, apiKey)
   }
   
-  console.log(`📊 Applied ${stockSplits.length} split adjustments for ${Object.keys(dividendHistory).length} dividend years`)
-  return adjustedHistory
+  try {
+    // Get quarterly dividend data
+    const quarterlyData = await getQuarterlyDividendHistory(ticker, apiKey)
+    
+    if (!quarterlyData || quarterlyData.length === 0) {
+      console.warn(`⚠️ No quarterly data for ${ticker}, using yearly fallback`)
+      return await getOriginalYearlyDividends(ticker, apiKey)
+    }
+    
+    // Sort splits by date
+    const sortedSplits = [...stockSplits].sort((a, b) => 
+      new Date(a.date).getTime() - new Date(b.date).getTime()
+    )
+    
+    // Apply split adjustments to quarterly data
+    const adjustedQuarterly = quarterlyData.map(quarter => {
+      let adjustedAmount = quarter.amount
+      const quarterDate = new Date(quarter.date)
+      
+      // Apply all splits that happened AFTER this quarter
+      for (const split of sortedSplits) {
+        const splitDate = new Date(split.date)
+        
+        if (splitDate > quarterDate) {
+          const splitRatio = split.numerator / split.denominator
+          adjustedAmount = adjustedAmount / splitRatio
+          
+          // Debug for Apple 2020
+          if (quarter.year === 2020) {
+            console.log(`🔍 Q${Math.ceil((quarterDate.getMonth() + 1) / 3)} ${quarter.year}: ${quarter.amount} → ${adjustedAmount.toFixed(4)} (split ${split.numerator}:${split.denominator} on ${split.date})`)
+          }
+        }
+      }
+      
+      return {
+        ...quarter,
+        adjustedAmount
+      }
+    })
+    
+    // Group by year and sum adjusted amounts
+    const yearlyTotals: Record<string, number> = {}
+    
+    adjustedQuarterly.forEach(quarter => {
+      const year = quarter.year.toString()
+      yearlyTotals[year] = (yearlyTotals[year] || 0) + quarter.adjustedAmount
+    })
+    
+    console.log(`📊 Split adjustment complete for ${ticker}: ${quarterlyData.length} quarters → ${Object.keys(yearlyTotals).length} years`)
+    
+    // Debug key years
+    const debugYears = ['2020', '2019', '2014', '2013']
+    debugYears.forEach((year: string) => {
+      if (yearlyTotals[year]) {
+        const originalYearlyTotal = adjustedQuarterly
+          .filter(q => q.year.toString() === year)
+          .reduce((sum, q) => sum + q.amount, 0)
+        console.log(`🔍 ${year}: ${originalYearlyTotal.toFixed(4)} → ${yearlyTotals[year].toFixed(4)}`)
+      }
+    })
+    
+    return yearlyTotals
+    
+  } catch (error) {
+    console.error(`❌ Error in quarterly split adjustment for ${ticker}:`, error)
+    return await getOriginalYearlyDividends(ticker, apiKey)
+  }
+}
+
+// Helper function to get original yearly dividends (fallback)
+async function getOriginalYearlyDividends(ticker: string, apiKey: string): Promise<Record<string, number>> {
+  try {
+    const response = await fetch(
+      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`
+    )
+    
+    if (!response.ok) return {}
+    
+    const data = await response.json()
+    const historical = data[0]?.historical || data.historical || []
+    
+    const yearlyDividends: Record<string, number> = {}
+    
+    historical.forEach((dividend: { date: string; dividend?: number }) => {
+      if (dividend.dividend && dividend.dividend > 0) {
+        const year = new Date(dividend.date).getFullYear().toString()
+        yearlyDividends[year] = (yearlyDividends[year] || 0) + dividend.dividend
+      }
+    })
+    
+    return filterModernDividends(yearlyDividends)
+  } catch (error) {
+    console.warn(`⚠️ Failed to get yearly dividends for ${ticker}:`, error)
+    return {}
+  }
 }
 
 // ✅ ENHANCED INTERFACES
@@ -162,9 +242,9 @@ async function getQuarterlyDividendHistory(ticker: string, apiKey: string): Prom
     const data = await response.json()
     const historical = data[0]?.historical || data.historical || []
     
-    // Get last 20 quarterly payments
+    // Get quarterly payments (limit to last 20 years = ~80 quarters)
     const quarterlyData: QuarterlyDividend[] = historical
-      .slice(0, 20)
+      .slice(0, 80)
       .map((div: { date: string; dividend?: number; adjDividend?: number; recordDate?: string; payableDate?: string }) => {
         const date = new Date(div.date)
         const quarter = `Q${Math.ceil((date.getMonth() + 1) / 3)}`
@@ -575,9 +655,9 @@ export async function GET(
     // ✅ Filter to modern data only  
     const modernDividends = filterModernDividends(yearlyDividends)
     
-    // 🔧 SPLIT ADJUSTMENT: Load stock splits and adjust dividends
+    // 🔧 SPLIT ADJUSTMENT: Load stock splits and adjust dividends quarterly
     const stockSplits = await fetchStockSplits(ticker, apiKey)
-    const splitAdjustedDividends = applySplitAdjustments(modernDividends, stockSplits)
+    const splitAdjustedDividends = await applySplitAdjustmentsQuarterly(ticker, apiKey, stockSplits)
     
     console.log(`📊 Split adjustment for ${ticker}: ${stockSplits.length} splits found`)
     if (stockSplits.length > 0) {
@@ -619,7 +699,7 @@ export async function GET(
     }
     
     // ✅ Process modern data for categorization
-    const processedData = Object.entries(modernDividends)
+    const processedData = Object.entries(splitAdjustedDividends)
       .map(([year, amount]) => ({
         year: parseInt(year),
         dividendPerShare: amount as number,

@@ -100,6 +100,7 @@ export default function EnhancedDividendSection({
   const [cagrAnalysis, setCagrAnalysis] = useState<DividendCAGR[]>([])
   const [financialHealth, setFinancialHealth] = useState<FinancialHealthMetrics | null>(null)
   const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'health'>('overview')
+  const [historyTab, setHistoryTab] = useState<'yearly' | 'quarterly'>('yearly')
 
   // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
   const { formatStockPrice, formatPercentage, currency } = useCurrency()
@@ -282,7 +283,7 @@ export default function EnhancedDividendSection({
         {dividendData.length > 0 && (
           <div className="h-64 mt-6">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={dividendData.slice(-10)}>
+              <LineChart data={dividendData.slice(-20)}>
                 <XAxis 
                   dataKey="year" 
                   stroke="currentColor" 
@@ -433,10 +434,10 @@ export default function EnhancedDividendSection({
             {/* Growth Trend Chart */}
             {dividendData.length > 0 && (
               <div>
-                <h5 className="text-lg font-semibold text-theme-primary mb-4">Wachstumstrend (10 Jahre)</h5>
+                <h5 className="text-lg font-semibold text-theme-primary mb-4">Wachstumstrend (20 Jahre)</h5>
                 <div className="h-48">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={dividendData.slice(-10).filter(d => d.year > dividendData.slice(-10)[0]?.year)}>
+                    <BarChart data={dividendData.slice(-20).filter(d => d.year > dividendData.slice(-20)[0]?.year)}>
                       <XAxis 
                         dataKey="year" 
                         stroke="currentColor" 
@@ -490,42 +491,6 @@ export default function EnhancedDividendSection({
           </div>
         </div>
 
-        {/* ✅ Quarterly History */}
-        {quarterlyHistory.length > 0 && (
-          <div className="professional-card p-6">
-            <h4 className="text-lg font-bold text-theme-primary mb-4">Quartalsweise Historie</h4>
-            <div className="overflow-hidden rounded-lg border border-theme">
-              <table className="w-full">
-                <thead className="bg-theme-tertiary/50">
-                  <tr>
-                    <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Datum</th>
-                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Quartal</th>
-                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Betrag</th>
-                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Split-Adj.</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {quarterlyHistory.slice(0, 20).map((quarter, index) => (
-                    <tr key={`${quarter.date}-${index}`} className="hover:bg-theme-tertiary/30 transition-colors border-b border-theme/50">
-                      <td className="py-3 px-4 text-theme-primary font-medium">
-                        {new Date(quarter.date).toLocaleDateString('de-DE')}
-                      </td>
-                      <td className="py-3 px-4 text-right text-theme-secondary">
-                        {quarter.quarter} {quarter.year}
-                      </td>
-                      <td className="py-3 px-4 text-right text-theme-primary font-semibold">
-                        {formatCurrencyDE(quarter.amount)}
-                      </td>
-                      <td className="py-3 px-4 text-right text-green-400 font-medium">
-                        {formatCurrencyDE(quarter.adjAmount)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
-        )}
 
         {/* ✅ Financial Health */}
         {financialHealth && (
@@ -552,44 +517,122 @@ export default function EnhancedDividendSection({
         )}
       </div>
 
-      {/* ✅ Complete Historical Table - DEUTSCHE FORMATIERUNG */}
+      {/* ✅ Tabbed Dividend History - YEARLY & QUARTERLY */}
       <div className="professional-card p-6">
-        <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
-          <DocumentTextIcon className="w-5 h-5" />
-          Vollständige Dividenden-Historie
-        </h4>
-        
-        <div className="overflow-hidden rounded-lg border border-theme">
-          <table className="w-full">
-            <thead className="bg-theme-tertiary/50">
-              <tr>
-                <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Jahr</th>
-                <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Dividende/Aktie</th>
-                <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Wachstum</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dividendData.slice().reverse().map((row, index) => (
-                <tr key={row.year} className={`hover:bg-theme-tertiary/30 transition-colors ${
-                  index !== dividendData.length - 1 ? 'border-b border-theme/50' : ''
-                }`}>
-                  <td className="py-3 px-4 text-theme-primary font-semibold">{row.year}</td>
-                  
-                  <td className="py-3 px-4 text-right text-theme-primary font-medium">
-                    {formatCurrencyDE(row.dividendPerShare)}
-                  </td>
-                  
-                  <td className={`py-3 px-4 text-right font-semibold ${
-                    row.growth > 0 ? 'text-green-400' : 
-                    row.growth < 0 ? 'text-red-400' : 'text-theme-muted'
-                  }`}>
-                    {row.growth !== 0 ? formatPercentDE(row.growth, true) : '–'}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        {/* Tab Navigation */}
+        <div className="border-b border-theme/20 mb-6">
+          <nav className="flex space-x-8">
+            {[
+              { id: 'yearly', label: 'Jährliche Historie', icon: DocumentTextIcon },
+              { id: 'quarterly', label: 'Quartalsweise Historie', icon: CalendarIcon }
+            ].map((tab) => {
+              const Icon = tab.icon
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => setHistoryTab(tab.id as any)}
+                  className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-colors font-medium ${
+                    historyTab === tab.id
+                      ? 'border-blue-400 text-blue-400'
+                      : 'border-transparent text-theme-secondary hover:text-theme-primary'
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                  {tab.label}
+                </button>
+              )
+            })}
+          </nav>
         </div>
+
+        {/* Tab Content */}
+        {historyTab === 'yearly' ? (
+          /* Yearly History Table */
+          <div>
+            <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
+              <DocumentTextIcon className="w-5 h-5" />
+              Jährliche Dividenden-Historie
+            </h4>
+            
+            <div className="overflow-hidden rounded-lg border border-theme">
+              <table className="w-full">
+                <thead className="bg-theme-tertiary/50">
+                  <tr>
+                    <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Jahr</th>
+                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Dividende/Aktie</th>
+                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Wachstum</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {dividendData.slice().reverse().map((row, index) => (
+                    <tr key={row.year} className={`hover:bg-theme-tertiary/30 transition-colors ${
+                      index !== dividendData.length - 1 ? 'border-b border-theme/50' : ''
+                    }`}>
+                      <td className="py-3 px-4 text-theme-primary font-semibold">{row.year}</td>
+                      
+                      <td className="py-3 px-4 text-right text-theme-primary font-medium">
+                        {formatCurrencyDE(row.dividendPerShare)}
+                      </td>
+                      
+                      <td className={`py-3 px-4 text-right font-semibold ${
+                        row.growth > 0 ? 'text-green-400' : 
+                        row.growth < 0 ? 'text-red-400' : 'text-theme-muted'
+                      }`}>
+                        {row.growth !== 0 ? formatPercentDE(row.growth, true) : '–'}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        ) : (
+          /* Quarterly History Table */
+          quarterlyHistory.length > 0 ? (
+            <div>
+              <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
+                <CalendarIcon className="w-5 h-5" />
+                Quartalsweise Dividenden-Historie
+              </h4>
+              
+              <div className="overflow-hidden rounded-lg border border-theme">
+                <table className="w-full">
+                  <thead className="bg-theme-tertiary/50">
+                    <tr>
+                      <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Datum</th>
+                      <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Quartal</th>
+                      <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Betrag</th>
+                      <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Split-Adj.</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {quarterlyHistory.slice(0, 40).map((quarter, index) => (
+                      <tr key={`${quarter.date}-${index}`} className="hover:bg-theme-tertiary/30 transition-colors border-b border-theme/50">
+                        <td className="py-3 px-4 text-theme-primary font-medium">
+                          {new Date(quarter.date).toLocaleDateString('de-DE')}
+                        </td>
+                        <td className="py-3 px-4 text-right text-theme-secondary">
+                          {quarter.quarter} {quarter.year}
+                        </td>
+                        <td className="py-3 px-4 text-right text-theme-primary font-semibold">
+                          {formatCurrencyDE(quarter.amount)}
+                        </td>
+                        <td className="py-3 px-4 text-right text-green-400 font-medium">
+                          {formatCurrencyDE(quarter.adjAmount)}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          ) : (
+            <div className="text-center py-8 text-theme-muted">
+              <CalendarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
+              <p>Keine quartalsweisen Daten verfügbar</p>
+            </div>
+          )
+        )}
       </div>
 
       {/* ✅ COMPACT Disclaimer */}
