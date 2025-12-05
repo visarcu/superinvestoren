@@ -43,7 +43,6 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
         setActivePortfolio(portfolio)
       }
     } else if (portfolios.length > 0 && !activePortfolioId) {
-      // Default zu dem Portfolio mit is_default = true oder dem ersten
       const defaultPortfolio = portfolios.find(p => p.is_default) || portfolios[0]
       setActivePortfolio(defaultPortfolio)
       onPortfolioChange?.(defaultPortfolio.id)
@@ -55,7 +54,6 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
 
-      // Check premium status
       const premiumStatus = await checkUserPremiumStatus()
       setIsPremium(premiumStatus?.isPremium || false)
 
@@ -80,22 +78,18 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
     setIsOpen(false)
     onPortfolioChange?.(portfolio.id)
     
-    // Optional: Setze als Standard-Portfolio
     if (!portfolio.is_default) {
       try {
-        // Erst alle auf false setzen
         await supabase
           .from('portfolios')
           .update({ is_default: false })
           .eq('user_id', (await supabase.auth.getUser()).data.user?.id)
 
-        // Dann das ausgewählte auf true setzen
         await supabase
           .from('portfolios')
           .update({ is_default: true })
           .eq('id', portfolio.id)
 
-        // Portfolios neu laden
         loadPortfolios()
       } catch (error) {
         console.error('Error setting default portfolio:', error)
@@ -115,7 +109,7 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
   if (portfolios.length === 0) {
     return (
       <Link
-        href="/analyse/portfolio"
+        href="/analyse/portfolio/neu"
         className={`flex items-center gap-2 px-3 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors ${className}`}
       >
         <PlusIcon className="w-4 h-4" />
@@ -146,13 +140,11 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
 
       {isOpen && (
         <>
-          {/* Overlay */}
           <div 
             className="fixed inset-0 z-10" 
             onClick={() => setIsOpen(false)}
           />
           
-          {/* Dropdown */}
           <div className="absolute top-full left-0 right-0 mt-1 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-20 max-h-64 overflow-y-auto">
             {portfolios.map((portfolio) => (
               <button
@@ -178,10 +170,10 @@ const PortfolioSwitcher: React.FC<PortfolioSwitcherProps> = ({
               </button>
             ))}
             
-            {/* Neues Portfolio erstellen */}
+            {/* Neues Portfolio erstellen - GEÄNDERT: Link zu /analyse/portfolio/neu */}
             {isPremium || portfolios.length === 0 ? (
               <Link
-                href="/analyse/portfolio"
+                href="/analyse/portfolio/neu"
                 className="w-full text-left px-4 py-3 hover:bg-theme-secondary/20 transition-colors border-t border-theme/10 flex items-center gap-2 text-green-400"
                 onClick={() => setIsOpen(false)}
               >

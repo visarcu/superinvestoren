@@ -1,5 +1,5 @@
 /* =====================================================================
-   FINCLUE DESIGN SYSTEM - FISCAL.AI INSPIRED ULTRA CLEAN VERSION
+   FINCLUE DESIGN SYSTEM - FISCAL.AI / QUALTRIUM INSPIRED
    ===================================================================== */
 
 /* Custom scrollbar utilities */
@@ -15,80 +15,89 @@
 
 /* ===== CSS VARIABLES ===== */
 :root {
-  /* Typography - Reduziert auf 3 Font Weights */
+  /* Typography */
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   
-  /* Font Sizes - Konsistenter */
-  --text-xs: 0.75rem;   /* 12px */
-  --text-sm: 0.875rem;  /* 14px */
-  --text-base: 1rem;    /* 16px */
-  --text-lg: 1.125rem;  /* 18px */
-  --text-xl: 1.25rem;   /* 20px */
-  --text-2xl: 1.5rem;   /* 24px */
-  --text-3xl: 2rem;     /* 32px */
+  /* Font Sizes */
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
   
-  /* Light Theme - Minimalistischer */
-  --color-bg-primary: #ffffff;
-  --color-bg-card: #fafbfc;
-  --color-bg-hover: #f8f9fa;
+  /* Light Theme - MIT KONTRAST wie Fiscal/Qualtrium */
+  --color-bg-primary: #f4f5f7;          /* Grauer Hintergrund - NICHT weiß */
+  --color-bg-card: #ffffff;              /* Cards sind weiß - hebt sich ab */
+  --color-bg-hover: #f9fafb;
+  --color-bg-secondary: #ebedf0;
+  --color-bg-input: #ffffff;
   
-  --color-text-primary: #0a0a0b;
-  --color-text-secondary: #6b7280;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4b5563;
   --color-text-muted: #9ca3af;
   
-  /* Keine sichtbaren Borders im Light Mode */
-  --color-border: rgba(0, 0, 0, 0.03);
-  --color-divider: rgba(0, 0, 0, 0.02);
+  /* SICHTBARE Borders im Light Mode */
+  --color-border: rgba(0, 0, 0, 0.08);
+  --color-border-light: rgba(0, 0, 0, 0.05);
+  --color-divider: rgba(0, 0, 0, 0.06);
   
-  --color-accent: #10b981;  /* Grün nur für CTAs */
+  --color-accent: #10b981;
   --color-success: #10b981;
   --color-warning: #f59e0b;
   --color-danger: #ef4444;
   
-  /* Shadows - Subtiler */
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
-  --shadow-md: 0 2px 4px 0 rgba(0, 0, 0, 0.04);
+  /* Shadows - Subtil aber sichtbar für Tiefe */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.07), 0 2px 4px -1px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
   
-  /* Spacing - Großzügiger */
-  --space-xs: 0.5rem;   /* 8px */
-  --space-sm: 0.75rem;  /* 12px */
-  --space-md: 1rem;     /* 16px */
-  --space-lg: 1.5rem;   /* 24px */
-  --space-xl: 2rem;     /* 32px */
-  --space-2xl: 3rem;    /* 48px */
+  /* Spacing */
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
   
-  /* Radius - Einheitlicher */
-  --radius-sm: 0.375rem;  /* 6px */
-  --radius-md: 0.5rem;    /* 8px */
-  --radius-lg: 0.75rem;   /* 12px */
-  --radius-xl: 1rem;      /* 16px */
+  /* Radius */
+  --radius-sm: 0.375rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 0.75rem;
+  --radius-xl: 1rem;
 }
 
-/* ===== DARK THEME - BESSERER KONTRAST ===== */
+/* ===== DARK THEME ===== */
 .dark {
   /* Backgrounds - Fiscal-inspiriert */
   --color-bg-primary: #0f0f11;
   --color-bg-card: #18181b;
   --color-bg-hover: #202024;
+  --color-bg-secondary: #27272a;
+  --color-bg-input: #1f1f23;
   
   /* Sidebar spezifisch */
   --color-sidebar-bg: #141416;
   --color-sidebar-hover: rgba(255, 255, 255, 0.04);
   --color-sidebar-active: rgba(255, 255, 255, 0.08);
   
-  /* Alternative (noch etwas heller): */
-  /* --color-bg-primary: #121214; */
-  /* --color-bg-card: #1a1a1d; */
-  /* --color-bg-hover: #222226; */
-  
-  /* Text bleibt gleich */
+  /* Text */
   --color-text-primary: #ffffff;
   --color-text-secondary: #a1a1aa;
   --color-text-muted: #6b7280;
   
-  /* Borders minimal sichtbar für Struktur */
-  --color-border: rgba(255, 255, 255, 0.06);
-  --color-divider: rgba(255, 255, 255, 0.04);
+  /* Borders - subtil sichtbar */
+  --color-border: rgba(255, 255, 255, 0.08);
+  --color-border-light: rgba(255, 255, 255, 0.05);
+  --color-divider: rgba(255, 255, 255, 0.06);
+  
+  /* Shadows im Dark Mode */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-card: none;
 }
 
 @tailwind base;
@@ -121,46 +130,101 @@ body {
 }
 
 /* ===== THEME UTILITY CLASSES ===== */
-.bg-theme-primary { 
-  background-color: var(--color-bg-primary); 
+.bg-theme-primary {
+  background-color: var(--color-bg-primary);
 }
 
-.bg-theme-card { 
+.bg-theme-card {
   background-color: var(--color-bg-card);
-  /* Keine Border, kein Shadow */
+  box-shadow: var(--shadow-card);
 }
 
-.bg-theme-hover { 
-  background-color: var(--color-bg-hover); 
-}
-
-.bg-theme-tertiary { 
+.bg-theme-hover {
   background-color: var(--color-bg-hover);
 }
 
-.text-theme-primary { 
-  color: var(--color-text-primary); 
+.bg-theme-secondary {
+  background-color: var(--color-bg-secondary);
 }
 
-.text-theme-secondary { 
-  color: var(--color-text-secondary); 
+.bg-theme-tertiary {
+  background-color: var(--color-bg-hover);
 }
 
-.text-theme-muted { 
-  color: var(--color-text-muted); 
+.bg-theme-input {
+  background-color: var(--color-bg-input);
 }
 
-/* Borders komplett unsichtbar machen */
-.border-theme,
-.border-theme\/5,
-.border-theme\/10,
+.text-theme-primary {
+  color: var(--color-text-primary);
+}
+
+.text-theme-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-theme-muted {
+  color: var(--color-text-muted);
+}
+
+/* Borders - SICHTBAR in beiden Themes */
+.border-theme {
+  border-color: var(--color-border);
+}
+
+.border-theme\/5 {
+  border-color: var(--color-border-light);
+}
+
+.border-theme\/10 {
+  border-color: var(--color-border);
+}
+
 .border-theme\/20 {
-  border-color: transparent !important;
+  border-color: var(--color-border);
 }
 
-/* Nur für wichtige Trennungen */
+/* Für wichtige Trennungen */
 .section-divider {
-  border-color: var(--color-divider) !important;
+  border-color: var(--color-divider);
+}
+
+/* ===== FORM INPUTS ===== */
+input,
+textarea,
+select {
+  background-color: var(--color-bg-input);
+  color: var(--color-text-primary);
+  border-color: var(--color-border);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-text-muted);
+}
+
+/* Autofill fix für Dark Mode */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--color-text-primary);
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-bg-input) inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* Date input fix */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(0.4);
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1);
 }
 
 /* ===== TYPOGRAPHY ===== */
@@ -179,23 +243,37 @@ h6 { font-size: var(--text-sm); }
 
 /* ===== COMPONENT STYLES ===== */
 
-/* Cards - Ultra Clean */
+/* Cards - Clean mit subtiler Tiefe */
 .professional-card,
 .metric-card,
 .chart-container {
   background-color: var(--color-bg-card);
   border-radius: var(--radius-lg);
   padding: var(--space-xl);
-  border: none !important;
-  box-shadow: none !important;
-  transition: background-color 0.15s ease;
+  border: 1px solid var(--color-border-light);
+  box-shadow: var(--shadow-card);
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .professional-card:hover,
 .metric-card:hover,
 .chart-container:hover {
+  box-shadow: var(--shadow-sm);
+}
+
+/* Dark Mode: Kein Schatten, nur Border */
+.dark .professional-card,
+.dark .metric-card,
+.dark .chart-container {
+  border: 1px solid var(--color-border);
+  box-shadow: none;
+}
+
+.dark .professional-card:hover,
+.dark .metric-card:hover,
+.dark .chart-container:hover {
   background-color: var(--color-bg-hover);
-  /* Kein transform, nur Background-Change */
+  box-shadow: none;
 }
 
 /* Tables - Minimalistisch */
@@ -240,7 +318,6 @@ h6 { font-size: var(--text-sm); }
   font-weight: 400;
   text-transform: uppercase;
   letter-spacing: 0.05em;
-  /* Kein Background oder Border */
 }
 
 .metric-value {
@@ -250,7 +327,7 @@ h6 { font-size: var(--text-sm); }
   margin-top: var(--space-xs);
 }
 
-/* Buttons - Nur wichtige grün */
+/* Buttons */
 .btn-primary {
   background-color: var(--color-accent);
   color: white;
@@ -289,32 +366,29 @@ h6 { font-size: var(--text-sm); }
   height: 100% !important;
 }
 
-/* Chart Text kleiner und gedämpfter */
 .recharts-cartesian-axis-tick-value {
   font-size: 10px !important;
   fill: var(--color-text-muted) !important;
   font-weight: 400 !important;
 }
 
-/* Minimalistischer Tooltip */
 .recharts-default-tooltip {
   background: var(--color-bg-card) !important;
-  border: none !important;
+  border: 1px solid var(--color-border) !important;
   border-radius: var(--radius-md) !important;
   padding: var(--space-sm) !important;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+  box-shadow: var(--shadow-md) !important;
 }
 
-/* Ultra-subtile Grid Lines */
 .recharts-cartesian-grid-horizontal line,
 .recharts-cartesian-grid-vertical line {
   stroke: var(--color-divider) !important;
   stroke-dasharray: none !important;
-  opacity: 0.5 !important;
+  opacity: 0.6 !important;
   stroke-width: 0.5 !important;
 }
 
-/* ===== SCROLLBARS - Minimalistisch ===== */
+/* ===== SCROLLBARS ===== */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
@@ -334,13 +408,7 @@ h6 { font-size: var(--text-sm); }
   opacity: 0.5;
 }
 
-/* ===== ANIMATIONS - Schneller & Subtiler ===== */
-* {
-  transition-duration: 0.15s !important;
-  transition-timing-function: ease !important;
-}
-
-/* Keine Transform-Animationen */
+/* ===== ANIMATIONS ===== */
 .animate-fadeIn {
   animation: fadeIn 0.2s ease-out;
 }
@@ -350,7 +418,17 @@ h6 { font-size: var(--text-sm); }
   to { opacity: 1; }
 }
 
-/* ===== SECTIONS - Mehr Whitespace ===== */
+/* Spinner Animation - Nicht überschreiben */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite !important;
+}
+
+/* ===== SECTIONS ===== */
 section,
 .section {
   padding: var(--space-2xl) 0;
@@ -377,43 +455,30 @@ section,
 
 /* ===== ACCESSIBILITY ===== */
 @media (prefers-reduced-motion: reduce) {
-  * {
+  *:not(.animate-spin) {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
 }
 
 /* ===== SPECIAL STATES ===== */
-/* Focus States - Subtil */
 :focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
   border-radius: var(--radius-sm);
 }
 
-/* Selection */
 ::selection {
   background-color: var(--color-accent);
   color: white;
-  opacity: 0.2;
 }
 
-/* Disabled States */
 :disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-/* ===== REMOVE ALL DECORATIVE ELEMENTS ===== */
-/* Keine dekorativen Punkte oder Linien */
-.decoration-dot,
-.decoration-line,
-[class*="border-l-4"],
-[class*="border-r-4"] {
-  border: none !important;
-}
-
-/* Premium Badges minimalistisch */
+/* ===== PREMIUM BADGE ===== */
 .premium-badge {
   background: none;
   color: var(--color-text-muted);

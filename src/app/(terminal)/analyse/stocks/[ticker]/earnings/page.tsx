@@ -179,7 +179,7 @@ export default function QuartalszahlenPage() {
               {transcripts.map((transcript, index) => {
                 const isSelected = selectedTranscript?.quarter === transcript.quarter && 
                                  selectedTranscript?.year === transcript.year
-                const isPremium = index > 0 // Nur das erste ist kostenlos
+                const isPremium = false // Alle Quartale verfügbar
                 
                 return (
                   <button

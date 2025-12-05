@@ -89,12 +89,19 @@ export function useTheme() {
   // Hilfsfunktion um Theme anzuwenden
   const applyTheme = (newTheme: Theme) => {
     const root = document.documentElement
-    
+
     if (newTheme === 'dark') {
+      root.classList.remove('light')
       root.classList.add('dark')
     } else {
       root.classList.remove('dark')
+      root.classList.add('light')
     }
+
+    // Force repaint für CSS-Variablen Update
+    document.body.style.display = 'none'
+    document.body.offsetHeight // Trigger reflow
+    document.body.style.display = ''
   }
 
   // Theme wechseln (nur für Terminal-Routen)

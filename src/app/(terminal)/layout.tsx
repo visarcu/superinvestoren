@@ -376,9 +376,9 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
           <div key={category.id} className="space-y-0.5">
             {/* Subtiler Divider statt Label - nur zwischen Kategorien */}
             {categoryIndex > 0 && (
-              <div className="mx-3 my-3 h-px bg-white/[0.03]"></div>
+              <div className="mx-3 my-3 h-px bg-theme-hover"></div>
             )}
-            
+
             <div className="space-y-0.5">
               {category.items.map((item) => {
                 const Icon = item.icon
@@ -386,7 +386,7 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                 const isActive = pathname === item.href || (hasSubItems && item.subItems?.some((sub) => pathname === sub.href))
                 const isPremiumItem = item.premium && !user.isPremium
                 const isOpen = openSubMenu === item.id
-                
+
                 return (
                   <div key={item.id}>
                     <Link
@@ -394,24 +394,24 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                       onClick={(e) => handleItemClick(e, item.id, hasSubItems)}
                       className={`
                         group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150
-                        ${isActive 
-                          ? 'bg-white/[0.08] text-white border-l-2 border-green-400 -ml-[2px] pl-[14px]' 
+                        ${isActive
+                          ? 'bg-theme-hover text-theme-primary border-l-2 border-green-400 -ml-[2px] pl-[14px]'
                           : category.id === 'premium'
-                            ? 'text-green-400/80 hover:bg-white/[0.04] hover:text-green-400'
-                            : 'text-gray-400 hover:bg-white/[0.04] hover:text-gray-200'
+                            ? 'text-green-400/80 hover:bg-theme-hover hover:text-green-400'
+                            : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                         }
                       `}
                     >
                       <Icon className={`
                         w-4 h-4 flex-shrink-0
-                        ${isActive 
-                          ? 'text-white' 
+                        ${isActive
+                          ? 'text-theme-primary'
                           : category.id === 'premium'
                             ? 'text-green-400/60 group-hover:text-green-400/80'
-                            : 'text-gray-500 group-hover:text-gray-400'
+                            : 'text-theme-muted group-hover:text-theme-secondary'
                         }
                       `} />
-                      
+
                       <span className="flex-1 min-w-0 truncate">
                         {item.label}
                       </span>
@@ -419,10 +419,10 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                       {isPremiumItem && (
                         <SparklesIcon className="w-3.5 h-3.5 text-yellow-400/70 flex-shrink-0" />
                       )}
-                      
+
                       {hasSubItems && (
                         <ChevronRightIcon className={`
-                          w-3.5 h-3.5 text-gray-600 transition-all duration-150 flex-shrink-0
+                          w-3.5 h-3.5 text-theme-muted transition-all duration-150 flex-shrink-0
                           ${isOpen ? 'rotate-90' : ''}
                         `} />
                       )}
@@ -430,7 +430,7 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
 
                     {/* Submenu - als eingeklappte Liste wie bei Einstellungen */}
                     {hasSubItems && isOpen && (
-                      <div className="mt-1 ml-7 space-y-0.5 border-l border-white/[0.03] pl-3">
+                      <div className="mt-1 ml-7 space-y-0.5 border-l border-theme pl-3">
                         {item.subItems?.map((sub) => {
                           const SubIcon = sub.icon || Icon
                           const subActive = pathname === sub.href
@@ -441,12 +441,12 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                               className={`
                                 flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all text-[12px]
                                 ${subActive
-                                  ? 'bg-white/[0.06] text-white'
-                                  : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                                  ? 'bg-theme-hover text-theme-primary'
+                                  : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
                                 }
                               `}
                             >
-                              <SubIcon className={`w-3.5 h-3.5 ${subActive ? 'text-gray-300' : 'text-gray-600'}`} />
+                              <SubIcon className={`w-3.5 h-3.5 ${subActive ? 'text-theme-secondary' : 'text-theme-muted'}`} />
                               <span className="flex-1">{sub.label}</span>
                             </Link>
                           )
@@ -459,80 +459,80 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
             </div>
           </div>
         ))}
-        
-        {/* EINSTELLUNGEN SECTION - bleibt gleich wie vorher */}
+
+        {/* EINSTELLUNGEN SECTION */}
         <div className="space-y-0.5 pt-3">
-          <div className="mx-3 mb-2 h-px bg-white/[0.03]"></div>
-          
+          <div className="mx-3 mb-2 h-px bg-theme-hover"></div>
+
           <button
             onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
-            className="group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150 w-full text-left text-gray-400 hover:bg-white/[0.04] hover:text-gray-200"
+            className="group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150 w-full text-left text-theme-secondary hover:bg-theme-hover hover:text-theme-primary"
           >
-            <Cog6ToothIcon className="w-4 h-4 text-gray-500 group-hover:text-gray-400 flex-shrink-0" />
+            <Cog6ToothIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-secondary flex-shrink-0" />
             <span className="flex-1 truncate">Einstellungen</span>
             <ChevronRightIcon className={`
               w-3.5 h-3.5 transition-all duration-150 flex-shrink-0
-              ${showSettingsDropdown ? 'rotate-90 text-gray-400' : 'text-gray-600'}
+              ${showSettingsDropdown ? 'rotate-90 text-theme-secondary' : 'text-theme-muted'}
             `} />
           </button>
-          
-          {/* DROPDOWN MENU - Fiscal Style */}
+
+          {/* DROPDOWN MENU */}
           {showSettingsDropdown && (
-            <div className="ml-7 space-y-0.5 border-l border-white/[0.03] pl-3">
+            <div className="ml-7 space-y-0.5 border-l border-theme pl-3">
               <Link
                 href="/notifications"
                 className={`
                   group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
                   ${pathname === '/notifications'
-                    ? 'bg-white/[0.06] text-white'
-                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
                   }
                 `}
               >
                 <BellIcon className="w-3.5 h-3.5" />
                 <span>Benachrichtigungen</span>
               </Link>
-              
+
               <Link
                 href="/profile"
                 className={`
                   group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
                   ${pathname === '/profile'
-                    ? 'bg-white/[0.06] text-white'
-                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
                   }
                 `}
               >
                 <UserCircleIcon className="w-3.5 h-3.5" />
                 <span>Profil</span>
               </Link>
-              
+
               <Link
                 href="/settings"
                 className={`
                   group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
                   ${pathname === '/settings'
-                    ? 'bg-white/[0.06] text-white'
-                    : 'text-gray-500 hover:bg-white/[0.03] hover:text-gray-300'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
                   }
                 `}
               >
                 <Cog6ToothIcon className="w-3.5 h-3.5" />
                 <span>Einstellungen</span>
               </Link>
-              
+
               <button
                 onClick={() => window.location.href = 'mailto:team@finclue.de'}
-                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-gray-500 hover:bg-white/[0.03] hover:text-gray-300"
+                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-theme-muted hover:bg-theme-hover hover:text-theme-secondary"
               >
                 <EnvelopeIcon className="w-3.5 h-3.5" />
                 <span>Support</span>
               </button>
-              
+
               {allowsThemeToggle && (
                 <button
                   onClick={toggleTheme}
-                  className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-gray-500 hover:bg-white/[0.03] hover:text-gray-300"
+                  className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-theme-muted hover:bg-theme-hover hover:text-theme-secondary"
                 >
                   {theme === 'dark' ? (
                     <SunIcon className="w-3.5 h-3.5" />
@@ -542,7 +542,7 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                   <span>{theme === 'dark' ? 'Helles Design' : 'Dunkles Design'}</span>
                 </button>
               )}
-              
+
               <button
                 onClick={handleSignOut}
                 className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-red-400/70 hover:bg-red-500/10 hover:text-red-400"
@@ -678,7 +678,7 @@ const CommandPalette = React.memo(({
               placeholder="Nach Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-gray-900/90 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 text-sm"
+              className="w-full pl-10 pr-10 py-2 bg-theme-input border border-theme rounded-md text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 text-sm"
             />
             <button
               onClick={onClose}
@@ -1022,8 +1022,8 @@ function LayoutContent({ children }: LayoutProps) {
       <LearnSidebar />
       
    {/* SIDEBAR - FISCAL STYLE WIDER */}
-<div className="w-64 bg-[#141416] border-r border-white/[0.06] flex flex-col relative z-20">
-  <div className="px-4 pt-5 pb-4 border-b border-white/[0.04]">
+<div className="w-64 bg-theme-card border-r border-theme flex flex-col relative z-20">
+  <div className="px-4 pt-5 pb-4 border-b border-theme">
     <Link href="/" className="flex items-center gap-3 group">
       <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center transition-all group-hover:border-green-400/40">
         <div className="flex items-end gap-0.5">
@@ -1033,10 +1033,10 @@ function LayoutContent({ children }: LayoutProps) {
         </div>
       </div>
       <div className="flex-1">
-        <p className="text-base font-bold text-white group-hover:text-green-400 transition-colors">
+        <p className="text-base font-bold text-theme-primary group-hover:text-green-400 transition-colors">
           FinClue
         </p>
-        <p className="text-[10px] font-medium uppercase tracking-wider text-gray-500">
+        <p className="text-[10px] font-medium uppercase tracking-wider text-theme-muted">
           Terminal
         </p>
       </div>

@@ -1,7 +1,7 @@
 // components/EarningsSummary.tsx
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { SparklesIcon } from '@heroicons/react/24/outline'
 
 interface EarningsSummaryProps {
@@ -16,16 +16,28 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
   const [summary, setSummary] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const abortControllerRef = useRef<AbortController | null>(null)
+  const isLoadingRef = useRef(false)
 
   useEffect(() => {
     loadSummary()
+
+    // Cleanup: Cancel pending request on unmount or when deps change
+    return () => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort()
+      }
+    }
   }, [ticker, year, quarter])
 
   const loadSummary = async () => {
+    // Prevent duplicate requests
+    if (isLoadingRef.current) return
+
     // Check localStorage cache first
     const cacheKey = `summary-${ticker}-${year}-Q${quarter}`
     const cached = localStorage.getItem(cacheKey)
-    
+
     if (cached) {
       const parsed = JSON.parse(cached)
       // Cache für 30 Tage
@@ -35,6 +47,13 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
       }
     }
 
+    // Cancel any pending request
+    if (abortControllerRef.current) {
+      abortControllerRef.current.abort()
+    }
+
+    abortControllerRef.current = new AbortController()
+    isLoadingRef.current = true
     setLoading(true)
     setError(null)
 
@@ -47,24 +66,28 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
           year,
           quarter,
           content: content.substring(0, 10000)
-        })
+        }),
+        signal: abortControllerRef.current.signal
       })
 
       if (!response.ok) throw new Error('Summary generation failed')
 
       const data = await response.json()
       setSummary(data.summary)
-      
+
       // Cache in localStorage
       localStorage.setItem(cacheKey, JSON.stringify({
         summary: data.summary,
         timestamp: Date.now()
       }))
-      
+
     } catch (err: any) {
+      // Ignore abort errors
+      if (err.name === 'AbortError') return
       console.error('Summary error:', err)
       setError('AI-Zusammenfassung nicht verfügbar')
     } finally {
+      isLoadingRef.current = false
       setLoading(false)
     }
   }

@@ -55,7 +55,7 @@ export async function POST(request: NextRequest) {
     
     // 3. Generate new summary with improved prompt
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini", // Besseres Model für Faktentreue
+      model: "gpt-5-mini", // GPT-5 Serie - bessere Qualität
       messages: [
         {
           role: "system",
@@ -66,15 +66,15 @@ export async function POST(request: NextRequest) {
           content: `Erstelle eine Zusammenfassung für ${ticker} Q${quarter} ${year} Earnings Call:\n\n${processedContent}`
         }
       ],
-      temperature: 0.1, // Sehr niedrig für maximale Faktentreue
-      max_tokens: 800,
-      presence_penalty: 0,
-      frequency_penalty: 0
+      max_completion_tokens: 4000  // GPT-5 braucht mehr Tokens (Reasoning + Output)
     })
     
-    const summary = completion.choices[0].message.content
-    
+    console.log('🔍 API Response:', JSON.stringify(completion, null, 2))
+
+    const summary = completion.choices[0]?.message?.content
+
     if (!summary) {
+      console.error('❌ No summary in response:', completion)
       throw new Error('No summary generated')
     }
     
@@ -89,7 +89,7 @@ export async function POST(request: NextRequest) {
         year: parseInt(year),
         quarter: parseInt(quarter),
         summary: validatedSummary,
-        model: 'gpt-4o-mini'
+        model: 'gpt-5-mini'
       })
       .select()
       .single()
@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
       summary: validatedSummary,
       cached: false,
       source: 'openai',
-      model: 'gpt-4o-mini',
+      model: 'gpt-5-mini',
       created_at: new Date().toISOString()
     })
     

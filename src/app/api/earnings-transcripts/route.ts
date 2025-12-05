@@ -1,84 +1,117 @@
 // app/api/earnings-transcripts/route.ts
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
-// Cache für Transcripts (24 Stunden)
-const transcriptCache = new Map<string, { data: any; timestamp: number }>()
-const CACHE_DURATION = 24 * 60 * 60 * 1000 // 24 Stunden
+// Supabase Client mit Service Role Key
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
+// Memory Cache für schnelle Wiederholungsabfragen (1 Stunde)
+const memoryCache = new Map<string, { data: any; timestamp: number }>()
+const MEMORY_CACHE_DURATION = 60 * 60 * 1000 // 1 Stunde
+
+interface Transcript {
+  symbol: string
+  quarter: number
+  year: number
+  date: string
+  content: string
+}
 
 export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams
-  const ticker = searchParams.get('ticker')
-  const year = searchParams.get('year')
-  const quarter = searchParams.get('quarter')
-  const limit = searchParams.get('limit') || '10'
+  const ticker = searchParams.get('ticker')?.toUpperCase()
+  const limit = parseInt(searchParams.get('limit') || '20')
 
   if (!ticker) {
     return NextResponse.json({ error: 'Ticker is required' }, { status: 400 })
   }
 
   try {
-    // Spezifisches Transcript abrufen
-    if (year && quarter) {
-      const cacheKey = `${ticker}-${year}-Q${quarter}`
-      
-      // Check cache
-      const cached = transcriptCache.get(cacheKey)
-      if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-        return NextResponse.json(cached.data)
+    // 1. Lade alle Transcripts aus Supabase für diesen Ticker
+    const { data: dbTranscripts, error: dbError } = await supabaseAdmin
+      .from('earnings_transcripts')
+      .select('ticker, year, quarter, date, content')
+      .eq('ticker', ticker)
+      .order('date', { ascending: false })
+      .limit(limit)
+
+    if (dbError) {
+      console.error('Supabase error:', dbError)
+    }
+
+    // 2. Hole das neueste Transcript von FMP (um neue zu entdecken)
+    const memoryCacheKey = `fmp-${ticker}`
+    let fmpTranscripts: Transcript[] = []
+
+    const cached = memoryCache.get(memoryCacheKey)
+    if (cached && Date.now() - cached.timestamp < MEMORY_CACHE_DURATION) {
+      fmpTranscripts = cached.data
+    } else {
+      try {
+        const fmpResponse = await fetch(
+          `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?apikey=${FMP_API_KEY}`
+        )
+
+        if (fmpResponse.ok) {
+          const fmpData = await fmpResponse.json()
+          fmpTranscripts = Array.isArray(fmpData) ? fmpData : [fmpData]
+          memoryCache.set(memoryCacheKey, { data: fmpTranscripts, timestamp: Date.now() })
+
+          // 3. Speichere neue Transcripts in Supabase
+          for (const transcript of fmpTranscripts) {
+            if (transcript && transcript.content) {
+              await saveTranscriptToSupabase(transcript)
+            }
+          }
+        }
+      } catch (fmpError) {
+        console.error('FMP API error:', fmpError)
+        // Weiter mit DB-Daten
       }
+    }
 
-      const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?quarter=${quarter}&year=${year}&apikey=${FMP_API_KEY}`
-      )
+    // 4. Kombiniere DB + FMP Daten (DB hat Priorität, FMP fügt neue hinzu)
+    const transcriptMap = new Map<string, any>()
 
-      if (!response.ok) {
-        throw new Error(`FMP API error: ${response.status}`)
+    // Erst DB-Transcripts (historisch)
+    if (dbTranscripts) {
+      for (const t of dbTranscripts) {
+        const key = `${t.year}-Q${t.quarter}`
+        transcriptMap.set(key, {
+          symbol: t.ticker,
+          quarter: t.quarter,
+          year: t.year,
+          date: t.date,
+          content: t.content
+        })
       }
-
-      const data = await response.json()
-      
-      // FMP gibt manchmal ein einzelnes Objekt statt Array zurück
-      const normalizedData = Array.isArray(data) ? data : [data]
-      
-      // Cache the result
-      transcriptCache.set(cacheKey, { data: normalizedData, timestamp: Date.now() })
-      
-      return NextResponse.json(normalizedData)
     }
 
-    // Liste von Transcripts abrufen
-    const cacheKey = `${ticker}-list-${limit}`
-    
-    // Check cache
-    const cached = transcriptCache.get(cacheKey)
-    if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
-      return NextResponse.json(cached.data)
+    // Dann FMP-Transcripts (falls neue)
+    for (const t of fmpTranscripts) {
+      if (t && t.content) {
+        const key = `${t.year}-Q${t.quarter}`
+        if (!transcriptMap.has(key)) {
+          transcriptMap.set(key, t)
+        }
+      }
     }
 
-    // Nutze direkt v3 endpoint (funktioniert mit deinem Plan)
-    const apiUrl = `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?apikey=${FMP_API_KEY}`
-    console.log('Calling FMP API v3')
-    
-    const response = await fetch(apiUrl)
+    // 5. Sortiere nach Datum (neueste zuerst)
+    const allTranscripts = Array.from(transcriptMap.values())
+      .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      .slice(0, limit)
 
-    if (!response.ok) {
-      console.error('FMP API error:', response.status)
-      throw new Error(`FMP API error: ${response.status}`)
+    if (allTranscripts.length === 0) {
+      return NextResponse.json({ error: 'No transcripts found' }, { status: 404 })
     }
-    
-    const data = await response.json()
-    console.log('FMP Response type:', Array.isArray(data) ? 'array' : typeof data)
-    
-    // Ensure it's always an array
-    const normalizedData = Array.isArray(data) ? data : [data]
-    const limitedData = normalizedData.slice(0, parseInt(limit))
-    
-    // Cache the result
-    transcriptCache.set(cacheKey, { data: limitedData, timestamp: Date.now() })
-    
-    return NextResponse.json(limitedData)
+
+    return NextResponse.json(allTranscripts)
 
   } catch (error: any) {
     console.error('Error fetching earnings transcripts:', error)
@@ -89,7 +122,35 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// Optional: POST endpoint für Press Releases
+// Hilfsfunktion: Transcript in Supabase speichern
+async function saveTranscriptToSupabase(transcript: Transcript) {
+  try {
+    const { error } = await supabaseAdmin
+      .from('earnings_transcripts')
+      .upsert({
+        ticker: transcript.symbol.toUpperCase(),
+        year: transcript.year,
+        quarter: transcript.quarter,
+        date: transcript.date,
+        content: transcript.content
+      }, {
+        onConflict: 'ticker,year,quarter'
+      })
+
+    if (error) {
+      // Ignoriere Duplikat-Fehler
+      if (!error.message.includes('duplicate') && !error.code?.includes('23505')) {
+        console.error('Error saving transcript:', error)
+      }
+    } else {
+      console.log(`✅ Saved transcript: ${transcript.symbol} Q${transcript.quarter} ${transcript.year}`)
+    }
+  } catch (err) {
+    console.error('Error in saveTranscriptToSupabase:', err)
+  }
+}
+
+// POST endpoint für manuelle Abfragen
 export async function POST(request: NextRequest) {
   const body = await request.json()
   const { ticker, type = 'earnings' } = body
@@ -100,7 +161,7 @@ export async function POST(request: NextRequest) {
 
   try {
     let endpoint = ''
-    
+
     switch(type) {
       case 'earnings':
         endpoint = `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?apikey=${FMP_API_KEY}`
@@ -116,7 +177,7 @@ export async function POST(request: NextRequest) {
     }
 
     const response = await fetch(endpoint)
-    
+
     if (!response.ok) {
       throw new Error(`FMP API error: ${response.status}`)
     }

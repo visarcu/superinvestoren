@@ -19,8 +19,8 @@ import {
   BuildingLibraryIcon,
   ArrowPathRoundedSquareIcon
 } from '@heroicons/react/24/outline'
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, ComposedChart, Area, AreaChart } from 'recharts'
-import { useCurrency } from '@/lib/CurrencyContext' // ✅ CURRENCY CONTEXT HINZUGEFÜGT
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, ComposedChart, Area, AreaChart, CartesianGrid } from 'recharts'
+import { useCurrency } from '@/lib/CurrencyContext'
 
 interface DividendData {
   year: number
@@ -102,10 +102,8 @@ export default function EnhancedDividendSection({
   const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'health'>('overview')
   const [historyTab, setHistoryTab] = useState<'yearly' | 'quarterly'>('yearly')
 
-  // ✅ CURRENCY CONTEXT FÜR DEUTSCHE FORMATIERUNG
   const { formatStockPrice, formatPercentage, currency } = useCurrency()
 
-  // ✅ Load enhanced dividend data
   useEffect(() => {
     async function loadEnhancedDividendData() {
       setLoading(true)
@@ -122,7 +120,6 @@ export default function EnhancedDividendSection({
         
         const data = await response.json()
         
-        // Parse historical data
         const historical = data.historical || {}
         const processedData: DividendData[] = Object.entries(historical)
           .map(([year, amount]) => ({
@@ -132,7 +129,6 @@ export default function EnhancedDividendSection({
           }))
           .sort((a, b) => a.year - b.year)
 
-        // Calculate growth rates
         processedData.forEach((entry, index) => {
           if (index > 0) {
             const prevAmount = processedData[index - 1].dividendPerShare
@@ -164,16 +160,14 @@ export default function EnhancedDividendSection({
     }
   }, [ticker])
 
-
-  // ✅ DEUTSCHE FORMATIERUNG - Helper functions
   const formatCurrencyDE = (value: number): string => {
     if (!value && value !== 0) return '–'
-    return formatStockPrice(value, true) // Mit Währungssymbol
+    return formatStockPrice(value, true)
   }
 
   const formatCurrencySimple = (value: number): string => {
     if (!value && value !== 0) return '–'
-    return formatStockPrice(value, false) // Ohne Währungssymbol
+    return formatStockPrice(value, false)
   }
 
   const formatPercentDE = (value: number, showSign: boolean = false): string => {
@@ -195,7 +189,6 @@ export default function EnhancedDividendSection({
     return 'text-red-400'
   }
 
-  // ✅ DEUTSCHE TOOLTIP-FORMATIERUNG für Charts
   const formatTooltipValue = (value: number, name: string) => {
     if (name === 'Dividende' || name === 'dividendPerShare') {
       return [formatCurrencyDE(value), 'Dividende']
@@ -237,7 +230,7 @@ export default function EnhancedDividendSection({
   return (
     <div className="space-y-6">
       
-      {/* ✅ CLEAN HEADER - No API details */}
+      {/* Header Card mit Key Metrics */}
       <div className="professional-card p-6">
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
@@ -248,30 +241,30 @@ export default function EnhancedDividendSection({
           </div>
         </div>
 
-        {/* ✅ DEUTSCHE FORMATIERUNG - Key Metrics */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-          <div className="text-center">
-            <div className="text-2xl font-bold text-theme-primary mb-1">
-              {currentInfo?.currentYield ? formatPercentDE(currentInfo.currentYield * 100) : 'N/A'}
-            </div>
-            <div className="text-sm text-theme-secondary">Aktuelle Rendite</div>
-          </div>
-          
-          <div className="text-center">
+        {/* Key Metrics in Boxen */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+  <div className="bg-theme-secondary/10 border border-theme/20 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
+    <div className="text-3xl font-bold text-green-400 mb-2">
+      {currentInfo?.currentYield ? formatPercentDE(currentInfo.currentYield * 100) : 'N/A'}
+    </div>
+    <div className="text-sm text-theme-secondary font-semibold">Aktuelle Rendite</div>
+  </div>
+
+          <div className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-theme-primary mb-1">
               {currentInfo?.dividendPerShareTTM ? formatCurrencyDE(currentInfo.dividendPerShareTTM) : 'N/A'}
             </div>
             <div className="text-sm text-theme-secondary">TTM Dividende</div>
           </div>
-          
-          <div className="text-center">
+
+          <div className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-theme-primary mb-1">
               {currentInfo?.dividendGrowthRate ? formatPercentDE(currentInfo.dividendGrowthRate) : 'N/A'}
             </div>
-            <div className="text-sm text-theme-secondary">Ø Wachstum (5 Jahre)</div>
+            <div className="text-sm text-theme-secondary">Ø Wachstum (5J)</div>
           </div>
-          
-          <div className="text-center">
+
+          <div className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
             <div className="text-2xl font-bold text-theme-primary mb-1">
               {dividendData.length}
             </div>
@@ -279,26 +272,29 @@ export default function EnhancedDividendSection({
           </div>
         </div>
 
-        {/* ✅ Main Dividend Chart - DEUTSCHE FORMATIERUNG */}
+        {/* Main Dividend Chart mit Grid */}
         {dividendData.length > 0 && (
           <div className="h-64 mt-6">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={dividendData.slice(-20)}>
-                <XAxis 
-                  dataKey="year" 
-                  stroke="currentColor" 
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
+                <XAxis
+                  dataKey="year"
+                  stroke="rgb(148, 163, 184)"
                   fontSize={12}
-                  className="text-theme-muted"
+                  tickLine={false}
+                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
                 />
-                <YAxis 
-                  stroke="currentColor" 
+                <YAxis
+                  stroke="rgb(148, 163, 184)"
                   fontSize={12}
                   tickFormatter={(value) => formatCurrencySimple(value)}
-                  className="text-theme-muted"
+                  tickLine={false}
+                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
                 />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'rgb(55, 65, 81)', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'rgb(55, 65, 81)',
                     border: '1px solid rgb(75, 85, 99)',
                     borderRadius: '12px',
                     color: 'rgb(243, 244, 246)'
@@ -306,10 +302,10 @@ export default function EnhancedDividendSection({
                   labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
                   formatter={formatTooltipValue}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="dividendPerShare" 
-                  stroke="#3B82F6" 
+                <Line
+                  type="monotone"
+                  dataKey="dividendPerShare"
+                  stroke="#3B82F6"
                   strokeWidth={3}
                   dot={{ r: 4, fill: '#3B82F6' }}
                   activeDot={{ r: 6, fill: '#3B82F6' }}
@@ -320,17 +316,17 @@ export default function EnhancedDividendSection({
         )}
       </div>
 
-      {/* ✅ CAGR Analysis Section - DEUTSCHE FORMATIERUNG */}
+      {/* CAGR Analysis Section in Boxen */}
       {cagrAnalysis.length > 0 && (
         <div className="professional-card p-6">
           <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
             <ArrowTrendingUpIcon className="w-5 h-5" />
             Dividendenwachstum (CAGR)
           </h4>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {cagrAnalysis.map((cagr) => (
-              <div key={cagr.period} className="text-center">
+              <div key={cagr.period} className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
                 <div className={`text-2xl font-bold mb-1 ${
                   cagr.cagr > 10 ? 'text-green-400' :
                   cagr.cagr > 5 ? 'text-blue-400' :
@@ -338,8 +334,8 @@ export default function EnhancedDividendSection({
                 }`}>
                   {formatPercentDE(cagr.cagr)}
                 </div>
-                <div className="text-sm text-theme-secondary">{cagr.period} CAGR</div>
-                <div className="text-xs text-theme-muted mt-1">
+                <div className="text-sm text-theme-secondary font-medium">{cagr.period} CAGR</div>
+                <div className="text-xs text-theme-muted mt-2 pt-2 border-t border-theme/10">
                   {formatCurrencyDE(cagr.startValue)} → {formatCurrencyDE(cagr.endValue)}
                 </div>
               </div>
@@ -348,7 +344,7 @@ export default function EnhancedDividendSection({
         </div>
       )}
 
-      {/* ✅ Payout Ratio Chart - DEUTSCHE FORMATIERUNG */}
+      {/* Payout Ratio Chart mit Grid */}
       {payoutRatioHistory.length > 0 && (
         <div className="professional-card p-6">
           <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
@@ -359,31 +355,34 @@ export default function EnhancedDividendSection({
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={payoutRatioHistory}>
-                <XAxis 
-                  dataKey="year" 
-                  stroke="currentColor" 
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
+                <XAxis
+                  dataKey="year"
+                  stroke="rgb(148, 163, 184)"
                   fontSize={12}
-                  className="text-theme-muted"
+                  tickLine={false}
+                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
                 />
-                <YAxis 
-                  stroke="currentColor" 
+                <YAxis
+                  stroke="rgb(148, 163, 184)"
                   fontSize={12}
                   tickFormatter={(value) => formatPercentDE(value * 100)}
-                  className="text-theme-muted"
+                  tickLine={false}
+                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
                 />
-                <Tooltip 
-                  contentStyle={{ 
-                    backgroundColor: 'rgb(55, 65, 81)', 
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'rgb(55, 65, 81)',
                     border: '1px solid rgb(75, 85, 99)',
                     borderRadius: '12px',
                     color: 'rgb(243, 244, 246)'
                   }}
                   formatter={formatTooltipValue}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="payoutRatio" 
-                  stroke="#8B5CF6" 
+                <Area
+                  type="monotone"
+                  dataKey="payoutRatio"
+                  stroke="#8B5CF6"
                   fill="#8B5CF6"
                   fillOpacity={0.2}
                 />
@@ -391,7 +390,7 @@ export default function EnhancedDividendSection({
             </ResponsiveContainer>
           </div>
           
-          {/* Current Payout Ratio with Safety Assessment - DEUTSCHE FORMATIERUNG */}
+          {/* Current Payout Ratio */}
           <div className="mt-4 p-4 bg-theme-tertiary/30 rounded-lg">
             <div className="flex justify-between items-center">
               <span className="text-theme-secondary">Aktuelle Payout Ratio</span>
@@ -423,44 +422,45 @@ export default function EnhancedDividendSection({
         </div>
       )}
 
-      {/* ✅ Simplified Content - All Dividend Analysis */}
+      {/* Kernanalyse */}
       <div className="space-y-6">
-        
-        {/* ✅ Key Statistics */}
         <div className="professional-card p-6">
           <h4 className="text-lg font-bold text-theme-primary mb-4">Kernanalyse</h4>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             
-            {/* Growth Trend Chart */}
+            {/* Growth Trend Chart mit Grid */}
             {dividendData.length > 0 && (
               <div>
                 <h5 className="text-lg font-semibold text-theme-primary mb-4">Wachstumstrend (20 Jahre)</h5>
                 <div className="h-48">
                   <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={dividendData.slice(-20).filter(d => d.year > dividendData.slice(-20)[0]?.year)}>
-                      <XAxis 
-                        dataKey="year" 
-                        stroke="currentColor" 
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
+                      <XAxis
+                        dataKey="year"
+                        stroke="rgb(148, 163, 184)"
                         fontSize={12}
-                        className="text-theme-muted"
+                        tickLine={false}
+                        axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
                       />
-                      <YAxis 
-                        stroke="currentColor" 
+                      <YAxis
+                        stroke="rgb(148, 163, 184)"
                         fontSize={12}
                         tickFormatter={(value) => formatPercentDE(value)}
-                        className="text-theme-muted"
+                        tickLine={false}
+                        axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
                       />
-                      <Tooltip 
-                        contentStyle={{ 
-                          backgroundColor: 'rgb(55, 65, 81)', 
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: 'rgb(55, 65, 81)',
                           border: '1px solid rgb(75, 85, 99)',
                           borderRadius: '12px',
                           color: 'rgb(243, 244, 246)'
                         }}
                         formatter={formatTooltipValue}
                       />
-                      <Bar 
-                        dataKey="growth" 
+                      <Bar
+                        dataKey="growth"
                         fill="#3B82F6"
                         radius={[2, 2, 0, 0]}
                       />
@@ -491,8 +491,7 @@ export default function EnhancedDividendSection({
           </div>
         </div>
 
-
-        {/* ✅ Financial Health */}
+        {/* Financial Health */}
         {financialHealth && (
           <div className="professional-card p-6">
             <h4 className="text-lg font-bold text-theme-primary mb-4">Finanzielle Gesundheit</h4>
@@ -517,7 +516,7 @@ export default function EnhancedDividendSection({
         )}
       </div>
 
-      {/* ✅ Tabbed Dividend History - YEARLY & QUARTERLY */}
+      {/* Tabbed Dividend History */}
       <div className="professional-card p-6">
         {/* Tab Navigation */}
         <div className="border-b border-theme/20 mb-6">
@@ -547,7 +546,6 @@ export default function EnhancedDividendSection({
 
         {/* Tab Content */}
         {historyTab === 'yearly' ? (
-          /* Yearly History Table */
           <div>
             <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
               <DocumentTextIcon className="w-5 h-5" />
@@ -587,7 +585,6 @@ export default function EnhancedDividendSection({
             </div>
           </div>
         ) : (
-          /* Quarterly History Table */
           quarterlyHistory.length > 0 ? (
             <div>
               <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
@@ -635,7 +632,7 @@ export default function EnhancedDividendSection({
         )}
       </div>
 
-      {/* ✅ COMPACT Disclaimer */}
+      {/* Disclaimer */}
       <div className="text-xs text-theme-muted text-center mt-6 p-3 bg-theme-tertiary/30 rounded">
         <p>
           Analyse basiert auf historischen Daten. Dividenden können jederzeit angepasst werden. 

@@ -218,13 +218,13 @@ export default function PortfolioManagementPage() {
             </div>
 
             {isPremium || portfolios.length === 0 ? (
-              <Link
-                href="/analyse/portfolio"
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
-              >
-                <PlusIcon className="w-4 h-4" />
-                Neues Portfolio
-              </Link>
+  <Link
+    href="/analyse/portfolio/neu"  // GEÄNDERT
+    className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+  >
+    <PlusIcon className="w-4 h-4" />
+    Neues Portfolio
+  </Link>
             ) : (
               <Link
                 href="/pricing"
@@ -251,12 +251,12 @@ export default function PortfolioManagementPage() {
                 Erstellen Sie Ihr erstes Portfolio, um loszulegen
               </p>
               <Link
-                href="/analyse/portfolio"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
-              >
-                <PlusIcon className="w-4 h-4" />
-                Portfolio erstellen
-              </Link>
+  href="/analyse/portfolio/neu"  // GEÄNDERT
+  className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+>
+  <PlusIcon className="w-4 h-4" />
+  Portfolio erstellen
+</Link>
             </div>
           ) : (
             <div className="space-y-4">
