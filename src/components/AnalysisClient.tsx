@@ -239,6 +239,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     // ✅ FCF Yield State
     const [fcfYield, setFcfYield] = useState<number | null>(null)
 
+    // ✅ SBC (Stock-Based Compensation) States
+    const [sbcAdjFcfYield, setSbcAdjFcfYield] = useState<number | null>(null)
+    const [sbcImpact, setSbcImpact] = useState<number | null>(null)
+    const [stockBasedCompensation, setStockBasedCompensation] = useState<number | null>(null)
+
   // ✅ MEMOIZED: Vergleichsaktien laden für Chart
   const handleAddComparison = useCallback(async (comparisonTicker: string): Promise<StockData[]> => {
     try {
@@ -575,23 +580,62 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         console.warn(`[AnalysisClient] Recs für ${ticker} fehlgeschlagen.`)
       }
 
-      // Process Free Cash Flow Yield calculation
+      // Process Free Cash Flow Yield + SBC Analysis
       if (apiCalls[12].status === 'fulfilled' && apiCalls[12].value.ok && liveMarketCap) {
         try {
           const cfData = await apiCalls[12].value.json()
           const latestCF = Array.isArray(cfData) ? cfData[0] : cfData.financials?.[0]
-          
+
+          console.log(`🔍 [SBC Debug] Cash Flow Data for ${ticker}:`, {
+            freeCashFlow: latestCF?.freeCashFlow,
+            stockBasedCompensation: latestCF?.stockBasedCompensation,
+            operatingCashFlow: latestCF?.operatingCashFlow,
+            capitalExpenditure: latestCF?.capitalExpenditure,
+            marketCap: liveMarketCap
+          })
+
           if (latestCF?.freeCashFlow) {
+            const fcf = latestCF.freeCashFlow
+            // SBC ist in FMP als positiver Wert (Add-Back), wir brauchen den absoluten Wert
+            const sbcRaw = latestCF.stockBasedCompensation || 0
+            const sbc = Math.abs(sbcRaw) // Sicherstellen dass positiv
+
             // FCF Yield = Free Cash Flow / Market Cap
-            const fcfYieldValue = latestCF.freeCashFlow / liveMarketCap
+            const fcfYieldValue = fcf / liveMarketCap
             setFcfYield(fcfYieldValue)
             console.log(`✅ FCF Yield for ${ticker}: ${(fcfYieldValue * 100).toFixed(2)}%`)
+
+            // SBC Analysis (only if SBC > 0)
+            if (sbc > 0 && fcf > 0) {
+              setStockBasedCompensation(sbc)
+              const operatingCF = latestCF.operatingCashFlow || 0
+
+              // WICHTIG: FMP's FCF beinhaltet SBC bereits als Add-Back im Operating Cash Flow
+              // Adjusted FCF = FCF - SBC (der "wahre" FCF ohne SBC-Inflation)
+              const adjustedFCF = fcf - sbc
+              const adjFcfYieldValue = adjustedFCF / liveMarketCap
+              setSbcAdjFcfYield(adjFcfYieldValue)
+
+              // SBC Impact = SBC als % des Operating Cash Flow (Qualtrim-Style)
+              // Das ist aussagekräftiger als SBC/FCF weil OCF die echte Basis ist
+              const sbcImpactValue = operatingCF > 0 ? (-sbc / operatingCF) * 100 : (-sbc / fcf) * 100
+              setSbcImpact(sbcImpactValue)
+
+              console.log(`✅ SBC Analysis for ${ticker}:`)
+              console.log(`   - Operating CF: ${(operatingCF / 1e9).toFixed(2)}B`)
+              console.log(`   - FCF: ${(fcf / 1e9).toFixed(2)}B`)
+              console.log(`   - SBC: ${(sbc / 1e9).toFixed(2)}B`)
+              console.log(`   - Adjusted FCF: ${(adjustedFCF / 1e9).toFixed(2)}B`)
+              console.log(`   - FCF Yield: ${(fcfYieldValue * 100).toFixed(2)}%`)
+              console.log(`   - SBC Adj. FCF Yield: ${(adjFcfYieldValue * 100).toFixed(2)}%`)
+              console.log(`   - SBC Impact (vs OCF): ${sbcImpactValue.toFixed(2)}%`)
+            }
           }
         } catch (error) {
-          console.warn(`[AnalysisClient] FCF Yield calculation failed for ${ticker}:`, error)
+          console.warn(`[AnalysisClient] FCF Yield/SBC calculation failed for ${ticker}:`, error)
         }
       } else {
-        console.warn(`[AnalysisClient] FCF Yield calculation failed for ${ticker}`)
+        console.warn(`[AnalysisClient] FCF Yield/SBC calculation failed for ${ticker}`)
       }
     }
 
@@ -837,9 +881,34 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
                       </span>
                     </div>
-                  
 
-
+                    {/* SBC Analysis - nur anzeigen wenn SBC > 0 */}
+                    {stockBasedCompensation != null && stockBasedCompensation > 0 && (
+                      <>
+                        <div className="flex justify-between items-center py-2 border-b border-theme/10">
+                          <div className="flex items-center gap-2">
+                            <span className="text-theme-secondary text-sm">SBC Adj. FCF Yield</span>
+                            <Tooltip content="Free Cash Flow Yield bereinigt um Stock-Based Compensation. Zeigt die wahre Cash-Generierung nach Berücksichtigung der Verwässerung durch Aktien-Vergütungen.">
+                              <InformationCircleIcon className="w-4 h-4 text-theme-muted hover:text-theme-secondary cursor-help" />
+                            </Tooltip>
+                          </div>
+                          <span className="text-theme-primary font-semibold">
+                            {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-theme/10">
+                          <div className="flex items-center gap-2">
+                            <span className="text-theme-secondary text-sm">SBC Impact</span>
+                            <Tooltip content="Zeigt wie viel Prozent des Free Cash Flows durch Stock-Based Compensation reduziert wird. Ein hoher negativer Wert deutet auf erhebliche Verwässerung hin.">
+                              <InformationCircleIcon className="w-4 h-4 text-theme-muted hover:text-theme-secondary cursor-help" />
+                            </Tooltip>
+                          </div>
+                          <span className={`font-semibold ${sbcImpact != null && sbcImpact < -15 ? 'text-red-400' : sbcImpact != null && sbcImpact < -5 ? 'text-yellow-400' : 'text-theme-primary'}`}>
+                            {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%` : '–'}
+                          </span>
+                        </div>
+                      </>
+                    )}
 
                     <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
                       <span className="text-theme-secondary text-sm">EV/EBIT</span>
@@ -847,7 +916,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         {evEbit != null ? `${evEbit.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                       </span>
                     </div>
-                    
+
                     <div className="mt-3 pt-3 border-t border-theme/20">
                       <Link
                         href={`/analyse/stocks/${ticker.toLowerCase()}/valuation/`}
@@ -906,17 +975,37 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
                         </span>
                       </div>
+
+                      {/* SBC Analysis (Blurred) - nur anzeigen wenn SBC > 0 */}
+                      {stockBasedCompensation != null && stockBasedCompensation > 0 && (
+                        <>
+                          <div className="flex justify-between items-center py-2 border-b border-theme/10">
+                            <div className="flex items-center gap-2">
+                              <span className="text-theme-secondary text-sm">SBC Adj. FCF Yield</span>
+                              <InformationCircleIcon className="w-4 h-4 text-theme-muted" />
+                            </div>
+                            <span className="text-theme-primary font-semibold">
+                              {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center py-2 border-b border-theme/10">
+                            <div className="flex items-center gap-2">
+                              <span className="text-theme-secondary text-sm">SBC Impact</span>
+                              <InformationCircleIcon className="w-4 h-4 text-theme-muted" />
+                            </div>
+                            <span className={`font-semibold ${sbcImpact != null && sbcImpact < -15 ? 'text-red-400' : sbcImpact != null && sbcImpact < -5 ? 'text-yellow-400' : 'text-theme-primary'}`}>
+                              {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%` : '–'}
+                            </span>
+                          </div>
+                        </>
+                      )}
+
                       <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
                         <span className="text-theme-secondary text-sm">EV/EBIT</span>
                         <span className="text-theme-primary font-semibold">
                           {evEbit != null ? `${evEbit.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
                         </span>
                       </div>
-
-
-
-
-
                     </div>
                   </PremiumBlur>
                 )}
