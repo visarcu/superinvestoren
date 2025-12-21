@@ -888,7 +888,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <div className="flex justify-between items-center py-2 border-b border-theme/10">
                           <div className="flex items-center gap-2">
                             <span className="text-theme-secondary text-sm">SBC Adj. FCF Yield</span>
-                            <Tooltip content="Free Cash Flow Yield bereinigt um Stock-Based Compensation. Zeigt die wahre Cash-Generierung nach Berücksichtigung der Verwässerung durch Aktien-Vergütungen.">
+                            <Tooltip text="Free Cash Flow Yield bereinigt um Stock-Based Compensation. Zeigt die wahre Cash-Generierung nach Berücksichtigung der Verwässerung durch Aktien-Vergütungen.">
                               <InformationCircleIcon className="w-4 h-4 text-theme-muted hover:text-theme-secondary cursor-help" />
                             </Tooltip>
                           </div>
@@ -899,7 +899,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         <div className="flex justify-between items-center py-2 border-b border-theme/10">
                           <div className="flex items-center gap-2">
                             <span className="text-theme-secondary text-sm">SBC Impact</span>
-                            <Tooltip content="Zeigt wie viel Prozent des Free Cash Flows durch Stock-Based Compensation reduziert wird. Ein hoher negativer Wert deutet auf erhebliche Verwässerung hin.">
+                            <Tooltip text="Zeigt wie viel Prozent des Free Cash Flows durch Stock-Based Compensation reduziert wird. Ein hoher negativer Wert deutet auf erhebliche Verwässerung hin.">
                               <InformationCircleIcon className="w-4 h-4 text-theme-muted hover:text-theme-secondary cursor-help" />
                             </Tooltip>
                           </div>

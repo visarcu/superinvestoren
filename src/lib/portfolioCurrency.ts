@@ -1,28 +1,120 @@
-// src/lib/portfolioCurrency.ts - SECURE VERSION using API routes only
+// src/lib/portfolioCurrency.ts - VEREINFACHTE VERSION für EUR-only System
+//
+// Neues System:
+// - DB speichert alles in EUR (direkt vom User eingegeben)
+// - Aktienkurse von API (USD) werden 1x in EUR konvertiert
+// - Keine _display, _original Felder mehr
+// - Einfache Berechnung: totalValue = stockValues + cash
 
-interface ExchangeRate {
-  rate: number
-  timestamp: number
-  date?: string
+// Cache für aktuellen Wechselkurs (5 Minuten)
+let exchangeRateCache: { rate: number; timestamp: number } | null = null
+const CACHE_DURATION_MS = 5 * 60 * 1000 // 5 Minuten
+
+/**
+ * Holt den aktuellen EUR/USD Wechselkurs
+ * Verwendet um USD-Kurse von der API in EUR umzurechnen
+ */
+export async function getEURRate(): Promise<number> {
+  // Check cache
+  if (exchangeRateCache && Date.now() - exchangeRateCache.timestamp < CACHE_DURATION_MS) {
+    return exchangeRateCache.rate
+  }
+
+  try {
+    const response = await fetch('/api/exchange-rate?from=USD&to=EUR')
+
+    if (response.ok) {
+      const data = await response.json()
+
+      if (data.rate && !isNaN(data.rate) && data.rate > 0) {
+        exchangeRateCache = { rate: data.rate, timestamp: Date.now() }
+        return data.rate
+      }
+    }
+  } catch (error) {
+    console.error('Fehler beim Laden des Wechselkurses:', error)
+  }
+
+  // Fallback rate wenn API nicht verfügbar
+  // Stand Dezember 2024: 1 USD ≈ 0.96 EUR
+  console.warn('Verwende Fallback-Wechselkurs: 0.96')
+  return 0.96
 }
 
-interface HistoricalRate {
-  date: string
-  rate: number
+/**
+ * Konvertiert einen USD-Preis in EUR
+ * Wird verwendet für aktuelle Kurse von der FMP API
+ */
+export async function convertUSDtoEUR(priceUSD: number): Promise<number> {
+  const rate = await getEURRate()
+  return priceUSD * rate
 }
 
-// Cache für aktuelle Wechselkurse (5 Minuten)
-const currentRateCache: Map<string, ExchangeRate> = new Map()
+/**
+ * Konvertiert mehrere USD-Preise in EUR
+ * Effizienter da nur ein API-Call für den Wechselkurs
+ */
+export async function convertPricesToEUR(pricesUSD: Record<string, number>): Promise<Record<string, number>> {
+  const rate = await getEURRate()
+  const pricesEUR: Record<string, number> = {}
 
-// Cache für historische Wechselkurse (permanent bis reload)
-const historicalRateCache: Map<string, HistoricalRate> = new Map()
+  for (const [symbol, priceUSD] of Object.entries(pricesUSD)) {
+    pricesEUR[symbol] = priceUSD * rate
+  }
+
+  return pricesEUR
+}
+
+/**
+ * Portfolio-Wert berechnen (alles in EUR)
+ */
+export function calculatePortfolioValue(
+  holdings: Array<{ quantity: number; currentPriceEUR: number }>,
+  cashEUR: number
+): { stockValue: number; cashValue: number; totalValue: number } {
+  const stockValue = holdings.reduce(
+    (sum, h) => sum + (h.quantity * h.currentPriceEUR),
+    0
+  )
+
+  return {
+    stockValue,
+    cashValue: cashEUR,
+    totalValue: stockValue + cashEUR
+  }
+}
+
+/**
+ * Cash-Anteil berechnen
+ */
+export function calculateCashPercentage(cashEUR: number, totalValueEUR: number): number {
+  if (totalValueEUR <= 0) return 0
+  return (cashEUR / totalValueEUR) * 100
+}
+
+/**
+ * Gewinn/Verlust berechnen für eine Position
+ */
+export function calculateGainLoss(
+  quantity: number,
+  purchasePriceEUR: number,
+  currentPriceEUR: number
+): { gainLoss: number; gainLossPercent: number } {
+  const costBasis = quantity * purchasePriceEUR
+  const currentValue = quantity * currentPriceEUR
+  const gainLoss = currentValue - costBasis
+  const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
+
+  return { gainLoss, gainLossPercent }
+}
+
+// ============================================================
+// DEPRECATED - Alte CurrencyManager Klasse für Kompatibilität
+// TODO: Entfernen sobald alle Komponenten migriert sind
+// ============================================================
 
 export class CurrencyManager {
   private static instance: CurrencyManager
-
-  constructor() {
-    // No API key needed - using secure API routes only
-  }
 
   static getInstance(): CurrencyManager {
     if (!CurrencyManager.instance) {
@@ -31,184 +123,61 @@ export class CurrencyManager {
     return CurrencyManager.instance
   }
 
-  // SECURE VERSION: Use exchange rate API route
+  // DEPRECATED - Verwendet die neue getEURRate Funktion
   async getCurrentUSDtoEURRate(): Promise<number | null> {
-    const cacheKey = 'USDEUR_current'
-    const cached = currentRateCache.get(cacheKey)
-    
-    // 2 Minuten Cache für aktuelle Kurse
-    if (cached && Date.now() - cached.timestamp < 2 * 60 * 1000) {
-      console.log(`💰 Using cached USD→EUR rate: ${cached.rate} (${Math.round((Date.now() - cached.timestamp) / 1000)}s alt)`)
-      return cached.rate
-    }
-
-    console.log('🔄 Fetching current USD→EUR exchange rate via secure API...')
-    
     try {
-      const response = await fetch('/api/exchange-rate?from=USD&to=EUR')
-      
-      if (response.ok) {
-        const data = await response.json()
-        
-        if (data.rate && !isNaN(data.rate) && data.rate > 0) {
-          console.log(`✅ Fetched USD→EUR rate: ${data.rate.toFixed(6)}`)
-          
-          currentRateCache.set(cacheKey, { 
-            rate: data.rate, 
-            timestamp: Date.now(),
-            date: new Date().toISOString().split('T')[0]
-          })
-          return data.rate
-        }
-      }
-      
-      console.log('⚠️ Invalid API response, using fallback')
-    } catch (error) {
-      console.error('❌ Error fetching exchange rate:', error)
-    }
-    
-    // NO FALLBACK! Return null to indicate unavailable data
-    console.error('🚨 Exchange rate data unavailable - no fallback used for professional accuracy')
-    return null
-  }
-
-  // SECURE VERSION: Use historical exchange rate API route
-  async getHistoricalUSDtoEURRate(date: string): Promise<number | null> {
-    const cacheKey = `USDEUR_${date}`
-    const cached = historicalRateCache.get(cacheKey)
-    
-    if (cached) {
-      return cached.rate
-    }
-
-    try {
-      const response = await fetch(`/api/exchange-rate?from=USD&to=EUR&date=${date}`)
-      
-      if (response.ok) {
-        const data = await response.json()
-        if (data.rate && !isNaN(data.rate) && data.rate > 0) {
-          console.log(`✅ Historical USD→EUR rate for ${date}: ${data.rate.toFixed(6)}`)
-          historicalRateCache.set(cacheKey, { date, rate: data.rate })
-          return data.rate
-        }
-      }
-    } catch (error) {
-      console.error(`Error fetching historical rate for ${date}:`, error)
-    }
-
-    // NO FALLBACK for professional accuracy
-    console.log(`❌ Historical exchange rate for ${date} unavailable`)
-    return null
-  }
-
-  // Portfolio conversion methods remain the same but now use secure API calls
-  async convertHoldingsForDisplay(
-    holdings: any[], 
-    displayCurrency: 'USD' | 'EUR',
-    includeHistoricalRates: boolean = false
-  ) {
-    if (displayCurrency === 'USD') {
-      return holdings.map(h => ({
-        ...h,
-        current_price_display: h.current_price,
-        current_value_display: h.current_value,
-        cost_basis_display: h.cost_basis,
-        total_return_display: h.total_return,
-        purchase_price_display: h.purchase_price,
-        display_currency: 'USD'
-      }))
-    }
-
-    const rate = await this.getCurrentUSDtoEURRate()
-
-    if (rate === null) {
-      // If exchange rate is unavailable, return data in USD with warning
-      return holdings.map(h => ({
-        ...h,
-        current_price_display: h.current_price,
-        current_value_display: h.current_value,
-        cost_basis_display: h.cost_basis,
-        total_return_display: h.total_return,
-        purchase_price_display: h.purchase_price,
-        display_currency: 'USD',
-        exchange_rate_unavailable: true
-      }))
-    }
-
-    return holdings.map(h => {
-      const convertedHolding = {
-        ...h,
-        current_price_display: h.current_price * rate,
-        current_value_display: (h.current_value || 0) * rate,
-        cost_basis_display: (h.cost_basis || 0) * rate,
-        total_return_display: (h.total_return || 0) * rate,
-        purchase_price_display: h.purchase_price * rate,
-        display_currency: 'EUR',
-        exchange_rate_used: rate
-      }
-      
-      return convertedHolding
-    })
-  }
-
-  // Convert cash position for display
-  async convertCashPosition(
-    cashAmount: number,
-    displayCurrency: 'USD' | 'EUR'
-  ): Promise<{ amount: number; currency: string; unavailable?: boolean }> {
-    if (displayCurrency === 'USD') {
-      return { amount: cashAmount, currency: 'USD' }
-    }
-
-    const rate = await this.getCurrentUSDtoEURRate()
-    if (rate === null) {
-      // Return USD amount if exchange rate unavailable
-      return {
-        amount: cashAmount,
-        currency: 'USD',
-        unavailable: true
-      }
-    }
-
-    return {
-      amount: cashAmount * rate,
-      currency: 'EUR'
+      return await getEURRate()
+    } catch {
+      return null
     }
   }
 
-  // Convert new position data to USD for storage
+  // DEPRECATED - Im neuen System speichern wir direkt in EUR
   async convertNewPositionToUSD(
     price: number,
-    currency: 'USD' | 'EUR'
+    _currency: 'USD' | 'EUR'
   ): Promise<{ priceUSD: number; exchangeRate: number | null; metadata: any }> {
-    if (currency === 'USD') {
-      return {
-        priceUSD: price,
-        exchangeRate: 1.0,
-        metadata: { originalCurrency: 'USD', conversionNeeded: false }
-      }
-    }
-
-    const rate = await this.getCurrentUSDtoEURRate()
-    if (rate === null) {
-      throw new Error('Exchange rate unavailable. Cannot convert EUR to USD for storage.')
-    }
-
-    // Convert EUR to USD (divide by EUR/USD rate)
-    const priceUSD = price / rate
-
+    // Im neuen System speichern wir direkt in EUR!
+    // Diese Funktion gibt den EUR-Preis zurück ohne Konvertierung
     return {
-      priceUSD,
-      exchangeRate: rate,
-      metadata: {
-        originalCurrency: 'EUR',
-        originalPrice: price,
-        conversionNeeded: true,
-        conversionDate: new Date().toISOString()
-      }
+      priceUSD: price, // Eigentlich EUR, aber für Kompatibilität
+      exchangeRate: 1.0,
+      metadata: { note: 'Direkt in EUR gespeichert' }
     }
+  }
+
+  // DEPRECATED - Vereinfacht für neues System
+  async convertHoldingsForDisplay(
+    holdings: any[],
+    _displayCurrency: 'USD' | 'EUR',
+    _includeHistoricalRates: boolean = false
+  ) {
+    // Im neuen System: purchase_price ist bereits EUR
+    // Nur current_price (von API in USD) muss konvertiert werden
+    const rate = await getEURRate()
+
+    return holdings.map(h => ({
+      ...h,
+      // current_price kommt in USD von API, konvertieren zu EUR
+      current_price_display: h.current_price * rate,
+      // purchase_price ist bereits EUR
+      purchase_price_display: h.purchase_price,
+      display_currency: 'EUR',
+      exchange_rate_used: rate
+    }))
+  }
+
+  // DEPRECATED
+  async convertCashPosition(cashAmount: number, _displayCurrency: 'USD' | 'EUR') {
+    // Cash ist bereits in EUR
+    return { amount: cashAmount, currency: 'EUR' }
+  }
+
+  // DEPRECATED
+  async getHistoricalUSDtoEURRate(_date: string): Promise<number | null> {
+    return null
   }
 }
 
-// Export singleton instance
+// Export singleton für Kompatibilität
 export const currencyManager = CurrencyManager.getInstance()

@@ -7,17 +7,16 @@ import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotes } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
-import { currencyManager } from '@/lib/portfolioCurrency'
+import { getEURRate, calculateGainLoss, currencyManager } from '@/lib/portfolioCurrency'
 import PortfolioCalendar from '@/components/PortfolioCalendar'
 import PortfolioDividends from '@/components/PortfolioDividends'
 import PortfolioHistory from '@/components/PortfolioHistory'
 import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
 import PortfolioAllocationChart from '@/components/PortfolioAllocationChart'
-import PortfolioSwitcher from '@/components/PortfolioSwitcher'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import { stocks } from '@/data/stocks'
-import { 
-  BriefcaseIcon, 
+import {
+  BriefcaseIcon,
   ArrowLeftIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
@@ -25,7 +24,6 @@ import {
   CurrencyEuroIcon,
   ChartBarIcon,
   PlusIcon,
-  Cog6ToothIcon,
   ArrowPathIcon,
   EyeIcon,
   PencilIcon,
@@ -211,8 +209,6 @@ export default function PortfolioDashboard() {
   const [addingPosition, setAddingPosition] = useState(false)
   const [positionType, setPositionType] = useState<'stock' | 'cash'>('stock')
   const [cashAmount, setCashAmount] = useState('')
-  
-  const purchaseCurrency = 'EUR'
   const [transactionFees, setTransactionFees] = useState('')
   const [selectedStock, setSelectedStock] = useState<{symbol: string, name: string} | null>(null)
   
@@ -252,7 +248,7 @@ export default function PortfolioDashboard() {
   // Reload when currency changes
   useEffect(() => {
     if (portfolio?.id) {
-      loadPortfolio(portfolio.id)
+      loadPortfolio()
     }
   }, [currency])
 
@@ -279,10 +275,10 @@ export default function PortfolioDashboard() {
     }
   }
 
-  const loadPortfolio = async (specificPortfolioId?: string) => {
+  const loadPortfolio = async () => {
     setLoading(true)
     setError(null)
-    
+
     try {
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) {
@@ -290,44 +286,39 @@ export default function PortfolioDashboard() {
         return
       }
 
-      // Load portfolio
-      let portfolioData: any
-      
-      if (specificPortfolioId) {
-        const { data, error } = await supabase
+      // VEREINFACHT: Jeder User hat genau ein Portfolio
+      // Lade existierendes oder erstelle automatisch ein neues
+      const { data: portfolios } = await supabase
+        .from('portfolios')
+        .select('*')
+        .eq('user_id', user.id)
+        .order('is_default', { ascending: false })
+        .limit(1)
+
+      let portfolioData = portfolios?.[0]
+
+      // Wenn kein Portfolio existiert, automatisch erstellen
+      if (!portfolioData) {
+        const { data: newPortfolio, error: createError } = await supabase
           .from('portfolios')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('id', specificPortfolioId)
+          .insert({
+            user_id: user.id,
+            name: 'Mein Portfolio',
+            currency: 'EUR',
+            cash_position: 0,
+            is_default: true
+          })
+          .select()
           .single()
-        
-        if (error) throw error
-        portfolioData = data
-      } else {
-        const { data: portfoliosData, error } = await supabase
-          .from('portfolios')
-          .select('*')
-          .eq('user_id', user.id)
-          .order('is_default', { ascending: false })
-          .order('created_at', { ascending: true })
-        
-        if (error) throw error
-        if (!portfoliosData || portfoliosData.length === 0) {
-          throw new Error('Kein Portfolio gefunden. Bitte erstellen Sie zunächst ein Portfolio.')
-        }
-        
-        portfolioData = portfoliosData[0]
+
+        if (createError) throw createError
+        portfolioData = newPortfolio
       }
-      
+
       setPortfolio(portfolioData)
-      
-      // Load holdings separately with loading state
       loadHoldings(portfolioData.id)
-      
-      // Set cash position
-      const cashAmount = portfolioData.cash_position || 0
-      setCashPositionDisplay(cashAmount)
-      
+      setCashPositionDisplay(portfolioData.cash_position || 0)
+
     } catch (error: any) {
       console.error('Error loading portfolio:', error)
       setError(error.message || 'Fehler beim Laden des Portfolios')
@@ -549,16 +540,12 @@ export default function PortfolioDashboard() {
     
     try {
       if (positionType === 'stock') {
+        // VEREINFACHT: Direkt EUR speichern - keine Konvertierung!
         const basePrice = parseFloat(newPurchasePrice)
         const fees = parseFloat(transactionFees) || 0
         const quantity = parseFloat(newQuantity)
         const priceIncludingFees = basePrice + (fees / quantity)
-        
-        const conversionResult = await currencyManager.convertNewPositionToUSD(
-          priceIncludingFees,
-          purchaseCurrency
-        )
-        
+
         const { error } = await supabase
           .from('portfolio_holdings')
           .insert({
@@ -566,17 +553,9 @@ export default function PortfolioDashboard() {
             symbol: selectedStock?.symbol,
             name: selectedStock?.name,
             quantity: quantity,
-            purchase_price: conversionResult.priceUSD,
+            purchase_price: priceIncludingFees,  // Direkt EUR!
             purchase_date: newPurchaseDate,
-            purchase_currency: purchaseCurrency,
-            purchase_exchange_rate: conversionResult.exchangeRate,
-            purchase_price_original: basePrice,
-            currency_metadata: {
-              ...conversionResult.metadata,
-              transaction_fees: fees,
-              fees_currency: purchaseCurrency,
-              price_including_fees: priceIncludingFees
-            }
+            purchase_currency: 'EUR'              // Immer EUR
           })
 
         if (error) throw error
@@ -593,7 +572,7 @@ export default function PortfolioDashboard() {
       }
 
       resetAddPositionForm()
-      await loadPortfolio(portfolio?.id)
+      await loadPortfolio()
       
     } catch (error: any) {
       console.error('Error adding position:', error)
@@ -608,29 +587,14 @@ export default function PortfolioDashboard() {
 
     setRefreshing(true)
     try {
-      let finalPurchasePrice = parseFloat(newPurchasePrice) || editingPosition.purchase_price
-      let originalPrice = parseFloat(newPurchasePrice) || editingPosition.purchase_price_original
-      
-      if (currency === 'EUR') {
-        const conversionResult = await currencyManager.convertNewPositionToUSD(
-          parseFloat(newPurchasePrice),
-          'EUR'
-        )
-        finalPurchasePrice = conversionResult.priceUSD
-        originalPrice = parseFloat(newPurchasePrice)
-      } else {
-        finalPurchasePrice = parseFloat(newPurchasePrice)
-        originalPrice = parseFloat(newPurchasePrice)
-      }
-
+      // VEREINFACHT: Direkt EUR speichern - keine Konvertierung!
       const { error } = await supabase
         .from('portfolio_holdings')
         .update({
           quantity: parseFloat(newQuantity) || editingPosition.quantity,
-          purchase_price: finalPurchasePrice,
+          purchase_price: parseFloat(newPurchasePrice) || editingPosition.purchase_price,
           purchase_date: newPurchaseDate || editingPosition.purchase_date,
-          purchase_currency: currency,
-          purchase_price_original: originalPrice
+          purchase_currency: 'EUR'
         })
         .eq('id', editingPosition.id)
 
@@ -640,7 +604,7 @@ export default function PortfolioDashboard() {
       setNewQuantity('')
       setNewPurchasePrice('')
       setNewPurchaseDate(new Date().toISOString().split('T')[0])
-      await loadPortfolio(portfolio?.id)
+      await loadPortfolio()
 
     } catch (error: any) {
       console.error('Error updating position:', error)
@@ -769,15 +733,6 @@ export default function PortfolioDashboard() {
               </div>
             </div>
             
-            {/* Portfolio Switcher - Hidden on mobile */}
-            <div className="hidden lg:block">
-              <PortfolioSwitcher 
-                activePortfolioId={portfolio?.id}
-                onPortfolioChange={(portfolioId) => loadPortfolio(portfolioId)}
-                className="min-w-[220px]"
-              />
-            </div>
-
             <div className="flex items-center gap-3">
               <button
                 onClick={exportToCSV}
@@ -791,30 +746,13 @@ export default function PortfolioDashboard() {
                 onClick={refreshPrices}
                 disabled={refreshing}
                 className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors disabled:opacity-50"
+                title="Kurse aktualisieren"
               >
                 <ArrowPathIcon className={`w-5 h-5 text-theme-secondary ${refreshing ? 'animate-spin' : ''}`} />
               </button>
-              
-              <Link
-                href="/analyse/portfolio/verwaltung"
-                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
-                title="Portfolio verwalten"
-              >
-                <Cog6ToothIcon className="w-5 h-5 text-theme-secondary" />
-              </Link>
             </div>
           </div>
 
-          {/* Mobile Portfolio Switcher */}
-          {isMobile && (
-            <div className="mt-4">
-              <PortfolioSwitcher 
-                activePortfolioId={portfolio?.id}
-                onPortfolioChange={(portfolioId) => loadPortfolio(portfolioId)}
-                className="w-full"
-              />
-            </div>
-          )}
         </div>
       </div>
 
