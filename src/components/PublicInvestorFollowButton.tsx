@@ -2,21 +2,22 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BellIcon, UserPlusIcon, CheckIcon, ArrowRightIcon, SparklesIcon } from '@heroicons/react/24/outline'
+import { BellIcon, UserPlusIcon, CheckIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 import { BellIcon as BellIconSolid } from '@heroicons/react/24/solid'
 import { supabase } from '@/lib/supabaseClient'
-import Link from 'next/link'
 
 interface PublicInvestorFollowButtonProps {
   investorSlug: string
   investorName: string
   className?: string
+  compact?: boolean
 }
 
-export default function PublicInvestorFollowButton({ 
-  investorSlug, 
+export default function PublicInvestorFollowButton({
+  investorSlug,
   investorName,
-  className = ''
+  className = '',
+  compact = false
 }: PublicInvestorFollowButtonProps) {
   const [user, setUser] = useState<any>(null)
   const [isFollowing, setIsFollowing] = useState(false)
@@ -129,11 +130,45 @@ export default function PublicInvestorFollowButton({
 
   // Loading state
   if (loading) {
+    if (compact) {
+      return (
+        <div className={`p-3 rounded-xl bg-white/[0.03] border border-white/[0.08] ${className}`}>
+          <div className="w-5 h-5 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+        </div>
+      )
+    }
     return (
       <div className={`space-y-3 ${className}`}>
         <div className="animate-pulse bg-gray-300 dark:bg-gray-700 h-12 rounded-lg"></div>
         <div className="animate-pulse bg-gray-300 dark:bg-gray-700 h-4 rounded w-3/4 mx-auto"></div>
       </div>
+    )
+  }
+
+  // COMPACT MODE - Icon button only
+  if (compact) {
+    return (
+      <button
+        onClick={handleFollow}
+        disabled={actionLoading}
+        className={`group relative p-3 rounded-xl border transition-all duration-200 ${
+          isFollowing
+            ? 'bg-green-500/10 border-green-500/30 text-green-400'
+            : 'bg-white/[0.03] border-white/[0.08] text-gray-400 hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white'
+        } ${className}`}
+        title={isFollowing ? 'Du folgst diesem Investor' : 'Investor folgen für Updates'}
+      >
+        {actionLoading ? (
+          <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+        ) : isFollowing ? (
+          <BellIconSolid className="w-5 h-5" />
+        ) : (
+          <BellIcon className="w-5 h-5" />
+        )}
+        {isFollowing && !actionLoading && (
+          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[#161618]"></span>
+        )}
+      </button>
     )
   }
 

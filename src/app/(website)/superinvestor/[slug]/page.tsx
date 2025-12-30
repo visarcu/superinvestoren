@@ -14,7 +14,6 @@ import {
   ChartBarIcon,
   ArrowTrendingUpIcon,
   CalendarIcon,
-  CheckIcon,
   StarIcon,
   SparklesIcon,
   ChevronDownIcon,
@@ -926,116 +925,80 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             
           </div>
           
-          {/* Main Hero Card */}
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 lg:p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
-            <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
-              
-              {/* Left: Investor Info */}
-              <div className="flex-1">
-                
-                {/* Avatar & Basic Info */}
-                <div className="flex items-center gap-6 mb-6">
-                  <div className="relative">
-                    {slug === 'buffett' && (
-                      <div className="absolute -top-2 -right-2 z-10">
-                        <div className="w-8 h-8 bg-[#0a0a0b] rounded-full flex items-center justify-center border border-white/5">
-                          <span className="text-sm opacity-60">👑</span>
-                        </div>
-                      </div>
-                    )}
-                    
-                    <InvestorAvatar
-                      name={mainName}
-                      imageUrl={`/images/${slug}.png`}
-                      size="lg"
-                      className="ring-1 ring-white/5"
-                    />
-                  </div>
-                  
-                  <div className="flex-1">
-                    <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-white mb-2">
-                      {mainName}
-                    </h1>
-                    {subtitle && (
-                      <p className="text-base text-gray-500 mb-4">
-                        {subtitle}
-                      </p>
-                    )}
-                    
-                    {/* Meta Info */}
-                    <div className="flex flex-wrap items-center gap-4">
-                      <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-900/10 border border-green-900/20 text-green-400/80 rounded-lg text-sm">
-                        <CalendarIcon className="w-4 h-4" />
-                        <span>{period}</span>
-                      </div>
-                      <div className="inline-flex items-center gap-2 text-gray-600 text-sm">
-                        <div className="w-2 h-2 bg-green-400/60 rounded-full"></div>
-                        <span>Aktualisiert {formattedDate}</span>
-                      </div>
+          {/* Main Hero Card - CLEAN VERSION */}
+          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 lg:p-10">
+
+            {/* Top Row: Avatar, Name, Follow Button */}
+            <div className="flex items-start justify-between gap-6 mb-8">
+
+              {/* Left: Avatar & Name */}
+              <div className="flex items-center gap-5">
+                <div className="relative">
+                  <InvestorAvatar
+                    name={mainName}
+                    imageUrl={`/images/${slug}.png`}
+                    size="lg"
+                    className="ring-1 ring-white/10"
+                  />
+                  {slug === 'buffett' && (
+                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500/20 rounded-full flex items-center justify-center border border-amber-500/30">
+                      <span className="text-xs">👑</span>
                     </div>
-                  </div>
+                  )}
                 </div>
-                
-                {/* Portfolio Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] transition-all duration-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <ChartBarIcon className="w-4 h-4 text-gray-600" />
-                      <span className="text-xs text-gray-600 uppercase tracking-wide">Portfolio-Wert</span>
-                    </div>
-                    <p className="text-lg font-semibold text-white">
-                      {formatCurrency(totalVal)}
+
+                <div>
+                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
+                    {mainName}
+                  </h1>
+                  {subtitle && (
+                    <p className="text-gray-500 mt-1">
+                      {subtitle}
                     </p>
-                  </div>
-                  
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] transition-all duration-200">
-                    <div className="flex items-center gap-2 mb-2">
-                      <StarIcon className="w-4 h-4 text-gray-600" />
-                      <span className="text-xs text-gray-600 uppercase tracking-wide">Positionen</span>
-                    </div>
-                    <p className="text-lg font-semibold text-white">
-                      {holdings.length}
-                    </p>
-                  </div>
-                  
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] transition-all duration-200 sm:col-span-1 col-span-2">
-                    <div className="flex items-center gap-2 mb-2">
-                      <ArrowTrendingUpIcon className="w-4 h-4 text-gray-600" />
-                      <span className="text-xs text-gray-600 uppercase tracking-wide">Top 3 Anteil</span>
-                    </div>
-                    <p className="text-lg font-semibold text-white">
-                      {formatCurrency((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100, 'number')}%
-                    </p>
-                  </div>
+                  )}
                 </div>
               </div>
-              
-              {/* Right: Follow Button */}
-              <div className="lg:w-72 flex-shrink-0">
-                <div className="text-center lg:text-right">
-                  <h3 className="text-lg font-medium text-white mb-2">
-                    Portfolio Updates
-                  </h3>
-                  <p className="text-sm text-gray-600 mb-4">
-                    Kostenlose Benachrichtigungen
-                  </p>
-                  
-                  <PublicInvestorFollowButton 
-                    investorSlug={slug}
-                    investorName={mainName}
-                  />
-                  
-                  <div className="mt-4 flex items-center justify-center lg:justify-end gap-4 text-xs text-gray-700">
-                    <div className="flex items-center gap-1">
-                      <CheckIcon className="w-3 h-3 text-gray-600" />
-                      <span>Quartalsweise</span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <CheckIcon className="w-3 h-3 text-gray-600" />
-                      <span>Keine Werbung</span>
-                    </div>
-                  </div>
-                </div>
+
+              {/* Right: Compact Follow Button */}
+              <PublicInvestorFollowButton
+                investorSlug={slug}
+                investorName={mainName}
+                compact={true}
+              />
+            </div>
+
+            {/* Meta Row: Period & Update Date */}
+            <div className="flex items-center gap-4 mb-8">
+              <span className="px-3 py-1.5 bg-green-500/10 text-green-400 text-sm font-medium rounded-md border border-green-500/20">
+                {period}
+              </span>
+              <span className="text-gray-600 text-sm flex items-center gap-2">
+                <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                Aktualisiert {formattedDate}
+              </span>
+            </div>
+
+            {/* Stats Row - Clean Inline Design */}
+            <div className="flex flex-wrap items-center gap-x-10 gap-y-4 pt-6 border-t border-white/[0.06]">
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Portfolio-Wert</p>
+                <p className="text-xl font-semibold text-white">{formatCurrency(totalVal)}</p>
+              </div>
+
+              <div className="w-px h-10 bg-white/[0.06] hidden sm:block"></div>
+
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Positionen</p>
+                <p className="text-xl font-semibold text-white">{holdings.length}</p>
+              </div>
+
+              <div className="w-px h-10 bg-white/[0.06] hidden sm:block"></div>
+
+              <div>
+                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Top 3 Anteil</p>
+                <p className="text-xl font-semibold text-white">
+                  {formatCurrency((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100, 'number')}%
+                </p>
               </div>
             </div>
           </div>
@@ -1477,25 +1440,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
          </div>
        )}
 
-       {/* Articles & Commentaries */}
-       {articles.length > 0 && (
-         <section className="mb-16 mt-24">
-           <div className="text-center mb-12">
-             <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-900/10 border border-green-900/20 text-green-400/60 rounded-full text-sm font-medium mb-6">
-               <UserIcon className="w-4 h-4" />
-               Artikel & Kommentare
-             </div>
-             <h2 className="text-3xl font-light text-white mb-4">
-               Insights von
-               <span className="bg-gradient-to-r from-green-400/80 to-green-300/60 bg-clip-text text-transparent"> {mainName}</span>
-             </h2>
-             <p className="text-gray-500 max-w-2xl mx-auto">
-               Erhalte Einblicke in die Denkweise und Strategien durch Original-Artikel und Kommentare
-             </p>
-           </div>
-           <ArticleList articles={articles} />
-         </section>        
-       )}
+  
+      
      </div>
    </div>
  )
