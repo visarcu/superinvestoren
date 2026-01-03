@@ -104,45 +104,9 @@ export default function ValuationPage() {
 
         {/* ✅ Additional Sections MIT LEARN TOOLTIPS */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
-                <ChartBarIcon className="w-4 h-4 text-theme-primary" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-theme-primary">Peer Vergleich</h3>
-                  <LearnTooltipButton term="Enterprise Value" />
-                </div>
-                <p className="text-theme-muted text-sm">Vergleich mit Branchenkonkurrenten</p>
-              </div>
-            </div>
-            <div className="bg-theme-tertiary/20 rounded-lg p-4 border-l-4 border-theme-primary">
-              <p className="text-sm text-theme-muted">
-                🚀 Bald verfügbar: Automatischer Vergleich mit Top-Konkurrenten in der Branche
-              </p>
-            </div>
-          </div>
+      
           
-          <div className="bg-theme-card rounded-xl p-6 hover:bg-theme-secondary/10 transition-colors">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
-                <BuildingOfficeIcon className="w-4 h-4 text-theme-primary" />
-              </div>
-              <div className="flex-1">
-                <div className="flex items-center gap-2">
-                  <h3 className="text-lg font-semibold text-theme-primary">DCF Modell</h3>
-                  <LearnTooltipButton term="Price to Free Cash Flow" />
-                </div>
-                <p className="text-theme-muted text-sm">Discounted Cash Flow Bewertung</p>
-              </div>
-            </div>
-            <div className="bg-theme-tertiary/20 rounded-lg p-4 border-l-4 border-theme-primary">
-              <p className="text-sm text-theme-muted">
-                📊 Bald verfügbar: Interaktives DCF-Modell mit anpassbaren Parametern
-              </p>
-            </div>
-          </div>
+      
         </div>
 
         {/* ✅ CTA für Premium Users */}
