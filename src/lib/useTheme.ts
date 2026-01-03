@@ -55,8 +55,8 @@ export function useTheme() {
         setTheme(savedTheme)
         applyTheme(savedTheme)
       } else {
-        // Standard: Terminal immer dunkel (wenn keine Einstellung gespeichert)
-        const initialTheme = 'dark'
+        // Standard: Terminal jetzt HELL (wenn keine Einstellung gespeichert)
+        const initialTheme = 'light'
         setTheme(initialTheme)
         applyTheme(initialTheme)
         localStorage.setItem('finclue-terminal-theme', initialTheme)
