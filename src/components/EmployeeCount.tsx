@@ -95,30 +95,76 @@ export default function EmployeeCount({ ticker, isPremium = false }: EmployeeCou
     )
   }
 
-  if (!data || !isPremium) {
+  // Kein Daten-Fall
+  if (!data) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Mitarbeiteranzahl</h3>
+        </div>
+        <div className="h-32 bg-theme-tertiary rounded animate-pulse"></div>
+      </div>
+    )
+  }
+
+  // Premium Teaser: Zeige aktuelle Zahl + Trend, blur den historischen Chart
+  if (!isPremium) {
+    const teaserData = data.historicalData.slice(-3) // Letzte 3 Jahre als Teaser
+
     return (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        {!isPremium && (
-          <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-medium text-theme-primary">Mitarbeiteranzahl</h3>
+            {data.employeeGrowth && getTrendIcon(data.employeeGrowth.trend)}
+          </div>
+        </div>
+
+        {/* Sichtbarer Teaser: Aktuelle Mitarbeiterzahl */}
+        <div className="mb-4">
+          <div className="text-lg font-semibold text-theme-primary">
+            {formatEmployeeCount(data.currentEmployeeCount)}
+          </div>
+          {data.employeeGrowth && (
+            <div className="flex items-center gap-2 text-xs text-theme-secondary">
+              {data.employeeGrowth.yearOverYear > 0 ? '+' : ''}
+              {data.employeeGrowth.yearOverYear}% YoY
+            </div>
+          )}
+        </div>
+
+        {/* Teaser-Chart (3 Jahre) + Blur für Rest */}
+        <div className="relative">
+          <div className="h-32">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={teaserData} margin={{ top: 5, right: 5, bottom: 15, left: 5 }}>
+                <XAxis
+                  dataKey="year"
+                  axisLine={false}
+                  tickLine={false}
+                  tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
+                />
+                <YAxis hide />
+                <Bar dataKey="employeeCount" fill="#F97316" radius={[1, 1, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Premium Overlay für mehr Historie */}
+          {data.historicalData.length > 3 && (
+            <div className="absolute -right-2 top-0 bottom-0 w-24 bg-gradient-to-l from-theme-card via-theme-card/90 to-transparent flex items-center justify-end pr-2">
+              <a
+                href="/pricing"
+                className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+              >
+                <svg className="w-4 h-4 text-green-500 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
                 </svg>
-              </div>
-              <p className="text-xs text-theme-secondary font-medium">Premium</p>
+                <p className="text-theme-primary font-medium text-xs">+{data.historicalData.length - 3}J</p>
+                <p className="text-green-500 text-[10px]">Premium</p>
+              </a>
             </div>
-          </div>
-        )}
-        
-        <div className={!isPremium ? "opacity-30" : ""}>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">Mitarbeiteranzahl</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="h-32 bg-theme-tertiary rounded animate-pulse"></div>
+          )}
         </div>
       </div>
     )

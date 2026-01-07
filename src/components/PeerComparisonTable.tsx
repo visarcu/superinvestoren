@@ -55,11 +55,25 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
     loadPeerComparison()
   }, [ticker, isPremium])
 
-  // Premium Gate
+  // Premium Teaser: Zeige Tabellen-Header + erste 3 Metriken, blur den Rest
   if (!isPremium) {
+    // Teaser-Metriken (erste 3)
+    const teaserMetrics = [
+      { key: 'pe', label: 'KGV', type: 'ratio' as const, higherIsBetter: false },
+      { key: 'pb', label: 'KBV', type: 'ratio' as const, higherIsBetter: false },
+      { key: 'roe', label: 'ROE', type: 'percentage' as const, higherIsBetter: true },
+    ]
+
+    // Geblurrte Metriken (Rest)
+    const blurredMetrics = [
+      { key: 'ps', label: 'KUV', type: 'ratio' as const },
+      { key: 'evEbitda', label: 'EV/EBITDA', type: 'ratio' as const },
+      { key: 'netMargin', label: 'Nettomarge', type: 'percentage' as const },
+    ]
+
     return (
       <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-        <div className="flex items-center gap-3 mb-4">
+        <div className="flex items-center gap-3 mb-6">
           <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
             <ChartBarIcon className="w-4 h-4 text-blue-400" />
           </div>
@@ -68,20 +82,64 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
             <p className="text-theme-muted text-sm">Vergleich mit Branchenkonkurrenten</p>
           </div>
         </div>
-        
-        <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-lg p-6 text-center border border-green-500/20">
-          <BuildingOfficeIcon className="w-12 h-12 text-green-400 mx-auto mb-4" />
-          <h4 className="text-lg font-semibold text-theme-primary mb-2">
-            Peer Vergleich verfügbar
-          </h4>
-          <p className="text-theme-secondary mb-4">
-            Vergleiche {ticker.toUpperCase()} mit den wichtigsten Konkurrenten der Branche
-          </p>
-          <a 
-            href="/pricing" 
-            className="btn-primary inline-flex items-center gap-2 px-6 py-3"
+
+        {/* Teaser Tabelle */}
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead>
+              <tr className="border-b border-theme/10">
+                <th className="text-left py-3 px-2 text-theme-secondary text-sm font-medium">Kennzahl</th>
+                <th className="text-right py-3 px-2 text-theme-secondary text-sm font-medium">{ticker.toUpperCase()}</th>
+                <th className="text-right py-3 px-2 text-theme-secondary text-sm font-medium">Sektor ⌀</th>
+                <th className="text-center py-3 px-2 text-theme-secondary text-sm font-medium">vs. Sektor</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* Sichtbare Teaser-Zeilen */}
+              {teaserMetrics.map(metric => (
+                <tr key={metric.key} className="border-b border-theme/5">
+                  <td className="py-3 px-2 text-theme-primary text-sm font-medium">{metric.label}</td>
+                  <td className="py-3 px-2 text-right text-theme-muted text-sm font-mono">—</td>
+                  <td className="py-3 px-2 text-right text-theme-muted text-sm font-mono">—</td>
+                  <td className="py-3 px-2 text-center">
+                    <MinusIcon className="w-4 h-4 text-gray-400 mx-auto" />
+                  </td>
+                </tr>
+              ))}
+
+              {/* Geblurrte Zeilen */}
+              <tr>
+                <td colSpan={4} className="p-0">
+                  <div className="relative">
+                    <div className="filter blur-sm opacity-40 pointer-events-none select-none">
+                      {blurredMetrics.map(metric => (
+                        <div key={metric.key} className="flex border-b border-theme/5">
+                          <div className="py-3 px-2 text-theme-primary text-sm font-medium flex-1">{metric.label}</div>
+                          <div className="py-3 px-2 text-right text-theme-muted text-sm font-mono w-24">12.5x</div>
+                          <div className="py-3 px-2 text-right text-theme-muted text-sm font-mono w-24">15.2x</div>
+                          <div className="py-3 px-2 text-center w-20">
+                            <ArrowUpIcon className="w-4 h-4 text-green-400 mx-auto" />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        {/* Premium CTA */}
+        <div className="mt-6 pt-4 border-t border-theme/10">
+          <a
+            href="/pricing"
+            className="flex items-center justify-center gap-2 w-full py-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/30 rounded-lg transition-colors"
           >
-            Premium freischalten
+            <BuildingOfficeIcon className="w-4 h-4 text-green-500" />
+            <span className="text-green-500 font-medium text-sm">
+              Vollständigen Peer-Vergleich freischalten
+            </span>
           </a>
         </div>
       </div>

@@ -6,7 +6,7 @@ import { stocks } from '../data/stocks'
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
-import { InformationCircleIcon, AcademicCapIcon, XMarkIcon } from '@heroicons/react/24/outline'
+import { InformationCircleIcon, AcademicCapIcon, XMarkIcon, BoltIcon } from '@heroicons/react/24/outline'
 import { LockClosedIcon } from '@heroicons/react/24/solid'
 import Tooltip from '@/components/Tooltip'
 import { irLinks } from '../data/irLinks'
@@ -1257,16 +1257,43 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       <div className="space-y-6">
         <h3 className="text-xl font-bold text-theme-primary">Kennzahlen-Charts</h3>
         {user?.isPremium ? (
-          <FinancialAnalysisClient 
-            ticker={ticker} 
+          <FinancialAnalysisClient
+            ticker={ticker}
             isPremium={user?.isPremium}
             userId={user?.id}
           />
         ) : (
-          <PremiumCTA
-            title="Interaktive Kennzahlen-Charts"
-            description="Analysiere detaillierte Finanzkennzahlen mit interaktiven Charts und Zeitraumauswahl."
-          />
+          /* Premium Teaser: Echte Charts mit Blur + CTA */
+          <div className="relative">
+            {/* Geblurrte echte FinancialAnalysisClient */}
+            <div className="filter blur-sm opacity-50 pointer-events-none select-none">
+              <FinancialAnalysisClient
+                ticker={ticker}
+                isPremium={false}
+                userId={undefined}
+              />
+            </div>
+
+            {/* Premium CTA Overlay */}
+            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-theme-bg/80 via-transparent to-theme-bg/80">
+              <a
+                href="/pricing"
+                className="bg-theme-card/95 backdrop-blur-sm rounded-xl px-6 py-4 text-center shadow-xl border border-green-500/20 hover:border-green-500/40 transition-all hover:scale-105"
+              >
+                <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <BoltIcon className="w-6 h-6 text-green-500" />
+                </div>
+                <p className="text-theme-primary font-semibold text-lg mb-1">Kennzahlen-Charts</p>
+                <p className="text-theme-secondary text-sm mb-3">Umsatz, Gewinn, Margen & mehr</p>
+                <span className="inline-flex items-center gap-2 text-green-500 font-medium text-sm">
+                  Premium freischalten
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </span>
+              </a>
+            </div>
+          </div>
         )}
       </div>
 

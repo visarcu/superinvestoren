@@ -123,19 +123,22 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
   // Main Content mit Premium Blur
   if (!data) return null;
 
-  return (
-    <div className="bg-theme-card rounded-lg">
-      <div className="px-6 py-4 border-b border-theme/10">
-        <h3 className="text-lg font-bold text-theme-primary">Bullen vs Bären</h3>
-      </div>
+  // Premium Teaser: Zeige ersten Bull + Bear Punkt, blur den Rest
+  if (!isPremium) {
+    const teaserBulls = data.bulls.slice(0, 2)
+    const blurredBulls = data.bulls.slice(2, 5)
+    const teaserBears = data.bears.slice(0, 2)
+    const blurredBears = data.bears.slice(2, 5)
 
-      <div className="p-6 relative">
-        
-        {/* ✅ PREMIUM CONTENT - mit oder ohne Blur */}
-        <div className={`relative ${!isPremium ? 'filter blur-sm opacity-60 pointer-events-none select-none' : ''}`}>
-          <div className="h-[400px] overflow-y-auto space-y-6 pr-2">
-            
-            {/* Bulls Section */}
+    return (
+      <div className="bg-theme-card rounded-lg">
+        <div className="px-6 py-4 border-b border-theme/10">
+          <h3 className="text-lg font-bold text-theme-primary">Bullen vs Bären</h3>
+        </div>
+
+        <div className="p-6">
+          <div className="space-y-6">
+            {/* Bulls Section - Teaser */}
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-4 h-4 bg-green-400 rounded-full"></div>
@@ -143,28 +146,40 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
                   Bullen ({data.bulls.length})
                 </h4>
               </div>
-              
+
+              {/* Sichtbare Teaser-Punkte */}
               <div className="space-y-4">
-                {data.bulls.slice(0, 5).map((point, index) => (
+                {teaserBulls.map((point, index) => (
                   <div key={point.id} className="group">
                     <div className="flex gap-3">
                       <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
-                      <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
+                      <p className="text-theme-secondary leading-relaxed text-sm">
                         {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
                       </p>
                     </div>
-                    {index < data.bulls.slice(0, 5).length - 1 && (
-                      <div className="ml-4 mt-3 h-px bg-theme/20"></div>
-                    )}
                   </div>
                 ))}
               </div>
+
+              {/* Geblurrte weitere Punkte */}
+              {blurredBulls.length > 0 && (
+                <div className="mt-3 filter blur-sm opacity-40 pointer-events-none select-none space-y-3">
+                  {blurredBulls.slice(0, 2).map((point) => (
+                    <div key={point.id} className="flex gap-3">
+                      <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-theme-secondary leading-relaxed text-sm">
+                        {point.text.substring(0, 80)}...
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Divider */}
             <div className="border-t border-theme/20"></div>
 
-            {/* Bears Section */}
+            {/* Bears Section - Teaser */}
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-4 h-4 bg-red-400 rounded-full"></div>
@@ -172,62 +187,139 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
                   Bären ({data.bears.length})
                 </h4>
               </div>
-              
+
+              {/* Sichtbare Teaser-Punkte */}
               <div className="space-y-4">
-                {data.bears.slice(0, 5).map((point, index) => (
+                {teaserBears.map((point, index) => (
                   <div key={point.id} className="group">
                     <div className="flex gap-3">
                       <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
-                      <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
+                      <p className="text-theme-secondary leading-relaxed text-sm">
                         {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
                       </p>
                     </div>
-                    {index < data.bears.slice(0, 5).length - 1 && (
-                      <div className="ml-4 mt-3 h-px bg-theme/20"></div>
-                    )}
                   </div>
                 ))}
               </div>
+
+              {/* Geblurrte weitere Punkte */}
+              {blurredBears.length > 0 && (
+                <div className="mt-3 filter blur-sm opacity-40 pointer-events-none select-none space-y-3">
+                  {blurredBears.slice(0, 2).map((point) => (
+                    <div key={point.id} className="flex gap-3">
+                      <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                      <p className="text-theme-secondary leading-relaxed text-sm">
+                        {point.text.substring(0, 80)}...
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* Footer */}
-          <div className="mt-6 pt-4 border-t border-theme/10 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
-              <span className="text-xs text-theme-muted">
-                Aktualisiert: {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
-              </span>
-            </div>
-            <button 
-              onClick={loadBullsBears} 
-              className="text-xs text-theme-muted hover:text-theme-primary transition-colors p-1.5 hover:bg-theme-tertiary rounded" 
-              title="Aktualisieren"
+          {/* Premium CTA */}
+          <div className="mt-6 pt-4 border-t border-theme/10">
+            <Link
+              href="/pricing"
+              className="flex items-center justify-center gap-2 w-full py-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/30 rounded-lg transition-colors"
             >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-              </svg>
-            </button>
+              <LockClosedIcon className="w-4 h-4 text-green-500" />
+              <span className="text-green-500 font-medium text-sm">
+                +{data.bulls.length + data.bears.length - 4} weitere Punkte freischalten
+              </span>
+              <ArrowRightIcon className="w-4 h-4 text-green-500" />
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Premium User: Voller Zugang
+  return (
+    <div className="bg-theme-card rounded-lg">
+      <div className="px-6 py-4 border-b border-theme/10">
+        <h3 className="text-lg font-bold text-theme-primary">Bullen vs Bären</h3>
+      </div>
+
+      <div className="p-6">
+        <div className="h-[400px] overflow-y-auto space-y-6 pr-2">
+
+          {/* Bulls Section */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-4 h-4 bg-green-400 rounded-full"></div>
+              <h4 className="text-sm font-semibold text-green-400 uppercase tracking-wide">
+                Bullen ({data.bulls.length})
+              </h4>
+            </div>
+
+            <div className="space-y-4">
+              {data.bulls.slice(0, 5).map((point, index) => (
+                <div key={point.id} className="group">
+                  <div className="flex gap-3">
+                    <div className="w-2 h-2 bg-green-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
+                      {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
+                    </p>
+                  </div>
+                  {index < data.bulls.slice(0, 5).length - 1 && (
+                    <div className="ml-4 mt-3 h-px bg-theme/20"></div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-theme/20"></div>
+
+          {/* Bears Section */}
+          <div>
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-4 h-4 bg-red-400 rounded-full"></div>
+              <h4 className="text-sm font-semibold text-red-400 uppercase tracking-wide">
+                Bären ({data.bears.length})
+              </h4>
+            </div>
+
+            <div className="space-y-4">
+              {data.bears.slice(0, 5).map((point, index) => (
+                <div key={point.id} className="group">
+                  <div className="flex gap-3">
+                    <div className="w-2 h-2 bg-red-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-theme-secondary leading-relaxed text-sm group-hover:text-theme-primary transition-colors">
+                      {point.text.length > 150 ? point.text.substring(0, 150) + '...' : point.text}
+                    </p>
+                  </div>
+                  {index < data.bears.slice(0, 5).length - 1 && (
+                    <div className="ml-4 mt-3 h-px bg-theme/20"></div>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
 
-        {/* ✅ SUBTILES PREMIUM OVERLAY - nur kleines Label */}
-        {!isPremium && (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg border border-green-500/20">
-              <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
-              <p className="text-theme-primary font-medium text-sm">KI Bull/Bear Analyse</p>
-              <p className="text-theme-muted text-xs mt-0.5">Premium erforderlich</p>
-              <Link
-                href="/pricing"
-                className="inline-flex items-center gap-1 text-green-500 hover:text-green-400 text-xs font-medium mt-1.5 transition-colors"
-              >
-                Upgrade
-                <ArrowRightIcon className="w-3 h-3" />
-              </Link>
-            </div>
+        {/* Footer */}
+        <div className="mt-6 pt-4 border-t border-theme/10 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+            <span className="text-xs text-theme-muted">
+              Aktualisiert: {new Date(data.lastUpdated).toLocaleDateString('de-DE')}
+            </span>
           </div>
-        )}
+          <button
+            onClick={loadBullsBears}
+            className="text-xs text-theme-muted hover:text-theme-primary transition-colors p-1.5 hover:bg-theme-tertiary rounded"
+            title="Aktualisieren"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   );

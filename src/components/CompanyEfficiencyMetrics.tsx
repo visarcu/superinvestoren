@@ -140,28 +140,89 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
     )
   }
 
-  if (!data || !isPremium) {
+  // Kein Daten-Fall
+  if (!data) {
+    return (
+      <div className="bg-theme-card rounded-lg p-4">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Unternehmenseffizienz</h3>
+        </div>
+        <div className="h-48 bg-theme-tertiary rounded animate-pulse"></div>
+      </div>
+    )
+  }
+
+  // Premium Teaser: Zeige Key Metrics, blur den Chart
+  if (!isPremium) {
     return (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        {!isPremium && (
-          <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <LockClosedIcon className="w-4 h-4 text-green-400" />
-              </div>
-              <p className="text-xs text-theme-secondary font-medium">Premium</p>
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-2">
+            <h3 className="text-sm font-medium text-theme-primary">Unternehmenseffizienz</h3>
+            {getTrendIcon(data.currentMetrics.trend)}
+          </div>
+        </div>
+
+        {/* Sichtbare Teaser: Key Metrics */}
+        <div className="mb-4 grid grid-cols-2 gap-3">
+          <div className="bg-theme-tertiary rounded-lg p-3">
+            <div className="text-xs text-theme-secondary mb-1 flex items-center gap-1">
+              <span>ROA (Return on Assets)</span>
+              <LearnTooltipButton term="ROA" />
+            </div>
+            <div className="text-sm font-semibold text-theme-primary">
+              {formatPercent(data.currentMetrics.roa)}
             </div>
           </div>
-        )}
-        
-        <div className={!isPremium ? "opacity-30" : ""}>
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">Unternehmenseffizienz</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
+
+          <div className="bg-theme-tertiary rounded-lg p-3">
+            <div className="text-xs text-theme-secondary mb-1 flex items-center gap-1">
+              <span>ROE (Return on Equity)</span>
+              <LearnTooltipButton term="ROE" />
+            </div>
+            <div className="text-sm font-semibold text-theme-primary">
+              {formatPercent(data.currentMetrics.roe)}
+            </div>
           </div>
-          <div className="h-48 bg-theme-tertiary rounded animate-pulse"></div>
+        </div>
+
+        {/* Geblurrter Chart mit Premium Overlay */}
+        <div className="relative">
+          <div className="filter blur-sm opacity-40 pointer-events-none select-none">
+            <div className="mb-3">
+              <div className="flex gap-1 bg-theme-tertiary rounded-lg p-1">
+                {[
+                  { key: 'roa' as const, label: 'ROA' },
+                  { key: 'roe' as const, label: 'ROE' },
+                  { key: 'margins' as const, label: 'Margen' }
+                ].map((metric) => (
+                  <button
+                    key={metric.key}
+                    className={`px-2 py-1 text-xs rounded transition-colors ${
+                      metric.key === 'roa'
+                        ? 'bg-theme-card text-theme-primary font-medium'
+                        : 'text-theme-secondary'
+                    }`}
+                  >
+                    {metric.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="h-32 bg-theme-tertiary rounded"></div>
+          </div>
+
+          {/* Premium Overlay */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <a
+              href="/pricing"
+              className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+            >
+              <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
+              <p className="text-theme-primary font-medium text-sm">Historische Trends</p>
+              <p className="text-green-500 text-xs mt-1">Premium freischalten →</p>
+            </a>
+          </div>
         </div>
       </div>
     )

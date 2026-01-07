@@ -128,7 +128,26 @@ const OwnershipSection = React.memo<OwnershipSectionProps>(({ ticker, isPremium 
     )
   }
 
-  if (!data || !isPremium) {
+  // Zeige Teaser auch ohne Premium - mit echten Daten wenn verfügbar
+  if (!data) {
+    return (
+      <div className="bg-theme-card rounded-lg">
+        <div className="px-6 py-4 border-b border-theme/10">
+          <h3 className="text-xl font-bold text-theme-primary">Aktionärsstruktur</h3>
+        </div>
+        <div className="p-6">
+          <div className="min-h-[400px] bg-theme-tertiary rounded animate-pulse"></div>
+        </div>
+      </div>
+    )
+  }
+
+  // Premium Teaser: Zeige ersten 3 Holder + Kategorien, blur den Rest
+  if (!isPremium) {
+    const teaserHolders = data.topInstitutional.slice(0, 3)
+    const blurredHolders = data.topInstitutional.slice(3, 8)
+    const improvedCategories = improveColors(data.categories)
+
     return (
       <div className="bg-theme-card rounded-lg relative overflow-hidden">
         <div className="px-6 py-4 border-b border-theme/10">
@@ -140,22 +159,132 @@ const OwnershipSection = React.memo<OwnershipSectionProps>(({ ticker, isPremium 
             </div>
           </div>
         </div>
-        
-        {!isPremium && (
-          <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-            <div className="text-center">
-              <div className="w-12 h-12 mx-auto mb-3 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <LockClosedIcon className="w-6 h-6 text-green-500 mx-auto mb-2" />
+
+        <div className="p-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            {/* Ownership Pie Chart - voll sichtbar als Teaser */}
+            <div className="lg:col-span-1">
+              <div className="aspect-square">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={improvedCategories}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={60}
+                      outerRadius={120}
+                      paddingAngle={2}
+                      dataKey="percentage"
+                    >
+                      {improvedCategories.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      content={({ active, payload }) => {
+                        if (!active || !payload?.[0]) return null
+                        const data = payload[0].payload
+
+                        return (
+                          <div className="bg-theme-card rounded-lg px-3 py-2 border border-theme-border">
+                            <p className="text-theme-primary text-sm font-medium">{data.name}</p>
+                            <p className="text-theme-secondary text-xs">
+                              {data.percentage.toFixed(1)}%
+                            </p>
+                          </div>
+                        )
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
-              <p className="text-sm text-theme-primary font-medium mb-2">Premium erforderlich</p>
-              <p className="text-xs text-theme-secondary">Aktionärsstruktur-Analyse</p>
+
+              {/* Legend */}
+              <div className="mt-4 space-y-2">
+                {improvedCategories.map((category, index) => (
+                  <div key={index} className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <div
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: category.color }}
+                      ></div>
+                      <span className="text-theme-primary">{category.name}</span>
+                    </div>
+                    <span className="text-theme-secondary font-medium">
+                      {category.percentage.toFixed(1)}%
+                    </span>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        )}
-        
-        <div className={!isPremium ? "opacity-30" : ""}>
-          <div className="p-6">
-            <div className="min-h-[400px] bg-theme-tertiary rounded animate-pulse"></div>
+
+            {/* Top Institutional Holders - Teaser mit Blur */}
+            <div className="lg:col-span-2">
+              <div className="flex items-center justify-between mb-4">
+                <h4 className="text-lg font-semibold text-theme-primary">Top Institutionelle Investoren</h4>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+                  <span className="text-xs text-blue-400 font-medium">SEC 13F Filings</span>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                {/* Sichtbare Teaser-Einträge (Top 3) */}
+                {teaserHolders.map((holder, index) => (
+                  <div key={index} className="flex items-center justify-between py-2 px-3 bg-theme-tertiary rounded-lg">
+                    <div className="flex-1">
+                      <div className="text-sm font-medium text-theme-primary truncate">
+                        {holder.holder}
+                      </div>
+                      <div className="text-xs text-theme-secondary">
+                        {formatShares(holder.sharesNumber)} Aktien
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-semibold text-theme-primary">
+                        {holder.percentage.toFixed(2)}%
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {/* Geblurrte Einträge mit Overlay */}
+                <div className="relative">
+                  <div className="filter blur-sm opacity-50 pointer-events-none select-none space-y-3">
+                    {blurredHolders.map((holder, index) => (
+                      <div key={index} className="flex items-center justify-between py-2 px-3 bg-theme-tertiary rounded-lg">
+                        <div className="flex-1">
+                          <div className="text-sm font-medium text-theme-primary truncate">
+                            {holder.holder}
+                          </div>
+                          <div className="text-xs text-theme-secondary">
+                            {formatShares(holder.sharesNumber)} Aktien
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-sm font-semibold text-theme-primary">
+                            {holder.percentage.toFixed(2)}%
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Premium Overlay */}
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <Link
+                      href="/pricing"
+                      className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+                    >
+                      <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
+                      <p className="text-theme-primary font-medium text-sm">+{data.topInstitutional.length - 3} weitere Investoren</p>
+                      <p className="text-green-500 text-xs mt-1">Premium freischalten →</p>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

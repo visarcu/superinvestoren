@@ -99,29 +99,56 @@ function RevenueSegmentsChart({
     }
   }, [ticker, isPremium])
 
-  // Premium Check
+  // Premium Teaser: Zeige Chart-Vorschau mit Blur-Overlay
   if (!isPremium) {
     return (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-sm font-medium text-theme-primary">Produkt-Segmente</h3>
+        </div>
+
+        {/* Teaser: Statische Vorschau eines Segment-Charts */}
+        <div className="relative">
+          <div className="aspect-square">
+            {/* Zeige einen stilisierten Placeholder der das Feature demonstriert */}
+            <div className="w-full h-full flex flex-col justify-end gap-1 p-4">
+              {/* Faux stacked bars als Teaser */}
+              <div className="flex gap-1 h-16">
+                <div className="flex-1 bg-blue-500/40 rounded-t"></div>
+                <div className="flex-1 bg-green-500/40 rounded-t"></div>
+                <div className="flex-1 bg-amber-500/40 rounded-t"></div>
+              </div>
+              <div className="flex gap-1 h-20">
+                <div className="flex-1 bg-blue-500/50 rounded-t"></div>
+                <div className="flex-1 bg-green-500/50 rounded-t"></div>
+                <div className="flex-1 bg-amber-500/50 rounded-t"></div>
+              </div>
+              <div className="flex gap-1 h-24">
+                <div className="flex-1 bg-blue-500/60 rounded-t"></div>
+                <div className="flex-1 bg-green-500/60 rounded-t"></div>
+                <div className="flex-1 bg-amber-500/60 rounded-t"></div>
+              </div>
+              <div className="flex justify-around text-xs text-theme-muted mt-2">
+                <span>2022</span>
+                <span>2023</span>
+                <span>2024</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Premium Overlay */}
+          <div className="absolute inset-0 bg-theme-card/60 backdrop-blur-[2px] flex items-center justify-center">
+            <a
+              href="/pricing"
+              className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+            >
+              <svg className="w-5 h-5 text-green-500 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
-            </div>
-            <p className="text-xs text-theme-secondary font-medium">Premium</p>
+              <p className="text-theme-primary font-medium text-sm">Umsatz nach Segment</p>
+              <p className="text-green-500 text-xs mt-1">Premium freischalten →</p>
+            </a>
           </div>
-        </div>
-        
-        <div className="opacity-30">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">Produkt-Segmente</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
         </div>
       </div>
     )
