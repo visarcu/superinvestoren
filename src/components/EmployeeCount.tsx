@@ -8,6 +8,7 @@ import {
   Bar,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip as RechartsTooltip,
 } from 'recharts'
 import { ArrowsPointingOutIcon, ArrowTrendingUpIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/solid'
@@ -230,23 +231,40 @@ export default function EmployeeCount({ ticker, isPremium = false }: EmployeeCou
       {/* Larger Chart für bessere Proportionen */}
       <div className="h-48">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={chartData} 
-            margin={{ top: 5, right: 5, bottom: 15, left: 5 }}
+          <BarChart
+            data={chartData}
+            margin={{ top: 5, right: 5, bottom: 15, left: 35 }}
           >
-            <XAxis 
-              dataKey="year" 
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="var(--color-border)"
+              opacity={0.3}
+              horizontal={true}
+              vertical={false}
+            />
+            <XAxis
+              dataKey="year"
               axisLine={false}
               tickLine={false}
-              tick={{ 
-                fontSize: 10, 
+              tick={{
+                fontSize: 10,
                 fill: 'var(--text-secondary)',
                 textAnchor: 'middle'
               }}
               interval={0}
               height={15}
             />
-            <YAxis hide />
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fontSize: 9, fill: 'var(--text-secondary)' }}
+              tickFormatter={(value) => {
+                if (value >= 1000000) return `${(value / 1000000).toFixed(0)}M`
+                if (value >= 1000) return `${(value / 1000).toFixed(0)}k`
+                return value.toString()
+              }}
+              width={30}
+            />
             <RechartsTooltip
               content={({ active, payload, label }) => {
                 if (!active || !payload?.[0]) return null

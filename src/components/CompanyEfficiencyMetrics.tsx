@@ -8,6 +8,7 @@ import {
   Area,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip as RechartsTooltip,
   LineChart,
   Line,
@@ -313,15 +314,28 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
       <div className="h-32">
         <ResponsiveContainer width="100%" height="100%">
           {selectedMetric === 'margins' ? (
-            <LineChart data={chartData} margin={{ top: 5, right: 5, bottom: 15, left: 5 }}>
-              <XAxis 
-                dataKey="year" 
+            <LineChart data={chartData} margin={{ top: 5, right: 5, bottom: 15, left: 30 }}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--color-border)"
+                opacity={0.3}
+                horizontal={true}
+                vertical={false}
+              />
+              <XAxis
+                dataKey="year"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
                 height={15}
               />
-              <YAxis hide />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 9, fill: 'var(--text-secondary)' }}
+                tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                width={25}
+              />
               <RechartsTooltip
                 content={({ active, payload, label }) => {
                   if (!active || !payload) return null
@@ -356,15 +370,28 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
               />
             </LineChart>
           ) : (
-            <AreaChart data={chartData} margin={{ top: 5, right: 5, bottom: 15, left: 5 }}>
-              <XAxis 
-                dataKey="year" 
+            <AreaChart data={chartData} margin={{ top: 5, right: 5, bottom: 15, left: 30 }}>
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="var(--color-border)"
+                opacity={0.3}
+                horizontal={true}
+                vertical={false}
+              />
+              <XAxis
+                dataKey="year"
                 axisLine={false}
                 tickLine={false}
                 tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
                 height={15}
               />
-              <YAxis hide />
+              <YAxis
+                axisLine={false}
+                tickLine={false}
+                tick={{ fontSize: 9, fill: 'var(--text-secondary)' }}
+                tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                width={25}
+              />
               <RechartsTooltip
                 content={({ active, payload, label }) => {
                   if (!active || !payload?.[0]) return null

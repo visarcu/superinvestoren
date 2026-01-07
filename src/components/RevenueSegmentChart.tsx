@@ -8,6 +8,7 @@ import {
   Bar,
   XAxis,
   YAxis,
+  CartesianGrid,
   Tooltip as RechartsTooltip,
 } from 'recharts'
 import { ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
@@ -205,18 +206,25 @@ function RevenueSegmentsChart({
       
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={segmentData} 
+          <BarChart
+            data={segmentData}
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
-            <XAxis 
-              dataKey="label" 
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="var(--color-border)"
+              opacity={0.3}
+              horizontal={true}
+              vertical={false}
+            />
+            <XAxis
+              dataKey="label"
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 11, fill: 'var(--text-secondary)' }}
               interval="preserveStartEnd"
             />
-            <YAxis 
+            <YAxis
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 10, fill: 'var(--text-secondary)' }}
