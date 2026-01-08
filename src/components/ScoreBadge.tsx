@@ -48,7 +48,7 @@ export default function ScoreBadge({ ticker }: { ticker: string }) {
   }
 
   const getColorClass = (score: number): string => {
-    if (score >= 80) return 'bg-green-500/20 text-green-400 border-green-500/30'
+    if (score >= 80) return 'bg-brand/20 text-brand-light border-green-500/30'
     if (score >= 60) return 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30'
     if (score >= 40) return 'bg-yellow-500/20 text-yellow-400 border-yellow-500/30'
     if (score >= 20) return 'bg-orange-500/20 text-orange-400 border-orange-500/30'
@@ -101,7 +101,7 @@ export default function ScoreBadge({ ticker }: { ticker: string }) {
                 <div className="flex justify-between text-xs">
                   <span className="text-theme-muted">Altman Z-Score</span>
                   <span className={`font-medium ${
-                    scores.altmanZScore > 3 ? 'text-green-400' : 
+                    scores.altmanZScore > 3 ? 'text-brand-light' : 
                     scores.altmanZScore > 1.8 ? 'text-yellow-400' : 'text-red-400'
                   }`}>
                     {scores.altmanZScore.toFixed(2)}
@@ -113,7 +113,7 @@ export default function ScoreBadge({ ticker }: { ticker: string }) {
                 <div className="flex justify-between text-xs">
                   <span className="text-theme-muted">Piotroski F-Score</span>
                   <span className={`font-medium ${
-                    scores.piotroskiScore >= 8 ? 'text-green-400' : 
+                    scores.piotroskiScore >= 8 ? 'text-brand-light' : 
                     scores.piotroskiScore >= 6 ? 'text-emerald-400' : 
                     scores.piotroskiScore >= 4 ? 'text-yellow-400' : 'text-red-400'
                   }`}>

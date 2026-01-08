@@ -99,7 +99,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
+        <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin" />
       </div>
     )
   }
@@ -110,10 +110,10 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
           <div className="flex items-center justify-between mb-3">
-            <div className="p-2 bg-green-500/10 rounded-lg">
-              <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
+            <div className="p-2 bg-brand/10 rounded-lg">
+              <CurrencyDollarIcon className="w-5 h-5 text-brand-light" />
             </div>
-            <span className="text-xs text-green-400 font-medium">+12.5%</span>
+            <span className="text-xs text-brand-light font-medium">+12.5%</span>
           </div>
           <p className="text-sm text-theme-secondary mb-1">Est. Next Year Payouts</p>
           <p className="text-2xl font-bold text-theme-primary">
@@ -177,7 +177,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
             onClick={() => setActiveView(view)}
             className={`flex-1 py-2 px-4 rounded-md font-medium transition-all ${
               activeView === view
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
             }`}
           >
@@ -199,7 +199,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
                   onClick={() => setTimeframe(period)}
                   className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                     timeframe === period
-                      ? 'bg-green-500/20 text-green-400'
+                      ? 'bg-brand/20 text-brand-light'
                       : 'text-theme-secondary hover:text-theme-primary'
                   }`}
                 >
@@ -223,7 +223,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
                   <div className="relative h-8 bg-theme-secondary/30 rounded-lg overflow-hidden">
                     {month.confirmed > 0 && (
                       <div 
-                        className="absolute left-0 top-0 h-full bg-green-500 rounded-lg"
+                        className="absolute left-0 top-0 h-full bg-brand rounded-lg"
                         style={{ width: `${(month.confirmed / getMaxDividend()) * 100}%` }}
                       />
                     )}
@@ -241,7 +241,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
 
             <div className="flex items-center gap-4 mt-6 pt-4 border-t border-theme/10">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded" />
+                <div className="w-3 h-3 bg-brand rounded" />
                 <span className="text-xs text-theme-secondary">Confirmed</span>
               </div>
               <div className="flex items-center gap-2">
@@ -274,7 +274,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
                   strokeWidth="2"
                 />
               </svg>
-              <div className="absolute top-0 right-0 text-2xl font-bold text-green-400">
+              <div className="absolute top-0 right-0 text-2xl font-bold text-brand-light">
                 ${(totalAnnualDividends * 1.2).toFixed(0)}
               </div>
             </div>
@@ -292,8 +292,8 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
               {stockDividends.slice(0, 5).map((stock) => (
                 <div key={stock.symbol} className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded-lg hover:bg-theme-secondary/30 transition-colors">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                      <span className="text-xs font-bold text-green-400">
+                    <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+                      <span className="text-xs font-bold text-brand-light">
                         {stock.symbol.slice(0, 2)}
                       </span>
                     </div>
@@ -303,7 +303,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className="font-bold text-green-400">${stock.totalAnnual.toFixed(2)}</p>
+                    <p className="font-bold text-brand-light">${stock.totalAnnual.toFixed(2)}</p>
                     <p className="text-xs text-theme-muted">{stock.frequency}</p>
                   </div>
                 </div>
@@ -325,10 +325,10 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
               
               <div className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
                   <span className="text-theme-secondary">Dividend Growth</span>
                 </div>
-                <span className="font-semibold text-green-400">+8.7%</span>
+                <span className="font-semibold text-brand-light">+8.7%</span>
               </div>
               
               <div className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded-lg">
@@ -385,12 +385,12 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
                       <td className="py-3 px-4 text-right text-sm text-theme-primary">
                         {Math.floor(Math.random() * 100 + 50)}
                       </td>
-                      <td className="py-3 px-4 text-right font-semibold text-green-400">
+                      <td className="py-3 px-4 text-right font-semibold text-brand-light">
                         ${(Math.random() * 200 + 50).toFixed(2)}
                       </td>
                       <td className="py-3 px-4 text-center">
                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                          i < 3 ? 'bg-green-500/20 text-green-400' : 'bg-theme-secondary/30 text-theme-muted'
+                          i < 3 ? 'bg-brand/20 text-brand-light' : 'bg-theme-secondary/30 text-theme-muted'
                         }`}>
                           {i < 3 ? 'Paid' : 'Pending'}
                         </span>
@@ -421,7 +421,7 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
                     <div className="h-2 bg-theme-secondary/30 rounded-full overflow-hidden">
                       <div 
                         className={`h-full rounded-full ${
-                          score > 80 ? 'bg-green-500' : score > 60 ? 'bg-yellow-500' : 'bg-red-500'
+                          score > 80 ? 'bg-brand' : score > 60 ? 'bg-yellow-500' : 'bg-red-500'
                         }`}
                         style={{ width: `${score}%` }}
                       />
@@ -431,10 +431,10 @@ export default function PortfolioDividendsEnhanced({ holdings }: PortfolioDivide
               })}
             </div>
             
-            <div className="mt-6 p-4 bg-green-500/10 border border-green-500/30 rounded-lg">
+            <div className="mt-6 p-4 bg-brand/10 border border-green-500/30 rounded-lg">
               <div className="flex items-center gap-2 mb-2">
-                <CheckCircleIcon className="w-5 h-5 text-green-400" />
-                <span className="font-semibold text-green-400">Strong Dividend Safety</span>
+                <CheckCircleIcon className="w-5 h-5 text-brand-light" />
+                <span className="font-semibold text-brand-light">Strong Dividend Safety</span>
               </div>
               <p className="text-xs text-theme-secondary">
                 Your portfolio consists of companies with stable dividend histories and strong fundamentals.

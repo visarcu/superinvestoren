@@ -349,7 +349,7 @@ export interface DCFAssumptions {
   
   // ✅ UPSIDE COLOR UTILITY
   export const getUpsideColor = (upside: number): string => {
-    if (upside > 20) return 'text-green-400'
+    if (upside > 20) return 'text-brand-light'
     if (upside > 0) return 'text-green-300'
     if (upside > -10) return 'text-yellow-400'
     return 'text-red-400'

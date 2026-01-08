@@ -137,14 +137,14 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
           <div className="bg-theme-card rounded-xl border border-theme/10">
             <div className="px-6 py-4 border-b border-theme/10">
               <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-                <BanknotesIcon className="w-5 h-5 text-green-500" />
+                <BanknotesIcon className="w-5 h-5 text-brand" />
                 Erweiterte Dividenden-Analyse
               </h3>
             </div>
             
             <div className="text-center py-12 px-6">
-              <div className="w-16 h-16 bg-gradient-to-br border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <LockClosedIcon className="w-8 h-8 text-green-500" />
+              <div className="w-16 h-16 bg-gradient-to-br border-brand/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <LockClosedIcon className="w-8 h-8 text-brand" />
               </div>
               <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Dividenden-Tools</h3>
               <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">
@@ -156,7 +156,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
               
               <Link
                 href="/pricing"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
               >
                 <LockClosedIcon className="w-5 h-5" />
                 14 Tage kostenlos testen

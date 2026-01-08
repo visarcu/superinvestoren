@@ -50,7 +50,7 @@ function ModernInvestorCard({
       className={`
         group cursor-pointer rounded-xl transition-all duration-300 overflow-hidden
         ${isSelected 
-          ? 'bg-gradient-to-r from-green-500/10 via-green-500/5 to-green-500/10 border-green-500/30 shadow-lg shadow-green-500/10' 
+          ? 'bg-gradient-to-r from-brand/10 via-green-500/5 to-brand/10 border-green-500/30 shadow-lg shadow-brand/10' 
           : 'bg-gray-800/30 hover:bg-gray-800/50 border-gray-700/30 hover:border-gray-600/50'
         } border backdrop-blur-sm
       `}
@@ -64,7 +64,7 @@ function ModernInvestorCard({
               <div className="relative">
                 <div className={`
                   w-14 h-14 rounded-xl overflow-hidden border-2 transition-all duration-300
-                  ${isSelected ? 'border-green-500/50 shadow-lg shadow-green-500/20' : 'border-gray-600/50 group-hover:border-gray-500/70'}
+                  ${isSelected ? 'border-green-500/50 shadow-lg shadow-brand/20' : 'border-gray-600/50 group-hover:border-gray-500/70'}
                 `}>
                   <Image
                     src={`/images/${slug}.png`}
@@ -75,7 +75,7 @@ function ModernInvestorCard({
                   />
                 </div>
                 {/* Status Indicator */}
-                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-gray-900 flex items-center justify-center">
+                <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-brand rounded-full border-2 border-gray-900 flex items-center justify-center">
                   <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
                 </div>
               </div>
@@ -99,12 +99,12 @@ function ModernInvestorCard({
           {/* Center: Portfolio Value (3 columns) */}
           <div className="col-span-12 sm:col-span-3 text-center sm:text-left">
             <div className="flex items-center gap-2 mb-1">
-              <DollarSignIcon className="w-4 h-4 text-green-400" />
+              <DollarSignIcon className="w-4 h-4 text-brand-light" />
               <span className="text-xs text-gray-500 uppercase tracking-wide font-medium">Portfolio</span>
             </div>
             <div className={`
               text-2xl font-black transition-all duration-300
-              ${isSelected ? 'text-green-400 scale-105' : 'text-green-400 group-hover:scale-105'}
+              ${isSelected ? 'text-brand-light scale-105' : 'text-brand-light group-hover:scale-105'}
             `}>
               {investor.totalValue}
             </div>
@@ -124,7 +124,7 @@ function ModernInvestorCard({
                   className={`
                     inline-flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-medium transition-all duration-300
                     ${isSelected 
-                      ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                      ? 'bg-brand/20 text-green-300 border border-green-500/30' 
                       : 'bg-gray-700/50 text-gray-300 group-hover:bg-gray-700 group-hover:text-white'
                     }
                   `}
@@ -142,7 +142,7 @@ function ModernInvestorCard({
               className={`
                 inline-flex items-center gap-1 mt-3 text-sm transition-all duration-300 group/link
                 ${isSelected 
-                  ? 'text-green-400 hover:text-green-300' 
+                  ? 'text-brand-light hover:text-green-300' 
                   : 'text-gray-400 hover:text-white'
                 }
               `}
@@ -192,7 +192,7 @@ function EnhancedHoldingsDetail({ investor }: { investor: InvestorCardProps }) {
           </div>
           <div className="text-right">
             <div className="text-sm text-gray-400">Stand: {investor.date}</div>
-            <div className="text-2xl font-bold text-green-400">{investor.totalValue}</div>
+            <div className="text-2xl font-bold text-brand-light">{investor.totalValue}</div>
           </div>
         </div>
       </div>
@@ -248,14 +248,14 @@ function EnhancedHoldingsDetail({ investor }: { investor: InvestorCardProps }) {
       <div className="bg-gray-800/30 px-8 py-6 border-t border-gray-700/50">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <TrendingUpIcon className="w-5 h-5 text-green-400" />
+            <TrendingUpIcon className="w-5 h-5 text-brand-light" />
             <span className="text-sm text-gray-400">
               Zeigt die Top {investor.holdings.length} Positionen • Basiert auf aktuellen 13F-Filings
             </span>
           </div>
           <Link
             href={`/superinvestor/${slug}`}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-xl transition-all duration-200 font-semibold hover:scale-105 shadow-lg hover:shadow-green-500/25"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black rounded-xl transition-all duration-200 font-semibold hover:scale-105 shadow-lg hover:shadow-green-500/25"
           >
             <span>Vollständiges Portfolio</span>
             <ArrowRightIcon className="w-4 h-4" />

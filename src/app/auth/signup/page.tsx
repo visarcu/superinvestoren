@@ -52,11 +52,11 @@ function PasswordStrength({ password }: { password: string }) {
       {requirements.map((req, index) => (
         <div key={index} className="flex items-center gap-2 text-xs">
           {req.met ? (
-            <CheckCircleIcon className="w-3 h-3 text-green-500" />
+            <CheckCircleIcon className="w-3 h-3 text-brand" />
           ) : (
             <div style={{ borderColor: 'var(--border-color)' }} className="w-3 h-3 rounded-full border"></div>
           )}
-          <span className={req.met ? 'text-green-400' : 'text-theme-secondary'}>
+          <span className={req.met ? 'text-brand-light' : 'text-theme-secondary'}>
             {req.text}
           </span>
         </div>
@@ -155,9 +155,9 @@ export default function SignUpPage() {
       <div className="text-center mb-6">
         <div className="flex items-center justify-center gap-2 mb-3">
           <div className="flex items-end gap-0.5">
-            <div className="w-1 h-2 bg-green-500 rounded-sm"></div>
-            <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
-            <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
+            <div className="w-1 h-2 bg-brand rounded-sm"></div>
+            <div className="w-1 h-3 bg-brand rounded-sm"></div>
+            <div className="w-1 h-4 bg-brand rounded-sm"></div>
           </div>
           <span className="text-base font-bold text-white">FinClue</span>
         </div>
@@ -171,10 +171,10 @@ export default function SignUpPage() {
 
       {/* Messages */}
       {success && (
-        <div className="bg-green-500/10 border border-green-500/20 rounded-lg p-3 mb-4">
+        <div className="bg-brand/10 border border-brand/20 rounded-lg p-3 mb-4">
           <div className="flex items-center gap-2">
-            <CheckCircleIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
-            <p className="text-green-400 text-sm">{success}</p>
+            <CheckCircleIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
+            <p className="text-brand-light text-sm">{success}</p>
           </div>
         </div>
       )}
@@ -209,7 +209,7 @@ export default function SignUpPage() {
               value={name}
               onChange={(e) => setName(e.target.value)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
               placeholder="Max Mustermann"
               disabled={loading}
             />
@@ -232,7 +232,7 @@ export default function SignUpPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
               placeholder="name@beispiel.de"
               disabled={loading}
             />
@@ -255,7 +255,7 @@ export default function SignUpPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
               placeholder="Passwort wählen"
               disabled={loading}
             />
@@ -290,7 +290,7 @@ export default function SignUpPage() {
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all text-sm"
+              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
               placeholder="Passwort wiederholen"
               disabled={loading}
             />
@@ -317,16 +317,16 @@ export default function SignUpPage() {
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="mt-0.5 w-4 h-4 text-green-500 border rounded focus:ring-green-500 focus:ring-2"
+              className="mt-0.5 w-4 h-4 text-brand border rounded focus:ring-brand focus:ring-2"
               required
             />
             <span className="text-sm text-theme-secondary">
               Ich akzeptiere die{' '}
-              <Link href="/terms" target="_blank" className="text-green-400 hover:text-green-300 underline">
+              <Link href="/terms" target="_blank" className="text-brand-light hover:text-green-300 underline">
                 Nutzungsbedingungen
               </Link>
               {' '}und{' '}
-              <Link href="/privacy" target="_blank" className="text-green-400 hover:text-green-300 underline">
+              <Link href="/privacy" target="_blank" className="text-brand-light hover:text-green-300 underline">
                 Datenschutzerklärung
               </Link>
             </span>
@@ -339,7 +339,7 @@ export default function SignUpPage() {
               checked={newsletterOptIn}
               onChange={(e) => setNewsletterOptIn(e.target.checked)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="mt-0.5 w-4 h-4 text-green-500 border rounded focus:ring-green-500 focus:ring-2"
+              className="mt-0.5 w-4 h-4 text-brand border rounded focus:ring-brand focus:ring-2"
             />
             <span className="text-sm text-theme-secondary">
               Ja, ich möchte über neue Features informiert werden (optional)
@@ -351,7 +351,7 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+          className="w-full py-2.5 bg-brand hover:bg-green-400 disabled:bg-brand/50 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
         >
           {loading ? (
             <>
@@ -405,7 +405,7 @@ export default function SignUpPage() {
           Bereits einen Account?{' '}
           <Link 
             href="/auth/signin" 
-            className="text-green-400 hover:text-green-300 font-medium transition-colors"
+            className="text-brand-light hover:text-green-300 font-medium transition-colors"
           >
             Jetzt anmelden
           </Link>
@@ -416,11 +416,11 @@ export default function SignUpPage() {
       <div className="mt-6 text-center">
         <div className="flex items-center justify-center gap-4 text-xs text-theme-secondary">
           <div className="flex items-center gap-1">
-            <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-1 h-1 bg-brand rounded-full"></div>
             <span>Kostenlos starten</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-1 h-1 bg-green-500 rounded-full"></div>
+            <div className="w-1 h-1 bg-brand rounded-full"></div>
             <span>DSGVO-konform</span>
           </div>
         </div>

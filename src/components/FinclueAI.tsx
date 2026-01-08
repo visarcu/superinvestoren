@@ -451,7 +451,7 @@ function AIChart({ chart }: { chart: ChartData }) {
     return (
       <div className="bg-theme-secondary border border-theme rounded-lg p-4">
         <h3 className="text-theme-primary font-semibold mb-4 flex items-center gap-2">
-          <ChartBarIcon className="w-4 h-4 text-green-400" />
+          <ChartBarIcon className="w-4 h-4 text-brand-light" />
           {chart.title}
         </h3>
         <ResponsiveContainer width="100%" height={300}>
@@ -536,7 +536,7 @@ function ActionButton({ action, onExecute }: { action: QuickAction, onExecute: (
   return (
     <button
       onClick={() => onExecute(action.prompt)}
-      className="flex items-center gap-2 px-3 py-2 bg-green-500/20 hover:bg-green-500/30 border border-green-500/30 text-green-400 hover:text-green-300 rounded-lg transition-all duration-200 text-sm font-medium"
+      className="flex items-center gap-2 px-3 py-2 bg-brand/20 hover:bg-brand/30 border border-green-500/30 text-brand-light hover:text-green-300 rounded-lg transition-all duration-200 text-sm font-medium"
     >
       <SparklesIcon className="w-3 h-3" />
       {action.label}
@@ -813,7 +813,7 @@ export default function FinClueAI({
     return (
       <div className="h-full flex items-center justify-center bg-theme-primary">
         <div className="text-center max-w-md mx-auto p-8">
-          <div className="w-16 h-16 bg-green-500 rounded-2xl flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 bg-brand rounded-2xl flex items-center justify-center mx-auto mb-6">
             <SparklesIcon className="w-8 h-8 text-black" />
           </div>
           <h3 className="text-2xl font-bold text-theme-primary mb-4">Premium Feature</h3>
@@ -823,7 +823,7 @@ export default function FinClueAI({
           </p>
           <button 
             onClick={() => window.location.href = '/pricing'}
-            className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl"
           >
             <SparklesIcon className="w-4 h-4" />
             Premium upgraden
@@ -911,11 +911,11 @@ export default function FinClueAI({
                     onClick={() => handleQuickPrompt(prompt)}
                     className="flex items-center gap-3 p-3 bg-theme-tertiary/50 hover:bg-theme-tertiary border border-theme hover:border-green-500/30 rounded-lg transition-all duration-200 text-left group"
                   >
-                    <div className="w-8 h-8 bg-theme-tertiary group-hover:bg-green-500/20 rounded-lg flex items-center justify-center transition-colors">
-                      <Icon className="w-4 h-4 text-theme-muted group-hover:text-green-400" />
+                    <div className="w-8 h-8 bg-theme-tertiary group-hover:bg-brand/20 rounded-lg flex items-center justify-center transition-colors">
+                      <Icon className="w-4 h-4 text-theme-muted group-hover:text-brand-light" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-sm font-medium text-theme-primary group-hover:text-green-400 transition-colors">
+                      <div className="text-sm font-medium text-theme-primary group-hover:text-brand-light transition-colors">
                         {prompt.title}
                       </div>
                     </div>
@@ -945,7 +945,7 @@ export default function FinClueAI({
                 <div
                   className={`rounded-lg px-4 py-3 mb-4 ${
                     message.type === 'user'
-                      ? 'bg-green-500 text-black'
+                      ? 'bg-brand text-black'
                       : 'bg-theme-secondary text-theme-primary border border-theme'
                   }`}
                 >
@@ -991,7 +991,7 @@ export default function FinClueAI({
               </div>
               
               {message.type === 'user' && (
-                <div className="w-8 h-8 bg-green-500 rounded-lg flex items-center justify-center flex-shrink-0">
+                <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center flex-shrink-0">
                   <span className="text-black text-sm font-semibold">Du</span>
                 </div>
               )}
@@ -1037,14 +1037,14 @@ export default function FinClueAI({
                 investor ? `Frage etwas über ${investor}s Portfolio oder erwähne Ticker...` :
                 "Smart Detection aktiv: Erwähne Ticker (z.B. 'Apple') oder Investoren (z.B. 'Buffett')..."
               }
-              className="w-full px-4 py-3 pr-12 bg-theme-tertiary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500 resize-none min-h-[48px] max-h-[120px]"
+              className="w-full px-4 py-3 pr-12 bg-theme-tertiary border border-theme rounded-lg text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand resize-none min-h-[48px] max-h-[120px]"
               rows={1}
               disabled={isLoading}
             />
             <button
               onClick={() => sendMessage()}
               disabled={!input.trim() || isLoading}
-              className="absolute right-2 bottom-2 w-8 h-8 bg-green-500 hover:bg-green-400 disabled:bg-theme-muted disabled:cursor-not-allowed rounded-lg flex items-center justify-center transition-colors"
+              className="absolute right-2 bottom-2 w-8 h-8 bg-brand hover:bg-green-400 disabled:bg-theme-muted disabled:cursor-not-allowed rounded-lg flex items-center justify-center transition-colors"
             >
               <PaperAirplaneIcon className="w-4 h-4 text-white" />
             </button>

@@ -99,7 +99,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
         <div className="text-center py-8">
           <div className="flex items-center justify-center gap-3 mb-4">
             <div className="animate-spin rounded-full h-6 w-6 border-2 border-green-500 border-t-transparent"></div>
-            <SparklesIcon className="w-5 h-5 text-green-500 animate-pulse" />
+            <SparklesIcon className="w-5 h-5 text-brand animate-pulse" />
           </div>
           <div className="text-sm font-medium text-theme-primary mb-2">
             FinClue AI analysiert...
@@ -164,7 +164,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
                     if (!item.includes('•')) return null
                     return (
                       <div key={i} className="text-theme-secondary leading-relaxed">
-                        <span className="text-green-500 mr-1.5">•</span>
+                        <span className="text-brand mr-1.5">•</span>
                         {item.replace('•', '').trim()}
                       </div>
                     )
@@ -219,7 +219,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
             if (!fazitText) return null
             
             return (
-              <div key={index} className="p-4 bg-green-500/5 border border-green-500/20 rounded-lg">
+              <div key={index} className="p-4 bg-brand/5 border border-brand/20 rounded-lg">
                 <h4 className="font-semibold text-theme-primary mb-2 text-sm">Fazit</h4>
                 <p className="text-theme-secondary leading-relaxed">
                   {fazitText}

@@ -254,9 +254,9 @@ export default function WatchlistPage() {
       return <div className="w-3 h-3" />;
     }
     return sortDirection === 'asc' ? (
-      <ChevronUpIcon className="w-3 h-3 text-green-400" />
+      <ChevronUpIcon className="w-3 h-3 text-brand-light" />
     ) : (
-      <ChevronDownIcon className="w-3 h-3 text-green-400" />
+      <ChevronDownIcon className="w-3 h-3 text-brand-light" />
     );
   };
 
@@ -269,7 +269,7 @@ export default function WatchlistPage() {
           
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-4 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-4 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zur Analyse
@@ -278,7 +278,7 @@ export default function WatchlistPage() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <BookmarkIcon className="w-6 h-6 text-green-400" />
+                <BookmarkIcon className="w-6 h-6 text-brand-light" />
                 <h1 className="text-3xl font-bold text-theme-primary">
                   Deine Watchlist
                 </h1>
@@ -305,7 +305,7 @@ export default function WatchlistPage() {
                 <button
                   onClick={() => loadStockData(watchlistItems.map(item => item.ticker))}
                   disabled={dataLoading}
-                  className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
+                  className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
                 >
                   <ArrowPathIcon className={`w-4 h-4 ${dataLoading ? 'animate-spin' : ''}`} />
                   <span className="font-medium">{dataLoading ? 'Laden...' : 'Aktualisieren'}</span>
@@ -343,7 +343,7 @@ export default function WatchlistPage() {
                     <span>📧 E-Mail-Benachrichtigungen aktiv</span>
                     <Link
                       href="/notifications"
-                      className="text-green-400 hover:text-green-300 underline"
+                      className="text-brand-light hover:text-green-300 underline"
                     >
                       Anpassen
                     </Link>
@@ -457,7 +457,7 @@ export default function WatchlistPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
                   <Link
                     href="/superinvestor"
-                    className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition font-medium"
+                    className="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand transition font-medium"
                   >
                     Super-Investoren entdecken
                   </Link>
@@ -481,7 +481,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3">
                             <button 
                               onClick={() => handleSort('ticker')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1"
                             >
                               Aktie
                               <SortIndicator column="ticker" />
@@ -490,7 +490,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3 text-right">
                             <button 
                               onClick={() => handleSort('price')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
                             >
                               Kurs
                               <SortIndicator column="price" />
@@ -499,7 +499,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3 text-right">
                             <button 
                               onClick={() => handleSort('changePercent')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
                             >
                               Änderung
                               <SortIndicator column="changePercent" />
@@ -508,7 +508,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3 text-right">
                             <button 
                               onClick={() => handleSort('week52High')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
                             >
                               52W High
                               <SortIndicator column="week52High" />
@@ -517,7 +517,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3 text-right">
                             <button 
                               onClick={() => handleSort('dipPercent')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
                             >
                               Max Drawdown
                               <SortIndicator column="dipPercent" />
@@ -526,7 +526,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3 text-right">
                             <button 
                               onClick={() => handleSort('marketCap')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
                             >
                               Marktkapitalisierung
                               <SortIndicator column="marketCap" />
@@ -535,7 +535,7 @@ export default function WatchlistPage() {
                           <th className="px-4 py-3 text-right">
                             <button 
                               onClick={() => handleSort('peRatio')}
-                              className="font-semibold text-theme-primary hover:text-green-400 transition-colors flex items-center gap-1 ml-auto"
+                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
                             >
                               P/E
                               <SortIndicator column="peRatio" />
@@ -575,7 +575,7 @@ export default function WatchlistPage() {
                               <td className="px-4 py-3 text-right">
                                 {hasData ? (
                                   <div className={`inline-flex items-center gap-1 font-semibold ${
-                                    data.change >= 0 ? 'text-green-500' : 'text-red-500'
+                                    data.change >= 0 ? 'text-brand' : 'text-red-500'
                                   }`}>
                                     {data.change >= 0 ? '▲' : '▼'}
                                     {data.changePercent.toFixed(2)}%
@@ -674,7 +674,7 @@ export default function WatchlistPage() {
                             {hasData && (
                               <div className={`inline-flex items-center gap-1 px-2 py-1 rounded text-sm font-bold ${
                                 data.change >= 0 
-                                  ? 'text-green-500 bg-green-500/10' 
+                                  ? 'text-brand bg-brand/10' 
                                   : 'text-red-500 bg-red-500/10'
                               }`}>
                                 {data.change >= 0 ? '▲' : '▼'}
@@ -762,7 +762,7 @@ export default function WatchlistPage() {
                             
                             <div className={`inline-flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
                               data.change >= 0 
-                                ? 'text-green-400 bg-green-500/20' 
+                                ? 'text-brand-light bg-brand/20' 
                                 : 'text-red-400 bg-red-500/20'
                             }`}>
                               {data.change >= 0 ? (

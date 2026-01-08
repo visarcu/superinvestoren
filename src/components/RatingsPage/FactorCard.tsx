@@ -141,7 +141,7 @@ export default function FactorCard({
         
         {trend !== 0 && (
           <div className={`text-xs font-mono font-medium ${
-            trend > 0 ? 'text-green-400' : 'text-red-400'
+            trend > 0 ? 'text-brand-light' : 'text-red-400'
           }`}>
             {trend > 0 ? '↗' : '↘'} {Math.abs(trend)}
           </div>

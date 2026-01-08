@@ -69,7 +69,7 @@ export default function EstimatesOverview({ ticker }: EstimatesOverviewProps) {
                 className={`
                   flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${isActive
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-secondary hover:text-theme-primary hover:border-theme/30'
                   }
                 `}
@@ -89,8 +89,8 @@ export default function EstimatesOverview({ ticker }: EstimatesOverviewProps) {
           className="bg-theme-card rounded-lg p-6 hover:shadow-lg transition-shadow cursor-pointer group"
         >
           <div className="flex items-center justify-between mb-4">
-            <CurrencyDollarIcon className="w-8 h-8 text-green-400" />
-            <ArrowTrendingUpIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
+            <CurrencyDollarIcon className="w-8 h-8 text-brand-light" />
+            <ArrowTrendingUpIcon className="w-4 h-4 text-theme-muted group-hover:text-brand-light transition-colors" />
           </div>
           <h3 className="text-lg font-bold text-theme-primary mb-2">Umsatz & Gewinn Prognosen</h3>
           <p className="text-theme-secondary text-sm">

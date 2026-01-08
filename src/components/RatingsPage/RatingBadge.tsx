@@ -20,19 +20,19 @@ export default function RatingBadge({
   const getScoreInfo = (score: number) => {
     if (score >= 90) return { 
       grade: 'A+', 
-      textColor: 'text-green-400',
+      textColor: 'text-brand-light',
       bgColor: 'bg-green-400/10',
       borderColor: 'border-green-400/30'
     }
     if (score >= 80) return { 
       grade: 'A', 
-      textColor: 'text-green-400',
+      textColor: 'text-brand-light',
       bgColor: 'bg-green-400/10',
       borderColor: 'border-green-400/30'
     }
     if (score >= 70) return { 
       grade: 'B+', 
-      textColor: 'text-green-400',
+      textColor: 'text-brand-light',
       bgColor: 'bg-green-400/10',
       borderColor: 'border-green-400/30'
     }

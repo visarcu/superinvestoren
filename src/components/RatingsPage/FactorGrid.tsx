@@ -120,7 +120,7 @@ export default function FactorGrid({ breakdown }: FactorGridProps) {
             </div>
           </div>
           <div>
-            <div className="text-xl font-mono font-bold text-green-400">
+            <div className="text-xl font-mono font-bold text-brand-light">
               {sortedFactors.filter(([, data]) => data.score >= 70).length}
             </div>
             <div className="text-xs text-theme-muted uppercase tracking-wider">

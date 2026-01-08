@@ -283,7 +283,7 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
     switch(type) {
       case 'NEW':
       case 'ADD':
-        return 'text-green-400'
+        return 'text-brand-light'
       case 'REDUCE':
       case 'SOLD':
         return 'text-red-400'
@@ -329,12 +329,12 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
         <div className="p-4 border-b border-theme/10">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <UserIcon className="w-4 h-4 text-green-400" />
+              <UserIcon className="w-4 h-4 text-brand-light" />
               <h3 className="text-sm font-bold text-theme-primary">Superinvestoren Trades</h3>
             </div>
             <Link
               href="/superinvestor/insights"
-              className="text-xs text-green-400 hover:text-green-300 transition-colors"
+              className="text-xs text-brand-light hover:text-green-300 transition-colors"
             >
               Alle →
             </Link>
@@ -355,7 +355,7 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
                 />
                 <Link
                   href={`/superinvestor/${trade.investor}`}
-                  className="text-xs font-medium text-theme-primary hover:text-green-400 transition-colors truncate flex-1"
+                  className="text-xs font-medium text-theme-primary hover:text-brand-light transition-colors truncate flex-1"
                 >
                   {trade.investorName}
                 </Link>
@@ -373,7 +373,7 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
                     <span className="text-xs font-bold text-theme-primary">{trade.ticker}</span>
                     <span className={`flex items-center gap-0.5 px-1 py-0.5 rounded text-xs ${
                       trade.type === 'NEW' || trade.type === 'ADD'
-                        ? 'bg-green-500/20 text-green-400'
+                        ? 'bg-brand/20 text-brand-light'
                         : 'bg-red-500/20 text-red-400'
                     }`}>
                       {getTradeIcon(trade.type)}
@@ -400,8 +400,8 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
       <div className="p-6 border-b border-theme/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
-              <UserIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-xl flex items-center justify-center">
+              <UserIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h3 className="text-lg font-bold text-theme-primary">Guru Trades</h3>
@@ -410,7 +410,7 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
           </div>
           <Link
             href="/superinvestor/insights"
-            className="text-xs text-green-400 hover:text-green-300 flex items-center gap-1 transition-colors"
+            className="text-xs text-brand-light hover:text-green-300 flex items-center gap-1 transition-colors"
           >
             Alle ansehen
             <ArrowRightIcon className="w-3 h-3" />
@@ -437,7 +437,7 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
                 <div className="flex-1">
                   <Link
                     href={`/superinvestor/${trade.investor}`}
-                    className="text-sm font-semibold text-theme-primary hover:text-green-400 transition-colors"
+                    className="text-sm font-semibold text-theme-primary hover:text-brand-light transition-colors"
                   >
                     {trade.investorName}
                   </Link>
@@ -463,13 +463,13 @@ export default function LatestGuruTrades({ variant = 'full' }: { variant?: 'full
                   <div className="flex items-center gap-2">
                     <Link
                       href={`/analyse/stocks/${trade.ticker.toLowerCase()}`}
-                      className="font-bold text-theme-primary hover:text-green-400 transition-colors"
+                      className="font-bold text-theme-primary hover:text-brand-light transition-colors"
                     >
                       {trade.ticker}
                     </Link>
                     <span className={`flex items-center gap-1 px-2 py-0.5 rounded-lg text-xs font-medium ${
                       trade.type === 'NEW' || trade.type === 'ADD'
-                        ? 'bg-green-500/20 text-green-400'
+                        ? 'bg-brand/20 text-brand-light'
                         : 'bg-red-500/20 text-red-400'
                     }`}>
                       {getTradeIcon(trade.type)}

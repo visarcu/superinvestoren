@@ -219,7 +219,7 @@ export default function PerformancePage() {
                     onClick={() => setTimeframe(period)}
                     className={`px-3 py-1 text-xs font-medium rounded transition-colors ${
                       timeframe === period
-                        ? 'bg-green-500 text-white'
+                        ? 'bg-brand text-white'
                         : 'text-theme-secondary hover:text-theme-primary'
                     }`}
                   >
@@ -231,7 +231,7 @@ export default function PerformancePage() {
               {!user?.isPremium && (
                 <Link
                   href="/pricing"
-                  className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
                 >
                   <SparklesIcon className="w-4 h-4" />
                   <span className="text-sm">Upgrade</span>
@@ -260,20 +260,20 @@ export default function PerformancePage() {
           <div className="bg-theme-card border border-theme rounded-lg p-6">
             <div className="flex items-center gap-3 mb-3">
               <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                totalGainLoss >= 0 ? 'bg-green-500/20' : 'bg-red-500/20'
+                totalGainLoss >= 0 ? 'bg-brand/20' : 'bg-red-500/20'
               }`}>
                 {totalGainLoss >= 0 ? (
-                  <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+                  <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
                 ) : (
                   <ArrowTrendingDownIcon className="w-4 h-4 text-red-400" />
                 )}
               </div>
               <h3 className="font-semibold text-theme-primary">Gesamt G/V</h3>
             </div>
-            <p className={`text-2xl font-bold ${totalGainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-2xl font-bold ${totalGainLoss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
               {totalGainLoss >= 0 ? '+' : ''}${totalGainLoss.toLocaleString()}
             </p>
-            <p className={`text-sm ${totalGainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-sm ${totalGainLoss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
               {totalGainLossPercent >= 0 ? '+' : ''}{totalGainLossPercent.toFixed(2)}% seit Kauf
             </p>
           </div>
@@ -286,7 +286,7 @@ export default function PerformancePage() {
               <h3 className="font-semibold text-theme-primary">Beste Position</h3>
             </div>
             <p className="text-lg font-bold text-theme-primary">{topPerformers[0]?.ticker}</p>
-            <p className="text-sm text-green-400">
+            <p className="text-sm text-brand-light">
               +{topPerformers[0]?.gainLossPercent.toFixed(1)}%
             </p>
           </div>
@@ -309,7 +309,7 @@ export default function PerformancePage() {
             <h3 className="text-lg font-semibold text-theme-primary">Portfolio Entwicklung</h3>
             <div className="flex items-center gap-4 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                <div className="w-3 h-3 bg-brand rounded-full"></div>
                 <span className="text-theme-secondary">Portfolio</span>
               </div>
               <div className="flex items-center gap-2">
@@ -427,22 +427,22 @@ export default function PerformancePage() {
             
             <div className="space-y-4">
               <div>
-                <h4 className="text-sm font-medium text-green-400 mb-3">🏆 Top Performer</h4>
+                <h4 className="text-sm font-medium text-brand-light mb-3">🏆 Top Performer</h4>
                 <div className="space-y-2">
                   {topPerformers.slice(0, 3).map((position, index) => (
-                    <div key={position.id} className="flex items-center justify-between p-2 bg-green-500/10 rounded-lg">
+                    <div key={position.id} className="flex items-center justify-between p-2 bg-brand/10 rounded-lg">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs text-green-400 font-bold">#{index + 1}</span>
+                        <span className="text-xs text-brand-light font-bold">#{index + 1}</span>
                         <div>
                           <div className="text-theme-primary font-medium text-sm">{position.ticker}</div>
                           <div className="text-theme-muted text-xs">{position.name}</div>
                         </div>
                       </div>
                       <div className="text-right">
-                        <div className="text-green-400 font-bold text-sm">
+                        <div className="text-brand-light font-bold text-sm">
                           +{position.gainLossPercent.toFixed(1)}%
                         </div>
-                        <div className="text-green-400 text-xs">
+                        <div className="text-brand-light text-xs">
                           +${position.gainLoss.toFixed(0)}
                         </div>
                       </div>
@@ -465,12 +465,12 @@ export default function PerformancePage() {
                       </div>
                       <div className="text-right">
                         <div className={`font-bold text-sm ${
-                          position.gainLossPercent >= 0 ? 'text-green-400' : 'text-red-400'
+                          position.gainLossPercent >= 0 ? 'text-brand-light' : 'text-red-400'
                         }`}>
                           {position.gainLossPercent >= 0 ? '+' : ''}{position.gainLossPercent.toFixed(1)}%
                         </div>
                         <div className={`text-xs ${
-                          position.gainLoss >= 0 ? 'text-green-400' : 'text-red-400'
+                          position.gainLoss >= 0 ? 'text-brand-light' : 'text-red-400'
                         }`}>
                           {position.gainLoss >= 0 ? '+' : ''}${position.gainLoss.toFixed(0)}
                         </div>
@@ -493,19 +493,19 @@ export default function PerformancePage() {
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-theme-secondary text-sm">1 Monat</span>
-                  <span className="text-green-400 font-medium">+3.2%</span>
+                  <span className="text-brand-light font-medium">+3.2%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-theme-secondary text-sm">3 Monate</span>
-                  <span className="text-green-400 font-medium">+8.7%</span>
+                  <span className="text-brand-light font-medium">+8.7%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-theme-secondary text-sm">1 Jahr</span>
-                  <span className="text-green-400 font-medium">+{totalGainLossPercent.toFixed(1)}%</span>
+                  <span className="text-brand-light font-medium">+{totalGainLossPercent.toFixed(1)}%</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-theme-secondary text-sm">Seit Beginn</span>
-                  <span className="text-green-400 font-medium">+{totalGainLossPercent.toFixed(1)}%</span>
+                  <span className="text-brand-light font-medium">+{totalGainLossPercent.toFixed(1)}%</span>
                 </div>
               </div>
             </div>
@@ -527,7 +527,7 @@ export default function PerformancePage() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-theme-secondary text-sm">Sharpe Ratio</span>
-                  <span className="text-green-400 font-medium">1.34</span>
+                  <span className="text-brand-light font-medium">1.34</span>
                 </div>
               </div>
             </div>
@@ -573,13 +573,13 @@ export default function PerformancePage() {
                 </tr>
               </thead>
               <tbody>
-                <tr className="border-t border-theme bg-green-500/10">
-                  <td className="py-4 px-6 font-semibold text-green-400">Mein Portfolio</td>
-                  <td className="py-4 px-6 text-right text-green-400 font-medium">+3.2%</td>
-                  <td className="py-4 px-6 text-right text-green-400 font-medium">+8.7%</td>
-                  <td className="py-4 px-6 text-right text-green-400 font-medium">+{totalGainLossPercent.toFixed(1)}%</td>
+                <tr className="border-t border-theme bg-brand/10">
+                  <td className="py-4 px-6 font-semibold text-brand-light">Mein Portfolio</td>
+                  <td className="py-4 px-6 text-right text-brand-light font-medium">+3.2%</td>
+                  <td className="py-4 px-6 text-right text-brand-light font-medium">+8.7%</td>
+                  <td className="py-4 px-6 text-right text-brand-light font-medium">+{totalGainLossPercent.toFixed(1)}%</td>
                   <td className="py-4 px-6 text-right text-theme-secondary">18.5%</td>
-                  <td className="py-4 px-6 text-right text-green-400 font-medium">+4.2%</td>
+                  <td className="py-4 px-6 text-right text-brand-light font-medium">+4.2%</td>
                 </tr>
                 <tr className="border-t border-theme hover:bg-theme-secondary/30">
                   <td className="py-4 px-6 text-theme-primary">S&P 500</td>
@@ -595,7 +595,7 @@ export default function PerformancePage() {
                   <td className="py-4 px-6 text-right text-theme-secondary">+11.2%</td>
                   <td className="py-4 px-6 text-right text-theme-secondary">+18.9%</td>
                   <td className="py-4 px-6 text-right text-theme-secondary">22.1%</td>
-                  <td className="py-4 px-6 text-right text-green-400">+6.5%</td>
+                  <td className="py-4 px-6 text-right text-brand-light">+6.5%</td>
                 </tr>
                 <tr className="border-t border-theme hover:bg-theme-secondary/30">
                   <td className="py-4 px-6 text-theme-primary">MSCI World</td>
@@ -611,13 +611,13 @@ export default function PerformancePage() {
         </div>
 
         {/* Performance Insights */}
-        <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 border border-green-500/30 rounded-lg p-6">
+        <div className="bg-gradient-to-r from-brand/10 to-blue-500/10 border border-green-500/30 rounded-lg p-6">
           <div className="flex items-start gap-4">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <InformationCircleIcon className="w-4 h-4 text-green-400" />
+            <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
+              <InformationCircleIcon className="w-4 h-4 text-brand-light" />
             </div>
             <div>
-              <h4 className="font-semibold text-green-400 mb-2">📊 Performance Insight</h4>
+              <h4 className="font-semibold text-brand-light mb-2">📊 Performance Insight</h4>
               <p className="text-theme-secondary">
                 Dein Portfolio schlägt den S&P 500 um <strong className="text-theme-primary">+4.2%</strong> in diesem Jahr. 
                 Die Tech-Konzentration (61%) trägt zur Outperformance bei, erhöht aber auch die Volatilität. 

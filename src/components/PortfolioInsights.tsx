@@ -261,7 +261,7 @@ export default function PortfolioInsights({
   }
 
   const getRiskColor = (score: number) => {
-    if (score < 30) return 'text-green-400'
+    if (score < 30) return 'text-brand-light'
     if (score < 60) return 'text-yellow-400'
     return 'text-red-400'
   }
@@ -360,7 +360,7 @@ export default function PortfolioInsights({
             <div 
               key={index}
               className={`p-4 rounded-lg border ${
-                insight.type === 'success' ? 'bg-green-500/10 border-green-500/30' :
+                insight.type === 'success' ? 'bg-brand/10 border-green-500/30' :
                 insight.type === 'warning' ? 'bg-yellow-500/10 border-yellow-500/30' :
                 insight.type === 'danger' ? 'bg-red-500/10 border-red-500/30' :
                 'bg-blue-500/10 border-blue-500/30'
@@ -368,7 +368,7 @@ export default function PortfolioInsights({
             >
               <div className="flex items-start gap-3">
                 <div className={`mt-0.5 ${
-                  insight.type === 'success' ? 'text-green-400' :
+                  insight.type === 'success' ? 'text-brand-light' :
                   insight.type === 'warning' ? 'text-yellow-400' :
                   insight.type === 'danger' ? 'text-red-400' :
                   'text-blue-400'
@@ -383,7 +383,7 @@ export default function PortfolioInsights({
                     {insight.description}
                   </p>
                   {insight.action && (
-                    <button className="mt-2 text-xs text-green-400 hover:text-green-300 transition-colors">
+                    <button className="mt-2 text-xs text-brand-light hover:text-green-300 transition-colors">
                       → {insight.action}
                     </button>
                   )}
@@ -394,7 +394,7 @@ export default function PortfolioInsights({
           
           {insights.length === 0 && (
             <div className="text-center py-8">
-              <CheckCircleIcon className="w-12 h-12 text-green-400 mx-auto mb-3" />
+              <CheckCircleIcon className="w-12 h-12 text-brand-light mx-auto mb-3" />
               <p className="text-theme-secondary">Ihr Portfolio sieht gut aus!</p>
               <p className="text-theme-muted text-sm mt-1">
                 Keine kritischen Punkte gefunden.

@@ -77,7 +77,7 @@ export default function SettingsPage() {
       case 'In Entwicklung':
         return 'bg-yellow-500/20 text-yellow-400'
       case 'Geplant':
-        return 'bg-green-500/20 text-green-400'
+        return 'bg-brand/20 text-brand-light'
       default:
         return 'bg-gray-500/20 text-gray-900'
     }
@@ -98,7 +98,7 @@ export default function SettingsPage() {
               
               <h1 className="text-2xl md:text-3xl font-bold text-theme-primary mb-2">
                 App-Konfiguration
-                <span className="block text-green-400">und Präferenzen</span>
+                <span className="block text-brand-light">und Präferenzen</span>
               </h1>
               
               <p className="text-theme-secondary max-w-2xl">
@@ -126,7 +126,7 @@ export default function SettingsPage() {
             
             <Link
               href="/analyse"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg transition-colors font-medium"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black rounded-lg transition-colors font-medium"
             >
               <ArrowLeftIcon className="w-4 h-4" />
               Zurück zum Dashboard
@@ -183,7 +183,7 @@ export default function SettingsPage() {
         <div className="bg-theme-card rounded-lg">
           <div className="p-6">
             <div className="flex items-center gap-3 mb-6">
-              <ArrowLeftIcon className="w-5 h-5 text-green-400" />
+              <ArrowLeftIcon className="w-5 h-5 text-brand-light" />
               <div>
                 <h2 className="text-lg font-semibold text-theme-primary">Schnellzugriff</h2>
                 <p className="text-theme-secondary text-sm">Zurück zu wichtigen Bereichen</p>
@@ -195,10 +195,10 @@ export default function SettingsPage() {
                 <Link 
                   key={index}
                   href={action.href}
-                  className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-all group border border-theme/10 hover:border-green-500/20"
+                  className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-all group border border-theme/10 hover:border-brand/20"
                 >
                   <div className="text-center">
-                    <h3 className="font-medium text-theme-primary text-sm mb-1 group-hover:text-green-400 transition-colors">
+                    <h3 className="font-medium text-theme-primary text-sm mb-1 group-hover:text-brand-light transition-colors">
                       {action.title}
                     </h3>
                     <p className="text-xs text-theme-secondary">{action.description}</p>
@@ -227,7 +227,7 @@ export default function SettingsPage() {
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-green-400">Aktiv</span>
+                  <span className="text-xs text-brand-light">Aktiv</span>
                 </div>
               </div>
               
@@ -238,7 +238,7 @@ export default function SettingsPage() {
                 </p>
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-green-400">Geschützt</span>
+                  <span className="text-xs text-brand-light">Geschützt</span>
                 </div>
               </div>
             </div>
@@ -257,7 +257,7 @@ export default function SettingsPage() {
                   <div className="text-sm font-medium text-theme-primary">Dashboard & Watchlist</div>
                   <div className="text-xs text-theme-muted">Basis-Funktionalität - Abgeschlossen</div>
                 </div>
-                <div className="text-xs text-green-400 font-medium">✓ Fertig</div>
+                <div className="text-xs text-brand-light font-medium">✓ Fertig</div>
               </div>
               
               <div className="flex items-center gap-4">
@@ -275,7 +275,7 @@ export default function SettingsPage() {
                   <div className="text-sm font-medium text-theme-primary">Personalisierung</div>
                   <div className="text-xs text-theme-muted">Individuelle Dashboards, Sprachen</div>
                 </div>
-                <div className="text-xs text-green-400 font-medium">📅 Q2 2025</div>
+                <div className="text-xs text-brand-light font-medium">📅 Q2 2025</div>
               </div>
             </div>
           </div>

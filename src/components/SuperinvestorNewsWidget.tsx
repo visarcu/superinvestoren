@@ -150,7 +150,7 @@ export default function SuperinvestorNewsWidget({
     switch (action) {
       case 'bought':
       case 'increased':
-        return 'text-green-400 bg-green-500/20'
+        return 'text-brand-light bg-brand/20'
       case 'sold':
       case 'decreased':
         return 'text-red-400 bg-red-500/20'
@@ -289,8 +289,8 @@ export default function SuperinvestorNewsWidget({
       <div className="p-6 border-b border-theme/10">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
-              <NewspaperIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-xl flex items-center justify-center">
+              <NewspaperIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-theme-primary">Superinvestor News</h2>
@@ -348,7 +348,7 @@ export default function SuperinvestorNewsWidget({
                       {item.title}
                     </h3>
                     <div className="flex items-center gap-2 mt-1">
-                      <span className="text-sm text-green-400 font-medium">
+                      <span className="text-sm text-brand-light font-medium">
                         {item.investor.name}
                       </span>
                       <span className="text-xs text-theme-muted">
@@ -363,7 +363,7 @@ export default function SuperinvestorNewsWidget({
                 
                 {item.relatedStock && (
                   <div className="text-right">
-                    <div className="px-3 py-1 bg-theme-muted/10 text-green-400 rounded-lg font-mono text-sm">
+                    <div className="px-3 py-1 bg-theme-muted/10 text-brand-light rounded-lg font-mono text-sm">
                       {item.relatedStock}
                     </div>
                   </div>

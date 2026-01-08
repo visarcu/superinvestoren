@@ -251,7 +251,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
   const getEventColor = (type: string) => {
     switch(type) {
       case 'dividend':
-        return 'bg-green-500 text-white'
+        return 'bg-brand text-white'
       case 'earnings':
         return 'bg-blue-500 text-white'
       case 'split':
@@ -291,7 +291,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
           key={day}
           className={`p-2 border border-theme/10 min-h-[110px] cursor-pointer transition-all duration-200 ${
             isToday 
-              ? 'bg-green-500/10 border-green-500/30 shadow-sm' 
+              ? 'bg-brand/10 border-green-500/30 shadow-sm' 
               : dayEvents.length > 0
               ? 'bg-theme-card hover:bg-theme-secondary/30 hover:shadow-md hover:border-theme/20'
               : 'bg-theme-card hover:bg-theme-secondary/20'
@@ -300,14 +300,14 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
         >
           <div className="flex justify-between items-start mb-2">
             <span className={`text-sm font-semibold ${
-              isToday ? 'text-green-400 bg-green-500/20 w-6 h-6 rounded-full flex items-center justify-center' : 'text-theme-primary'
+              isToday ? 'text-brand-light bg-brand/20 w-6 h-6 rounded-full flex items-center justify-center' : 'text-theme-primary'
             }`}>
               {day}
             </span>
             {dayEvents.length > 0 && (
               <div className="flex items-center gap-1">
                 {dayEvents.filter(e => e.type === 'dividend').length > 0 && (
-                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
                 )}
                 <span className="text-xs bg-theme-secondary/70 px-1.5 py-0.5 rounded-full text-theme-muted font-medium">
                   {dayEvents.length}
@@ -324,7 +324,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
                   key={idx}
                   className={`text-xs px-1.5 py-1 rounded flex items-center justify-between gap-1 cursor-pointer transition-all hover:scale-105 ${
                     event.type === 'dividend' && event.isPaymentDate
-                      ? 'bg-green-600 text-white border border-green-400 hover:bg-green-500'
+                      ? 'bg-brand text-white border border-green-400 hover:bg-brand'
                       : event.type === 'dividend' && !event.isPaymentDate
                       ? 'bg-blue-600 text-white border border-blue-400 hover:bg-blue-500'
                       : getEventColor(event.type)
@@ -386,7 +386,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
           <p className="text-theme-secondary">Lade Kalender-Events...</p>
         </div>
       </div>
@@ -402,17 +402,17 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
         {/* Manual List for testing */}
         <div className="space-y-4">
           {/* PayPal Payment - Direct from Dividends tab data */}
-          <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-brand/10 border border-brand/20 rounded-lg">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <BanknotesIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+                <BanknotesIcon className="w-5 h-5 text-brand-light" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-theme-primary">PYPL</span>
                   <span className="text-sm text-theme-secondary">PayPal Holdings</span>
                 </div>
-                <div className="text-sm text-green-400">💰 Payment Date: 10.12.2025</div>
+                <div className="text-sm text-brand-light">💰 Payment Date: 10.12.2025</div>
               </div>
             </div>
             <div className="text-right">
@@ -422,17 +422,17 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
           </div>
           
           {/* Booking Payment */}
-          <div className="flex items-center justify-between p-4 bg-green-500/10 border border-green-500/20 rounded-lg">
+          <div className="flex items-center justify-between p-4 bg-brand/10 border border-brand/20 rounded-lg">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <BanknotesIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+                <BanknotesIcon className="w-5 h-5 text-brand-light" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <span className="font-semibold text-theme-primary">BKNG</span>
                   <span className="text-sm text-theme-secondary">Booking Holdings</span>
                 </div>
-                <div className="text-sm text-green-400">💰 Payment Date: 31.12.2025</div>
+                <div className="text-sm text-brand-light">💰 Payment Date: 31.12.2025</div>
               </div>
             </div>
             <div className="text-right">
@@ -475,7 +475,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
         
         {loading && (
           <div className="text-center py-8">
-            <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+            <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
             <p className="text-theme-secondary">Lade Events...</p>
           </div>
         )}
@@ -492,13 +492,13 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <BanknotesIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+              <BanknotesIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <p className="text-sm text-theme-secondary">Kommende Dividenden</p>
               <p className="text-xl font-bold text-theme-primary">2</p>
-              <p className="text-sm text-green-400 font-medium">~$19.44 total</p>
+              <p className="text-sm text-brand-light font-medium">~$19.44 total</p>
             </div>
           </div>
         </div>

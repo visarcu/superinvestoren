@@ -284,7 +284,7 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
                 className={`
                   flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${isActive
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-secondary hover:text-theme-primary hover:border-theme/30'
                   }
                 `}
@@ -310,9 +310,9 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <ArrowUpIcon className="w-8 h-8 text-green-400" />
+                    <ArrowUpIcon className="w-8 h-8 text-brand-light" />
                   </div>
-                  <div className="text-2xl font-bold text-green-400">
+                  <div className="text-2xl font-bold text-brand-light">
                     {revisionSummary.epsUpRevisions}
                   </div>
                   <div className="text-xs text-theme-secondary">Erhöhungen</div>
@@ -346,9 +346,9 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
               <div className="grid grid-cols-3 gap-4">
                 <div className="text-center">
                   <div className="flex items-center justify-center mb-2">
-                    <ArrowUpIcon className="w-8 h-8 text-green-400" />
+                    <ArrowUpIcon className="w-8 h-8 text-brand-light" />
                   </div>
-                  <div className="text-2xl font-bold text-green-400">
+                  <div className="text-2xl font-bold text-brand-light">
                     {revisionSummary.revenueUpRevisions}
                   </div>
                   <div className="text-xs text-theme-secondary">Erhöhungen</div>
@@ -532,23 +532,23 @@ export default function RevisionsClient({ ticker }: { ticker: string }) {
                       <td className="font-medium">FY {year}</td>
                       <td className="text-right">{formatStockPrice(e.estimatedEpsAvg)}</td>
                       <td className={`text-right font-medium ${
-                        epsGrowth >= 0 ? 'text-green-400' : 'text-red-400'
+                        epsGrowth >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(epsGrowth)}
                       </td>
                       <td className={`text-right ${
-                        trend1M >= 0 ? 'text-green-400' : 'text-red-400'
+                        trend1M >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {trend1M >= 0 ? '+' : ''}{trend1M.toFixed(2)}%
                       </td>
                       <td className={`text-right ${
-                        trend3M >= 0 ? 'text-green-400' : 'text-red-400'
+                        trend3M >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {trend3M >= 0 ? '+' : ''}{trend3M.toFixed(2)}%
                       </td>
                       <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
                       <td className={`text-right font-medium ${
-                        revenueGrowth >= 0 ? 'text-green-400' : 'text-red-400'
+                        revenueGrowth >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(revenueGrowth)}
                       </td>

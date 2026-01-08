@@ -209,7 +209,7 @@ const WatchlistNews = React.memo(() => {
           {watchlistTickers.length === 0 && (
             <a 
               href="/analyse/watchlist" 
-              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors text-sm"
+              className="inline-flex items-center gap-2 mt-4 px-4 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors text-sm"
             >
               Zur Watchlist
               <ArrowRightIcon className="w-3 h-3" />
@@ -267,7 +267,7 @@ const WatchlistNews = React.memo(() => {
         </div>
         
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-xs">
+          <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/20 text-brand-light rounded-lg text-xs">
             <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
             <span>Live</span>
           </div>
@@ -288,13 +288,13 @@ const WatchlistNews = React.memo(() => {
                 {/* Article Header */}
                 <div className="flex items-start justify-between gap-3">
                   <div className="flex-1">
-                    <h4 className="text-theme-primary font-semibold text-sm leading-tight line-clamp-2 group-hover:text-green-400 transition-colors">
+                    <h4 className="text-theme-primary font-semibold text-sm leading-tight line-clamp-2 group-hover:text-brand-light transition-colors">
                       {article.title}
                     </h4>
                   </div>
                   
                   {article.symbol && (
-                    <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-bold flex-shrink-0">
+                    <span className="px-2 py-1 bg-brand/20 text-brand-light rounded text-xs font-bold flex-shrink-0">
                       {article.symbol}
                     </span>
                   )}
@@ -327,7 +327,7 @@ const WatchlistNews = React.memo(() => {
                     {article.text.length > 150 && (
                       <button
                         onClick={() => toggleArticle(article.url)}
-                        className="text-green-400 hover:text-green-300 text-xs font-medium mt-1 transition-colors"
+                        className="text-brand-light hover:text-green-300 text-xs font-medium mt-1 transition-colors"
                       >
                         {isExpanded ? 'Weniger anzeigen' : 'Mehr anzeigen'}
                       </button>

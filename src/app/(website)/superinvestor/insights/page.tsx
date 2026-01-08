@@ -634,7 +634,7 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
               }}
               className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-colors duration-200 ${
                 selected === option.id 
-                  ? 'bg-green-600/80 text-white shadow-md' 
+                  ? 'bg-brand/80 text-white shadow-md' 
                   : 'text-theme-secondary hover:bg-theme-hover hover:text-white'
               }`}
             >
@@ -1403,7 +1403,7 @@ const StockItem = memo<StockItemProps & { index?: number }>(({
         />
       </div>
       <div>
-        <p className="text-white font-medium group-hover:text-green-400 transition-colors">
+        <p className="text-white font-medium group-hover:text-brand-light transition-colors">
           {ticker}
         </p>
         <p className="text-gray-500 text-xs truncate max-w-[120px]">
@@ -1412,7 +1412,7 @@ const StockItem = memo<StockItemProps & { index?: number }>(({
       </div>
     </div>
     <div className="text-right">
-      <span className="text-green-400 text-sm font-semibold bg-green-500/20 px-2 py-1 rounded">
+      <span className="text-brand-light text-sm font-semibold bg-brand/20 px-2 py-1 rounded">
         {showValue && value ? formatCurrencyGerman(value, false) : count}
       </span>
       <p className="text-xs text-gray-500">{rightLabel}</p>
@@ -2047,7 +2047,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                                 />
                               </div>
                               <div>
-                                <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                                <p className="font-bold text-white group-hover:text-brand-light transition-colors">
                                   {bet.ticker}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate max-w-[120px]">
@@ -2057,7 +2057,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                             </div>
                             
                             <div className="text-right">
-                              <div className="text-green-400 font-bold text-lg">
+                              <div className="text-brand-light font-bold text-lg">
                                 {bet.maxPortfolioPercent.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                               </div>
                               <div className="text-xs text-gray-500">
@@ -2187,7 +2187,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                                   />
                                 </div>
                                 <div>
-                                  <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                                  <p className="font-bold text-white group-hover:text-brand-light transition-colors">
                                     {pick.ticker}
                                   </p>
                                   <p className="text-xs text-gray-500 truncate max-w-[120px]">
@@ -2197,7 +2197,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                               </div>
                               
                               <div className="text-right">
-                                <div className="text-green-400 font-bold text-lg">
+                                <div className="text-brand-light font-bold text-lg">
                                   {pick.portfolioPercent.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                                 </div>
                                 <div className="text-xs text-gray-500">
@@ -2349,7 +2349,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Top 3 Holdings:</span>
                       <span className={`font-semibold ${
-                        data.top3Percentage > 60 ? 'text-green-400' :
+                        data.top3Percentage > 60 ? 'text-brand-light' :
                         data.top3Percentage > 40 ? 'text-gray-400' : 'text-gray-300'
                       }`}>
                         {data.top3Percentage.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
@@ -2460,7 +2460,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                    <p className="font-bold text-white group-hover:text-brand-light transition-colors">
                       {shift.ticker}
                     </p>
                     <p className="text-xs text-gray-500 truncate max-w-[120px]">
@@ -2470,8 +2470,8 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 </div>
                 <div className="text-right">
                   <div className="flex items-center gap-1">
-                    <ArrowUpIcon className="w-3 h-3 text-green-400" />
-                    <span className="text-green-400 font-bold">
+                    <ArrowUpIcon className="w-3 h-3 text-brand-light" />
+                    <span className="text-brand-light font-bold">
                       {shift.shifters.length}
                     </span>
                   </div>
@@ -2854,7 +2854,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           
           <div className={`px-4 py-2 rounded-full text-sm font-semibold border ${
             buySellBalance[0].sentiment === 'bullish' 
-              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800' :
+              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-brand-light border-green-200 dark:border-green-800' :
             buySellBalance[0].sentiment === 'bearish' 
               ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800' :
               'bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800'
@@ -2869,14 +2869,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           <div className="bg-green-50 dark:bg-green-900/10 rounded-lg p-6 border border-green-200 dark:border-green-800">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                <ArrowUpIcon className="w-4 h-4 text-green-600 dark:text-green-400" />
+                <ArrowUpIcon className="w-4 h-4 text-brand dark:text-brand-light" />
               </div>
-              <span className="text-sm font-medium text-green-700 dark:text-green-400">Käufe</span>
+              <span className="text-sm font-medium text-green-700 dark:text-brand-light">Käufe</span>
             </div>
-            <div className="text-2xl font-bold text-green-700 dark:text-green-400 mb-1">
+            <div className="text-2xl font-bold text-green-700 dark:text-brand-light mb-1">
               {formatCurrencyGerman(buySellBalance[0].totalBuys, false)}
             </div>
-            <div className="text-sm text-green-600 dark:text-green-500">
+            <div className="text-sm text-brand dark:text-brand">
               {buySellBalance[0].buysCount} Positionen
             </div>
           </div>
@@ -2980,7 +2980,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 </div>
                 
                 <div className={`text-lg font-bold mb-2 ${
-                  quarter.netFlow > 0 ? 'text-green-600 dark:text-green-400' : 
+                  quarter.netFlow > 0 ? 'text-brand dark:text-brand-light' : 
                   quarter.netFlow < 0 ? 'text-red-600 dark:text-red-400' :
                   'text-gray-600 dark:text-gray-400'
                 }`}>
@@ -3131,7 +3131,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 <div className="mt-8 pt-6 border-t border-white/10">
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-green-400">
+                      <div className="text-2xl font-bold text-brand-light">
                         {formatCurrencyGerman(inflows.reduce((sum, [,flow]) => sum + flow, 0), false)}
                       </div>
                       <div className="text-xs text-gray-500">Gesamt-Zuflüsse</div>
@@ -3288,7 +3288,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                  >
                  
                         <div>
-                          <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                          <h4 className="font-semibold text-white group-hover:text-brand-light transition-colors">
                             {data.investor}
                           </h4>
                           <p className="text-xs text-gray-500">
@@ -3297,12 +3297,12 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         </div>
                         
                         <div className="text-right">
-                          <div className="text-green-400 font-bold text-lg mb-1">
+                          <div className="text-brand-light font-bold text-lg mb-1">
                             {data.changes}
                           </div>
                           <div className="text-xs text-gray-600 mb-1">Änderungen</div>
                           <div className="flex gap-3 text-xs">
-                            <span className="text-green-400 flex items-center gap-1">
+                            <span className="text-brand-light flex items-center gap-1">
                               <ArrowUpIcon className="w-3 h-3" />
                               {data.buys}
                             </span>
@@ -3413,7 +3413,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                             />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                            <h4 className="font-semibold text-white group-hover:text-brand-light transition-colors">
                               {move.ticker}
                             </h4>
                             <p className="text-xs text-gray-500">
@@ -3424,7 +3424,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         
                         <div className="text-right">
                           <div className={`font-bold text-lg mb-1 ${
-                            move.type === 'buy' ? 'text-green-400' : 'text-red-400'
+                            move.type === 'buy' ? 'text-brand-light' : 'text-red-400'
                           }`}>
                             {move.type === 'buy' ? '+' : '-'}{move.percentChange.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                           </div>

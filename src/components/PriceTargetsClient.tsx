@@ -231,7 +231,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
                 className={`
                   flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${isActive
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-secondary hover:text-theme-primary hover:border-theme/30'
                   }
                 `}
@@ -256,7 +256,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
 
           <div className="bg-theme-card rounded-lg p-4">
             <div className="text-theme-secondary text-sm mb-1">Konsens-Kursziel</div>
-            <div className="text-2xl font-bold text-green-400">
+            <div className="text-2xl font-bold text-brand-light">
               {formatStockPrice(consensus.targetConsensus)}
             </div>
           </div>
@@ -264,7 +264,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
           <div className="bg-theme-card rounded-lg p-4">
             <div className="text-theme-secondary text-sm mb-1">Potenzial</div>
             <div className={`text-2xl font-bold flex items-center gap-2 ${
-              upside >= 0 ? 'text-green-400' : 'text-red-400'
+              upside >= 0 ? 'text-brand-light' : 'text-red-400'
             }`}>
               {upside >= 0 ? <ArrowUpIcon className="w-5 h-5" /> : <ArrowDownIcon className="w-5 h-5" />}
               {formatPercentage(upside)}
@@ -276,7 +276,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
             <div className="text-sm">
               <span className="text-red-400">{formatStockPrice(consensus.targetLow)}</span>
               <span className="text-theme-secondary mx-2">–</span>
-              <span className="text-green-400">{formatStockPrice(consensus.targetHigh)}</span>
+              <span className="text-brand-light">{formatStockPrice(consensus.targetHigh)}</span>
             </div>
           </div>
         </div>
@@ -372,7 +372,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
             <div className="absolute right-0 top-0 bottom-0 w-2/3 bg-gradient-to-l from-theme-card via-theme-card/95 to-transparent pointer-events-none">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center pointer-events-auto">
-                  <LockClosedIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                  <LockClosedIcon className="w-8 h-8 text-brand mx-auto mb-2" />
                   <p className="text-theme-primary font-semibold mb-1">Premium Feature</p>
                   <p className="text-theme-secondary text-sm mb-3">
                     Langfristige Kursziele
@@ -425,7 +425,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
                           {formatStockPrice(target.priceWhenPosted)}
                         </td>
                         <td className={`text-right font-medium ${
-                          targetUpside >= 0 ? 'text-green-400' : 'text-red-400'
+                          targetUpside >= 0 ? 'text-brand-light' : 'text-red-400'
                         }`}>
                           {formatPercentage(targetUpside)}
                         </td>
@@ -435,7 +435,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
                   {!isPremium && priceTargets.length > 10 && (
                     <tr>
                       <td colSpan={6} className="text-center py-4">
-                        <Link href="/pricing" className="text-green-400 hover:text-green-300">
+                        <Link href="/pricing" className="text-brand-light hover:text-green-300">
                           🔒 Upgrade für alle {priceTargets.length} Kursziele
                         </Link>
                       </td>

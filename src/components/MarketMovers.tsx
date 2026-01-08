@@ -148,7 +148,7 @@ const MarketMovers = React.memo(({
           <p className="text-xs text-theme-muted">Top Performer heute</p>
         </div>
         
-        <div className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+        <div className="flex items-center gap-1 px-2 py-1 bg-brand/20 text-brand-light rounded text-xs">
           <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
           <span>Live</span>
         </div>
@@ -168,7 +168,7 @@ const MarketMovers = React.memo(({
           <span>Gainers</span>
           {moversData.gainers.length > 0 && (
             <span className={`px-1.5 py-0.5 rounded text-xs ${
-              activeTab === 'gainers' ? 'bg-green-500/20 text-green-400' : 'bg-theme-secondary text-theme-muted'
+              activeTab === 'gainers' ? 'bg-brand/20 text-brand-light' : 'bg-theme-secondary text-theme-muted'
             }`}>
               {moversData.gainers.length}
             </span>
@@ -240,11 +240,11 @@ const MarketMovers = React.memo(({
                 {/* Ticker & Change */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-sm text-theme-primary group-hover:text-green-400 transition-colors">
+                    <span className="font-bold text-sm text-theme-primary group-hover:text-brand-light transition-colors">
                       {stock.ticker}
                     </span>
                     <div className={`flex items-center gap-1 text-xs font-medium ${
-                      stock.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                      stock.changePct >= 0 ? 'text-brand-light' : 'text-red-400'
                     }`}>
                       {stock.changePct >= 0 ? (
                         <ArrowTrendingUpIcon className="w-3 h-3" />

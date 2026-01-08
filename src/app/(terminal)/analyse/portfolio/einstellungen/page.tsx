@@ -319,7 +319,7 @@ export default function EinstellungenPage() {
                     onClick={() => setActiveView(tab.id as any)}
                     className={`flex items-center gap-2 py-2 text-sm font-medium border-b-2 transition-colors
                       ${isActive 
-                        ? 'border-green-500 text-green-400' 
+                        ? 'border-green-500 text-brand-light' 
                         : 'border-transparent text-theme-secondary hover:text-theme-primary'
                       }`}
                   >
@@ -342,7 +342,7 @@ export default function EinstellungenPage() {
               <h2 className="text-lg font-semibold text-theme-primary">Meine Positionen</h2>
               <button
                 onClick={() => setShowAddStock(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
               >
                 <PlusIcon className="w-4 h-4" />
                 Position hinzufügen
@@ -376,7 +376,7 @@ export default function EinstellungenPage() {
                       <td className="py-4 px-6 text-right text-theme-primary">${position.avgPrice.toFixed(2)}</td>
                       <td className="py-4 px-6 text-right text-theme-primary">${position.currentPrice.toFixed(2)}</td>
                       <td className="py-4 px-6 text-right text-theme-primary font-semibold">${position.totalValue.toLocaleString()}</td>
-                      <td className={`py-4 px-6 text-right font-semibold ${position.gainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                      <td className={`py-4 px-6 text-right font-semibold ${position.gainLoss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                         {position.gainLoss >= 0 ? '+' : ''}${position.gainLoss.toFixed(0)} ({position.gainLossPercent >= 0 ? '+' : ''}{position.gainLossPercent.toFixed(1)}%)
                       </td>
                       <td className="py-4 px-6">
@@ -418,7 +418,7 @@ export default function EinstellungenPage() {
                     Unterstützte Formate: CSV mit Spalten für Ticker, Anzahl, Durchschnittspreis
                   </p>
                   
-                  <label className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md cursor-pointer transition-colors">
+                  <label className="inline-flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md cursor-pointer transition-colors">
                     <DocumentArrowUpIcon className="w-4 h-4" />
                     CSV-Datei auswählen
                     <input
@@ -476,7 +476,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   className="w-full text-left p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-lg transition-colors border border-theme"
                 >
                   <div className="flex items-center gap-3">
-                    <DocumentArrowDownIcon className="w-6 h-6 text-green-400" />
+                    <DocumentArrowDownIcon className="w-6 h-6 text-brand-light" />
                     <div>
                       <div className="font-medium text-theme-primary">CSV Export</div>
                       <div className="text-sm text-theme-muted">
@@ -535,7 +535,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                         ...prev,
                         [key]: e.target.checked
                       }))}
-                      className="w-4 h-4 text-green-500 bg-theme-secondary border-theme rounded focus:ring-green-500"
+                      className="w-4 h-4 text-brand bg-theme-secondary border-theme rounded focus:ring-brand"
                     />
                   </label>
                 ))}
@@ -548,12 +548,12 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
               <div className="space-y-3">
                 <label className="flex items-center justify-between p-3 border border-theme rounded-lg">
                   <span className="text-theme-primary">E-Mail Benachrichtigungen</span>
-                  <input type="checkbox" defaultChecked className="w-4 h-4 text-green-500" />
+                  <input type="checkbox" defaultChecked className="w-4 h-4 text-brand" />
                 </label>
                 
                 <label className="flex items-center justify-between p-3 border border-theme rounded-lg">
                   <span className="text-theme-primary">Browser Push-Notifications</span>
-                  <input type="checkbox" className="w-4 h-4 text-green-500" />
+                  <input type="checkbox" className="w-4 h-4 text-brand" />
                 </label>
               </div>
             </div>
@@ -587,7 +587,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                     type="text"
                     value={addStockForm.ticker}
                     onChange={(e) => setAddStockForm(prev => ({...prev, ticker: e.target.value.toUpperCase()}))}
-                    className="w-full px-3 py-2 pr-10 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/20"
+                    className="w-full px-3 py-2 pr-10 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                     placeholder="z.B. AAPL"
                   />
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -595,7 +595,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                       <div className="w-4 h-4 border border-green-500 border-t-transparent rounded-full animate-spin"></div>
                     )}
                     {stockValidation.valid === true && (
-                      <CheckIcon className="w-4 h-4 text-green-400" />
+                      <CheckIcon className="w-4 h-4 text-brand-light" />
                     )}
                     {stockValidation.valid === false && addStockForm.ticker.length >= 2 && (
                       <XMarkIcon className="w-4 h-4 text-red-400" />
@@ -603,7 +603,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   </div>
                 </div>
                 {stockValidation.name && (
-                  <p className="text-xs text-green-400 mt-1">{stockValidation.name}</p>
+                  <p className="text-xs text-brand-light mt-1">{stockValidation.name}</p>
                 )}
               </div>
               
@@ -615,7 +615,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                     min="1"
                     value={addStockForm.shares}
                     onChange={(e) => setAddStockForm(prev => ({...prev, shares: e.target.value}))}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/20"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                     placeholder="100"
                   />
                 </div>
@@ -628,7 +628,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                     min="0"
                     value={addStockForm.avgPrice}
                     onChange={(e) => setAddStockForm(prev => ({...prev, avgPrice: e.target.value}))}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/20"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                     placeholder="150.00"
                   />
                 </div>
@@ -640,7 +640,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   type="date"
                   value={addStockForm.purchaseDate}
                   onChange={(e) => setAddStockForm(prev => ({...prev, purchaseDate: e.target.value}))}
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/20"
+                  className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                 />
               </div>
             </div>
@@ -659,7 +659,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
               <button
                 onClick={handleAddStock}
                 disabled={!stockValidation.valid || !addStockForm.shares || !addStockForm.avgPrice}
-                className="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 disabled:bg-green-500/50 disabled:cursor-not-allowed text-white font-semibold rounded-md transition-colors"
+                className="flex-1 px-4 py-2 bg-brand hover:bg-brand disabled:bg-brand/50 disabled:cursor-not-allowed text-white font-semibold rounded-md transition-colors"
               >
                 Hinzufügen
               </button>
@@ -699,7 +699,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                     min="1"
                     value={editingStock.shares}
                     onChange={(e) => setEditingStock(prev => prev ? {...prev, shares: e.target.value} : null)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/20"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                   />
                 </div>
                 
@@ -711,7 +711,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                     min="0"
                     value={editingStock.avgPrice}
                     onChange={(e) => setEditingStock(prev => prev ? {...prev, avgPrice: e.target.value} : null)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-green-500/20"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                   />
                 </div>
               </div>
@@ -726,7 +726,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
               </button>
               <button
                 onClick={handleUpdateStock}
-                className="flex-1 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors"
+                className="flex-1 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
               >
                 Speichern
               </button>

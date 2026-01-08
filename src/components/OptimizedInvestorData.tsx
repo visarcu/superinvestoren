@@ -37,7 +37,7 @@ export default function OptimizedInvestorData({ slug }: OptimizedInvestorDataPro
             📊 Latest Holdings: {latestHoldings.data.positionsCount} positions, 
             ${(latestHoldings.data.totalValue / 1000000000).toFixed(1)}B total value
           </p>
-          <p className="text-xs text-green-600">
+          <p className="text-xs text-brand">
             Quarter: {latestHoldings.quarter}, Date: {latestHoldings.data.date}
           </p>
         </div>
@@ -48,7 +48,7 @@ export default function OptimizedInvestorData({ slug }: OptimizedInvestorDataPro
           <p className="text-sm text-green-700">
             📈 Historical Data: {allHoldings.length} quarters available
           </p>
-          <p className="text-xs text-green-600">
+          <p className="text-xs text-brand">
             From: {allHoldings[0]?.quarter} to {allHoldings[allHoldings.length - 1]?.quarter}
           </p>
         </div>

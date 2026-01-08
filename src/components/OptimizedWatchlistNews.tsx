@@ -142,7 +142,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
         {watchlistTickers.length === 0 && (
           <a 
             href="/analyse/watchlist" 
-            className="inline-flex items-center gap-2 px-3 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors text-sm"
+            className="inline-flex items-center gap-2 px-3 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors text-sm"
           >
             Zur Watchlist
             <ArrowRightIcon className="w-3 h-3" />
@@ -161,7 +161,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
           <p className="text-xs text-theme-muted">{watchlistTickers.slice(0, 3).join(', ')}</p>
         </div>
         
-        <div className="flex items-center gap-1 px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs">
+        <div className="flex items-center gap-1 px-2 py-1 bg-brand/20 text-brand-light rounded text-xs">
           <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
           <span>Live</span>
         </div>
@@ -176,12 +176,12 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
           >
             <div className="space-y-2">
               <div className="flex items-start justify-between gap-2">
-                <h4 className="text-theme-primary font-medium text-sm leading-tight line-clamp-2 group-hover:text-green-400 transition-colors flex-1">
+                <h4 className="text-theme-primary font-medium text-sm leading-tight line-clamp-2 group-hover:text-brand-light transition-colors flex-1">
                   {article.title}
                 </h4>
                 
                 {article.symbol && (
-                  <span className="px-1.5 py-0.5 bg-green-500/20 text-green-400 rounded text-xs font-bold flex-shrink-0">
+                  <span className="px-1.5 py-0.5 bg-brand/20 text-brand-light rounded text-xs font-bold flex-shrink-0">
                     {article.symbol}
                   </span>
                 )}

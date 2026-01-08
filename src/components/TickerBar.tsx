@@ -35,7 +35,7 @@ export default function TickerBar() {
             >
               <span className="font-bold mr-2">{q.symbol}</span>
               <span className="mr-2">{q.price.toFixed(2)}</span>
-              <span className={up ? 'text-green-400' : 'text-red-400'}>
+              <span className={up ? 'text-brand-light' : 'text-red-400'}>
                 {up ? <ArrowUpIcon className="inline w-4 h-4" /> : <ArrowDownIcon className="inline w-4 h-4" />}
                 {Math.abs(q.changesPercentage).toFixed(2)}%
               </span>

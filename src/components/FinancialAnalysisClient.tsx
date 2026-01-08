@@ -609,7 +609,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -776,7 +776,7 @@ function PremiumLockedChart({ title, onExpand }: { title: string, onExpand: () =
     <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
       <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
         <div className="text-center">
-          <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+          <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
             <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
             </svg>
@@ -1008,7 +1008,7 @@ function RevenueSegmentsChart({
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -1344,7 +1344,7 @@ function GeographicSegmentsChart({
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -1500,7 +1500,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -1604,7 +1604,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
         <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
           <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-green-500/20 rounded-lg flex items-center justify-center">
+            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
               <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
               </svg>
@@ -1918,7 +1918,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   if (loadingData) {
     return (
       <div className="flex h-64 items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-500"></div>
+<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand"></div>
+
       </div>
     )
   }
@@ -1991,18 +1992,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
           </div>
           
           {/* STATUS INDIKATOREN */}
-          <div className="flex items-center gap-4">
-            {dataQuality === 'multi-source-validated-modern' && (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-xs">
-                <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                <span>Modern + Validiert</span>
-              </div>
-            )}
-            
-        
-            
-      
-          </div>
+    
         </div>
         
         {/* ✅ NEUE PRESET CONTROLS */}
@@ -2058,7 +2048,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             {/* Save Current Button */}
             <button
               onClick={() => handlePremiumAction(() => setShowSavePresetDialog(true))}
-              className="px-3 py-1.5 text-xs bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-green-500/10 hover:text-green-400 transition-colors"
+              className="px-3 py-1.5 text-xs bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-brand/10 hover:text-brand-light transition-colors"
             >
               💾 Aktuelle Auswahl speichern
             </button>
@@ -2110,7 +2100,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             onChange={(e) => setNewPresetName(e.target.value)}
             placeholder="z.B. Meine Analyse, Q4 Report, Tech-Fokus..."
             className="w-full px-4 py-2.5 bg-theme-tertiary text-theme-primary rounded-lg 
-                     border border-theme/20 focus:outline-none focus:ring-2 focus:ring-green-500 
+                     border border-theme/20 focus:outline-none focus:ring-2 focus:ring-brand 
                      focus:border-transparent transition-all"
             style={{ color: 'var(--color-text-primary)' }}
             onKeyDown={(e) => e.key === 'Enter' && newPresetName.trim() && saveCurrentAsPreset()}
@@ -2121,7 +2111,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         {/* Info */}
         <div className="mb-6 p-3 bg-theme-tertiary/50 rounded-lg">
           <div className="flex items-center gap-2 text-sm">
-            <div className="flex items-center gap-2 text-green-400">
+            <div className="flex items-center gap-2 text-brand-light">
               <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
               </svg>
@@ -2156,10 +2146,10 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             disabled={!newPresetName.trim() || saveStatus === 'saving'}
             className={`flex-1 px-4 py-2.5 text-sm font-medium rounded-lg transition-all transform disabled:cursor-not-allowed ${
               saveStatus === 'success' 
-                ? 'bg-green-600 text-white' 
+                ? 'bg-brand text-white' 
                 : saveStatus === 'error'
                 ? 'bg-red-500 text-white'
-                : 'bg-green-500 text-white hover:bg-green-600 hover:scale-[1.02]'
+                : 'bg-brand text-white hover:bg-brand hover:scale-[1.02]'
             } ${(!newPresetName.trim() || saveStatus === 'saving') ? 'opacity-50 hover:scale-100' : ''}`}
           >
             <div className="flex items-center justify-center gap-2">
@@ -2191,48 +2181,59 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         </div>
         
         {/* KENNZAHLEN AUSWAHL - PROFESSIONELL */}
-        <div className="space-y-4">
+     {/* KENNZAHLEN AUSWAHL - CLEAN & MINIMAL */}
+     <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold text-theme-primary">Kennzahlen auswählen</h4>
-            <div className="flex gap-2">
+            <h4 className="text-sm font-medium text-theme-secondary">Kennzahlen</h4>
+            <div className="flex gap-3 text-xs">
               <button
                 onClick={() => handlePremiumAction(() => {
                   setVisibleCharts(ALL_METRICS)
                   setSelectedPreset('')
                 })}
-                className="text-xs text-theme-secondary hover:text-green-600 px-2 py-1 hover:bg-green-500/10 rounded transition-colors"
+                className="text-theme-muted hover:text-theme-primary transition-colors"
               >
                 Alle
               </button>
+              <span className="text-theme-muted">|</span>
               <button
                 onClick={() => handlePremiumAction(() => {
                   setVisibleCharts([])
                   setSelectedPreset('')
                 })}
-                className="text-xs text-theme-secondary hover:text-red-600 px-2 py-1 hover:bg-red-500/10 rounded transition-colors"
+                className="text-theme-muted hover:text-theme-primary transition-colors"
               >
                 Keine
               </button>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 gap-3">
+          <div className="flex flex-wrap gap-x-6 gap-y-2">
             {ALL_METRICS.map((chartKey) => (
               <button
                 key={chartKey}
                 onClick={() => handlePremiumAction(() => toggleChartVisibility(chartKey))}
-                className={`text-left px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
-                  visibleCharts.includes(chartKey)
-                  ? 'bg-blue-500/15 text-blue-400 ring-1 ring-blue-500/30'
-: 'bg-theme-tertiary text-theme-secondary hover:bg-blue-500/10 hover:text-blue-400'
-                }`}
+                className="flex items-center gap-2 py-1 text-sm transition-colors group"
               >
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full transition-colors ${
-                    visibleCharts.includes(chartKey) ? 'bg-green-400' : 'bg-theme-muted'
-                  }`} />
-                  <span className="font-medium">{getChartName(chartKey)}</span>
+                {/* Checkbox Style Indicator */}
+                <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${
+                  visibleCharts.includes(chartKey) 
+                    ? 'bg-brand border-brand' 
+                    : 'border-theme-muted group-hover:border-theme-secondary'
+                }`}>
+                  {visibleCharts.includes(chartKey) && (
+                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                    </svg>
+                  )}
                 </div>
+                <span className={`transition-colors ${
+                  visibleCharts.includes(chartKey) 
+                    ? 'text-theme-primary' 
+                    : 'text-theme-muted group-hover:text-theme-secondary'
+                }`}>
+                  {getChartName(chartKey)}
+                </span>
               </button>
             ))}
           </div>

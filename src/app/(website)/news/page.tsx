@@ -59,8 +59,8 @@ export default function NewsPage() {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
         <div className="bg-[#161618] rounded-xl p-4 border border-white/[0.06] text-center">
           <div className="flex items-center justify-center mb-2">
-            <div className="p-2 bg-green-500/10 rounded-lg">
-              <EnvelopeIcon className="w-5 h-5 text-green-400" />
+            <div className="p-2 bg-brand/10 rounded-lg">
+              <EnvelopeIcon className="w-5 h-5 text-brand-light" />
             </div>
           </div>
           <div className="text-xl font-bold text-white mb-1">150+</div>
@@ -108,8 +108,8 @@ export default function NewsPage() {
         {/* Newsletter */}
         <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
           <div className="flex items-center gap-3 mb-6">
-            <div className="p-2 bg-green-500/10 rounded-lg">
-              <EnvelopeIcon className="w-5 h-5 text-green-400" />
+            <div className="p-2 bg-brand/10 rounded-lg">
+              <EnvelopeIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h3 className="text-xl font-semibold text-white">Research Updates</h3>
@@ -124,7 +124,7 @@ export default function NewsPage() {
           
           <NewsletterSignup />
           
-          <div className="flex flex-wrap gap-4 text-green-400 text-xs mt-4">
+          <div className="flex flex-wrap gap-4 text-brand-light text-xs mt-4">
             <div className="flex items-center gap-2">
               <CheckIcon className="w-3 h-3" />
               Kostenlos & Werbefrei

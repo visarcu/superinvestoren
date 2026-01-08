@@ -183,7 +183,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
   const getTransactionIcon = (type: string) => {
     switch (type) {
       case 'buy':
-        return <ArrowDownTrayIcon className="w-4 h-4 text-green-400" />
+        return <ArrowDownTrayIcon className="w-4 h-4 text-brand-light" />
       case 'sell':
         return <ArrowUpTrayIcon className="w-4 h-4 text-red-400" />
       case 'dividend':
@@ -196,7 +196,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
   const getTransactionColor = (type: string) => {
     switch (type) {
       case 'buy':
-        return 'bg-green-500/10 border-green-500/30 text-green-400'
+        return 'bg-brand/10 border-green-500/30 text-brand-light'
       case 'sell':
         return 'bg-red-500/10 border-red-500/30 text-red-400'
       case 'dividend':
@@ -243,7 +243,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
           <p className="text-theme-secondary">Lade Transaktionshistorie...</p>
         </div>
       </div>
@@ -267,10 +267,10 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-2 mb-2">
-            <ArrowDownTrayIcon className="w-5 h-5 text-green-400" />
+            <ArrowDownTrayIcon className="w-5 h-5 text-brand-light" />
             <p className="text-sm text-theme-secondary">Käufe</p>
           </div>
-          <p className="text-2xl font-bold text-green-400">
+          <p className="text-2xl font-bold text-brand-light">
             ${getTotalByType('buy').toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
           </p>
           <p className="text-xs text-theme-muted mt-1">
@@ -324,7 +324,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                     onClick={() => setTransactionType('buy')}
                     className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
                       transactionType === 'buy'
-                        ? 'bg-green-500/20 border-green-500/50 text-green-400'
+                        ? 'bg-brand/20 border-green-500/50 text-brand-light'
                         : 'border-theme/20 text-theme-secondary hover:border-theme/40'
                     }`}
                   >
@@ -476,7 +476,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                   onClick={handleAddTransaction}
                   disabled={adding || !transactionSymbol || !transactionPrice || 
                     (transactionType !== 'dividend' && !transactionQuantity)}
-                  className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                 >
                   {adding ? (
                     <>
@@ -517,7 +517,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               filter === 'all'
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
             }`}
           >
@@ -527,7 +527,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
             onClick={() => setFilter('buy')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               filter === 'buy'
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
             }`}
           >
@@ -537,7 +537,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
             onClick={() => setFilter('sell')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               filter === 'sell'
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
             }`}
           >
@@ -547,7 +547,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
             onClick={() => setFilter('dividend')}
             className={`px-4 py-2 rounded-lg transition-colors ${
               filter === 'dividend'
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
             }`}
           >
@@ -574,7 +574,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
           <button
             onClick={() => setShowAddTransaction(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+            className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
           >
             <PlusIcon className="w-4 h-4" />
             Transaktion
@@ -633,7 +633,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
                 <div className="text-right">
                   <p className={`font-bold text-lg ${
                     transaction.type === 'buy' ? 'text-red-400' :
-                    transaction.type === 'sell' ? 'text-green-400' :
+                    transaction.type === 'sell' ? 'text-brand-light' :
                     'text-blue-400'
                   }`}>
                     {transaction.type === 'buy' ? '-' : '+'}

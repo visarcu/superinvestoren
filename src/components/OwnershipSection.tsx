@@ -155,7 +155,7 @@ const OwnershipSection = React.memo<OwnershipSectionProps>(({ ticker, isPremium 
             <h3 className="text-xl font-bold text-theme-primary">Aktionärsstruktur</h3>
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-400 font-medium">Echte SEC-Daten</span>
+              <span className="text-xs text-brand-light font-medium">Echte SEC-Daten</span>
             </div>
           </div>
         </div>
@@ -275,11 +275,11 @@ const OwnershipSection = React.memo<OwnershipSectionProps>(({ ticker, isPremium 
                   <div className="absolute inset-0 flex items-center justify-center">
                     <Link
                       href="/pricing"
-                      className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+                      className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-brand/20 hover:border-green-500/40 transition-colors"
                     >
-                      <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
+                      <LockClosedIcon className="w-5 h-5 text-brand mx-auto mb-1" />
                       <p className="text-theme-primary font-medium text-sm">+{data.topInstitutional.length - 3} weitere Investoren</p>
-                      <p className="text-green-500 text-xs mt-1">Premium freischalten →</p>
+                      <p className="text-brand text-xs mt-1">Premium freischalten →</p>
                     </Link>
                   </div>
                 </div>
@@ -301,7 +301,7 @@ const OwnershipSection = React.memo<OwnershipSectionProps>(({ ticker, isPremium 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-              <span className="text-xs text-green-400 font-medium">Echte SEC-Daten</span>
+              <span className="text-xs text-brand-light font-medium">Echte SEC-Daten</span>
             </div>
             <button 
               onClick={() => setExpanded(true)}

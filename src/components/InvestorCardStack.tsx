@@ -43,7 +43,7 @@ export default function InvestorCardStack({ investors }: InvestorCardStackProps)
             onClick={() => setActiveCard(index)}
             className={`absolute w-full bg-gray-900/90 border border-gray-700 rounded-xl backdrop-blur-sm cursor-pointer transition-all duration-300 ${
               isActive
-                ? 'shadow-2xl shadow-green-500/10 hover:border-green-500/50'
+                ? 'shadow-2xl shadow-brand/10 hover:border-green-500/50'
                 : 'shadow-xl shadow-black/30 hover:border-gray-600'
             }`}
             style={{
@@ -61,7 +61,7 @@ export default function InvestorCardStack({ investors }: InvestorCardStackProps)
                 <div>
                   <h3 className="text-2xl font-bold text-white mb-1">{investor.name}</h3>
                   <p className="text-gray-400 mb-2">{investor.investor}</p>
-                  <p className="text-3xl font-bold text-green-400">{investor.totalValue}</p>
+                  <p className="text-3xl font-bold text-brand-light">{investor.totalValue}</p>
                 </div>
                 <div className="text-right">
                   <p className="text-gray-400 text-sm">{investor.date}</p>
@@ -107,7 +107,7 @@ export default function InvestorCardStack({ investors }: InvestorCardStackProps)
                         }}
                         className={`px-3 py-2 text-sm rounded-lg transition-all duration-200 border ${
                           idx === activeCard
-                            ? 'bg-green-500/20 text-green-400 border-green-500/50'
+                            ? 'bg-brand/20 text-brand-light border-green-500/50'
                             : 'bg-gray-700/50 hover:bg-gray-700 text-gray-300 hover:text-white border-gray-600/50 hover:border-gray-500'
                         }`}
                       >
@@ -117,7 +117,7 @@ export default function InvestorCardStack({ investors }: InvestorCardStackProps)
                   </div>
                   <Link
                     href="/superinvestor"
-                    className="text-sm text-green-400 hover:text-green-300 transition-colors flex items-center gap-1"
+                    className="text-sm text-brand-light hover:text-green-300 transition-colors flex items-center gap-1"
                   >
                     Alle ansehen
                     <ArrowRightIcon className="w-3 h-3" />

@@ -141,7 +141,7 @@ export default function ProfileForm({
       {/* Success Message */}
       {success && (
         <div className="bg-green-900/20 border border-green-500 rounded-lg p-3">
-          <p className="text-green-400 text-sm">{success}</p>
+          <p className="text-brand-light text-sm">{success}</p>
         </div>
       )}
 

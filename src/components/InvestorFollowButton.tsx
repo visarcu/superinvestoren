@@ -39,7 +39,7 @@ export default function InvestorFollowButton({
         onClick={toggleFollow}
         className={`inline-flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm ${
           isFollowing 
-            ? 'bg-green-500/20 border border-green-500/30 text-green-400 hover:bg-green-500/30' 
+            ? 'bg-brand/20 border border-green-500/30 text-brand-light hover:bg-brand/30' 
             : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-gray-600/50 hover:text-white'
         } ${className}`}
       >
@@ -60,7 +60,7 @@ export default function InvestorFollowButton({
         onClick={toggleFollow}
         className={`w-14 h-14 rounded-full shadow-lg transition-all duration-200 flex items-center justify-center ${
           isFollowing 
-            ? 'bg-green-500 hover:bg-green-400 text-white hover:scale-105' 
+            ? 'bg-brand hover:bg-green-400 text-white hover:scale-105' 
             : 'bg-gray-700 hover:bg-gray-600 text-gray-300 hover:text-white hover:scale-105'
         } ${className}`}
         title={isFollowing ? `Folge ${investorName}` : `${investorName} folgen`}
@@ -81,7 +81,7 @@ export default function InvestorFollowButton({
         onClick={toggleFollow}
         className={`w-full flex items-center justify-center gap-3 px-4 py-3 rounded-lg font-medium transition-all duration-200 ${
           isFollowing 
-            ? 'bg-green-500/20 border border-green-500/30 text-green-400 hover:bg-green-500/30' 
+            ? 'bg-brand/20 border border-green-500/30 text-brand-light hover:bg-brand/30' 
             : 'bg-gray-700/50 border border-gray-600 text-gray-300 hover:bg-gray-600/50 hover:text-white'
         } ${className}`}
       >
@@ -95,7 +95,7 @@ export default function InvestorFollowButton({
       </button>
       
       {isFollowing && (
-        <p className="text-xs text-green-400/80 text-center leading-relaxed">
+        <p className="text-xs text-brand-light/80 text-center leading-relaxed">
           Du erhältst E-Mails bei neuen 13F-Filings
         </p>
       )}

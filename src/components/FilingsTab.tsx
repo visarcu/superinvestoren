@@ -83,7 +83,7 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
 
   const getFormColor = (form: string) => {
     if (form.includes('/A')) return 'text-yellow-400 bg-yellow-500/20';
-    if (form.startsWith('13F')) return 'text-green-400 bg-green-500/20';
+    if (form.startsWith('13F')) return 'text-brand-light bg-brand/20';
     return 'text-gray-400 bg-gray-500/20';
   };
 
@@ -124,7 +124,7 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
           <div className="text-sm text-gray-400">Gesamt Filings</div>
         </div>
         <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-green-400">
+          <div className="text-2xl font-bold text-brand-light">
             {filings.filter(f => f.form.startsWith('13F')).length}
           </div>
           <div className="text-sm text-gray-400">13F Reports</div>

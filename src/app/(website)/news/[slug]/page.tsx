@@ -46,7 +46,7 @@ export default async function NewsArticlePage({ params }: Props) {
   const getCategoryColor = (category: string) => {
     switch (category) {
       case 'newsletter': return 'bg-blue-500/20 text-blue-400 border-blue-500/30'
-      case 'analysis': return 'bg-green-500/20 text-green-400 border-green-500/30'
+      case 'analysis': return 'bg-brand/20 text-brand-light border-green-500/30'
       case 'market-news': return 'bg-purple-500/20 text-purple-400 border-purple-500/30'
       case 'education': return 'bg-orange-500/20 text-orange-400 border-orange-500/30'
       default: return 'bg-gray-800 text-gray-300'
@@ -70,7 +70,7 @@ export default async function NewsArticlePage({ params }: Props) {
         <div className="max-w-4xl mx-auto">
           <Link
             href="/news"
-            className="relative z-20 inline-flex items-center gap-2 text-gray-400 hover:text-green-400 transition-colors mb-6 cursor-pointer group"
+            className="relative z-20 inline-flex items-center gap-2 text-gray-400 hover:text-brand-light transition-colors mb-6 cursor-pointer group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
             Zurück zu Research & Analysen
@@ -89,7 +89,7 @@ export default async function NewsArticlePage({ params }: Props) {
               {getCategoryName(article.category)}
             </span>
             {article.featured && (
-              <span className="flex items-center gap-1 text-green-400 text-sm font-medium">
+              <span className="flex items-center gap-1 text-brand-light text-sm font-medium">
                 <SparklesIcon className="w-4 h-4" />
                 Featured
               </span>
@@ -157,7 +157,7 @@ export default async function NewsArticlePage({ params }: Props) {
         </article>
 
         {/* Call-to-Action */}
-        <div className="mt-16 p-8 bg-gradient-to-r from-green-500/10 to-gray-500/10 border border-green-500/20 rounded-2xl text-center">
+        <div className="mt-16 p-8 bg-gradient-to-r from-brand/10 to-gray-500/10 border border-brand/20 rounded-2xl text-center">
           <h3 className="text-2xl font-bold text-white mb-4">
             Mehr solche Analysen gefällig?
           </h3>
@@ -167,7 +167,7 @@ export default async function NewsArticlePage({ params }: Props) {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/analyse"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-700 text-white font-semibold rounded-lg transition-colors"
             >
               <SparklesIcon className="w-5 h-5" />
               Jetzt kostenlos testen
@@ -207,7 +207,7 @@ export default async function NewsArticlePage({ params }: Props) {
                 </div>
 
                 <div className="p-6">
-                  <h4 className="text-lg font-bold text-white mb-3 group-hover:text-green-400 transition-colors line-clamp-2">
+                  <h4 className="text-lg font-bold text-white mb-3 group-hover:text-brand-light transition-colors line-clamp-2">
                     {post.title}
                   </h4>
                   
@@ -224,7 +224,7 @@ export default async function NewsArticlePage({ params }: Props) {
                     
                     <Link
                       href={`/news/${post.slug}`}
-                      className="text-green-400 hover:text-green-300 text-sm font-medium group-hover:underline"
+                      className="text-brand-light hover:text-green-300 text-sm font-medium group-hover:underline"
                     >
                       Lesen →
                     </Link>
@@ -248,7 +248,7 @@ export default async function NewsArticlePage({ params }: Props) {
           
           <NewsletterSignup />
           
-          <div className="flex flex-wrap justify-center gap-6 text-green-400 text-sm mt-6">
+          <div className="flex flex-wrap justify-center gap-6 text-brand-light text-sm mt-6">
             <span>✓ Kostenlos & Werbefrei</span>
             <span>✓ Jederzeit abmeldbar</span>
             <span>✓ DSGVO-konform</span>

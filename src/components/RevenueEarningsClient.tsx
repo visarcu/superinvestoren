@@ -275,7 +275,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
                 className={`
                   flex items-center gap-2 py-4 px-1 border-b-2 font-medium text-sm transition-colors
                   ${isActive
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-secondary hover:text-theme-primary hover:border-theme/30'
                   }
                 `}
@@ -372,7 +372,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
             <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-theme-card via-theme-card/95 to-transparent pointer-events-none">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center pointer-events-auto">
-                  <LockClosedIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                  <LockClosedIcon className="w-8 h-8 text-brand mx-auto mb-2" />
                   <p className="text-theme-primary font-semibold mb-1">Premium Feature</p>
                   <p className="text-theme-secondary text-sm mb-3">
                     Langfristige Prognosen
@@ -478,7 +478,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
             <div className="absolute right-0 top-0 bottom-0 w-1/3 bg-gradient-to-l from-theme-card via-theme-card/95 to-transparent pointer-events-none">
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center pointer-events-auto">
-                  <LockClosedIcon className="w-8 h-8 text-green-500 mx-auto mb-2" />
+                  <LockClosedIcon className="w-8 h-8 text-brand mx-auto mb-2" />
                   <p className="text-theme-primary font-semibold mb-1">Premium Feature</p>
                   <p className="text-theme-secondary text-sm mb-3">
                     Langfristige Prognosen
@@ -551,7 +551,7 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
                           </span>
                         </td>
                         <td colSpan={5} className="text-center">
-                          <Link href="/pricing" className="text-green-400 hover:text-green-300">
+                          <Link href="/pricing" className="text-brand-light hover:text-green-300">
                             🔒 Upgrade für erweiterte Prognosen
                           </Link>
                         </td>
@@ -560,13 +560,13 @@ export default function RevenueEarningsClient({ ticker }: { ticker: string }) {
                   }
                   
                   return (
-                    <tr key={e.date} className={isCurrentYear ? 'bg-green-500/5' : ''}>
+                    <tr key={e.date} className={isCurrentYear ? 'bg-brand/5' : ''}>
                       <td className="font-medium">{year}</td>
                       <td className="text-center">
                         <span className={`px-2 py-1 rounded text-xs ${
                           isCurrentYear 
                             ? 'bg-yellow-500/20 text-yellow-400'
-                            : 'bg-green-500/20 text-green-400'
+                            : 'bg-brand/20 text-brand-light'
                         }`}>
                           {isCurrentYear ? 'Laufend' : 'Prognose'}
                         </span>

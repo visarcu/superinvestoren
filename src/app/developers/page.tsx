@@ -190,7 +190,7 @@ export default function MyComponent() {
                   onClick={() => setLanguage('de')}
                   className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
                     language === 'de' 
-                      ? 'bg-green-500 text-black' 
+                      ? 'bg-brand text-black' 
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -200,7 +200,7 @@ export default function MyComponent() {
                   onClick={() => setLanguage('en')}
                   className={`px-3 py-1.5 text-sm font-medium rounded-full transition-colors ${
                     language === 'en' 
-                      ? 'bg-green-500 text-black' 
+                      ? 'bg-brand text-black' 
                       : 'text-gray-400 hover:text-white'
                   }`}
                 >
@@ -223,7 +223,7 @@ export default function MyComponent() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
           <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-8 text-center hover:bg-white/[0.05] transition-all duration-300">
             <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <ChartBarIcon className="w-8 h-8 text-green-400" />
+              <ChartBarIcon className="w-8 h-8 text-brand-light" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-3">{t[language].livePortfolio}</h3>
             <p className="text-gray-400 leading-relaxed">
@@ -233,7 +233,7 @@ export default function MyComponent() {
 
           <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-8 text-center hover:bg-white/[0.05] transition-all duration-300">
             <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <CubeIcon className="w-8 h-8 text-green-400" />
+              <CubeIcon className="w-8 h-8 text-brand-light" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-3">{t[language].plugPlay}</h3>
             <p className="text-gray-400 leading-relaxed">
@@ -243,7 +243,7 @@ export default function MyComponent() {
 
           <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-3xl p-8 text-center hover:bg-white/[0.05] transition-all duration-300">
             <div className="w-16 h-16 bg-white/5 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <GlobeAltIcon className="w-8 h-8 text-green-400" />
+              <GlobeAltIcon className="w-8 h-8 text-brand-light" />
             </div>
             <h3 className="text-xl font-semibold text-white mb-3">{t[language].responsive}</h3>
             <p className="text-gray-400 leading-relaxed">
@@ -262,32 +262,32 @@ export default function MyComponent() {
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-brand/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <CheckIcon className="w-6 h-6 text-brand-light" />
               </div>
               <h4 className="font-semibold text-white mb-2">{t[language].realData}</h4>
               <p className="text-sm text-gray-400">SEC 13F Filings von echten Investoren</p>
             </div>
             
             <div className="text-center">
-              <div className="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-brand/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <CheckIcon className="w-6 h-6 text-brand-light" />
               </div>
               <h4 className="font-semibold text-white mb-2">{t[language].quarterlyUpdates}</h4>
               <p className="text-sm text-gray-400">Automatische Aktualisierung alle 3 Monate</p>
             </div>
             
             <div className="text-center">
-              <div className="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-brand/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <CheckIcon className="w-6 h-6 text-brand-light" />
               </div>
               <h4 className="font-semibold text-white mb-2">{t[language].germanTranslation}</h4>
               <p className="text-sm text-gray-400">Vollständig lokalisiert für DACH-Markt</p>
             </div>
             
             <div className="text-center">
-              <div className="w-12 h-12 bg-green-500/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                <CheckIcon className="w-6 h-6 text-green-400" />
+              <div className="w-12 h-12 bg-brand/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                <CheckIcon className="w-6 h-6 text-brand-light" />
               </div>
               <h4 className="font-semibold text-white mb-2">{t[language].noMaintenance}</h4>
               <p className="text-sm text-gray-400">Set it and forget it - läuft vollautomatisch</p>
@@ -333,19 +333,19 @@ export default function MyComponent() {
             
             <div className="space-y-4 text-sm text-gray-300">
               <div className="flex items-center gap-2">
-                <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                 <span>Echtzeit Portfolio-Wert und Performance</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                 <span>Top Holdings mit aktuellen Allokationen</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                 <span>Responsive Design für alle Geräte</span>
               </div>
               <div className="flex items-center gap-2">
-                <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                 <span>Dark Theme mit sanften Animationen</span>
               </div>
             </div>
@@ -374,7 +374,7 @@ export default function MyComponent() {
           {/* HTML */}
           <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-brand-light flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 Pure HTML
               </h3>
@@ -412,7 +412,7 @@ export default function MyComponent() {
           {/* Auto-Initialize */}
           <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-brand-light flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 Auto-Initialize
               </h3>
@@ -450,7 +450,7 @@ export default function MyComponent() {
           {/* React */}
           <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6 lg:col-span-2">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-brand-light flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 React Implementation
               </h3>
@@ -509,7 +509,7 @@ export default function MyComponent() {
             'burry', 'arkman', 'coleman', 'cantillon'
           ].map(investor => (
             <div key={investor} className="group bg-gray-900/50 border border-white/10 rounded-xl p-4 text-center hover:border-green-500/30 transition-all duration-200">
-              <code className="text-green-400 font-mono text-sm group-hover:text-green-300 transition-colors">
+              <code className="text-brand-light font-mono text-sm group-hover:text-green-300 transition-colors">
                 {investor}
               </code>
             </div>
@@ -534,7 +534,7 @@ export default function MyComponent() {
           {/* All News Endpoint */}
           <div className="bg-gray-900/50 border border-white/10 rounded-2xl p-6">
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-semibold text-green-400 flex items-center gap-2">
+              <h3 className="text-lg font-semibold text-brand-light flex items-center gap-2">
                 <div className="w-2 h-2 bg-green-400 rounded-full"></div>
                 Alle News
               </h3>
@@ -557,7 +557,7 @@ export default function MyComponent() {
             </div>
             <div className="text-left">
               <p className="text-gray-300 text-sm mb-3">Aggregierte News aller Superinvestoren mit Trending-Analyse</p>
-              <div className="bg-black/50 rounded-lg p-3 font-mono text-xs text-green-400">
+              <div className="bg-black/50 rounded-lg p-3 font-mono text-xs text-brand-light">
                 GET /api/superinvestor-news/all?limit=10
               </div>
             </div>
@@ -701,7 +701,7 @@ export default function MyComponent() {
 
       {/* Pricing */}
       <div className="text-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm mb-8">
+        <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 border border-brand/20 text-brand-light rounded-full text-sm font-medium backdrop-blur-sm mb-8">
           <span className="w-2 h-2 bg-green-400 rounded-full"></span>
           API Zugang
         </div>

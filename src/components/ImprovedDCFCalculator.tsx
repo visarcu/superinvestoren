@@ -253,7 +253,7 @@ export default function ImprovedDCFCalculator() {
               setIsSearchOpen(true)
             }}
             onFocus={() => setIsSearchOpen(true)}
-            className="w-full bg-theme-card border border-theme rounded-lg px-4 py-3 text-theme-primary placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+            className="w-full bg-theme-card border border-theme rounded-lg px-4 py-3 text-theme-primary placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
           />
           <button
             onClick={() => searchQuery && handleSelectStock(searchQuery.toUpperCase())}
@@ -311,7 +311,7 @@ export default function ImprovedDCFCalculator() {
               onClick={() => setMode('earnings')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
                 mode === 'earnings'
-                  ? 'bg-green-500 text-white shadow-sm'
+                  ? 'bg-brand text-white shadow-sm'
                   : 'text-theme-secondary hover:text-theme-primary'
               }`}
             >
@@ -321,7 +321,7 @@ export default function ImprovedDCFCalculator() {
               onClick={() => setMode('cashflow')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
                 mode === 'cashflow'
-                  ? 'bg-green-500 text-white shadow-sm'
+                  ? 'bg-brand text-white shadow-sm'
                   : 'text-theme-secondary hover:text-theme-primary'
               }`}
             >
@@ -355,7 +355,7 @@ export default function ImprovedDCFCalculator() {
                     </div>
                     <div>
                       <div className="text-xs text-theme-muted">EPS Wachstum</div>
-                      <div className={`text-lg font-semibold ${stockData.epsGrowth >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`text-lg font-semibold ${stockData.epsGrowth >= 0 ? 'text-brand' : 'text-red-600'}`}>
                         {stockData.epsGrowth.toFixed(1)}%
                       </div>
                     </div>
@@ -371,7 +371,7 @@ export default function ImprovedDCFCalculator() {
                       type="text"
                       value={epsInput}
                       onChange={(e) => setEpsInput(e.target.value)}
-                      className="flex-1 border border-theme rounded-r-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-r-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                   </div>
                   <p className="text-xs text-theme-muted mt-1.5">Der Gewinn pro Aktie der letzten 12 Monate.</p>
@@ -386,10 +386,10 @@ export default function ImprovedDCFCalculator() {
                       value={epsGrowthRate}
                       onChange={(e) => setEpsGrowthRate(e.target.value)}
                       placeholder="Wachstumsrate eingeben"
-                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme text-theme-muted">
-                      {isEpsGrowthValid && <CheckIcon className="w-5 h-5 text-green-500 mr-1" />}
+                      {isEpsGrowthValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                       %
                     </span>
                   </div>
@@ -405,11 +405,11 @@ export default function ImprovedDCFCalculator() {
                       value={targetPE}
                       onChange={(e) => setTargetPE(e.target.value)}
                       placeholder="KGV eingeben"
-                      className="flex-1 border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     {isTargetPEValid && (
                       <span className="inline-flex items-center px-3">
-                        <CheckIcon className="w-5 h-5 text-green-500" />
+                        <CheckIcon className="w-5 h-5 text-brand" />
                       </span>
                     )}
                   </div>
@@ -424,10 +424,10 @@ export default function ImprovedDCFCalculator() {
                       type="text"
                       value={desiredReturnEarnings}
                       onChange={(e) => setDesiredReturnEarnings(e.target.value)}
-                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
-                      {isDesiredReturnEarningsValid && <CheckIcon className="w-5 h-5 text-green-500 mr-1" />}
+                      {isDesiredReturnEarningsValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                       %
                     </span>
                   </div>
@@ -450,7 +450,7 @@ export default function ImprovedDCFCalculator() {
                     </div>
                     <div>
                       <div className="text-xs text-theme-muted">SBC Impact</div>
-                      <div className={`text-lg font-semibold ${stockData.sbcImpact >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`text-lg font-semibold ${stockData.sbcImpact >= 0 ? 'text-brand' : 'text-red-600'}`}>
                         {stockData.sbcImpact.toFixed(2)}%
                       </div>
                     </div>
@@ -466,7 +466,7 @@ export default function ImprovedDCFCalculator() {
                       type="text"
                       value={fcfInput}
                       onChange={(e) => setFcfInput(e.target.value)}
-                      className="flex-1 border border-theme rounded-r-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-r-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                   </div>
                   <p className="text-xs text-theme-muted mt-1.5">Free Cash Flow pro Aktie der letzten 12 Monate - der Cashflow nach Investitionsausgaben.</p>
@@ -481,10 +481,10 @@ export default function ImprovedDCFCalculator() {
                       value={fcfGrowthRate}
                       onChange={(e) => setFcfGrowthRate(e.target.value)}
                       placeholder="10"
-                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
-                      {isFcfGrowthValid && <CheckIcon className="w-5 h-5 text-green-500 mr-1" />}
+                      {isFcfGrowthValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                       %
                     </span>
                   </div>
@@ -500,7 +500,7 @@ export default function ImprovedDCFCalculator() {
                         type="checkbox"
                         checked={useFcfMultiple}
                         onChange={(e) => setUseFcfMultiple(e.target.checked)}
-                        className="rounded border-theme text-green-500 focus:ring-green-500"
+                        className="rounded border-theme text-brand focus:ring-brand"
                       />
                       FCF-Multiple verwenden
                     </label>
@@ -511,10 +511,10 @@ export default function ImprovedDCFCalculator() {
                       value={targetFcfYield}
                       onChange={(e) => setTargetFcfYield(e.target.value)}
                       placeholder="FCF-Rendite eingeben"
-                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
-                      {isTargetYieldValid && <CheckIcon className="w-5 h-5 text-green-500 mr-1" />}
+                      {isTargetYieldValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                       %
                     </span>
                   </div>
@@ -529,10 +529,10 @@ export default function ImprovedDCFCalculator() {
                       type="text"
                       value={desiredReturnCashFlow}
                       onChange={(e) => setDesiredReturnCashFlow(e.target.value)}
-                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-green-500 focus:outline-none"
+                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
-                      {isDesiredReturnCashFlowValid && <CheckIcon className="w-5 h-5 text-green-500 mr-1" />}
+                      {isDesiredReturnCashFlowValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                       %
                     </span>
                   </div>
@@ -554,7 +554,7 @@ export default function ImprovedDCFCalculator() {
                   <div className="grid grid-cols-2 gap-8 text-center">
                     <div>
                       <div className="text-xs text-theme-muted mb-1">Rendite vom heutigen Preis</div>
-                      <div className={`text-2xl font-bold ${currentCalculation.returnFromToday >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+                      <div className={`text-2xl font-bold ${currentCalculation.returnFromToday >= 0 ? 'text-brand' : 'text-red-600'}`}>
                         {currentCalculation.returnFromToday >= 0 ? '' : ''}{currentCalculation.returnFromToday.toFixed(2)}%
                       </div>
                     </div>
@@ -606,11 +606,11 @@ export default function ImprovedDCFCalculator() {
                 {/* Powered by */}
                 <div className="flex items-center justify-end gap-2 mt-4 text-sm text-theme-muted">
                   <span>Powered by</span>
-                  <span className="font-semibold text-green-600 flex items-center gap-1">
+                  <span className="font-semibold text-brand flex items-center gap-1">
                     <span className="flex items-end gap-0.5">
-                      <div className="w-1 h-2 bg-green-500 rounded-sm"></div>
-                      <div className="w-1 h-2.5 bg-green-500 rounded-sm"></div>
-                      <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
+                      <div className="w-1 h-2 bg-brand rounded-sm"></div>
+                      <div className="w-1 h-2.5 bg-brand rounded-sm"></div>
+                      <div className="w-1 h-3 bg-brand rounded-sm"></div>
                     </span>
                     FINCLUE
                   </span>

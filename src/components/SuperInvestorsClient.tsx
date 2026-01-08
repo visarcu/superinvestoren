@@ -91,7 +91,7 @@ const PremiumBlur = ({ children, isPremium, title }: { children: React.ReactNode
           <p className="text-theme-muted text-sm">Premium erforderlich</p>
           <Link
             href="/pricing"
-            className="inline-flex items-center gap-1 text-green-400 hover:text-green-300 text-xs font-medium mt-2 transition-colors"
+            className="inline-flex items-center gap-1 text-brand-light hover:text-green-300 text-xs font-medium mt-2 transition-colors"
           >
             Upgrade <ArrowRightIcon className="w-3 h-3" />
           </Link>
@@ -111,7 +111,7 @@ const PremiumTabLock = ({ title, description }: { title: string, description: st
         <p className="text-theme-muted mb-4">{description}</p>
         <Link
           href="/pricing"
-          className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+          className="inline-flex items-center gap-2 bg-brand hover:bg-brand text-white px-6 py-3 rounded-lg font-medium transition-colors"
         >
           Premium freischalten <ArrowRightIcon className="w-4 h-4" />
         </Link>
@@ -179,7 +179,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
         <div className="w-full px-6 lg:px-8 py-8">
           <Link
             href={`/analyse/stocks/${ticker.toLowerCase()}`}
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-8 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-8 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zu {initialStockName || ticker}
@@ -211,7 +211,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
         <div className="w-full px-6 lg:px-8 py-8">
           <Link
             href={`/analyse/stocks/${ticker.toLowerCase()}`}
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-8 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-8 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zu {initialStockName || ticker}
@@ -246,7 +246,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
       <div className="w-full px-6 lg:px-8 py-8">
         <Link
           href={`/analyse/stocks/${ticker.toLowerCase()}`}
-          className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-8 group"
+          className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-8 group"
         >
           <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
           Zurück zu {data.stockInfo.name}
@@ -283,8 +283,8 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
             {/* Gesamtwert - Blur for non-premium */}
             <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-                  <BanknotesIcon className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
+                  <BanknotesIcon className="w-5 h-5 text-brand-light" />
                 </div>
                 <div className="flex-1">
                   <p className="text-sm text-theme-muted font-medium">Gesamtwert</p>
@@ -315,15 +315,15 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
 
             <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
               <div className="flex items-center gap-3 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-                  <ArrowUpIcon className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
+                  <ArrowUpIcon className="w-5 h-5 text-brand-light" />
                 </div>
                 <div>
                   <p className="text-sm text-theme-muted font-medium">Kaufaktivität</p>
-                  <p className="text-2xl font-bold text-green-400">{buyingInvestors.length}</p>
+                  <p className="text-2xl font-bold text-brand-light">{buyingInvestors.length}</p>
                 </div>
               </div>
-              <p className="text-xs text-green-400">
+              <p className="text-xs text-brand-light">
                 +{data.summary.newPositions} neue Positionen
               </p>
             </div>
@@ -351,7 +351,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                 onClick={() => setActiveTab('overview')}
                 className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === 'overview'
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-muted hover:text-theme-secondary hover:border-theme/30'
                 }`}
               >
@@ -364,7 +364,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                 onClick={() => setActiveTab('quarterly')}
                 className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === 'quarterly'
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-muted hover:text-theme-secondary hover:border-theme/30'
                 }`}
               >
@@ -378,7 +378,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                 onClick={() => setActiveTab('ownership')}
                 className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === 'ownership'
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-muted hover:text-theme-secondary hover:border-theme/30'
                 }`}
               >
@@ -392,7 +392,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                 onClick={() => setActiveTab('intelligence')}
                 className={`py-3 px-1 border-b-2 font-medium text-sm transition-colors ${
                   activeTab === 'intelligence'
-                    ? 'border-green-500 text-green-400'
+                    ? 'border-green-500 text-brand-light'
                     : 'border-transparent text-theme-muted hover:text-theme-secondary hover:border-theme/30'
                 }`}
               >
@@ -418,20 +418,20 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                 {buyingInvestors.length > 0 && (
                   <div>
                     <div className="flex items-center gap-3 mb-6">
-                      <div className="w-8 h-8 rounded-lg bg-green-500/20 flex items-center justify-center">
-                        <PlusIcon className="w-4 h-4 text-green-400" />
+                      <div className="w-8 h-8 rounded-lg bg-brand/20 flex items-center justify-center">
+                        <PlusIcon className="w-4 h-4 text-brand-light" />
                       </div>
                       <h2 className="text-xl font-bold text-theme-primary">
                         Kaufaktivität letztes Quartal
                       </h2>
-                      <span className="px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium">
+                      <span className="px-3 py-1 bg-brand/20 text-brand-light rounded-full text-sm font-medium">
                         {buyingInvestors.length} Investoren
                       </span>
                     </div>
 
                     <div className="space-y-3">
                       {buyingInvestors.map((position) => (
-                        <div key={position.investor.slug} className="bg-theme-card border border-theme/10 rounded-xl p-4 hover:border-green-500/20 transition-all">
+                        <div key={position.investor.slug} className="bg-theme-card border border-theme/10 rounded-xl p-4 hover:border-brand/20 transition-all">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-4">
                               <Link href={`/superinvestor/${position.investor.slug}`}>
@@ -446,7 +446,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                               <div>
                                 <Link
                                   href={`/superinvestor/${position.investor.slug}`}
-                                  className="font-semibold text-theme-primary hover:text-green-400 transition-colors"
+                                  className="font-semibold text-theme-primary hover:text-brand-light transition-colors"
                                 >
                                   {position.investor.name}
                                 </Link>
@@ -466,8 +466,8 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                                 </div>
                               ) : (
                                 <div className="flex items-center gap-2">
-                                  <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
-                                  <span className="text-green-400 font-semibold">
+                                  <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
+                                  <span className="text-brand-light font-semibold">
                                     {position.position.formattedChangeValue}
                                   </span>
                                 </div>
@@ -581,7 +581,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                     <div className="flex-1">
                       <Link
                         href={`/superinvestor/${position.investor.slug}`}
-                        className="text-lg font-bold text-theme-primary hover:text-green-400 transition-colors duration-200 block mb-1"
+                        className="text-lg font-bold text-theme-primary hover:text-brand-light transition-colors duration-200 block mb-1"
                       >
                         {position.investor.name}
                       </Link>
@@ -598,7 +598,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                           <div className="text-xs text-theme-muted mb-1">Aktuelle Aktivität</div>
                           <div className={`flex items-center gap-1 font-semibold ${
                             position.position.trend === 'increasing' || position.position.trend === 'new'
-                              ? 'text-green-400'
+                              ? 'text-brand-light'
                               : position.position.trend === 'decreasing'
                                 ? 'text-red-400'
                                 : 'text-theme-muted'
@@ -634,8 +634,8 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                 <div className="bg-gradient-to-r from-theme-card to-theme-card/50 border border-theme/10 rounded-xl p-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 rounded-xl bg-green-500/20 flex items-center justify-center">
-                        <LockClosedIcon className="w-6 h-6 text-green-400" />
+                      <div className="w-12 h-12 rounded-xl bg-brand/20 flex items-center justify-center">
+                        <LockClosedIcon className="w-6 h-6 text-brand-light" />
                       </div>
                       <div>
                         <h3 className="text-lg font-bold text-theme-primary">
@@ -648,7 +648,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                     </div>
                     <Link
                       href="/pricing"
-                      className="inline-flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                      className="inline-flex items-center gap-2 bg-brand hover:bg-brand text-white px-6 py-3 rounded-lg font-medium transition-colors"
                     >
                       Premium freischalten <ArrowRightIcon className="w-4 h-4" />
                     </Link>
@@ -711,7 +711,7 @@ export default function SuperInvestorsClient({ ticker, initialStockName, isPremi
                         <div>
                           <Link
                             href={`/superinvestor/${position.investor.slug}`}
-                            className="text-lg font-bold text-theme-primary hover:text-green-400 transition-colors duration-200"
+                            className="text-lg font-bold text-theme-primary hover:text-brand-light transition-colors duration-200"
                           >
                             {position.investor.name}
                           </Link>

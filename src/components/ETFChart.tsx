@@ -207,7 +207,7 @@ export default function ETFChart({ symbol, period = '1y', height = 350, onPeriod
       <div className="bg-theme-card rounded-xl p-6">
         <div className="flex items-center gap-3 mb-6">
           <div className="flex items-center gap-3">
-            <div className="w-5 h-5 text-green-400">📊</div>
+            <div className="w-5 h-5 text-brand-light">📊</div>
             <h3 className="text-xl font-semibold text-theme-primary">Kursverlauf</h3>
           </div>
         </div>
@@ -225,7 +225,7 @@ export default function ETFChart({ symbol, period = '1y', height = 350, onPeriod
     return (
       <div className="bg-theme-card rounded-xl p-6">
         <div className="flex items-center gap-3 mb-6">
-          <div className="w-5 h-5 text-green-400">📊</div>
+          <div className="w-5 h-5 text-brand-light">📊</div>
           <h3 className="text-xl font-semibold text-theme-primary">Kursverlauf</h3>
         </div>
         <div className="flex items-center justify-center" style={{ height: `${height}px` }}>
@@ -239,12 +239,12 @@ export default function ETFChart({ symbol, period = '1y', height = 350, onPeriod
     <div className="bg-theme-card rounded-xl p-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-5 h-5 text-green-400">📈</div>
+          <div className="w-5 h-5 text-brand-light">📈</div>
           <h3 className="text-xl font-semibold text-theme-primary">Kursverlauf</h3>
           {periodPerformance !== 0 && (
             <div className={`ml-2 px-2 py-1 rounded text-sm font-semibold ${
               periodPerformance >= 0 
-                ? 'bg-green-500/20 text-green-400' 
+                ? 'bg-brand/20 text-brand-light' 
                 : 'bg-red-500/20 text-red-400'
             }`}>
               {periodPerformance >= 0 ? '+' : ''}{periodPerformance.toFixed(2).replace('.', ',')}%
@@ -261,7 +261,7 @@ export default function ETFChart({ symbol, period = '1y', height = 350, onPeriod
               }}
               className={`px-3 py-1 text-sm font-medium rounded transition-all ${
                 currentPeriod === p.key
-                  ? 'bg-green-500 text-white'
+                  ? 'bg-brand text-white'
                   : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/10'
               }`}
             >

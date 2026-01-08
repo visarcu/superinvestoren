@@ -70,11 +70,11 @@ export default function SuperinvestorNewsDashboardWidget() {
   const getActionIcon = (action?: string) => {
     switch (action) {
       case 'bought':
-        return <PlusIcon className="w-3 h-3 text-green-400" />
+        return <PlusIcon className="w-3 h-3 text-brand-light" />
       case 'sold':
         return <MinusIcon className="w-3 h-3 text-red-400" />
       case 'increased':
-        return <ArrowTrendingUpIcon className="w-3 h-3 text-green-400" />
+        return <ArrowTrendingUpIcon className="w-3 h-3 text-brand-light" />
       case 'decreased':
         return <ArrowTrendingDownIcon className="w-3 h-3 text-red-400" />
       default:

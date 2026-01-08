@@ -102,7 +102,7 @@ export default function WatchlistButton({ ticker, variant = 'default' }: Props) 
         disabled={loading || !userId}
         className={`group relative flex items-center justify-center w-10 h-10 rounded-lg transition-all duration-200 backdrop-blur-sm ${
           exists
-            ? 'bg-green-500/20 border border-green-500/30 text-green-400 hover:bg-green-500/30 hover:border-green-500/50' 
+            ? 'bg-brand/20 border border-green-500/30 text-brand-light hover:bg-brand/30 hover:border-green-500/50' 
             : 'bg-gray-800/50 border border-gray-700 text-gray-400 hover:bg-gray-700/50 hover:border-gray-600 hover:text-white'
         } ${loading || !userId ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}`}
       >
@@ -129,7 +129,7 @@ export default function WatchlistButton({ ticker, variant = 'default' }: Props) 
       disabled={loading || !userId}
       className={`group flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm transition-all duration-200 backdrop-blur-sm ${
         exists
-          ? 'bg-green-500/10 border border-green-500/20 text-green-400 hover:bg-green-500/20 hover:border-green-500/40' 
+          ? 'bg-brand/10 border border-brand/20 text-brand-light hover:bg-brand/20 hover:border-green-500/40' 
           : 'bg-gray-800/50 border border-gray-700 text-gray-300 hover:bg-gray-700/50 hover:border-gray-600 hover:text-white'
       } ${loading || !userId ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105'}`}
     >

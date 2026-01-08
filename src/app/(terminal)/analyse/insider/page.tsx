@@ -65,8 +65,8 @@ const getTransactionCategory = (transactionType: string, acquiredDisposedCode: s
     return {
       type: 'purchase',
       label: 'Kauf',
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20',
+      color: 'text-brand-light',
+      bgColor: 'bg-brand/20',
       icon: 'up',
       isPositive: true
     }
@@ -160,8 +160,8 @@ const getTransactionCategory = (transactionType: string, acquiredDisposedCode: s
     return {
       type: 'purchase',
       label: 'Erwerb',
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20',
+      color: 'text-brand-light',
+      bgColor: 'bg-brand/20',
       icon: 'up',
       isPositive: true
     }
@@ -459,7 +459,7 @@ export default function InsiderTradingPage() {
           <p className="text-red-400 mb-4">{error}</p>
           <button 
             onClick={retryLoading}
-            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            className="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand transition-colors"
           >
             Erneut versuchen
           </button>
@@ -474,7 +474,7 @@ export default function InsiderTradingPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-theme-primary flex items-center gap-3">
-            <UserGroupIcon className="w-8 h-8 text-green-500" />
+            <UserGroupIcon className="w-8 h-8 text-brand" />
             Insider Trading
           </h1>
           <p className="text-theme-muted mt-2">
@@ -484,7 +484,7 @@ export default function InsiderTradingPage() {
         
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2 text-sm">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
             <span className="text-theme-muted">
               Letztes Update: {new Date().toLocaleTimeString('de-DE', { 
                 hour: '2-digit', 
@@ -530,9 +530,9 @@ export default function InsiderTradingPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Käufe</p>
-              <p className="text-xl font-bold text-green-400">{formatNumber(extendedStats.categories.purchase)}</p>
+              <p className="text-xl font-bold text-brand-light">{formatNumber(extendedStats.categories.purchase)}</p>
             </div>
-            <ArrowTrendingUpIcon className="w-6 h-6 text-green-500" />
+            <ArrowTrendingUpIcon className="w-6 h-6 text-brand" />
           </div>
         </div>
         
@@ -571,7 +571,7 @@ export default function InsiderTradingPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Sentiment</p>
-              <p className={`text-xl font-bold ${extendedStats.netShares >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`text-xl font-bold ${extendedStats.netShares >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                 {extendedStats.sentiment.netSentiment}
               </p>
               <p className="text-xs text-theme-muted">
@@ -615,7 +615,7 @@ export default function InsiderTradingPage() {
                   setSearchTerm(e.target.value)
                   setCurrentPage(1)
                 }}
-                className="w-full pl-10 pr-4 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20"
+                className="w-full pl-10 pr-4 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20"
               />
             </div>
           </div>
@@ -674,12 +674,12 @@ export default function InsiderTradingPage() {
                         href={`/analyse/stocks/${transaction.symbol.toLowerCase()}/insider`}
                         className="flex items-center gap-2 group"
                       >
-                        <div className="w-8 h-8 bg-theme-tertiary rounded-md flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-                          <span className="text-xs font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                        <div className="w-8 h-8 bg-theme-tertiary rounded-md flex items-center justify-center group-hover:bg-brand/20 transition-colors">
+                          <span className="text-xs font-bold text-theme-primary group-hover:text-brand-light transition-colors">
                             {transaction.symbol}
                           </span>
                         </div>
-                        <div className="text-sm font-medium text-theme-primary group-hover:text-green-400 transition-colors">
+                        <div className="text-sm font-medium text-theme-primary group-hover:text-brand-light transition-colors">
                           {transaction.symbol}
                         </div>
                       </Link>

@@ -61,7 +61,7 @@ export default function CompanyProfileWithEmployees({
                 href={companyData?.website || 'https://www.apple.com'} 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="ml-2 text-green-400 hover:text-green-300 transition-colors"
+                className="ml-2 text-brand-light hover:text-green-300 transition-colors"
               >
                 {companyData?.website?.replace('https://', '').replace('http://', '') || 'www.apple.com'}
               </a>

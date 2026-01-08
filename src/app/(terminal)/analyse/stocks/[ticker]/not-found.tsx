@@ -22,7 +22,7 @@ export default function StockNotFound() {
         <div className="space-y-3">
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 w-full justify-center"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 w-full justify-center"
           >
             <ArrowLeftIcon className="w-4 h-4" />
             Zurück zum Dashboard

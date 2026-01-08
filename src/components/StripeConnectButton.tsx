@@ -176,7 +176,7 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
       <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <div className="text-green-400 mr-3">🎉</div>
+            <div className="text-brand-light mr-3">🎉</div>
             <div>
               <h3 className="text-theme-primary font-semibold">
                 {isTrialStart ? '14-Tage Trial gestartet!' : 'Zahlung erfolgreich!'}
@@ -257,16 +257,16 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           <h5 className="text-theme-primary font-medium mb-2 text-sm">✨ Alle Premium Features freigeschaltet:</h5>
           <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Erweiterte Analysen
+              <span className="text-brand-light">✓</span> Erweiterte Analysen
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Interaktive Charts
+              <span className="text-brand-light">✓</span> Interaktive Charts
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Historische Daten
+              <span className="text-brand-light">✓</span> Historische Daten
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Priority Support
+              <span className="text-brand-light">✓</span> Priority Support
             </div>
           </div>
         </div>
@@ -352,16 +352,16 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
           <h5 className="text-theme-primary font-medium mb-2 text-sm">Premium Features aktiv:</h5>
           <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Erweiterte Analysen
+              <span className="text-brand-light">✓</span> Erweiterte Analysen
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Alle Charts
+              <span className="text-brand-light">✓</span> Alle Charts
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Keine Werbung
+              <span className="text-brand-light">✓</span> Keine Werbung
             </div>
             <div className="flex items-center gap-1">
-              <span className="text-green-400">✓</span> Priority Support
+              <span className="text-brand-light">✓</span> Priority Support
             </div>
           </div>
         </div>
@@ -418,16 +418,16 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
         <h5 className="text-theme-primary font-medium mb-2 text-sm">14 Tage kostenlos enthalten:</h5>
         <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Alle Analysen
+            <span className="text-brand-light">✓</span> Alle Analysen
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Interaktive Charts  
+            <span className="text-brand-light">✓</span> Interaktive Charts  
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Historische Daten
+            <span className="text-brand-light">✓</span> Historische Daten
           </div>
           <div className="flex items-center gap-1">
-            <span className="text-green-400">✓</span> Priority Support
+            <span className="text-brand-light">✓</span> Priority Support
           </div>
         </div>
       </div>

@@ -34,11 +34,11 @@ export function LearnTooltipButton({
   return (
     <button
       onClick={handleClick}
-      className={`group relative p-1.5 text-green-400/60 hover:text-green-400 transition-all duration-200 ${className}`}
+      className={`group relative p-1.5 text-brand-light/60 hover:text-brand-light transition-all duration-200 ${className}`}
       aria-label={`Erklärung: ${term}`}
     >
       {/* Green background on hover */}
-      <div className="absolute inset-0 bg-green-500/10 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
+      <div className="absolute inset-0 bg-brand/10 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200"></div>
       
       {/* Academic Cap Icon */}
       <AcademicCapIcon className="relative w-4 h-4 group-hover:scale-110 transition-transform duration-200" />
@@ -132,7 +132,7 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
         {/* Header - GREEN */}
         <div className="flex items-center justify-between p-4 border-b border-theme">
           <div className="flex items-center gap-2">
-            <BookOpenIcon className="w-5 h-5 text-green-400" />
+            <BookOpenIcon className="w-5 h-5 text-brand-light" />
             <h3 className="text-lg font-semibold text-theme-primary">Finanz-Lexikon</h3>
           </div>
           <button
@@ -166,8 +166,8 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
                 )}
                 
                 {termData.example && (
-                  <div className="bg-green-500/10 rounded-lg p-4 mb-4">
-                    <h5 className="text-sm font-semibold text-green-400 mb-2 flex items-center gap-2">
+                  <div className="bg-brand/10 rounded-lg p-4 mb-4">
+                    <h5 className="text-sm font-semibold text-brand-light mb-2 flex items-center gap-2">
                       💡 Beispiel:
                     </h5>
                     <p className="text-sm text-theme-secondary">{termData.example}</p>
@@ -213,7 +213,7 @@ export default function LearnSidebar({ currentTerm }: LearnSidebarProps) {
                       }}
                       className={`text-left p-2 rounded text-sm transition-colors ${
                         activeTerm === key 
-                          ? 'bg-green-500/20 text-green-400 font-medium'
+                          ? 'bg-brand/20 text-brand-light font-medium'
                           : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-tertiary/30'
                       }`}
                     >

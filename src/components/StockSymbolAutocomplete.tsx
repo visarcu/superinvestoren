@@ -182,7 +182,7 @@ export default function StockSymbolAutocomplete({
               onClick={() => handleSelect(result)}
               className={`px-3 py-2 cursor-pointer transition-colors ${
                 index === selectedIndex
-                  ? 'bg-green-400/10 text-green-400'
+                  ? 'bg-green-400/10 text-brand-light'
                   : 'hover:bg-theme-secondary text-theme-primary'
               }`}
             >

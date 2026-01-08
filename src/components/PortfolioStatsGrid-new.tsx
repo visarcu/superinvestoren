@@ -91,7 +91,7 @@ export default function PortfolioStatsGrid({ stats, investorName }: PortfolioSta
         <div className="bg-white dark:bg-gray-800 rounded-xl p-6 border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all">
           <div className="flex items-center gap-4 mb-4">
             <div className="w-10 h-10 flex items-center justify-center rounded-lg bg-green-50 dark:bg-green-900/20">
-              <BuildingOfficeIcon className="w-5 h-5 text-green-600 dark:text-green-400" />
+              <BuildingOfficeIcon className="w-5 h-5 text-brand dark:text-brand-light" />
             </div>
             <div>
               <div className="text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wide">Portfolio-Wert</div>
@@ -235,7 +235,7 @@ export default function PortfolioStatsGrid({ stats, investorName }: PortfolioSta
               <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
                 <div 
                   className={`h-2 rounded-full transition-all duration-1000 ${
-                    stats.turnover < 25 ? 'bg-green-500' :
+                    stats.turnover < 25 ? 'bg-brand' :
                     stats.turnover < 50 ? 'bg-yellow-500' : 'bg-red-500'
                   }`}
                   style={{ width: `${Math.min(stats.turnover, 100)}%` }}

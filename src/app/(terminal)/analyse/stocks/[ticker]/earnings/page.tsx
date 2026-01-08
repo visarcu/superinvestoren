@@ -188,7 +188,7 @@ export default function QuartalszahlenPage() {
                     disabled={isPremium}
                     className={`w-full text-left px-3 py-2 rounded-md transition-all ${
                       isSelected
-                        ? 'bg-theme-primary border border-green-500/20 text-theme-primary'
+                        ? 'bg-theme-primary border border-brand/20 text-theme-primary'
                         : isPremium
                           ? 'opacity-40 cursor-not-allowed'
                           : 'hover:bg-theme-secondary text-theme-secondary'
@@ -201,7 +201,7 @@ export default function QuartalszahlenPage() {
                             Q{transcript.quarter} {transcript.year}
                           </span>
                           {index === 0 && (
-                            <span className="text-xs text-green-500">
+                            <span className="text-xs text-brand">
                               Aktuell
                             </span>
                           )}
@@ -247,7 +247,7 @@ export default function QuartalszahlenPage() {
                     onClick={() => setShowSummary(!showSummary)}
                     className={`px-3 py-1.5 text-xs border rounded-md transition-colors ${
                       showSummary 
-                        ? 'bg-green-500/10 border-green-500/30 text-green-500' 
+                        ? 'bg-brand/10 border-green-500/30 text-brand' 
                         : 'bg-theme-secondary border-theme/10 text-theme-secondary hover:text-theme-primary'
                     }`}
                   >
@@ -281,7 +281,7 @@ export default function QuartalszahlenPage() {
                   onClick={() => setActiveTab('transcript')}
                   className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
                     activeTab === 'transcript'
-                      ? 'text-green-500 border-green-500'
+                      ? 'text-brand border-green-500'
                       : 'text-theme-muted border-transparent hover:text-theme-secondary'
                   }`}
                 >
@@ -358,7 +358,7 @@ export default function QuartalszahlenPage() {
           <div className="w-[700px] border-l border-theme/10 bg-theme-card overflow-y-auto flex-shrink-0">
             <div className="p-6">
               <div className="flex items-center gap-2 mb-4">
-                <SparklesIcon className="w-4 h-4 text-green-500" />
+                <SparklesIcon className="w-4 h-4 text-brand" />
                 <h3 className="text-base font-semibold text-theme-primary">
                   FinClue AI Zusammenfassung
                 </h3>

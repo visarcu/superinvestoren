@@ -164,12 +164,12 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
       <div className="p-4 border-b border-theme/20">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-            <FunnelIcon className="w-5 h-5 text-green-400" />
+            <FunnelIcon className="w-5 h-5 text-brand-light" />
             Quick Screener
           </h2>
           <Link
             href="/analyse/screener"
-            className="text-xs text-green-400 hover:text-green-300 flex items-center gap-1"
+            className="text-xs text-brand-light hover:text-green-300 flex items-center gap-1"
           >
             Erweitert
             <ChevronRightIcon className="w-3 h-3" />
@@ -188,7 +188,7 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
                 onClick={() => handleFilterClick(filter)}
                 className={`p-2 rounded-lg text-xs font-medium transition-all ${
                   isActive
-                    ? 'bg-green-500 text-white shadow-md'
+                    ? 'bg-brand text-white shadow-md'
                     : 'bg-theme-tertiary text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                 }`}
                 title={filter.name}
@@ -234,7 +234,7 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
 
           <button
             onClick={handleCustomScreen}
-            className="w-full py-1.5 bg-green-500 text-white rounded text-xs font-medium hover:bg-green-600 transition-colors"
+            className="w-full py-1.5 bg-brand text-white rounded text-xs font-medium hover:bg-brand transition-colors"
           >
             Screen ausführen
           </button>
@@ -258,7 +258,7 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
                 <div className="flex items-center justify-between mb-1">
                   <span className="font-bold text-theme-primary">{stock.symbol}</span>
                   <span className={`text-xs font-bold ${
-                    stock.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'
+                    stock.changesPercentage >= 0 ? 'text-brand-light' : 'text-red-400'
                   }`}>
                     {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage?.toFixed(2)}%
                   </span>
@@ -272,7 +272,7 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
             
             <Link
               href="/analyse/screener"
-              className="block w-full p-3 bg-theme-tertiary/50 border border-theme/10 rounded-lg hover:bg-theme-hover transition-all text-center text-xs text-theme-secondary hover:text-green-400"
+              className="block w-full p-3 bg-theme-tertiary/50 border border-theme/10 rounded-lg hover:bg-theme-hover transition-all text-center text-xs text-theme-secondary hover:text-brand-light"
             >
               Alle Ergebnisse anzeigen →
             </Link>
@@ -290,13 +290,13 @@ export default function SidebarScreener({ onClose }: QuickScreenerProps) {
         <div className="flex items-center justify-between text-xs">
           <Link
             href="/analyse/screener"
-            className="text-theme-secondary hover:text-green-400 transition-colors"
+            className="text-theme-secondary hover:text-brand-light transition-colors"
           >
             Vollansicht
           </Link>
           <Link
             href="/analyse/screener?tab=saved"
-            className="text-theme-secondary hover:text-green-400 transition-colors"
+            className="text-theme-secondary hover:text-brand-light transition-colors"
           >
             Gespeicherte
           </Link>

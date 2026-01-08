@@ -121,7 +121,7 @@ export default function HeatmapPage() {
   const getColor = (change: number): string => {
     if (change > 3) return 'bg-emerald-600'; 
     if (change > 1.5) return 'bg-emerald-500'; 
-    if (change > 0.5) return 'bg-green-500';
+    if (change > 0.5) return 'bg-brand';
     if (change > 0) return 'bg-green-400/80';
     if (change > -0.5) return 'bg-gray-500';
     if (change > -1.5) return 'bg-red-400/80';
@@ -389,7 +389,7 @@ export default function HeatmapPage() {
           <div className="pb-8">
             <Link
               href="/analyse"
-              className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+              className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
             >
               <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
               Zurück zur Analyse
@@ -398,7 +398,7 @@ export default function HeatmapPage() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <MapIcon className="w-6 h-6 text-green-400" />
+                  <MapIcon className="w-6 h-6 text-brand-light" />
                   <h1 className="text-3xl font-bold text-theme-primary">Market Heatmap</h1>
                 </div>
                 <div className="flex items-center gap-4 text-theme-secondary">
@@ -416,7 +416,7 @@ export default function HeatmapPage() {
               
               <button
                 onClick={loadHeatmapData}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
+                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
               >
                 <ArrowPathIcon className="w-4 h-4" />
                 <span className="font-medium">Aktualisieren</span>
@@ -432,7 +432,7 @@ export default function HeatmapPage() {
             {/* Stock Count Toggle */}
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2">
-                <ChartBarIcon className="w-5 h-5 text-green-400" />
+                <ChartBarIcon className="w-5 h-5 text-brand-light" />
                 <span className="text-theme-primary font-medium">Aktienanzahl:</span>
               </div>
               
@@ -443,7 +443,7 @@ export default function HeatmapPage() {
                     onClick={() => setStockCount(count as 100 | 200 | 500)}
                     className={`px-4 py-2 rounded-md text-sm font-medium transition-colors ${
                       stockCount === count 
-                        ? 'bg-green-500 text-white shadow-sm' 
+                        ? 'bg-brand text-white shadow-sm' 
                         : 'text-theme-muted hover:text-theme-primary'
                     }`}
                   >
@@ -472,10 +472,10 @@ export default function HeatmapPage() {
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-theme-card rounded-xl p-6">
             <div className="flex items-center gap-3 mb-2">
-              <ArrowUpIcon className="w-5 h-5 text-green-400" />
+              <ArrowUpIcon className="w-5 h-5 text-brand-light" />
               <span className="text-theme-muted text-sm">Steigend</span>
             </div>
-            <div className="text-2xl font-bold text-green-400">{marketSummary.up}</div>
+            <div className="text-2xl font-bold text-brand-light">{marketSummary.up}</div>
             <div className="text-theme-muted text-xs">Aktien im Plus</div>
           </div>
 
@@ -493,7 +493,7 @@ export default function HeatmapPage() {
               <ChartBarIcon className="w-5 h-5 text-blue-400" />
               <span className="text-theme-muted text-sm">Durchschnitt</span>
             </div>
-            <div className={`text-2xl font-bold ${marketSummary.avgChange >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <div className={`text-2xl font-bold ${marketSummary.avgChange >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
               {marketSummary.avgChange >= 0 ? '+' : ''}{marketSummary.avgChange.toFixed(2)}%
             </div>
             <div className="text-theme-muted text-xs">Market Performance</div>
@@ -514,7 +514,7 @@ export default function HeatmapPage() {
         {/* Sector Filter */}
         <div className="bg-theme-card rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <FunnelIcon className="w-5 h-5 text-green-400" />
+            <FunnelIcon className="w-5 h-5 text-brand-light" />
             <h3 className="text-lg font-semibold text-theme-primary">Filter nach Sektor</h3>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -522,7 +522,7 @@ export default function HeatmapPage() {
               onClick={() => setSelectedSector(null)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                 selectedSector === null 
-                  ? 'bg-green-500 text-white' 
+                  ? 'bg-brand text-white' 
                   : 'bg-theme-secondary/20 text-theme-secondary hover:bg-theme-secondary/30 hover:text-theme-primary'
               }`}
             >
@@ -534,7 +534,7 @@ export default function HeatmapPage() {
                 onClick={() => setSelectedSector(sector.sector)}
                 className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                   selectedSector === sector.sector 
-                    ? 'bg-green-500 text-white' 
+                    ? 'bg-brand text-white' 
                     : 'bg-theme-secondary/20 text-theme-secondary hover:bg-theme-secondary/30 hover:text-theme-primary'
                 }`}
               >
@@ -629,7 +629,7 @@ export default function HeatmapPage() {
                           <div className="text-yellow-400 mt-1">MCap: {formatMarketCap(rect.marketCap)}</div>
                           <div className="text-blue-300">Sektor: {getSectorDisplayName(rect.sector)}</div>
                           <div className="text-gray-300">Kurs: {formatPrice(rect.price)}</div>
-                          <div className={`font-bold mt-1 ${rect.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                          <div className={`font-bold mt-1 ${rect.changesPercentage >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                             {rect.changesPercentage >= 0 ? '+' : ''}{rect.changesPercentage.toFixed(2)}% heute
                           </div>
                         </div>
@@ -683,7 +683,7 @@ export default function HeatmapPage() {
                           </td>
                           <td className="px-4 py-3 text-right text-theme-secondary">{sector.count}</td>
                           <td className={`px-4 py-3 text-right font-bold ${
-                            sector.avgChange >= 0 ? 'text-green-400' : 'text-red-400'
+                            sector.avgChange >= 0 ? 'text-brand-light' : 'text-red-400'
                           }`}>
                             {sector.avgChange >= 0 ? '+' : ''}{sector.avgChange.toFixed(2)}%
                           </td>

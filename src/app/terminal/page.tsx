@@ -59,7 +59,7 @@ const Terminal = () => {
                   <h2 className="text-2xl font-bold text-white">Apple Inc. (AAPL)</h2>
                   <div className="flex items-center gap-3 mt-2">
                     <span className="text-3xl font-bold text-white">$185.24</span>
-                    <span className="flex items-center gap-1 text-green-400 bg-green-500/20 px-3 py-1 rounded-lg">
+                    <span className="flex items-center gap-1 text-brand-light bg-brand/20 px-3 py-1 rounded-lg">
                       <ArrowUpIcon className="w-4 h-4" />
                       +2.1% (+$3.81)
                     </span>
@@ -106,7 +106,7 @@ const Terminal = () => {
                       key={period}
                       className={`px-3 py-1 rounded text-sm font-medium transition-colors ${
                         period === '1M' 
-                          ? 'bg-green-500 text-black' 
+                          ? 'bg-brand text-black' 
                           : 'text-gray-400 hover:text-white hover:bg-gray-800'
                       }`}
                     >
@@ -125,7 +125,7 @@ const Terminal = () => {
                   <div className="text-gray-400 text-sm mb-2">{stat.label}</div>
                   <div className="text-white text-xl font-bold mb-1">{stat.value}</div>
                   <div className={`flex items-center gap-1 text-sm ${
-                    stat.positive ? 'text-green-400' : 'text-red-400'
+                    stat.positive ? 'text-brand-light' : 'text-red-400'
                   }`}>
                     {stat.positive ? (
                       <ArrowUpIcon className="w-3 h-3" />
@@ -195,7 +195,7 @@ const Terminal = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <h2 className="text-2xl font-bold text-white">My Watchlist</h2>
-              <button className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-colors">
+              <button className="px-4 py-2 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-colors">
                 Add Stock
               </button>
             </div>
@@ -214,7 +214,7 @@ const Terminal = () => {
                   <div className="text-gray-300">{stock.name}</div>
                   <div className="text-right text-white">${stock.price.toFixed(2)}</div>
                   <div className={`text-right flex items-center justify-end gap-1 ${
-                    stock.change >= 0 ? 'text-green-400' : 'text-red-400'
+                    stock.change >= 0 ? 'text-brand-light' : 'text-red-400'
                   }`}>
                     {stock.change >= 0 ? (
                       <ArrowUpIcon className="w-3 h-3" />
@@ -249,12 +249,12 @@ const Terminal = () => {
         <div className="p-6 border-b border-gray-800">
           <div className="flex items-center gap-2">
             <div className="flex items-end gap-0.5">
-              <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
-              <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
-              <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-3 bg-brand rounded-sm"></div>
+              <div className="w-1.5 h-4 bg-brand rounded-sm"></div>
+              <div className="w-1.5 h-5 bg-brand rounded-sm"></div>
             </div>
             <span className="text-xl font-bold text-white">FinClue</span>
-            <span className="text-xs bg-green-500/20 text-green-400 px-2 py-1 rounded font-medium">
+            <span className="text-xs bg-brand/20 text-brand-light px-2 py-1 rounded font-medium">
               Terminal
             </span>
           </div>
@@ -287,7 +287,7 @@ const Terminal = () => {
                   onClick={() => setActiveSection(section.id)}
                   className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                     isActive 
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30' 
+                      ? 'bg-brand/20 text-brand-light border border-green-500/30' 
                       : 'text-gray-400 hover:text-white hover:bg-gray-800'
                   }`}
                 >
@@ -309,7 +309,7 @@ const Terminal = () => {
               <div className="text-white text-sm font-medium truncate">Alex Müller</div>
               <div className="flex items-center gap-1 text-xs">
                 <SparklesIcon className="w-3 h-3 text-yellow-400" />
-                <span className="text-green-400">Premium</span>
+                <span className="text-brand-light">Premium</span>
               </div>
             </div>
             <button className="p-1 text-gray-400 hover:text-white transition-colors">

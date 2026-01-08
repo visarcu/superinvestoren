@@ -68,7 +68,7 @@ export default function CompactTopPositions({
                   {/* Ticker + Company in einer Zeile */}
                   <div className="flex items-center gap-2">
                     {ticker && (
-                      <span className="text-green-400 font-mono text-xs font-semibold flex-shrink-0">
+                      <span className="text-brand-light font-mono text-xs font-semibold flex-shrink-0">
                         {ticker}
                       </span>
                     )}

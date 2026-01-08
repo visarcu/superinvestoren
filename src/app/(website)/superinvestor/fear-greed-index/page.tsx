@@ -37,7 +37,7 @@ export default function FearGreedIndexComingSoon() {
           </div>
 
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 border border-brand/20 text-brand-light rounded-full text-sm font-medium mb-6">
               <EyeIcon className="w-4 h-4" />
               Weltweit Erster
             </div>
@@ -99,8 +99,8 @@ export default function FearGreedIndexComingSoon() {
                 icon: ChartBarIcon,
                 title: 'Live Sentiment Score',
                 description: 'Echtzeitanalyse der Marktpsychologie basierend auf tatsächlichen Portfolio-Bewegungen der Super-Investoren.',
-                color: 'text-green-400',
-                bgColor: 'bg-green-500/10'
+                color: 'text-brand-light',
+                bgColor: 'bg-brand/10'
               },
               {
                 icon: SignalIcon,
@@ -193,7 +193,7 @@ export default function FearGreedIndexComingSoon() {
             </div>
 
             <div>
-              <h4 className="text-lg font-semibold text-green-400 mb-4">✅ Unser Super-Investor Index</h4>
+              <h4 className="text-lg font-semibold text-brand-light mb-4">✅ Unser Super-Investor Index</h4>
               <div className="space-y-3 text-theme-secondary">
                 <div className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
@@ -263,7 +263,7 @@ export default function FearGreedIndexComingSoon() {
               ].map((item, index) => (
                 <div key={index} className="flex items-start gap-4">
                   <div className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                    item.status === 'completed' ? 'bg-green-500 text-black' :
+                    item.status === 'completed' ? 'bg-brand text-black' :
                     item.status === 'in-progress' ? 'bg-blue-500 text-white animate-pulse' :
                     'bg-gray-600 text-white'
                   }`}>
@@ -273,7 +273,7 @@ export default function FearGreedIndexComingSoon() {
                     <div className="flex items-center gap-3 mb-1">
                       <h4 className="text-white font-semibold">{item.phase}: {item.title}</h4>
                       <span className={`text-xs px-2 py-1 rounded-full ${
-                        item.status === 'completed' ? 'bg-green-500/20 text-green-400' :
+                        item.status === 'completed' ? 'bg-brand/20 text-brand-light' :
                         item.status === 'in-progress' ? 'bg-blue-500/20 text-blue-400' :
                         'bg-gray-500/20 text-gray-400'
                       }`}>

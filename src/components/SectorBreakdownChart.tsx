@@ -77,7 +77,7 @@ const CustomTooltip = ({ active, payload }: any) => {
       <div className="bg-gray-900/95 border border-gray-700 rounded-xl p-4 shadow-2xl backdrop-blur-sm">
         <p className="text-white font-semibold mb-1">{data.sector}</p>
         <div className="space-y-1 text-sm">
-          <p className="text-green-400 font-medium">
+          <p className="text-brand-light font-medium">
             {formatCurrency(data.value)}
           </p>
           <p className="text-gray-400">

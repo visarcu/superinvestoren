@@ -198,7 +198,7 @@ export const DCFCalculationBreakdown: React.FC<DCFCalculationBreakdownProps> = (
                       <div className="text-right">{formatNumber(assumptions.operatingMargin)}%</div>
                       <div className="text-right">{formatMillion(projection.nopat)}</div>
                       <div className="text-right">{formatMillion(projection.capex)}</div>
-                      <div className="text-right font-medium text-green-400">{formatMillion(projection.fcf)}</div>
+                      <div className="text-right font-medium text-brand-light">{formatMillion(projection.fcf)}</div>
                     </div>
                   ))}
                 </div>
@@ -281,7 +281,7 @@ export const DCFCalculationBreakdown: React.FC<DCFCalculationBreakdownProps> = (
                   </div>
                   <div>
                     <div className="text-theme-muted mb-1">Equity Value</div>
-                    <div className="font-medium text-green-400">{formatMillion(results.equityValue)}</div>
+                    <div className="font-medium text-brand-light">{formatMillion(results.equityValue)}</div>
                   </div>
                 </div>
               </div>
@@ -294,7 +294,7 @@ export const DCFCalculationBreakdown: React.FC<DCFCalculationBreakdownProps> = (
                 <p>• Eigenkapitalwert: {formatMillion(results.equityValue)}</p>
                 <p>• Aktien im Umlauf: {formatNumber(currentShares / 1000, 1)}B Aktien</p>
                 <p>• Formel: Wert pro Aktie = Eigenkapitalwert ÷ Aktien im Umlauf</p>
-                <p className="font-medium text-green-400">• DCF Fairer Wert: {formatCurrency(results.valuePerShare)} pro Aktie</p>
+                <p className="font-medium text-brand-light">• DCF Fairer Wert: {formatCurrency(results.valuePerShare)} pro Aktie</p>
               </div>
               
               {/* ✅ PROFESSIONAL: Neutral Per Share Breakdown */}
@@ -323,7 +323,7 @@ export const DCFCalculationBreakdown: React.FC<DCFCalculationBreakdownProps> = (
                 <p>• DCF Fairer Wert: {formatCurrency(results.valuePerShare)}</p>
                 <p>• Aktueller Marktpreis: {formatCurrency(results.currentPrice)}</p>
                 <p className="font-medium">• Upside/Downside: {results.upside > 0 ? '+' : ''}{formatNumber(results.upside)}%</p>
-                <p className={`font-medium ${results.upside > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <p className={`font-medium ${results.upside > 0 ? 'text-brand-light' : 'text-red-400'}`}>
                   • Bewertung: {results.upside > 0 ? 'Unterbewertet' : 'Überbewertet'} laut DCF-Analyse
                 </p>
               </div>
@@ -341,7 +341,7 @@ export const DCFCalculationBreakdown: React.FC<DCFCalculationBreakdownProps> = (
                   </div>
                   <div>
                     <div className="text-theme-muted mb-1">Upside/Downside</div>
-                    <div className={`font-bold text-xl ${results.upside > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`font-bold text-xl ${results.upside > 0 ? 'text-brand-light' : 'text-red-400'}`}>
                       {results.upside > 0 ? '+' : ''}{formatNumber(results.upside)}%
                     </div>
                   </div>

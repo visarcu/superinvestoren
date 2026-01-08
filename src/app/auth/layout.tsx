@@ -17,11 +17,11 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               {/* Logo */}
               <Link href="/" className="flex items-center gap-2 group">
                 <div className="flex items-end gap-0.5">
-                  <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
-                  <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
-                  <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
+                  <div className="w-1.5 h-3 bg-brand rounded-sm"></div>
+                  <div className="w-1.5 h-4 bg-brand rounded-sm"></div>
+                  <div className="w-1.5 h-5 bg-brand rounded-sm"></div>
                 </div>
-                <span className="text-lg font-bold text-white group-hover:text-green-400 transition-colors">
+                <span className="text-lg font-bold text-white group-hover:text-brand-light transition-colors">
                   FinClue
                 </span>
               </Link>
@@ -59,9 +59,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                   <div className="text-center mb-8">
                     <div className="flex items-center justify-center gap-2 mb-4">
                       <div className="flex items-end gap-0.5">
-                        <div className="w-1 h-2 bg-green-500 rounded-sm"></div>
-                        <div className="w-1 h-3 bg-green-500 rounded-sm"></div>
-                        <div className="w-1 h-4 bg-green-500 rounded-sm"></div>
+                        <div className="w-1 h-2 bg-brand rounded-sm"></div>
+                        <div className="w-1 h-3 bg-brand rounded-sm"></div>
+                        <div className="w-1 h-4 bg-brand rounded-sm"></div>
                       </div>
                       <span className="text-lg font-bold text-white">FinClue</span>
                     </div>
@@ -102,7 +102,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
                     Sieh was andere übersehen.
                     <br />
                     <br></br>
-                     {/*  <span className="text-green-400">Aktien analysieren wie die Profis</span> */}
+                     {/*  <span className="text-brand-light">Aktien analysieren wie die Profis</span> */}
                     <br></br>
                     <br></br>
                     <br></br>
@@ -135,7 +135,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               
               {/* Glowing Effect */}
               <div 
-                className="absolute top-0 right-0 bg-gradient-to-l from-green-500/15 to-transparent rounded-lg blur-2xl -z-10"
+                className="absolute top-0 right-0 bg-gradient-to-l from-brand/15 to-transparent rounded-lg blur-2xl -z-10"
                 style={{
                   width: '50%',
                   height: '100%'

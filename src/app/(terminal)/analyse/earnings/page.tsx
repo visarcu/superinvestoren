@@ -170,7 +170,7 @@ export default function EarningsCalendarPage() {
         <div className="w-full px-6 lg:px-8 py-6">
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-muted hover:text-green-400 transition-colors duration-200 mb-6 group"
+            className="inline-flex items-center gap-2 text-theme-muted hover:text-brand-light transition-colors duration-200 mb-6 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zur Analyse
@@ -179,8 +179,8 @@ export default function EarningsCalendarPage() {
           <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
             <div className="space-y-1">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-green-500/20 rounded-xl flex items-center justify-center">
-                  <CalendarIcon className="w-5 h-5 text-green-400" />
+                <div className="w-10 h-10 bg-brand/20 rounded-xl flex items-center justify-center">
+                  <CalendarIcon className="w-5 h-5 text-brand-light" />
                 </div>
                 <h1 className="text-2xl font-bold text-theme-primary">
                   Earnings Kalender
@@ -197,7 +197,7 @@ export default function EarningsCalendarPage() {
                   {watchlistItems.length} {watchlistItems.length === 1 ? 'Aktie' : 'Aktien'} verfolgt
                 </div>
                 {earningsEvents.length > 0 && (
-                  <div className="text-xs text-green-400">
+                  <div className="text-xs text-brand-light">
                     {earningsEvents.length} anstehende Termine
                   </div>
                 )}
@@ -206,7 +206,7 @@ export default function EarningsCalendarPage() {
               <button
                 onClick={refreshEarnings}
                 disabled={earningsLoading}
-                className="flex items-center gap-2 px-4 py-2.5 bg-theme-card border border-theme/10 hover:border-green-500/30 hover:bg-green-500/5 text-theme-primary rounded-lg transition-all duration-200 disabled:opacity-50"
+                className="flex items-center gap-2 px-4 py-2.5 bg-theme-card border border-theme/10 hover:border-green-500/30 hover:bg-brand/5 text-theme-primary rounded-lg transition-all duration-200 disabled:opacity-50"
               >
                 <ArrowPathIcon className={`w-4 h-4 ${earningsLoading ? 'animate-spin' : ''}`} />
                 <span className="text-sm font-medium">
@@ -232,8 +232,8 @@ export default function EarningsCalendarPage() {
         {/* Empty Watchlist State */}
         {watchlistItems.length === 0 ? (
           <div className="bg-theme-card border border-theme/10 rounded-2xl p-12 text-center">
-            <div className="w-20 h-20 mx-auto bg-green-500/10 rounded-2xl flex items-center justify-center mb-6">
-              <BookmarkIcon className="w-10 h-10 text-green-500/60" />
+            <div className="w-20 h-20 mx-auto bg-brand/10 rounded-2xl flex items-center justify-center mb-6">
+              <BookmarkIcon className="w-10 h-10 text-brand/60" />
             </div>
             
             <div className="space-y-3 max-w-md mx-auto">
@@ -248,7 +248,7 @@ export default function EarningsCalendarPage() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center mt-8">
               <Link
                 href="/analyse/watchlist"
-                className="px-6 py-3 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors font-medium"
+                className="px-6 py-3 bg-brand hover:bg-brand text-white rounded-lg transition-colors font-medium"
               >
                 Zur Watchlist
               </Link>
@@ -279,7 +279,7 @@ export default function EarningsCalendarPage() {
             <button
               onClick={refreshEarnings}
               disabled={earningsLoading}
-              className="mt-8 px-6 py-3 bg-theme-card border border-theme/10 hover:border-green-500/30 hover:bg-green-500/5 text-theme-primary rounded-lg transition-all font-medium disabled:opacity-50"
+              className="mt-8 px-6 py-3 bg-theme-card border border-theme/10 hover:border-green-500/30 hover:bg-brand/5 text-theme-primary rounded-lg transition-all font-medium disabled:opacity-50"
             >
               {earningsLoading ? 'Lade...' : 'Erneut prüfen'}
             </button>
@@ -299,8 +299,8 @@ export default function EarningsCalendarPage() {
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <div className={`px-3 py-1 rounded-lg text-sm font-medium ${
-                        isToday ? 'bg-green-500/20 text-green-400' : 
-                        isTomorrow ? 'bg-green-500/10 text-green-300' :
+                        isToday ? 'bg-brand/20 text-brand-light' : 
+                        isTomorrow ? 'bg-brand/10 text-green-300' :
                         'bg-theme-secondary/20 text-theme-muted'
                       }`}>
                         {formatDate(dateString)}
@@ -343,7 +343,7 @@ export default function EarningsCalendarPage() {
                           <div className="text-right">
                             <div className={`text-xs px-2 py-1 rounded ${
                               event.time === 'amc' ? 'bg-orange-500/20 text-orange-400' :
-                              event.time === 'bmo' ? 'bg-green-500/20 text-green-400' :
+                              event.time === 'bmo' ? 'bg-brand/20 text-brand-light' :
                               'bg-theme-secondary/20 text-theme-muted'
                             }`}>
                               {event.time === 'amc' ? 'Nach Schluss' :
@@ -352,7 +352,7 @@ export default function EarningsCalendarPage() {
                             {(event.estimatedEPS || event.revenueEstimated) && (
                               <div className="flex gap-2 mt-1">
                                 {event.estimatedEPS && (
-                                  <div className="text-xs text-green-400">
+                                  <div className="text-xs text-brand-light">
                                     EPS: ${event.estimatedEPS.toFixed(2)}
                                   </div>
                                 )}
@@ -377,7 +377,7 @@ export default function EarningsCalendarPage() {
               <h4 className="text-sm font-semibold text-theme-primary mb-3">Zeitangaben</h4>
               <div className="grid grid-cols-3 gap-4 text-xs">
                 <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <div className="w-2 h-2 bg-brand rounded-full"></div>
                   <span className="text-theme-muted">Vor Öffnung</span>
                 </div>
                 <div className="flex items-center gap-2">

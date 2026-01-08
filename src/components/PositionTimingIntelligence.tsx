@@ -157,8 +157,8 @@ export default function PositionTimingIntelligence({
       case 'perfect-timer':
         return {
           label: 'Perfect Timer 🎯',
-          color: 'text-green-400',
-          bgColor: 'bg-green-500/10 border-green-500/20',
+          color: 'text-brand-light',
+          bgColor: 'bg-brand/10 border-brand/20',
           description: 'Optimaler Einstieg'
         }
       case 'early-adopter':
@@ -186,7 +186,7 @@ export default function PositionTimingIntelligence({
       <div className="space-y-8">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <SparklesIcon className="w-8 h-8 text-green-400" />
+            <SparklesIcon className="w-8 h-8 text-brand-light" />
             <h2 className="text-3xl font-bold text-white">
               Position Timing Intelligence
             </h2>
@@ -208,7 +208,7 @@ export default function PositionTimingIntelligence({
       <div className="space-y-8">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <SparklesIcon className="w-8 h-8 text-green-400" />
+            <SparklesIcon className="w-8 h-8 text-brand-light" />
             <h2 className="text-3xl font-bold text-white">
               Position Timing Intelligence
             </h2>
@@ -226,7 +226,7 @@ export default function PositionTimingIntelligence({
       {/* Header */}
       <div className="text-center">
         <div className="flex items-center justify-center gap-2 mb-4">
-          <SparklesIcon className="w-8 h-8 text-green-400" />
+          <SparklesIcon className="w-8 h-8 text-brand-light" />
           <h2 className="text-3xl font-bold text-white">
             Position Timing Intelligence
           </h2>
@@ -240,15 +240,15 @@ export default function PositionTimingIntelligence({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-green-500/20 flex items-center justify-center">
-              <TrophyIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 rounded-xl bg-brand/20 flex items-center justify-center">
+              <TrophyIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h3 className="text-sm text-theme-muted">Best Performer</h3>
               <p className="text-lg font-bold text-theme-primary">{bestPerformer?.investor.name}</p>
             </div>
           </div>
-          <p className="text-green-400 font-semibold">
+          <p className="text-brand-light font-semibold">
             {formatPercentage(bestPerformer?.position.estimatedPerformance || 0)}
           </p>
         </div>
@@ -263,7 +263,7 @@ export default function PositionTimingIntelligence({
               <p className="text-lg font-bold text-theme-primary">Alle Investoren</p>
             </div>
           </div>
-          <p className={`font-semibold ${averagePerformance >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+          <p className={`font-semibold ${averagePerformance >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
             {formatPercentage(averagePerformance)}
           </p>
         </div>
@@ -288,7 +288,7 @@ export default function PositionTimingIntelligence({
       <div className="bg-theme-card border border-theme/10 rounded-xl">
         <div className="p-6 border-b border-theme/10">
           <div className="flex items-center gap-3">
-            <TrophyIcon className="w-6 h-6 text-green-400" />
+            <TrophyIcon className="w-6 h-6 text-brand-light" />
             <h3 className="text-xl font-bold text-theme-primary">Timing Leaderboard</h3>
           </div>
           <p className="text-sm text-theme-muted mt-2">
@@ -305,7 +305,7 @@ export default function PositionTimingIntelligence({
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${
-                      index === 0 ? 'bg-green-500/20 text-green-400' :
+                      index === 0 ? 'bg-brand/20 text-brand-light' :
                       index === 1 ? 'bg-theme-secondary text-theme-muted' :
                       index === 2 ? 'bg-theme-secondary text-theme-muted' :
                       'bg-theme-secondary text-theme-muted'
@@ -325,7 +325,7 @@ export default function PositionTimingIntelligence({
                     <div>
                       <Link 
                         href={`/superinvestor/${data.investor.slug}`}
-                        className="font-semibold text-theme-primary hover:text-green-400 transition-colors"
+                        className="font-semibold text-theme-primary hover:text-brand-light transition-colors"
                       >
                         {data.investor.name}
                       </Link>
@@ -356,7 +356,7 @@ export default function PositionTimingIntelligence({
                       </div>
                       <div>
                         <span className="text-theme-muted">Performance</span>
-                        <div className={`font-bold ${data.position.estimatedPerformance >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                        <div className={`font-bold ${data.position.estimatedPerformance >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                           {formatPercentage(data.position.estimatedPerformance)}
                         </div>
                       </div>

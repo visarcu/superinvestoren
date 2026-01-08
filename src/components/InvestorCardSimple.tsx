@@ -42,7 +42,7 @@ const InvestorCardSimple: React.FC<{ investor: InvestorCardData }> = ({ investor
             className="ring-2 ring-white/10 group-hover:ring-white/20 transition-all duration-200 flex-shrink-0"
           />
           <div className="min-w-0 flex-1">
-            <h3 className="font-semibold text-white text-sm group-hover:text-green-400 transition-colors truncate">
+            <h3 className="font-semibold text-white text-sm group-hover:text-brand-light transition-colors truncate">
               {investor.name}
             </h3>
             {investor.subtitle && (
@@ -53,7 +53,7 @@ const InvestorCardSimple: React.FC<{ investor: InvestorCardData }> = ({ investor
           </div>
         </div>
         
-        <ArrowTopRightOnSquareIcon className="w-4 h-4 text-gray-600 group-hover:text-green-400 transition-colors flex-shrink-0" />
+        <ArrowTopRightOnSquareIcon className="w-4 h-4 text-gray-600 group-hover:text-brand-light transition-colors flex-shrink-0" />
       </div>
 
       {/* Simple Chart Placeholder */}
@@ -65,17 +65,17 @@ const InvestorCardSimple: React.FC<{ investor: InvestorCardData }> = ({ investor
       <div className="grid grid-cols-3 gap-3 mb-4 text-xs">
         <div>
           <div className="text-gray-400 mb-1">Portfolio</div>
-          <div className="font-medium text-green-400">
+          <div className="font-medium text-brand-light">
             {formatLargeNumber(investor.totalValue)}
           </div>
         </div>
         <div>
           <div className="text-gray-400 mb-1">Total</div>
-          <div className="font-medium text-green-400">+5.2%</div>
+          <div className="font-medium text-brand-light">+5.2%</div>
         </div>
         <div>
           <div className="text-gray-400 mb-1">Quartal</div>
-          <div className="font-medium text-green-400">+2.1%</div>
+          <div className="font-medium text-brand-light">+2.1%</div>
         </div>
       </div>
 

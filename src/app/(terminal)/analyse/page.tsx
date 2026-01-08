@@ -253,7 +253,7 @@ export default function ModernDashboard() {
           
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zur Analyse
@@ -279,8 +279,7 @@ export default function ModernDashboard() {
             <div className="flex items-center gap-3">
               <Link
                 href="/analyse/ai"
-                className="flex items-center gap-2 px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-200"
-              >
+                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand-hover text-white rounded-lg transition-colors duration-200"              >
                 <SparklesIcon className="w-4 h-4" />
                 <span className="font-medium">FinClue AI</span>
               </Link>
@@ -310,8 +309,8 @@ export default function ModernDashboard() {
             
             <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
               marketLoading 
-                ? 'bg-green-500/20 text-amber-400' 
-                : 'bg-green-500/20 text-green-400'
+                ? 'bg-brand/20 text-amber-400' 
+                : 'bg-brand/20 text-brand-light'
             }`}>
               <div className={`w-2 h-2 rounded-full ${
                 marketLoading ? 'bg-amber-400 animate-pulse' : 'bg-green-400'
@@ -337,7 +336,7 @@ export default function ModernDashboard() {
                     </div>
                     <div className={`text-xs px-3 py-1 rounded-full font-bold ${
                       market.status === 'OPEN' 
-                        ? 'bg-green-500/20 text-green-400' 
+                        ? 'bg-brand/20 text-brand-light' 
                         : 'bg-theme-secondary text-theme-muted'
                     }`}>
                       {market.status === 'OPEN' ? 'Offen' : 'Geschlossen'}
@@ -361,7 +360,7 @@ export default function ModernDashboard() {
                       ) : quote ? (
                         <div className={`flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
                           quote.positive 
-                            ? 'bg-green-500/20 text-green-400' 
+                            ? 'bg-brand/20 text-brand-light' 
                             : 'bg-red-500/20 text-red-400'
                         }`}>
                           {quote.positive ? (
@@ -417,9 +416,10 @@ export default function ModernDashboard() {
                   disabled={!stocksInteractive}
                   className={`group bg-theme-card border border-theme/10 rounded-xl p-5 transition-all duration-200 h-[140px] flex flex-col justify-between ${
                     stocksInteractive 
-                      ? 'hover:border-green-500/30 cursor-pointer' 
+                      ? 'hover:border-brand/30 hover:bg-theme-hover cursor-pointer' 
                       : 'cursor-not-allowed opacity-60'
                   }`}
+                  
                 >
                   {/* Header */}
                   <div className="flex items-center justify-between mb-3">
@@ -438,7 +438,7 @@ export default function ModernDashboard() {
 
                   {/* Ticker */}
                   <div className="text-left mb-2">
-                    <h3 className="text-sm font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                    <h3 className="text-sm font-bold text-theme-primary group-hover:text-brand transition-colors">
                       {ticker}
                     </h3>
                   </div>
@@ -454,11 +454,7 @@ export default function ModernDashboard() {
                       <div className="text-lg font-bold text-theme-primary">
                         {formatStockPrice(quote.price)}
                       </div>
-                      <div className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded ${
-                        quote.changePct >= 0
-                          ? 'text-green-400 bg-green-500/20'
-                          : 'text-red-400 bg-red-500/20'
-                      }`}>
+                      <div className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded text-theme-secondary bg-theme-tertiary/50">
                         {quote.changePct >= 0 ? (
                           <ArrowTrendingUpIcon className="w-3 h-3" />
                         ) : (
@@ -497,7 +493,7 @@ export default function ModernDashboard() {
                     disabled={!stocksInteractive}
                     className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 flex-1 ${
                       stocksInteractive 
-                        ? 'hover:bg-theme-secondary cursor-pointer' 
+                        ? 'hover:bg-theme-hover cursor-pointer' 
                         : 'cursor-not-allowed opacity-60'
                     }`}
                   >
@@ -509,7 +505,7 @@ export default function ModernDashboard() {
                     />
                     
                     <div className="flex-1 text-left">
-                      <h3 className="text-base font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                      <h3 className="text-base font-bold text-theme-primary group-hover:text-brand transition-colors">
                         {lastTicker}
                       </h3>
                       <p className="text-sm text-theme-muted">
@@ -517,7 +513,7 @@ export default function ModernDashboard() {
                       </p>
                     </div>
                     
-                    <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
+                    <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors"/>
                   </button>
                 </div>
               )}
@@ -538,8 +534,8 @@ export default function ModernDashboard() {
                       href={item.href}
                       className="group flex items-center gap-3 p-2 rounded-lg hover:bg-theme-secondary transition-all duration-200"
                     >
-                      <item.icon className="w-4 h-4 text-theme-muted group-hover:text-green-400 transition-colors" />
-                      <span className="text-sm text-theme-primary group-hover:text-green-400 transition-colors">
+                      <item.icon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors" />
+                      <span className="text-sm text-theme-primary group-hover:text-brand transition-colors">
                         {item.label}
                       </span>
                     </Link>

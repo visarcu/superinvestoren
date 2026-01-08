@@ -33,7 +33,7 @@ export default function InvestorSubscribeForm({ investorId }: Props) {
     <div className="max-w-md mx-auto mt-8">
       <div className="bg-gray-900/80 backdrop-blur-lg rounded-2xl p-8 shadow-xl border border-gray-700">
         {status === 'success' ? (
-          <div className="flex flex-col items-center gap-4 text-green-400">
+          <div className="flex flex-col items-center gap-4 text-brand-light">
             <CheckCircleIcon className="w-12 h-12" />
             <h3 className="text-xl font-semibold">Vielen Dank!</h3>
             <p>Du erhältst in Kürze Updates per E-Mail.</p>

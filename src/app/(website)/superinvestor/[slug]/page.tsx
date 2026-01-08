@@ -197,7 +197,7 @@ const getOptionStyling = (optionType: string | undefined) => {
       }
     case 'CALL':
       return {
-        badge: 'bg-green-900/20 text-green-400/60 border-green-900/20',
+        badge: 'bg-green-900/20 text-brand-light/60 border-green-900/20',
         label: 'CALL',
         icon: '📈'
       }
@@ -277,7 +277,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
     return (
       <Link
         href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
-        className="group hover:text-green-400/80 transition-colors"
+        className="group hover:text-brand-light/80 transition-colors"
       >
         {content}
       </Link>
@@ -449,7 +449,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
             {latestData ? formatShares(latestData.shares) : '0'}
           </p>
           {sharesChange !== 0 && (
-            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-green-400/60' : 'text-red-400/60'}`}>
+            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-brand-light/60' : 'text-red-400/60'}`}>
               {sharesChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
               {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)} vs Q
             </p>
@@ -479,7 +479,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
             {latestData ? `${formatCurrency(latestData.portfolioPercentage, 'number')}%` : '0%'}
           </p>
           {percentageChange !== 0 && (
-            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-green-400/60' : 'text-red-400/60'}`}>
+            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-brand-light/60' : 'text-red-400/60'}`}>
               {percentageChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
               {percentageChange > 0 ? '+' : ''}{formatCurrency(percentageChange, 'number')}% vs Q
             </p>
@@ -628,7 +628,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                     </td>
                     <td className="p-5 text-right">
                       {isNew ? (
-                        <span className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-green-500/10 text-green-400 border border-green-500/20">
+                        <span className="inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg bg-brand/10 text-brand-light border border-brand/20">
                           Neukauf
                         </span>
                       ) : isSold ? (
@@ -638,7 +638,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                       ) : sharesChange !== 0 ? (
                         <span className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg ${
                           sharesChange > 0 
-                            ? 'bg-green-500/10 text-green-400 border border-green-500/20' 
+                            ? 'bg-brand/10 text-brand-light border border-brand/20' 
                             : 'bg-red-500/10 text-red-400 border border-red-500/20'
                         }`}>
                           {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)}
@@ -969,11 +969,11 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
             {/* Meta Row: Period & Update Date */}
             <div className="flex items-center gap-4 mb-8">
-              <span className="px-3 py-1.5 bg-green-500/10 text-green-400 text-sm font-medium rounded-md border border-green-500/20">
+              <span className="px-3 py-1.5 bg-brand/10 text-brand-light text-sm font-medium rounded-md border border-brand/20">
                 {period}
               </span>
               <span className="text-gray-600 text-sm flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
+                <span className="w-1.5 h-1.5 bg-brand rounded-full"></span>
                 Aktualisiert {formattedDate}
               </span>
             </div>
@@ -1135,13 +1135,13 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 {holdings.slice(0, 10).map((holding, index) => (
                   <div key={holding.cusip} className="group flex items-center justify-between py-4 px-5 bg-[#0F0F11] rounded-xl border border-white/[0.04] hover:bg-[#1A1A1D] hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/20 transition-all duration-300">
                     <div className="flex items-center gap-4">
-                      <div className="flex items-center justify-center w-8 h-8 text-xs font-bold text-green-400/70 bg-green-500/10 rounded-lg group-hover:bg-green-500/20 transition-all duration-300">
+                      <div className="flex items-center justify-center w-8 h-8 text-xs font-bold text-brand-light/70 bg-brand/10 rounded-lg group-hover:bg-brand/20 transition-all duration-300">
                         {index + 1}
                       </div>
                       <CompanyNameWithOptions position={holding} />
                     </div>
                     <div className="text-right">
-                      <div className="text-white font-semibold text-lg group-hover:text-green-400 transition-colors">
+                      <div className="text-white font-semibold text-lg group-hover:text-brand-light transition-colors">
                         {formatCurrency(holding.value)}
                       </div>
                       <div className="text-gray-500 text-sm font-medium">
@@ -1397,7 +1397,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
            <div className="max-w-2xl mx-auto text-center">
              <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
                <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                 <SparklesIcon className="w-10 h-10 text-green-400/60" />
+                 <SparklesIcon className="w-10 h-10 text-brand-light/60" />
                </div>
                
                <h3 className="text-2xl font-light text-white mb-3">
@@ -1411,7 +1411,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                
                <button
                  onClick={handleAIChat}
-                 className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-green-500/10"
+                 className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-brand/10"
                >
                  {userLoading ? (
                    <>

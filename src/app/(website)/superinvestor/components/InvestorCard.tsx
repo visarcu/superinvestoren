@@ -42,15 +42,15 @@ export default function InvestorCard({ investor }: InvestorCardProps) {
               alt={investor.name}
               width={56}
               height={56}
-              className="rounded-full ring-2 ring-white/10 group-hover:ring-green-500/30 transition-all duration-300"
+              className="rounded-full ring-2 ring-white/10 group-hover:ring-brand/30 transition-all duration-300"
             />
             {/* Status Indicator */}
-            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-green-500 rounded-full border-2 border-[#161618]" />
+            <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-brand rounded-full border-2 border-[#161618]" />
           </div>
           
           {/* Name & Firm */}
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg font-semibold text-white group-hover:text-green-400 transition-colors">
+            <h3 className="text-lg font-semibold text-white group-hover:text-brand-light transition-colors">
               {investor.name}
             </h3>
             <p className="text-sm text-gray-500 truncate">{investor.firm}</p>
@@ -64,7 +64,7 @@ export default function InvestorCard({ investor }: InvestorCardProps) {
               {formatValue(investor.portfolioValue)}
             </span>
             <div className={`flex items-center gap-1 text-sm font-medium ${
-              investor.ytdReturn >= 0 ? 'text-green-400' : 'text-red-400'
+              investor.ytdReturn >= 0 ? 'text-brand-light' : 'text-red-400'
             }`}>
               {investor.ytdReturn >= 0 ? (
                 <ArrowUpIcon className="w-3 h-3" />
@@ -91,7 +91,7 @@ export default function InvestorCard({ investor }: InvestorCardProps) {
         </div>
         
         {/* Hover Action */}
-        <div className="flex items-center justify-center gap-2 text-gray-500 group-hover:text-green-400 transition-colors">
+        <div className="flex items-center justify-center gap-2 text-gray-500 group-hover:text-brand-light transition-colors">
           <span className="text-sm font-medium">Portfolio ansehen</span>
           <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
         </div>

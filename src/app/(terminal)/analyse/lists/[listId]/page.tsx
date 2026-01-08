@@ -168,7 +168,7 @@ export default function StockListDetailPage() {
         <div className="col-span-3">
           <Link 
             href={`/analyse/stocks/${getTicker(stock).toLowerCase()}`}
-            className="font-medium text-theme-primary hover:text-green-400 transition-colors block"
+            className="font-medium text-theme-primary hover:text-brand-light transition-colors block"
           >
             <div className="truncate text-sm font-semibold">
               {getTicker(stock)}
@@ -225,7 +225,7 @@ export default function StockListDetailPage() {
         <div className="col-span-3">
           <Link 
             href={`/analyse/stocks/${getTicker(stock).toLowerCase()}`}
-            className="font-medium text-theme-primary hover:text-green-400 transition-colors block"
+            className="font-medium text-theme-primary hover:text-brand-light transition-colors block"
           >
             <div className="truncate text-sm font-semibold">
               {getTicker(stock)}
@@ -254,7 +254,7 @@ export default function StockListDetailPage() {
         
         <div className="col-span-3 text-right">
           <span className={`text-sm font-medium ${
-            (stock.changePercentage || 0) >= 0 ? 'text-green-400' : 'text-red-400'
+            (stock.changePercentage || 0) >= 0 ? 'text-brand-light' : 'text-red-400'
           }`}>
             {formatValue(stock.changePercentage, 'percentage')}
           </span>
@@ -286,7 +286,7 @@ export default function StockListDetailPage() {
           <p className="text-theme-secondary mb-4">{error}</p>
           <button
             onClick={loadListData}
-            className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-colors"
+            className="px-4 py-2 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-colors"
           >
             Erneut versuchen
           </button>
@@ -318,7 +318,7 @@ export default function StockListDetailPage() {
         <div>
           <Link 
             href="/analyse/lists"
-            className="text-theme-secondary hover:text-green-400 text-sm mb-2 inline-flex items-center gap-1"
+            className="text-theme-secondary hover:text-brand-light text-sm mb-2 inline-flex items-center gap-1"
           >
             <ArrowLeftIcon className="w-4 h-4" />
             Zurück zu Listen
@@ -341,7 +341,7 @@ export default function StockListDetailPage() {
             onClick={() => setViewMode('chart')}
             className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
               viewMode === 'chart' 
-                ? 'bg-green-500 text-black' 
+                ? 'bg-brand text-black' 
                 : 'text-theme-secondary hover:text-theme-primary'
             }`}
           >
@@ -351,7 +351,7 @@ export default function StockListDetailPage() {
             onClick={() => setViewMode('table')}
             className={`px-4 py-2 rounded text-sm font-medium transition-colors ${
               viewMode === 'table' 
-                ? 'bg-green-500 text-black' 
+                ? 'bg-brand text-black' 
                 : 'text-theme-secondary hover:text-theme-primary'
             }`}
           >
@@ -401,7 +401,7 @@ export default function StockListDetailPage() {
               {!showAll && displayedStocks.length < stocks.length && (
                 <button
                   onClick={handleShowMore}
-                  className="flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg transition-colors font-medium"
+                  className="flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black rounded-lg transition-colors font-medium"
                 >
                   <EyeIcon className="w-5 h-5" />
                   {displayCount >= stocks.length ? 'Alle anzeigen' : `Weitere ${Math.min(20, stocks.length - displayCount)} laden`}
@@ -460,7 +460,7 @@ export default function StockListDetailPage() {
                       <td>
                         <Link 
                           href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                          className="hover:text-green-400 transition-colors"
+                          className="hover:text-brand-light transition-colors"
                         >
                           <div className="font-medium">{ticker}</div>
                           <div className="text-xs text-theme-secondary truncate max-w-[200px]">
@@ -471,7 +471,7 @@ export default function StockListDetailPage() {
                       <td className="text-right">{formatValue(stock.price, 'price')}</td>
                       <td className="text-right">{formatValue(stock.marketCap, 'marketCap')}</td>
                       <td className={`text-right font-medium ${
-                        (stock.changePercentage || 0) >= 0 ? 'text-green-400' : 'text-red-400'
+                        (stock.changePercentage || 0) >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatValue(stock.changePercentage, 'percentage')}
                       </td>

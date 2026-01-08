@@ -55,8 +55,8 @@ const CompanyEfficiencyMetrics = dynamic(
 // Cleaner Premium CTA ohne überflüssige Boxen
 const PremiumCTA = ({ title, description }: { title: string; description: string }) => (
   <div className="text-center py-12 px-6">
-    <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-      <svg className="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div className="w-16 h-16 bg-gradient-to-br from-brand/20 to-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg className="w-8 h-8 text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
       </svg>
     </div>
@@ -89,7 +89,7 @@ const PremiumBlur = ({
     </div>
     <div className="absolute inset-0 flex items-center justify-center">
       <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-3 text-center shadow-lg">
-        <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
+        <LockClosedIcon className="w-5 h-5 text-brand mx-auto mb-1" />
         <p className="text-theme-secondary text-xs font-medium">{featureName}</p>
         <p className="text-theme-muted text-xs">Premium erforderlich</p>
       </div>
@@ -357,7 +357,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     if (!enhancedDividendData?.payoutSafety) return null;
     
     const colorMap = {
-      green: { bg: 'bg-green-400 animate-pulse', text: 'text-green-400' },
+      green: { bg: 'bg-green-400 animate-pulse', text: 'text-brand-light' },
       yellow: { bg: 'bg-yellow-400 animate-pulse', text: 'text-yellow-400' },
       red: { bg: 'bg-red-400 animate-pulse', text: 'text-red-400' },
       gray: { bg: 'bg-gray-400', text: 'text-gray-400' }
@@ -673,11 +673,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
       {/* LEARN MODE INFO - Nur anzeigen wenn aktiviert */}
       {isLearnMode && (
-        <div className="bg-green-500/10 rounded-lg p-4 mb-6">
+        <div className="bg-brand/10 rounded-lg p-4 mb-6">
           <div className="flex items-start gap-3">
-            <AcademicCapIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <AcademicCapIcon className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
             <div>
-              <h4 className="text-sm font-semibold text-green-400 mb-1">Lern-Modus aktiviert</h4>
+              <h4 className="text-sm font-semibold text-brand-light mb-1">Lern-Modus aktiviert</h4>
               <p className="text-xs text-theme-secondary leading-relaxed">
                 Klicke auf die 🎓 Icons neben Kennzahlen, um detaillierte Erklärungen, Berechnungen und Beispiele zu erhalten.
               </p>
@@ -1130,7 +1130,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 </div>
                 <Link
                   href={`/analyse/stocks/${ticker.toLowerCase()}/dividends`}
-                  className="text-xs text-green-400 hover:text-green-300 transition-colors"
+                  className="text-xs text-brand-light hover:text-green-300 transition-colors"
                 >
                   Details →
                 </Link>
@@ -1165,7 +1165,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
                         <span className="text-sm text-theme-muted">Sicherheit</span>
                         <span className={`text-sm font-medium ${
-                          dividendApiData.currentInfo.payoutSafety.color === 'green' ? 'text-green-400' :
+                          dividendApiData.currentInfo.payoutSafety.color === 'green' ? 'text-brand-light' :
                           dividendApiData.currentInfo.payoutSafety.color === 'yellow' ? 'text-yellow-400' :
                           dividendApiData.currentInfo.payoutSafety.color === 'red' ? 'text-red-400' :
                           'text-theme-muted'
@@ -1179,7 +1179,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
                         <span className="text-sm text-theme-muted">Wachstum (3Y)</span>
                         <span className={`text-sm font-medium ${
-                          dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr > 0 ? 'text-green-400' : 
+                          dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr > 0 ? 'text-brand-light' : 
                           dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr < 0 ? 'text-red-400' : 
                           'text-theme-muted'
                         }`}>
@@ -1278,14 +1278,14 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-theme-bg/80 via-transparent to-theme-bg/80">
               <a
                 href="/pricing"
-                className="bg-theme-card/95 backdrop-blur-sm rounded-xl px-6 py-4 text-center shadow-xl border border-green-500/20 hover:border-green-500/40 transition-all hover:scale-105"
+                className="bg-theme-card/95 backdrop-blur-sm rounded-xl px-6 py-4 text-center shadow-xl border border-brand/20 hover:border-green-500/40 transition-all hover:scale-105"
               >
-                <div className="w-12 h-12 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <BoltIcon className="w-6 h-6 text-green-500" />
+                <div className="w-12 h-12 bg-brand/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                  <BoltIcon className="w-6 h-6 text-brand" />
                 </div>
                 <p className="text-theme-primary font-semibold text-lg mb-1">Kennzahlen-Charts</p>
                 <p className="text-theme-secondary text-sm mb-3">Umsatz, Gewinn, Margen & mehr</p>
-                <span className="inline-flex items-center gap-2 text-green-500 font-medium text-sm">
+                <span className="inline-flex items-center gap-2 text-brand font-medium text-sm">
                   Premium freischalten
                   <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
@@ -1311,7 +1311,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 {user?.isPremium ? (
                   <div className="space-y-4 text-sm">
                     <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-green-400 flex items-center gap-2">
+                      <span className="text-brand-light flex items-center gap-2">
                         <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                         Strong Buy
                       </span>
@@ -1356,7 +1356,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                       </div>
                       <div className="flex justify-between items-center text-sm mt-2">
                         <span className="text-theme-secondary">Bullish:</span>
-                        <span className="text-green-400 font-medium">
+                        <span className="text-brand-light font-medium">
                           {Math.round(((recs.strongBuy + recs.buy) / Math.max(1, recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell)) * 100)}%
                         </span>
                       </div>
@@ -1366,7 +1366,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                   <PremiumBlur featureName="Wall Street">
                     <div className="space-y-4 text-sm">
                       <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <span className="text-green-400 flex items-center gap-2">
+                        <span className="text-brand-light flex items-center gap-2">
                           <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                           Strong Buy
                         </span>
@@ -1456,7 +1456,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               </td>
               <td className={`text-right font-medium ${
                 yoy == null ? 'text-theme-secondary' : 
-                yoy > 0 ? 'text-green-400' : 
+                yoy > 0 ? 'text-brand-light' : 
                 'text-red-400'
               }`}>
                 {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
@@ -1506,7 +1506,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               </td>
               <td className={`text-right font-medium ${
                 yoy == null ? 'text-theme-secondary' : 
-                yoy > 0 ? 'text-green-400' : 
+                yoy > 0 ? 'text-brand-light' : 
                 'text-red-400'
               }`}>
                 {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
@@ -1546,7 +1546,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
                                   }
                                 }
-                                const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+                                const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-brand-light' : 'text-red-400'
 
                                 return (
                                   <tr key={e.date}>
@@ -1588,7 +1588,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
                                   }
                                 }
-                                const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-green-400' : 'text-red-400'
+                                const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-brand-light' : 'text-red-400'
 
                                 return (
                                   <tr key={e.date}>
@@ -1616,9 +1616,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               <div className="px-6 pb-4 border-t border-theme/10">
                 <Link
                   href={`/analyse/stocks/${ticker.toLowerCase()}/estimates`}
-                  className="inline-flex items-center gap-2 text-sm text-theme-secondary hover:text-green-400 transition-colors group"
+                  className="inline-flex items-center gap-2 text-sm text-theme-secondary hover:text-brand-light transition-colors group"
                 >
-                  <svg className="w-4 h-4 group-hover:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-4 h-4 group-hover:text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                   </svg>
                   <span>Erweiterte Schätzungen & Kursziele anzeigen</span>
@@ -1693,7 +1693,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           href={profileData.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-green-400 hover:text-green-300 transition-colors text-sm font-medium"
+                          className="text-brand-light hover:text-green-300 transition-colors text-sm font-medium"
                         >
                           {profileData.website?.replace(/^https?:\/\//, '') ?? '–'}
                         </a>

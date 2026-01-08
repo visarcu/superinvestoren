@@ -215,7 +215,7 @@ export default function InvestorTabs({
           
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="font-semibold text-green-400 group-hover:text-green-300 transition-colors">
+              <span className="font-semibold text-brand-light group-hover:text-green-300 transition-colors">
                 {ticker}
               </span>
               
@@ -225,7 +225,7 @@ export default function InvestorTabs({
                   optionType === 'PUT' 
                     ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' 
                     : optionType === 'CALL'
-                      ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                      ? 'bg-brand/20 text-green-300 border-green-500/30'
                       : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
                 }`}>
                   <span className="text-xs">
@@ -266,7 +266,7 @@ export default function InvestorTabs({
                 optionType === 'PUT' 
                   ? 'bg-orange-500/20 text-orange-300 border-orange-500/30' 
                   : optionType === 'CALL'
-                    ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                    ? 'bg-brand/20 text-green-300 border-green-500/30'
                     : 'bg-gray-500/20 text-gray-300 border-gray-500/30'
               }`}>
                 <span className="text-xs">
@@ -347,11 +347,11 @@ export default function InvestorTabs({
                       <td className="px-6 py-4 text-right">
                         {p.deltaShares > 0
                           ? (p.pctDelta === 0
-                              ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
+                              ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-brand/20 text-brand-light rounded-full text-sm font-medium border border-green-500/30">
                                   <ArrowTrendingUpIcon className="w-3 h-3" />
                                   Neueinkauf
                                 </span>
-                              : <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-500/20 text-green-400 rounded-full text-sm font-medium border border-green-500/30">
+                              : <span className="inline-flex items-center gap-1 px-3 py-1 bg-brand/20 text-brand-light rounded-full text-sm font-medium border border-green-500/30">
                                   <ArrowTrendingUpIcon className="w-3 h-3" />
                                   +{fmtPercent(p.pctDelta)}
                                 </span>
@@ -404,7 +404,7 @@ export default function InvestorTabs({
                     className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 ${
                       transactionFilter === key
                         ? key === 'buys'
-                          ? 'bg-green-600 text-white shadow-lg shadow-green-500/25'
+                          ? 'bg-brand text-white shadow-lg shadow-green-500/25'
                           : key === 'sells'
                             ? 'bg-red-600 text-white shadow-lg shadow-red-500/25'
                             : 'bg-gray-700 text-white shadow-lg shadow-gray-500/25'
@@ -462,7 +462,7 @@ export default function InvestorTabs({
                                 <td className="px-6 py-5 text-right">
                                   <span className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-full font-semibold border ${
                                     p.deltaShares > 0
-                                      ? 'bg-green-500/20 text-green-300 border-green-500/30'
+                                      ? 'bg-brand/20 text-green-300 border-green-500/30'
                                       : 'bg-red-500/20 text-red-300 border-red-500/30'
                                   }`}>
                                     {p.deltaShares > 0 ? (
@@ -483,7 +483,7 @@ export default function InvestorTabs({
                                 </td>
                                 <td className="px-6 py-5 text-right">
                                   <span className={`text-sm font-semibold ${
-                                    p.deltaShares > 0 ? 'text-green-400' : 'text-red-400'
+                                    p.deltaShares > 0 ? 'text-brand-light' : 'text-red-400'
                                   }`}>
                                     {p.deltaShares > 0 ? 'Kauf' : 'Verkauf'}
                                   </span>
@@ -492,7 +492,7 @@ export default function InvestorTabs({
                                   {(() => {
                                     const prevShares = p.shares - p.deltaShares
                                     if (prevShares === 0) {
-                                      return <span className="text-green-400 font-semibold text-sm">Neueinkauf</span>
+                                      return <span className="text-brand-light font-semibold text-sm">Neueinkauf</span>
                                     }
                                     return <span className="font-semibold">{formatPercentage(Math.abs(p.pctDelta) * 100, false)}</span>
                                   })()}

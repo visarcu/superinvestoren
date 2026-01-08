@@ -54,8 +54,8 @@ const getTransactionCategory = (transactionType: string, acquiredDisposedCode: s
     return {
       type: 'purchase',
       label: 'Kauf',
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/10',
+      color: 'text-brand-light',
+      bgColor: 'bg-brand/10',
       icon: 'up',
       isPositive: true
     }
@@ -149,8 +149,8 @@ const getTransactionCategory = (transactionType: string, acquiredDisposedCode: s
     return {
       type: 'purchase',
       label: 'Erwerb',
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/10',
+      color: 'text-brand-light',
+      bgColor: 'bg-brand/10',
       icon: 'up',
       isPositive: true
     }
@@ -399,7 +399,7 @@ export default function InsiderTradingPage() {
       {/* Header */}
       <div className="mb-12">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 border border-brand/20 text-brand-light rounded-full text-sm font-medium backdrop-blur-sm mb-4">
             <UserGroupIcon className="w-3 h-3" />
             Insider Trading
           </div>
@@ -412,7 +412,7 @@ export default function InsiderTradingPage() {
           </p>
           
           <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-4">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
             <span>
               Letztes Update: {new Date().toLocaleTimeString('de-DE', { 
                 hour: '2-digit', 
@@ -461,10 +461,10 @@ export default function InsiderTradingPage() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Käufe</p>
-                <p className="text-xl font-bold text-green-400">{formatNumber(extendedStats.categories.purchase)}</p>
+                <p className="text-xl font-bold text-brand-light">{formatNumber(extendedStats.categories.purchase)}</p>
               </div>
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+              <div className="p-2 bg-brand/10 rounded-lg">
+                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
               </div>
             </div>
           </div>
@@ -519,7 +519,7 @@ export default function InsiderTradingPage() {
                     <div className="text-xs text-gray-400">{count} Transaktionen</div>
                   </div>
                   <div className="text-right">
-                    <div className="text-sm font-bold text-green-400">{percentage}%</div>
+                    <div className="text-sm font-bold text-brand-light">{percentage}%</div>
                   </div>
                 </div>
               </div>
@@ -541,7 +541,7 @@ export default function InsiderTradingPage() {
                     setSearchTerm(e.target.value)
                     setCurrentPage(1)
                   }}
-                  className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+                  className="w-full pl-10 pr-4 py-2 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50 transition-all"
                 />
               </div>
             </div>
@@ -554,7 +554,7 @@ export default function InsiderTradingPage() {
                   setFilterType(e.target.value as any)
                   setCurrentPage(1)
                 }}
-                className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50"
+                className="bg-white/5 border border-white/10 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50"
               >
                 <option value="all">Alle Transaktionen</option>
                 <option value="purchase">Käufe</option>
@@ -600,10 +600,10 @@ export default function InsiderTradingPage() {
                           href={`/analyse/stocks/${transaction.symbol.toLowerCase()}/insider`}
                           className="group inline-flex items-center gap-2"
                         >
-                          <span className="bg-white/5 px-3 py-1.5 rounded-lg text-sm font-semibold text-white group-hover:text-green-400 group-hover:bg-green-500/10 transition-all border border-white/10 group-hover:border-green-500/20">
+                          <span className="bg-white/5 px-3 py-1.5 rounded-lg text-sm font-semibold text-white group-hover:text-brand-light group-hover:bg-brand/10 transition-all border border-white/10 group-hover:border-brand/20">
                             {transaction.symbol}
                           </span>
-                          <ArrowTopRightOnSquareIcon className="w-3 h-3 text-gray-500 group-hover:text-green-400 transition-colors" />
+                          <ArrowTopRightOnSquareIcon className="w-3 h-3 text-gray-500 group-hover:text-brand-light transition-colors" />
                         </Link>
                       </td>
                       <td className="py-4 px-6">
@@ -617,7 +617,7 @@ export default function InsiderTradingPage() {
                         </div>
                       </td>
                       <td className="py-4 px-6">
-                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border ${category.bgColor} ${category.color === 'text-green-400' ? 'border-green-500/20' : category.color === 'text-red-400' ? 'border-red-500/20' : category.color === 'text-blue-400' ? 'border-blue-500/20' : category.color === 'text-purple-400' ? 'border-purple-500/20' : category.color === 'text-yellow-400' ? 'border-yellow-500/20' : 'border-gray-500/20'}`}>
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border ${category.bgColor} ${category.color === 'text-brand-light' ? 'border-brand/20' : category.color === 'text-red-400' ? 'border-red-500/20' : category.color === 'text-blue-400' ? 'border-blue-500/20' : category.color === 'text-purple-400' ? 'border-purple-500/20' : category.color === 'text-yellow-400' ? 'border-yellow-500/20' : 'border-gray-500/20'}`}>
                           <TransactionIcon category={category} />
                           <span className={category.color}>
                             {category.label}

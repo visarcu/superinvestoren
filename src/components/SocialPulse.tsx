@@ -192,7 +192,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <SignalIcon className="w-8 h-8 text-green-400 animate-pulse mx-auto mb-3" />
+          <SignalIcon className="w-8 h-8 text-brand-light animate-pulse mx-auto mb-3" />
           <p className="text-theme-secondary">Lade Social Media Daten...</p>
         </div>
       </div>
@@ -223,7 +223,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
               onClick={() => setTimeRange(range)}
               className={`px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 timeRange === range
-                  ? 'bg-green-500 text-white shadow-md'
+                  ? 'bg-brand text-white shadow-md'
                   : 'text-theme-muted hover:text-theme-primary'
               }`}
             >
@@ -268,7 +268,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
           
           <div className="flex items-end gap-3">
             <div className={`text-3xl font-bold ${
-              sentimentScore >= 70 ? 'text-green-400' :
+              sentimentScore >= 70 ? 'text-brand-light' :
               sentimentScore >= 30 ? 'text-yellow-400' : 'text-red-400'
             }`}>
               {sentimentScore}
@@ -312,7 +312,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
             </div>
             {trend !== null && timeRange === '24h' && (
               <div className={`flex items-center gap-1 text-sm pb-1 ${
-                trend > 0 ? 'text-green-400' : 'text-red-400'
+                trend > 0 ? 'text-brand-light' : 'text-red-400'
               }`}>
                 {trend > 0 ? (
                   <ArrowTrendingUpIcon className="w-3 h-3" />
@@ -378,7 +378,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
             <div>
               <div className="text-xs text-theme-muted uppercase mb-2">Aktivitäts-Momentum</div>
               <div className={`text-2xl font-bold ${
-                trendMetrics.momentum > 20 ? 'text-green-400' :
+                trendMetrics.momentum > 20 ? 'text-brand-light' :
                 trendMetrics.momentum < -20 ? 'text-red-400' : 'text-yellow-400'
               }`}>
                 {trendMetrics.momentum > 0 ? '+' : ''}{trendMetrics.momentum.toFixed(1)}%
@@ -393,8 +393,8 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
               <div className="flex items-center gap-2">
                 {trendMetrics.sentimentTrend > 0 ? (
                   <>
-                    <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
-                    <span className="text-green-400 font-bold">Steigend</span>
+                    <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
+                    <span className="text-brand-light font-bold">Steigend</span>
                   </>
                 ) : trendMetrics.sentimentTrend < 0 ? (
                   <>
@@ -433,7 +433,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
         return (
           <div
             key={idx}
-            className="flex-1 bg-green-500/20 hover:bg-green-500/40 rounded-t transition-all cursor-pointer group relative"
+            className="flex-1 bg-brand/20 hover:bg-brand/40 rounded-t transition-all cursor-pointer group relative"
             style={{ height: `${Math.max(height, 2)}%` }}
           >
             <div className="absolute bottom-full mb-2 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
@@ -487,7 +487,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
                   </div>
                   <div
                     className={`h-14 rounded-lg flex items-center justify-center font-bold text-sm ${
-                      daySentimentScore >= 70 ? 'bg-green-500/30 text-green-400' :
+                      daySentimentScore >= 70 ? 'bg-brand/30 text-brand-light' :
                       daySentimentScore >= 30 ? 'bg-yellow-500/30 text-yellow-400' :
                       'bg-red-500/30 text-red-400'
                     }`}
@@ -509,7 +509,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
             <div className="flex justify-between items-center">
               <span className="text-sm text-theme-muted">Sentiment</span>
               <span className={`text-sm font-bold ${
-                stats.avgStocktwitsSentiment > 0.5 ? 'text-green-400' : 'text-red-400'
+                stats.avgStocktwitsSentiment > 0.5 ? 'text-brand-light' : 'text-red-400'
               }`}>
                 {stats.avgStocktwitsSentiment > 0.5 ? 'Bullish' : 'Bearish'}
               </span>
@@ -556,7 +556,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
             <div className="flex justify-between items-center">
               <span className="text-sm text-theme-muted">Sentiment</span>
               <span className={`text-sm font-bold ${
-                stats.avgTwitterSentiment > 0.5 ? 'text-green-400' : 'text-red-400'
+                stats.avgTwitterSentiment > 0.5 ? 'text-brand-light' : 'text-red-400'
               }`}>
                 {stats.avgTwitterSentiment > 0.5 ? 'Bullish' : 'Bearish'}
               </span>
@@ -621,7 +621,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
                 idx === 0 ? 'bg-yellow-500/20 text-yellow-400' :
                 idx === 1 ? 'bg-gray-400/20 text-gray-400' :
                 idx === 2 ? 'bg-orange-600/20 text-orange-600' :
-                stock.symbol === ticker ? 'bg-green-500/20 text-green-400' : 
+                stock.symbol === ticker ? 'bg-brand/20 text-brand-light' : 
                 'bg-theme-secondary text-theme-secondary'
               }`}>
                 {idx + 1}
@@ -630,12 +630,12 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
               <div>
                 <div className="flex items-center gap-2">
                   <span className={`font-bold ${
-                    stock.symbol === ticker ? 'text-green-400' : 'text-theme-primary'
+                    stock.symbol === ticker ? 'text-brand-light' : 'text-theme-primary'
                   }`}>
                     {stock.symbol}
                   </span>
                   {stock.symbol === ticker && (
-                    <span className="text-xs bg-green-500/20 text-green-400 px-2 py-0.5 rounded">
+                    <span className="text-xs bg-brand/20 text-brand-light px-2 py-0.5 rounded">
                       Diese Aktie
                     </span>
                   )}
@@ -655,7 +655,7 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
               {stock.sentimentChange !== undefined && stock.sentimentChange !== 0 ? (
                 <>
                   <div className={`text-sm font-bold ${
-                    stock.sentimentChange > 0 ? 'text-green-400' : 'text-red-400'
+                    stock.sentimentChange > 0 ? 'text-brand-light' : 'text-red-400'
                   }`}>
                     {stock.sentimentChange > 0 ? '+' : ''}{stock.sentimentChange.toFixed(1)}%
                   </div>
@@ -703,11 +703,11 @@ export default function SocialPulse({ ticker }: { ticker: string }) {
       )}
       
       {sentimentScore < 15 && (
-        <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
+        <div className="bg-brand/10 border border-green-500/30 rounded-xl p-4">
           <div className="flex items-start gap-3">
-            <ExclamationTriangleIcon className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+            <ExclamationTriangleIcon className="w-5 h-5 text-brand-light mt-0.5 flex-shrink-0" />
             <div>
-              <p className="text-sm font-bold text-green-400">Extreme Pessimismus erkannt</p>
+              <p className="text-sm font-bold text-brand-light">Extreme Pessimismus erkannt</p>
               <p className="text-xs text-theme-secondary mt-1">
                 Ein Sentiment Score unter 15 könnte eine Kaufgelegenheit signalisieren.
               </p>

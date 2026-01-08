@@ -156,8 +156,8 @@ export default function NotificationSettings() {
       
       {/* Header */}
       <div className="text-center">
-        <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-4">
-          <BellIcon className="w-8 h-8 text-green-400" />
+        <div className="w-16 h-16 bg-brand/20 rounded-full flex items-center justify-center mx-auto mb-4">
+          <BellIcon className="w-8 h-8 text-brand-light" />
         </div>
         <h2 className="text-2xl font-bold text-white mb-2">Benachrichtigungen</h2>
         <p className="text-gray-400">Verwalte deine E-Mail-Benachrichtigungen und Alerts</p>
@@ -167,7 +167,7 @@ export default function NotificationSettings() {
       {message && (
         <div className={`p-4 rounded-lg border ${
           message.type === 'success' 
-            ? 'bg-green-500/10 border-green-500/20 text-green-400' 
+            ? 'bg-brand/10 border-brand/20 text-brand-light' 
             : 'bg-red-500/10 border-red-500/20 text-red-400'
         }`}>
           <div className="flex items-center gap-2">
@@ -203,7 +203,7 @@ export default function NotificationSettings() {
             <button
               onClick={() => updateSetting('watchlist_enabled', !settings.watchlist_enabled)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                settings.watchlist_enabled ? 'bg-green-500' : 'bg-gray-600'
+                settings.watchlist_enabled ? 'bg-brand' : 'bg-gray-600'
               }`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -259,7 +259,7 @@ export default function NotificationSettings() {
             <button
               onClick={() => updateSetting('filings_enabled', !settings.filings_enabled)}
               className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                settings.filings_enabled ? 'bg-green-500' : 'bg-gray-600'
+                settings.filings_enabled ? 'bg-brand' : 'bg-gray-600'
               }`}
             >
               <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
@@ -281,7 +281,7 @@ export default function NotificationSettings() {
                     onClick={() => toggleInvestor(investor.slug)}
                     className={`p-3 rounded-lg border text-sm font-medium transition-all ${
                       settings.preferred_investors.includes(investor.slug)
-                        ? 'bg-green-500/20 border-green-500/30 text-green-400'
+                        ? 'bg-brand/20 border-green-500/30 text-brand-light'
                         : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:bg-gray-700/50'
                     }`}
                   >
@@ -317,7 +317,7 @@ export default function NotificationSettings() {
               onClick={() => updateSetting('email_frequency', option.value as any)}
               className={`w-full p-4 rounded-lg border text-left transition-all ${
                 settings.email_frequency === option.value
-                  ? 'bg-green-500/20 border-green-500/30 text-green-400'
+                  ? 'bg-brand/20 border-green-500/30 text-brand-light'
                   : 'bg-gray-800/50 border-gray-700 text-gray-400 hover:bg-gray-700/50'
               }`}
             >
@@ -333,7 +333,7 @@ export default function NotificationSettings() {
         <button
           onClick={saveSettings}
           disabled={saving}
-          className="px-8 py-3 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2 mx-auto"
+          className="px-8 py-3 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 disabled:opacity-50 flex items-center justify-center gap-2 mx-auto"
         >
           {saving ? (
             <>

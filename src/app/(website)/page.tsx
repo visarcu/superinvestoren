@@ -260,7 +260,7 @@ export default function ProfessionalHomePage() {
                   </div>
                   <div className="text-right">
                     <div className="text-2xl font-semibold text-white">{formatCurrency(185.24, 'number')} $</div>
-                    <div className="text-sm text-green-400">+{formatCurrency(2.1, 'number')}%</div>
+                    <div className="text-sm text-brand-light">+{formatCurrency(2.1, 'number')}%</div>
                   </div>
                 </div>
 
@@ -587,7 +587,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 {/* Chat Header */}
                 <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/5">
                   <div className="w-8 h-8 bg-white/10 rounded-2xl flex items-center justify-center">
-                    <CpuChipIcon className="w-5 h-5 text-green-400" />
+                    <CpuChipIcon className="w-5 h-5 text-brand-light" />
                   </div>
                   <div>
                     <h3 className="text-lg font-bold text-white">Finclue AI</h3>
@@ -618,8 +618,8 @@ Analysiere die besten Unternehmen der Welt</p>
                   }`} style={{ transitionDelay: '800ms' }}>
                     <div className="bg-white/10 p-4 rounded-2xl max-w-md">
                       <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-green-600 rounded-full"></div>
-                        <span className="text-xs text-green-400 font-medium">Finclue AI</span>
+                        <div className="w-3 h-3 bg-brand rounded-full"></div>
+                        <span className="text-xs text-brand-light font-medium">Finclue AI</span>
                       </div>
                       <p className="text-sm text-gray-300 mb-3">
                         Basierend auf dem aktuellen 13F Filing (Q3 2024):
@@ -635,7 +635,7 @@ Analysiere die besten Unternehmen der Welt</p>
                         </div>
                         <div className="flex justify-between">
                           <span className="text-gray-400">Cash Position:</span>
-                          <span className="text-green-400">{formatCurrency(325000000000)} (+{formatCurrency(18, 'number')}%)</span>
+                          <span className="text-brand-light">{formatCurrency(325000000000)} (+{formatCurrency(18, 'number')}%)</span>
                         </div>
                       </div>
                     </div>
@@ -655,7 +655,7 @@ Analysiere die besten Unternehmen der Welt</p>
                 <div className={`flex items-center gap-2 text-gray-400 transform transition-all duration-500 ${
                   aiVisible ? 'translate-x-0 opacity-100' : 'translate-x-8 opacity-0'
                 }`} style={{ transitionDelay: '1500ms' }}>
-                  <div className="w-3 h-3 bg-green-600 rounded-full"></div>
+                  <div className="w-3 h-3 bg-brand rounded-full"></div>
                   <span className="text-xs">Analysiere AAPL 10-Q Filing...</span>
                   <div className="flex gap-1">
                     <div className="w-1 h-1 bg-green-400 rounded-full animate-bounce"></div>
@@ -755,7 +755,7 @@ Analysiere die besten Unternehmen der Welt</p>
                       </div>
                       <div className="text-right">
                         <div className={`font-medium text-xs ${
-                          fund.change > 0 ? 'text-green-400' : 'text-red-400'
+                          fund.change > 0 ? 'text-brand-light' : 'text-red-400'
                         }`}>{fund.change > 0 ? '+' : ''}{formatCurrency(fund.change, 'number')}%</div>
                         <div className="text-xs text-gray-400">Q/Q</div>
                       </div>
@@ -914,19 +914,19 @@ Analysiere die besten Unternehmen der Welt</p>
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                   <span className="text-gray-300">Quartalsweise 13F Updates</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                   <span className="text-gray-300">Kein Spam Policy</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                   <span className="text-gray-300">Marktanalysen</span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                  <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                   <span className="text-gray-300">Platform Updates</span>
                 </div>
               </div>
@@ -988,15 +988,15 @@ Analysiere die besten Unternehmen der Welt</p>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                     <span>{formatCurrency(2000, 'number')}+ ETFs verfügbar</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                     <span>Bruchstücke ab €1</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                     <span>XETRA Marktzugang</span>
                   </div>
                 </div>
@@ -1032,15 +1032,15 @@ Analysiere die besten Unternehmen der Welt</p>
                 </div>
                 <div className="space-y-3">
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                     <span>Aktien & ETFs ab €1</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                     <span>Professionelle Mobile App</span>
                   </div>
                   <div className="flex items-center gap-3 text-sm text-gray-400">
-                    <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0" />
+                    <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
                     <span>Integriertes Banking</span>
                   </div>
                 </div>

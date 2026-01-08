@@ -94,7 +94,7 @@ export default function RatingHero({
                 }
               `}>
                 {scoreTrend >= 0 ? (
-                  <ArrowTrendingUpIcon className="w-6 h-6 text-green-400" />
+                  <ArrowTrendingUpIcon className="w-6 h-6 text-brand-light" />
                 ) : (
                   <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
                 )}
@@ -102,7 +102,7 @@ export default function RatingHero({
             </div>
             <div className="space-y-1">
               <div className={`text-xl font-mono font-bold ${
-                scoreTrend >= 0 ? 'text-green-400' : 'text-red-400'
+                scoreTrend >= 0 ? 'text-brand-light' : 'text-red-400'
               }`}>
                 {scoreTrend >= 0 ? '+' : ''}{scoreTrend}
               </div>
@@ -110,7 +110,7 @@ export default function RatingHero({
                 Trend (Quartal)
               </div>
               <div className={`text-xs font-medium ${
-                scoreTrend >= 0 ? 'text-green-400' : 'text-red-400'
+                scoreTrend >= 0 ? 'text-brand-light' : 'text-red-400'
               }`}>
                 {scoreTrend > 5 ? 'Stark verbessert' : 
                  scoreTrend > 0 ? 'Verbessert' :

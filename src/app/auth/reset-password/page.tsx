@@ -223,7 +223,7 @@ export default function ResetPasswordPage() {
         )}
 
         {infoMsg && (
-          <div className="bg-green-500/10 border border-green-500/20 text-green-400 px-4 py-3 rounded-lg">
+          <div className="bg-brand/10 border border-brand/20 text-brand-light px-4 py-3 rounded-lg">
             {infoMsg}
           </div>
         )}
@@ -265,7 +265,7 @@ export default function ResetPasswordPage() {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full bg-green-500 text-white py-3 rounded-lg hover:bg-green-600 disabled:opacity-50"
+              className="w-full bg-brand text-white py-3 rounded-lg hover:bg-brand disabled:opacity-50"
             >
               {isSubmitting ? 'Speichern...' : 'Neues Passwort speichern'}
             </button>

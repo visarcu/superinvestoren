@@ -421,7 +421,7 @@ export default function FinancialChartModal({
             <select
               value={years}
               onChange={(e) => setYears(Number(e.target.value))}
-              className="px-3 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/20 focus:border-green-500/50 transition-all duration-200"
+              className="px-3 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-green-500/50 transition-all duration-200"
               style={{ 
                 minWidth: '120px',
                 fontSize: '14px',
@@ -930,19 +930,19 @@ export default function FinancialChartModal({
               <div className="grid grid-cols-3 gap-12 max-w-lg">
                 <div className="text-center">
                   <div className="text-theme-muted text-xs font-medium mb-2 uppercase tracking-wider">1J CAGR</div>
-                  <div className={`text-xl font-bold ${cagr1Y && cagr1Y >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-xl font-bold ${cagr1Y && cagr1Y >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                     {cagr1Y !== null ? `${cagr1Y >= 0 ? '+' : ''}${cagr1Y.toFixed(1)}%` : '—'}
                   </div>
                 </div>
                 <div className="text-center">
                   <div className="text-theme-muted text-xs font-medium mb-2 uppercase tracking-wider">3J CAGR</div>
-                  <div className={`text-xl font-bold ${cagr3Y && cagr3Y >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-xl font-bold ${cagr3Y && cagr3Y >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                     {cagr3Y !== null ? `${cagr3Y >= 0 ? '+' : ''}${cagr3Y.toFixed(1)}%` : '—'}
                   </div>
                 </div>
                 <div className="text-center">
                   <div className="text-theme-muted text-xs font-medium mb-2 uppercase tracking-wider">5J CAGR</div>
-                  <div className={`text-xl font-bold ${cagr5Y && cagr5Y >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                  <div className={`text-xl font-bold ${cagr5Y && cagr5Y >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                     {cagr5Y !== null ? `${cagr5Y >= 0 ? '+' : ''}${cagr5Y.toFixed(1)}%` : '—'}
                   </div>
                 </div>

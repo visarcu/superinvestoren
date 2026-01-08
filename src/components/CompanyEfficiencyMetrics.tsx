@@ -86,7 +86,7 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
   const getTrendIcon = (trend: string) => {
     switch (trend) {
       case 'improving':
-        return <ArrowTrendingUpIcon className="w-3 h-3 text-green-400" />
+        return <ArrowTrendingUpIcon className="w-3 h-3 text-brand-light" />
       case 'declining':
         return <ArrowTrendingDownIcon className="w-3 h-3 text-red-400" />
       default:
@@ -96,7 +96,7 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
 
   const getEfficiencyColor = (efficiency: string) => {
     switch (efficiency) {
-      case 'excellent': return 'text-green-400'
+      case 'excellent': return 'text-brand-light'
       case 'good': return 'text-blue-400'
       case 'fair': return 'text-yellow-400'
       default: return 'text-red-400'
@@ -217,11 +217,11 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
           <div className="absolute inset-0 flex items-center justify-center">
             <a
               href="/pricing"
-              className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+              className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-4 py-3 text-center shadow-lg border border-brand/20 hover:border-green-500/40 transition-colors"
             >
-              <LockClosedIcon className="w-5 h-5 text-green-500 mx-auto mb-1" />
+              <LockClosedIcon className="w-5 h-5 text-brand mx-auto mb-1" />
               <p className="text-theme-primary font-medium text-sm">Historische Trends</p>
-              <p className="text-green-500 text-xs mt-1">Premium freischalten →</p>
+              <p className="text-brand text-xs mt-1">Premium freischalten →</p>
             </a>
           </div>
         </div>
@@ -422,7 +422,7 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
       {/* Data Quality Indicator */}
       <div className="mt-2 flex items-center justify-between">
         <div className={`text-xs flex items-center gap-1 ${
-          data.dataQuality === 'excellent' ? 'text-green-400' :
+          data.dataQuality === 'excellent' ? 'text-brand-light' :
           data.dataQuality === 'good' ? 'text-blue-400' :
           data.dataQuality === 'fair' ? 'text-yellow-400' :
           'text-theme-muted'
@@ -441,7 +441,7 @@ const CompanyEfficiencyMetrics = React.memo<CompanyEfficiencyMetricsProps>(({ ti
           </span>
         </div>
         
-        <div className="text-xs text-green-400 flex items-center gap-1">
+        <div className="text-xs text-brand-light flex items-center gap-1">
           <div className="w-1 h-1 bg-green-400 rounded-full"></div>
           <span>Berechnete Kennzahlen</span>
         </div>

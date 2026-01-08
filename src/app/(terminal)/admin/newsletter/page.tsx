@@ -287,7 +287,7 @@ Dein FinClue Team"
               <button
                 onClick={handleSend}
                 disabled={isLoading || !subject.trim() || !content.trim()}
-                className="px-6 py-3 bg-green-600 hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
+                className="px-6 py-3 bg-brand hover:bg-green-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold rounded-lg transition-colors"
               >
                 {isLoading ? 'Wird gesendet...' : `An ${subscribers.length} Abonnenten senden`}
               </button>

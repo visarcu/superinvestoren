@@ -389,7 +389,7 @@ export default function PortfolioBreakdownsDE({
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
           <p className="text-theme-secondary">Lade Portfolio-Daten...</p>
         </div>
       </div>
@@ -409,7 +409,7 @@ export default function PortfolioBreakdownsDE({
           onClick={() => setActiveBreakdown('asset')}
           className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
             activeBreakdown === 'asset'
-              ? 'bg-green-500 text-white'
+              ? 'bg-brand text-white'
               : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
@@ -420,7 +420,7 @@ export default function PortfolioBreakdownsDE({
           onClick={() => setActiveBreakdown('sector')}
           className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
             activeBreakdown === 'sector'
-              ? 'bg-green-500 text-white'
+              ? 'bg-brand text-white'
               : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
@@ -431,7 +431,7 @@ export default function PortfolioBreakdownsDE({
           onClick={() => setActiveBreakdown('country')}
           className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
             activeBreakdown === 'country'
-              ? 'bg-green-500 text-white'
+              ? 'bg-brand text-white'
               : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
@@ -442,7 +442,7 @@ export default function PortfolioBreakdownsDE({
           onClick={() => setActiveBreakdown('currency')}
           className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
             activeBreakdown === 'currency'
-              ? 'bg-green-500 text-white'
+              ? 'bg-brand text-white'
               : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
@@ -453,7 +453,7 @@ export default function PortfolioBreakdownsDE({
           onClick={() => setActiveBreakdown('cap')}
           className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
             activeBreakdown === 'cap'
-              ? 'bg-green-500 text-white'
+              ? 'bg-brand text-white'
               : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
@@ -513,7 +513,7 @@ export default function PortfolioBreakdownsDE({
             {breakdownData.length > 6 && (
               <button
                 onClick={() => setShowAll(!showAll)}
-                className="w-full mt-2 py-2 text-sm text-green-400 hover:text-green-300 transition-colors"
+                className="w-full mt-2 py-2 text-sm text-brand-light hover:text-green-300 transition-colors"
               >
                 {showAll ? 'Weniger anzeigen' : `${breakdownData.length - 6} weitere anzeigen`}
               </button>
@@ -528,7 +528,7 @@ export default function PortfolioBreakdownsDE({
             </div>
             <div>
               <p className="text-xs text-theme-muted">Größte Position</p>
-              <p className="text-lg font-semibold text-green-400">
+              <p className="text-lg font-semibold text-brand-light">
                 {breakdownData[0]?.percentage && !isNaN(breakdownData[0].percentage) && isFinite(breakdownData[0].percentage) ? breakdownData[0].percentage.toFixed(1) : '0.0'}%
               </p>
             </div>
@@ -566,7 +566,7 @@ export default function PortfolioBreakdownsDE({
                     <p className="font-bold text-theme-primary">
                       {formatValue(item.value)}
                     </p>
-                    <p className="text-sm text-green-400">
+                    <p className="text-sm text-brand-light">
                       {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage) ? item.percentage.toFixed(2) : '0.00'}%
                     </p>
                   </div>
@@ -594,7 +594,7 @@ export default function PortfolioBreakdownsDE({
       {/* Portfolio Insights */}
       <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
         <div className="flex items-start gap-3">
-          <SparklesIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+          <SparklesIcon className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
           <div>
             <h4 className="font-semibold text-theme-primary mb-2">
               Portfolio-Analyse

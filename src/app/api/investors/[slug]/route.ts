@@ -158,10 +158,10 @@ function calculatePortfolioChanges(snapshots: any[]) {
       
       if (previousShares === 0) {
         action = 'Gekauft'
-        color = 'text-green-400'
+        color = 'text-brand-light'
       } else if (delta > 0) {
         action = 'Erhöht'
-        color = 'text-green-400'
+        color = 'text-brand-light'
       } else {
         action = 'Reduziert'
         color = 'text-red-400'

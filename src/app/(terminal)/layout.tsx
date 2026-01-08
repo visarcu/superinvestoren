@@ -166,18 +166,18 @@ const GlobalLearnToggle = React.memo(() => {
       className={`
         flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border transition-all duration-200 text-xs font-medium
         ${isLearnMode 
-          ? 'bg-green-500/20 border-green-500/40 text-green-400 shadow-sm' 
+          ? 'bg-brand/20 border-green-500/40 text-brand-light shadow-sm' 
           : 'bg-theme-tertiary/30 border-theme text-theme-muted hover:text-theme-primary hover:border-green-500/30'
         }
       `}
       title={`Lern-Modus ${isLearnMode ? 'deaktivieren' : 'aktivieren'}`}
     >
-      <AcademicCapIcon className={`w-3.5 h-3.5 ${isLearnMode ? 'text-green-400' : 'text-theme-muted'}`} />
+      <AcademicCapIcon className={`w-3.5 h-3.5 ${isLearnMode ? 'text-brand-light' : 'text-theme-muted'}`} />
       <span className="hidden sm:block">Lernen</span>
       
       <div className={`
         relative w-6 h-3 rounded-full transition-all duration-200
-        ${isLearnMode ? 'bg-green-500' : 'bg-theme-tertiary'}
+        ${isLearnMode ? 'bg-brand' : 'bg-theme-tertiary'}
       `}>
         <div className={`
           absolute top-0.5 w-2 h-2 bg-white rounded-full transition-all duration-200 shadow-sm
@@ -397,7 +397,7 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                         ${isActive
                           ? 'bg-theme-hover text-theme-primary border-l-2 border-green-400 -ml-[2px] pl-[14px]'
                           : category.id === 'premium'
-                            ? 'text-green-400/80 hover:bg-theme-hover hover:text-green-400'
+                            ? 'text-brand-light/80 hover:bg-theme-hover hover:text-brand-light'
                             : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                         }
                       `}
@@ -407,7 +407,7 @@ const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown
                         ${isActive
                           ? 'text-theme-primary'
                           : category.id === 'premium'
-                            ? 'text-green-400/60 group-hover:text-green-400/80'
+                            ? 'text-brand-light/60 group-hover:text-brand-light/80'
                             : 'text-theme-muted group-hover:text-theme-secondary'
                         }
                       `} />
@@ -678,7 +678,7 @@ const CommandPalette = React.memo(({
               placeholder="Nach Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-theme-input border border-theme rounded-md text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20 text-sm"
+              className="w-full pl-10 pr-10 py-2 bg-theme-input border border-theme rounded-md text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20 text-sm"
             />
             <button
               onClick={onClose}
@@ -715,19 +715,19 @@ const CommandPalette = React.memo(({
                       onClick={() => handleSelect(command)}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-left group border ${
                         isStock 
-                          ? 'border-green-500/15 bg-green-500/5 hover:bg-green-500/8 hover:border-green-500/25' 
+                          ? 'border-brand/15 bg-brand/5 hover:bg-brand/8 hover:border-green-500/25' 
                           : 'border-transparent hover:bg-theme-secondary'
                       }`}
                     >
                       <div className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${
                         isStock
-                          ? 'bg-green-500/20 group-hover:bg-green-500/25'
+                          ? 'bg-brand/20 group-hover:bg-brand/25'
                           : 'bg-theme-secondary group-hover:bg-theme-tertiary'
                       }`}>
                         <Icon className={`w-4 h-4 transition-colors ${
                           isStock
-                            ? 'text-green-400 group-hover:text-green-300'
-                            : 'text-theme-muted group-hover:text-green-400'
+                            ? 'text-brand-light group-hover:text-green-300'
+                            : 'text-theme-muted group-hover:text-brand-light'
                         }`} />
                       </div>
                       <div className="flex-1">
@@ -742,7 +742,7 @@ const CommandPalette = React.memo(({
                       </div>
                       <ChevronRightIcon className={`w-4 h-4 transition-colors ${
                         isStock 
-                          ? 'text-green-400/70 group-hover:text-green-400' 
+                          ? 'text-brand-light/70 group-hover:text-brand-light' 
                           : 'text-theme-muted group-hover:text-theme-secondary'
                       }`} />
                     </button>
@@ -1025,15 +1025,15 @@ function LayoutContent({ children }: LayoutProps) {
 <div className="w-64 bg-theme-card border-r border-theme flex flex-col relative z-20">
   <div className="px-4 pt-5 pb-4 border-b border-theme">
     <Link href="/" className="flex items-center gap-3 group">
-      <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center transition-all group-hover:border-green-400/40">
+      <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center transition-all group-hover:border-green-400/40">
         <div className="flex items-end gap-0.5">
-          <span className="w-1 h-3 rounded-full bg-green-500"></span>
+          <span className="w-1 h-3 rounded-full bg-brand"></span>
           <span className="w-1 h-4 rounded-full bg-green-400"></span>
           <span className="w-1 h-5 rounded-full bg-green-300"></span>
         </div>
       </div>
       <div className="flex-1">
-        <p className="text-base font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+        <p className="text-base font-bold text-theme-primary group-hover:text-brand-light transition-colors">
           FinClue
         </p>
         <p className="text-[10px] font-medium uppercase tracking-wider text-theme-muted">
@@ -1057,7 +1057,7 @@ function LayoutContent({ children }: LayoutProps) {
         <div className="px-3 py-4 border-t border-theme/60 mt-auto">
           <div className="flex items-center gap-2.5 mb-3">
             <div className="relative">
-              <div className="w-9 h-9 bg-green-500 rounded-2xl flex items-center justify-center text-black font-semibold text-sm">
+              <div className="w-9 h-9 bg-brand rounded-2xl flex items-center justify-center text-black font-semibold text-sm">
                 {getInitials()}
               </div>
               {user.isPremium && (
@@ -1067,7 +1067,7 @@ function LayoutContent({ children }: LayoutProps) {
             <div className="flex-1 min-w-0">
               <div className="text-xs font-semibold tracking-wide text-theme-secondary">
                 {user.isPremium ? (
-                  <span className="text-green-400">Premium</span>
+                  <span className="text-brand-light">Premium</span>
                 ) : (
                   <span className="text-theme-muted">Free Plan</span>
                 )}
@@ -1079,7 +1079,7 @@ function LayoutContent({ children }: LayoutProps) {
           {!user.isPremium && (
             <Link 
               href="/pricing"
-              className="flex items-center justify-center gap-2 w-full py-2.5 bg-green-500 hover:bg-green-400 text-black rounded-2xl text-xs font-semibold transition-colors mb-2"
+              className="flex items-center justify-center gap-2 w-full py-2.5 bg-brand hover:bg-green-400 text-black rounded-2xl text-xs font-semibold transition-colors mb-2"
             >
               <SparklesIcon className="w-4 h-4" />
               Upgrade
@@ -1109,12 +1109,12 @@ function LayoutContent({ children }: LayoutProps) {
                 className="w-full flex items-center gap-3 px-6 py-4 bg-theme-primary/60 hover:bg-theme-primary/80 border border-theme/40 hover:border-green-500/60 rounded-2xl transition-all duration-300 group shadow-md hover:shadow-lg backdrop-blur-sm"
                 title="Aktien suchen oder AI-Frage stellen (⌘K)"
               >
-                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted/80 group-hover:text-green-400 transition-all duration-300 flex-shrink-0" />
+                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted/80 group-hover:text-brand-light transition-all duration-300 flex-shrink-0" />
                 <span className="text-base text-theme-secondary/90 group-hover:text-theme-primary transition-all duration-300 flex-1 text-left font-medium">
                   Aktien suchen oder AI-Frage stellen...
                 </span>
                 <div className="flex items-center gap-2 flex-shrink-0">
-                  <SparklesIcon className="w-4 h-4 text-green-400/60 group-hover:text-green-400 transition-all duration-300" />
+                  <SparklesIcon className="w-4 h-4 text-brand-light/60 group-hover:text-brand-light transition-all duration-300" />
                   <kbd className="px-2.5 py-1.5 text-xs bg-theme-tertiary/40 border border-theme/50 rounded-md text-theme-muted group-hover:text-theme-secondary transition-all duration-300 font-mono shadow-sm">
                     ⌘K
                   </kbd>
@@ -1130,8 +1130,8 @@ function LayoutContent({ children }: LayoutProps) {
          {/*   <CurrencySelector /> */}
             
             <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 bg-theme-tertiary/30 rounded-lg">
-              <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-green-400' : 'text-red-400'}`} />
-              <span className={`text-xs font-medium ${marketStatus.status === 'Open' ? 'text-green-400' : 'text-red-400'}`}>
+              <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`} />
+              <span className={`text-xs font-medium ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`}>
                 {marketStatus.status === 'Open' ? 'Markt offen' : 'Markt geschlossen'}
               </span>
             </div>
@@ -1139,15 +1139,15 @@ function LayoutContent({ children }: LayoutProps) {
             {!user.isPremium ? (
               <Link 
                 href="/pricing"
-                className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all duration-200 shadow-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all duration-200 shadow-sm"
               >
                 <SparklesIcon className="w-4 h-4" />
                 Upgrade
               </Link>
             ) : (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/20 rounded-lg border border-green-500/30">
-                <SparklesIcon className="w-3.5 h-3.5 text-green-400" />
-                <span className="text-sm text-green-400 font-semibold">Premium</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/20 rounded-lg border border-green-500/30">
+                <SparklesIcon className="w-3.5 h-3.5 text-brand-light" />
+                <span className="text-sm text-brand-light font-semibold">Premium</span>
               </div>
             )}
           </div>
@@ -1226,13 +1226,13 @@ function LayoutContent({ children }: LayoutProps) {
                       {/* Performance */}
                       <div className="flex items-center gap-2">
                         {quote.changesPercentage >= 0 ? (
-                          <ArrowTrendingUpIcon className="w-4 h-4 text-green-500" />
+                          <ArrowTrendingUpIcon className="w-4 h-4 text-brand" />
                         ) : (
                           <ArrowTrendingDownIcon className="w-4 h-4 text-red-500" />
                         )}
                         <div>
                           <div className="text-xs text-theme-muted uppercase tracking-wide">Heute</div>
-                          <div className={`text-xl font-bold ${quote.changesPercentage >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          <div className={`text-xl font-bold ${quote.changesPercentage >= 0 ? 'text-brand' : 'text-red-500'}`}>
                             {formatPercentageWithSign(quote.changesPercentage)}
                           </div>
                         </div>
@@ -1298,7 +1298,7 @@ function LayoutContent({ children }: LayoutProps) {
                           </span>
                           
                           {isActive && (
-                            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-green-500"></div>
+                            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-brand"></div>
                           )}
                         </Link>
                       )
@@ -1335,7 +1335,7 @@ function LayoutContent({ children }: LayoutProps) {
             {user.isPremium && (
               <>
                 <span>•</span>
-                <span className="text-green-400">Premium</span>
+                <span className="text-brand-light">Premium</span>
               </>
             )}
           </div>

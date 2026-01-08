@@ -83,24 +83,20 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
     return formatted;
   };
 
-  // Get color class for growth value
+  // ✅ FISCAL STYLE: Alle Zahlen neutral - keine Farben
   const getGrowthColor = (value?: number | null) => {
     if (typeof value !== 'number' || isNaN(value) || value === null) return 'text-theme-muted';
-    if (value > 15) return 'text-green-400 font-semibold';
-    if (value > 5) return 'text-green-300';
-    if (value > 0) return 'text-theme-primary';
-    if (value > -5) return 'text-yellow-400';
-    return 'text-red-400';
+    return 'text-theme-primary font-medium';
   };
 
-  // Get trend icon
+  // ✅ FISCAL STYLE: Kleine dezente Pfeile in neutraler Farbe
   const getTrendIcon = (value?: number | null) => {
     if (typeof value !== 'number' || isNaN(value) || value === null) return null;
     
     if (value > 0) {
-      return <ArrowTrendingUpIcon className="w-3 h-3 text-green-400" />;
+      return <ArrowTrendingUpIcon className="w-3 h-3 text-theme-secondary" />;
     } else {
-      return <ArrowTrendingDownIcon className="w-3 h-3 text-red-400" />;
+      return <ArrowTrendingDownIcon className="w-3 h-3 text-theme-secondary" />;
     }
   };
 
@@ -110,7 +106,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
       <div className="bg-theme-card rounded-lg">
         <div className="px-6 py-4 border-b border-theme/10">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-            <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+            <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstum
           </h3>
         </div>
@@ -130,7 +126,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
       <div className="bg-theme-card rounded-lg">
         <div className="px-6 py-4 border-b border-theme/10">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-            <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+            <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstum
           </h3>
         </div>
@@ -160,7 +156,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
       <div className="bg-theme-card rounded-lg">
         <div className="px-6 py-4 border-b border-theme/10">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-            <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+            <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstum
           </h3>
         </div>
@@ -179,7 +175,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
     <div className="bg-theme-card rounded-lg">
       <div className="px-6 py-4 border-b border-theme/10">
         <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-          <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+          <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
           Wachstum
         </h3>
       </div>
@@ -190,7 +186,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
           {/* Revenue Growth */}
           <div>
             <h4 className="text-theme-primary font-semibold text-sm mb-4 flex items-center gap-2">
-              <div className="w-3 h-3 bg-blue-400 rounded-full"></div>
+              <div className="w-3 h-3 bg-brand rounded-full"></div>
               Umsatzwachstum
             </h4>
             <div className="space-y-3">
@@ -201,7 +197,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 </div>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.revenueGrowth1Y)}
-                  <span className={`text-sm font-medium ${getGrowthColor(growth.revenueGrowth1Y)}`}>
+                  <span className={`text-sm ${getGrowthColor(growth.revenueGrowth1Y)}`}>
                     {formatGrowth(growth.revenueGrowth1Y)}
                   </span>
                 </div>
@@ -214,7 +210,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 </div>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.revenueGrowth3Y)}
-                  <span className={`text-sm font-medium ${getGrowthColor(growth.revenueGrowth3Y)}`}>
+                  <span className={`text-sm ${getGrowthColor(growth.revenueGrowth3Y)}`}>
                     {formatGrowth(growth.revenueGrowth3Y)}
                   </span>
                 </div>
@@ -224,7 +220,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 <span className="text-theme-secondary text-sm">Umsatz 5Y CAGR</span>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.revenueGrowth5Y)}
-                  <span className={`text-sm font-medium ${getGrowthColor(growth.revenueGrowth5Y)}`}>
+                  <span className={`text-sm ${getGrowthColor(growth.revenueGrowth5Y)}`}>
                     {formatGrowth(growth.revenueGrowth5Y)}
                   </span>
                 </div>
@@ -235,7 +231,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                   <span className="text-theme-secondary text-sm">Umsatz Erw. (2Y)</span>
                   <div className="flex items-center gap-2">
                     {getTrendIcon(growth.revenueGrowthForward2Y)}
-                    <span className={`text-sm font-medium ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
+                    <span className={`text-sm ${getGrowthColor(growth.revenueGrowthForward2Y)}`}>
                       {formatGrowth(growth.revenueGrowthForward2Y)}
                     </span>
                   </div>
@@ -247,7 +243,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
           {/* EPS Growth */}
           <div>
             <h4 className="text-theme-primary font-semibold text-sm mb-4 flex items-center gap-2">
-              <div className="w-3 h-3 bg-purple-400 rounded-full"></div>
+              <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
               Gewinnwachstum
             </h4>
             <div className="space-y-3">
@@ -258,7 +254,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 </div>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.epsGrowth1Y)}
-                  <span className={`text-sm font-medium ${getGrowthColor(growth.epsGrowth1Y)}`}>
+                  <span className={`text-sm ${getGrowthColor(growth.epsGrowth1Y)}`}>
                     {formatGrowth(growth.epsGrowth1Y)}
                   </span>
                 </div>
@@ -268,7 +264,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 <span className="text-theme-secondary text-sm">EPS 3Y CAGR</span>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.epsGrowth3Y)}
-                  <span className={`text-sm font-medium ${getGrowthColor(growth.epsGrowth3Y)}`}>
+                  <span className={`text-sm ${getGrowthColor(growth.epsGrowth3Y)}`}>
                     {formatGrowth(growth.epsGrowth3Y)}
                   </span>
                 </div>
@@ -278,7 +274,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 <span className="text-theme-secondary text-sm">EPS 5Y CAGR</span>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.epsGrowth5Y)}
-                  <span className={`text-sm font-medium ${getGrowthColor(growth.epsGrowth5Y)}`}>
+                  <span className={`text-sm ${getGrowthColor(growth.epsGrowth5Y)}`}>
                     {formatGrowth(growth.epsGrowth5Y)}
                   </span>
                 </div>
@@ -289,7 +285,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                   <span className="text-theme-secondary text-sm">EPS Erw. (2Y)</span>
                   <div className="flex items-center gap-2">
                     {getTrendIcon(growth.epsGrowthForward2Y)}
-                    <span className={`text-sm font-medium ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
+                    <span className={`text-sm ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
                       {formatGrowth(growth.epsGrowthForward2Y)}
                     </span>
                   </div>
@@ -302,7 +298,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
           {(growth.ebitdaGrowth3Y || growth.fcfGrowth3Y) && (
             <div>
               <h4 className="text-theme-primary font-semibold text-sm mb-4 flex items-center gap-2">
-                <div className="w-3 h-3 bg-orange-400 rounded-full"></div>
+                <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
                 Weitere Kennzahlen
               </h4>
               <div className="space-y-3">
@@ -314,7 +310,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                     </div>
                     <div className="flex items-center gap-2">
                       {getTrendIcon(growth.ebitdaGrowth3Y)}
-                      <span className={`text-sm font-medium ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
+                      <span className={`text-sm ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
                         {formatGrowth(growth.ebitdaGrowth3Y)}
                       </span>
                     </div>
@@ -329,7 +325,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                     </div>
                     <div className="flex items-center gap-2">
                       {getTrendIcon(growth.fcfGrowth3Y)}
-                      <span className={`text-sm font-medium ${getGrowthColor(growth.fcfGrowth3Y)}`}>
+                      <span className={`text-sm ${getGrowthColor(growth.fcfGrowth3Y)}`}>
                         {formatGrowth(growth.fcfGrowth3Y)}
                       </span>
                     </div>
@@ -344,7 +340,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
         <div className="mt-6 pt-4 border-t border-theme/10">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 bg-blue-400 rounded-full"></div>
+              <div className="w-2 h-2 bg-brand rounded-full"></div>
               <span className="text-xs text-theme-muted">
                 {data.dataQuality.periods} Jahre Historie
               </span>
@@ -363,12 +359,12 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
           {/* Link zur Wachstumsseite */}
           <Link
             href={`/analyse/stocks/${ticker.toLowerCase()}/growth/`}
-            className="text-xs text-theme-secondary hover:text-theme-primary transition-colors flex items-center gap-1 group"
+            className="text-xs text-theme-secondary hover:text-brand transition-colors flex items-center gap-1 group"
           >
-            <svg className="w-3 h-3 group-hover:text-green-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-3 h-3 group-hover:text-brand transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
             </svg>
-            <span className="group-hover:text-green-400 transition-colors">Mehr zum Wachstum</span>
+            <span className="group-hover:text-brand transition-colors">Mehr zum Wachstum</span>
             <svg className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>

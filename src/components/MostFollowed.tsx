@@ -132,12 +132,12 @@ export default function MostFollowed({ onSelect, quotes }: MostFollowedProps) {
               {/* Ticker & Data */}
               <div className="flex-1 text-left">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-sm text-theme-primary group-hover:text-green-400 transition-colors">
+                  <span className="font-bold text-sm text-theme-primary group-hover:text-brand-light transition-colors">
                     {stock.ticker}
                   </span>
                   {stock.quote && (
                     <span className={`text-xs font-medium ${
-                      stock.quote.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                      stock.quote.changePct >= 0 ? 'text-brand-light' : 'text-red-400'
                     }`}>
                       {stock.quote.changePct >= 0 ? '+' : ''}{stock.quote.changePct.toFixed(1)}%
                     </span>

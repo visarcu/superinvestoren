@@ -83,14 +83,14 @@ function InvestorCard({
       {/* Background Glow */}
       <div className={`
         absolute inset-0 rounded-3xl blur-xl transition-all duration-700
-        ${isActive ? 'bg-green-500/20 scale-110' : 'bg-green-500/5 scale-100'}
-        ${isHovered ? 'bg-green-500/30 scale-120' : ''}
+        ${isActive ? 'bg-brand/20 scale-110' : 'bg-brand/5 scale-100'}
+        ${isHovered ? 'bg-brand/30 scale-120' : ''}
       `}></div>
 
       {/* Main Card */}
       <div className={`
         relative bg-gray-900/80 backdrop-blur-2xl border rounded-3xl overflow-hidden transition-all duration-700
-        ${isActive ? 'border-green-500/50 shadow-2xl shadow-green-500/20' : 'border-gray-700/50 shadow-xl shadow-black/20'}
+        ${isActive ? 'border-green-500/50 shadow-2xl shadow-brand/20' : 'border-gray-700/50 shadow-xl shadow-black/20'}
         ${isHovered ? 'border-green-400/70 shadow-3xl shadow-green-500/30' : ''}
       `}>
         
@@ -131,7 +131,7 @@ function InvestorCard({
               <h3 className={`
                 text-2xl font-bold transition-all duration-300
                 ${isActive ? 'text-white' : 'text-gray-100'}
-                ${isHovered ? 'text-green-400' : ''}
+                ${isHovered ? 'text-brand-light' : ''}
               `}>
                 {investor.investor}
               </h3>
@@ -140,7 +140,7 @@ function InvestorCard({
               {/* Portfolio Value mit Animation */}
               <div className="mt-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <DollarSignIcon className="w-4 h-4 text-green-400" />
+                  <DollarSignIcon className="w-4 h-4 text-brand-light" />
                   <span className="text-xs text-gray-500 uppercase tracking-wide font-semibold">Portfolio-Wert</span>
                 </div>
                 <div className={`
@@ -195,7 +195,7 @@ function InvestorCard({
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-sm font-bold text-green-400">{holding.value}</div>
+                  <div className="text-sm font-bold text-brand-light">{holding.value}</div>
                   <div className="text-xs text-gray-500">Market Value</div>
                 </div>
               </div>
@@ -203,10 +203,10 @@ function InvestorCard({
           </div>
 
           {/* Ticker-Übersicht */}
-          <div className="mt-6 p-3 bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-xl border border-green-500/20">
+          <div className="mt-6 p-3 bg-gradient-to-r from-brand/10 to-blue-500/10 rounded-xl border border-brand/20">
             <div className="flex items-center gap-2 mb-2">
-              <Users className="w-4 h-4 text-green-400" />
-              <span className="text-xs font-semibold text-green-400">Hauptpositionen</span>
+              <Users className="w-4 h-4 text-brand-light" />
+              <span className="text-xs font-semibold text-brand-light">Hauptpositionen</span>
             </div>
             <div className="text-sm text-gray-300 leading-relaxed">{investor.tickers}</div>
           </div>
@@ -272,7 +272,7 @@ export default function ModernInvestorCards({ investors }: ModernInvestorCardsPr
       
       {/* Background Effects */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-green-500/10 to-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-to-br from-brand/10 to-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
         <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
       </div>
 

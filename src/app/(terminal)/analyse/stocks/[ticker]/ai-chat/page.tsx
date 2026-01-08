@@ -26,7 +26,7 @@ export default function TickerAIChatRedirect({ params }: TickerAIChatRedirectPro
   return (
     <div className="min-h-screen bg-theme-primary flex items-center justify-center">
       <div className="text-center">
-        <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-green-500/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+        <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-brand/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
           <SparklesIcon className="w-8 h-8 text-purple-400 animate-pulse" />
         </div>
         <h2 className="text-xl font-semibold text-theme-primary mb-3">

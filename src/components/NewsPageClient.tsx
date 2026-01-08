@@ -72,11 +72,11 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
 
   const getCategoryColor = (category: string) => {
     switch (category) {
-      case 'newsletter': return 'bg-green-500/15 text-green-300 border-green-400/20'
-      case 'analysis': return 'bg-green-500/15 text-green-300 border-green-400/20'
-      case 'education': return 'bg-green-500/15 text-green-300 border-green-400/20'
-      case 'superinvestor-news': return 'bg-green-500/15 text-green-300 border-green-400/20'
-      case 'portfolio-moves': return 'bg-green-500/15 text-green-300 border-green-400/20'
+      case 'newsletter': return 'bg-brand/15 text-green-300 border-green-400/20'
+      case 'analysis': return 'bg-brand/15 text-green-300 border-green-400/20'
+      case 'education': return 'bg-brand/15 text-green-300 border-green-400/20'
+      case 'superinvestor-news': return 'bg-brand/15 text-green-300 border-green-400/20'
+      case 'portfolio-moves': return 'bg-brand/15 text-green-300 border-green-400/20'
       case 'insider-trading': return 'bg-yellow-500/15 text-yellow-300 border-yellow-400/20'
       default: return 'bg-gray-700/50 text-gray-300 border-gray-600/30'
     }
@@ -118,7 +118,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
             placeholder="Suche nach Artikeln, Investoren oder Themen..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="block w-full pl-14 pr-5 py-5 text-lg bg-[#1A1B23] border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+            className="block w-full pl-14 pr-5 py-5 text-lg bg-[#1A1B23] border border-white/10 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50 transition-all"
           />
         </div>
       </div>
@@ -128,7 +128,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-5">
             <div className="flex items-center gap-2">
-              <UserIcon className="w-5 h-5 text-green-400" />
+              <UserIcon className="w-5 h-5 text-brand-light" />
               <span className="text-gray-400 font-medium text-base">Investoren:</span>
             </div>
             
@@ -137,7 +137,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                 onClick={() => setSelectedInvestor('all')}
                 className={`px-4 py-2.5 rounded-lg transition-all text-base font-medium ${
                   selectedInvestor === 'all'
-                    ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                    ? 'bg-brand text-white shadow-lg shadow-green-600/25'
                     : 'bg-[#1A1B23] text-white hover:bg-white/10 border border-white/10'
                 }`}
               >
@@ -155,7 +155,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                     onClick={() => setSelectedInvestor(investor)}
                     className={`flex items-center gap-2 px-4 py-2.5 rounded-lg transition-all text-base font-medium ${
                       selectedInvestor === investor
-                        ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                        ? 'bg-brand text-white shadow-lg shadow-green-600/25'
                         : 'bg-[#1A1B23] text-white hover:bg-white/10 border border-white/10'
                     }`}
                   >
@@ -181,7 +181,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
               onClick={() => setSelectedCategory('all')}
               className={`px-5 py-2.5 rounded-lg transition-all text-base font-medium ${
                 selectedCategory === 'all'
-                  ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                  ? 'bg-brand text-white shadow-lg shadow-green-600/25'
                   : 'bg-[#1A1B23] text-white hover:bg-white/10 border border-white/10'
               }`}
             >
@@ -198,7 +198,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                   onClick={() => setSelectedCategory(category)}
                   className={`flex items-center gap-2 px-5 py-2.5 rounded-lg transition-all text-base font-medium ${
                     selectedCategory === category
-                      ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
+                      ? 'bg-brand text-white shadow-lg shadow-green-600/25'
                       : 'bg-[#1A1B23] text-white hover:bg-white/10 border border-white/10'
                   }`}
                 >
@@ -215,7 +215,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
       {featuredPost && selectedCategory === 'all' && selectedInvestor === 'all' && searchQuery === '' && (
         <section className="mb-20">
           <div className="flex items-center gap-3 mb-10">
-            <SparklesIcon className="w-7 h-7 text-green-400" />
+            <SparklesIcon className="w-7 h-7 text-brand-light" />
             <h2 className="text-3xl font-bold text-white">Lesetipp</h2>
           </div>
 
@@ -234,10 +234,10 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                     {getCategoryIcon(featuredPost.category)}
                     {getCategoryName(featuredPost.category)}
                   </span>
-                  <span className="text-green-400 text-sm font-medium">⭐ Lesetipp</span>
+                  <span className="text-brand-light text-sm font-medium">⭐ Lesetipp</span>
                 </div>
 
-                <h3 className="text-3xl font-bold text-white mb-5 leading-tight group-hover:text-green-400 transition-colors">
+                <h3 className="text-3xl font-bold text-white mb-5 leading-tight group-hover:text-brand-light transition-colors">
                   {featuredPost.title}
                 </h3>
                 
@@ -260,7 +260,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                   
                   <Link
                     href={`/news/${featuredPost.slug}`}
-                    className="inline-flex items-center gap-2 px-5 py-3 bg-green-600 hover:bg-green-700 text-white font-medium text-base rounded-lg transition-colors shadow-lg shadow-green-600/25"
+                    className="inline-flex items-center gap-2 px-5 py-3 bg-brand hover:bg-green-700 text-white font-medium text-base rounded-lg transition-colors shadow-lg shadow-green-600/25"
                   >
                     Artikel lesen
                     <ArrowRightIcon className="w-5 h-5" />
@@ -298,7 +298,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                 setSelectedInvestor('all')
                 setSearchQuery('')
               }}
-              className="px-6 py-3 bg-green-600 hover:bg-green-700 text-white text-base font-medium rounded-lg transition-colors shadow-lg shadow-green-600/25"
+              className="px-6 py-3 bg-brand hover:bg-green-700 text-white text-base font-medium rounded-lg transition-colors shadow-lg shadow-green-600/25"
             >
               Filter zurücksetzen
             </button>
@@ -325,7 +325,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                 </div>
 
                 <div className="p-7">
-                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-green-400 transition-colors line-clamp-2 leading-tight">
+                  <h3 className="text-xl font-bold text-white mb-4 group-hover:text-brand-light transition-colors line-clamp-2 leading-tight">
                     {post.title}
                   </h3>
                   
@@ -350,7 +350,7 @@ export default function NewsPageClient({ posts }: NewsPageClientProps) {
                     
                     <Link
                       href={`/news/${post.slug}`}
-                      className="text-green-400 hover:text-green-300 text-base font-medium group-hover:underline"
+                      className="text-brand-light hover:text-green-300 text-base font-medium group-hover:underline"
                     >
                       Lesen →
                     </Link>

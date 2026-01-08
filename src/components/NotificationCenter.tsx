@@ -199,7 +199,7 @@ export default function NotificationCenter() {
       case 'price_target':
         return <ExclamationCircleIcon className="w-4 h-4 text-yellow-400" />
       case 'system':
-        return <InformationCircleIcon className="w-4 h-4 text-green-400" />
+        return <InformationCircleIcon className="w-4 h-4 text-brand-light" />
       default:
         return <BellIcon className="w-4 h-4 text-theme-muted" />
     }
@@ -234,7 +234,7 @@ export default function NotificationCenter() {
         onClick={() => setIsOpen(!isOpen)}
         className={`relative p-2 rounded-lg transition-all duration-200 ${
           isOpen 
-            ? 'bg-green-500/20 text-green-400' 
+            ? 'bg-brand/20 text-brand-light' 
             : 'text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50'
         }`}
         title="Benachrichtigungen"
@@ -270,7 +270,7 @@ export default function NotificationCenter() {
               {unreadCount > 0 && (
                 <button
                   onClick={markAllAsRead}
-                  className="text-xs text-green-400 hover:text-green-300 font-medium"
+                  className="text-xs text-brand-light hover:text-green-300 font-medium"
                 >
                   Alle als gelesen markieren
                 </button>
@@ -308,7 +308,7 @@ export default function NotificationCenter() {
                     <div 
                       className={`flex gap-3 p-3 rounded-lg transition-all duration-200 ${
                         !notification.read 
-                          ? 'bg-green-500/5 border border-green-500/20' 
+                          ? 'bg-brand/5 border border-brand/20' 
                           : 'hover:bg-theme-secondary border border-transparent'
                       } ${notification.href ? 'cursor-pointer' : ''}`}
                     >
@@ -339,7 +339,7 @@ export default function NotificationCenter() {
                                   markAsRead(notification.id)
                                 }}
                                 disabled={isMarkingRead}
-                                className="p-1 text-theme-muted hover:text-green-400 transition-colors disabled:opacity-50"
+                                className="p-1 text-theme-muted hover:text-brand-light transition-colors disabled:opacity-50"
                                 title="Als gelesen markieren"
                               >
                                 {isMarkingRead ? (
@@ -399,7 +399,7 @@ export default function NotificationCenter() {
             <div className="p-3 border-t border-theme/10 text-center">
               <Link 
                 href="/notifications"
-                className="text-sm text-green-400 hover:text-green-300 font-medium"
+                className="text-sm text-brand-light hover:text-green-300 font-medium"
                 onClick={() => setIsOpen(false)}
               >
                 Alle Benachrichtigungen anzeigen

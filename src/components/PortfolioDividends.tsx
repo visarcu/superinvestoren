@@ -311,7 +311,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
           <p className="text-theme-secondary">Lade Dividendendaten...</p>
         </div>
       </div>
@@ -324,7 +324,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-2 mb-2">
-            <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
+            <CurrencyDollarIcon className="w-5 h-5 text-brand-light" />
             <p className="text-sm text-theme-secondary">Jährliche Dividenden</p>
           </div>
           <p className="text-2xl font-bold text-theme-primary">
@@ -381,7 +381,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
           onClick={() => setActiveTab('overview')}
           className={`pb-3 px-1 font-medium transition-colors ${
             activeTab === 'overview' 
-              ? 'text-green-400 border-b-2 border-green-400' 
+              ? 'text-brand-light border-b-2 border-green-400' 
               : 'text-theme-secondary hover:text-theme-primary'
           }`}
         >
@@ -391,7 +391,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
           onClick={() => setActiveTab('calendar')}
           className={`pb-3 px-1 font-medium transition-colors ${
             activeTab === 'calendar' 
-              ? 'text-green-400 border-b-2 border-green-400' 
+              ? 'text-brand-light border-b-2 border-green-400' 
               : 'text-theme-secondary hover:text-theme-primary'
           }`}
         >
@@ -401,7 +401,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
           onClick={() => setActiveTab('history')}
           className={`pb-3 px-1 font-medium transition-colors ${
             activeTab === 'history' 
-              ? 'text-green-400 border-b-2 border-green-400' 
+              ? 'text-brand-light border-b-2 border-green-400' 
               : 'text-theme-secondary hover:text-theme-primary'
           }`}
         >
@@ -442,7 +442,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                       <p className="font-semibold text-theme-primary">{div.quantity}</p>
                     </td>
                     <td className="text-right px-4 py-4">
-                      <span className={`font-semibold ${div.dividendYield > 3 ? 'text-green-400' : 'text-theme-primary'}`}>
+                      <span className={`font-semibold ${div.dividendYield > 3 ? 'text-brand-light' : 'text-theme-primary'}`}>
                         {div.dividendYield.toFixed(2)}%
                       </span>
                     </td>
@@ -452,7 +452,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                       </p>
                     </td>
                     <td className="text-right px-4 py-4">
-                      <p className="font-bold text-green-400">
+                      <p className="font-bold text-brand-light">
                         ${div.totalAnnualIncome.toFixed(2)}
                       </p>
                     </td>
@@ -514,7 +514,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-green-400 text-lg">
+                      <p className="font-bold text-brand-light text-lg">
                         +${totalPayment.toFixed(2)}
                       </p>
                       <p className="text-xs text-theme-muted">Geschätzt</p>
@@ -578,7 +578,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                           <p className="font-semibold text-theme-primary">
                             ${div.adjDividend.toFixed(2)}
                           </p>
-                          <p className="text-xs text-green-400">
+                          <p className="text-xs text-brand-light">
                             Total: ${(div.adjDividend * holding.quantity).toFixed(2)}
                           </p>
                         </div>

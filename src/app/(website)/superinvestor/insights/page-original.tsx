@@ -606,7 +606,7 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
               }}
               className={`w-full text-left px-3 py-3 rounded-lg text-sm transition-colors duration-200 ${
                 selected === option.id 
-                  ? 'bg-green-600/80 text-white shadow-md' 
+                  ? 'bg-brand/80 text-white shadow-md' 
                   : 'text-theme-secondary hover:bg-theme-hover hover:text-white'
               }`}
             >
@@ -1027,7 +1027,7 @@ const StockItem = memo<StockItemProps & { index?: number }>(({
         />
       </div>
       <div>
-        <p className="text-white font-medium group-hover:text-green-400 transition-colors">
+        <p className="text-white font-medium group-hover:text-brand-light transition-colors">
           {ticker}
         </p>
         <p className="text-gray-500 text-xs truncate max-w-[120px]">
@@ -1036,7 +1036,7 @@ const StockItem = memo<StockItemProps & { index?: number }>(({
       </div>
     </div>
     <div className="text-right">
-      <span className="text-green-400 text-sm font-semibold bg-green-500/20 px-2 py-1 rounded">
+      <span className="text-brand-light text-sm font-semibold bg-brand/20 px-2 py-1 rounded">
         {showValue && value ? formatCurrencyGerman(value, false) : count}
       </span>
       <p className="text-xs text-gray-500">{rightLabel}</p>
@@ -1655,7 +1655,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                                 />
                               </div>
                               <div>
-                                <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                                <p className="font-bold text-white group-hover:text-brand-light transition-colors">
                                   {bet.ticker}
                                 </p>
                                 <p className="text-xs text-gray-500 truncate max-w-[120px]">
@@ -1665,7 +1665,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                             </div>
                             
                             <div className="text-right">
-                              <div className="text-green-400 font-bold text-lg">
+                              <div className="text-brand-light font-bold text-lg">
                                 {bet.maxPortfolioPercent.toFixed(1)}%
                               </div>
                               <div className="text-xs text-gray-500">
@@ -1795,7 +1795,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                                   />
                                 </div>
                                 <div>
-                                  <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                                  <p className="font-bold text-white group-hover:text-brand-light transition-colors">
                                     {pick.ticker}
                                   </p>
                                   <p className="text-xs text-gray-500 truncate max-w-[120px]">
@@ -1805,7 +1805,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                               </div>
                               
                               <div className="text-right">
-                                <div className="text-green-400 font-bold text-lg">
+                                <div className="text-brand-light font-bold text-lg">
                                   {pick.portfolioPercent.toFixed(1)}%
                                 </div>
                                 <div className="text-xs text-gray-500">
@@ -1957,7 +1957,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     <div className="flex justify-between items-center">
                       <span className="text-theme-secondary text-sm">Top 3 Holdings:</span>
                       <span className={`font-semibold ${
-                        data.top3Percentage > 60 ? 'text-green-400' :
+                        data.top3Percentage > 60 ? 'text-brand-light' :
                         data.top3Percentage > 40 ? 'text-gray-400' : 'text-gray-300'
                       }`}>
                         {data.top3Percentage.toFixed(1)}%
@@ -2068,7 +2068,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-white group-hover:text-green-400 transition-colors">
+                    <p className="font-bold text-white group-hover:text-brand-light transition-colors">
                       {shift.ticker}
                     </p>
                     <p className="text-xs text-gray-500 truncate max-w-[120px]">
@@ -2078,8 +2078,8 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 </div>
                 <div className="text-right">
                   <div className="flex items-center gap-1">
-                    <ArrowUpIcon className="w-3 h-3 text-green-400" />
-                    <span className="text-green-400 font-bold">
+                    <ArrowUpIcon className="w-3 h-3 text-brand-light" />
+                    <span className="text-brand-light font-bold">
                       {shift.shifters.length}
                     </span>
                   </div>
@@ -2360,7 +2360,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                 <div className="mt-8 pt-6 border-t border-white/10">
                   <div className="grid grid-cols-3 gap-4 text-center">
                     <div>
-                      <div className="text-2xl font-bold text-green-400">
+                      <div className="text-2xl font-bold text-brand-light">
                         {formatCurrencyGerman(inflows.reduce((sum, [,flow]) => sum + flow, 0), false)}
                       </div>
                       <div className="text-xs text-gray-500">Gesamt-Zuflüsse</div>
@@ -2517,7 +2517,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                  >
                  
                         <div>
-                          <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                          <h4 className="font-semibold text-white group-hover:text-brand-light transition-colors">
                             {data.investor}
                           </h4>
                           <p className="text-xs text-gray-500">
@@ -2526,12 +2526,12 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         </div>
                         
                         <div className="text-right">
-                          <div className="text-green-400 font-bold text-lg mb-1">
+                          <div className="text-brand-light font-bold text-lg mb-1">
                             {data.changes}
                           </div>
                           <div className="text-xs text-gray-600 mb-1">Änderungen</div>
                           <div className="flex gap-3 text-xs">
-                            <span className="text-green-400 flex items-center gap-1">
+                            <span className="text-brand-light flex items-center gap-1">
                               <ArrowUpIcon className="w-3 h-3" />
                               {data.buys}
                             </span>
@@ -2642,7 +2642,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                             />
                           </div>
                           <div>
-                            <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                            <h4 className="font-semibold text-white group-hover:text-brand-light transition-colors">
                               {move.ticker}
                             </h4>
                             <p className="text-xs text-gray-500">
@@ -2653,7 +2653,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         
                         <div className="text-right">
                           <div className={`font-bold text-lg mb-1 ${
-                            move.type === 'buy' ? 'text-green-400' : 'text-red-400'
+                            move.type === 'buy' ? 'text-brand-light' : 'text-red-400'
                           }`}>
                             {move.type === 'buy' ? '+' : '-'}{move.percentChange.toFixed(1)}%
                           </div>

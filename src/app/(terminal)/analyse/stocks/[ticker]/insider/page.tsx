@@ -72,8 +72,8 @@ const getTransactionCategory = (transactionType: string, acquiredDisposedCode: s
     return {
       type: 'purchase',
       label: 'Kauf',
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20',
+      color: 'text-brand-light',
+      bgColor: 'bg-brand/20',
       icon: 'up',
       isPositive: true
     }
@@ -167,8 +167,8 @@ const getTransactionCategory = (transactionType: string, acquiredDisposedCode: s
     return {
       type: 'purchase',
       label: 'Erwerb',
-      color: 'text-green-400',
-      bgColor: 'bg-green-500/20',
+      color: 'text-brand-light',
+      bgColor: 'bg-brand/20',
       icon: 'up',
       isPositive: true
     }
@@ -494,7 +494,7 @@ export default function TickerInsiderPage() {
           <p className="text-red-400 mb-4">{error}</p>
           <button 
             onClick={retryLoading}
-            className="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+            className="px-6 py-2 bg-brand text-white rounded-lg hover:bg-brand transition-colors"
           >
             Erneut versuchen
           </button>
@@ -514,7 +514,7 @@ export default function TickerInsiderPage() {
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <p className="text-theme-secondary">
-            Insider-Aktivitäten der letzten <span className="font-semibold text-green-400">{timeframe}</span>
+            Insider-Aktivitäten der letzten <span className="font-semibold text-brand-light">{timeframe}</span>
           </p>
           <div className="text-sm text-theme-muted mt-1">
             Live FMP Daten • Täglich aktualisiert
@@ -529,8 +529,8 @@ export default function TickerInsiderPage() {
               onClick={() => setTimeframe(period)}
               className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 timeframe === period
-                  ? 'bg-green-500 text-white shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary hover:bg-green-500/10'
+                  ? 'bg-brand text-white shadow-sm'
+                  : 'text-theme-secondary hover:text-theme-primary hover:bg-brand/10'
               }`}
             >
               {period}
@@ -543,7 +543,7 @@ export default function TickerInsiderPage() {
       <div className="flex items-center gap-2 text-sm">
         <Link 
           href="/analyse/insider" 
-          className="text-theme-muted hover:text-green-400 transition-colors"
+          className="text-theme-muted hover:text-brand-light transition-colors"
         >
           Alle Insider Trading
         </Link>
@@ -582,9 +582,9 @@ export default function TickerInsiderPage() {
           <div className="flex items-center justify-between">
             <div>
               <p className="text-theme-muted text-sm">Käufe</p>
-              <p className="text-xl font-bold text-green-400">{formatNumberDE(stats.categories.purchase)}</p>
+              <p className="text-xl font-bold text-brand-light">{formatNumberDE(stats.categories.purchase)}</p>
             </div>
-            <ArrowTrendingUpIcon className="w-6 h-6 text-green-500" />
+            <ArrowTrendingUpIcon className="w-6 h-6 text-brand" />
           </div>
         </div>
         
@@ -638,7 +638,7 @@ export default function TickerInsiderPage() {
           <h3 className="text-lg font-bold text-theme-primary mb-4">Insider Sentiment</h3>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="text-center">
-              <div className="text-2xl font-bold text-green-400">
+              <div className="text-2xl font-bold text-brand-light">
                 {stats.sentiment.positivePercentage}%
               </div>
               <div className="text-sm text-theme-muted">Positive Transaktionen</div>
@@ -656,7 +656,7 @@ export default function TickerInsiderPage() {
               </div>
             </div>
             <div className="text-center">
-              <div className={`text-2xl font-bold ${stats.netShares >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <div className={`text-2xl font-bold ${stats.netShares >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                 {stats.sentiment.netSentiment}
               </div>
               <div className="text-sm text-theme-muted">Netto Sentiment</div>
@@ -791,7 +791,7 @@ export default function TickerInsiderPage() {
             <p className="text-theme-muted">Keine Insider-Transaktionen für {ticker} im Zeitraum {timeframe}</p>
             <p className="text-sm text-theme-muted mt-1">
               Versuche einen längeren Zeitraum oder schaue dir die{' '}
-              <Link href="/analyse/insider" className="text-green-400 hover:text-green-300 transition-colors">
+              <Link href="/analyse/insider" className="text-brand-light hover:text-green-300 transition-colors">
                 allgemeine Insider Trading Übersicht
               </Link>{' '}
               an.
@@ -806,9 +806,9 @@ export default function TickerInsiderPage() {
           href={`/analyse/stocks/${ticker.toLowerCase()}`}
           className="flex items-center gap-3 p-4 bg-theme-card border border-theme rounded-lg hover:bg-theme-secondary/50 transition-colors group"
         >
-          <ChartBarIcon className="w-5 h-5 text-green-400" />
+          <ChartBarIcon className="w-5 h-5 text-brand-light" />
           <div>
-            <div className="text-sm font-medium text-theme-primary group-hover:text-green-400 transition-colors">
+            <div className="text-sm font-medium text-theme-primary group-hover:text-brand-light transition-colors">
               {ticker} Aktien-Analyse
             </div>
             <div className="text-xs text-theme-muted">

@@ -104,7 +104,7 @@ export default function TestRealWatchlistPage() {
                   </div>
                   <div className="bg-green-50 p-4 rounded-lg">
                     <h3 className="font-semibold text-green-900">📧 E-Mail senden?</h3>
-                    <p className="text-lg font-bold text-green-600">
+                    <p className="text-lg font-bold text-brand">
                       {result.summary.wouldSendEmail ? 'JA ✅' : 'NEIN ❌'}
                     </p>
                   </div>
@@ -135,7 +135,7 @@ export default function TestRealWatchlistPage() {
                           ) : (
                             <div className="text-sm text-gray-600">
                               <p>Aktuell: ${stock.currentPrice} | 52W-Hoch: ${stock.yearHigh}</p>
-                              <p>Dip: <span className={`font-medium ${parseFloat(stock.dipPercent) <= -stock.threshold ? 'text-red-600' : 'text-green-600'}`}>
+                              <p>Dip: <span className={`font-medium ${parseFloat(stock.dipPercent) <= -stock.threshold ? 'text-red-600' : 'text-brand'}`}>
                                 {stock.dipPercent}%
                               </span> (Schwelle: -{stock.threshold}%)</p>
                             </div>

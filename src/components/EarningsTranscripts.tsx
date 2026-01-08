@@ -199,8 +199,8 @@ export default function EarningsTranscripts({ ticker }: EarningsTranscriptsProps
       <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <MicrophoneIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+              <MicrophoneIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h2 className="text-xl font-bold text-theme-primary">Earnings Call Transcripts</h2>
@@ -269,7 +269,7 @@ export default function EarningsTranscripts({ ticker }: EarningsTranscriptsProps
                           className={`w-full text-left p-3 rounded-lg transition-all duration-200 ${
                             selectedTranscript?.year === item.year && 
                             selectedTranscript?.quarter === item.quarter
-                              ? 'bg-green-500/20 border border-green-500/30'
+                              ? 'bg-brand/20 border border-green-500/30'
                               : 'hover:bg-theme-secondary/50 border border-transparent'
                           }`}
                         >

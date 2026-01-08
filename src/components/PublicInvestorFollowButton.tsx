@@ -153,7 +153,7 @@ export default function PublicInvestorFollowButton({
         disabled={actionLoading}
         className={`group relative p-3 rounded-xl border transition-all duration-200 ${
           isFollowing
-            ? 'bg-green-500/10 border-green-500/30 text-green-400'
+            ? 'bg-brand/10 border-green-500/30 text-brand-light'
             : 'bg-white/[0.03] border-white/[0.08] text-gray-400 hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white'
         } ${className}`}
         title={isFollowing ? 'Du folgst diesem Investor' : 'Investor folgen für Updates'}
@@ -166,7 +166,7 @@ export default function PublicInvestorFollowButton({
           <BellIcon className="w-5 h-5" />
         )}
         {isFollowing && !actionLoading && (
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-[#161618]"></span>
+          <span className="absolute -top-1 -right-1 w-3 h-3 bg-brand rounded-full border-2 border-[#161618]"></span>
         )}
       </button>
     )
@@ -178,7 +178,7 @@ export default function PublicInvestorFollowButton({
       <div className={`space-y-4 ${className}`}>
         <button
           onClick={handleFollow}
-          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-green-500 hover:bg-green-400 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
+          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-brand hover:bg-green-400 text-white rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02]"
         >
           <UserPlusIcon className="w-5 h-5" />
           <span>{investorName} folgen</span>
@@ -218,8 +218,8 @@ export default function PublicInvestorFollowButton({
         disabled={actionLoading}
         className={`w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] ${
           isFollowing 
-            ? 'bg-green-500/20 border-2 border-green-500/30 text-green-600 dark:text-green-400 hover:bg-green-500/30' 
-            : 'bg-green-500 hover:bg-green-400 text-white'
+            ? 'bg-brand/20 border-2 border-green-500/30 text-brand dark:text-brand-light hover:bg-brand/30' 
+            : 'bg-brand hover:bg-green-400 text-white'
         } ${actionLoading ? 'opacity-50 cursor-not-allowed transform-none' : ''}`}
       >
         {actionLoading ? (
@@ -244,8 +244,8 @@ export default function PublicInvestorFollowButton({
       
       <div className="text-center">
         {isFollowing ? (
-          <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-lg">
-            <p className="text-sm text-green-400 font-medium">
+          <div className="p-3 bg-brand/10 border border-brand/20 rounded-lg">
+            <p className="text-sm text-brand-light font-medium">
               ✅ Du erhältst E-Mails bei neuen 13F-Filings
             </p>
           </div>

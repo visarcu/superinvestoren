@@ -145,7 +145,7 @@ export default function ComparisonCards({ altmanZScore, piotroskiScore }: Compar
             <div className="space-y-1 text-xs">
               <div className="flex justify-between py-1">
                 <span className="text-theme-muted font-mono">&gt; 3.0</span>
-                <span className="text-green-400 font-medium">Sicher</span>
+                <span className="text-brand-light font-medium">Sicher</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-theme-muted font-mono">1.8 - 3.0</span>
@@ -181,16 +181,16 @@ export default function ComparisonCards({ altmanZScore, piotroskiScore }: Compar
             {/* Score Display - Terminal */}
             <div className="text-center mb-6">
               <div className={`text-3xl font-mono font-bold mb-2 ${
-                piotroskiScore >= 8 ? 'text-green-400' :
-                piotroskiScore >= 6 ? 'text-green-400' :
+                piotroskiScore >= 8 ? 'text-brand-light' :
+                piotroskiScore >= 6 ? 'text-brand-light' :
                 piotroskiScore >= 4 ? 'text-yellow-400' : 'text-red-400'
               }`}>
                 {piotroskiScore}/9
               </div>
               <div className="space-y-1">
                 <div className={`text-base font-semibold ${
-                  piotroskiScore >= 8 ? 'text-green-400' :
-                  piotroskiScore >= 6 ? 'text-green-400' :
+                  piotroskiScore >= 8 ? 'text-brand-light' :
+                  piotroskiScore >= 6 ? 'text-brand-light' :
                   piotroskiScore >= 4 ? 'text-yellow-400' : 'text-red-400'
                 }`}>
                   {piotroskiScore >= 8 ? 'Sehr stark' :
@@ -222,11 +222,11 @@ export default function ComparisonCards({ altmanZScore, piotroskiScore }: Compar
             <div className="space-y-1 text-xs">
               <div className="flex justify-between py-1">
                 <span className="text-theme-muted font-mono">8-9</span>
-                <span className="text-green-400 font-medium">Sehr stark</span>
+                <span className="text-brand-light font-medium">Sehr stark</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-theme-muted font-mono">6-7</span>
-                <span className="text-green-400 font-medium">Stark</span>
+                <span className="text-brand-light font-medium">Stark</span>
               </div>
               <div className="flex justify-between py-1">
                 <span className="text-theme-muted font-mono">4-5</span>

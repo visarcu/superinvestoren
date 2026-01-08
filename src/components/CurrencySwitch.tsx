@@ -44,7 +44,7 @@ export default function CurrencySwitch({
           onClick={() => setCurrency('EUR')}
           className={`${sizeClasses[size]} font-medium transition-all duration-200 ${
             currency === 'EUR'
-              ? 'bg-green-500 text-black' 
+              ? 'bg-brand text-black' 
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
         >
@@ -54,7 +54,7 @@ export default function CurrencySwitch({
           onClick={() => setCurrency('USD')}
           className={`${sizeClasses[size]} font-medium transition-all duration-200 ${
             currency === 'USD'
-              ? 'bg-green-500 text-black' 
+              ? 'bg-brand text-black' 
               : 'text-gray-400 hover:text-white hover:bg-gray-700'
           }`}
         >

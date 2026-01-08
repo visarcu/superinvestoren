@@ -54,7 +54,7 @@ export default function LexikonPage() {
               onChange={(e) => setSearchQuery(e.target.value)}
               onFocus={() => setIsSearchFocused(true)}
               onBlur={() => setTimeout(() => setIsSearchFocused(false), 200)}
-              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50 transition-all"
             />
           </div>
           
@@ -148,13 +148,13 @@ export default function LexikonPage() {
             className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-white/5 transition-all group"
           >
             <div className="text-3xl mb-4">{category.icon}</div>
-            <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-green-400 transition-colors">
+            <h3 className="text-xl font-semibold text-white mb-2 group-hover:text-brand-light transition-colors">
               {category.title}
             </h3>
             <p className="text-gray-400 text-sm mb-4 leading-relaxed">
               {category.description}
             </p>
-            <div className="text-sm text-green-400 font-medium">
+            <div className="text-sm text-brand-light font-medium">
               {category.terms.length} Begriffe
             </div>
           </div>
@@ -182,10 +182,10 @@ export default function LexikonPage() {
                     className="group block p-6 bg-[#161618] border border-white/[0.06] rounded-xl hover:bg-white/5 transition-all"
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <h4 className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                      <h4 className="font-semibold text-white group-hover:text-brand-light transition-colors">
                         {termData.term}
                       </h4>
-                      <ArrowRightIcon className="w-4 h-4 text-gray-500 group-hover:text-green-400 transition-all" />
+                      <ArrowRightIcon className="w-4 h-4 text-gray-500 group-hover:text-brand-light transition-all" />
                     </div>
                     
                     <p className="text-gray-400 text-sm leading-relaxed mb-3">
@@ -193,7 +193,7 @@ export default function LexikonPage() {
                     </p>
                     
                     {termData.calculation && (
-                      <div className="flex items-center gap-2 text-xs text-green-400/80">
+                      <div className="flex items-center gap-2 text-xs text-brand-light/80">
                         <CalculatorIcon className="w-3 h-3" />
                         <span>Berechnung verfügbar</span>
                       </div>

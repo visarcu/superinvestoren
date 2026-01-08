@@ -48,7 +48,7 @@ function getTurnoverDescription(turnover: number): { label: string; color: strin
   if (turnover < 10) {
     return {
       label: 'Sehr niedrig',
-      color: 'text-green-400',
+      color: 'text-brand-light',
       description: 'Buy-and-Hold Strategie'
     }
   } else if (turnover < 25) {
@@ -89,11 +89,11 @@ export default function PortfolioStatsGrid({ stats, investorName }: PortfolioSta
         
         {/* Portfolio Value */}
         <div className="relative group">
-          <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-500/10 rounded-xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-brand/10 to-emerald-500/10 rounded-xl blur-xl opacity-60 group-hover:opacity-80 transition-opacity"></div>
           <div className="relative bg-gray-900/60 border border-gray-800 rounded-xl p-6 backdrop-blur-sm hover:bg-gray-900/80 transition-all duration-200">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-                <BuildingOfficeIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+                <BuildingOfficeIcon className="w-5 h-5 text-brand-light" />
               </div>
               <div>
                 <h3 className="text-sm font-medium text-gray-400">Portfolio-Wert</h3>
@@ -250,7 +250,7 @@ export default function PortfolioStatsGrid({ stats, investorName }: PortfolioSta
                 <div className="w-full bg-gray-700 rounded-full h-2">
                   <div 
                     className={`h-2 rounded-full transition-all duration-1000 ${
-                      stats.turnover < 25 ? 'bg-green-500' :
+                      stats.turnover < 25 ? 'bg-brand' :
                       stats.turnover < 50 ? 'bg-yellow-500' : 'bg-red-500'
                     }`}
                     style={{ width: `${Math.min(stats.turnover, 100)}%` }}

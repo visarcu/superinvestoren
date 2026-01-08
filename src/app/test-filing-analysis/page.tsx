@@ -66,13 +66,13 @@ export default function TestFilingAnalysis() {
             </div>
             <div>
               <strong>API Endpoint:</strong><br />
-              <span className="text-green-600">✅ /api/notifications/check-filings</span>
+              <span className="text-brand">✅ /api/notifications/check-filings</span>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4 mt-4">
             <div>
               <strong>Spam-Schutz:</strong><br />
-              <span className="text-green-600">✅ Max 1x täglich</span>
+              <span className="text-brand">✅ Max 1x täglich</span>
             </div>
             <div>
               <strong>Filing-Erkennung:</strong><br />

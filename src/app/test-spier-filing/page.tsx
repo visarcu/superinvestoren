@@ -80,7 +80,7 @@ export default function TestSpierFiling() {
             <button
               onClick={testStep2_CheckSettings}
               disabled={isLoading || step < 2 || step > 2}
-              className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white px-4 py-2 rounded text-sm"
+              className="bg-brand hover:bg-brand disabled:bg-gray-400 text-white px-4 py-2 rounded text-sm"
             >
               {step > 2 ? '✅ Erledigt' : isLoading ? 'Prüft...' : 'Settings checken'}
             </button>

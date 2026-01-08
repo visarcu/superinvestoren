@@ -63,7 +63,7 @@ function SuperinvestorOverviewContent() {
           <p className="text-gray-400 text-sm mb-4">{dataError}</p>
           <button 
             onClick={() => window.location.reload()} 
-            className="px-4 py-2 bg-green-500 text-black rounded-lg hover:bg-green-400"
+            className="px-4 py-2 bg-brand text-black rounded-lg hover:bg-green-400"
           >
             Erneut versuchen
           </button>
@@ -111,8 +111,8 @@ function SuperinvestorOverviewContent() {
           
           <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06] text-center">
             <div className="flex items-center justify-center mb-2">
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <CircleStackIcon className="w-5 h-5 text-green-400" />
+              <div className="p-2 bg-brand/10 rounded-lg">
+                <CircleStackIcon className="w-5 h-5 text-brand-light" />
               </div>
             </div>
             <div className="text-2xl font-semibold text-white mb-1">2,5B $</div>
@@ -158,14 +158,14 @@ function SuperinvestorOverviewContent() {
                   className="ring-2 ring-white/10 group-hover:ring-white/20 transition-all duration-200"
                 />
                 <div className="flex-1">
-                  <h3 className="text-lg font-semibold text-white group-hover:text-green-400 transition-colors line-clamp-1">
+                  <h3 className="text-lg font-semibold text-white group-hover:text-brand-light transition-colors line-clamp-1">
                     {inv.name.split('–')[0].trim()}
                   </h3>
-                  <p className="text-sm text-green-400">
+                  <p className="text-sm text-brand-light">
                     {formatCurrency(inv.portfolioValue)}
                   </p>
                 </div>
-                <ArrowRightIcon className="w-4 h-4 text-gray-600 group-hover:text-green-400 transition-colors" />
+                <ArrowRightIcon className="w-4 h-4 text-gray-600 group-hover:text-brand-light transition-colors" />
               </div>
               
               {inv.peek.length > 0 && (
@@ -210,8 +210,8 @@ function SuperinvestorOverviewContent() {
           {/* Trending Stocks */}
           <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06]">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+              <div className="p-2 bg-brand/10 rounded-lg">
+                <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
               </div>
               <h3 className="text-lg font-semibold text-white">Beliebte Aktien</h3>
             </div>
@@ -226,7 +226,7 @@ function SuperinvestorOverviewContent() {
                     title={`${ticker}: ${count} Käufe`}
                   >
                     <div className="font-medium text-white text-xs mb-1">{ticker}</div>
-                    <div className="text-xs text-green-400">+{count}</div>
+                    <div className="text-xs text-brand-light">+{count}</div>
                   </Link>
                 ))}
               </div>
@@ -234,7 +234,7 @@ function SuperinvestorOverviewContent() {
             
             <Link 
               href="/superinvestor/insights" 
-              className="block text-center mt-4 text-green-400 hover:text-green-300 text-sm transition-colors"
+              className="block text-center mt-4 text-brand-light hover:text-green-300 text-sm transition-colors"
             >
               Vollständige Analyse →
             </Link>
@@ -275,7 +275,7 @@ function SuperinvestorOverviewContent() {
             
             <Link 
               href="/superinvestor/insights" 
-              className="block text-center mt-4 text-green-400 hover:text-green-300 text-sm transition-colors"
+              className="block text-center mt-4 text-brand-light hover:text-green-300 text-sm transition-colors"
             >
               Alle Trades →
             </Link>
@@ -297,12 +297,12 @@ function SuperinvestorOverviewContent() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06] text-center">
             <div className="flex items-center justify-center mb-4">
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <ChartBarIcon className="w-5 h-5 text-green-400" />
+              <div className="p-2 bg-brand/10 rounded-lg">
+                <ChartBarIcon className="w-5 h-5 text-brand-light" />
               </div>
             </div>
             <div className={`text-3xl font-semibold mb-2 ${
-              pulseData.sentimentPercentage >= 60 ? 'text-green-400' :
+              pulseData.sentimentPercentage >= 60 ? 'text-brand-light' :
               pulseData.sentimentPercentage >= 40 ? 'text-gray-300' : 'text-red-400'
             }`}>
               {pulseData.sentimentPercentage}%

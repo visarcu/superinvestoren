@@ -199,7 +199,7 @@ export default function StandaloneDCFCalculator() {
               <button
                 onClick={() => loadBaseDCF(selectedTicker)}
                 disabled={loading}
-                className="ml-auto px-4 py-2 bg-green-500/20 text-green-400 rounded-lg text-sm hover:bg-green-500/30 transition-colors"
+                className="ml-auto px-4 py-2 bg-brand/20 text-brand-light rounded-lg text-sm hover:bg-brand/30 transition-colors"
               >
                 <ArrowPathIcon className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
               </button>
@@ -228,13 +228,13 @@ export default function StandaloneDCFCalculator() {
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       {dcfResult.upside > 0 ? (
-                        <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                        <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
                       ) : (
                         <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
                       )}
                       <span className="text-sm text-gray-500">POTENZIAL</span>
                     </div>
-                    <div className={`text-4xl font-bold ${dcfResult.upside > 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    <div className={`text-4xl font-bold ${dcfResult.upside > 0 ? 'text-brand-light' : 'text-red-400'}`}>
                       {dcfResult.upside > 0 ? '+' : ''}{dcfResult.upside.toFixed(1)}%
                     </div>
                     <div className="text-xs text-gray-500 mt-1">
@@ -266,7 +266,7 @@ export default function StandaloneDCFCalculator() {
                   onClick={() => applyScenario('base')}
                   className={`p-6 rounded-xl border transition-all ${
                     activeScenario === 'base'
-                      ? 'bg-green-500/20 border-green-500 text-green-400'
+                      ? 'bg-brand/20 border-green-500 text-brand-light'
                       : 'bg-[#1a1a1a] border-gray-800 text-gray-400 hover:border-gray-700'
                   }`}
                 >
@@ -279,7 +279,7 @@ export default function StandaloneDCFCalculator() {
                   onClick={() => applyScenario('optimistic')}
                   className={`p-6 rounded-xl border transition-all ${
                     activeScenario === 'optimistic'
-                      ? 'bg-green-500/20 border-green-500 text-green-400'
+                      ? 'bg-brand/20 border-green-500 text-brand-light'
                       : 'bg-[#1a1a1a] border-gray-800 text-gray-400 hover:border-gray-700'
                   }`}
                 >

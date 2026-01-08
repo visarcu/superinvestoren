@@ -15,7 +15,7 @@ export default function CurrencySelector() {
           onClick={() => setCurrency(curr)}
           className={`px-2.5 py-1 text-xs font-medium rounded-md transition-all duration-200 ${
             curr === currency 
-              ? 'bg-green-500 text-white shadow-sm' 
+              ? 'bg-brand text-white shadow-sm' 
               : 'text-theme-muted hover:text-theme-primary hover:bg-theme-tertiary/50'
           }`}
         >

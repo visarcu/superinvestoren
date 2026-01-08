@@ -86,7 +86,7 @@ export default function SignInPage() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
+              className="w-full pl-10 pr-4 py-3 border rounded-xl text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all"
               placeholder="name@beispiel.de"
             />
           </div>
@@ -108,7 +108,7 @@ export default function SignInPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-10 pr-12 py-3 border rounded-xl text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-green-500/20 transition-all"
+              className="w-full pl-10 pr-12 py-3 border rounded-xl text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all"
               placeholder="Dein Passwort"
             />
             <button
@@ -129,7 +129,7 @@ export default function SignInPage() {
         <div className="text-right">
           <Link 
             href="/auth/forgot-password" 
-            className="text-sm text-green-400 hover:text-green-300 transition-colors"
+            className="text-sm text-brand-light hover:text-green-300 transition-colors"
           >
             Passwort vergessen?
           </Link>
@@ -139,7 +139,7 @@ export default function SignInPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-3 bg-green-500 hover:bg-green-400 disabled:bg-green-500/50 text-black font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
+          className="w-full py-3 bg-brand hover:bg-green-400 disabled:bg-brand/50 text-black font-semibold rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2"
         >
           {loading ? (
             <div className="w-5 h-5 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
@@ -190,7 +190,7 @@ export default function SignInPage() {
           Noch kein Account?{' '}
           <Link 
             href="/auth/signup" 
-            className="text-green-400 hover:text-green-300 font-medium transition-colors"
+            className="text-brand-light hover:text-green-300 font-medium transition-colors"
           >
             Jetzt registrieren
           </Link>

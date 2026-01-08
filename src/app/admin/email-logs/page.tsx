@@ -115,7 +115,7 @@ export default function EmailLogsPage() {
             <div className="flex items-center">
               <div className="flex-shrink-0">
                 <div className="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                  <span className="text-green-600 text-sm font-bold">⏰</span>
+                  <span className="text-brand text-sm font-bold">⏰</span>
                 </div>
               </div>
               <div className="ml-4">

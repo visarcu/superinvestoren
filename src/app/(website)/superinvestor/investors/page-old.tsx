@@ -651,7 +651,7 @@ return (
               onClick={() => setFilter('all')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 filter === 'all'
-                  ? 'bg-green-500 text-black shadow-lg shadow-green-500/25'
+                  ? 'bg-brand text-black shadow-lg shadow-green-500/25'
                   : 'text-theme-secondary hover:text-white hover:bg-theme-hover'
 
               }`}
@@ -663,7 +663,7 @@ return (
               onClick={() => setFilter('investor')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 filter === 'investor'
-                  ? 'bg-green-500 text-black shadow-lg shadow-green-500/25'
+                  ? 'bg-brand text-black shadow-lg shadow-green-500/25'
                   : 'text-theme-secondary hover:text-white hover:bg-theme-hover'
 
               }`}
@@ -675,7 +675,7 @@ return (
               onClick={() => setFilter('fund')}
               className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                 filter === 'fund'
-                  ? 'bg-green-500 text-black shadow-lg shadow-green-500/25'
+                  ? 'bg-brand text-black shadow-lg shadow-green-500/25'
                   : 'text-theme-secondary hover:text-white hover:bg-theme-hover'
 
               }`}
@@ -728,18 +728,18 @@ className="relative rounded-xl p-6 hover:bg-theme-hover transition-all duration-
                       name={investor.name}
                       imageUrl={`/images/${investor.slug}.png`}
                       size="lg"
-                      className="ring-2 ring-gray-600/30 group-hover:ring-green-500/30 transition-all duration-300"
+                      className="ring-2 ring-gray-600/30 group-hover:ring-brand/30 transition-all duration-300"
                       />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <h3 className="text-lg font-bold text-white group-hover:text-green-400 transition-colors duration-200 truncate">
+                    <h3 className="text-lg font-bold text-white group-hover:text-brand-light transition-colors duration-200 truncate">
                       {investor.name}
                     </h3>
                     <p className="text-sm text-gray-400 truncate">
                       {investor.subtitle}
                     </p>
                   </div>
-                  <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-500 group-hover:text-green-400 transition-all duration-200 opacity-0 group-hover:opacity-100 transform translate-x-1 group-hover:translate-x-0" />
+                  <ArrowTopRightOnSquareIcon className="w-5 h-5 text-gray-500 group-hover:text-brand-light transition-all duration-200 opacity-0 group-hover:opacity-100 transform translate-x-1 group-hover:translate-x-0" />
                 </div>
 
              {/* ✅ Stats - PROMINENTER */}

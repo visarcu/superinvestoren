@@ -158,8 +158,8 @@ export default function CompanyOwnershipHistory({ snapshots, investorName }: Com
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-brand-light" />
             </div>
             <h4 className="text-sm font-medium text-gray-400">Aktuelle Shares</h4>
           </div>
@@ -167,7 +167,7 @@ export default function CompanyOwnershipHistory({ snapshots, investorName }: Com
             {latestData ? formatShares(latestData.shares) : '0'}
           </p>
           {sharesChange !== 0 && (
-            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-sm flex items-center gap-1 mt-2 ${sharesChange > 0 ? 'text-brand-light' : 'text-red-400'}`}>
               {sharesChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
               {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)} vs letztes Quartal
             </p>
@@ -197,7 +197,7 @@ export default function CompanyOwnershipHistory({ snapshots, investorName }: Com
             {latestData ? `${latestData.portfolioPercentage.toFixed(1)}%` : '0%'}
           </p>
           {percentageChange !== 0 && (
-            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-sm flex items-center gap-1 mt-2 ${percentageChange > 0 ? 'text-brand-light' : 'text-red-400'}`}>
               {percentageChange > 0 ? <ArrowTrendingUpIcon className="w-4 h-4" /> : <ArrowTrendingDownIcon className="w-4 h-4" />}
               {percentageChange > 0 ? '+' : ''}{percentageChange.toFixed(1)}% vs letztes Quartal
             </p>
@@ -211,8 +211,8 @@ export default function CompanyOwnershipHistory({ snapshots, investorName }: Com
         {/* Portfolio Percentage Chart */}
         <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-6">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-green-400" />
+            <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-4 h-4 text-brand-light" />
             </div>
             <div>
               <h3 className="text-lg font-bold text-white">Portfolio-Anteil über Zeit</h3>
@@ -345,7 +345,7 @@ export default function CompanyOwnershipHistory({ snapshots, investorName }: Com
                     </td>
                     <td className="p-4 text-right">
                       {isNew ? (
-                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-green-500/20 text-green-300 border border-green-500/30">
+                        <span className="inline-block px-2 py-1 text-xs rounded-full bg-brand/20 text-green-300 border border-green-500/30">
                           Neukauf
                         </span>
                       ) : isSold ? (
@@ -355,7 +355,7 @@ export default function CompanyOwnershipHistory({ snapshots, investorName }: Com
                       ) : sharesChange !== 0 ? (
                         <span className={`inline-block px-2 py-1 text-xs rounded-full ${
                           sharesChange > 0 
-                            ? 'bg-green-500/20 text-green-300 border border-green-500/30' 
+                            ? 'bg-brand/20 text-green-300 border border-green-500/30' 
                             : 'bg-red-500/20 text-red-300 border border-red-500/30'
                         }`}>
                           {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)}

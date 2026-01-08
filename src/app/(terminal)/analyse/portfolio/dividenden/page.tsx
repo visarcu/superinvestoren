@@ -299,7 +299,7 @@ export default function DividendenPage() {
           <p className="text-theme-secondary mb-6">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors"
+            className="px-4 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors"
           >
             Neu laden
           </button>
@@ -340,7 +340,7 @@ export default function DividendenPage() {
             </p>
             <Link
               href="/analyse/portfolio"
-              className="px-4 py-2 bg-green-500 hover:bg-green-600 text-white rounded-lg transition-colors inline-block"
+              className="px-4 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors inline-block"
             >
               Zum Portfolio
             </Link>
@@ -376,7 +376,7 @@ export default function DividendenPage() {
               {!user?.isPremium && (
                 <Link
                   href="/pricing"
-                  className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-600 text-white font-semibold rounded-md transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
                 >
                   <SparklesIcon className="w-4 h-4" />
                   <span className="text-sm">Upgrade</span>
@@ -401,7 +401,7 @@ export default function DividendenPage() {
                     onClick={() => setActiveView(tab.id as any)}
                     className={`flex items-center gap-2 py-2 text-sm font-medium border-b-2 transition-colors
                       ${isActive 
-                        ? 'border-green-500 text-green-400' 
+                        ? 'border-green-500 text-brand-light' 
                         : 'border-transparent text-theme-secondary hover:text-theme-primary'
                       }`}
                   >
@@ -423,12 +423,12 @@ export default function DividendenPage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
               <div className="bg-theme-card border border-theme rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center">
-                    <ClockIcon className="w-4 h-4 text-green-400" />
+                  <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
+                    <ClockIcon className="w-4 h-4 text-brand-light" />
                   </div>
                   <h3 className="font-semibold text-theme-primary">Nächste 30 Tage</h3>
                 </div>
-                <p className="text-2xl font-bold text-green-400">${monthlyEstimate.toFixed(2)}</p>
+                <p className="text-2xl font-bold text-brand-light">${monthlyEstimate.toFixed(2)}</p>
                 <p className="text-sm text-theme-muted">{next30Days.length} Zahlungen</p>
               </div>
 
@@ -494,7 +494,7 @@ export default function DividendenPage() {
                       </div>
                       
                       <div className="text-right">
-                        <div className="font-bold text-green-400 text-lg">${dividend.totalAmount.toFixed(2)}</div>
+                        <div className="font-bold text-brand-light text-lg">${dividend.totalAmount.toFixed(2)}</div>
                         <div className="text-sm text-theme-muted">
                           Zahlung: {new Date(dividend.payDate).toLocaleDateString('de-DE')}
                         </div>

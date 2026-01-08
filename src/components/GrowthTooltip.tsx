@@ -19,7 +19,7 @@ export default function GrowthTooltip({
             <span className="font-medium">{name}:</span>{' '}
             {value.toLocaleString('de-DE', { maximumFractionDigits:2 })}{' '}
             {growth != null && (
-              <span className={`ml-1 ${growth>=0?'text-green-600':'text-red-600'}`}>
+              <span className={`ml-1 ${growth>=0?'text-brand':'text-red-600'}`}>
                 ({growth>=0?'+':''}{growth.toFixed(2)} %)
               </span>
             )}

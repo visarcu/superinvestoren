@@ -48,7 +48,7 @@ export default function GrowthAnalysisPage({ params }: { params: { ticker: strin
           </p>
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
           >
             <ArrowLeftIcon className="w-4 h-4" />
             Zurück zur Analyse

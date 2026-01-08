@@ -317,7 +317,7 @@ const TrendsPage = () => {
                       />
                     </div>
                     <div>
-                      <div className="font-bold text-white group-hover:text-green-400 transition-colors">
+                      <div className="font-bold text-white group-hover:text-brand-light transition-colors">
                         {stock.ticker}
                       </div>
                       <p className="text-sm text-gray-400 truncate max-w-[200px]">
@@ -371,7 +371,7 @@ const TrendsPage = () => {
                     </div>
                     <div className="text-right">
                       <div className={`text-sm font-bold flex items-center gap-1 ${
-                        sector.change > 0 ? 'text-green-400' : 'text-red-400'
+                        sector.change > 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {sector.change > 0 ? 
                           <ArrowUpIcon className="w-3 h-3" /> : 
@@ -412,7 +412,7 @@ const TrendsPage = () => {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <span className="font-bold text-white">{position.ticker}</span>
-                      <span className="text-green-400 font-semibold">
+                      <span className="text-brand-light font-semibold">
                         {formatCurrencyGerman(position.value, false)}
                       </span>
                     </div>
@@ -443,7 +443,7 @@ const TrendsPage = () => {
 
                 <div className="text-center">
                   <div className={`text-2xl font-bold mb-2 ${
-                    cashTrend.level === 'bullish' ? 'text-green-400' : 'text-yellow-400'
+                    cashTrend.level === 'bullish' ? 'text-brand-light' : 'text-yellow-400'
                   }`}>
                     {cashTrend.level === 'bullish' ? '📈 Investieren' : '💰 Vorsichtig'}
                   </div>

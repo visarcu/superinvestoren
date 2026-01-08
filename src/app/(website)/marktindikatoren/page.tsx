@@ -168,7 +168,7 @@ export default function MarktindikatoreNPage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'up': return 'text-green-400'
+      case 'up': return 'text-brand-light'
       case 'down': return 'text-red-400'
       default: return 'text-gray-400'
     }

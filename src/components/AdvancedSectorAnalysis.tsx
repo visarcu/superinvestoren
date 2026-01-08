@@ -240,15 +240,15 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
         {/* Größter Sektor */}
         <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+              <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             </div>
             <h3 className="text-sm font-medium text-gray-400">Größter Sektor</h3>
           </div>
           <p className="text-lg font-bold text-white mb-1">
             {topSectors[0]?.sector || 'N/A'}
           </p>
-          <p className="text-sm text-green-400">
+          <p className="text-sm text-brand-light">
             {formatCurrency(topSectors[0]?.percentage || 0, 'number')}% des Portfolios
           </p>
         </div>
@@ -325,7 +325,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                 <div key={shift.sector} className="flex items-center justify-between p-3 bg-gray-800/30 rounded-lg">
                   <div className="flex items-center gap-3">
                     <div className={`w-3 h-3 rounded-full ${
-                      shift.direction === 'up' ? 'bg-green-500' : 'bg-red-500'
+                      shift.direction === 'up' ? 'bg-brand' : 'bg-red-500'
                     }`}></div>
                     <div>
                       <p className="text-white font-medium">{shift.sector}</p>
@@ -334,7 +334,7 @@ export default function AdvancedSectorAnalysis({ snapshots, investorName }: Adva
                   </div>
                   <div className="text-right">
                     <div className={`flex items-center gap-1 ${
-                      shift.direction === 'up' ? 'text-green-400' : 'text-red-400'
+                      shift.direction === 'up' ? 'text-brand-light' : 'text-red-400'
                     }`}>
                       {shift.direction === 'up' ? (
                         <ArrowTrendingUpIcon className="w-4 h-4" />

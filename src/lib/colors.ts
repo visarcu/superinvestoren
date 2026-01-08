@@ -92,9 +92,9 @@ export const brandColors = {
     
     // Positive/Negative (NICHT ändern - semantisch)
     semantic: {
-      positive: 'text-green-600',
+      positive: 'text-brand',
       negative: 'text-red-600',
-      positiveLight: 'text-green-500',
+      positiveLight: 'text-brand',
       negativeLight: 'text-red-500',
     }
   } as const
@@ -116,7 +116,7 @@ export const brandColors = {
    * Gibt die richtige Tailwind-Klasse für einen Wert zurück
    */
   export function getValueColorClass(value: number): string {
-    if (value > 0) return 'text-green-600'
+    if (value > 0) return 'text-brand'
     if (value < 0) return 'text-red-600'
     return 'text-theme-secondary'
   }

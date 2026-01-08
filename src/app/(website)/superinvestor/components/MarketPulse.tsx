@@ -21,15 +21,15 @@ export default function MarketPulse({ data }: any) {
           {/* Sentiment Card */}
           <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06]">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <ChartBarIcon className="w-5 h-5 text-green-400" />
+              <div className="p-2 bg-brand/10 rounded-lg">
+                <ChartBarIcon className="w-5 h-5 text-brand-light" />
               </div>
               <h3 className="text-lg font-semibold text-white">Sentiment</h3>
             </div>
             
             <div className="space-y-4">
               <div>
-                <div className="text-3xl font-bold text-green-400 mb-1">
+                <div className="text-3xl font-bold text-brand-light mb-1">
                   {data.sentimentScore}%
                 </div>
                 <div className="text-sm text-gray-500">Bullish</div>
@@ -47,8 +47,8 @@ export default function MarketPulse({ data }: any) {
           {/* Top Käufe */}
           <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06]">
             <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-green-500/10 rounded-lg">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+              <div className="p-2 bg-brand/10 rounded-lg">
+                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
               </div>
               <h3 className="text-lg font-semibold text-white">Top Käufe</h3>
             </div>
@@ -57,7 +57,7 @@ export default function MarketPulse({ data }: any) {
               {data.topBuys.map((stock: any) => (
                 <div key={stock.ticker} className="flex items-center justify-between">
                   <span className="text-sm font-medium text-gray-300">{stock.ticker}</span>
-                  <span className="text-xs text-green-400">+{stock.buyers} Käufer</span>
+                  <span className="text-xs text-brand-light">+{stock.buyers} Käufer</span>
                 </div>
               ))}
             </div>

@@ -142,7 +142,7 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
             <div>
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-4 h-4 bg-green-400 rounded-full"></div>
-                <h4 className="text-sm font-semibold text-green-400 uppercase tracking-wide">
+                <h4 className="text-sm font-semibold text-brand-light uppercase tracking-wide">
                   Bullen ({data.bulls.length})
                 </h4>
               </div>
@@ -222,13 +222,13 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
           <div className="mt-6 pt-4 border-t border-theme/10">
             <Link
               href="/pricing"
-              className="flex items-center justify-center gap-2 w-full py-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/30 rounded-lg transition-colors"
+              className="flex items-center justify-center gap-2 w-full py-3 bg-brand/10 hover:bg-brand/20 border border-brand/20 hover:border-green-500/30 rounded-lg transition-colors"
             >
-              <LockClosedIcon className="w-4 h-4 text-green-500" />
-              <span className="text-green-500 font-medium text-sm">
+              <LockClosedIcon className="w-4 h-4 text-brand" />
+              <span className="text-brand font-medium text-sm">
                 +{data.bulls.length + data.bears.length - 4} weitere Punkte freischalten
               </span>
-              <ArrowRightIcon className="w-4 h-4 text-green-500" />
+              <ArrowRightIcon className="w-4 h-4 text-brand" />
             </Link>
           </div>
         </div>
@@ -250,7 +250,7 @@ const BullsBearsSection: React.FC<BullsBearsSectionProps> = React.memo(({
           <div>
             <div className="flex items-center gap-3 mb-4">
               <div className="w-4 h-4 bg-green-400 rounded-full"></div>
-              <h4 className="text-sm font-semibold text-green-400 uppercase tracking-wide">
+              <h4 className="text-sm font-semibold text-brand-light uppercase tracking-wide">
                 Bullen ({data.bulls.length})
               </h4>
             </div>

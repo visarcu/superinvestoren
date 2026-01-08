@@ -200,7 +200,7 @@ export default function ProfilePageClient() {
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <button
                 onClick={refreshUserData}
-                className="px-4 py-2 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-colors"
+                className="px-4 py-2 bg-brand text-white font-medium rounded-lg hover:bg-brand transition-colors"
               >
                 Erneut versuchen
               </button>
@@ -226,7 +226,7 @@ export default function ProfilePageClient() {
             <p className="text-theme-muted mb-6">Bitte melden Sie sich an, um Ihr Profil zu verwalten.</p>
             <button
               onClick={() => router.push('/auth/signin')}
-              className="px-6 py-3 bg-green-500 text-white font-medium rounded-lg hover:bg-green-600 transition-colors"
+              className="px-6 py-3 bg-brand text-white font-medium rounded-lg hover:bg-brand transition-colors"
             >
               Zur Anmeldung
             </button>
@@ -258,7 +258,7 @@ export default function ProfilePageClient() {
             </div>
             
             {premiumStatus.isPremium && (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-green-500/10 text-green-500 border border-green-500/20 rounded-lg">
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/10 text-brand border border-brand/20 rounded-lg">
                 <SparklesIcon className="w-4 h-4" />
                 <span className="text-sm font-medium">Premium</span>
               </div>
@@ -274,7 +274,7 @@ export default function ProfilePageClient() {
         <div className="bg-theme-card border border-theme/5 rounded-xl p-8">
           <div className="flex items-center gap-6">
             {/* Avatar */}
-            <div className="w-16 h-16 bg-green-500/10 border border-green-500/20 rounded-full flex items-center justify-center text-green-500 font-medium text-xl">
+            <div className="w-16 h-16 bg-brand/10 border border-brand/20 rounded-full flex items-center justify-center text-brand font-medium text-xl">
               {getInitials()}
             </div>
             
@@ -289,7 +289,7 @@ export default function ProfilePageClient() {
               <div className="flex items-center gap-4 mt-2 text-sm text-theme-muted">
                 <span>Mitglied seit {getMemberSince()}</span>
                 <div className="w-1 h-1 bg-theme-muted/30 rounded-full"></div>
-                <span className={premiumStatus.isPremium ? 'text-green-500' : ''}>
+                <span className={premiumStatus.isPremium ? 'text-brand' : ''}>
                   {premiumStatus.isPremium ? 'Premium Account' : 'Free Plan'}
                 </span>
               </div>
@@ -339,7 +339,7 @@ export default function ProfilePageClient() {
             onClick={() => router.push('/notifications')}
             className="bg-theme-card border border-theme/5 rounded-xl p-4 hover:border-theme/10 hover:bg-theme-hover transition-all group text-center"
           >
-            <BellIcon className="w-5 h-5 text-theme-muted group-hover:text-green-500 mb-2 mx-auto" />
+            <BellIcon className="w-5 h-5 text-theme-muted group-hover:text-brand mb-2 mx-auto" />
             <div className="text-sm font-medium text-theme-primary">Alerts</div>
           </button>
           
@@ -357,7 +357,7 @@ export default function ProfilePageClient() {
             onClick={() => router.push('/analyse')}
             className="bg-theme-card border border-theme/5 rounded-xl p-4 hover:border-theme/10 hover:bg-theme-hover transition-all group text-center"
           >
-            <ArrowLeftIcon className="w-5 h-5 text-theme-muted group-hover:text-green-500 mb-2 mx-auto" />
+            <ArrowLeftIcon className="w-5 h-5 text-theme-muted group-hover:text-brand mb-2 mx-auto" />
             <div className="text-sm font-medium text-theme-primary">Analyse</div>
           </button>
 

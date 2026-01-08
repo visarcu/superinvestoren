@@ -171,7 +171,7 @@ export default function EstimatesClient({ ticker }: EstimatesClientProps) {
                 
                 <div className="flex justify-between items-center">
                   <span className="text-theme-secondary">Konsens-Kursziel</span>
-                  <span className="text-xl font-bold text-green-400">
+                  <span className="text-xl font-bold text-brand-light">
                     {formatStockPrice(priceTargets.consensus.targetConsensus)}
                   </span>
                 </div>
@@ -180,7 +180,7 @@ export default function EstimatesClient({ ticker }: EstimatesClientProps) {
                   <span className="text-theme-secondary">Potenzial</span>
                   <span className={`text-xl font-bold ${
                     priceTargets.consensus.targetConsensus > currentPrice 
-                      ? 'text-green-400' 
+                      ? 'text-brand-light' 
                       : 'text-red-400'
                   }`}>
                     {formatPercentage(
@@ -206,7 +206,7 @@ export default function EstimatesClient({ ticker }: EstimatesClientProps) {
                   
                   <div className="flex justify-between items-center">
                     <span className="text-theme-muted text-sm">Höchstes Ziel</span>
-                    <span className="text-green-400 font-medium">
+                    <span className="text-brand-light font-medium">
                       {formatStockPrice(priceTargets.consensus.targetHigh)}
                     </span>
                   </div>
@@ -292,7 +292,7 @@ export default function EstimatesClient({ ticker }: EstimatesClientProps) {
                   Estimated: {formatStockPrice(data.estimated)}
                 </p>
                 <p className={`text-sm font-bold ${
-                  data.surprise >= 0 ? 'text-green-400' : 'text-red-400'
+                  data.surprise >= 0 ? 'text-brand-light' : 'text-red-400'
                 }`}>
                   Surprise: {formatPercentage(data.surprise)}
                 </p>

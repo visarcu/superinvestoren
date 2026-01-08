@@ -162,7 +162,7 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
           <p className="font-bold text-lg text-theme-primary">
             {formatCurrency(data.value)}
           </p>
-          <p className="text-xs text-green-400 font-medium">
+          <p className="text-xs text-brand-light font-medium">
             {data.percentage.toFixed(1)}% des Portfolios
           </p>
         </div>

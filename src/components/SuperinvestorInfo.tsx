@@ -21,9 +21,9 @@ export default function SuperinvestorInfo() {
         
         {/* Section Header */}
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-full mb-6 border border-green-500/20">
-            <SparklesIcon className="w-4 h-4 text-green-400" />
-            <span className="text-sm font-medium text-green-400">Wissen</span>
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6 border border-brand/20">
+            <SparklesIcon className="w-4 h-4 text-brand-light" />
+            <span className="text-sm font-medium text-brand-light">Wissen</span>
           </div>
           
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -46,9 +46,9 @@ export default function SuperinvestorInfo() {
               </h3>
               <p className="text-gray-300 leading-relaxed mb-4">
                 Super-Investoren sind Hedgefonds-Manager und institutionelle Anleger, die 
-                mindestens <span className="text-green-400 font-semibold">$100 Millionen</span> an 
+                mindestens <span className="text-brand-light font-semibold">$100 Millionen</span> an 
                 US-Aktien verwalten. Die SEC verpflichtet sie, ihre Positionen quartalsweise in 
-                sogenannten <span className="text-green-400 font-semibold">13F-Filings</span> offenzulegen.
+                sogenannten <span className="text-brand-light font-semibold">13F-Filings</span> offenzulegen.
               </p>
               <p className="text-gray-400 leading-relaxed">
                 Diese Transparenz ermöglicht es uns, die Investment-Strategien der erfolgreichsten 
@@ -66,7 +66,7 @@ export default function SuperinvestorInfo() {
               ].map((feature, i) => (
                 <div key={i} className="flex items-start gap-3">
                   <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center flex-shrink-0 mt-1">
-                    <feature.icon className="w-4 h-4 text-green-400" />
+                    <feature.icon className="w-4 h-4 text-brand-light" />
                   </div>
                   <div>
                     <h4 className="text-white font-medium text-sm">{feature.title}</h4>
@@ -85,15 +85,15 @@ export default function SuperinvestorInfo() {
             <div className="space-y-3">
               {[
                 { name: 'Warren Buffett', fund: 'Berkshire', aum: '$266 Mrd.', color: 'text-yellow-400' },
-                { name: 'Bill Ackman', fund: 'Pershing Square', aum: '$10 Mrd.', color: 'text-green-400' },
-                { name: 'Terry Smith', fund: 'Fundsmith', aum: '$24 Mrd.', color: 'text-green-400' },
-                { name: 'Carl Icahn', fund: 'Icahn Enterprises', aum: '$7 Mrd.', color: 'text-green-400' },
-                { name: 'Howard Marks', fund: 'Oaktree', aum: '$8 Mrd.', color: 'text-green-400' }
+                { name: 'Bill Ackman', fund: 'Pershing Square', aum: '$10 Mrd.', color: 'text-brand-light' },
+                { name: 'Terry Smith', fund: 'Fundsmith', aum: '$24 Mrd.', color: 'text-brand-light' },
+                { name: 'Carl Icahn', fund: 'Icahn Enterprises', aum: '$7 Mrd.', color: 'text-brand-light' },
+                { name: 'Howard Marks', fund: 'Oaktree', aum: '$8 Mrd.', color: 'text-brand-light' }
               ].map((investor, i) => (
                 <div key={i} className="bg-[#1A1A1D] rounded-lg p-3 hover:bg-[#1F1F22] transition-colors cursor-pointer group">
                   <div className="flex items-center justify-between">
                     <div>
-                      <div className="text-white font-medium text-sm group-hover:text-green-400 transition-colors">
+                      <div className="text-white font-medium text-sm group-hover:text-brand-light transition-colors">
                         {investor.name}
                       </div>
                       <div className="text-gray-500 text-xs">{investor.fund}</div>
@@ -112,22 +112,22 @@ export default function SuperinvestorInfo() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           
           {/* How it Works */}
-          <div className="bg-gradient-to-br from-green-500/10 to-transparent rounded-2xl p-6 border border-green-500/20">
+          <div className="bg-gradient-to-br from-brand/10 to-transparent rounded-2xl p-6 border border-brand/20">
             <h4 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-              <ChartBarIcon className="w-5 h-5 text-green-400" />
+              <ChartBarIcon className="w-5 h-5 text-brand-light" />
               So funktioniert's
             </h4>
             <ol className="space-y-2 text-sm">
               <li className="flex items-start gap-2">
-                <span className="text-green-400 font-bold">1.</span>
+                <span className="text-brand-light font-bold">1.</span>
                 <span className="text-gray-300">Investoren reichen 13F-Filing bei der SEC ein</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 font-bold">2.</span>
+                <span className="text-brand-light font-bold">2.</span>
                 <span className="text-gray-300">Wir analysieren und aggregieren die Daten</span>
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-green-400 font-bold">3.</span>
+                <span className="text-brand-light font-bold">3.</span>
                 <span className="text-gray-300">Du siehst Trends und kannst Strategien verfolgen</span>
               </li>
             </ol>

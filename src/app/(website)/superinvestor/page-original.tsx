@@ -587,10 +587,10 @@ export default function SuperinvestorOverview() {
           
           if (previousShares === 0) {
             action = 'Gekauft';
-            color = 'text-green-400';
+            color = 'text-brand-light';
           } else if (delta > 0) {
             action = 'Erhöht';
-            color = 'text-green-400';
+            color = 'text-brand-light';
           } else {
             action = 'Reduziert';
             color = 'text-red-400';
@@ -700,7 +700,7 @@ export default function SuperinvestorOverview() {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-16 pt-8">
             <div className="flex items-center gap-3">
               <div className="p-2 bg-white/5 rounded-lg">
-                <UserGroupIcon className="w-5 h-5 text-green-400" />
+                <UserGroupIcon className="w-5 h-5 text-brand-light" />
               </div>
               <div className="text-left">
                 <div className="text-2xl font-bold text-white">{investors.length}+</div>
@@ -710,7 +710,7 @@ export default function SuperinvestorOverview() {
             
             <div className="flex items-center gap-3">
               <div className="p-2 bg-white/5 rounded-lg">
-                <CircleStackIcon className="w-5 h-5 text-green-400" />
+                <CircleStackIcon className="w-5 h-5 text-brand-light" />
               </div>
               <div className="text-left">
                 <div className="text-2xl font-bold text-white">2,5 Billionen $</div>
@@ -720,7 +720,7 @@ export default function SuperinvestorOverview() {
             
             <div className="flex items-center gap-3">
               <div className="p-2 bg-white/5 rounded-lg">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
               </div>
               <div className="text-left">
                 <div className="text-2xl font-bold text-white">Q2 2025</div>
@@ -737,9 +737,9 @@ export default function SuperinvestorOverview() {
   <div className="max-w-7xl mx-auto">
     
     <div className="text-center mb-16">
-      <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-full mb-6 border border-green-500/20">
-        <TrophyIcon className="w-4 h-4 text-green-400" />
-        <span className="text-sm font-medium text-green-400">Featured Investoren</span>
+      <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6 border border-brand/20">
+        <TrophyIcon className="w-4 h-4 text-brand-light" />
+        <span className="text-sm font-medium text-brand-light">Featured Investoren</span>
       </div>
       
       <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -774,13 +774,13 @@ export default function SuperinvestorOverview() {
           </div>
           
           {/* Name */}
-          <h3 className="text-xl font-bold text-white text-center mb-2 group-hover:text-green-400 transition-colors">
+          <h3 className="text-xl font-bold text-white text-center mb-2 group-hover:text-brand-light transition-colors">
             {inv.name.split('–')[0].trim()}
           </h3>
           
           {/* Portfolio Value */}
           <p className="text-center text-gray-400 mb-4">
-            Portfolio: <span className="text-green-400 font-medium">
+            Portfolio: <span className="text-brand-light font-medium">
               {formatCurrency(inv.portfolioValue, 'USD', 1)}
             </span>
           </p>
@@ -800,7 +800,7 @@ export default function SuperinvestorOverview() {
           
           {/* View Portfolio Button */}
           <div className="mt-6 text-center">
-            <span className="inline-flex items-center gap-1 text-green-400 text-sm font-medium group-hover:gap-2 transition-all">
+            <span className="inline-flex items-center gap-1 text-brand-light text-sm font-medium group-hover:gap-2 transition-all">
               Portfolio ansehen
               <ArrowRightIcon className="w-3 h-3" />
             </span>
@@ -813,7 +813,7 @@ export default function SuperinvestorOverview() {
     <div className="text-center">
       <Link
         href="/superinvestor/investors"
-        className="inline-flex items-center gap-2 px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-xl transition-colors duration-200 shadow-lg hover:shadow-green-500/25"
+        className="inline-flex items-center gap-2 px-8 py-4 bg-brand hover:bg-green-400 text-black font-semibold rounded-xl transition-colors duration-200 shadow-lg hover:shadow-green-500/25"
       >
         Alle {investors.length} Investoren durchsuchen
         <ArrowRightIcon className="w-5 h-5" />
@@ -831,7 +831,7 @@ export default function SuperinvestorOverview() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 text-white-400 rounded-full text-sm font-medium mb-6" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 text-white-400 rounded-full text-sm font-medium mb-6" style={{ borderColor: 'var(--border-color)' }}>
               <FireIcon className="w-4 h-4" />
                Trending Jetzt
             </div>
@@ -864,24 +864,24 @@ export default function SuperinvestorOverview() {
                 {trendingStocks.topBuys.length > 0 && (
                   <div>
                     <div className="flex items-center gap-2 mb-3">
-                      <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                      <h4 className="text-sm font-semibold text-green-400">Meist gekaufte Aktien</h4>
+                      <div className="w-3 h-3 bg-brand rounded-full"></div>
+                      <h4 className="text-sm font-semibold text-brand-light">Meist gekaufte Aktien</h4>
                       <span className="text-xs text-gray-500">({trendingStocks.topBuys.length} Aktien)</span>
                     </div>
                     <div className="grid grid-cols-8 gap-2">
                       {trendingStocks.topBuys.map(([ticker, count]) => {
                         const intensity = count / trendingStocks.maxBuys;
-                        let bgColor = 'bg-green-500/20';
+                        let bgColor = 'bg-brand/20';
                         let textColor = 'text-green-300';
                         
                         if (intensity >= 0.8) {
-                          bgColor = 'bg-green-500/80';
+                          bgColor = 'bg-brand/80';
                           textColor = 'text-white';
                         } else if (intensity >= 0.6) {
-                          bgColor = 'bg-green-500/60';
+                          bgColor = 'bg-brand/60';
                           textColor = 'text-white';
                         } else if (intensity >= 0.4) {
-                          bgColor = 'bg-green-500/40';
+                          bgColor = 'bg-brand/40';
                           textColor = 'text-green-100';
                         }
 
@@ -970,7 +970,7 @@ export default function SuperinvestorOverview() {
             <div className="bg-[#161618] rounded-xl p-6">
               <div className="flex items-center gap-3 mb-6">
               <div className="bg-[#2A2A2A] w-8 h-8 rounded-lg flex items-center justify-center">
-  <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+  <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
 </div>
                 <h3 className="text-lg font-bold text-white">Größte Trades</h3>
               </div>
@@ -995,7 +995,7 @@ export default function SuperinvestorOverview() {
       <div className="flex items-center gap-2">
         <Link
           href={`/analyse/stocks/${trade.ticker.toLowerCase()}/super-investors`}
-          className="text-white font-medium text-sm hover:text-green-400 transition-colors"
+          className="text-white font-medium text-sm hover:text-brand-light transition-colors"
         >
           {trade.ticker}
         </Link>
@@ -1005,7 +1005,7 @@ export default function SuperinvestorOverview() {
       </div>
       <Link
         href={`/superinvestor/${trade.investorSlug}`}
-        className="text-gray-500 text-xs hover:text-green-400 transition-colors"
+        className="text-gray-500 text-xs hover:text-brand-light transition-colors"
       >
         {trade.investor}
       </Link>
@@ -1022,7 +1022,7 @@ export default function SuperinvestorOverview() {
               
               <Link 
                 href="/superinvestor/insights" 
-                className="block text-center mt-4 text-green-400 hover:text-green-300 text-sm transition-colors"
+                className="block text-center mt-4 text-brand-light hover:text-green-300 text-sm transition-colors"
               >
                 Alle Trades analysieren →
               </Link>
@@ -1045,9 +1045,9 @@ export default function SuperinvestorOverview() {
   <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     
     <div className="text-center mb-16">
-      <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 rounded-full mb-6 border border-green-500/20">
-        <SignalIcon className="w-4 h-4 text-green-400" />
-        <span className="text-sm font-medium text-green-400">Investment-Pulse</span>
+      <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6 border border-brand/20">
+        <SignalIcon className="w-4 h-4 text-brand-light" />
+        <span className="text-sm font-medium text-brand-light">Investment-Pulse</span>
       </div>
       
       <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
@@ -1065,7 +1065,7 @@ export default function SuperinvestorOverview() {
       <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-            <ChartBarIcon className="w-5 h-5 text-green-400" />
+            <ChartBarIcon className="w-5 h-5 text-brand-light" />
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Netto-Sentiment</h3>
@@ -1076,7 +1076,7 @@ export default function SuperinvestorOverview() {
         <div className="space-y-4">
           <div className="text-center">
             <div className={`text-4xl font-bold mb-2 ${
-              pulseData.sentimentPercentage >= 60 ? 'text-green-400' :
+              pulseData.sentimentPercentage >= 60 ? 'text-brand-light' :
               pulseData.sentimentPercentage >= 40 ? 'text-gray-300' : 'text-red-400'
             }`}>
               {pulseData.sentimentPercentage}%
@@ -1090,7 +1090,7 @@ export default function SuperinvestorOverview() {
           <div className="space-y-3">
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-400">Netto-Käufer:</span>
-              <span className="text-green-400 font-semibold">{pulseData.netBuyers} Investoren</span>
+              <span className="text-brand-light font-semibold">{pulseData.netBuyers} Investoren</span>
             </div>
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-400">Netto-Verkäufer:</span>
@@ -1108,7 +1108,7 @@ export default function SuperinvestorOverview() {
       <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-            <BuildingOfficeIcon className="w-5 h-5 text-green-400" />
+            <BuildingOfficeIcon className="w-5 h-5 text-brand-light" />
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Sektor-Momentum</h3>
@@ -1123,7 +1123,7 @@ export default function SuperinvestorOverview() {
       <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-            <BoltIcon className="w-5 h-5 text-green-400" />
+            <BoltIcon className="w-5 h-5 text-brand-light" />
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Aktivitäts-Level</h3>
@@ -1158,7 +1158,7 @@ export default function SuperinvestorOverview() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           
           <div className="text-center mb-8">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 text-green-400 rounded-full text-sm font-medium mb-6" style={{ borderColor: 'var(--border-color)' }}>
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 text-brand-light rounded-full text-sm font-medium mb-6" style={{ borderColor: 'var(--border-color)' }}>
               <EyeIcon className="w-4 h-4" />
               Weltweit Erster
             </div>
@@ -1253,10 +1253,10 @@ export default function SuperinvestorOverview() {
                   
 
                   <div className="absolute inset-x-0 bottom-2 text-center">
-                    <div className="text-4xl font-bold text-green-400 mb-1">
+                    <div className="text-4xl font-bold text-brand-light mb-1">
                       {fearGreedScore}
                     </div>
-                    <div className="text-sm font-semibold text-green-400">
+                    <div className="text-sm font-semibold text-brand-light">
                       {(() => {
                         if (fearGreedScore >= 75) return 'Extreme Gier'
                         else if (fearGreedScore >= 55) return 'Gier'
@@ -1318,7 +1318,7 @@ export default function SuperinvestorOverview() {
                     Neutral (45-54)
                   </span>
                   <span className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                    <div className="w-3 h-3 bg-brand rounded-full"></div>
                     Extreme Gier (75-100)
                   </span>
                 </div>
@@ -1424,14 +1424,14 @@ export default function SuperinvestorOverview() {
       {/* Right: Newsletter */}
       <div>
         <div className="flex items-center gap-2 mb-8">
-          <div className="w-8 h-8 bg-green-500/10 rounded-lg flex items-center justify-center">
-            <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+          <div className="w-8 h-8 bg-brand/10 rounded-lg flex items-center justify-center">
+            <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
           </div>
           <h3 className="text-2xl font-bold text-white">Newsletter</h3>
         </div>
         
         <p className="text-gray-400 mb-8">
-          Nie wieder ein <span className="text-green-400 font-semibold">13F-Filing</span> verpassen. 
+          Nie wieder ein <span className="text-brand-light font-semibold">13F-Filing</span> verpassen. 
           Quartalsweise Updates über Portfolio-Bewegungen der Top-Investoren.
         </p>
         
@@ -1456,9 +1456,9 @@ export default function SuperinvestorOverview() {
               <input
                 type="email"
                 placeholder="deine@email.de"
-                className="w-full px-4 py-3 bg-[#1A1A1D] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+                className="w-full px-4 py-3 bg-[#1A1A1D] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50 transition-all"
               />
-              <button className="w-full px-4 py-3 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-200 hover:scale-[1.02]">
+              <button className="w-full px-4 py-3 bg-brand hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-200 hover:scale-[1.02]">
                 Kostenlos abonnieren
               </button>
             </div>

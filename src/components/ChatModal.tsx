@@ -25,7 +25,7 @@ function MarkdownRenderer({ content }: { content: string }) {
       .replace(/^# (.*$)/gm, '<h1 class="text-xl font-bold text-white mt-4 mb-3">$1</h1>')
       
       // Bold text - more subtle
-      .replace(/\*\*(.*?)\*\*/g, '<span class="font-medium text-green-400">$1</span>')
+      .replace(/\*\*(.*?)\*\*/g, '<span class="font-medium text-brand-light">$1</span>')
       
       // Remove bullet points for cleaner look
       .replace(/^• (.*$)/gm, '<div class="mb-1 text-gray-200">$1</div>')
@@ -36,15 +36,15 @@ function MarkdownRenderer({ content }: { content: string }) {
       .replace(/\n/g, '<br/>')
       
       // Financial metrics highlighting
-      .replace(/(\d+,?\d*\.?\d*%)/g, '<span class="text-green-400 font-medium">$1</span>')
+      .replace(/(\d+,?\d*\.?\d*%)/g, '<span class="text-brand-light font-medium">$1</span>')
       .replace(/(\$\d+\.?\d*[BMK]?)/g, '<span class="text-blue-400 font-medium">$1</span>')
       
       // Emojis with better spacing
-      .replace(/📈/g, '<span class="text-green-400 mr-1">📈</span>')
+      .replace(/📈/g, '<span class="text-brand-light mr-1">📈</span>')
       .replace(/📉/g, '<span class="text-red-400 mr-1">📉</span>')
       .replace(/🆕/g, '<span class="text-blue-400 mr-1">🆕</span>')
       .replace(/❌/g, '<span class="text-red-400 mr-1">❌</span>')
-      .replace(/✅/g, '<span class="text-green-400 mr-1">✅</span>')
+      .replace(/✅/g, '<span class="text-brand-light mr-1">✅</span>')
   }
 
   return (
@@ -318,7 +318,7 @@ Was möchtest du wissen?`,
               <div
                 className={`max-w-[80%] px-4 py-3 rounded-xl ${
                   message.role === 'user'
-                    ? 'bg-green-500 text-black'
+                    ? 'bg-brand text-black'
                     : 'bg-gray-800 text-white border border-gray-700'
                 }`}
               >
@@ -340,8 +340,8 @@ Was möchtest du wissen?`,
               </div>
               
               {message.role === 'user' && (
-                <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <UserIcon className="w-4 h-4 text-green-400" />
+                <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <UserIcon className="w-4 h-4 text-brand-light" />
                 </div>
               )}
             </div>

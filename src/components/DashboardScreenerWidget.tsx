@@ -105,12 +105,12 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
       <div className="bg-theme-card border border-theme/10 rounded-xl p-4">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-sm font-bold text-theme-primary flex items-center gap-2">
-            <FunnelIcon className="w-4 h-4 text-green-400" />
+            <FunnelIcon className="w-4 h-4 text-brand-light" />
             Market Movers
           </h3>
           <Link
             href="/analyse/screener"
-            className="text-xs text-green-400 hover:text-green-300"
+            className="text-xs text-brand-light hover:text-green-300"
           >
             Mehr →
           </Link>
@@ -123,7 +123,7 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
               onClick={() => setActiveFilter(key)}
               className={`flex-1 px-2 py-1 rounded text-xs font-medium transition-all ${
                 activeFilter === key
-                  ? 'bg-green-500 text-white'
+                  ? 'bg-brand text-white'
                   : 'text-theme-secondary hover:text-theme-primary'
               }`}
             >
@@ -157,7 +157,7 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
                     ${stock.price?.toFixed(2)}
                   </span>
                   <span className={`text-xs font-bold ${
-                    stock.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'
+                    stock.changesPercentage >= 0 ? 'text-brand-light' : 'text-red-400'
                   }`}>
                     {stock.changesPercentage >= 0 ? '+' : ''}
                     {stock.changesPercentage?.toFixed(2)}%
@@ -178,12 +178,12 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
       <div className="px-6 py-4 border-b border-theme/10">
         <div className="flex items-center justify-between mb-3">
           <h2 className="text-xl font-bold text-theme-primary flex items-center gap-2">
-            <FunnelIcon className="w-5 h-5 text-green-400" />
+            <FunnelIcon className="w-5 h-5 text-brand-light" />
             Stock Screener
           </h2>
           <Link
             href="/analyse/screener"
-            className="flex items-center gap-1 text-sm text-green-400 hover:text-green-300 transition-colors"
+            className="flex items-center gap-1 text-sm text-brand-light hover:text-green-300 transition-colors"
           >
             Vollansicht
             <ChevronRightIcon className="w-4 h-4" />
@@ -198,7 +198,7 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
               onClick={() => setActiveFilter(key)}
               className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
                 activeFilter === key
-                  ? 'bg-green-500 text-white shadow-md'
+                  ? 'bg-brand text-white shadow-md'
                   : 'bg-theme-secondary text-theme-secondary hover:text-theme-primary'
               }`}
             >
@@ -260,7 +260,7 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
                   <td className="px-4 py-3 text-right">
                     <span className={`inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-bold ${
                       stock.changesPercentage >= 0
-                        ? 'bg-green-500/20 text-green-400'
+                        ? 'bg-brand/20 text-brand-light'
                         : 'bg-red-500/20 text-red-400'
                     }`}>
                       {stock.changesPercentage >= 0 ? (
@@ -292,7 +292,7 @@ export default function DashboardScreenerWidget({ variant = 'full' }: ScreenerWi
           </p>
           <Link
             href="/analyse/screener"
-            className="flex items-center gap-1 text-xs text-green-400 hover:text-green-300 font-medium"
+            className="flex items-center gap-1 text-xs text-brand-light hover:text-green-300 font-medium"
           >
             <SparklesIcon className="w-3 h-3" />
             Erweiterte Filter

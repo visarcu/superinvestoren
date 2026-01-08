@@ -264,7 +264,7 @@ export default function StockListsPage() {
           {/* Zurück-Link */}
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zum Dashboard
@@ -272,7 +272,7 @@ export default function StockListsPage() {
 
           <div className="flex items-center gap-4">
             <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
-              <ListBulletIcon className="w-6 h-6 text-green-400" />
+              <ListBulletIcon className="w-6 h-6 text-brand-light" />
             </div>
             <div>
               <h1 className="text-2xl font-bold text-theme-primary">
@@ -300,14 +300,14 @@ export default function StockListsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`group flex items-center gap-2 px-1 py-3 text-sm font-medium transition-all duration-200 relative ${
                   activeTab === tab.id
-                    ? 'text-green-400'
+                    ? 'text-brand-light'
                     : 'text-theme-secondary hover:text-theme-primary'
                 }`}
               >
                 <span>{tab.label}</span>
                 <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
                   activeTab === tab.id
-                    ? 'bg-green-500/20 text-green-300'
+                    ? 'bg-brand/20 text-green-300'
                     : 'bg-theme-tertiary text-theme-muted'
                 }`}>
                   {tab.count}
@@ -372,22 +372,22 @@ export default function StockListsPage() {
                 className="block bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-green-500/30 hover:bg-theme-secondary/20 transition-all duration-200 group"
               >
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 bg-theme-tertiary/50 rounded-xl flex items-center justify-center border border-theme/20 group-hover:bg-green-500/10 group-hover:border-green-500/30 transition-all duration-200">
-                    <Icon className="w-6 h-6 text-theme-muted group-hover:text-green-400 transition-colors duration-200" />
+                  <div className="w-12 h-12 bg-theme-tertiary/50 rounded-xl flex items-center justify-center border border-theme/20 group-hover:bg-brand/10 group-hover:border-green-500/30 transition-all duration-200">
+                    <Icon className="w-6 h-6 text-theme-muted group-hover:text-brand-light transition-colors duration-200" />
                   </div>
                   
                   <div className="flex items-center gap-2">
                     {list.premium && (
-                      <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded-md text-xs font-medium border border-green-500/30">
+                      <span className="px-2 py-1 bg-brand/20 text-brand-light rounded-md text-xs font-medium border border-green-500/30">
                         Premium
                       </span>
                     )}
-                    <ChevronRightIcon className="w-4 h-4 text-theme-muted group-hover:text-green-400 group-hover:translate-x-1 transition-all duration-200" />
+                    <ChevronRightIcon className="w-4 h-4 text-theme-muted group-hover:text-brand-light group-hover:translate-x-1 transition-all duration-200" />
                   </div>
                 </div>
 
                 <div className="mb-4">
-                  <h3 className="text-lg font-semibold text-theme-primary mb-2 group-hover:text-green-400 transition-colors duration-200">
+                  <h3 className="text-lg font-semibold text-theme-primary mb-2 group-hover:text-brand-light transition-colors duration-200">
                     {list.title}
                   </h3>
                   <p className="text-theme-muted text-sm leading-relaxed">
@@ -412,8 +412,8 @@ export default function StockListsPage() {
         {/* ✅ SAUBERE INFO SECTION */}
         <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
           <div className="flex items-start gap-4 mb-6">
-            <div className="w-8 h-8 bg-green-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
-              <InformationCircleIcon className="w-4 h-4 text-green-400" />
+            <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <InformationCircleIcon className="w-4 h-4 text-brand-light" />
             </div>
             <div>
               <h3 className="text-lg font-semibold text-theme-primary mb-2">Über unsere Listen-Kategorien</h3>
@@ -436,7 +436,7 @@ export default function StockListsPage() {
         {/* ✅ CLEAN STATS */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div className="text-center p-4 bg-theme-card border border-theme/10 rounded-xl">
-            <div className="text-2xl font-bold text-green-400 mb-1">
+            <div className="text-2xl font-bold text-brand-light mb-1">
               {STOCK_LISTS.filter(l => !l.comingSoon).length}
             </div>
             <div className="text-theme-muted text-sm">Verfügbare Listen</div>
@@ -467,24 +467,24 @@ export default function StockListsPage() {
         {/* ✅ PROFESSIONAL FEATURES */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="p-6 bg-theme-card border border-theme/10 rounded-xl text-center">
-            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <ChartBarIcon className="w-6 h-6 text-green-400" />
+            <div className="w-12 h-12 bg-brand/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <ChartBarIcon className="w-6 h-6 text-brand-light" />
             </div>
             <h3 className="font-semibold text-theme-primary mb-2">Expertenkuratierung</h3>
             <p className="text-theme-muted text-sm">Professionell ausgewählte Aktien basierend auf fundamentalen Analysen und Marktforschung.</p>
           </div>
 
           <div className="p-6 bg-theme-card border border-theme/10 rounded-xl text-center">
-            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <ClockIcon className="w-6 h-6 text-green-400" />
+            <div className="w-12 h-12 bg-brand/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <ClockIcon className="w-6 h-6 text-brand-light" />
             </div>
             <h3 className="font-semibold text-theme-primary mb-2">Automatische Updates</h3>
             <p className="text-theme-muted text-sm">Listen werden automatisch bei Zusammensetzungsänderungen und Performance-Updates aktualisiert.</p>
           </div>
 
           <div className="p-6 bg-theme-card border border-theme/10 rounded-xl text-center">
-            <div className="w-12 h-12 bg-green-500/20 rounded-xl flex items-center justify-center mx-auto mb-4">
-              <StarIcon className="w-6 h-6 text-green-400" />
+            <div className="w-12 h-12 bg-brand/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+              <StarIcon className="w-6 h-6 text-brand-light" />
             </div>
             <h3 className="font-semibold text-theme-primary mb-2">Vielfältige Strategien</h3>
             <p className="text-theme-muted text-sm">Von etablierten Indizes bis zu thematischen Investmentstrategien für jeden Anlegertyp.</p>

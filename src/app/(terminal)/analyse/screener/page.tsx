@@ -483,7 +483,7 @@ export default function StockScreener() {
             {activeTab === 'custom' && Object.keys(criteria).length > 0 && (
               <button
                 onClick={() => setShowSaveDialog(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-theme-primary border border-green-500 text-green-400 rounded-lg hover:bg-green-500/10 transition-colors text-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-theme-primary border border-green-500 text-brand-light rounded-lg hover:bg-brand/10 transition-colors text-sm"
               >
                 <BookmarkIcon className="w-4 h-4" />
                 <span className="hidden sm:inline">Speichern</span>
@@ -526,7 +526,7 @@ export default function StockScreener() {
           >
             Gespeichert
             {savedScreeners.length > 0 && (
-              <span className="ml-2 px-2 py-0.5 bg-green-500/20 text-green-400 rounded-full text-xs">
+              <span className="ml-2 px-2 py-0.5 bg-brand/20 text-brand-light rounded-full text-xs">
                 {savedScreeners.length}
               </span>
             )}
@@ -564,7 +564,7 @@ export default function StockScreener() {
                       >
                         <div className="flex items-start gap-2">
                           <Icon className={`w-4 h-4 mt-0.5 flex-shrink-0 ${
-                            isSelected ? 'text-green-400' : 'text-theme-muted'
+                            isSelected ? 'text-brand-light' : 'text-theme-muted'
                           }`} />
                           <div className="flex-1 min-w-0">
                             <h4 className="text-sm font-medium text-theme-primary">
@@ -575,7 +575,7 @@ export default function StockScreener() {
                             </p>
                           </div>
                           {isSelected && (
-                            <CheckIcon className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
+                            <CheckIcon className="w-4 h-4 text-brand-light flex-shrink-0 mt-0.5" />
                           )}
                         </div>
                       </button>
@@ -913,7 +913,7 @@ export default function StockScreener() {
 
                   <button
                     onClick={handleCustomScreen}
-                    className="w-full py-2.5 bg-theme-primary border border-green-500 text-green-400 rounded-lg font-medium hover:bg-green-500/10 transition-colors"
+                    className="w-full py-2.5 bg-theme-primary border border-green-500 text-brand-light rounded-lg font-medium hover:bg-brand/10 transition-colors"
                   >
                     Screener ausführen
                   </button>
@@ -1132,7 +1132,7 @@ export default function StockScreener() {
                           
                           <td className="px-4 py-3 text-right text-theme-secondary hidden md:table-cell">
                             {stock.dividendYield && stock.dividendYield > 0 ? (
-                              <span className="text-green-400">
+                              <span className="text-brand-light">
                                 {(stock.dividendYield * 100).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
                               </span>
                             ) : '–'}
@@ -1141,7 +1141,7 @@ export default function StockScreener() {
                           <td className="px-4 py-3 text-right text-theme-secondary hidden lg:table-cell">
                             {stock.beta && !isNaN(stock.beta) ? (
                               <span className={`${
-                                stock.beta <= 0.8 ? 'text-green-400' : 
+                                stock.beta <= 0.8 ? 'text-brand-light' : 
                                 stock.beta <= 1.2 ? 'text-yellow-400' :
                                 'text-red-400'
                               }`}>
@@ -1192,7 +1192,7 @@ export default function StockScreener() {
                         onClick={() => setCurrentPage(pageNum)}
                         className={`px-3 py-2 text-sm rounded-lg transition-colors ${
                           currentPage === pageNum
-                            ? 'bg-theme-primary border border-green-500 text-green-400'
+                            ? 'bg-theme-primary border border-green-500 text-brand-light'
                             : 'bg-theme-secondary border border-theme/20 hover:bg-theme-hover text-theme-secondary'
                         }`}
                       >
@@ -1226,7 +1226,7 @@ export default function StockScreener() {
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
                     <button
                       onClick={() => setActiveTab('presets')}
-                      className="px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
+                      className="px-6 py-3 bg-brand hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
                     >
                       Preset wählen
                     </button>
@@ -1272,7 +1272,7 @@ export default function StockScreener() {
               <button
                 onClick={saveScreener}
                 disabled={!screenName.trim()}
-                className="flex-1 py-3 bg-theme-primary border border-green-500 text-green-400 rounded-lg font-medium hover:bg-green-500/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="flex-1 py-3 bg-theme-primary border border-green-500 text-brand-light rounded-lg font-medium hover:bg-brand/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Speichern
               </button>

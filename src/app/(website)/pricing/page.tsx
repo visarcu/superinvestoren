@@ -157,8 +157,8 @@ export default function ImprovedPricingPage() {
       <div className="bg-theme-bg pt-40 pb-16 relative overflow-hidden">
         
         {/* Background Glows */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
-        <div className="absolute top-20 right-0 w-[600px] h-[300px] bg-green-500/2 rounded-full blur-3xl"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand/3 rounded-full blur-3xl"></div>
+        <div className="absolute top-20 right-0 w-[600px] h-[300px] bg-brand/2 rounded-full blur-3xl"></div>
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center space-y-8">
@@ -201,7 +201,7 @@ export default function ImprovedPricingPage() {
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link
                   href="#pricing"
-                  className="px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-green-500/25"
+                  className="px-6 py-3 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 shadow-lg hover:shadow-green-500/25"
                 >
                   14 Tage gratis testen
                 </Link>
@@ -264,8 +264,8 @@ export default function ImprovedPricingPage() {
                 {features.free.map((feature, index) => (
                   <li key={index} className="flex items-start gap-3">
                     {feature.included ? (
-                      <div className="w-5 h-5 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3 h-3 text-green-400" />
+                      <div className="w-5 h-5 bg-brand/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                        <Check className="w-3 h-3 text-brand-light" />
                       </div>
                     ) : (
                       <div style={{ backgroundColor: 'var(--bg-card)' }}
@@ -298,14 +298,14 @@ export default function ImprovedPricingPage() {
                  className=" rounded-xl p-8 relative overflow-hidden pt-12">
               
               {/* Premium Glow Effects */}
-              <div className="absolute inset-0 bg-green-500/5 rounded-xl blur-xl -z-10"></div>
-              <div className="absolute -top-10 -right-10 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
-              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-green-500/10 rounded-full blur-3xl"></div>
+              <div className="absolute inset-0 bg-brand/5 rounded-xl blur-xl -z-10"></div>
+              <div className="absolute -top-10 -right-10 w-40 h-40 bg-brand/10 rounded-full blur-3xl"></div>
+              <div className="absolute -bottom-10 -left-10 w-40 h-40 bg-brand/10 rounded-full blur-3xl"></div>
               
               {/* Popular Badge */}
               {!isPremium && (
                 <div className="absolute top-2 left-1/2 transform -translate-x-1/2 z-10">
-                  <div className="bg-green-500 text-black px-4 py-1 rounded-md text-xs font-bold uppercase tracking-wider flex items-center gap-1 shadow-lg">
+                  <div className="bg-brand text-black px-4 py-1 rounded-md text-xs font-bold uppercase tracking-wider flex items-center gap-1 shadow-lg">
                     <Star className="w-3 h-3" />
                     BELIEBT
                   </div>
@@ -340,12 +340,12 @@ export default function ImprovedPricingPage() {
               <ul className="space-y-4 mb-8">
                 {features.premium.map((feature, index) => (
                   <li key={index} className="flex items-start gap-3">
-                    <div className="w-5 h-5 bg-green-500/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
-                      <Check className="w-3 h-3 text-green-400" />
+                    <div className="w-5 h-5 bg-brand/20 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <Check className="w-3 h-3 text-brand-light" />
                     </div>
                     <span className={`text-sm ${
                       feature.highlight 
-                        ? 'text-green-400 font-medium' 
+                        ? 'text-brand-light font-medium' 
                         : 'text-theme-secondary'
                     }`}>
                       {feature.name}
@@ -357,7 +357,7 @@ export default function ImprovedPricingPage() {
               {/* CTA Buttons */}
               {isPremium ? (
                 <div className="space-y-3">
-                  <div className="w-full py-3 px-4 bg-green-500 text-black font-semibold rounded-lg text-center text-sm">
+                  <div className="w-full py-3 px-4 bg-brand text-black font-semibold rounded-lg text-center text-sm">
                     ✓ Aktiv seit {premiumStatus.endDate ? new Date(premiumStatus.endDate).toLocaleDateString('de-DE') : 'Unbekannt'}
                   </div>
                   <Link
@@ -372,7 +372,7 @@ export default function ImprovedPricingPage() {
                 <button
                   onClick={handleStripeCheckout}
                   disabled={checkoutLoading}
-                  className="w-full py-3 px-4 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 text-sm hover:scale-105 shadow-lg hover:shadow-green-500/25"
+                  className="w-full py-3 px-4 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 flex items-center justify-center gap-2 text-sm hover:scale-105 shadow-lg hover:shadow-green-500/25"
                 >
                   {checkoutLoading ? (
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-black"></div>
@@ -383,7 +383,7 @@ export default function ImprovedPricingPage() {
               ) : (
                 <Link
                   href="/auth/signin"
-                  className="block w-full py-3 px-4 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 text-center text-sm hover:scale-105 shadow-lg hover:shadow-green-500/25"
+                  className="block w-full py-3 px-4 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 text-center text-sm hover:scale-105 shadow-lg hover:shadow-green-500/25"
                 >
                   Anmelden & Premium upgraden
                 </Link>
@@ -397,7 +397,7 @@ export default function ImprovedPricingPage() {
       <section className="bg-theme-bg py-20" style={{ borderColor: 'var(--border-color)' }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 border border-brand/20 text-brand-light rounded-full text-sm font-medium mb-6 backdrop-blur-sm">
               <span>FAQ</span>
             </div>
             
@@ -460,7 +460,7 @@ export default function ImprovedPricingPage() {
         <section className="bg-theme-bg py-24" style={{ borderColor: 'var(--border-color)' }}>
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             {/* Background Glow */}
-            <div className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-green-500/3 rounded-full blur-3xl"></div>
+            <div className="absolute left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand/3 rounded-full blur-3xl"></div>
             
             <div className="relative">
               <h2 className="text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
@@ -479,7 +479,7 @@ export default function ImprovedPricingPage() {
                   <button
                     onClick={handleStripeCheckout}
                     disabled={checkoutLoading}
-                    className="px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-8 py-4 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {checkoutLoading ? (
                       <div className="flex items-center gap-2">
@@ -493,7 +493,7 @@ export default function ImprovedPricingPage() {
                 ) : (
                   <Link
                     href="/auth/signin"
-                    className="px-8 py-4 bg-green-500 hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"
+                    className="px-8 py-4 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg transition-all duration-200 hover:scale-105 shadow-lg hover:shadow-green-500/25"
                   >
                     Jetzt Premium testen
                   </Link>
@@ -519,7 +519,7 @@ export default function ImprovedPricingPage() {
             <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
                  className="border rounded-xl p-8 backdrop-blur-sm">
               <div className="flex items-center justify-center gap-2 mb-4">
-                <Sparkles className="w-6 h-6 text-green-400" />
+                <Sparkles className="w-6 h-6 text-brand-light" />
                 <h3 className="text-xl font-semibold text-white">Premium Aktiv</h3>
               </div>
               <p className="text-theme-secondary mb-6">
@@ -527,7 +527,7 @@ export default function ImprovedPricingPage() {
               </p>
               <Link
                 href="/profile"
-                className="inline-flex items-center px-6 py-3 bg-green-500 hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 hover:scale-105"
+                className="inline-flex items-center px-6 py-3 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-all duration-200 hover:scale-105"
               >
                 Abo verwalten
               </Link>

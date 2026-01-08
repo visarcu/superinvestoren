@@ -65,7 +65,7 @@ export default function TestSubjects() {
                 }`}>
                   <div className="flex justify-between items-center">
                     <span className="font-medium">#{index + 1}: {test.subject}</span>
-                    <span className={test.success ? 'text-green-600' : 'text-red-600'}>
+                    <span className={test.success ? 'text-brand' : 'text-red-600'}>
                       {test.success ? '✅ Gesendet' : '❌ Fehler'}
                     </span>
                   </div>

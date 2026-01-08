@@ -40,7 +40,7 @@ export default function EmailVerification({ email, isVerified, onVerificationUpd
 
   if (isVerified) {
     return (
-      <div className="flex items-center gap-2 text-green-400 text-sm bg-green-900/20 border border-green-500 rounded-lg p-3">
+      <div className="flex items-center gap-2 text-brand-light text-sm bg-green-900/20 border border-green-500 rounded-lg p-3">
         <FaCheckCircle />
         <span>E-Mail-Adresse wurde bestätigt ✅</span>
       </div>
@@ -63,7 +63,7 @@ export default function EmailVerification({ email, isVerified, onVerificationUpd
         <div className={`text-sm mb-3 p-2 rounded ${
           message.includes('Fehler') 
             ? 'text-red-400 bg-red-900/20' 
-            : 'text-green-400 bg-green-900/20'
+            : 'text-brand-light bg-green-900/20'
         }`}>
           {message}
         </div>

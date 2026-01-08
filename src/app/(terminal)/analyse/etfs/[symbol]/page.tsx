@@ -260,7 +260,7 @@ export default function ETFDetailPage() {
         <div className="w-full px-6 lg:px-8 py-8">
           <div className="flex items-center gap-3 mb-6">
             <ArrowLeftIcon 
-              className="w-5 h-5 text-theme-secondary hover:text-green-400 cursor-pointer transition-colors"
+              className="w-5 h-5 text-theme-secondary hover:text-brand-light cursor-pointer transition-colors"
               onClick={() => router.push('/analyse/etf-screener')}
             />
             <span className="text-theme-secondary">Zurück zum ETF Screener</span>
@@ -287,10 +287,10 @@ export default function ETFDetailPage() {
           <div className="pb-8">
             <div className="flex items-center gap-3 mb-6">
               <ArrowLeftIcon 
-                className="w-5 h-5 text-theme-secondary hover:text-green-400 cursor-pointer transition-colors"
+                className="w-5 h-5 text-theme-secondary hover:text-brand-light cursor-pointer transition-colors"
                 onClick={() => router.push('/analyse/etf-screener')}
               />
-              <span className="text-theme-secondary hover:text-green-400 cursor-pointer transition-colors"
+              <span className="text-theme-secondary hover:text-brand-light cursor-pointer transition-colors"
                     onClick={() => router.push('/analyse/etf-screener')}>
                 Zurück zum ETF Screener
               </span>
@@ -299,9 +299,9 @@ export default function ETFDetailPage() {
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
               <div>
                 <div className="flex items-center gap-3 mb-2">
-                  <ChartBarIcon className="w-6 h-6 text-green-400" />
+                  <ChartBarIcon className="w-6 h-6 text-brand-light" />
                   <h1 className="text-3xl font-bold text-theme-primary">{symbol}</h1>
-                  <div className="flex items-center gap-2 px-3 py-1 bg-green-500/20 text-green-400 rounded-lg text-sm">
+                  <div className="flex items-center gap-2 px-3 py-1 bg-brand/20 text-brand-light rounded-lg text-sm">
                     <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
                     <span>Live</span>
                   </div>
@@ -323,7 +323,7 @@ export default function ETFDetailPage() {
                 <div className="text-3xl font-bold text-theme-primary mb-1">
                   {formatStockPrice(etfQuote.price)}
                 </div>
-                <div className={`text-lg font-semibold ${etfQuote.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                <div className={`text-lg font-semibold ${etfQuote.changesPercentage >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                   {formatPercentage(etfQuote.changesPercentage)} ({formatPercentage(etfQuote.change)})
                 </div>
                 <div className="text-sm text-theme-tertiary">
@@ -354,7 +354,7 @@ export default function ETFDetailPage() {
                   <span className="text-theme-muted text-xs">TER</span>
                 </div>
                 <div className={`text-lg font-bold ${
-                  etfInfo.expenseRatio <= 0.2 ? 'text-green-400' :
+                  etfInfo.expenseRatio <= 0.2 ? 'text-brand-light' :
                   etfInfo.expenseRatio <= 0.5 ? 'text-yellow-400' : 'text-red-400'
                 }`}>
                   {formatPercentage(etfInfo.expenseRatio, false)}
@@ -373,7 +373,7 @@ export default function ETFDetailPage() {
 
               <div className="bg-theme-card rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-1">
-                  <CalendarIcon className="w-4 h-4 text-green-400" />
+                  <CalendarIcon className="w-4 h-4 text-brand-light" />
                   <span className="text-theme-muted text-xs">Aufgelegt</span>
                 </div>
                 <div className="text-lg font-bold text-theme-primary">
@@ -385,7 +385,7 @@ export default function ETFDetailPage() {
 
           <div className="bg-theme-card rounded-xl p-4">
             <div className="flex items-center gap-2 mb-1">
-              <ChartBarIcon className="w-4 h-4 text-green-400" />
+              <ChartBarIcon className="w-4 h-4 text-brand-light" />
               <span className="text-theme-muted text-xs">Volumen</span>
             </div>
             <div className="text-lg font-bold text-theme-primary">
@@ -407,10 +407,10 @@ export default function ETFDetailPage() {
           {distributions && (
             <div className="bg-theme-card rounded-xl p-4">
               <div className="flex items-center gap-2 mb-1">
-                <CurrencyDollarIcon className="w-4 h-4 text-green-400" />
+                <CurrencyDollarIcon className="w-4 h-4 text-brand-light" />
                 <span className="text-theme-muted text-xs">Rendite</span>
               </div>
-              <div className="text-lg font-bold text-green-400">
+              <div className="text-lg font-bold text-brand-light">
                 {distributions.yield > 0 ? `${distributions.yield.toFixed(2)}%` : 'N/A'}
               </div>
             </div>
@@ -424,7 +424,7 @@ export default function ETFDetailPage() {
                 <span className="text-theme-muted text-xs">1 Jahr</span>
               </div>
               <div className={`text-lg font-bold ${
-                performance['1y'] >= 0 ? 'text-green-400' : 'text-red-400'
+                performance['1y'] >= 0 ? 'text-brand-light' : 'text-red-400'
               }`}>
                 {performance['1y'] >= 0 ? '+' : ''}{performance['1y'].toFixed(1)}%
               </div>
@@ -439,7 +439,7 @@ export default function ETFDetailPage() {
         {performance && (
           <div className="bg-theme-card rounded-xl p-6">
             <div className="flex items-center gap-3 mb-6">
-              <ChartBarIcon className="w-5 h-5 text-green-400" />
+              <ChartBarIcon className="w-5 h-5 text-brand-light" />
               <h3 className="text-xl font-semibold text-theme-primary">Performance & Risiko</h3>
             </div>
             
@@ -452,7 +452,7 @@ export default function ETFDetailPage() {
                     <div className="bg-theme-card p-4 text-center">
                       <div className="text-xs text-theme-muted mb-2">1 Tag</div>
                       <div className={`text-lg font-bold ${
-                        performance['1d'] >= 0 ? 'text-green-400' : 'text-red-400'
+                        performance['1d'] >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(performance['1d'])}
                       </div>
@@ -461,7 +461,7 @@ export default function ETFDetailPage() {
                     <div className="bg-theme-card p-4 text-center">
                       <div className="text-xs text-theme-muted mb-2">1 Woche</div>
                       <div className={`text-lg font-bold ${
-                        performance['1w'] >= 0 ? 'text-green-400' : 'text-red-400'
+                        performance['1w'] >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(performance['1w'])}
                       </div>
@@ -470,7 +470,7 @@ export default function ETFDetailPage() {
                     <div className="bg-theme-card p-4 text-center">
                       <div className="text-xs text-theme-muted mb-2">1 Monat</div>
                       <div className={`text-lg font-bold ${
-                        performance['1m'] >= 0 ? 'text-green-400' : 'text-red-400'
+                        performance['1m'] >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(performance['1m'])}
                       </div>
@@ -479,7 +479,7 @@ export default function ETFDetailPage() {
                     <div className="bg-theme-card p-4 text-center">
                       <div className="text-xs text-theme-muted mb-2">1 Jahr</div>
                       <div className={`text-lg font-bold ${
-                        performance['1y'] >= 0 ? 'text-green-400' : 'text-red-400'
+                        performance['1y'] >= 0 ? 'text-brand-light' : 'text-red-400'
                       }`}>
                         {formatPercentage(performance['1y'])}
                       </div>
@@ -563,7 +563,7 @@ export default function ETFDetailPage() {
                   <select
                     value={selectedDate}
                     onChange={(e) => setSelectedDate(e.target.value)}
-                    className="px-3 py-1 bg-theme-card border border-theme/20 rounded-lg text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                    className="px-3 py-1 bg-theme-card border border-theme/20 rounded-lg text-theme-primary text-sm focus:outline-none focus:ring-2 focus:ring-brand/30"
                   >
                     {holdingsDates.map(date => (
                       <option key={date} value={date}>
@@ -590,7 +590,7 @@ export default function ETFDetailPage() {
                       onClick={() => router.push(`/analyse/stocks/${holding.symbol?.toLowerCase()}`)}
                     >
                       <div className="flex items-center gap-3">
-                        <div className="w-5 h-5 bg-green-400/20 text-green-400 rounded-full flex items-center justify-center text-xs font-bold">
+                        <div className="w-5 h-5 bg-green-400/20 text-brand-light rounded-full flex items-center justify-center text-xs font-bold">
                           {index + 1}
                         </div>
                         <div>
@@ -618,7 +618,7 @@ export default function ETFDetailPage() {
         {distributions && distributions.distributions.length > 0 && (
           <div className="bg-theme-card rounded-xl p-6">
             <div className="flex items-center gap-3 mb-4">
-              <CurrencyDollarIcon className="w-5 h-5 text-green-400" />
+              <CurrencyDollarIcon className="w-5 h-5 text-brand-light" />
               <h3 className="text-xl font-semibold text-theme-primary">Ausschüttungen</h3>
               <div className="ml-auto text-sm text-theme-secondary">
                 {distributions.frequency} • {distributions.yield.toFixed(2)}% Rendite
@@ -665,7 +665,7 @@ export default function ETFDetailPage() {
                   href={etfInfo.website}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors"
+                  className="inline-flex items-center gap-2 text-brand-light hover:text-green-300 transition-colors"
                 >
                   <GlobeAltIcon className="w-4 h-4" />
                   Website des Anbieters

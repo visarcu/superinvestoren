@@ -33,12 +33,12 @@ export default function Hero() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           
           {/* Subtle Background Glow - Positioniert wie auf Pricing */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-green-500/3 rounded-full blur-3xl"></div>
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand/3 rounded-full blur-3xl"></div>
           
           <div className="relative text-center space-y-8">
             
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-500/10 border border-green-500/20 text-green-400 rounded-full text-sm font-medium backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 border border-brand/20 text-brand-light rounded-full text-sm font-medium backdrop-blur-sm">
               <ArrowTrendingUpIcon className="w-4 h-4" />
               Professionelle Investment-Analyse
             </div>
@@ -71,7 +71,7 @@ export default function Hero() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button
                 onClick={() => router.push('/analyse')}
-                className="px-6 py-3 bg-green-500 text-black font-medium rounded-lg hover:bg-green-400 transition"
+                className="px-6 py-3 bg-brand text-black font-medium rounded-lg hover:bg-green-400 transition"
               >
                 Jetzt analysieren
               </button>

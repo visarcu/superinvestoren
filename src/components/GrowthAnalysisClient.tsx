@@ -177,28 +177,24 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     return formatPercentage(value, true);
   };
 
-  // Get color class for growth value
+  // ✅ FISCAL STYLE: Alle Zahlen neutral - keine Farben
   const getGrowthColor = (value?: number | null) => {
     if (typeof value !== 'number' || isNaN(value) || value === null) return 'text-theme-muted';
-    if (value > 15) return 'text-green-400 font-semibold';
-    if (value > 5) return 'text-green-300';
-    if (value > 0) return 'text-theme-primary';
-    if (value > -5) return 'text-yellow-400';
-    return 'text-red-400';
+    return 'text-theme-primary';
   };
 
-  // Get growth rating
+  // ✅ FISCAL STYLE: Rating auch neutral
   const getGrowthRating = (value?: number | null) => {
-    if (typeof value !== 'number' || isNaN(value) || value === null) return { rating: 'Unbekannt', color: 'text-theme-muted' };
-    if (value > 20) return { rating: 'Exzellent', color: 'text-green-500' };
-    if (value > 15) return { rating: 'Sehr gut', color: 'text-green-400' };
-    if (value > 10) return { rating: 'Gut', color: 'text-green-300' };
-    if (value > 5) return { rating: 'Moderat', color: 'text-yellow-400' };
-    if (value > 0) return { rating: 'Schwach', color: 'text-orange-400' };
-    return { rating: 'Negativ', color: 'text-red-400' };
+    if (typeof value !== 'number' || isNaN(value) || value === null) return { rating: '–', color: 'text-theme-muted' };
+    if (value > 20) return { rating: 'Exzellent', color: 'text-theme-primary' };
+    if (value > 15) return { rating: 'Sehr gut', color: 'text-theme-primary' };
+    if (value > 10) return { rating: 'Gut', color: 'text-theme-primary' };
+    if (value > 5) return { rating: 'Moderat', color: 'text-theme-secondary' };
+    if (value > 0) return { rating: 'Schwach', color: 'text-theme-secondary' };
+    return { rating: 'Negativ', color: 'text-theme-secondary' };
   };
 
-  // Calculate overall growth grade (like Seeking Alpha)
+  // ✅ FISCAL STYLE: Growth Grade neutral
   const calculateGrowthGrade = (growth: GrowthData): { grade: string, color: string } => {
     const metrics = [
       growth.revenueGrowth3Y,
@@ -211,18 +207,18 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
 
     const avgGrowth = metrics.reduce((sum, val) => sum + (val || 0), 0) / metrics.length;
 
-    if (avgGrowth > 25) return { grade: 'A+', color: 'text-green-500' };
-    if (avgGrowth > 20) return { grade: 'A', color: 'text-green-500' };
-    if (avgGrowth > 15) return { grade: 'A-', color: 'text-green-400' };
-    if (avgGrowth > 12) return { grade: 'B+', color: 'text-green-400' };
-    if (avgGrowth > 10) return { grade: 'B', color: 'text-green-300' };
-    if (avgGrowth > 8) return { grade: 'B-', color: 'text-green-300' };
-    if (avgGrowth > 6) return { grade: 'C+', color: 'text-yellow-400' };
-    if (avgGrowth > 4) return { grade: 'C', color: 'text-yellow-400' };
-    if (avgGrowth > 2) return { grade: 'C-', color: 'text-orange-400' };
-    if (avgGrowth > 0) return { grade: 'D+', color: 'text-orange-400' };
-    if (avgGrowth > -2) return { grade: 'D', color: 'text-red-400' };
-    return { grade: 'F', color: 'text-red-500' };
+    if (avgGrowth > 25) return { grade: 'A+', color: 'text-theme-primary' };
+    if (avgGrowth > 20) return { grade: 'A', color: 'text-theme-primary' };
+    if (avgGrowth > 15) return { grade: 'A-', color: 'text-theme-primary' };
+    if (avgGrowth > 12) return { grade: 'B+', color: 'text-theme-primary' };
+    if (avgGrowth > 10) return { grade: 'B', color: 'text-theme-primary' };
+    if (avgGrowth > 8) return { grade: 'B-', color: 'text-theme-primary' };
+    if (avgGrowth > 6) return { grade: 'C+', color: 'text-theme-secondary' };
+    if (avgGrowth > 4) return { grade: 'C', color: 'text-theme-secondary' };
+    if (avgGrowth > 2) return { grade: 'C-', color: 'text-theme-secondary' };
+    if (avgGrowth > 0) return { grade: 'D+', color: 'text-theme-secondary' };
+    if (avgGrowth > -2) return { grade: 'D', color: 'text-theme-secondary' };
+    return { grade: 'F', color: 'text-theme-secondary' };
   };
 
   const formatDate = (dateString: string) => {
@@ -285,7 +281,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
               Historische und prognostizierte Wachstumsraten für {ticker}
             </p>
           </div>
-          {/* Growth Grade Badge (wie bei Seeking Alpha) */}
+          {/* Growth Grade Badge */}
           <div className="flex flex-col items-center">
             <div className={`text-3xl font-bold ${growthGrade.color} bg-theme-card rounded-lg px-4 py-2 border border-theme/20`}>
               {growthGrade.grade}
@@ -308,11 +304,11 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
 
       {/* Learn Mode Info */}
       {isLearnMode && (
-        <div className="bg-green-500/10 rounded-lg p-4">
+        <div className="bg-brand/10 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <ArrowTrendingUpIcon className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
+            <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
             <div>
-              <h4 className="text-sm font-semibold text-green-400 mb-1">Wachstumsanalyse verstehen</h4>
+              <h4 className="text-sm font-semibold text-brand-light mb-1">Wachstumsanalyse verstehen</h4>
               <p className="text-xs text-theme-secondary leading-relaxed">
                 Wachstumsraten zeigen, wie schnell ein Unternehmen expandiert. CAGR (Compound Annual Growth Rate) 
                 glättet jährliche Schwankungen und zeigt das durchschnittliche Wachstum über mehrere Jahre.
@@ -329,15 +325,15 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         {/* Revenue Growth Summary */}
         <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-5 h-5 text-blue-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+              <ChartBarIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h3 className="text-sm font-semibold text-theme-primary">Umsatzwachstum</h3>
               <p className="text-xs text-theme-muted">3Y CAGR</p>
             </div>
           </div>
-          <div className="text-2xl font-bold mb-2" style={{ color: getGrowthColor(growth.revenueGrowth3Y).split(' ')[0].replace('text-', '') }}>
+          <div className="text-2xl font-bold text-theme-primary mb-2">
             {formatGrowth(growth.revenueGrowth3Y)}
           </div>
           <div className={`text-xs font-medium ${getGrowthRating(growth.revenueGrowth3Y).color}`}>
@@ -356,7 +352,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
               <p className="text-xs text-theme-muted">EPS 3Y CAGR</p>
             </div>
           </div>
-          <div className="text-2xl font-bold mb-2" style={{ color: getGrowthColor(growth.epsGrowth3Y).split(' ')[0].replace('text-', '') }}>
+          <div className="text-2xl font-bold text-theme-primary mb-2">
             {formatGrowth(growth.epsGrowth3Y)}
           </div>
           <div className={`text-xs font-medium ${getGrowthRating(growth.epsGrowth3Y).color}`}>
@@ -367,18 +363,18 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         {/* Forward Growth */}
         <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-green-500/20 rounded-lg flex items-center justify-center">
-              <CalendarIcon className="w-5 h-5 text-green-400" />
+            <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
+              <CalendarIcon className="w-5 h-5 text-brand-light" />
             </div>
             <div>
               <h3 className="text-sm font-semibold text-theme-primary">Prognose</h3>
               <p className="text-xs text-theme-muted">Forward EPS</p>
             </div>
           </div>
-          <div className="text-2xl font-bold mb-2" style={{ color: getGrowthColor(growth.epsGrowthForward2Y).split(' ')[0].replace('text-', '') }}>
+          <div className="text-2xl font-bold text-theme-primary mb-2">
             {formatGrowth(growth.epsGrowthForward2Y)}
           </div>
-          <div className={`text-xs font-medium ${getGrowthRating(growth.epsGrowthForward2Y).color}`}>
+          <div className="text-xs font-medium text-theme-secondary">
             Analyst Schätzung
           </div>
         </div>
@@ -386,8 +382,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         {/* Free Cash Flow Growth */}
         <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-              <svg className="w-5 h-5 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
+              <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
@@ -396,7 +392,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
               <p className="text-xs text-theme-muted">3Y CAGR</p>
             </div>
           </div>
-          <div className="text-2xl font-bold mb-2" style={{ color: getGrowthColor(growth.fcfGrowth3Y).split(' ')[0].replace('text-', '') }}>
+          <div className="text-2xl font-bold text-theme-primary mb-2">
             {formatGrowth(growth.fcfGrowth3Y)}
           </div>
           <div className={`text-xs font-medium ${getGrowthRating(growth.fcfGrowth3Y).color}`}>
@@ -405,16 +401,16 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         </div>
       </div>
 
-      {/* Detailed Growth Metrics - Erweiterte Tabelle wie bei Seeking Alpha */}
+      {/* Detailed Growth Metrics - Erweiterte Tabelle */}
       <div className="bg-theme-card rounded-lg border border-theme/10">
         <div className="px-6 py-4 border-b border-theme/10 flex items-center justify-between">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
-            <ArrowTrendingUpIcon className="w-5 h-5 text-blue-400" />
+            <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstumsmetriken im Detail
           </h3>
           <button
             onClick={() => setShowAllMetrics(!showAllMetrics)}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-theme-tertiary/50 hover:bg-theme-tertiary text-theme-primary hover:text-green-400 rounded-lg text-sm font-medium transition-all duration-200 border border-theme/20 hover:border-green-400/30"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-theme-tertiary/50 hover:bg-theme-tertiary text-theme-primary hover:text-brand-light rounded-lg text-sm font-medium transition-all duration-200 border border-theme/20 hover:border-brand/30"
           >
             {showAllMetrics ? (
               <>
@@ -676,7 +672,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         </div>
       </div>
 
-      {/* Growth Charts - Premium Feature mit echten Daten */}
+      {/* Growth Charts - Premium Feature */}
       {user?.isPremium ? (
         <div className="bg-theme-card rounded-lg border border-theme/10">
           <div className="px-6 py-4 border-b border-theme/10">
@@ -698,8 +694,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </h3>
           </div>
           <div className="p-6 text-center py-12">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-green-600/20 border border-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <LockClosedIcon className="w-8 h-8 text-green-500" />
+            <div className="w-16 h-16 bg-brand/20 border border-brand/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <LockClosedIcon className="w-8 h-8 text-brand" />
             </div>
             <h3 className="text-xl font-semibold text-theme-primary mb-3">Premium Charts verfügbar</h3>
             <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">
@@ -707,7 +703,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </p>
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-green-500 hover:bg-green-400 text-black rounded-lg font-semibold transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-brand-hover text-white rounded-lg font-semibold transition-colors"
             >
               <LockClosedIcon className="w-5 h-5" />
               14 Tage kostenlos testen

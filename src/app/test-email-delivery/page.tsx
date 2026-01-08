@@ -84,7 +84,7 @@ export default function TestEmailDelivery() {
                       <p className="text-sm text-gray-600">FROM: {test.from}</p>
                       <p className="text-sm text-gray-600">SUBJECT: {test.subject}</p>
                     </div>
-                    <span className={test.success ? 'text-green-600' : 'text-red-600'}>
+                    <span className={test.success ? 'text-brand' : 'text-red-600'}>
                       {test.success ? '✅ Gesendet' : '❌ Fehler'}
                     </span>
                   </div>

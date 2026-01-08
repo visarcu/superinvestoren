@@ -120,7 +120,7 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, formatCurrency, 
     <div className="flex items-start justify-between mb-3">
       <div className="flex items-center gap-3">
         <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-          <span className="text-xs font-bold text-green-400">
+          <span className="text-xs font-bold text-brand-light">
             {holding.symbol.slice(0, 2)}
           </span>
         </div>
@@ -133,7 +133,7 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, formatCurrency, 
         <p className="font-bold text-theme-primary">
           {formatCurrency(holding.value)}
         </p>
-        <p className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+        <p className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
           {formatPercentage(holding.gain_loss_percent)}
         </p>
       </div>
@@ -151,8 +151,8 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, formatCurrency, 
     </div>
 
     {holding.superinvestors && holding.superinvestors.count > 0 && (
-      <div className="flex items-center justify-center mb-3 py-2 bg-green-500/10 rounded-lg">
-        <span className="text-xs text-green-400">
+      <div className="flex items-center justify-center mb-3 py-2 bg-brand/10 rounded-lg">
+        <span className="text-xs text-brand-light">
           {holding.superinvestors.count} Superinvestoren
         </span>
       </div>
@@ -696,7 +696,7 @@ export default function PortfolioDashboard() {
           <p className="text-theme-secondary mb-4">{error}</p>
           <button
             onClick={() => loadPortfolio()}
-            className="px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+            className="px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
           >
             Erneut versuchen
           </button>
@@ -712,7 +712,7 @@ export default function PortfolioDashboard() {
         <div className="w-full px-6 lg:px-8 py-6">
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-green-400 transition-colors duration-200 mb-6 group"
+            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
             Zurück zum Dashboard
@@ -721,7 +721,7 @@ export default function PortfolioDashboard() {
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex items-center gap-4">
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
-                <BriefcaseIcon className="w-6 h-6 text-green-400" />
+                <BriefcaseIcon className="w-6 h-6 text-brand-light" />
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-theme-primary">
@@ -783,16 +783,16 @@ export default function PortfolioDashboard() {
           <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
             <p className="text-sm text-theme-secondary mb-1">Rendite</p>
             <div className="flex items-center gap-2">
-              <p className={`text-xl lg:text-2xl font-bold ${totalGainLoss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+              <p className={`text-xl lg:text-2xl font-bold ${totalGainLoss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                 {totalGainLoss >= 0 ? '+' : '-'}{formatCurrency(Math.abs(totalGainLoss))}
               </p>
               {totalGainLoss >= 0 ? (
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
               ) : (
                 <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
               )}
             </div>
-            <p className={`text-xs mt-1 ${totalGainLossPercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <p className={`text-xs mt-1 ${totalGainLossPercent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
               {formatPercentage(totalGainLossPercent)} All-time
             </p>
           </div>
@@ -819,7 +819,7 @@ export default function PortfolioDashboard() {
             <button
               onClick={loadExchangeRate}
               disabled={currencyLoading}
-              className="text-green-400 hover:text-green-300 text-xs"
+              className="text-brand-light hover:text-green-300 text-xs"
             >
               {currencyLoading ? 'Lade...' : 'Aktualisieren'}
             </button>
@@ -841,7 +841,7 @@ export default function PortfolioDashboard() {
               onClick={() => setActiveTab(tab.key as any)}
               className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 text-sm lg:text-base ${
                 activeTab === tab.key 
-                  ? 'text-green-400 border-b-2 border-green-400' 
+                  ? 'text-brand-light border-b-2 border-green-400' 
                   : 'text-theme-secondary hover:text-theme-primary'
               }`}
             >
@@ -886,7 +886,7 @@ export default function PortfolioDashboard() {
                             <div key={holding.symbol} className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
                                 <div className="w-6 h-6 bg-theme-secondary rounded flex items-center justify-center">
-                                  <span className="text-xs font-bold text-green-400">
+                                  <span className="text-xs font-bold text-brand-light">
                                     {index + 1}
                                   </span>
                                 </div>
@@ -968,7 +968,7 @@ export default function PortfolioDashboard() {
                   
                   <button 
                     onClick={() => setShowAddPosition(true)}
-                    className="flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                    className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
                   >
                     <PlusIcon className="w-4 h-4" />
                     <span className="hidden lg:inline">Position hinzufügen</span>
@@ -1041,7 +1041,7 @@ export default function PortfolioDashboard() {
                               <td className="px-4 py-4">
                                 <div className="flex items-center gap-3">
                                   <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-                                    <span className="text-xs font-bold text-green-400">
+                                    <span className="text-xs font-bold text-brand-light">
                                       {holding.symbol.slice(0, 2)}
                                     </span>
                                   </div>
@@ -1065,7 +1065,7 @@ export default function PortfolioDashboard() {
                                 <p className="font-semibold text-theme-primary">
                                   {formatStockPrice(holding.current_price_display)}
                                 </p>
-                                <div className={`text-xs mt-1 flex items-center justify-end gap-1 ${dayChangePercent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                <div className={`text-xs mt-1 flex items-center justify-end gap-1 ${dayChangePercent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                                   {dayChangePercent >= 0 ? (
                                     <ArrowTrendingUpIcon className="w-3 h-3" />
                                   ) : (
@@ -1084,12 +1084,12 @@ export default function PortfolioDashboard() {
                               </td>
                               <td className="text-right px-4 py-4">
                                 <div className={`inline-flex flex-col items-end px-3 py-2 rounded-lg ${
-                                  holding.gain_loss >= 0 ? 'bg-green-500/10' : 'bg-red-500/10'
+                                  holding.gain_loss >= 0 ? 'bg-brand/10' : 'bg-red-500/10'
                                 }`}>
-                                  <p className={`font-bold text-sm ${holding.gain_loss >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                  <p className={`font-bold text-sm ${holding.gain_loss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                                     {holding.gain_loss >= 0 ? '+' : '-'}{formatCurrency(Math.abs(holding.gain_loss))}
                                   </p>
-                                  <p className={`text-xs font-medium ${holding.gain_loss_percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                  <p className={`text-xs font-medium ${holding.gain_loss_percent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
                                     {formatPercentage(holding.gain_loss_percent)}
                                   </p>
                                 </div>
@@ -1098,14 +1098,14 @@ export default function PortfolioDashboard() {
                                 {holding.superinvestors && holding.superinvestors.count > 0 ? (
                                   <button
                                     onClick={() => setShowSuperinvestorsModal(holding)}
-                                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-green-500/10 border border-green-500/20 rounded-lg hover:bg-green-500/20 transition-all cursor-pointer"
+                                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand/10 border border-brand/20 rounded-lg hover:bg-brand/20 transition-all cursor-pointer"
                                   >
-                                    <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                                    <div className="w-5 h-5 bg-brand rounded-full flex items-center justify-center">
                                       <span className="text-xs font-bold text-white">
                                         {holding.superinvestors.count}
                                       </span>
                                     </div>
-                                    <span className="text-sm font-medium text-green-600">
+                                    <span className="text-sm font-medium text-brand">
                                       Investoren
                                     </span>
                                   </button>
@@ -1155,7 +1155,7 @@ export default function PortfolioDashboard() {
                   <p className="text-theme-secondary mb-4">Noch keine Positionen vorhanden</p>
                   <button 
                     onClick={() => setShowAddPosition(true)}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
                   >
                     <PlusIcon className="w-4 h-4" />
                     Erste Position hinzufügen
@@ -1172,7 +1172,7 @@ export default function PortfolioDashboard() {
             {newsLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
-                  <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin mx-auto mb-3" />
+                  <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
                   <p className="text-theme-secondary">Lade Portfolio News...</p>
                 </div>
               </div>
@@ -1182,7 +1182,7 @@ export default function PortfolioDashboard() {
                 <p className="text-theme-secondary mb-2">Fehler beim Laden der News</p>
                 <button
                   onClick={loadPortfolioNews}
-                  className="text-green-400 hover:text-green-300 text-sm"
+                  className="text-brand-light hover:text-green-300 text-sm"
                 >
                   Erneut versuchen
                 </button>
@@ -1196,7 +1196,7 @@ export default function PortfolioDashboard() {
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="px-2 py-1 bg-green-500/20 text-green-400 rounded text-xs font-medium">
+                        <span className="px-2 py-1 bg-brand/20 text-brand-light rounded text-xs font-medium">
                           {article.symbol}
                         </span>
                         <span className="text-xs text-theme-muted flex items-center gap-1">
@@ -1230,7 +1230,7 @@ export default function PortfolioDashboard() {
                       href={article.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-green-400 hover:text-green-300 transition-colors text-sm"
+                      className="inline-flex items-center gap-2 text-brand-light hover:text-green-300 transition-colors text-sm"
                     >
                       <span>Artikel lesen</span>
                       <ArrowTopRightOnSquareIcon className="w-3 h-3" />
@@ -1337,7 +1337,7 @@ export default function PortfolioDashboard() {
                       onClick={() => setPositionType('stock')}
                       className={`p-3 rounded-lg border-2 transition-all ${
                         positionType === 'stock'
-                          ? 'border-green-500 bg-green-500/10 text-green-400'
+                          ? 'border-green-500 bg-brand/10 text-brand-light'
                           : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
                       }`}
                     >
@@ -1350,7 +1350,7 @@ export default function PortfolioDashboard() {
                       onClick={() => setPositionType('cash')}
                       className={`p-3 rounded-lg border-2 transition-all ${
                         positionType === 'cash'
-                          ? 'border-green-500 bg-green-500/10 text-green-400'
+                          ? 'border-green-500 bg-brand/10 text-brand-light'
                           : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
                       }`}
                     >
@@ -1401,11 +1401,11 @@ export default function PortfolioDashboard() {
                     </div>
 
                     {selectedStock && (
-                      <div className="p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
+                      <div className="p-3 bg-brand/10 border border-green-500/30 rounded-lg">
                         <div className="flex items-center gap-2">
-                          <CheckIcon className="w-4 h-4 text-green-400" />
+                          <CheckIcon className="w-4 h-4 text-brand-light" />
                           <div>
-                            <p className="text-sm text-green-400">Ausgewählt:</p>
+                            <p className="text-sm text-brand-light">Ausgewählt:</p>
                             <p className="font-semibold text-theme-primary">
                               {selectedStock.symbol} - {selectedStock.name}
                             </p>
@@ -1478,7 +1478,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleAddPosition}
                     disabled={addingPosition || (positionType === 'stock' && (!selectedStock || !newQuantity || !newPurchasePrice))}
-                    className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {addingPosition ? (
                       <>
@@ -1519,7 +1519,7 @@ export default function PortfolioDashboard() {
               <div className="space-y-4">
                 <div className="bg-theme-secondary/20 rounded-lg p-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold text-sm">
                         {editingPosition.symbol.slice(0, 2)}
                       </span>
@@ -1571,7 +1571,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleUpdatePosition}
                     disabled={refreshing}
-                    className="flex-1 py-2 bg-green-500 hover:bg-green-400 disabled:opacity-50 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:opacity-50 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {refreshing ? (
                       <>
@@ -1621,7 +1621,7 @@ export default function PortfolioDashboard() {
                 {showSuperinvestorsModal.superinvestors?.investors.map((investor, idx) => (
                   <div key={idx} className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded-lg hover:bg-theme-secondary/30 transition-colors">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-brand rounded-full flex items-center justify-center">
                         <span className="text-xs font-bold text-white">#{idx + 1}</span>
                       </div>
                       <div>
@@ -1635,7 +1635,7 @@ export default function PortfolioDashboard() {
                     </div>
                     <Link
                       href={`/superinvestor/${investor.investor}`}
-                      className="px-3 py-1.5 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 rounded-lg transition-colors text-green-400 text-sm font-medium"
+                      className="px-3 py-1.5 bg-brand/10 hover:bg-brand/20 border border-brand/20 rounded-lg transition-colors text-brand-light text-sm font-medium"
                     >
                       Details →
                     </Link>
@@ -1646,7 +1646,7 @@ export default function PortfolioDashboard() {
               <div className="mt-6 pt-4 border-t border-theme/10">
                 <Link
                   href={`/analyse/stocks/${showSuperinvestorsModal.symbol.toLowerCase()}/super-investors`}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-green-500 hover:bg-green-400 text-white rounded-lg transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
                 >
                   <span>Alle Investoren anzeigen</span>
                   <ArrowTopRightOnSquareIcon className="w-4 h-4" />

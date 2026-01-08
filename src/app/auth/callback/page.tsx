@@ -73,12 +73,12 @@ export default function AuthCallback() {
           
           {status === 'success' && (
             <>
-              <div className="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+              <div className="w-12 h-12 bg-brand rounded-full flex items-center justify-center mx-auto mb-4">
                 <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
               </div>
-              <h1 className="text-xl font-semibold text-green-400 mb-2">Anmeldung erfolgreich!</h1>
+              <h1 className="text-xl font-semibold text-brand-light mb-2">Anmeldung erfolgreich!</h1>
             </>
           )}
           

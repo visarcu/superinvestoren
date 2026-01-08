@@ -185,8 +185,8 @@ export default function DividendsCalendarPage() {
           <button
             onClick={() => fetchDividends(watchlistItems.map(item => item.ticker))}
             disabled={dividendsLoading || watchlistItems.length === 0}
-            className="flex items-center space-x-2 px-4 py-2 bg-green-500/10 text-green-400 rounded-lg 
-                     hover:bg-green-500/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="flex items-center space-x-2 px-4 py-2 bg-brand/10 text-brand-light rounded-lg 
+                     hover:bg-brand/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <ArrowPathIcon className={`h-4 w-4 ${dividendsLoading ? 'animate-spin' : ''}`} />
             <span>Aktualisieren</span>
@@ -215,7 +215,7 @@ export default function DividendsCalendarPage() {
             </p>
             <Link
               href="/analyse/watchlist"
-              className="inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand transition-colors"
             >
               <BookmarkIcon className="h-4 w-4 mr-2" />
               Zur Watchlist
@@ -249,7 +249,7 @@ export default function DividendsCalendarPage() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
               <div className="bg-theme-card rounded-lg p-4">
                 <div className="flex items-center space-x-3">
-                  <CurrencyDollarIcon className="h-8 w-8 text-green-400" />
+                  <CurrencyDollarIcon className="h-8 w-8 text-brand-light" />
                   <div>
                     <p className="text-theme-secondary text-sm">Erwartete Dividenden</p>
                     <p className="text-theme-primary text-lg font-semibold">
@@ -309,7 +309,7 @@ export default function DividendsCalendarPage() {
             {upcomingEvents.length > 0 && (
               <div className="mb-8">
                 <h2 className="text-xl font-semibold text-theme-primary mb-4 flex items-center">
-                  <CalendarIcon className="h-5 w-5 mr-2 text-green-400" />
+                  <CalendarIcon className="h-5 w-5 mr-2 text-brand-light" />
                   Kommende Dividenden
                 </h2>
                 
@@ -343,7 +343,7 @@ export default function DividendsCalendarPage() {
                                 <div className="flex items-center space-x-3">
                                   <Link
                                     href={`/analyse/stocks/${event.ticker}`}
-                                    className="font-mono font-medium text-green-400 hover:text-green-300 transition-colors"
+                                    className="font-mono font-medium text-brand-light hover:text-green-300 transition-colors"
                                   >
                                     {event.ticker}
                                   </Link>
@@ -360,7 +360,7 @@ export default function DividendsCalendarPage() {
                                 <div className="text-right">
                                   <p className="text-theme-primary font-medium">{formatCurrency(event.dividend)}</p>
                                   {event.yield && (
-                                    <p className="text-green-400 text-xs font-medium">
+                                    <p className="text-brand-light text-xs font-medium">
                                       {event.yield.toFixed(2)}% Rendite
                                     </p>
                                   )}

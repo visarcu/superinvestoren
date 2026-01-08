@@ -588,7 +588,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
             {mainStats && (
               <div className="flex items-center gap-2">
                 <span className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1.5 rounded-lg ${
-                  mainStats.changePercent >= 0 ? 'text-green-600 bg-green-500/10 dark:text-green-400 dark:bg-green-900/20' : 'text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-900/20'
+                  mainStats.changePercent >= 0 ? 'text-brand bg-brand/10 dark:text-brand-light dark:bg-green-900/20' : 'text-red-600 bg-red-500/10 dark:text-red-400 dark:bg-red-900/20'
                 }`}>
                   {mainStats.changePercent >= 0 ? '↗' : '↘'}
                   {formatPercentage(mainStats.changePercent)}
@@ -758,7 +758,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               <button
                 onClick={handleAddStock}
                 disabled={!newTicker.trim() || isLoading}
-                className="px-5 py-2 text-sm bg-green-600 hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium whitespace-nowrap"
+                className="px-5 py-2 text-sm bg-brand hover:bg-green-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-all duration-200 font-medium whitespace-nowrap"
               >
                 {isLoading ? 'Lädt...' : 'Hinzufügen'}
               </button>
@@ -1020,7 +1020,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         style={{ color: themeColors.textMuted }}
       >
         <span>Modus: {CHART_MODES.find(m => m.id === selectedMode)?.label}</span>
-        <span>Powered by <span className="text-green-500 font-semibold">FinClue</span></span>
+        <span>Powered by <span className="text-brand font-semibold">FinClue</span></span>
       </div>
 
       {/* Moving Averages Legende */}
@@ -1077,7 +1077,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                   </div>
                   <div className="text-right">
                     <div className={`font-bold text-base ${
-                      stats.changePercent >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-600 dark:text-red-400'
+                      stats.changePercent >= 0 ? 'text-brand dark:text-brand-light' : 'text-red-600 dark:text-red-400'
                     }`}>
                       {/* ✅ VERWENDE formatPercentage für Performance-Karten */}
                       {formatPercentage(stats.changePercent)}

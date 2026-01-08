@@ -686,7 +686,7 @@ return (
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                 filter === 'all'
-                  ? 'bg-green-500 text-black'
+                  ? 'bg-brand text-black'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white'
               }`}
             >
@@ -697,7 +697,7 @@ return (
               onClick={() => setFilter('investor')}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                 filter === 'investor'
-                  ? 'bg-green-500 text-black'
+                  ? 'bg-brand text-black'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white'
               }`}
             >
@@ -708,7 +708,7 @@ return (
               onClick={() => setFilter('fund')}
               className={`px-4 py-2 rounded-xl text-sm font-medium transition-all ${
                 filter === 'fund'
-                  ? 'bg-green-500 text-black'
+                  ? 'bg-brand text-black'
                   : 'bg-white/5 text-gray-300 hover:bg-white/10 hover:text-white'
               }`}
             >
@@ -725,7 +725,7 @@ return (
               placeholder="Suchen..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500/50 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-white/5 border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50 transition-all"
             />
           </div>
         </div>
@@ -761,7 +761,7 @@ return (
                 setSearchQuery('')
                 setFilter('all')
               }}
-              className="px-4 py-2 bg-green-500 hover:bg-green-400 text-black rounded-xl font-medium transition-colors"
+              className="px-4 py-2 bg-brand hover:bg-green-400 text-black rounded-xl font-medium transition-colors"
             >
               Filter zurücksetzen
             </button>

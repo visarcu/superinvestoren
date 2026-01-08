@@ -216,7 +216,7 @@ function ActivityPageContent() {
       href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
       className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
         type === 'buy'
-          ? 'bg-green-500/10 text-green-400 border border-green-500/30 hover:bg-green-500/20'
+          ? 'bg-brand/10 text-brand-light border border-green-500/30 hover:bg-brand/20'
           : 'bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20'
       }`}
     >
@@ -280,12 +280,12 @@ function ActivityPageContent() {
 
           <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
             <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-green-500/10 rounded-lg flex items-center justify-center">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-green-400" />
+              <div className="w-10 h-10 bg-brand/10 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
               </div>
               <h3 className="text-lg font-medium text-white">Käufe</h3>
             </div>
-            <p className="text-2xl font-bold text-green-400">
+            <p className="text-2xl font-bold text-brand-light">
               {investorActivityData.reduce((sum, investor) => sum + investor.topBuys.length, 0)}
             </p>
             <p className="text-sm text-gray-500">Neue Positionen</p>
@@ -334,7 +334,7 @@ function ActivityPageContent() {
                     <td className="px-6 py-6">
                       <Link
                         href={`/superinvestor/${investor.slug}`}
-                        className="flex items-center gap-4 group hover:text-green-400 transition-colors"
+                        className="flex items-center gap-4 group hover:text-brand-light transition-colors"
                       >
                         <InvestorAvatar
                           name={investor.name}
@@ -343,7 +343,7 @@ function ActivityPageContent() {
                           className="ring-1 ring-white/5"
                         />
                         <div>
-                          <div className="font-semibold text-white group-hover:text-green-400 transition-colors">
+                          <div className="font-semibold text-white group-hover:text-brand-light transition-colors">
                             {investor.name}
                           </div>
                         </div>

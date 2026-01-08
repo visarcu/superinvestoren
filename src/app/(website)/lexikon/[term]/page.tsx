@@ -45,7 +45,7 @@ export default function LexikonTermPage({ params }: PageProps) {
       <div className="mb-12">
         {/* Breadcrumb */}
         <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-          <Link href="/lexikon" className="hover:text-green-400 transition-colors">
+          <Link href="/lexikon" className="hover:text-brand-light transition-colors">
             Lexikon
           </Link>
           <span>/</span>
@@ -64,7 +64,7 @@ export default function LexikonTermPage({ params }: PageProps) {
         {/* Back Button */}
         <Link
           href="/lexikon"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-green-400 transition-colors mb-8"
+          className="inline-flex items-center gap-2 text-gray-400 hover:text-brand-light transition-colors mb-8"
         >
           <ArrowLeftIcon className="w-4 h-4" />
           Zurück zur Übersicht
@@ -108,7 +108,7 @@ export default function LexikonTermPage({ params }: PageProps) {
                 <h2 className="text-xl font-semibold text-white">Berechnung</h2>
               </div>
               <div className="bg-black/20 border border-white/5 rounded-xl p-4">
-                <code className="text-green-400 text-lg font-mono">
+                <code className="text-brand-light text-lg font-mono">
                   {termData.calculation}
                 </code>
               </div>
@@ -119,7 +119,7 @@ export default function LexikonTermPage({ params }: PageProps) {
           {termData.example && (
             <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
               <div className="flex items-center gap-2 mb-4">
-                <LightBulbIcon className="w-5 h-5 text-green-400" />
+                <LightBulbIcon className="w-5 h-5 text-brand-light" />
                 <h2 className="text-xl font-semibold text-white">Beispiel</h2>
               </div>
               <p className="text-gray-300 leading-relaxed">
@@ -221,7 +221,7 @@ export default function LexikonTermPage({ params }: PageProps) {
                   <p className="text-gray-400 text-xs">{category.description}</p>
                 </div>
               </div>
-              <div className="text-sm text-green-400">
+              <div className="text-sm text-brand-light">
                 {category.terms.length} Begriffe in dieser Kategorie
               </div>
             </div>

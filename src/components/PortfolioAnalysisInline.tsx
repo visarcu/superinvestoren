@@ -174,7 +174,7 @@ export default function PortfolioAnalysisInline({
               </div>
               <span className={`text-sm font-medium ${
                 insight.type === 'reduction' ? 'text-red-400' : 
-                insight.type === 'increase' ? 'text-green-400' : 
+                insight.type === 'increase' ? 'text-brand-light' : 
                 insight.type === 'new' ? 'text-blue-400' :
                 'text-gray-400'
               }`}>

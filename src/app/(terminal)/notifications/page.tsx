@@ -106,7 +106,7 @@ export default function NotificationsPage() {
       case 'price_target':
         return <ExclamationCircleIcon className="w-5 h-5 text-yellow-400" />
       case 'system':
-        return <InformationCircleIcon className="w-5 h-5 text-green-400" />
+        return <InformationCircleIcon className="w-5 h-5 text-brand-light" />
       default:
         return <BellIcon className="w-5 h-5 text-theme-muted" />
     }
@@ -160,7 +160,7 @@ export default function NotificationsPage() {
             {unreadCount > 0 && (
               <button
                 onClick={markAllAsRead}
-                className="px-4 py-2 text-sm text-green-400 hover:text-green-300 font-medium"
+                className="px-4 py-2 text-sm text-brand-light hover:text-green-300 font-medium"
               >
                 Alle als gelesen markieren
               </button>
@@ -182,7 +182,7 @@ export default function NotificationsPage() {
             onClick={() => setFilter('all')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filter === 'all'
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'bg-theme-card text-theme-muted hover:text-theme-primary border border-theme/10'
             }`}
           >
@@ -192,7 +192,7 @@ export default function NotificationsPage() {
             onClick={() => setFilter('unread')}
             className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
               filter === 'unread'
-                ? 'bg-green-500 text-white'
+                ? 'bg-brand text-white'
                 : 'bg-theme-card text-theme-muted hover:text-theme-primary border border-theme/10'
             }`}
           >
@@ -222,7 +222,7 @@ export default function NotificationsPage() {
                   <div 
                     className={`flex gap-4 p-5 transition-all duration-200 ${
                       !notification.read 
-                        ? 'bg-green-500/5 border-l-4 border-l-green-500' 
+                        ? 'bg-brand/5 border-l-4 border-l-green-500' 
                         : 'hover:bg-theme-hover border-l-4 border-l-transparent'
                     } ${notification.href ? 'cursor-pointer' : ''}`}
                   >
@@ -232,7 +232,7 @@ export default function NotificationsPage() {
                         notification.type === 'watchlist_dip' ? 'bg-red-500/20' :
                         notification.type === 'filing_alert' ? 'bg-blue-500/20' :
                         notification.type === 'price_target' ? 'bg-yellow-500/20' :
-                        'bg-green-500/20'
+                        'bg-brand/20'
                       }`}>
                         {getNotificationIcon(notification.type)}
                       </div>
@@ -263,7 +263,7 @@ export default function NotificationsPage() {
                                 e.stopPropagation()
                                 markAsRead(notification.id)
                               }}
-                              className="p-1.5 text-theme-muted hover:text-green-400 hover:bg-green-500/10 transition-all rounded-lg"
+                              className="p-1.5 text-theme-muted hover:text-brand-light hover:bg-brand/10 transition-all rounded-lg"
                               title="Als gelesen markieren"
                             >
                               <CheckIcon className="w-4 h-4" />
@@ -290,7 +290,7 @@ export default function NotificationsPage() {
                             notification.type === 'watchlist_dip' ? 'bg-red-500/10 text-red-400' :
                             notification.type === 'filing_alert' ? 'bg-blue-500/10 text-blue-400' :
                             notification.type === 'price_target' ? 'bg-yellow-500/10 text-yellow-400' :
-                            'bg-green-500/10 text-green-400'
+                            'bg-brand/10 text-brand-light'
                           }`}>
                             {notification.type === 'watchlist_dip' ? 'Watchlist' :
                              notification.type === 'filing_alert' ? 'Filing' :

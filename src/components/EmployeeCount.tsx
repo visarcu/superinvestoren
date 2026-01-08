@@ -77,7 +77,7 @@ export default function EmployeeCount({ ticker, isPremium = false }: EmployeeCou
   const getTrendIcon = (trend: string) => {
     switch (trend) {
       case 'growing':
-        return <ArrowTrendingUpIcon className="w-3 h-3 text-green-400" />
+        return <ArrowTrendingUpIcon className="w-3 h-3 text-brand-light" />
       case 'declining':
         return <ArrowTrendingDownIcon className="w-3 h-3 text-red-400" />
       default:
@@ -156,13 +156,13 @@ export default function EmployeeCount({ ticker, isPremium = false }: EmployeeCou
             <div className="absolute -right-2 top-0 bottom-0 w-24 bg-gradient-to-l from-theme-card via-theme-card/90 to-transparent flex items-center justify-end pr-2">
               <a
                 href="/pricing"
-                className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-lg border border-green-500/20 hover:border-green-500/40 transition-colors"
+                className="bg-theme-card/95 backdrop-blur-sm rounded-lg px-3 py-2 text-center shadow-lg border border-brand/20 hover:border-green-500/40 transition-colors"
               >
-                <svg className="w-4 h-4 text-green-500 mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
+                <svg className="w-4 h-4 text-brand mx-auto mb-1" fill="currentColor" viewBox="0 0 20 20">
                   <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
                 </svg>
                 <p className="text-theme-primary font-medium text-xs">+{data.historicalData.length - 3}J</p>
-                <p className="text-green-500 text-[10px]">Premium</p>
+                <p className="text-brand text-[10px]">Premium</p>
               </a>
             </div>
           )}
@@ -211,7 +211,7 @@ export default function EmployeeCount({ ticker, isPremium = false }: EmployeeCou
         <div className="bg-theme-tertiary rounded-lg p-3">
           <div className="text-xs text-theme-secondary mb-1">Trend</div>
           <div className={`text-sm font-medium ${
-            data.employeeGrowth?.trend === 'growing' ? 'text-green-400' : 
+            data.employeeGrowth?.trend === 'growing' ? 'text-brand-light' : 
             data.employeeGrowth?.trend === 'declining' ? 'text-red-400' : 
             'text-theme-primary'
           }`}>

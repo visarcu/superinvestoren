@@ -119,7 +119,7 @@ export default function StockSplitsSection({
                   <td className="py-3 px-4">
                     <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                       split.type === 'Aktiensplit' 
-                        ? 'bg-green-500/20 text-green-400' 
+                        ? 'bg-brand/20 text-brand-light' 
                         : 'bg-yellow-500/20 text-yellow-400'
                     }`}>
                       {split.type}

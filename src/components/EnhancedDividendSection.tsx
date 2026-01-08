@@ -184,7 +184,7 @@ export default function EnhancedDividendSection({
   }
 
   const getMetricColor = (value: number, thresholds: { good: number, ok: number }) => {
-    if (value >= thresholds.good) return 'text-green-400'
+    if (value >= thresholds.good) return 'text-brand-light'
     if (value >= thresholds.ok) return 'text-yellow-400'
     return 'text-red-400'
   }
@@ -244,7 +244,7 @@ export default function EnhancedDividendSection({
         {/* Key Metrics in Boxen */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
   <div className="bg-theme-secondary/10 border border-theme/20 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
-    <div className="text-3xl font-bold text-green-400 mb-2">
+    <div className="text-3xl font-bold text-brand-light mb-2">
       {currentInfo?.currentYield ? formatPercentDE(currentInfo.currentYield * 100) : 'N/A'}
     </div>
     <div className="text-sm text-theme-secondary font-semibold">Aktuelle Rendite</div>
@@ -328,7 +328,7 @@ export default function EnhancedDividendSection({
             {cagrAnalysis.map((cagr) => (
               <div key={cagr.period} className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
                 <div className={`text-2xl font-bold mb-1 ${
-                  cagr.cagr > 10 ? 'text-green-400' :
+                  cagr.cagr > 10 ? 'text-brand-light' :
                   cagr.cagr > 5 ? 'text-blue-400' :
                   cagr.cagr > 0 ? 'text-yellow-400' : 'text-red-400'
                 }`}>
@@ -407,7 +407,7 @@ export default function EnhancedDividendSection({
                       'bg-gray-400'
                     }`} />
                     <span className={`text-xs font-medium ${
-                      currentInfo.payoutSafety.color === 'green' ? 'text-green-400' :
+                      currentInfo.payoutSafety.color === 'green' ? 'text-brand-light' :
                       currentInfo.payoutSafety.color === 'yellow' ? 'text-yellow-400' :
                       currentInfo.payoutSafety.color === 'red' ? 'text-red-400' :
                       'text-gray-400'
@@ -573,7 +573,7 @@ export default function EnhancedDividendSection({
                       </td>
                       
                       <td className={`py-3 px-4 text-right font-semibold ${
-                        row.growth > 0 ? 'text-green-400' : 
+                        row.growth > 0 ? 'text-brand-light' : 
                         row.growth < 0 ? 'text-red-400' : 'text-theme-muted'
                       }`}>
                         {row.growth !== 0 ? formatPercentDE(row.growth, true) : '–'}
@@ -614,7 +614,7 @@ export default function EnhancedDividendSection({
                         <td className="py-3 px-4 text-right text-theme-primary font-semibold">
                           {formatCurrencyDE(quarter.amount)}
                         </td>
-                        <td className="py-3 px-4 text-right text-green-400 font-medium">
+                        <td className="py-3 px-4 text-right text-brand-light font-medium">
                           {formatCurrencyDE(quarter.adjAmount)}
                         </td>
                       </tr>

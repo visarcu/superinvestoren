@@ -429,9 +429,9 @@ export default function StockComparisonPage() {
              </p>
            </div>
            
-           <div className="flex items-center gap-1.5 px-2 py-1 bg-green-500/10 rounded text-xs">
+           <div className="flex items-center gap-1.5 px-2 py-1 bg-brand/10 rounded text-xs">
              <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-             <span className="text-green-400 font-medium">Live</span>
+             <span className="text-brand-light font-medium">Live</span>
            </div>
          </div>
          
@@ -465,7 +465,7 @@ export default function StockComparisonPage() {
            {!user?.isPremium && (
              <Link
                href="/pricing"
-               className="flex items-center gap-1 px-2 py-1 bg-green-500 text-white rounded text-xs font-medium hover:bg-green-600 transition-colors"
+               className="flex items-center gap-1 px-2 py-1 bg-brand text-white rounded text-xs font-medium hover:bg-brand transition-colors"
              >
                <SparklesIcon className="w-3 h-3" />
                Pro
@@ -534,7 +534,7 @@ export default function StockComparisonPage() {
                            <span className="font-medium text-xs text-theme-primary">{stock.ticker}</span>
                            <div className="text-xs text-theme-muted truncate max-w-40">{stock.name}</div>
                          </div>
-                         <PlusIcon className="w-3 h-3 text-green-500" />
+                         <PlusIcon className="w-3 h-3 text-brand" />
                        </button>
                      ))}
                    </div>
@@ -567,7 +567,7 @@ export default function StockComparisonPage() {
                  disabled={!canToggle}
                  className={`px-2 py-0.5 rounded text-xs font-medium transition-all border ${
                    isSelected
-                     ? 'bg-green-600 text-white border-green-600'
+                     ? 'bg-brand text-white border-green-600'
                      : canToggle
                        ? 'bg-theme-secondary/30 text-theme-secondary border-theme/20 hover:border-green-500/50 hover:text-theme-primary'
                        : 'bg-theme-secondary/20 text-theme-muted border-theme/10 cursor-not-allowed opacity-50'
@@ -644,7 +644,7 @@ export default function StockComparisonPage() {
                  }}
                  onFocus={() => setShowEmptyStateDropdown(emptyStateSearch.length > 0)}
                  onBlur={() => setTimeout(() => setShowEmptyStateDropdown(false), 150)}
-                 className="px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-sm text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-green-500/20"
+                 className="px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-sm text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20"
                />
                {filteredEmptyStateStocks.length > 0 && showEmptyStateDropdown && (
                  <div className="absolute top-full mt-2 w-64 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 max-h-48 overflow-y-auto">
@@ -705,7 +705,7 @@ export default function StockComparisonPage() {
                            disabled={!canSelect}
                            className={`w-full text-left px-2 py-1 rounded text-xs transition-all ${
                              isSelected
-                               ? 'bg-green-600 text-white'
+                               ? 'bg-brand text-white'
                                : canSelect
                                  ? 'hover:bg-theme-secondary/40 text-theme-secondary'
                                  : 'text-theme-muted/50 cursor-not-allowed'
@@ -792,7 +792,7 @@ export default function StockComparisonPage() {
                              
                              <td className="text-right py-2 px-1 bg-theme-secondary/20">
                                <span className={`font-semibold ${
-                                 row[`${ticker}_cagr`] > 0 ? 'text-green-500' : row[`${ticker}_cagr`] < 0 ? 'text-red-500' : 'text-theme-muted'
+                                 row[`${ticker}_cagr`] > 0 ? 'text-brand' : row[`${ticker}_cagr`] < 0 ? 'text-red-500' : 'text-theme-muted'
                                }`}>
                                  {row[`${ticker}_cagr`] ? `${row[`${ticker}_cagr`].toFixed(1)}%` : '--'}
                                </span>
@@ -975,7 +975,7 @@ export default function StockComparisonPage() {
                              <div className="grid grid-cols-2 gap-4">
                                <div className="flex flex-col">
                                  <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">CAGR</div>
-                                 <div className={`font-bold text-sm ${cagr >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                                 <div className={`font-bold text-sm ${cagr >= 0 ? 'text-brand' : 'text-red-500'}`}>
                                    {isNaN(cagr) ? '--' : `${cagr.toFixed(1)}%`}
                                  </div>
                                </div>
@@ -1015,7 +1015,7 @@ export default function StockComparisonPage() {
 
        {/* PREMIUM CTA - COMPACT */}
        {!user?.isPremium && (
-         <div className="bg-green-500/5 border border-green-500/20 rounded-lg p-3 mt-4">
+         <div className="bg-brand/5 border border-brand/20 rounded-lg p-3 mt-4">
            <div className="flex items-center justify-between">
              <div>
                <div className="text-sm font-medium text-theme-primary">Professionelle Features freischalten</div>
@@ -1023,7 +1023,7 @@ export default function StockComparisonPage() {
              </div>
              <Link
                href="/pricing"
-               className="px-4 py-2 bg-green-500 text-white rounded-lg text-xs font-medium hover:bg-green-600 transition-colors flex items-center gap-1"
+               className="px-4 py-2 bg-brand text-white rounded-lg text-xs font-medium hover:bg-brand transition-colors flex items-center gap-1"
              >
                <SparklesIcon className="w-3 h-3" />
                Premium freischalten

@@ -269,12 +269,12 @@ export default function ETFScreenerPage() {
           <div className="pb-8">
             <div className="flex items-center gap-3 mb-2">
               <ArrowLeftIcon 
-                className="w-5 h-5 text-theme-secondary hover:text-green-400 cursor-pointer transition-colors"
+                className="w-5 h-5 text-theme-secondary hover:text-brand-light cursor-pointer transition-colors"
                 onClick={() => router.push('/analyse')}
               />
-              <ChartBarIcon className="w-6 h-6 text-green-400" />
+              <ChartBarIcon className="w-6 h-6 text-brand-light" />
               <h1 className="text-3xl font-bold text-theme-primary">ETF Screener</h1>
-              <div className="flex items-center gap-2 px-3 py-1 bg-green-500/20 text-green-400 rounded-lg text-sm">
+              <div className="flex items-center gap-2 px-3 py-1 bg-brand/20 text-brand-light rounded-lg text-sm">
                 <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
                 <span>Live</span>
               </div>
@@ -305,7 +305,7 @@ export default function ETFScreenerPage() {
               placeholder="Suche nach Symbol oder Namen..."
               value={filters.search}
               onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-              className="w-full pl-10 pr-4 py-3 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-green-500/30 focus:border-green-500/50 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary placeholder-theme-tertiary focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-green-500/50 transition-all"
             />
           </div>
 
@@ -318,7 +318,7 @@ export default function ETFScreenerPage() {
               <select
                 value={filters.assetClass}
                 onChange={(e) => setFilters(prev => ({ ...prev, assetClass: e.target.value }))}
-                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-brand/30"
               >
                 <option value="">Alle</option>
                 {uniqueAssetClasses.map(ac => (
@@ -333,7 +333,7 @@ export default function ETFScreenerPage() {
               <select
                 value={filters.issuer}
                 onChange={(e) => setFilters(prev => ({ ...prev, issuer: e.target.value }))}
-                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-brand/30"
               >
                 <option value="">Alle</option>
                 {uniqueIssuers.map(issuer => (
@@ -370,7 +370,7 @@ export default function ETFScreenerPage() {
               <select
                 value={filters.category}
                 onChange={(e) => setFilters(prev => ({ ...prev, category: e.target.value }))}
-                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-brand/30"
               >
                 <option value="">Alle</option>
                 {uniqueCategories.map(cat => (
@@ -392,7 +392,7 @@ export default function ETFScreenerPage() {
             </button>
             
             <div className="text-theme-secondary text-sm">
-              <span className="font-medium text-green-400">{sortedETFs.length}</span> ETFs gefunden
+              <span className="font-medium text-brand-light">{sortedETFs.length}</span> ETFs gefunden
             </div>
           </div>
 
@@ -417,7 +417,7 @@ export default function ETFScreenerPage() {
                         ...prev, 
                         priceRange: [parseFloat(e.target.value) || 0, prev.priceRange[1]] 
                       }))}
-                      className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-green-500/30"
+                      className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-brand/30"
                     />
                     <span className="text-theme-tertiary">-</span>
                     <input
@@ -428,7 +428,7 @@ export default function ETFScreenerPage() {
                         ...prev, 
                         priceRange: [prev.priceRange[0], parseFloat(e.target.value) || 1000] 
                       }))}
-                      className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-green-500/30"
+                      className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-brand/30"
                     />
                   </div>
                 </div>
@@ -439,7 +439,7 @@ export default function ETFScreenerPage() {
                   <select
                     value={filters.exchange}
                     onChange={(e) => setFilters(prev => ({ ...prev, exchange: e.target.value }))}
-                    className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-green-500/30"
+                    className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-brand/30"
                   >
                     <option value="">Alle</option>
                     {uniqueExchanges.map(ex => (
@@ -457,7 +457,7 @@ export default function ETFScreenerPage() {
                         type="checkbox"
                         checked={advancedFilters.hasPrice}
                         onChange={(e) => setAdvancedFilters(prev => ({ ...prev, hasPrice: e.target.checked }))}
-                        className="rounded border-theme/20 text-green-500 focus:ring-green-500/30"
+                        className="rounded border-theme/20 text-brand focus:ring-brand/30"
                       />
                       <span className="text-sm text-theme-secondary">Nur mit Kurs</span>
                     </label>
@@ -466,7 +466,7 @@ export default function ETFScreenerPage() {
                         type="checkbox"
                         checked={advancedFilters.hasTER}
                         onChange={(e) => setAdvancedFilters(prev => ({ ...prev, hasTER: e.target.checked }))}
-                        className="rounded border-theme/20 text-green-500 focus:ring-green-500/30"
+                        className="rounded border-theme/20 text-brand focus:ring-brand/30"
                       />
                       <span className="text-sm text-theme-secondary">Nur mit TER</span>
                     </label>
@@ -545,7 +545,7 @@ export default function ETFScreenerPage() {
                         <td className="px-4 py-4">
                           <div className="flex items-center gap-3">
                             <div className="flex flex-col">
-                              <span className="font-bold text-theme-primary group-hover:text-green-400 transition-colors">
+                              <span className="font-bold text-theme-primary group-hover:text-brand-light transition-colors">
                                 {etf.symbol}
                               </span>
                               {etf.isin && (
@@ -582,7 +582,7 @@ export default function ETFScreenerPage() {
                         <td className="px-4 py-4 text-right">
                           <span className={`font-bold ${
                             !quote?.changesPercentage ? 'text-theme-tertiary' :
-                            quote.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'
+                            quote.changesPercentage >= 0 ? 'text-brand-light' : 'text-red-400'
                           }`}>
                             {formatChange(quote?.changesPercentage)}
                           </span>
@@ -595,7 +595,7 @@ export default function ETFScreenerPage() {
                         <td className="px-4 py-4 text-right">
                           <span className={`font-semibold ${
                             !etf.ter ? 'text-theme-tertiary' :
-                            etf.ter <= 0.2 ? 'text-green-400' :
+                            etf.ter <= 0.2 ? 'text-brand-light' :
                             etf.ter <= 0.5 ? 'text-yellow-400' : 'text-red-400'
                           }`}>
                             {etf.ter ? `${etf.ter.toFixed(2)}%` : 'N/A'}

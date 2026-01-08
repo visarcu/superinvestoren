@@ -66,7 +66,7 @@ export default function WallStreetRatingDonut({ recs }: Props) {
             <small className="text-gray-400">Strong Buy</small>
           </li>
           <li>
-            <span className="block text-green-600 font-bold">{recs.buy}</span>
+            <span className="block text-brand font-bold">{recs.buy}</span>
             <small className="text-gray-400">Buy</small>
           </li>
           <li>

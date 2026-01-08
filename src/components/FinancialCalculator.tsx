@@ -19,7 +19,7 @@ const formatMetric = (value: number | null, type: string): string => {
 
 const getValuationColor = (pe: number | null): string => {
   if (!pe) return 'text-gray-400'
-  if (pe < 15) return 'text-green-400'
+  if (pe < 15) return 'text-brand-light'
   if (pe > 25) return 'text-red-400'
   return 'text-yellow-400'
 }
@@ -141,7 +141,7 @@ export default function FinancialCalculator() {
       onClick={() => setActiveTab(id)}
       className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
         activeTab === id
-          ? 'bg-green-500/20 text-green-400 border border-green-500/30'
+          ? 'bg-brand/20 text-brand-light border border-green-500/30'
           : 'text-gray-400 hover:text-white hover:bg-gray-800'
       }`}
     >
@@ -158,7 +158,7 @@ export default function FinancialCalculator() {
           type={type}
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+          className="w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent"
         />
         {suffix && (
           <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 text-sm">
@@ -342,7 +342,7 @@ export default function FinancialCalculator() {
                 <MetricCard
                   label="PEG-Verhältnis"
                   value={formatMetric(metrics.peg, 'ratio')}
-                  color={metrics.peg && metrics.peg < 1 ? 'text-green-400' : 'text-yellow-400'}
+                  color={metrics.peg && metrics.peg < 1 ? 'text-brand-light' : 'text-yellow-400'}
                   description="P/E relativ zum Wachstum"
                 />
                 <MetricCard
@@ -363,13 +363,13 @@ export default function FinancialCalculator() {
                 <MetricCard
                   label="Return on Equity"
                   value={formatMetric(metrics.roe, 'percentage')}
-                  color={metrics.roe && metrics.roe > 15 ? 'text-green-400' : 'text-yellow-400'}
+                  color={metrics.roe && metrics.roe > 15 ? 'text-brand-light' : 'text-yellow-400'}
                   description="Eigenkapitalrendite"
                 />
                 <MetricCard
                   label="Debt-to-Equity"
                   value={formatMetric(metrics.debtToEquity, 'ratio')}
-                  color={metrics.debtToEquity && metrics.debtToEquity < 0.3 ? 'text-green-400' : 'text-red-400'}
+                  color={metrics.debtToEquity && metrics.debtToEquity < 0.3 ? 'text-brand-light' : 'text-red-400'}
                   description="Verschuldungsgrad"
                 />
                 <MetricCard
@@ -388,7 +388,7 @@ export default function FinancialCalculator() {
                   }
                   color={
                     metrics.pe && metrics.pe < 15 && metrics.roe && metrics.roe > 15 
-                      ? "text-green-400" 
+                      ? "text-brand-light" 
                       : metrics.pe && metrics.pe > 25 
                         ? "text-red-400" 
                         : "text-yellow-400"
@@ -402,7 +402,7 @@ export default function FinancialCalculator() {
               <div className="space-y-4">
                 <div className="bg-gray-800 border border-gray-700 rounded-lg p-6 text-center">
                   <div className="text-sm text-gray-400 mb-2">Innerer Wert (DCF)</div>
-                  <div className="text-4xl font-bold text-green-400">
+                  <div className="text-4xl font-bold text-brand-light">
                     ${(dcfValue / inputs.marketCap * inputs.price).toFixed(2)}
                   </div>
                   <div className="text-sm text-gray-400 mt-2">pro Aktie</div>
@@ -419,7 +419,7 @@ export default function FinancialCalculator() {
                     value={formatMetric(((dcfValue / inputs.marketCap * inputs.price) / inputs.price - 1) * 100, 'percentage')}
                     color={
                       dcfValue / inputs.marketCap * inputs.price > inputs.price 
-                        ? 'text-green-400' 
+                        ? 'text-brand-light' 
                         : 'text-red-400'
                     }
                     description="Potential vs. Markt"

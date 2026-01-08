@@ -64,7 +64,7 @@ function Badge({ badge }: { badge: NavItem['badge'] }) {
   if (!badge) return null
 
   const styles = {
-    new: 'bg-green-500/20 text-green-400 border-green-500/30',
+    new: 'bg-brand/20 text-brand-light border-green-500/30',
     live: 'bg-red-500/20 text-red-400 border-red-500/30',
     soon: 'bg-gray-500/20 text-gray-400 border-gray-500/30',
   }
@@ -103,7 +103,7 @@ export default function SuperinvestorSecondaryNav() {
                   href={item.href}
                   className={`flex items-center gap-2 px-4 py-2.5 rounded-xl whitespace-nowrap transition-all duration-300 hover:scale-105 ${
                     isActive
-                      ? 'bg-green-500/20 text-green-400 border border-green-500/30 shadow-lg shadow-green-500/10'
+                      ? 'bg-brand/20 text-brand-light border border-green-500/30 shadow-lg shadow-brand/10'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                   }`}
                 >

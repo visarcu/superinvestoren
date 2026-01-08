@@ -118,7 +118,7 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
                           <div className="py-3 px-2 text-right text-theme-muted text-sm font-mono w-24">12.5x</div>
                           <div className="py-3 px-2 text-right text-theme-muted text-sm font-mono w-24">15.2x</div>
                           <div className="py-3 px-2 text-center w-20">
-                            <ArrowUpIcon className="w-4 h-4 text-green-400 mx-auto" />
+                            <ArrowUpIcon className="w-4 h-4 text-brand-light mx-auto" />
                           </div>
                         </div>
                       ))}
@@ -134,10 +134,10 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
         <div className="mt-6 pt-4 border-t border-theme/10">
           <a
             href="/pricing"
-            className="flex items-center justify-center gap-2 w-full py-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 hover:border-green-500/30 rounded-lg transition-colors"
+            className="flex items-center justify-center gap-2 w-full py-3 bg-brand/10 hover:bg-brand/20 border border-brand/20 hover:border-green-500/30 rounded-lg transition-colors"
           >
-            <BuildingOfficeIcon className="w-4 h-4 text-green-500" />
-            <span className="text-green-500 font-medium text-sm">
+            <BuildingOfficeIcon className="w-4 h-4 text-brand" />
+            <span className="text-brand font-medium text-sm">
               Vollständigen Peer-Vergleich freischalten
             </span>
           </a>
@@ -195,8 +195,8 @@ export default function PeerComparisonTable({ ticker, isPremium }: PeerCompariso
     if (value === null || average === null) return <MinusIcon className="w-4 h-4 text-gray-400" />
     
     const isHigher = value > average
-    const betterColor = higher_is_better ? 'text-green-400' : 'text-red-400'
-    const worseColor = higher_is_better ? 'text-red-400' : 'text-green-400'
+    const betterColor = higher_is_better ? 'text-brand-light' : 'text-red-400'
+    const worseColor = higher_is_better ? 'text-red-400' : 'text-brand-light'
     
     return isHigher ? (
       <ArrowUpIcon className={`w-4 h-4 ${higher_is_better ? betterColor : worseColor}`} />

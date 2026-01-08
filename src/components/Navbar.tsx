@@ -133,7 +133,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
       <div className="relative flex items-center">
         {/* NUR Glow beim Focus, kein Ring */}
         {isFocused && (
-          <div className="absolute inset-0 bg-green-500/20 blur-xl rounded-xl pointer-events-none"></div>
+          <div className="absolute inset-0 bg-brand/20 blur-xl rounded-xl pointer-events-none"></div>
         )}
         
         <MagnifyingGlassIcon className="absolute left-3 h-4 w-4 text-gray-400 z-10" />
@@ -162,12 +162,12 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
                   <div className="flex items-center gap-3">
                     <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
                       result.type === 'stock' 
-                        ? 'bg-green-500/10' 
+                        ? 'bg-brand/10' 
                         : 'bg-blue-500/10'
                     }`}>
                       <span className={`text-xs font-bold ${
                         result.type === 'stock' 
-                          ? 'text-green-400' 
+                          ? 'text-brand-light' 
                           : 'text-blue-400'
                       }`}>
                         {result.title.slice(0, 2)}
@@ -176,7 +176,7 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
                     
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-sm text-white group-hover:text-green-400 transition-colors">
+                        <span className="font-medium text-sm text-white group-hover:text-brand-light transition-colors">
                           {result.title}
                         </span>
                         {result.type === 'stock' && (
@@ -264,7 +264,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
           )}
         </div>
         <div className="hidden sm:block text-left">
-          <div className="text-sm font-semibold text-white group-hover:text-green-400 transition-colors">{getDisplayName()}</div>
+          <div className="text-sm font-semibold text-white group-hover:text-brand-light transition-colors">{getDisplayName()}</div>
           <div className="text-xs text-gray-400">{isPremium ? 'Premium' : 'Free'}</div>
         </div>
         <ChevronDownIcon className={`w-4 h-4 text-gray-400 transition-all duration-300 group-hover:text-white ${isOpen ? 'rotate-180' : ''}`} />
@@ -312,7 +312,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
                 <UserIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Profil bearbeiten</div>
+                <div className="text-white text-sm font-semibold group-hover:text-brand-light transition-colors">Profil bearbeiten</div>
                 <div className="text-gray-500 text-xs">Persönliche Daten & Premium</div>
               </div>
             </button>
@@ -328,7 +328,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
                 <EnvelopeIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Email Support</div>
+                <div className="text-white text-sm font-semibold group-hover:text-brand-light transition-colors">Email Support</div>
                 <div className="text-gray-500 text-xs">Hilfe & Kontakt</div>
               </div>
             </button>
@@ -341,7 +341,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
                 <Cog6ToothIcon className="w-5 h-5 text-gray-400 group-hover:text-white transition-colors" />
               </div>
               <div className="flex-1">
-                <div className="text-white text-sm font-semibold group-hover:text-green-400 transition-colors">Einstellungen</div>
+                <div className="text-white text-sm font-semibold group-hover:text-brand-light transition-colors">Einstellungen</div>
                 <div className="text-gray-500 text-xs">App-Einstellungen</div>
               </div>
             </button>
@@ -544,11 +544,11 @@ export default function ModernNavbar() {
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="flex items-end gap-0.5 transition-all duration-300 group-hover:scale-110">
-              <div className="w-1.5 h-3 bg-green-500 rounded-sm"></div>
-              <div className="w-1.5 h-4 bg-green-500 rounded-sm"></div>
-              <div className="w-1.5 h-5 bg-green-500 rounded-sm"></div>
+              <div className="w-1.5 h-3 bg-brand rounded-sm"></div>
+              <div className="w-1.5 h-4 bg-brand rounded-sm"></div>
+              <div className="w-1.5 h-5 bg-brand rounded-sm"></div>
             </div>
-            <span className="text-xl font-bold text-white tracking-tight group-hover:text-green-400 transition-colors">
+            <span className="text-xl font-bold text-white tracking-tight group-hover:text-brand-light transition-colors">
               Finclue
             </span>
           </Link>
@@ -571,7 +571,7 @@ export default function ModernNavbar() {
                       href="/analyse"
                       className="block p-6 rounded-2xl hover:bg-white transition-all duration-300 group/item"
                     >
-                      <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-green-500/10 to-blue-500/10 border border-white/10">
+                      <div className="relative mb-4 h-32 w-full rounded-xl overflow-hidden bg-gradient-to-br from-brand/10 to-blue-500/10 border border-white/10">
                         <Image
                           src="/previews/analyse-preview.png"
                           alt="Aktien Analyse Vorschau"
@@ -672,7 +672,7 @@ export default function ModernNavbar() {
                           {link.badge && (
                             <span className={`text-xs px-2 py-0.5 rounded-full font-medium transition-colors ${
                               link.badge === 'Live'
-                                ? 'bg-green-500/20 text-green-400 group-hover/item:bg-black group-hover/item:text-white'
+                                ? 'bg-brand/20 text-brand-light group-hover/item:bg-black group-hover/item:text-white'
                                 : 'bg-gray-800 text-gray-400 group-hover/item:bg-black/10 group-hover/item:text-black'
                             }`}>
                               {link.badge}
@@ -785,7 +785,7 @@ export default function ModernNavbar() {
                               {link.badge && (
                                 <span className={`text-xs px-2 py-0.5 rounded ${
                                   link.badge === 'Live' 
-                                    ? 'bg-green-500/20 text-green-400' 
+                                    ? 'bg-brand/20 text-brand-light' 
                                     : 'bg-gray-800 text-gray-400'
                                 }`}>
                                   {link.badge}

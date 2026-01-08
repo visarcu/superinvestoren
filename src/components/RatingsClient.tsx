@@ -162,7 +162,7 @@ export default function RatingsClient({ ticker }: { ticker: string }) {
 
   // Subtile Farben für cleanes Design
   const getScoreIndicator = (score: number) => {
-    if (score >= 80) return { color: 'text-green-400', bg: 'bg-green-500/10', grade: 'A' }
+    if (score >= 80) return { color: 'text-brand-light', bg: 'bg-brand/10', grade: 'A' }
     if (score >= 60) return { color: 'text-blue-400', bg: 'bg-blue-500/10', grade: 'B' }
     if (score >= 40) return { color: 'text-yellow-400', bg: 'bg-yellow-500/10', grade: 'C' }
     if (score >= 20) return { color: 'text-orange-400', bg: 'bg-orange-500/10', grade: 'D' }
