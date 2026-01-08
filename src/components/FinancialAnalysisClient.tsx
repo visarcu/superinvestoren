@@ -680,11 +680,9 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
             data={validData} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
@@ -845,11 +843,9 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={validData} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
@@ -1127,11 +1123,9 @@ function RevenueSegmentsChart({
             data={normalizedData}  // ✅ Verwende normalisierte Daten
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
@@ -1225,11 +1219,9 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
           <LineChart data={data} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
@@ -1429,11 +1421,9 @@ function GeographicSegmentsChart({
             data={segmentData} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
@@ -1553,11 +1543,9 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             data={data} 
             margin={{ top: 10, right: 10, bottom: 25, left: 50 }}
           >
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
@@ -1656,11 +1644,9 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             data={data} 
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
-            <CartesianGrid 
-              strokeDasharray="1 3" 
-              stroke="#64748b" 
-              strokeWidth={1}
-              opacity={1}
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="rgba(148, 163, 184, 0.3)"
               horizontal={true}
               vertical={false}
             />
