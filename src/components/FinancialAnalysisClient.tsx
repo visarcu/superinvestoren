@@ -1989,9 +1989,9 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                     key={p}
                     onClick={() => handlePremiumAction(() => setPeriod(p))}
                     className={`px-4 py-2 text-sm rounded-md transition-all duration-200 font-medium ${
-                      period === p 
-        ? 'bg-blue-600 text-white shadow-sm' 
-: 'text-theme-secondary hover:text-blue-600 hover:bg-blue-500/10'
+                      period === p
+                        ? 'bg-brand text-white shadow-sm'
+                        : 'text-theme-secondary hover:text-brand hover:bg-brand/10'
                     }`}
                   >
                     {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
@@ -2018,8 +2018,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                     onClick={() => applyPreset(key)}
                     className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                       selectedPreset === key
-                ? 'bg-blue-600 text-white'
-: 'bg-theme-tertiary text-theme-secondary hover:bg-blue-500/10 hover:text-blue-400'
+                        ? 'bg-brand text-white'
+                        : 'bg-theme-tertiary text-theme-secondary hover:bg-brand/10 hover:text-brand'
                     }`}
                     title={(preset as LocalChartPreset).description}
                   >

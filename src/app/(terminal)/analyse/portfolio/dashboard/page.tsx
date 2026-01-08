@@ -37,8 +37,12 @@ import {
   ExclamationTriangleIcon,
   ArrowDownTrayIcon,
   DevicePhoneMobileIcon,
-  ComputerDesktopIcon
+  ComputerDesktopIcon,
+  LockClosedIcon
 } from '@heroicons/react/24/outline'
+
+// Free User Limit für Portfolio-Positionen
+const FREE_USER_POSITION_LIMIT = 2
 
 // Types
 interface Portfolio {
@@ -114,8 +118,78 @@ const SkeletonRow = () => (
   </tr>
 )
 
+// Premium Upgrade Modal Component
+const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean, onClose: () => void, feature: string }) => {
+  if (!isOpen) return null
+
+  return (
+    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-theme-card rounded-2xl max-w-md w-full p-6 shadow-2xl border border-theme/20">
+        {/* Header */}
+        <div className="text-center mb-6">
+          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center">
+            <LockClosedIcon className="w-8 h-8 text-white" />
+          </div>
+          <h2 className="text-xl font-bold text-theme-primary mb-2">Premium Feature</h2>
+          <p className="text-theme-secondary text-sm">{feature}</p>
+        </div>
+
+        {/* Benefits */}
+        <div className="space-y-3 mb-6">
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-brand" />
+            </div>
+            <span className="text-theme-primary">Unbegrenzte Portfolio-Positionen</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-brand" />
+            </div>
+            <span className="text-theme-primary">Dividenden-Tracking & Prognosen</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-brand" />
+            </div>
+            <span className="text-theme-primary">Performance-Insights & Analysen</span>
+          </div>
+          <div className="flex items-center gap-3 text-sm">
+            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-brand" />
+            </div>
+            <span className="text-theme-primary">Portfolio-Historie & Transaktionen</span>
+          </div>
+        </div>
+
+        {/* Price */}
+        <div className="text-center mb-6 p-4 bg-theme-tertiary/50 rounded-xl">
+          <div className="text-3xl font-bold text-theme-primary">9€<span className="text-lg font-normal text-theme-secondary">/Monat</span></div>
+          <p className="text-xs text-theme-muted mt-1">Jederzeit kündbar</p>
+        </div>
+
+        {/* Buttons */}
+        <div className="flex gap-3">
+          <button
+            onClick={onClose}
+            className="flex-1 px-4 py-3 text-sm font-medium bg-theme-tertiary text-theme-secondary rounded-xl hover:bg-theme-hover transition-colors"
+          >
+            Später
+          </button>
+          <Link
+            href="/pricing"
+            className="flex-1 px-4 py-3 text-sm font-medium bg-brand text-white rounded-xl hover:bg-brand/90 transition-colors text-center"
+          >
+            Jetzt upgraden
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // Mobile Card View Component
-const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, formatCurrency, formatStockPrice, formatPercentage, totalValue }: any) => (
+const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, onTopUp, formatCurrency, formatStockPrice, formatPercentage, totalValue }: any) => (
   <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
     <div className="flex items-start justify-between mb-3">
       <div className="flex items-center gap-3">
@@ -138,7 +212,7 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, formatCurrency, 
         </p>
       </div>
     </div>
-    
+
     <div className="grid grid-cols-2 gap-3 text-xs mb-3">
       <div>
         <p className="text-theme-muted">Kaufpreis</p>
@@ -161,6 +235,9 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, formatCurrency, 
     <div className="flex gap-2">
       <button onClick={() => onView(holding.symbol)} className="flex-1 p-2 bg-theme-secondary/30 rounded-lg">
         <EyeIcon className="w-4 h-4 mx-auto text-theme-secondary" />
+      </button>
+      <button onClick={() => onTopUp(holding)} className="flex-1 p-2 bg-brand/20 rounded-lg">
+        <PlusIcon className="w-4 h-4 mx-auto text-brand-light" />
       </button>
       <button onClick={() => onEdit(holding)} className="flex-1 p-2 bg-blue-400/20 rounded-lg">
         <PencilIcon className="w-4 h-4 mx-auto text-blue-400" />
@@ -190,6 +267,11 @@ export default function PortfolioDashboard() {
   const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
   const [showSuperinvestorsModal, setShowSuperinvestorsModal] = useState<Holding | null>(null)
   const [isMobile, setIsMobile] = useState(false)
+
+  // Premium State
+  const [isPremium, setIsPremium] = useState(false)
+  const [showPremiumModal, setShowPremiumModal] = useState(false)
+  const [premiumFeatureMessage, setPremiumFeatureMessage] = useState('')
   
   // News State
   const [portfolioNews, setPortfolioNews] = useState<NewsArticle[]>([])
@@ -211,7 +293,14 @@ export default function PortfolioDashboard() {
   const [cashAmount, setCashAmount] = useState('')
   const [transactionFees, setTransactionFees] = useState('')
   const [selectedStock, setSelectedStock] = useState<{symbol: string, name: string} | null>(null)
-  
+
+  // Top Up Position State
+  const [topUpPosition, setTopUpPosition] = useState<Holding | null>(null)
+  const [topUpQuantity, setTopUpQuantity] = useState('')
+  const [topUpPrice, setTopUpPrice] = useState('')
+  const [topUpDate, setTopUpDate] = useState(new Date().toISOString().split('T')[0])
+  const [topUpFees, setTopUpFees] = useState('')
+
   // Portfolio Metrics
   const [totalValue, setTotalValue] = useState(0)
   const [totalInvested, setTotalInvested] = useState(0)
@@ -285,6 +374,15 @@ export default function PortfolioDashboard() {
         router.push('/login')
         return
       }
+
+      // Premium-Status laden
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('id', user.id)
+        .single()
+
+      setIsPremium(profile?.is_premium || false)
 
       // VEREINFACHT: Jeder User hat genau ein Portfolio
       // Lade existierendes oder erstelle automatisch ein neues
@@ -625,6 +723,87 @@ export default function PortfolioDashboard() {
     setShowAddPosition(false)
   }
 
+  // Handler für Position aufstocken
+  const handleTopUpPosition = async () => {
+    if (!topUpPosition || !topUpQuantity || !topUpPrice) {
+      alert('Bitte alle Felder ausfüllen')
+      return
+    }
+
+    setAddingPosition(true)
+
+    try {
+      const newQty = parseFloat(topUpQuantity)
+      const newPrice = parseFloat(topUpPrice)
+      const fees = parseFloat(topUpFees) || 0
+      const priceWithFees = newPrice + (fees / newQty)
+
+      // Berechne gewichteten Durchschnittspreis
+      const oldQty = topUpPosition.quantity
+      const oldPrice = topUpPosition.purchase_price  // Original DB Preis
+      const totalQty = oldQty + newQty
+      const weightedAvgPrice = ((oldQty * oldPrice) + (newQty * priceWithFees)) / totalQty
+
+      // Update die existierende Position mit neuer Menge und Durchschnittspreis
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .update({
+          quantity: totalQty,
+          purchase_price: weightedAvgPrice,
+          // Behalte das ursprüngliche Kaufdatum oder nimm das ältere
+          purchase_date: topUpPosition.purchase_date < topUpDate
+            ? topUpPosition.purchase_date
+            : topUpDate
+        })
+        .eq('id', topUpPosition.id)
+
+      if (error) throw error
+
+      // Reset und Reload
+      setTopUpPosition(null)
+      setTopUpQuantity('')
+      setTopUpPrice('')
+      setTopUpDate(new Date().toISOString().split('T')[0])
+      setTopUpFees('')
+      await loadPortfolio()
+
+    } catch (error: any) {
+      console.error('Error topping up position:', error)
+      alert(`Fehler beim Aufstocken: ${error.message}`)
+    } finally {
+      setAddingPosition(false)
+    }
+  }
+
+  // Handler für Position hinzufügen mit Premium-Check
+  const openAddPositionModal = () => {
+    // Free User hat Limit erreicht?
+    if (!isPremium && holdings.length >= FREE_USER_POSITION_LIMIT) {
+      setPremiumFeatureMessage('Mit Premium kannst du unbegrenzt Positionen zu deinem Portfolio hinzufügen.')
+      setShowPremiumModal(true)
+      return
+    }
+    setShowAddPosition(true)
+  }
+
+  // Handler für Tab-Wechsel mit Premium-Check
+  const handleTabChange = (tab: typeof activeTab) => {
+    // Premium-only Tabs
+    const premiumTabs = ['dividends', 'insights', 'history']
+
+    if (!isPremium && premiumTabs.includes(tab)) {
+      const messages: Record<string, string> = {
+        dividends: 'Portfolio-Dividenden sind ein Premium-Feature. Siehe deine erwarteten Dividenden-Einnahmen.',
+        insights: 'Portfolio-Insights sind ein Premium-Feature. Erhalte detaillierte Analysen deines Portfolios.',
+        history: 'Portfolio-Historie ist ein Premium-Feature. Verfolge alle deine Transaktionen.'
+      }
+      setPremiumFeatureMessage(messages[tab] || 'Dieses Feature ist nur für Premium-Nutzer verfügbar.')
+      setShowPremiumModal(true)
+      return
+    }
+    setActiveTab(tab)
+  }
+
   const handleViewStock = (symbol: string) => {
     router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
   }
@@ -829,24 +1008,27 @@ export default function PortfolioDashboard() {
         {/* Tab Navigation */}
         <div className="flex gap-4 lg:gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
           {[
-            { key: 'overview', label: 'Übersicht', icon: null },
-            { key: 'news', label: 'News', icon: NewspaperIcon },
-            { key: 'calendar', label: 'Kalender', icon: CalendarIcon },
-            { key: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon },
-            { key: 'insights', label: 'Insights', icon: ChartBarIcon },
-            { key: 'history', label: 'Historie', icon: ClockIcon }
+            { key: 'overview', label: 'Übersicht', icon: null, premium: false },
+            { key: 'news', label: 'News', icon: NewspaperIcon, premium: false },
+            { key: 'calendar', label: 'Kalender', icon: CalendarIcon, premium: false },
+            { key: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, premium: true },
+            { key: 'insights', label: 'Insights', icon: ChartBarIcon, premium: true },
+            { key: 'history', label: 'Historie', icon: ClockIcon, premium: true }
           ].map(tab => (
-            <button 
+            <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
+              onClick={() => handleTabChange(tab.key as any)}
               className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 text-sm lg:text-base ${
-                activeTab === tab.key 
-                  ? 'text-brand-light border-b-2 border-green-400' 
+                activeTab === tab.key
+                  ? 'text-brand-light border-b-2 border-green-400'
                   : 'text-theme-secondary hover:text-theme-primary'
-              }`}
+              } ${!isPremium && tab.premium ? 'opacity-70' : ''}`}
             >
               {tab.icon && <tab.icon className="w-4 h-4" />}
               {tab.label}
+              {!isPremium && tab.premium && (
+                <LockClosedIcon className="w-3 h-3 text-amber-400" />
+              )}
             </button>
           ))}
         </div>
@@ -943,6 +1125,21 @@ export default function PortfolioDashboard() {
               </div>
             </div>
 
+            {/* Free User Info Badge */}
+            {!isPremium && (
+              <div className="mb-4 p-3 bg-brand/10 border border-brand/20 rounded-lg flex items-center gap-3">
+                <InformationCircleIcon className="w-5 h-5 text-brand flex-shrink-0" />
+                <div className="flex-1">
+                  <p className="text-sm text-theme-secondary">
+                    <span className="font-medium text-theme-primary">Free Account:</span> Du kannst bis zu {FREE_USER_POSITION_LIMIT} Positionen hinzufügen.
+                    <Link href="/pricing" className="text-brand hover:text-brand-light ml-1 font-medium">
+                      Upgrade für unbegrenzte Positionen →
+                    </Link>
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* Holdings Table or Cards */}
             <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
               <div className="p-4 border-b border-theme/10 flex items-center justify-between">
@@ -966,8 +1163,8 @@ export default function PortfolioDashboard() {
                     </button>
                   </div>
                   
-                  <button 
-                    onClick={() => setShowAddPosition(true)}
+                  <button
+                    onClick={openAddPositionModal}
                     className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
                   >
                     <PlusIcon className="w-4 h-4" />
@@ -1005,6 +1202,10 @@ export default function PortfolioDashboard() {
                         onView={handleViewStock}
                         onEdit={openEditModal}
                         onDelete={handleDeletePosition}
+                        onTopUp={(h: Holding) => {
+                          setTopUpPosition(h)
+                          setTopUpPrice('')
+                        }}
                         formatCurrency={formatCurrency}
                         formatStockPrice={formatStockPrice}
                         formatPercentage={formatPercentage}
@@ -1119,14 +1320,24 @@ export default function PortfolioDashboard() {
                               </td>
                               <td className="px-4 py-4">
                                 <div className="flex items-center justify-center gap-1">
-                                  <button 
+                                  <button
                                     onClick={() => handleViewStock(holding.symbol)}
                                     className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
                                     title="Aktie analysieren"
                                   >
                                     <EyeIcon className="w-4 h-4 text-theme-secondary" />
                                   </button>
-                                  <button 
+                                  <button
+                                    onClick={() => {
+                                      setTopUpPosition(holding)
+                                      setTopUpPrice('')
+                                    }}
+                                    className="p-2 hover:bg-brand/20 rounded-lg transition-colors"
+                                    title="Position aufstocken"
+                                  >
+                                    <PlusIcon className="w-4 h-4 text-brand-light" />
+                                  </button>
+                                  <button
                                     onClick={() => openEditModal(holding)}
                                     className="p-2 hover:bg-blue-400/20 rounded-lg transition-colors"
                                     title="Position bearbeiten"
@@ -1153,8 +1364,8 @@ export default function PortfolioDashboard() {
                 <div className="p-12 text-center">
                   <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
                   <p className="text-theme-secondary mb-4">Noch keine Positionen vorhanden</p>
-                  <button 
-                    onClick={() => setShowAddPosition(true)}
+                  <button
+                    onClick={openAddPositionModal}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
                   >
                     <PlusIcon className="w-4 h-4" />
@@ -1655,6 +1866,167 @@ export default function PortfolioDashboard() {
             </div>
           </div>
         )}
+
+        {/* Top Up Position Modal */}
+        {topUpPosition && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-theme-primary">Position aufstocken</h2>
+                <button
+                  onClick={() => setTopUpPosition(null)}
+                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                >
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                </button>
+              </div>
+
+              {/* Aktuelle Position Info */}
+              <div className="bg-theme-secondary/20 rounded-lg p-4 mb-4">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center">
+                    <span className="text-white font-bold text-sm">
+                      {topUpPosition.symbol.slice(0, 2)}
+                    </span>
+                  </div>
+                  <div>
+                    <div className="font-semibold text-theme-primary">{topUpPosition.symbol}</div>
+                    <div className="text-sm text-theme-muted">{topUpPosition.name}</div>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-3 text-sm">
+                  <div>
+                    <p className="text-theme-muted">Aktuelle Menge</p>
+                    <p className="font-semibold text-theme-primary">{topUpPosition.quantity} Stück</p>
+                  </div>
+                  <div>
+                    <p className="text-theme-muted">Ø Kaufpreis</p>
+                    <p className="font-semibold text-theme-primary">{formatStockPrice(topUpPosition.purchase_price_display)}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                    Zusätzliche Anzahl
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={topUpQuantity}
+                    onChange={(e) => setTopUpQuantity(e.target.value)}
+                    placeholder="z.B. 5"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                    Kaufpreis pro Aktie (EUR)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={topUpPrice}
+                    onChange={(e) => setTopUpPrice(e.target.value)}
+                    placeholder="z.B. 495.00"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                    Gebühren (optional, EUR)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={topUpFees}
+                    onChange={(e) => setTopUpFees(e.target.value)}
+                    placeholder="0.00"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                    Kaufdatum
+                  </label>
+                  <input
+                    type="date"
+                    value={topUpDate}
+                    onChange={(e) => setTopUpDate(e.target.value)}
+                    max={new Date().toISOString().split('T')[0]}
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  />
+                </div>
+
+                {/* Preview der neuen Position */}
+                {topUpQuantity && topUpPrice && (
+                  <div className="bg-brand/10 border border-brand/20 rounded-lg p-3">
+                    <p className="text-sm text-brand-light font-medium mb-2">Nach Aufstockung:</p>
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div>
+                        <p className="text-theme-muted">Neue Menge</p>
+                        <p className="font-semibold text-theme-primary">
+                          {(topUpPosition.quantity + parseFloat(topUpQuantity || '0')).toFixed(0)} Stück
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-theme-muted">Neuer Ø Preis</p>
+                        <p className="font-semibold text-theme-primary">
+                          {formatStockPrice(
+                            ((topUpPosition.quantity * topUpPosition.purchase_price_display) +
+                             (parseFloat(topUpQuantity || '0') * parseFloat(topUpPrice || '0'))) /
+                            (topUpPosition.quantity + parseFloat(topUpQuantity || '0'))
+                          )}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={handleTopUpPosition}
+                    disabled={addingPosition || !topUpQuantity || !topUpPrice}
+                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                  >
+                    {addingPosition ? (
+                      <>
+                        <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                        Aufstocken...
+                      </>
+                    ) : (
+                      <>
+                        <PlusIcon className="w-4 h-4" />
+                        Position aufstocken
+                      </>
+                    )}
+                  </button>
+                  <button
+                    onClick={() => setTopUpPosition(null)}
+                    disabled={addingPosition}
+                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Premium Upgrade Modal */}
+        <PremiumUpgradeModal
+          isOpen={showPremiumModal}
+          onClose={() => setShowPremiumModal(false)}
+          feature={premiumFeatureMessage}
+        />
       </main>
     </div>
   )

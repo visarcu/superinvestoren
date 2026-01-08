@@ -144,13 +144,13 @@ function ModernSearchBar({ onNavigate }: { onNavigate?: () => void }) {
           onChange={(e) => setSearchTerm(e.target.value)}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          className="relative w-full pl-10 pr-4 py-3 text-sm rounded-xl transition-all duration-300 bg-black/50 border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/30 backdrop-blur-xl"
+          className="relative w-full pl-10 pr-4 py-3 text-sm rounded-xl transition-all duration-300 bg-[#0a0a0a]/50 border-white/10 text-white placeholder-gray-400 focus:outline-none focus:border-green-500/30 backdrop-blur-xl"
         />
       </div>
 
       {/* Solid Suggestions Dropdown */}
       {showSuggestions && suggestions.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-black/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-xl shadow-2xl overflow-hidden z-50 max-h-80 overflow-y-auto">
           <div className="p-1">
             {suggestions.map((result) => (
               <button
@@ -251,7 +251,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-3 px-4 py-3 rounded-xl border bg-black/50 border-white/10 backdrop-blur-xl hover:bg-black/70 transition-all duration-300 group hover:scale-105"
+        className="flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#0a0a0a]/50 border-white/10 backdrop-blur-xl hover:bg-[#0a0a0a]/70 transition-all duration-300 group hover:scale-105"
       >
         <div className="relative">
           <div className="w-8 h-8 bg-gradient-to-br from-green-500 to-green-600 rounded-xl flex items-center justify-center text-black font-bold text-sm shadow-lg">
@@ -271,7 +271,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-3 w-80 bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden">
+        <div className="absolute right-0 mt-3 w-80 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl z-50 overflow-hidden">
           <div className="p-6 border-b border-white/10">
             <div className="flex items-center gap-4">
               <div className="relative">
@@ -370,7 +370,7 @@ function ModernUserDropdown({ user, profile }: { user: any; profile: any }) {
 // 🎯 Guest Actions (standalone)
 function ModernGuestActions() {
   return (
-    <div className="flex items-center gap-3 px-4 py-3 rounded-xl border bg-black/50 border-white/10 backdrop-blur-xl hover:bg-black/70 transition-all duration-300">
+    <div className="flex items-center gap-3 px-4 py-3 rounded-xl border bg-[#0a0a0a]/50 border-white/10 backdrop-blur-xl hover:bg-[#0a0a0a]/70 transition-all duration-300">
       <Link
         href="/auth/signin"
         className="text-gray-300 hover:text-white font-semibold text-sm transition-all duration-300 px-3 py-1.5 rounded-lg hover:bg-white/10"
@@ -539,7 +539,7 @@ export default function ModernNavbar() {
       <div className="flex items-center justify-between max-w-7xl mx-auto gap-8">
         
         {/* MODERNE BOX-NAVIGATION */}
-        <div className="bg-black/95 backdrop-blur-xl border-2 border-white/20 rounded-2xl px-6 py-3 flex items-center gap-8 shadow-2xl">
+        <div className="bg-[#0a0a0a]/95 backdrop-blur-xl border-2 border-white/20 rounded-2xl px-6 py-3 flex items-center gap-8 shadow-2xl">
           
           {/* Logo */}
           <Link href="/" className="flex items-center gap-3 group">
@@ -564,7 +564,7 @@ export default function ModernNavbar() {
               </button>
               
               {/* Products Dropdown Content */}
-              <div className="absolute left-0 mt-3 w-[650px] bg-black/95 border border-white/10 rounded-3xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
+              <div className="absolute left-0 mt-3 w-[650px] bg-[#0a0a0a]/95 border border-white/10 rounded-3xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
                 <div className="p-8">
                   <div className="grid grid-cols-2 gap-6">
                     <Link
@@ -626,7 +626,7 @@ export default function ModernNavbar() {
               </button>
               
               {/* Superinvestoren Dropdown */}
-              <div className="absolute left-0 top-full mt-3 w-80 bg-black/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
+              <div className="absolute left-0 top-full mt-3 w-80 bg-[#0a0a0a]/95 border border-white/10 rounded-2xl shadow-2xl overflow-hidden opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 backdrop-blur-xl">
                 <div className="p-2">
                   {superinvestorLinks.map((link) => {
                     if (link.disabled) {
@@ -708,7 +708,7 @@ export default function ModernNavbar() {
         <div className="flex items-center gap-4">
           <div className="hidden md:block">
             {loading ? (
-              <div className="w-12 h-12 rounded-xl bg-black/95 backdrop-blur-xl border-2 border-white/20 animate-pulse"></div>
+              <div className="w-12 h-12 rounded-xl bg-[#0a0a0a]/95 backdrop-blur-xl border-2 border-white/20 animate-pulse"></div>
             ) : user ? (
               <ModernUserDropdown user={user} profile={profile} />
             ) : (
@@ -720,12 +720,12 @@ export default function ModernNavbar() {
           <Disclosure>
             {({ open, close }) => (
               <>
-                <Disclosure.Button className="lg:hidden p-3 text-gray-400 hover:text-white bg-black/95 backdrop-blur-xl border-2 border-white/20 rounded-xl transition-all duration-300">
+                <Disclosure.Button className="lg:hidden p-3 text-gray-400 hover:text-white bg-[#0a0a0a]/95 backdrop-blur-xl border-2 border-white/20 rounded-xl transition-all duration-300">
                   {open ? <XMarkIcon className="h-5 w-5" /> : <Bars3Icon className="h-5 w-5" />}
                 </Disclosure.Button>
   
                 {/* Mobile Panel */}
-                <Disclosure.Panel className="absolute top-full left-4 right-4 mt-4 bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl lg:hidden">
+                <Disclosure.Panel className="absolute top-full left-4 right-4 mt-4 bg-[#0a0a0a]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl lg:hidden">
                   <div className="px-6 py-4 space-y-3">
                     {/* Mobile Search */}
                     <div className="mb-6">

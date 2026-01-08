@@ -840,16 +840,16 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
             
             {/* Performance Labels */}
             {Object.entries(performanceStats).map(([stockTicker, stats]) => {
-              const color = stockTicker === ticker ? COLORS[0] : 
-                comparisonStocks.find(s => s.ticker === stockTicker)?.color || themeColors.textPrimary
-              
+              // Farbe basierend auf Performance (grün/rot), nicht auf Stock-Farbe
+              const performanceColor = stats.changePercent >= 0 ? '#10B981' : '#EF4444'
+
               return (
                 <text
                   key={stockTicker}
                   x="95%"
                   y={`${20 + Object.keys(performanceStats).indexOf(stockTicker) * 25}px`}
                   textAnchor="end"
-                  fill={color}
+                  fill={performanceColor}
                   fontSize={isFullscreen ? "14" : "12"}
                   fontWeight="bold"
                 >
