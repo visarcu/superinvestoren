@@ -27,12 +27,14 @@ class FinancialDataService {
     this.fmpKey = '' // Removed for security - use API routes instead
   }
 
-  // ✅ HAUPTMETHODE: FMP Financial Data Service
-  async getFinancialData(ticker: string, years: number, period: 'annual' | 'quarterly') {
-    console.log(`🔍 [FinancialDataService] Loading for ${ticker} (${years} years)`)
-    
+  // ✅ HAUPTMETHODE: FMP Financial Data Service (UPDATED: period-based data points)
+  async getFinancialData(ticker: string, period: 'annual' | 'quarterly') {
+    // ✅ Automatische Bestimmung der Datenpunkte basierend auf period
+    const dataPoints = period === 'quarterly' ? OVERVIEW_QUARTERS : OVERVIEW_YEARS_ANNUAL
+    console.log(`🔍 [FinancialDataService] Loading for ${ticker} (${dataPoints} ${period === 'quarterly' ? 'quarters' : 'years'})`)
+
     // Nur FMP Daten laden
-    const fmpFinancials = await this.getFMPFinancialData(ticker, years, period)
+    const fmpFinancials = await this.getFMPFinancialData(ticker, dataPoints, period)
 
     console.log(`📊 Source: FMP=${fmpFinancials.length} years`)
 
@@ -104,37 +106,17 @@ class FinancialDataService {
         const balance = balanceData[balanceData.length - 1 - index] || {}
         const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
         const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
-        // ✅ IMPROVED: Microsoft Fiscal Year Labels (Juli-Juni Geschäftsjahr)
+        // ✅ IMPROVED: Qualtrim-Style Labels (Q1'24 für Quartale, Jahr für Annual)
         const formatLabel = () => {
           if (period === 'annual') {
             return income.calendarYear || income.date?.slice(0, 4) || '—'
           }
-          
-          // Microsoft Fiscal Year Quartalslabels für korrekte UX
+
+          // ✅ Qualtrim-Style: Q1'24 Format für Quartale
           if (income.date) {
-            const date = new Date(income.date)
-            const year = date.getFullYear()
-            const month = date.getMonth() + 1
-            
-            // Microsoft Fiscal Year: Juli 2024 - Juni 2025 = FY2025
-            let fiscalYear = year
-            let quarter = 'Q4'
-            
-            if (month <= 3) {
-              quarter = 'Q3'  // Jan-Mar = Q3 FY
-            } else if (month <= 6) {
-              quarter = 'Q4'  // Apr-Jun = Q4 FY
-            } else if (month <= 9) {
-              quarter = 'Q1'  // Jul-Sep = Q1 FY
-              fiscalYear = year + 1  // FY beginnt im Juli
-            } else {
-              quarter = 'Q2'  // Oct-Dez = Q2 FY
-              fiscalYear = year + 1  // FY beginnt im Juli
-            }
-            
-            return `${quarter} FY${fiscalYear}`
+            return formatQuarterLabel(income.date)
           }
-          
+
           return income.calendarYear || '—'
         }
         
@@ -218,6 +200,35 @@ class FinancialDataService {
 
 // ✅ Service Instance - UNVERÄNDERT
 const financialDataService = new FinancialDataService()
+
+// ✅ KONSTANTEN FÜR DATENPUNKTE (wie Qualtrim)
+const OVERVIEW_YEARS_ANNUAL = 10
+const OVERVIEW_QUARTERS = 16
+
+// ✅ Helper für Quartalslabel-Formatierung (Q1'24 Style)
+function formatQuarterLabel(date: string): string {
+  const d = new Date(date)
+  const month = d.getMonth() + 1
+  const year = d.getFullYear()
+  const yearShort = year.toString().slice(-2)
+
+  // Kalenderquartal basierend auf Monat
+  let quarter: number
+  if (month <= 3) quarter = 1
+  else if (month <= 6) quarter = 2
+  else if (month <= 9) quarter = 3
+  else quarter = 4
+
+  return `Q${quarter}'${yearShort}`
+}
+
+// ✅ Dynamisches X-Achsen-Interval basierend auf Datenpunkten
+function getXAxisInterval(dataLength: number): number {
+  if (dataLength <= 5) return 0
+  if (dataLength <= 10) return 1
+  if (dataLength <= 16) return 3
+  return Math.floor(dataLength / 5)
+}
 
 // ─── Type Definitions ───────────────────────────────────────────────────────────
 type MetricKey =
@@ -686,24 +697,24 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="label" 
+            <XAxis
+              dataKey="label"
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ 
-                fontSize: 11, 
+              tick={{
+                fontSize: 11,
                 fill: 'var(--text-secondary)',
                 textAnchor: 'middle'
               }}
-              interval="preserveStartEnd"
+              interval={getXAxisInterval(validData.length)}
               height={25}
             />
-            <YAxis 
+            <YAxis
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ 
-                fontSize: 10, 
-                fill: 'var(--text-secondary)' 
+              tick={{
+                fontSize: 10,
+                fill: 'var(--text-secondary)'
               }}
               tickFormatter={(value) => {
                 if (metricKey === 'eps' || metricKey === 'dividendPS') {
@@ -849,14 +860,14 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="label" 
+            <XAxis
+              dataKey="label"
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-              interval="preserveStartEnd"
+              interval={getXAxisInterval(validData.length)}
             />
-            <YAxis 
+            <YAxis
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
@@ -1129,25 +1140,25 @@ function RevenueSegmentsChart({
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="label" 
+            <XAxis
+              dataKey="label"
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-              interval="preserveStartEnd"
+              interval={getXAxisInterval(normalizedData.length)}
             />
-            <YAxis 
+            <YAxis
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               tickFormatter={(value) => formatAxisValueDE(value)}
               width={35}
             />
-            <RechartsTooltip 
+            <RechartsTooltip
               cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
-                
+
                 // ✅ FILTERE 0-WERTE AUS DER TOOLTIP
                 const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
                 const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
@@ -1225,8 +1236,9 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
               horizontal={true}
               vertical={false}
             />
-            <XAxis dataKey="label" axisLine={false} tickLine={false} 
-                   tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }} />
+            <XAxis dataKey="label" axisLine={false} tickLine={false}
+                   tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
+                   interval={getXAxisInterval(data.length)} />
             <YAxis axisLine={false} tickLine={false}
                    tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
                    tickFormatter={(value) => `${value.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x`} />
@@ -1427,21 +1439,21 @@ function GeographicSegmentsChart({
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="label" 
+            <XAxis
+              dataKey="label"
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-              interval="preserveStartEnd"
+              interval={getXAxisInterval(segmentData.length)}
             />
-            <YAxis 
+            <YAxis
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               tickFormatter={(value) => formatAxisValueDE(value)}
               width={35}
             />
-            <RechartsTooltip 
+            <RechartsTooltip
               cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload) return null
@@ -1549,25 +1561,25 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="label" 
+            <XAxis
+              dataKey="label"
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ 
-                fontSize: 11, 
+              tick={{
+                fontSize: 11,
                 fill: 'var(--text-secondary)',
                 textAnchor: 'middle'
               }}
-              interval="preserveStartEnd"
+              interval={getXAxisInterval(data.length)}
               height={25}
             />
-            <YAxis 
+            <YAxis
               tickFormatter={formatAxisValueDE}
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ 
-                fontSize: 10, 
-                fill: 'var(--text-secondary)' 
+              tick={{
+                fontSize: 10,
+                fill: 'var(--text-secondary)'
               }}
               width={50}
               domain={[0, 'dataMax']}
@@ -1650,24 +1662,24 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               horizontal={true}
               vertical={false}
             />
-            <XAxis 
-              dataKey="label" 
+            <XAxis
+              dataKey="label"
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ 
-                fontSize: 11, 
+              tick={{
+                fontSize: 11,
                 fill: 'var(--text-secondary)',
                 textAnchor: 'middle'
               }}
-              interval="preserveStartEnd"
+              interval={getXAxisInterval(data.length)}
               height={25}
             />
-            <YAxis 
+            <YAxis
               axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
               tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tick={{ 
-                fontSize: 10, 
-                fill: 'var(--text-secondary)' 
+              tick={{
+                fontSize: 10,
+                fill: 'var(--text-secondary)'
               }}
               tickFormatter={(value) => `${new Intl.NumberFormat('de-DE', {
                 minimumFractionDigits: 1,
@@ -1742,9 +1754,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   } = useChartPresets(userId || null, isPremium)
   
   const { currency } = useCurrency()
- 
-  const overviewYears = 10
- 
+
   // ✅ APPLY PRESET
   const applyPreset = async (presetKey: string) => {
     if (!isPremium) {
@@ -1842,7 +1852,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       setDataQuality('loading')
       
       try {
-        const realData = await financialDataService.getFinancialData(ticker, overviewYears, period)
+        const realData = await financialDataService.getFinancialData(ticker, period)
         setData(realData)
         
         const hasValidatedData = realData.some(d => d.dataQuality === 'validated')

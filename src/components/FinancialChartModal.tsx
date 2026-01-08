@@ -1,4 +1,4 @@
-// src/components/FinancialChartModal.tsx - VOLLSTÄNDIG MIT SEGMENT-CHARTS + 0-WERTE FILTER
+// src/components/FinancialChartModal.tsx - QUALTRIM STYLE: Jahre × 4 Quartale
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -14,12 +14,12 @@ import {
   CartesianGrid,
   Tooltip as RechartsTooltip,
 } from 'recharts'
-import { XMarkIcon, ArrowsPointingOutIcon } from '@heroicons/react/24/solid'
+import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useCurrency } from '@/lib/CurrencyContext'
 
 type MetricKey =
   | 'revenue'
-    | 'revenueSegments'
+  | 'revenueSegments'
   | 'ebitda'
   | 'eps'
   | 'freeCashFlow'
@@ -28,14 +28,13 @@ type MetricKey =
   | 'netIncome'
   | 'cashDebt'
   | 'pe'
-  | 'profitMargin'           // ✅ NEU hinzufügen
+  | 'profitMargin'
   | 'valuationMetrics' 
   | 'returnOnEquity'
   | 'stockAward'
   | 'capEx'
   | 'researchAndDevelopment'
   | 'operatingIncome' 
-
   | 'geographicSegments' 
 
 interface FinancialChartModalProps {
@@ -63,44 +62,31 @@ const calculateCAGR = (data: any[], key: string, years: number): number | null =
   return cagr * 100
 }
 
-// ✅ HELPER: Microsoft Fiscal Year Label-Formatierung für alle Charts
-const formatChartLabel = (date: string, period: 'annual' | 'quarterly'): string => {
-  if (period === 'annual') {
-    return date.substring(0, 4) || '—'
-  }
+// ✅ HELPER: Quartalslabel-Formatierung
+const formatQuarterLabel = (date: string): string => {
+  if (!date) return '—'
   
-  // Microsoft Fiscal Year Quartalslabels für korrekte UX
-  if (date) {
-    const dateObj = new Date(date)
-    const year = dateObj.getFullYear()
-    const month = dateObj.getMonth() + 1
-    
-    // Microsoft Fiscal Year: Juli 2024 - Juni 2025 = FY2025
-    let fiscalYear = year
-    let quarter = 'Q4'
-    
-    if (month <= 3) {
-      quarter = 'Q3'  // Jan-Mar = Q3 FY
-    } else if (month <= 6) {
-      quarter = 'Q4'  // Apr-Jun = Q4 FY
-    } else if (month <= 9) {
-      quarter = 'Q1'  // Jul-Sep = Q1 FY
-      fiscalYear = year + 1  // FY beginnt im Juli
-    } else {
-      quarter = 'Q2'  // Oct-Dez = Q2 FY
-      fiscalYear = year + 1  // FY beginnt im Juli
-    }
-    
-    return `${quarter} FY${fiscalYear}`
-  }
+  const dateObj = new Date(date)
+  const year = dateObj.getFullYear()
+  const month = dateObj.getMonth() + 1
   
-  return date.substring(0, 4) || '—'
+  // Kalenderjahr-Quartale (einfacher und universeller)
+  let quarter = 'Q1'
+  if (month >= 4 && month <= 6) quarter = 'Q2'
+  else if (month >= 7 && month <= 9) quarter = 'Q3'
+  else if (month >= 10) quarter = 'Q4'
+  
+  // Kurzes Format für viele Quartale: Q1'24
+  const shortYear = year.toString().slice(-2)
+  return `${quarter}'${shortYear}`
 }
 
-// API Data Fetcher - SECURE VERSION
+// ✅ API Data Fetcher - QUALTRIM STYLE: Jahre = Datenpunkte (bei Quarterly: Jahre × 4)
 async function fetchFinancialData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   try {
-    // Use secure API route instead of direct FMP calls
+    // ✅ QUALTRIM LOGIK: Bei Quarterly laden wir Jahre × 4 Quartale
+    const dataPoints = period === 'quarterly' ? years * 4 : years
+    
     const response = await fetch(`/api/financial-data/${ticker}?years=${years}&period=${period}`)
     
     if (!response.ok) {
@@ -109,7 +95,6 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
     
     const financialData = await response.json()
     
-    // Extract data from secure API response
     const incomeData = financialData.incomeStatements
     const balanceData = financialData.balanceSheets
     const cashFlowData = financialData.cashFlows
@@ -118,48 +103,67 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
 
     const cutoffYear = 2005
     const currentYear = new Date().getFullYear()
-    // ✅ FIX: Für Quartalsdaten auch aktuelles Jahr einschließen, für jährliche nur bis Vorjahr
-    const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
     
+    // ✅ Filtere moderne Daten
     const filteredIncomeData = incomeData.filter((item: any) => {
       const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
-      return year >= cutoffYear && year <= maxYear
+      return year >= cutoffYear && year <= currentYear
     })
 
-    const dividendsByYear: Record<string, number> = {}
-    if (dividendData && dividendData.historical && Array.isArray(dividendData.historical)) {
+    // Dividends aggregation
+    const dividendsByPeriod: Record<string, number> = {}
+    if (dividendData?.historical && Array.isArray(dividendData.historical)) {
       dividendData.historical.forEach((div: any) => {
         try {
-          const year = new Date(div.date).getFullYear().toString()
-          const yearNum = parseInt(year)
+          const date = new Date(div.date)
+          const year = date.getFullYear()
+          const quarter = Math.ceil((date.getMonth() + 1) / 3)
           
-          if (yearNum >= cutoffYear && yearNum <= maxYear) {
-            if (!dividendsByYear[year]) {
-              dividendsByYear[year] = 0
-            }
-            dividendsByYear[year] += div.adjDividend || div.dividend || 0
+          // Key basierend auf Period
+          const key = period === 'quarterly' 
+            ? `${year}-Q${quarter}` 
+            : year.toString()
+          
+          if (!dividendsByPeriod[key]) {
+            dividendsByPeriod[key] = 0
           }
+          dividendsByPeriod[key] += div.adjDividend || div.dividend || 0
         } catch (e) {
           console.warn('Error parsing dividend date:', div.date, e)
         }
       })
     }
 
-    const combinedData = filteredIncomeData.slice(0, years).reverse().map((income: any, index: number) => {
+    // ✅ QUALTRIM: Nehme die richtigen Datenpunkte
+    const slicedData = filteredIncomeData.slice(0, dataPoints)
+    
+    const combinedData = slicedData.reverse().map((income: any, index: number) => {
       const balance = balanceData[balanceData.length - 1 - index] || {}
       const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
       const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
-      const year = income.calendarYear || income.date?.slice(0, 4) || '—'
-      const label = formatChartLabel(income.date || year, period)
+      
+      // Label basierend auf Period
+      let label = ''
+      if (period === 'quarterly') {
+        label = formatQuarterLabel(income.date)
+      } else {
+        label = income.calendarYear || income.date?.slice(0, 4) || '—'
+      }
+      
+      // Dividend key für lookup
+      const year = income.calendarYear || income.date?.slice(0, 4) || ''
+      const divKey = period === 'quarterly' && income.date
+        ? `${new Date(income.date).getFullYear()}-Q${Math.ceil((new Date(income.date).getMonth() + 1) / 3)}`
+        : year
 
       return {
-        label: label,
+        label,
         revenue: income.revenue || 0,
         netIncome: income.netIncome || 0,
         operatingIncome: income.operatingIncome || 0,
         ebitda: income.ebitda || 0,
         eps: income.eps || 0,
-        dividendPS: dividendsByYear[year] || metrics.dividendPerShare || 0,
+        dividendPS: dividendsByPeriod[divKey] || metrics.dividendPerShare || 0,
         cash: balance.cashAndCashEquivalents || balance.cashAndShortTermInvestments || 0,
         debt: balance.totalDebt || 0,
         sharesOutstanding: balance.commonStockSharesOutstanding || income.weightedAverageShsOut || 0,
@@ -169,18 +173,11 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
         returnOnEquity: metrics.roe || 0,
         researchAndDevelopment: income.researchAndDevelopmentExpenses || 0,
         stockAward: income.stockBasedCompensation || 0,
-      
- // ✅ PROFIT MARGIN BERECHNUNG AUCH IM MODAL
- profitMargin: (income.revenue && income.revenue > 0) 
- ? (income.netIncome || 0) / income.revenue 
- : 0,
-
-// ✅ BEWERTUNGSKENNZAHLEN
-pb: metrics.pbRatio || 0,
-ps: metrics.psRatio || metrics.priceToSalesRatio || 0
-
-
-
+        profitMargin: (income.revenue && income.revenue > 0) 
+          ? (income.netIncome || 0) / income.revenue 
+          : 0,
+        pb: metrics.pbRatio || 0,
+        ps: metrics.psRatio || metrics.priceToSalesRatio || 0
       }
     })
 
@@ -191,11 +188,11 @@ ps: metrics.psRatio || metrics.priceToSalesRatio || 0
   }
 }
 
-// ✅ SEGMENT DATA FETCHER FUNCTIONS - SECURE VERSION
+// ✅ SEGMENT DATA FETCHER - AUCH MIT QUALTRIM LOGIK
 async function fetchProductSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   try {
     const res = await fetch(
-      `/api/revenue-segmentation/${ticker}?type=product&period=annual&structure=flat`
+      `/api/revenue-segmentation/${ticker}?type=product&period=${period}&structure=flat`
     )
     
     if (!res.ok) return []
@@ -205,14 +202,20 @@ async function fetchProductSegmentData(ticker: string, years: number, period: 'a
     
     if (!Array.isArray(data) || data.length === 0) return []
     
+    // ✅ QUALTRIM: Bei Quarterly mehr Datenpunkte
+    const dataPoints = period === 'quarterly' ? years * 4 : years
+    
     const transformed = data.map((yearData: any) => {
       const dateKey = Object.keys(yearData)[0]
       const segments = yearData[dateKey]
       
       if (!dateKey || !segments) return null
       
-      const year = dateKey.substring(0, 4)
-      const result: any = { label: formatChartLabel(dateKey, 'annual') }
+      const label = period === 'quarterly' 
+        ? formatQuarterLabel(dateKey)
+        : dateKey.substring(0, 4)
+      
+      const result: any = { label }
       
       Object.entries(segments).forEach(([segmentName, value]) => {
         if (typeof value === 'number' && value > 0) {
@@ -227,15 +230,13 @@ async function fetchProductSegmentData(ticker: string, years: number, period: 'a
     })
     .filter(Boolean)
     .reverse()
-    .slice(-years)
+    .slice(-dataPoints)
     
-    // ✅ ENTFERNE JAHRE WO ALLE SEGMENTE 0 SIND
-    const filteredData = transformed.filter(yearData => {
+    // Entferne Jahre wo alle Segmente 0 sind
+    return transformed.filter((yearData: any) => {
       const segmentKeys = Object.keys(yearData).filter(key => key !== 'label')
       return segmentKeys.some(key => (yearData[key] || 0) > 0)
     })
-    
-    return filteredData
   } catch (error) {
     console.error('Error fetching product segment data:', error)
     return []
@@ -245,7 +246,7 @@ async function fetchProductSegmentData(ticker: string, years: number, period: 'a
 async function fetchGeographicSegmentData(ticker: string, years: number, period: 'annual' | 'quarterly') {
   try {
     const res = await fetch(
-      `/api/revenue-segmentation/${ticker}?type=geographic&period=annual&structure=flat`
+      `/api/revenue-segmentation/${ticker}?type=geographic&period=${period}&structure=flat`
     )
     
     if (!res.ok) return []
@@ -255,25 +256,32 @@ async function fetchGeographicSegmentData(ticker: string, years: number, period:
     
     if (!Array.isArray(data) || data.length === 0) return []
     
+    // ✅ QUALTRIM: Bei Quarterly mehr Datenpunkte
+    const dataPoints = period === 'quarterly' ? years * 4 : years
+    
     const transformed = data.map((yearData: any) => {
-      let year = ''
+      let dateKey = ''
       let segments: any = {}
       
       const firstKey = Object.keys(yearData)[0]
       
       if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
-        year = firstKey.substring(0, 4)
+        dateKey = firstKey
         segments = yearData[firstKey]
       } else if (yearData.date) {
-        year = yearData.date.substring(0, 4)
+        dateKey = yearData.date
         segments = { ...yearData }
         delete segments.date
         delete segments.symbol
       }
       
-      if (!year || Object.keys(segments).length === 0) return null
+      if (!dateKey || Object.keys(segments).length === 0) return null
       
-      const result: any = { label: formatChartLabel(year || '2024', 'annual') }
+      const label = period === 'quarterly' 
+        ? formatQuarterLabel(dateKey)
+        : dateKey.substring(0, 4)
+      
+      const result: any = { label }
       
       Object.entries(segments).forEach(([segmentName, value]) => {
         if (typeof value === 'number' && value > 0) {
@@ -288,15 +296,12 @@ async function fetchGeographicSegmentData(ticker: string, years: number, period:
     })
     .filter(Boolean)
     .reverse()
-    .slice(-years)
+    .slice(-dataPoints)
     
-    // ✅ ENTFERNE JAHRE WO ALLE SEGMENTE 0 SIND
-    const filteredData = transformed.filter(yearData => {
+    return transformed.filter((yearData: any) => {
       const segmentKeys = Object.keys(yearData).filter(key => key !== 'label')
       return segmentKeys.some(key => (yearData[key] || 0) > 0)
     })
-    
-    return filteredData
   } catch (error) {
     console.error('Error fetching geographic segment data:', error)
     return []
@@ -315,7 +320,7 @@ const METRICS = [
   { key: 'capEx' as const, name: 'Investitionsausgaben', shortName: 'CapEx', fill: 'rgba(6,182,212,0.8)', stroke: '#06b6d4' },
   { key: 'researchAndDevelopment' as const, name: 'F&E Ausgaben', shortName: 'F&E', fill: 'rgba(132,204,22,0.8)', stroke: '#84cc16' },
   { key: 'operatingIncome' as const, name: 'Betriebsergebnis', shortName: 'Betriebsergebnis', fill: 'rgba(249,115,22,0.8)', stroke: '#f97316' },
-  { key: 'profitMargin' as const, name: 'Gewinnmarge', shortName: 'Gewinnmarge', fill: 'rgba(249,115,22,0.8)', stroke: '#f97316' }, // ✅ NEU
+  { key: 'profitMargin' as const, name: 'Gewinnmarge', shortName: 'Gewinnmarge', fill: 'rgba(249,115,22,0.8)', stroke: '#f97316' },
   { key: 'revenueSegments' as const, name: 'Produkt-Segmente', shortName: 'Produkt-Segmente', fill: 'rgba(59,130,246,0.8)', stroke: '#3b82f6' },
   { key: 'geographicSegments' as const, name: 'Geo-Segmente', shortName: 'Geo-Segmente', fill: 'rgba(16,185,129,0.8)', stroke: '#10b981' },
 ]
@@ -336,6 +341,9 @@ export default function FinancialChartModal({
   
   const { currency, formatCurrency, formatAxisValueDE, formatStockPrice } = useCurrency()
 
+  // ✅ Berechne erwartete Datenpunkte für Info-Anzeige
+  const expectedDataPoints = period === 'quarterly' ? years * 4 : years
+
   // Load data when modal opens or settings change
   useEffect(() => {
     if (!isOpen || !metricKey || !ticker) return
@@ -343,7 +351,6 @@ export default function FinancialChartModal({
     async function loadData() {
       setLoading(true)
       try {
-        // Load segment data if needed
         if (metricKey === 'revenueSegments') {
           const result = await fetchProductSegmentData(ticker, years, period)
           setSegmentData(result)
@@ -351,7 +358,6 @@ export default function FinancialChartModal({
           const result = await fetchGeographicSegmentData(ticker, years, period)
           setSegmentData(result)
         } else {
-          // Load regular financial data
           const result = await fetchFinancialData(ticker, years, period)
           setData(result)
         }
@@ -372,9 +378,7 @@ export default function FinancialChartModal({
     if (!isOpen) return
 
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        onClose()
-      }
+      if (e.key === 'Escape') onClose()
     }
 
     document.addEventListener('keydown', handleEscape)
@@ -391,63 +395,90 @@ export default function FinancialChartModal({
   const metric = METRICS.find(m => m.key === metricKey)
   const metricName = metric?.name || metricKey
 
-  // Calculate CAGR (only for non-segment charts)
   const isSegmentChart = metricKey === 'revenueSegments' || metricKey === 'geographicSegments'
-  const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, 2) : null
-  const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, 4) : null
-  const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, 6) : null
+  const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 4 : 2) : null
+  const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 12 : 4) : null
+  const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 20 : 6) : null
+
+  // ✅ Dynamische X-Achsen Konfiguration basierend auf Datenmenge
+  const getXAxisConfig = (dataLength: number) => {
+    if (dataLength > 30) {
+      return { angle: -45, fontSize: 9, interval: 3 }
+    } else if (dataLength > 20) {
+      return { angle: -45, fontSize: 10, interval: 2 }
+    } else if (dataLength > 10) {
+      return { angle: -45, fontSize: 11, interval: 1 }
+    }
+    return { angle: 0, fontSize: 12, interval: 0 }
+  }
 
   return (
     <div 
       className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50"
       onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          onClose()
-        }
+        if (e.target === e.currentTarget) onClose()
       }}
     >
       <div 
-        className="bg-theme-secondary border border-theme w-full max-w-6xl h-[80vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl"
+        className="bg-theme-secondary border border-theme w-full max-w-7xl h-[85vh] flex flex-col rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl"
         onClick={(e) => e.stopPropagation()}
       >
         
-        {/* HEADER */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-theme bg-theme-secondary">
+        {/* HEADER - QUALTRIM STYLE */}
+        <div className="flex items-center justify-between px-6 py-4 border-b border-theme bg-theme-secondary">
           <div className="flex items-center gap-4">
-            <h1 className="text-xl font-bold text-theme-primary">
-              {metricName} · {ticker} · {currency}
-            </h1>
+            {/* Ticker Logo Placeholder */}
+            <div className="w-10 h-10 bg-theme-tertiary rounded-lg flex items-center justify-center">
+              <span className="text-theme-primary font-bold text-sm">{ticker.slice(0, 2)}</span>
+            </div>
             
+            <div>
+              <h1 className="text-lg font-bold text-theme-primary">
+                {metricName} - {ticker}
+              </h1>
+              <p className="text-xs text-theme-muted">
+                {period === 'quarterly' ? 'Quartalsweise' : 'Jährlich'} • {currency}
+                {period === 'quarterly' && (
+                  <span className="ml-2 text-brand-light">
+                    ({years} Jahre = {expectedDataPoints} Quartale)
+                  </span>
+                )}
+              </p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            {/* Years Selector - QUALTRIM STYLE DROPDOWN */}
             <select
               value={years}
               onChange={(e) => setYears(Number(e.target.value))}
-              className="px-3 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/20 focus:border-green-500/50 transition-all duration-200"
-              style={{ 
-                minWidth: '120px',
-                fontSize: '14px',
-                fontWeight: '500'
-              }}
+              className="px-4 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-green-500/50 transition-all text-sm font-medium cursor-pointer hover:bg-theme-hover"
             >
-              <option value={20}>20 Jahre</option>
-              <option value={10}>10 Jahre</option>
-              <option value={5}>5 Jahre</option>
               <option value={3}>3 Jahre</option>
+              <option value={5}>5 Jahre</option>
+              <option value={10}>10 Jahre</option>
+              <option value={20}>20 Jahre</option>
             </select>
+            
+            <button
+              onClick={onClose}
+              className="w-10 h-10 bg-theme-tertiary hover:bg-red-500/20 text-theme-muted hover:text-red-400 rounded-lg flex items-center justify-center transition-all duration-200 border border-theme hover:border-red-500/30"
+            >
+              <XMarkIcon className="w-5 h-5" />
+            </button>
           </div>
-          
-          <button
-            onClick={onClose}
-            className="w-10 h-10 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg flex items-center justify-center transition-all duration-200 hover:scale-105 border border-red-500/30"
-          >
-            <XMarkIcon className="w-5 h-5" />
-          </button>
         </div>
 
         {/* CHART AREA */}
         <div className="flex-1 bg-theme-primary p-6">
           {loading ? (
             <div className="flex items-center justify-center h-full">
-              <div className="animate-spin rounded-full h-12 w-12 border-2 border-green-500 border-t-transparent"></div>
+              <div className="text-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-2 border-green-500 border-t-transparent mx-auto mb-3"></div>
+                <p className="text-theme-muted text-sm">
+                  Lade {expectedDataPoints} Datenpunkte...
+                </p>
+              </div>
             </div>
           ) : (
             <div className="w-full h-full">
@@ -459,289 +490,222 @@ export default function FinancialChartModal({
                       border: '1px solid var(--border-color)',
                       borderRadius: '12px',
                       color: 'var(--text-primary)',
-                      fontSize: '14px',
+                      fontSize: '13px',
                       fontWeight: '500',
-                      padding: '12px 16px',
+                      padding: '10px 14px',
                       backdropFilter: 'blur(12px)',
-                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)'
                     },
                     labelStyle: { 
                       color: 'var(--text-primary)', 
-                      fontSize: '15px', 
+                      fontSize: '14px', 
                       fontWeight: '600',
-                      marginBottom: '6px',
-                      borderBottom: '1px solid var(--border-color)',
-                      paddingBottom: '4px'
+                      marginBottom: '4px'
                     }
                   }
 
-                  // ✅ REVENUE SEGMENTS CHART - MIT 0-WERTE FILTER
+                  // Dynamische X-Achsen Einstellungen
+                  const currentData = isSegmentChart ? segmentData : data
+                  const xAxisConfig = getXAxisConfig(currentData.length)
+
+                  // ✅ REVENUE SEGMENTS CHART
                   if (metricKey === 'revenueSegments') {
-                    // ✅ UNION ALLER SEGMENTE MIT POSITIVEN WERTEN
                     const allSegmentKeys = new Set<string>()
                     segmentData.forEach(yearData => {
                       Object.keys(yearData).forEach(key => {
-                        if (key !== 'label') {
-                          const hasPositiveValue = segmentData.some(year => (year[key] || 0) > 0)
-                          if (hasPositiveValue) {
-                            allSegmentKeys.add(key)
-                          }
+                        if (key !== 'label' && segmentData.some(year => (year[key] || 0) > 0)) {
+                          allSegmentKeys.add(key)
                         }
                       })
                     })
-                    
                     const segmentKeys = Array.from(allSegmentKeys)
                     
                     return (
-                      <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
+                      <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                         <XAxis 
                           dataKey="label" 
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
                         />
                         <YAxis 
                           tickFormatter={formatAxisValueDE}
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          width={80}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          width={70}
                         />
                         <RechartsTooltip
                           content={({ active, payload, label }) => {
                             if (!active || !payload) return null
-                            
-                            // ✅ FILTERE 0-WERTE AUS DER TOOLTIP
                             const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
                             const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
                             
                             return (
-                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20">
+                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20 shadow-xl">
                                 <p className="text-theme-primary font-semibold text-sm mb-2">{label}</p>
-                                {nonZeroPayload.slice(0, 10).map((entry, index) => (
+                                {nonZeroPayload.slice(0, 8).map((entry, index) => (
                                   <div key={index} className="flex justify-between gap-4 text-xs">
                                     <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span className="text-theme-primary font-medium">
-                                      {formatCurrency(entry.value as number)}
-                                    </span>
+                                    <span className="text-theme-primary font-medium">{formatCurrency(entry.value as number)}</span>
                                   </div>
                                 ))}
-                                {nonZeroPayload.length > 10 && (
-                                  <div className="text-xs text-theme-secondary mt-1">+{nonZeroPayload.length - 10} weitere...</div>
+                                {nonZeroPayload.length > 8 && (
+                                  <div className="text-xs text-theme-muted mt-1">+{nonZeroPayload.length - 8} weitere...</div>
                                 )}
                                 <div className="border-t border-theme/20 mt-2 pt-2">
-                                  <div className="flex justify-between gap-4 text-xs">
+                                  <div className="flex justify-between gap-4 text-xs font-bold">
                                     <span className="text-theme-secondary">Gesamt:</span>
-                                    <span className="text-theme-primary font-bold">
-                                      {formatCurrency(total)}
-                                    </span>
+                                    <span className="text-theme-primary">{formatCurrency(total)}</span>
                                   </div>
                                 </div>
                               </div>
                             )
                           }}
                         />
-                        
-                        {/* ✅ NUR BARS FÜR SEGMENTE MIT WERTEN */}
-                        {segmentKeys.map((segment, index) => {
-                          const hasAnyValue = segmentData.some(year => (year[segment] || 0) > 0)
-                          if (!hasAnyValue) return null
-                          
-                          return (
-                            <Bar 
-                              key={segment}
-                              dataKey={segment}
-                              stackId="a"
-                              fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
-                              radius={index === segmentKeys.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
-                            />
-                          )
-                        }).filter(Boolean)}
+                        {segmentKeys.map((segment, index) => (
+                          <Bar 
+                            key={segment}
+                            dataKey={segment}
+                            stackId="a"
+                            fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
+                            radius={index === segmentKeys.length - 1 ? [3, 3, 0, 0] : [0, 0, 0, 0]}
+                          />
+                        ))}
                       </BarChart>
                     )
-                  } 
-                  // ✅ GEOGRAPHIC SEGMENTS CHART - MIT 0-WERTE FILTER
-                  else if (metricKey === 'geographicSegments') {
-                    // ✅ UNION ALLER SEGMENTE MIT POSITIVEN WERTEN
-                    const allSegmentKeys = new Set<string>()
-                    segmentData.forEach(yearData => {
-                      Object.keys(yearData).forEach(key => {
-                        if (key !== 'label') {
-                          const hasPositiveValue = segmentData.some(year => (year[key] || 0) > 0)
-                          if (hasPositiveValue) {
-                            allSegmentKeys.add(key)
-                          }
-                        }
-                      })
-                    })
-                    
-                    const segmentKeys = Array.from(allSegmentKeys)
-                    
-                    return (
-                      <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
-                        <XAxis 
-                          dataKey="label" 
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
-                        />
-                        <YAxis 
-                          tickFormatter={formatAxisValueDE}
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          width={80}
-                        />
-                        <RechartsTooltip
-                          content={({ active, payload, label }) => {
-                            if (!active || !payload) return null
-                            
-                            // ✅ FILTERE 0-WERTE AUS DER TOOLTIP
-                            const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
-                            const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
-                            
-                            return (
-                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20">
-                                <p className="text-theme-primary font-semibold text-sm mb-2">{label}</p>
-                                {nonZeroPayload.slice(0, 10).map((entry, index) => (
-                                  <div key={index} className="flex justify-between gap-4 text-xs">
-                                    <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span className="text-theme-primary font-medium">
-                                      {formatCurrency(entry.value as number)}
-                                    </span>
-                                  </div>
-                                ))}
-                                {nonZeroPayload.length > 10 && (
-                                  <div className="text-xs text-theme-secondary mt-1">+{nonZeroPayload.length - 10} weitere...</div>
-                                )}
-                                <div className="border-t border-theme/20 mt-2 pt-2">
-                                  <div className="flex justify-between gap-4 text-xs">
-                                    <span className="text-theme-secondary">Gesamt:</span>
-                                    <span className="text-theme-primary font-bold">
-                                      {formatCurrency(total)}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            )
-                          }}
-                        />
-                        
-                        {/* ✅ NUR BARS FÜR SEGMENTE MIT WERTEN */}
-                        {segmentKeys.map((segment, index) => {
-                          const hasAnyValue = segmentData.some(year => (year[segment] || 0) > 0)
-                          if (!hasAnyValue) return null
-                          
-                          return (
-                            <Bar 
-                              key={segment}
-                              dataKey={segment}
-                              stackId="a"
-                              fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
-                              radius={index === segmentKeys.length - 1 ? [4, 4, 0, 0] : [0, 0, 0, 0]}
-                            />
-                          )
-                        }).filter(Boolean)}
-                      </BarChart>
-                    )
+                  }
                   
+                  // ✅ GEOGRAPHIC SEGMENTS CHART
+                  if (metricKey === 'geographicSegments') {
+                    const allSegmentKeys = new Set<string>()
+                    segmentData.forEach(yearData => {
+                      Object.keys(yearData).forEach(key => {
+                        if (key !== 'label' && segmentData.some(year => (year[key] || 0) > 0)) {
+                          allSegmentKeys.add(key)
+                        }
+                      })
+                    })
+                    const segmentKeys = Array.from(allSegmentKeys)
+                    
+                    return (
+                      <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
+                        <XAxis 
+                          dataKey="label" 
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
+                        />
+                        <YAxis 
+                          tickFormatter={formatAxisValueDE}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          width={70}
+                        />
+                        <RechartsTooltip
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload) return null
+                            const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
+                            const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
+                            
+                            return (
+                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20 shadow-xl">
+                                <p className="text-theme-primary font-semibold text-sm mb-2">{label}</p>
+                                {nonZeroPayload.slice(0, 8).map((entry, index) => (
+                                  <div key={index} className="flex justify-between gap-4 text-xs">
+                                    <span style={{ color: entry.color }}>{entry.name}:</span>
+                                    <span className="text-theme-primary font-medium">{formatCurrency(entry.value as number)}</span>
+                                  </div>
+                                ))}
+                                <div className="border-t border-theme/20 mt-2 pt-2">
+                                  <div className="flex justify-between gap-4 text-xs font-bold">
+                                    <span className="text-theme-secondary">Gesamt:</span>
+                                    <span className="text-theme-primary">{formatCurrency(total)}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            )
+                          }}
+                        />
+                        {segmentKeys.map((segment, index) => (
+                          <Bar 
+                            key={segment}
+                            dataKey={segment}
+                            stackId="a"
+                            fill={SEGMENT_COLORS[index % SEGMENT_COLORS.length]}
+                            radius={index === segmentKeys.length - 1 ? [3, 3, 0, 0] : [0, 0, 0, 0]}
+                          />
+                        ))}
+                      </BarChart>
+                    )
                   }
 
-
-                  else if (metricKey === 'profitMargin') {
+                  // ✅ PROFIT MARGIN CHART
+                  if (metricKey === 'profitMargin') {
                     const validData = data.filter(d => d.profitMargin !== undefined && d.profitMargin !== null)
                     
                     return (
-                      <BarChart data={validData} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
+                      <BarChart data={validData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                         <XAxis 
                           dataKey="label" 
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
                         />
                         <YAxis 
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          tickFormatter={(value) => `${(value * 100).toFixed(1)}%`}
-                          width={80}
-                          domain={['dataMin', 'dataMax']}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          tickFormatter={(value) => `${(value * 100).toFixed(0)}%`}
+                          width={60}
+                          domain={['dataMin - 0.05', 'dataMax + 0.05']}
                         />
                         <RechartsTooltip 
                           formatter={(v: number) => [`${(v * 100).toFixed(1)}%`, 'Gewinnmarge']}
                           {...tooltipStyles}
                         />
-                        <Bar
-                          dataKey="profitMargin"
-                          name="Gewinnmarge"
-                          fill="rgba(249, 115, 22, 0.8)"
-                          radius={[4, 4, 0, 0]}
-                        />
+                        <Bar dataKey="profitMargin" name="Gewinnmarge" fill="rgba(249, 115, 22, 0.8)" radius={[3, 3, 0, 0]} />
                       </BarChart>
                     )
                   }
 
-
-
-                  else if (metricKey === 'valuationMetrics') {
+                  // ✅ VALUATION METRICS CHART (KGV, KBV, KUV)
+                  if (metricKey === 'valuationMetrics') {
                     return (
-                      <LineChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
+                      <LineChart data={data} margin={{ top: 20, right: 30, bottom: 80, left: 60 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                         <XAxis 
                           dataKey="label" 
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
                         />
                         <YAxis 
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          tickFormatter={(value) => `${value.toFixed(1)}x`}
-                          width={80}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          tickFormatter={(value) => `${value.toFixed(0)}x`}
+                          width={50}
                         />
                         <RechartsTooltip
                           content={({ active, payload, label }) => {
@@ -752,104 +716,83 @@ export default function FinancialChartModal({
                                 {payload.map((entry, index) => (
                                   <div key={index} className="flex justify-between gap-4 text-xs">
                                     <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span className="text-theme-primary font-medium">
-                                      {(entry.value as number).toFixed(1)}x
-                                    </span>
+                                    <span className="text-theme-primary font-medium">{(entry.value as number).toFixed(1)}x</span>
                                   </div>
                                 ))}
                               </div>
                             )
                           }}
                         />
-                        <Line type="monotone" dataKey="pe" name="KGV" stroke="#F97316" strokeWidth={3} dot={{ r: 4 }} />
-                        <Line type="monotone" dataKey="pb" name="KBV" stroke="#8B5CF6" strokeWidth={3} dot={{ r: 4 }} />
-                        <Line type="monotone" dataKey="ps" name="KUV" stroke="#06B6D4" strokeWidth={3} dot={{ r: 4 }} />
+                        <Line type="monotone" dataKey="pe" name="KGV" stroke="#F97316" strokeWidth={2.5} dot={{ r: 3 }} />
+                        <Line type="monotone" dataKey="pb" name="KBV" stroke="#8B5CF6" strokeWidth={2.5} dot={{ r: 3 }} />
+                        <Line type="monotone" dataKey="ps" name="KUV" stroke="#06B6D4" strokeWidth={2.5} dot={{ r: 3 }} />
                       </LineChart>
                     )
                   }
 
-
-
-                  // CASH DEBT CHART
-                  else if (metricKey === 'cashDebt') {
+                  // ✅ CASH DEBT CHART
+                  if (metricKey === 'cashDebt') {
                     return (
-                      <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
+                      <BarChart data={data} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                         <XAxis 
                           dataKey="label" 
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
                         />
                         <YAxis 
                           tickFormatter={formatAxisValueDE}
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          width={80}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          width={70}
                         />
                         <RechartsTooltip 
                           formatter={(v: any, n: string) => [formatCurrency(v as number), n]}
                           {...tooltipStyles}
                         />
-                        <Bar dataKey="cash" name="Liquidität" fill="rgba(34, 197, 94, 0.8)" radius={[4, 4, 0, 0]} />
-                        <Bar dataKey="debt" name="Schulden" fill="rgba(239, 68, 68, 0.8)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="cash" name="Liquidität" fill="rgba(34, 197, 94, 0.8)" radius={[3, 3, 0, 0]} />
+                        <Bar dataKey="debt" name="Schulden" fill="rgba(239, 68, 68, 0.8)" radius={[3, 3, 0, 0]} />
                       </BarChart>
                     )
-                  } 
-                  // PE RATIO LINE CHART
-                  else if (metricKey === 'pe') {
+                  }
+                  
+                  // ✅ PE RATIO LINE CHART
+                  if (metricKey === 'pe') {
                     const avg = data.reduce((sum, r) => sum + (r.pe || 0), 0) / (data.length || 1)
                     return (
-                      <LineChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 60 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
+                      <LineChart data={data} margin={{ top: 20, right: 30, bottom: 80, left: 60 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                         <XAxis 
                           dataKey="label" 
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
                         />
                         <YAxis 
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          width={60}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          width={50}
                         />
-                        <ReferenceLine
-                          y={avg}
-                          stroke="var(--text-muted)"
-                          strokeDasharray="5 5"
-                          strokeWidth={2}
-                          opacity={0.6}
-                        />
+                        <ReferenceLine y={avg} stroke="rgba(148, 163, 184, 0.5)" strokeDasharray="5 5" strokeWidth={2} />
                         <Line 
                           type="monotone" 
                           dataKey="pe" 
                           name="KGV TTM" 
                           stroke="#F97316" 
-                          strokeWidth={3}
-                          dot={{ fill: '#F97316', strokeWidth: 2, r: 5 }}
-                          activeDot={{ r: 8, fill: '#F97316', stroke: 'var(--bg-primary)', strokeWidth: 2 }}
+                          strokeWidth={2.5}
+                          dot={{ fill: '#F97316', strokeWidth: 0, r: 4 }}
+                          activeDot={{ r: 6, fill: '#F97316', stroke: 'var(--bg-primary)', strokeWidth: 2 }}
                         />
                         <RechartsTooltip 
                           formatter={(v: number) => [v.toFixed(1) + 'x', 'KGV TTM']}
@@ -857,96 +800,77 @@ export default function FinancialChartModal({
                         />
                       </LineChart>
                     )
-                  } 
-                  // STANDARD BAR CHART
-                  else {
-                    return (
-                      <BarChart data={data} margin={{ top: 20, right: 30, bottom: 60, left: 80 }}>
-                        <CartesianGrid 
-                          strokeDasharray="1 3" 
-                          stroke="#64748b" 
-                          strokeWidth={1}
-                          opacity={1}
-                          horizontal={true}
-                          vertical={false}
-                        />
-                        <XAxis 
-                          dataKey="label" 
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          angle={-45}
-                          textAnchor="end"
-                          height={60}
-                        />
-                        <YAxis
-                          tickFormatter={(v: number) => {
-                            if (metricKey === 'returnOnEquity') {
-                              return `${(v * 100).toFixed(0)}%`
-                            } else if (metricKey === 'eps' || metricKey === 'dividendPS') {
-                              return `${v.toFixed(v < 1 ? 2 : 1)} ${currency === 'USD' ? '$' : '€'}`
-                            } else if (metricKey === 'sharesOutstanding') {
-                              return `${(v / 1e9).toFixed(1)} Mrd.`
-                            }
-                            return formatAxisValueDE(v)
-                          }}
-                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-                          tick={{ fontSize: 12, fill: 'var(--color-text-primary)', fontWeight: 500 }}
-                          width={80}
-                        />
-                        <RechartsTooltip 
-                          formatter={(v: any, n: string) => {
-                            if (metricKey === 'returnOnEquity') {
-                              return [`${((v as number) * 100).toFixed(1)}%`, n]
-                            } else if (metricKey === 'eps' || metricKey === 'dividendPS') {
-                              return [formatStockPrice(v as number), n]
-                            } else if (metricKey === 'sharesOutstanding') {
-                              return [`${((v as number) / 1e9).toFixed(2)} Mrd. Aktien`, n]
-                            }
-                            return [formatCurrency(v as number), n]
-                          }}
-                          {...tooltipStyles}
-                        />
-                        <Bar
-                          dataKey={metricKey}
-                          name={metricName}
-                          fill={metric?.fill || 'rgba(59, 130, 246, 0.8)'}
-                          radius={[4, 4, 0, 0]}
-                        />
-                      </BarChart>
-                    )
                   }
+                  
+                  // ✅ STANDARD BAR CHART
+                  return (
+                    <BarChart data={data} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
+                      <XAxis 
+                        dataKey="label" 
+                        axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                        tickLine={false}
+                        tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                        angle={xAxisConfig.angle}
+                        textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                        height={70}
+                        interval={xAxisConfig.interval}
+                      />
+                      <YAxis
+                        tickFormatter={(v: number) => {
+                          if (metricKey === 'returnOnEquity') return `${(v * 100).toFixed(0)}%`
+                          if (metricKey === 'eps' || metricKey === 'dividendPS') return `${v.toFixed(v < 1 ? 2 : 1)} ${currency === 'USD' ? '$' : '€'}`
+                          if (metricKey === 'sharesOutstanding') return `${(v / 1e9).toFixed(1)}B`
+                          return formatAxisValueDE(v)
+                        }}
+                        axisLine={false}
+                        tickLine={false}
+                        tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                        width={70}
+                      />
+                      <RechartsTooltip 
+                        formatter={(v: any, n: string) => {
+                          if (metricKey === 'returnOnEquity') return [`${((v as number) * 100).toFixed(1)}%`, n]
+                          if (metricKey === 'eps' || metricKey === 'dividendPS') return [formatStockPrice(v as number), n]
+                          if (metricKey === 'sharesOutstanding') return [`${((v as number) / 1e9).toFixed(2)} Mrd. Aktien`, n]
+                          return [formatCurrency(v as number), n]
+                        }}
+                        {...tooltipStyles}
+                      />
+                      <Bar
+                        dataKey={metricKey}
+                        name={metricName}
+                        fill={metric?.fill || 'rgba(59, 130, 246, 0.8)'}
+                        radius={[3, 3, 0, 0]}
+                      />
+                    </BarChart>
+                  )
                 })()}
               </ResponsiveContainer>
             </div>
           )}
         </div>
 
-        {/* FOOTER WITH CAGR - nur für nicht-Segment Charts */}
+        {/* FOOTER WITH CAGR - QUALTRIM STYLE */}
         {!isSegmentChart && (
-          <div className="border-t border-theme px-6 py-5 bg-theme-secondary">
-            <div className="flex justify-center">
-              <div className="grid grid-cols-3 gap-12 max-w-lg">
-                <div className="text-center">
-                  <div className="text-theme-muted text-xs font-medium mb-2 uppercase tracking-wider">1J CAGR</div>
-                  <div className={`text-xl font-bold ${cagr1Y && cagr1Y >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                    {cagr1Y !== null ? `${cagr1Y >= 0 ? '+' : ''}${cagr1Y.toFixed(1)}%` : '—'}
-                  </div>
+          <div className="border-t border-theme px-6 py-4 bg-theme-secondary">
+            <div className="flex justify-center items-center gap-8">
+              {[
+                { label: '1Y', value: cagr1Y },
+                { label: '2Y', value: cagr3Y },
+                { label: '5Y', value: cagr5Y }
+              ].map((item) => (
+                <div key={item.label} className="flex items-center gap-2">
+                  <span className="text-theme-muted text-sm font-medium">{item.label}:</span>
+                  <span className={`text-sm font-bold px-2 py-0.5 rounded ${
+                    item.value && item.value >= 0 
+                      ? 'text-green-400 bg-green-500/10' 
+                      : 'text-red-400 bg-red-500/10'
+                  }`}>
+                    {item.value !== null ? `${item.value >= 0 ? '+' : ''}${item.value.toFixed(2)}%` : '—'}
+                  </span>
                 </div>
-                <div className="text-center">
-                  <div className="text-theme-muted text-xs font-medium mb-2 uppercase tracking-wider">3J CAGR</div>
-                  <div className={`text-xl font-bold ${cagr3Y && cagr3Y >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                    {cagr3Y !== null ? `${cagr3Y >= 0 ? '+' : ''}${cagr3Y.toFixed(1)}%` : '—'}
-                  </div>
-                </div>
-                <div className="text-center">
-                  <div className="text-theme-muted text-xs font-medium mb-2 uppercase tracking-wider">5J CAGR</div>
-                  <div className={`text-xl font-bold ${cagr5Y && cagr5Y >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                    {cagr5Y !== null ? `${cagr5Y >= 0 ? '+' : ''}${cagr5Y.toFixed(1)}%` : '—'}
-                  </div>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         )}
