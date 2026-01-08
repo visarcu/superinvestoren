@@ -1979,8 +1979,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                     onClick={() => handlePremiumAction(() => setPeriod(p))}
                     className={`px-4 py-2 text-sm rounded-md transition-all duration-200 font-medium ${
                       period === p 
-                        ? 'bg-green-500 text-white shadow-sm' 
-                        : 'text-theme-secondary hover:text-green-600 hover:bg-green-500/10'
+        ? 'bg-blue-600 text-white shadow-sm' 
+: 'text-theme-secondary hover:text-blue-600 hover:bg-blue-500/10'
                     }`}
                   >
                     {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
@@ -2018,8 +2018,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                     onClick={() => applyPreset(key)}
                     className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
                       selectedPreset === key
-                        ? 'bg-green-500 text-white'
-                        : 'bg-theme-tertiary text-theme-secondary hover:bg-green-500/10 hover:text-green-400'
+                ? 'bg-blue-600 text-white'
+: 'bg-theme-tertiary text-theme-secondary hover:bg-blue-500/10 hover:text-blue-400'
                     }`}
                     title={(preset as LocalChartPreset).description}
                   >
@@ -2223,8 +2223,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 onClick={() => handlePremiumAction(() => toggleChartVisibility(chartKey))}
                 className={`text-left px-3 py-2.5 rounded-lg text-sm transition-all duration-200 ${
                   visibleCharts.includes(chartKey)
-                    ? 'bg-green-500/15 text-green-400 ring-1 ring-green-500/30'
-                    : 'bg-theme-tertiary text-theme-secondary hover:bg-green-500/10 hover:text-green-400'
+                  ? 'bg-blue-500/15 text-blue-400 ring-1 ring-blue-500/30'
+: 'bg-theme-tertiary text-theme-secondary hover:bg-blue-500/10 hover:text-blue-400'
                 }`}
               >
                 <div className="flex items-center gap-2">

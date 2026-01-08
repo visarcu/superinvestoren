@@ -1,27 +1,54 @@
 // tailwind.config.js
 module.exports = {
-    darkMode: 'class',
-    content: [
-      './src/app/**/*.{js,ts,jsx,tsx}',
-      './src/components/**/*.{js,ts,jsx,tsx}',
-    ],
-    theme: {
-      extend: {
-        colors: {
-          heroFrom: '#000000',
-          heroTo:   '#1f1f1f',
-          accent:   '#00ff88',
-          'surface-dark':'#1f1f1f',
-          'card-dark':   '#37383A',
-          section1: '#0f131a',   // etwas dunkleres Schwarzblau
-        section2: '#161c26',   // leicht helleres Schwarzblau
-        section3: '#1d2430',   // noch heller
+  darkMode: 'class',
+  content: [
+    './src/app/**/*.{js,ts,jsx,tsx}',
+    './src/components/**/*.{js,ts,jsx,tsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        // ═══════════════════════════════════════════════════════════════
+        // BRAND COLORS - EINE STELLE ZUM ÄNDERN
+        // Ändere diese Werte und die gesamte App ändert sich
+        // ═══════════════════════════════════════════════════════════════
+        brand: {
+          DEFAULT: '#2563eb',      // bg-brand, text-brand (Blue-600)
+          hover: '#1d4ed8',        // hover:bg-brand-hover (Blue-700)
+          light: '#3b82f6',        // text-brand-light (Blue-500)
+          muted: '#dbeafe',        // bg-brand-muted (Blue-100)
+          dark: '#1e40af',         // text-brand-dark (Blue-800)
         },
-        fontFamily: {
-          sans:    ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
-          orbitron:['Orbitron','sans-serif'],
+        
+        // Semantic Colors - NICHT ÄNDERN (universell verstanden)
+        positive: {
+          DEFAULT: '#16a34a',      // Green-600
+          light: '#22c55e',        // Green-500
+          muted: '#dcfce7',        // Green-100
         },
+        negative: {
+          DEFAULT: '#dc2626',      // Red-600
+          light: '#ef4444',        // Red-500
+          muted: '#fee2e2',        // Red-100
+        },
+        
+        // ═══════════════════════════════════════════════════════════════
+        // EXISTING COLORS - Deine bisherigen Farben
+        // ═══════════════════════════════════════════════════════════════
+        heroFrom: '#000000',
+        heroTo: '#1f1f1f',
+        accent: '#2563eb',         // ✅ Geändert von #00ff88 zu Brand Blue
+        'surface-dark': '#1f1f1f',
+        'card-dark': '#37383A',
+        section1: '#0f131a',
+        section2: '#161c26',
+        section3: '#1d2430',
+      },
+      fontFamily: {
+        sans: ['Inter', 'Poppins', 'system-ui', 'sans-serif'],
+        orbitron: ['Orbitron', 'sans-serif'],
       },
     },
-    plugins: [],
-  }
+  },
+  plugins: [],
+}
