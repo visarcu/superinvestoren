@@ -510,7 +510,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 
                 {/* Revenue Section */}
                 <tr>
-                  <td colSpan={incomeData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={incomeData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.revenue_growth}
                   </td>
                 </tr>
@@ -567,7 +567,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Gross Profit MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-theme-secondary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-semibold flex items-center gap-2">
                     <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     <SparklineTooltip
@@ -605,7 +605,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* Operating Expenses Section */}
                 <tr>
-                  <td colSpan={incomeData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={incomeData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.operating_metrics}
                   </td>
                 </tr>
@@ -651,7 +651,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Operating Income MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-theme-secondary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-semibold flex items-center gap-2">
                     <div className="w-2 h-2 bg-theme-primary rounded-full opacity-60"></div>
                     <SparklineTooltip
@@ -688,9 +688,9 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                {/* EBIT MIT LEARN TOOLTIP */}
-<tr className="bg-theme-tertiary/40">
+<tr className="bg-gray-50 dark:bg-gray-800/40">
   <td className="font-medium flex items-center gap-2">
-    <div className="w-2 h-2 bg-theme-secondary rounded-full opacity-60"></div>
+    <div className="w-2 h-2 bg-theme-muted rounded-full opacity-60"></div>
     <span className="flex items-center gap-2">
       {GERMAN_LABELS.ebit}
       <LearnTooltipButton term="EBIT" />
@@ -704,9 +704,9 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 </tr>
 
 {/* EBITDA MIT SPARKLINE UND LEARN TOOLTIP */}
-<tr className="bg-theme-tertiary/40">
+<tr className="bg-gray-50 dark:bg-gray-800/40">
   <td className="font-medium flex items-center gap-2">
-    <div className="w-2 h-2 bg-theme-secondary rounded-full opacity-60"></div>
+    <div className="w-2 h-2 bg-theme-muted rounded-full opacity-60"></div>
     <SparklineTooltip
       data={ebitdaSparklineData}
       value={formatFinancialNumber(latestData?.ebitda || 0)}
@@ -729,7 +729,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* Financial Results Section */}
                 <tr>
-                  <td colSpan={incomeData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={incomeData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.financial_results}
                   </td>
                 </tr>
@@ -775,7 +775,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Pre-Tax Income */}
-                <tr className="bg-theme-secondary/20">
+                <tr className="bg-gray-50/50 dark:bg-gray-800/20">
                   <td className="font-semibold">{GERMAN_LABELS.pretax_income}</td>
                   {incomeData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -813,7 +813,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Net Income - HIGHLIGHTED MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-theme-secondary/40">
+                <tr className="bg-gray-50 dark:bg-gray-800/40">
                   <td className="font-bold text-lg flex items-center gap-2">
                     <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
@@ -851,7 +851,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* Per Share Section */}
                 <tr>
-                  <td colSpan={incomeData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={incomeData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.per_share}
                   </td>
                 </tr>
@@ -1006,7 +1006,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 
                 {/* CURRENT ASSETS SECTION */}
                 <tr>
-                  <td colSpan={balanceData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={balanceData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.current_assets}
                   </td>
                 </tr>
@@ -1081,7 +1081,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                <tr className="bg-theme-secondary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-semibold">{GERMAN_LABELS.total_current_assets}</td>
                   {balanceData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -1092,7 +1092,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* NON-CURRENT ASSETS */}
                 <tr>
-                  <td colSpan={balanceData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={balanceData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.non_current_assets}
                   </td>
                 </tr>
@@ -1143,7 +1143,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Total Assets MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-theme-secondary/40">
+                <tr className="bg-gray-50 dark:bg-gray-800/40">
                   <td className="font-bold text-lg flex items-center gap-2">
                     <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
@@ -1168,7 +1168,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* CURRENT LIABILITIES SECTION */}
                 <tr>
-                  <td colSpan={balanceData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={balanceData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.current_liabilities}
                   </td>
                 </tr>
@@ -1218,7 +1218,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                <tr className="bg-theme-tertiary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-semibold flex items-center gap-2">
                     {GERMAN_LABELS.total_current_liabilities}
                     <LearnTooltipButton term="Kurzfristige Verbindlichkeiten" />
@@ -1232,7 +1232,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* NON-CURRENT LIABILITIES */}
                 <tr>
-                  <td colSpan={balanceData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={balanceData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.non_current_liabilities}
                   </td>
                 </tr>
@@ -1264,7 +1264,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   ))}
                 </tr>
 
-                <tr className="bg-theme-tertiary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-semibold flex items-center gap-2">
                     {GERMAN_LABELS.total_liabilities}
                     <LearnTooltipButton term="Langfristige Verbindlichkeiten" />
@@ -1278,7 +1278,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* EQUITY SECTION */}
                 <tr>
-                  <td colSpan={balanceData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={balanceData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.equity_section}
                   </td>
                 </tr>
@@ -1329,7 +1329,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Total Equity MIT SPARKLINE UND LEARN TOOLTIP */}
-                <tr className="bg-theme-secondary/40">
+                <tr className="bg-gray-50 dark:bg-gray-800/40">
                   <td className="font-bold text-lg flex items-center gap-2">
                     <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
@@ -1353,7 +1353,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Total Liabilities + Equity (Check) */}
-                <tr className="bg-theme-tertiary/20">
+                <tr className="bg-gray-50/50 dark:bg-gray-800/20">
                   <td className="font-semibold text-theme-muted">{GERMAN_LABELS.total_liabilities_equity}</td>
                   {balanceData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold text-theme-muted">
@@ -1457,7 +1457,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 
                 {/* OPERATING ACTIVITIES */}
                 <tr>
-                  <td colSpan={cashflowData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={cashflowData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.operating_activities}
                   </td>
                 </tr>
@@ -1556,7 +1556,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Operating Cash Flow MIT SPARKLINE */}
-                <tr className="bg-theme-secondary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-bold flex items-center gap-2">
                     <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
@@ -1580,7 +1580,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* INVESTING ACTIVITIES */}
                 <tr>
-                  <td colSpan={cashflowData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={cashflowData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.investing_activities}
                   </td>
                 </tr>
@@ -1636,7 +1636,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Investing Cash Flow */}
-                <tr className="bg-theme-secondary/20">
+                <tr className="bg-gray-50/50 dark:bg-gray-800/20">
                   <td className="font-semibold">{GERMAN_LABELS.investing_cash_flow}</td>
                   {cashflowData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -1647,7 +1647,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
                 {/* FINANCING ACTIVITIES */}
                 <tr>
-                  <td colSpan={cashflowData.length + 1} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
+                  <td colSpan={cashflowData.length + 1} className="bg-gray-100 dark:bg-gray-800/50 text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
                     {GERMAN_LABELS.financing_activities}
                   </td>
                 </tr>
@@ -1713,7 +1713,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* Financing Cash Flow */}
-                <tr className="bg-theme-secondary/20">
+                <tr className="bg-gray-50/50 dark:bg-gray-800/20">
                   <td className="font-semibold">{GERMAN_LABELS.financing_cash_flow}</td>
                   {cashflowData.map((item) => (
                     <td key={item.date} className="text-center font-mono font-semibold">
@@ -1723,7 +1723,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* NET CASH FLOW */}
-                <tr className="bg-theme-secondary/40">
+                <tr className="bg-gray-50 dark:bg-gray-800/40">
                   <td className="font-bold text-lg flex items-center gap-2">
                     <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     {GERMAN_LABELS.net_cash_flow}
@@ -1756,7 +1756,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 </tr>
 
                 {/* FREE CASH FLOW MIT SPARKLINE */}
-                <tr className="bg-theme-secondary/30">
+                <tr className="bg-gray-50 dark:bg-gray-800/30">
                   <td className="font-bold flex items-center gap-2">
                     <div className="w-3 h-3 bg-theme-primary rounded-full"></div>
                     <SparklineTooltip
@@ -1823,7 +1823,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           {/* Period Toggle */}
           <div className="flex items-center gap-3">
             <span className="text-sm text-theme-secondary font-medium">Periode:</span>
-            <div className="flex bg-theme-tertiary/50 border border-theme/20 rounded-lg p-0.5">
+            <div className="flex bg-gray-100 dark:bg-gray-800/50 border border-theme/20 rounded-lg p-0.5">
               {(['annual', 'quarterly'] as const).map((p) => (
                 <button
                   key={p}
@@ -1847,7 +1847,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 e.stopPropagation()
                 setIsYearsDropdownOpen(!isYearsDropdownOpen)
               }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-theme-tertiary/50 border border-theme/20 rounded-lg text-xs font-medium text-theme-secondary hover:text-theme-primary hover:bg-theme-hover transition-all duration-200"
+              className="flex items-center gap-2 px-3 py-1.5 bg-gray-100 dark:bg-gray-800/50 border border-theme/20 rounded-lg text-xs font-medium text-theme-secondary hover:text-theme-primary hover:bg-theme-hover transition-all duration-200"
             >
               <CalendarIcon className="w-3.5 h-3.5" />
               <span>{yearsToShow} Jahre</span>

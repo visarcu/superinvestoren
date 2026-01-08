@@ -211,7 +211,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // 8) States für Bewertung & Margins
   const [peTTM, setPeTTM] = useState<number | null>(null)
   const [pegTTM, setPegTTM] = useState<number | null>(null)
-  const [pbTTM, setPbTTM] = useState<number | null>(null)
   const [psTTM, setPsTTM] = useState<number | null>(null)
   const [evEbit, setEvEbit] = useState<number | null>(null)
   const [grossMargin, setGrossMargin] = useState<number | null>(null)
@@ -495,7 +494,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           const r = ratios[0] ?? {}
           setPeTTM(r.peRatioTTM ?? null)
           setPegTTM(r.pegRatioTTM ?? null)
-          setPbTTM(r.priceToBookRatioTTM ?? null)
           setPsTTM(r.priceSalesRatioTTM ?? null)
         } catch {
           console.warn(`[AnalysisClient] CompanyOutlook für ${ticker} fehlgeschlagen.`)
@@ -686,409 +684,245 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       )}
 
-      {/* ✅ ULTRA CLEAN ÜBERSICHT - Show immediately with available data */}
-      <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/5">
-          <h3 className="text-xl font-bold text-theme-primary">Übersicht</h3>
-        </div>
-          
-          <div className="p-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              {/* MARKTDATEN - Always show immediately */}
-              <div className="bg-theme-secondary/20 rounded-lg p-4 border-l-4 border-theme-primary">
-                <h4 className="text-theme-primary font-semibold text-sm flex items-center mb-4">
-                  <div className="w-3 h-3 bg-theme-primary rounded-full mr-3"></div>
-                  Marktdaten
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-theme-secondary text-sm">Marktkapitalisierung</span>
-                      <LearnTooltipButton {...LEARN_DEFINITIONS.market_cap} />
-                    </div>
-                    <span className="text-theme-primary font-semibold">
-                      {liveMarketCap != null ? formatMarketCap(liveMarketCap) : '–'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-theme-secondary text-sm">Volumen</span>
-                      <LearnTooltipButton term="trading_volume" />
-                    </div>
-                    <span className="text-theme-primary font-semibold">
-                      {volume != null ? `${(volume / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio.` : '–'}
-                    </span>
-                  </div>
-                  <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-theme-secondary text-sm">Beta</span>
-                      <LearnTooltipButton {...LEARN_DEFINITIONS.beta} />
-                    </div>
-                    <span className="text-theme-primary font-semibold">
-                      {profileData?.beta != null ? profileData.beta.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '–'}
-                    </span>
-                  </div>
-                  {currentShares && (
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">Ausstehende Aktien</span>
-                      <span className="text-theme-primary font-semibold">
-                        {(currentShares / 1e9).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.
-                      </span>
-                    </div>
-                  )}
-                  {/* Day Range */}
-                  {previousClose && livePrice && (
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">Tagesspanne</span>
-                      <span className="text-theme-primary font-semibold">
-                        {Math.min(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} - {Math.max(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </span>
-                    </div>
-                  )}
-                  {/* 52-Week Range */}
-                  {week52Low && week52High && (
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">52-Wochen-Spanne</span>
-                      <span className="text-theme-primary font-semibold">
-                        {week52Low.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} - {week52High.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              {/* DIVIDENDE - KORRIGIERT */}
-              <div className="bg-theme-secondary/20 rounded-lg p-4 border-l-4 border-theme-primary relative">
-                <h4 className="text-theme-primary font-semibold text-sm flex items-center mb-4">
-                  <div className="w-3 h-3 bg-theme-primary rounded-full mr-3"></div>
-                  Dividende
-                </h4>
-                <div className="space-y-3">
-                  <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-theme-secondary text-sm">Rendite</span>
-                      <LearnTooltipButton {...LEARN_DEFINITIONS.dividend_yield} />
-                    </div>
-                    <span className="text-theme-primary font-semibold">
-                      {enhancedDividendData?.currentYield != null ? 
-                        formatPercentage(enhancedDividendData.currentYield * 100) : 
-                        keyMetrics.dividendYield != null ? formatPercentage(keyMetrics.dividendYield * 100) : '–'}
-                    </span>
-                  </div>
-                  
-                  <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-theme-secondary text-sm">Payout Ratio</span>
-                      <LearnTooltipButton {...LEARN_DEFINITIONS.payout_ratio} />
-                    </div>
-                    <span className="text-theme-primary font-semibold">
-                      {enhancedDividendData?.payoutRatio != null ? 
-                        formatPercentage(enhancedDividendData.payoutRatio * 100) : 
-                        keyMetrics.payoutRatio != null ? formatPercentage(keyMetrics.payoutRatio * 100) : '–'}
-                    </span>
-                  </div>
-                  
-                  {enhancedDividendData?.payoutSafety && payoutSafetyStyles && (
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">Einschätzung</span>
-                      <div className="flex items-center gap-2">
-                        <div className={`w-2 h-2 rounded-full ${payoutSafetyStyles.bg}`} />
-                        <span className={`text-xs font-medium ${payoutSafetyStyles.text}`}>
-                          {enhancedDividendData.payoutSafety.text}
-                        </span>
-                      </div>
-                    </div>
-                  )}
-                  
-                  {enhancedDividendData?.exDividendDate && (
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">Ex-Dividende</span>
-                      <span className="text-theme-primary font-semibold">
-                        {new Date(enhancedDividendData.exDividendDate).toLocaleDateString('de-DE')}
-                      </span>
-                    </div>
-                  )}
-                  
-                  {enhancedDividendData?.lastDividendDate && (
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">Letzte Zahlung</span>
-                      <span className="text-theme-primary font-semibold">
-                        {new Date(enhancedDividendData.lastDividendDate).toLocaleDateString('de-DE')}
-                      </span>
-                    </div>
-                  )}
-                  
-                  <div className="mt-3 pt-3 border-t border-theme/20">
-                    <Link
-                      href={`/analyse/stocks/${ticker.toLowerCase()}/dividends/`}
-                      className="text-xs text-theme-secondary hover:text-theme-primary transition-colors flex items-center gap-1 group"
-                    >
-                      <svg className="w-3 h-3 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                      </svg>
-                      <span className="group-hover:text-blue-400 transition-colors">Erweiterte Analyse</span>
-                    </Link>
-                  </div>
-                </div>
-              </div>
-
-              {/* BEWERTUNG - KORRIGIERT (aber Premium Blur bleibt) */}
-              <div className="bg-theme-secondary/20 rounded-lg p-4 border-l-4 border-theme-primary relative">
-                <h4 className="text-theme-primary font-semibold text-sm flex items-center mb-4">
-                  <div className="w-3 h-3 bg-theme-primary rounded-full mr-3"></div>
-                  Bewertung
-                </h4>
-                {user?.isPremium ? (
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">KGV TTM</span>
-                        <LearnTooltipButton {...LEARN_DEFINITIONS.pe_ratio} />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {peTTM != null ? `${peTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">KGV Erw.</span>
-                        <LearnTooltipButton term="forward_pe" />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                      </span>
-                    </div>
-                  
 
 
 
-<div className="flex justify-between items-center">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">KBV TTM</span>
-                        <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {pbTTM != null ? `${pbTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                      </span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">FCF Yield</span>
-                        <LearnTooltipButton term="fcf_yield" />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
-                      </span>
-                    </div>
+{/* =====================================================
+   ÜBERSICHT SECTION v4 - MIT SUBTILEN TRENNLINIEN
+   
+   Ersetze die komplette "ULTRA CLEAN ÜBERSICHT" Section
+   ===================================================== */}
 
-                    {/* SBC Analysis - nur anzeigen wenn SBC > 0 */}
-                    {stockBasedCompensation != null && stockBasedCompensation > 0 && (
-                      <>
-                        <div className="flex justify-between items-center py-2 border-b border-theme/10">
-                          <div className="flex items-center gap-2">
-                            <span className="text-theme-secondary text-sm">SBC Adj. FCF Yield</span>
-                            <Tooltip text="Free Cash Flow Yield bereinigt um Stock-Based Compensation. Zeigt die wahre Cash-Generierung nach Berücksichtigung der Verwässerung durch Aktien-Vergütungen.">
-                              <InformationCircleIcon className="w-4 h-4 text-theme-muted hover:text-theme-secondary cursor-help" />
-                            </Tooltip>
-                          </div>
-                          <span className="text-theme-primary font-semibold">
-                            {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
-                          </span>
-                        </div>
-                        <div className="flex justify-between items-center py-2 border-b border-theme/10">
-                          <div className="flex items-center gap-2">
-                            <span className="text-theme-secondary text-sm">SBC Impact</span>
-                            <Tooltip text="Zeigt wie viel Prozent des Free Cash Flows durch Stock-Based Compensation reduziert wird. Ein hoher negativer Wert deutet auf erhebliche Verwässerung hin.">
-                              <InformationCircleIcon className="w-4 h-4 text-theme-muted hover:text-theme-secondary cursor-help" />
-                            </Tooltip>
-                          </div>
-                          <span className={`font-semibold ${sbcImpact != null && sbcImpact < -15 ? 'text-red-400' : sbcImpact != null && sbcImpact < -5 ? 'text-yellow-400' : 'text-theme-primary'}`}>
-                            {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%` : '–'}
-                          </span>
-                        </div>
-                      </>
-                    )}
-
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <span className="text-theme-secondary text-sm">EV/EBIT</span>
-                      <span className="text-theme-primary font-semibold">
-                        {evEbit != null ? `${evEbit.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                      </span>
-                    </div>
-
-                    <div className="mt-3 pt-3 border-t border-theme/20">
-                      <Link
-                        href={`/analyse/stocks/${ticker.toLowerCase()}/valuation/`}
-                        className="text-xs text-theme-secondary hover:text-theme-primary transition-colors flex items-center gap-1 group"
-                      >
-                        <svg className="w-3 h-3 group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
-                        </svg>
-                        <span className="group-hover:text-blue-400 transition-colors">Erweiterte Analyse</span>
-                      </Link>
-                    </div>
-                  </div>
-                ) : (
-                  <PremiumBlur featureName="Bewertung">
-
-
-
-
-
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">KGV TTM</span>
-                          <LearnTooltipButton {...LEARN_DEFINITIONS.pe_ratio} />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {peTTM != null ? `${peTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">KGV Erw.</span>
-                          <LearnTooltipButton term="forward_pe" />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                        </span>
-                      </div>
-                      
-
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">KBV TTM</span>
-                          <LearnTooltipButton {...LEARN_DEFINITIONS.pb_ratio} />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {pbTTM != null ? `${pbTTM.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">FCF Yield</span>
-                          <LearnTooltipButton term="fcf_yield" />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
-                        </span>
-                      </div>
-
-                      {/* SBC Analysis (Blurred) - nur anzeigen wenn SBC > 0 */}
-                      {stockBasedCompensation != null && stockBasedCompensation > 0 && (
-                        <>
-                          <div className="flex justify-between items-center py-2 border-b border-theme/10">
-                            <div className="flex items-center gap-2">
-                              <span className="text-theme-secondary text-sm">SBC Adj. FCF Yield</span>
-                              <InformationCircleIcon className="w-4 h-4 text-theme-muted" />
-                            </div>
-                            <span className="text-theme-primary font-semibold">
-                              {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
-                            </span>
-                          </div>
-                          <div className="flex justify-between items-center py-2 border-b border-theme/10">
-                            <div className="flex items-center gap-2">
-                              <span className="text-theme-secondary text-sm">SBC Impact</span>
-                              <InformationCircleIcon className="w-4 h-4 text-theme-muted" />
-                            </div>
-                            <span className={`font-semibold ${sbcImpact != null && sbcImpact < -15 ? 'text-red-400' : sbcImpact != null && sbcImpact < -5 ? 'text-yellow-400' : 'text-theme-primary'}`}>
-                              {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%` : '–'}
-                            </span>
-                          </div>
-                        </>
-                      )}
-
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <span className="text-theme-secondary text-sm">EV/EBIT</span>
-                        <span className="text-theme-primary font-semibold">
-                          {evEbit != null ? `${evEbit.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}x` : '–'}
-                        </span>
-                      </div>
-                    </div>
-                  </PremiumBlur>
-                )}
-              </div>
-
-              {/* MARGEN - KORRIGIERT (aber Premium Blur bleibt) */}
-              <div className="bg-theme-secondary/20 rounded-lg p-4 border-l-4 border-theme-primary relative">
-                <h4 className="text-theme-primary font-semibold text-sm flex items-center mb-4">
-                  <div className="w-3 h-3 bg-theme-primary rounded-full mr-3"></div>
-                  Margen
-                </h4>
-                {user?.isPremium ? (
-                  <div className="space-y-3">
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">Bruttomarge</span>
-                        <LearnTooltipButton term="Bruttomarge" />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">Op. Marge</span>
-                        <LearnTooltipButton term="Op. Marge" />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
-                      </span>
-                    </div>
-                    
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                      <div className="flex items-center gap-2">
-                        <span className="text-theme-secondary text-sm">Nettomarge</span>
-                        <LearnTooltipButton term="Nettomarge" />
-                      </div>
-                      <span className="text-theme-primary font-semibold">
-                        {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
-                      </span>
-                    </div>
-                  </div>
-                ) : (
-                  <PremiumBlur featureName="Margen">
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">Bruttomarge</span>
-                          <LearnTooltipButton term="Bruttomarge" />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
-                        </span>
-                      </div>
-                      
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">Op. Marge</span>
-                          <LearnTooltipButton term="Op. Marge" />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
-                        </span>
-                      </div>
-                      
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
-                        <div className="flex items-center gap-2">
-                          <span className="text-theme-secondary text-sm">Nettomarge</span>
-                          <LearnTooltipButton term="Nettomarge" />
-                        </div>
-                        <span className="text-theme-primary font-semibold">
-                          {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
-                        </span>
-                      </div>
-                    </div>
-                  </PremiumBlur>
-                )}
-              </div>
-            </div>
+{/* ===== ÜBERSICHT - CLEAN WITH DIVIDERS ===== */}
+<div className="bg-theme-card rounded-xl border border-theme/10">
+  <div className="px-6 py-4 border-b border-theme/10">
+    <h3 className="text-lg font-semibold text-theme-primary">Übersicht</h3>
+  </div>
+  
+  <div className="p-6">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      
+      {/* ===== MARKTDATEN ===== */}
+      <div>
+        <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
+          Marktdaten
+        </h4>
+        <div className="divide-y divide-theme/10">
+          <div className="flex justify-between items-center py-2.5 first:pt-0">
+            <span className="text-sm text-theme-secondary">Marktkapitalisierung</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {liveMarketCap != null ? formatMarketCap(liveMarketCap) : '–'}
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-2.5">
+            <span className="text-sm text-theme-secondary">Volumen</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {volume != null ? `${(volume / 1e6).toLocaleString('de-DE', { maximumFractionDigits: 0 })} Mio.` : '–'}
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-2.5">
+            <span className="text-sm text-theme-secondary">Beta</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {profileData?.beta?.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '–'}
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-2.5">
+            <span className="text-sm text-theme-secondary">Tagesspanne</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {previousClose && livePrice 
+                ? `${Math.min(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${Math.max(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
+                : '–'}
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-2.5 last:pb-0">
+            <span className="text-sm text-theme-secondary">52W-Spanne</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {week52Low && week52High 
+                ? `${week52Low.toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${week52High.toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
+                : '–'}
+            </span>
           </div>
         </div>
+      </div>
 
+      {/* ===== DIVIDENDE ===== */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider">
+            Dividende
+          </h4>
+          <Link
+            href={`/analyse/stocks/${ticker.toLowerCase()}/dividends`}
+            className="text-xs text-theme-muted hover:text-brand transition-colors"
+          >
+            Details →
+          </Link>
+        </div>
+        <div className="divide-y divide-theme/10">
+          <div className="flex justify-between items-center py-2.5 first:pt-0">
+            <span className="text-sm text-theme-secondary">Rendite</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {enhancedDividendData?.currentYield != null 
+                ? formatPercentage(enhancedDividendData.currentYield * 100) 
+                : '–'}
+            </span>
+          </div>
+          <div className="flex justify-between items-center py-2.5">
+            <span className="text-sm text-theme-secondary">Payout Ratio</span>
+            <span className="text-sm font-semibold text-theme-primary">
+              {enhancedDividendData?.payoutRatio != null 
+                ? formatPercentage(enhancedDividendData.payoutRatio * 100) 
+                : '–'}
+            </span>
+          </div>
+          {enhancedDividendData?.payoutSafety && (
+            <div className="flex justify-between items-center py-2.5">
+              <span className="text-sm text-theme-secondary">Einschätzung</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {enhancedDividendData.payoutSafety.text}
+              </span>
+            </div>
+          )}
+          {enhancedDividendData?.lastDividendDate && (
+            <div className="flex justify-between items-center py-2.5 last:pb-0">
+              <span className="text-sm text-theme-secondary">Letzte Zahlung</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {new Date(enhancedDividendData.lastDividendDate).toLocaleDateString('de-DE')}
+              </span>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ===== BEWERTUNG ===== */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider">
+            Bewertung
+          </h4>
+          <Link
+            href={`/analyse/stocks/${ticker.toLowerCase()}/valuation`}
+            className="text-xs text-theme-muted hover:text-brand transition-colors"
+          >
+            Details →
+          </Link>
+        </div>
+        
+        {user?.isPremium ? (
+          <div className="divide-y divide-theme/10">
+            <div className="flex justify-between items-center py-2.5 first:pt-0">
+              <span className="text-sm text-theme-secondary">KGV TTM</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {peTTM != null ? `${peTTM.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2.5">
+              <span className="text-sm text-theme-secondary">KGV Erw.</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2.5">
+              <span className="text-sm text-theme-secondary">FCF Yield</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
+              </span>
+            </div>
+            {stockBasedCompensation != null && stockBasedCompensation > 0 && (
+              <>
+                <div className="flex justify-between items-center py-2.5">
+                  <span className="text-sm text-theme-secondary">SBC Adj. FCF</span>
+                  <span className="text-sm font-semibold text-theme-primary">
+                    {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center py-2.5">
+                  <span className="text-sm text-theme-secondary">SBC Impact</span>
+                  <span className={`text-sm font-semibold ${
+                    sbcImpact != null && sbcImpact < -15 ? 'text-negative' : 
+                    sbcImpact != null && sbcImpact < -5 ? 'text-amber-500' : 
+                    'text-theme-primary'
+                  }`}>
+                    {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { maximumFractionDigits: 1 })}%` : '–'}
+                  </span>
+                </div>
+              </>
+            )}
+            <div className="flex justify-between items-center py-2.5 last:pb-0">
+              <span className="text-sm text-theme-secondary">EV/EBIT</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {evEbit != null ? `${evEbit.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="relative min-h-[180px]">
+            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-theme/10">
+              <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">KGV TTM</span><span className="text-sm">34,3x</span></div>
+              <div className="flex justify-between py-2.5"><span className="text-sm">KGV Erw.</span><span className="text-sm">25,7x</span></div>
+              <div className="flex justify-between py-2.5"><span className="text-sm">FCF Yield</span><span className="text-sm">+1,99%</span></div>
+              <div className="flex justify-between py-2.5"><span className="text-sm">EV/EBIT</span><span className="text-sm">28,5x</span></div>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Link href="/pricing" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 hover:bg-brand/20 rounded-lg text-xs font-medium text-brand transition-colors">
+                <LockClosedIcon className="w-3.5 h-3.5" />
+                Premium freischalten
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* ===== MARGEN ===== */}
+      <div>
+        <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
+          Margen
+        </h4>
+        
+        {user?.isPremium ? (
+          <div className="divide-y divide-theme/10">
+            <div className="flex justify-between items-center py-2.5 first:pt-0">
+              <span className="text-sm text-theme-secondary">Bruttomarge</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2.5">
+              <span className="text-sm text-theme-secondary">Op. Marge</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
+              </span>
+            </div>
+            <div className="flex justify-between items-center py-2.5 last:pb-0">
+              <span className="text-sm text-theme-secondary">Nettomarge</span>
+              <span className="text-sm font-semibold text-theme-primary">
+                {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
+              </span>
+            </div>
+          </div>
+        ) : (
+          <div className="relative min-h-[120px]">
+            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-theme/10">
+              <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">Bruttomarge</span><span className="text-sm">+68,82%</span></div>
+              <div className="flex justify-between py-2.5"><span className="text-sm">Op. Marge</span><span className="text-sm">+45,62%</span></div>
+              <div className="flex justify-between py-2.5"><span className="text-sm">Nettomarge</span><span className="text-sm">+36,15%</span></div>
+            </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <Link href="/pricing" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 hover:bg-brand/20 rounded-lg text-xs font-medium text-brand transition-colors">
+                <LockClosedIcon className="w-3.5 h-3.5" />
+                Premium
+              </Link>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+     
       {/* ✅ GROWTH + CHART SEKTION - OPTIMIERT */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
         
@@ -1164,12 +998,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     {dividendApiData.currentInfo.payoutSafety && (
                       <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
                         <span className="text-sm text-theme-muted">Sicherheit</span>
-                        <span className={`text-sm font-medium ${
-                          dividendApiData.currentInfo.payoutSafety.color === 'green' ? 'text-brand-light' :
-                          dividendApiData.currentInfo.payoutSafety.color === 'yellow' ? 'text-yellow-400' :
-                          dividendApiData.currentInfo.payoutSafety.color === 'red' ? 'text-red-400' :
-                          'text-theme-muted'
-                        }`}>
+                        <span className="text-sm font-medium text-theme-primary">
                           {dividendApiData.currentInfo.payoutSafety.text}
                         </span>
                       </div>
@@ -1178,11 +1007,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     {dividendApiData.cagrAnalysis && dividendApiData.cagrAnalysis.length > 0 && (
                       <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
                         <span className="text-sm text-theme-muted">Wachstum (3Y)</span>
-                        <span className={`text-sm font-medium ${
-                          dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr > 0 ? 'text-brand-light' : 
-                          dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr < 0 ? 'text-red-400' : 
-                          'text-theme-muted'
-                        }`}>
+                        <span className="text-sm font-medium text-theme-primary">
                           {(() => {
                             const threeYearCAGR = dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr || 0;
                             return `${threeYearCAGR > 0 ? '+' : ''}${threeYearCAGR.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;

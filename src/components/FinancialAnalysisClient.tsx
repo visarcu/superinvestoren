@@ -682,7 +682,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />
@@ -845,7 +845,7 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
           <BarChart data={validData} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />
@@ -1125,7 +1125,7 @@ function RevenueSegmentsChart({
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />
@@ -1221,7 +1221,7 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
           <LineChart data={data} margin={{ top: 10, right: 10, bottom: 25, left: 40 }}>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />
@@ -1423,7 +1423,7 @@ function GeographicSegmentsChart({
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />
@@ -1545,7 +1545,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />
@@ -1646,7 +1646,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
           >
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.3)"
+              stroke="rgba(148, 163, 184, 0.5)"
               horizontal={true}
               vertical={false}
             />

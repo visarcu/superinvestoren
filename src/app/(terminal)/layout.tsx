@@ -1,4 +1,4 @@
-// src/app/(terminal)/layout.tsx - CLEAN VERSION MIT ECHTEN DATEN
+// src/app/(terminal)/layout.tsx - FISCAL.AI STYLE COLLAPSED SIDEBAR
 'use client'
 
 import React, { ReactNode, useState, useEffect, useRef, useCallback, useMemo } from 'react'
@@ -10,7 +10,6 @@ import {
   BookmarkIcon,
   CalendarIcon,
   MagnifyingGlassIcon,
-  NewspaperIcon,
   BriefcaseIcon,
   SparklesIcon,
   UserCircleIcon,
@@ -18,14 +17,11 @@ import {
   ArrowLeftOnRectangleIcon,
   EnvelopeIcon,
   ChevronRightIcon,
-  ArrowRightIcon,
   XMarkIcon,
-  ClockIcon,
   SignalIcon,
   SunIcon,
   MoonIcon,
   HomeIcon,
-  ListBulletIcon,
   AcademicCapIcon,
   EyeIcon,
   CurrencyDollarIcon,
@@ -35,7 +31,6 @@ import {
   FunnelIcon,
   ArrowTrendingDownIcon
 } from '@heroicons/react/24/outline'
-import { Analytics } from "@vercel/analytics/next"
 import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
 import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
@@ -46,10 +41,8 @@ import NotificationCenter from '@/components/NotificationCenter'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import ScoreBadge from '@/components/ScoreBadge'
-import DashboardScreenerWidget from '@/components/DashboardScreenerWidget'
 
-
-
+// ===== INTERFACES =====
 interface StockQuote {
   symbol: string
   name: string
@@ -99,6 +92,76 @@ interface CompanyProfile {
   isFund: boolean
 }
 
+interface User {
+  id: string
+  email: string
+  isPremium: boolean
+}
+
+interface LayoutProps {
+  children: ReactNode
+}
+
+interface NavItem {
+  id: string
+  label: string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  href: string
+  premium?: boolean
+}
+
+interface CommandPaletteItem {
+  id: string
+  title: string
+  subtitle?: string
+  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
+  href?: string
+  action?: () => void
+  category: 'navigation' | 'actions' | 'settings'
+}
+
+// ===== NAVIGATION ITEMS =====
+const NAV_ITEMS: NavItem[] = [
+  { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/analyse' },
+  { id: 'compare', label: 'Aktien-Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
+  { id: 'watchlist', label: 'Watchlist', icon: BookmarkIcon, href: '/analyse/watchlist' },
+  { id: 'earnings', label: 'Earnings', icon: CalendarIcon, href: '/analyse/earnings' },
+  { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
+  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio' },
+  { id: 'screener', label: 'Screener', icon: FunnelIcon, href: '/analyse/screener' },
+  { id: 'dcf', label: 'DCF Calculator', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
+  { id: 'insider', label: 'Insider Trading', icon: EyeIcon, href: '/analyse/insider' },
+  { id: 'ai', label: 'FinClue AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
+]
+
+const SETTINGS_ITEMS: NavItem[] = [
+  { id: 'notifications', label: 'Benachrichtigungen', icon: BellIcon, href: '/notifications' },
+  { id: 'profile', label: 'Profil', icon: UserCircleIcon, href: '/profile' },
+  { id: 'settings', label: 'Einstellungen', icon: Cog6ToothIcon, href: '/settings' },
+]
+
+// Stock Analysis Tabs
+interface StockTab {
+  id: string
+  label: string
+  href: string
+  premium?: boolean
+}
+
+const STOCK_TABS: StockTab[] = [
+  { id: 'overview', label: 'Überblick', href: '' },
+  { id: 'financials', label: 'Finanzen', href: '/financials' },
+  { id: 'ratings', label: 'Rating', href: '/ratings' },
+  { id: 'growth', label: 'Wachstum', href: '/growth' },
+  { id: 'quartalszahlen', label: 'Quartalszahlen', href: '/earnings' },
+  { id: 'estimates', label: 'Schätzungen', href: '/estimates' },
+  { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' },
+  { id: 'valuation', label: 'Bewertung', href: '/valuation' },
+  { id: 'dividends', label: 'Dividende', href: '/dividends' },
+  { id: 'insider', label: 'Insider Trading', href: '/insider' },
+  { id: 'news', label: 'News', href: '/news' }
+]
+
 // ===== HOOKS =====
 function useStockData(ticker: string | null) {
   const [quote, setQuote] = useState<StockQuote | null>(null)
@@ -120,12 +183,10 @@ function useStockData(ticker: string | null) {
       setError(null)
 
       try {
-        // Fetch Quote
         const quoteResponse = await fetch(`/api/quote/${ticker}`)
         if (!quoteResponse.ok) throw new Error('Quote fetch failed')
         const quoteData = await quoteResponse.json()
         
-        // Fetch Company Profile
         const profileResponse = await fetch(`/api/company-profile/${ticker}`)
         if (!profileResponse.ok) throw new Error('Profile fetch failed')
         const profileData = await profileResponse.json()
@@ -137,7 +198,6 @@ function useStockData(ticker: string | null) {
       } catch (err) {
         if (mounted) {
           setError(err instanceof Error ? err.message : 'Unknown error')
-          console.error('Error fetching stock data:', err)
         }
       } finally {
         if (mounted) {
@@ -147,16 +207,13 @@ function useStockData(ticker: string | null) {
     }
 
     fetchStockData()
-
-    return () => {
-      mounted = false
-    }
+    return () => { mounted = false }
   }, [ticker])
 
   return { quote, profile, loading, error }
 }
 
-// ===== MEMOIZED COMPONENTS =====
+// ===== COMPONENTS =====
 const GlobalLearnToggle = React.memo(() => {
   const { isLearnMode, toggleLearnMode } = useLearnMode()
   
@@ -174,391 +231,236 @@ const GlobalLearnToggle = React.memo(() => {
     >
       <AcademicCapIcon className={`w-3.5 h-3.5 ${isLearnMode ? 'text-brand-light' : 'text-theme-muted'}`} />
       <span className="hidden sm:block">Lernen</span>
-      
-      <div className={`
-        relative w-6 h-3 rounded-full transition-all duration-200
-        ${isLearnMode ? 'bg-brand' : 'bg-theme-tertiary'}
-      `}>
-        <div className={`
-          absolute top-0.5 w-2 h-2 bg-white rounded-full transition-all duration-200 shadow-sm
-          ${isLearnMode ? 'left-3' : 'left-0.5'}
-        `}></div>
+      <div className={`relative w-6 h-3 rounded-full transition-all duration-200 ${isLearnMode ? 'bg-brand' : 'bg-theme-tertiary'}`}>
+        <div className={`absolute top-0.5 w-2 h-2 bg-white rounded-full transition-all duration-200 shadow-sm ${isLearnMode ? 'left-3' : 'left-0.5'}`}></div>
       </div>
     </button>
   )
 })
 
-// Command Palette Interface
-interface CommandPaletteItem {
-  id: string
-  title: string
-  subtitle?: string
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-  href?: string
-  action?: () => void
-  category: 'navigation' | 'actions' | 'settings'
-}
+// SIDEBAR WITH LABELS - FISCAL STYLE
+const CollapsedSidebar = React.memo(({ 
+  user, 
+  pathname, 
+  handleSignOut,
+  theme,
+  toggleTheme,
+  allowsThemeToggle
+}: { 
+  user: User
+  pathname: string
+  handleSignOut: () => void
+  theme: 'light' | 'dark'
+  toggleTheme: () => void
+  allowsThemeToggle: boolean
+}) => {
+  const [showSettingsPopup, setShowSettingsPopup] = useState(false)
+  const settingsRef = useRef<HTMLDivElement>(null)
 
-// ===== NAVIGATION STRUKTUR =====
-interface NavCategory {
-  id: string
-  label: string
-  items: NavigationItem[]
-}
-
-interface NavigationSubItem {
-  id: string
-  label: string
-  href: string
-  icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>
-}
-
-interface NavigationItem {
-  id: string
-  label: string
-  icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
-  href: string
-  premium?: boolean
-  comingSoon?: boolean
-  subItems?: NavigationSubItem[]
-}
-
-// NAVIGATION CATEGORIES - MEMOIZED
-const NAVIGATION_CATEGORIES: NavCategory[] = [
-  {
-    id: 'analysis',
-    label: 'ANALYSE & ÜBERSICHT',
-    items: [
-      {
-        id: 'dashboard',
-        label: 'Dashboard',
-        icon: HomeIcon,
-        href: '/analyse'
-      },
-      {
-        id: 'compare',
-        label: 'Aktien-Vergleich',
-        icon: ChartBarIcon,
-        href: '/analyse/compare'
-      },
-      {
-        id: 'watchlist',
-        label: 'Watchlist',
-        icon: BookmarkIcon,
-        href: '/analyse/watchlist'
-      },
-      {
-        id: 'earnings',
-        label: 'Earnings Kalender',
-        icon: CalendarIcon,
-        href: '/analyse/earnings'
-      },
-      {
-        id: 'dividends',
-        label: 'Dividenden Kalender',
-        icon: CurrencyDollarIcon,
-        href: '/analyse/dividends'
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
+        setShowSettingsPopup(false)
       }
-    ]
-  },
-  {
-    id: 'portfolio-tools',
-    label: 'PORTFOLIO & TOOLS',
-    items: [
-      {
-        id: 'portfolio',
-        label: 'Portfolio',
-        icon: BriefcaseIcon,
-        href: '/analyse/portfolio'
-      },
-      {
-        id: 'screeners',
-        label: 'Screener',
-        icon: FunnelIcon,
-        href: '/analyse/screener',
-        subItems: [
-          {
-            id: 'stock-screener',
-            label: 'Aktien Screener',
-            href: '/analyse/screener',
-            icon: FunnelIcon
-          },
-          {
-            id: 'etf-screener',
-            label: 'ETF Screener',
-            href: '/analyse/etf-screener',
-            icon: ChartBarIcon
-          }
-        ]
-      },
-      {
-        id: 'dcf-calculator',
-        label: 'DCF Calculator',
-        icon: CalculatorIcon,
-        href: '/analyse/dcf',
-        premium: true
-      },
-      {
-        id: 'insider',
-        label: 'Insider Trading',
-        icon: EyeIcon,
-        href: '/analyse/insider'
-      }
-    ]
-  },
-  {
-    id: 'premium',
-    label: 'PREMIUM FEATURES',
-    items: [
-      {
-        id: 'ai',
-        label: 'FinClue AI',
-        icon: SparklesIcon,
-        href: '/analyse/finclue-ai',
-        premium: true
-      }
-    ]
-  }
-]
-
-// Stock Analysis Tabs
-interface StockTab {
-  id: string
-  label: string
-  href: string
-  premium?: boolean
-}
-
-const STOCK_TABS: StockTab[] = [
-  { id: 'overview', label: 'Überblick', href: '' },
-  { id: 'financials', label: 'Finanzen', href: '/financials' },
-  { id: 'ratings', label: 'Rating', href: '/ratings' }, // NEU!
-  { id: 'growth', label: 'Wachstum', href: '/growth' },
-  { id: 'quartalszahlen', label: 'Quartalszahlen', href: '/earnings' },
-  { id: 'estimates', label: 'Schätzungen', href: '/estimates' },
-  { id: 'super-investors', label: 'Super-Investoren', href: '/super-investors' },
-  { id: 'valuation', label: 'Bewertung', href: '/valuation' },
-  { id: 'dividends', label: 'Dividende', href: '/dividends' },
-  { id: 'insider', label: 'Insider Trading', href: '/insider' },
-  { id: 'news', label: 'News', href: '/news' }
-]
-
-interface User {
-  id: string
-  email: string
-  isPremium: boolean
-}
-
-interface LayoutProps {
-  children: ReactNode
-}
-
-// Diese Funktionen werden jetzt durch CurrencyContext ersetzt
-// Siehe formatPrice, formatPercentage, formatMarketCap unten in der LayoutContent Komponente
-
-// KATEGORISIERTE NAVIGATION - MEMOIZED - FISCAL.AI STYLE
-// KATEGORISIERTE NAVIGATION - MEMOIZED - FISCAL.AI STYLE MIT FUNKTIONIERENDEM DROPDOWN
-// KATEGORISIERTE NAVIGATION - MEMOIZED - FISCAL.AI STYLE MIT KLICK-DROPDOWNS
-const CategorizedNavigation = React.memo(({ user, pathname, showSettingsDropdown, setShowSettingsDropdown, handleSignOut, theme, toggleTheme, allowsThemeToggle }: { user: User, pathname: string, showSettingsDropdown: boolean, setShowSettingsDropdown: (show: boolean) => void, handleSignOut: () => void, theme: 'light' | 'dark', toggleTheme: () => void, allowsThemeToggle: boolean }) => {
-  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null)
-
-  const handleItemClick = (e: React.MouseEvent, itemId: string, hasSubItems: boolean) => {
-    if (hasSubItems) {
-      e.preventDefault()
-      setOpenSubMenu(openSubMenu === itemId ? null : itemId)
     }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const getInitials = () => {
+    if (!user?.email) return 'U'
+    return user.email.charAt(0).toUpperCase()
+  }
+
+  // Kurze Labels für die Sidebar
+  const getShortLabel = (id: string): string => {
+    const labels: Record<string, string> = {
+      'dashboard': 'Dashboard',
+      'compare': 'Vergleich',
+      'watchlist': 'Watchlist',
+      'earnings': 'Earnings',
+      'dividends': 'Dividenden',
+      'portfolio': 'Portfolio',
+      'screener': 'Screener',
+      'dcf': 'DCF',
+      'insider': 'Insider',
+      'ai': 'AI',
+    }
+    return labels[id] || id
   }
 
   return (
-    <nav className="flex-1 px-2 py-4 overflow-y-auto relative z-10">
-      <div className="space-y-0.5">
-        {NAVIGATION_CATEGORIES.map((category, categoryIndex) => (
-          <div key={category.id} className="space-y-0.5">
-            {/* Subtiler Divider statt Label - nur zwischen Kategorien */}
-            {categoryIndex > 0 && (
-              <div className="mx-3 my-3 h-px bg-theme-hover"></div>
-            )}
+    <div className="w-[88px] bg-theme-primary border-r border-theme/10 flex flex-col items-center py-4 relative z-20">
+      
+      {/* Logo */}
+      <Link href="/" className="mb-4 group">
+        <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center transition-all group-hover:border-green-400/40 group-hover:bg-brand/20">
+          <div className="flex items-end gap-0.5">
+            <span className="w-1 h-3 rounded-full bg-brand"></span>
+            <span className="w-1 h-4 rounded-full bg-green-400"></span>
+            <span className="w-1 h-5 rounded-full bg-green-300"></span>
+          </div>
+        </div>
+      </Link>
 
-            <div className="space-y-0.5">
-              {category.items.map((item) => {
+      {/* Main Navigation */}
+      <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5 overflow-y-auto">
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon
+          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          const isPremiumLocked = item.premium && !user.isPremium
+
+          return (
+            <Link
+              key={item.id}
+              href={item.href}
+              className={`
+                w-full flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-150 relative group
+                ${isActive
+                  ? 'bg-brand/15 text-brand-light'
+                  : 'text-theme-muted hover:bg-theme-hover hover:text-theme-primary'
+                }
+              `}
+            >
+              {/* Active indicator */}
+              {isActive && (
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-brand rounded-r-full"></div>
+              )}
+              
+              <div className="relative">
+                <Icon className="w-7 h-7" />
+                {/* Premium badge */}
+                {isPremiumLocked && (
+                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full"></div>
+                )}
+              </div>
+              
+              <span className={`text-[10px] mt-1 font-medium leading-tight ${
+                isActive ? 'text-brand-light' : 'text-theme-muted group-hover:text-theme-secondary'
+              }`}>
+                {getShortLabel(item.id)}
+              </span>
+            </Link>
+          )
+        })}
+      </nav>
+
+      {/* Divider */}
+      <div className="w-13 h-px bg-theme/20 my-2"></div>
+
+      {/* Settings Button */}
+      <div className="relative w-full px-1.5" ref={settingsRef}>
+        <button
+          onClick={() => setShowSettingsPopup(!showSettingsPopup)}
+          className={`
+            w-full flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-150
+            ${showSettingsPopup
+              ? 'bg-theme-hover text-theme-primary'
+              : 'text-theme-muted hover:bg-theme-hover hover:text-theme-primary'
+            }
+          `}
+        >
+          <Cog6ToothIcon className="w-7 h-7" />
+          <span className="text-[11px] mt-1 font-medium">Settings</span>
+        </button>
+
+        {/* Settings Popup */}
+        {showSettingsPopup && (
+          <div className="absolute left-full ml-2 bottom-0 z-50">
+            <div className="bg-theme-card border border-theme/20 shadow-xl rounded-xl py-2 w-48">
+              {SETTINGS_ITEMS.map((item) => {
                 const Icon = item.icon
-                const hasSubItems = (item.subItems?.length ?? 0) > 0
-                const isActive = pathname === item.href || (hasSubItems && item.subItems?.some((sub) => pathname === sub.href))
-                const isPremiumItem = item.premium && !user.isPremium
-                const isOpen = openSubMenu === item.id
-
+                const isActive = pathname === item.href
                 return (
-                  <div key={item.id}>
-                    <Link
-                      href={hasSubItems ? '#' : item.href}
-                      onClick={(e) => handleItemClick(e, item.id, hasSubItems)}
-                      className={`
-                        group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150
-                        ${isActive
-                          ? 'bg-theme-hover text-theme-primary border-l-2 border-green-400 -ml-[2px] pl-[14px]'
-                          : category.id === 'premium'
-                            ? 'text-brand-light/80 hover:bg-theme-hover hover:text-brand-light'
-                            : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
-                        }
-                      `}
-                    >
-                      <Icon className={`
-                        w-4 h-4 flex-shrink-0
-                        ${isActive
-                          ? 'text-theme-primary'
-                          : category.id === 'premium'
-                            ? 'text-brand-light/60 group-hover:text-brand-light/80'
-                            : 'text-theme-muted group-hover:text-theme-secondary'
-                        }
-                      `} />
-
-                      <span className="flex-1 min-w-0 truncate">
-                        {item.label}
-                      </span>
-
-                      {isPremiumItem && (
-                        <SparklesIcon className="w-3.5 h-3.5 text-yellow-400/70 flex-shrink-0" />
-                      )}
-
-                      {hasSubItems && (
-                        <ChevronRightIcon className={`
-                          w-3.5 h-3.5 text-theme-muted transition-all duration-150 flex-shrink-0
-                          ${isOpen ? 'rotate-90' : ''}
-                        `} />
-                      )}
-                    </Link>
-
-                    {/* Submenu - als eingeklappte Liste wie bei Einstellungen */}
-                    {hasSubItems && isOpen && (
-                      <div className="mt-1 ml-7 space-y-0.5 border-l border-theme pl-3">
-                        {item.subItems?.map((sub) => {
-                          const SubIcon = sub.icon || Icon
-                          const subActive = pathname === sub.href
-                          return (
-                            <Link
-                              key={sub.id}
-                              href={sub.href}
-                              className={`
-                                flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all text-[12px]
-                                ${subActive
-                                  ? 'bg-theme-hover text-theme-primary'
-                                  : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
-                                }
-                              `}
-                            >
-                              <SubIcon className={`w-3.5 h-3.5 ${subActive ? 'text-theme-secondary' : 'text-theme-muted'}`} />
-                              <span className="flex-1">{sub.label}</span>
-                            </Link>
-                          )
-                        })}
-                      </div>
-                    )}
-                  </div>
+                  <Link
+                    key={item.id}
+                    href={item.href}
+                    onClick={() => setShowSettingsPopup(false)}
+                    className={`
+                      flex items-center gap-3 px-4 py-2 text-sm transition-colors
+                      ${isActive
+                        ? 'bg-theme-hover text-theme-primary'
+                        : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
+                      }
+                    `}
+                  >
+                    <Icon className="w-4 h-4" />
+                    {item.label}
+                  </Link>
                 )
               })}
-            </div>
-          </div>
-        ))}
 
-        {/* EINSTELLUNGEN SECTION */}
-        <div className="space-y-0.5 pt-3">
-          <div className="mx-3 mb-2 h-px bg-theme-hover"></div>
-
-          <button
-            onClick={() => setShowSettingsDropdown(!showSettingsDropdown)}
-            className="group flex items-center gap-3 px-4 py-2 rounded-lg text-[13px] font-normal transition-all duration-150 w-full text-left text-theme-secondary hover:bg-theme-hover hover:text-theme-primary"
-          >
-            <Cog6ToothIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-secondary flex-shrink-0" />
-            <span className="flex-1 truncate">Einstellungen</span>
-            <ChevronRightIcon className={`
-              w-3.5 h-3.5 transition-all duration-150 flex-shrink-0
-              ${showSettingsDropdown ? 'rotate-90 text-theme-secondary' : 'text-theme-muted'}
-            `} />
-          </button>
-
-          {/* DROPDOWN MENU */}
-          {showSettingsDropdown && (
-            <div className="ml-7 space-y-0.5 border-l border-theme pl-3">
-              <Link
-                href="/notifications"
-                className={`
-                  group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
-                  ${pathname === '/notifications'
-                    ? 'bg-theme-hover text-theme-primary'
-                    : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
-                  }
-                `}
-              >
-                <BellIcon className="w-3.5 h-3.5" />
-                <span>Benachrichtigungen</span>
-              </Link>
-
-              <Link
-                href="/profile"
-                className={`
-                  group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
-                  ${pathname === '/profile'
-                    ? 'bg-theme-hover text-theme-primary'
-                    : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
-                  }
-                `}
-              >
-                <UserCircleIcon className="w-3.5 h-3.5" />
-                <span>Profil</span>
-              </Link>
-
-              <Link
-                href="/settings"
-                className={`
-                  group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150
-                  ${pathname === '/settings'
-                    ? 'bg-theme-hover text-theme-primary'
-                    : 'text-theme-muted hover:bg-theme-hover hover:text-theme-secondary'
-                  }
-                `}
-              >
-                <Cog6ToothIcon className="w-3.5 h-3.5" />
-                <span>Einstellungen</span>
-              </Link>
+              <div className="h-px bg-theme/20 my-2"></div>
 
               <button
                 onClick={() => window.location.href = 'mailto:team@finclue.de'}
-                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-theme-muted hover:bg-theme-hover hover:text-theme-secondary"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition-colors"
               >
-                <EnvelopeIcon className="w-3.5 h-3.5" />
-                <span>Support</span>
+                <EnvelopeIcon className="w-4 h-4" />
+                Support
               </button>
 
               {allowsThemeToggle && (
                 <button
-                  onClick={toggleTheme}
-                  className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-theme-muted hover:bg-theme-hover hover:text-theme-secondary"
+                  onClick={() => {
+                    toggleTheme()
+                    setShowSettingsPopup(false)
+                  }}
+                  className="w-full flex items-center gap-3 px-4 py-2 text-sm text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition-colors"
                 >
-                  {theme === 'dark' ? (
-                    <SunIcon className="w-3.5 h-3.5" />
-                  ) : (
-                    <MoonIcon className="w-3.5 h-3.5" />
-                  )}
-                  <span>{theme === 'dark' ? 'Helles Design' : 'Dunkles Design'}</span>
+                  {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
+                  {theme === 'dark' ? 'Hell' : 'Dunkel'}
                 </button>
               )}
 
+              <div className="h-px bg-theme/20 my-2"></div>
+
               <button
                 onClick={handleSignOut}
-                className="group flex items-center gap-2.5 px-3 py-1.5 rounded-md text-[12px] font-normal transition-all duration-150 w-full text-left text-red-400/70 hover:bg-red-500/10 hover:text-red-400"
+                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
               >
-                <ArrowLeftOnRectangleIcon className="w-3.5 h-3.5" />
-                <span>Abmelden</span>
+                <ArrowLeftOnRectangleIcon className="w-4 h-4" />
+                Abmelden
               </button>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
-    </nav>
+
+      {/* User Avatar */}
+      <div className="mt-2">
+        <Link href="/profile" className="flex flex-col items-center group">
+          <div className="relative">
+            <div className="w-9 h-9 bg-brand rounded-xl flex items-center justify-center text-black font-semibold text-sm group-hover:bg-green-400 transition-colors">
+              {getInitials()}
+            </div>
+            {user.isPremium && (
+              <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border-2 border-theme-primary"></div>
+            )}
+          </div>
+          <span className="text-[11px] mt-1 font-medium text-theme-muted group-hover:text-theme-secondary">
+            {user.isPremium ? 'Premium' : 'Profil'}
+          </span>
+        </Link>
+      </div>
+
+      {/* Upgrade Button (if not premium) */}
+      {!user.isPremium && (
+        <Link
+          href="/pricing"
+          className="mt-2 flex flex-col items-center group"
+        >
+          <div className="w-9 h-9 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center group-hover:from-yellow-300 group-hover:to-orange-400 transition-all shadow-lg">
+            <SparklesIcon className="w-4 h-4 text-white" />
+          </div>
+          <span className="text-[11px] mt-1 font-medium text-yellow-500">Upgrade</span>
+        </Link>
+      )}
+    </div>
   )
 })
 
-// COMMAND PALETTE - MEMOIZED
+// COMMAND PALETTE
 const CommandPalette = React.memo(({
   isOpen, 
   onClose, 
@@ -577,7 +479,6 @@ const CommandPalette = React.memo(({
   const [query, setQuery] = useState('')
   const inputRef = useRef<HTMLInputElement>(null)
 
-  // MEMOIZED COMMANDS mit Stock Search
   const commands: CommandPaletteItem[] = useMemo(() => {
     const baseCommands = [
       { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
@@ -590,12 +491,10 @@ const CommandPalette = React.memo(({
       { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/finclue-ai', category: 'navigation' },
       { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
       { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
-      
       { id: 'action-upgrade', title: 'Premium upgraden', subtitle: 'Alle Features freischalten', icon: SparklesIcon, href: '/pricing', category: 'actions' },
       { id: 'action-support', title: 'Support kontaktieren', subtitle: 'Hilfe erhalten', icon: EnvelopeIcon, action: () => window.location.href = 'mailto:team@finclue.de', category: 'actions' },
     ] as CommandPaletteItem[]
     
-    // Add theme toggle if available
     if (allowsThemeToggle) {
       baseCommands.push({
         id: 'action-theme', 
@@ -607,13 +506,12 @@ const CommandPalette = React.memo(({
       })
     }
     
-    // Add stock search results
     const searchTerm = query.toUpperCase()
     if (searchTerm.length > 0) {
       const matchingStocks = stocks.filter(stock => 
         stock.ticker.includes(searchTerm) || 
         stock.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 8) // Limit to 8 results
+      ).slice(0, 8)
       
       const stockCommands = matchingStocks.map(stock => ({
         id: `stock-${stock.ticker}`,
@@ -630,7 +528,6 @@ const CommandPalette = React.memo(({
     return baseCommands
   }, [theme, toggleTheme, allowsThemeToggle, query])
 
-  // MEMOIZED FILTERED COMMANDS
   const filteredCommands = useMemo(() => 
     commands.filter(cmd => 
       cmd.title.toLowerCase().includes(query.toLowerCase()) ||
@@ -638,7 +535,6 @@ const CommandPalette = React.memo(({
     ), [commands, query]
   )
 
-  // MEMOIZED GROUPED COMMANDS with stocks
   const groupedCommands = useMemo(() => {
     const stocks = filteredCommands.filter(cmd => cmd.id.startsWith('stock-'))
     const navigation = filteredCommands.filter(cmd => cmd.category === 'navigation' && !cmd.id.startsWith('stock-'))
@@ -667,7 +563,7 @@ const CommandPalette = React.memo(({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-[15vh]">
-      <div className="bg-theme-card border border-theme rounded-lg w-full max-w-lg mx-4 backdrop-blur-sm shadow-2xl">
+      <div className="bg-theme-card border border-theme rounded-xl w-full max-w-lg mx-4 shadow-2xl">
         
         <div className="p-3 border-b border-theme">
           <div className="relative">
@@ -675,22 +571,21 @@ const CommandPalette = React.memo(({
             <input
               ref={inputRef}
               type="text"
-              placeholder="Nach Aktien suchen oder AI-Frage stellen..."
+              placeholder="Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2 bg-theme-input border border-theme rounded-md text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20 text-sm"
+              className="w-full pl-10 pr-10 py-2.5 bg-theme-input border border-theme rounded-lg text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20 text-sm"
             />
             <button
               onClick={onClose}
               className="absolute right-3 top-1/2 transform -translate-y-1/2 p-0.5 text-theme-muted hover:text-theme-primary rounded transition-colors"
             >
-              <XMarkIcon className="w-3.5 h-3.5" />
+              <XMarkIcon className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        <div className="max-h-72 overflow-y-auto">
-          
+        <div className="max-h-80 overflow-y-auto">
           {Object.entries(groupedCommands).map(([category, commands]) => {
             if (commands.length === 0) return null
             
@@ -702,7 +597,7 @@ const CommandPalette = React.memo(({
             }
             
             return (
-              <div key={category} className="p-1.5">
+              <div key={category} className="p-2">
                 <div className="px-2 py-1 text-xs text-theme-muted font-medium uppercase tracking-wide">
                   {categoryLabels[category as keyof typeof categoryLabels]}
                 </div>
@@ -713,38 +608,32 @@ const CommandPalette = React.memo(({
                     <button
                       key={command.id}
                       onClick={() => handleSelect(command)}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-left group border ${
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left group ${
                         isStock 
-                          ? 'border-brand/15 bg-brand/5 hover:bg-brand/8 hover:border-green-500/25' 
-                          : 'border-transparent hover:bg-theme-secondary'
+                          ? 'bg-brand/5 hover:bg-brand/10' 
+                          : 'hover:bg-theme-secondary'
                       }`}
                     >
-                      <div className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
                         isStock
-                          ? 'bg-brand/20 group-hover:bg-brand/25'
+                          ? 'bg-brand/20 group-hover:bg-brand/30'
                           : 'bg-theme-secondary group-hover:bg-theme-tertiary'
                       }`}>
-                        <Icon className={`w-4 h-4 transition-colors ${
-                          isStock
-                            ? 'text-brand-light group-hover:text-green-300'
-                            : 'text-theme-muted group-hover:text-brand-light'
+                        <Icon className={`w-4 h-4 ${
+                          isStock ? 'text-brand-light' : 'text-theme-muted group-hover:text-brand-light'
                         }`} />
                       </div>
                       <div className="flex-1">
-                        <div className={`text-sm font-medium ${isStock ? 'text-theme-primary' : 'text-theme-primary'}`}>
+                        <div className="text-sm font-medium text-theme-primary">
                           {isStock ? command.title.split(' - ')[0] : command.title}
                         </div>
                         {command.subtitle && (
-                          <div className={`text-xs ${isStock ? 'text-theme-secondary' : 'text-theme-muted'}`}>
+                          <div className="text-xs text-theme-muted">
                             {isStock ? command.title.split(' - ')[1] || command.subtitle : command.subtitle}
                           </div>
                         )}
                       </div>
-                      <ChevronRightIcon className={`w-4 h-4 transition-colors ${
-                        isStock 
-                          ? 'text-brand-light/70 group-hover:text-brand-light' 
-                          : 'text-theme-muted group-hover:text-theme-secondary'
-                      }`} />
+                      <ChevronRightIcon className="w-4 h-4 text-theme-muted group-hover:text-theme-secondary" />
                     </button>
                   )
                 })}
@@ -752,75 +641,61 @@ const CommandPalette = React.memo(({
             )
           })}
           
-          {filteredCommands.length === 0 && query.length <= 3 && (
-            <div className="p-6 text-center text-theme-muted">
-              <MagnifyingGlassIcon className="w-6 h-6 mx-auto mb-2 opacity-50" />
+          {filteredCommands.length === 0 && (
+            <div className="p-8 text-center text-theme-muted">
+              <MagnifyingGlassIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
               <p className="text-sm">Keine Ergebnisse für "{query}"</p>
             </div>
           )}
           
-          {/* AI Assistant Option - Less Prominent at Bottom */}
           {query.length > 0 && !query.match(/^[A-Z]{1,5}$/i) && (
-            <div className="p-1.5 border-t border-theme/20">
-              <div className="px-2 py-1 text-xs text-theme-muted/80 font-medium uppercase tracking-wide">
-                🤖 KI-Assistent
-              </div>
+            <div className="p-2 border-t border-theme/20">
               <button
                 onClick={() => {
                   onNavigate(`/analyse/finclue-ai?q=${encodeURIComponent(query)}`)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all text-left group border-transparent hover:bg-theme-secondary/50"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left group hover:bg-theme-secondary/50"
               >
-                <div className="w-6 h-6 rounded-md bg-theme-secondary/60 group-hover:bg-blue-500/20 flex items-center justify-center transition-colors">
-                  <SparklesIcon className="w-3.5 h-3.5 text-theme-muted group-hover:text-blue-400 transition-colors" />
+                <div className="w-8 h-8 rounded-lg bg-theme-secondary/60 group-hover:bg-blue-500/20 flex items-center justify-center">
+                  <SparklesIcon className="w-4 h-4 text-theme-muted group-hover:text-blue-400" />
                 </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-theme-secondary group-hover:text-theme-primary">
                     "{query}" mit FinClue AI analysieren
                   </div>
-                  <div className="text-xs text-theme-muted">
-                    KI-gestützte Finanzanalyse und Antworten
-                  </div>
                 </div>
-                <ChevronRightIcon className="w-3.5 h-3.5 text-theme-muted/50 group-hover:text-theme-muted transition-colors" />
               </button>
             </div>
           )}
         </div>
 
         <div className="p-2 border-t border-theme flex items-center justify-between text-xs text-theme-muted">
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1">
+          <div className="flex items-center gap-3">
+            <span className="flex items-center gap-1">
               <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">↵</kbd>
-              <span>Auswählen</span>
-            </div>
-            <div className="flex items-center gap-1">
+              Auswählen
+            </span>
+            <span className="flex items-center gap-1">
               <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">Esc</kbd>
-              <span>Schließen</span>
-            </div>
+              Schließen
+            </span>
           </div>
-          <div className="flex items-center gap-1">
-            <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">⌘K</kbd>
-            <span>Commands</span>
-          </div>
+          <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">⌘K</kbd>
         </div>
       </div>
     </div>
   )
 })
 
-// OPTIMIZED MARKET STATUS - CACHED
+// MARKET STATUS
 const getMarketStatus = (() => {
   let lastCheck = 0
   let cachedStatus = { status: 'Closed', reason: 'Weekend' }
   
   return () => {
     const now = Date.now()
-    // Cache für 30 Sekunden
-    if (now - lastCheck < 30000) {
-      return cachedStatus
-    }
+    if (now - lastCheck < 30000) return cachedStatus
     
     lastCheck = now
     const estTime = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}))
@@ -846,7 +721,7 @@ const getMarketStatus = (() => {
   }
 })()
 
-// MAIN LAYOUT COMPONENT
+// ===== MAIN LAYOUT =====
 function LayoutContent({ children }: LayoutProps) {
   const pathname = usePathname()
   const router = useRouter()
@@ -854,22 +729,14 @@ function LayoutContent({ children }: LayoutProps) {
   const [loading, setLoading] = useState(true)
   const [showCommandPalette, setShowCommandPalette] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
-  const [showSettingsDropdown, setShowSettingsDropdown] = useState(false)
   
   const { theme, toggleTheme, allowsThemeToggle } = useTheme()
   const { formatStockPrice, formatPercentage, formatMarketCap } = useCurrency()
   const { formatPriceWithExchangeInfo } = useExchangeRate('USD', 'EUR')
 
-  // ===== UTILITY FUNCTIONS - Mit CurrencyContext =====
-  const formatPrice = (price: number): string => {
-    return formatStockPrice(price) // Deutsche Formatierung mit Komma: z.B. 0,49 $
-  }
+  const formatPrice = (price: number): string => formatStockPrice(price)
+  const formatPercentageWithSign = (percentage: number): string => formatPercentage(percentage, true)
 
-  const formatPercentageWithSign = (percentage: number): string => {
-    return formatPercentage(percentage, true) // showSign = true für +/- Vorzeichen
-  }
-
-  // MEMOIZED STOCK PAGE CALCULATION
   const { isStockPage, currentTicker } = useMemo(() => {
     const stockMatch = pathname.match(/^\/analyse\/stocks\/([a-zA-Z0-9.-]+)(.*)$/)
     return {
@@ -878,13 +745,9 @@ function LayoutContent({ children }: LayoutProps) {
     }
   }, [pathname])
 
-  // STOCK DATA HOOK
   const { quote, profile, loading: stockLoading, error: stockError } = useStockData(currentTicker)
-
-  // MEMOIZED MARKET STATUS
   const marketStatus = useMemo(() => getMarketStatus(), [currentTime])
 
-  // OPTIMIZED KEYBOARD SHORTCUTS
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
@@ -899,15 +762,11 @@ function LayoutContent({ children }: LayoutProps) {
     return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
 
-  // OPTIMIZED LIVE CLOCK - Nur alle 10 Sekunden statt jede Sekunde
   useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date())
-    }, 10000) // 10 Sekunden statt 1 Sekunde
+    const timer = setInterval(() => setCurrentTime(new Date()), 10000)
     return () => clearInterval(timer)
   }, [])
 
-  // OPTIMIZED AUTH LOGIC - Weniger frequent checks
   useEffect(() => {
     let mounted = true
 
@@ -920,7 +779,6 @@ function LayoutContent({ children }: LayoutProps) {
           return
         }
 
-        // Cache Profile Check
         try {
           const { data: profile } = await supabase
             .from('profiles')
@@ -928,17 +786,15 @@ function LayoutContent({ children }: LayoutProps) {
             .eq('user_id', session.user.id)
             .maybeSingle()
 
-          const isPremium = profile?.is_premium || false
-          
           if (mounted) {
             setUser({
               id: session.user.id,
               email: session.user.email || '',
-              isPremium
+              isPremium: profile?.is_premium || false
             })
             setLoading(false)
           }
-        } catch (profileError) {
+        } catch {
           if (mounted) {
             setUser({
               id: session.user.id,
@@ -948,22 +804,19 @@ function LayoutContent({ children }: LayoutProps) {
             setLoading(false)
           }
         }
-      } catch (error) {
+      } catch {
         if (mounted) router.push('/auth/signin')
       }
     }
 
     checkAuth()
 
-    // WENIGER FREQUENT AUTH STATE CHANGES
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return
-      
       if (event === 'SIGNED_OUT' || !session) {
         router.push('/auth/signin')
         return
       }
-      
       if (event === 'SIGNED_IN' && session) {
         checkAuth()
       }
@@ -974,17 +827,6 @@ function LayoutContent({ children }: LayoutProps) {
       subscription.unsubscribe()
     }
   }, [router])
-
-  // MEMOIZED CALLBACKS
-  const getInitials = useCallback(() => {
-    if (!user?.email) return 'U'
-    return user.email.charAt(0).toUpperCase()
-  }, [user?.email])
-
-  const getDisplayName = useCallback(() => {
-    if (!user?.email) return 'User'
-    return user.email.split('@')[0]
-  }, [user?.email])
 
   const handleSignOut = useCallback(async () => {
     await supabase.auth.signOut()
@@ -999,7 +841,7 @@ function LayoutContent({ children }: LayoutProps) {
     return (
       <div className="h-screen bg-theme-primary flex items-center justify-center">
         <div className="text-center">
-          <div className="w-5 h-5 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+          <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-theme-secondary text-sm">Loading FinClue...</p>
         </div>
       </div>
@@ -1021,101 +863,36 @@ function LayoutContent({ children }: LayoutProps) {
       
       <LearnSidebar />
       
-   {/* SIDEBAR - FISCAL STYLE WIDER */}
-<div className="w-64 bg-theme-card border-r border-theme flex flex-col relative z-20">
-  <div className="px-4 pt-5 pb-4 border-b border-theme">
-    <Link href="/" className="flex items-center gap-3 group">
-      <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center transition-all group-hover:border-green-400/40">
-        <div className="flex items-end gap-0.5">
-          <span className="w-1 h-3 rounded-full bg-brand"></span>
-          <span className="w-1 h-4 rounded-full bg-green-400"></span>
-          <span className="w-1 h-5 rounded-full bg-green-300"></span>
-        </div>
-      </div>
-      <div className="flex-1">
-        <p className="text-base font-bold text-theme-primary group-hover:text-brand-light transition-colors">
-          FinClue
-        </p>
-        <p className="text-[10px] font-medium uppercase tracking-wider text-theme-muted">
-          Terminal
-        </p>
-      </div>
-    </Link>
-  </div>
+      {/* COLLAPSED SIDEBAR */}
+      <CollapsedSidebar 
+        user={user}
+        pathname={pathname}
+        handleSignOut={handleSignOut}
+        theme={theme}
+        toggleTheme={toggleTheme}
+        allowsThemeToggle={allowsThemeToggle}
+      />
 
-        <CategorizedNavigation 
-          user={user} 
-          pathname={pathname} 
-          showSettingsDropdown={showSettingsDropdown}
-          setShowSettingsDropdown={setShowSettingsDropdown}
-          handleSignOut={handleSignOut}
-          theme={theme}
-          toggleTheme={toggleTheme}
-          allowsThemeToggle={allowsThemeToggle}
-        />
-
-        <div className="px-3 py-4 border-t border-theme/60 mt-auto">
-          <div className="flex items-center gap-2.5 mb-3">
-            <div className="relative">
-              <div className="w-9 h-9 bg-brand rounded-2xl flex items-center justify-center text-black font-semibold text-sm">
-                {getInitials()}
-              </div>
-              {user.isPremium && (
-                <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-yellow-400 rounded-full"></div>
-              )}
-            </div>
-            <div className="flex-1 min-w-0">
-              <div className="text-xs font-semibold tracking-wide text-theme-secondary">
-                {user.isPremium ? (
-                  <span className="text-brand-light">Premium</span>
-                ) : (
-                  <span className="text-theme-muted">Free Plan</span>
-                )}
-              </div>
-            </div>
-            
-          </div>
-
-          {!user.isPremium && (
-            <Link 
-              href="/pricing"
-              className="flex items-center justify-center gap-2 w-full py-2.5 bg-brand hover:bg-green-400 text-black rounded-2xl text-xs font-semibold transition-colors mb-2"
-            >
-              <SparklesIcon className="w-4 h-4" />
-              Upgrade
-            </Link>
-          )}
-
-        </div>
-      </div>
-
-      {/* MAIN CONTENT AREA */}
+      {/* MAIN CONTENT */}
       <div className="flex-1 flex flex-col bg-theme-primary">
-        {/* TOP BAR - MIT PROMINENT SEARCH */}
-        <div className="pt-4 pb-4 bg-theme-secondary border-b border-theme flex items-center px-6 shadow-sm">
+        
+        {/* TOP BAR */}
+        <div className="py-4 bg-theme-primary border-b border-theme/10 flex items-center px-6">
           <div className="flex items-center gap-6 flex-1">
-            {/* Dashboard-Anzeige nur wenn NICHT auf Stock-Seite */}
-            {!isStockPage && (
-              <div className="flex-shrink-0">
-                <h1 className="text-lg font-bold text-theme-primary">Dashboard</h1>
-                <div className="text-xs text-theme-secondary">Markt-Analyse</div>
-              </div>
-            )}
             
-            {/* Prominent Search Bar - wie Fiscal */}
-            <div className="flex-1 max-w-3xl">
+            {/* Search Bar */}
+            <div className="flex-1 max-w-2xl">
               <button
                 onClick={() => setShowCommandPalette(true)}
-                className="w-full flex items-center gap-3 px-6 py-4 bg-theme-primary/60 hover:bg-theme-primary/80 border border-theme/40 hover:border-green-500/60 rounded-2xl transition-all duration-300 group shadow-md hover:shadow-lg backdrop-blur-sm"
-                title="Aktien suchen oder AI-Frage stellen (⌘K)"
+                className="w-full flex items-center gap-3 px-5 py-3.5 bg-theme-card hover:bg-theme-card border border-theme/20 hover:border-green-500/50 rounded-xl transition-all duration-200 group shadow-sm hover:shadow-md"
               >
-                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted/80 group-hover:text-brand-light transition-all duration-300 flex-shrink-0" />
-                <span className="text-base text-theme-secondary/90 group-hover:text-theme-primary transition-all duration-300 flex-1 text-left font-medium">
+                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted group-hover:text-brand-light transition-colors" />
+                <span className="text-sm text-theme-muted group-hover:text-theme-secondary transition-colors flex-1 text-left">
                   Aktien suchen oder AI-Frage stellen...
                 </span>
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <SparklesIcon className="w-4 h-4 text-brand-light/60 group-hover:text-brand-light transition-all duration-300" />
-                  <kbd className="px-2.5 py-1.5 text-xs bg-theme-tertiary/40 border border-theme/50 rounded-md text-theme-muted group-hover:text-theme-secondary transition-all duration-300 font-mono shadow-sm">
+                <div className="flex items-center gap-2">
+                  <SparklesIcon className="w-4 h-4 text-brand-light/50 group-hover:text-brand-light transition-colors" />
+                  <kbd className="px-2 py-1 text-xs bg-theme-tertiary/50 border border-theme/30 rounded text-theme-muted">
                     ⌘K
                   </kbd>
                 </div>
@@ -1123,42 +900,38 @@ function LayoutContent({ children }: LayoutProps) {
             </div>
           </div>
           
-          <div className="flex items-center gap-3 flex-shrink-0">
+          <div className="flex items-center gap-3">
             <GlobalLearnToggle />
             <NotificationCenter />
             
-         {/*   <CurrencySelector /> */}
-            
-            <div className="hidden lg:flex items-center gap-1.5 px-2 py-1 bg-theme-tertiary/30 rounded-lg">
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-theme-tertiary/30 rounded-lg">
               <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`} />
               <span className={`text-xs font-medium ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`}>
-                {marketStatus.status === 'Open' ? 'Markt offen' : 'Markt geschlossen'}
+                {marketStatus.status === 'Open' ? 'Markt offen' : 'Geschlossen'}
               </span>
             </div>
 
             {!user.isPremium ? (
               <Link 
                 href="/pricing"
-                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all duration-200 shadow-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all shadow-sm"
               >
                 <SparklesIcon className="w-4 h-4" />
-                Upgrade
+                Premium
               </Link>
             ) : (
               <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/20 rounded-lg border border-green-500/30">
                 <SparklesIcon className="w-3.5 h-3.5 text-brand-light" />
-                <span className="text-sm text-brand-light font-semibold">Premium</span>
+                <span className="text-sm text-brand-light font-medium">Premium</span>
               </div>
             )}
           </div>
         </div>
 
-        {/* STOCK HEADER - KOMPAKT & CLEAN MIT ECHTEN DATEN */}
+        {/* STOCK HEADER */}
         {isStockPage && currentTicker && (
           <div className="bg-theme-primary px-6 py-4">
             <div className="bg-theme-card rounded-xl shadow-lg border border-theme/10 overflow-hidden">
-              
-              {/* Header Section - Mit echten Daten */}
               <div className="px-6 py-5">
                 {stockLoading ? (
                   <div className="flex items-center justify-center py-8">
@@ -1168,15 +941,13 @@ function LayoutContent({ children }: LayoutProps) {
                 ) : stockError ? (
                   <div className="flex items-center justify-center py-8">
                     <div className="text-center">
-                      <div className="text-red-400 font-medium">Fehler beim Laden der Daten</div>
+                      <div className="text-red-400 font-medium">Fehler beim Laden</div>
                       <div className="text-theme-muted text-sm mt-1">{stockError}</div>
                     </div>
                   </div>
                 ) : quote && profile ? (
                   <div className="flex items-center justify-between">
-                    {/* Linke Seite - Logo & Info */}
                     <div className="flex items-center gap-4">
-                      {/* Company Logo */}
                       <div className="w-14 h-14 bg-white rounded-xl p-2 shadow-md border border-theme/5">
                         <Logo 
                           ticker={currentTicker}
@@ -1186,12 +957,9 @@ function LayoutContent({ children }: LayoutProps) {
                         />
                       </div>
                       
-                      {/* Company Info - Mit echten Daten */}
                       <div>
                         <div className="flex items-center gap-3 mb-1">
-                          <h1 className="text-2xl font-bold text-theme-primary">
-                            {quote.symbol}
-                          </h1>
+                          <h1 className="text-2xl font-bold text-theme-primary">{quote.symbol}</h1>
                           <span className="px-2.5 py-0.5 bg-theme-secondary text-theme-muted text-xs font-medium rounded">
                             {profile.exchange || quote.exchange}
                           </span>
@@ -1202,72 +970,52 @@ function LayoutContent({ children }: LayoutProps) {
                       </div>
                     </div>
                     
-                    {/* Rechte Seite - Stats kompakt nebeneinander */}
                     <div className="flex items-center gap-4">
-                      {/* Kurs */}
                       <div className="text-right">
                         <div className="text-xs text-theme-muted uppercase tracking-wide">Kurs</div>
-                        <div className="text-xl font-bold text-theme-primary">
-                          {formatPrice(quote.price)}
-                        </div>
+                        <div className="text-xl font-bold text-theme-primary">{formatPrice(quote.price)}</div>
                         {(() => {
                           const { equivalent } = formatPriceWithExchangeInfo(quote.price)
-                          return equivalent ? (
-                            <div className="text-xs text-theme-muted mt-1">
-                              {equivalent}
-                            </div>
-                          ) : null
+                          return equivalent ? <div className="text-xs text-theme-muted mt-1">{equivalent}</div> : null
                         })()}
                       </div>
                       
-                      {/* Divider */}
                       <div className="h-10 w-px bg-theme/20"></div>
                       
-                      {/* Performance */}
                       <div className="flex items-center gap-2">
                         {quote.changesPercentage >= 0 ? (
-                          <ArrowTrendingUpIcon className="w-4 h-4 text-brand" />
+                          <ArrowTrendingUpIcon className="w-4 h-4 text-green-500" />
                         ) : (
                           <ArrowTrendingDownIcon className="w-4 h-4 text-red-500" />
                         )}
                         <div>
                           <div className="text-xs text-theme-muted uppercase tracking-wide">Heute</div>
-                          <div className={`text-xl font-bold ${quote.changesPercentage >= 0 ? 'text-brand' : 'text-red-500'}`}>
+                          <div className={`text-xl font-bold ${quote.changesPercentage >= 0 ? 'text-green-500' : 'text-red-500'}`}>
                             {formatPercentageWithSign(quote.changesPercentage)}
                           </div>
                         </div>
                       </div>
                       
-                      {/* Divider */}
                       <div className="h-10 w-px bg-theme/20"></div>
                       
-                      {/* Marktkapitalisierung */}
                       <div className="text-right">
                         <div className="text-xs text-theme-muted uppercase tracking-wide">Marktk.</div>
-                        <div className="text-lg font-bold text-theme-primary">
-                          {formatMarketCap(quote.marketCap)}
-                        </div>
+                        <div className="text-lg font-bold text-theme-primary">{formatMarketCap(quote.marketCap)}</div>
                       </div>
                       
-                      {/* Divider */}
                       <div className="h-10 w-px bg-theme/20"></div>
                       
-                         {/* Score Badge hinzufügen */}
-    <ScoreBadge ticker={currentTicker} />
-
+                      <ScoreBadge ticker={currentTicker} />
                     </div>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center py-8">
-                    <div className="text-center">
-                      <div className="text-theme-muted">Keine Daten verfügbar</div>
-                      <div className="text-theme-muted text-sm mt-1">für {currentTicker}</div>
-                    </div>
+                    <div className="text-theme-muted">Keine Daten für {currentTicker}</div>
                   </div>
                 )}
               </div>
               
-              {/* Navigation Tabs */}
+              {/* Tabs */}
               <div className="bg-theme-secondary/5 border-t border-theme/10">
                 <div className="px-6">
                   <nav className="flex items-center gap-1">
@@ -1281,37 +1029,31 @@ function LayoutContent({ children }: LayoutProps) {
                           key={tab.id}
                           href={tabPath}
                           className={`
-                            relative px-4 py-4 text-sm font-medium transition-all duration-200
+                            relative px-4 py-4 text-sm font-medium transition-all
                             ${isActive
                               ? 'text-theme-primary'
                               : isPremiumTab
                                 ? 'text-theme-muted/60 hover:text-yellow-400'
-                                : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/5'
+                                : 'text-theme-secondary hover:text-theme-primary'
                             }
                           `}
                         >
                           <span className="flex items-center gap-1.5">
                             {tab.label}
-                            {isPremiumTab && (
-                              <SparklesIcon className="w-3 h-3 text-yellow-400" />
-                            )}
+                            {isPremiumTab && <SparklesIcon className="w-3 h-3 text-yellow-400" />}
                           </span>
-                          
-                          {isActive && (
-                            <div className="absolute inset-x-0 bottom-0 h-0.5 bg-brand"></div>
-                          )}
+                          {isActive && <div className="absolute inset-x-0 bottom-0 h-0.5 bg-brand"></div>}
                         </Link>
                       )
                     })}
                     
-                    {/* Premium Upgrade als Tab ganz rechts */}
                     {!user.isPremium && (
                       <Link 
                         href="/pricing"
-                        className="ml-auto flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-400 hover:to-emerald-400 text-white rounded-lg font-semibold text-sm shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200"
+                        className="ml-auto flex items-center gap-1.5 px-4 py-2 bg-brand hover:bg-green-400 text-black rounded-lg font-semibold text-sm transition-all"
                       >
                         <SparklesIcon className="w-4 h-4" />
-                        <span>Upgrade</span>
+                        Upgrade
                       </Link>
                     )}
                   </nav>
@@ -1321,14 +1063,14 @@ function LayoutContent({ children }: LayoutProps) {
           </div>
         )}
       
-        {/* MAIN CONTENT */}
+        {/* CONTENT */}
         <div className="flex-1 overflow-auto bg-theme-primary">
           {children}
         </div>
 
-        {/* FOOTER STATUS BAR */}
-        <div className="h-4 bg-theme-secondary border-t border-theme flex items-center justify-between px-2.5 text-xs text-theme-muted">
-          <div className="flex items-center gap-1.5">
+        {/* FOOTER */}
+        <div className="h-5 bg-theme-secondary/50 border-t border-theme/10 flex items-center justify-between px-3 text-xs text-theme-muted">
+          <div className="flex items-center gap-2">
             <span>Market: {marketStatus.status}</span>
             <span>•</span>
             <span>Real-time</span>
@@ -1339,7 +1081,7 @@ function LayoutContent({ children }: LayoutProps) {
               </>
             )}
           </div>
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
             <span>{currentTime.toLocaleTimeString('en-US', { 
               timeZone: 'America/New_York', 
               hour: '2-digit', 
@@ -1347,7 +1089,7 @@ function LayoutContent({ children }: LayoutProps) {
             })} EST</span>
             <span>•</span>
             <span className="flex items-center gap-1">
-              <div className={`w-1 h-1 rounded-full ${marketStatus.status === 'Open' ? 'bg-green-400' : 'bg-red-400'}`}></div>
+              <div className={`w-1.5 h-1.5 rounded-full ${marketStatus.status === 'Open' ? 'bg-green-400' : 'bg-red-400'}`}></div>
               Connected
             </span>
           </div>
@@ -1357,7 +1099,6 @@ function LayoutContent({ children }: LayoutProps) {
   )
 }
 
-// Export with Providers - OPTIMIERT
 export default function TerminalLayout({ children }: LayoutProps) {
   return (
     <CurrencyProvider>

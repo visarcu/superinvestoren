@@ -13,11 +13,11 @@ module.exports = {
         // Ändere diese Werte und die gesamte App ändert sich
         // ═══════════════════════════════════════════════════════════════
         brand: {
-          DEFAULT: '#2563eb',      // bg-brand, text-brand (Blue-600)
-          hover: '#1d4ed8',        // hover:bg-brand-hover (Blue-700)
-          light: '#3b82f6',        // text-brand-light (Blue-500)
-          muted: '#dbeafe',        // bg-brand-muted (Blue-100)
-          dark: '#1e40af',         // text-brand-dark (Blue-800)
+          DEFAULT: '#0d9488',      // bg-brand, text-brand (Blue-600)
+          hover: '#0f766e',        // hover:bg-brand-hover (Blue-700)
+          light: '#14b8a6',        // text-brand-light (Blue-500)
+          muted: '#ccfbf1',        // bg-brand-muted (Blue-100)
+          dark: '#115e59',         // text-brand-dark (Blue-800)
         },
         
         // Semantic Colors - NICHT ÄNDERN (universell verstanden)

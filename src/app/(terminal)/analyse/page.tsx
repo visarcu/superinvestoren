@@ -414,57 +414,51 @@ export default function ModernDashboard() {
                   key={ticker}
                   onClick={() => handleTickerSelect(ticker)}
                   disabled={!stocksInteractive}
-                  className={`group bg-theme-card border border-theme/10 rounded-xl p-5 transition-all duration-200 h-[140px] flex flex-col justify-between ${
-                    stocksInteractive 
-                      ? 'hover:border-brand/30 hover:bg-theme-hover cursor-pointer' 
+                  className={`group bg-theme-card border border-theme/10 rounded-xl p-4 transition-all duration-200 h-[140px] flex flex-col justify-between overflow-hidden ${
+                    stocksInteractive
+                      ? 'hover:border-brand/30 hover:bg-theme-hover cursor-pointer'
                       : 'cursor-not-allowed opacity-60'
                   }`}
-                  
                 >
                   {/* Header */}
-                  <div className="flex items-center justify-between mb-3">
-                    <Logo 
-                      ticker={ticker} 
+                  <div className="flex items-center justify-between">
+                    <Logo
+                      ticker={ticker}
                       alt={`${ticker} Logo`}
-                      className="w-8 h-8 rounded-lg"
+                      className="w-8 h-8 rounded-lg flex-shrink-0"
                       padding="small"
                     />
                     {quote && (
-                      <div className={`w-2 h-2 rounded-full ${
+                      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
                         quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
                       }`}></div>
                     )}
                   </div>
 
                   {/* Ticker */}
-                  <div className="text-left mb-2">
-                    <h3 className="text-sm font-bold text-theme-primary group-hover:text-brand transition-colors">
+                  <div className="text-left">
+                    <h3 className="text-sm font-bold text-theme-primary group-hover:text-brand transition-colors truncate">
                       {ticker}
                     </h3>
                   </div>
 
                   {/* Data */}
                   {isLoading ? (
-                    <div className="space-y-2">
+                    <div className="space-y-1">
                       <div className="h-4 bg-theme-secondary rounded animate-pulse"></div>
                       <div className="h-3 bg-theme-secondary rounded w-2/3 animate-pulse"></div>
                     </div>
                   ) : quote ? (
-                    <div className="text-left space-y-1">
-                      <div className="text-lg font-bold text-theme-primary">
+                    <div className="text-left">
+                      <div className="text-base font-bold text-theme-primary truncate">
                         {formatStockPrice(quote.price)}
                       </div>
-                      <div className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded text-theme-secondary bg-theme-tertiary/50">
-                        {quote.changePct >= 0 ? (
-                          <ArrowTrendingUpIcon className="w-3 h-3" />
-                        ) : (
-                          <ArrowTrendingDownIcon className="w-3 h-3" />
-                        )}
-                        <span>{formatPercentage(Math.abs(quote.changePct), false)}</span>
+                      <div className="text-xs text-theme-secondary truncate">
+                        {quote.changePct >= 0 ? '↗' : '↘'} {formatPercentage(Math.abs(quote.changePct), false)}
                       </div>
                     </div>
                   ) : (
-                    <div className="text-theme-muted text-xs">Daten nicht verfügbar</div>
+                    <div className="text-theme-muted text-xs truncate">Keine Daten</div>
                   )}
                 </button>
               )
@@ -485,44 +479,44 @@ export default function ModernDashboard() {
             <div className="space-y-6">
               {/* Recently Analyzed */}
               {lastTicker && (
-                <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
-                  <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-4">Zuletzt analysiert</h2>
-                  
+                <div className="bg-theme-card border border-theme/10 rounded-xl p-4 h-[200px] flex flex-col overflow-hidden">
+                  <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-3 flex-shrink-0">Zuletzt analysiert</h2>
+
                   <button
                     onClick={() => handleTickerSelect(lastTicker)}
                     disabled={!stocksInteractive}
-                    className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 flex-1 ${
-                      stocksInteractive 
-                        ? 'hover:bg-theme-hover cursor-pointer' 
+                    className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 flex-1 min-h-0 ${
+                      stocksInteractive
+                        ? 'hover:bg-theme-hover cursor-pointer'
                         : 'cursor-not-allowed opacity-60'
                     }`}
                   >
-                    <Logo 
-                      ticker={lastTicker} 
+                    <Logo
+                      ticker={lastTicker}
                       alt={`${lastTicker} Logo`}
-                      className="w-10 h-10 rounded-lg"
+                      className="w-10 h-10 rounded-lg flex-shrink-0"
                       padding="small"
                     />
-                    
-                    <div className="flex-1 text-left">
-                      <h3 className="text-base font-bold text-theme-primary group-hover:text-brand transition-colors">
+
+                    <div className="flex-1 text-left min-w-0">
+                      <h3 className="text-base font-bold text-theme-primary group-hover:text-brand transition-colors truncate">
                         {lastTicker}
                       </h3>
-                      <p className="text-sm text-theme-muted">
+                      <p className="text-sm text-theme-muted truncate">
                         Zur Analyse
                       </p>
                     </div>
-                    
-                    <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors"/>
+
+                    <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors flex-shrink-0"/>
                   </button>
                 </div>
               )}
 
               {/* Quick Actions */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[200px] flex flex-col">
-                <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-4">Schnellzugriff</h2>
-                
-                <div className="space-y-2 flex-1">
+              <div className="bg-theme-card border border-theme/10 rounded-xl p-4 h-[200px] flex flex-col overflow-hidden">
+                <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-3 flex-shrink-0">Schnellzugriff</h2>
+
+                <div className="space-y-1 flex-1 overflow-hidden">
                   {[
                     { icon: BookmarkIcon, label: 'Watchlist', href: '/analyse/watchlist' },
                     { icon: MapIcon, label: 'Heatmap', href: '/analyse/heatmap' },
@@ -532,10 +526,10 @@ export default function ModernDashboard() {
                     <Link
                       key={item.label}
                       href={item.href}
-                      className="group flex items-center gap-3 p-2 rounded-lg hover:bg-theme-secondary transition-all duration-200"
+                      className="group flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-theme-secondary transition-all duration-200"
                     >
-                      <item.icon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors" />
-                      <span className="text-sm text-theme-primary group-hover:text-brand transition-colors">
+                      <item.icon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors flex-shrink-0" />
+                      <span className="text-sm text-theme-primary group-hover:text-brand transition-colors truncate">
                         {item.label}
                       </span>
                     </Link>

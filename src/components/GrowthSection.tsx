@@ -189,8 +189,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
               <div className="w-3 h-3 bg-brand rounded-full"></div>
               Umsatzwachstum
             </h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
+            <div className="divide-y divide-theme/10">
+              <div className="flex justify-between items-center py-2">
                 <div className="flex items-center gap-2">
                   <span className="text-theme-secondary text-sm">Umsatz YoY</span>
                   <LearnTooltipButton term="revenue_growth" />
@@ -202,8 +202,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                   </span>
                 </div>
               </div>
-              
-              <div className="flex justify-between items-center">
+
+              <div className="flex justify-between items-center py-2">
                 <div className="flex items-center gap-2">
                   <span className="text-theme-secondary text-sm">Umsatz 3Y CAGR</span>
                   <LearnTooltipButton term="cagr" />
@@ -215,8 +215,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                   </span>
                 </div>
               </div>
-              
-              <div className="flex justify-between items-center">
+
+              <div className="flex justify-between items-center py-2">
                 <span className="text-theme-secondary text-sm">Umsatz 5Y CAGR</span>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.revenueGrowth5Y)}
@@ -227,7 +227,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
               </div>
 
               {growth.revenueGrowthForward2Y && (
-                <div className="flex justify-between items-center border-t border-theme/20 pt-2">
+                <div className="flex justify-between items-center py-2">
                   <span className="text-theme-secondary text-sm">Umsatz Erw. (2Y)</span>
                   <div className="flex items-center gap-2">
                     {getTrendIcon(growth.revenueGrowthForward2Y)}
@@ -246,8 +246,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
               <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
               Gewinnwachstum
             </h4>
-            <div className="space-y-3">
-              <div className="flex justify-between items-center">
+            <div className="divide-y divide-theme/10">
+              <div className="flex justify-between items-center py-2">
                 <div className="flex items-center gap-2">
                   <span className="text-theme-secondary text-sm">EPS YoY</span>
                   <LearnTooltipButton term="eps_growth" />
@@ -259,8 +259,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                   </span>
                 </div>
               </div>
-              
-              <div className="flex justify-between items-center">
+
+              <div className="flex justify-between items-center py-2">
                 <span className="text-theme-secondary text-sm">EPS 3Y CAGR</span>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.epsGrowth3Y)}
@@ -269,8 +269,8 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                   </span>
                 </div>
               </div>
-              
-              <div className="flex justify-between items-center">
+
+              <div className="flex justify-between items-center py-2">
                 <span className="text-theme-secondary text-sm">EPS 5Y CAGR</span>
                 <div className="flex items-center gap-2">
                   {getTrendIcon(growth.epsGrowth5Y)}
@@ -281,7 +281,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
               </div>
 
               {growth.epsGrowthForward2Y && (
-                <div className="flex justify-between items-center border-t border-theme/20 pt-2">
+                <div className="flex justify-between items-center py-2">
                   <span className="text-theme-secondary text-sm">EPS Erw. (2Y)</span>
                   <div className="flex items-center gap-2">
                     {getTrendIcon(growth.epsGrowthForward2Y)}
@@ -301,9 +301,9 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
                 Weitere Kennzahlen
               </h4>
-              <div className="space-y-3">
+              <div className="divide-y divide-theme/10">
                 {growth.ebitdaGrowth3Y && (
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center py-2">
                     <div className="flex items-center gap-2">
                       <span className="text-theme-secondary text-sm">EBITDA 3Y CAGR</span>
                       <LearnTooltipButton term="ebitda" />
@@ -316,9 +316,9 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                     </div>
                   </div>
                 )}
-                
+
                 {growth.fcfGrowth3Y && (
-                  <div className="flex justify-between items-center">
+                  <div className="flex justify-between items-center py-2">
                     <div className="flex items-center gap-2">
                       <span className="text-theme-secondary text-sm">FCF 3Y CAGR</span>
                       <LearnTooltipButton term="free_cash_flow" />
