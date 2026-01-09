@@ -22,8 +22,17 @@ export default function PageTransitionLoader() {
       const link = target.closest('a')
       
       if (link && link.href && !link.target && link.href.startsWith(window.location.origin)) {
+        // Ignoriere Anchor/Hash Links - diese triggern keine echte Navigation
+        const url = new URL(link.href)
+        const currentUrl = new URL(window.location.href)
+
+        // Wenn nur der Hash unterschiedlich ist, keine Loading-Animation zeigen
+        if (url.pathname === currentUrl.pathname && url.hash) {
+          return
+        }
+
         const newPath = link.href.replace(window.location.origin, '')
-        
+
         // Nur bei internen Links und wenn sich die Route ändert
         if (newPath !== pathname) {
           setIsLoading(true)

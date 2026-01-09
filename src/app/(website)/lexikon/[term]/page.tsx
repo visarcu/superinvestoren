@@ -1,8 +1,8 @@
-// app/(website)/lexikon/[term]/page.tsx - MODERNE BEGRIFF-DETAILSEITE
+// app/(website)/lexikon/[term]/page.tsx - CLEAN MINIMAL DESIGN
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { LEARN_DEFINITIONS, LEXIKON_CATEGORIES, type LearnDefinitionKey } from '@/data/learnDefinitions'
-import { ArrowLeftIcon, ArrowRightIcon, BookOpenIcon, CalculatorIcon, LightBulbIcon } from '@heroicons/react/24/outline'
+import { ArrowLeftIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
 
 interface PageProps {
   params: {
@@ -23,13 +23,12 @@ export default function LexikonTermPage({ params }: PageProps) {
     cat.terms.includes(termKey)
   )
   const category = categoryEntry ? categoryEntry[1] : null
-  const categoryKey = categoryEntry ? categoryEntry[0] : null
 
   // Get related terms from same category
   const relatedTerms = category ? 
     category.terms
       .filter(key => key !== termKey)
-      .slice(0, 3)
+      .slice(0, 4)
       .map(key => ({ key, data: LEARN_DEFINITIONS[key as LearnDefinitionKey] }))
     : []
 
@@ -40,192 +39,168 @@ export default function LexikonTermPage({ params }: PageProps) {
   const nextTerm = currentIndex < allTermKeys.length - 1 ? allTermKeys[currentIndex + 1] : null
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-24">
+    <div className="min-h-screen bg-[#0a0a0a]">
+      
       {/* Header */}
-      <div className="mb-12">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-sm text-gray-400 mb-6">
-          <Link href="/lexikon" className="hover:text-brand-light transition-colors">
-            Lexikon
+      <div className="pt-32 pb-12">
+        <div className="max-w-3xl mx-auto px-6">
+          
+          {/* Breadcrumb */}
+          <div className="flex items-center gap-2 text-sm text-neutral-500 mb-8">
+            <Link href="/lexikon" className="hover:text-white transition-colors">
+              Lexikon
+            </Link>
+            <span>/</span>
+            {category && (
+              <>
+                <span className="flex items-center gap-1">
+                  <span>{category.icon}</span>
+                  {category.title}
+                </span>
+                <span>/</span>
+              </>
+            )}
+            <span className="text-neutral-300">{termData.term}</span>
+          </div>
+
+          {/* Back Link */}
+          <Link
+            href="/lexikon"
+            className="inline-flex items-center gap-2 text-neutral-500 hover:text-white transition-colors mb-10"
+          >
+            <ArrowLeftIcon className="w-4 h-4" />
+            Zurück zur Übersicht
           </Link>
-          <span>/</span>
-          {category && (
-            <>
-              <span className="flex items-center gap-1">
+
+          {/* Title */}
+          <div className="mb-4">
+            {category && (
+              <div className="inline-flex items-center gap-2 text-sm text-neutral-500 mb-4">
                 <span>{category.icon}</span>
                 {category.title}
-              </span>
-              <span>/</span>
-            </>
-          )}
-          <span className="text-white">{termData.term}</span>
-        </nav>
-
-        {/* Back Button */}
-        <Link
-          href="/lexikon"
-          className="inline-flex items-center gap-2 text-gray-400 hover:text-brand-light transition-colors mb-8"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          Zurück zur Übersicht
-        </Link>
-
-        {/* Term Header */}
-        <div className="text-center mb-8">
-          {category && (
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-sm font-medium backdrop-blur-sm mb-4">
-              <span>{category.icon}</span>
-              {category.title}
-            </div>
-          )}
-          
-          <h1 className="text-4xl md:text-5xl font-semibold text-white mb-4">
-            {termData.term}
-          </h1>
+              </div>
+            )}
+            <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
+              {termData.term}
+            </h1>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="grid lg:grid-cols-3 gap-8 mb-16">
-        {/* Main Content */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* Definition */}
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <BookOpenIcon className="w-5 h-5 text-blue-400" />
-              <h2 className="text-xl font-semibold text-white">Definition</h2>
-            </div>
-            <p className="text-gray-300 text-lg leading-relaxed">
-              {termData.definition}
-            </p>
-          </div>
-
-          {/* Calculation */}
-          {termData.calculation && (
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <CalculatorIcon className="w-5 h-5 text-purple-400" />
-                <h2 className="text-xl font-semibold text-white">Berechnung</h2>
-              </div>
-              <div className="bg-black/20 border border-white/5 rounded-xl p-4">
-                <code className="text-brand-light text-lg font-mono">
-                  {termData.calculation}
-                </code>
-              </div>
-            </div>
-          )}
-
-          {/* Example */}
-          {termData.example && (
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <LightBulbIcon className="w-5 h-5 text-brand-light" />
-                <h2 className="text-xl font-semibold text-white">Beispiel</h2>
-              </div>
-              <p className="text-gray-300 leading-relaxed">
-                {termData.example}
-              </p>
-            </div>
-          )}
-
-          {/* CTA to Terminal */}
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-lg font-semibold text-white mb-2">
-                  Mit echten Daten analysieren
-                </h3>
-                <p className="text-gray-400 text-sm">
-                  Nutze diese Kennzahl mit aktuellen Börsendaten
-                </p>
-              </div>
-              <Link
-                href="/analyse"
-                className="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-medium rounded-xl transition-all"
-              >
-                Terminal öffnen
-                <ArrowRightIcon className="w-4 h-4" />
-              </Link>
-            </div>
-          </div>
+      <div className="max-w-3xl mx-auto px-6 pb-20">
+        
+        {/* Definition */}
+        <div className="mb-12">
+          <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wider mb-4">
+            Definition
+          </h2>
+          <p className="text-xl text-neutral-300 leading-relaxed">
+            {termData.definition}
+          </p>
         </div>
 
-        {/* Sidebar */}
-        <div className="space-y-6">
-          {/* Navigation */}
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-            <h3 className="font-semibold text-white mb-4">Navigation</h3>
-            <div className="space-y-3">
-              {prevTerm && (
-                <Link
-                  href={`/lexikon/${prevTerm}`}
-                  className="flex items-center gap-2 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors text-sm"
-                >
-                  <ArrowLeftIcon className="w-4 h-4 text-gray-400" />
-                  <div>
-                    <div className="text-gray-400">Vorheriger Begriff</div>
-                    <div className="text-white font-medium">
-                      {LEARN_DEFINITIONS[prevTerm].term}
-                    </div>
-                  </div>
-                </Link>
-              )}
-              
-              {nextTerm && (
-                <Link
-                  href={`/lexikon/${nextTerm}`}
-                  className="flex items-center gap-2 p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors text-sm"
-                >
-                  <div className="flex-1">
-                    <div className="text-gray-400">Nächster Begriff</div>
-                    <div className="text-white font-medium">
-                      {LEARN_DEFINITIONS[nextTerm].term}
-                    </div>
-                  </div>
-                  <ArrowRightIcon className="w-4 h-4 text-gray-400" />
-                </Link>
-              )}
+        {/* Calculation */}
+        {termData.calculation && (
+          <div className="mb-12">
+            <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wider mb-4">
+              Berechnung
+            </h2>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-6">
+              <code className="text-lg text-emerald-400 font-mono">
+                {termData.calculation}
+              </code>
             </div>
           </div>
+        )}
 
-          {/* Related Terms */}
-          {relatedTerms.length > 0 && (
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-              <h3 className="font-semibold text-white mb-4">Ähnliche Begriffe</h3>
-              <div className="space-y-3">
-                {relatedTerms.map(({ key, data }) => (
-                  <Link
-                    key={key}
-                    href={`/lexikon/${key}`}
-                    className="block p-3 bg-white/5 hover:bg-white/10 rounded-xl transition-colors"
-                  >
-                    <div className="font-medium text-white text-sm mb-1">
-                      {data.term}
-                    </div>
-                    <div className="text-gray-400 text-xs">
-                      {data.definition.slice(0, 80)}...
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
+        {/* Example */}
+        {termData.example && (
+          <div className="mb-12">
+            <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wider mb-4">
+              Beispiel
+            </h2>
+            <p className="text-neutral-300 leading-relaxed">
+              {termData.example}
+            </p>
+          </div>
+        )}
 
-          {/* Category Overview */}
-          {category && categoryKey && (
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <span className="text-2xl">{category.icon}</span>
-                <div>
-                  <h3 className="font-semibold text-white">{category.title}</h3>
-                  <p className="text-gray-400 text-xs">{category.description}</p>
-                </div>
-              </div>
-              <div className="text-sm text-brand-light">
-                {category.terms.length} Begriffe in dieser Kategorie
-              </div>
+        {/* Divider */}
+        <div className="h-px bg-neutral-800 my-12"></div>
+
+        {/* Related Terms */}
+        {relatedTerms.length > 0 && (
+          <div className="mb-12">
+            <h2 className="text-sm font-medium text-neutral-500 uppercase tracking-wider mb-6">
+              Ähnliche Begriffe
+            </h2>
+            <div className="grid sm:grid-cols-2 gap-3">
+              {relatedTerms.map(({ key, data }) => (
+                <Link
+                  key={key}
+                  href={`/lexikon/${key}`}
+                  className="group p-4 bg-neutral-900/50 border border-neutral-800 hover:border-neutral-700 rounded-xl transition-all"
+                >
+                  <div className="font-medium text-white group-hover:text-neutral-200 mb-1">
+                    {data.term}
+                  </div>
+                  <div className="text-sm text-neutral-500 line-clamp-2">
+                    {data.definition.slice(0, 80)}...
+                  </div>
+                </Link>
+              ))}
             </div>
-          )}
+          </div>
+        )}
+
+        {/* Navigation */}
+        <div className="flex items-center justify-between gap-4">
+          {prevTerm ? (
+            <Link
+              href={`/lexikon/${prevTerm}`}
+              className="group flex items-center gap-3 text-neutral-500 hover:text-white transition-colors"
+            >
+              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              <div>
+                <div className="text-xs text-neutral-600 mb-0.5">Vorheriger</div>
+                <div className="text-sm font-medium">{LEARN_DEFINITIONS[prevTerm].term}</div>
+              </div>
+            </Link>
+          ) : <div />}
+          
+          {nextTerm ? (
+            <Link
+              href={`/lexikon/${nextTerm}`}
+              className="group flex items-center gap-3 text-right text-neutral-500 hover:text-white transition-colors"
+            >
+              <div>
+                <div className="text-xs text-neutral-600 mb-0.5">Nächster</div>
+                <div className="text-sm font-medium">{LEARN_DEFINITIONS[nextTerm].term}</div>
+              </div>
+              <ArrowRightIcon className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          ) : <div />}
+        </div>
+
+        {/* Divider */}
+        <div className="h-px bg-neutral-800 my-12"></div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <h3 className="text-lg font-medium text-white mb-2">
+            Mit echten Daten analysieren
+          </h3>
+          <p className="text-neutral-500 text-sm mb-6">
+            Nutze diese Kennzahl mit aktuellen Börsendaten
+          </p>
+          <Link
+            href="/analyse"
+            className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors"
+          >
+            Terminal öffnen
+            <ArrowRightIcon className="w-4 h-4" />
+          </Link>
         </div>
       </div>
     </div>
@@ -251,7 +226,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return {
-    title: `${termData.term} - Finanz-Lexikon`,
+    title: `${termData.term} - Finanz-Lexikon | FinClue`,
     description: termData.definition.slice(0, 160),
   }
 }
