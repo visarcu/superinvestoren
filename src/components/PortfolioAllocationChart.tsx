@@ -4,6 +4,7 @@
 import React, { useMemo } from 'react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useCurrency } from '@/lib/CurrencyContext'
+import Logo from '@/components/Logo'
 
 interface ChartData {
   name: string
@@ -51,16 +52,20 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
 }) => {
   const { formatCurrency } = useCurrency()
 
-  // Prepare chart data
+  // Prepare chart data - korrigierte Prozentberechnung
   const chartData = useMemo(() => {
-    if (totalValue === 0) return []
+    // Berechne echten Total INKLUSIVE Cash für korrekte Prozente
+    const stocksTotal = holdings.reduce((sum, h) => sum + h.value, 0)
+    const actualTotal = stocksTotal + cashPosition
+
+    if (actualTotal === 0) return []
 
     const data: ChartData[] = []
-    
+
     // Add stock holdings
     holdings.forEach((holding, index) => {
-      const percentage = (holding.value / totalValue) * 100
-      
+      const percentage = (holding.value / actualTotal) * 100  // Nutze actualTotal!
+
       // Only show holdings that represent at least 1% of portfolio
       if (percentage >= 1) {
         data.push({
@@ -75,39 +80,37 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
 
     // Group small holdings into "Others"
     const smallHoldings = holdings.filter((holding) => {
-      const percentage = (holding.value / totalValue) * 100
+      const percentage = (holding.value / actualTotal) * 100
       return percentage < 1
     })
 
     if (smallHoldings.length > 0) {
       const smallHoldingsValue = smallHoldings.reduce((sum, holding) => sum + holding.value, 0)
-      const smallHoldingsPercentage = (smallHoldingsValue / totalValue) * 100
-      
+      const smallHoldingsPercentage = (smallHoldingsValue / actualTotal) * 100
+
       data.push({
         name: `Andere (${smallHoldings.length})`,
         symbol: 'OTHERS',
         value: smallHoldingsValue,
         percentage: smallHoldingsPercentage,
-        color: '#6B7280' // Gray for others
+        color: '#6B7280'
       })
     }
 
-    // Add cash position if significant
+    // Add cash position
     if (cashPosition > 0) {
-      const cashPercentage = (cashPosition / totalValue) * 100
-      if (cashPercentage >= 1) {
-        data.push({
-          name: 'Cash Position',
-          symbol: 'CASH',
-          value: cashPosition,
-          percentage: cashPercentage,
-          color: '#9CA3AF' // Light gray for cash
-        })
-      }
+      const cashPercentage = (cashPosition / actualTotal) * 100  // Nutze actualTotal!
+      data.push({
+        name: 'Bargeld',
+        symbol: 'CASH',
+        value: cashPosition,
+        percentage: cashPercentage,
+        color: '#9CA3AF'
+      })
     }
 
     return data.sort((a, b) => b.value - a.value)
-  }, [holdings, totalValue, cashPosition])
+  }, [holdings, cashPosition])
 
   // Custom tooltip optimized to avoid center overlap
   const CustomTooltip = ({ active, payload, coordinate }: any) => {
@@ -175,14 +178,16 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
     return (
       <div className="bg-theme-card rounded-xl p-8 border border-theme/10">
         <div className="text-center">
-          <div className="w-24 h-24 bg-theme-secondary/30 rounded-full mx-auto mb-4 flex items-center justify-center">
-            <span className="text-2xl text-theme-muted">📊</span>
-          </div>
+          <img
+            src="/illustrations/undraw_investing_uzcu.svg"
+            alt="Asset Allokation"
+            className="w-44 h-44 mx-auto mb-6 opacity-85"
+          />
           <h3 className="text-lg font-semibold text-theme-primary mb-2">
             Keine Daten verfügbar
           </h3>
-          <p className="text-theme-secondary text-sm">
-            Fügen Sie Positionen hinzu, um die Asset-Allokation zu sehen
+          <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+            Füge Positionen zu deinem Portfolio hinzu, um die Asset-Allokation zu sehen.
           </p>
         </div>
       </div>
@@ -202,15 +207,15 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
 
       <div className="relative">
         {/* Chart Container */}
-        <div className="relative" style={{ height: '320px' }}>
+        <div className="relative" style={{ height: '220px' }}>
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
                 data={chartData}
                 cx="50%"
                 cy="50%"
-                innerRadius={70}
-                outerRadius={110}
+                innerRadius={55}
+                outerRadius={85}
                 paddingAngle={3}
                 dataKey="value"
                 animationBegin={0}
@@ -218,8 +223,8 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
                 animationEasing="ease-out"
               >
                 {chartData.map((entry, index) => (
-                  <Cell 
-                    key={`cell-${index}`} 
+                  <Cell
+                    key={`cell-${index}`}
                     fill={entry.color}
                     stroke="rgba(255,255,255,0.15)"
                     strokeWidth={2}
@@ -230,9 +235,9 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
                   />
                 ))}
               </Pie>
-              <Tooltip 
-                content={<CustomTooltip />} 
-                wrapperStyle={{ 
+              <Tooltip
+                content={<CustomTooltip />}
+                wrapperStyle={{
                   zIndex: 9999,
                   pointerEvents: 'none',
                   filter: 'none',
@@ -245,55 +250,59 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
             </PieChart>
           </ResponsiveContainer>
 
-          {/* Center Content */}
+          {/* Center Content - kompakt, passt in den Donut-Ring */}
           <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="text-center px-4">
-              <div className="bg-theme-primary/95 backdrop-blur-sm rounded-lg p-2.5 shadow-lg border border-theme/10" style={{ zIndex: 5 }}>
-                <p className="text-xl lg:text-2xl font-bold text-theme-primary mb-1">
+            <div className="text-center">
+              <div
+                className="bg-theme-card backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-theme/10"
+                style={{ maxWidth: '100px' }}
+              >
+                <p className="text-base font-bold text-theme-primary leading-tight">
                   {formatCurrency(totalValue)}
                 </p>
-                <p className="text-xs lg:text-sm text-theme-secondary">
-                  {activeInvestments.toLocaleString('de-DE')} Position{activeInvestments !== 1 ? 'en' : ''}
+                <p className="text-xs text-theme-secondary mt-0.5">
+                  {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''}
                 </p>
-                {cashPosition > 0 && (
-                  <p className="text-xs text-theme-muted mt-1">
-                    + {formatCurrency(cashPosition)} Cash
-                  </p>
-                )}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Legend */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {chartData.map((entry, index) => (
-            <div 
-              key={`legend-${index}`}
-              className="flex items-center gap-3 p-3 bg-theme-secondary/20 rounded-lg hover:bg-theme-secondary/30 transition-colors"
-            >
-              <div 
-                className="w-4 h-4 rounded-full flex-shrink-0" 
-                style={{ backgroundColor: entry.color }}
-              />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between">
-                  <span className="font-semibold text-theme-primary text-sm truncate">
-                    {entry.symbol}
-                  </span>
-                  <span className="text-theme-secondary text-xs ml-2">
-                    {entry.percentage.toFixed(1)}%
-                  </span>
-                </div>
-                <p className="text-xs text-theme-muted truncate">
-                  {entry.name}
-                </p>
-                <p className="text-xs font-medium text-theme-primary">
-                  {formatCurrency(entry.value)}
-                </p>
+        {/* Legend - kompakter */}
+        <div className="mt-3 pt-3 border-t border-theme/10">
+          <h4 className="text-xs font-medium text-theme-secondary mb-2">Positionen</h4>
+          <div className="flex flex-wrap gap-2">
+            {chartData.map((entry, index) => (
+              <div
+                key={`legend-${index}`}
+                className="flex items-center gap-2 py-1.5 px-2.5 bg-theme-secondary/10 rounded-md"
+              >
+                {entry.symbol !== 'CASH' && entry.symbol !== 'OTHERS' ? (
+                  <Logo
+                    ticker={entry.symbol}
+                    alt={entry.symbol}
+                    className="w-5 h-5"
+                    padding="none"
+                  />
+                ) : (
+                  <div
+                    className="w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0"
+                    style={{ backgroundColor: entry.color }}
+                  >
+                    <span className="text-[8px] font-bold text-white">
+                      {entry.symbol === 'CASH' ? '€' : '...'}
+                    </span>
+                  </div>
+                )}
+                <span className="font-medium text-theme-primary text-xs">
+                  {entry.symbol}
+                </span>
+                <span className="text-theme-secondary text-xs">
+                  {entry.percentage.toFixed(1)}%
+                </span>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </div>

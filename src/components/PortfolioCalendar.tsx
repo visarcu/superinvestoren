@@ -399,96 +399,78 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
       <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
         <h2 className="text-xl font-bold text-theme-primary mb-6">Kommende Dividenden & Events</h2>
         
-        {/* Manual List for testing */}
-        <div className="space-y-4">
-          {/* PayPal Payment - Direct from Dividends tab data */}
-          <div className="flex items-center justify-between p-4 bg-brand/10 border border-brand/20 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
-                <BanknotesIcon className="w-5 h-5 text-brand-light" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-theme-primary">PYPL</span>
-                  <span className="text-sm text-theme-secondary">PayPal Holdings</span>
-                </div>
-                <div className="text-sm text-brand-light">💰 Payment Date: 10.12.2025</div>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-lg font-bold text-theme-primary">$14.00</div>
-              <div className="text-sm text-theme-secondary">10 Aktien</div>
-            </div>
-          </div>
-          
-          {/* Booking Payment */}
-          <div className="flex items-center justify-between p-4 bg-brand/10 border border-brand/20 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
-                <BanknotesIcon className="w-5 h-5 text-brand-light" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-theme-primary">BKNG</span>
-                  <span className="text-sm text-theme-secondary">Booking Holdings</span>
-                </div>
-                <div className="text-sm text-brand-light">💰 Payment Date: 31.12.2025</div>
-              </div>
-            </div>
-            <div className="text-right">
-              <div className="text-lg font-bold text-theme-primary">~$5.44</div>
-              <div className="text-sm text-theme-secondary">0.121 Aktien</div>
-            </div>
-          </div>
-          
-          {/* Ex-Dates */}
-          <div className="flex items-center justify-between p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <CalendarIcon className="w-5 h-5 text-blue-400" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-theme-primary">BKNG</span>
-                  <span className="text-sm text-theme-secondary">Booking Holdings</span>
-                </div>
-                <div className="text-sm text-blue-400">📅 Ex-Date: 05.12.2025</div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex items-center justify-between p-4 bg-blue-500/10 border border-blue-500/20 rounded-lg">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-                <CalendarIcon className="w-5 h-5 text-blue-400" />
-              </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="font-semibold text-theme-primary">PYPL</span>
-                  <span className="text-sm text-theme-secondary">PayPal Holdings</span>
-                </div>
-                <div className="text-sm text-blue-400">📅 Ex-Date: 19.11.2025 (vergangen)</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {loading && (
+{/* Dynamische Event-Liste aus echten Portfolio-Daten */}
+        {loading ? (
           <div className="text-center py-8">
             <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
             <p className="text-theme-secondary">Lade Events...</p>
           </div>
-        )}
-        
-        {!loading && events.length === 0 && (
-          <div className="text-center py-8">
-            <p className="text-theme-secondary">Keine Events im ausgewählten Zeitraum gefunden.</p>
-            <p className="text-xs text-theme-muted mt-2">Die oben gezeigten Events sind Beispieldaten</p>
+        ) : events.length > 0 ? (
+          <div className="space-y-4">
+            {events.slice(0, 10).map((event, index) => {
+              const holding = holdings.find(h => h.symbol === event.symbol)
+              const quantity = holding?.quantity || 0
+
+              return (
+                <div
+                  key={`${event.symbol}-${event.date}-${index}`}
+                  className={`flex items-center justify-between p-4 rounded-lg ${
+                    event.isPaymentDate
+                      ? 'bg-brand/10 border border-brand/20'
+                      : 'bg-blue-500/10 border border-blue-500/20'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
+                      event.isPaymentDate ? 'bg-brand/20' : 'bg-blue-500/20'
+                    }`}>
+                      {event.isPaymentDate ? (
+                        <BanknotesIcon className="w-5 h-5 text-brand-light" />
+                      ) : (
+                        <CalendarIcon className="w-5 h-5 text-blue-400" />
+                      )}
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-theme-primary">{event.symbol}</span>
+                        <span className="text-sm text-theme-secondary">{event.name}</span>
+                      </div>
+                      <div className={`text-sm ${event.isPaymentDate ? 'text-brand-light' : 'text-blue-400'}`}>
+                        {event.isPaymentDate ? '💰' : '📅'} {event.isPaymentDate ? 'Payment Date' : 'Ex-Date'}: {new Date(event.date).toLocaleDateString('de-DE')}
+                      </div>
+                    </div>
+                  </div>
+
+                  {event.totalAmount && event.totalAmount > 0 && (
+                    <div className="text-right">
+                      <div className="text-lg font-bold text-theme-primary">
+                        {event.totalAmountEUR ? `€${event.totalAmountEUR.toFixed(2)}` : `$${event.totalAmount.toFixed(2)}`}
+                      </div>
+                      <div className="text-sm text-theme-secondary">{quantity} Aktien</div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="py-12 text-center">
+            <img
+              src="/illustrations/undraw_investing_uzcu.svg"
+              alt="Kalender"
+              className="w-40 h-40 mx-auto mb-6 opacity-85"
+            />
+            <h3 className="text-lg font-semibold text-theme-primary mb-2">
+              Keine Events gefunden
+            </h3>
+            <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+              Für deine Positionen wurden keine Dividenden-Events im aktuellen Monat gefunden.
+            </p>
           </div>
         )}
       </div>
       
-      {/* Summary Stats */}
+      {/* Summary Stats - dynamisch */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-3 mb-2">
@@ -497,12 +479,16 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
             </div>
             <div>
               <p className="text-sm text-theme-secondary">Kommende Dividenden</p>
-              <p className="text-xl font-bold text-theme-primary">2</p>
-              <p className="text-sm text-brand-light font-medium">~$19.44 total</p>
+              <p className="text-xl font-bold text-theme-primary">
+                {events.filter(e => e.isPaymentDate).length}
+              </p>
+              <p className="text-sm text-brand-light font-medium">
+                ~€{events.filter(e => e.isPaymentDate).reduce((sum, e) => sum + (e.totalAmountEUR || 0), 0).toFixed(2)} total
+              </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
@@ -510,11 +496,13 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
             </div>
             <div>
               <p className="text-sm text-theme-secondary">Ex-Dates</p>
-              <p className="text-xl font-bold text-theme-primary">2</p>
+              <p className="text-xl font-bold text-theme-primary">
+                {events.filter(e => !e.isPaymentDate).length}
+              </p>
             </div>
           </div>
         </div>
-        
+
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-3 mb-2">
             <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
@@ -522,8 +510,16 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
             </div>
             <div>
               <p className="text-sm text-theme-secondary">Nächstes Event</p>
-              <p className="text-xl font-bold text-theme-primary">05.12</p>
-              <p className="text-sm text-theme-secondary">BKNG Ex-Date</p>
+              {events.length > 0 ? (
+                <>
+                  <p className="text-xl font-bold text-theme-primary">
+                    {new Date(events[0].date).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}
+                  </p>
+                  <p className="text-sm text-theme-secondary">{events[0].symbol} {events[0].isPaymentDate ? 'Payment' : 'Ex-Date'}</p>
+                </>
+              ) : (
+                <p className="text-xl font-bold text-theme-muted">-</p>
+              )}
             </div>
           </div>
         </div>

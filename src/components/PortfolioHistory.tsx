@@ -1,9 +1,9 @@
 // src/components/PortfolioHistory.tsx
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { 
+import {
   ClockIcon,
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
@@ -11,12 +11,17 @@ import {
   PlusIcon,
   ArrowPathIcon,
   DocumentArrowDownIcon,
-  CalendarIcon
+  PencilIcon,
+  XMarkIcon,
+  ChevronRightIcon,
+  BanknotesIcon,
+  MinusIcon
 } from '@heroicons/react/24/outline'
+import Logo from '@/components/Logo'
 
 interface Transaction {
   id: string
-  type: 'buy' | 'sell' | 'dividend'
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal'
   symbol: string
   name: string
   quantity: number
@@ -36,12 +41,13 @@ interface PortfolioHistoryProps {
     purchase_price: number
     purchase_date: string
   }>
+  onTransactionChange?: () => void  // Callback wenn Transaktion geändert wird
 }
 
-export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHistoryProps) {
+export default function PortfolioHistory({ portfolioId, holdings, onTransactionChange }: PortfolioHistoryProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'dividend'>('all')
+  const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'dividend' | 'cash'>('all')
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
   const [showAddTransaction, setShowAddTransaction] = useState(false)
   
@@ -53,6 +59,121 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
   const [transactionDate, setTransactionDate] = useState(new Date().toISOString().split('T')[0])
   const [transactionNotes, setTransactionNotes] = useState('')
   const [adding, setAdding] = useState(false)
+
+  // Edit Transaction State
+  const [editingTransaction, setEditingTransaction] = useState<Transaction | null>(null)
+  const [editQuantity, setEditQuantity] = useState('')
+  const [editPrice, setEditPrice] = useState('')
+  const [editDate, setEditDate] = useState('')
+  const [saving, setSaving] = useState(false)
+
+  // Filter & Grouping State
+  const [selectedSymbol, setSelectedSymbol] = useState<string>('all')
+  const [expandedYears, setExpandedYears] = useState<Set<number>>(new Set([new Date().getFullYear()]))
+  const [expandedMonths, setExpandedMonths] = useState<Set<string>>(new Set())
+
+  // Einzigartige Symbole aus Transaktionen extrahieren
+  const uniqueSymbols = useMemo(() => {
+    const symbols = new Set<string>()
+    transactions.forEach(tx => {
+      if (tx.symbol && tx.symbol !== 'CASH') {
+        symbols.add(tx.symbol)
+      }
+    })
+    return Array.from(symbols).sort()
+  }, [transactions])
+
+  // Gefilterte Transaktionen (erst nach Typ, dann nach Symbol)
+  const symbolFilteredTransactions = useMemo(() => {
+    let filtered = transactions.filter(t => {
+      if (filter === 'all') return true
+      if (filter === 'cash') return t.type === 'cash_deposit' || t.type === 'cash_withdrawal'
+      return t.type === filter
+    })
+
+    if (selectedSymbol !== 'all') {
+      filtered = filtered.filter(tx => tx.symbol === selectedSymbol)
+    }
+
+    return filtered.sort((a, b) => {
+      const dateA = new Date(a.date).getTime()
+      const dateB = new Date(b.date).getTime()
+      return sortOrder === 'desc' ? dateB - dateA : dateA - dateB
+    })
+  }, [transactions, filter, selectedSymbol, sortOrder])
+
+  // Gruppiere nach Jahr und Monat
+  const groupedTransactions = useMemo(() => {
+    const groups: Record<number, Record<number, Transaction[]>> = {}
+
+    symbolFilteredTransactions.forEach(tx => {
+      const date = new Date(tx.date)
+      const year = date.getFullYear()
+      const month = date.getMonth()
+
+      if (!groups[year]) groups[year] = {}
+      if (!groups[year][month]) groups[year][month] = []
+      groups[year][month].push(tx)
+    })
+
+    return groups
+  }, [symbolFilteredTransactions])
+
+  // Jahre sortiert (neueste zuerst)
+  const sortedYears = useMemo(() => {
+    return Object.keys(groupedTransactions)
+      .map(Number)
+      .sort((a, b) => b - a)
+  }, [groupedTransactions])
+
+  // Toggle Jahr
+  const toggleYear = (year: number) => {
+    setExpandedYears(prev => {
+      const next = new Set(prev)
+      if (next.has(year)) {
+        next.delete(year)
+      } else {
+        next.add(year)
+      }
+      return next
+    })
+  }
+
+  // Toggle Monat
+  const toggleMonth = (yearMonth: string) => {
+    setExpandedMonths(prev => {
+      const next = new Set(prev)
+      if (next.has(yearMonth)) {
+        next.delete(yearMonth)
+      } else {
+        next.add(yearMonth)
+      }
+      return next
+    })
+  }
+
+  // Monatsnamen
+  const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+                      'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
+
+  // Berechne Jahres-Statistiken
+  const getYearStats = (year: number) => {
+    const yearData = groupedTransactions[year]
+    if (!yearData) return { count: 0, bought: 0, sold: 0, dividends: 0 }
+
+    let count = 0, bought = 0, sold = 0, dividends = 0
+
+    Object.values(yearData).forEach(monthTxs => {
+      monthTxs.forEach(tx => {
+        count++
+        if (tx.type === 'buy') bought += tx.total_value
+        if (tx.type === 'sell') sold += tx.total_value
+        if (tx.type === 'dividend') dividends += tx.total_value
+      })
+    })
+
+    return { count, bought, sold, dividends }
+  }
 
   useEffect(() => {
     loadTransactions()
@@ -166,13 +287,146 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
     }
   }
 
-  const filteredTransactions = transactions.filter(t => 
-    filter === 'all' || t.type === filter
-  ).sort((a, b) => {
-    const dateA = new Date(a.date).getTime()
-    const dateB = new Date(b.date).getTime()
-    return sortOrder === 'desc' ? dateB - dateA : dateA - dateB
-  })
+  // Edit/Delete Handler Functions
+  const openEditTransaction = (transaction: Transaction) => {
+    setEditingTransaction(transaction)
+    setEditQuantity(transaction.quantity?.toString() || '')
+    setEditPrice(transaction.price?.toString() || '')
+    setEditDate(transaction.date || '')
+  }
+
+  // Berechnet den neuen Durchschnittspreis basierend auf allen Transaktionen einer Aktie
+  const recalculateAveragePrice = async (symbol: string) => {
+    try {
+      // Hole alle Kauf-Transaktionen für dieses Symbol
+      const { data: txData, error } = await supabase
+        .from('portfolio_transactions')
+        .select('*')
+        .eq('portfolio_id', portfolioId)
+        .eq('symbol', symbol)
+        .eq('type', 'buy')
+        .order('date', { ascending: true })
+
+      if (error) throw error
+      if (!txData || txData.length === 0) {
+        // Keine Transaktionen mehr - Position löschen
+        const { error: deleteError } = await supabase
+          .from('portfolio_holdings')
+          .delete()
+          .eq('portfolio_id', portfolioId)
+          .eq('symbol', symbol)
+
+        if (deleteError) throw deleteError
+        console.log(`🗑️ ${symbol}: Position gelöscht (keine Transaktionen mehr)`)
+        return
+      }
+
+      // Berechne gewichteten Durchschnittspreis
+      let totalQuantity = 0
+      let totalCost = 0
+
+      txData.forEach(tx => {
+        totalQuantity += tx.quantity
+        totalCost += tx.quantity * tx.price
+      })
+
+      const averagePrice = totalQuantity > 0 ? totalCost / totalQuantity : 0
+
+      // Update die Holdings-Tabelle
+      const { error: updateError } = await supabase
+        .from('portfolio_holdings')
+        .update({
+          purchase_price: averagePrice,
+          quantity: totalQuantity
+        })
+        .eq('portfolio_id', portfolioId)
+        .eq('symbol', symbol)
+
+      if (updateError) throw updateError
+
+      console.log(`✅ ${symbol}: Neuer Durchschnittspreis = €${averagePrice.toFixed(2)}, Menge = ${totalQuantity}`)
+
+    } catch (error) {
+      console.error('Error recalculating average price:', error)
+      throw error
+    }
+  }
+
+  const handleDeleteTransaction = async (transaction: Transaction) => {
+    const confirmMsg = transaction.type === 'buy'
+      ? `Kauf von ${transaction.quantity}x ${transaction.symbol} wirklich löschen?\n\nDer Durchschnittspreis wird neu berechnet.`
+      : `Transaktion wirklich löschen?`
+
+    if (!confirm(confirmMsg)) return
+
+    setSaving(true)
+    try {
+      const { error } = await supabase
+        .from('portfolio_transactions')
+        .delete()
+        .eq('id', transaction.id)
+
+      if (error) throw error
+
+      // Bei Kauf-Transaktionen: Durchschnittspreis neu berechnen
+      if (transaction.type === 'buy') {
+        await recalculateAveragePrice(transaction.symbol)
+      }
+
+      // Refresh
+      loadTransactions()
+      onTransactionChange?.()
+
+    } catch (error: any) {
+      console.error('Error deleting transaction:', error)
+      alert('Fehler beim Löschen: ' + error.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  const handleUpdateTransaction = async () => {
+    if (!editingTransaction) return
+
+    setSaving(true)
+    try {
+      const newQuantity = parseFloat(editQuantity) || editingTransaction.quantity
+      const newPrice = parseFloat(editPrice) || editingTransaction.price
+      const newTotalValue = editingTransaction.type === 'dividend'
+        ? newPrice
+        : newQuantity * newPrice
+
+      // Update Transaktion
+      const { error } = await supabase
+        .from('portfolio_transactions')
+        .update({
+          quantity: newQuantity,
+          price: newPrice,
+          total_value: newTotalValue,
+          date: editDate
+        })
+        .eq('id', editingTransaction.id)
+
+      if (error) throw error
+
+      // Bei Kauf-Transaktionen: Durchschnittspreis neu berechnen
+      if (editingTransaction.type === 'buy') {
+        await recalculateAveragePrice(editingTransaction.symbol)
+      }
+
+      setEditingTransaction(null)
+      loadTransactions()
+      onTransactionChange?.()
+
+    } catch (error: any) {
+      console.error('Error updating transaction:', error)
+      alert('Fehler beim Speichern: ' + error.message)
+    } finally {
+      setSaving(false)
+    }
+  }
+
+  // symbolFilteredTransactions is now symbolFilteredTransactions (with grouping support)
 
   const getTotalByType = (type: 'buy' | 'sell' | 'dividend') => {
     return transactions
@@ -180,30 +434,28 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
       .reduce((sum, t) => sum + t.total_value, 0)
   }
 
-  const getTransactionIcon = (type: string) => {
+  const getTransactionLabel = (type: string) => {
     switch (type) {
       case 'buy':
-        return <ArrowDownTrayIcon className="w-4 h-4 text-brand-light" />
+        return 'Kauf'
       case 'sell':
-        return <ArrowUpTrayIcon className="w-4 h-4 text-red-400" />
+        return 'Verkauf'
       case 'dividend':
-        return <CurrencyDollarIcon className="w-4 h-4 text-blue-400" />
+        return 'Dividende'
+      case 'cash_deposit':
+        return 'Einzahlung'
+      case 'cash_withdrawal':
+        return 'Auszahlung'
       default:
-        return <ClockIcon className="w-4 h-4 text-theme-secondary" />
+        return type
     }
   }
 
-  const getTransactionColor = (type: string) => {
-    switch (type) {
-      case 'buy':
-        return 'bg-brand/10 border-green-500/30 text-brand-light'
-      case 'sell':
-        return 'bg-red-500/10 border-red-500/30 text-red-400'
-      case 'dividend':
-        return 'bg-blue-500/10 border-blue-500/30 text-blue-400'
-      default:
-        return 'bg-theme-secondary/30 border-theme/30 text-theme-secondary'
-    }
+  const formatEuro = (value: number) => {
+    return value.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }) + ' €'
   }
 
   const formatDate = (dateString: string) => {
@@ -216,7 +468,7 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
   const exportToCSV = () => {
     const headers = ['Datum', 'Typ', 'Symbol', 'Anzahl', 'Preis', 'Gesamt', 'Notizen']
-    const rows = filteredTransactions.map(t => [
+    const rows = symbolFilteredTransactions.map(t => [
       formatDate(t.date),
       t.type.toUpperCase(),
       t.symbol,
@@ -267,11 +519,11 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-2 mb-2">
-            <ArrowDownTrayIcon className="w-5 h-5 text-brand-light" />
+            <ArrowDownTrayIcon className="w-5 h-5 text-blue-400" />
             <p className="text-sm text-theme-secondary">Käufe</p>
           </div>
-          <p className="text-2xl font-bold text-brand-light">
-            ${getTotalByType('buy').toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <p className="text-2xl font-bold text-blue-400">
+            {formatEuro(getTotalByType('buy'))}
           </p>
           <p className="text-xs text-theme-muted mt-1">
             {transactions.filter(t => t.type === 'buy').length} Transaktionen
@@ -280,11 +532,11 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-2 mb-2">
-            <ArrowUpTrayIcon className="w-5 h-5 text-red-400" />
+            <ArrowUpTrayIcon className="w-5 h-5 text-brand-light" />
             <p className="text-sm text-theme-secondary">Verkäufe</p>
           </div>
-          <p className="text-2xl font-bold text-red-400">
-            ${getTotalByType('sell').toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <p className="text-2xl font-bold text-brand-light">
+            {formatEuro(getTotalByType('sell'))}
           </p>
           <p className="text-xs text-theme-muted mt-1">
             {transactions.filter(t => t.type === 'sell').length} Transaktionen
@@ -293,11 +545,11 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
 
         <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
           <div className="flex items-center gap-2 mb-2">
-            <CurrencyDollarIcon className="w-5 h-5 text-blue-400" />
+            <CurrencyDollarIcon className="w-5 h-5 text-purple-400" />
             <p className="text-sm text-theme-secondary">Dividenden</p>
           </div>
-          <p className="text-2xl font-bold text-blue-400">
-            ${getTotalByType('dividend').toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+          <p className="text-2xl font-bold text-purple-400">
+            {formatEuro(getTotalByType('dividend'))}
           </p>
           <p className="text-xs text-theme-muted mt-1">
             {transactions.filter(t => t.type === 'dividend').length} Zahlungen
@@ -553,6 +805,16 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
           >
             Dividenden
           </button>
+          <button
+            onClick={() => setFilter('cash')}
+            className={`px-4 py-2 rounded-lg transition-colors ${
+              filter === 'cash'
+                ? 'bg-brand text-white'
+                : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
+            }`}
+          >
+            Cash
+          </button>
         </div>
 
         <div className="flex gap-2">
@@ -590,74 +852,351 @@ export default function PortfolioHistory({ portfolioId, holdings }: PortfolioHis
           </h3>
         </div>
 
-        <div className="divide-y divide-theme/10">
-          {filteredTransactions.map((transaction) => (
-            <div key={transaction.id} className="p-4 hover:bg-theme-secondary/10 transition-colors">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex items-start gap-3">
-                  <div className={`p-2 rounded-lg border ${getTransactionColor(transaction.type)}`}>
-                    {getTransactionIcon(transaction.type)}
-                  </div>
-                  
-                  <div>
-                    <div className="flex items-center gap-2 mb-1">
-                      <p className="font-semibold text-theme-primary">
-                        {transaction.symbol}
-                      </p>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${getTransactionColor(transaction.type)}`}>
-                        {transaction.type === 'buy' ? 'Kauf' : transaction.type === 'sell' ? 'Verkauf' : 'Dividende'}
-                      </span>
-                    </div>
-                    
-                    <div className="flex items-center gap-4 text-sm text-theme-secondary">
-                      {transaction.type !== 'dividend' && (
-                        <>
-                          <span>{transaction.quantity} Stück</span>
-                          <span>@ ${transaction.price ? transaction.price.toFixed(2) : '0.00'}</span>
-                        </>
-                      )}
-                      <span className="flex items-center gap-1">
-                        <CalendarIcon className="w-3 h-3" />
-                        {formatDate(transaction.date)}
-                      </span>
-                    </div>
-                    
-                    {transaction.notes && (
-                      <p className="text-xs text-theme-muted mt-2">
-                        {transaction.notes}
-                      </p>
-                    )}
-                  </div>
-                </div>
+        {/* Filter Bar */}
+        <div className="p-4 border-b border-theme/10 flex flex-wrap items-center gap-4">
+          {/* Holding Filter */}
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-theme-secondary">Aktie:</label>
+            <select
+              value={selectedSymbol}
+              onChange={(e) => setSelectedSymbol(e.target.value)}
+              className="px-3 py-1.5 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary text-sm focus:ring-2 focus:ring-green-400"
+            >
+              <option value="all">Alle Holdings</option>
+              {uniqueSymbols.map(symbol => (
+                <option key={symbol} value={symbol}>{symbol}</option>
+              ))}
+            </select>
+          </div>
 
-                <div className="text-right">
-                  <p className={`font-bold text-lg ${
-                    transaction.type === 'buy' ? 'text-red-400' :
-                    transaction.type === 'sell' ? 'text-brand-light' :
-                    'text-blue-400'
-                  }`}>
-                    {transaction.type === 'buy' ? '-' : '+'}
-                    ${transaction.total_value.toFixed(2)}
-                  </p>
-                  <p className="text-xs text-theme-muted">
-                    Total
-                  </p>
-                </div>
-              </div>
-            </div>
-          ))}
+          {/* Statistik */}
+          <div className="flex items-center gap-4 ml-auto text-sm text-theme-secondary">
+            <span>{symbolFilteredTransactions.length} Transaktionen</span>
+            {selectedSymbol !== 'all' && (
+              <button
+                onClick={() => setSelectedSymbol('all')}
+                className="text-brand-light hover:text-green-300"
+              >
+                Filter zurücksetzen
+              </button>
+            )}
+          </div>
         </div>
 
-        {filteredTransactions.length === 0 && (
-          <div className="p-12 text-center">
-            <ClockIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-            <p className="text-theme-secondary mb-2">Keine Transaktionen gefunden</p>
-            <p className="text-theme-muted text-sm">
-              Fügen Sie Ihre erste Transaktion hinzu
-            </p>
-          </div>
-        )}
+        {/* Gruppierte Transaktionen nach Jahr/Monat */}
+        <div className="divide-y divide-theme/10">
+          {sortedYears.length === 0 ? (
+            <div className="p-12 text-center">
+              <ClockIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
+              <p className="text-theme-secondary mb-2">Keine Transaktionen gefunden</p>
+              <p className="text-theme-muted text-sm">
+                Fügen Sie Ihre erste Transaktion hinzu
+              </p>
+            </div>
+          ) : (
+            sortedYears.map(year => {
+              const yearStats = getYearStats(year)
+              const isYearExpanded = expandedYears.has(year)
+              const months = Object.keys(groupedTransactions[year])
+                .map(Number)
+                .sort((a, b) => b - a) // Neueste Monate zuerst
+
+              return (
+                <div key={year}>
+                  {/* Jahr Header */}
+                  <button
+                    onClick={() => toggleYear(year)}
+                    className="w-full flex items-center justify-between p-4 hover:bg-theme-secondary/10 transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <ChevronRightIcon className={`w-5 h-5 text-theme-secondary transition-transform ${isYearExpanded ? 'rotate-90' : ''}`} />
+                      <span className="text-lg font-bold text-theme-primary">{year}</span>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-sm text-theme-secondary">
+                      <span>{yearStats.count} Aktivitäten</span>
+                      {yearStats.bought > 0 && (
+                        <span className="text-red-400">{formatEuro(yearStats.bought)} gekauft</span>
+                      )}
+                      {yearStats.sold > 0 && (
+                        <span className="text-green-400">{formatEuro(yearStats.sold)} verkauft</span>
+                      )}
+                      {yearStats.dividends > 0 && (
+                        <span className="text-purple-400">{formatEuro(yearStats.dividends)} Dividenden</span>
+                      )}
+                    </div>
+                  </button>
+
+                  {/* Monate (wenn Jahr expanded) */}
+                  {isYearExpanded && (
+                    <div className="bg-theme-secondary/5">
+                      {months.map(month => {
+                        const yearMonth = `${year}-${month}`
+                        const isMonthExpanded = expandedMonths.has(yearMonth)
+                        const monthTxs = groupedTransactions[year][month]
+                        const monthTotal = monthTxs.reduce((sum, tx) => {
+                          if (tx.type === 'buy') return sum - tx.total_value
+                          if (tx.type === 'sell' || tx.type === 'dividend') return sum + tx.total_value
+                          return sum
+                        }, 0)
+
+                        return (
+                          <div key={yearMonth}>
+                            {/* Monat Header */}
+                            <button
+                              onClick={() => toggleMonth(yearMonth)}
+                              className="w-full flex items-center justify-between px-6 py-3 hover:bg-theme-secondary/10 transition-colors border-t border-theme/5"
+                            >
+                              <div className="flex items-center gap-3">
+                                <ChevronRightIcon className={`w-4 h-4 text-theme-muted transition-transform ${isMonthExpanded ? 'rotate-90' : ''}`} />
+                                <span className="font-medium text-theme-primary">{monthNames[month]} {year}</span>
+                                <span className="text-sm text-theme-muted">{monthTxs.length} Aktivitäten</span>
+                              </div>
+
+                              <span className={`text-sm font-medium ${monthTotal >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                {monthTotal >= 0 ? '+' : ''}{formatEuro(monthTotal)}
+                              </span>
+                            </button>
+
+                            {/* Transaktionen (wenn Monat expanded) */}
+                            {isMonthExpanded && (
+                              <div className="bg-theme-secondary/10">
+                                {monthTxs.map(transaction => {
+                                  const isNegative = transaction.type === 'buy' || transaction.type === 'cash_withdrawal'
+                                  const isCashTransaction = transaction.type === 'cash_deposit' || transaction.type === 'cash_withdrawal'
+
+                                  return (
+                                    <div
+                                      key={transaction.id}
+                                      className="group flex items-center justify-between px-8 py-3 border-t border-theme/5 hover:bg-theme-secondary/20 transition-colors"
+                                    >
+                                      {/* Linke Seite - Details */}
+                                      <div className="flex items-center gap-4">
+                                        {/* Logo für Aktien, Icon für Cash/Dividenden */}
+                                        {transaction.symbol && transaction.symbol !== 'CASH' && transaction.type !== 'cash_deposit' && transaction.type !== 'cash_withdrawal' && transaction.type !== 'dividend' ? (
+                                          <Logo
+                                            ticker={transaction.symbol}
+                                            alt={transaction.symbol}
+                                            className="w-8 h-8"
+                                            padding="small"
+                                          />
+                                        ) : (
+                                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
+                                            transaction.type === 'cash_deposit' ? 'bg-green-500/20' :
+                                            transaction.type === 'cash_withdrawal' ? 'bg-red-500/20' :
+                                            transaction.type === 'dividend' ? 'bg-purple-500/20' :
+                                            'bg-gray-500/20'
+                                          }`}>
+                                            {transaction.type === 'cash_deposit' && <PlusIcon className="w-4 h-4 text-green-400" />}
+                                            {transaction.type === 'cash_withdrawal' && <MinusIcon className="w-4 h-4 text-red-400" />}
+                                            {transaction.type === 'dividend' && <BanknotesIcon className="w-4 h-4 text-purple-400" />}
+                                          </div>
+                                        )}
+
+                                        {/* Symbol und Details */}
+                                        <div>
+                                          <div className="flex items-center gap-2">
+                                            <span className="font-semibold text-theme-primary">
+                                              {isCashTransaction ? (transaction.type === 'cash_deposit' ? 'Einzahlung' : 'Auszahlung') : transaction.symbol}
+                                            </span>
+                                            <span className={`text-xs px-1.5 py-0.5 rounded ${
+                                              transaction.type === 'buy' ? 'bg-blue-500/20 text-blue-400' :
+                                              transaction.type === 'sell' ? 'bg-green-500/20 text-green-400' :
+                                              transaction.type === 'dividend' ? 'bg-purple-500/20 text-purple-400' :
+                                              transaction.type === 'cash_deposit' ? 'bg-green-500/20 text-green-400' :
+                                              'bg-red-500/20 text-red-400'
+                                            }`}>
+                                              {getTransactionLabel(transaction.type)}
+                                            </span>
+                                          </div>
+                                          <p className="text-xs text-theme-muted">
+                                            {!isCashTransaction && transaction.type !== 'dividend' && transaction.quantity && (
+                                              <>{transaction.quantity} Stück @ {formatEuro(transaction.price)} • </>
+                                            )}
+                                            {formatDate(transaction.date)}
+                                          </p>
+                                        </div>
+                                      </div>
+
+                                      {/* Rechte Seite - Betrag und Aktionen */}
+                                      <div className="flex items-center gap-4">
+                                        <div className="text-right">
+                                          <p className={`font-bold ${
+                                            isNegative ? 'text-red-400' : 'text-green-400'
+                                          }`}>
+                                            {isNegative ? '-' : '+'}
+                                            {formatEuro(Math.abs(transaction.total_value))}
+                                          </p>
+                                        </div>
+
+                                        {/* Edit/Delete Buttons */}
+                                        <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                          <button
+                                            onClick={(e) => {
+                                              e.stopPropagation()
+                                              openEditTransaction(transaction)
+                                            }}
+                                            className="p-1.5 hover:bg-blue-500/20 rounded transition-colors"
+                                            title="Bearbeiten"
+                                          >
+                                            <PencilIcon className="w-4 h-4 text-blue-400" />
+                                          </button>
+                                          <button
+                                            onClick={(e) => {
+                                              e.stopPropagation()
+                                              handleDeleteTransaction(transaction)
+                                            }}
+                                            disabled={saving}
+                                            className="p-1.5 hover:bg-red-500/20 rounded transition-colors disabled:opacity-50"
+                                            title="Löschen"
+                                          >
+                                            <XMarkIcon className="w-4 h-4 text-red-400" />
+                                          </button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  )
+                                })}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  )}
+                </div>
+              )
+            })
+          )}
+        </div>
       </div>
+
+      {/* Edit Transaction Modal */}
+      {editingTransaction && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg font-bold text-theme-primary">Transaktion bearbeiten</h2>
+              <button
+                onClick={() => setEditingTransaction(null)}
+                className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+              >
+                <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+              </button>
+            </div>
+
+            {/* Info Badge */}
+            <div className="bg-theme-secondary/20 rounded-lg p-3 mb-4">
+              <div className="flex items-center gap-2">
+                <span className={`px-2 py-1 rounded text-xs font-medium ${
+                  editingTransaction.type === 'buy'
+                    ? 'bg-blue-500/20 text-blue-400'
+                    : editingTransaction.type === 'sell'
+                    ? 'bg-green-500/20 text-green-400'
+                    : editingTransaction.type === 'dividend'
+                    ? 'bg-purple-500/20 text-purple-400'
+                    : 'bg-gray-500/20 text-gray-400'
+                }`}>
+                  {getTransactionLabel(editingTransaction.type)}
+                </span>
+                <span className="font-semibold text-theme-primary">{editingTransaction.symbol}</span>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {/* Nur für Aktien-Transaktionen: Anzahl */}
+              {(editingTransaction.type === 'buy' || editingTransaction.type === 'sell') && (
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                    Anzahl
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="1"
+                    value={editQuantity}
+                    onChange={(e) => setEditQuantity(e.target.value)}
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400"
+                  />
+                </div>
+              )}
+
+              <div>
+                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  {editingTransaction.type === 'buy' || editingTransaction.type === 'sell'
+                    ? 'Preis pro Stück (EUR)'
+                    : 'Betrag (EUR)'}
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  step="0.01"
+                  value={editPrice}
+                  onChange={(e) => setEditPrice(e.target.value)}
+                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  Datum
+                </label>
+                <input
+                  type="date"
+                  value={editDate}
+                  onChange={(e) => setEditDate(e.target.value)}
+                  max={new Date().toISOString().split('T')[0]}
+                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400"
+                />
+              </div>
+
+              {/* Preview für Aktien */}
+              {(editingTransaction.type === 'buy' || editingTransaction.type === 'sell') && editQuantity && editPrice && (
+                <div className="p-3 bg-brand/10 border border-brand/20 rounded-lg">
+                  <p className="text-sm text-theme-secondary">
+                    Neuer Gesamtwert:
+                    <span className="font-bold text-theme-primary ml-2">
+                      {(parseFloat(editQuantity) * parseFloat(editPrice)).toLocaleString('de-DE', {
+                        style: 'currency',
+                        currency: 'EUR'
+                      })}
+                    </span>
+                  </p>
+                  {editingTransaction.type === 'buy' && (
+                    <p className="text-xs text-theme-muted mt-1">
+                      Der Durchschnittspreis wird automatisch neu berechnet.
+                    </p>
+                  )}
+                </div>
+              )}
+
+              <div className="flex gap-3 pt-2">
+                <button
+                  onClick={handleUpdateTransaction}
+                  disabled={saving || !editPrice || !editDate}
+                  className="flex-1 py-2.5 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                >
+                  {saving ? (
+                    <>
+                      <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                      Speichern...
+                    </>
+                  ) : (
+                    'Änderungen speichern'
+                  )}
+                </button>
+                <button
+                  onClick={() => setEditingTransaction(null)}
+                  disabled={saving}
+                  className="flex-1 py-2.5 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                >
+                  Abbrechen
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

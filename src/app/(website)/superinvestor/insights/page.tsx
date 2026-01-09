@@ -1,10 +1,9 @@
-// src/app/superinvestor/insights/page.tsx - DESIGN UPDATED + THEME COLORS
+// src/app/superinvestor/insights/page.tsx - REFACTORED
 'use client'
 
-import React, { useState, useRef, useEffect, useMemo, useCallback, memo, useDeferredValue } from 'react'
-import PageLoader from '@/components/PageLoader' // <-- NEU
+import React, { useState, useRef, useEffect, useMemo, memo } from 'react'
 import Link from 'next/link'
-import { 
+import {
   ChartBarIcon,
   CalendarIcon,
   ChevronDownIcon,
@@ -18,483 +17,52 @@ import {
   EyeIcon,
   BoltIcon,
   ShieldCheckIcon,
-  InformationCircleIcon,
   ClockIcon,
   ArrowUpIcon,
   ArrowDownIcon,
-  ArrowRightIcon,
   ScaleIcon,
-
 } from '@heroicons/react/24/outline'
-import { investors } from '@/data/investors'
 import holdingsHistory from '@/data/holdings'
-import { stocks } from '@/data/stocks'
-import { etfs } from '@/data/etfs'
 import Logo from '@/components/Logo'
 import { getSectorFromPosition, translateSector } from '@/utils/sectorUtils'
 
-// ========== TYPESCRIPT INTERFACES ==========
-interface Position {
-  cusip: string
-  ticker?: string
-  name?: string
-  shares: number
-  value: number
-}
+// Import Types
+import type {
+  Position,
+  HoldingSnapshot,
+  QuarterOption,
+  SectorAnalysis,
+  GeographicExposure,
+  BuySellBalance,
+  ActivityData,
+  BigMove,
+  ConcentrationData,
+  BigBetData,
+  ContrarianData,
+} from '@/types/insights'
 
-interface HoldingData {
-  date: string
-  positions: Position[]
-}
-
-interface HoldingSnapshot {
-  data: HoldingData
-}
-
-interface TopBuyItem {
-  ticker: string
-  count: number
-}
-
-interface TopOwnedItem {
-  ticker: string
-  count: number
-}
-
-interface BiggestInvestmentItem {
-  ticker: string
-  name: string
-  value: number
-}
-
-interface SectorAnalysis {
-  sector: string
-  value: number
-  count: number
-}
-
-interface GeographicExposure {
-  usValue: number
-  internationalValue: number
-  usPercentage: number
-  intlPercentage: number
-}
-
-interface QuarterOption {
-  id: string
-  label: string
-  quarters: string[]
-  description: string
-}
-
-interface DataSourceStats {
-  totalInvestors: number
-  investorsWithData: number
-  totalFilings: number
-  filingsInPeriod: number
-  lastUpdated: string
-  quarters: string[]
-}
-
-// ========== PERFORMANCE OPTIMIERUNGEN ==========
-
-// 1. CACHE für schwere Berechnungen
-const calculationCache = new Map<string, any>()
-
-// 2. Temporäre Hilfsfunktionen für Initialisierung
-function getTickerTemp(position: Position, cusipToTickerMap: Map<string, string>): string | null {
-  if (position.ticker) return position.ticker
-  return cusipToTickerMap.get(position.cusip) || null
-}
-
-function getStockNameTemp(position: Position, cusipToTickerMap: Map<string, string>, nameMap: Map<string, string>): string {
-  if (position.name && position.ticker) {
-    return position.name.includes(' - ') 
-      ? position.name.split(' - ')[1].trim()
-      : position.name
-  }
-  const ticker = getTickerTemp(position, cusipToTickerMap)
-  return ticker ? (nameMap.get(ticker) || position.name || position.cusip) : position.cusip
-}
-
-// 3. Optimierte Datenstrukturen vorab erstellen
-const preprocessedData = (() => {
-  const tickerMap = new Map<string, string>()
-  const nameMap = new Map<string, string>()
-  const cusipToTicker = new Map<string, string>()
-  
-  // Stocks-Daten vorverarbeiten
-  stocks.forEach(stock => {
-    tickerMap.set(stock.ticker, stock.name)
-    nameMap.set(stock.ticker, stock.name)
-    if (stock.cusip) {
-      cusipToTicker.set(stock.cusip, stock.ticker)
-    }
-  })
-  
-  // Holdings-Daten einmal durchgehen
-  const activeInvestors = new Set<string>()
-  const allQuarters = new Set<string>()
-  
-  Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (latest?.positions?.length > 0) {
-      activeInvestors.add(slug)
-    }
-    
-    snaps.forEach(snap => {
-      if (snap?.data?.date) {
-        const quarter = getPeriodFromDate(snap.data.date)
-        allQuarters.add(quarter)
-        
-        // Ticker-Namen aus Holdings extrahieren
-        snap.data.positions?.forEach((position: Position) => {
-          const ticker = getTickerTemp(position, cusipToTicker)
-          if (ticker && position.name && !nameMap.has(ticker)) {
-            nameMap.set(ticker, getStockNameTemp(position, cusipToTicker, nameMap))
-          }
-        })
-      }
-    })
-  })
-  
-  return {
-    tickerMap,
-    nameMap,
-    cusipToTicker,
-    activeInvestors: Array.from(activeInvestors),
-    allQuarters: Array.from(allQuarters).sort().reverse()
-  }
-})()
-
-// 4. Finale Hilfsfunktionen (nach preprocessedData Initialisierung)
-function getTicker(position: Position): string | null {
-  if (position.ticker) return position.ticker
-  return preprocessedData.cusipToTicker.get(position.cusip) || null
-}
-
-function getStockName(position: Position): string {
-  if (position.name && position.ticker) {
-    return position.name.includes(' - ') 
-      ? position.name.split(' - ')[1].trim()
-      : position.name
-  }
-  const ticker = getTicker(position)
-  return ticker ? (preprocessedData.nameMap.get(ticker) || position.name || position.cusip) : position.cusip
-}
-
-function getPeriodFromDate(dateStr: string): string {
-  const [year, month] = dateStr.split('-').map(Number)
-  const filingQ = Math.ceil(month / 3)
-  let reportQ = filingQ - 1, reportY = year
-  if (reportQ === 0) {
-    reportQ = 4
-    reportY = year - 1
-  }
-  return `Q${reportQ} ${reportY}`
-}
-
-function formatCurrencyGerman(amount: number, showCurrency = true): string {
-  const suffix = showCurrency ? ' $' : ''
-  const absAmount = Math.abs(amount)
-  const sign = amount < 0 ? '-' : ''
-  
-  if (absAmount >= 1_000_000_000) {
-    return `${sign}${(absAmount / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd.${suffix}`
-  } else if (absAmount >= 1_000_000) {
-    return `${sign}${(absAmount / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mio.${suffix}`
-  } else if (absAmount >= 1_000) {
-    return `${sign}${(absAmount / 1_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Tsd.${suffix}`
-  }
-  return `${sign}${absAmount.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}${suffix}`
-}
-
-function formatCurrency(amount: number, currency: 'USD' | 'EUR' = 'USD', maximumFractionDigits = 0): string {
-  return new Intl.NumberFormat('de-DE', {
-    style: 'currency',
-    currency,
-    maximumFractionDigits,
-  }).format(amount)
-}
-
-// 4. Data Processing Functions (NICHT memo, da keine React Komponenten)
-function getSmartLatestQuarter(): string {
-  const cacheKey = 'smartLatestQuarter'
-  if (calculationCache.has(cacheKey)) {
-    return calculationCache.get(cacheKey)
-  }
-  
-  const totalActiveInvestors = preprocessedData.activeInvestors.length
-  const requiredThreshold = Math.ceil(totalActiveInvestors * 0.3) // Reduziert von 50% auf 30%
-  
-  const quarterCounts = new Map<string, number>()
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
-    if (!snaps) return
-    
-    snaps.forEach(snap => {
-      if (snap?.data?.date) {
-        const quarter = getPeriodFromDate(snap.data.date)
-        quarterCounts.set(quarter, (quarterCounts.get(quarter) || 0) + 1)
-      }
-    })
-  })
-  
-  const sortedQuarters = Array.from(quarterCounts.entries())
-    .sort(([a], [b]) => {
-      const [qA, yearA] = a.split(' ')
-      const [qB, yearB] = b.split(' ')
-      
-      if (yearA !== yearB) return parseInt(yearB) - parseInt(yearA)
-      return parseInt(qB.substring(1)) - parseInt(qA.substring(1))
-    })
-  
-  for (const [quarter, count] of sortedQuarters) {
-    if (count >= requiredThreshold) {
-      calculationCache.set(cacheKey, quarter)
-      return quarter
-    }
-  }
-  
-  const fallbackQuarter = sortedQuarters[0]?.[0] || 'Q1 2025'
-  calculationCache.set(cacheKey, fallbackQuarter)
-  return fallbackQuarter
-}
-
-// 5. Optimierte Berechnungsfunktionen mit Caching
-function calculateTopBuys(targetQuarters: string[]): TopBuyItem[] {
- // const cacheKey = `topBuys-${targetQuarters.join('-')}`
-  //if (calculationCache.has(cacheKey)) {
-  //  return calculationCache.get(cacheKey)
- // }
-  
-  const buyCounts = new Map<string, number>()
-  
-  
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
-    if (!snaps || snaps.length === 0) return
-    
-    snaps.forEach((snap, idx) => {
-      const currentQuarter = getPeriodFromDate(snap.data.date)
-      if (!targetQuarters.includes(currentQuarter)) return
-      
-      const cur = snap.data
-      
-      if (idx > 0) {
-        const prev = snaps[idx - 1].data
-        
-        const prevMap = new Map<string, number>()
-        prev.positions?.forEach((p: Position) => {
-          const ticker = getTicker(p)
-          if (ticker) {
-            prevMap.set(ticker, (prevMap.get(ticker) || 0) + p.shares)
-          }
-        })
-
-        const seen = new Set<string>()
-        cur.positions?.forEach((p: Position) => {
-          const ticker = getTicker(p)
-          if (!ticker || seen.has(ticker)) return
-          seen.add(ticker)
-
-          const prevShares = prevMap.get(ticker) || 0
-          const delta = p.shares - prevShares
-
-          if (delta > 0) {
-            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
-          }
-        })
-      } else {
-        const seen = new Set<string>()
-        cur.positions?.forEach((p: Position) => {
-          const ticker = getTicker(p)
-          if (ticker && !seen.has(ticker)) {
-            seen.add(ticker)
-            buyCounts.set(ticker, (buyCounts.get(ticker) || 0) + 1)
-          }
-        })
-      }
-    })
-  })
-
-  const stocksArray = Array.from(buyCounts.entries())
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 20)
-    .map(([ticker, count]) => ({ ticker, count }))
-
-  // DEBUG: Check buy distribution  
-  console.log('🔍 TopBuys DEBUG:')
-  console.log('Total unique stocks with buys:', buyCounts.size)
-  console.log('Total buy activities:', Array.from(buyCounts.values()).reduce((sum, count) => sum + count, 0))
-  console.log('Top 5 most bought:', Array.from(buyCounts.entries()).sort(([,a], [,b]) => b - a).slice(0, 5))
-
-  // Add the total count to the result for UI
-  const result = stocksArray as any
-  result.totalUniqueStocks = buyCounts.size
-  
-  return result
-}
-
-function calculateTopOwned(): TopOwnedItem[] {
-
-  const ownershipCount = new Map<string, number>()
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    const seen = new Set<string>()
-    latest.positions.forEach((p: Position) => {
-      const ticker = getTicker(p)
-      if (ticker && !seen.has(ticker)) {
-        seen.add(ticker)
-        ownershipCount.set(ticker, (ownershipCount.get(ticker) || 0) + 1)
-      }
-    })
-  })
-
-  const stocksArray = Array.from(ownershipCount.entries())
-    .sort(([, a], [, b]) => b - a)
-    .slice(0, 20)
-    .map(([ticker, count]) => ({ ticker, count }))
-
-  // DEBUG: Check the ownership distribution
-  console.log('🔍 TopOwned DEBUG:')
-  console.log('Total stocks found:', ownershipCount.size)
-  console.log('Stocks held by 2+ investors:', Array.from(ownershipCount.values()).filter(count => count >= 2).length)
-  console.log('Stocks held by 5+ investors:', Array.from(ownershipCount.values()).filter(count => count >= 5).length)
-  console.log('Stocks held by 10+ investors:', Array.from(ownershipCount.values()).filter(count => count >= 10).length)
-  console.log('Max ownership count:', Math.max(...Array.from(ownershipCount.values())))
-  
-  // Add the total count to the result for UI (only stocks with 5+ investors for "popular")
-  const result = stocksArray as any
-  result.totalUniqueStocks = Array.from(ownershipCount.values()).filter(count => count >= 5).length
-
-  return result
-}
-
-function calculateBiggestInvestments(): BiggestInvestmentItem[] {
-  const cacheKey = 'biggestInvestments'
-  if (calculationCache.has(cacheKey)) {
-    return calculationCache.get(cacheKey)
-  }
-  
-  const investmentTotals = new Map<string, { value: number, name: string }>()
-
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
-    if (!snaps || snaps.length === 0) return
-    
-    const latest = snaps[snaps.length - 1]?.data
-    if (!latest?.positions) return
-    
-    latest.positions.forEach((p: Position) => {
-      const ticker = getTicker(p)
-      if (!ticker) return
-      
-      const name = getStockName(p)
-      const current = investmentTotals.get(ticker)
-      
-      if (current) {
-        current.value += p.value
-      } else {
-        investmentTotals.set(ticker, { value: p.value, name })
-      }
-    })
-  })
-
-  const result = Array.from(investmentTotals.entries())
-    .map(([ticker, { value, name }]) => ({ ticker, name, value }))
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 20)
-    
-  calculationCache.set(cacheKey, result)
-  return result
-}
-
-// Investor Namen Mapping
-const investorNames: Record<string, string> = {
-  buffett: 'Warren Buffett',
-  einhorn: 'David Einhorn',
-  ackman: 'Bill Ackman',
-  thiel:'Peter Thiel',
-  gates: 'Bill & Melinda Gates Foundation Trust',
-  torray: 'Torray Investment Partners LLC',
-  davis: 'Christoper Davis',
-  altarockpartners: 'Mark Massey',
-  greenhaven:'Edgar Wachenheim III',
-  vinall:'Robert Vinall',
-  meridiancontrarian: 'Meridian Contrarian Fund',
-  hawkins:' Mason Hawkins',
-  olstein:'Robert Olstein',
-  peltz: 'Nelson Peltz',
-  gregalexander:'Greg Alexander',
-  miller: 'Bill Miller',
-  tangen: 'Nicolai Tangen',
-  burry:'Michael Burry',
-  pabrai: 'Mohnish Pabrai',
-  kantesaria: 'Dev Kantesaria',
-  greenblatt: 'Joel Greenblatt',
-  fisher: 'Ken Fisher',
-  soros:'George Soros',
-  haley:'Connor Haley',
-  vandenberg: 'Arnold Van Den Berg',
-  dodgecox:'Dodge & Cox',
-  pzena:'Richard Pzena',
-  mairspower:'Mairs & Power Inc',
-  weitz: 'Wallace Weitz',
-  yacktman:'Yacktman Asset Management LP',
-  gayner:'Thomas Gayner',
-  armitage:'John Armitage',
-  burn: 'Harry Burn - Sound Shore',
-  cantillon:'William von Mueffling - Cantillon Capital Management',
-  jensen:'Eric Schoenstein - Jensen Investment Management',
-  abrams: 'David Abrams - Abrams Capital Management',
-  firsteagle: 'First Eagle Investment Management',
-  polen: 'Polen Capital Management',
-  tarasoff:'Josh Tarasoff',
-  rochon: 'Francois Rochon',
-  russo: 'Thomas Russo',
-  akre: 'Chuck Akre',
-  triplefrond:'Triple Frond Partners',
-  whitman: 'Marty Whitman',
-  patientcapital:'Samantha McLemore',
-  klarman: 'Seth Klarman',
-  makaira: 'Tom Bancroft',
-  ketterer: 'Sarah Ketterer',
-  train:'Lindsell Train',
-  smith: 'Terry Smith',
-  watsa: 'Prem Watsa',
-  lawrence: 'Bryan Lawrence',
-  dorsey: 'Pat Dorsey',
-  hohn:'Chris Hohn',
-  hong: 'Dennis Hong',
-  kahn: 'Kahn Brothers Group',
-  coleman: 'Chase Coleman',
-  dalio:'Ray Dalio',
-  loeb: 'Daniel Loeb',
-  tepper: 'David Tepper',
-  icahn: 'Carl Icahn',
-  lilu: 'Li Lu',
-  ainslie:'Lee Ainslie',
-  greenberg:'Glenn Greenberg',
-  mandel: 'Stephen Mandel',
-  marks: 'Howard Marks',
-  rogers:'John Rogers',
-  ariel_appreciation: 'Ariel Appreciation Fund', 
-  ariel_focus: 'Ariel Focus Fund', 
-  cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
-  spier: 'Guy Spier',
-  druckenmiller: 'druckenmiller',
-}
+// Import Calculation Functions
+import {
+  preprocessedData,
+  investorNames,
+  formatCurrencyGerman,
+  getTicker,
+  getSmartLatestQuarter,
+  calculateTopBuys,
+  calculateTopOwned,
+  calculateBiggestInvestments,
+  calculateDataSourceStats,
+  calculateMomentumShifts,
+  calculateExitTracker,
+  calculateNewDiscoveries,
+  calculateResearchGems,
+  calculateSectorNetFlows,
+  calculateBuySellBalance,
+  calculateTopSectors,
+  calculateGeographicExposure,
+  getStockName,
+  calculationCache,
+} from '@/utils/insightsCalculations'
 
 // Hook für Intersection Observer (nur für Hero)
 const useIntersectionObserver = (threshold = 0.1) => {
@@ -689,680 +257,6 @@ const QuarterSelector = memo<QuarterSelectorProps>(({
 })
 
 QuarterSelector.displayName = 'QuarterSelector'
-
-function calculateDataSourceStats(targetQuarters: string[]): DataSourceStats {
-  const stats: DataSourceStats = {
-    totalInvestors: 0,
-    investorsWithData: 0,
-    totalFilings: 0,
-    filingsInPeriod: 0,
-    lastUpdated: '',
-    quarters: targetQuarters
-  }
-
-  stats.totalInvestors = preprocessedData.activeInvestors.length
-
-  let latestDate = ''
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined
-    if (!snaps) return
-    
-    const hasDataInPeriod = snaps.some(snap => {
-      const quarter = getPeriodFromDate(snap.data.date)
-      return targetQuarters.includes(quarter)
-    })
-    
-    if (hasDataInPeriod) {
-      stats.investorsWithData++
-    }
-
-    stats.totalFilings += snaps.length
-    
-    snaps.forEach(snap => {
-      const quarter = getPeriodFromDate(snap.data.date)
-      if (targetQuarters.includes(quarter)) {
-        stats.filingsInPeriod++
-      }
-      
-      if (snap.data.date > latestDate) {
-        latestDate = snap.data.date
-      }
-    })
-  })
-
-  stats.lastUpdated = latestDate
-  return stats
-}
-
-// ab hier neue funktionen??
-
-// 1. MOMENTUM SHIFTS - Trendwende Erkennung
-function calculateMomentumShifts(targetQuarters: string[]): Array<{
-  ticker: string;
-  name: string;
-  shifters: string[];
-  fromSelling: number;
-  toBuying: number;
-  totalShift: number;
-}> {
-  if (targetQuarters.length < 2) return [];
-  
-  const shifts = new Map<string, {
-    name: string;
-    shifters: Set<string>;
-    fromSelling: number;
-    toBuying: number;
-  }>();
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
-    if (!snaps || snaps.length < 2) return;
-    
-    // Finde die letzten beiden relevanten Quartale
-    const relevantSnaps = snaps.filter(snap => 
-      targetQuarters.includes(getPeriodFromDate(snap.data.date))
-    ).slice(-2);
-    
-    if (relevantSnaps.length < 2) return;
-    
-    const [older, newer] = relevantSnaps;
-    
-    // Positions-Maps erstellen
-    const olderMap = new Map<string, number>();
-    older.data.positions?.forEach((p: Position) => {
-      const ticker = getTicker(p);
-      if (ticker) olderMap.set(ticker, p.shares);
-    });
-    
-    const newerMap = new Map<string, number>();
-    newer.data.positions?.forEach((p: Position) => {
-      const ticker = getTicker(p);
-      if (ticker) newerMap.set(ticker, p.shares);
-    });
-    
-    // Finde Momentum Shifts
-    newerMap.forEach((newShares, ticker) => {
-      const oldShares = olderMap.get(ticker) || 0;
-      
-      // War am Verkaufen (reduziert) und kauft jetzt (erhöht)
-      if (oldShares > newShares * 1.2 && newShares > 0) {
-        // Position wurde reduziert
-      } else if (newShares > oldShares * 1.2) {
-        // Position wurde erhöht nach vorheriger Reduktion
-        const current = shifts.get(ticker) || {
-          name: getStockName(newer.data.positions.find(p => getTicker(p) === ticker)!),
-          shifters: new Set<string>(),
-          fromSelling: oldShares,
-          toBuying: newShares
-        };
-        
-        current.shifters.add(investorNames[slug] || slug);
-        shifts.set(ticker, current);
-      }
-    });
-  });
-  
-  return Array.from(shifts.entries())
-    .map(([ticker, data]) => ({
-      ticker,
-      name: data.name,
-      shifters: Array.from(data.shifters),
-      fromSelling: data.fromSelling,
-      toBuying: data.toBuying,
-      totalShift: data.toBuying - data.fromSelling
-    }))
-    .filter(item => item.shifters.length >= 2)
-    .sort((a, b) => b.shifters.length - a.shifters.length)
-    .slice(0, 10);
-}
-
-
-
-// 2. EXIT TRACKER - Komplette Verkäufe
-function calculateExitTracker(targetQuarters: string[]): Array<{
-  ticker: string;
-  name: string;
-  exitedBy: string[];
-  avgHoldingPeriod: number;
-  totalValueExited: number;
-}> {
-  const exits = new Map<string, {
-    name: string;
-    exitedBy: string[];
-    holdingPeriods: number[];
-    totalValue: number;
-  }>();
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
-    if (!snaps || snaps.length < 2) return;
-    
-    const latest = snaps[snaps.length - 1];
-    const previous = snaps[snaps.length - 2];
-    
-    if (!targetQuarters.includes(getPeriodFromDate(latest.data.date))) return;
-    
-    // Map für aktuelle Positionen
-    const currentPositions = new Map<string, boolean>();
-    latest.data.positions?.forEach((p: Position) => {
-      const ticker = getTicker(p);
-      if (ticker) currentPositions.set(ticker, true);
-    });
-    
-    // Finde Exits (war da, jetzt nicht mehr)
-    previous.data.positions?.forEach((p: Position) => {
-      const ticker = getTicker(p);
-      if (!ticker) return;
-      
-      if (!currentPositions.has(ticker) && p.value > 1000000) { // Min 1M Position
-        // Berechne Holding Period
-        let holdingPeriod = 1;
-        for (let i = snaps.length - 3; i >= 0; i--) {
-          const hasPosition = snaps[i].data.positions?.some(
-            pos => getTicker(pos) === ticker
-          );
-          if (hasPosition) {
-            holdingPeriod++;
-          } else {
-            break;
-          }
-        }
-        
-        const current = exits.get(ticker) || {
-          name: getStockName(p),
-          exitedBy: [],
-          holdingPeriods: [],
-          totalValue: 0
-        };
-        
-        current.exitedBy.push(investorNames[slug] || slug);
-        current.holdingPeriods.push(holdingPeriod);
-        current.totalValue += p.value;
-        
-        exits.set(ticker, current);
-      }
-    });
-  });
-  
-  return Array.from(exits.entries())
-    .map(([ticker, data]) => ({
-      ticker,
-      name: data.name,
-      exitedBy: data.exitedBy,
-      avgHoldingPeriod: data.holdingPeriods.reduce((a, b) => a + b, 0) / data.holdingPeriods.length,
-      totalValueExited: data.totalValue
-    }))
-    .sort((a, b) => b.exitedBy.length - a.exitedBy.length)
-    .slice(0, 10);
-}
-
-// 3. NEW DISCOVERIES - Brandneue Positionen
-function calculateNewDiscoveries(targetQuarters: string[]): Array<{
-  ticker: string;
-  name: string;
-  discoveredBy: string[];
-  totalValue: number;
-  avgPosition: number;
-}> {
-  const discoveries = new Map<string, {
-    name: string;
-    discoveredBy: Map<string, number>;
-  }>();
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
-    if (!snaps || snaps.length === 0) return;
-    
-    const latest = snaps[snaps.length - 1];
-    if (!targetQuarters.includes(getPeriodFromDate(latest.data.date))) return;
-    
-    // Historische Positionen sammeln
-    const historicalPositions = new Set<string>();
-    for (let i = 0; i < snaps.length - 1; i++) {
-      snaps[i].data.positions?.forEach((p: Position) => {
-        const ticker = getTicker(p);
-        if (ticker) historicalPositions.add(ticker);
-      });
-    }
-    
-    // Finde neue Positionen
-    latest.data.positions?.forEach((p: Position) => {
-      const ticker = getTicker(p);
-      if (!ticker) return;
-      
-      if (!historicalPositions.has(ticker) && p.value > 5000000) { // Min 5M für Relevanz
-        const current = discoveries.get(ticker) || {
-          name: getStockName(p),
-          discoveredBy: new Map<string, number>()
-        };
-        
-        current.discoveredBy.set(investorNames[slug] || slug, p.value);
-        discoveries.set(ticker, current);
-      }
-    });
-  });
-  
-  return Array.from(discoveries.entries())
-    .map(([ticker, data]) => {
-      const values = Array.from(data.discoveredBy.values());
-      const totalValue = values.reduce((a, b) => a + b, 0);
-      
-      return {
-        ticker,
-        name: data.name,
-        discoveredBy: Array.from(data.discoveredBy.keys()),
-        totalValue,
-        avgPosition: totalValue / values.length
-      };
-    })
-    .filter(item => item.discoveredBy.length >= 2)
-    .sort((a, b) => b.discoveredBy.length - a.discoveredBy.length)
-    .slice(0, 10);
-}
-
-// 4. RESEARCH GEMS - Hidden Gems und deutsche Aktien
-function calculateResearchGems(): {
-  unknownStocks: Array<{
-    ticker: string;
-    name: string;
-    investorCount: number;
-    investors: string[];
-    totalValue: number;
-  }>;
-  germanStocks: Array<{
-    ticker: string;
-    name: string;
-    investorCount: number;
-    investors: string[];
-    totalValue: number;
-  }>;
-  popularETFs: Array<{
-    ticker: string;
-    name: string;
-    investorCount: number;
-    investors: string[];
-    totalValue: number;
-    category?: string;
-  }>;
-} {
-  // Deutsche Unternehmen - Namen basierte Erkennung (sicherer als Ticker)
-  const GERMAN_COMPANY_NAMES = new Set([
-    'SAP SE', 'SAP', 
-    'SIEMENS', 'SIEMENS AG',
-    'ALLIANZ', 'ALLIANZ SE', 'ALLIANZ AG',
-    'BASF', 'BASF SE',
-    'BAYER', 'BAYER AG',
-    'BEIERSDORF', 'BEIERSDORF AG',
-    'BMW', 'BAYERISCHE MOTOREN WERKE',
-    'BRENNTAG', 'BRENNTAG SE',
-    'COMMERZBANK', 'COMMERZBANK AG',
-    'CONTINENTAL', 'CONTINENTAL AG',
-    'DAIMLER TRUCK', 'DAIMLER TRUCK HOLDING',
-    'DEUTSCHE BANK', 'DEUTSCHE BANK AG', 'DEUTSCHE BANK A G',
-    'DEUTSCHE BÖRSE', 'DEUTSCHE BOERSE', 'DEUTSCHE BOERSE (ADR)',
-    'DEUTSCHE TELEKOM', 'DEUTSCHE TELEKOM AG',
-    'DEUTSCHE POST', 'DHL GROUP',
-    'E\\.ON', 'EON SE', 'E ON SE',
-    'FRESENIUS', 'FRESENIUS SE',
-    'FRESENIUS MEDICAL CARE',
-    'GEA GROUP', 'GEA',
-    'HANNOVER RUECK', 'HANNOVER RÜCK', 'HANNOVER RE',
-    'HEIDELBERG MATERIALS', 'HEIDELBERGCEMENT',
-    'HENKEL', 'HENKEL AG',
-    'INFINEON', 'INFINEON TECHNOLOGIES',
-    'MERCEDES-BENZ', 'MERCEDES BENZ GROUP', 'MERCEDES-BENZ GROUP',
-    'MERCK KGAA', 'MERCK KOMMANDITGESELLSCHAFT',
-    'MTU AERO ENGINES',
-    'MUENCHENER RUECK', 'MÜNCHENER RÜCK',
-    'PORSCHE', 'PORSCHE AG', 'PORSCHE AUTOMOBIL', 'PORSCHE AUTOMOBIL HOLDING',
-    'QIAGEN',
-    'RHEINMETALL',
-    'RWE', 'RWE AG',
-    'SCOUT24',
-    'SIEMENS ENERGY', 'SIEMENS HEALTHINEERS',
-    'SYMRISE', 'SYMRISE AG',
-    'VOLKSWAGEN', 'VOLKSWAGEN AG',
-    'VONOVIA', 'VONOVIA SE',
-    'ZALANDO', 'ZALANDO SE',
-    'ADIDAS', 'ADIDAS AG'
-  ]);
-  
-  // Funktion zur Erkennung deutscher Aktien
-  function isGermanStock(ticker: string, name?: string): boolean {
-    // Ticker-basierte Erkennung aller deutschen ADRs aus stocks-us.ts
-    const germanTickers = new Set([
-      'DB', 'SAP', 'MBGYY', 'DTEGY', 'POAHY', 'MTUAY', 'RWEOY', 
-      'SIEGY', 'SCCTY', 'SMMNY', 'SMNEY', 'VWAGY', 'VONOY', 
-      'DHLGY', 'ZLNDY', 'RNMBY', 'HVRRY', 'HDLMY', 'IFNNY'
-    ]);
-    
-    if (germanTickers.has(ticker.toUpperCase())) {
-      return true;
-    }
-    
-    // Fallback: Namen-basierte Erkennung für ganze Wörter
-    if (name) {
-      const upperName = name.toUpperCase();
-      for (const germanName of GERMAN_COMPANY_NAMES) {
-        // Word boundary check - nur ganze Wörter matchen
-        const regex = new RegExp(`\\b${germanName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`);
-        if (regex.test(upperName)) {
-          return true;
-        }
-      }
-    }
-    
-    return false;
-  }
-  
-  // ETF-Erkennung basierend auf Name und Ticker
-  function isETF(ticker: string, name?: string): boolean {
-    // Prüfe zuerst exakte Ticker-Matches in ETF-Liste
-    const etfTicker = etfs.find(etf => etf.symbol.toUpperCase() === ticker.toUpperCase());
-    if (etfTicker) return true;
-    
-    // Strenge Namen-basierte Prüfung - nur wenn Name explizit ETF enthält
-    if (name) {
-      const upperName = name.toUpperCase();
-      // Nur wenn "ETF" direkt im Namen steht, nicht andere Keywords
-      if (upperName.includes(' ETF') || upperName.endsWith('ETF') || upperName.startsWith('ETF ')) {
-        return true;
-      }
-      
-      // Bekannte ETF-Provider mit spezifischen Mustern
-      if ((upperName.includes('ISHARES') || upperName.includes('VANGUARD') || 
-           upperName.includes('SPDR') || upperName.includes('INVESCO QQQ')) && 
-          (upperName.includes('ETF') || upperName.includes('TRUST'))) {
-        return true;
-      }
-    }
-    
-    return false;
-  }
-  
-  // Market Cap Grenze für Hidden Gems (unter $15B = Small-Mid Cap)
-  const MAX_MARKET_CAP_FOR_HIDDEN_GEMS = 15_000_000_000; // $15B
-  
-  // Funktion um Market Cap aus stocks-us.ts zu holen oder zu schätzen
-  function getMarketCapEstimate(ticker: string, totalValue: number, investorCount: number): number {
-    // Bekannte Large/Mega Caps hardcoded für bessere Performance
-    const knownLargeCaps = new Set([
-      'AAPL', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'TSLA', 'META', 'NVDA', 
-      'BRK.A', 'BRK.B', 'BRKB', 'JPM', 'JNJ', 'V', 'UNH', 'MA', 'PG'
-    ]);
-    
-    if (knownLargeCaps.has(ticker.toUpperCase())) {
-      return 100_000_000_000; // $100B+ (definitiv keine Hidden Gem)
-    }
-    
-    // Grobe Schätzung basierend auf Portfolio-Werten
-    // Annahme: Superinvestoren halten typisch 1-5% einer Small-Mid Cap
-    const estimatedMarketCap = (totalValue * investorCount) * 50; // Grober Multiplikator
-    return estimatedMarketCap;
-  }
-
-  const stockData = new Map<string, {
-    name: string;
-    investors: Set<string>;
-    totalValue: number;
-    isGerman: boolean;
-    isETF: boolean;
-    etfCategory?: string;
-  }>();
-
-  // Durchlaufe alle aktiven Investoren
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
-    if (!snaps || snaps.length === 0) return;
-    
-    const latest = snaps[snaps.length - 1];
-    if (!latest?.data?.positions) return;
-
-    latest.data.positions.forEach((position: Position) => {
-      const ticker = getTicker(position);
-      if (!ticker) return;
-
-      // Erkennung deutscher Aktien und ETFs
-      const isGerman = isGermanStock(ticker, position.name);
-      const isETFFlag = isETF(ticker, position.name);
-      const etfData = etfs.find(etf => etf.symbol.toUpperCase() === ticker.toUpperCase());
-      
-      if (!stockData.has(ticker)) {
-        stockData.set(ticker, {
-          name: getStockName(position),
-          investors: new Set(),
-          totalValue: 0,
-          isGerman,
-          isETF: isETFFlag,
-          etfCategory: etfData?.category
-        });
-      }
-
-      const stock = stockData.get(ticker)!;
-      stock.investors.add(investorNames[slug] || slug);
-      stock.totalValue += position.value;
-    });
-  });
-
-  // Filtere und konvertiere zu Arrays
-  const unknownStocks = Array.from(stockData.entries())
-    .filter(([ticker, data]) => {
-      if (data.isGerman || data.isETF || data.investors.size < 3) return false;
-      
-      // Market Cap Check: Nur Small-Mid Caps als Hidden Gems
-      const estimatedMarketCap = getMarketCapEstimate(ticker, data.totalValue, data.investors.size);
-      return estimatedMarketCap < MAX_MARKET_CAP_FOR_HIDDEN_GEMS;
-    })
-    .map(([ticker, data]) => ({
-      ticker,
-      name: data.name,
-      investorCount: data.investors.size,
-      investors: Array.from(data.investors),
-      totalValue: data.totalValue
-    }))
-    .sort((a, b) => b.investorCount - a.investorCount)  // Sortiere nach höchster Investor-Anzahl
-    .slice(0, 10);
-
-  const germanStocks = Array.from(stockData.entries())
-    .filter(([, data]) => data.isGerman && data.investors.size >= 1)
-    .map(([ticker, data]) => ({
-      ticker,
-      name: data.name,
-      investorCount: data.investors.size,
-      investors: Array.from(data.investors),
-      totalValue: data.totalValue
-    }))
-    .sort((a, b) => b.investorCount - a.investorCount)
-    .slice(0, 10);
-
-  const popularETFs = Array.from(stockData.entries())
-    .filter(([, data]) => data.isETF && data.investors.size >= 2) // Mindestens 2 Investoren für ETFs
-    .map(([ticker, data]) => ({
-      ticker,
-      name: data.name,
-      investorCount: data.investors.size,
-      investors: Array.from(data.investors),
-      totalValue: data.totalValue,
-      category: data.etfCategory
-    }))
-    .sort((a, b) => b.investorCount - a.investorCount)
-    .slice(0, 10);
-
-  return { unknownStocks, germanStocks, popularETFs };
-}
-
-// 5. SECTOR ROTATION MATRIX - Zeigt Umschichtungen zwischen Sektoren
-
-// 5. SECTOR NET FLOWS - Zeigt Zu- und Abflüsse pro Sektor
-function calculateSectorNetFlows(targetQuarters: string[]): Map<string, number> {
-  if (targetQuarters.length < 2) return new Map();
-  
-  const sectorFlows = new Map<string, number>();
-  
-  preprocessedData.activeInvestors.forEach(slug => {
-    const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
-    if (!snaps || snaps.length < 2) return;
-    
-    // Finde die letzten beiden relevanten Quartale
-    const relevantSnaps = snaps.filter(snap => 
-      targetQuarters.includes(getPeriodFromDate(snap.data.date))
-    ).slice(-2);
-    
-    if (relevantSnaps.length < 2) return;
-    
-    const [older, newer] = relevantSnaps;
-    
-    // Sektor-Maps für beide Perioden
-    const olderSectors = new Map<string, number>();
-    const newerSectors = new Map<string, number>();
-    
-    older.data.positions?.forEach((p: Position) => {
-      const sector = translateSector(getSectorFromPosition({
-        cusip: p.cusip,
-        ticker: getTicker(p)
-      }));
-      olderSectors.set(sector, (olderSectors.get(sector) || 0) + p.value);
-    });
-    
-    newer.data.positions?.forEach((p: Position) => {
-      const sector = translateSector(getSectorFromPosition({
-        cusip: p.cusip,
-        ticker: getTicker(p)
-      }));
-      newerSectors.set(sector, (newerSectors.get(sector) || 0) + p.value);
-    });
-    
-    // Berechne Net Flows
-    const allSectors = new Set([...olderSectors.keys(), ...newerSectors.keys()]);
-    
-    allSectors.forEach(sector => {
-      const oldValue = olderSectors.get(sector) || 0;
-      const newValue = newerSectors.get(sector) || 0;
-      const flow = newValue - oldValue;
-      
-      sectorFlows.set(sector, (sectorFlows.get(sector) || 0) + flow);
-    });
-  });
-  
-  return sectorFlows;
-}
-
-// 5. BUY/SELL BALANCE - Gesamtmarkt Sentiment der Superinvestoren
-interface BuySellBalance {
-  quarter: string;
-  totalBuys: number;
-  totalSells: number;
-  netFlow: number;
-  sentiment: 'bullish' | 'bearish' | 'neutral';
-  buysCount: number;
-  sellsCount: number;
-}
-
-function calculateBuySellBalance(quarters: string[]): BuySellBalance[] {
-  const balanceData: BuySellBalance[] = [];
-  
-  // Quartale chronologisch sortieren (neueste zuerst)
-  const sortedQuarters = [...quarters].sort((a, b) => {
-    const [qA, yearA] = a.split(' ')
-    const [qB, yearB] = b.split(' ')
-    
-    if (yearA !== yearB) return parseInt(yearB) - parseInt(yearA)
-    return parseInt(qB.substring(1)) - parseInt(qA.substring(1))
-  });
-  
-  // Für jedes Quartal die Buy/Sell Balance berechnen
-  sortedQuarters.forEach((quarter, qIndex) => {
-    let totalBuys = 0;
-    let totalSells = 0;
-    let buysCount = 0;
-    let sellsCount = 0;
-    
-    preprocessedData.activeInvestors.forEach(slug => {
-      const snaps = holdingsHistory[slug] as HoldingSnapshot[] | undefined;
-      if (!snaps || snaps.length < 2) return;
-      
-      // Finde Current Quarter und Previous Quarter Snapshots
-      const currentSnap = snaps.find(snap => 
-        getPeriodFromDate(snap.data.date) === quarter
-      );
-      
-      // Previous quarter (ein Quartal früher)
-      const previousSnap = snaps.find(snap => {
-        const snapQuarter = getPeriodFromDate(snap.data.date);
-        const [currentQ, currentY] = quarter.split(' ');
-        const currentQNum = parseInt(currentQ.replace('Q', ''));
-        const currentYear = parseInt(currentY);
-        
-        let prevQNum = currentQNum - 1;
-        let prevYear = currentYear;
-        if (prevQNum === 0) {
-          prevQNum = 4;
-          prevYear = currentYear - 1;
-        }
-        
-        return snapQuarter === `Q${prevQNum} ${prevYear}`;
-      });
-      
-      if (!currentSnap || !previousSnap) return;
-      
-      // Position Maps erstellen
-      const previousPositions = new Map<string, number>();
-      const currentPositions = new Map<string, number>();
-      
-      previousSnap.data.positions?.forEach((p: Position) => {
-        const ticker = getTicker(p);
-        if (ticker) {
-          previousPositions.set(ticker, p.value);
-        }
-      });
-      
-      currentSnap.data.positions?.forEach((p: Position) => {
-        const ticker = getTicker(p);
-        if (ticker) {
-          currentPositions.set(ticker, p.value);
-        }
-      });
-      
-      // Alle Tickers analysieren
-      const allTickers = new Set([...previousPositions.keys(), ...currentPositions.keys()]);
-      
-      allTickers.forEach(ticker => {
-        const prevValue = previousPositions.get(ticker) || 0;
-        const currentValue = currentPositions.get(ticker) || 0;
-        const change = currentValue - prevValue;
-        
-        // Nur signifikante Änderungen zählen (>1M USD)
-        if (Math.abs(change) > 1000000) {
-          if (change > 0) {
-            totalBuys += change;
-            buysCount++;
-          } else {
-            totalSells += Math.abs(change);
-            sellsCount++;
-          }
-        }
-      });
-    });
-    
-    const netFlow = totalBuys - totalSells;
-    let sentiment: 'bullish' | 'bearish' | 'neutral' = 'neutral';
-    
-    if (netFlow > totalBuys * 0.1) sentiment = 'bullish';
-    else if (netFlow < -totalSells * 0.1) sentiment = 'bearish';
-    
-    balanceData.push({
-      quarter,
-      totalBuys,
-      totalSells,
-      netFlow,
-      sentiment,
-      buysCount,
-      sellsCount
-    });
-  });
-  
-  return balanceData; // Bereits sortiert (neueste zuerst)
-}
 
 // MEMOIZED Stock Item Component
 interface StockItemProps {
@@ -1627,7 +521,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   }, [sectorPeriod, quarterOptions])
 
   return (
-    <div className="min-h-screen bg-dark dark:bg">
+    <div className="min-h-screen bg-dark">
       
       {/* Header - Quartr Style */}
       <section className="bg-dark pt-24 pb-12">
@@ -1636,7 +530,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           <div className="mb-6">
             <Link
               href="/superinvestor"
-              className="inline-flex items-center gap-2 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors text-sm group"
+              className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm group"
             >
               <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
               Zurück zur Übersicht
@@ -1650,23 +544,23 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <div className="mb-8">
               <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-xl flex items-center justify-center">
-                    <ChartBarIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+                  <div className="w-12 h-12 bg-neutral-800 rounded-xl flex items-center justify-center">
+                    <ChartBarIcon className="w-6 h-6 text-emerald-400" />
                   </div>
-                  <h1 className="text-4xl md:text-5xl font-semibold text-neutral-900 dark:text-white tracking-tight">Market Insights</h1>
+                  <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">Market Insights</h1>
                 </div>
-                <div className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-400">
+                <div className="flex items-center gap-2 text-sm text-neutral-400">
                   <div className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></div>
                   <span>{dataSourceStats.investorsWithData} von {dataSourceStats.totalInvestors} Investoren</span>
                 </div>
               </div>
               
-              <p className="text-lg text-neutral-600 dark:text-neutral-400 max-w-4xl leading-relaxed mb-6">
+              <p className="text-lg text-neutral-400 max-w-4xl leading-relaxed mb-6">
                 Detaillierte Analysen der Käufe, Verkäufe und Bewegungen der besten Investoren der Welt.
                 Entdecke Trends, Sektoren und Investment-Patterns der Super-Investoren.
               </p>
               
-              <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500 dark:text-neutral-400">
+              <div className="flex flex-wrap items-center gap-6 text-sm text-neutral-500">
                 <div className="flex items-center gap-2">
                   <span className="font-medium">📋 {dataSourceStats.filingsInPeriod} Filings</span>
                   <span>•</span>
@@ -1687,79 +581,79 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
         {/* Stats Overview - Quartr Style */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-16">
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
-                <ArrowTrendingUpIcon className="w-6 h-6 text-emerald-600 dark:text-emerald-400" />
+              <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <ArrowTrendingUpIcon className="w-6 h-6 text-emerald-400" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
+                <p className="text-3xl font-semibold text-white">
                   {(topBuys as any).totalUniqueStocks || topBuys.filter(buy => buy.count > 0).length}
                 </p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Gekaufte Aktien</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-500">
+                <p className="text-sm text-neutral-400">Gekaufte Aktien</p>
+                <p className="text-xs text-neutral-500">
                   {dataSourceStats.investorsWithData} Investoren • {quarterOptions.find(opt => opt.id === selectedPeriod)?.label}
                 </p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
-                <FireIcon className="w-6 h-6 text-orange-600 dark:text-orange-400" />
+              <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <FireIcon className="w-6 h-6 text-orange-400" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
+                <p className="text-3xl font-semibold text-white">
                   {(topOwned as any).totalUniqueStocks || topOwned.length}
                 </p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Beliebte Aktien</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-500">Von 5+ Investoren gehalten</p>
+                <p className="text-sm text-neutral-400">Beliebte Aktien</p>
+                <p className="text-xs text-neutral-500">Von 5+ Investoren gehalten</p>
               </div>
             </div>
           </div>
           
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-                <CurrencyDollarIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+              <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <CurrencyDollarIcon className="w-6 h-6 text-blue-400" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
+                <p className="text-3xl font-semibold text-white">
                   {Math.round(biggestInvestments.reduce((sum, inv) => sum + inv.value, 0) / 1_000_000_000)}
                 </p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Mrd. $ Investment</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-500">Top 20 Positionen</p>
+                <p className="text-sm text-neutral-400">Mrd. $ Investment</p>
+                <p className="text-xs text-neutral-500">Top 20 Positionen</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3">
-              <div className="w-12 h-12 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                <BuildingOfficeIcon className="w-6 h-6 text-purple-600 dark:text-purple-400" />
+              <div className="w-12 h-12 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <BuildingOfficeIcon className="w-6 h-6 text-purple-400" />
               </div>
               <div>
-                <p className="text-3xl font-semibold text-neutral-900 dark:text-white">
+                <p className="text-3xl font-semibold text-white">
                   {topSectors.length}
                 </p>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Top Sektoren</p>
-                <p className="text-xs text-neutral-500 dark:text-neutral-500">Nach Investment-Volumen</p>
+                <p className="text-sm text-neutral-400">Top Sektoren</p>
+                <p className="text-xs text-neutral-500">Nach Investment-Volumen</p>
               </div>
             </div>
           </div>
         </div>
 
 {/* ZENTRALES DROPDOWN FÜR ANALYSE-ZEITRAUM - Quartr Style */}
-<div className="bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-200 dark:border-emerald-800/50 rounded-lg p-4 mb-8">
+<div className="bg-neutral-900/50 border border-neutral-800 rounded-lg p-4 mb-8">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
-                <CalendarIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+              <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <CalendarIcon className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
-                <h3 className="text-neutral-900 dark:text-white font-semibold">Globaler Analyse-Zeitraum</h3>
-                <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                <h3 className="text-white font-semibold">Globaler Analyse-Zeitraum</h3>
+                <p className="text-xs text-neutral-400">
                   Beeinflusst: Top Käufe • Momentum Shifts • Exit Tracker • New Discoveries
                 </p>
               </div>
@@ -1768,7 +662,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <select
               value={selectedPeriod}
               onChange={(e) => setSelectedPeriod(e.target.value)}
-              className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-emerald-300 dark:hover:border-emerald-700"
+              className="appearance-none px-4 py-2.5 pr-10 rounded-xl text-sm font-medium cursor-pointer transition-all bg-neutral-900 border border-neutral-800 text-white hover:border-neutral-700 focus:outline-none focus:border-neutral-600"
             >
               {quarterOptions.map(option => (
                 <option key={option.id} value={option.id}>
@@ -1783,7 +677,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
           
           {/* Top Käufe Chart */}
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
 
 
 
@@ -1791,19 +685,19 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
         <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Top Käufe</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Meist gekaufte Aktien</p>
+                  <h3 className="text-lg font-semibold text-white">Top Käufe</h3>
+                  <p className="text-sm text-neutral-400">Meist gekaufte Aktien</p>
                 </div>
               </div>
               <div className="relative inline-block">
   <select
     value={selectedPeriod}
     onChange={(e) => setSelectedPeriod(e.target.value)}
-    className="appearance-none px-4 py-2.5 pr-10 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 bg-neutral-50 dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-emerald-300 dark:hover:border-emerald-700"
+    className="appearance-none px-3 py-2 pr-8 rounded-lg text-sm bg-neutral-800 border border-neutral-700 text-white hover:border-neutral-600 focus:outline-none cursor-pointer"
   >
     {quarterOptions.map(option => (
       <option 
@@ -1821,7 +715,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 </div>
             </div>
 
-            <div className="mb-4 flex items-center justify-between text-xs text-neutral-500 dark:text-neutral-400 border-b border-neutral-200 dark:border-neutral-800 pb-3">
+            <div className="mb-4 flex items-center justify-between text-xs text-neutral-500 border-b border-neutral-800 pb-3">
               <span>
                 📊 {dataSourceStats.filingsInPeriod} Filings aus {quarterOptions.find(opt => opt.id === selectedPeriod)?.description}
               </span>
@@ -1851,14 +745,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           </div>
 
           {/* Beliebteste Aktien - Quartr Style */}
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-orange-50 dark:bg-orange-900/20 rounded-lg flex items-center justify-center">
-                <FireIcon className="w-5 h-5 text-orange-600 dark:text-orange-400" />
+              <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <FireIcon className="w-5 h-5 text-orange-400" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Beliebteste Aktien</h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Meist gehaltene Positionen</p>
+                <h3 className="text-lg font-semibold text-white">Beliebteste Aktien</h3>
+                <p className="text-sm text-neutral-400">Meist gehaltene Positionen</p>
               </div>
             </div>
             
@@ -1875,14 +769,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           </div>
 
           {/* Größte Investments - Quartr Style */}
-          <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+          <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-                <CurrencyDollarIcon className="w-5 h-5 text-blue-600 dark:text-blue-400" />
+              <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                <CurrencyDollarIcon className="w-5 h-5 text-blue-400" />
               </div>
               <div>
-                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Größte Investments</h3>
-                <p className="text-sm text-neutral-600 dark:text-neutral-400">Nach Dollar-Volumen</p>
+                <h3 className="text-lg font-semibold text-white">Größte Investments</h3>
+                <p className="text-sm text-neutral-400">Nach Dollar-Volumen</p>
               </div>
             </div>
             
@@ -1905,15 +799,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         {/* Investment Strategien - Quartr Style */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
               <StarIcon className="w-4 h-4" />
               Investment Strategien
             </div>
-            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-semibold text-white mb-4">
               Konsensus vs.
-              <span className="text-emerald-600 dark:text-emerald-400"> Contrarian Picks</span>
+              <span className="text-emerald-400"> Contrarian Picks</span>
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+            <p className="text-neutral-400 max-w-3xl mx-auto">
               Links: Aktien mit breitem Konsensus und hoher Portfolio-Gewichtung. 
               Rechts: Seltene Überzeugungen weniger Investoren.
             </p>
@@ -1922,29 +816,20 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Konsensus-Aktien - Quartr Style */}
-            <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800">
-              <div className="p-6 border-b border-neutral-200 dark:border-neutral-800">
+            <div className="bg-neutral-900/50 rounded-lg overflow-hidden border border-neutral-800">
+              <div className="p-6 border-b border-neutral-800">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
-                    <StarIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+                  <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                    <StarIcon className="w-5 h-5 text-yellow-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">Konsensus-Aktien</h3>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Hohe Portfolio-Gewichtung bei mehreren Investoren</p>
+                    <h3 className="text-xl font-semibold text-white">Konsensus-Aktien</h3>
+                    <p className="text-sm text-neutral-400">Hohe Portfolio-Gewichtung bei mehreren Investoren</p>
                   </div>
                 </div>
               </div>
 
               {(() => {
-                interface BigBetData {
-                  ticker: string;
-                  name: string;
-                  maxPortfolioPercent: number;
-                  ownershipCount: number;
-                  totalValue: number;
-                  topInvestor: string;
-                }
-
                 const bigBetsData: BigBetData[] = [];
 
                 const stockData = new Map<string, {
@@ -2034,7 +919,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                         <Link
                           key={bet.ticker}
                           href={`/analyse/stocks/${bet.ticker.toLowerCase()}/super-investors`}
-                          className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-yellow-300 dark:hover:border-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors group"
+                          className="block p-3 bg-neutral-800/50 border border-neutral-800 rounded-lg hover:border-neutral-700 hover:bg-neutral-800/50 transition-colors group"
                         >
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
@@ -2081,29 +966,20 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             </div>
 
             {/* Contrarian Picks - Quartr Style */}
-            <div className="bg-white dark:bg-zinc-900 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800">
-              <div className="p-6 border-b border-neutral-200 dark:border-neutral-800">
+            <div className="bg-neutral-900/50 rounded-lg overflow-hidden border border-neutral-800">
+              <div className="p-6 border-b border-neutral-800">
                 <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                    <BoltIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                  <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                    <BoltIcon className="w-5 h-5 text-purple-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-semibold text-neutral-900 dark:text-white">Contrarian Picks</h3>
-                    <p className="text-sm text-neutral-600 dark:text-neutral-400">Wenige Investoren, hohe Überzeugung</p>
+                    <h3 className="text-xl font-semibold text-white">Contrarian Picks</h3>
+                    <p className="text-sm text-neutral-400">Wenige Investoren, hohe Überzeugung</p>
                   </div>
                 </div>
               </div>
 
               {(() => {
-                interface ContrarianData {
-                  ticker: string;
-                  name: string;
-                  portfolioPercent: number;
-                  investor: string;
-                  value: number;
-                  ownershipCount: number;
-                }
-
                 const contrarianData: ContrarianData[] = [];
 
                 const ownershipCount = new Map<string, number>();
@@ -2174,7 +1050,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                           <Link
                             key={`${pick.ticker}-${pick.investor}`}
                             href={`/analyse/stocks/${pick.ticker.toLowerCase()}/super-investors`}
-                            className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-purple-300 dark:hover:border-purple-700 hover:bg-purple-50 dark:hover:bg-purple-900/20 transition-colors group"
+                            className="block p-3 bg-neutral-800/50 border border-neutral-800 rounded-lg hover:border-neutral-700 hover:bg-neutral-800/50 transition-colors group"
                           >
                             <div className="flex items-center justify-between">
                               <div className="flex items-center gap-3">
@@ -2228,14 +1104,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             </div>
           </div>
 
-          <div className="mt-8 p-4 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-neutral-600 dark:text-neutral-400">
+          <div className="mt-8 p-4 bg-neutral-800/50 border border-neutral-800 rounded-lg">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs text-neutral-400">
               <div>
-                <strong className="text-emerald-600 dark:text-emerald-400">Konsensus-Aktien:</strong> Mindestens 3% Portfolio-Gewichtung bei 2+ Investoren. 
+                <strong className="text-emerald-400">Konsensus-Aktien:</strong> Mindestens 3% Portfolio-Gewichtung bei 2+ Investoren. 
                 Zeigt breiten Konsensus mit hoher Überzeugung.
               </div>
               <div>
-                <strong className="text-emerald-600 dark:text-emerald-400">Contrarian Picks:</strong> Mindestens 4% Portfolio-Gewichtung bei max. 2 Investoren. 
+                <strong className="text-emerald-400">Contrarian Picks:</strong> Mindestens 4% Portfolio-Gewichtung bei max. 2 Investoren. 
                 Zeigt seltene, aber starke Überzeugungen.
               </div>
             </div>
@@ -2245,29 +1121,21 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         {/* Portfolio Konzentration Analysis */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
               <ShieldCheckIcon className="w-4 h-4" />
               Portfolio Konzentration
             </div>
-            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-semibold text-white mb-4">
               Konzentration vs.
-              <span className="text-emerald-600 dark:text-emerald-400"> Diversifikation</span>
+              <span className="text-emerald-400"> Diversifikation</span>
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400">
+            <p className="text-neutral-400">
               Wer setzt auf wenige große Positionen vs. breite Diversifikation?
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {(() => {
-              interface ConcentrationData {
-                investor: string;
-                concentration: number;
-                top3Percentage: number;
-                totalPositions: number;
-                type: 'high' | 'medium' | 'low';
-              }
-
               const concentrationData: ConcentrationData[] = [];
 
               ['buffett', 'ackman', 'smith', 'gates', 'marks', 'icahn', 'einhorn', 'loeb', 'tepper'].forEach(slug => {
@@ -2315,14 +1183,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
               return concentrationData.map((data) => (
                 <div
                   key={data.investor}
-                  className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"
+                  className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all"
                 >
                   <div className="flex items-center justify-between mb-4">
-                    <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">{data.investor}</h3>
+                    <h3 className="text-lg font-semibold text-white">{data.investor}</h3>
                     <div className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      data.type === 'high' ? 'bg-emerald-100 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400' :
-                      data.type === 'medium' ? 'bg-neutral-100 dark:bg-neutral-800 text-neutral-600 dark:text-neutral-400' :
-                      'bg-neutral-100 dark:bg-neutral-800 text-neutral-500 dark:text-neutral-500'
+                      data.type === 'high' ? 'bg-neutral-800 text-emerald-400' :
+                      data.type === 'medium' ? 'bg-neutral-800 text-neutral-400' :
+                      'bg-neutral-800 text-neutral-500'
                     }`}>
                       {data.type === 'high' ? 'Konzentriert' :
                        data.type === 'medium' ? 'Ausgewogen' : 'Diversifiziert'}
@@ -2331,10 +1199,10 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 
                   <div className="mb-4">
                     <div className="flex justify-between items-center mb-2">
-                      <span className="text-neutral-600 dark:text-neutral-400 text-sm">Konzentrations-Index</span>
-                      <span className="text-neutral-900 dark:text-white font-semibold">{(data.concentration * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%</span>
+                      <span className="text-neutral-400 text-sm">Konzentrations-Index</span>
+                      <span className="text-white font-semibold">{(data.concentration * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%</span>
                     </div>
-                    <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
+                    <div className="w-full bg-neutral-700 rounded-full h-2">
                       <div 
                         className={`h-2 rounded-full ${
                           data.type === 'high' ? 'bg-emerald-500' :
@@ -2370,15 +1238,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         {/* Sektor-Analyse - Quartr Style */}
         <section className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
               <BuildingOfficeIcon className="w-4 h-4" />
               Sektor-Analyse
             </div>
-            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-semibold text-white mb-4">
               Investment
-              <span className="text-emerald-600 dark:text-emerald-400"> Sektoren</span>
+              <span className="text-emerald-400"> Sektoren</span>
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400">
+            <p className="text-neutral-400">
               Wie die Super-Investoren ihr Kapital auf verschiedene Wirtschaftssektoren verteilen
             </p>
           </div>
@@ -2387,22 +1255,22 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             {topSectors.map((sector: SectorAnalysis) => (
               <div
                 key={sector.sector}
-                className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all"
+                className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all"
               >
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">{sector.sector}</h3>
+                  <h3 className="text-lg font-semibold text-white">{sector.sector}</h3>
                   <div className="w-3 h-3 bg-emerald-500 rounded-full"></div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between items-center">
-                    <span className="text-neutral-600 dark:text-neutral-400 text-sm">Gesamt-Wert:</span>
-                    <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                    <span className="text-neutral-400 text-sm">Gesamt-Wert:</span>
+                    <span className="text-emerald-400 font-semibold">
                       {formatCurrencyGerman(sector.value)}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-neutral-600 dark:text-neutral-400 text-sm">Positionen:</span>
-                    <span className="text-neutral-900 dark:text-white font-semibold">{sector.count}</span>
+                    <span className="text-neutral-400 text-sm">Positionen:</span>
+                    <span className="text-white font-semibold">{sector.count}</span>
                   </div>
                 </div>
               </div>
@@ -2414,15 +1282,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 {/* ========== ADVANCED INSIGHTS SECTION - Quartr Style ========== */}
 <div className="mb-16">
   <div className="text-center mb-12">
-    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
       <BoltIcon className="w-4 h-4" />
       Advanced Insights
     </div>
-    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+    <h2 className="text-3xl font-semibold text-white mb-4">
       Momentum & 
-      <span className="text-emerald-600 dark:text-emerald-400"> Timing Signals</span>
+      <span className="text-emerald-400"> Timing Signals</span>
     </h2>
-    <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+    <p className="text-neutral-400 max-w-3xl mx-auto">
       Fortgeschrittene Analysen zu Trendwenden, Exits und neuen Entdeckungen der Super-Investoren
     </p>
   </div>
@@ -2430,14 +1298,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
     
     {/* Momentum Shifts - Quartr Style */}
-    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+    <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
-          <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+        <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+          <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-400" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Momentum Shifts</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Von Verkauf zu Kauf gedreht</p>
+          <h3 className="text-lg font-semibold text-white">Momentum Shifts</h3>
+          <p className="text-sm text-neutral-400">Von Verkauf zu Kauf gedreht</p>
         </div>
       </div>
       
@@ -2447,7 +1315,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={shift.ticker}
               href={`/analyse/stocks/${shift.ticker.toLowerCase()}/super-investors`}
-              className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition-colors group"
+              className="block p-3 bg-neutral-800/50 border border-neutral-800 rounded-lg hover:border-neutral-700 hover:bg-neutral-800/50 transition-colors group"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -2495,14 +1363,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
     </div>
 
     {/* Exit Tracker - Quartr Style */}
-    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+    <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
-          <ArrowDownIcon className="w-5 h-5 text-red-600 dark:text-red-400" />
+        <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+          <ArrowDownIcon className="w-5 h-5 text-red-400" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Exit Tracker</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Komplett verkaufte Positionen</p>
+          <h3 className="text-lg font-semibold text-white">Exit Tracker</h3>
+          <p className="text-sm text-neutral-400">Komplett verkaufte Positionen</p>
         </div>
       </div>
       
@@ -2511,7 +1379,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           exitTracker.map((exit, index) => (
             <div
               key={exit.ticker}
-              className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg"
+              className="block p-3 bg-neutral-800/50 border border-neutral-800 rounded-lg"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -2524,26 +1392,26 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     />
                   </div>
                   <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white">
+                    <p className="font-semibold text-white">
                       {exit.ticker}
                     </p>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-[120px]">
+                    <p className="text-xs text-neutral-500 truncate max-w-[120px]">
                       {exit.name}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-red-600 dark:text-red-400 font-semibold">
+                  <div className="text-red-400 font-semibold">
                     {exit.exitedBy.length}
                   </div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400">Exits</div>
+                  <div className="text-xs text-neutral-500">Exits</div>
                 </div>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-neutral-500 dark:text-neutral-400">
+                <span className="text-neutral-500">
                   ⌀ {exit.avgHoldingPeriod.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Quartale
                 </span>
-                <span className="text-neutral-500 dark:text-neutral-400">
+                <span className="text-neutral-500">
                   {formatCurrencyGerman(exit.totalValueExited, false)}
                 </span>
               </div>
@@ -2559,14 +1427,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
     </div>
 
     {/* New Discoveries - Quartr Style */}
-    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+    <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-yellow-50 dark:bg-yellow-900/20 rounded-lg flex items-center justify-center">
-          <StarIcon className="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
+        <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+          <StarIcon className="w-5 h-5 text-yellow-400" />
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">New Discoveries</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Erstmalige Käufe</p>
+          <h3 className="text-lg font-semibold text-white">New Discoveries</h3>
+          <p className="text-sm text-neutral-400">Erstmalige Käufe</p>
         </div>
       </div>
       
@@ -2576,7 +1444,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={discovery.ticker}
               href={`/analyse/stocks/${discovery.ticker.toLowerCase()}/super-investors`}
-              className="block p-3 bg-neutral-50 dark:bg-neutral-800/50 border border-neutral-200 dark:border-neutral-700 rounded-lg hover:border-yellow-300 dark:hover:border-yellow-700 hover:bg-yellow-50 dark:hover:bg-yellow-900/20 transition-colors group"
+              className="block p-3 bg-neutral-800/50 border border-neutral-800 rounded-lg hover:border-neutral-700 hover:bg-neutral-800/50 transition-colors group"
             >
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-3">
@@ -2589,26 +1457,26 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                     />
                   </div>
                   <div>
-                    <p className="font-semibold text-neutral-900 dark:text-white group-hover:text-yellow-600 dark:group-hover:text-yellow-400 transition-colors">
+                    <p className="font-semibold text-white group-hover:text-yellow-400 transition-colors">
                       {discovery.ticker}
                     </p>
-                    <p className="text-xs text-neutral-500 dark:text-neutral-400 truncate max-w-[120px]">
+                    <p className="text-xs text-neutral-500 truncate max-w-[120px]">
                       {discovery.name}
                     </p>
                   </div>
                 </div>
                 <div className="text-right">
-                  <div className="text-yellow-600 dark:text-yellow-400 font-semibold">
+                  <div className="text-yellow-400 font-semibold">
                     {discovery.discoveredBy.length}
                   </div>
-                  <div className="text-xs text-neutral-500 dark:text-neutral-400">Neu dabei</div>
+                  <div className="text-xs text-neutral-500">Neu dabei</div>
                 </div>
               </div>
               <div className="flex justify-between text-xs">
-                <span className="text-neutral-500 dark:text-neutral-400 truncate max-w-[150px]">
+                <span className="text-neutral-500 truncate max-w-[150px]">
                   {discovery.discoveredBy.slice(0, 2).join(', ')}
                 </span>
-                <span className="text-emerald-600 dark:text-emerald-400">
+                <span className="text-emerald-400">
                   ⌀ {formatCurrencyGerman(discovery.avgPosition, false)}
                 </span>
               </div>
@@ -2629,16 +1497,16 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 {/* ========== SPECIAL INSIGHTS SECTION - Quartr Style ========== */}
 <div className="mb-16">
   <div className="text-center mb-12">
-    <div className="inline-flex items-center gap-2 px-3 py-1 bg-purple-50 dark:bg-purple-900/20 border border-purple-200 dark:border-purple-800 text-purple-600 dark:text-purple-400 rounded-full text-sm font-medium mb-6">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
       <EyeIcon className="w-4 h-4" />
       Special Insights
     </div>
-    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+    <h2 className="text-3xl font-semibold text-white mb-4">
       Hidden Gems, 
-      <span className="text-red-600 dark:text-red-400"> Deutsche Aktien</span> & 
-      <span className="text-purple-600 dark:text-purple-400"> ETFs</span>
+      <span className="text-neutral-400"> Deutsche Aktien</span> &
+      <span className="text-neutral-400"> ETFs</span>
     </h2>
-    <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto">
+    <p className="text-neutral-400 max-w-3xl mx-auto">
       Small-Mid Caps, deutsche Unternehmen und beliebte ETFs in Superinvestor-Portfolios
     </p>
   </div>
@@ -2646,14 +1514,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
     
     {/* Unknown Stocks */}
-    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+    <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
+        <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
           <span className="text-xl">💎</span>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Hidden Gems</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Unbekannte Small-Mid Caps</p>
+          <h3 className="text-lg font-semibold text-white">Hidden Gems</h3>
+          <p className="text-sm text-neutral-400">Unbekannte Small-Mid Caps</p>
         </div>
       </div>
       
@@ -2663,35 +1531,35 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={stock.ticker}
               href={`/analyse/stocks/${stock.ticker.toLowerCase()}/super-investors`}
-              className="block p-4 border border-gray-100 dark:border-neutral-700 rounded-lg hover:border-blue-200 dark:hover:border-blue-600 hover:bg-blue-50/30 dark:hover:bg-blue-900/20 transition-all"
+              className="block p-4 border border-neutral-700 rounded-lg hover:border-neutral-600 hover:bg-neutral-800/50 transition-all"
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                  <h4 className="font-semibold text-white">
                     {stock.ticker}
                   </h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                  <p className="text-sm text-neutral-400 mt-1">
                     {stock.name}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-xs bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-400 px-2 py-1 rounded">
+                    <span className="text-xs bg-neutral-700 text-neutral-300 px-2 py-1 rounded">
                       {stock.investorCount} Investor{stock.investorCount !== 1 ? 'en' : ''}
                     </span>
                     {stock.totalValue > 0 && (
-                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                      <span className="text-xs text-neutral-500">
                         ${(stock.totalValue / 1000000).toFixed(0)}M
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="text-xl text-neutral-400 dark:text-neutral-500">
+                <div className="text-xl text-neutral-500">
                   #{index + 1}
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
+          <div className="text-center py-8 text-neutral-500">
             <span className="text-3xl mb-2 block">💎</span>
             <p className="text-sm">Keine Hidden Gems gefunden</p>
             <p className="text-xs mt-1">Nur 1-3 Investoren, nicht bekannt</p>
@@ -2701,14 +1569,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
     </div>
 
     {/* German Stocks */}
-    <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+    <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
       <div className="flex items-center gap-3 mb-6">
-        <div className="w-10 h-10 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-center justify-center">
+        <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
           <span className="text-xl">🇩🇪</span>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Deutsche Aktien</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Deutsche Unternehmen bei US-Giganten</p>
+          <h3 className="text-lg font-semibold text-white">Deutsche Aktien</h3>
+          <p className="text-sm text-neutral-400">Deutsche Unternehmen bei US-Giganten</p>
         </div>
       </div>
       
@@ -2718,35 +1586,35 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={stock.ticker}
               href={`/analyse/stocks/${stock.ticker.toLowerCase()}/super-investors`}
-              className="block p-4 border border-gray-100 dark:border-neutral-700 rounded-lg hover:border-red-200 dark:hover:border-red-600 hover:bg-red-50/30 dark:hover:bg-red-900/20 transition-all"
+              className="block p-4 border border-neutral-700 rounded-lg hover:border-neutral-600 hover:bg-neutral-800/50 transition-all"
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                  <h4 className="font-semibold text-white">
                     {stock.ticker}
                   </h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                  <p className="text-sm text-neutral-400 mt-1">
                     {stock.name}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-xs bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-400 px-2 py-1 rounded">
+                    <span className="text-xs bg-neutral-700 text-neutral-300 px-2 py-1 rounded">
                       {stock.investorCount} Investor{stock.investorCount !== 1 ? 'en' : ''}
                     </span>
                     {stock.totalValue > 0 && (
-                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                      <span className="text-xs text-neutral-500">
                         ${(stock.totalValue / 1000000).toFixed(0)}M
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="text-xl text-neutral-400 dark:text-neutral-500">
+                <div className="text-xl text-neutral-500">
                   #{index + 1}
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
+          <div className="text-center py-8 text-neutral-500">
             <span className="text-3xl mb-2 block">🇩🇪</span>
             <p className="text-sm">Keine deutschen Aktien gefunden</p>
             <p className="text-xs mt-1">Erweitere die deutsche Aktien-Liste</p>
@@ -2756,14 +1624,14 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
     </div>
 
     {/* Popular ETFs */}
-    <div className="bg-white dark:bg-neutral-800 border border-gray-200 dark:border-neutral-700 rounded-xl p-6">
+    <div className="bg-neutral-900/50 border border-neutral-700 rounded-xl p-6">
       <div className="flex items-center gap-3 mb-4">
-        <div className="p-2 bg-purple-100 dark:bg-purple-900/40 rounded-lg">
+        <div className="p-2 bg-neutral-800 rounded-lg">
           <span className="text-xl">📊</span>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Beliebte ETFs</h3>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">ETF-Favoriten der Superinvestoren</p>
+          <h3 className="text-lg font-semibold text-white">Beliebte ETFs</h3>
+          <p className="text-sm text-neutral-400">ETF-Favoriten der Superinvestoren</p>
         </div>
       </div>
       
@@ -2773,40 +1641,40 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             <Link
               key={etf.ticker}
               href={`/analyse/stocks/${etf.ticker.toLowerCase()}/super-investors`}
-              className="block p-4 border border-gray-100 dark:border-neutral-700 rounded-lg hover:border-purple-200 dark:hover:border-purple-600 hover:bg-purple-50/30 dark:hover:bg-purple-900/20 transition-all"
+              className="block p-4 border border-neutral-700 rounded-lg hover:border-neutral-600 hover:bg-neutral-800/50 transition-all"
             >
               <div className="flex justify-between items-start">
                 <div>
-                  <h4 className="font-semibold text-neutral-900 dark:text-white">
+                  <h4 className="font-semibold text-white">
                     {etf.ticker}
                   </h4>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">
+                  <p className="text-sm text-neutral-400 mt-1">
                     {etf.name}
                   </p>
                   <div className="flex items-center gap-2 mt-2">
-                    <span className="text-xs bg-purple-100 dark:bg-purple-900/40 text-purple-800 dark:text-purple-400 px-2 py-1 rounded">
+                    <span className="text-xs bg-neutral-700 text-neutral-300 px-2 py-1 rounded">
                       {etf.investorCount} Investor{etf.investorCount !== 1 ? 'en' : ''}
                     </span>
                     {etf.category && (
-                      <span className="text-xs bg-gray-100 dark:bg-neutral-700 text-gray-700 dark:text-neutral-300 px-2 py-1 rounded">
+                      <span className="text-xs bg-neutral-700 text-neutral-300 px-2 py-1 rounded">
                         {etf.category}
                       </span>
                     )}
                     {etf.totalValue > 0 && (
-                      <span className="text-xs text-neutral-500 dark:text-neutral-400">
+                      <span className="text-xs text-neutral-500">
                         ${(etf.totalValue / 1000000).toFixed(0)}M
                       </span>
                     )}
                   </div>
                 </div>
-                <div className="text-xl text-neutral-400 dark:text-neutral-500">
+                <div className="text-xl text-neutral-500">
                   #{index + 1}
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <div className="text-center py-8 text-neutral-500 dark:text-neutral-400">
+          <div className="text-center py-8 text-neutral-500">
             <span className="text-3xl mb-2 block">📊</span>
             <p className="text-sm">Keine ETFs gefunden</p>
             <p className="text-xs mt-1">Erweitere die ETF-Suche</p>
@@ -2820,188 +1688,149 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 {/* ========== BUY/SELL BALANCE SECTION - Quartr Style ========== */}
 <div className="mb-16">
   <div className="text-center mb-12">
-    <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 text-blue-600 dark:text-blue-400 rounded-full text-sm font-medium mb-6">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
       <ScaleIcon className="w-4 h-4" />
       Market Sentiment
     </div>
-    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+    <h2 className="text-3xl font-semibold text-white mb-4">
       Buy/Sell Balance
     </h2>
-    <p className="text-neutral-600 dark:text-neutral-400 max-w-2xl mx-auto">
+    <p className="text-neutral-400 max-w-2xl mx-auto">
       Aggregate Kauf- und Verkaufsaktivitäten aller Superinvestoren zur Bestimmung der Marktstimmung
     </p>
   </div>
 
   <div className="max-w-6xl mx-auto">
-    {/* Current Quarter Balance */}
+    {/* Current Quarter Balance - OHNE äußere Box */}
     {buySellBalance.length > 0 && (
-      <div className="bg-white dark:bg-zinc-900 rounded-lg p-8 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
-        {/* Header with icon and sentiment badge */}
+      <>
+        {/* Header Zeile */}
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-4">
-            <div className="w-12 h-12 bg-blue-50 dark:bg-blue-900/20 rounded-lg flex items-center justify-center">
-              <ScaleIcon className="w-6 h-6 text-blue-600 dark:text-blue-400" />
+            <div className="w-12 h-12 bg-neutral-800 rounded-xl flex items-center justify-center">
+              <ScaleIcon className="w-6 h-6 text-neutral-400" />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-neutral-900 dark:text-white">
+              <h3 className="text-xl font-bold text-white">
                 {buySellBalance[0].quarter} Market Sentiment
               </h3>
-              <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              <p className="text-sm text-neutral-500">
                 Neuestes verfügbares Quartal
               </p>
             </div>
           </div>
-          
+
           <div className={`px-4 py-2 rounded-full text-sm font-semibold border ${
-            buySellBalance[0].sentiment === 'bullish' 
-              ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-brand-light border-green-200 dark:border-green-800' :
-            buySellBalance[0].sentiment === 'bearish' 
-              ? 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800' :
-              'bg-gray-50 dark:bg-gray-900/20 text-gray-700 dark:text-gray-400 border-gray-200 dark:border-gray-800'
+            buySellBalance[0].sentiment === 'bullish'
+              ? 'bg-emerald-900/30 text-emerald-400 border-emerald-800/50' :
+            buySellBalance[0].sentiment === 'bearish'
+              ? 'bg-red-900/30 text-red-400 border-red-800/50' :
+              'bg-neutral-800 text-neutral-400 border-neutral-700'
           }`}>
             {buySellBalance[0].sentiment === 'bullish' ? '📈 Bullish Market' :
              buySellBalance[0].sentiment === 'bearish' ? '📉 Bearish Market' : '⚖️ Neutral Market'}
           </div>
         </div>
 
-        {/* Main Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div className="bg-green-50 dark:bg-green-900/10 rounded-lg p-6 border border-green-200 dark:border-green-800">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center">
-                <ArrowUpIcon className="w-4 h-4 text-brand dark:text-brand-light" />
-              </div>
-              <span className="text-sm font-medium text-green-700 dark:text-brand-light">Käufe</span>
+        {/* Stats Grid - ohne extra Card drumrum */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          {/* Käufe */}
+          <div className="p-6 rounded-xl border border-emerald-800/30 bg-emerald-900/10">
+            <div className="flex items-center gap-2 mb-2">
+              <ArrowUpIcon className="w-4 h-4 text-emerald-400" />
+              <span className="text-sm text-emerald-400">Käufe</span>
             </div>
-            <div className="text-2xl font-bold text-green-700 dark:text-brand-light mb-1">
+            <div className="text-3xl font-bold text-emerald-400">
               {formatCurrencyGerman(buySellBalance[0].totalBuys, false)}
             </div>
-            <div className="text-sm text-brand dark:text-brand">
+            <div className="text-sm text-emerald-400/60">
               {buySellBalance[0].buysCount} Positionen
             </div>
           </div>
-          
-          <div className="bg-red-50 dark:bg-red-900/10 rounded-lg p-6 border border-red-200 dark:border-red-800">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center">
-                <ArrowDownIcon className="w-4 h-4 text-red-600 dark:text-red-400" />
-              </div>
-              <span className="text-sm font-medium text-red-700 dark:text-red-400">Verkäufe</span>
+
+          {/* Verkäufe */}
+          <div className="p-6 rounded-xl border border-red-800/30 bg-red-900/10">
+            <div className="flex items-center gap-2 mb-2">
+              <ArrowDownIcon className="w-4 h-4 text-red-400" />
+              <span className="text-sm text-red-400">Verkäufe</span>
             </div>
-            <div className="text-2xl font-bold text-red-700 dark:text-red-400 mb-1">
+            <div className="text-3xl font-bold text-red-400">
               {formatCurrencyGerman(buySellBalance[0].totalSells, false)}
             </div>
-            <div className="text-sm text-red-600 dark:text-red-500">
+            <div className="text-sm text-red-400/60">
               {buySellBalance[0].sellsCount} Positionen
             </div>
           </div>
-          
-          <div className={`rounded-lg p-6 border ${
-            buySellBalance[0].netFlow > 0 
-              ? 'bg-emerald-50 dark:bg-emerald-900/10 border-emerald-200 dark:border-emerald-800'
-              : buySellBalance[0].netFlow < 0
-              ? 'bg-orange-50 dark:bg-orange-900/10 border-orange-200 dark:border-orange-800'
-              : 'bg-gray-50 dark:bg-gray-900/10 border-gray-200 dark:border-gray-800'
-          }`}>
-            <div className="flex items-center gap-3 mb-3">
-              <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                buySellBalance[0].netFlow > 0 
-                  ? 'bg-emerald-100 dark:bg-emerald-900/30'
-                  : buySellBalance[0].netFlow < 0
-                  ? 'bg-orange-100 dark:bg-orange-900/30'
-                  : 'bg-gray-100 dark:bg-gray-900/30'
-              }`}>
-                <ScaleIcon className={`w-4 h-4 ${
-                  buySellBalance[0].netFlow > 0 
-                    ? 'text-emerald-600 dark:text-emerald-400'
-                    : buySellBalance[0].netFlow < 0
-                    ? 'text-orange-600 dark:text-orange-400'
-                    : 'text-gray-600 dark:text-gray-400'
-                }`} />
-              </div>
-              <span className={`text-sm font-medium ${
-                buySellBalance[0].netFlow > 0 
-                  ? 'text-emerald-700 dark:text-emerald-400'
-                  : buySellBalance[0].netFlow < 0
-                  ? 'text-orange-700 dark:text-orange-400'
-                  : 'text-gray-700 dark:text-gray-400'
-              }`}>Netto-Flow</span>
+
+          {/* Netto - neutral styling */}
+          <div className="p-6 rounded-xl border border-neutral-800 bg-neutral-900/50">
+            <div className="flex items-center gap-2 mb-2">
+              <ScaleIcon className="w-4 h-4 text-neutral-400" />
+              <span className="text-sm text-neutral-400">Netto-Flow</span>
             </div>
-            <div className={`text-2xl font-bold mb-1 ${
-              buySellBalance[0].netFlow > 0 
-                ? 'text-emerald-700 dark:text-emerald-400'
+            <div className={`text-3xl font-bold ${
+              buySellBalance[0].netFlow > 0
+                ? 'text-emerald-400'
                 : buySellBalance[0].netFlow < 0
-                ? 'text-orange-700 dark:text-orange-400'
-                : 'text-gray-700 dark:text-gray-400'
+                ? 'text-red-400'
+                : 'text-neutral-400'
             }`}>
               {buySellBalance[0].netFlow > 0 ? '+' : ''}{formatCurrencyGerman(buySellBalance[0].netFlow, false)}
             </div>
-            <div className={`text-sm ${
-              buySellBalance[0].netFlow > 0 
-                ? 'text-emerald-600 dark:text-emerald-500'
-                : buySellBalance[0].netFlow < 0
-                ? 'text-orange-600 dark:text-orange-500'
-                : 'text-gray-600 dark:text-gray-500'
-            }`}>
+            <div className="text-sm text-neutral-500">
               {buySellBalance[0].netFlow > 0 ? 'Netto-Käufe' : buySellBalance[0].netFlow < 0 ? 'Netto-Verkäufe' : 'Ausgeglichen'}
             </div>
           </div>
         </div>
 
-        {/* Historical Trend */}
-        <div className="border-t border-neutral-200 dark:border-neutral-700 pt-8">
+        {/* Historischer Trend - Divider statt Box */}
+        <div className="border-t border-neutral-800 pt-8">
           <div className="flex items-center gap-3 mb-6">
-            <ChartBarIcon className="w-5 h-5 text-neutral-500 dark:text-neutral-400" />
-            <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
+            <ChartBarIcon className="w-5 h-5 text-neutral-500" />
+            <h4 className="text-lg font-semibold text-white">
               Historischer Trend
             </h4>
-            <span className="text-sm text-neutral-500 dark:text-neutral-400">
+            <span className="text-sm text-neutral-500">
               (Letzte 4 Quartale)
             </span>
           </div>
-          
-          {/* Trend Cards Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+
+          {/* Trend Cards - kleiner, weniger prominent */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {buySellBalance.map((quarter, index) => (
               <div key={quarter.quarter} className={`p-4 rounded-lg border transition-all ${
-                index === 0 
-                  ? 'border-blue-300 dark:border-blue-600 bg-blue-50 dark:bg-blue-900/20 ring-1 ring-blue-200 dark:ring-blue-700' 
-                  : 'border-neutral-200 dark:border-neutral-700 bg-neutral-50 dark:bg-neutral-800/50 hover:border-neutral-300 dark:hover:border-neutral-600'
+                index === 0
+                  ? 'border-neutral-700 bg-neutral-800'
+                  : 'border-neutral-800 bg-neutral-900/30 hover:border-neutral-700'
               }`}>
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-sm font-medium text-neutral-600 dark:text-neutral-400">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="text-sm text-neutral-500">
                     {quarter.quarter}
                   </span>
                   {index === 0 && (
-                    <span className="text-xs px-2 py-1 bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-400 rounded-full">
+                    <span className="text-xs px-2 py-0.5 bg-neutral-700 text-neutral-300 rounded">
                       Aktuell
                     </span>
                   )}
                 </div>
-                
-                <div className={`text-lg font-bold mb-2 ${
-                  quarter.netFlow > 0 ? 'text-brand dark:text-brand-light' : 
-                  quarter.netFlow < 0 ? 'text-red-600 dark:text-red-400' :
-                  'text-gray-600 dark:text-gray-400'
+
+                <div className={`text-lg font-bold ${
+                  quarter.netFlow > 0 ? 'text-emerald-400' :
+                  quarter.netFlow < 0 ? 'text-red-400' :
+                  'text-neutral-400'
                 }`}>
                   {quarter.netFlow > 0 ? '+' : ''}{formatCurrencyGerman(quarter.netFlow, true)}
                 </div>
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-neutral-500 dark:text-neutral-400">
-                    {quarter.sentiment === 'bullish' ? '📈 Bullish' :
-                     quarter.sentiment === 'bearish' ? '📉 Bearish' : '⚖️ Neutral'}
-                  </span>
-                  <div className={`w-3 h-3 rounded-full ${
-                    quarter.netFlow > 0 ? 'bg-green-400' : 
-                    quarter.netFlow < 0 ? 'bg-red-400' : 'bg-gray-400'
-                  }`} />
+
+                <div className="text-xs text-neutral-600 mt-1">
+                  {quarter.sentiment === 'bullish' ? '📈 Bullish' :
+                   quarter.sentiment === 'bearish' ? '📉 Bearish' : '⚖️ Neutral'}
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      </>
     )}
   </div>
 </div>
@@ -3009,15 +1838,15 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
 {/* ========== SECTOR NET FLOWS SECTION - Quartr Style ========== */}
 <div className="mb-16">
   <div className="text-center mb-12">
-    <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+    <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
       <ArrowTrendingUpIcon className="w-4 h-4" />
       Sector Analysis
     </div>
-    <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+    <h2 className="text-3xl font-semibold text-white mb-4">
       Sektor
-      <span className="text-emerald-600 dark:text-emerald-400"> Net Flows</span>
+      <span className="text-emerald-400"> Net Flows</span>
     </h2>
-    <p className="text-neutral-600 dark:text-neutral-400 max-w-3xl mx-auto mb-6">
+    <p className="text-neutral-400 max-w-3xl mx-auto mb-6">
       Kapitalzu- und -abflüsse nach Wirtschaftssektoren im Zeitvergleich
     </p>
     
@@ -3027,7 +1856,7 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         <select
           value={sectorPeriod}
           onChange={(e) => setSectorPeriod(e.target.value)}
-          className="appearance-none pl-10 pr-10 py-2.5 rounded-lg text-sm font-medium cursor-pointer transition-all duration-200 bg-white dark:bg-zinc-800 border border-neutral-200 dark:border-neutral-700 text-neutral-900 dark:text-white hover:border-emerald-300 dark:hover:border-emerald-700 min-w-[200px]"
+          className="appearance-none pl-10 pr-10 py-2.5 rounded-xl text-sm font-medium cursor-pointer transition-all bg-neutral-900 border border-neutral-800 text-white hover:border-neutral-700 focus:outline-none focus:border-neutral-600 min-w-[200px]"
         >
           {quarterOptions.filter(option => option.quarters.length >= 2).map(option => (
             <option 
@@ -3051,119 +1880,115 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
   </div>
 
   <div className="max-w-6xl mx-auto">
-    <div className="bg-white dark:bg-zinc-900 rounded-lg p-8 border border-neutral-200 dark:border-neutral-800">
-      
-      {sectorNetFlows.size > 0 ? (
-        <div className="space-y-6">
-          {/* Sortiere und teile in Zuflüsse und Abflüsse */}
-          {(() => {
-            const sorted = Array.from(sectorNetFlows.entries())
-              .sort(([,a], [,b]) => b - a);
-            
-            const inflows = sorted.filter(([,flow]) => flow > 0);
-            const outflows = sorted.filter(([,flow]) => flow < 0);
-            
-            return (
-              <>
-                {/* Zuflüsse */}
-                {inflows.length > 0 && (
-                  <div>
-                    <h3 className="text-sm font-medium text-emerald-600 dark:text-emerald-400 mb-4 flex items-center gap-2">
-                      <ArrowUpIcon className="w-4 h-4" />
-                      Kapitalzuflüsse
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {inflows.map(([sector, flow]) => (
-                        <div 
-                          key={sector}
-                          className="bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 rounded-lg p-4 hover:bg-emerald-100 dark:hover:bg-emerald-900/30 transition-colors"
-                        >
-                          <div className="flex justify-between items-start mb-2">
-                            <span className="font-medium text-neutral-900 dark:text-white">{sector}</span>
-                            <span className="text-emerald-600 dark:text-emerald-400 font-semibold">
-                              +{formatCurrencyGerman(flow, false)}
-                            </span>
-                          </div>
-                          <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
-                            <div 
-                              className="bg-emerald-500 h-2 rounded-full transition-all duration-500"
-                              style={{ width: `${Math.min((flow / Math.max(...inflows.map(([,f]) => f))) * 100, 100)}%` }}
-                            />
-                          </div>
+    {/* Sector Flows - OHNE äußere Box */}
+    {sectorNetFlows.size > 0 ? (
+      <div className="space-y-8">
+        {/* Sortiere und teile in Zuflüsse und Abflüsse */}
+        {(() => {
+          const sorted = Array.from(sectorNetFlows.entries())
+            .sort(([,a], [,b]) => b - a);
+
+          const inflows = sorted.filter(([,flow]) => flow > 0);
+          const outflows = sorted.filter(([,flow]) => flow < 0);
+
+          return (
+            <>
+              {/* Zuflüsse */}
+              {inflows.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-medium text-emerald-400 mb-4 flex items-center gap-2">
+                    <ArrowUpIcon className="w-4 h-4" />
+                    Kapitalzuflüsse
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {inflows.map(([sector, flow]) => (
+                      <div
+                        key={sector}
+                        className="p-4 rounded-lg border border-emerald-800/30 bg-emerald-900/10 hover:border-emerald-700/50 transition-colors"
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="font-medium text-white">{sector}</span>
+                          <span className="text-emerald-400 font-semibold">
+                            +{formatCurrencyGerman(flow, false)}
+                          </span>
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Abflüsse */}
-                {outflows.length > 0 && (
-                  <div>
-                    <h3 className="text-sm font-medium text-red-600 dark:text-red-400 mb-4 flex items-center gap-2">
-                      <ArrowDownIcon className="w-4 h-4" />
-                      Kapitalabflüsse
-                    </h3>
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-                      {outflows.map(([sector, flow]) => (
-                        <div 
-                          key={sector}
-                          className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 hover:bg-red-100 dark:hover:bg-red-900/30 transition-colors"
-                        >
-                          <div className="flex justify-between items-start mb-2">
-                            <span className="font-medium text-neutral-900 dark:text-white">{sector}</span>
-                            <span className="text-red-600 dark:text-red-400 font-semibold">
-                              {formatCurrencyGerman(Math.abs(flow), false)}
-                            </span>
-                          </div>
-                          <div className="w-full bg-neutral-200 dark:bg-neutral-700 rounded-full h-2">
-                            <div 
-                              className="bg-red-500 h-2 rounded-full transition-all duration-500"
-                              style={{ width: `${Math.min((Math.abs(flow) / Math.max(...outflows.map(([,f]) => Math.abs(f)))) * 100, 100)}%` }}
-                            />
-                          </div>
+                        <div className="w-full bg-neutral-800 rounded-full h-1.5">
+                          <div
+                            className="bg-emerald-500 h-1.5 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.min((flow / Math.max(...inflows.map(([,f]) => f))) * 100, 100)}%` }}
+                          />
                         </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-                
-                {/* Summary Stats */}
-                <div className="mt-8 pt-6 border-t border-white/10">
-                  <div className="grid grid-cols-3 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-brand-light">
-                        {formatCurrencyGerman(inflows.reduce((sum, [,flow]) => sum + flow, 0), false)}
                       </div>
-                      <div className="text-xs text-gray-500">Gesamt-Zuflüsse</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-red-400">
-                        {formatCurrencyGerman(Math.abs(outflows.reduce((sum, [,flow]) => sum + flow, 0)), false)}
-                      </div>
-                      <div className="text-xs text-gray-500">Gesamt-Abflüsse</div>
-                    </div>
-                    <div>
-                      <div className={`text-2xl font-bold ${
-                        sectorNetFlows.size > 0 ? 'text-white' : 'text-gray-400'
-                      }`}>
-                        {inflows.length + outflows.length}
-                      </div>
-                      <div className="text-xs text-gray-500">Aktive Sektoren</div>
-                    </div>
+                    ))}
                   </div>
                 </div>
-              </>
-            );
-          })()}
-        </div>
-      ) : (
-        <div className="text-center py-12 text-gray-500">
-          <ArrowTrendingUpIcon className="w-8 h-8 mx-auto mb-3 opacity-50" />
-          <p className="text-sm">Keine Sektor-Flows in diesem Zeitraum</p>
-          <p className="text-xs mt-1">Wähle mindestens 2 Quartale für Vergleich</p>
-        </div>
-      )}
-    </div>
+              )}
+
+              {/* Abflüsse */}
+              {outflows.length > 0 && (
+                <div>
+                  <h3 className="text-sm font-medium text-red-400 mb-4 flex items-center gap-2">
+                    <ArrowDownIcon className="w-4 h-4" />
+                    Kapitalabflüsse
+                  </h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                    {outflows.map(([sector, flow]) => (
+                      <div
+                        key={sector}
+                        className="p-4 rounded-lg border border-red-800/30 bg-red-900/10 hover:border-red-700/50 transition-colors"
+                      >
+                        <div className="flex justify-between items-start mb-2">
+                          <span className="font-medium text-white">{sector}</span>
+                          <span className="text-red-400 font-semibold">
+                            -{formatCurrencyGerman(Math.abs(flow), false)}
+                          </span>
+                        </div>
+                        <div className="w-full bg-neutral-800 rounded-full h-1.5">
+                          <div
+                            className="bg-red-500 h-1.5 rounded-full transition-all duration-500"
+                            style={{ width: `${Math.min((Math.abs(flow) / Math.max(...outflows.map(([,f]) => Math.abs(f)))) * 100, 100)}%` }}
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Summary Stats - Divider statt Box */}
+              <div className="pt-6 border-t border-neutral-800">
+                <div className="grid grid-cols-3 gap-4 text-center">
+                  <div>
+                    <div className="text-2xl font-bold text-emerald-400">
+                      {formatCurrencyGerman(inflows.reduce((sum, [,flow]) => sum + flow, 0), false)}
+                    </div>
+                    <div className="text-xs text-neutral-500">Gesamt-Zuflüsse</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-red-400">
+                      {formatCurrencyGerman(Math.abs(outflows.reduce((sum, [,flow]) => sum + flow, 0)), false)}
+                    </div>
+                    <div className="text-xs text-neutral-500">Gesamt-Abflüsse</div>
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-white">
+                      {inflows.length + outflows.length}
+                    </div>
+                    <div className="text-xs text-neutral-500">Aktive Sektoren</div>
+                  </div>
+                </div>
+              </div>
+            </>
+          );
+        })()}
+      </div>
+    ) : (
+      <div className="text-center py-12 text-neutral-500">
+        <ArrowTrendingUpIcon className="w-8 h-8 mx-auto mb-3 opacity-50" />
+        <p className="text-sm">Keine Sektor-Flows in diesem Zeitraum</p>
+        <p className="text-xs mt-1">Wähle mindestens 2 Quartale für Vergleich</p>
+      </div>
+    )}
   </div>
 </div>
 
@@ -3173,18 +1998,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         {/* Recent Activity Tracking - Quartr Style */}
         <div className="mb-16">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
               <ClockIcon className="w-4 h-4" />
               Recent Activity
             </div>
-            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-semibold text-white mb-4">
               Aktivitäts-
-              <span className="text-emerald-600 dark:text-emerald-400">Tracking</span>
+              <span className="text-emerald-400">Tracking</span>
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400 mb-4">
+            <p className="text-neutral-400 mb-4">
               Welche Investoren sind am aktivsten? Wer kauft und verkauft am meisten?
             </p>
-            <p className="text-sm text-neutral-500 dark:text-neutral-400">
+            <p className="text-sm text-neutral-500">
               📊 Analysiert werden die letzten 3 Quartale • Nur signifikante Änderungen von mehr als 100 Aktien/2% Portfolio-Gewichtung
             </p>
           </div>
@@ -3192,26 +2017,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             
             {/* Most Active Investors - Quartr Style */}
-            <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+            <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg flex items-center justify-center">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-600 dark:text-emerald-400" />
+                <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-5 h-5 text-emerald-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Aktivste Investoren</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Portfolio-Änderungen der letzten 3 Quartale</p>
+                  <h3 className="text-lg font-semibold text-white">Aktivste Investoren</h3>
+                  <p className="text-sm text-neutral-400">Portfolio-Änderungen der letzten 3 Quartale</p>
                 </div>
               </div>
 
               {(() => {
-                interface ActivityData {
-                  investor: string;
-                  changes: number;
-                  buys: number;
-                  sells: number;
-                  lastActivity: string;
-                }
-
                 const activityData: ActivityData[] = [];
 
                 Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
@@ -3320,27 +2137,18 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
             </div>
 
             {/* Recent Big Moves - Quartr Style */}
-            <div className="bg-white dark:bg-zinc-900 rounded-lg p-6 border border-neutral-200 dark:border-neutral-800 hover:border-neutral-300 dark:hover:border-neutral-700 transition-all">
+            <div className="bg-neutral-900/50 rounded-lg p-6 border border-neutral-800 hover:border-neutral-700 transition-all">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-purple-50 dark:bg-purple-900/20 rounded-lg flex items-center justify-center">
-                  <BoltIcon className="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                  <BoltIcon className="w-5 h-5 text-purple-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">Große Bewegungen</h3>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400">Portfolio-Gewichtung Änderungen größer 2%</p>
+                  <h3 className="text-lg font-semibold text-white">Große Bewegungen</h3>
+                  <p className="text-sm text-neutral-400">Portfolio-Gewichtung Änderungen größer 2%</p>
                 </div>
               </div>
 
               {(() => {
-                interface BigMove {
-                  investor: string;
-                  ticker: string;
-                  type: 'buy' | 'sell';
-                  percentChange: number;
-                  value: number;
-                  date: string;
-                }
-
                 const bigMoves: BigMove[] = [];
 
                 Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
@@ -3447,21 +2255,21 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
         {/* Geographic Exposure - Quartr Style */}
         <section>
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800 text-emerald-600 dark:text-emerald-400 rounded-full text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-neutral-800 border border-neutral-700 text-neutral-400 rounded-full text-sm font-medium mb-6">
               <GlobeAltIcon className="w-4 h-4" />
               Geographic Exposure
             </div>
-            <h2 className="text-3xl font-semibold text-neutral-900 dark:text-white mb-4">
+            <h2 className="text-3xl font-semibold text-white mb-4">
               Globale
-              <span className="text-emerald-600 dark:text-emerald-400"> Diversifikation</span>
+              <span className="text-emerald-400"> Diversifikation</span>
             </h2>
-            <p className="text-neutral-600 dark:text-neutral-400">
+            <p className="text-neutral-400">
               Verteilung zwischen US-amerikanischen und internationalen Investments
             </p>
           </div>
 
           <div className="max-w-4xl mx-auto">
-            <div className="bg-white dark:bg-zinc-900 rounded-lg p-8 border border-neutral-200 dark:border-neutral-800">
+            <div className="bg-neutral-900/50 rounded-lg p-8 border border-neutral-800">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 
                 <div className="text-center">
@@ -3482,11 +2290,11 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-semibold text-neutral-600 dark:text-neutral-400">{usPercentage.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%</span>
+                      <span className="text-2xl font-semibold text-neutral-400">{usPercentage.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%</span>
                     </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">🇺🇸 US-Märkte</h3>
-                  <p className="text-neutral-600 dark:text-neutral-400 font-semibold">
+                  <h3 className="text-lg font-semibold text-white mb-2">🇺🇸 US-Märkte</h3>
+                  <p className="text-neutral-400 font-semibold">
                     {formatCurrencyGerman(usValue)}
                   </p>
                 </div>
@@ -3509,11 +2317,11 @@ const targetQuarters = selectedOption?.quarters || [actualLatestQuarter]
                       />
                     </svg>
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-2xl font-semibold text-emerald-600 dark:text-emerald-400">{intlPercentage.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%</span>
+                      <span className="text-2xl font-semibold text-emerald-400">{intlPercentage.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%</span>
                     </div>
                   </div>
-                  <h3 className="text-lg font-semibold text-neutral-900 dark:text-white mb-2">🌍 International</h3>
-                  <p className="text-emerald-600 dark:text-emerald-400 font-semibold">
+                  <h3 className="text-lg font-semibold text-white mb-2">🌍 International</h3>
+                  <p className="text-emerald-400 font-semibold">
                     {formatCurrencyGerman(internationalValue)}
                   </p>
                 </div>

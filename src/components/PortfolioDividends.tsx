@@ -2,7 +2,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { 
+import {
   CurrencyDollarIcon,
   CalendarDaysIcon,
   ArrowTrendingUpIcon,
@@ -12,6 +12,8 @@ import {
   ClockIcon,
   InformationCircleIcon
 } from '@heroicons/react/24/outline'
+import { useCurrency } from '@/lib/CurrencyContext'
+import Logo from '@/components/Logo'
 
 interface Holding {
   symbol: string
@@ -60,6 +62,7 @@ interface PortfolioDividendsProps {
 }
 
 export default function PortfolioDividends({ holdings }: PortfolioDividendsProps) {
+  const { formatCurrency } = useCurrency()
   const [loading, setLoading] = useState(true)
   const [dividendData, setDividendData] = useState<Map<string, DividendData[]>>(new Map())
   const [annualDividends, setAnnualDividends] = useState<AnnualDividend[]>([])
@@ -328,7 +331,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
             <p className="text-sm text-theme-secondary">Jährliche Dividenden</p>
           </div>
           <p className="text-2xl font-bold text-theme-primary">
-            ${totalAnnualIncome.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {formatCurrency(totalAnnualIncome)}
           </p>
           <p className="text-xs text-theme-muted mt-1">Geschätzt</p>
         </div>
@@ -339,7 +342,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
             <p className="text-sm text-theme-secondary">Monatliches Einkommen</p>
           </div>
           <p className="text-2xl font-bold text-theme-primary">
-            ${getMonthlyIncome().toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            {formatCurrency(getMonthlyIncome())}
           </p>
           <p className="text-xs text-theme-muted mt-1">Durchschnitt</p>
         </div>
@@ -366,7 +369,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                 {formatDate(upcomingDividends[0].paymentDate)}
               </p>
               <p className="text-xs text-theme-muted mt-1">
-                {upcomingDividends[0].symbol} - ${upcomingDividends[0].adjDividend.toFixed(2)}
+                {upcomingDividends[0].symbol} - {formatCurrency(upcomingDividends[0].adjDividend)}
               </p>
             </>
           ) : (
@@ -433,9 +436,17 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                 {annualDividends.map((div) => (
                   <tr key={div.symbol} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
                     <td className="px-4 py-4">
-                      <div>
-                        <p className="font-bold text-theme-primary">{div.symbol}</p>
-                        <p className="text-xs text-theme-muted">{div.name}</p>
+                      <div className="flex items-center gap-3">
+                        <Logo
+                          ticker={div.symbol}
+                          alt={div.symbol}
+                          className="w-8 h-8"
+                          padding="small"
+                        />
+                        <div>
+                          <p className="font-bold text-theme-primary">{div.symbol}</p>
+                          <p className="text-xs text-theme-muted">{div.name}</p>
+                        </div>
                       </div>
                     </td>
                     <td className="text-right px-4 py-4">
@@ -448,12 +459,12 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                     </td>
                     <td className="text-right px-4 py-4">
                       <p className="font-semibold text-theme-primary">
-                        ${div.annualDividend.toFixed(2)}
+                        {formatCurrency(div.annualDividend)}
                       </p>
                     </td>
                     <td className="text-right px-4 py-4">
                       <p className="font-bold text-brand-light">
-                        ${div.totalAnnualIncome.toFixed(2)}
+                        {formatCurrency(div.totalAnnualIncome)}
                       </p>
                     </td>
                     <td className="text-center px-4 py-4">
@@ -463,7 +474,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                     </td>
                     <td className="text-right px-4 py-4">
                       <div>
-                        <p className="text-sm text-theme-primary">${div.lastDividend.toFixed(2)}</p>
+                        <p className="text-sm text-theme-primary">{formatCurrency(div.lastDividend)}</p>
                         <p className="text-xs text-theme-muted">{formatDate(div.lastPaymentDate)}</p>
                       </div>
                     </td>
@@ -474,11 +485,17 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
           </div>
           
           {annualDividends.length === 0 && (
-            <div className="p-12 text-center">
-              <CurrencyDollarIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-              <p className="text-theme-secondary mb-2">Keine Dividenden gefunden</p>
-              <p className="text-theme-muted text-sm">
-                Ihre Positionen zahlen möglicherweise keine Dividenden oder die Daten sind nicht verfügbar.
+            <div className="py-16 text-center">
+              <img
+                src="/illustrations/undraw_personal-finance_xpqg.svg"
+                alt="Dividenden"
+                className="w-44 h-44 mx-auto mb-6 opacity-85"
+              />
+              <h3 className="text-lg font-semibold text-theme-primary mb-2">
+                Keine Dividenden gefunden
+              </h3>
+              <p className="text-theme-secondary text-sm max-w-md mx-auto">
+                Deine Positionen zahlen möglicherweise keine Dividenden oder die Daten sind noch nicht verfügbar.
               </p>
             </div>
           )}
@@ -506,16 +523,22 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                           {new Date(div.paymentDate).getDate()}
                         </p>
                       </div>
+                      <Logo
+                        ticker={div.symbol}
+                        alt={div.symbol}
+                        className="w-10 h-10"
+                        padding="small"
+                      />
                       <div>
                         <p className="font-semibold text-theme-primary">{div.symbol}</p>
                         <p className="text-sm text-theme-secondary">
-                          ${div.adjDividend.toFixed(2)} pro Aktie
+                          {formatCurrency(div.adjDividend)} pro Aktie
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-brand-light text-lg">
-                        +${totalPayment.toFixed(2)}
+                        +{formatCurrency(totalPayment)}
                       </p>
                       <p className="text-xs text-theme-muted">Geschätzt</p>
                     </div>
@@ -576,10 +599,10 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                         </div>
                         <div className="text-right">
                           <p className="font-semibold text-theme-primary">
-                            ${div.adjDividend.toFixed(2)}
+                            {formatCurrency(div.adjDividend)}
                           </p>
                           <p className="text-xs text-brand-light">
-                            Total: ${(div.adjDividend * holding.quantity).toFixed(2)}
+                            Total: {formatCurrency(div.adjDividend * holding.quantity)}
                           </p>
                         </div>
                       </div>

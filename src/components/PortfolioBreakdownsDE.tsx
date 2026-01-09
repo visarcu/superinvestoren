@@ -2,15 +2,14 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { 
+import {
   ChartPieIcon,
   GlobeAltIcon,
   BuildingOfficeIcon,
   CurrencyEuroIcon,
   ScaleIcon,
   ArrowPathIcon,
-  SparklesIcon,
-  ExclamationTriangleIcon
+  SparklesIcon
 } from '@heroicons/react/24/outline'
 import { 
   getStockProfiles
@@ -364,24 +363,6 @@ export default function PortfolioBreakdownsDE({
     return countryMap[country] || '🌍'
   }
 
-  const getSectorColor = (sector: string): string => {
-    const colors: { [key: string]: string } = {
-      'Technologie': '#3b82f6',
-      'Gesundheit': '#ef4444',
-      'Finanzdienstleistungen': '#8b5cf6',
-      'Zyklische Konsumgüter': '#f59e0b',
-      'Defensive Konsumgüter': '#ec4899',
-      'Industrie': '#6b7280',
-      'Energie': '#84cc16',
-      'Versorger': '#06b6d4',
-      'Immobilien': '#a855f7',
-      'Kommunikation': '#14b8a6',
-      'Grundstoffe': '#f97316',
-      'Sonstige': '#94a3b8'
-    }
-    return colors[sector] || '#94a3b8'
-  }
-
   const breakdownData = getBreakdownData()
   const displayData = showAll ? breakdownData : breakdownData.slice(0, 6)
 
@@ -397,20 +378,15 @@ export default function PortfolioBreakdownsDE({
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header Section */}
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-semibold text-theme-primary">Portfolio-Aufschlüsselung</h2>
-      </div>
-
-      {/* Breakdown Type Selector */}
-      <div className="flex gap-2 p-1 bg-theme-card rounded-lg border border-theme/10 overflow-x-auto">
+    <div className="space-y-4">
+      {/* Tab Buttons - kompakter, ohne Box-Container */}
+      <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setActiveBreakdown('asset')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'asset'
               ? 'bg-brand text-white'
-              : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
           <ChartPieIcon className="w-4 h-4" />
@@ -418,10 +394,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('sector')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'sector'
               ? 'bg-brand text-white'
-              : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
           <BuildingOfficeIcon className="w-4 h-4" />
@@ -429,10 +405,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('country')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'country'
               ? 'bg-brand text-white'
-              : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
           <GlobeAltIcon className="w-4 h-4" />
@@ -440,10 +416,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('currency')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'currency'
               ? 'bg-brand text-white'
-              : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
           <CurrencyEuroIcon className="w-4 h-4" />
@@ -451,10 +427,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('cap')}
-          className={`flex items-center gap-2 px-4 py-2 rounded-md font-medium transition-all whitespace-nowrap ${
+          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'cap'
               ? 'bg-brand text-white'
-              : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
           }`}
         >
           <ScaleIcon className="w-4 h-4" />
@@ -462,205 +438,139 @@ export default function PortfolioBreakdownsDE({
         </button>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Visual Chart */}
-        <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-          <h3 className="text-lg font-semibold text-theme-primary mb-4">
-            {activeBreakdown === 'asset' && 'Vermögensaufteilung'}
-            {activeBreakdown === 'sector' && 'Branchenverteilung'}
-            {activeBreakdown === 'country' && 'Geografische Verteilung'}
-            {activeBreakdown === 'cap' && 'Marktkapitalisierung'}
-            {activeBreakdown === 'currency' && 'Währungsverteilung'}
-          </h3>
-          
-          {/* Bar Chart Visualization */}
-          <div className="space-y-3">
-            {displayData.map((item, index) => (
-              <div key={index}>
-                <div className="flex justify-between text-sm mb-1">
-                  <span className="text-theme-secondary flex items-center gap-2">
-                    {activeBreakdown === 'country' && (
-                      <span>{getCountryFlag(item.name)}</span>
-                    )}
-                    {item.name}
-                  </span>
-                  <span className="font-semibold text-theme-primary">
-                    {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage) ? item.percentage.toFixed(1) : '0.0'}%
-                  </span>
-                </div>
-                <div className="relative h-8 bg-theme-secondary/30 rounded-lg overflow-hidden">
-                  <div 
-                    className="absolute left-0 top-0 h-full rounded-lg transition-all duration-500"
-                    style={{ 
-                      width: `${item.percentage}%`,
-                      backgroundColor: activeBreakdown === 'sector' 
-                        ? getSectorColor(item.name)
-                        : activeBreakdown === 'asset' && item.name === 'Aktien'
-                        ? '#10b981'
-                        : activeBreakdown === 'asset' && item.name === 'Bargeld'
-                        ? '#3b82f6'
-                        : `hsl(${index * 60}, 70%, 50%)`
-                    }}
-                  />
-                </div>
-                <div className="flex justify-between text-xs text-theme-muted mt-1">
-                  <span>{item.holdings.length} {item.holdings.length === 1 ? 'Position' : 'Positionen'}</span>
-                  <span>{formatValue(item.value)}</span>
-                </div>
-              </div>
-            ))}
-            
-            {breakdownData.length > 6 && (
-              <button
-                onClick={() => setShowAll(!showAll)}
-                className="w-full mt-2 py-2 text-sm text-brand-light hover:text-green-300 transition-colors"
-              >
-                {showAll ? 'Weniger anzeigen' : `${breakdownData.length - 6} weitere anzeigen`}
-              </button>
-            )}
-          </div>
-
-          {/* Summary Stats */}
-          <div className="mt-6 pt-4 border-t border-theme/10 grid grid-cols-2 gap-4">
-            <div>
-              <p className="text-xs text-theme-muted">Kategorien gesamt</p>
-              <p className="text-lg font-semibold text-theme-primary">{breakdownData.length}</p>
-            </div>
-            <div>
-              <p className="text-xs text-theme-muted">Größte Position</p>
-              <p className="text-lg font-semibold text-brand-light">
-                {breakdownData[0]?.percentage && !isNaN(breakdownData[0].percentage) && isFinite(breakdownData[0].percentage) ? breakdownData[0].percentage.toFixed(1) : '0.0'}%
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Detailed List */}
-        <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-lg font-semibold text-theme-primary">Details</h3>
-            <button
-              onClick={() => loadData()}
-              className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
-            >
-              <ArrowPathIcon className="w-4 h-4 text-theme-secondary" />
-            </button>
-          </div>
-          
-          <div className="space-y-3 max-h-[500px] overflow-y-auto">
-            {displayData.map((item, index) => (
-              <div key={index} className="p-3 bg-theme-secondary/20 rounded-lg hover:bg-theme-secondary/30 transition-colors">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="flex items-center gap-2">
-                    {activeBreakdown === 'country' && (
-                      <span className="text-2xl">{getCountryFlag(item.name)}</span>
-                    )}
-                    <div>
-                      <p className="font-semibold text-theme-primary">{item.name}</p>
-                      <p className="text-xs text-theme-muted">
-                        {item.holdings.length} {item.holdings.length === 1 ? 'Position' : 'Positionen'}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-bold text-theme-primary">
-                      {formatValue(item.value)}
-                    </p>
-                    <p className="text-sm text-brand-light">
-                      {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage) ? item.percentage.toFixed(2) : '0.00'}%
-                    </p>
-                  </div>
-                </div>
-                
-                {/* Holdings Preview */}
-                <div className="flex flex-wrap gap-1 mt-2">
-                  {item.holdings.slice(0, 4).map((symbol, i) => (
-                    <span key={i} className="px-2 py-0.5 bg-theme-secondary/50 rounded text-xs text-theme-secondary">
-                      {symbol}
-                    </span>
-                  ))}
-                  {item.holdings.length > 4 && (
-                    <span className="px-2 py-0.5 bg-theme-secondary/50 rounded text-xs text-theme-muted">
-                      +{item.holdings.length - 4} weitere
-                    </span>
-                  )}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* Portfolio Insights */}
-      <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-        <div className="flex items-start gap-3">
-          <SparklesIcon className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
-          <div>
-            <h4 className="font-semibold text-theme-primary mb-2">
-              Portfolio-Analyse
-            </h4>
-            <p className="text-sm text-theme-secondary">
-              {activeBreakdown === 'sector' && breakdownData[0] && 
-                `Ihr Portfolio hat ${breakdownData[0].percentage && !isNaN(breakdownData[0].percentage) ? breakdownData[0].percentage.toFixed(1) : '0.0'}% Exposure in ${breakdownData[0].name}. ${
-                  breakdownData[0].percentage > 40 
-                    ? 'Erwägen Sie eine Diversifizierung zur Risikominderung.'
-                    : breakdownData.length < 5
-                    ? 'Erwägen Sie eine Diversifizierung über mehr Branchen.'
-                    : 'Gute Branchendiversifikation.'
-                }`}
-              {activeBreakdown === 'country' && 
-                `Geografische Verteilung über ${breakdownData.length} ${breakdownData.length === 1 ? 'Land' : 'Länder'}. ${
-                  breakdownData[0]?.percentage && !isNaN(breakdownData[0].percentage) && breakdownData[0].percentage > 80 
-                    ? 'Erwägen Sie mehr internationale Diversifikation.'
-                    : 'Gut diversifizierte geografische Allokation.'
-                }`}
-              {activeBreakdown === 'asset' && 
-                `Bargeldanteil: ${totalValue && totalValue > 0 ? (cashPosition / totalValue * 100).toFixed(1) : '0.0'}%. ${
-                  totalValue > 0 && cashPosition / totalValue > 0.3 
-                    ? 'Hohe Bargeldposition - erwägen Sie mehr Investitionen für bessere Renditen.'
-                    : totalValue > 0 && cashPosition / totalValue < 0.05
-                    ? 'Niedrige Barreserve - halten Sie etwas Bargeld für Gelegenheiten bereit.'
-                    : 'Ausgewogene Bargeldposition für Flexibilität.'
-                }`}
-              {activeBreakdown === 'cap' && breakdownData[0] &&
-                `Hauptexposure in ${breakdownData[0].name} Unternehmen. ${
-                  breakdownData.length === 1
-                    ? 'Erwägen Sie eine Diversifizierung über verschiedene Marktkapitalisierungen.'
-                    : 'Diversifizierte Marktkapitalisierung.'
-                }`}
-              {activeBreakdown === 'currency' && 
-                `Währungsexposure über ${breakdownData.length} ${breakdownData.length === 1 ? 'Währung' : 'Währungen'}. ${
-                  breakdownData.find(d => d.name !== 'EUR' && d.name !== 'USD')
-                    ? `Fremdwährungsrisiko: ${breakdownData.filter(d => d.name !== 'EUR').reduce((sum, d) => {
-                        const percentage = d.percentage && !isNaN(d.percentage) && isFinite(d.percentage) ? d.percentage : 0
-                        return sum + percentage
-                      }, 0).toFixed(1)}%.`
-                    : 'Hauptsächlich EUR/USD Exposure - geringes Währungsrisiko.'
-                }`}
+      {/* Content - EINE flache Card, keine verschachtelten Boxes */}
+      <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
+        {/* Empty State */}
+        {holdings.length === 0 && (
+          <div className="py-12 text-center">
+            <img
+              src="/illustrations/undraw_investing_uzcu.svg"
+              alt="Portfolio Breakdown"
+              className="w-40 h-40 mx-auto mb-6 opacity-85"
+            />
+            <h3 className="text-lg font-semibold text-theme-primary mb-2">
+              Keine Positionen vorhanden
+            </h3>
+            <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+              Füge Aktien zu deinem Portfolio hinzu, um die Aufschlüsselung zu sehen.
             </p>
-            
-            {/* Wechselkurs Info */}
-            {displayCurrency === 'EUR' && exchangeRate && (
-              <p className="text-xs text-theme-muted mt-2">
-                Aktueller Wechselkurs: 1 USD = {exchangeRate.toFixed(4)} EUR
-              </p>
-            )}
-            
-            {/* Wichtiger Disclaimer */}
-            <div className="mt-4 p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-lg">
-              <div className="flex items-start gap-2">
-                <ExclamationTriangleIcon className="w-4 h-4 text-yellow-500 flex-shrink-0 mt-0.5" />
-                <div>
-                  <p className="text-xs font-medium text-yellow-600 mb-1">Wichtiger Hinweis</p>
-                  <p className="text-xs text-theme-secondary leading-relaxed">
-                    Die hier dargestellten Analysen und Empfehlungen dienen nur zu Informationszwecken und stellen keine Anlageberatung dar. 
-                    Investmententscheidungen sollten immer auf Ihrer eigenen Recherche und Risikoeinschätzung basieren. 
-                    Vergangene Performance ist kein Indikator für zukünftige Ergebnisse.
+          </div>
+        )}
+
+        {/* Items als flache Liste */}
+        {holdings.length > 0 && (
+        <div className="divide-y divide-theme/5">
+          {displayData.map((item, index) => (
+            <div
+              key={index}
+              className="px-5 py-4 hover:bg-theme-secondary/5 transition-colors"
+            >
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-3">
+                  {activeBreakdown === 'country' && (
+                    <span className="text-xl">{getCountryFlag(item.name)}</span>
+                  )}
+                  <div>
+                    <p className="font-medium text-theme-primary">{item.name}</p>
+                    <p className="text-xs text-theme-muted">
+                      {item.holdings.length} {item.holdings.length === 1 ? 'Position' : 'Positionen'}
+                      {item.holdings.length <= 4 && item.holdings.length > 0 && (
+                        <span className="ml-1">· {item.holdings.join(', ')}</span>
+                      )}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right">
+                  <p className="font-semibold text-theme-primary">{formatValue(item.value)}</p>
+                  <p className="text-sm text-brand-light">
+                    {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage)
+                      ? item.percentage.toFixed(1)
+                      : '0.0'}%
                   </p>
                 </div>
               </div>
+
+              {/* Progress Bar - subtiler */}
+              <div className="h-1.5 bg-theme-secondary/20 rounded-full overflow-hidden">
+                <div
+                  className="h-full rounded-full bg-brand transition-all duration-500"
+                  style={{
+                    width: `${item.percentage || 0}%`,
+                    opacity: 1 - (index * 0.1)
+                  }}
+                />
+              </div>
             </div>
+          ))}
+        </div>
+        )}
+
+        {/* Show More Button falls nötig */}
+        {holdings.length > 0 && breakdownData.length > 6 && (
+          <div className="px-5 py-3 border-t border-theme/5">
+            <button
+              onClick={() => setShowAll(!showAll)}
+              className="w-full text-sm text-brand-light hover:text-green-300 transition-colors"
+            >
+              {showAll ? 'Weniger anzeigen' : `${breakdownData.length - 6} weitere anzeigen`}
+            </button>
           </div>
+        )}
+      </div>
+
+      {/* Portfolio-Analyse - kompakte Zeile statt große Box */}
+      <div className="flex items-start gap-3 px-4 py-3 bg-theme-secondary/10 rounded-lg">
+        <SparklesIcon className="w-4 h-4 text-brand-light flex-shrink-0 mt-0.5" />
+        <div className="text-sm text-theme-secondary">
+          {activeBreakdown === 'asset' && (
+            <span>
+              <span className="text-theme-primary font-medium">
+                Bargeldanteil: {totalValue > 0 ? (cashPosition / totalValue * 100).toFixed(1) : '0.0'}%
+              </span>
+              {' · '}
+              {totalValue > 0 && cashPosition / totalValue > 0.3
+                ? 'Hohe Bargeldposition - erwägen Sie mehr Investitionen.'
+                : totalValue > 0 && cashPosition / totalValue < 0.05
+                ? 'Niedrige Barreserve.'
+                : 'Ausgewogene Bargeldposition.'}
+            </span>
+          )}
+          {activeBreakdown === 'sector' && breakdownData[0] && (
+            <span>
+              <span className="text-theme-primary font-medium">
+                Top: {breakdownData[0].name} ({breakdownData[0].percentage?.toFixed(1) || 0}%)
+              </span>
+              {' · '}
+              {breakdownData.length < 3 ? 'Erwägen Sie mehr Branchendiversifikation.' : 'Diversifiziert über ' + breakdownData.length + ' Branchen.'}
+            </span>
+          )}
+          {activeBreakdown === 'country' && (
+            <span>
+              <span className="text-theme-primary font-medium">
+                {breakdownData.length} {breakdownData.length === 1 ? 'Land' : 'Länder'}
+              </span>
+              {' · '}
+              {breakdownData[0]?.percentage > 80 ? 'Konzentriert - mehr internationale Diversifikation erwägen.' : 'Geografisch diversifiziert.'}
+            </span>
+          )}
+          {activeBreakdown === 'currency' && (
+            <span>
+              <span className="text-theme-primary font-medium">
+                {breakdownData.length} {breakdownData.length === 1 ? 'Währung' : 'Währungen'}
+              </span>
+              {' · '}
+              Wechselkurs: 1 USD = {exchangeRate?.toFixed(4) || '0.93'} EUR
+            </span>
+          )}
+          {activeBreakdown === 'cap' && breakdownData[0] && (
+            <span>
+              <span className="text-theme-primary font-medium">
+                Hauptsächlich {breakdownData[0].name}
+              </span>
+              {' · '}
+              {breakdownData.length === 1 ? 'Konzentriert auf eine Größenklasse.' : 'Diversifiziert über ' + breakdownData.length + ' Größenklassen.'}
+            </span>
+          )}
         </div>
       </div>
     </div>

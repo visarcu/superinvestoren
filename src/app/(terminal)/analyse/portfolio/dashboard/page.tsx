@@ -8,12 +8,13 @@ import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotes } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { getEURRate, calculateGainLoss, currencyManager } from '@/lib/portfolioCurrency'
-import PortfolioCalendar from '@/components/PortfolioCalendar'
 import PortfolioDividends from '@/components/PortfolioDividends'
 import PortfolioHistory from '@/components/PortfolioHistory'
 import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
 import PortfolioAllocationChart from '@/components/PortfolioAllocationChart'
+import PortfolioPerformanceChart from '@/components/PortfolioPerformanceChart'
 import SearchTickerInput from '@/components/SearchTickerInput'
+import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import {
   BriefcaseIcon,
@@ -31,7 +32,6 @@ import {
   NewspaperIcon,
   ClockIcon,
   ArrowTopRightOnSquareIcon,
-  CalendarIcon,
   CheckIcon,
   InformationCircleIcon,
   ExclamationTriangleIcon,
@@ -193,11 +193,12 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, onTopUp, formatC
   <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
     <div className="flex items-start justify-between mb-3">
       <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-          <span className="text-xs font-bold text-brand-light">
-            {holding.symbol.slice(0, 2)}
-          </span>
-        </div>
+        <Logo
+          ticker={holding.symbol}
+          alt={holding.symbol}
+          className="w-10 h-10"
+          padding="small"
+        />
         <div>
           <p className="font-bold text-theme-primary">{holding.symbol}</p>
           <p className="text-xs text-theme-muted">{holding.quantity} Stück</p>
@@ -263,7 +264,7 @@ export default function PortfolioDashboard() {
   
   // UI State
   const [showAddPosition, setShowAddPosition] = useState(false)
-  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'calendar' | 'dividends' | 'insights' | 'history'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'dividends' | 'insights' | 'history'>('overview')
   const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
   const [showSuperinvestorsModal, setShowSuperinvestorsModal] = useState<Holding | null>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -300,6 +301,14 @@ export default function PortfolioDashboard() {
   const [topUpPrice, setTopUpPrice] = useState('')
   const [topUpDate, setTopUpDate] = useState(new Date().toISOString().split('T')[0])
   const [topUpFees, setTopUpFees] = useState('')
+
+  // Cash Modal State
+  const [showCashModal, setShowCashModal] = useState(false)
+  const [newCashAmount, setNewCashAmount] = useState('')
+
+  // Portfolio Name Modal State
+  const [showNameModal, setShowNameModal] = useState(false)
+  const [newPortfolioName, setNewPortfolioName] = useState('')
 
   // Portfolio Metrics
   const [totalValue, setTotalValue] = useState(0)
@@ -379,7 +388,7 @@ export default function PortfolioDashboard() {
       const { data: profile } = await supabase
         .from('profiles')
         .select('is_premium')
-        .eq('id', user.id)
+        .eq('user_id', user.id)
         .single()
 
       setIsPremium(profile?.is_premium || false)
@@ -657,6 +666,27 @@ export default function PortfolioDashboard() {
           })
 
         if (error) throw error
+
+        // Log transaction in history
+        try {
+          const totalValue = quantity * basePrice
+          await supabase
+            .from('portfolio_transactions')
+            .insert({
+              portfolio_id: portfolio?.id,
+              type: 'buy',
+              symbol: selectedStock?.symbol,
+              name: selectedStock?.name,
+              quantity: quantity,
+              price: priceIncludingFees,
+              total_value: totalValue + fees,
+              date: newPurchaseDate,
+              notes: fees > 0 ? `Kaufpreis: ${formatCurrency(basePrice)}, Gebühren: ${formatCurrency(fees)}` : null
+            })
+        } catch (txError) {
+          // Ignoriere Fehler falls Tabelle nicht existiert
+          console.log('Transaction logging skipped:', txError)
+        }
       } else {
         const cashAmountEUR = parseFloat(cashAmount)
         const newCashPosition = (portfolio?.cash_position || 0) + cashAmountEUR
@@ -667,6 +697,25 @@ export default function PortfolioDashboard() {
           .eq('id', portfolio?.id)
 
         if (error) throw error
+
+        // Log cash deposit transaction
+        try {
+          await supabase
+            .from('portfolio_transactions')
+            .insert({
+              portfolio_id: portfolio?.id,
+              type: 'cash_deposit',
+              symbol: 'CASH',
+              name: 'Einzahlung',
+              quantity: 1,
+              price: cashAmountEUR,
+              total_value: cashAmountEUR,
+              date: new Date().toISOString().split('T')[0],
+              notes: `Cash hinzugefügt: ${formatCurrency(cashAmountEUR)}`
+            })
+        } catch (txError) {
+          console.log('Transaction logging skipped:', txError)
+        }
       }
 
       resetAddPositionForm()
@@ -759,6 +808,26 @@ export default function PortfolioDashboard() {
 
       if (error) throw error
 
+      // Log transaction in history
+      try {
+        const totalValue = newQty * newPrice
+        await supabase
+          .from('portfolio_transactions')
+          .insert({
+            portfolio_id: portfolio?.id,
+            type: 'buy',
+            symbol: topUpPosition.symbol,
+            name: topUpPosition.name,
+            quantity: newQty,
+            price: priceWithFees,
+            total_value: totalValue + fees,
+            date: topUpDate,
+            notes: fees > 0 ? `Aufstockung - Kaufpreis: ${formatCurrency(newPrice)}, Gebühren: ${formatCurrency(fees)}` : 'Aufstockung'
+          })
+      } catch (txError) {
+        console.log('Transaction logging skipped:', txError)
+      }
+
       // Reset und Reload
       setTopUpPosition(null)
       setTopUpQuantity('')
@@ -772,6 +841,85 @@ export default function PortfolioDashboard() {
       alert(`Fehler beim Aufstocken: ${error.message}`)
     } finally {
       setAddingPosition(false)
+    }
+  }
+
+  // Handler für Cash Position Update
+  const handleUpdateCashPosition = async () => {
+    if (newCashAmount === '' || !portfolio?.id) return
+
+    setRefreshing(true)
+    try {
+      const newAmount = parseFloat(newCashAmount) || 0
+      const oldAmount = cashPositionDisplay
+      const difference = newAmount - oldAmount
+
+      // Update cash position
+      const { error } = await supabase
+        .from('portfolios')
+        .update({ cash_position: newAmount })
+        .eq('id', portfolio.id)
+
+      if (error) throw error
+
+      // Log transaction in history (optional - falls Tabelle existiert)
+      try {
+        // Nutze lowercase types passend zur existierenden Tabellenstruktur
+        const transactionType = difference > 0 ? 'cash_deposit' : 'cash_withdrawal'
+
+        await supabase
+          .from('portfolio_transactions')
+          .insert({
+            portfolio_id: portfolio.id,
+            type: transactionType,
+            symbol: 'CASH',
+            name: difference > 0 ? 'Einzahlung' : 'Auszahlung',
+            quantity: 1,
+            price: Math.abs(difference),
+            total_value: Math.abs(difference),
+            date: new Date().toISOString().split('T')[0],
+            notes: `Cash ${difference > 0 ? 'hinzugefügt' : 'entnommen'}: ${formatCurrency(Math.abs(difference))}`
+          })
+      } catch (txError) {
+        // Ignoriere Fehler falls Tabelle nicht existiert oder constraint fehlt
+        console.log('Transaction logging skipped:', txError)
+      }
+
+      setShowCashModal(false)
+      setNewCashAmount('')
+      await loadPortfolio()
+
+    } catch (error: any) {
+      console.error('Error updating cash position:', error)
+      alert(`Fehler: ${error.message}`)
+    } finally {
+      setRefreshing(false)
+    }
+  }
+
+  // Handler für Portfolio-Name Update
+  const handleUpdatePortfolioName = async () => {
+    if (!newPortfolioName.trim() || !portfolio?.id) return
+
+    setRefreshing(true)
+    try {
+      const { error } = await supabase
+        .from('portfolios')
+        .update({ name: newPortfolioName.trim() })
+        .eq('id', portfolio.id)
+
+      if (error) throw error
+
+      // Update local state
+      setPortfolio(prev => prev ? { ...prev, name: newPortfolioName.trim() } : null)
+      setShowNameModal(false)
+      setNewPortfolioName('')
+
+    } catch (error: any) {
+      console.error('Error updating portfolio name:', error)
+      alert(`Fehler: ${error.message}`)
+    } finally {
+      setRefreshing(false)
     }
   }
 
@@ -898,14 +1046,26 @@ export default function PortfolioDashboard() {
           </Link>
 
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 group">
               <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
                 <BriefcaseIcon className="w-6 h-6 text-brand-light" />
               </div>
               <div>
-                <h1 className="text-2xl font-bold text-theme-primary">
-                  Portfolio Dashboard
-                </h1>
+                <div className="flex items-center gap-2">
+                  <h1 className="text-2xl font-bold text-theme-primary">
+                    {portfolio?.name || 'Mein Portfolio'}
+                  </h1>
+                  <button
+                    onClick={() => {
+                      setNewPortfolioName(portfolio?.name || 'Mein Portfolio')
+                      setShowNameModal(true)
+                    }}
+                    className="p-1.5 hover:bg-theme-secondary/50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                    title="Portfolio umbenennen"
+                  >
+                    <PencilIcon className="w-4 h-4 text-theme-secondary" />
+                  </button>
+                </div>
                 <p className="text-sm text-theme-muted mt-1">
                   Verwalten Sie Ihre Investments
                 </p>
@@ -949,7 +1109,7 @@ export default function PortfolioDashboard() {
             </p>
           </div>
 
-          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
+          <div className="bg-theme-card rounded-xl p-4 border border-theme/10 relative group">
             <p className="text-sm text-theme-secondary mb-1">Cash Position</p>
             <p className="text-xl lg:text-2xl font-bold text-theme-primary">
               {formatCurrency(cashPositionDisplay)}
@@ -957,6 +1117,18 @@ export default function PortfolioDashboard() {
             <p className="text-xs text-theme-muted mt-1">
               {totalValue > 0 ? formatPercentage((cashPositionDisplay / totalValue) * 100, false) : '0%'} des Portfolios
             </p>
+
+            {/* Edit Button - erscheint bei hover */}
+            <button
+              onClick={() => {
+                setNewCashAmount(cashPositionDisplay.toString())
+                setShowCashModal(true)
+              }}
+              className="absolute top-2 right-2 p-1.5 bg-theme-secondary/50 hover:bg-theme-secondary rounded-lg opacity-0 group-hover:opacity-100 transition-all"
+              title="Cash bearbeiten"
+            >
+              <PencilIcon className="w-4 h-4 text-theme-secondary" />
+            </button>
           </div>
 
           <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
@@ -1010,7 +1182,6 @@ export default function PortfolioDashboard() {
           {[
             { key: 'overview', label: 'Übersicht', icon: null, premium: false },
             { key: 'news', label: 'News', icon: NewspaperIcon, premium: false },
-            { key: 'calendar', label: 'Kalender', icon: CalendarIcon, premium: false },
             { key: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, premium: true },
             { key: 'insights', label: 'Insights', icon: ChartBarIcon, premium: true },
             { key: 'history', label: 'Historie', icon: ClockIcon, premium: true }
@@ -1036,6 +1207,26 @@ export default function PortfolioDashboard() {
         {/* Tab Content */}
         {activeTab === 'overview' && (
           <>
+            {/* Performance Chart */}
+            {holdings.length > 0 && (
+              <div className="mb-6">
+                <PortfolioPerformanceChart
+                  holdings={holdings.map(h => ({
+                    symbol: h.symbol,
+                    name: h.name,
+                    quantity: h.quantity,
+                    purchase_price: h.purchase_price,
+                    current_price: h.current_price_display,
+                    value: h.value,
+                    purchase_date: h.purchase_date
+                  }))}
+                  totalValue={holdings.reduce((sum, h) => sum + h.value, 0)}
+                  totalCost={holdings.reduce((sum, h) => sum + (h.purchase_price * h.quantity), 0)}
+                  cashPosition={cashPositionDisplay}
+                />
+              </div>
+            )}
+
             {/* Asset Allocation Chart */}
             <div className="mb-8">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -1067,11 +1258,13 @@ export default function PortfolioDashboard() {
                           return (
                             <div key={holding.symbol} className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <div className="w-6 h-6 bg-theme-secondary rounded flex items-center justify-center">
-                                  <span className="text-xs font-bold text-brand-light">
-                                    {index + 1}
-                                  </span>
-                                </div>
+                                <span className="text-xs font-medium text-theme-muted w-4">{index + 1}.</span>
+                                <Logo
+                                  ticker={holding.symbol}
+                                  alt={holding.symbol}
+                                  className="w-6 h-6"
+                                  padding="none"
+                                />
                                 <div>
                                   <p className="font-semibold text-theme-primary text-xs">
                                     {holding.symbol}
@@ -1241,11 +1434,12 @@ export default function PortfolioDashboard() {
                             <tr key={holding.id} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
                               <td className="px-4 py-4">
                                 <div className="flex items-center gap-3">
-                                  <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-                                    <span className="text-xs font-bold text-brand-light">
-                                      {holding.symbol.slice(0, 2)}
-                                    </span>
-                                  </div>
+                                  <Logo
+                                    ticker={holding.symbol}
+                                    alt={holding.symbol}
+                                    className="w-10 h-10"
+                                    padding="small"
+                                  />
                                   <div>
                                     <p className="font-bold text-theme-primary">{holding.symbol}</p>
                                     <p className="text-xs text-theme-muted truncate max-w-[150px]">{holding.name}</p>
@@ -1361,14 +1555,23 @@ export default function PortfolioDashboard() {
                   </div>
                 )
               ) : (
-                <div className="p-12 text-center">
-                  <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-                  <p className="text-theme-secondary mb-4">Noch keine Positionen vorhanden</p>
+                <div className="py-16 text-center">
+                  <img
+                    src="/illustrations/undraw_investing_uzcu.svg"
+                    alt="Investieren starten"
+                    className="w-56 h-56 mx-auto mb-8 opacity-90"
+                  />
+                  <h3 className="text-xl font-semibold text-theme-primary mb-2">
+                    Starte dein Portfolio
+                  </h3>
+                  <p className="text-theme-secondary mb-6 max-w-md mx-auto">
+                    Füge deine erste Aktie hinzu und behalte den Überblick über deine Investments.
+                  </p>
                   <button
                     onClick={openAddPositionModal}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors font-medium"
                   >
-                    <PlusIcon className="w-4 h-4" />
+                    <PlusIcon className="w-5 h-5" />
                     Erste Position hinzufügen
                   </button>
                 </div>
@@ -1458,26 +1661,20 @@ export default function PortfolioDashboard() {
               ))
             ) : (
               <div className="text-center py-12">
-                <NewspaperIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-                <p className="text-theme-secondary mb-2">Keine News verfügbar</p>
-                <p className="text-theme-muted text-sm">
-                  Fügen Sie Positionen hinzu, um aktuelle Nachrichten zu sehen.
+                <img
+                  src="/illustrations/undraw_personal-finance_xpqg.svg"
+                  alt="Finanznachrichten"
+                  className="w-40 h-40 mx-auto mb-6 opacity-80"
+                />
+                <h3 className="text-lg font-semibold text-theme-primary mb-2">
+                  Keine News verfügbar
+                </h3>
+                <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+                  Füge Positionen hinzu, um aktuelle Nachrichten zu deinen Aktien zu sehen.
                 </p>
               </div>
             )}
           </div>
-        )}
-
-        {activeTab === 'calendar' && (
-          <PortfolioCalendar 
-            holdings={holdings.map(h => ({
-              symbol: h.symbol,
-              name: h.name,
-              quantity: h.quantity,
-              current_price: h.current_price_display,
-              value: h.value
-            }))} 
-          />
         )}
 
         {activeTab === 'dividends' && (
@@ -1510,7 +1707,7 @@ export default function PortfolioDashboard() {
         )}
 
         {activeTab === 'history' && (
-          <PortfolioHistory 
+          <PortfolioHistory
             portfolioId={portfolio?.id || ''}
             holdings={holdings.map(h => ({
               symbol: h.symbol,
@@ -1519,6 +1716,7 @@ export default function PortfolioDashboard() {
               purchase_price: h.purchase_price_display,
               purchase_date: h.purchase_date
             }))}
+            onTransactionChange={() => loadPortfolio()}
           />
         )}
 
@@ -2012,6 +2210,140 @@ export default function PortfolioDashboard() {
                     onClick={() => setTopUpPosition(null)}
                     disabled={addingPosition}
                     className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Cash Position Modal */}
+        {showCashModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-theme-card rounded-xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold text-theme-primary">Cash Position bearbeiten</h2>
+                <button
+                  onClick={() => setShowCashModal(false)}
+                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                >
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Aktueller Stand
+                  </label>
+                  <div className="p-3 bg-theme-secondary/20 rounded-lg">
+                    <span className="text-lg font-bold text-theme-primary">
+                      {formatCurrency(cashPositionDisplay)}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Neuer Cash-Betrag (EUR)
+                  </label>
+                  <input
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    value={newCashAmount}
+                    onChange={(e) => setNewCashAmount(e.target.value)}
+                    placeholder="0.00"
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                  />
+                  <p className="text-xs text-theme-muted mt-1">
+                    Setze auf 0 um die Cash-Position zu löschen
+                  </p>
+                </div>
+
+                {/* Differenz anzeigen */}
+                {newCashAmount && parseFloat(newCashAmount) !== cashPositionDisplay && (
+                  <div className={`p-3 rounded-lg ${
+                    parseFloat(newCashAmount) > cashPositionDisplay
+                      ? 'bg-brand/10 border border-brand/20'
+                      : 'bg-red-500/10 border border-red-500/20'
+                  }`}>
+                    <p className="text-sm">
+                      <span className="text-theme-secondary">Änderung: </span>
+                      <span className={parseFloat(newCashAmount) > cashPositionDisplay ? 'text-brand-light' : 'text-red-400'}>
+                        {parseFloat(newCashAmount) > cashPositionDisplay ? '+' : ''}
+                        {formatCurrency(parseFloat(newCashAmount) - cashPositionDisplay)}
+                      </span>
+                    </p>
+                  </div>
+                )}
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={handleUpdateCashPosition}
+                    disabled={refreshing || newCashAmount === '' || parseFloat(newCashAmount) === cashPositionDisplay}
+                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                  >
+                    {refreshing ? 'Speichern...' : 'Speichern'}
+                  </button>
+                  <button
+                    onClick={() => setShowCashModal(false)}
+                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                  >
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Portfolio Name Modal */}
+        {showNameModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-theme-card rounded-xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold text-theme-primary">Portfolio umbenennen</h2>
+                <button
+                  onClick={() => setShowNameModal(false)}
+                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                >
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                </button>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    Portfolio-Name
+                  </label>
+                  <input
+                    type="text"
+                    value={newPortfolioName}
+                    onChange={(e) => setNewPortfolioName(e.target.value)}
+                    placeholder="z.B. Hauptdepot, Sparplan, etc."
+                    maxLength={50}
+                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    autoFocus
+                  />
+                  <p className="text-xs text-theme-muted mt-1">
+                    Max. 50 Zeichen
+                  </p>
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={handleUpdatePortfolioName}
+                    disabled={refreshing || !newPortfolioName.trim() || newPortfolioName.trim() === portfolio?.name}
+                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                  >
+                    {refreshing ? 'Speichern...' : 'Speichern'}
+                  </button>
+                  <button
+                    onClick={() => setShowNameModal(false)}
+                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
                   >
                     Abbrechen
                   </button>
