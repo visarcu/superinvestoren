@@ -1,5 +1,6 @@
 // src/app/api/portfolio-history/route.ts
 import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 interface HistoricalDataPoint {
   date: string
@@ -10,15 +11,29 @@ interface HoldingInput {
   symbol: string
   quantity: number
   purchase_date?: string
-  purchase_price?: number  // Kaufpreis für Performance-Berechnung
+  purchase_price?: number
+}
+
+interface Transaction {
+  date: string
+  symbol: string
+  quantity: number
+  price: number
+  type: 'buy' | 'sell'
 }
 
 // In-memory cache für API-Responses (24h TTL)
 const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number }>()
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 Stunden
 
-async function fetchHistoricalPrices(symbol: string, days: number): Promise<HistoricalDataPoint[]> {
-  const cacheKey = `${symbol}_${days}`
+// Supabase Client
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!
+)
+
+async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: string): Promise<HistoricalDataPoint[]> {
+  const cacheKey = `${symbol}_${fromDate}_${toDate}`
   const cached = historyCache.get(cacheKey)
 
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -30,13 +45,7 @@ async function fetchHistoricalPrices(symbol: string, days: number): Promise<Hist
     throw new Error('FMP_API_KEY nicht konfiguriert')
   }
 
-  // Berechne das "from" Datum
-  const fromDate = new Date()
-  fromDate.setDate(fromDate.getDate() - days)
-  const fromStr = fromDate.toISOString().split('T')[0]
-  const toStr = new Date().toISOString().split('T')[0]
-
-  const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?from=${fromStr}&to=${toStr}&apikey=${apiKey}`
+  const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
 
   const response = await fetch(url, { next: { revalidate: 1800 } })
 
@@ -67,119 +76,223 @@ async function fetchHistoricalPrices(symbol: string, days: number): Promise<Hist
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { holdings, cashPosition, days } = body as {
+    const { portfolioId, holdings, cashPosition = 0, days = 30 } = body as {
+      portfolioId?: string
       holdings: HoldingInput[]
       cashPosition: number
       days: number
     }
 
     if (!holdings || !Array.isArray(holdings) || holdings.length === 0) {
-      return NextResponse.json({ error: 'Keine Holdings angegeben' }, { status: 400 })
+      return NextResponse.json({ success: true, data: [] })
     }
 
     // Limitiere API-Aufrufe
     const validDays = Math.min(Math.max(days, 7), 730)
 
-    // Hole historische Daten für alle Symbole parallel (max 10 parallel)
-    const uniqueSymbols = [...new Set(holdings.map(h => h.symbol))]
-    const batchSize = 10
-    const allHistoricalData: Map<string, HistoricalDataPoint[]> = new Map()
+    const endDate = new Date()
+    const startDate = new Date()
+    startDate.setDate(startDate.getDate() - validDays)
 
+    const fromDate = startDate.toISOString().split('T')[0]
+    const toDate = endDate.toISOString().split('T')[0]
+
+    // 1. Lade Transaktionen wenn portfolioId vorhanden
+    let transactionsBySymbol = new Map<string, Transaction[]>()
+    let allTransactions: Transaction[] = []
+
+    if (portfolioId) {
+      const { data: transactions, error: txError } = await supabase
+        .from('portfolio_transactions')
+        .select('date, symbol, quantity, price, type')
+        .eq('portfolio_id', portfolioId)
+        .in('type', ['buy', 'sell'])
+        .order('date', { ascending: true })
+
+      if (txError) {
+        console.error('Error loading transactions:', txError)
+      } else if (transactions) {
+        allTransactions = transactions
+        transactions.forEach((tx: Transaction) => {
+          if (!transactionsBySymbol.has(tx.symbol)) {
+            transactionsBySymbol.set(tx.symbol, [])
+          }
+          transactionsBySymbol.get(tx.symbol)!.push(tx)
+        })
+      }
+    }
+
+    const useTransactions = transactionsBySymbol.size > 0
+
+    // 2. Lade historische Kurse für alle Symbole
+    const uniqueSymbols = [...new Set(holdings.map(h => h.symbol))]
+    const pricesBySymbol = new Map<string, Map<string, number>>()
+
+    // Parallel laden (max 10 gleichzeitig)
+    const batchSize = 10
     for (let i = 0; i < uniqueSymbols.length; i += batchSize) {
       const batch = uniqueSymbols.slice(i, i + batchSize)
       const results = await Promise.all(
-        batch.map(symbol => fetchHistoricalPrices(symbol, validDays))
+        batch.map(symbol => fetchHistoricalPrices(symbol, fromDate, toDate))
       )
       batch.forEach((symbol, index) => {
-        allHistoricalData.set(symbol, results[index])
+        const priceMap = new Map<string, number>()
+        results[index].forEach(day => {
+          priceMap.set(day.date, day.close)
+        })
+        pricesBySymbol.set(symbol, priceMap)
       })
     }
 
-    // Debug: Log holdings mit Kaufdaten
-    console.log('📊 Portfolio history calculation:')
-    holdings.forEach(h => {
-      console.log(`  - ${h.symbol}: ${h.quantity} shares @ ${h.purchase_price || 'unknown'}, purchased: ${h.purchase_date || 'unknown'}`)
+    // 3. Sammle alle Handelstage
+    const allDates = new Set<string>()
+    pricesBySymbol.forEach(priceMap => {
+      priceMap.forEach((_, date) => allDates.add(date))
     })
+    const sortedDates = Array.from(allDates).sort()
 
-    // Tägliche Portfolio-Werte berechnen
-    // WICHTIG: Tracke sowohl Marktwert als auch investiertes Kapital für Performance-Berechnung
-    const dailyValues = new Map<string, { stockValue: number; invested: number; positionCount: number }>()
-
-    holdings.forEach(holding => {
-      const symbolData = allHistoricalData.get(holding.symbol)
-      if (!symbolData) return
-
-      // Parse Kaufdatum einmal für diese Position
-      let purchaseDateTime: number | null = null
-      if (holding.purchase_date) {
-        const purchDate = new Date(holding.purchase_date)
-        purchDate.setHours(0, 0, 0, 0)
-        purchaseDateTime = purchDate.getTime()
-      }
-
-      // Kaufpreis für diese Position (für Performance-Berechnung)
-      const costBasis = (holding.purchase_price || 0) * holding.quantity
-
-      symbolData.forEach(day => {
-        const date = day.date
-
-        // KRITISCH: Überspringe Tage VOR dem Kaufdatum dieser Position
-        if (purchaseDateTime !== null) {
-          const dayDate = new Date(date)
-          dayDate.setHours(0, 0, 0, 0)
-
-          if (dayDate.getTime() < purchaseDateTime) {
-            return // Diese Position existierte an diesem Tag noch nicht
-          }
-        }
-
-        const marketValue = day.close * holding.quantity
-
-        if (dailyValues.has(date)) {
-          const existing = dailyValues.get(date)!
-          existing.stockValue += marketValue
-          existing.invested += costBasis
-          existing.positionCount += 1
-        } else {
-          dailyValues.set(date, {
-            stockValue: marketValue,
-            invested: costBasis,
-            positionCount: 1
-          })
+    // 4. Tracke den ersten Kauftag pro Symbol (für korrekte Startberechnung)
+    const firstPurchaseDateBySymbol = new Map<string, string>()
+    
+    if (useTransactions) {
+      transactionsBySymbol.forEach((txs, symbol) => {
+        const firstBuy = txs.find(tx => tx.type === 'buy')
+        if (firstBuy) {
+          firstPurchaseDateBySymbol.set(symbol, firstBuy.date)
         }
       })
+    } else {
+      holdings.forEach(h => {
+        if (h.purchase_date) {
+          firstPurchaseDateBySymbol.set(h.symbol, h.purchase_date)
+        }
+      })
+    }
+
+    // 5. Berechne den Startwert pro Symbol am Kauftag (für relative Entwicklung)
+    // Der Trick: Am Kauftag ist der "Wert" = was du bezahlt hast
+    // Danach: relativer Kursverlauf
+    const startPriceBySymbol = new Map<string, number>() // USD Kurs am Kauftag
+    
+    uniqueSymbols.forEach(symbol => {
+      const firstDate = firstPurchaseDateBySymbol.get(symbol)
+      if (firstDate) {
+        const priceMap = pricesBySymbol.get(symbol)
+        // Finde den ersten verfügbaren Kurs am oder nach dem Kaufdatum
+        const sortedPriceDates = Array.from(priceMap?.keys() || []).sort()
+        for (const priceDate of sortedPriceDates) {
+          if (priceDate >= firstDate) {
+            startPriceBySymbol.set(symbol, priceMap?.get(priceDate) || 0)
+            break
+          }
+        }
+      }
     })
 
-    // WICHTIG: Filtere Tage raus an denen KEINE Position existierte
-    // (das passiert wenn alle Positionen erst später gekauft wurden)
-    const portfolioHistory = Array.from(dailyValues.entries())
-      .filter(([, { positionCount }]) => positionCount > 0)
-      .map(([date, { stockValue, invested }]) => {
-        const totalValue = stockValue + cashPosition
-        const totalInvested = invested + cashPosition
+    // 6. Für jeden Tag: Berechne Wert und investiertes Kapital
+    const chartData: Array<{ date: string; value: number; invested: number; performance: number }> = []
+
+    sortedDates.forEach(date => {
+      let totalValue = 0
+      let totalInvested = 0
+
+      uniqueSymbols.forEach(symbol => {
+        const priceMap = pricesBySymbol.get(symbol)
+        const currentPriceUSD = priceMap?.get(date)
+        const startPriceUSD = startPriceBySymbol.get(symbol) || 0
+        const firstPurchaseDate = firstPurchaseDateBySymbol.get(symbol)
+
+        if (!currentPriceUSD) return
+        
+        // Position existiert erst ab Kaufdatum
+        if (firstPurchaseDate && date < firstPurchaseDate) return
+
+        if (useTransactions) {
+          const txs = transactionsBySymbol.get(symbol) || []
+
+          let sharesOwned = 0
+          let costBasis = 0 // In EUR
+
+          txs.forEach(tx => {
+            if (tx.date <= date) {
+              if (tx.type === 'buy') {
+                sharesOwned += tx.quantity
+                costBasis += tx.quantity * tx.price
+              } else if (tx.type === 'sell') {
+                const avgCost = sharesOwned > 0 ? costBasis / sharesOwned : 0
+                sharesOwned -= tx.quantity
+                costBasis -= tx.quantity * avgCost
+              }
+            }
+          })
+
+          if (sharesOwned > 0 && costBasis > 0) {
+            // NEUE LOGIK: Relative Kursentwicklung basierend auf Cost Basis
+            // Performance = (aktueller Kurs / Startkurs) - 1
+            // Wert = Cost Basis * (1 + Performance)
+            
+            if (startPriceUSD > 0) {
+              const priceChange = (currentPriceUSD - startPriceUSD) / startPriceUSD
+              const currentValue = costBasis * (1 + priceChange)
+              totalValue += currentValue
+            } else {
+              // Fallback: Wert = Cost Basis (keine Kursdaten zum Vergleich)
+              totalValue += costBasis
+            }
+            
+            totalInvested += costBasis
+          }
+        } else {
+          // Fallback: Holdings-basiert
+          const holding = holdings.find(h => h.symbol === symbol)
+          if (!holding) return
+
+          const costBasis = (holding.purchase_price || 0) * holding.quantity
+          
+          if (startPriceUSD > 0) {
+            const priceChange = (currentPriceUSD - startPriceUSD) / startPriceUSD
+            const currentValue = costBasis * (1 + priceChange)
+            totalValue += currentValue
+          } else {
+            totalValue += costBasis
+          }
+          
+          totalInvested += costBasis
+        }
+      })
+
+      // Nur Tage mit Positionen hinzufügen
+      if (totalInvested > 0) {
+        // KEIN Cash - nur Aktienwerte
         const performance = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0
 
-        return {
+        chartData.push({
           date,
           value: Math.round(totalValue * 100) / 100,
           invested: Math.round(totalInvested * 100) / 100,
           performance: Math.round(performance * 100) / 100
-        }
-      })
-      .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        })
+      }
+    })
 
-    console.log(`  - Total data points: ${portfolioHistory.length}`)
-    if (portfolioHistory.length > 0) {
-      console.log(`  - Date range: ${portfolioHistory[0]?.date} to ${portfolioHistory[portfolioHistory.length - 1]?.date}`)
-      console.log(`  - Start value: ${portfolioHistory[0]?.value}, End value: ${portfolioHistory[portfolioHistory.length - 1]?.value}`)
+    console.log(`📊 Portfolio history: ${chartData.length} data points`)
+    if (chartData.length > 0) {
+      console.log(`  First: ${chartData[0].date} - Value: ${chartData[0].value}€, Invested: ${chartData[0].invested}€`)
+      console.log(`  Last: ${chartData[chartData.length - 1].date} - Value: ${chartData[chartData.length - 1].value}€`)
+      
+      // Validierung: Am ersten Tag sollte Wert ≈ Investiert sein
+      const firstDiff = Math.abs(chartData[0].value - chartData[0].invested)
+      if (firstDiff > 10) {
+        console.warn(`⚠️ First day value differs from invested by ${firstDiff.toFixed(2)}€`)
+      }
     }
 
     // Reduziere Datenpunkte für bessere Performance
-    let sampledData = portfolioHistory
-    if (portfolioHistory.length > 60) {
-      const step = Math.ceil(portfolioHistory.length / 60)
-      sampledData = portfolioHistory.filter((_, index) =>
-        index % step === 0 || index === portfolioHistory.length - 1
+    let sampledData = chartData
+    if (chartData.length > 60) {
+      const step = Math.ceil(chartData.length / 60)
+      sampledData = chartData.filter((_, index) =>
+        index % step === 0 || index === chartData.length - 1
       )
     }
 
@@ -187,11 +300,12 @@ export async function POST(request: NextRequest) {
       success: true,
       data: sampledData,
       meta: {
-        totalPoints: portfolioHistory.length,
+        totalPoints: chartData.length,
         sampledPoints: sampledData.length,
+        transactionsUsed: useTransactions,
         dateRange: {
-          from: portfolioHistory[0]?.date || null,
-          to: portfolioHistory[portfolioHistory.length - 1]?.date || null
+          from: chartData[0]?.date || null,
+          to: chartData[chartData.length - 1]?.date || null
         }
       }
     })
@@ -199,7 +313,7 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Portfolio-History API Fehler:', error)
     return NextResponse.json(
-      { error: 'Fehler beim Abrufen der Portfolio-Historie' },
+      { error: 'Fehler beim Abrufen der Portfolio-Historie', success: false },
       { status: 500 }
     )
   }

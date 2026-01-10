@@ -15,6 +15,7 @@ import { ArrowTrendingUpIcon, ArrowTrendingDownIcon } from '@heroicons/react/24/
 import { useCurrency } from '@/lib/CurrencyContext'
 
 interface PortfolioPerformanceChartProps {
+  portfolioId: string
   holdings: Array<{
     symbol: string
     name: string
@@ -30,7 +31,6 @@ interface PortfolioPerformanceChartProps {
 }
 
 type TimeRange = '1W' | '1M' | '3M' | '6M' | '1Y' | 'MAX'
-type ChartMode = 'value' | 'performance'
 
 interface ChartDataPoint {
   date: string
@@ -41,25 +41,25 @@ interface ChartDataPoint {
 }
 
 export default function PortfolioPerformanceChart({
+  portfolioId,
   holdings,
   totalValue,
   totalCost,
   cashPosition
 }: PortfolioPerformanceChartProps) {
   const { formatCurrency } = useCurrency()
-  const [selectedRange, setSelectedRange] = useState<TimeRange>('1M')
-  const [chartMode, setChartMode] = useState<ChartMode>('value')
+  const [selectedRange, setSelectedRange] = useState<TimeRange>('MAX') // DEFAULT: MAX
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showInvested, setShowInvested] = useState(true)
 
-  // Gesamt-Performance (für Footer) - OHNE Cash in der Rendite-Berechnung
+  // Gesamt-Performance
   const totalGain = totalValue - totalCost
   const totalGainPercent = totalCost > 0 ? (totalGain / totalCost) * 100 : 0
   const isPositive = totalGain >= 0
 
-  // Lade echte historische Daten
+  // Lade historische Daten
   const fetchHistoricalData = useCallback(async () => {
     if (holdings.length === 0) {
       setChartData([])
@@ -78,7 +78,7 @@ export default function PortfolioPerformanceChart({
       case '6M': days = 180; break
       case '1Y': days = 365; break
       case 'MAX': days = 730; break
-      default: days = 30
+      default: days = 730
     }
 
     try {
@@ -86,11 +86,12 @@ export default function PortfolioPerformanceChart({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          portfolioId,
           holdings: holdings.map(h => ({
             symbol: h.symbol,
             quantity: h.quantity,
             purchase_date: h.purchase_date,
-            purchase_price: h.purchase_price  // NEU: Kaufpreis für Performance-Berechnung
+            purchase_price: h.purchase_price
           })),
           cashPosition,
           days
@@ -104,7 +105,6 @@ export default function PortfolioPerformanceChart({
       const result = await response.json()
 
       if (result.success && result.data && result.data.length > 0) {
-        // Formatiere Labels basierend auf Zeitraum
         const formattedData: ChartDataPoint[] = result.data.map((point: { date: string; value: number; invested: number; performance: number }) => {
           const date = new Date(point.date)
           let label: string
@@ -126,18 +126,8 @@ export default function PortfolioPerformanceChart({
           }
         })
 
-        // Validierung: Prüfe ob die Daten plausibel sind
-        const startValue = formattedData[0]?.value || 0
-        const endValue = formattedData[formattedData.length - 1]?.value || 0
-
-        if (startValue < totalCost * 0.3 && startValue > 0) {
-          console.warn('⚠️ Chart Startwert unplausibel niedrig - möglicherweise Kaufdatum-Problem')
-          console.log(`  Start: ${startValue}, Cost: ${totalCost}, End: ${endValue}`)
-        }
-
         setChartData(formattedData)
       } else {
-        // Keine Daten für den ausgewählten Zeitraum
         setChartData([])
       }
     } catch (err) {
@@ -146,7 +136,7 @@ export default function PortfolioPerformanceChart({
     } finally {
       setLoading(false)
     }
-  }, [holdings, cashPosition, selectedRange])
+  }, [portfolioId, holdings, cashPosition, selectedRange])
 
   useEffect(() => {
     fetchHistoricalData()
@@ -156,28 +146,19 @@ export default function PortfolioPerformanceChart({
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload
-      const isPerformanceMode = chartMode === 'performance'
+      const dayGain = data.value - data.invested
+      const dayGainPercent = data.invested > 0 ? (dayGain / data.invested) * 100 : 0
 
       return (
         <div className="bg-theme-card border border-theme/20 rounded-lg px-3 py-2 shadow-lg">
           <p className="text-xs text-theme-secondary mb-1">{data.label}</p>
-          {isPerformanceMode ? (
-            <>
-              <p className={`text-sm font-bold ${data.performance >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                {data.performance >= 0 ? '+' : ''}{data.performance.toFixed(2)}%
-              </p>
-              <p className="text-xs text-theme-secondary mt-1">
-                Wert: {formatCurrency(data.value)}
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="text-sm font-bold text-theme-primary">{formatCurrency(data.value)}</p>
-              <p className="text-xs text-theme-secondary mt-1">
-                Investiert: {formatCurrency(data.invested)}
-              </p>
-            </>
-          )}
+          <p className="text-sm font-bold text-theme-primary">{formatCurrency(data.value)}</p>
+          <p className="text-xs text-theme-secondary mt-1">
+            Investiert: {formatCurrency(data.invested)}
+          </p>
+          <p className={`text-xs mt-1 ${dayGain >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+            {dayGain >= 0 ? '+' : ''}{formatCurrency(dayGain)} ({dayGainPercent >= 0 ? '+' : ''}{dayGainPercent.toFixed(2)}%)
+          </p>
         </div>
       )
     }
@@ -186,41 +167,19 @@ export default function PortfolioPerformanceChart({
 
   const timeRanges: TimeRange[] = ['1W', '1M', '3M', '6M', '1Y', 'MAX']
 
-  // Zeitraum-spezifische Performance aus Chart-Daten berechnen
+  // Zeitraum-Performance aus Chart-Daten
   const rangePerformance = useMemo(() => {
     if (chartData.length === 0) {
-      // Fallback auf Gesamt-Performance
-      const gain = totalValue - totalCost
-      const percent = totalCost > 0 ? (gain / totalCost) * 100 : 0
-      return { gain, percent, isPositive: gain >= 0 }
+      return { gain: totalGain, percent: totalGainPercent, isPositive }
     }
 
-    if (chartMode === 'performance') {
-      // Bei Performance-Modus: Differenz zwischen erstem und letztem Performance-Wert
-      const startPerf = chartData[0]?.performance || 0
-      const endPerf = chartData[chartData.length - 1]?.performance || 0
-      const percentChange = endPerf - startPerf
+    const startValue = chartData[0]?.value || 0
+    const endValue = chartData[chartData.length - 1]?.value || 0
+    const gain = endValue - startValue
+    const percent = startValue > 0 ? (gain / startValue) * 100 : 0
 
-      // Gain in Euro berechnen (basierend auf invested)
-      const invested = chartData[chartData.length - 1]?.invested || totalCost
-      const gain = (percentChange / 100) * invested
-
-      return { gain, percent: percentChange, isPositive: percentChange >= 0 }
-    } else {
-      // Bei Wertentwicklung-Modus: Differenz zwischen erstem und letztem Wert
-      const startValue = chartData[0]?.value || 0
-      const endValue = chartData[chartData.length - 1]?.value || 0
-      const gain = endValue - startValue
-      const percent = startValue > 0 ? (gain / startValue) * 100 : 0
-
-      return { gain, percent, isPositive: gain >= 0 }
-    }
-  }, [chartData, chartMode, totalValue, totalCost])
-
-  // Für die Anzeige
-  const rangeGain = rangePerformance.gain
-  const rangeGainPercent = rangePerformance.percent
-  const rangeIsPositive = rangePerformance.isPositive
+    return { gain, percent, isPositive: gain >= 0 }
+  }, [chartData, totalGain, totalGainPercent, isPositive])
 
   return (
     <div className="bg-theme-card rounded-xl border border-theme/10 p-6">
@@ -228,30 +187,27 @@ export default function PortfolioPerformanceChart({
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
           <h3 className="text-lg font-semibold text-theme-primary mb-1">
-            {chartMode === 'value' ? 'Wertentwicklung' : 'Performance'}
+            Wertentwicklung
           </h3>
           <div className="flex items-center gap-3">
             <span className="text-2xl font-bold text-theme-primary">
-              {chartMode === 'performance'
-                ? `${rangeIsPositive ? '+' : ''}${rangeGainPercent.toFixed(2)}%`
-                : formatCurrency(totalValue + cashPosition)
-              }
+              {formatCurrency(totalValue)}
             </span>
             <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${
-              rangeIsPositive ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
+              rangePerformance.isPositive ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
             }`}>
-              {rangeIsPositive ? (
+              {rangePerformance.isPositive ? (
                 <ArrowTrendingUpIcon className="w-4 h-4" />
               ) : (
                 <ArrowTrendingDownIcon className="w-4 h-4" />
               )}
               <span className="text-sm font-semibold">
-                {rangeIsPositive ? '+' : ''}{formatCurrency(Math.abs(rangeGain))}
+                {rangePerformance.isPositive ? '+' : ''}{formatCurrency(Math.abs(rangePerformance.gain))}
               </span>
             </div>
           </div>
           <p className="text-sm text-theme-secondary mt-1">
-            {rangeIsPositive ? '+' : ''}{formatCurrency(Math.abs(rangeGain))}{' '}
+            {rangePerformance.isPositive ? '+' : ''}{rangePerformance.percent.toFixed(2)}%{' '}
             {selectedRange === '1W' && 'diese Woche'}
             {selectedRange === '1M' && 'diesen Monat'}
             {selectedRange === '3M' && 'in 3 Monaten'}
@@ -261,65 +217,36 @@ export default function PortfolioPerformanceChart({
           </p>
         </div>
 
-        {/* Chart Mode Toggle + Time Range */}
-        <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-          {/* Modus Toggle */}
-          <div className="flex bg-theme-secondary/30 rounded-lg p-0.5">
+        {/* Time Range Selector */}
+        <div className="flex gap-1 bg-theme-secondary/20 rounded-lg p-1">
+          {timeRanges.map((range) => (
             <button
-              onClick={() => setChartMode('value')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                chartMode === 'value'
-                  ? 'bg-theme-card text-theme-primary shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
+              key={range}
+              onClick={() => setSelectedRange(range)}
+              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+                selectedRange === range
+                  ? 'bg-brand text-white'
+                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
               }`}
             >
-              Wertentwicklung
+              {range}
             </button>
-            <button
-              onClick={() => setChartMode('performance')}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-                chartMode === 'performance'
-                  ? 'bg-theme-card text-theme-primary shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              }`}
-            >
-              Performance %
-            </button>
-          </div>
-
-          {/* Zeitraum Selector */}
-          <div className="flex gap-1 bg-theme-secondary/20 rounded-lg p-1">
-            {timeRanges.map((range) => (
-              <button
-                key={range}
-                onClick={() => setSelectedRange(range)}
-                className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
-                  selectedRange === range
-                    ? 'bg-brand text-white'
-                    : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
-                }`}
-              >
-                {range}
-              </button>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
 
-      {/* Show Invested Toggle (nur im Wertentwicklung-Modus) */}
-      {chartMode === 'value' && (
-        <div className="mb-4">
-          <label className="flex items-center gap-2 text-xs text-theme-secondary cursor-pointer">
-            <input
-              type="checkbox"
-              checked={showInvested}
-              onChange={(e) => setShowInvested(e.target.checked)}
-              className="w-4 h-4 rounded border-theme/20 text-brand focus:ring-brand"
-            />
-            Mit investiertem Kapital vergleichen
-          </label>
-        </div>
-      )}
+      {/* Show Invested Toggle */}
+      <div className="mb-4">
+        <label className="flex items-center gap-2 text-xs text-theme-secondary cursor-pointer">
+          <input
+            type="checkbox"
+            checked={showInvested}
+            onChange={(e) => setShowInvested(e.target.checked)}
+            className="w-4 h-4 rounded border-theme/20 text-brand focus:ring-brand"
+          />
+          Investiertes Kapital anzeigen
+        </label>
+      </div>
 
       {/* Chart */}
       <div className="h-64">
@@ -353,12 +280,12 @@ export default function PortfolioPerformanceChart({
                 <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
                   <stop
                     offset="5%"
-                    stopColor={rangeIsPositive ? '#10b981' : '#ef4444'}
+                    stopColor={rangePerformance.isPositive ? '#10b981' : '#ef4444'}
                     stopOpacity={0.3}
                   />
                   <stop
                     offset="95%"
-                    stopColor={rangeIsPositive ? '#10b981' : '#ef4444'}
+                    stopColor={rangePerformance.isPositive ? '#10b981' : '#ef4444'}
                     stopOpacity={0}
                   />
                 </linearGradient>
@@ -375,17 +302,13 @@ export default function PortfolioPerformanceChart({
                 axisLine={false}
                 tickLine={false}
                 tick={{ fill: '#6b7280', fontSize: 11 }}
-                tickFormatter={(value) =>
-                  chartMode === 'performance'
-                    ? `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`
-                    : `${(value / 1000).toFixed(1)}k`
-                }
-                domain={chartMode === 'performance' ? ['auto', 'auto'] : ['dataMin - 100', 'dataMax + 100']}
-                width={chartMode === 'performance' ? 55 : 50}
+                tickFormatter={(value) => `${(value / 1000).toFixed(1)}k`}
+                domain={['dataMin - 100', 'dataMax + 100']}
+                width={50}
               />
               <Tooltip content={<CustomTooltip />} />
-              {/* Invested Line (nur wenn showInvested und chartMode='value') */}
-              {chartMode === 'value' && showInvested && (
+              {/* Invested Line */}
+              {showInvested && (
                 <Area
                   type="monotone"
                   dataKey="invested"
@@ -398,8 +321,8 @@ export default function PortfolioPerformanceChart({
               )}
               <Area
                 type="monotone"
-                dataKey={chartMode === 'performance' ? 'performance' : 'value'}
-                stroke={rangeIsPositive ? '#10b981' : '#ef4444'}
+                dataKey="value"
+                stroke={rangePerformance.isPositive ? '#10b981' : '#ef4444'}
                 strokeWidth={2}
                 fill="url(#colorValue)"
               />

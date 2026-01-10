@@ -1211,6 +1211,7 @@ export default function PortfolioDashboard() {
             {holdings.length > 0 && (
               <div className="mb-6">
                 <PortfolioPerformanceChart
+                  portfolioId={portfolio?.id || ''}
                   holdings={holdings.map(h => ({
                     symbol: h.symbol,
                     name: h.name,
