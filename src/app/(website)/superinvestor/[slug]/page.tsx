@@ -907,10 +907,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   }
 
   return (
-    <div className="min-h-screen bg-black">
-      
+    <div className="min-h-screen bg-theme-primary">
+
       {/* Hero Section */}
-      <section className="relative bg-black pt-16 pb-10">
+      <section className="relative bg-theme-primary pt-16 pb-10">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Breadcrumb & Currency Switch */}

@@ -4,16 +4,15 @@ import React, { useMemo, useState } from 'react'
 import Link from 'next/link'
 import {
   CalendarIcon,
-  ChevronDownIcon,
   FireIcon,
   UserIcon,
   ArrowTrendingUpIcon,
-  ArrowTrendingDownIcon
+  ArrowTrendingDownIcon,
+  ArrowLeftIcon,
 } from '@heroicons/react/24/outline'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import InvestorAvatar from '@/components/InvestorAvatar'
-import { useCurrency } from '@/lib/CurrencyContext'
 import { CurrencyProvider } from '@/lib/CurrencyContext'
 
 // Types
@@ -57,12 +56,6 @@ function getTicker(position: Position): string {
   const stock = stocks.find(s => s.cusip === position.cusip)
   if (stock?.ticker) return stock.ticker
   return position.cusip.replace(/0+$/, '')
-}
-
-function getCompanyName(position: Position): string {
-  const ticker = getTicker(position)
-  const stock = stocks.find(s => s.ticker === ticker || s.cusip === position.cusip)
-  return stock?.name || position.name || ticker
 }
 
 // Investor name mapping (comprehensive)
@@ -112,7 +105,28 @@ const investorNames: Record<string, string> = {
 }
 
 function ActivityPageContent() {
-  const [selectedQuarter, setSelectedQuarter] = useState('Q3 2025')
+  // Get available quarters from data
+  const availableQuarters = useMemo(() => {
+    const quarters = new Set<string>()
+    Object.values(holdingsHistory).forEach(snapshots => {
+      const snaps = snapshots as HoldingSnapshot[]
+      if (!snaps || snaps.length === 0) return
+      snaps.forEach(snap => {
+        if (snap?.data?.date) {
+          quarters.add(getPeriodFromDate(snap.data.date))
+        }
+      })
+    })
+    // Sort quarters descending (newest first)
+    return Array.from(quarters).sort((a, b) => {
+      const [qA, yA] = a.split(' ')
+      const [qB, yB] = b.split(' ')
+      if (yA !== yB) return parseInt(yB) - parseInt(yA)
+      return parseInt(qB.replace('Q', '')) - parseInt(qA.replace('Q', ''))
+    })
+  }, [])
+
+  const [selectedQuarter, setSelectedQuarter] = useState(availableQuarters[0] || 'Q3 2024')
 
   const investorActivityData = useMemo(() => {
     const investorActivities: InvestorActivity[] = []
@@ -124,7 +138,7 @@ function ActivityPageContent() {
 
       const latest = snaps[snaps.length - 1]
       const previous = snaps[snaps.length - 2]
-      
+
       if (!latest?.data?.date || getPeriodFromDate(latest.data.date) !== selectedQuarter) return
 
       const investorName = investorNames[slug] || slug.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
@@ -132,14 +146,14 @@ function ActivityPageContent() {
       // Create maps for current and previous positions
       const currentPositions = new Map<string, Position>()
       const previousPositions = new Map<string, Position>()
-      
+
       latest.data.positions?.forEach(p => {
         const ticker = getTicker(p)
         if (ticker) {
           currentPositions.set(ticker, p)
         }
       })
-      
+
       previous.data.positions?.forEach(p => {
         const ticker = getTicker(p)
         if (ticker) {
@@ -150,20 +164,20 @@ function ActivityPageContent() {
       // Find changes and rank by transaction value
       const allTransactions: { ticker: string; value: number; type: 'buy' | 'sell' }[] = []
       const allTickers = new Set([...currentPositions.keys(), ...previousPositions.keys()])
-      
+
       allTickers.forEach(ticker => {
         const current = currentPositions.get(ticker)
         const prev = previousPositions.get(ticker)
-        
+
         const currentShares = current?.shares || 0
         const prevShares = prev?.shares || 0
         const deltaShares = currentShares - prevShares
-        
+
         if (Math.abs(deltaShares) < 100) return // Ignore small changes
-        
+
         // Use better price calculation based on available positions
         let transactionValue = 0
-        
+
         if (deltaShares > 0) {
           // Buy: use current position for price calculation
           const pricePerShare = current ? current.value / current.shares : (prev ? prev.value / prev.shares : 0)
@@ -174,9 +188,9 @@ function ActivityPageContent() {
           const prevValue = prev?.value || 0
           transactionValue = Math.abs(prevValue - currentValue)
         }
-        
+
         if (transactionValue < 100000) return // Min $100K transaction for individual investors
-        
+
         allTransactions.push({
           ticker,
           value: transactionValue,
@@ -188,11 +202,11 @@ function ActivityPageContent() {
       const topTransactions = allTransactions
         .sort((a, b) => b.value - a.value)
         .slice(0, 10)
-        
+
       const topBuys = topTransactions
         .filter(t => t.type === 'buy')
         .map(t => t.ticker)
-        
+
       const topSells = topTransactions
         .filter(t => t.type === 'sell')
         .map(t => t.ticker)
@@ -214,10 +228,10 @@ function ActivityPageContent() {
   const TickerPill = ({ ticker, type }: { ticker: string; type: 'buy' | 'sell' }) => (
     <Link
       href={`/analyse/stocks/${ticker.toLowerCase()}/super-investors`}
-      className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg transition-all duration-200 hover:scale-105 ${
+      className={`inline-flex items-center px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
         type === 'buy'
-          ? 'bg-brand/10 text-brand-light border border-green-500/30 hover:bg-brand/20'
-          : 'bg-red-500/10 text-red-400 border border-red-500/30 hover:bg-red-500/20'
+          ? 'bg-emerald-900/30 text-emerald-400 border border-emerald-800/50 hover:bg-emerald-900/50'
+          : 'bg-red-900/30 text-red-400 border border-red-800/50 hover:bg-red-900/50'
       }`}
     >
       {ticker}
@@ -225,140 +239,149 @@ function ActivityPageContent() {
   )
 
   return (
-    <div className="min-h-screen bg-black">
-      {/* Hero Section */}
-      <section className="relative bg-black pt-16 pb-10">
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Header */}
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 text-gray-300 rounded-full text-sm font-medium mb-6">
-              <FireIcon className="w-4 h-4 text-orange-400" />
-              Super-Investor Aktivität
-            </div>
-            
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6">
-              Investor <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">Aktivität</span>
-            </h1>
-            
-            <p className="text-xl text-gray-400 max-w-3xl mx-auto leading-relaxed">
-              Welche Aktien kaufen und verkaufen die Top-Investoren gerade? 
-              Entdecke die Aktivität jedes Investors im aktuellen Quartal.
-            </p>
+    <div className="min-h-screen bg-dark">
+
+      {/* Header - Simplified */}
+      <section className="bg-dark pt-24 pb-12">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="mb-6">
+            <Link
+              href="/superinvestor"
+              className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm group"
+            >
+              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+              Zurück zur Übersicht
+            </Link>
           </div>
 
-          {/* Quarter Selection */}
-          <div className="flex justify-center mb-12">
-            <div className="relative">
-              <button className="flex items-center gap-3 px-6 py-3 bg-[#161618] border border-white/10 rounded-xl text-white font-medium hover:bg-[#1A1A1D] transition-all duration-200">
-                <CalendarIcon className="w-5 h-5 text-gray-400" />
-                {selectedQuarter}
-                <ChevronDownIcon className="w-4 h-4 text-gray-400" />
-              </button>
+          <div className="mb-8">
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+              <div className="flex items-center gap-3">
+                <FireIcon className="w-6 h-6 text-neutral-500" />
+                <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">Investor Aktivität</h1>
+              </div>
             </div>
+
+            <p className="text-base text-neutral-400 max-w-3xl leading-relaxed">
+              Käufe und Verkäufe der Top-Investoren nach Quartal.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
-        {/* Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-blue-500/10 rounded-lg flex items-center justify-center">
-                <UserIcon className="w-5 h-5 text-blue-400" />
-              </div>
-              <h3 className="text-lg font-medium text-white">Aktive Investoren</h3>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        {/* Quarter Selection */}
+        <div className="flex items-center justify-between mb-12 pb-6 border-b border-neutral-800">
+          <div className="flex items-center gap-3">
+            <CalendarIcon className="w-5 h-5 text-neutral-500" />
+            <div>
+              <h3 className="text-white font-medium">Zeitraum</h3>
+              <p className="text-xs text-neutral-500">
+                Wähle ein Quartal
+              </p>
             </div>
-            <p className="text-2xl font-bold text-blue-400">
+          </div>
+
+          <select
+            value={selectedQuarter}
+            onChange={(e) => setSelectedQuarter(e.target.value)}
+            className="appearance-none px-4 py-2 rounded-lg text-sm cursor-pointer bg-neutral-900 border border-neutral-800 text-neutral-300 hover:border-neutral-700 focus:outline-none"
+          >
+            {availableQuarters.map(quarter => (
+              <option key={quarter} value={quarter}>
+                {quarter}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Stats Overview - Simplified */}
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-12 pb-8 border-b border-neutral-800">
+          <div className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <UserIcon className="w-4 h-4 text-neutral-500" />
+              <span className="text-sm text-neutral-500">Aktive Investoren</span>
+            </div>
+            <p className="text-2xl font-semibold text-white">
               {investorActivityData.length}
             </p>
-            <p className="text-sm text-gray-500">Mit Transaktionen</p>
           </div>
 
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-brand/10 rounded-lg flex items-center justify-center">
-                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
-              </div>
-              <h3 className="text-lg font-medium text-white">Käufe</h3>
+          <div className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ArrowTrendingUpIcon className="w-4 h-4 text-neutral-500" />
+              <span className="text-sm text-neutral-500">Käufe</span>
             </div>
-            <p className="text-2xl font-bold text-brand-light">
+            <p className="text-2xl font-semibold text-emerald-400">
               {investorActivityData.reduce((sum, investor) => sum + investor.topBuys.length, 0)}
             </p>
-            <p className="text-sm text-gray-500">Neue Positionen</p>
           </div>
 
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-10 h-10 bg-red-500/10 rounded-lg flex items-center justify-center">
-                <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
-              </div>
-              <h3 className="text-lg font-medium text-white">Verkäufe</h3>
+          <div className="p-4">
+            <div className="flex items-center gap-2 mb-2">
+              <ArrowTrendingDownIcon className="w-4 h-4 text-neutral-500" />
+              <span className="text-sm text-neutral-500">Verkäufe</span>
             </div>
-            <p className="text-2xl font-bold text-red-400">
+            <p className="text-2xl font-semibold text-red-400">
               {investorActivityData.reduce((sum, investor) => sum + investor.topSells.length, 0)}
             </p>
-            <p className="text-sm text-gray-500">Reduzierte Positionen</p>
           </div>
         </div>
 
-        {/* Activity Table - Dataroma Style */}
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl overflow-hidden hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
-          <div className="p-6 border-b border-white/5">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-orange-500/10 rounded-lg flex items-center justify-center">
-                <FireIcon className="w-5 h-5 text-orange-400" />
-              </div>
-              <div>
-                <h3 className="text-xl font-medium text-white">Portfolio Manager Aktivität</h3>
-                <p className="text-sm text-gray-500">Top Käufe/Verkäufe in {selectedQuarter}</p>
-              </div>
-            </div>
-          </div>
-          
+        {/* Activity Table */}
+        <div className="mb-8 pb-4 border-b border-neutral-800">
+          <h2 className="text-xl font-medium text-white mb-2">
+            Portfolio Manager Aktivität
+          </h2>
+          <p className="text-sm text-neutral-500">
+            Top Käufe und Verkäufe in {selectedQuarter}
+          </p>
+        </div>
+
+        <div className="bg-neutral-900/50 border border-neutral-800 rounded-lg overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-[#0F0F11] border-b border-white/[0.1]">
-                <tr className="text-sm text-gray-400">
-                  <th className="text-left px-6 py-4 font-semibold tracking-wide">Portfolio Manager - Firm</th>
-                  <th className="text-center px-6 py-4 font-semibold tracking-wide">Period</th>
-                  <th className="text-left px-6 py-4 font-semibold tracking-wide">Top 10 Käufe/Verkäufe</th>
+              <thead className="bg-neutral-900 border-b border-neutral-800">
+                <tr className="text-sm text-neutral-400">
+                  <th className="text-left px-6 py-4 font-medium">Portfolio Manager</th>
+                  <th className="text-center px-6 py-4 font-medium">Quartal</th>
+                  <th className="text-left px-6 py-4 font-medium">Top 10 Käufe/Verkäufe</th>
                 </tr>
               </thead>
               <tbody>
                 {investorActivityData.map((investor) => (
-                  <tr key={investor.slug} className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200">
-                    <td className="px-6 py-6">
+                  <tr key={investor.slug} className="border-b border-neutral-800/50 hover:bg-neutral-800/30 transition-colors">
+                    <td className="px-6 py-5">
                       <Link
                         href={`/superinvestor/${investor.slug}`}
-                        className="flex items-center gap-4 group hover:text-brand-light transition-colors"
+                        className="flex items-center gap-4 group"
                       >
                         <InvestorAvatar
                           name={investor.name}
                           imageUrl={`/images/${investor.slug}.png`}
                           size="sm"
-                          className="ring-1 ring-white/5"
+                          className="ring-1 ring-neutral-700"
                         />
                         <div>
-                          <div className="font-semibold text-white group-hover:text-brand-light transition-colors">
+                          <div className="font-medium text-white group-hover:text-neutral-300 transition-colors">
                             {investor.name}
                           </div>
                         </div>
                       </Link>
                     </td>
-                    <td className="px-6 py-6 text-center">
-                      <span className="inline-flex items-center px-3 py-1 bg-white/5 text-gray-300 rounded-lg text-sm font-medium">
+                    <td className="px-6 py-5 text-center">
+                      <span className="inline-flex items-center px-3 py-1 bg-neutral-800 text-neutral-300 rounded-lg text-sm">
                         {investor.period}
                       </span>
                     </td>
-                    <td className="px-6 py-6">
+                    <td className="px-6 py-5">
                       <div className="space-y-3">
                         {investor.topBuys.length > 0 && (
                           <div className="flex flex-wrap items-start gap-2">
-                            <span className="text-xs text-gray-500 font-medium uppercase tracking-wide min-w-[60px] pt-1">KÄUFE:</span>
+                            <span className="text-xs text-neutral-500 font-medium uppercase tracking-wide min-w-[60px] pt-1.5">Käufe:</span>
                             <div className="flex flex-wrap gap-2">
                               {investor.topBuys.map((ticker) => (
                                 <TickerPill key={`${investor.slug}-buy-${ticker}`} ticker={ticker} type="buy" />
@@ -368,7 +391,7 @@ function ActivityPageContent() {
                         )}
                         {investor.topSells.length > 0 && (
                           <div className="flex flex-wrap items-start gap-2">
-                            <span className="text-xs text-gray-500 font-medium uppercase tracking-wide min-w-[70px] pt-1">VERKÄUFE:</span>
+                            <span className="text-xs text-neutral-500 font-medium uppercase tracking-wide min-w-[60px] pt-1.5">Verkäufe:</span>
                             <div className="flex flex-wrap gap-2">
                               {investor.topSells.map((ticker) => (
                                 <TickerPill key={`${investor.slug}-sell-${ticker}`} ticker={ticker} type="sell" />
@@ -380,6 +403,15 @@ function ActivityPageContent() {
                     </td>
                   </tr>
                 ))}
+                {investorActivityData.length === 0 && (
+                  <tr>
+                    <td colSpan={3} className="px-6 py-12 text-center text-neutral-500">
+                      <FireIcon className="w-8 h-8 mx-auto mb-3 opacity-50" />
+                      <p className="text-sm">Keine Aktivität für {selectedQuarter}</p>
+                      <p className="text-xs mt-1">Wähle ein anderes Quartal</p>
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
           </div>

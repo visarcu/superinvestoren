@@ -2,12 +2,14 @@
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { 
+import {
   HomeIcon,
   UsersIcon,
   ChartBarIcon,
   EyeIcon,
   FireIcon,
+  ArrowTrendingUpIcon,
+  BuildingOfficeIcon,
 } from '@heroicons/react/24/outline'
 
 interface NavItem {
@@ -35,6 +37,16 @@ const navItems: NavItem[] = [
     href: '/superinvestor/insights',
     label: 'Market Insights',
     icon: ChartBarIcon,
+  },
+  {
+    href: '/superinvestor/momentum',
+    label: 'Momentum',
+    icon: ArrowTrendingUpIcon,
+  },
+  {
+    href: '/superinvestor/sectors',
+    label: 'Sektoren',
+    icon: BuildingOfficeIcon,
     badge: {
       text: 'NEU',
       type: 'new'
@@ -44,10 +56,6 @@ const navItems: NavItem[] = [
     href: '/superinvestor/activity',
     label: 'Aktivität',
     icon: FireIcon,
-    badge: {
-      text: 'NEU',
-      type: 'new'
-    }
   },
   {
     href: '/superinvestor/insider',
