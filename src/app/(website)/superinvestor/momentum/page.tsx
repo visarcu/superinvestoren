@@ -2,9 +2,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
-import Link from 'next/link'
 import {
-  ArrowLeftIcon,
   ArrowTrendingUpIcon,
   ArrowDownIcon,
   ScaleIcon,
@@ -100,31 +98,15 @@ export default function MomentumPage() {
     <div className="min-h-screen bg-dark">
 
       {/* Header */}
-      <section className="bg-dark pt-24 pb-12">
+      <section className="bg-dark pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
-          <div className="mb-6">
-            <Link
-              href="/superinvestor"
-              className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm group"
-            >
-              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Zurück zur Übersicht
-            </Link>
+          <div className="flex items-center gap-3 mb-2">
+            <ArrowTrendingUpIcon className="w-6 h-6 text-neutral-500" />
+            <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">Momentum & Sentiment</h1>
           </div>
-
-          <div className="mb-8">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <div className="flex items-center gap-3">
-                <ArrowTrendingUpIcon className="w-6 h-6 text-neutral-500" />
-                <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">Momentum & Sentiment</h1>
-              </div>
-            </div>
-
-            <p className="text-base text-neutral-400 max-w-3xl leading-relaxed mb-4">
-              Trendwenden, Exits und Marktstimmung der Super-Investoren
-            </p>
-          </div>
+          <p className="text-sm text-neutral-400">
+            Trendwenden, Exits und Marktstimmung der Super-Investoren
+          </p>
         </div>
       </section>
 

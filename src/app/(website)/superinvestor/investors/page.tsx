@@ -579,28 +579,25 @@ export default function InvestorsPage() {
 // Loading state with modern skeleton
 if (isInitialLoad) {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-24">
+    <div className="min-h-screen bg-dark">
       {/* Header */}
-      <div className="mb-12">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-sm font-medium backdrop-blur-sm mb-4">
-            <UserIcon className="w-3 h-3" />
-            Super-Investoren
+      <section className="bg-dark pt-8 pb-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-2">
+            <UserIcon className="w-6 h-6 text-neutral-500" />
+            <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">Alle Investoren & Fonds</h1>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4">
-            Alle Investoren & Fonds
-          </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <p className="text-sm text-neutral-400">
             Lade Investoren-Daten...
           </p>
         </div>
-      </div>
+      </section>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
 
       {/* Grid Skeleton */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
         {[...Array(12)].map((_, i) => (
-          <div key={i} className="bg-[#161618] rounded-2xl p-5 border border-white/[0.06] animate-pulse flex flex-col" style={{ width: '360px', height: '280px' }}>
+          <div key={i} className="bg-neutral-900/50 rounded-2xl p-5 border border-neutral-800 animate-pulse flex flex-col" style={{ width: '360px', height: '280px' }}>
             {/* Header */}
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center gap-3">
@@ -654,31 +651,30 @@ if (isInitialLoad) {
             </div>
           </div>
         ))}
+        </div>
       </div>
     </div>
   )
-}
+  }
 
-return (
-  <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-24">
-      
-       {/* Header */}
-       <div className="mb-12">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-sm font-medium backdrop-blur-sm mb-4">
-            <UserIcon className="w-3 h-3" />
-            Super-Investoren
-          </div>
-          
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4">
-            Alle Investoren & Fonds
-          </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Entdecke die Portfolios der erfolgreichsten Investoren und Top-Performing Fonds der Welt
-          </p>
+  return (
+  <div className="min-h-screen bg-dark">
+    {/* Header */}
+    <section className="bg-dark pt-8 pb-8">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        <div className="flex items-center gap-3 mb-2">
+          <UserIcon className="w-6 h-6 text-neutral-500" />
+          <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">Alle Investoren & Fonds</h1>
         </div>
+        <p className="text-sm text-neutral-400">
+          Entdecke die Portfolios der erfolgreichsten Investoren und Top-Performing Fonds der Welt
+        </p>
+      </div>
+    </section>
 
-        {/* Controls */}
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+
+      {/* Controls */}
         <div className="flex flex-col sm:flex-row gap-4 items-center justify-between mb-8">
           {/* Filter Buttons */}
           <div className="flex gap-2">
@@ -729,46 +725,44 @@ return (
             />
           </div>
         </div>
-      </div>
 
-      {/* Results */}
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
-        {filteredInvestors.map((investor) => (
-          <InvestorCard
-            key={investor.slug}
-            investor={investor}
-          />
-        ))}
-      </div>
-
-
-      {/* No Results */}
-      {filteredInvestors.length === 0 && (
-        <div className="text-center py-12">
-          <div className="text-gray-400 mb-4">
-            <MagnifyingGlassIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
-            <h3 className="text-lg font-semibold mb-2">Keine Ergebnisse gefunden</h3>
-            <p className="text-sm">
-              {searchQuery ? 
-                `Keine Investoren gefunden für "${searchQuery}"` : 
-                'Keine Investoren für die aktuelle Filterauswahl'
-              }
-            </p>
-          </div>
-          {(searchQuery || filter !== 'all') && (
-            <button
-              onClick={() => {
-                setSearchQuery('')
-                setFilter('all')
-              }}
-              className="px-4 py-2 bg-brand hover:bg-green-400 text-black rounded-xl font-medium transition-colors"
-            >
-              Filter zurücksetzen
-            </button>
-          )}
+        {/* Results */}
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 justify-items-center">
+          {filteredInvestors.map((investor) => (
+            <InvestorCard
+              key={investor.slug}
+              investor={investor}
+            />
+          ))}
         </div>
-      )}
-    </div>
 
-)
+        {/* No Results */}
+        {filteredInvestors.length === 0 && (
+          <div className="text-center py-12">
+            <div className="text-gray-400 mb-4">
+              <MagnifyingGlassIcon className="w-16 h-16 mx-auto mb-4 opacity-50" />
+              <h3 className="text-lg font-semibold mb-2">Keine Ergebnisse gefunden</h3>
+              <p className="text-sm">
+                {searchQuery ?
+                  `Keine Investoren gefunden für "${searchQuery}"` :
+                  'Keine Investoren für die aktuelle Filterauswahl'
+                }
+              </p>
+            </div>
+            {(searchQuery || filter !== 'all') && (
+              <button
+                onClick={() => {
+                  setSearchQuery('')
+                  setFilter('all')
+                }}
+                className="px-4 py-2 bg-brand hover:bg-green-400 text-black rounded-xl font-medium transition-colors"
+              >
+                Filter zurücksetzen
+              </button>
+            )}
+          </div>
+        )}
+      </div>
+    </div>
+  )
 }

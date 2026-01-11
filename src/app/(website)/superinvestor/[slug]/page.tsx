@@ -7,9 +7,8 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import {
   ArrowTopRightOnSquareIcon,
-  EnvelopeIcon, 
+  EnvelopeIcon,
   ArrowUpRightIcon,
-  ArrowLeftIcon,
   UserIcon,
   ChartBarIcon,
   ArrowTrendingUpIcon,
@@ -910,21 +909,9 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     <div className="min-h-screen bg-theme-primary">
 
       {/* Hero Section */}
-      <section className="relative bg-theme-primary pt-16 pb-10">
+      <section className="relative bg-theme-primary pt-8 pb-10">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          {/* Breadcrumb & Currency Switch */}
-          <div className="mb-6 flex items-center justify-between">
-            <Link 
-              href="/superinvestor" 
-              className="inline-flex items-center gap-2 text-gray-500 hover:text-white transition-colors text-sm group"
-            >
-              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Zurück zu Super-Investoren
-            </Link>
-            
-          </div>
-          
+
           {/* Main Hero Card - CLEAN VERSION */}
           <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 lg:p-10">
 

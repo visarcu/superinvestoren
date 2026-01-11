@@ -10,7 +10,6 @@ import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { useTheme } from '@/lib/useTheme'
 import { useEffect, useState } from 'react'
 import PageTransitionLoader from '@/components/PageTransitionLoader'
-import SuperinvestorSecondaryNav from '@/components/SuperinvestorSecondaryNav'
 import { usePathname } from 'next/navigation'
 
 export default function OptimizedWebsiteLayout({ children }: { children: ReactNode }) {
@@ -50,13 +49,13 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
         <PageTransitionLoader />
         
         <Navbar />
-        <SuperinvestorSecondaryNav />
- 
-        <main className="flex-grow pt-40">
+
+        <main className={`flex-grow ${pathname?.startsWith('/superinvestor') ? '' : 'pt-40'}`}>
           {children}
         </main>
-        
-        {/* Footer */}
+
+        {/* Footer - hidden in superinvestor section (has its own layout) */}
+        {!pathname?.startsWith('/superinvestor') && (
         <footer className="bg-[#0a0a0a] border-t border-white/10 py-10">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             
@@ -193,6 +192,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
             </div>
           </div>
         </footer>
+        )}
       </CurrencyProvider>
 
       <Analytics />

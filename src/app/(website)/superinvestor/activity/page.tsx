@@ -8,7 +8,6 @@ import {
   UserIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
-  ArrowLeftIcon,
 } from '@heroicons/react/24/outline'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
@@ -241,32 +240,16 @@ function ActivityPageContent() {
   return (
     <div className="min-h-screen bg-dark">
 
-      {/* Header - Simplified */}
-      <section className="bg-dark pt-24 pb-12">
+      {/* Header */}
+      <section className="bg-dark pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-
-          <div className="mb-6">
-            <Link
-              href="/superinvestor"
-              className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm group"
-            >
-              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Zurück zur Übersicht
-            </Link>
+          <div className="flex items-center gap-3 mb-2">
+            <FireIcon className="w-6 h-6 text-neutral-500" />
+            <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">Investor Aktivität</h1>
           </div>
-
-          <div className="mb-8">
-            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-              <div className="flex items-center gap-3">
-                <FireIcon className="w-6 h-6 text-neutral-500" />
-                <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">Investor Aktivität</h1>
-              </div>
-            </div>
-
-            <p className="text-base text-neutral-400 max-w-3xl leading-relaxed">
-              Käufe und Verkäufe der Top-Investoren nach Quartal.
-            </p>
-          </div>
+          <p className="text-sm text-neutral-400">
+            Käufe und Verkäufe der Top-Investoren nach Quartal.
+          </p>
         </div>
       </section>
 

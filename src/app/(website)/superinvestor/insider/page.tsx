@@ -395,39 +395,33 @@ export default function InsiderTradingPage() {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16 pt-24">
+    <div className="min-h-screen bg-dark">
       {/* Header */}
-      <div className="mb-12">
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 border border-brand/20 text-brand-light rounded-full text-sm font-medium backdrop-blur-sm mb-4">
-            <UserGroupIcon className="w-3 h-3" />
-            Insider Trading
+      <section className="bg-dark pt-8 pb-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+          <div className="flex items-center gap-3 mb-2">
+            <UserGroupIcon className="w-6 h-6 text-neutral-500" />
+            <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">Live Insider Trading</h1>
+            <div className="flex items-center gap-1.5 ml-2">
+              <div className="w-1.5 h-1.5 bg-red-500 rounded-full animate-pulse"></div>
+              <span className="text-xs text-red-400 font-medium">Live</span>
+            </div>
           </div>
-          
-          <h2 className="text-4xl md:text-5xl font-semibold text-white mb-4">
-            Live Insider Trading
-          </h2>
-          <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-            Aktuelle Transaktionen von Unternehmensinsidern • Live Daten aus über 1000 Transaktionen
+          <p className="text-sm text-neutral-400 mb-3">
+            Aktuelle Transaktionen von Unternehmensinsidern
           </p>
-          
-          <div className="flex items-center justify-center gap-2 text-sm text-gray-500 mt-4">
-            <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
-            <span>
-              Letztes Update: {new Date().toLocaleTimeString('de-DE', { 
-                hour: '2-digit', 
-                minute: '2-digit' 
-              })}
-            </span>
-            <span>•</span>
-            <span>
-              {transactions.length.toLocaleString('de-DE')} Transaktionen
-            </span>
+          <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500">
+            <span>{transactions.length.toLocaleString('de-DE')} Transaktionen</span>
+            <span className="text-neutral-600">•</span>
+            <span>Update: {new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
           </div>
         </div>
+      </section>
+
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
 
         {/* Info Banner */}
-        <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06] mb-8">
+        <div className="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800 mb-8">
           <div className="flex items-start gap-4">
             <div className="p-2 bg-blue-500/10 rounded-lg">
               <InformationCircleIcon className="w-5 h-5 text-blue-400" />
@@ -445,7 +439,7 @@ export default function InsiderTradingPage() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-          <div className="bg-[#161618] rounded-xl p-4 border border-white/[0.06]">
+          <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Gesamt</p>
@@ -457,7 +451,7 @@ export default function InsiderTradingPage() {
             </div>
           </div>
           
-          <div className="bg-[#161618] rounded-xl p-4 border border-white/[0.06]">
+          <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Käufe</p>
@@ -469,7 +463,7 @@ export default function InsiderTradingPage() {
             </div>
           </div>
           
-          <div className="bg-[#161618] rounded-xl p-4 border border-white/[0.06]">
+          <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Verkäufe</p>
@@ -481,7 +475,7 @@ export default function InsiderTradingPage() {
             </div>
           </div>
           
-          <div className="bg-[#161618] rounded-xl p-4 border border-white/[0.06]">
+          <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Zuteilungen</p>
@@ -493,7 +487,7 @@ export default function InsiderTradingPage() {
             </div>
           </div>
           
-          <div className="bg-[#161618] rounded-xl p-4 border border-white/[0.06]">
+          <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-gray-400 text-sm">Optionen</p>
@@ -508,11 +502,11 @@ export default function InsiderTradingPage() {
         </div>
 
         {/* Transaktionstyp Breakdown */}
-        <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06] mb-8">
+        <div className="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800 mb-8">
           <h3 className="text-lg font-semibold text-white mb-6">Transaktionstyp Breakdown</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {extendedStats.typeBreakdown.slice(0, 9).map(({ type, count, percentage, label }) => (
-              <div key={type} className="bg-black/20 rounded-lg p-4 border border-white/[0.06]">
+              <div key={type} className="bg-black/20 rounded-lg p-4 border border-neutral-800">
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-sm font-medium text-white">{label}</span>
@@ -528,7 +522,7 @@ export default function InsiderTradingPage() {
         </div>
 
         {/* Filters */}
-        <div className="bg-[#161618] rounded-2xl p-6 border border-white/[0.06] mb-8">
+        <div className="bg-neutral-900/50 rounded-2xl p-6 border border-neutral-800 mb-8">
           <div className="flex flex-col md:flex-row gap-4">
             <div className="flex-1">
               <div className="relative">
@@ -569,10 +563,10 @@ export default function InsiderTradingPage() {
         </div>
 
         {/* Transactions Table */}
-        <div className="bg-[#161618] rounded-2xl overflow-hidden border border-white/[0.06] mb-8">
+        <div className="bg-neutral-900/50 rounded-2xl overflow-hidden border border-neutral-800 mb-8">
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="border-b border-white/[0.06]">
+              <thead className="border-b border-neutral-800">
                 <tr>
                   <th className="text-left py-4 px-6 text-xs font-medium text-gray-400 uppercase tracking-wider">Datum</th>
                   <th className="text-left py-4 px-6 text-xs font-medium text-gray-400 uppercase tracking-wider">Symbol</th>
@@ -681,7 +675,7 @@ export default function InsiderTradingPage() {
               <button
                 onClick={() => setCurrentPage(Math.max(1, currentPage - 1))}
                 disabled={currentPage === 1}
-                className="px-4 py-2 bg-[#161618] border border-white/10 rounded-lg text-white hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-neutral-900/50 border border-white/10 rounded-lg text-white hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Zurück
               </button>
@@ -693,7 +687,7 @@ export default function InsiderTradingPage() {
               <button
                 onClick={() => setCurrentPage(Math.min(totalPages, currentPage + 1))}
                 disabled={currentPage === totalPages}
-                className="px-4 py-2 bg-[#161618] border border-white/10 rounded-lg text-white hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                className="px-4 py-2 bg-neutral-900/50 border border-white/10 rounded-lg text-white hover:bg-white/5 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Weiter
               </button>

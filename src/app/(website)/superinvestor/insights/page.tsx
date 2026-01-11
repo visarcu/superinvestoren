@@ -7,7 +7,6 @@ import {
   ChartBarIcon,
   CalendarIcon,
   ChevronDownIcon,
-  ArrowLeftIcon,
   ArrowTrendingUpIcon,
   FireIcon,
   CurrencyDollarIcon,
@@ -469,51 +468,35 @@ export default function MarketInsightsPage() {
   return (
     <div className="min-h-screen bg-dark">
       
-      {/* Header - Quartr Style */}
-      <section className="bg-dark pt-24 pb-12">
+      {/* Header */}
+      <section className="bg-dark pt-8 pb-8">
         <div className="max-w-7xl mx-auto px-6 lg:px-8">
-          
-          <div className="mb-6">
-            <Link
-              href="/superinvestor"
-              className="inline-flex items-center gap-2 text-neutral-400 hover:text-white transition-colors text-sm group"
-            >
-              <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Zurück zur Übersicht
-            </Link>
-          </div>
-
           <div ref={heroRef} className={`transform transition-all duration-1000 ${
             heroVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
           }`}>
-            
-            <div className="mb-8">
-              <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                <div className="flex items-center gap-3">
-                  <ChartBarIcon className="w-6 h-6 text-neutral-500" />
-                  <h1 className="text-3xl md:text-4xl font-semibold text-white tracking-tight">Market Insights</h1>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-neutral-500">
-                  <div className="w-1.5 h-1.5 bg-neutral-500 rounded-full"></div>
-                  <span>{dataSourceStats.investorsWithData} von {dataSourceStats.totalInvestors} Investoren</span>
-                </div>
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-2">
+              <div className="flex items-center gap-3">
+                <ChartBarIcon className="w-6 h-6 text-neutral-500" />
+                <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">Market Insights</h1>
               </div>
-
-              <p className="text-base text-neutral-400 max-w-3xl leading-relaxed mb-4">
-                Analysen der Käufe, Verkäufe und Bewegungen der besten Investoren der Welt.
-              </p>
-
-              <div className="flex flex-wrap items-center gap-4 text-sm text-neutral-500">
-                <span>{dataSourceStats.filingsInPeriod} Filings</span>
-                <span className="text-neutral-600">•</span>
-                <span>{quarterOptions.find(opt => opt.id === selectedPeriod)?.label || 'Aktueller Zeitraum'}</span>
-                <span className="text-neutral-600">•</span>
-                <span>Update: {dataSourceStats.lastUpdated.split('-').reverse().join('.')}</span>
+              <div className="flex items-center gap-2 text-sm text-neutral-500">
+                <div className="w-1.5 h-1.5 bg-neutral-500 rounded-full"></div>
+                <span>{dataSourceStats.investorsWithData} von {dataSourceStats.totalInvestors} Investoren</span>
               </div>
             </div>
-          </div>
 
-      
+            <p className="text-sm text-neutral-400 mb-3">
+              Analysen der Käufe, Verkäufe und Bewegungen der besten Investoren der Welt.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500">
+              <span>{dataSourceStats.filingsInPeriod} Filings</span>
+              <span className="text-neutral-600">•</span>
+              <span>{quarterOptions.find(opt => opt.id === selectedPeriod)?.label || 'Aktueller Zeitraum'}</span>
+              <span className="text-neutral-600">•</span>
+              <span>Update: {dataSourceStats.lastUpdated.split('-').reverse().join('.')}</span>
+            </div>
+          </div>
         </div>
       </section>
 
