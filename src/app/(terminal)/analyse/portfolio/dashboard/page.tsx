@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotes } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
@@ -16,6 +16,8 @@ import PortfolioPerformanceChart from '@/components/PortfolioPerformanceChart'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
+import { BrokerType, getBrokerConfig, getBrokerColor } from '@/lib/brokerConfig'
+import { BrokerBadge } from '@/components/PortfolioBrokerSelector'
 import {
   BriefcaseIcon,
   ArrowLeftIcon,
@@ -38,7 +40,9 @@ import {
   ArrowDownTrayIcon,
   DevicePhoneMobileIcon,
   ComputerDesktopIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  ChevronDownIcon,
+  Squares2X2Icon
 } from '@heroicons/react/24/outline'
 
 // Free User Limit für Portfolio-Positionen
@@ -51,6 +55,10 @@ interface Portfolio {
   currency: string
   cash_position: number
   created_at: string
+  is_default?: boolean
+  broker_type?: BrokerType | null
+  broker_name?: string | null
+  broker_color?: string | null
 }
 
 interface Holding {
@@ -252,15 +260,24 @@ const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, onTopUp, formatC
 
 export default function PortfolioDashboard() {
   const router = useRouter()
+  const searchParams = useSearchParams()
   const { currency, setCurrency, formatCurrency, formatStockPrice, formatPercentage } = useCurrency()
-  
+
+  // Depot ID from URL params
+  const depotIdParam = searchParams.get('depot')
+  const isAllDepotsView = depotIdParam === 'all'
+
   // Core State
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
+  const [allPortfolios, setAllPortfolios] = useState<Portfolio[]>([])
   const [holdings, setHoldings] = useState<Holding[]>([])
   const [loading, setLoading] = useState(true)
   const [holdingsLoading, setHoldingsLoading] = useState(false)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // Depot Switcher State
+  const [showDepotSwitcher, setShowDepotSwitcher] = useState(false)
   
   // UI State
   const [showAddPosition, setShowAddPosition] = useState(false)
@@ -333,20 +350,20 @@ export default function PortfolioDashboard() {
     setCurrency('EUR')
   }, [])
 
-  // Initial load with staggered requests
+  // Initial load with staggered requests - reload when depot param changes
   useEffect(() => {
     const initLoad = async () => {
-      await loadPortfolio()
+      await loadPortfolio(depotIdParam)
       // Delay exchange rate to reduce initial load
       setTimeout(() => loadExchangeRate(), 500)
     }
     initLoad()
-  }, [])
+  }, [depotIdParam])
 
   // Reload when currency changes
   useEffect(() => {
     if (portfolio?.id) {
-      loadPortfolio()
+      loadPortfolio(depotIdParam)
     }
   }, [currency])
 
@@ -373,7 +390,7 @@ export default function PortfolioDashboard() {
     }
   }
 
-  const loadPortfolio = async () => {
+  const loadPortfolio = async (depotId?: string | null) => {
     setLoading(true)
     setError(null)
 
@@ -393,16 +410,55 @@ export default function PortfolioDashboard() {
 
       setIsPremium(profile?.is_premium || false)
 
-      // VEREINFACHT: Jeder User hat genau ein Portfolio
-      // Lade existierendes oder erstelle automatisch ein neues
+      // Lade alle Portfolios des Users für den Depot-Switcher
       const { data: portfolios } = await supabase
         .from('portfolios')
         .select('*')
         .eq('user_id', user.id)
         .order('is_default', { ascending: false })
-        .limit(1)
+        .order('created_at', { ascending: true })
 
-      let portfolioData = portfolios?.[0]
+      setAllPortfolios(portfolios || [])
+
+      // Handle "All Depots" view
+      if (depotId === 'all' && portfolios && portfolios.length > 0) {
+        // Aggregierte Ansicht: Lade alle Holdings von allen Portfolios
+        setPortfolio({
+          id: 'all',
+          name: 'Alle Depots',
+          currency: 'EUR',
+          cash_position: portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0),
+          created_at: new Date().toISOString()
+        })
+
+        // Lade Holdings von allen Portfolios
+        const allHoldings: Holding[] = []
+        let totalCash = 0
+
+        for (const p of portfolios) {
+          totalCash += p.cash_position || 0
+          await loadHoldingsForPortfolio(p.id, allHoldings)
+        }
+
+        setCashPositionDisplay(totalCash)
+        setHoldings(allHoldings)
+        calculateMetrics(allHoldings, totalCash)
+        setLoading(false)
+        return
+      }
+
+      // Bestimme welches Portfolio geladen werden soll
+      let portfolioData: Portfolio | undefined
+
+      if (depotId && depotId !== 'all') {
+        // Lade spezifisches Portfolio
+        portfolioData = portfolios?.find(p => p.id === depotId)
+      }
+
+      if (!portfolioData) {
+        // Fallback: Default-Portfolio oder erstes Portfolio
+        portfolioData = portfolios?.[0]
+      }
 
       // Wenn kein Portfolio existiert, automatisch erstellen
       if (!portfolioData) {
@@ -413,24 +469,81 @@ export default function PortfolioDashboard() {
             name: 'Mein Portfolio',
             currency: 'EUR',
             cash_position: 0,
-            is_default: true
+            is_default: true,
+            broker_type: 'manual'
           })
           .select()
           .single()
 
         if (createError) throw createError
         portfolioData = newPortfolio
+        setAllPortfolios([newPortfolio])
       }
 
-      setPortfolio(portfolioData)
-      loadHoldings(portfolioData.id)
-      setCashPositionDisplay(portfolioData.cash_position || 0)
+      setPortfolio(portfolioData!)
+      loadHoldings(portfolioData!.id)
+      setCashPositionDisplay(portfolioData!.cash_position || 0)
 
     } catch (error: any) {
       console.error('Error loading portfolio:', error)
       setError(error.message || 'Fehler beim Laden des Portfolios')
     } finally {
       setLoading(false)
+    }
+  }
+
+  // Helper function for loading holdings from a specific portfolio (used in "All Depots" view)
+  const loadHoldingsForPortfolio = async (portfolioId: string, accumulator: Holding[]) => {
+    try {
+      const { data: holdingsData, error: holdingsError } = await supabase
+        .from('portfolio_holdings')
+        .select('*')
+        .eq('portfolio_id', portfolioId)
+
+      if (holdingsError) throw holdingsError
+
+      if (holdingsData && holdingsData.length > 0) {
+        const symbols = holdingsData.map(h => h.symbol)
+
+        let currentPricesUSD: Record<string, number> = {}
+        try {
+          currentPricesUSD = await getBulkQuotes(symbols)
+        } catch (priceError) {
+          holdingsData.forEach(h => {
+            currentPricesUSD[h.symbol] = h.purchase_price || 0
+          })
+        }
+
+        const holdingsWithCurrentPrices = holdingsData.map(holding => ({
+          ...holding,
+          current_price: currentPricesUSD[holding.symbol] || holding.purchase_price || 0
+        }))
+
+        const convertedHoldings = await currencyManager.convertHoldingsForDisplay(
+          holdingsWithCurrentPrices,
+          currency as 'USD' | 'EUR',
+          true
+        )
+
+        convertedHoldings.forEach(holding => {
+          const currentPrice = holding.current_price_display || 0
+          const purchasePrice = holding.purchase_price_display || 0
+          const quantity = holding.quantity || 0
+          const value = currentPrice * quantity
+          const costBasis = purchasePrice * quantity
+          const gainLoss = value - costBasis
+          const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
+
+          accumulator.push({
+            ...holding,
+            value,
+            gain_loss: gainLoss,
+            gain_loss_percent: gainLossPercent
+          })
+        })
+      }
+    } catch (error) {
+      console.error('Error loading holdings for portfolio:', portfolioId, error)
     }
   }
 
@@ -925,6 +1038,10 @@ export default function PortfolioDashboard() {
 
   // Handler für Position hinzufügen mit Premium-Check
   const openAddPositionModal = () => {
+    // In "Alle Depots" Ansicht keine Positionen hinzufügen
+    if (isAllDepotsView) {
+      return
+    }
     // Free User hat Limit erreicht?
     if (!isPremium && holdings.length >= FREE_USER_POSITION_LIMIT) {
       setPremiumFeatureMessage('Mit Premium kannst du unbegrenzt Positionen zu deinem Portfolio hinzufügen.')
@@ -1022,7 +1139,7 @@ export default function PortfolioDashboard() {
           <h2 className="text-xl font-bold text-theme-primary mb-2">Fehler beim Laden</h2>
           <p className="text-theme-secondary mb-4">{error}</p>
           <button
-            onClick={() => loadPortfolio()}
+            onClick={() => loadPortfolio(depotIdParam)}
             className="px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
           >
             Erneut versuchen
@@ -1047,32 +1164,190 @@ export default function PortfolioDashboard() {
 
           <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
             <div className="flex items-center gap-4 group">
-              <div className="w-12 h-12 bg-white rounded-xl flex items-center justify-center border border-theme/10">
-                <BriefcaseIcon className="w-6 h-6 text-brand-light" />
+              {/* Broker Color Indicator */}
+              <div
+                className="w-12 h-12 rounded-xl flex items-center justify-center border border-theme/10"
+                style={{
+                  backgroundColor: portfolio?.id === 'all'
+                    ? 'rgba(16, 185, 129, 0.2)'
+                    : portfolio?.broker_color
+                      ? `${portfolio.broker_color}20`
+                      : 'white'
+                }}
+              >
+                {portfolio?.id === 'all' ? (
+                  <Squares2X2Icon className="w-6 h-6 text-brand" />
+                ) : (
+                  <BriefcaseIcon
+                    className="w-6 h-6"
+                    style={{
+                      color: portfolio?.broker_color
+                        ? getBrokerColor(portfolio.broker_type, portfolio.broker_color)
+                        : '#10B981'
+                    }}
+                  />
+                )}
               </div>
+
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="text-2xl font-bold text-theme-primary">
                     {portfolio?.name || 'Mein Portfolio'}
                   </h1>
-                  <button
-                    onClick={() => {
-                      setNewPortfolioName(portfolio?.name || 'Mein Portfolio')
-                      setShowNameModal(true)
-                    }}
-                    className="p-1.5 hover:bg-theme-secondary/50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
-                    title="Portfolio umbenennen"
-                  >
-                    <PencilIcon className="w-4 h-4 text-theme-secondary" />
-                  </button>
+                  {portfolio?.id !== 'all' && (
+                    <button
+                      onClick={() => {
+                        setNewPortfolioName(portfolio?.name || 'Mein Portfolio')
+                        setShowNameModal(true)
+                      }}
+                      className="p-1.5 hover:bg-theme-secondary/50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
+                      title="Portfolio umbenennen"
+                    >
+                      <PencilIcon className="w-4 h-4 text-theme-secondary" />
+                    </button>
+                  )}
                 </div>
-                <p className="text-sm text-theme-muted mt-1">
-                  Verwalten Sie Ihre Investments
-                </p>
+                <div className="flex items-center gap-2 mt-1">
+                  {portfolio?.id !== 'all' && portfolio?.broker_type && (
+                    <BrokerBadge
+                      brokerId={portfolio.broker_type}
+                      customName={portfolio.broker_name}
+                      customColor={portfolio.broker_color}
+                      size="sm"
+                    />
+                  )}
+                  {portfolio?.id === 'all' && (
+                    <span className="text-xs text-brand bg-brand/10 px-2 py-0.5 rounded-full">
+                      {allPortfolios.length} Depots
+                    </span>
+                  )}
+                </div>
               </div>
+
+              {/* Depot Switcher Dropdown */}
+              {allPortfolios.length > 0 && (
+                <div className="relative ml-2">
+                  <button
+                    onClick={() => setShowDepotSwitcher(!showDepotSwitcher)}
+                    className="flex items-center gap-2 px-4 py-2 bg-theme-secondary/30 hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
+                    title="Depot wechseln"
+                  >
+                    <span className="text-sm text-theme-secondary">Depot wechseln</span>
+                    <ChevronDownIcon className={`w-4 h-4 text-theme-secondary transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
+                  </button>
+
+                  {showDepotSwitcher && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setShowDepotSwitcher(false)}
+                      />
+                      <div className="absolute left-0 top-full mt-2 w-72 bg-theme-card border border-theme/20 rounded-xl shadow-xl z-20 py-2 max-h-96 overflow-y-auto">
+                        {/* All Depots Option */}
+                        {allPortfolios.length > 1 && (
+                          <>
+                            <Link
+                              href="/analyse/portfolio/dashboard?depot=all"
+                              onClick={() => setShowDepotSwitcher(false)}
+                              className={`flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors ${
+                                portfolio?.id === 'all' ? 'bg-brand/10' : ''
+                              }`}
+                            >
+                              <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
+                                <Squares2X2Icon className="w-4 h-4 text-brand" />
+                              </div>
+                              <div className="flex-1">
+                                <p className="font-medium text-theme-primary">Alle Depots</p>
+                                <p className="text-xs text-theme-muted">{allPortfolios.length} Depots kombiniert</p>
+                              </div>
+                              {portfolio?.id === 'all' && (
+                                <CheckIcon className="w-4 h-4 text-brand" />
+                              )}
+                            </Link>
+                            <hr className="my-2 border-theme/10" />
+                          </>
+                        )}
+
+                        {/* Individual Depots */}
+                        {allPortfolios.map((p) => {
+                          const brokerColor = getBrokerColor(p.broker_type, p.broker_color)
+                          const isActive = portfolio?.id === p.id
+
+                          return (
+                            <Link
+                              key={p.id}
+                              href={`/analyse/portfolio/dashboard?depot=${p.id}`}
+                              onClick={() => setShowDepotSwitcher(false)}
+                              className={`flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors ${
+                                isActive ? 'bg-brand/10' : ''
+                              }`}
+                            >
+                              <div
+                                className="w-8 h-8 rounded-lg flex items-center justify-center"
+                                style={{ backgroundColor: `${brokerColor}20` }}
+                              >
+                                <BriefcaseIcon className="w-4 h-4" style={{ color: brokerColor }} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <p className="font-medium text-theme-primary truncate">{p.name}</p>
+                                {p.broker_type && (
+                                  <BrokerBadge
+                                    brokerId={p.broker_type}
+                                    customName={p.broker_name}
+                                    customColor={p.broker_color}
+                                    size="sm"
+                                  />
+                                )}
+                              </div>
+                              {isActive && (
+                                <CheckIcon className="w-4 h-4 text-brand" />
+                              )}
+                            </Link>
+                          )
+                        })}
+
+                        {/* Add New Depot Link */}
+                        <hr className="my-2 border-theme/10" />
+                        <Link
+                          href="/analyse/portfolio/depots/neu"
+                          onClick={() => setShowDepotSwitcher(false)}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors text-brand"
+                        >
+                          <div className="w-8 h-8 bg-brand/10 rounded-lg flex items-center justify-center">
+                            <PlusIcon className="w-4 h-4" />
+                          </div>
+                          <span className="font-medium">Neues Depot erstellen</span>
+                        </Link>
+
+                        {/* Manage Depots Link */}
+                        <Link
+                          href="/analyse/portfolio/depots"
+                          onClick={() => setShowDepotSwitcher(false)}
+                          className="flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors text-theme-secondary"
+                        >
+                          <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
+                            <ChartBarIcon className="w-4 h-4" />
+                          </div>
+                          <span className="font-medium">Depots verwalten</span>
+                        </Link>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
             </div>
-            
+
             <div className="flex items-center gap-3">
+              {/* Alle Depots Link */}
+              <Link
+                href="/analyse/portfolio/depots"
+                className="flex items-center gap-2 px-4 py-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
+                title="Alle Depots anzeigen"
+              >
+                <Squares2X2Icon className="w-5 h-5 text-theme-secondary" />
+                <span className="text-sm text-theme-secondary hidden sm:inline">Meine Depots</span>
+              </Link>
+
               <button
                 onClick={exportToCSV}
                 className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
@@ -1080,7 +1355,7 @@ export default function PortfolioDashboard() {
               >
                 <ArrowDownTrayIcon className="w-5 h-5 text-theme-secondary" />
               </button>
-              
+
               <button
                 onClick={refreshPrices}
                 disabled={refreshing}

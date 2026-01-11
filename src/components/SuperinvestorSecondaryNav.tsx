@@ -90,7 +90,7 @@ export default function SuperinvestorSecondaryNav() {
   return (
     <div className="sticky top-[100px] z-40 px-4 sm:px-6 mb-8">
       <div className="max-w-7xl mx-auto">
-        <div className="bg-black/95 backdrop-blur-xl border border-white/10 rounded-2xl p-3">
+        <div className="bg-theme-card backdrop-blur-xl rounded-2xl p-3">
           <nav className="flex items-center gap-2 overflow-x-auto scrollbar-none">
             {navItems.map((item) => {
               const Icon = item.icon
