@@ -2,12 +2,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { 
-  ChevronLeftIcon,
-  ChevronRightIcon,
+import {
   BanknotesIcon,
   ChartBarIcon,
-  ScissorsIcon,
   CalendarIcon,
   ArrowPathIcon
 } from '@heroicons/react/24/outline'
@@ -18,17 +15,17 @@ interface CalendarEvent {
   type: 'dividend' | 'earnings' | 'split'
   symbol: string
   name: string
-  amount?: number // für Dividenden (per Share in USD)
-  totalAmount?: number // für Dividenden (total basierend auf Holdings in USD)
-  amountEUR?: number // für Dividenden (per Share in EUR)
-  totalAmountEUR?: number // für Dividenden (total in EUR)
-  estimate?: number // für Earnings estimates
-  actual?: number // für Earnings actual
-  ratio?: string // für Splits
-  time?: string // pre-market, post-market, etc
-  isPaymentDate?: boolean // ob es Payment Date oder Ex-Date ist
-  paymentDate?: string // Payment Date für Dividenden
-  exDate?: string // Ex-Date für Dividenden
+  amount?: number
+  totalAmount?: number
+  amountEUR?: number
+  totalAmountEUR?: number
+  estimate?: number
+  actual?: number
+  ratio?: string
+  time?: string
+  isPaymentDate?: boolean
+  paymentDate?: string
+  exDate?: string
 }
 
 interface PortfolioCalendarProps {
@@ -42,20 +39,9 @@ interface PortfolioCalendarProps {
 }
 
 export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) {
-  const [currentDate, setCurrentDate] = useState(new Date())
+  const [currentDate] = useState(new Date())
   const [events, setEvents] = useState<CalendarEvent[]>([])
   const [loading, setLoading] = useState(true)
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  // const [viewMode, setViewMode] = useState<'month' | 'week'>('month') // Future feature
-  const [filterType, setFilterType] = useState<'all' | 'dividend' | 'earnings' | 'split'>('all')
-
-  // Monate auf Deutsch
-  const monthNames = [
-    'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
-    'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'
-  ]
-
-  const weekDays = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa']
 
   useEffect(() => {
     loadEvents()
@@ -70,47 +56,37 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
     setLoading(true)
     const allEvents: CalendarEvent[] = []
     const today = new Date()
-    
+
     try {
-      // ✅ EINFACHE LÖSUNG: Verwende genau die gleiche API wie PortfolioDividends
-      console.log('📅 Calendar: Loading dividend data via same API as PortfolioDividends...')
-      
       const dividendResponse = await fetch('/api/dividend-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ holdings })
       })
-      
+
       if (dividendResponse.ok) {
         const dividendData = await dividendResponse.json()
-        console.log('📅 Calendar: Dividend API response:', dividendData)
-        
+
         if (dividendData.success && dividendData.annualDividends) {
           const exchangeRate = await currencyManager.getCurrentUSDtoEURRate()
-          
-          // Zeitraum für aktuellen Monat
+
           const monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
           const monthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59)
-          
+
           dividendData.annualDividends.forEach((stock: any) => {
             const holding = holdings.find(h => h.symbol === stock.symbol)
             if (!holding) return
-            
-            console.log(`📅 Processing ${stock.symbol}: nextPaymentDate=${stock.nextPaymentDate}`)
-            
-            // Payment Date Event hinzufügen
+
             if (stock.nextPaymentDate) {
               const paymentDate = new Date(stock.nextPaymentDate)
-              
+
               if (paymentDate >= monthStart && paymentDate <= monthEnd) {
-                console.log(`📅 Adding payment event: ${stock.symbol} on ${stock.nextPaymentDate}`)
-                
                 const quantity = holding.quantity || 0
                 const dividendPerShare = stock.lastDividend || 0
                 const totalDividend = dividendPerShare * quantity
                 const dividendPerShareEUR = dividendPerShare * (exchangeRate || 1)
                 const totalDividendEUR = totalDividend * (exchangeRate || 1)
-                
+
                 allEvents.push({
                   date: stock.nextPaymentDate,
                   type: 'dividend',
@@ -131,25 +107,23 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
         }
       }
 
-      // Ex-Date Events aus historischen Daten (vereinfacht)
       for (const holding of holdings) {
         try {
           if (!holding.symbol || !holding.quantity || holding.quantity === 0) {
             continue
           }
-          
+
           const histResponse = await fetch(`/api/dividends/${holding.symbol}`)
-          
+
           if (histResponse.ok) {
             const histData = await histResponse.json()
-            
+
             if (histData?.quarterlyHistory && Array.isArray(histData.quarterlyHistory)) {
               const exchangeRate = await currencyManager.getCurrentUSDtoEURRate()
               const quantity = holding.quantity || 0
               const monthStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)
               const monthEnd = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0, 23, 59, 59)
-              
-              // Nur Ex-Dates für aktuellen Monat
+
               histData.quarterlyHistory.forEach((div: any) => {
                 if (div.exDividendDate) {
                   const exDate = new Date(div.exDividendDate)
@@ -159,7 +133,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
                       const totalDividend = dividendPerShare * quantity
                       const dividendPerShareEUR = dividendPerShare * (exchangeRate || 1)
                       const totalDividendEUR = totalDividend * (exchangeRate || 1)
-                      
+
                       allEvents.push({
                         date: div.exDividendDate,
                         type: 'dividend',
@@ -169,7 +143,7 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
                         totalAmount: totalDividend,
                         amountEUR: dividendPerShareEUR,
                         totalAmountEUR: totalDividendEUR,
-                        isPaymentDate: false, // Ex-Date
+                        isPaymentDate: false,
                         paymentDate: undefined,
                         exDate: div.exDividendDate,
                         time: 'Ex-Dividend Date'
@@ -181,213 +155,25 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
             }
           }
         } catch (error) {
-          console.error(`❌ Error loading ex-dates for ${holding.symbol}:`, error)
+          console.error(`Error loading ex-dates for ${holding.symbol}:`, error)
         }
       }
 
     } catch (error) {
-      console.error('❌ Error loading calendar events:', error)
+      console.error('Error loading calendar events:', error)
     }
 
-    // Nach Datum sortieren
     allEvents.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     setEvents(allEvents)
     setLoading(false)
-  }
-
-
-  const getDaysInMonth = () => {
-    return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate()
-  }
-
-  const getFirstDayOfMonth = () => {
-    return new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay()
-  }
-
-  const previousMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1))
-  }
-
-  const nextMonth = () => {
-    setCurrentDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1))
-  }
-
-  const goToToday = () => {
-    setCurrentDate(new Date())
-  }
-
-  const getEventsForDate = (date: number) => {
-    // TIMEZONE FIX: Verwende lokale Zeit statt UTC
-    const testDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), date)
-    
-    // Verwende toLocaleDateString mit ISO-Format statt toISOString
-    const year = testDate.getFullYear()
-    const month = String(testDate.getMonth() + 1).padStart(2, '0')
-    const day = String(testDate.getDate()).padStart(2, '0')
-    const dateStr = `${year}-${month}-${day}`
-    
-    let dayEvents = events.filter(e => e.date === dateStr)
-    
-    if (filterType !== 'all') {
-      dayEvents = dayEvents.filter(e => e.type === filterType)
-    }
-    
-    return dayEvents
-  }
-
-  const getEventIcon = (type: string) => {
-    switch(type) {
-      case 'dividend':
-        return <BanknotesIcon className="w-3 h-3" />
-      case 'earnings':
-        return <ChartBarIcon className="w-3 h-3" />
-      case 'split':
-        return <ScissorsIcon className="w-3 h-3" />
-      default:
-        return <CalendarIcon className="w-3 h-3" />
-    }
-  }
-
-  const getEventColor = (type: string) => {
-    switch(type) {
-      case 'dividend':
-        return 'bg-brand text-white'
-      case 'earnings':
-        return 'bg-blue-500 text-white'
-      case 'split':
-        return 'bg-yellow-500 text-white'
-      default:
-        return 'bg-gray-500 text-white'
-    }
-  }
-
-  const renderCalendarDays = () => {
-    const days = []
-    const daysInMonth = getDaysInMonth()
-    const firstDay = getFirstDayOfMonth()
-    const today = new Date()
-    
-    // Leere Zellen vor dem ersten Tag
-    for (let i = 0; i < firstDay; i++) {
-      days.push(
-        <div key={`empty-${i}`} className="p-2 border border-theme/10 bg-theme-secondary/10 min-h-[110px]">
-          <span className="text-theme-muted text-xs opacity-50">
-            {new Date(currentDate.getFullYear(), currentDate.getMonth(), -firstDay + i + 1).getDate()}
-          </span>
-        </div>
-      )
-    }
-    
-    // Tage des Monats
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dayEvents = getEventsForDate(day)
-      const isToday = 
-        today.getDate() === day && 
-        today.getMonth() === currentDate.getMonth() && 
-        today.getFullYear() === currentDate.getFullYear()
-      
-      days.push(
-        <div
-          key={day}
-          className={`p-2 border border-theme/10 min-h-[110px] cursor-pointer transition-all duration-200 ${
-            isToday 
-              ? 'bg-brand/10 border-green-500/30 shadow-sm' 
-              : dayEvents.length > 0
-              ? 'bg-theme-card hover:bg-theme-secondary/30 hover:shadow-md hover:border-theme/20'
-              : 'bg-theme-card hover:bg-theme-secondary/20'
-          }`}
-          onClick={() => setSelectedDate(new Date(currentDate.getFullYear(), currentDate.getMonth(), day))}
-        >
-          <div className="flex justify-between items-start mb-2">
-            <span className={`text-sm font-semibold ${
-              isToday ? 'text-brand-light bg-brand/20 w-6 h-6 rounded-full flex items-center justify-center' : 'text-theme-primary'
-            }`}>
-              {day}
-            </span>
-            {dayEvents.length > 0 && (
-              <div className="flex items-center gap-1">
-                {dayEvents.filter(e => e.type === 'dividend').length > 0 && (
-                  <div className="w-2 h-2 bg-brand rounded-full animate-pulse"></div>
-                )}
-                <span className="text-xs bg-theme-secondary/70 px-1.5 py-0.5 rounded-full text-theme-muted font-medium">
-                  {dayEvents.length}
-                </span>
-              </div>
-            )}
-          </div>
-          
-          <div className="space-y-1">
-            {dayEvents.slice(0, 3).map((event, idx) => {
-              const quantity = holdings.find(h => h.symbol === event.symbol)?.quantity || 0
-              return (
-                <div
-                  key={idx}
-                  className={`text-xs px-1.5 py-1 rounded flex items-center justify-between gap-1 cursor-pointer transition-all hover:scale-105 ${
-                    event.type === 'dividend' && event.isPaymentDate
-                      ? 'bg-brand text-white border border-green-400 hover:bg-brand'
-                      : event.type === 'dividend' && !event.isPaymentDate
-                      ? 'bg-blue-600 text-white border border-blue-400 hover:bg-blue-500'
-                      : getEventColor(event.type)
-                  }`}
-                  title={
-                    event.type === 'dividend' && event.amount && event.totalAmount
-                      ? `${event.symbol} Dividend ${event.isPaymentDate ? 'Payment' : 'Ex-Date'}\n${quantity} Aktien × $${event.amount.toFixed(4)} (€${event.amountEUR?.toFixed(4)}) = $${event.totalAmount.toFixed(2)} (€${event.totalAmountEUR?.toFixed(2)})\n${event.isPaymentDate ? 'Zahlung am' : 'Ex-Date am'}: ${new Date(event.date).toLocaleDateString('de-DE')}${event.isPaymentDate && event.exDate ? `\nEx-Date war: ${new Date(event.exDate).toLocaleDateString('de-DE')}` : ''}`
-                      : `${event.symbol} ${event.type}`
-                  }
-                >
-                  <div className="flex items-center gap-1">
-                    {event.type === 'dividend' ? (
-                      <span className="text-xs">
-                        {event.isPaymentDate ? '💰' : '📅'}
-                      </span>
-                    ) : (
-                      getEventIcon(event.type)
-                    )}
-                    <span className="truncate font-medium">{event.symbol}</span>
-                    {event.type === 'dividend' && !event.isPaymentDate && (
-                      <span className="text-xs opacity-75">Ex</span>
-                    )}
-                  </div>
-                  {event.type === 'dividend' && event.totalAmount && (
-                    <div className="text-xs font-semibold bg-white/20 px-1.5 py-0.5 rounded">
-                      <div>${event.totalAmount.toFixed(2)}</div>
-                      {event.totalAmountEUR && (
-                        <div className="text-green-200">€{event.totalAmountEUR.toFixed(2)}</div>
-                      )}
-                    </div>
-                  )}
-                </div>
-              )
-            })}
-            {dayEvents.length > 3 && (
-              <div className="text-xs text-theme-muted text-center">
-                +{dayEvents.length - 3} mehr
-              </div>
-            )}
-          </div>
-        </div>
-      )
-    }
-    
-    // Leere Zellen nach dem letzten Tag (für nächsten Monat)
-    const remainingCells = 42 - (firstDay + daysInMonth) // 6 Wochen × 7 Tage
-    for (let i = 1; i <= remainingCells && i <= 14; i++) {
-      days.push(
-        <div key={`next-${i}`} className="p-2 border border-theme/10 bg-theme-secondary/10 min-h-[110px]">
-          <span className="text-theme-muted text-xs opacity-50">{i}</span>
-        </div>
-      )
-    }
-    
-    return days
   }
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
-          <p className="text-theme-secondary">Lade Kalender-Events...</p>
+          <ArrowPathIcon className="w-5 h-5 text-emerald-400 animate-spin mx-auto mb-3" />
+          <p className="text-neutral-400 text-sm">Lade Kalender-Events...</p>
         </div>
       </div>
     )
@@ -395,18 +181,12 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
 
   return (
     <div className="space-y-6">
-      {/* Simple Event List - Direct and reliable */}
-      <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-        <h2 className="text-xl font-bold text-theme-primary mb-6">Kommende Dividenden & Events</h2>
-        
-{/* Dynamische Event-Liste aus echten Portfolio-Daten */}
-        {loading ? (
-          <div className="text-center py-8">
-            <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
-            <p className="text-theme-secondary">Lade Events...</p>
-          </div>
-        ) : events.length > 0 ? (
-          <div className="space-y-4">
+      {/* Event List */}
+      <div>
+        <h2 className="text-sm font-medium text-neutral-400 mb-4">Kommende Dividenden & Events</h2>
+
+        {events.length > 0 ? (
+          <div className="space-y-0">
             {events.slice(0, 10).map((event, index) => {
               const holding = holdings.find(h => h.symbol === event.symbol)
               const quantity = holding?.quantity || 0
@@ -414,39 +194,35 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
               return (
                 <div
                   key={`${event.symbol}-${event.date}-${index}`}
-                  className={`flex items-center justify-between p-4 rounded-lg ${
-                    event.isPaymentDate
-                      ? 'bg-brand/10 border border-brand/20'
-                      : 'bg-blue-500/10 border border-blue-500/20'
-                  }`}
+                  className="flex items-center justify-between py-4 border-b border-neutral-800 last:border-0"
                 >
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-lg flex items-center justify-center ${
-                      event.isPaymentDate ? 'bg-brand/20' : 'bg-blue-500/20'
+                    <div className={`w-9 h-9 rounded-lg flex items-center justify-center ${
+                      event.isPaymentDate ? 'bg-emerald-500/20' : 'bg-blue-500/20'
                     }`}>
                       {event.isPaymentDate ? (
-                        <BanknotesIcon className="w-5 h-5 text-brand-light" />
+                        <BanknotesIcon className="w-4 h-4 text-emerald-400" />
                       ) : (
-                        <CalendarIcon className="w-5 h-5 text-blue-400" />
+                        <CalendarIcon className="w-4 h-4 text-blue-400" />
                       )}
                     </div>
                     <div>
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-theme-primary">{event.symbol}</span>
-                        <span className="text-sm text-theme-secondary">{event.name}</span>
+                        <span className="font-medium text-white text-sm">{event.symbol}</span>
+                        <span className="text-xs text-neutral-500">{event.name}</span>
                       </div>
-                      <div className={`text-sm ${event.isPaymentDate ? 'text-brand-light' : 'text-blue-400'}`}>
-                        {event.isPaymentDate ? '💰' : '📅'} {event.isPaymentDate ? 'Payment Date' : 'Ex-Date'}: {new Date(event.date).toLocaleDateString('de-DE')}
+                      <div className={`text-xs ${event.isPaymentDate ? 'text-emerald-400' : 'text-blue-400'}`}>
+                        {event.isPaymentDate ? 'Payment' : 'Ex-Date'}: {new Date(event.date).toLocaleDateString('de-DE')}
                       </div>
                     </div>
                   </div>
 
                   {event.totalAmount && event.totalAmount > 0 && (
                     <div className="text-right">
-                      <div className="text-lg font-bold text-theme-primary">
+                      <div className="text-sm font-medium text-white">
                         {event.totalAmountEUR ? `€${event.totalAmountEUR.toFixed(2)}` : `$${event.totalAmount.toFixed(2)}`}
                       </div>
-                      <div className="text-sm text-theme-secondary">{quantity} Aktien</div>
+                      <div className="text-xs text-neutral-500">{quantity} Aktien</div>
                     </div>
                   )}
                 </div>
@@ -458,70 +234,58 @@ export default function PortfolioCalendar({ holdings }: PortfolioCalendarProps) 
             <img
               src="/illustrations/undraw_investing_uzcu.svg"
               alt="Kalender"
-              className="w-40 h-40 mx-auto mb-6 opacity-85"
+              className="w-32 h-32 mx-auto mb-6 opacity-60"
             />
-            <h3 className="text-lg font-semibold text-theme-primary mb-2">
+            <h3 className="text-base font-medium text-white mb-2">
               Keine Events gefunden
             </h3>
-            <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+            <p className="text-neutral-500 text-sm max-w-sm mx-auto">
               Für deine Positionen wurden keine Dividenden-Events im aktuellen Monat gefunden.
             </p>
           </div>
         )}
       </div>
-      
-      {/* Summary Stats - dynamisch */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
-              <BanknotesIcon className="w-5 h-5 text-brand-light" />
-            </div>
-            <div>
-              <p className="text-sm text-theme-secondary">Kommende Dividenden</p>
-              <p className="text-xl font-bold text-theme-primary">
-                {events.filter(e => e.isPaymentDate).length}
-              </p>
-              <p className="text-sm text-brand-light font-medium">
-                ~€{events.filter(e => e.isPaymentDate).reduce((sum, e) => sum + (e.totalAmountEUR || 0), 0).toFixed(2)} total
-              </p>
-            </div>
+
+      {/* Summary Stats - Flat inline */}
+      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-4 pt-4 border-t border-neutral-800">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <BanknotesIcon className="w-4 h-4 text-emerald-400" />
+            <span className="text-xs text-neutral-500">Kommende Dividenden</span>
           </div>
+          <p className="text-lg font-semibold text-white">
+            {events.filter(e => e.isPaymentDate).length}
+          </p>
+          <p className="text-xs text-emerald-400">
+            ~€{events.filter(e => e.isPaymentDate).reduce((sum, e) => sum + (e.totalAmountEUR || 0), 0).toFixed(2)}
+          </p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-              <CalendarIcon className="w-5 h-5 text-blue-400" />
-            </div>
-            <div>
-              <p className="text-sm text-theme-secondary">Ex-Dates</p>
-              <p className="text-xl font-bold text-theme-primary">
-                {events.filter(e => !e.isPaymentDate).length}
-              </p>
-            </div>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <CalendarIcon className="w-4 h-4 text-blue-400" />
+            <span className="text-xs text-neutral-500">Ex-Dates</span>
           </div>
+          <p className="text-lg font-semibold text-white">
+            {events.filter(e => !e.isPaymentDate).length}
+          </p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 bg-yellow-500/20 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-5 h-5 text-yellow-400" />
-            </div>
-            <div>
-              <p className="text-sm text-theme-secondary">Nächstes Event</p>
-              {events.length > 0 ? (
-                <>
-                  <p className="text-xl font-bold text-theme-primary">
-                    {new Date(events[0].date).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}
-                  </p>
-                  <p className="text-sm text-theme-secondary">{events[0].symbol} {events[0].isPaymentDate ? 'Payment' : 'Ex-Date'}</p>
-                </>
-              ) : (
-                <p className="text-xl font-bold text-theme-muted">-</p>
-              )}
-            </div>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <ChartBarIcon className="w-4 h-4 text-yellow-400" />
+            <span className="text-xs text-neutral-500">Nächstes Event</span>
           </div>
+          {events.length > 0 ? (
+            <>
+              <p className="text-lg font-semibold text-white">
+                {new Date(events[0].date).toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })}
+              </p>
+              <p className="text-xs text-neutral-500">{events[0].symbol} {events[0].isPaymentDate ? 'Payment' : 'Ex-Date'}</p>
+            </>
+          ) : (
+            <p className="text-lg font-semibold text-neutral-600">-</p>
+          )}
         </div>
       </div>
     </div>

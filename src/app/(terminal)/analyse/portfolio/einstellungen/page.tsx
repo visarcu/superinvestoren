@@ -272,32 +272,32 @@ export default function EinstellungenPage() {
 
   if (loading) {
     return (
-      <div className="h-full bg-theme-primary flex items-center justify-center">
+      <div className="h-full bg-neutral-950 flex items-center justify-center">
         <div className="text-center">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-theme-secondary">Einstellungen werden geladen...</p>
+          <p className="text-neutral-400">Einstellungen werden geladen...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="h-full bg-theme-primary text-theme-primary overflow-auto">
+    <div className="h-full bg-neutral-950 text-white overflow-auto">
       {/* Header */}
-      <div className="bg-theme-secondary border-b border-theme">
+      <div className="bg-neutral-800 border-b border-neutral-800">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
                 href="/analyse/portfolio"
-                className="flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors"
+                className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-4 h-4" />
                 <span className="text-sm">Portfolio</span>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-theme-primary">Portfolio verwalten</h1>
-                <p className="text-theme-secondary">Positionen bearbeiten, importieren und exportieren</p>
+                <h1 className="text-2xl font-bold text-white">Portfolio verwalten</h1>
+                <p className="text-neutral-400">Positionen bearbeiten, importieren und exportieren</p>
               </div>
             </div>
           </div>
@@ -319,8 +319,8 @@ export default function EinstellungenPage() {
                     onClick={() => setActiveView(tab.id as any)}
                     className={`flex items-center gap-2 py-2 text-sm font-medium border-b-2 transition-colors
                       ${isActive 
-                        ? 'border-green-500 text-brand-light' 
-                        : 'border-transparent text-theme-secondary hover:text-theme-primary'
+                        ? 'border-green-500 text-emerald-400' 
+                        : 'border-transparent text-neutral-400 hover:text-white'
                       }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -339,10 +339,10 @@ export default function EinstellungenPage() {
           <>
             {/* Add Position Button */}
             <div className="mb-6 flex justify-between items-center">
-              <h2 className="text-lg font-semibold text-theme-primary">Meine Positionen</h2>
+              <h2 className="text-lg font-semibold text-white">Meine Positionen</h2>
               <button
                 onClick={() => setShowAddStock(true)}
-                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-500 text-white font-semibold rounded-md transition-colors"
               >
                 <PlusIcon className="w-4 h-4" />
                 Position hinzufügen
@@ -350,47 +350,47 @@ export default function EinstellungenPage() {
             </div>
 
             {/* Positions Table */}
-            <div className="bg-theme-card border border-theme rounded-lg overflow-x-auto">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-lg overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-theme-secondary">
+                <thead className="bg-neutral-800">
                   <tr>
-                    <th className="text-left py-3 px-6 text-theme-secondary font-medium">Aktie</th>
-                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Anzahl</th>
-                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Ø Preis</th>
-                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Aktuell</th>
-                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">Wert</th>
-                    <th className="text-right py-3 px-6 text-theme-secondary font-medium">G/V</th>
-                    <th className="text-center py-3 px-6 text-theme-secondary font-medium">Aktionen</th>
+                    <th className="text-left py-3 px-6 text-neutral-400 font-medium">Aktie</th>
+                    <th className="text-right py-3 px-6 text-neutral-400 font-medium">Anzahl</th>
+                    <th className="text-right py-3 px-6 text-neutral-400 font-medium">Ø Preis</th>
+                    <th className="text-right py-3 px-6 text-neutral-400 font-medium">Aktuell</th>
+                    <th className="text-right py-3 px-6 text-neutral-400 font-medium">Wert</th>
+                    <th className="text-right py-3 px-6 text-neutral-400 font-medium">G/V</th>
+                    <th className="text-center py-3 px-6 text-neutral-400 font-medium">Aktionen</th>
                   </tr>
                 </thead>
                 <tbody>
                   {portfolio.map((position) => (
-                    <tr key={position.id} className="border-t border-theme hover:bg-theme-secondary/30">
+                    <tr key={position.id} className="border-t border-neutral-800 hover:bg-neutral-800/30">
                       <td className="py-4 px-6">
                         <div>
-                          <div className="font-semibold text-theme-primary">{position.ticker}</div>
-                          <div className="text-sm text-theme-muted">{position.name}</div>
+                          <div className="font-semibold text-white">{position.ticker}</div>
+                          <div className="text-sm text-neutral-500">{position.name}</div>
                         </div>
                       </td>
-                      <td className="py-4 px-6 text-right text-theme-primary">{position.shares}</td>
-                      <td className="py-4 px-6 text-right text-theme-primary">${position.avgPrice.toFixed(2)}</td>
-                      <td className="py-4 px-6 text-right text-theme-primary">${position.currentPrice.toFixed(2)}</td>
-                      <td className="py-4 px-6 text-right text-theme-primary font-semibold">${position.totalValue.toLocaleString()}</td>
-                      <td className={`py-4 px-6 text-right font-semibold ${position.gainLoss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
+                      <td className="py-4 px-6 text-right text-white">{position.shares}</td>
+                      <td className="py-4 px-6 text-right text-white">${position.avgPrice.toFixed(2)}</td>
+                      <td className="py-4 px-6 text-right text-white">${position.currentPrice.toFixed(2)}</td>
+                      <td className="py-4 px-6 text-right text-white font-semibold">${position.totalValue.toLocaleString()}</td>
+                      <td className={`py-4 px-6 text-right font-semibold ${position.gainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                         {position.gainLoss >= 0 ? '+' : ''}${position.gainLoss.toFixed(0)} ({position.gainLossPercent >= 0 ? '+' : ''}{position.gainLossPercent.toFixed(1)}%)
                       </td>
                       <td className="py-4 px-6">
                         <div className="flex items-center justify-center gap-2">
                           <button
                             onClick={() => handleEditStock(position)}
-                            className="p-1 text-theme-muted hover:text-blue-400 rounded transition-colors"
+                            className="p-1 text-neutral-500 hover:text-blue-400 rounded transition-colors"
                             title="Bearbeiten"
                           >
                             <PencilIcon className="w-4 h-4" />
                           </button>
                           <button
                             onClick={() => handleDeleteStock(position.id)}
-                            className="p-1 text-theme-muted hover:text-red-400 rounded transition-colors"
+                            className="p-1 text-neutral-500 hover:text-red-400 rounded transition-colors"
                             title="Löschen"
                           >
                             <TrashIcon className="w-4 h-4" />
@@ -407,18 +407,18 @@ export default function EinstellungenPage() {
 
         {activeView === 'import' && (
           <div className="space-y-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">CSV Import</h3>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">CSV Import</h3>
               
               <div className="space-y-4">
-                <div className="border-2 border-dashed border-theme rounded-lg p-8 text-center">
-                  <DocumentArrowUpIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
-                  <h4 className="text-theme-primary font-medium mb-2">Portfolio CSV hochladen</h4>
-                  <p className="text-theme-muted text-sm mb-4">
+                <div className="border-2 border-dashed border-neutral-800 rounded-lg p-8 text-center">
+                  <DocumentArrowUpIcon className="w-12 h-12 text-neutral-500 mx-auto mb-4" />
+                  <h4 className="text-white font-medium mb-2">Portfolio CSV hochladen</h4>
+                  <p className="text-neutral-500 text-sm mb-4">
                     Unterstützte Formate: CSV mit Spalten für Ticker, Anzahl, Durchschnittspreis
                   </p>
                   
-                  <label className="inline-flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md cursor-pointer transition-colors">
+                  <label className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-500 text-white font-semibold rounded-md cursor-pointer transition-colors">
                     <DocumentArrowUpIcon className="w-4 h-4" />
                     CSV-Datei auswählen
                     <input
@@ -432,7 +432,7 @@ export default function EinstellungenPage() {
 
                 <div className="bg-blue-500/10 border border-blue-500/30 rounded-lg p-4">
                   <h5 className="text-blue-400 font-medium mb-2">CSV Format-Beispiel:</h5>
-                  <pre className="text-sm text-theme-secondary bg-theme-secondary p-3 rounded font-mono">
+                  <pre className="text-sm text-neutral-400 bg-neutral-800 p-3 rounded font-mono">
 {`Ticker,Name,Shares,AvgPrice,PurchaseDate
 AAPL,Apple Inc.,100,150.00,2024-01-15
 MSFT,Microsoft Corp.,50,280.00,2024-02-10
@@ -442,8 +442,8 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
               </div>
             </div>
 
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">Broker Import</h3>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Broker Import</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {[
                   { name: 'Trade Republic', status: 'Geplant' },
@@ -451,9 +451,9 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   { name: 'ING DiBa', status: 'Geplant' },
                   { name: 'Comdirect', status: 'Geplant' }
                 ].map((broker) => (
-                  <div key={broker.name} className="p-4 border border-theme rounded-lg">
+                  <div key={broker.name} className="p-4 border border-neutral-800 rounded-lg">
                     <div className="flex items-center justify-between">
-                      <span className="font-medium text-theme-primary">{broker.name}</span>
+                      <span className="font-medium text-white">{broker.name}</span>
                       <span className="px-2 py-1 bg-yellow-500/20 text-yellow-400 rounded text-xs">
                         {broker.status}
                       </span>
@@ -467,43 +467,43 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
 
         {activeView === 'export' && (
           <div className="space-y-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">Portfolio exportieren</h3>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Portfolio exportieren</h3>
               
               <div className="space-y-4">
                 <button
                   onClick={exportToCSV}
-                  className="w-full text-left p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-lg transition-colors border border-theme"
+                  className="w-full text-left p-4 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors border border-neutral-800"
                 >
                   <div className="flex items-center gap-3">
-                    <DocumentArrowDownIcon className="w-6 h-6 text-brand-light" />
+                    <DocumentArrowDownIcon className="w-6 h-6 text-emerald-400" />
                     <div>
-                      <div className="font-medium text-theme-primary">CSV Export</div>
-                      <div className="text-sm text-theme-muted">
+                      <div className="font-medium text-white">CSV Export</div>
+                      <div className="text-sm text-neutral-500">
                         Portfolio-Daten für Excel, Google Sheets oder andere Tools
                       </div>
                     </div>
                   </div>
                 </button>
 
-                <button className="w-full text-left p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-lg transition-colors border border-theme">
+                <button className="w-full text-left p-4 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors border border-neutral-800">
                   <div className="flex items-center gap-3">
                     <DocumentArrowDownIcon className="w-6 h-6 text-blue-400" />
                     <div>
-                      <div className="font-medium text-theme-primary">PDF Report</div>
-                      <div className="text-sm text-theme-muted">
+                      <div className="font-medium text-white">PDF Report</div>
+                      <div className="text-sm text-neutral-500">
                         Detaillierter Portfolio-Bericht mit Charts und Kennzahlen
                       </div>
                     </div>
                   </div>
                 </button>
 
-                <button className="w-full text-left p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-lg transition-colors border border-theme">
+                <button className="w-full text-left p-4 bg-neutral-800 hover:bg-neutral-700 rounded-lg transition-colors border border-neutral-800">
                   <div className="flex items-center gap-3">
                     <DocumentArrowDownIcon className="w-6 h-6 text-purple-400" />
                     <div>
-                      <div className="font-medium text-theme-primary">Steuer-Export</div>
-                      <div className="text-sm text-theme-muted">
+                      <div className="font-medium text-white">Steuer-Export</div>
+                      <div className="text-sm text-neutral-500">
                         Dividenden und Kapitalerträge für die Steuererklärung
                       </div>
                     </div>
@@ -516,8 +516,8 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
 
         {activeView === 'notifications' && (
           <div className="space-y-6">
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">Benachrichtigungseinstellungen</h3>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Benachrichtigungseinstellungen</h3>
               
               <div className="space-y-4">
                 {Object.entries({
@@ -526,8 +526,8 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   newsAlerts: 'Wichtige Unternehmensnews',
                   weeklyReport: 'Wöchentlicher Portfolio-Report'
                 }).map(([key, label]) => (
-                  <label key={key} className="flex items-center justify-between p-3 border border-theme rounded-lg">
-                    <span className="text-theme-primary">{label}</span>
+                  <label key={key} className="flex items-center justify-between p-3 border border-neutral-800 rounded-lg">
+                    <span className="text-white">{label}</span>
                     <input
                       type="checkbox"
                       checked={notifications[key as keyof typeof notifications]}
@@ -535,25 +535,25 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                         ...prev,
                         [key]: e.target.checked
                       }))}
-                      className="w-4 h-4 text-brand bg-theme-secondary border-theme rounded focus:ring-brand"
+                      className="w-4 h-4 text-emerald-400 bg-neutral-800 border-neutral-800 rounded focus:ring-brand"
                     />
                   </label>
                 ))}
               </div>
             </div>
 
-            <div className="bg-theme-card border border-theme rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-theme-primary mb-4">Benachrichtigungskanäle</h3>
+            <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Benachrichtigungskanäle</h3>
               
               <div className="space-y-3">
-                <label className="flex items-center justify-between p-3 border border-theme rounded-lg">
-                  <span className="text-theme-primary">E-Mail Benachrichtigungen</span>
-                  <input type="checkbox" defaultChecked className="w-4 h-4 text-brand" />
+                <label className="flex items-center justify-between p-3 border border-neutral-800 rounded-lg">
+                  <span className="text-white">E-Mail Benachrichtigungen</span>
+                  <input type="checkbox" defaultChecked className="w-4 h-4 text-emerald-400" />
                 </label>
                 
-                <label className="flex items-center justify-between p-3 border border-theme rounded-lg">
-                  <span className="text-theme-primary">Browser Push-Notifications</span>
-                  <input type="checkbox" className="w-4 h-4 text-brand" />
+                <label className="flex items-center justify-between p-3 border border-neutral-800 rounded-lg">
+                  <span className="text-white">Browser Push-Notifications</span>
+                  <input type="checkbox" className="w-4 h-4 text-emerald-400" />
                 </label>
               </div>
             </div>
@@ -564,16 +564,16 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
       {/* Add Stock Modal */}
       {showAddStock && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-theme-card border border-theme rounded-lg w-full max-w-md p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-theme-primary">Position hinzufügen</h3>
+              <h3 className="text-lg font-semibold text-white">Position hinzufügen</h3>
               <button
                 onClick={() => {
                   setShowAddStock(false)
                   setAddStockForm({ ticker: '', shares: '', avgPrice: '', purchaseDate: '' })
                   setStockValidation({ loading: false })
                 }}
-                className="p-1 text-theme-muted hover:text-theme-primary rounded transition-colors"
+                className="p-1 text-neutral-500 hover:text-white rounded transition-colors"
               >
                 <XMarkIcon className="w-5 h-5" />
               </button>
@@ -581,13 +581,13 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-2">Ticker Symbol *</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Ticker Symbol *</label>
                 <div className="relative">
                   <input
                     type="text"
                     value={addStockForm.ticker}
                     onChange={(e) => setAddStockForm(prev => ({...prev, ticker: e.target.value.toUpperCase()}))}
-                    className="w-full px-3 py-2 pr-10 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
+                    className="w-full px-3 py-2 pr-10 bg-neutral-800 border border-neutral-800 rounded-md text-white placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                     placeholder="z.B. AAPL"
                   />
                   <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
@@ -595,7 +595,7 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                       <div className="w-4 h-4 border border-green-500 border-t-transparent rounded-full animate-spin"></div>
                     )}
                     {stockValidation.valid === true && (
-                      <CheckIcon className="w-4 h-4 text-brand-light" />
+                      <CheckIcon className="w-4 h-4 text-emerald-400" />
                     )}
                     {stockValidation.valid === false && addStockForm.ticker.length >= 2 && (
                       <XMarkIcon className="w-4 h-4 text-red-400" />
@@ -603,44 +603,44 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   </div>
                 </div>
                 {stockValidation.name && (
-                  <p className="text-xs text-brand-light mt-1">{stockValidation.name}</p>
+                  <p className="text-xs text-emerald-400 mt-1">{stockValidation.name}</p>
                 )}
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">Anzahl Aktien *</label>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Anzahl Aktien *</label>
                   <input
                     type="number"
                     min="1"
                     value={addStockForm.shares}
                     onChange={(e) => setAddStockForm(prev => ({...prev, shares: e.target.value}))}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-800 rounded-md text-white placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                     placeholder="100"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">Ø Kaufpreis *</label>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Ø Kaufpreis *</label>
                   <input
                     type="number"
                     step="0.01"
                     min="0"
                     value={addStockForm.avgPrice}
                     onChange={(e) => setAddStockForm(prev => ({...prev, avgPrice: e.target.value}))}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-800 rounded-md text-white placeholder-theme-muted focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                     placeholder="150.00"
                   />
                 </div>
               </div>
               
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-2">Kaufdatum (optional)</label>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Kaufdatum (optional)</label>
                 <input
                   type="date"
                   value={addStockForm.purchaseDate}
                   onChange={(e) => setAddStockForm(prev => ({...prev, purchaseDate: e.target.value}))}
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
+                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-800 rounded-md text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                 />
               </div>
             </div>
@@ -652,14 +652,14 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
                   setAddStockForm({ ticker: '', shares: '', avgPrice: '', purchaseDate: '' })
                   setStockValidation({ loading: false })
                 }}
-                className="flex-1 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary border border-theme rounded-md transition-colors"
+                className="flex-1 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-800 rounded-md transition-colors"
               >
                 Abbrechen
               </button>
               <button
                 onClick={handleAddStock}
                 disabled={!stockValidation.valid || !addStockForm.shares || !addStockForm.avgPrice}
-                className="flex-1 px-4 py-2 bg-brand hover:bg-brand disabled:bg-brand/50 disabled:cursor-not-allowed text-white font-semibold rounded-md transition-colors"
+                className="flex-1 px-4 py-2 bg-emerald-500 hover:bg-emerald-500 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-semibold rounded-md transition-colors"
               >
                 Hinzufügen
               </button>
@@ -671,12 +671,12 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
       {/* Edit Stock Modal */}
       {editingStock && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-theme-card border border-theme rounded-lg w-full max-w-md p-6">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg w-full max-w-md p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-theme-primary">Position bearbeiten</h3>
+              <h3 className="text-lg font-semibold text-white">Position bearbeiten</h3>
               <button
                 onClick={() => setEditingStock(null)}
-                className="p-1 text-theme-muted hover:text-theme-primary rounded transition-colors"
+                className="p-1 text-neutral-500 hover:text-white rounded transition-colors"
               >
                 <XMarkIcon className="w-5 h-5" />
               </button>
@@ -684,34 +684,34 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
             
             <div className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-2">Aktie</label>
-                <div className="p-3 bg-theme-secondary rounded-md">
-                  <div className="font-semibold text-theme-primary">{editingStock.ticker}</div>
-                  <div className="text-sm text-theme-muted">{editingStock.name}</div>
+                <label className="block text-sm font-medium text-neutral-400 mb-2">Aktie</label>
+                <div className="p-3 bg-neutral-800 rounded-md">
+                  <div className="font-semibold text-white">{editingStock.ticker}</div>
+                  <div className="text-sm text-neutral-500">{editingStock.name}</div>
                 </div>
               </div>
               
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">Anzahl Aktien</label>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Anzahl Aktien</label>
                   <input
                     type="number"
                     min="1"
                     value={editingStock.shares}
                     onChange={(e) => setEditingStock(prev => prev ? {...prev, shares: e.target.value} : null)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-800 rounded-md text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                   />
                 </div>
                 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">Ø Kaufpreis</label>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Ø Kaufpreis</label>
                   <input
                     type="number"
                     step="0.01"
                     min="0"
                     value={editingStock.avgPrice}
                     onChange={(e) => setEditingStock(prev => prev ? {...prev, avgPrice: e.target.value} : null)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme rounded-md text-theme-primary focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-800 rounded-md text-white focus:border-green-500 focus:outline-none focus:ring-1 focus:ring-brand/20"
                   />
                 </div>
               </div>
@@ -720,13 +720,13 @@ GOOGL,Alphabet Inc.,25,120.00,2024-03-05`}
             <div className="flex gap-3 mt-6">
               <button
                 onClick={() => setEditingStock(null)}
-                className="flex-1 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary border border-theme rounded-md transition-colors"
+                className="flex-1 px-4 py-2 bg-neutral-800 hover:bg-neutral-700 text-white border border-neutral-800 rounded-md transition-colors"
               >
                 Abbrechen
               </button>
               <button
                 onClick={handleUpdateStock}
-                className="flex-1 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
+                className="flex-1 px-4 py-2 bg-emerald-500 hover:bg-emerald-500 text-white font-semibold rounded-md transition-colors"
               >
                 Speichern
               </button>

@@ -120,21 +120,21 @@ export default function NewDepotPage() {
   const brokerConfig = selectedBroker ? getBrokerConfig(selectedBroker) : null
 
   return (
-    <div className="min-h-screen bg-theme-primary">
+    <div className="min-h-screen bg-neutral-950">
       {/* Header */}
-      <div className="bg-theme-card border-b border-theme/10">
+      <div className="bg-neutral-900 border-b border-neutral-800">
         <div className="max-w-3xl mx-auto px-6 py-6">
           <div className="flex items-center gap-4 mb-4">
             <Link
               href="/analyse/portfolio/depots"
-              className="flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors"
+              className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
             >
               <ArrowLeftIcon className="w-4 h-4" />
               <span className="text-sm">Zurück</span>
             </Link>
           </div>
 
-          <h1 className="text-2xl font-bold text-theme-primary flex items-center gap-3">
+          <h1 className="text-2xl font-bold text-white flex items-center gap-3">
             <BriefcaseIcon className="w-7 h-7" />
             Neues Depot erstellen
           </h1>
@@ -147,9 +147,9 @@ export default function NewDepotPage() {
                   className={`w-8 h-8 rounded-full flex items-center justify-center font-semibold text-sm transition-colors ${
                     step >= s
                       ? step === s
-                        ? 'bg-brand text-white'
-                        : 'bg-brand/20 text-brand'
-                      : 'bg-theme-secondary/30 text-theme-muted'
+                        ? 'bg-emerald-500 text-white'
+                        : 'bg-emerald-500/20 text-emerald-400'
+                      : 'bg-neutral-800/30 text-neutral-500'
                   }`}
                 >
                   {step > s ? <CheckIcon className="w-4 h-4" /> : s}
@@ -157,7 +157,7 @@ export default function NewDepotPage() {
                 {s < 3 && (
                   <div
                     className={`w-16 h-0.5 mx-2 transition-colors ${
-                      step > s ? 'bg-brand' : 'bg-theme-secondary/30'
+                      step > s ? 'bg-emerald-500' : 'bg-neutral-800/30'
                     }`}
                   />
                 )}
@@ -166,13 +166,13 @@ export default function NewDepotPage() {
           </div>
 
           <div className="flex gap-6 mt-2 text-sm">
-            <span className={step >= 1 ? 'text-theme-primary' : 'text-theme-muted'}>
+            <span className={step >= 1 ? 'text-white' : 'text-neutral-500'}>
               Broker wählen
             </span>
-            <span className={step >= 2 ? 'text-theme-primary' : 'text-theme-muted'}>
+            <span className={step >= 2 ? 'text-white' : 'text-neutral-500'}>
               Name vergeben
             </span>
-            <span className={step >= 3 ? 'text-theme-primary' : 'text-theme-muted'}>
+            <span className={step >= 3 ? 'text-white' : 'text-neutral-500'}>
               Fertig
             </span>
           </div>
@@ -190,10 +190,10 @@ export default function NewDepotPage() {
         {/* Step 1: Broker Selection */}
         {step === 1 && (
           <div>
-            <h2 className="text-lg font-semibold text-theme-primary mb-2">
+            <h2 className="text-lg font-semibold text-white mb-2">
               Welchen Broker nutzt du?
             </h2>
-            <p className="text-theme-secondary mb-6">
+            <p className="text-neutral-400 mb-6">
               Wähle deinen Broker aus, um dein Depot zu kategorisieren.
             </p>
 
@@ -206,7 +206,7 @@ export default function NewDepotPage() {
               <button
                 onClick={handleNextStep}
                 disabled={!selectedBroker}
-                className="flex items-center gap-2 px-6 py-3 bg-brand hover:bg-brand/90 disabled:bg-brand/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
+                className="flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
               >
                 Weiter
                 <ArrowRightIcon className="w-4 h-4" />
@@ -218,15 +218,15 @@ export default function NewDepotPage() {
         {/* Step 2: Name & Settings */}
         {step === 2 && selectedBroker && (
           <div>
-            <h2 className="text-lg font-semibold text-theme-primary mb-2">
+            <h2 className="text-lg font-semibold text-white mb-2">
               Wie soll dein Depot heißen?
             </h2>
-            <p className="text-theme-secondary mb-6">
+            <p className="text-neutral-400 mb-6">
               Vergib einen Namen, um das Depot leicht wiederzufinden.
             </p>
 
             {/* Selected Broker Preview */}
-            <div className="bg-theme-card border border-theme/10 rounded-xl p-4 mb-6">
+            <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 mb-6">
               <div className="flex items-center gap-3">
                 <div
                   className="w-10 h-10 rounded-lg flex items-center justify-center"
@@ -235,7 +235,7 @@ export default function NewDepotPage() {
                   <BriefcaseIcon className="w-5 h-5" style={{ color: brokerConfig?.color }} />
                 </div>
                 <div>
-                  <p className="text-sm text-theme-muted">Ausgewählter Broker</p>
+                  <p className="text-sm text-neutral-500">Ausgewählter Broker</p>
                   <BrokerBadge brokerId={selectedBroker} size="sm" />
                 </div>
               </div>
@@ -244,7 +244,7 @@ export default function NewDepotPage() {
             {/* Custom Broker Name (nur bei "andere") */}
             {selectedBroker === 'andere' && (
               <div className="mb-4">
-                <label className="block text-sm font-medium text-theme-primary mb-2">
+                <label className="block text-sm font-medium text-white mb-2">
                   Broker-Name
                 </label>
                 <input
@@ -255,14 +255,14 @@ export default function NewDepotPage() {
                     setDepotName(e.target.value ? `${e.target.value} Depot` : 'Mein Depot')
                   }}
                   placeholder="z.B. Consorsbank, DKB, ..."
-                  className="w-full px-4 py-3 bg-theme-secondary border border-theme/20 rounded-xl text-theme-primary placeholder:text-theme-muted focus:outline-none focus:ring-2 focus:ring-brand"
+                  className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-brand"
                 />
               </div>
             )}
 
             {/* Depot Name */}
             <div className="mb-4">
-              <label className="block text-sm font-medium text-theme-primary mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Depot-Name
               </label>
               <input
@@ -270,13 +270,13 @@ export default function NewDepotPage() {
                 value={depotName}
                 onChange={(e) => setDepotName(e.target.value)}
                 placeholder="z.B. Haupt-Depot, Altersvorsorge, ..."
-                className="w-full px-4 py-3 bg-theme-secondary border border-theme/20 rounded-xl text-theme-primary placeholder:text-theme-muted focus:outline-none focus:ring-2 focus:ring-brand"
+                className="w-full px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-brand"
               />
             </div>
 
             {/* Custom Color */}
             <div className="mb-6">
-              <label className="block text-sm font-medium text-theme-primary mb-2">
+              <label className="block text-sm font-medium text-white mb-2">
                 Farbe für Unterscheidung
               </label>
               <div className="flex items-center gap-3">
@@ -291,7 +291,7 @@ export default function NewDepotPage() {
                   value={customColor || brokerConfig?.color || ''}
                   onChange={(e) => setCustomColor(e.target.value)}
                   placeholder="#10B981"
-                  className="flex-1 px-4 py-3 bg-theme-secondary border border-theme/20 rounded-xl text-theme-primary placeholder:text-theme-muted focus:outline-none focus:ring-2 focus:ring-brand font-mono text-sm"
+                  className="flex-1 px-4 py-3 bg-neutral-800 border border-neutral-700 rounded-xl text-white placeholder:text-neutral-500 focus:outline-none focus:ring-2 focus:ring-brand font-mono text-sm"
                 />
               </div>
             </div>
@@ -303,11 +303,11 @@ export default function NewDepotPage() {
                   type="checkbox"
                   checked={isDefault}
                   onChange={(e) => setIsDefault(e.target.checked)}
-                  className="w-5 h-5 rounded border-theme/20 text-brand focus:ring-brand bg-theme-secondary"
+                  className="w-5 h-5 rounded border-neutral-700 text-emerald-400 focus:ring-brand bg-neutral-800"
                 />
-                <span className="text-theme-primary">Als Hauptdepot festlegen</span>
+                <span className="text-white">Als Hauptdepot festlegen</span>
               </label>
-              <p className="text-sm text-theme-muted mt-1 ml-8">
+              <p className="text-sm text-neutral-500 mt-1 ml-8">
                 Das Hauptdepot wird beim Öffnen der Portfolio-Seite automatisch angezeigt.
               </p>
             </div>
@@ -315,7 +315,7 @@ export default function NewDepotPage() {
             <div className="flex justify-between">
               <button
                 onClick={handlePrevStep}
-                className="flex items-center gap-2 px-6 py-3 text-theme-secondary hover:text-theme-primary transition-colors"
+                className="flex items-center gap-2 px-6 py-3 text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-4 h-4" />
                 Zurück
@@ -323,7 +323,7 @@ export default function NewDepotPage() {
               <button
                 onClick={handleNextStep}
                 disabled={!depotName.trim() || creating}
-                className="flex items-center gap-2 px-6 py-3 bg-brand hover:bg-brand/90 disabled:bg-brand/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
+                className="flex items-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 disabled:bg-emerald-500/50 disabled:cursor-not-allowed text-white font-semibold rounded-xl transition-colors"
               >
                 {creating ? (
                   <>
@@ -344,29 +344,29 @@ export default function NewDepotPage() {
         {/* Step 3: Success */}
         {step === 3 && createdDepotId && (
           <div className="text-center py-12">
-            <div className="w-20 h-20 bg-brand/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <SparklesIcon className="w-10 h-10 text-brand" />
+            <div className="w-20 h-20 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <SparklesIcon className="w-10 h-10 text-emerald-400" />
             </div>
 
-            <h2 className="text-2xl font-bold text-theme-primary mb-2">
+            <h2 className="text-2xl font-bold text-white mb-2">
               Depot erfolgreich erstellt!
             </h2>
-            <p className="text-theme-secondary mb-8 max-w-md mx-auto">
-              Dein neues Depot <strong className="text-theme-primary">"{depotName}"</strong> ist bereit.
+            <p className="text-neutral-400 mb-8 max-w-md mx-auto">
+              Dein neues Depot <strong className="text-white">"{depotName}"</strong> ist bereit.
               Du kannst jetzt Positionen hinzufügen.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href={`/analyse/portfolio/dashboard?depot=${createdDepotId}`}
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-brand hover:bg-brand/90 text-white font-semibold rounded-xl transition-colors"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-xl transition-colors"
               >
                 Zum Depot
                 <ArrowRightIcon className="w-4 h-4" />
               </Link>
               <Link
                 href="/analyse/portfolio/depots"
-                className="flex items-center justify-center gap-2 px-6 py-3 bg-theme-secondary/30 hover:bg-theme-secondary/50 text-theme-primary font-semibold rounded-xl transition-colors"
+                className="flex items-center justify-center gap-2 px-6 py-3 bg-neutral-800/30 hover:bg-neutral-800/50 text-white font-semibold rounded-xl transition-colors"
               >
                 Zur Übersicht
               </Link>

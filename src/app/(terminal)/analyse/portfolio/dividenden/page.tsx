@@ -281,10 +281,10 @@ export default function DividendenPage() {
 
   if (loading) {
     return (
-      <div className="h-full bg-theme-primary flex items-center justify-center">
+      <div className="h-full bg-neutral-950 flex items-center justify-center">
         <div className="text-center">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-theme-secondary">Dividendendaten werden geladen...</p>
+          <p className="text-neutral-400">Dividendendaten werden geladen...</p>
         </div>
       </div>
     )
@@ -292,14 +292,14 @@ export default function DividendenPage() {
 
   if (error) {
     return (
-      <div className="h-full bg-theme-primary flex items-center justify-center">
+      <div className="h-full bg-neutral-950 flex items-center justify-center">
         <div className="text-center max-w-md">
           <ExclamationTriangleIcon className="w-16 h-16 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-theme-primary mb-2">Fehler</h2>
-          <p className="text-theme-secondary mb-6">{error}</p>
+          <h2 className="text-xl font-bold text-white mb-2">Fehler</h2>
+          <p className="text-neutral-400 mb-6">{error}</p>
           <button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors"
+            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-500 text-white rounded-lg transition-colors"
           >
             Neu laden
           </button>
@@ -310,21 +310,21 @@ export default function DividendenPage() {
 
   if (portfolio.length === 0) {
     return (
-      <div className="h-full bg-theme-primary">
+      <div className="h-full bg-neutral-950">
         {/* Header */}
-        <div className="bg-theme-secondary border-b border-theme">
+        <div className="bg-neutral-800 border-b border-neutral-800">
           <div className="px-6 py-4">
             <div className="flex items-center gap-4">
               <Link
                 href="/analyse/portfolio"
-                className="flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors"
+                className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-4 h-4" />
                 <span className="text-sm">Portfolio</span>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-theme-primary">Dividenden-Kalender</h1>
-                <p className="text-theme-secondary">Dividendentermine für Ihr Portfolio</p>
+                <h1 className="text-2xl font-bold text-white">Dividenden-Kalender</h1>
+                <p className="text-neutral-400">Dividendentermine für Ihr Portfolio</p>
               </div>
             </div>
           </div>
@@ -333,14 +333,14 @@ export default function DividendenPage() {
         {/* Empty State */}
         <div className="flex items-center justify-center h-96">
           <div className="text-center max-w-md">
-            <CalendarIcon className="w-16 h-16 text-theme-muted mx-auto mb-4" />
-            <h2 className="text-xl font-bold text-theme-primary mb-2">Kein Portfolio</h2>
-            <p className="text-theme-secondary mb-6">
+            <CalendarIcon className="w-16 h-16 text-neutral-500 mx-auto mb-4" />
+            <h2 className="text-xl font-bold text-white mb-2">Kein Portfolio</h2>
+            <p className="text-neutral-400 mb-6">
               Fügen Sie erst Aktien zu Ihrem Portfolio hinzu, um Dividendendaten zu sehen.
             </p>
             <Link
               href="/analyse/portfolio"
-              className="px-4 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors inline-block"
+              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-500 text-white rounded-lg transition-colors inline-block"
             >
               Zum Portfolio
             </Link>
@@ -351,22 +351,22 @@ export default function DividendenPage() {
   }
 
   return (
-    <div className="h-full bg-theme-primary text-theme-primary overflow-auto">
+    <div className="h-full bg-neutral-950 text-white overflow-auto">
       {/* Header */}
-      <div className="bg-theme-secondary border-b border-theme">
+      <div className="bg-neutral-800 border-b border-neutral-800">
         <div className="px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
                 href="/analyse/portfolio"
-                className="flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors"
+                className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-4 h-4" />
                 <span className="text-sm">Portfolio</span>
               </Link>
               <div>
-                <h1 className="text-2xl font-bold text-theme-primary">Dividenden-Kalender</h1>
-                <p className="text-theme-secondary">
+                <h1 className="text-2xl font-bold text-white">Dividenden-Kalender</h1>
+                <p className="text-neutral-400">
                   Dividendentermine für {portfolio.length} Position{portfolio.length !== 1 ? 'en' : ''}
                 </p>
               </div>
@@ -376,7 +376,7 @@ export default function DividendenPage() {
               {!user?.isPremium && (
                 <Link
                   href="/pricing"
-                  className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand text-white font-semibold rounded-md transition-colors"
+                  className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-500 text-white font-semibold rounded-md transition-colors"
                 >
                   <SparklesIcon className="w-4 h-4" />
                   <span className="text-sm">Upgrade</span>
@@ -401,8 +401,8 @@ export default function DividendenPage() {
                     onClick={() => setActiveView(tab.id as any)}
                     className={`flex items-center gap-2 py-2 text-sm font-medium border-b-2 transition-colors
                       ${isActive 
-                        ? 'border-green-500 text-brand-light' 
-                        : 'border-transparent text-theme-secondary hover:text-theme-primary'
+                        ? 'border-green-500 text-emerald-400' 
+                        : 'border-transparent text-neutral-400 hover:text-white'
                       }`}
                   >
                     <Icon className="w-4 h-4" />
@@ -421,72 +421,72 @@ export default function DividendenPage() {
           <>
             {/* Summary Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-              <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
-                    <ClockIcon className="w-4 h-4 text-brand-light" />
+                  <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                    <ClockIcon className="w-4 h-4 text-emerald-400" />
                   </div>
-                  <h3 className="font-semibold text-theme-primary">Nächste 30 Tage</h3>
+                  <h3 className="font-semibold text-white">Nächste 30 Tage</h3>
                 </div>
-                <p className="text-2xl font-bold text-brand-light">${monthlyEstimate.toFixed(2)}</p>
-                <p className="text-sm text-theme-muted">{next30Days.length} Zahlungen</p>
+                <p className="text-2xl font-bold text-emerald-400">${monthlyEstimate.toFixed(2)}</p>
+                <p className="text-sm text-neutral-500">{next30Days.length} Zahlungen</p>
               </div>
 
-              <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
                     <CalendarIcon className="w-4 h-4 text-blue-400" />
                   </div>
-                  <h3 className="font-semibold text-theme-primary">Nächster Termin</h3>
+                  <h3 className="font-semibold text-white">Nächster Termin</h3>
                 </div>
-                <p className="text-lg font-bold text-theme-primary">
+                <p className="text-lg font-bold text-white">
                   {upcomingDividends[0] ? new Date(upcomingDividends[0].exDate).toLocaleDateString('de-DE') : 'Keine'}
                 </p>
-                <p className="text-sm text-theme-muted">
+                <p className="text-sm text-neutral-500">
                   {upcomingDividends[0] ? `${upcomingDividends[0].ticker} - $${upcomingDividends[0].totalAmount.toFixed(2)}` : 'Termine'}
                 </p>
               </div>
 
-              <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
                     <ArrowTrendingUpIcon className="w-4 h-4 text-purple-400" />
                   </div>
-                  <h3 className="font-semibold text-theme-primary">Jährlich (geschätzt)</h3>
+                  <h3 className="font-semibold text-white">Jährlich (geschätzt)</h3>
                 </div>
-                <p className="text-lg font-bold text-theme-primary">${annualEstimate.toFixed(2)}</p>
-                <p className="text-sm text-theme-muted">Basierend auf aktuellen Daten</p>
+                <p className="text-lg font-bold text-white">${annualEstimate.toFixed(2)}</p>
+                <p className="text-sm text-neutral-500">Basierend auf aktuellen Daten</p>
               </div>
 
-              <div className="bg-theme-card border border-theme rounded-lg p-6">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
                 <div className="flex items-center gap-3 mb-3">
                   <div className="w-8 h-8 bg-yellow-500/20 rounded-lg flex items-center justify-center">
                     <CheckCircleIcon className="w-4 h-4 text-yellow-400" />
                   </div>
-                  <h3 className="font-semibold text-theme-primary">Portfolio</h3>
+                  <h3 className="font-semibold text-white">Portfolio</h3>
                 </div>
-                <p className="text-lg font-bold text-theme-primary">{portfolio.length}</p>
-                <p className="text-sm text-theme-muted">Position{portfolio.length !== 1 ? 'en' : ''}</p>
+                <p className="text-lg font-bold text-white">{portfolio.length}</p>
+                <p className="text-sm text-neutral-500">Position{portfolio.length !== 1 ? 'en' : ''}</p>
               </div>
             </div>
 
             {/* Upcoming Dividends */}
             {upcomingDividends.length > 0 && (
-              <div className="bg-theme-card border border-theme rounded-lg mb-6">
-                <div className="p-6 border-b border-theme">
-                  <h3 className="text-lg font-semibold text-theme-primary">Anstehende Dividenden</h3>
+              <div className="bg-neutral-900 border border-neutral-800 rounded-lg mb-6">
+                <div className="p-6 border-b border-neutral-800">
+                  <h3 className="text-lg font-semibold text-white">Anstehende Dividenden</h3>
                 </div>
                 
                 <div className="divide-y divide-theme">
                   {upcomingDividends.map((dividend, index) => (
-                    <div key={`${dividend.ticker}-${dividend.exDate}`} className="p-6 flex items-center justify-between hover:bg-theme-secondary/30 transition-colors">
+                    <div key={`${dividend.ticker}-${dividend.exDate}`} className="p-6 flex items-center justify-between hover:bg-neutral-800/30 transition-colors">
                       <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
-                          <span className="font-bold text-theme-primary text-sm">{dividend.ticker}</span>
+                        <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                          <span className="font-bold text-white text-sm">{dividend.ticker}</span>
                         </div>
                         <div>
-                          <div className="font-semibold text-theme-primary">{dividend.companyName}</div>
-                          <div className="text-sm text-theme-muted">
+                          <div className="font-semibold text-white">{dividend.companyName}</div>
+                          <div className="text-sm text-neutral-500">
                             Ex-Date: {new Date(dividend.exDate).toLocaleDateString('de-DE')} • 
                             ${dividend.amount.toFixed(3)} × {dividend.shares} Aktien
                           </div>
@@ -494,8 +494,8 @@ export default function DividendenPage() {
                       </div>
                       
                       <div className="text-right">
-                        <div className="font-bold text-brand-light text-lg">${dividend.totalAmount.toFixed(2)}</div>
-                        <div className="text-sm text-theme-muted">
+                        <div className="font-bold text-emerald-400 text-lg">${dividend.totalAmount.toFixed(2)}</div>
+                        <div className="text-sm text-neutral-500">
                           Zahlung: {new Date(dividend.payDate).toLocaleDateString('de-DE')}
                         </div>
                       </div>
@@ -506,10 +506,10 @@ export default function DividendenPage() {
             )}
 
             {dividendEvents.length === 0 && (
-              <div className="bg-theme-card border border-theme rounded-lg p-8 text-center">
-                <CalendarIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">Keine Dividenden gefunden</h3>
-                <p className="text-theme-secondary">
+              <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-8 text-center">
+                <CalendarIcon className="w-12 h-12 text-neutral-500 mx-auto mb-4" />
+                <h3 className="text-lg font-semibold text-white mb-2">Keine Dividenden gefunden</h3>
+                <p className="text-neutral-400">
                   Ihre Portfolio-Positionen zahlen möglicherweise keine Dividenden oder die Daten sind nicht verfügbar.
                 </p>
               </div>
@@ -518,30 +518,30 @@ export default function DividendenPage() {
         )}
 
         {activeView === 'history' && (
-          <div className="bg-theme-card border border-theme rounded-lg">
-            <div className="p-6 border-b border-theme">
-              <h3 className="text-lg font-semibold text-theme-primary">Dividenden-Historie</h3>
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg">
+            <div className="p-6 border-b border-neutral-800">
+              <h3 className="text-lg font-semibold text-white">Dividenden-Historie</h3>
             </div>
             
             <div className="p-6">
               {dividendHistory.length > 0 ? (
                 <div className="overflow-x-auto">
                   <table className="w-full">
-                    <thead className="bg-theme-secondary">
+                    <thead className="bg-neutral-800">
                       <tr>
-                        <th className="text-left py-3 px-6 text-theme-secondary font-medium">Jahr</th>
-                        <th className="text-right py-3 px-6 text-theme-secondary font-medium">Geschätzt</th>
-                        <th className="text-right py-3 px-6 text-theme-secondary font-medium">Zahlungen</th>
-                        <th className="text-right py-3 px-6 text-theme-secondary font-medium">Ø Rendite</th>
+                        <th className="text-left py-3 px-6 text-neutral-400 font-medium">Jahr</th>
+                        <th className="text-right py-3 px-6 text-neutral-400 font-medium">Geschätzt</th>
+                        <th className="text-right py-3 px-6 text-neutral-400 font-medium">Zahlungen</th>
+                        <th className="text-right py-3 px-6 text-neutral-400 font-medium">Ø Rendite</th>
                       </tr>
                     </thead>
                     <tbody>
                       {dividendHistory.map((year) => (
-                        <tr key={year.year} className="border-t border-theme hover:bg-theme-secondary/30">
-                          <td className="py-4 px-6 font-semibold text-theme-primary">{year.year}</td>
-                          <td className="py-4 px-6 text-right text-theme-primary font-semibold">${year.totalReceived.toFixed(2)}</td>
-                          <td className="py-4 px-6 text-right text-theme-secondary">{year.payments}</td>
-                          <td className="py-4 px-6 text-right text-theme-secondary">{year.avgYield.toFixed(1)}%</td>
+                        <tr key={year.year} className="border-t border-neutral-800 hover:bg-neutral-800/30">
+                          <td className="py-4 px-6 font-semibold text-white">{year.year}</td>
+                          <td className="py-4 px-6 text-right text-white font-semibold">${year.totalReceived.toFixed(2)}</td>
+                          <td className="py-4 px-6 text-right text-neutral-400">{year.payments}</td>
+                          <td className="py-4 px-6 text-right text-neutral-400">{year.avgYield.toFixed(1)}%</td>
                         </tr>
                       ))}
                     </tbody>
@@ -549,8 +549,8 @@ export default function DividendenPage() {
                 </div>
               ) : (
                 <div className="text-center py-8">
-                  <ChartBarIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
-                  <p className="text-theme-secondary">Keine Historie verfügbar</p>
+                  <ChartBarIcon className="w-12 h-12 text-neutral-500 mx-auto mb-4" />
+                  <p className="text-neutral-400">Keine Historie verfügbar</p>
                 </div>
               )}
             </div>
@@ -558,9 +558,9 @@ export default function DividendenPage() {
         )}
 
         {activeView === 'settings' && (
-          <div className="bg-theme-card border border-theme rounded-lg p-6">
-            <h3 className="text-lg font-semibold text-theme-primary mb-4">Einstellungen</h3>
-            <p className="text-theme-secondary">
+          <div className="bg-neutral-900 border border-neutral-800 rounded-lg p-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Einstellungen</h3>
+            <p className="text-neutral-400">
               Dividenden-Einstellungen werden in Kürze verfügbar sein.
             </p>
           </div>

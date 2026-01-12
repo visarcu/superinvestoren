@@ -1,4 +1,4 @@
-// src/components/PortfolioDividends.tsx
+// src/components/PortfolioDividends.tsx - FEY STYLE
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -7,7 +7,6 @@ import {
   CalendarDaysIcon,
   ArrowTrendingUpIcon,
   ArrowPathIcon,
-  ChartBarIcon,
   BanknotesIcon,
   ClockIcon,
   InformationCircleIcon
@@ -82,76 +81,68 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
     const divMap = new Map<string, DividendData[]>()
     const annualDivs: AnnualDividend[] = []
     const upcoming: DividendCalendarItem[] = []
-    
+
     try {
-      // Echte Dividenden-Calendar API abrufen (kommende Termine)
       console.log('🔍 Loading dividend data via secure API...')
-      
-      // Use secure API route for all dividend data
+
       const dividendResponse = await fetch('/api/dividend-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ holdings })
       })
-      
+
       let realUpcomingDividends = []
       if (dividendResponse.ok) {
         const dividendData = await dividendResponse.json()
         if (dividendData.success) {
           realUpcomingDividends = dividendData.upcomingDividends || []
-          
-          // Process historical dividends
+
           for (const holding of holdings) {
             const historicalDivs = dividendData.historicalDividends[holding.symbol]
             if (historicalDivs && historicalDivs.length > 0) {
               divMap.set(holding.symbol, historicalDivs)
-              
+
               const today = new Date()
               const twelveMonthsAgo = new Date()
               twelveMonthsAgo.setFullYear(twelveMonthsAgo.getFullYear() - 1)
-              
-              // Trenne VERGANGENE und ZUKÜNFTIGE Dividenden
-              const pastDividends = historicalDivs.filter((d: DividendData) => 
+
+              const pastDividends = historicalDivs.filter((d: DividendData) =>
                 new Date(d.paymentDate) <= today
               )
-              
-              const futureDividends = historicalDivs.filter((d: DividendData) => 
+
+              const futureDividends = historicalDivs.filter((d: DividendData) =>
                 new Date(d.paymentDate) > today
               )
-              
+
               console.log(`📊 ${holding.symbol}: ${pastDividends.length} past, ${futureDividends.length} future dividends`)
-              
-              const recentPastDividends = pastDividends.filter((d: DividendData) => 
+
+              const recentPastDividends = pastDividends.filter((d: DividendData) =>
                 new Date(d.date) > twelveMonthsAgo
               )
-              
-              const annualDividendAmount = recentPastDividends.reduce((sum: number, d: DividendData) => 
+
+              const annualDividendAmount = recentPastDividends.reduce((sum: number, d: DividendData) =>
                 sum + d.adjDividend, 0
               )
-              
-              const dividendYield = holding.current_price > 0 
-                ? (annualDividendAmount / holding.current_price) * 100 
+
+              const dividendYield = holding.current_price > 0
+                ? (annualDividendAmount / holding.current_price) * 100
                 : 0
-              
+
               const totalIncome = annualDividendAmount * holding.quantity
-              
-              // Bestimme Payment Frequency basierend auf vergangenen Dividenden
+
               let frequency = 'N/A'
               if (recentPastDividends.length >= 11) frequency = 'Monatlich'
               else if (recentPastDividends.length >= 3) frequency = 'Vierteljährlich'
               else if (recentPastDividends.length >= 2) frequency = 'Halbjährlich'
               else if (recentPastDividends.length === 1) frequency = 'Jährlich'
-              
-              // Bestimme ECHTE letzte und nächste Dividende
+
               const lastPastDividend = pastDividends.length > 0 ? pastDividends[0] : null
-              const nextFutureDividend = futureDividends.length > 0 ? futureDividends[futureDividends.length - 1] : null // Sortierung ist absteigend, also letztes Element ist nächstes
-              
-              // Echte kommende Dividenden aus Calendar API prüfen
-              const realUpcoming = realUpcomingDividends.find((cal: any) => 
+              const nextFutureDividend = futureDividends.length > 0 ? futureDividends[futureDividends.length - 1] : null
+
+              const realUpcoming = realUpcomingDividends.find((cal: any) =>
                 cal.symbol === holding.symbol
               )
-              
-              // Bestimme nächstes Datum: API > Historisch-Future > Geschätzt
+
               let nextPaymentDate = null
               if (realUpcoming) {
                 nextPaymentDate = realUpcoming.date
@@ -162,7 +153,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                 nextPaymentDate = estimateNextPaymentDate(pastDividends, frequency)
                 console.log(`📈 Estimated dividend for ${holding.symbol}: ${nextPaymentDate}`)
               }
-              
+
               annualDivs.push({
                 symbol: holding.symbol,
                 name: holding.name,
@@ -175,8 +166,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                 lastPaymentDate: lastPastDividend?.paymentDate || '',
                 nextPaymentDate: nextPaymentDate
               })
-              
-              // Kommende Dividenden für Calendar hinzufügen
+
               if (realUpcoming) {
                 console.log(`📅 Found real upcoming dividend for ${holding.symbol}:`, realUpcoming)
                 upcoming.push({
@@ -189,7 +179,6 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                   declarationDate: realUpcoming.declarationDate || ''
                 })
               } else if (nextFutureDividend) {
-                // Verwende echte zukünftige Dividende aus historischen Daten
                 console.log(`🔮 Using future historical dividend for ${holding.symbol}: ${nextFutureDividend.paymentDate}`)
                 upcoming.push({
                   date: nextFutureDividend.paymentDate,
@@ -201,7 +190,6 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
                   declarationDate: nextFutureDividend.declarationDate || ''
                 })
               } else if (nextPaymentDate && new Date(nextPaymentDate) > new Date()) {
-                // Fallback: Geschätzte Dividenden nur wenn keine echten Daten
                 console.log(`⚠️ Using estimated dividend for ${holding.symbol}: ${nextPaymentDate}`)
                 upcoming.push({
                   date: nextPaymentDate,
@@ -221,22 +209,21 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
       } else {
         console.error('❌ Failed to fetch dividend data:', dividendResponse.status)
       }
-      
+
       setDividendData(divMap)
       setAnnualDividends(annualDivs)
-      setUpcomingDividends(upcoming.sort((a, b) => 
+      setUpcomingDividends(upcoming.sort((a, b) =>
         new Date(a.date).getTime() - new Date(b.date).getTime()
       ))
-      
-      // Berechne Gesamt-Metriken
+
       const totalIncome = annualDivs.reduce((sum, d) => sum + d.totalAnnualIncome, 0)
       setTotalAnnualIncome(totalIncome)
-      
+
       const portfolioValue = holdings.reduce((sum, h) => sum + h.value, 0)
       if (portfolioValue > 0) {
         setAverageYield((totalIncome / portfolioValue) * 100)
       }
-      
+
     } catch (error) {
       console.error('Error loading dividend data:', error)
     } finally {
@@ -246,37 +233,31 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
 
   const estimateNextPaymentDate = (historical: DividendData[], frequency: string): string | undefined => {
     if (!historical || historical.length < 2) return undefined
-    
-    // Schaue nach dem Pattern der letzten 4 Zahlungen
+
     const recentPayments = historical.slice(0, 4).map(h => new Date(h.paymentDate))
-    
-    // Für bessere Schätzung: Berechne durchschnittliches Intervall
+
     if (recentPayments.length >= 2) {
       const intervals = []
       for (let i = 1; i < recentPayments.length; i++) {
         const diff = recentPayments[i-1].getTime() - recentPayments[i].getTime()
         intervals.push(diff)
       }
-      
-      // Durchschnittliches Intervall in Tagen
+
       const avgInterval = intervals.reduce((sum, int) => sum + int, 0) / intervals.length
       const avgIntervalDays = avgInterval / (1000 * 60 * 60 * 24)
-      
+
       console.log(`📊 ${historical[0]?.symbol || 'Stock'} payment pattern: avg ${Math.round(avgIntervalDays)} days`)
-      
-      // Nächste Zahlung basierend auf durchschnittlichem Intervall
+
       const nextPayment = new Date(recentPayments[0].getTime() + avgInterval)
-      
-      // Sicherstellen, dass es in der Zukunft liegt
+
       if (nextPayment > new Date()) {
         return nextPayment.toISOString().split('T')[0]
       }
     }
-    
-    // Fallback: Einfaches Intervall basierend auf Frequenz
+
     const lastPayment = new Date(historical[0].paymentDate)
     let nextPayment = new Date(lastPayment)
-    
+
     switch (frequency) {
       case 'Monatlich':
         nextPayment.setMonth(nextPayment.getMonth() + 1)
@@ -293,7 +274,7 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
       default:
         return undefined
     }
-    
+
     return nextPayment.toISOString().split('T')[0]
   }
 
@@ -314,8 +295,8 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
-          <p className="text-theme-secondary">Lade Dividendendaten...</p>
+          <ArrowPathIcon className="w-6 h-6 text-emerald-400 animate-spin mx-auto mb-3" />
+          <p className="text-neutral-400">Lade Dividendendaten...</p>
         </div>
       </div>
     )
@@ -323,89 +304,82 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
 
   return (
     <div className="space-y-6">
-      {/* Metrics Overview */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <CurrencyDollarIcon className="w-5 h-5 text-brand-light" />
-            <p className="text-sm text-theme-secondary">Jährliche Dividenden</p>
+      {/* Metrics Overview - Flat Inline Stats */}
+      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-4 pb-6 border-b border-neutral-800">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <CurrencyDollarIcon className="w-4 h-4 text-emerald-400" />
+            <span className="text-xs text-neutral-500">Jährliche Dividenden</span>
           </div>
-          <p className="text-2xl font-bold text-theme-primary">
+          <p className="text-2xl font-semibold text-white">
             {formatCurrency(totalAnnualIncome)}
           </p>
-          <p className="text-xs text-theme-muted mt-1">Geschätzt</p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <CalendarDaysIcon className="w-5 h-5 text-blue-400" />
-            <p className="text-sm text-theme-secondary">Monatliches Einkommen</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <CalendarDaysIcon className="w-4 h-4 text-blue-400" />
+            <span className="text-xs text-neutral-500">Monatlich</span>
           </div>
-          <p className="text-2xl font-bold text-theme-primary">
+          <p className="text-2xl font-semibold text-white">
             {formatCurrency(getMonthlyIncome())}
           </p>
-          <p className="text-xs text-theme-muted mt-1">Durchschnitt</p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <ArrowTrendingUpIcon className="w-5 h-5 text-yellow-400" />
-            <p className="text-sm text-theme-secondary">Portfolio Yield</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <ArrowTrendingUpIcon className="w-4 h-4 text-yellow-400" />
+            <span className="text-xs text-neutral-500">Portfolio Yield</span>
           </div>
-          <p className="text-2xl font-bold text-theme-primary">
+          <p className="text-2xl font-semibold text-white">
             {averageYield.toFixed(2)}%
           </p>
-          <p className="text-xs text-theme-muted mt-1">Gewichteter Durchschnitt</p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <BanknotesIcon className="w-5 h-5 text-purple-400" />
-            <p className="text-sm text-theme-secondary">Nächste Zahlung</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <BanknotesIcon className="w-4 h-4 text-purple-400" />
+            <span className="text-xs text-neutral-500">Nächste Zahlung</span>
           </div>
           {upcomingDividends.length > 0 ? (
-            <>
-              <p className="text-2xl font-bold text-theme-primary">
-                {formatDate(upcomingDividends[0].paymentDate)}
-              </p>
-              <p className="text-xs text-theme-muted mt-1">
-                {upcomingDividends[0].symbol} - {formatCurrency(upcomingDividends[0].adjDividend)}
-              </p>
-            </>
+            <p className="text-lg font-semibold text-white">
+              {formatDate(upcomingDividends[0].paymentDate)}
+              <span className="text-sm text-neutral-500 ml-2">{upcomingDividends[0].symbol}</span>
+            </p>
           ) : (
-            <p className="text-lg text-theme-muted">Keine geplant</p>
+            <p className="text-lg text-neutral-500">Keine geplant</p>
           )}
         </div>
       </div>
 
-      {/* Tab Navigation */}
-      <div className="flex gap-6 border-b border-theme/10">
-        <button 
+      {/* Tab Navigation - Fey Style */}
+      <div className="flex gap-6 border-b border-neutral-800">
+        <button
           onClick={() => setActiveTab('overview')}
-          className={`pb-3 px-1 font-medium transition-colors ${
-            activeTab === 'overview' 
-              ? 'text-brand-light border-b-2 border-green-400' 
-              : 'text-theme-secondary hover:text-theme-primary'
+          className={`pb-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            activeTab === 'overview'
+              ? 'text-white border-emerald-400'
+              : 'text-neutral-500 border-transparent hover:text-neutral-300'
           }`}
         >
           Übersicht
         </button>
-        <button 
+        <button
           onClick={() => setActiveTab('calendar')}
-          className={`pb-3 px-1 font-medium transition-colors ${
-            activeTab === 'calendar' 
-              ? 'text-brand-light border-b-2 border-green-400' 
-              : 'text-theme-secondary hover:text-theme-primary'
+          className={`pb-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            activeTab === 'calendar'
+              ? 'text-white border-emerald-400'
+              : 'text-neutral-500 border-transparent hover:text-neutral-300'
           }`}
         >
           Kalender
         </button>
-        <button 
+        <button
           onClick={() => setActiveTab('history')}
-          className={`pb-3 px-1 font-medium transition-colors ${
-            activeTab === 'history' 
-              ? 'text-brand-light border-b-2 border-green-400' 
-              : 'text-theme-secondary hover:text-theme-primary'
+          className={`pb-3 text-sm font-medium transition-colors border-b-2 -mb-px ${
+            activeTab === 'history'
+              ? 'text-white border-emerald-400'
+              : 'text-neutral-500 border-transparent hover:text-neutral-300'
           }`}
         >
           Historie
@@ -414,87 +388,65 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
 
       {/* Tab Content */}
       {activeTab === 'overview' && (
-        <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
-          <div className="p-4 border-b border-theme/10">
-            <h3 className="text-lg font-semibold text-theme-primary">Dividenden-Übersicht</h3>
-          </div>
-          
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="bg-theme-secondary/30">
-                <tr>
-                  <th className="text-left px-4 py-3 text-sm font-medium text-theme-secondary">Aktie</th>
-                  <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Anzahl</th>
-                  <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Div. Yield</th>
-                  <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Jährliche Div.</th>
-                  <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Jährliches Einkommen</th>
-                  <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Frequenz</th>
-                  <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Letzte Zahlung</th>
-                </tr>
-              </thead>
-              <tbody>
-                {annualDividends.map((div) => (
-                  <tr key={div.symbol} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
-                    <td className="px-4 py-4">
-                      <div className="flex items-center gap-3">
-                        <Logo
-                          ticker={div.symbol}
-                          alt={div.symbol}
-                          className="w-8 h-8"
-                          padding="small"
-                        />
-                        <div>
-                          <p className="font-bold text-theme-primary">{div.symbol}</p>
-                          <p className="text-xs text-theme-muted">{div.name}</p>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="text-right px-4 py-4">
-                      <p className="font-semibold text-theme-primary">{div.quantity}</p>
-                    </td>
-                    <td className="text-right px-4 py-4">
-                      <span className={`font-semibold ${div.dividendYield > 3 ? 'text-brand-light' : 'text-theme-primary'}`}>
-                        {div.dividendYield.toFixed(2)}%
-                      </span>
-                    </td>
-                    <td className="text-right px-4 py-4">
-                      <p className="font-semibold text-theme-primary">
-                        {formatCurrency(div.annualDividend)}
-                      </p>
-                    </td>
-                    <td className="text-right px-4 py-4">
-                      <p className="font-bold text-brand-light">
-                        {formatCurrency(div.totalAnnualIncome)}
-                      </p>
-                    </td>
-                    <td className="text-center px-4 py-4">
-                      <span className="px-2 py-1 bg-theme-secondary rounded text-xs">
-                        {div.paymentFrequency}
-                      </span>
-                    </td>
-                    <td className="text-right px-4 py-4">
-                      <div>
-                        <p className="text-sm text-theme-primary">{formatCurrency(div.lastDividend)}</p>
-                        <p className="text-xs text-theme-muted">{formatDate(div.lastPaymentDate)}</p>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          
-          {annualDividends.length === 0 && (
-            <div className="py-16 text-center">
-              <img
-                src="/illustrations/undraw_personal-finance_xpqg.svg"
-                alt="Dividenden"
-                className="w-44 h-44 mx-auto mb-6 opacity-85"
-              />
-              <h3 className="text-lg font-semibold text-theme-primary mb-2">
+        <div>
+          <h3 className="text-sm font-medium text-neutral-400 mb-4">Dividenden-Übersicht</h3>
+
+          {annualDividends.length > 0 ? (
+            <div className="space-y-0">
+              {/* Header Row */}
+              <div className="hidden md:grid grid-cols-7 gap-4 py-3 text-xs text-neutral-500 border-b border-neutral-800">
+                <span>Aktie</span>
+                <span className="text-right">Anzahl</span>
+                <span className="text-right">Div. Yield</span>
+                <span className="text-right">Jährliche Div.</span>
+                <span className="text-right">Jährliches Einkommen</span>
+                <span className="text-center">Frequenz</span>
+                <span className="text-right">Letzte Zahlung</span>
+              </div>
+
+              {annualDividends.map((div) => (
+                <div key={div.symbol} className="grid grid-cols-2 md:grid-cols-7 gap-4 py-4 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors">
+                  <div className="flex items-center gap-3">
+                    <Logo
+                      ticker={div.symbol}
+                      alt={div.symbol}
+                      className="w-8 h-8"
+                      padding="none"
+                    />
+                    <div>
+                      <p className="font-medium text-white text-sm">{div.symbol}</p>
+                      <p className="text-xs text-neutral-500 hidden md:block">{div.name}</p>
+                    </div>
+                  </div>
+                  <p className="text-right text-white text-sm self-center">{div.quantity}</p>
+                  <p className={`text-right text-sm self-center hidden md:block ${div.dividendYield > 3 ? 'text-emerald-400' : 'text-white'}`}>
+                    {div.dividendYield.toFixed(2)}%
+                  </p>
+                  <p className="text-right text-white text-sm self-center hidden md:block">
+                    {formatCurrency(div.annualDividend)}
+                  </p>
+                  <p className="text-right text-emerald-400 font-medium text-sm self-center hidden md:block">
+                    {formatCurrency(div.totalAnnualIncome)}
+                  </p>
+                  <p className="text-center text-neutral-400 text-xs self-center hidden md:block">
+                    {div.paymentFrequency}
+                  </p>
+                  <div className="text-right self-center hidden md:block">
+                    <p className="text-sm text-white">{formatCurrency(div.lastDividend)}</p>
+                    <p className="text-xs text-neutral-500">{formatDate(div.lastPaymentDate)}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="py-12 text-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800/50 rounded-xl flex items-center justify-center">
+                <CurrencyDollarIcon className="w-8 h-8 text-neutral-600" />
+              </div>
+              <h3 className="text-base font-medium text-white mb-1">
                 Keine Dividenden gefunden
               </h3>
-              <p className="text-theme-secondary text-sm max-w-md mx-auto">
+              <p className="text-neutral-500 text-sm max-w-md mx-auto">
                 Deine Positionen zahlen möglicherweise keine Dividenden oder die Daten sind noch nicht verfügbar.
               </p>
             </div>
@@ -503,105 +455,104 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
       )}
 
       {activeTab === 'calendar' && (
-        <div className="bg-theme-card rounded-xl border border-theme/10 p-6">
-          <h3 className="text-lg font-semibold text-theme-primary mb-4">Kommende Dividenden</h3>
-          
+        <div>
+          <h3 className="text-sm font-medium text-neutral-400 mb-4">Kommende Dividenden</h3>
+
           {upcomingDividends.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-0">
               {upcomingDividends.map((div, index) => {
                 const holding = holdings.find(h => h.symbol === div.symbol)
                 const totalPayment = holding ? div.adjDividend * holding.quantity : 0
-                
+
                 return (
-                  <div key={`${div.symbol}-${index}`} className="flex items-center justify-between p-4 bg-theme-secondary/30 rounded-lg">
+                  <div key={`${div.symbol}-${index}`} className="flex items-center justify-between py-4 border-b border-neutral-800/50">
                     <div className="flex items-center gap-4">
-                      <div className="text-center">
-                        <p className="text-xs text-theme-muted">
+                      <div className="text-center w-12">
+                        <p className="text-xs text-neutral-500">
                           {new Date(div.paymentDate).toLocaleDateString('de-DE', { month: 'short' })}
                         </p>
-                        <p className="text-2xl font-bold text-theme-primary">
+                        <p className="text-xl font-semibold text-white">
                           {new Date(div.paymentDate).getDate()}
                         </p>
                       </div>
                       <Logo
                         ticker={div.symbol}
                         alt={div.symbol}
-                        className="w-10 h-10"
-                        padding="small"
+                        className="w-8 h-8"
+                        padding="none"
                       />
                       <div>
-                        <p className="font-semibold text-theme-primary">{div.symbol}</p>
-                        <p className="text-sm text-theme-secondary">
+                        <p className="font-medium text-white text-sm">{div.symbol}</p>
+                        <p className="text-xs text-neutral-500">
                           {formatCurrency(div.adjDividend)} pro Aktie
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="font-bold text-brand-light text-lg">
+                      <p className="font-medium text-emerald-400">
                         +{formatCurrency(totalPayment)}
                       </p>
-                      <p className="text-xs text-theme-muted">Geschätzt</p>
+                      <p className="text-xs text-neutral-600">Geschätzt</p>
                     </div>
                   </div>
                 )
               })}
             </div>
           ) : (
-            <div className="text-center py-8">
-              <CalendarDaysIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-              <p className="text-theme-secondary">Keine kommenden Dividenden</p>
-              <p className="text-theme-muted text-sm mt-1">
+            <div className="text-center py-12">
+              <CalendarDaysIcon className="w-12 h-12 text-neutral-600 mx-auto mb-3" />
+              <p className="text-neutral-400">Keine kommenden Dividenden</p>
+              <p className="text-neutral-600 text-sm mt-1">
                 Basierend auf historischen Daten
               </p>
             </div>
           )}
-          
-          <div className="mt-6 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-            <div className="flex items-start gap-2">
-              <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-              <div>
-                <p className="text-sm text-blue-400 font-medium">Hinweis</p>
-                <p className="text-xs text-theme-secondary mt-1">
-                  Die kommenden Dividendentermine sind Schätzungen basierend auf historischen Zahlungsmustern. 
-                  Die tatsächlichen Termine können abweichen.
-                </p>
-              </div>
-            </div>
+
+          <div className="mt-6 flex items-start gap-3 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+            <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0" />
+            <p className="text-xs text-neutral-400">
+              Die kommenden Dividendentermine sind Schätzungen basierend auf historischen Zahlungsmustern.
+              Die tatsächlichen Termine können abweichen.
+            </p>
           </div>
         </div>
       )}
 
       {activeTab === 'history' && (
-        <div className="bg-theme-card rounded-xl border border-theme/10 p-6">
-          <h3 className="text-lg font-semibold text-theme-primary mb-4">Dividenden-Historie</h3>
-          
+        <div>
+          <h3 className="text-sm font-medium text-neutral-400 mb-4">Dividenden-Historie</h3>
+
           <div className="space-y-6">
             {Array.from(dividendData.entries()).map(([symbol, dividends]) => {
               const holding = holdings.find(h => h.symbol === symbol)
               if (!holding) return null
-              
+
               return (
-                <div key={symbol} className="border-b border-theme/10 pb-6 last:border-0">
-                  <h4 className="font-semibold text-theme-primary mb-3">
-                    {symbol} - {holding.name}
-                  </h4>
-                  
-                  <div className="space-y-2">
+                <div key={symbol} className="border-b border-neutral-800 pb-6 last:border-0">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Logo ticker={symbol} alt={symbol} className="w-6 h-6" padding="none" />
+                    <h4 className="font-medium text-white text-sm">
+                      {symbol}
+                      <span className="text-neutral-500 ml-2 font-normal">{holding.name}</span>
+                    </h4>
+                  </div>
+
+                  <div className="space-y-0">
                     {dividends.slice(0, 5).map((div, index) => (
-                      <div key={`${symbol}-${index}`} className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded">
+                      <div key={`${symbol}-${index}`} className="flex items-center justify-between py-3 border-b border-neutral-800/30 last:border-0">
                         <div>
-                          <p className="text-sm text-theme-primary">
+                          <p className="text-sm text-white">
                             {formatDate(div.paymentDate)}
                           </p>
-                          <p className="text-xs text-theme-muted">
+                          <p className="text-xs text-neutral-600">
                             Ex-Date: {formatDate(div.date)}
                           </p>
                         </div>
                         <div className="text-right">
-                          <p className="font-semibold text-theme-primary">
+                          <p className="text-sm text-white">
                             {formatCurrency(div.adjDividend)}
                           </p>
-                          <p className="text-xs text-brand-light">
+                          <p className="text-xs text-emerald-400">
                             Total: {formatCurrency(div.adjDividend * holding.quantity)}
                           </p>
                         </div>
@@ -612,11 +563,11 @@ export default function PortfolioDividends({ holdings }: PortfolioDividendsProps
               )
             })}
           </div>
-          
+
           {dividendData.size === 0 && (
-            <div className="text-center py-8">
-              <ClockIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-              <p className="text-theme-secondary">Keine Historie verfügbar</p>
+            <div className="text-center py-12">
+              <ClockIcon className="w-12 h-12 text-neutral-600 mx-auto mb-3" />
+              <p className="text-neutral-400">Keine Historie verfügbar</p>
             </div>
           )}
         </div>

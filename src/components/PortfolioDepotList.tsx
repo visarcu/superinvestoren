@@ -11,7 +11,6 @@ import {
   EllipsisVerticalIcon,
   BriefcaseIcon,
   ChartBarSquareIcon,
-  BanknotesIcon,
   ArrowRightIcon
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
@@ -28,7 +27,6 @@ export interface PortfolioSummary {
   cash_position: number
   is_default: boolean
   created_at: string
-  // Berechnete Werte
   total_value: number
   total_cost: number
   holdings_count: number
@@ -54,7 +52,6 @@ export default function PortfolioDepotList({
   const { formatCurrency } = useCurrency()
   const [openMenuId, setOpenMenuId] = useState<string | null>(null)
 
-  // Aggregierte Werte berechnen
   const aggregated = portfolios.reduce(
     (acc, p) => ({
       total_value: acc.total_value + p.total_value,
@@ -75,15 +72,15 @@ export default function PortfolioDepotList({
         {[1, 2, 3].map((i) => (
           <div
             key={i}
-            className="bg-theme-card rounded-xl border border-theme/10 p-6 animate-pulse"
+            className="py-4 border-b border-neutral-800 animate-pulse"
           >
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 bg-theme-secondary/30 rounded-xl" />
+              <div className="w-10 h-10 bg-neutral-800 rounded-lg" />
               <div className="flex-1">
-                <div className="h-5 w-32 bg-theme-secondary/30 rounded mb-2" />
-                <div className="h-4 w-24 bg-theme-secondary/20 rounded" />
+                <div className="h-4 w-32 bg-neutral-800 rounded mb-2" />
+                <div className="h-3 w-24 bg-neutral-800/50 rounded" />
               </div>
-              <div className="h-8 w-24 bg-theme-secondary/30 rounded" />
+              <div className="h-6 w-24 bg-neutral-800 rounded" />
             </div>
           </div>
         ))}
@@ -93,19 +90,19 @@ export default function PortfolioDepotList({
 
   if (portfolios.length === 0) {
     return (
-      <div className="bg-theme-card rounded-xl border border-theme/10 p-12 text-center">
-        <BriefcaseIcon className="w-16 h-16 text-theme-muted mx-auto mb-4" />
-        <h3 className="text-lg font-semibold text-theme-primary mb-2">
+      <div className="py-12 text-center">
+        <BriefcaseIcon className="w-12 h-12 text-neutral-600 mx-auto mb-4" />
+        <h3 className="text-base font-medium text-white mb-2">
           Noch keine Depots vorhanden
         </h3>
-        <p className="text-theme-secondary mb-6 max-w-sm mx-auto">
+        <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
           Erstelle dein erstes Depot, um deine Investments zu tracken.
         </p>
         <Link
           href="/analyse/portfolio/depots/neu"
-          className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-brand/90 text-white font-semibold rounded-xl transition-colors"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-lg transition-colors text-sm"
         >
-          <PlusIcon className="w-5 h-5" />
+          <PlusIcon className="w-4 h-4" />
           Erstes Depot erstellen
         </Link>
       </div>
@@ -114,50 +111,50 @@ export default function PortfolioDepotList({
 
   return (
     <div className="space-y-6">
-      {/* Aggregierte Übersicht (nur wenn > 1 Portfolio) */}
+      {/* Aggregated Overview */}
       {portfolios.length > 1 && (
         <Link
           href="/analyse/portfolio/dashboard?depot=all"
-          className="block bg-gradient-to-r from-brand/10 to-blue-500/10 rounded-xl border border-brand/20 p-6 hover:border-brand/40 transition-colors group"
+          className="block py-4 border-b border-neutral-800 hover:bg-neutral-900/30 transition-colors -mx-2 px-2 rounded-lg group"
         >
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <div className="w-14 h-14 bg-brand/20 rounded-xl flex items-center justify-center">
-                <ChartBarSquareIcon className="w-7 h-7 text-brand" />
+              <div className="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center">
+                <ChartBarSquareIcon className="w-5 h-5 text-emerald-400" />
               </div>
               <div>
-                <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
+                <h3 className="font-medium text-white flex items-center gap-2">
                   Alle Depots
-                  <span className="text-sm font-normal text-theme-secondary">
-                    ({portfolios.length} Depots)
+                  <span className="text-xs font-normal text-neutral-500">
+                    ({portfolios.length})
                   </span>
                 </h3>
-                <div className="flex items-center gap-4 text-sm text-theme-secondary mt-1">
+                <div className="flex items-center gap-3 text-xs text-neutral-500 mt-0.5">
                   <span>{aggregated.holdings_count} Positionen</span>
-                  <span>•</span>
+                  <span>·</span>
                   <span>{formatCurrency(aggregated.cash_position)} Cash</span>
                 </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-4">
               <div className="text-right">
-                <p className="text-2xl font-bold text-theme-primary">
+                <p className="text-lg font-semibold text-white">
                   {formatCurrency(aggregated.total_value + aggregated.cash_position)}
                 </p>
-                <p className={`text-sm font-medium ${aggregatedGainLoss >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <p className={`text-xs ${aggregatedGainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {aggregatedGainLoss >= 0 ? '+' : ''}{formatCurrency(aggregatedGainLoss)}{' '}
                   ({aggregatedGainLossPercent >= 0 ? '+' : ''}{aggregatedGainLossPercent.toFixed(2)}%)
                 </p>
               </div>
-              <ArrowRightIcon className="w-5 h-5 text-theme-muted group-hover:text-brand transition-colors" />
+              <ArrowRightIcon className="w-4 h-4 text-neutral-600 group-hover:text-emerald-400 transition-colors" />
             </div>
           </div>
         </Link>
       )}
 
-      {/* Einzelne Depots */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Portfolio List */}
+      <div className="space-y-0">
         {portfolios.map((portfolio) => {
           const brokerColor = getBrokerColor(portfolio.broker_type, portfolio.broker_color)
           const isMenuOpen = openMenuId === portfolio.id
@@ -165,163 +162,157 @@ export default function PortfolioDepotList({
           return (
             <div
               key={portfolio.id}
-              className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden hover:border-theme/20 transition-colors"
+              className="py-4 border-b border-neutral-800 last:border-0"
             >
-              {/* Color Bar */}
-              <div className="h-1" style={{ backgroundColor: brokerColor }} />
+              <div className="flex items-start justify-between">
+                <div className="flex items-center gap-4">
+                  {/* Broker Color Indicator */}
+                  <div
+                    className="w-10 h-10 rounded-lg flex items-center justify-center"
+                    style={{ backgroundColor: `${brokerColor}20` }}
+                  >
+                    <BriefcaseIcon className="w-5 h-5" style={{ color: brokerColor }} />
+                  </div>
 
-              <div className="p-5">
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex items-center gap-3">
-                    {/* Broker Color Indicator */}
-                    <div
-                      className="w-10 h-10 rounded-lg flex items-center justify-center"
-                      style={{ backgroundColor: `${brokerColor}20` }}
-                    >
-                      <BriefcaseIcon className="w-5 h-5" style={{ color: brokerColor }} />
+                  <div>
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-medium text-white">
+                        {portfolio.name}
+                      </h3>
+                      {portfolio.is_default && (
+                        <StarIconSolid className="w-3.5 h-3.5 text-yellow-500" />
+                      )}
                     </div>
+                    <BrokerBadge
+                      brokerId={portfolio.broker_type}
+                      customName={portfolio.broker_name}
+                      customColor={portfolio.broker_color}
+                      size="sm"
+                    />
+                  </div>
+                </div>
 
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-theme-primary">
-                          {portfolio.name}
-                        </h3>
-                        {portfolio.is_default && (
-                          <StarIconSolid className="w-4 h-4 text-yellow-500" />
-                        )}
-                      </div>
-                      <BrokerBadge
-                        brokerId={portfolio.broker_type}
-                        customName={portfolio.broker_name}
-                        customColor={portfolio.broker_color}
-                        size="sm"
+                {/* Menu */}
+                <div className="relative">
+                  <button
+                    onClick={() => setOpenMenuId(isMenuOpen ? null : portfolio.id)}
+                    className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors"
+                  >
+                    <EllipsisVerticalIcon className="w-4 h-4 text-neutral-500" />
+                  </button>
+
+                  {isMenuOpen && (
+                    <>
+                      <div
+                        className="fixed inset-0 z-10"
+                        onClick={() => setOpenMenuId(null)}
                       />
-                    </div>
-                  </div>
-
-                  {/* Menu */}
-                  <div className="relative">
-                    <button
-                      onClick={() => setOpenMenuId(isMenuOpen ? null : portfolio.id)}
-                      className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
-                    >
-                      <EllipsisVerticalIcon className="w-5 h-5 text-theme-secondary" />
-                    </button>
-
-                    {isMenuOpen && (
-                      <>
-                        <div
-                          className="fixed inset-0 z-10"
+                      <div className="absolute right-0 top-full mt-1 w-44 bg-neutral-900 border border-neutral-700 rounded-lg shadow-xl z-20 py-1">
+                        <Link
+                          href={`/analyse/portfolio/dashboard?depot=${portfolio.id}`}
+                          className="flex items-center gap-2 px-3 py-2 text-sm text-white hover:bg-neutral-800 transition-colors"
                           onClick={() => setOpenMenuId(null)}
-                        />
-                        <div className="absolute right-0 top-full mt-1 w-48 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-20 py-1">
-                          <Link
-                            href={`/analyse/portfolio/dashboard?depot=${portfolio.id}`}
-                            className="flex items-center gap-2 px-4 py-2 text-sm text-theme-primary hover:bg-theme-secondary/30 transition-colors"
-                            onClick={() => setOpenMenuId(null)}
-                          >
-                            <ChartBarSquareIcon className="w-4 h-4" />
-                            Dashboard öffnen
-                          </Link>
+                        >
+                          <ChartBarSquareIcon className="w-4 h-4 text-neutral-400" />
+                          Dashboard öffnen
+                        </Link>
+                        <button
+                          onClick={() => {
+                            onEdit(portfolio.id)
+                            setOpenMenuId(null)
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white hover:bg-neutral-800 transition-colors"
+                        >
+                          <PencilIcon className="w-4 h-4 text-neutral-400" />
+                          Bearbeiten
+                        </button>
+                        {!portfolio.is_default && (
                           <button
                             onClick={() => {
-                              onEdit(portfolio.id)
+                              onSetDefault(portfolio.id)
                               setOpenMenuId(null)
                             }}
-                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-theme-primary hover:bg-theme-secondary/30 transition-colors"
+                            className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white hover:bg-neutral-800 transition-colors"
                           >
-                            <PencilIcon className="w-4 h-4" />
-                            Bearbeiten
+                            <StarIcon className="w-4 h-4 text-neutral-400" />
+                            Als Hauptdepot
                           </button>
-                          {!portfolio.is_default && (
-                            <button
-                              onClick={() => {
-                                onSetDefault(portfolio.id)
-                                setOpenMenuId(null)
-                              }}
-                              className="w-full flex items-center gap-2 px-4 py-2 text-sm text-theme-primary hover:bg-theme-secondary/30 transition-colors"
-                            >
-                              <StarIcon className="w-4 h-4" />
-                              Als Hauptdepot
-                            </button>
-                          )}
-                          <hr className="my-1 border-theme/10" />
-                          <button
-                            onClick={() => {
-                              if (confirm(`Depot "${portfolio.name}" wirklich löschen? Alle Positionen und Transaktionen werden gelöscht.`)) {
-                                onDelete(portfolio.id)
-                              }
-                              setOpenMenuId(null)
-                            }}
-                            className="w-full flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
-                          >
-                            <TrashIcon className="w-4 h-4" />
-                            Löschen
-                          </button>
-                        </div>
-                      </>
-                    )}
-                  </div>
+                        )}
+                        <hr className="my-1 border-neutral-700" />
+                        <button
+                          onClick={() => {
+                            if (confirm(`Depot "${portfolio.name}" wirklich löschen? Alle Positionen und Transaktionen werden gelöscht.`)) {
+                              onDelete(portfolio.id)
+                            }
+                            setOpenMenuId(null)
+                          }}
+                          className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
+                        >
+                          <TrashIcon className="w-4 h-4" />
+                          Löschen
+                        </button>
+                      </div>
+                    </>
+                  )}
                 </div>
+              </div>
 
-                {/* Stats */}
-                <div className="grid grid-cols-3 gap-4 mb-4">
-                  <div>
-                    <p className="text-xs text-theme-muted mb-1">Wert</p>
-                    <p className="font-semibold text-theme-primary">
-                      {formatCurrency(portfolio.total_value)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-theme-muted mb-1">Cash</p>
-                    <p className="font-semibold text-theme-primary">
-                      {formatCurrency(portfolio.cash_position)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-xs text-theme-muted mb-1">Positionen</p>
-                    <p className="font-semibold text-theme-primary">
-                      {portfolio.holdings_count}
-                    </p>
-                  </div>
+              {/* Stats Row */}
+              <div className="flex flex-wrap items-baseline gap-x-6 gap-y-2 mt-4 pl-14">
+                <div>
+                  <span className="text-xs text-neutral-500 mr-2">Wert</span>
+                  <span className="text-sm font-medium text-white">
+                    {formatCurrency(portfolio.total_value)}
+                  </span>
                 </div>
-
-                {/* Performance */}
-                <div className="flex items-center justify-between pt-4 border-t border-theme/10">
-                  <span className="text-sm text-theme-secondary">Gesamt G/V</span>
-                  <div className="text-right">
-                    <span className={`font-semibold ${portfolio.gain_loss >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                      {portfolio.gain_loss >= 0 ? '+' : ''}{formatCurrency(portfolio.gain_loss)}
-                    </span>
-                    <span className={`text-sm ml-2 ${portfolio.gain_loss_percent >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+                <div>
+                  <span className="text-xs text-neutral-500 mr-2">Cash</span>
+                  <span className="text-sm font-medium text-white">
+                    {formatCurrency(portfolio.cash_position)}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs text-neutral-500 mr-2">Positionen</span>
+                  <span className="text-sm font-medium text-white">
+                    {portfolio.holdings_count}
+                  </span>
+                </div>
+                <div>
+                  <span className="text-xs text-neutral-500 mr-2">G/V</span>
+                  <span className={`text-sm font-medium ${portfolio.gain_loss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {portfolio.gain_loss >= 0 ? '+' : ''}{formatCurrency(portfolio.gain_loss)}
+                    <span className="ml-1 text-xs">
                       ({portfolio.gain_loss_percent >= 0 ? '+' : ''}{portfolio.gain_loss_percent.toFixed(2)}%)
                     </span>
-                  </div>
+                  </span>
                 </div>
               </div>
 
               {/* Quick Action */}
-              <Link
-                href={`/analyse/portfolio/dashboard?depot=${portfolio.id}`}
-                className="block px-5 py-3 bg-theme-secondary/20 text-center text-sm font-medium text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30 transition-colors"
-              >
-                Dashboard öffnen
-              </Link>
+              <div className="mt-3 pl-14">
+                <Link
+                  href={`/analyse/portfolio/dashboard?depot=${portfolio.id}`}
+                  className="inline-flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
+                >
+                  Dashboard öffnen
+                  <ArrowRightIcon className="w-3 h-3" />
+                </Link>
+              </div>
             </div>
           )
         })}
-
-        {/* Add New Depot Card */}
-        <Link
-          href="/analyse/portfolio/depots/neu"
-          className="flex flex-col items-center justify-center p-8 rounded-xl border-2 border-dashed border-theme/20 hover:border-brand/50 hover:bg-brand/5 transition-colors min-h-[200px]"
-        >
-          <div className="w-14 h-14 bg-theme-secondary/20 rounded-xl flex items-center justify-center mb-4">
-            <PlusIcon className="w-7 h-7 text-theme-muted" />
-          </div>
-          <span className="font-medium text-theme-secondary">Neues Depot</span>
-        </Link>
       </div>
+
+      {/* Add New Depot */}
+      <Link
+        href="/analyse/portfolio/depots/neu"
+        className="flex items-center gap-3 py-4 text-neutral-400 hover:text-white transition-colors"
+      >
+        <div className="w-10 h-10 border border-dashed border-neutral-700 rounded-lg flex items-center justify-center hover:border-emerald-500/50 transition-colors">
+          <PlusIcon className="w-5 h-5" />
+        </div>
+        <span className="text-sm font-medium">Neues Depot erstellen</span>
+      </Link>
     </div>
   )
 }

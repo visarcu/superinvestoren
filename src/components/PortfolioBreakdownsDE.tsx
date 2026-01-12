@@ -1,4 +1,4 @@
-// src/components/PortfolioBreakdownsDE.tsx
+// src/components/PortfolioBreakdownsDE.tsx - FEY STYLE
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -11,7 +11,7 @@ import {
   ArrowPathIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline'
-import { 
+import {
   getStockProfiles
 } from '@/lib/portfolioData'
 import { useCurrency } from '@/lib/CurrencyContext'
@@ -39,46 +39,43 @@ interface PortfolioBreakdownsDEProps {
   currency?: 'EUR' | 'USD'
 }
 
-// Helper function für Exchange Rate Caching
 function getCachedExchangeRate(pair: string): number | null {
   if (typeof window === 'undefined') return null
-  
+
   const cached = localStorage.getItem(`fx_${pair}`)
   if (!cached) return null
-  
+
   const data = JSON.parse(cached)
   if (Date.now() > data.expires) {
     localStorage.removeItem(`fx_${pair}`)
     return null
   }
-  
+
   return data.rate
 }
 
 function cacheExchangeRate(pair: string, rate: number) {
   if (typeof window === 'undefined') return
-  
+
   const cache = {
     rate,
     timestamp: Date.now(),
-    expires: Date.now() + (60 * 60 * 1000) // 1 Stunde Cache
+    expires: Date.now() + (60 * 60 * 1000)
   }
   localStorage.setItem(`fx_${pair}`, JSON.stringify(cache))
 }
 
 async function getExchangeRate(from: string, to: string): Promise<number> {
   try {
-    // Use secure exchange rate API
     const response = await fetch(`/api/exchange-rate?from=${from}&to=${to}`)
-    
+
     if (response.ok) {
       const data = await response.json()
       if (data && data.rate) {
         return data.rate
       }
     }
-    
-    // Fallback rates wenn API nicht funktioniert
+
     const fallbackRates: { [key: string]: number } = {
       'EURUSD': 1.08,
       'USDEUR': 0.93,
@@ -87,7 +84,7 @@ async function getExchangeRate(from: string, to: string): Promise<number> {
       'CHFUSD': 1.13,
       'USDCHF': 0.88
     }
-    
+
     return fallbackRates[`${from}${to}`] || 1
   } catch (error) {
     console.error('Error fetching exchange rate:', error)
@@ -95,9 +92,9 @@ async function getExchangeRate(from: string, to: string): Promise<number> {
   }
 }
 
-export default function PortfolioBreakdownsDE({ 
-  holdings, 
-  totalValue, 
+export default function PortfolioBreakdownsDE({
+  holdings,
+  totalValue,
   cashPosition,
   currency = 'EUR'
 }: PortfolioBreakdownsDEProps) {
@@ -106,7 +103,7 @@ export default function PortfolioBreakdownsDE({
   const [loading, setLoading] = useState(true)
   const [profiles, setProfiles] = useState<Map<string, any>>(new Map())
   const [showAll, setShowAll] = useState(false)
-  const [exchangeRate, setExchangeRate] = useState<number>(0.93) // USD to EUR
+  const [exchangeRate, setExchangeRate] = useState<number>(0.93)
   const [displayCurrency] = useState<'EUR' | 'USD'>(currency)
 
   useEffect(() => {
@@ -121,7 +118,6 @@ export default function PortfolioBreakdownsDE({
 
     setLoading(true)
     try {
-      // Lade Exchange Rate
       let rate = getCachedExchangeRate('USDEUR')
       if (!rate) {
         rate = await getExchangeRate('USD', 'EUR')
@@ -129,7 +125,6 @@ export default function PortfolioBreakdownsDE({
       }
       setExchangeRate(rate)
 
-      // Lade Stock Profiles
       const symbols = holdings.map(h => h.symbol)
       const profileData = await getStockProfiles(symbols)
       setProfiles(profileData)
@@ -141,23 +136,19 @@ export default function PortfolioBreakdownsDE({
   }
 
   const formatValue = (value: number): string => {
-    // Handle invalid values
     if (!value || isNaN(value) || !isFinite(value)) {
       const symbol = displayCurrency === 'EUR' ? '€' : '$'
       return `${symbol}0,00`
     }
-    
-    // Handle invalid exchange rate
+
     const validExchangeRate = exchangeRate && !isNaN(exchangeRate) && isFinite(exchangeRate) ? exchangeRate : 0.93
     const convertedValue = displayCurrency === 'EUR' ? value * validExchangeRate : value
-    
-    // Handle converted value edge cases
+
     if (!convertedValue || isNaN(convertedValue) || !isFinite(convertedValue)) {
       const symbol = displayCurrency === 'EUR' ? '€' : '$'
       return `${symbol}0,00`
     }
-    
-    // Nutze den CurrencyContext formatter wenn möglich
+
     if (formatCurrency) {
       try {
         return formatCurrency(convertedValue)
@@ -165,12 +156,11 @@ export default function PortfolioBreakdownsDE({
         console.warn('CurrencyContext formatCurrency error:', error)
       }
     }
-    
-    // Fallback
+
     const symbol = displayCurrency === 'EUR' ? '€' : '$'
-    return `${symbol}${convertedValue.toLocaleString('de-DE', { 
-      minimumFractionDigits: 2, 
-      maximumFractionDigits: 2 
+    return `${symbol}${convertedValue.toLocaleString('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
     })}`
   }
 
@@ -178,10 +168,9 @@ export default function PortfolioBreakdownsDE({
     if (loading) return []
 
     let data: BreakdownItem[] = []
-    
+
     switch (activeBreakdown) {
       case 'sector':
-        // For now, create a simple sector breakdown from profiles
         const sectorMap = new Map<string, number>()
         holdings.forEach(holding => {
           const profile = profiles.get(holding.symbol)
@@ -251,7 +240,7 @@ export default function PortfolioBreakdownsDE({
           name: currency,
           value,
           percentage: totalValue > 0 ? (value / totalValue) * 100 : 0,
-          holdings: currency === 'EUR' && cashPosition > 0 
+          holdings: currency === 'EUR' && cashPosition > 0
             ? [...holdings.filter(h => profiles.get(h.symbol)?.currency === currency).map(h => h.symbol), 'EUR']
             : holdings.filter(h => profiles.get(h.symbol)?.currency === currency).map(h => h.symbol)
         }))
@@ -262,7 +251,7 @@ export default function PortfolioBreakdownsDE({
           return sum + value
         }, 0)
         const validCashPosition = cashPosition && !isNaN(cashPosition) && isFinite(cashPosition) ? cashPosition : 0
-        
+
         data = [
           {
             name: 'Aktien',
@@ -280,25 +269,21 @@ export default function PortfolioBreakdownsDE({
         break
     }
 
-    // Berechne Prozentsätze mit robuster Fehlerbehandlung
-    const total = activeBreakdown === 'asset' || activeBreakdown === 'currency' 
-      ? totalValue 
+    const total = activeBreakdown === 'asset' || activeBreakdown === 'currency'
+      ? totalValue
       : totalValue - cashPosition
 
-    // Prevent division by zero
     const validTotal = total && total > 0 ? total : 1
     const validExchangeRate = exchangeRate && !isNaN(exchangeRate) && isFinite(exchangeRate) ? exchangeRate : 0.93
 
-    // Ensure data is an array before mapping
     if (!Array.isArray(data)) {
       console.warn('PortfolioBreakdownsDE: data is not an array:', data)
       return []
     }
 
     return data.map(item => {
-      // Validate item.value
       const itemValue = item.value && !isNaN(item.value) && isFinite(item.value) ? item.value : 0
-      
+
       return {
         name: translateName(item.name),
         value: itemValue,
@@ -311,7 +296,6 @@ export default function PortfolioBreakdownsDE({
 
   const translateName = (name: string): string => {
     const translations: { [key: string]: string } = {
-      // Sektoren
       'Technology': 'Technologie',
       'Healthcare': 'Gesundheit',
       'Financial Services': 'Finanzdienstleistungen',
@@ -324,13 +308,11 @@ export default function PortfolioBreakdownsDE({
       'Communication Services': 'Kommunikation',
       'Basic Materials': 'Grundstoffe',
       'Other': 'Sonstige',
-      // Market Caps
       'Mega Cap (>$200B)': 'Mega Cap (>200 Mrd.)',
       'Large Cap ($10B-$200B)': 'Large Cap (10-200 Mrd.)',
       'Mid Cap ($2B-$10B)': 'Mid Cap (2-10 Mrd.)',
       'Small Cap ($300M-$2B)': 'Small Cap (300 Mio.-2 Mrd.)',
       'Micro Cap (<$300M)': 'Micro Cap (<300 Mio.)',
-      // Länder
       'United States': 'Vereinigte Staaten',
       'Germany': 'Deutschland',
       'United Kingdom': 'Großbritannien',
@@ -341,7 +323,6 @@ export default function PortfolioBreakdownsDE({
       'China': 'China',
       'Canada': 'Kanada',
       'Unknown': 'Unbekannt',
-      // Assets
       'Stocks': 'Aktien',
       'Cash': 'Bargeld'
     }
@@ -370,23 +351,23 @@ export default function PortfolioBreakdownsDE({
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
-          <p className="text-theme-secondary">Lade Portfolio-Daten...</p>
+          <ArrowPathIcon className="w-6 h-6 text-emerald-400 animate-spin mx-auto mb-3" />
+          <p className="text-neutral-400">Lade Portfolio-Daten...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="space-y-4">
-      {/* Tab Buttons - kompakter, ohne Box-Container */}
+    <div className="space-y-6">
+      {/* Tab Buttons - Fey Style Pill Buttons */}
       <div className="flex flex-wrap gap-2">
         <button
           onClick={() => setActiveBreakdown('asset')}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'asset'
-              ? 'bg-brand text-white'
-              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
           }`}
         >
           <ChartPieIcon className="w-4 h-4" />
@@ -394,10 +375,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('sector')}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'sector'
-              ? 'bg-brand text-white'
-              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
           }`}
         >
           <BuildingOfficeIcon className="w-4 h-4" />
@@ -405,10 +386,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('country')}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'country'
-              ? 'bg-brand text-white'
-              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
           }`}
         >
           <GlobeAltIcon className="w-4 h-4" />
@@ -416,10 +397,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('currency')}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'currency'
-              ? 'bg-brand text-white'
-              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
           }`}
         >
           <CurrencyEuroIcon className="w-4 h-4" />
@@ -427,10 +408,10 @@ export default function PortfolioBreakdownsDE({
         </button>
         <button
           onClick={() => setActiveBreakdown('cap')}
-          className={`flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors ${
+          className={`flex items-center gap-2 px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
             activeBreakdown === 'cap'
-              ? 'bg-brand text-white'
-              : 'bg-theme-secondary/20 text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+              ? 'bg-emerald-500 text-white'
+              : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
           }`}
         >
           <ScaleIcon className="w-4 h-4" />
@@ -438,141 +419,139 @@ export default function PortfolioBreakdownsDE({
         </button>
       </div>
 
-      {/* Content - EINE flache Card, keine verschachtelten Boxes */}
-      <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
+      {/* Content - Flat List */}
+      <div>
         {/* Empty State */}
         {holdings.length === 0 && (
           <div className="py-12 text-center">
-            <img
-              src="/illustrations/undraw_investing_uzcu.svg"
-              alt="Portfolio Breakdown"
-              className="w-40 h-40 mx-auto mb-6 opacity-85"
-            />
-            <h3 className="text-lg font-semibold text-theme-primary mb-2">
+            <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800/50 rounded-xl flex items-center justify-center">
+              <ChartPieIcon className="w-8 h-8 text-neutral-600" />
+            </div>
+            <h3 className="text-base font-medium text-white mb-1">
               Keine Positionen vorhanden
             </h3>
-            <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+            <p className="text-neutral-500 text-sm max-w-sm mx-auto">
               Füge Aktien zu deinem Portfolio hinzu, um die Aufschlüsselung zu sehen.
             </p>
           </div>
         )}
 
-        {/* Items als flache Liste */}
+        {/* Items as Flat List */}
         {holdings.length > 0 && (
-        <div className="divide-y divide-theme/5">
-          {displayData.map((item, index) => (
-            <div
-              key={index}
-              className="px-5 py-4 hover:bg-theme-secondary/5 transition-colors"
-            >
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-3">
-                  {activeBreakdown === 'country' && (
-                    <span className="text-xl">{getCountryFlag(item.name)}</span>
-                  )}
-                  <div>
-                    <p className="font-medium text-theme-primary">{item.name}</p>
-                    <p className="text-xs text-theme-muted">
-                      {item.holdings.length} {item.holdings.length === 1 ? 'Position' : 'Positionen'}
-                      {item.holdings.length <= 4 && item.holdings.length > 0 && (
-                        <span className="ml-1">· {item.holdings.join(', ')}</span>
-                      )}
+          <div className="space-y-0">
+            {displayData.map((item, index) => (
+              <div
+                key={index}
+                className="py-4 border-b border-neutral-800/50 last:border-0"
+              >
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-3">
+                    {activeBreakdown === 'country' && (
+                      <span className="text-lg">{getCountryFlag(item.name)}</span>
+                    )}
+                    <div>
+                      <p className="font-medium text-white text-sm">{item.name}</p>
+                      <p className="text-xs text-neutral-500">
+                        {item.holdings.length} {item.holdings.length === 1 ? 'Position' : 'Positionen'}
+                        {item.holdings.length <= 4 && item.holdings.length > 0 && (
+                          <span className="ml-1 text-neutral-600">· {item.holdings.join(', ')}</span>
+                        )}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="font-medium text-white text-sm">{formatValue(item.value)}</p>
+                    <p className="text-xs text-emerald-400">
+                      {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage)
+                        ? item.percentage.toFixed(1)
+                        : '0.0'}%
                     </p>
                   </div>
                 </div>
-                <div className="text-right">
-                  <p className="font-semibold text-theme-primary">{formatValue(item.value)}</p>
-                  <p className="text-sm text-brand-light">
-                    {item.percentage && !isNaN(item.percentage) && isFinite(item.percentage)
-                      ? item.percentage.toFixed(1)
-                      : '0.0'}%
-                  </p>
+
+                {/* Progress Bar - Minimal */}
+                <div className="h-1 bg-neutral-800 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-emerald-500 transition-all duration-500"
+                    style={{
+                      width: `${item.percentage || 0}%`,
+                      opacity: 1 - (index * 0.08)
+                    }}
+                  />
                 </div>
               </div>
-
-              {/* Progress Bar - subtiler */}
-              <div className="h-1.5 bg-theme-secondary/20 rounded-full overflow-hidden">
-                <div
-                  className="h-full rounded-full bg-brand transition-all duration-500"
-                  style={{
-                    width: `${item.percentage || 0}%`,
-                    opacity: 1 - (index * 0.1)
-                  }}
-                />
-              </div>
-            </div>
-          ))}
-        </div>
-        )}
-
-        {/* Show More Button falls nötig */}
-        {holdings.length > 0 && breakdownData.length > 6 && (
-          <div className="px-5 py-3 border-t border-theme/5">
-            <button
-              onClick={() => setShowAll(!showAll)}
-              className="w-full text-sm text-brand-light hover:text-green-300 transition-colors"
-            >
-              {showAll ? 'Weniger anzeigen' : `${breakdownData.length - 6} weitere anzeigen`}
-            </button>
+            ))}
           </div>
         )}
+
+        {/* Show More Button */}
+        {holdings.length > 0 && breakdownData.length > 6 && (
+          <button
+            onClick={() => setShowAll(!showAll)}
+            className="w-full py-3 text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
+          >
+            {showAll ? 'Weniger anzeigen' : `${breakdownData.length - 6} weitere anzeigen`}
+          </button>
+        )}
       </div>
 
-      {/* Portfolio-Analyse - kompakte Zeile statt große Box */}
-      <div className="flex items-start gap-3 px-4 py-3 bg-theme-secondary/10 rounded-lg">
-        <SparklesIcon className="w-4 h-4 text-brand-light flex-shrink-0 mt-0.5" />
-        <div className="text-sm text-theme-secondary">
-          {activeBreakdown === 'asset' && (
-            <span>
-              <span className="text-theme-primary font-medium">
-                Bargeldanteil: {totalValue > 0 ? (cashPosition / totalValue * 100).toFixed(1) : '0.0'}%
-              </span>
-              {' · '}
-              {totalValue > 0 && cashPosition / totalValue > 0.3
-                ? 'Hohe Bargeldposition - erwägen Sie mehr Investitionen.'
-                : totalValue > 0 && cashPosition / totalValue < 0.05
-                ? 'Niedrige Barreserve.'
-                : 'Ausgewogene Bargeldposition.'}
-            </span>
-          )}
-          {activeBreakdown === 'sector' && breakdownData[0] && (
-            <span>
-              <span className="text-theme-primary font-medium">
-                Top: {breakdownData[0].name} ({breakdownData[0].percentage?.toFixed(1) || 0}%)
-              </span>
-              {' · '}
-              {breakdownData.length < 3 ? 'Erwägen Sie mehr Branchendiversifikation.' : 'Diversifiziert über ' + breakdownData.length + ' Branchen.'}
-            </span>
-          )}
-          {activeBreakdown === 'country' && (
-            <span>
-              <span className="text-theme-primary font-medium">
-                {breakdownData.length} {breakdownData.length === 1 ? 'Land' : 'Länder'}
-              </span>
-              {' · '}
-              {breakdownData[0]?.percentage > 80 ? 'Konzentriert - mehr internationale Diversifikation erwägen.' : 'Geografisch diversifiziert.'}
-            </span>
-          )}
-          {activeBreakdown === 'currency' && (
-            <span>
-              <span className="text-theme-primary font-medium">
-                {breakdownData.length} {breakdownData.length === 1 ? 'Währung' : 'Währungen'}
-              </span>
-              {' · '}
-              Wechselkurs: 1 USD = {exchangeRate?.toFixed(4) || '0.93'} EUR
-            </span>
-          )}
-          {activeBreakdown === 'cap' && breakdownData[0] && (
-            <span>
-              <span className="text-theme-primary font-medium">
-                Hauptsächlich {breakdownData[0].name}
-              </span>
-              {' · '}
-              {breakdownData.length === 1 ? 'Konzentriert auf eine Größenklasse.' : 'Diversifiziert über ' + breakdownData.length + ' Größenklassen.'}
-            </span>
-          )}
+      {/* Portfolio Analysis - Inline Hint */}
+      {holdings.length > 0 && (
+        <div className="flex items-start gap-3 py-3 border-t border-neutral-800">
+          <SparklesIcon className="w-4 h-4 text-emerald-400 flex-shrink-0 mt-0.5" />
+          <p className="text-xs text-neutral-500">
+            {activeBreakdown === 'asset' && (
+              <>
+                <span className="text-white font-medium">
+                  Bargeldanteil: {totalValue > 0 ? (cashPosition / totalValue * 100).toFixed(1) : '0.0'}%
+                </span>
+                {' · '}
+                {totalValue > 0 && cashPosition / totalValue > 0.3
+                  ? 'Hohe Bargeldposition - erwägen Sie mehr Investitionen.'
+                  : totalValue > 0 && cashPosition / totalValue < 0.05
+                  ? 'Niedrige Barreserve.'
+                  : 'Ausgewogene Bargeldposition.'}
+              </>
+            )}
+            {activeBreakdown === 'sector' && breakdownData[0] && (
+              <>
+                <span className="text-white font-medium">
+                  Top: {breakdownData[0].name} ({breakdownData[0].percentage?.toFixed(1) || 0}%)
+                </span>
+                {' · '}
+                {breakdownData.length < 3 ? 'Erwägen Sie mehr Branchendiversifikation.' : 'Diversifiziert über ' + breakdownData.length + ' Branchen.'}
+              </>
+            )}
+            {activeBreakdown === 'country' && (
+              <>
+                <span className="text-white font-medium">
+                  {breakdownData.length} {breakdownData.length === 1 ? 'Land' : 'Länder'}
+                </span>
+                {' · '}
+                {breakdownData[0]?.percentage > 80 ? 'Konzentriert - mehr internationale Diversifikation erwägen.' : 'Geografisch diversifiziert.'}
+              </>
+            )}
+            {activeBreakdown === 'currency' && (
+              <>
+                <span className="text-white font-medium">
+                  {breakdownData.length} {breakdownData.length === 1 ? 'Währung' : 'Währungen'}
+                </span>
+                {' · '}
+                Wechselkurs: 1 USD = {exchangeRate?.toFixed(4) || '0.93'} EUR
+              </>
+            )}
+            {activeBreakdown === 'cap' && breakdownData[0] && (
+              <>
+                <span className="text-white font-medium">
+                  Hauptsächlich {breakdownData[0].name}
+                </span>
+                {' · '}
+                {breakdownData.length === 1 ? 'Konzentriert auf eine Größenklasse.' : 'Diversifiziert über ' + breakdownData.length + ' Größenklassen.'}
+              </>
+            )}
+          </p>
         </div>
-      </div>
+      )}
     </div>
   )
 }

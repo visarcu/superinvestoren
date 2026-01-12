@@ -35,7 +35,6 @@ export default function DepotsPage() {
         return
       }
 
-      // Lade alle Portfolios des Users
       const { data: portfoliosData, error: portfoliosError } = await supabase
         .from('portfolios')
         .select('*')
@@ -45,7 +44,6 @@ export default function DepotsPage() {
 
       if (portfoliosError) throw portfoliosError
 
-      // Lade Holdings für jedes Portfolio
       const portfoliosWithStats: PortfolioSummary[] = await Promise.all(
         (portfoliosData || []).map(async (portfolio) => {
           const { data: holdings } = await supabase
@@ -91,19 +89,16 @@ export default function DepotsPage() {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.user) return
 
-      // Erst alle auf nicht-default setzen
       await supabase
         .from('portfolios')
         .update({ is_default: false })
         .eq('user_id', session.user.id)
 
-      // Dann das gewählte auf default setzen
       await supabase
         .from('portfolios')
         .update({ is_default: true })
         .eq('id', portfolioId)
 
-      // Neu laden
       await loadPortfolios()
     } catch (err) {
       console.error('Error setting default portfolio:', err)
@@ -112,25 +107,21 @@ export default function DepotsPage() {
 
   const handleDelete = async (portfolioId: string) => {
     try {
-      // Lösche zuerst alle Holdings
       await supabase
         .from('portfolio_holdings')
         .delete()
         .eq('portfolio_id', portfolioId)
 
-      // Lösche alle Transaktionen
       await supabase
         .from('portfolio_transactions')
         .delete()
         .eq('portfolio_id', portfolioId)
 
-      // Dann das Portfolio selbst
       await supabase
         .from('portfolios')
         .delete()
         .eq('id', portfolioId)
 
-      // Neu laden
       await loadPortfolios()
     } catch (err) {
       console.error('Error deleting portfolio:', err)
@@ -138,20 +129,19 @@ export default function DepotsPage() {
   }
 
   const handleEdit = (portfolioId: string) => {
-    // TODO: Modal oder separate Seite für Bearbeitung
     router.push(`/analyse/portfolio/depots/${portfolioId}/edit`)
   }
 
   return (
-    <div className="min-h-screen bg-theme-primary">
+    <div className="min-h-screen bg-neutral-950">
       {/* Header */}
-      <div className="bg-theme-card border-b border-theme/10">
+      <div className="border-b border-neutral-800">
         <div className="max-w-6xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Link
                 href="/analyse/portfolio/dashboard"
-                className="flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors"
+                className="flex items-center gap-2 text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-4 h-4" />
                 <span className="text-sm">Dashboard</span>
@@ -162,27 +152,27 @@ export default function DepotsPage() {
               <button
                 onClick={loadPortfolios}
                 disabled={loading}
-                className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
+                className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
                 title="Aktualisieren"
               >
-                <ArrowPathIcon className={`w-5 h-5 text-theme-secondary ${loading ? 'animate-spin' : ''}`} />
+                <ArrowPathIcon className={`w-5 h-5 text-neutral-400 ${loading ? 'animate-spin' : ''}`} />
               </button>
               <Link
                 href="/analyse/portfolio/depots/neu"
-                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand/90 text-white font-semibold rounded-lg transition-colors"
+                className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-lg transition-colors text-sm"
               >
-                <PlusIcon className="w-5 h-5" />
+                <PlusIcon className="w-4 h-4" />
                 Neues Depot
               </Link>
             </div>
           </div>
 
           <div className="mt-4">
-            <h1 className="text-2xl font-bold text-theme-primary flex items-center gap-3">
-              <BriefcaseIcon className="w-7 h-7" />
+            <h1 className="text-xl font-semibold text-white flex items-center gap-3">
+              <BriefcaseIcon className="w-6 h-6" />
               Meine Depots
             </h1>
-            <p className="text-theme-secondary mt-1">
+            <p className="text-neutral-500 text-sm mt-1">
               Verwalte deine verschiedenen Broker-Depots an einem Ort
             </p>
           </div>
@@ -196,7 +186,7 @@ export default function DepotsPage() {
             <p className="text-red-400 mb-4">{error}</p>
             <button
               onClick={loadPortfolios}
-              className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors"
+              className="px-4 py-2 bg-red-500/20 hover:bg-red-500/30 text-red-400 rounded-lg transition-colors text-sm"
             >
               Erneut versuchen
             </button>

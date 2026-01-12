@@ -123,42 +123,63 @@ export default function ProfessionalHomePage() {
     <div className="min-h-screen bg-[#0a0a0a]">
 
       {/* Hero Section */}
-      <div className="pt-40 pb-32">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center space-y-8">
-            <div className="space-y-3">
-              <h1 className="text-6xl md:text-7xl lg:text-8xl font-medium text-white leading-[0.85] tracking-[-0.02em]">
-                Professionelle
-                <br />
-                <span className="text-neutral-400">Aktienanalyse</span>
-              </h1>
-            </div>
+      <section className="pt-32 pb-0">
+        {/* Text Content */}
+        <div className="text-center px-6 max-w-4xl mx-auto">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-medium text-white leading-[0.85] tracking-[-0.02em]">
+            Professionelle
+            <br />
+            <span className="text-neutral-400">Aktienanalyse</span>
+          </h1>
 
-            <p className="text-xl md:text-2xl text-neutral-400 max-w-2xl mx-auto leading-relaxed">
-              Institutionelle Investment-Daten und Tools für bessere Anlageentscheidungen
-            </p>
+          <p className="text-xl md:text-2xl text-neutral-400 max-w-2xl mx-auto leading-relaxed mt-8">
+            Institutionelle Investment-Daten und Tools für bessere Anlageentscheidungen
+          </p>
 
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-6">
-              <Link 
-                href="/analyse" 
-                className="px-8 py-4 bg-white text-black font-semibold rounded-xl transition-all hover:bg-neutral-100 text-lg"
-              >
-                Terminal öffnen
-              </Link>
-              
-              <Link 
-                href="/superinvestor" 
-                className="px-8 py-4 text-white font-medium rounded-xl border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900 transition-all text-lg"
-              >
-                Portfolio-Tracking →
-              </Link>
-            </div>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+            <Link
+              href="/analyse"
+              className="px-8 py-4 bg-white text-black font-semibold rounded-xl transition-all hover:bg-neutral-100 text-lg"
+            >
+              Terminal öffnen
+            </Link>
+
+            <Link
+              href="/superinvestor"
+              className="px-8 py-4 text-white font-medium rounded-xl border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900 transition-all text-lg"
+            >
+              Portfolio-Tracking →
+            </Link>
           </div>
         </div>
-      </div>
+
+        {/* Hero Terminal Image - Minimaler Abstand, volle Breite */}
+        <div className="relative mt-12 w-full px-4">
+          {/* Subtle Glow behind the image */}
+          <div className="absolute inset-0 -z-10 blur-3xl opacity-30 bg-gradient-to-r from-emerald-500/20 via-transparent to-cyan-500/20 scale-110" />
+
+          {/* Terminal Image */}
+          <div className="relative max-w-7xl mx-auto">
+            <Image
+              src="/images/hero-terminal.png"
+              alt="FinClue Terminal - Professionelle Aktienanalyse"
+              width={1920}
+              height={1080}
+              className="w-full rounded-t-xl lg:rounded-t-2xl"
+              priority
+            />
+
+            {/* Strong Bottom Vignette - 60% fade from bottom */}
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] from-5% via-[#0a0a0a]/70 via-40% to-transparent to-80% pointer-events-none rounded-t-xl lg:rounded-t-2xl" />
+
+            {/* Side Vignettes */}
+            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 via-transparent to-[#0a0a0a]/40 pointer-events-none rounded-t-xl lg:rounded-t-2xl" />
+          </div>
+        </div>
+      </section>
 
       {/* Stats Section */}
-      <div className="py-24">
+      <div className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           
           {/* Stats Grid */}

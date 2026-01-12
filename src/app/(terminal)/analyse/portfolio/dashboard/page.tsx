@@ -1258,116 +1258,123 @@ export default function PortfolioDashboard() {
         {/* Tab Content */}
         {activeTab === 'overview' && (
           <>
-            {/* Performance Chart */}
-            {holdings.length > 0 && (
-              <div className="mb-6">
-                <PortfolioPerformanceChart
-                  portfolioId={portfolio?.id || ''}
-                  holdings={holdings.map(h => ({
-                    symbol: h.symbol,
-                    name: h.name,
-                    quantity: h.quantity,
-                    purchase_price: h.purchase_price,
-                    current_price: h.current_price_display,
-                    value: h.value,
-                    purchase_date: h.purchase_date
-                  }))}
-                  totalValue={holdings.reduce((sum, h) => sum + h.value, 0)}
-                  totalCost={holdings.reduce((sum, h) => sum + (h.purchase_price * h.quantity), 0)}
-                  cashPosition={cashPositionDisplay}
-                />
+            {/* Main Grid Layout */}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+              {/* Left Column: Performance Chart */}
+              <div className="lg:col-span-2">
+                {holdings.length > 0 && (
+                  <div className="bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
+                    <PortfolioPerformanceChart
+                      portfolioId={portfolio?.id || ''}
+                      holdings={holdings.map(h => ({
+                        symbol: h.symbol,
+                        name: h.name,
+                        quantity: h.quantity,
+                        purchase_price: h.purchase_price,
+                        current_price: h.current_price_display,
+                        value: h.value,
+                        purchase_date: h.purchase_date
+                      }))}
+                      totalValue={holdings.reduce((sum, h) => sum + h.value, 0)}
+                      totalCost={holdings.reduce((sum, h) => sum + (h.purchase_price * h.quantity), 0)}
+                      cashPosition={cashPositionDisplay}
+                    />
+                  </div>
+                )}
               </div>
-            )}
 
-            {/* Asset Allocation Chart */}
-            <div className="mb-8">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <div className="lg:col-span-2">
-                  <PortfolioAllocationChart 
-                    holdings={holdings.map(h => ({
-                      symbol: h.symbol,
-                      name: h.name,
-                      value: h.value,
-                      quantity: h.quantity
-                    }))}
-                    totalValue={totalValue}
-                    cashPosition={cashPositionDisplay}
-                    activeInvestments={activeInvestments}
-                  />
-                </div>
-
-                <div className="space-y-4">
-                  <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
-                    <h4 className="font-medium text-white mb-3 text-sm">
-                      Top Positionen
-                    </h4>
-                    <div className="space-y-3">
-                      {holdings
-                        .sort((a, b) => b.value - a.value)
-                        .slice(0, 5)
-                        .map((holding, index) => {
-                          const percentage = totalValue > 0 ? (holding.value / totalValue) * 100 : 0
-                          return (
-                            <div key={holding.symbol} className="flex items-center justify-between">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-neutral-600 w-4">{index + 1}.</span>
-                                <Logo
-                                  ticker={holding.symbol}
-                                  alt={holding.symbol}
-                                  className="w-6 h-6"
-                                  padding="none"
-                                />
-                                <div>
-                                  <p className="font-medium text-white text-xs">
-                                    {holding.symbol}
-                                  </p>
-                                  <p className="text-xs text-neutral-500">
-                                    {formatCurrency(holding.value)}
-                                  </p>
-                                </div>
-                              </div>
-                              <div className="text-right">
-                                <span className="text-xs font-medium text-neutral-400">
-                                  {percentage.toFixed(1)}%
-                                </span>
-                              </div>
+              {/* Right Column: Top Positions + Diversification */}
+              <div className="space-y-4">
+                {/* Top Positions Card */}
+                <div className="bg-neutral-900 rounded-xl p-4 border border-neutral-800">
+                  <h4 className="font-medium text-white mb-4 text-sm flex items-center gap-2">
+                    <ChartBarIcon className="w-4 h-4 text-neutral-500" />
+                    Top Positionen
+                  </h4>
+                  <div className="space-y-3">
+                    {holdings
+                      .sort((a, b) => b.value - a.value)
+                      .slice(0, 5)
+                      .map((holding, index) => (
+                        <div
+                          key={holding.symbol}
+                          className="flex items-center justify-between py-1 hover:bg-neutral-800/30 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => handleViewStock(holding.symbol)}
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <span className="text-xs font-medium text-neutral-600 w-4">{index + 1}</span>
+                            <Logo
+                              ticker={holding.symbol}
+                              alt={holding.symbol}
+                              className="w-7 h-7"
+                              padding="none"
+                            />
+                            <div>
+                              <p className="font-medium text-white text-sm">{holding.symbol}</p>
+                              <p className="text-xs text-neutral-500">{holding.quantity} St.</p>
                             </div>
-                          )
-                        })
-                      }
-                    </div>
+                          </div>
+                          <div className="text-right">
+                            <p className="text-sm font-medium text-white">{formatCurrency(holding.value)}</p>
+                            <span className={`text-xs px-1.5 py-0.5 rounded ${
+                              holding.gain_loss_percent >= 0
+                                ? 'bg-emerald-500/20 text-emerald-400'
+                                : 'bg-red-500/20 text-red-400'
+                            }`}>
+                              {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(1)}%
+                            </span>
+                          </div>
+                        </div>
+                      ))
+                    }
                   </div>
+                </div>
 
-                  <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
-                    <h4 className="font-medium text-white mb-3 text-sm">
-                      Portfolio Diversifikation
-                    </h4>
-                    <div className="space-y-3">
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs text-neutral-500">Positionen</span>
-                        <span className="text-sm font-medium text-white">
-                          {activeInvestments}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs text-neutral-500">Cash %</span>
-                        <span className="text-sm font-medium text-white">
-                          {totalValue > 0 ? ((cashPositionDisplay / totalValue) * 100).toFixed(1) : '0.0'}%
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-xs text-neutral-500">Größte Position</span>
-                        <span className="text-sm font-medium text-white">
-                          {holdings.length > 0
-                            ? ((Math.max(...holdings.map(h => h.value)) / totalValue) * 100).toFixed(1) + '%'
-                            : '0.0%'
-                          }
-                        </span>
-                      </div>
+                {/* Diversification Card */}
+                <div className="bg-neutral-900 rounded-xl p-4 border border-neutral-800">
+                  <h4 className="font-medium text-white mb-4 text-sm">
+                    Diversifikation
+                  </h4>
+                  <div className="space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-neutral-400">Positionen</span>
+                      <span className="text-sm font-semibold text-white bg-neutral-800 px-2 py-0.5 rounded">
+                        {activeInvestments}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-neutral-400">Cash-Quote</span>
+                      <span className="text-sm font-semibold text-white bg-neutral-800 px-2 py-0.5 rounded">
+                        {totalValue > 0 ? ((cashPositionDisplay / totalValue) * 100).toFixed(1) : '0.0'}%
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm text-neutral-400">Größte Position</span>
+                      <span className="text-sm font-semibold text-white bg-neutral-800 px-2 py-0.5 rounded">
+                        {holdings.length > 0
+                          ? ((Math.max(...holdings.map(h => h.value)) / totalValue) * 100).toFixed(1) + '%'
+                          : '0.0%'
+                        }
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* Asset Allocation Section */}
+            <div className="bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50 mb-8">
+              <PortfolioAllocationChart
+                holdings={holdings.map(h => ({
+                  symbol: h.symbol,
+                  name: h.name,
+                  value: h.value,
+                  quantity: h.quantity
+                }))}
+                totalValue={totalValue}
+                cashPosition={cashPositionDisplay}
+                activeInvestments={activeInvestments}
+              />
             </div>
 
             {/* Free User Info Badge */}
@@ -1708,20 +1715,20 @@ export default function PortfolioDashboard() {
         {showAddPosition && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
             {/* Modal content same as original */}
-            <div className="bg-theme-card rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-theme-primary">Position hinzufügen</h2>
+                <h2 className="text-xl font-bold text-white">Position hinzufügen</h2>
                 <button
                   onClick={resetAddPositionForm}
-                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                  className="p-1 hover:bg-neutral-800/30 rounded transition-colors"
                 >
-                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-3">
+                  <label className="block text-sm font-medium text-neutral-400 mb-3">
                     Was möchtest du hinzufügen?
                   </label>
                   <div className="grid grid-cols-2 gap-3">
@@ -1729,8 +1736,8 @@ export default function PortfolioDashboard() {
                       onClick={() => setPositionType('stock')}
                       className={`p-3 rounded-lg border-2 transition-all ${
                         positionType === 'stock'
-                          ? 'border-green-500 bg-brand/10 text-brand-light'
-                          : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
+                          ? 'border-green-500 bg-emerald-500/10 text-emerald-400'
+                          : 'border-neutral-700 hover:border-neutral-800/40 text-neutral-400'
                       }`}
                     >
                       <div className="flex flex-col items-center gap-2">
@@ -1742,8 +1749,8 @@ export default function PortfolioDashboard() {
                       onClick={() => setPositionType('cash')}
                       className={`p-3 rounded-lg border-2 transition-all ${
                         positionType === 'cash'
-                          ? 'border-green-500 bg-brand/10 text-brand-light'
-                          : 'border-theme/20 hover:border-theme/40 text-theme-secondary'
+                          ? 'border-green-500 bg-emerald-500/10 text-emerald-400'
+                          : 'border-neutral-700 hover:border-neutral-800/40 text-neutral-400'
                       }`}
                     >
                       <div className="flex flex-col items-center gap-2">
@@ -1756,7 +1763,7 @@ export default function PortfolioDashboard() {
 
                 {positionType === 'cash' && (
                   <div>
-                    <label className="block text-sm font-medium text-theme-secondary mb-2">
+                    <label className="block text-sm font-medium text-neutral-400 mb-2">
                       Cash-Betrag (EUR)
                     </label>
                     <input
@@ -1766,7 +1773,7 @@ export default function PortfolioDashboard() {
                       value={cashAmount}
                       onChange={(e) => setCashAmount(e.target.value)}
                       placeholder="1.000,00"
-                      className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                      className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                     />
                   </div>
                 )}
@@ -1774,7 +1781,7 @@ export default function PortfolioDashboard() {
                 {positionType === 'stock' && (
                   <>
                     <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-2">
+                      <label className="block text-sm font-medium text-neutral-400 mb-2">
                         Aktie suchen
                       </label>
                       <SearchTickerInput
@@ -1786,19 +1793,19 @@ export default function PortfolioDashboard() {
                         }}
                         placeholder="z.B. AAPL oder Apple"
                         className="w-full"
-                        inputClassName="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent placeholder-theme-muted"
-                        dropdownClassName="absolute z-10 w-full mt-1 bg-theme-card border border-theme/20 rounded-lg shadow-lg max-h-60 overflow-y-auto"
-                        itemClassName="px-4 py-3 hover:bg-theme-secondary/50 transition-colors border-b border-theme/10 last:border-0 text-theme-primary cursor-pointer"
+                        inputClassName="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent placeholder-theme-muted"
+                        dropdownClassName="absolute z-10 w-full mt-1 bg-neutral-900 border border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto"
+                        itemClassName="px-4 py-3 hover:bg-neutral-800/50 transition-colors border-b border-neutral-800 last:border-0 text-white cursor-pointer"
                       />
                     </div>
 
                     {selectedStock && (
-                      <div className="p-3 bg-brand/10 border border-green-500/30 rounded-lg">
+                      <div className="p-3 bg-emerald-500/10 border border-green-500/30 rounded-lg">
                         <div className="flex items-center gap-2">
-                          <CheckIcon className="w-4 h-4 text-brand-light" />
+                          <CheckIcon className="w-4 h-4 text-emerald-400" />
                           <div>
-                            <p className="text-sm text-brand-light">Ausgewählt:</p>
-                            <p className="font-semibold text-theme-primary">
+                            <p className="text-sm text-emerald-400">Ausgewählt:</p>
+                            <p className="font-semibold text-white">
                               {selectedStock.symbol} - {selectedStock.name}
                             </p>
                           </div>
@@ -1807,7 +1814,7 @@ export default function PortfolioDashboard() {
                     )}
 
                     <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                      <label className="block text-sm font-medium text-neutral-400 mb-1">
                         Anzahl
                       </label>
                       <input
@@ -1817,12 +1824,12 @@ export default function PortfolioDashboard() {
                         value={newQuantity}
                         onChange={(e) => setNewQuantity(e.target.value)}
                         placeholder="100"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                      <label className="block text-sm font-medium text-neutral-400 mb-1">
                         Kaufpreis pro Aktie (EUR)
                       </label>
                       <input
@@ -1832,12 +1839,12 @@ export default function PortfolioDashboard() {
                         value={newPurchasePrice}
                         onChange={(e) => setNewPurchasePrice(e.target.value)}
                         placeholder="150,00"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                      <label className="block text-sm font-medium text-neutral-400 mb-1">
                         Gebühren (optional, EUR)
                       </label>
                       <input
@@ -1847,12 +1854,12 @@ export default function PortfolioDashboard() {
                         value={transactionFees}
                         onChange={(e) => setTransactionFees(e.target.value)}
                         placeholder="0.00"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
+                      <label className="block text-sm font-medium text-neutral-400 mb-1">
                         Kaufdatum
                       </label>
                       <input
@@ -1860,7 +1867,7 @@ export default function PortfolioDashboard() {
                         value={newPurchaseDate}
                         onChange={(e) => setNewPurchaseDate(e.target.value)}
                         max={new Date().toISOString().split('T')[0]}
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                        className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                       />
                     </div>
                   </>
@@ -1870,7 +1877,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleAddPosition}
                     disabled={addingPosition || (positionType === 'stock' && (!selectedStock || !newQuantity || !newPurchasePrice))}
-                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {addingPosition ? (
                       <>
@@ -1884,7 +1891,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={resetAddPositionForm}
                     disabled={addingPosition}
-                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
+                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 disabled:opacity-50 text-white rounded-lg transition-colors"
                   >
                     Abbrechen
                   </button>
@@ -1897,65 +1904,65 @@ export default function PortfolioDashboard() {
         {/* Edit Position Modal */}
         {editingPosition && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-theme-primary">Position bearbeiten</h2>
+                <h2 className="text-xl font-bold text-white">Position bearbeiten</h2>
                 <button
                   onClick={() => setEditingPosition(null)}
-                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                  className="p-1 hover:bg-neutral-800/30 rounded transition-colors"
                 >
-                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
               
               <div className="space-y-4">
-                <div className="bg-theme-secondary/20 rounded-lg p-3">
+                <div className="bg-neutral-800/20 rounded-lg p-3">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center">
+                    <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
                       <span className="text-white font-bold text-sm">
                         {editingPosition.symbol.slice(0, 2)}
                       </span>
                     </div>
                     <div>
-                      <div className="font-semibold text-theme-primary">{editingPosition.symbol}</div>
-                      <div className="text-sm text-theme-muted">{editingPosition.name}</div>
+                      <div className="font-semibold text-white">{editingPosition.symbol}</div>
+                      <div className="text-sm text-neutral-500">{editingPosition.name}</div>
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">
                     Anzahl
                   </label>
                   <input
                     type="number"
                     value={newQuantity}
                     onChange={(e) => setNewQuantity(e.target.value)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">
                     Kaufpreis (pro Aktie in {currency})
                   </label>
                   <input
                     type="number"
                     value={newPurchasePrice}
                     onChange={(e) => setNewPurchasePrice(e.target.value)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">
                     Kaufdatum
                   </label>
                   <input
                     type="date"
                     value={newPurchaseDate}
                     onChange={(e) => setNewPurchaseDate(e.target.value)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white"
                   />
                 </div>
 
@@ -1963,7 +1970,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleUpdatePosition}
                     disabled={refreshing}
-                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:opacity-50 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:opacity-50 text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {refreshing ? (
                       <>
@@ -1980,7 +1987,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={() => setEditingPosition(null)}
                     disabled={refreshing}
-                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
+                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 disabled:opacity-50 text-white rounded-lg transition-colors"
                   >
                     Abbrechen
                   </button>
@@ -1993,41 +2000,41 @@ export default function PortfolioDashboard() {
         {/* Superinvestors Modal */}
         {showSuperinvestorsModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-theme-card rounded-xl p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-lg w-full max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-xl font-bold text-theme-primary">Super-Investoren</h2>
-                  <p className="text-sm text-theme-secondary">
+                  <h2 className="text-xl font-bold text-white">Super-Investoren</h2>
+                  <p className="text-sm text-neutral-400">
                     {showSuperinvestorsModal.symbol} • {showSuperinvestorsModal.superinvestors?.count} Investoren
                   </p>
                 </div>
                 <button
                   onClick={() => setShowSuperinvestorsModal(null)}
-                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                  className="p-1 hover:bg-neutral-800/30 rounded transition-colors"
                 >
-                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
               
               <div className="space-y-3">
                 {showSuperinvestorsModal.superinvestors?.investors.map((investor, idx) => (
-                  <div key={idx} className="flex items-center justify-between p-3 bg-theme-secondary/20 rounded-lg hover:bg-theme-secondary/30 transition-colors">
+                  <div key={idx} className="flex items-center justify-between p-3 bg-neutral-800/20 rounded-lg hover:bg-neutral-800/30 transition-colors">
                     <div className="flex items-center gap-3">
-                      <div className="w-8 h-8 bg-brand rounded-full flex items-center justify-center">
+                      <div className="w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center">
                         <span className="text-xs font-bold text-white">#{idx + 1}</span>
                       </div>
                       <div>
-                        <p className="font-medium text-theme-primary">
+                        <p className="font-medium text-white">
                           {investor.investorName.split(' - ')[0]}
                         </p>
-                        <p className="text-xs text-theme-muted">
+                        <p className="text-xs text-neutral-500">
                           {investor.portfolioPercentage.toFixed(1)}% des Portfolios
                         </p>
                       </div>
                     </div>
                     <Link
                       href={`/superinvestor/${investor.investor}`}
-                      className="px-3 py-1.5 bg-brand/10 hover:bg-brand/20 border border-brand/20 rounded-lg transition-colors text-brand-light text-sm font-medium"
+                      className="px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 border border-brand/20 rounded-lg transition-colors text-emerald-400 text-sm font-medium"
                     >
                       Details →
                     </Link>
@@ -2035,10 +2042,10 @@ export default function PortfolioDashboard() {
                 ))}
               </div>
 
-              <div className="mt-6 pt-4 border-t border-theme/10">
+              <div className="mt-6 pt-4 border-t border-neutral-800">
                 <Link
                   href={`/analyse/stocks/${showSuperinvestorsModal.symbol.toLowerCase()}/super-investors`}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
+                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-green-400 text-white rounded-lg transition-colors"
                 >
                   <span>Alle Investoren anzeigen</span>
                   <ArrowTopRightOnSquareIcon className="w-4 h-4" />
@@ -2051,45 +2058,45 @@ export default function PortfolioDashboard() {
         {/* Top Up Position Modal */}
         {topUpPosition && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-theme-primary">Position aufstocken</h2>
+                <h2 className="text-xl font-bold text-white">Position aufstocken</h2>
                 <button
                   onClick={() => setTopUpPosition(null)}
-                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                  className="p-1 hover:bg-neutral-800/30 rounded transition-colors"
                 >
-                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
 
               {/* Aktuelle Position Info */}
-              <div className="bg-theme-secondary/20 rounded-lg p-4 mb-4">
+              <div className="bg-neutral-800/20 rounded-lg p-4 mb-4">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 bg-brand rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-emerald-500 rounded-lg flex items-center justify-center">
                     <span className="text-white font-bold text-sm">
                       {topUpPosition.symbol.slice(0, 2)}
                     </span>
                   </div>
                   <div>
-                    <div className="font-semibold text-theme-primary">{topUpPosition.symbol}</div>
-                    <div className="text-sm text-theme-muted">{topUpPosition.name}</div>
+                    <div className="font-semibold text-white">{topUpPosition.symbol}</div>
+                    <div className="text-sm text-neutral-500">{topUpPosition.name}</div>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <p className="text-theme-muted">Aktuelle Menge</p>
-                    <p className="font-semibold text-theme-primary">{topUpPosition.quantity} Stück</p>
+                    <p className="text-neutral-500">Aktuelle Menge</p>
+                    <p className="font-semibold text-white">{topUpPosition.quantity} Stück</p>
                   </div>
                   <div>
-                    <p className="text-theme-muted">Ø Kaufpreis</p>
-                    <p className="font-semibold text-theme-primary">{formatStockPrice(topUpPosition.purchase_price_display)}</p>
+                    <p className="text-neutral-500">Ø Kaufpreis</p>
+                    <p className="font-semibold text-white">{formatStockPrice(topUpPosition.purchase_price_display)}</p>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  <label className="block text-sm font-medium text-neutral-400 mb-1">
                     Zusätzliche Anzahl
                   </label>
                   <input
@@ -2099,12 +2106,12 @@ export default function PortfolioDashboard() {
                     value={topUpQuantity}
                     onChange={(e) => setTopUpQuantity(e.target.value)}
                     placeholder="z.B. 5"
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  <label className="block text-sm font-medium text-neutral-400 mb-1">
                     Kaufpreis pro Aktie (EUR)
                   </label>
                   <input
@@ -2114,12 +2121,12 @@ export default function PortfolioDashboard() {
                     value={topUpPrice}
                     onChange={(e) => setTopUpPrice(e.target.value)}
                     placeholder="z.B. 495.00"
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  <label className="block text-sm font-medium text-neutral-400 mb-1">
                     Gebühren (optional, EUR)
                   </label>
                   <input
@@ -2129,12 +2136,12 @@ export default function PortfolioDashboard() {
                     value={topUpFees}
                     onChange={(e) => setTopUpFees(e.target.value)}
                     placeholder="0.00"
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  <label className="block text-sm font-medium text-neutral-400 mb-1">
                     Kaufdatum
                   </label>
                   <input
@@ -2142,24 +2149,24 @@ export default function PortfolioDashboard() {
                     value={topUpDate}
                     onChange={(e) => setTopUpDate(e.target.value)}
                     max={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                   />
                 </div>
 
                 {/* Preview der neuen Position */}
                 {topUpQuantity && topUpPrice && (
-                  <div className="bg-brand/10 border border-brand/20 rounded-lg p-3">
-                    <p className="text-sm text-brand-light font-medium mb-2">Nach Aufstockung:</p>
+                  <div className="bg-emerald-500/10 border border-brand/20 rounded-lg p-3">
+                    <p className="text-sm text-emerald-400 font-medium mb-2">Nach Aufstockung:</p>
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div>
-                        <p className="text-theme-muted">Neue Menge</p>
-                        <p className="font-semibold text-theme-primary">
+                        <p className="text-neutral-500">Neue Menge</p>
+                        <p className="font-semibold text-white">
                           {(topUpPosition.quantity + parseFloat(topUpQuantity || '0')).toFixed(0)} Stück
                         </p>
                       </div>
                       <div>
-                        <p className="text-theme-muted">Neuer Ø Preis</p>
-                        <p className="font-semibold text-theme-primary">
+                        <p className="text-neutral-500">Neuer Ø Preis</p>
+                        <p className="font-semibold text-white">
                           {formatStockPrice(
                             ((topUpPosition.quantity * topUpPosition.purchase_price_display) +
                              (parseFloat(topUpQuantity || '0') * parseFloat(topUpPrice || '0'))) /
@@ -2175,7 +2182,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleTopUpPosition}
                     disabled={addingPosition || !topUpQuantity || !topUpPrice}
-                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
                   >
                     {addingPosition ? (
                       <>
@@ -2192,7 +2199,7 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={() => setTopUpPosition(null)}
                     disabled={addingPosition}
-                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 disabled:opacity-50 text-theme-primary rounded-lg transition-colors"
+                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 disabled:opacity-50 text-white rounded-lg transition-colors"
                   >
                     Abbrechen
                   </button>
@@ -2205,31 +2212,31 @@ export default function PortfolioDashboard() {
         {/* Cash Position Modal */}
         {showCashModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-theme-card rounded-xl p-6 max-w-sm w-full">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-sm w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-theme-primary">Cash Position bearbeiten</h2>
+                <h2 className="text-lg font-bold text-white">Cash Position bearbeiten</h2>
                 <button
                   onClick={() => setShowCashModal(false)}
-                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                  className="p-1 hover:bg-neutral-800/30 rounded transition-colors"
                 >
-                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">
                     Aktueller Stand
                   </label>
-                  <div className="p-3 bg-theme-secondary/20 rounded-lg">
-                    <span className="text-lg font-bold text-theme-primary">
+                  <div className="p-3 bg-neutral-800/20 rounded-lg">
+                    <span className="text-lg font-bold text-white">
                       {formatCurrency(cashPositionDisplay)}
                     </span>
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">
                     Neuer Cash-Betrag (EUR)
                   </label>
                   <input
@@ -2239,9 +2246,9 @@ export default function PortfolioDashboard() {
                     value={newCashAmount}
                     onChange={(e) => setNewCashAmount(e.target.value)}
                     placeholder="0.00"
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                   />
-                  <p className="text-xs text-theme-muted mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Setze auf 0 um die Cash-Position zu löschen
                   </p>
                 </div>
@@ -2250,12 +2257,12 @@ export default function PortfolioDashboard() {
                 {newCashAmount && parseFloat(newCashAmount) !== cashPositionDisplay && (
                   <div className={`p-3 rounded-lg ${
                     parseFloat(newCashAmount) > cashPositionDisplay
-                      ? 'bg-brand/10 border border-brand/20'
+                      ? 'bg-emerald-500/10 border border-brand/20'
                       : 'bg-red-500/10 border border-red-500/20'
                   }`}>
                     <p className="text-sm">
-                      <span className="text-theme-secondary">Änderung: </span>
-                      <span className={parseFloat(newCashAmount) > cashPositionDisplay ? 'text-brand-light' : 'text-red-400'}>
+                      <span className="text-neutral-400">Änderung: </span>
+                      <span className={parseFloat(newCashAmount) > cashPositionDisplay ? 'text-emerald-400' : 'text-red-400'}>
                         {parseFloat(newCashAmount) > cashPositionDisplay ? '+' : ''}
                         {formatCurrency(parseFloat(newCashAmount) - cashPositionDisplay)}
                       </span>
@@ -2267,13 +2274,13 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleUpdateCashPosition}
                     disabled={refreshing || newCashAmount === '' || parseFloat(newCashAmount) === cashPositionDisplay}
-                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
                   >
                     {refreshing ? 'Speichern...' : 'Speichern'}
                   </button>
                   <button
                     onClick={() => setShowCashModal(false)}
-                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors"
                   >
                     Abbrechen
                   </button>
@@ -2286,20 +2293,20 @@ export default function PortfolioDashboard() {
         {/* Portfolio Name Modal */}
         {showNameModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-theme-card rounded-xl p-6 max-w-sm w-full">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-sm w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-theme-primary">Portfolio umbenennen</h2>
+                <h2 className="text-lg font-bold text-white">Portfolio umbenennen</h2>
                 <button
                   onClick={() => setShowNameModal(false)}
-                  className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                  className="p-1 hover:bg-neutral-800/30 rounded transition-colors"
                 >
-                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
                 </button>
               </div>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">
                     Portfolio-Name
                   </label>
                   <input
@@ -2308,10 +2315,10 @@ export default function PortfolioDashboard() {
                     onChange={(e) => setNewPortfolioName(e.target.value)}
                     placeholder="z.B. Hauptdepot, Sparplan, etc."
                     maxLength={50}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent"
                     autoFocus
                   />
-                  <p className="text-xs text-theme-muted mt-1">
+                  <p className="text-xs text-neutral-500 mt-1">
                     Max. 50 Zeichen
                   </p>
                 </div>
@@ -2320,13 +2327,13 @@ export default function PortfolioDashboard() {
                   <button
                     onClick={handleUpdatePortfolioName}
                     disabled={refreshing || !newPortfolioName.trim() || newPortfolioName.trim() === portfolio?.name}
-                    className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
                   >
                     {refreshing ? 'Speichern...' : 'Speichern'}
                   </button>
                   <button
                     onClick={() => setShowNameModal(false)}
-                    className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors"
                   >
                     Abbrechen
                   </button>

@@ -30,10 +30,10 @@ interface PortfolioAllocationChartProps {
 
 // Modern vibrant colors for the segments
 const COLORS = [
+  '#10B981', // Emerald (primary)
   '#3B82F6', // Blue
   '#06B6D4', // Cyan
-  '#10B981', // Green
-  '#F59E0B', // Yellow/Amber
+  '#F59E0B', // Amber
   '#F97316', // Orange
   '#EC4899', // Pink
   '#8B5CF6', // Purple
@@ -93,7 +93,7 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
         symbol: 'OTHERS',
         value: smallHoldingsValue,
         percentage: smallHoldingsPercentage,
-        color: '#6B7280'
+        color: '#525252'
       })
     }
 
@@ -105,7 +105,7 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
         symbol: 'CASH',
         value: cashPosition,
         percentage: cashPercentage,
-        color: '#9CA3AF'
+        color: '#737373'
       })
     }
 
@@ -116,19 +116,19 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
   const CustomTooltip = ({ active, payload, coordinate }: any) => {
     if (active && payload && payload.length > 0) {
       const data = payload[0].payload
-      
+
       // Calculate position to avoid center area (110px radius + 20px margin)
       let transformStyle = 'translateY(-10px)'
       if (coordinate) {
         const chartCenterX = 160 // Approximate center X
         const chartCenterY = 160 // Approximate center Y
         const centerRadius = 130 // Safe zone around center
-        
+
         const distanceFromCenter = Math.sqrt(
-          Math.pow(coordinate.x - chartCenterX, 2) + 
+          Math.pow(coordinate.x - chartCenterX, 2) +
           Math.pow(coordinate.y - chartCenterY, 2)
         )
-        
+
         // If tooltip would appear near center, push it outward
         if (distanceFromCenter < centerRadius) {
           if (coordinate.x < chartCenterX) {
@@ -138,34 +138,33 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
           }
         }
       }
-      
+
       return (
-        <div 
-          className="bg-theme-primary rounded-lg px-4 py-3 shadow-2xl border-2 border-green-400/20"
+        <div
+          className="bg-neutral-900 rounded-lg px-4 py-3 shadow-2xl border border-neutral-700"
           style={{
             zIndex: 9999,
             transform: transformStyle,
             backdropFilter: 'blur(10px)',
-            boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.1)',
             position: 'relative',
           }}
         >
           <div className="flex items-center gap-2 mb-2">
-            <div 
-              className="w-3 h-3 rounded-full border border-white/20" 
+            <div
+              className="w-2.5 h-2.5 rounded-full"
               style={{ backgroundColor: data.color }}
             />
-            <span className="font-bold text-theme-primary text-sm">
+            <span className="font-semibold text-white text-sm">
               {data.symbol}
             </span>
           </div>
-          <p className="text-xs text-theme-secondary mb-1 truncate max-w-[180px]">
+          <p className="text-xs text-neutral-400 mb-1 truncate max-w-[180px]">
             {data.name}
           </p>
-          <p className="font-bold text-lg text-theme-primary">
+          <p className="font-semibold text-lg text-white">
             {formatCurrency(data.value)}
           </p>
-          <p className="text-xs text-brand-light font-medium">
+          <p className="text-xs text-emerald-400 font-medium">
             {data.percentage.toFixed(1)}% des Portfolios
           </p>
         </div>
@@ -176,17 +175,17 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
 
   if (chartData.length === 0) {
     return (
-      <div className="bg-theme-card rounded-xl p-8 border border-theme/10">
+      <div className="py-12">
         <div className="text-center">
           <img
             src="/illustrations/undraw_investing_uzcu.svg"
             alt="Asset Allokation"
-            className="w-44 h-44 mx-auto mb-6 opacity-85"
+            className="w-32 h-32 mx-auto mb-6 opacity-60"
           />
-          <h3 className="text-lg font-semibold text-theme-primary mb-2">
+          <h3 className="text-base font-medium text-white mb-2">
             Keine Daten verfügbar
           </h3>
-          <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+          <p className="text-neutral-500 text-sm max-w-sm mx-auto">
             Füge Positionen zu deinem Portfolio hinzu, um die Asset-Allokation zu sehen.
           </p>
         </div>
@@ -195,88 +194,78 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
   }
 
   return (
-    <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-      <div className="mb-6">
-        <h3 className="text-xl font-bold text-theme-primary mb-2">
+    <div>
+      {/* Header */}
+      <div className="mb-4">
+        <h3 className="text-sm font-medium text-neutral-400">
           Asset Allokation
         </h3>
-        <p className="text-theme-secondary text-sm">
-          Verteilung Ihres Portfolios nach Werten
-        </p>
       </div>
 
-      <div className="relative">
-        {/* Chart Container */}
-        <div className="relative" style={{ height: '220px' }}>
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={chartData}
-                cx="50%"
-                cy="50%"
-                innerRadius={55}
-                outerRadius={85}
-                paddingAngle={3}
-                dataKey="value"
-                animationBegin={0}
-                animationDuration={1200}
-                animationEasing="ease-out"
-              >
-                {chartData.map((entry, index) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    fill={entry.color}
-                    stroke="rgba(255,255,255,0.15)"
-                    strokeWidth={2}
-                    style={{
-                      filter: 'drop-shadow(0 0 6px rgba(16, 185, 129, 0.15))',
-                      transition: 'all 0.3s ease'
-                    }}
-                  />
-                ))}
-              </Pie>
-              <Tooltip
-                content={<CustomTooltip />}
-                wrapperStyle={{
-                  zIndex: 9999,
-                  pointerEvents: 'none',
-                  filter: 'none',
-                  outline: 'none'
-                }}
-                allowEscapeViewBox={{ x: true, y: true }}
-                offset={20}
-                isAnimationActive={false}
-              />
-            </PieChart>
-          </ResponsiveContainer>
+      {/* Chart Container */}
+      <div className="relative" style={{ height: '200px' }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              innerRadius={50}
+              outerRadius={80}
+              paddingAngle={2}
+              dataKey="value"
+              animationBegin={0}
+              animationDuration={800}
+              animationEasing="ease-out"
+            >
+              {chartData.map((entry, index) => (
+                <Cell
+                  key={`cell-${index}`}
+                  fill={entry.color}
+                  stroke="transparent"
+                  style={{
+                    transition: 'all 0.2s ease'
+                  }}
+                />
+              ))}
+            </Pie>
+            <Tooltip
+              content={<CustomTooltip />}
+              wrapperStyle={{
+                zIndex: 9999,
+                pointerEvents: 'none',
+                filter: 'none',
+                outline: 'none'
+              }}
+              allowEscapeViewBox={{ x: true, y: true }}
+              offset={20}
+              isAnimationActive={false}
+            />
+          </PieChart>
+        </ResponsiveContainer>
 
-          {/* Center Content - kompakt, passt in den Donut-Ring */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            <div className="text-center">
-              <div
-                className="bg-theme-card backdrop-blur-sm rounded-lg px-3 py-2 shadow-md border border-theme/10"
-                style={{ maxWidth: '100px' }}
-              >
-                <p className="text-base font-bold text-theme-primary leading-tight">
-                  {formatCurrency(totalValue)}
-                </p>
-                <p className="text-xs text-theme-secondary mt-0.5">
-                  {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''}
-                </p>
-              </div>
-            </div>
+        {/* Center Content */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center">
+            <p className="text-xl font-semibold text-white">
+              {formatCurrency(totalValue)}
+            </p>
+            <p className="text-xs text-neutral-500">
+              {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''}
+            </p>
           </div>
         </div>
+      </div>
 
-        {/* Legend - kompakter */}
-        <div className="mt-3 pt-3 border-t border-theme/10">
-          <h4 className="text-xs font-medium text-theme-secondary mb-2">Positionen</h4>
-          <div className="flex flex-wrap gap-2">
-            {chartData.map((entry, index) => (
-              <div
-                key={`legend-${index}`}
-                className="flex items-center gap-2 py-1.5 px-2.5 bg-theme-secondary/10 rounded-md"
-              >
+      {/* Legend - flat list */}
+      <div className="mt-4 pt-4 border-t border-neutral-800">
+        <div className="space-y-0">
+          {chartData.map((entry, index) => (
+            <div
+              key={`legend-${index}`}
+              className="flex items-center justify-between py-2 border-b border-neutral-800/50 last:border-0"
+            >
+              <div className="flex items-center gap-3">
                 {entry.symbol !== 'CASH' && entry.symbol !== 'OTHERS' ? (
                   <Logo
                     ticker={entry.symbol}
@@ -294,15 +283,25 @@ const PortfolioAllocationChart: React.FC<PortfolioAllocationChartProps> = ({
                     </span>
                   </div>
                 )}
-                <span className="font-medium text-theme-primary text-xs">
-                  {entry.symbol}
+                <div>
+                  <span className="font-medium text-white text-sm">
+                    {entry.symbol}
+                  </span>
+                  <span className="text-neutral-500 text-xs ml-2">
+                    {entry.name}
+                  </span>
+                </div>
+              </div>
+              <div className="text-right">
+                <span className="text-white text-sm font-medium">
+                  {formatCurrency(entry.value)}
                 </span>
-                <span className="text-theme-secondary text-xs">
+                <span className="text-emerald-400 text-xs ml-2">
                   {entry.percentage.toFixed(1)}%
                 </span>
               </div>
-            ))}
-          </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>

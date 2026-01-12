@@ -14,8 +14,8 @@ export default function NewPortfolioPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-theme-primary flex items-center justify-center">
-      <div className="text-theme-muted">Weiterleitung...</div>
+    <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+      <div className="text-neutral-500">Weiterleitung...</div>
     </div>
   )
 }

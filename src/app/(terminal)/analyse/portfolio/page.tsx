@@ -14,8 +14,8 @@ export default function PortfolioPage() {
   }, [router])
 
   return (
-    <div className="min-h-screen bg-theme-primary flex items-center justify-center">
-      <div className="text-theme-muted">Weiterleitung zum Portfolio...</div>
+    <div className="min-h-screen bg-neutral-950 flex items-center justify-center">
+      <div className="text-neutral-500">Weiterleitung zum Portfolio...</div>
     </div>
   )
 }

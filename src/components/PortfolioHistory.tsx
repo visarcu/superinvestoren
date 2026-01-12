@@ -41,7 +41,7 @@ interface PortfolioHistoryProps {
     purchase_price: number
     purchase_date: string
   }>
-  onTransactionChange?: () => void  // Callback wenn Transaktion geändert wird
+  onTransactionChange?: () => void
 }
 
 export default function PortfolioHistory({ portfolioId, holdings, onTransactionChange }: PortfolioHistoryProps) {
@@ -50,8 +50,8 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
   const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'dividend' | 'cash'>('all')
   const [sortOrder, setSortOrder] = useState<'desc' | 'asc'>('desc')
   const [showAddTransaction, setShowAddTransaction] = useState(false)
-  
-  // Add Transaction Form - MIT DIVIDEND TYPE
+
+  // Add Transaction Form
   const [transactionType, setTransactionType] = useState<'buy' | 'sell' | 'dividend'>('buy')
   const [transactionSymbol, setTransactionSymbol] = useState('')
   const [transactionQuantity, setTransactionQuantity] = useState('')
@@ -83,7 +83,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     return Array.from(symbols).sort()
   }, [transactions])
 
-  // Gefilterte Transaktionen (erst nach Typ, dann nach Symbol)
+  // Gefilterte Transaktionen
   const symbolFilteredTransactions = useMemo(() => {
     let filtered = transactions.filter(t => {
       if (filter === 'all') return true
@@ -119,7 +119,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     return groups
   }, [symbolFilteredTransactions])
 
-  // Jahre sortiert (neueste zuerst)
+  // Jahre sortiert
   const sortedYears = useMemo(() => {
     return Object.keys(groupedTransactions)
       .map(Number)
@@ -152,7 +152,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     })
   }
 
-  // Monatsnamen
   const monthNames = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
                       'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 
@@ -181,7 +180,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
   const loadTransactions = async () => {
     try {
-      // Lade Transaktionen aus der Datenbank
       const { data, error } = await supabase
         .from('portfolio_transactions')
         .select('*')
@@ -190,7 +188,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       if (error) {
         console.error('Error loading transactions:', error)
-        // Keine Transaktionshistorie verfügbar
         setTransactions([])
         return
       }
@@ -198,7 +195,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
       if (data && data.length > 0) {
         setTransactions(data)
       } else {
-        // Keine Transaktionshistorie verfügbar
         setTransactions([])
       }
     } catch (error) {
@@ -215,28 +211,25 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
       return
     }
 
-    // Für Dividenden brauchen wir keine Quantity
     if (transactionType !== 'dividend' && !transactionQuantity) {
       alert('Bitte Anzahl angeben')
       return
     }
 
     setAdding(true)
-    
+
     try {
       let totalValue: number
       let quantity: number
-      
+
       if (transactionType === 'dividend') {
-        // Bei Dividenden ist der Preis der Gesamtbetrag
         totalValue = parseFloat(transactionPrice)
-        quantity = 0 // Oder 1, je nachdem wie du es handhaben willst
+        quantity = 0
       } else {
         totalValue = parseFloat(transactionQuantity) * parseFloat(transactionPrice)
         quantity = parseFloat(transactionQuantity)
       }
-      
-      // Versuche die Transaktion zu speichern
+
       const { error } = await supabase
         .from('portfolio_transactions')
         .insert({
@@ -253,7 +246,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       if (error) {
         console.error('Error adding transaction:', error)
-        // Füge trotzdem lokal hinzu für Demo
         const newTransaction: Transaction = {
           id: `local-${Date.now()}`,
           type: transactionType,
@@ -271,14 +263,13 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
         await loadTransactions()
       }
 
-      // Reset form
       setTransactionSymbol('')
       setTransactionQuantity('')
       setTransactionPrice('')
       setTransactionNotes('')
       setTransactionDate(new Date().toISOString().split('T')[0])
       setShowAddTransaction(false)
-      
+
     } catch (error) {
       console.error('Error:', error)
       alert('Fehler beim Hinzufügen der Transaktion')
@@ -287,7 +278,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     }
   }
 
-  // Edit/Delete Handler Functions
   const openEditTransaction = (transaction: Transaction) => {
     setEditingTransaction(transaction)
     setEditQuantity(transaction.quantity?.toString() || '')
@@ -295,10 +285,8 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     setEditDate(transaction.date || '')
   }
 
-  // Berechnet den neuen Durchschnittspreis basierend auf allen Transaktionen einer Aktie
   const recalculateAveragePrice = async (symbol: string) => {
     try {
-      // Hole alle Kauf-Transaktionen für dieses Symbol
       const { data: txData, error } = await supabase
         .from('portfolio_transactions')
         .select('*')
@@ -309,7 +297,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       if (error) throw error
       if (!txData || txData.length === 0) {
-        // Keine Transaktionen mehr - Position löschen
         const { error: deleteError } = await supabase
           .from('portfolio_holdings')
           .delete()
@@ -317,11 +304,9 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
           .eq('symbol', symbol)
 
         if (deleteError) throw deleteError
-        console.log(`🗑️ ${symbol}: Position gelöscht (keine Transaktionen mehr)`)
         return
       }
 
-      // Berechne gewichteten Durchschnittspreis
       let totalQuantity = 0
       let totalCost = 0
 
@@ -332,7 +317,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       const averagePrice = totalQuantity > 0 ? totalCost / totalQuantity : 0
 
-      // Update die Holdings-Tabelle
       const { error: updateError } = await supabase
         .from('portfolio_holdings')
         .update({
@@ -343,8 +327,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
         .eq('symbol', symbol)
 
       if (updateError) throw updateError
-
-      console.log(`✅ ${symbol}: Neuer Durchschnittspreis = €${averagePrice.toFixed(2)}, Menge = ${totalQuantity}`)
 
     } catch (error) {
       console.error('Error recalculating average price:', error)
@@ -368,12 +350,10 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       if (error) throw error
 
-      // Bei Kauf-Transaktionen: Durchschnittspreis neu berechnen
       if (transaction.type === 'buy') {
         await recalculateAveragePrice(transaction.symbol)
       }
 
-      // Refresh
       loadTransactions()
       onTransactionChange?.()
 
@@ -396,7 +376,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
         ? newPrice
         : newQuantity * newPrice
 
-      // Update Transaktion
       const { error } = await supabase
         .from('portfolio_transactions')
         .update({
@@ -409,7 +388,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       if (error) throw error
 
-      // Bei Kauf-Transaktionen: Durchschnittspreis neu berechnen
       if (editingTransaction.type === 'buy') {
         await recalculateAveragePrice(editingTransaction.symbol)
       }
@@ -426,8 +404,6 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     }
   }
 
-  // symbolFilteredTransactions is now symbolFilteredTransactions (with grouping support)
-
   const getTotalByType = (type: 'buy' | 'sell' | 'dividend') => {
     return transactions
       .filter(t => t.type === type)
@@ -436,18 +412,12 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
   const getTransactionLabel = (type: string) => {
     switch (type) {
-      case 'buy':
-        return 'Kauf'
-      case 'sell':
-        return 'Verkauf'
-      case 'dividend':
-        return 'Dividende'
-      case 'cash_deposit':
-        return 'Einzahlung'
-      case 'cash_withdrawal':
-        return 'Auszahlung'
-      default:
-        return type
+      case 'buy': return 'Kauf'
+      case 'sell': return 'Verkauf'
+      case 'dividend': return 'Dividende'
+      case 'cash_deposit': return 'Einzahlung'
+      case 'cash_withdrawal': return 'Auszahlung'
+      default: return type
     }
   }
 
@@ -477,12 +447,12 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
       t.total_value.toFixed(2),
       t.notes || ''
     ])
-    
+
     const csvContent = [
       headers.join(','),
       ...rows.map(row => row.join(','))
     ].join('\n')
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv' })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
@@ -495,8 +465,8 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
     return (
       <div className="flex items-center justify-center py-12">
         <div className="text-center">
-          <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
-          <p className="text-theme-secondary">Lade Transaktionshistorie...</p>
+          <ArrowPathIcon className="w-5 h-5 text-emerald-400 animate-spin mx-auto mb-3" />
+          <p className="text-neutral-400 text-sm">Lade Transaktionshistorie...</p>
         </div>
       </div>
     )
@@ -504,71 +474,53 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
   return (
     <div className="space-y-6">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <ClockIcon className="w-5 h-5 text-theme-secondary" />
-            <p className="text-sm text-theme-secondary">Transaktionen</p>
+      {/* Summary Stats - Flat inline row */}
+      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-4 pb-6 border-b border-neutral-800">
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <ClockIcon className="w-4 h-4 text-neutral-500" />
+            <span className="text-xs text-neutral-500">Transaktionen</span>
           </div>
-          <p className="text-2xl font-bold text-theme-primary">
-            {transactions.length}
-          </p>
-          <p className="text-xs text-theme-muted mt-1">Gesamt</p>
+          <p className="text-2xl font-semibold text-white">{transactions.length}</p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <ArrowDownTrayIcon className="w-5 h-5 text-blue-400" />
-            <p className="text-sm text-theme-secondary">Käufe</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <ArrowDownTrayIcon className="w-4 h-4 text-blue-400" />
+            <span className="text-xs text-neutral-500">Käufe</span>
           </div>
-          <p className="text-2xl font-bold text-blue-400">
-            {formatEuro(getTotalByType('buy'))}
-          </p>
-          <p className="text-xs text-theme-muted mt-1">
-            {transactions.filter(t => t.type === 'buy').length} Transaktionen
-          </p>
+          <p className="text-2xl font-semibold text-blue-400">{formatEuro(getTotalByType('buy'))}</p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <ArrowUpTrayIcon className="w-5 h-5 text-brand-light" />
-            <p className="text-sm text-theme-secondary">Verkäufe</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <ArrowUpTrayIcon className="w-4 h-4 text-emerald-400" />
+            <span className="text-xs text-neutral-500">Verkäufe</span>
           </div>
-          <p className="text-2xl font-bold text-brand-light">
-            {formatEuro(getTotalByType('sell'))}
-          </p>
-          <p className="text-xs text-theme-muted mt-1">
-            {transactions.filter(t => t.type === 'sell').length} Transaktionen
-          </p>
+          <p className="text-2xl font-semibold text-emerald-400">{formatEuro(getTotalByType('sell'))}</p>
         </div>
 
-        <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-          <div className="flex items-center gap-2 mb-2">
-            <CurrencyDollarIcon className="w-5 h-5 text-purple-400" />
-            <p className="text-sm text-theme-secondary">Dividenden</p>
+        <div>
+          <div className="flex items-center gap-2 mb-1">
+            <CurrencyDollarIcon className="w-4 h-4 text-purple-400" />
+            <span className="text-xs text-neutral-500">Dividenden</span>
           </div>
-          <p className="text-2xl font-bold text-purple-400">
-            {formatEuro(getTotalByType('dividend'))}
-          </p>
-          <p className="text-xs text-theme-muted mt-1">
-            {transactions.filter(t => t.type === 'dividend').length} Zahlungen
-          </p>
+          <p className="text-2xl font-semibold text-purple-400">{formatEuro(getTotalByType('dividend'))}</p>
         </div>
       </div>
 
-      {/* Add Transaction Modal - ERWEITERT MIT DIVIDENDEN */}
+      {/* Add Transaction Modal */}
       {showAddTransaction && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-theme-card rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto">
-            <h3 className="text-xl font-bold text-theme-primary mb-4">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full max-h-[90vh] overflow-y-auto border border-neutral-800">
+            <h3 className="text-lg font-semibold text-white mb-4">
               Transaktion hinzufügen
             </h3>
 
             <div className="space-y-4">
-              {/* Transaction Type Selector - MIT DIVIDENDE */}
+              {/* Transaction Type Selector */}
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-2">
+                <label className="block text-sm text-neutral-400 mb-2">
                   Typ
                 </label>
                 <div className="grid grid-cols-3 gap-2">
@@ -576,8 +528,8 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     onClick={() => setTransactionType('buy')}
                     className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
                       transactionType === 'buy'
-                        ? 'bg-brand/20 border-green-500/50 text-brand-light'
-                        : 'border-theme/20 text-theme-secondary hover:border-theme/40'
+                        ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
+                        : 'border-neutral-700 text-neutral-400 hover:border-neutral-600'
                     }`}
                   >
                     <ArrowDownTrayIcon className="w-4 h-4" />
@@ -588,7 +540,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
                       transactionType === 'sell'
                         ? 'bg-red-500/20 border-red-500/50 text-red-400'
-                        : 'border-theme/20 text-theme-secondary hover:border-theme/40'
+                        : 'border-neutral-700 text-neutral-400 hover:border-neutral-600'
                     }`}
                   >
                     <ArrowUpTrayIcon className="w-4 h-4" />
@@ -598,8 +550,8 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     onClick={() => setTransactionType('dividend')}
                     className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
                       transactionType === 'dividend'
-                        ? 'bg-blue-500/20 border-blue-500/50 text-blue-400'
-                        : 'border-theme/20 text-theme-secondary hover:border-theme/40'
+                        ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
+                        : 'border-neutral-700 text-neutral-400 hover:border-neutral-600'
                     }`}
                   >
                     <CurrencyDollarIcon className="w-4 h-4" />
@@ -610,7 +562,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
               {/* Symbol Input */}
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                <label className="block text-sm text-neutral-400 mb-1">
                   Symbol *
                 </label>
                 <input
@@ -618,103 +570,97 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                   value={transactionSymbol}
                   onChange={(e) => setTransactionSymbol(e.target.value)}
                   placeholder="AAPL"
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
-              {/* Conditional Fields based on Type */}
+              {/* Conditional Fields */}
               {transactionType === 'dividend' ? (
-                <>
-                  {/* For Dividends: Total Amount instead of Quantity & Price */}
+                <div>
+                  <label className="block text-sm text-neutral-400 mb-1">
+                    Dividendenbetrag ($) *
+                  </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={transactionPrice}
+                    onChange={(e) => setTransactionPrice(e.target.value)}
+                    placeholder="45.50"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:border-emerald-500 focus:outline-none"
+                  />
+                  <p className="text-xs text-neutral-500 mt-1">Gesamter erhaltener Betrag</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-theme-secondary mb-1">
-                      Dividendenbetrag ($) *
+                    <label className="block text-sm text-neutral-400 mb-1">
+                      Anzahl *
+                    </label>
+                    <input
+                      type="number"
+                      value={transactionQuantity}
+                      onChange={(e) => setTransactionQuantity(e.target.value)}
+                      placeholder="100"
+                      className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:border-emerald-500 focus:outline-none"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm text-neutral-400 mb-1">
+                      Preis ($) *
                     </label>
                     <input
                       type="number"
                       step="0.01"
                       value={transactionPrice}
                       onChange={(e) => setTransactionPrice(e.target.value)}
-                      placeholder="45.50"
-                      className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                      placeholder="150.00"
+                      className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:border-emerald-500 focus:outline-none"
                     />
-                    <p className="text-xs text-theme-muted mt-1">Gesamter erhaltener Betrag</p>
                   </div>
-                </>
-              ) : (
-                <>
-                  {/* For Buy/Sell: Quantity and Price */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Anzahl *
-                      </label>
-                      <input
-                        type="number"
-                        value={transactionQuantity}
-                        onChange={(e) => setTransactionQuantity(e.target.value)}
-                        placeholder="100"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
-                      />
-                    </div>
-
-                    <div>
-                      <label className="block text-sm font-medium text-theme-secondary mb-1">
-                        Preis ($) *
-                      </label>
-                      <input
-                        type="number"
-                        step="0.01"
-                        value={transactionPrice}
-                        onChange={(e) => setTransactionPrice(e.target.value)}
-                        placeholder="150.00"
-                        className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
-                      />
-                    </div>
-                  </div>
-                </>
+                </div>
               )}
 
               {/* Date Input */}
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                <label className="block text-sm text-neutral-400 mb-1">
                   Datum *
                 </label>
                 <input
                   type="date"
                   value={transactionDate}
                   onChange={(e) => setTransactionDate(e.target.value)}
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
               {/* Notes Input */}
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                <label className="block text-sm text-neutral-400 mb-1">
                   Notizen (optional)
                 </label>
                 <textarea
                   value={transactionNotes}
                   onChange={(e) => setTransactionNotes(e.target.value)}
                   placeholder={
-                    transactionType === 'dividend' 
-                      ? "z.B. Q3 2024 Dividende" 
+                    transactionType === 'dividend'
+                      ? "z.B. Q3 2024 Dividende"
                       : "Zusätzliche Informationen..."
                   }
                   rows={2}
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary"
+                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
               {/* Total Value Display */}
-              {((transactionType !== 'dividend' && transactionQuantity && transactionPrice) || 
+              {((transactionType !== 'dividend' && transactionQuantity && transactionPrice) ||
                 (transactionType === 'dividend' && transactionPrice)) && (
-                <div className="p-3 bg-theme-secondary/30 rounded-lg">
-                  <p className="text-sm text-theme-secondary">
+                <div className="p-3 bg-neutral-800/50 rounded-lg border border-neutral-700/50">
+                  <p className="text-sm text-neutral-400">
                     {transactionType === 'dividend' ? 'Dividende' : 'Gesamtwert'}
                   </p>
-                  <p className="text-lg font-bold text-theme-primary">
-                    ${transactionType === 'dividend' 
+                  <p className="text-lg font-semibold text-white">
+                    ${transactionType === 'dividend'
                       ? parseFloat(transactionPrice || '0').toFixed(2)
                       : (parseFloat(transactionQuantity || '0') * parseFloat(transactionPrice || '0')).toFixed(2)
                     }
@@ -726,9 +672,9 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
               <div className="flex gap-3 pt-2">
                 <button
                   onClick={handleAddTransaction}
-                  disabled={adding || !transactionSymbol || !transactionPrice || 
+                  disabled={adding || !transactionSymbol || !transactionPrice ||
                     (transactionType !== 'dividend' && !transactionQuantity)}
-                  className="flex-1 py-2 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-medium"
                 >
                   {adding ? (
                     <>
@@ -738,21 +684,20 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                   ) : (
                     <>
                       <PlusIcon className="w-4 h-4" />
-                      {transactionType === 'dividend' ? 'Dividende' : 'Transaktion'} hinzufügen
+                      Hinzufügen
                     </>
                   )}
                 </button>
                 <button
                   onClick={() => {
                     setShowAddTransaction(false)
-                    // Reset form
                     setTransactionSymbol('')
                     setTransactionQuantity('')
                     setTransactionPrice('')
                     setTransactionNotes('')
                     setTransactionDate(new Date().toISOString().split('T')[0])
                   }}
-                  className="flex-1 py-2 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                  className="flex-1 py-2.5 border border-neutral-700 hover:bg-neutral-800 text-white rounded-lg transition-colors text-sm font-medium"
                 >
                   Abbrechen
                 </button>
@@ -762,81 +707,50 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
         </div>
       )}
 
-      {/* Controls */}
+      {/* Controls - Pill buttons */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex gap-2">
-          <button
-            onClick={() => setFilter('all')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              filter === 'all'
-                ? 'bg-brand text-white'
-                : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
-            }`}
-          >
-            Alle
-          </button>
-          <button
-            onClick={() => setFilter('buy')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              filter === 'buy'
-                ? 'bg-brand text-white'
-                : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
-            }`}
-          >
-            Käufe
-          </button>
-          <button
-            onClick={() => setFilter('sell')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              filter === 'sell'
-                ? 'bg-brand text-white'
-                : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
-            }`}
-          >
-            Verkäufe
-          </button>
-          <button
-            onClick={() => setFilter('dividend')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              filter === 'dividend'
-                ? 'bg-brand text-white'
-                : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
-            }`}
-          >
-            Dividenden
-          </button>
-          <button
-            onClick={() => setFilter('cash')}
-            className={`px-4 py-2 rounded-lg transition-colors ${
-              filter === 'cash'
-                ? 'bg-brand text-white'
-                : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-secondary/30'
-            }`}
-          >
-            Cash
-          </button>
+        <div className="flex flex-wrap gap-2">
+          {[
+            { key: 'all', label: 'Alle' },
+            { key: 'buy', label: 'Käufe' },
+            { key: 'sell', label: 'Verkäufe' },
+            { key: 'dividend', label: 'Dividenden' },
+            { key: 'cash', label: 'Cash' }
+          ].map(({ key, label }) => (
+            <button
+              key={key}
+              onClick={() => setFilter(key as typeof filter)}
+              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+                filter === key
+                  ? 'bg-emerald-500 text-white'
+                  : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
+              }`}
+            >
+              {label}
+            </button>
+          ))}
         </div>
 
         <div className="flex gap-2">
           <button
             onClick={() => setSortOrder(sortOrder === 'desc' ? 'asc' : 'desc')}
-            className="p-2 bg-theme-card border border-theme/10 rounded-lg hover:bg-theme-secondary/30 transition-colors"
+            className="p-2 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
             title="Sortierung umkehren"
           >
-            <ArrowPathIcon className="w-5 h-5 text-theme-secondary" />
+            <ArrowPathIcon className="w-4 h-4 text-neutral-400" />
           </button>
-          
+
           <button
             onClick={exportToCSV}
-            className="p-2 bg-theme-card border border-theme/10 rounded-lg hover:bg-theme-secondary/30 transition-colors"
+            className="p-2 bg-neutral-800 rounded-lg hover:bg-neutral-700 transition-colors"
             title="Als CSV exportieren"
           >
-            <DocumentArrowDownIcon className="w-5 h-5 text-theme-secondary" />
+            <DocumentArrowDownIcon className="w-4 h-4 text-neutral-400" />
           </button>
 
           <button
             onClick={() => setShowAddTransaction(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
+            className="flex items-center gap-2 px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg transition-colors text-sm font-medium"
           >
             <PlusIcon className="w-4 h-4" />
             Transaktion
@@ -845,22 +759,15 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
       </div>
 
       {/* Transaction List */}
-      <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
-        <div className="p-4 border-b border-theme/10">
-          <h3 className="text-lg font-semibold text-theme-primary">
-            Transaktionshistorie
-          </h3>
-        </div>
-
+      <div>
         {/* Filter Bar */}
-        <div className="p-4 border-b border-theme/10 flex flex-wrap items-center gap-4">
-          {/* Holding Filter */}
+        <div className="flex flex-wrap items-center gap-4 pb-4 border-b border-neutral-800">
           <div className="flex items-center gap-2">
-            <label className="text-sm text-theme-secondary">Aktie:</label>
+            <label className="text-sm text-neutral-500">Aktie:</label>
             <select
               value={selectedSymbol}
               onChange={(e) => setSelectedSymbol(e.target.value)}
-              className="px-3 py-1.5 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary text-sm focus:ring-2 focus:ring-green-400"
+              className="px-3 py-1.5 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm focus:border-emerald-500 focus:outline-none"
             >
               <option value="all">Alle Holdings</option>
               {uniqueSymbols.map(symbol => (
@@ -869,13 +776,12 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
             </select>
           </div>
 
-          {/* Statistik */}
-          <div className="flex items-center gap-4 ml-auto text-sm text-theme-secondary">
+          <div className="flex items-center gap-4 ml-auto text-sm text-neutral-500">
             <span>{symbolFilteredTransactions.length} Transaktionen</span>
             {selectedSymbol !== 'all' && (
               <button
                 onClick={() => setSelectedSymbol('all')}
-                className="text-brand-light hover:text-green-300"
+                className="text-emerald-400 hover:text-emerald-300"
               >
                 Filter zurücksetzen
               </button>
@@ -883,13 +789,13 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
           </div>
         </div>
 
-        {/* Gruppierte Transaktionen nach Jahr/Monat */}
-        <div className="divide-y divide-theme/10">
+        {/* Grouped Transactions */}
+        <div className="space-y-0">
           {sortedYears.length === 0 ? (
-            <div className="p-12 text-center">
-              <ClockIcon className="w-12 h-12 text-theme-muted mx-auto mb-3" />
-              <p className="text-theme-secondary mb-2">Keine Transaktionen gefunden</p>
-              <p className="text-theme-muted text-sm">
+            <div className="py-12 text-center">
+              <ClockIcon className="w-10 h-10 text-neutral-600 mx-auto mb-3" />
+              <p className="text-neutral-400 mb-1">Keine Transaktionen gefunden</p>
+              <p className="text-neutral-500 text-sm">
                 Fügen Sie Ihre erste Transaktion hinzu
               </p>
             </div>
@@ -899,27 +805,27 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
               const isYearExpanded = expandedYears.has(year)
               const months = Object.keys(groupedTransactions[year])
                 .map(Number)
-                .sort((a, b) => b - a) // Neueste Monate zuerst
+                .sort((a, b) => b - a)
 
               return (
-                <div key={year}>
-                  {/* Jahr Header */}
+                <div key={year} className="border-b border-neutral-800 last:border-0">
+                  {/* Year Header */}
                   <button
                     onClick={() => toggleYear(year)}
-                    className="w-full flex items-center justify-between p-4 hover:bg-theme-secondary/10 transition-colors"
+                    className="w-full flex items-center justify-between py-4 hover:bg-neutral-900/50 transition-colors"
                   >
                     <div className="flex items-center gap-3">
-                      <ChevronRightIcon className={`w-5 h-5 text-theme-secondary transition-transform ${isYearExpanded ? 'rotate-90' : ''}`} />
-                      <span className="text-lg font-bold text-theme-primary">{year}</span>
+                      <ChevronRightIcon className={`w-4 h-4 text-neutral-500 transition-transform ${isYearExpanded ? 'rotate-90' : ''}`} />
+                      <span className="text-base font-semibold text-white">{year}</span>
                     </div>
 
-                    <div className="flex items-center gap-4 text-sm text-theme-secondary">
+                    <div className="flex items-center gap-4 text-xs text-neutral-500">
                       <span>{yearStats.count} Aktivitäten</span>
                       {yearStats.bought > 0 && (
                         <span className="text-red-400">{formatEuro(yearStats.bought)} gekauft</span>
                       )}
                       {yearStats.sold > 0 && (
-                        <span className="text-green-400">{formatEuro(yearStats.sold)} verkauft</span>
+                        <span className="text-emerald-400">{formatEuro(yearStats.sold)} verkauft</span>
                       )}
                       {yearStats.dividends > 0 && (
                         <span className="text-purple-400">{formatEuro(yearStats.dividends)} Dividenden</span>
@@ -927,9 +833,9 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     </div>
                   </button>
 
-                  {/* Monate (wenn Jahr expanded) */}
+                  {/* Months */}
                   {isYearExpanded && (
-                    <div className="bg-theme-secondary/5">
+                    <div className="pl-4">
                       {months.map(month => {
                         const yearMonth = `${year}-${month}`
                         const isMonthExpanded = expandedMonths.has(yearMonth)
@@ -941,26 +847,26 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                         }, 0)
 
                         return (
-                          <div key={yearMonth}>
-                            {/* Monat Header */}
+                          <div key={yearMonth} className="border-t border-neutral-800/50">
+                            {/* Month Header */}
                             <button
                               onClick={() => toggleMonth(yearMonth)}
-                              className="w-full flex items-center justify-between px-6 py-3 hover:bg-theme-secondary/10 transition-colors border-t border-theme/5"
+                              className="w-full flex items-center justify-between py-3 px-2 hover:bg-neutral-900/30 transition-colors"
                             >
                               <div className="flex items-center gap-3">
-                                <ChevronRightIcon className={`w-4 h-4 text-theme-muted transition-transform ${isMonthExpanded ? 'rotate-90' : ''}`} />
-                                <span className="font-medium text-theme-primary">{monthNames[month]} {year}</span>
-                                <span className="text-sm text-theme-muted">{monthTxs.length} Aktivitäten</span>
+                                <ChevronRightIcon className={`w-3 h-3 text-neutral-600 transition-transform ${isMonthExpanded ? 'rotate-90' : ''}`} />
+                                <span className="text-sm font-medium text-neutral-300">{monthNames[month]}</span>
+                                <span className="text-xs text-neutral-600">{monthTxs.length} Aktivitäten</span>
                               </div>
 
-                              <span className={`text-sm font-medium ${monthTotal >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                              <span className={`text-xs font-medium ${monthTotal >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                                 {monthTotal >= 0 ? '+' : ''}{formatEuro(monthTotal)}
                               </span>
                             </button>
 
-                            {/* Transaktionen (wenn Monat expanded) */}
+                            {/* Transactions */}
                             {isMonthExpanded && (
-                              <div className="bg-theme-secondary/10">
+                              <div className="pl-6">
                                 {monthTxs.map(transaction => {
                                   const isNegative = transaction.type === 'buy' || transaction.type === 'cash_withdrawal'
                                   const isCashTransaction = transaction.type === 'cash_deposit' || transaction.type === 'cash_withdrawal'
@@ -968,61 +874,59 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                   return (
                                     <div
                                       key={transaction.id}
-                                      className="group flex items-center justify-between px-8 py-3 border-t border-theme/5 hover:bg-theme-secondary/20 transition-colors"
+                                      className="group flex items-center justify-between py-3 px-2 border-t border-neutral-800/30 hover:bg-neutral-900/30 transition-colors"
                                     >
-                                      {/* Linke Seite - Details */}
-                                      <div className="flex items-center gap-4">
-                                        {/* Logo für Aktien, Icon für Cash/Dividenden */}
+                                      {/* Left - Details */}
+                                      <div className="flex items-center gap-3">
                                         {transaction.symbol && transaction.symbol !== 'CASH' && transaction.type !== 'cash_deposit' && transaction.type !== 'cash_withdrawal' && transaction.type !== 'dividend' ? (
                                           <Logo
                                             ticker={transaction.symbol}
                                             alt={transaction.symbol}
-                                            className="w-8 h-8"
+                                            className="w-7 h-7"
                                             padding="small"
                                           />
                                         ) : (
-                                          <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                                            transaction.type === 'cash_deposit' ? 'bg-green-500/20' :
+                                          <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
+                                            transaction.type === 'cash_deposit' ? 'bg-emerald-500/20' :
                                             transaction.type === 'cash_withdrawal' ? 'bg-red-500/20' :
                                             transaction.type === 'dividend' ? 'bg-purple-500/20' :
-                                            'bg-gray-500/20'
+                                            'bg-neutral-700'
                                           }`}>
-                                            {transaction.type === 'cash_deposit' && <PlusIcon className="w-4 h-4 text-green-400" />}
-                                            {transaction.type === 'cash_withdrawal' && <MinusIcon className="w-4 h-4 text-red-400" />}
-                                            {transaction.type === 'dividend' && <BanknotesIcon className="w-4 h-4 text-purple-400" />}
+                                            {transaction.type === 'cash_deposit' && <PlusIcon className="w-3.5 h-3.5 text-emerald-400" />}
+                                            {transaction.type === 'cash_withdrawal' && <MinusIcon className="w-3.5 h-3.5 text-red-400" />}
+                                            {transaction.type === 'dividend' && <BanknotesIcon className="w-3.5 h-3.5 text-purple-400" />}
                                           </div>
                                         )}
 
-                                        {/* Symbol und Details */}
                                         <div>
                                           <div className="flex items-center gap-2">
-                                            <span className="font-semibold text-theme-primary">
+                                            <span className="font-medium text-white text-sm">
                                               {isCashTransaction ? (transaction.type === 'cash_deposit' ? 'Einzahlung' : 'Auszahlung') : transaction.symbol}
                                             </span>
-                                            <span className={`text-xs px-1.5 py-0.5 rounded ${
+                                            <span className={`text-[10px] px-1.5 py-0.5 rounded ${
                                               transaction.type === 'buy' ? 'bg-blue-500/20 text-blue-400' :
-                                              transaction.type === 'sell' ? 'bg-green-500/20 text-green-400' :
+                                              transaction.type === 'sell' ? 'bg-emerald-500/20 text-emerald-400' :
                                               transaction.type === 'dividend' ? 'bg-purple-500/20 text-purple-400' :
-                                              transaction.type === 'cash_deposit' ? 'bg-green-500/20 text-green-400' :
+                                              transaction.type === 'cash_deposit' ? 'bg-emerald-500/20 text-emerald-400' :
                                               'bg-red-500/20 text-red-400'
                                             }`}>
                                               {getTransactionLabel(transaction.type)}
                                             </span>
                                           </div>
-                                          <p className="text-xs text-theme-muted">
+                                          <p className="text-xs text-neutral-500">
                                             {!isCashTransaction && transaction.type !== 'dividend' && transaction.quantity && (
-                                              <>{transaction.quantity} Stück @ {formatEuro(transaction.price)} • </>
+                                              <>{transaction.quantity} Stück @ {formatEuro(transaction.price)} · </>
                                             )}
                                             {formatDate(transaction.date)}
                                           </p>
                                         </div>
                                       </div>
 
-                                      {/* Rechte Seite - Betrag und Aktionen */}
-                                      <div className="flex items-center gap-4">
+                                      {/* Right - Amount and Actions */}
+                                      <div className="flex items-center gap-3">
                                         <div className="text-right">
-                                          <p className={`font-bold ${
-                                            isNegative ? 'text-red-400' : 'text-green-400'
+                                          <p className={`font-medium text-sm ${
+                                            isNegative ? 'text-red-400' : 'text-emerald-400'
                                           }`}>
                                             {isNegative ? '-' : '+'}
                                             {formatEuro(Math.abs(transaction.total_value))}
@@ -1039,7 +943,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                             className="p-1.5 hover:bg-blue-500/20 rounded transition-colors"
                                             title="Bearbeiten"
                                           >
-                                            <PencilIcon className="w-4 h-4 text-blue-400" />
+                                            <PencilIcon className="w-3.5 h-3.5 text-blue-400" />
                                           </button>
                                           <button
                                             onClick={(e) => {
@@ -1050,7 +954,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                             className="p-1.5 hover:bg-red-500/20 rounded transition-colors disabled:opacity-50"
                                             title="Löschen"
                                           >
-                                            <XMarkIcon className="w-4 h-4 text-red-400" />
+                                            <XMarkIcon className="w-3.5 h-3.5 text-red-400" />
                                           </button>
                                         </div>
                                       </div>
@@ -1073,41 +977,40 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
       {/* Edit Transaction Modal */}
       {editingTransaction && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-          <div className="bg-theme-card rounded-xl p-6 max-w-md w-full">
+        <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4">
+          <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full border border-neutral-800">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-theme-primary">Transaktion bearbeiten</h2>
+              <h2 className="text-lg font-semibold text-white">Transaktion bearbeiten</h2>
               <button
                 onClick={() => setEditingTransaction(null)}
-                className="p-1 hover:bg-theme-secondary/30 rounded transition-colors"
+                className="p-1 hover:bg-neutral-800 rounded transition-colors"
               >
-                <XMarkIcon className="w-5 h-5 text-theme-secondary" />
+                <XMarkIcon className="w-5 h-5 text-neutral-400" />
               </button>
             </div>
 
             {/* Info Badge */}
-            <div className="bg-theme-secondary/20 rounded-lg p-3 mb-4">
+            <div className="bg-neutral-800/50 rounded-lg p-3 mb-4 border border-neutral-700/50">
               <div className="flex items-center gap-2">
                 <span className={`px-2 py-1 rounded text-xs font-medium ${
                   editingTransaction.type === 'buy'
                     ? 'bg-blue-500/20 text-blue-400'
                     : editingTransaction.type === 'sell'
-                    ? 'bg-green-500/20 text-green-400'
+                    ? 'bg-emerald-500/20 text-emerald-400'
                     : editingTransaction.type === 'dividend'
                     ? 'bg-purple-500/20 text-purple-400'
-                    : 'bg-gray-500/20 text-gray-400'
+                    : 'bg-neutral-700 text-neutral-400'
                 }`}>
                   {getTransactionLabel(editingTransaction.type)}
                 </span>
-                <span className="font-semibold text-theme-primary">{editingTransaction.symbol}</span>
+                <span className="font-medium text-white">{editingTransaction.symbol}</span>
               </div>
             </div>
 
             <div className="space-y-4">
-              {/* Nur für Aktien-Transaktionen: Anzahl */}
               {(editingTransaction.type === 'buy' || editingTransaction.type === 'sell') && (
                 <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-1">
+                  <label className="block text-sm text-neutral-400 mb-1">
                     Anzahl
                   </label>
                   <input
@@ -1116,13 +1019,13 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     step="1"
                     value={editQuantity}
                     onChange={(e) => setEditQuantity(e.target.value)}
-                    className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
                   />
                 </div>
               )}
 
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                <label className="block text-sm text-neutral-400 mb-1">
                   {editingTransaction.type === 'buy' || editingTransaction.type === 'sell'
                     ? 'Preis pro Stück (EUR)'
                     : 'Betrag (EUR)'}
@@ -1133,12 +1036,12 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                   step="0.01"
                   value={editPrice}
                   onChange={(e) => setEditPrice(e.target.value)}
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400"
+                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-theme-secondary mb-1">
+                <label className="block text-sm text-neutral-400 mb-1">
                   Datum
                 </label>
                 <input
@@ -1146,16 +1049,15 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                   value={editDate}
                   onChange={(e) => setEditDate(e.target.value)}
                   max={new Date().toISOString().split('T')[0]}
-                  className="w-full px-3 py-2 bg-theme-secondary border border-theme/20 rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400"
+                  className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:border-emerald-500 focus:outline-none"
                 />
               </div>
 
-              {/* Preview für Aktien */}
               {(editingTransaction.type === 'buy' || editingTransaction.type === 'sell') && editQuantity && editPrice && (
-                <div className="p-3 bg-brand/10 border border-brand/20 rounded-lg">
-                  <p className="text-sm text-theme-secondary">
+                <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+                  <p className="text-sm text-neutral-400">
                     Neuer Gesamtwert:
-                    <span className="font-bold text-theme-primary ml-2">
+                    <span className="font-semibold text-white ml-2">
                       {(parseFloat(editQuantity) * parseFloat(editPrice)).toLocaleString('de-DE', {
                         style: 'currency',
                         currency: 'EUR'
@@ -1163,7 +1065,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     </span>
                   </p>
                   {editingTransaction.type === 'buy' && (
-                    <p className="text-xs text-theme-muted mt-1">
+                    <p className="text-xs text-neutral-500 mt-1">
                       Der Durchschnittspreis wird automatisch neu berechnet.
                     </p>
                   )}
@@ -1174,7 +1076,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                 <button
                   onClick={handleUpdateTransaction}
                   disabled={saving || !editPrice || !editDate}
-                  className="flex-1 py-2.5 bg-brand hover:bg-green-400 disabled:bg-theme-secondary disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-700 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2 text-sm font-medium"
                 >
                   {saving ? (
                     <>
@@ -1188,7 +1090,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                 <button
                   onClick={() => setEditingTransaction(null)}
                   disabled={saving}
-                  className="flex-1 py-2.5 border border-theme/20 hover:bg-theme-secondary/30 text-theme-primary rounded-lg transition-colors"
+                  className="flex-1 py-2.5 border border-neutral-700 hover:bg-neutral-800 text-white rounded-lg transition-colors text-sm font-medium"
                 >
                   Abbrechen
                 </button>

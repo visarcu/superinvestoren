@@ -12,7 +12,7 @@ import {
   BuildingOffice2Icon,
   CheckCircleIcon
 } from '@heroicons/react/24/outline'
-import { BROKER_CONFIGS, BrokerConfig, BrokerType } from '@/lib/brokerConfig'
+import { BROKER_CONFIGS, BrokerType } from '@/lib/brokerConfig'
 
 interface PortfolioBrokerSelectorProps {
   selectedBroker: BrokerType | null
@@ -20,7 +20,6 @@ interface PortfolioBrokerSelectorProps {
   className?: string
 }
 
-// Icon mapping
 const BROKER_ICONS: Record<string, React.ComponentType<{ className?: string }>> = {
   DevicePhoneMobileIcon,
   ChartBarIcon,
@@ -45,7 +44,6 @@ export default function PortfolioBrokerSelector({
   onSelect,
   className = ''
 }: PortfolioBrokerSelectorProps) {
-  // Sortiere: Bekannte Broker zuerst, dann manual/andere am Ende
   const sortedBrokers = [...BROKER_CONFIGS].sort((a, b) => {
     const order: Record<string, number> = {
       trade_republic: 1,
@@ -60,7 +58,7 @@ export default function PortfolioBrokerSelector({
   })
 
   return (
-    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ${className}`}>
+    <div className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 ${className}`}>
       {sortedBrokers.map((broker) => {
         const isSelected = selectedBroker === broker.id
 
@@ -68,50 +66,45 @@ export default function PortfolioBrokerSelector({
           <button
             key={broker.id}
             onClick={() => onSelect(broker.id)}
-            className={`relative p-5 rounded-xl border-2 transition-all duration-200 text-left ${
+            className={`relative p-4 rounded-lg border transition-all duration-200 text-left ${
               isSelected
-                ? 'border-brand bg-brand/10 shadow-lg shadow-brand/20'
-                : 'border-theme/20 bg-theme-card hover:border-theme/40 hover:bg-theme-secondary/30'
+                ? 'border-emerald-500 bg-emerald-500/10'
+                : 'border-neutral-700 bg-neutral-900 hover:border-neutral-600 hover:bg-neutral-800'
             }`}
           >
-            {/* Selected Indicator */}
             {isSelected && (
               <div className="absolute top-3 right-3">
-                <CheckCircleIcon className="w-6 h-6 text-brand" />
+                <CheckCircleIcon className="w-5 h-5 text-emerald-400" />
               </div>
             )}
 
-            {/* Icon with Broker Color */}
             <div
-              className="w-12 h-12 rounded-xl flex items-center justify-center mb-4"
+              className="w-10 h-10 rounded-lg flex items-center justify-center mb-3"
               style={{ backgroundColor: `${broker.color}20` }}
             >
               <BrokerIcon
                 iconName={broker.iconName}
-                className="w-6 h-6"
+                className="w-5 h-5"
                 color={broker.color}
               />
             </div>
 
-            {/* Broker Name */}
-            <h3 className="font-semibold text-theme-primary mb-1">
+            <h3 className="font-medium text-white mb-0.5 text-sm">
               {broker.displayName}
             </h3>
 
-            {/* Description */}
             {broker.description && (
-              <p className="text-sm text-theme-secondary line-clamp-2">
+              <p className="text-xs text-neutral-500 line-clamp-2">
                 {broker.description}
               </p>
             )}
 
-            {/* Color Indicator */}
-            <div className="mt-3 flex items-center gap-2">
+            <div className="mt-2 flex items-center gap-2">
               <div
-                className="w-3 h-3 rounded-full"
+                className="w-2 h-2 rounded-full"
                 style={{ backgroundColor: broker.color }}
               />
-              <span className="text-xs text-theme-muted">
+              <span className="text-[10px] text-neutral-600">
                 {broker.color}
               </span>
             </div>
@@ -122,7 +115,6 @@ export default function PortfolioBrokerSelector({
   )
 }
 
-// Compact version for inline selection
 export function PortfolioBrokerSelectorCompact({
   selectedBroker,
   onSelect,
@@ -137,17 +129,17 @@ export function PortfolioBrokerSelectorCompact({
           <button
             key={broker.id}
             onClick={() => onSelect(broker.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all ${
+            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg border transition-all text-sm ${
               isSelected
-                ? 'border-brand bg-brand/10 text-brand-light'
-                : 'border-theme/20 bg-theme-card text-theme-secondary hover:border-theme/40'
+                ? 'border-emerald-500 bg-emerald-500/10 text-emerald-400'
+                : 'border-neutral-700 bg-neutral-800 text-neutral-400 hover:border-neutral-600 hover:text-white'
             }`}
           >
             <div
               className="w-2 h-2 rounded-full"
               style={{ backgroundColor: broker.color }}
             />
-            <span className="text-sm font-medium">{broker.displayName}</span>
+            <span className="font-medium">{broker.displayName}</span>
           </button>
         )
       })}
@@ -155,7 +147,6 @@ export function PortfolioBrokerSelectorCompact({
   )
 }
 
-// Single broker badge display
 export function BrokerBadge({
   brokerId,
   customName,
@@ -173,8 +164,8 @@ export function BrokerBadge({
 
   const sizeClasses = {
     sm: 'px-2 py-0.5 text-xs',
-    md: 'px-3 py-1 text-sm',
-    lg: 'px-4 py-1.5 text-base'
+    md: 'px-2.5 py-1 text-xs',
+    lg: 'px-3 py-1.5 text-sm'
   }
 
   return (

@@ -48,18 +48,16 @@ export default function PortfolioPerformanceChart({
   cashPosition
 }: PortfolioPerformanceChartProps) {
   const { formatCurrency } = useCurrency()
-  const [selectedRange, setSelectedRange] = useState<TimeRange>('MAX') // DEFAULT: MAX
+  const [selectedRange, setSelectedRange] = useState<TimeRange>('MAX')
   const [chartData, setChartData] = useState<ChartDataPoint[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [showInvested, setShowInvested] = useState(true)
 
-  // Gesamt-Performance
   const totalGain = totalValue - totalCost
   const totalGainPercent = totalCost > 0 ? (totalGain / totalCost) * 100 : 0
   const isPositive = totalGain >= 0
 
-  // Lade historische Daten
   const fetchHistoricalData = useCallback(async () => {
     if (holdings.length === 0) {
       setChartData([])
@@ -142,7 +140,6 @@ export default function PortfolioPerformanceChart({
     fetchHistoricalData()
   }, [fetchHistoricalData])
 
-  // Custom Tooltip
   const CustomTooltip = ({ active, payload }: any) => {
     if (active && payload && payload.length) {
       const data = payload[0].payload
@@ -150,13 +147,13 @@ export default function PortfolioPerformanceChart({
       const dayGainPercent = data.invested > 0 ? (dayGain / data.invested) * 100 : 0
 
       return (
-        <div className="bg-theme-card border border-theme/20 rounded-lg px-3 py-2 shadow-lg">
-          <p className="text-xs text-theme-secondary mb-1">{data.label}</p>
-          <p className="text-sm font-bold text-theme-primary">{formatCurrency(data.value)}</p>
-          <p className="text-xs text-theme-secondary mt-1">
+        <div className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 shadow-lg">
+          <p className="text-xs text-neutral-400 mb-1">{data.label}</p>
+          <p className="text-sm font-semibold text-white">{formatCurrency(data.value)}</p>
+          <p className="text-xs text-neutral-500 mt-1">
             Investiert: {formatCurrency(data.invested)}
           </p>
-          <p className={`text-xs mt-1 ${dayGain >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+          <p className={`text-xs mt-1 ${dayGain >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
             {dayGain >= 0 ? '+' : ''}{formatCurrency(dayGain)} ({dayGainPercent >= 0 ? '+' : ''}{dayGainPercent.toFixed(2)}%)
           </p>
         </div>
@@ -167,7 +164,6 @@ export default function PortfolioPerformanceChart({
 
   const timeRanges: TimeRange[] = ['1W', '1M', '3M', '6M', '1Y', 'MAX']
 
-  // Zeitraum-Performance aus Chart-Daten
   const rangePerformance = useMemo(() => {
     if (chartData.length === 0) {
       return { gain: totalGain, percent: totalGainPercent, isPositive }
@@ -182,31 +178,31 @@ export default function PortfolioPerformanceChart({
   }, [chartData, totalGain, totalGainPercent, isPositive])
 
   return (
-    <div className="bg-theme-card rounded-xl border border-theme/10 p-6">
+    <div>
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
         <div>
-          <h3 className="text-lg font-semibold text-theme-primary mb-1">
+          <h3 className="text-sm font-medium text-neutral-400 mb-2">
             Wertentwicklung
           </h3>
           <div className="flex items-center gap-3">
-            <span className="text-2xl font-bold text-theme-primary">
+            <span className="text-2xl font-semibold text-white">
               {formatCurrency(totalValue)}
             </span>
             <div className={`flex items-center gap-1 px-2 py-1 rounded-lg ${
-              rangePerformance.isPositive ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'
+              rangePerformance.isPositive ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
             }`}>
               {rangePerformance.isPositive ? (
                 <ArrowTrendingUpIcon className="w-4 h-4" />
               ) : (
                 <ArrowTrendingDownIcon className="w-4 h-4" />
               )}
-              <span className="text-sm font-semibold">
+              <span className="text-sm font-medium">
                 {rangePerformance.isPositive ? '+' : ''}{formatCurrency(Math.abs(rangePerformance.gain))}
               </span>
             </div>
           </div>
-          <p className="text-sm text-theme-secondary mt-1">
+          <p className="text-sm text-neutral-500 mt-1">
             {rangePerformance.isPositive ? '+' : ''}{rangePerformance.percent.toFixed(2)}%{' '}
             {selectedRange === '1W' && 'diese Woche'}
             {selectedRange === '1M' && 'diesen Monat'}
@@ -217,16 +213,16 @@ export default function PortfolioPerformanceChart({
           </p>
         </div>
 
-        {/* Time Range Selector */}
-        <div className="flex gap-1 bg-theme-secondary/20 rounded-lg p-1">
+        {/* Time Range Selector - Pill buttons */}
+        <div className="flex gap-1">
           {timeRanges.map((range) => (
             <button
               key={range}
               onClick={() => setSelectedRange(range)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-colors ${
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${
                 selectedRange === range
-                  ? 'bg-brand text-white'
-                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
+                  ? 'bg-emerald-500 text-white'
+                  : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
               }`}
             >
               {range}
@@ -236,13 +232,13 @@ export default function PortfolioPerformanceChart({
       </div>
 
       {/* Show Invested Toggle */}
-      <div className="mb-4">
-        <label className="flex items-center gap-2 text-xs text-theme-secondary cursor-pointer">
+      <div className="mb-4 pb-4 border-b border-neutral-800">
+        <label className="flex items-center gap-2 text-xs text-neutral-500 cursor-pointer">
           <input
             type="checkbox"
             checked={showInvested}
             onChange={(e) => setShowInvested(e.target.checked)}
-            className="w-4 h-4 rounded border-theme/20 text-brand focus:ring-brand"
+            className="w-3.5 h-3.5 rounded border-neutral-700 bg-neutral-800 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-0"
           />
           Investiertes Kapital anzeigen
         </label>
@@ -253,17 +249,17 @@ export default function PortfolioPerformanceChart({
         {loading ? (
           <div className="h-full flex items-center justify-center">
             <div className="flex flex-col items-center gap-2">
-              <div className="w-8 h-8 border-2 border-brand/30 border-t-brand rounded-full animate-spin" />
-              <span className="text-sm text-theme-secondary">Lade Kursdaten...</span>
+              <div className="w-6 h-6 border-2 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin" />
+              <span className="text-sm text-neutral-500">Lade Kursdaten...</span>
             </div>
           </div>
         ) : error ? (
           <div className="h-full flex items-center justify-center">
             <div className="text-center">
-              <p className="text-sm text-red-500 mb-2">{error}</p>
+              <p className="text-sm text-red-400 mb-2">{error}</p>
               <button
                 onClick={fetchHistoricalData}
-                className="text-xs text-brand hover:underline"
+                className="text-xs text-emerald-400 hover:text-emerald-300"
               >
                 Erneut versuchen
               </button>
@@ -271,7 +267,7 @@ export default function PortfolioPerformanceChart({
           </div>
         ) : chartData.length === 0 ? (
           <div className="h-full flex items-center justify-center">
-            <p className="text-sm text-theme-secondary">Keine Daten verfügbar</p>
+            <p className="text-sm text-neutral-500">Keine Daten verfügbar</p>
           </div>
         ) : (
           <ResponsiveContainer width="100%" height="100%">
@@ -281,7 +277,7 @@ export default function PortfolioPerformanceChart({
                   <stop
                     offset="5%"
                     stopColor={rangePerformance.isPositive ? '#10b981' : '#ef4444'}
-                    stopOpacity={0.3}
+                    stopOpacity={0.2}
                   />
                   <stop
                     offset="95%"
@@ -295,24 +291,23 @@ export default function PortfolioPerformanceChart({
                 dataKey="label"
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#6b7280', fontSize: 11 }}
+                tick={{ fill: '#525252', fontSize: 11 }}
                 interval="preserveStartEnd"
               />
               <YAxis
                 axisLine={false}
                 tickLine={false}
-                tick={{ fill: '#6b7280', fontSize: 11 }}
+                tick={{ fill: '#525252', fontSize: 11 }}
                 tickFormatter={(value) => `${(value / 1000).toFixed(1)}k`}
                 domain={['dataMin - 100', 'dataMax + 100']}
                 width={50}
               />
               <Tooltip content={<CustomTooltip />} />
-              {/* Invested Line */}
               {showInvested && (
                 <Area
                   type="monotone"
                   dataKey="invested"
-                  stroke="#6b7280"
+                  stroke="#525252"
                   strokeWidth={1.5}
                   strokeDasharray="4 4"
                   fill="none"
@@ -331,21 +326,21 @@ export default function PortfolioPerformanceChart({
         )}
       </div>
 
-      {/* Stats Footer */}
-      <div className="grid grid-cols-3 gap-4 mt-6 pt-4 border-t border-theme/10">
+      {/* Stats Footer - Flat inline row */}
+      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-4 mt-6 pt-4 border-t border-neutral-800">
         <div>
-          <p className="text-xs text-theme-muted mb-1">Investiert</p>
-          <p className="text-sm font-semibold text-theme-primary">{formatCurrency(totalCost)}</p>
+          <p className="text-xs text-neutral-500 mb-1">Investiert</p>
+          <p className="text-sm font-medium text-white">{formatCurrency(totalCost)}</p>
         </div>
         <div>
-          <p className="text-xs text-theme-muted mb-1">Gewinn/Verlust</p>
-          <p className={`text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+          <p className="text-xs text-neutral-500 mb-1">Gewinn/Verlust</p>
+          <p className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
             {isPositive ? '+' : ''}{formatCurrency(totalGain)}
           </p>
         </div>
         <div>
-          <p className="text-xs text-theme-muted mb-1">Rendite (Gesamt)</p>
-          <p className={`text-sm font-semibold ${isPositive ? 'text-green-500' : 'text-red-500'}`}>
+          <p className="text-xs text-neutral-500 mb-1">Rendite (Gesamt)</p>
+          <p className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
             {isPositive ? '+' : ''}{totalGainPercent.toFixed(2)}%
           </p>
         </div>
