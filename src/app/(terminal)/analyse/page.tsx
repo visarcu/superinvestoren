@@ -64,35 +64,35 @@ type MarketQuote = {
 // ===== MARKET STATUS HELPER =====
 const getMarketStatus = (() => {
   let cache: { [key: string]: { timestamp: number; data: any } } = {}
-  
+
   return (timezone: string, openHour: number, closeHour: number) => {
     const cacheKey = `${timezone}-${openHour}-${closeHour}`
     const now = Date.now()
-    
+
     if (cache[cacheKey] && now - cache[cacheKey].timestamp < 30000) {
       return cache[cacheKey].data
     }
-    
+
     const marketTime = new Date(new Date().toLocaleString("en-US", { timeZone: timezone }))
     const day = marketTime.getDay()
     const hour = marketTime.getHours()
     const minute = marketTime.getMinutes()
     const currentMinutes = hour * 60 + minute
-    
+
     let result
     if (day === 0 || day === 6) {
       result = { status: 'CLOSED', reason: 'Weekend' }
     } else {
       const marketOpenMinutes = openHour * 60
       const marketCloseMinutes = closeHour * 60
-      
+
       if (currentMinutes >= marketOpenMinutes && currentMinutes < marketCloseMinutes) {
         result = { status: 'OPEN', reason: '' }
       } else {
         result = { status: 'CLOSED', reason: 'After Hours' }
       }
     }
-    
+
     cache[cacheKey] = { timestamp: now, data: result }
     return result
   }
@@ -112,7 +112,7 @@ export default function ModernDashboard() {
   const { formatStockPrice, formatPercentage } = useCurrency()
 
   const POPULAR_STOCKS = useMemo(() => [
-    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 
+    'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA',
     'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
   ], [])
 
@@ -126,7 +126,7 @@ export default function ModernDashboard() {
             .from('watchlists')
             .select('ticker')
             .eq('user_id', session.user.id)
-          
+
           if (data) {
             setWatchlistTickers(data.map(item => item.ticker))
           }
@@ -159,7 +159,7 @@ export default function ModernDashboard() {
     async function loadDashboardData() {
       setLoading(true)
       setMarketLoading(true)
-      
+
       try {
         // Phase 1: Load cached popular stocks + markets immediately
         const cachedResponse = await fetch('/api/dashboard-cached')
@@ -172,22 +172,22 @@ export default function ModernDashboard() {
           if (cachedData.markets) setMarketQuotes(cachedData.markets)
           setMarketLoading(false) // Markets loaded immediately
         }
-        
+
         // Phase 2: Load full data including watchlist stocks
         const allTickers = [...POPULAR_STOCKS, ...watchlistTickers]
         const uniqueTickers = [...new Set(allTickers)]
-        
+
         if (uniqueTickers.length > POPULAR_STOCKS.length) {
           const tickers = uniqueTickers.join(',')
           const fullResponse = await fetch(`/api/dashboard?tickers=${tickers}`)
-          
+
           if (fullResponse.ok) {
             const fullData = await fullResponse.json()
             if (fullData.quotes) setQuotes(fullData.quotes)
             if (fullData.markets) setMarketQuotes(fullData.markets)
           }
         }
-        
+
       } catch (error: any) {
         console.error('Failed to load dashboard data:', error)
       } finally {
@@ -195,7 +195,7 @@ export default function ModernDashboard() {
         setMarketLoading(false)
       }
     }
-    
+
     loadDashboardData()
   }, [POPULAR_STOCKS, watchlistTickers])
 
@@ -204,10 +204,10 @@ export default function ModernDashboard() {
     if (typeof window !== 'undefined') {
       localStorage.setItem('lastTicker', ticker.toUpperCase())
     }
-    
+
     // Use window.location for immediate navigation (faster than router.push during loading)
     const targetUrl = `/analyse/stocks/${ticker.toLowerCase()}`
-    
+
     if (loading || marketLoading) {
       // During loading state, use direct navigation for better UX
       window.location.href = targetUrl
@@ -218,26 +218,26 @@ export default function ModernDashboard() {
   }, [router, loading, marketLoading])
 
   const marketData = useMemo(() => [
-    { 
-      name: 'S&P 500', 
+    {
+      name: 'S&P 500',
       flag: '🇺🇸',
       key: 'spx',
       ...getMarketStatus("America/New_York", 9.5, 16)
     },
-    { 
-      name: 'NASDAQ', 
+    {
+      name: 'NASDAQ',
       flag: '🇺🇸',
       key: 'ixic',
       ...getMarketStatus("America/New_York", 9.5, 16)
     },
-    { 
-      name: 'DAX', 
+    {
+      name: 'DAX',
       flag: '🇩🇪',
       key: 'dax',
       ...getMarketStatus("Europe/Berlin", 9, 17.5)
     },
-    { 
-      name: 'Dow Jones', 
+    {
+      name: 'Dow Jones',
       flag: '🇺🇸',
       key: 'dji',
       ...getMarketStatus("America/New_York", 9.5, 16)
@@ -246,11 +246,11 @@ export default function ModernDashboard() {
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      
+
       {/* Professional Header */}
       <div className="border-b border-theme/5">
         <div className="w-full px-6 lg:px-8 py-8">
-          
+
           <Link
             href="/analyse"
             className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
@@ -275,7 +275,7 @@ export default function ModernDashboard() {
                 <span className="text-sm">USA: {currentTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' })} EST</span>
               </div>
             </div>
-            
+
             <div className="flex items-center gap-3">
               <Link
                 href="/analyse/ai"
@@ -296,7 +296,7 @@ export default function ModernDashboard() {
       </div>
 
       <main className="w-full px-6 lg:px-8 py-8 space-y-8">
-        
+
         {/* Market Overview */}
         <section>
           <div className="flex items-center justify-between mb-6">
@@ -306,10 +306,10 @@ export default function ModernDashboard() {
                 Live-Kurse und Performance-Metriken der wichtigsten Indizes
               </p>
             </div>
-            
+
             <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-              marketLoading 
-                ? 'bg-brand/20 text-amber-400' 
+              marketLoading
+                ? 'bg-brand/20 text-amber-400'
                 : 'bg-brand/20 text-brand-light'
             }`}>
               <div className={`w-2 h-2 rounded-full ${
@@ -320,7 +320,7 @@ export default function ModernDashboard() {
               </span>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {marketData.map((market) => {
               const quote = marketQuotes[market.key]
@@ -328,21 +328,21 @@ export default function ModernDashboard() {
 
               return (
                 <div key={market.name} className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
-                  
+
                   <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{market.flag}</span>
                       <h3 className="text-theme-primary font-bold text-lg">{market.name}</h3>
                     </div>
                     <div className={`text-xs px-3 py-1 rounded-full font-bold ${
-                      market.status === 'OPEN' 
-                        ? 'bg-brand/20 text-brand-light' 
+                      market.status === 'OPEN'
+                        ? 'bg-brand/20 text-brand-light'
                         : 'bg-theme-secondary text-theme-muted'
                     }`}>
                       {market.status === 'OPEN' ? 'Offen' : 'Geschlossen'}
                     </div>
                   </div>
-                  
+
                   <div className="space-y-3">
                     {isLoading ? (
                       <div className="h-8 bg-theme-secondary rounded-lg animate-pulse"></div>
@@ -353,14 +353,14 @@ export default function ModernDashboard() {
                     ) : (
                       <div className="text-2xl font-bold text-theme-muted">--</div>
                     )}
-                    
+
                     <div className="flex items-center justify-between">
                       {isLoading ? (
                         <div className="h-6 bg-theme-secondary rounded-lg w-20 animate-pulse"></div>
                       ) : quote ? (
                         <div className={`flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
-                          quote.positive 
-                            ? 'bg-brand/20 text-brand-light' 
+                          quote.positive
+                            ? 'bg-brand/20 text-brand-light'
                             : 'bg-red-500/20 text-red-400'
                         }`}>
                           {quote.positive ? (
@@ -373,7 +373,7 @@ export default function ModernDashboard() {
                       ) : (
                         <div className="text-sm text-theme-muted">--</div>
                       )}
-                      
+
                       <div className="text-xs text-theme-muted">
                         Vol: {quote?.volume || '--'}
                       </div>
@@ -388,7 +388,7 @@ export default function ModernDashboard() {
 
         {/* Professional Grid Layout - Clean Card Flow */}
         <div className="space-y-8">
-          
+
           {/* Section: Popular Stocks */}
           <section>
             <div className="flex items-center justify-between mb-8">
@@ -403,7 +403,7 @@ export default function ModernDashboard() {
                 </div>
               )}
             </div>
-            
+
             {/* 4x2 Grid - Consistent Heights */}
             <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
               {POPULAR_STOCKS.slice(0, 8).map((ticker) => {
@@ -472,9 +472,9 @@ export default function ModernDashboard() {
               <h2 className="text-xl font-bold text-theme-primary mb-2">Dashboard</h2>
               <p className="text-sm text-theme-muted">Nachrichten, Trends und Marktbewegungen</p>
             </div>
-            
+
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            
+
             {/* Recently Analyzed + Quick Actions - Render immediately */}
             <div className="space-y-6">
               {/* Recently Analyzed */}
@@ -550,7 +550,7 @@ export default function ModernDashboard() {
               {/* Market Movers - Now takes full height */}
               <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[416px] flex flex-col">
                 <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
-                  <MarketMovers 
+                  <MarketMovers
                     watchlistTickers={watchlistTickers}
                     popularTickers={POPULAR_STOCKS}
                   />
@@ -585,8 +585,8 @@ export default function ModernDashboard() {
           <div className="text-center">
             <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
               <ClockIcon className="w-4 h-4" />
-              YTD basiert auf letztem Handelstag 2024 • 
-              1M basiert auf ~30 Kalendertagen • 
+              YTD basiert auf letztem Handelstag 2024 •
+              1M basiert auf ~30 Kalendertagen •
               Alle Daten via FMP API • Live-Updates alle 15 Minuten
             </p>
           </div>

@@ -1,30 +1,26 @@
-// src/app/superinvestor/page-optimized.tsx - PERFORMANCE OPTIMIERT
+// src/app/superinvestor/page-optimized.tsx - LINEAR/QUARTR STYLE
 'use client'
 
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { 
-  UserGroupIcon, 
+import {
+  UserGroupIcon,
   ArrowRightIcon,
   ChartBarIcon,
   ArrowTrendingUpIcon,
-  DocumentTextIcon,
-  CheckIcon,
-  StarIcon,
   TrophyIcon,
   PlayIcon,
   FireIcon,
   BoltIcon,
   SignalIcon,
   BuildingOfficeIcon,
-  EyeIcon,
-  CircleStackIcon
+  CircleStackIcon,
+  CalendarIcon,
 } from '@heroicons/react/24/outline'
 import { useOverviewData } from '@/hooks/useOverviewData'
 import InvestorAvatar from '@/components/InvestorAvatar'
 import YouTubeCarousel from '@/components/YoutubeCarousel'
 import { featuredVideos } from '@/data/videos'
-import NewsletterSignup from '@/components/NewsletterSignup'
 import SuperinvestorInfo from '@/components/SuperinvestorInfo'
 import Logo from '@/components/Logo'
 
@@ -117,55 +113,64 @@ export default function SuperinvestorOverview() {
 
   const { featuredInvestors, pulseData, trendingStocks, biggestTrades, totalInvestors } = overviewData
 
+  // Dynamic latest quarter calculation
+  const latestQuarter = useMemo(() => {
+    const now = new Date()
+    const month = now.getMonth()
+    const year = now.getFullYear()
+    // 13F filings are delayed ~45 days, so we show the previous quarter
+    if (month >= 10) return `Q3 ${year}`
+    if (month >= 7) return `Q2 ${year}`
+    if (month >= 4) return `Q1 ${year}`
+    return `Q4 ${year - 1}`
+  }, [])
+
   return (
-    <div className="min-h-screen bg-black">
-      
+    <div className="min-h-screen bg-[#0F0F11]">
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden py-20">
-        <div className="relative max-w-7xl mx-auto px-4">
+      <section className="relative overflow-hidden pt-8 pb-16">
+        <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
           <div className="text-center space-y-8">
-            
-            <br />
-            <br />
 
             {/* Headlines */}
             <div className="space-y-4">
-              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-white tracking-tight">
                 Super-Investoren
               </h1>
-              <p className="text-xl sm:text-2xl text-gray-400 max-w-3xl mx-auto font-light">
+              <p className="text-lg sm:text-xl text-gray-400 max-w-2xl mx-auto">
                 Verfolge die Portfolios der erfolgreichsten Investoren der Welt
               </p>
             </div>
-          
-            {/* Key Metrics - Minimaler */}
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-16 pt-8">
+
+            {/* Key Metrics - Minimal */}
+            <div className="flex flex-col sm:flex-row justify-center items-center gap-8 sm:gap-12 pt-6">
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/5 rounded-lg">
-                  <UserGroupIcon className="w-5 h-5 text-brand-light" />
+                  <UserGroupIcon className="w-5 h-5 text-gray-400" />
                 </div>
                 <div className="text-left">
-                  <div className="text-2xl font-bold text-white">{totalInvestors}+</div>
+                  <div className="text-xl font-semibold text-white">{totalInvestors}+</div>
                   <div className="text-sm text-gray-500">Top Investoren</div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/5 rounded-lg">
-                  <CircleStackIcon className="w-5 h-5 text-brand-light" />
+                  <CircleStackIcon className="w-5 h-5 text-gray-400" />
                 </div>
                 <div className="text-left">
-                  <div className="text-2xl font-bold text-white">2,5 Billionen $</div>
+                  <div className="text-xl font-semibold text-white">2,5 Bio. $</div>
                   <div className="text-sm text-gray-500">Verwaltetes Vermögen</div>
                 </div>
               </div>
-              
+
               <div className="flex items-center gap-3">
                 <div className="p-2 bg-white/5 rounded-lg">
-                  <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
+                  <CalendarIcon className="w-5 h-5 text-gray-400" />
                 </div>
                 <div className="text-left">
-                  <div className="text-2xl font-bold text-white">Q3 2025</div>
+                  <div className="text-xl font-semibold text-white">{latestQuarter}</div>
                   <div className="text-sm text-gray-500">Letztes Update</div>
                 </div>
               </div>
@@ -175,38 +180,36 @@ export default function SuperinvestorOverview() {
       </section>
 
       {/* Top Investors Section */}
-      <section className="py-24 px-4">
+      <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6 border border-brand/20">
-              <TrophyIcon className="w-4 h-4 text-brand-light" />
-              <span className="text-sm font-medium text-brand-light">Featured Investoren</span>
+
+          <div className="mb-12 pb-6 border-b border-neutral-800">
+            <div className="flex items-center gap-3 mb-2">
+              <TrophyIcon className="w-5 h-5 text-neutral-500" />
+              <h2 className="text-xl font-medium text-white">Featured Investoren</h2>
             </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Die Top
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Performer</span>
-            </h2>
+            <p className="text-sm text-neutral-400">
+              Die erfolgreichsten Super-Investoren und ihre Portfolios
+            </p>
           </div>
-          
+
           {/* Investor Cards */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
             {featuredInvestors.map((inv) => (
               <Link
                 key={inv.slug}
                 href={`/superinvestor/${inv.slug}`}
-                className="group relative bg-[#161618] rounded-2xl p-8 hover:bg-[#1A1A1D] transition-all duration-300 border border-white/[0.06] hover:border-white/[0.1]"
+                className="group relative bg-[#111113] rounded-2xl p-6 hover:bg-[#161618] transition-all duration-200 border border-white/[0.06] hover:border-white/[0.1]"
               >
                 {/* Crown for Buffett */}
                 {inv.slug === 'buffett' && (
                   <div className="absolute top-4 right-4">
-                    <span className="text-yellow-400 text-2xl">👑</span>
+                    <span className="text-yellow-400 text-xl">👑</span>
                   </div>
                 )}
-                
+
                 {/* Profile Image */}
-                <div className="flex justify-center mb-6">
+                <div className="flex justify-center mb-5">
                   <InvestorAvatar
                     name={inv.name}
                     imageUrl={inv.imageUrl}
@@ -214,35 +217,35 @@ export default function SuperinvestorOverview() {
                     className="ring-2 ring-white/10 group-hover:ring-white/20 transition-all duration-200"
                   />
                 </div>
-                
+
                 {/* Name */}
-                <h3 className="text-xl font-bold text-white text-center mb-2 group-hover:text-brand-light transition-colors">
+                <h3 className="text-lg font-semibold text-white text-center mb-2 group-hover:text-neutral-200 transition-colors">
                   {inv.name.split('–')[0].trim()}
                 </h3>
-                
+
                 {/* Portfolio Value */}
-                <p className="text-center text-gray-400 mb-4">
-                  Portfolio: <span className="text-brand-light font-medium">
+                <p className="text-center text-gray-500 text-sm mb-4">
+                  Portfolio: <span className="text-white font-medium">
                     {formatCurrency(inv.portfolioValue, 'USD', 1)}
                   </span>
                 </p>
-                
+
                 {/* Top 3 Holdings Preview */}
                 {inv.peek.length > 0 && (
                   <div className="space-y-2">
-                    <p className="text-sm text-gray-500 text-center mb-3">Top Holdings:</p>
+                    <p className="text-xs text-gray-500 text-center mb-2">Top Holdings:</p>
                     {inv.peek.slice(0, 3).map((p, idx) => (
                       <div key={p.ticker} className="flex justify-between items-center text-sm">
-                        <span className="text-gray-300">{idx + 1}. {p.ticker}</span>
-                        <span className="text-gray-500 truncate ml-2">{p.name}</span>
+                        <span className="text-gray-400">{idx + 1}. {p.ticker}</span>
+                        <span className="text-gray-600 truncate ml-2 text-xs">{p.name}</span>
                       </div>
                     ))}
                   </div>
                 )}
-                
+
                 {/* View Portfolio Button */}
-                <div className="mt-6 text-center">
-                  <span className="inline-flex items-center gap-1 text-brand-light text-sm font-medium group-hover:gap-2 transition-all">
+                <div className="mt-5 text-center">
+                  <span className="inline-flex items-center gap-1 text-gray-400 text-sm font-medium group-hover:text-white group-hover:gap-2 transition-all">
                     Portfolio ansehen
                     <ArrowRightIcon className="w-3 h-3" />
                   </span>
@@ -255,10 +258,10 @@ export default function SuperinvestorOverview() {
           <div className="text-center">
             <Link
               href="/superinvestor/investors"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-brand hover:bg-green-400 text-black font-semibold rounded-xl transition-colors duration-200 shadow-lg hover:shadow-green-500/25"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-colors duration-200"
             >
               Alle {totalInvestors} Investoren durchsuchen
-              <ArrowRightIcon className="w-5 h-5" />
+              <ArrowRightIcon className="w-4 h-4" />
             </Link>
             <p className="text-gray-500 text-sm mt-3">
               Erweiterte Filter, Suche und detaillierte Portfolio-Analysen
@@ -269,33 +272,28 @@ export default function SuperinvestorOverview() {
 
       {/* TRENDING STOCKS SECTION */}
       <section className="bg-[#0A0A0B]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand/10 text-white-400 rounded-full text-sm font-medium mb-6 border border-brand/20">
-              <FireIcon className="w-4 h-4" />
-              Trending Jetzt
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
+
+          <div className="mb-12 pb-6 border-b border-neutral-800">
+            <div className="flex items-center gap-3 mb-2">
+              <FireIcon className="w-5 h-5 text-neutral-500" />
+              <h2 className="text-xl font-medium text-white">Trending Stocks</h2>
             </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Was ist gerade
-              <span className="bg-gradient-to-r from-green-400 to-green-400 bg-clip-text text-transparent"> angesagt?</span>
-            </h2>
-            <p className="text-gray-400 max-w-2xl mx-auto">
+            <p className="text-sm text-neutral-400">
               Die heißesten Aktien und größten Portfolio-Bewegungen der Super-Investoren
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-            
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-12">
+
             {/* HEATMAP */}
-            <div className="bg-[#161618] rounded-xl p-6">
+            <div className="bg-[#111113] rounded-2xl p-6 border border-white/[0.06]">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-8 h-8 bg-[#2A2A2A] rounded-lg flex items-center justify-center">
-                  <FireIcon className="w-4 h-4 text-orange-400" />
+                <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
+                  <FireIcon className="w-4 h-4 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white">Trending Stocks</h3>
-                <div className="bg-[#2A2A2A] text-xs text-gray-500 px-2 py-1 rounded">
+                <h3 className="text-base font-medium text-white">Trending Stocks</h3>
+                <div className="bg-white/5 text-xs text-gray-500 px-2 py-1 rounded">
                   Letzte 2 Quartale
                 </div>
               </div>
@@ -399,26 +397,26 @@ export default function SuperinvestorOverview() {
                 </div>
               </div>
               
-              <Link 
-                href="/superinvestor/insights" 
-                className="block text-center mt-4 text-white-400 hover:text-gray-300 text-sm transition-colors"
+              <Link
+                href="/superinvestor/insights"
+                className="block text-center mt-4 text-gray-400 hover:text-white text-sm transition-colors"
               >
                 Vollständige Analyse →
               </Link>
             </div>
 
             {/* Größte Trades */}
-            <div className="bg-[#161618] rounded-xl p-6">
+            <div className="bg-[#111113] rounded-2xl p-6 border border-white/[0.06]">
               <div className="flex items-center gap-3 mb-6">
-                <div className="bg-[#2A2A2A] w-8 h-8 rounded-lg flex items-center justify-center">
-                  <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
+                <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-4 h-4 text-gray-400" />
                 </div>
-                <h3 className="text-lg font-bold text-white">Größte Trades</h3>
+                <h3 className="text-base font-medium text-white">Größte Trades</h3>
               </div>
-              
-              <div className="space-y-4">
+
+              <div className="space-y-3">
                 {biggestTrades.map((trade, index) => (
-                  <div key={`${trade.investorSlug}-${trade.ticker}-${index}`} className="bg-[#2A2A2A] flex items-center justify-between p-3 rounded-lg">
+                  <div key={`${trade.investorSlug}-${trade.ticker}-${index}`} className="bg-white/5 flex items-center justify-between p-3 rounded-lg hover:bg-white/[0.08] transition-colors">
                     <div className="flex items-center gap-3">
                       <Link
                         href={`/analyse/stocks/${trade.ticker.toLowerCase()}/super-investors`}
@@ -458,9 +456,9 @@ export default function SuperinvestorOverview() {
                 ))}
               </div>
               
-              <Link 
-                href="/superinvestor/insights" 
-                className="block text-center mt-4 text-brand-light hover:text-green-300 text-sm transition-colors"
+              <Link
+                href="/superinvestor/insights"
+                className="block text-center mt-4 text-gray-400 hover:text-white text-sm transition-colors"
               >
                 Alle Trades analysieren →
               </Link>
@@ -469,8 +467,8 @@ export default function SuperinvestorOverview() {
 
           {/* Call-to-Action */}
           <div className="text-center">
-            <div className="bg-[#161618] inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-400 text-sm">
-              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+            <div className="bg-white/5 inline-flex items-center gap-2 px-4 py-2 rounded-lg text-gray-500 text-sm">
+              <div className="w-1.5 h-1.5 bg-neutral-500 rounded-full"></div>
               <span>Aktualisiert nach jedem Quartal • Basierend auf 13F-Filings</span>
             </div>
           </div>
@@ -478,42 +476,37 @@ export default function SuperinvestorOverview() {
       </section>
 
       {/* Investment-Pulse Sektion */}
-      <section className="py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-brand/10 rounded-full mb-6 border border-brand/20">
-              <SignalIcon className="w-4 h-4 text-brand-light" />
-              <span className="text-sm font-medium text-brand-light">Investment-Pulse</span>
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
+          <div className="mb-12 pb-6 border-b border-neutral-800">
+            <div className="flex items-center gap-3 mb-2">
+              <SignalIcon className="w-5 h-5 text-neutral-500" />
+              <h2 className="text-xl font-medium text-white">Markt-Sentiment</h2>
             </div>
-            
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Markt-
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent">Sentiment</span>
-            </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+            <p className="text-sm text-neutral-400">
               Live-Einblick in das aktuelle Verhalten der Super-Investoren
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
             {/* 1. Netto-Sentiment */}
-            <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
+            <div className="bg-[#111113] rounded-2xl p-6 border border-white/[0.06]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                  <ChartBarIcon className="w-5 h-5 text-brand-light" />
+                  <ChartBarIcon className="w-5 h-5 text-gray-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Netto-Sentiment</h3>
-                  <p className="text-sm text-gray-500">Letztes Quartal</p>
+                  <h3 className="text-base font-medium text-white">Netto-Sentiment</h3>
+                  <p className="text-xs text-gray-500">Letztes Quartal</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="text-center">
-                  <div className={`text-4xl font-bold mb-2 ${
-                    pulseData.sentimentPercentage >= 60 ? 'text-brand-light' :
+                  <div className={`text-3xl font-semibold mb-2 ${
+                    pulseData.sentimentPercentage >= 60 ? 'text-green-400' :
                     pulseData.sentimentPercentage >= 40 ? 'text-gray-300' : 'text-red-400'
                   }`}>
                     {pulseData.sentimentPercentage}%
@@ -523,52 +516,52 @@ export default function SuperinvestorOverview() {
                      pulseData.sentimentPercentage >= 40 ? 'Neutral' : 'Verkaufsstimmung'}
                   </p>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Netto-Käufer:</span>
-                    <span className="text-brand-light font-semibold">{pulseData.netBuyers} Investoren</span>
+                    <span className="text-gray-500">Netto-Käufer:</span>
+                    <span className="text-green-400 font-medium">{pulseData.netBuyers} Investoren</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Netto-Verkäufer:</span>
-                    <span className="text-red-400 font-semibold">{pulseData.netSellers} Investoren</span>
+                    <span className="text-gray-500">Netto-Verkäufer:</span>
+                    <span className="text-red-400 font-medium">{pulseData.netSellers} Investoren</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Aktive Investoren:</span>
-                    <span className="text-white font-semibold">{pulseData.totalInvestorsActive}</span>
+                    <span className="text-gray-500">Aktive Investoren:</span>
+                    <span className="text-white font-medium">{pulseData.totalInvestorsActive}</span>
                   </div>
                 </div>
               </div>
             </div>
 
             {/* 2. Sektor-Momentum */}
-            <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
+            <div className="bg-[#111113] rounded-2xl p-6 border border-white/[0.06]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                  <BuildingOfficeIcon className="w-5 h-5 text-brand-light" />
+                  <BuildingOfficeIcon className="w-5 h-5 text-gray-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Sektor-Momentum</h3>
-                  <p className="text-sm text-gray-500">Beliebt vs Unbeliebt</p>
+                  <h3 className="text-base font-medium text-white">Sektor-Momentum</h3>
+                  <p className="text-xs text-gray-500">Beliebt vs Unbeliebt</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div>
-                  <h4 className="text-sm font-semibold text-brand-light mb-2">🔥 Hot Sectors</h4>
+                  <h4 className="text-sm font-medium text-green-400 mb-2">Hot Sectors</h4>
                   {pulseData.hotSectors.map(([sector, count]) => (
                     <div key={sector} className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-300">{sector}</span>
-                      <span className="text-brand-light">+{count}</span>
+                      <span className="text-gray-400">{sector}</span>
+                      <span className="text-green-400">+{count}</span>
                     </div>
                   ))}
                 </div>
-                
-                <div className="border-t border-white/10 pt-4">
-                  <h4 className="text-sm font-semibold text-red-400 mb-2">❄️ Cold Sectors</h4>
+
+                <div className="border-t border-neutral-800 pt-4">
+                  <h4 className="text-sm font-medium text-red-400 mb-2">Cold Sectors</h4>
                   {pulseData.coldSectors.map(([sector, count]) => (
                     <div key={sector} className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-300">{sector}</span>
+                      <span className="text-gray-400">{sector}</span>
                       <span className="text-red-400">{count}</span>
                     </div>
                   ))}
@@ -577,35 +570,35 @@ export default function SuperinvestorOverview() {
             </div>
 
             {/* 3. Aktivitäts-Level */}
-            <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
+            <div className="bg-[#111113] rounded-2xl p-6 border border-white/[0.06]">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                  <BoltIcon className="w-5 h-5 text-brand-light" />
+                  <BoltIcon className="w-5 h-5 text-gray-400" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-white">Aktivitäts-Level</h3>
-                  <p className="text-sm text-gray-500">Portfolio-Bewegungen</p>
+                  <h3 className="text-base font-medium text-white">Aktivitäts-Level</h3>
+                  <p className="text-xs text-gray-500">Portfolio-Bewegungen</p>
                 </div>
               </div>
-              
+
               <div className="space-y-4">
                 <div className="text-center">
-                  <div className="text-4xl font-bold text-white mb-2">
+                  <div className="text-3xl font-semibold text-white mb-2">
                     {pulseData.averageChanges}
                   </div>
                   <p className="text-sm text-gray-500 mb-4">
                     Änderungen pro Investor
                   </p>
                 </div>
-                
+
                 <div className="space-y-3">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Total Änderungen:</span>
-                    <span className="text-white font-semibold">{pulseData.totalPortfolioChanges}</span>
+                    <span className="text-gray-500">Total Änderungen:</span>
+                    <span className="text-white font-medium">{pulseData.totalPortfolioChanges}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm">
-                    <span className="text-gray-400">Aktive Investoren:</span>
-                    <span className="text-white font-semibold">{pulseData.totalInvestorsActive}</span>
+                    <span className="text-gray-500">Aktive Investoren:</span>
+                    <span className="text-white font-medium">{pulseData.totalInvestorsActive}</span>
                   </div>
                 </div>
               </div>
@@ -613,10 +606,10 @@ export default function SuperinvestorOverview() {
           </div>
 
           {/* CTA Button */}
-          <div className="text-center mt-12">
+          <div className="text-center mt-10">
             <Link
               href="/superinvestor/insights"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-xl transition-all duration-200 border border-white/10 hover:border-white/20"
+              className="inline-flex items-center gap-2 px-6 py-3 bg-white/5 hover:bg-white/10 text-gray-300 hover:text-white rounded-lg transition-all duration-200 border border-white/[0.06] hover:border-white/[0.1]"
             >
               Detaillierte Markt-Analyse
               <ArrowRightIcon className="w-4 h-4" />
@@ -631,82 +624,80 @@ export default function SuperinvestorOverview() {
       </div>
 
       {/* Video & Newsletter Section */}
-      <section className="py-24 bg-gradient-to-b from-transparent via-green-500/[0.02] to-transparent">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          
+      <section className="py-16">
+        <div className="max-w-7xl mx-auto px-6 lg:px-8">
+
           {/* Section Header */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Bleib auf dem
-              <span className="bg-gradient-to-r from-green-400 to-green-300 bg-clip-text text-transparent"> Laufenden</span>
-            </h2>
-            <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+          <div className="mb-12 pb-6 border-b border-neutral-800">
+            <h2 className="text-xl font-medium text-white mb-2">Bleib auf dem Laufenden</h2>
+            <p className="text-sm text-neutral-400">
               Video-Analysen und Newsletter für tiefere Einblicke
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
             {/* Left: Videos */}
             <div>
-              <div className="flex items-center gap-2 mb-8">
-                <div className="w-8 h-8 bg-red-500/10 rounded-lg flex items-center justify-center">
-                  <PlayIcon className="w-4 h-4 text-red-400" />
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
+                  <PlayIcon className="w-4 h-4 text-gray-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Portfolio Deep-Dives</h3>
+                <h3 className="text-base font-medium text-white">Portfolio Deep-Dives</h3>
               </div>
-              
-              <p className="text-gray-400 mb-8">
+
+              <p className="text-sm text-gray-400 mb-6">
                 Detaillierte Video-Analysen der Investment-Strategien und Portfolio-Bewegungen
               </p>
-              
-              <div className="bg-[#161618] rounded-2xl p-4 border border-white/[0.06]">
+
+              <div className="bg-[#111113] rounded-2xl p-4 border border-white/[0.06]">
                 <YouTubeCarousel videos={featuredVideos} />
               </div>
             </div>
 
             {/* Right: Newsletter */}
             <div>
-              <div className="flex items-center gap-2 mb-8">
-                <div className="w-8 h-8 bg-brand/10 rounded-lg flex items-center justify-center">
-                  <ArrowTrendingUpIcon className="w-4 h-4 text-brand-light" />
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
+                  <ArrowTrendingUpIcon className="w-4 h-4 text-gray-400" />
                 </div>
-                <h3 className="text-2xl font-bold text-white">Newsletter</h3>
+                <h3 className="text-base font-medium text-white">Newsletter</h3>
               </div>
-              
-              <p className="text-gray-400 mb-8">
-                Nie wieder ein <span className="text-brand-light font-semibold">13F-Filing</span> verpassen. 
+
+              <p className="text-sm text-gray-400 mb-6">
+                Nie wieder ein <span className="text-white font-medium">13F-Filing</span> verpassen.
                 Quartalsweise Updates über Portfolio-Bewegungen der Top-Investoren.
               </p>
-              
-              <div className="bg-[#161618] rounded-2xl p-8 border border-white/[0.06]">
-                <div className="space-y-6">
+
+              <div className="bg-[#111113] rounded-2xl p-6 border border-white/[0.06]">
+                <div className="space-y-5">
                   {/* Benefits List */}
-                  <div className="space-y-3 mb-6">
+                  <div className="space-y-2">
                     {[
-                      '📊 Quartalsweise 13F-Analysen',
-                      '🎯 Portfolio-Änderungen der Top-Investoren',
-                      '📈 Markt-Trends und Insights',
-                      '🚫 Kein Spam, nur relevante Updates'
+                      'Quartalsweise 13F-Analysen',
+                      'Portfolio-Änderungen der Top-Investoren',
+                      'Markt-Trends und Insights',
+                      'Kein Spam, nur relevante Updates'
                     ].map((benefit, i) => (
-                      <div key={i} className="flex items-center gap-3 text-sm text-gray-300">
+                      <div key={i} className="flex items-center gap-2 text-sm text-gray-400">
+                        <div className="w-1 h-1 bg-gray-600 rounded-full"></div>
                         <span>{benefit}</span>
                       </div>
                     ))}
                   </div>
-                  
+
                   {/* Form */}
-                  <div className="space-y-4">
+                  <div className="space-y-3">
                     <input
                       type="email"
                       placeholder="deine@email.de"
-                      className="w-full px-4 py-3 bg-[#1A1A1D] border border-white/10 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand/50 focus:border-green-500/50 transition-all"
+                      className="w-full px-4 py-3 bg-white/5 border border-white/[0.06] rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-white/20 transition-colors"
                     />
-                    <button className="w-full px-4 py-3 bg-brand hover:bg-green-400 text-black font-semibold rounded-xl transition-all duration-200 hover:scale-[1.02]">
+                    <button className="w-full px-4 py-3 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-colors duration-200">
                       Kostenlos abonnieren
                     </button>
                   </div>
-                  
+
                   <p className="text-xs text-gray-600 text-center">
                     Mit der Anmeldung stimmst du unseren Datenschutzbestimmungen zu.
                   </p>
