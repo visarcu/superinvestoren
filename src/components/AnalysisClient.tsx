@@ -694,8 +694,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
    ===================================================== */}
 
 {/* ===== ÜBERSICHT - CLEAN WITH DIVIDERS ===== */}
-<div className="bg-theme-card rounded-xl border border-theme/10">
-  <div className="px-6 py-4 border-b border-theme/10">
+<div className="bg-theme-card rounded-xl border border-white/[0.04]">
+  <div className="px-6 py-4 border-b border-white/[0.04]">
     <h3 className="text-lg font-semibold text-theme-primary">Übersicht</h3>
   </div>
   
@@ -707,7 +707,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
           Marktdaten
         </h4>
-        <div className="divide-y divide-theme/10">
+        <div className="divide-y divide-white/[0.04]">
           <div className="flex justify-between items-center py-2.5 first:pt-0">
             <span className="text-sm text-theme-secondary">Marktkapitalisierung</span>
             <span className="text-sm font-semibold text-theme-primary">
@@ -758,7 +758,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             Details →
           </Link>
         </div>
-        <div className="divide-y divide-theme/10">
+        <div className="divide-y divide-white/[0.04]">
           <div className="flex justify-between items-center py-2.5 first:pt-0">
             <span className="text-sm text-theme-secondary">Rendite</span>
             <span className="text-sm font-semibold text-theme-primary">
@@ -809,7 +809,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
         
         {user?.isPremium ? (
-          <div className="divide-y divide-theme/10">
+          <div className="divide-y divide-white/[0.04]">
             <div className="flex justify-between items-center py-2.5 first:pt-0">
               <span className="text-sm text-theme-secondary">KGV TTM</span>
               <span className="text-sm font-semibold text-theme-primary">
@@ -857,7 +857,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           </div>
         ) : (
           <div className="relative min-h-[180px]">
-            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-theme/10">
+            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-white/[0.04]">
               <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">KGV TTM</span><span className="text-sm">34,3x</span></div>
               <div className="flex justify-between py-2.5"><span className="text-sm">KGV Erw.</span><span className="text-sm">25,7x</span></div>
               <div className="flex justify-between py-2.5"><span className="text-sm">FCF Yield</span><span className="text-sm">+1,99%</span></div>
@@ -880,7 +880,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </h4>
         
         {user?.isPremium ? (
-          <div className="divide-y divide-theme/10">
+          <div className="divide-y divide-white/[0.04]">
             <div className="flex justify-between items-center py-2.5 first:pt-0">
               <span className="text-sm text-theme-secondary">Bruttomarge</span>
               <span className="text-sm font-semibold text-theme-primary">
@@ -902,7 +902,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           </div>
         ) : (
           <div className="relative min-h-[120px]">
-            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-theme/10">
+            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-white/[0.04]">
               <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">Bruttomarge</span><span className="text-sm">+68,82%</span></div>
               <div className="flex justify-between py-2.5"><span className="text-sm">Op. Marge</span><span className="text-sm">+45,62%</span></div>
               <div className="flex justify-between py-2.5"><span className="text-sm">Nettomarge</span><span className="text-sm">+36,15%</span></div>
@@ -956,7 +956,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
           {/* DIVIDENDEN ÜBERSICHT */}
           <div className="bg-theme-card rounded-lg">
-            <div className="p-6 border-b border-theme/5">
+            <div className="p-6 border-b border-white/[0.03]">
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="text-lg font-semibold text-theme-primary">Dividende</h3>
@@ -996,7 +996,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                   {/* Sicherheit & Wachstum */}
                   <div className="space-y-3">
                     {dividendApiData.currentInfo.payoutSafety && (
-                      <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
+                      <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04]">
                         <span className="text-sm text-theme-muted">Sicherheit</span>
                         <span className="text-sm font-medium text-theme-primary">
                           {dividendApiData.currentInfo.payoutSafety.text}
@@ -1005,7 +1005,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     )}
 
                     {dividendApiData.cagrAnalysis && dividendApiData.cagrAnalysis.length > 0 && (
-                      <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
+                      <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04]">
                         <span className="text-sm text-theme-muted">Wachstum (3Y)</span>
                         <span className="text-sm font-medium text-theme-primary">
                           {(() => {
@@ -1017,7 +1017,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                     )}
 
                     {dividendApiData.currentInfo.payoutRatio !== undefined && (
-                      <div className="flex items-center justify-between p-3 rounded-lg border border-theme/10">
+                      <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04]">
                         <span className="text-sm text-theme-muted">Payout Ratio</span>
                         <span className="text-sm font-medium text-theme-primary">
                           {(dividendApiData.currentInfo.payoutRatio * 100).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
@@ -1054,7 +1054,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         <div className="lg:col-span-3">
           {history.length > 0 ? (
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/5">
+              <div className="px-6 py-4 border-b border-white/[0.03]">
                 <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
               </div>
               <div className="p-6 relative">
@@ -1067,7 +1067,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             </div>
           ) : (
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/5">
+              <div className="px-6 py-4 border-b border-white/[0.03]">
                 <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
               </div>
               <div className="p-6 flex items-center justify-center min-h-[400px]">
@@ -1129,41 +1129,41 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
           {/* WALL STREET RATINGS */}
           {recs && (
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/5">
+              <div className="px-6 py-4 border-b border-white/[0.03]">
                 <h3 className="text-lg font-bold text-theme-primary">Wall Street Bewertungen</h3>
               </div>
               <div className="p-6">
                 {user?.isPremium ? (
                   <div className="space-y-4 text-sm">
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                       <span className="text-brand-light flex items-center gap-2">
                         <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                         Strong Buy
                       </span>
                       <span className="text-theme-primary font-bold">{recs.strongBuy}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                       <span className="text-green-300 flex items-center gap-2">
                         <div className="w-3 h-3 bg-green-300 rounded-full"></div>
                         Buy
                       </span>
                       <span className="text-theme-primary font-bold">{recs.buy}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                       <span className="text-yellow-400 flex items-center gap-2">
                         <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                         Hold
                       </span>
                       <span className="text-theme-primary font-bold">{recs.hold}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                       <span className="text-red-300 flex items-center gap-2">
                         <div className="w-3 h-3 bg-red-300 rounded-full"></div>
                         Sell
                       </span>
                       <span className="text-theme-primary font-bold">{recs.sell}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                       <span className="text-red-400 flex items-center gap-2">
                         <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                         Strong Sell
@@ -1190,35 +1190,35 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                 ) : (
                   <PremiumBlur featureName="Wall Street">
                     <div className="space-y-4 text-sm">
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                      <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                         <span className="text-brand-light flex items-center gap-2">
                           <div className="w-3 h-3 bg-green-400 rounded-full"></div>
                           Strong Buy
                         </span>
                         <span className="text-theme-primary font-bold">{recs.strongBuy}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                      <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                         <span className="text-green-300 flex items-center gap-2">
                           <div className="w-3 h-3 bg-green-300 rounded-full"></div>
                           Buy
                         </span>
                         <span className="text-theme-primary font-bold">{recs.buy}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                      <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                         <span className="text-yellow-400 flex items-center gap-2">
                           <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
                           Hold
                         </span>
                         <span className="text-theme-primary font-bold">{recs.hold}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                      <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                         <span className="text-red-300 flex items-center gap-2">
                           <div className="w-3 h-3 bg-red-300 rounded-full"></div>
                           Sell
                         </span>
                         <span className="text-theme-primary font-bold">{recs.sell}</span>
                       </div>
-                      <div className="flex justify-between items-center py-2 border-b border-theme/10 last:border-b-0">
+                      <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                         <span className="text-red-400 flex items-center gap-2">
                           <div className="w-3 h-3 bg-red-400 rounded-full"></div>
                           Strong Sell
@@ -1234,7 +1234,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
           {estimates.length > 0 && (
             <div className="lg:col-span-2 bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/5">
+              <div className="px-6 py-4 border-b border-white/[0.03]">
                 <h3 className="text-lg font-bold text-theme-primary">
                   Analysten Schätzungen (ab {new Date().getFullYear()})
                 </h3>
@@ -1438,7 +1438,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
 
 
-              <div className="px-6 pb-4 border-t border-theme/10">
+              <div className="px-6 pb-4 border-t border-white/[0.04]">
                 <Link
                   href={`/analyse/stocks/${ticker.toLowerCase()}/estimates`}
                   className="inline-flex items-center gap-2 text-sm text-theme-secondary hover:text-brand-light transition-colors group"
@@ -1470,7 +1470,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             
             {/* Company Profile */}
             <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-theme/5">
+              <div className="px-6 py-4 border-b border-white/[0.03]">
                 <h3 className="text-xl font-bold text-theme-primary">Company Profile</h3>
               </div>
               

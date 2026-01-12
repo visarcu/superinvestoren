@@ -104,7 +104,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
   if (loading) {
     return (
       <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
+        <div className="px-6 py-4 border-b border-white/[0.04]">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
             <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstum
@@ -124,7 +124,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
   if (error) {
     return (
       <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
+        <div className="px-6 py-4 border-b border-white/[0.04]">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
             <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstum
@@ -154,7 +154,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
   if (!data?.growth) {
     return (
       <div className="bg-theme-card rounded-lg">
-        <div className="px-6 py-4 border-b border-theme/10">
+        <div className="px-6 py-4 border-b border-white/[0.04]">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
             <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstum
@@ -173,7 +173,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
 
   return (
     <div className="bg-theme-card rounded-lg">
-      <div className="px-6 py-4 border-b border-theme/10">
+      <div className="px-6 py-4 border-b border-white/[0.04]">
         <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
           <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
           Wachstum
@@ -189,7 +189,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
               <div className="w-3 h-3 bg-brand rounded-full"></div>
               Umsatzwachstum
             </h4>
-            <div className="divide-y divide-theme/10">
+            <div className="divide-y divide-white/[0.04]">
               <div className="flex justify-between items-center py-2">
                 <div className="flex items-center gap-2">
                   <span className="text-theme-secondary text-sm">Umsatz YoY</span>
@@ -246,7 +246,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
               <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
               Gewinnwachstum
             </h4>
-            <div className="divide-y divide-theme/10">
+            <div className="divide-y divide-white/[0.04]">
               <div className="flex justify-between items-center py-2">
                 <div className="flex items-center gap-2">
                   <span className="text-theme-secondary text-sm">EPS YoY</span>
@@ -301,7 +301,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
                 <div className="w-3 h-3 bg-amber-500 rounded-full"></div>
                 Weitere Kennzahlen
               </h4>
-              <div className="divide-y divide-theme/10">
+              <div className="divide-y divide-white/[0.04]">
                 {growth.ebitdaGrowth3Y && (
                   <div className="flex justify-between items-center py-2">
                     <div className="flex items-center gap-2">
@@ -337,7 +337,7 @@ const GrowthSection: React.FC<GrowthSectionProps> = React.memo(({ ticker, isPrem
         </div>
 
         {/* Footer */}
-        <div className="mt-6 pt-4 border-t border-theme/10">
+        <div className="mt-6 pt-4 border-t border-white/[0.04]">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-brand rounded-full"></div>

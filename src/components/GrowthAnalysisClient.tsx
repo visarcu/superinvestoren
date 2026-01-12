@@ -323,7 +323,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         
         {/* Revenue Growth Summary */}
-        <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
+        <div className="bg-theme-card rounded-lg p-6 border border-white/[0.04]">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-5 h-5 text-brand-light" />
@@ -342,7 +342,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         </div>
 
         {/* EPS Growth Summary */}
-        <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
+        <div className="bg-theme-card rounded-lg p-6 border border-white/[0.04]">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center">
               <ArrowTrendingUpIcon className="w-5 h-5 text-purple-400" />
@@ -361,7 +361,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         </div>
 
         {/* Forward Growth */}
-        <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
+        <div className="bg-theme-card rounded-lg p-6 border border-white/[0.04]">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-brand/20 rounded-lg flex items-center justify-center">
               <CalendarIcon className="w-5 h-5 text-brand-light" />
@@ -380,7 +380,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
         </div>
 
         {/* Free Cash Flow Growth */}
-        <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
+        <div className="bg-theme-card rounded-lg p-6 border border-white/[0.04]">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center">
               <svg className="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -402,8 +402,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       </div>
 
       {/* Detailed Growth Metrics - Erweiterte Tabelle */}
-      <div className="bg-theme-card rounded-lg border border-theme/10">
-        <div className="px-6 py-4 border-b border-theme/10 flex items-center justify-between">
+      <div className="bg-theme-card rounded-lg border border-white/[0.04]">
+        <div className="px-6 py-4 border-b border-white/[0.04] flex items-center justify-between">
           <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
             <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
             Wachstumsmetriken im Detail
@@ -443,7 +443,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </thead>
             <tbody>
               {/* Hauptmetriken */}
-              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+              <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                 <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
                   Umsatzwachstum
                   <LearnTooltipButton term="revenue_growth" />
@@ -462,7 +462,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 </td>
               </tr>
               
-              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+              <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                 <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
                   EPS Wachstum
                   <LearnTooltipButton term="eps_growth" />
@@ -481,7 +481,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 </td>
               </tr>
 
-              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+              <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                 <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
                   EBITDA Wachstum
                   <LearnTooltipButton term="ebitda" />
@@ -500,7 +500,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 </td>
               </tr>
 
-              <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+              <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                 <td className="py-3 px-6 font-medium text-theme-primary flex items-center gap-2">
                   FCF Wachstum
                   <LearnTooltipButton term="free_cash_flow" />
@@ -522,7 +522,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
               {/* Erweiterte Metriken (ausklappbar) */}
               {showAllMetrics && (
                 <>
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       Operating Income
                     </td>
@@ -540,7 +540,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       Nettogewinn
                     </td>
@@ -558,7 +558,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       CAPEX
                     </td>
@@ -576,7 +576,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       Dividende/Aktie
                     </td>
@@ -594,7 +594,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       ROE Wachstum
                     </td>
@@ -612,7 +612,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       Working Capital
                     </td>
@@ -630,7 +630,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       Total Assets
                     </td>
@@ -648,7 +648,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-theme/10 hover:bg-theme-tertiary/50 transition-colors">
+                  <tr className="border-b border-white/[0.04] hover:bg-theme-tertiary/50 transition-colors">
                     <td className="py-3 px-6 font-medium text-theme-primary">
                       Levered FCF
                     </td>
@@ -674,8 +674,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
 
       {/* Growth Charts - Premium Feature */}
       {user?.isPremium ? (
-        <div className="bg-theme-card rounded-lg border border-theme/10">
-          <div className="px-6 py-4 border-b border-theme/10">
+        <div className="bg-theme-card rounded-lg border border-white/[0.04]">
+          <div className="px-6 py-4 border-b border-white/[0.04]">
             <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
               <ChartBarIcon className="w-5 h-5 text-purple-400" />
               Wachstums-Charts
@@ -686,8 +686,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
           </div>
         </div>
       ) : (
-        <div className="bg-theme-card rounded-lg border border-theme/10">
-          <div className="px-6 py-4 border-b border-theme/10">
+        <div className="bg-theme-card rounded-lg border border-white/[0.04]">
+          <div className="px-6 py-4 border-b border-white/[0.04]">
             <h3 className="text-lg font-bold text-theme-primary flex items-center gap-2">
               <ChartBarIcon className="w-5 h-5 text-purple-400" />
               Interaktive Wachstums-Charts

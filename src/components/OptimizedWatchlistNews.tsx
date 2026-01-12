@@ -116,7 +116,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
         
         <div className="space-y-2">
           {[1, 2, 3].map(i => (
-            <div key={i} className="bg-theme-card border border-theme/10 rounded-lg p-3 animate-pulse">
+            <div key={i} className="bg-theme-card border border-white/[0.04] rounded-lg p-3 animate-pulse">
               <div className="h-3 bg-theme-secondary rounded w-3/4 mb-2"></div>
               <div className="h-2 bg-theme-secondary rounded w-1/2"></div>
             </div>
@@ -172,7 +172,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
         {newsData.map((article, index) => (
           <article 
             key={`${article.url}-${index}`}
-            className="border border-theme/5 rounded-lg p-3 hover:border-theme/20 transition-all duration-200 group"
+            className="border border-white/[0.04] rounded-lg p-3 hover:border-white/[0.08] transition-all duration-200 group"
           >
             <div className="space-y-2">
               <div className="flex items-start justify-between gap-2">
@@ -210,10 +210,10 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
       </div>
 
       {/* Footer */}
-      <div className="pt-3 border-t border-theme/10">
+      <div className="pt-3 border-t border-white/[0.04]">
         <a
           href="/analyse/watchlist"
-          className="inline-flex items-center gap-2 px-3 py-2 bg-theme-secondary hover:bg-theme-hover border border-theme/10 hover:border-theme/20 text-theme-primary rounded-lg transition-all text-xs font-medium group w-full justify-center"
+          className="inline-flex items-center gap-2 px-3 py-2 bg-theme-secondary hover:bg-theme-hover border border-white/[0.04] hover:border-white/[0.08] text-theme-primary rounded-lg transition-all text-xs font-medium group w-full justify-center"
         >
           <span>Zur Watchlist</span>
           <ArrowRightIcon className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />

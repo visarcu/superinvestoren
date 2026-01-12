@@ -2006,7 +2006,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         </div>
         
         {/* ✅ NEUE PRESET CONTROLS */}
-        <div className="mb-6 pb-6 border-b border-theme/10">
+        <div className="mb-6 pb-6 border-b border-white/[0.04]">
           <div className="flex flex-wrap items-center gap-4">
             {/* Preset Quick Buttons */}
             <div className="flex items-center gap-2">

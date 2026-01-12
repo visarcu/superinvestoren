@@ -264,7 +264,7 @@ export default function WatchlistPage() {
     <div className="min-h-screen bg-theme-primary">
       
       {/* Professional Header */}
-      <div className="border-b border-theme/5">
+      <div className="border-b border-white/[0.04]">
         <div className="w-full px-6 lg:px-8 py-6">
           
           <Link
@@ -321,7 +321,7 @@ export default function WatchlistPage() {
         {/* Schnäppchen-Radar mit integriertem E-Mail Hinweis */}
         {watchlistItems.length > 0 && (
           <section>
-            <div className="bg-theme-card border border-theme/5 rounded-xl p-5">
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
               <div className="flex flex-col gap-4">
                 
                 <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
@@ -377,7 +377,7 @@ export default function WatchlistPage() {
                     className={`px-4 py-2 rounded-lg transition font-medium text-sm ${
                       showOnlyDips 
                         ? 'bg-red-500 text-white' 
-                        : 'bg-theme-card border border-theme/10 text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
+                        : 'bg-theme-card border border-white/[0.04] text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                     }`}
                   >
                     {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
@@ -427,7 +427,7 @@ export default function WatchlistPage() {
         {/* Watchlist Content */}
         <section>
           {sortedItems.length === 0 ? (
-            <div className="bg-theme-card border border-theme/5 rounded-xl p-12 text-center">
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-12 text-center">
               <div className="w-24 h-24 mx-auto bg-theme-secondary rounded-2xl flex items-center justify-center mb-6">
                 {showOnlyDips ? (
                   <ArrowTrendingDownIcon className="w-12 h-12 text-theme-muted" />
@@ -463,7 +463,7 @@ export default function WatchlistPage() {
                   </Link>
                   <Link
                     href="/analyse"
-                    className="px-6 py-3 bg-theme-card border border-theme/10 text-theme-secondary rounded-lg hover:bg-theme-hover hover:text-theme-primary transition font-medium"
+                    className="px-6 py-3 bg-theme-card border border-white/[0.04] text-theme-secondary rounded-lg hover:bg-theme-hover hover:text-theme-primary transition font-medium"
                   >
                     Aktien finden
                   </Link>
@@ -473,7 +473,7 @@ export default function WatchlistPage() {
           ) : (
             <>
               {viewMode === 'table' && (
-                <div className="bg-theme-card border border-theme/5 rounded-xl overflow-hidden">
+                <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
                   <div className="overflow-x-auto">
                     <table className="w-full text-sm">
                       <thead className="bg-theme-secondary/20">
@@ -551,7 +551,7 @@ export default function WatchlistPage() {
                           const hasData = !!data;
                           
                           return (
-                            <tr key={item.id} className="border-t border-theme/5 hover:bg-theme-secondary/10 transition-colors">
+                            <tr key={item.id} className="border-t border-white/[0.04] hover:bg-theme-secondary/10 transition-colors">
                               <td className="px-4 py-3">
                                 <div className="flex items-center gap-3">
                                   <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-8 h-8 rounded-lg" />
@@ -649,7 +649,7 @@ export default function WatchlistPage() {
                     const hasData = !!data;
                     
                     return (
-                      <div key={item.id} className={`bg-theme-card border rounded-xl p-4 hover:border-theme/10 transition-all ${
+                      <div key={item.id} className={`bg-theme-card border rounded-xl p-4 hover:border-white/[0.08] transition-all ${
                         hasData && data.isDip ? 'bg-red-500/5 border-red-500/20' : 'border-theme/5'
                       }`}>
                         <div className="flex items-center justify-between">
@@ -687,7 +687,7 @@ export default function WatchlistPage() {
                           </div>
                         </div>
                         
-                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-theme/10">
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/[0.04]">
                           <div className="flex gap-4 text-xs text-theme-muted">
                             <span>52W: {hasData ? formatPrice(data.week52High) : '-'}</span>
                             {hasData && data.marketCap && (
@@ -723,7 +723,7 @@ export default function WatchlistPage() {
                     const hasData = !!data;
                     
                     return (
-                    <div key={item.id} className="bg-theme-card border border-theme/5 rounded-xl p-6 hover:border-theme/10 transition-all duration-200 group">
+                    <div key={item.id} className="bg-theme-card border border-white/[0.04] rounded-xl p-6 hover:border-white/[0.08] transition-all duration-200 group">
                       
                       <div className="flex items-center justify-between mb-4">
                         <div className="flex items-center gap-3">
@@ -776,7 +776,7 @@ export default function WatchlistPage() {
                             </div>
                           </div>
 
-                          <div className="space-y-2 pt-3 border-t border-theme/5">
+                          <div className="space-y-2 pt-3 border-t border-white/[0.04]">
                             <div className="flex justify-between text-xs">
                               <span className="text-theme-muted">52W High:</span>
                               <span className="text-theme-primary font-medium">{formatPrice(data.week52High)}</span>
@@ -795,7 +795,7 @@ export default function WatchlistPage() {
                             </div>
 
                             {data.isDip && (
-                              <div className="p-3 bg-theme-secondary border border-theme/10 rounded-lg mt-3">
+                              <div className="p-3 bg-theme-secondary border border-white/[0.04] rounded-lg mt-3">
                                 <div className="flex items-center gap-2">
                                   <div className="w-1.5 h-1.5 bg-theme-primary rounded-full"></div>
                                   <p className="text-theme-primary text-xs font-medium">
