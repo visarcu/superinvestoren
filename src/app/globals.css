@@ -115,65 +115,73 @@
      --transition-slow: 200ms ease;
    }
    
-   /* ===== DARK THEME ===== */
+   /* ===== DARK THEME - LINEAR/FEY STYLE ===== */
    .dark {
-     --color-bg-primary: #09090b;
-     --color-bg-card: #18181b;
-     --color-bg-hover: #27272a;
-     --color-bg-secondary: #27272a;
-     --color-bg-tertiary: #3f3f46;
-     --color-bg-input: #18181b;
-     --color-bg-elevated: #1f1f23;
-     
-     --color-sidebar-bg: #0f0f12;
-     --color-sidebar-hover: rgba(255, 255, 255, 0.04);
-     --color-sidebar-active: rgba(255, 255, 255, 0.08);
-     
-     --color-text-primary: #fafafa;
+     /* Backgrounds - Cleaner, darker like Linear/Fey */
+     --color-bg-primary: #0a0a0b;
+     --color-bg-card: #111113;
+     --color-bg-hover: #161618;
+     --color-bg-secondary: #161618;
+     --color-bg-tertiary: #1a1a1d;
+     --color-bg-input: #111113;
+     --color-bg-elevated: #161618;
+
+     /* Sidebar */
+     --color-sidebar-bg: #0a0a0b;
+     --color-sidebar-hover: rgba(255, 255, 255, 0.03);
+     --color-sidebar-active: rgba(255, 255, 255, 0.06);
+
+     /* Text - Consistent gray scale */
+     --color-text-primary: #f4f4f5;
      --color-text-secondary: #a1a1aa;
      --color-text-muted: #71717a;
-     --color-text-faint: #52525b;
-     
-     --color-border: #27272a;
-     --color-border-light: #1f1f23;
-     --color-border-focus: #3b82f6;
-     --color-divider: #27272a;
-     
-     --color-primary: #3b82f6;
-     --color-primary-hover: #60a5fa;
-     --color-primary-light: #60a5fa;
-     --color-primary-muted: rgba(59, 130, 246, 0.15);
-     
+     --color-text-faint: #3f3f46;
+
+     /* Borders - Subtle, consistent with Linear/Fey */
+     --color-border: rgba(255, 255, 255, 0.06);
+     --color-border-light: rgba(255, 255, 255, 0.04);
+     --color-border-focus: #22c55e;
+     --color-divider: rgba(255, 255, 255, 0.06);
+
+     /* Primary - Brand green instead of blue */
+     --color-primary: #22c55e;
+     --color-primary-hover: #16a34a;
+     --color-primary-light: #4ade80;
+     --color-primary-muted: rgba(34, 197, 94, 0.15);
+
+     /* Semantic Colors */
      --color-success: #22c55e;
      --color-success-bg: rgba(34, 197, 94, 0.1);
      --color-success-muted: rgba(34, 197, 94, 0.2);
-     
+
      --color-danger: #ef4444;
      --color-danger-bg: rgba(239, 68, 68, 0.1);
      --color-danger-muted: rgba(239, 68, 68, 0.2);
-     
+
      --color-warning: #f59e0b;
      --color-warning-bg: rgba(245, 158, 11, 0.1);
-     
+
      --color-info: #0ea5e9;
      --color-info-bg: rgba(14, 165, 233, 0.1);
-     
-     --chart-1: #3b82f6;
+
+     /* Charts */
+     --chart-1: #22c55e;
      --chart-2: #8b5cf6;
      --chart-3: #06b6d4;
-     --chart-4: #10b981;
+     --chart-4: #3b82f6;
      --chart-5: #f59e0b;
      --chart-6: #ef4444;
      --chart-positive: #22c55e;
      --chart-negative: #ef4444;
      --chart-neutral: #71717a;
-     --chart-grid: #52525b;
+     --chart-grid: rgba(255, 255, 255, 0.06);
      --chart-axis: #52525b;
-     
+
+     /* Shadows - Minimal for dark theme */
      --shadow-xs: none;
-     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
-     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
-     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+     --shadow-sm: none;
+     --shadow-md: none;
+     --shadow-lg: none;
      --shadow-card: none;
      --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.5);
    }

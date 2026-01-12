@@ -128,7 +128,7 @@ const MarketMovers = React.memo(({
             </div>
           </div>
         </div>
-        <div className="bg-theme-card border border-theme/10 rounded-xl p-4 animate-pulse">
+        <div className="bg-theme-card border border-white/[0.04] rounded-xl p-4 animate-pulse">
           <div className="space-y-3">
             {[1, 2, 3].map(i => (
               <div key={i} className="h-12 bg-theme-secondary rounded-lg"></div>
@@ -155,7 +155,7 @@ const MarketMovers = React.memo(({
       </div>
 
       {/* Tab Navigation - Cleaner ohne bunte Farben */}
-      <div className="flex bg-theme-secondary border border-theme/10 rounded-xl p-1">
+      <div className="flex bg-theme-secondary/50 rounded-xl p-1">
         <button
           onClick={() => setActiveTab('gainers')}
           className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${

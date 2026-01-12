@@ -265,7 +265,7 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
       <div className="space-y-0">
         {latestTrades.length > 0 ? (
           latestTrades.map((trade, index) => (
-            <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-5 py-4 hover:bg-theme-hover/30 transition-colors border-b border-theme/5 last:border-b-0">
+            <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-5 py-4 hover:bg-theme-hover/30 transition-colors border-b border-white/[0.04] last:border-b-0">
               {/* Single Row Layout */}
               <div className="flex items-center gap-3">
                 <img
@@ -326,7 +326,7 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
   if (variant === 'compact') {
     return (
       <div>
-        <div className="px-4 py-3 border-b border-theme/5">
+        <div className="px-4 py-3 border-b border-white/[0.04]">
           <div className="flex items-center justify-between">
             <h3 className="text-sm font-semibold text-theme-primary">Superinvestoren Trades</h3>
             <Link
@@ -340,7 +340,7 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
 
         <div className="space-y-0">
           {latestTrades.slice(0, 5).map((trade, index) => (
-            <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-4 py-3 hover:bg-theme-hover/30 transition-colors border-b border-theme/5 last:border-b-0">
+            <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-4 py-3 hover:bg-theme-hover/30 transition-colors border-b border-white/[0.04] last:border-b-0">
               <div className="flex items-center gap-2.5">
                 <img
                   src={trade.investorImage}
@@ -382,78 +382,84 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
     )
   }
   
-  // ===== FULL VARIANT - Clean & Minimal =====
+  // ===== FULL VARIANT - Fey Style Clean =====
   return (
-    <div className="bg-theme-card rounded-xl">
-      <div className="px-5 py-4 border-b border-theme/5">
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-semibold text-theme-primary">Guru Trades</h3>
-          <Link
-            href="/superinvestor/insights"
-            className="text-xs text-theme-muted hover:text-theme-primary flex items-center gap-1 transition-colors"
-          >
-            Alle ansehen
-            <ArrowRightIcon className="w-3 h-3" />
-          </Link>
-        </div>
+    <div>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-sm font-medium text-theme-muted uppercase tracking-wide">Guru Trades</h3>
+        <Link
+          href="/superinvestor/insights"
+          className="text-xs text-theme-muted hover:text-brand-light flex items-center gap-1 transition-colors"
+        >
+          Alle ansehen
+          <ArrowRightIcon className="w-3 h-3" />
+        </Link>
       </div>
 
-      <div className="space-y-0">
+      {/* Trades List - Clean Table Style */}
+      <div className="space-y-1">
         {latestTrades.length > 0 ? (
           latestTrades.map((trade, index) => (
-            <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-5 py-4 hover:bg-theme-hover/30 transition-colors border-b border-theme/5 last:border-b-0">
-              <div className="flex items-center gap-3">
+            <div
+              key={`${trade.investor}-${trade.ticker}-${index}`}
+              className="flex items-center gap-4 py-3 px-4 rounded-lg hover:bg-theme-hover/50 transition-all duration-200 group"
+            >
+              {/* Investor Avatar */}
+              <Link href={`/superinvestor/${trade.investor}`}>
                 <img
                   src={trade.investorImage}
                   alt={trade.investorName}
-                  className="w-10 h-10 rounded-full object-cover"
+                  className="w-9 h-9 rounded-full object-cover ring-1 ring-white/10 group-hover:ring-white/20 transition-all"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src = '/images/default-investor.png'
                   }}
                 />
+              </Link>
 
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <Link
-                      href={`/superinvestor/${trade.investor}`}
-                      className="text-sm font-medium text-theme-primary hover:text-brand transition-colors"
-                    >
-                      {trade.investorName}
-                    </Link>
-                    <span className="text-theme-muted">·</span>
-                    <span className={`text-xs font-medium ${getTradeColor(trade.type)}`}>
-                      {getTradeLabel(trade.type)}
-                    </span>
-                  </div>
-                  <div className="flex items-center gap-2 text-xs text-theme-muted">
-                    <Link
-                      href={`/analyse/stocks/${trade.ticker.toLowerCase()}`}
-                      className="font-medium text-theme-secondary hover:text-brand transition-colors"
-                    >
-                      {trade.ticker}
-                    </Link>
-                    <span>·</span>
-                    <span className="truncate">{trade.name}</span>
-                    <span>·</span>
-                    <span>{getDaysAgo(trade.date)}</span>
-                  </div>
+              {/* Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <Link
+                    href={`/superinvestor/${trade.investor}`}
+                    className="text-sm font-medium text-theme-primary hover:text-brand-light transition-colors"
+                  >
+                    {trade.investorName}
+                  </Link>
+                  <span className="text-theme-muted text-xs">·</span>
+                  <span className={`text-xs font-medium ${getTradeColor(trade.type)}`}>
+                    {getTradeLabel(trade.type)}
+                  </span>
                 </div>
+                <div className="flex items-center gap-2 text-xs text-theme-muted mt-0.5">
+                  <Link
+                    href={`/analyse/stocks/${trade.ticker.toLowerCase()}`}
+                    className="font-medium hover:text-brand-light transition-colors"
+                  >
+                    {trade.ticker}
+                  </Link>
+                  <span>·</span>
+                  <span className="truncate max-w-[200px]">{trade.name}</span>
+                  <span>·</span>
+                  <span>{getDaysAgo(trade.date)}</span>
+                </div>
+              </div>
 
-                <div className="text-right flex-shrink-0">
-                  <div className="text-sm font-semibold text-theme-primary">
-                    {formatMarketCap(trade.dollarChange || trade.value)}
-                  </div>
-                  {trade.percentChange && (
-                    <div className={`text-xs ${getTradeColor(trade.type)}`}>
-                      {trade.type === 'ADD' ? '+' : '-'}{formatPercentage(trade.percentChange, false)}
-                    </div>
-                  )}
+              {/* Value */}
+              <div className="text-right flex-shrink-0">
+                <div className="text-sm font-semibold text-theme-primary">
+                  {formatMarketCap(trade.dollarChange || trade.value)}
                 </div>
+                {trade.percentChange && (
+                  <div className={`text-xs font-medium ${getTradeColor(trade.type)}`}>
+                    {trade.type === 'ADD' ? '+' : '-'}{formatPercentage(trade.percentChange, false)}
+                  </div>
+                )}
               </div>
             </div>
           ))
         ) : (
-          <div className="p-8 text-center text-theme-muted">
+          <div className="py-8 text-center text-theme-muted">
             <p className="text-sm">Keine aktuellen Trades verfügbar</p>
           </div>
         )}

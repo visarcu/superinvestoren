@@ -1,4 +1,4 @@
-// Dashboard-Component - COMPLETE VERSION WITH FIXES
+// Dashboard-Component - FEY/LINEAR STYLE
 'use client'
 
 import React, { useEffect, useState, useMemo, useCallback } from 'react'
@@ -12,17 +12,13 @@ import {
   MapIcon,
   CalendarIcon,
   SparklesIcon,
-  TrophyIcon,
-  StarIcon,
   EyeIcon,
-  ClockIcon,
-  ArrowLeftIcon
 } from '@heroicons/react/24/outline'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { supabase } from '@/lib/supabaseClient'
-// LAZY LOAD COMPONENTS
 import dynamic from 'next/dynamic'
 import Logo from '@/components/Logo'
+
 const OptimizedWatchlistNews = dynamic(() => import('@/components/OptimizedWatchlistNews'), {
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
   ssr: false
@@ -31,15 +27,10 @@ const MarketMovers = dynamic(() => import('@/components/MarketMovers'), {
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
   ssr: false
 })
-const MostFollowed = dynamic(() => import('@/components/MostFollowed'), {
-  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
-  ssr: false
-})
 const LatestGuruTrades = dynamic(() => import('@/components/LatestGuruTrades'), {
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>,
   ssr: false
 })
-
 
 // ===== TYPES =====
 type Quote = {
@@ -154,26 +145,24 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Two-phase loading: immediate cached data + full data
+  // Two-phase loading
   useEffect(() => {
     async function loadDashboardData() {
       setLoading(true)
       setMarketLoading(true)
 
       try {
-        // Phase 1: Load cached popular stocks + markets immediately
         const cachedResponse = await fetch('/api/dashboard-cached')
         if (cachedResponse.ok) {
           const cachedData = await cachedResponse.json()
           if (cachedData.quotes) {
             setQuotes(cachedData.quotes)
-            setStocksInteractive(true) // Stocks are now clickable
+            setStocksInteractive(true)
           }
           if (cachedData.markets) setMarketQuotes(cachedData.markets)
-          setMarketLoading(false) // Markets loaded immediately
+          setMarketLoading(false)
         }
 
-        // Phase 2: Load full data including watchlist stocks
         const allTickers = [...POPULAR_STOCKS, ...watchlistTickers]
         const uniqueTickers = [...new Set(allTickers)]
 
@@ -200,19 +189,15 @@ export default function ModernDashboard() {
   }, [POPULAR_STOCKS, watchlistTickers])
 
   const handleTickerSelect = useCallback((ticker: string) => {
-    // Immediate localStorage update
     if (typeof window !== 'undefined') {
       localStorage.setItem('lastTicker', ticker.toUpperCase())
     }
 
-    // Use window.location for immediate navigation (faster than router.push during loading)
     const targetUrl = `/analyse/stocks/${ticker.toLowerCase()}`
 
     if (loading || marketLoading) {
-      // During loading state, use direct navigation for better UX
       window.location.href = targetUrl
     } else {
-      // Normal state, use router for better transitions
       router.push(targetUrl)
     }
   }, [router, loading, marketLoading])
@@ -244,353 +229,308 @@ export default function ModernDashboard() {
     }
   ], [currentTime])
 
+  // Calculate market sentiment
+  const marketSentiment = useMemo(() => {
+    const quotes = Object.values(marketQuotes)
+    if (quotes.length === 0) return null
+    const positiveCount = quotes.filter(q => q.positive).length
+    const isBullish = positiveCount >= quotes.length / 2
+    return {
+      isBullish,
+      text: isBullish ? 'Die Märkte sind bullisch' : 'Die Märkte sind bearisch',
+      description: isBullish
+        ? 'Die wichtigsten Indizes zeigen positive Entwicklungen.'
+        : 'Die wichtigsten Indizes zeigen negative Entwicklungen.'
+    }
+  }, [marketQuotes])
+
   return (
     <div className="min-h-screen bg-theme-primary">
 
-      {/* Professional Header */}
-      <div className="border-b border-theme/5">
-        <div className="w-full px-6 lg:px-8 py-8">
+      {/* Hero - Persönliche Begrüßung */}
+      <div className="px-6 lg:px-8 py-6 border-b border-white/[0.04]">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-theme-primary">
+              Hallo 👋
+            </h1>
+            <p className="text-theme-muted text-sm">
+              {currentTime.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
+            </p>
+          </div>
 
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
-          >
-            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-            Zurück zur Analyse
-          </Link>
-
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-            <div>
-              <h1 className="text-3xl font-bold text-theme-primary mb-2">
-                Dashboard
-              </h1>
-              <div className="flex items-center gap-4 text-theme-secondary">
-                <div className="flex items-center gap-2">
-                  <div className={`w-2 h-2 rounded-full ${marketLoading ? 'bg-amber-400 animate-pulse' : 'bg-green-400'}`}></div>
-                  <span className="text-sm">Live-Kurse</span>
-                </div>
-                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                <span className="text-sm">Deutschland: {currentTime.toLocaleTimeString('de-DE', { timeZone: 'Europe/Berlin', hour: '2-digit', minute: '2-digit' })}</span>
-                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                <span className="text-sm">USA: {currentTime.toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit' })} EST</span>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <Link
-                href="/analyse/ai"
-                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-brand-hover text-white rounded-lg transition-colors duration-200"              >
-                <SparklesIcon className="w-4 h-4" />
-                <span className="font-medium">FinClue AI</span>
-              </Link>
-              <Link
-                href="/analyse/watchlist"
-                className="flex items-center gap-2 px-4 py-2 bg-theme-card border border-theme/20 hover:bg-theme-hover text-theme-primary rounded-lg transition-colors duration-200"
-              >
-                <EyeIcon className="w-4 h-4" />
-                <span className="font-medium">Watchlist</span>
-              </Link>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/analyse/finclue-ai"
+              className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-black font-medium rounded-lg text-sm transition-all"
+            >
+              <SparklesIcon className="w-4 h-4" />
+              FinClue AI
+            </Link>
+            <Link
+              href="/analyse/watchlist"
+              className="flex items-center gap-2 px-4 py-2 bg-theme-card border border-white/[0.06] hover:bg-theme-hover text-theme-primary rounded-lg text-sm transition-all"
+            >
+              <EyeIcon className="w-4 h-4" />
+              Watchlist
+            </Link>
+            {/* Live Badge */}
+            <div className="flex items-center gap-1.5 px-3 py-2 rounded-lg bg-theme-card border border-white/[0.06]">
+              <div className={`w-1.5 h-1.5 rounded-full ${marketLoading ? 'bg-amber-400' : 'bg-green-400'} animate-pulse`}></div>
+              <span className="text-xs text-theme-muted">{marketLoading ? 'Lädt...' : 'Live'}</span>
             </div>
           </div>
         </div>
       </div>
 
-      <main className="w-full px-6 lg:px-8 py-8 space-y-8">
+      <main className="px-6 lg:px-8 py-6 space-y-6">
 
-        {/* Market Overview */}
-        <section>
-          <div className="flex items-center justify-between mb-6">
-            <div>
-              <h2 className="text-2xl font-bold text-theme-primary mb-2">Marktübersicht</h2>
-              <p className="text-theme-secondary text-sm">
-                Live-Kurse und Performance-Metriken der wichtigsten Indizes
-              </p>
-            </div>
+        {/* Market Intelligence Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${
-              marketLoading
-                ? 'bg-brand/20 text-amber-400'
-                : 'bg-brand/20 text-brand-light'
-            }`}>
-              <div className={`w-2 h-2 rounded-full ${
-                marketLoading ? 'bg-amber-400 animate-pulse' : 'bg-green-400'
-              }`}></div>
-              <span className="text-sm font-bold">
-                {marketLoading ? 'Lädt...' : 'Live'}
-              </span>
+          {/* Market Sentiment Card */}
+          <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
+            <div className="flex items-center gap-2 mb-3">
+              {marketSentiment ? (
+                <>
+                  <span className={`px-2 py-1 text-xs font-medium rounded ${
+                    marketSentiment.isBullish
+                      ? 'bg-green-500/10 text-green-400'
+                      : 'bg-red-500/10 text-red-400'
+                  }`}>
+                    {marketSentiment.text}
+                  </span>
+                  {marketSentiment.isBullish ? (
+                    <ArrowTrendingUpIcon className="w-4 h-4 text-green-400" />
+                  ) : (
+                    <ArrowTrendingDownIcon className="w-4 h-4 text-red-400" />
+                  )}
+                </>
+              ) : (
+                <span className="px-2 py-1 bg-theme-secondary text-theme-muted text-xs font-medium rounded">
+                  Marktdaten werden geladen...
+                </span>
+              )}
             </div>
+            <p className="text-sm text-theme-secondary leading-relaxed">
+              {marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'}
+            </p>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            {marketData.map((market) => {
-              const quote = marketQuotes[market.key]
-              const isLoading = marketLoading && !quote
+          {/* Quick Actions Card */}
+          <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
+            <h3 className="text-sm font-medium text-theme-primary mb-3">Schnellzugriff</h3>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { icon: BookmarkIcon, label: 'Watchlist', href: '/analyse/watchlist' },
+                { icon: MapIcon, label: 'Heatmap', href: '/analyse/heatmap' },
+                { icon: CalendarIcon, label: 'Earnings', href: '/analyse/earnings' },
+                { icon: SparklesIcon, label: 'FinClue AI', href: '/analyse/finclue-ai' }
+              ].map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-theme-secondary/30 hover:bg-theme-hover text-theme-secondary hover:text-theme-primary transition-all text-sm"
+                >
+                  <item.icon className="w-4 h-4" />
+                  {item.label}
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
 
-              return (
-                <div key={market.name} className="bg-theme-card border border-theme/10 rounded-xl p-6 hover:border-theme/20 transition-all duration-200">
+        {/* Markets Section */}
+        <section>
+          <h2 className="text-lg font-semibold text-theme-primary mb-4">Märkte</h2>
 
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{market.flag}</span>
-                      <h3 className="text-theme-primary font-bold text-lg">{market.name}</h3>
-                    </div>
-                    <div className={`text-xs px-3 py-1 rounded-full font-bold ${
-                      market.status === 'OPEN'
-                        ? 'bg-brand/20 text-brand-light'
-                        : 'bg-theme-secondary text-theme-muted'
-                    }`}>
-                      {market.status === 'OPEN' ? 'Offen' : 'Geschlossen'}
-                    </div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+            {/* Markets Table */}
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
+              <table className="w-full">
+                <tbody className="divide-y divide-white/[0.04]">
+                  {marketData.map((market) => {
+                    const quote = marketQuotes[market.key]
+                    const isLoading = marketLoading && !quote
+
+                    return (
+                      <tr key={market.key} className="hover:bg-theme-hover transition-colors">
+                        <td className="px-4 py-3">
+                          <div className="flex items-center gap-2">
+                            <span>{market.flag}</span>
+                            <span className="font-medium text-theme-primary">{market.name}</span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-3 text-right font-mono text-theme-primary">
+                          {isLoading ? (
+                            <div className="h-4 w-16 bg-theme-secondary rounded animate-pulse ml-auto"></div>
+                          ) : quote ? (
+                            formatStockPrice(quote.price, false)
+                          ) : '--'}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          {isLoading ? (
+                            <div className="h-4 w-12 bg-theme-secondary rounded animate-pulse ml-auto"></div>
+                          ) : quote ? (
+                            <span className={`font-medium ${quote.positive ? 'text-green-400' : 'text-red-400'}`}>
+                              {quote.positive ? '+' : ''}{formatPercentage(quote.changePct)}
+                            </span>
+                          ) : '--'}
+                        </td>
+                        <td className="px-4 py-3 text-right">
+                          <span className={`text-xs px-2 py-0.5 rounded ${
+                            market.status === 'OPEN'
+                              ? 'bg-green-500/10 text-green-400'
+                              : 'bg-theme-secondary text-theme-muted'
+                          }`}>
+                            {market.status === 'OPEN' ? 'Open' : 'Closed'}
+                          </span>
+                        </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+            </div>
+
+            {/* Recently Analyzed */}
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
+              <h3 className="text-sm font-medium text-theme-primary mb-4">Zuletzt analysiert</h3>
+
+              {lastTicker ? (
+                <button
+                  onClick={() => handleTickerSelect(lastTicker)}
+                  disabled={!stocksInteractive}
+                  className={`w-full flex items-center gap-3 p-3 rounded-lg transition-all ${
+                    stocksInteractive
+                      ? 'hover:bg-theme-hover cursor-pointer'
+                      : 'cursor-not-allowed opacity-60'
+                  }`}
+                >
+                  <Logo
+                    ticker={lastTicker}
+                    alt={`${lastTicker} Logo`}
+                    className="w-10 h-10 rounded-lg"
+                    padding="small"
+                  />
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-theme-primary">{lastTicker}</h4>
+                    <p className="text-xs text-theme-muted">Klicken zum Analysieren</p>
                   </div>
-
-                  <div className="space-y-3">
-                    {isLoading ? (
-                      <div className="h-8 bg-theme-secondary rounded-lg animate-pulse"></div>
-                    ) : quote ? (
-                      <div className="text-2xl font-bold text-theme-primary">
-                        {formatStockPrice(quote.price, false)}
-                      </div>
-                    ) : (
-                      <div className="text-2xl font-bold text-theme-muted">--</div>
-                    )}
-
-                    <div className="flex items-center justify-between">
-                      {isLoading ? (
-                        <div className="h-6 bg-theme-secondary rounded-lg w-20 animate-pulse"></div>
-                      ) : quote ? (
-                        <div className={`flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
-                          quote.positive
-                            ? 'bg-brand/20 text-brand-light'
-                            : 'bg-red-500/20 text-red-400'
-                        }`}>
-                          {quote.positive ? (
-                            <ArrowTrendingUpIcon className="w-4 h-4" />
-                          ) : (
-                            <ArrowTrendingDownIcon className="w-4 h-4" />
-                          )}
-                          <span>{formatPercentage(quote.changePct)}</span>
-                        </div>
-                      ) : (
-                        <div className="text-sm text-theme-muted">--</div>
-                      )}
-
-                      <div className="text-xs text-theme-muted">
-                        Vol: {quote?.volume || '--'}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )
-            })}
+                  <ArrowRightIcon className="w-4 h-4 text-theme-muted" />
+                </button>
+              ) : (
+                <p className="text-sm text-theme-muted text-center py-4">
+                  Noch keine Aktie analysiert
+                </p>
+              )}
+            </div>
           </div>
         </section>
 
-
-        {/* Professional Grid Layout - Clean Card Flow */}
-        <div className="space-y-8">
-
-          {/* Section: Popular Stocks */}
-          <section>
-            <div className="flex items-center justify-between mb-8">
-              <div>
-                <h2 className="text-xl font-bold text-theme-primary">Beliebte Aktien</h2>
-                <p className="text-sm text-theme-muted">Live-Kurse der meistgehandelten Aktien</p>
+        {/* Beliebte Aktien - Kompakter */}
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-theme-primary">Beliebte Aktien</h2>
+            {loading && (
+              <div className="flex items-center gap-2 text-xs text-theme-muted">
+                <div className="w-2 h-2 border border-theme-muted border-t-transparent rounded-full animate-spin"></div>
+                Aktualisiere...
               </div>
-              {loading && (
-                <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-xs">
-                  <div className="w-2 h-2 border border-amber-400 border-t-transparent rounded-full animate-spin"></div>
-                  <span>Lädt...</span>
-                </div>
-              )}
-            </div>
+            )}
+          </div>
 
-            {/* 4x2 Grid - Consistent Heights */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-4 gap-6">
-              {POPULAR_STOCKS.slice(0, 8).map((ticker) => {
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            {POPULAR_STOCKS.slice(0, 8).map((ticker) => {
               const quote = quotes[ticker.toLowerCase()]
               const isLoading = loading && !quote
+
               return (
                 <button
                   key={ticker}
                   onClick={() => handleTickerSelect(ticker)}
                   disabled={!stocksInteractive}
-                  className={`group bg-theme-card border border-theme/10 rounded-xl p-4 transition-all duration-200 h-[140px] flex flex-col justify-between overflow-hidden ${
+                  className={`group bg-theme-card border border-white/[0.04] rounded-xl p-3 transition-all h-[100px] flex flex-col justify-between ${
                     stocksInteractive
                       ? 'hover:border-brand/30 hover:bg-theme-hover cursor-pointer'
                       : 'cursor-not-allowed opacity-60'
                   }`}
                 >
-                  {/* Header */}
                   <div className="flex items-center justify-between">
                     <Logo
                       ticker={ticker}
                       alt={`${ticker} Logo`}
-                      className="w-8 h-8 rounded-lg flex-shrink-0"
-                      padding="small"
+                      className="w-7 h-7 rounded-md"
+                      padding="none"
                     />
                     {quote && (
-                      <div className={`w-2 h-2 rounded-full flex-shrink-0 ${
+                      <div className={`w-1.5 h-1.5 rounded-full ${
                         quote.changePct >= 0 ? 'bg-green-400' : 'bg-red-400'
                       }`}></div>
                     )}
                   </div>
 
-                  {/* Ticker */}
                   <div className="text-left">
-                    <h3 className="text-sm font-bold text-theme-primary group-hover:text-brand transition-colors truncate">
+                    <h3 className="text-sm font-semibold text-theme-primary group-hover:text-brand transition-colors">
                       {ticker}
                     </h3>
+                    {isLoading ? (
+                      <div className="h-3 bg-theme-secondary rounded w-16 animate-pulse mt-1"></div>
+                    ) : quote ? (
+                      <div className="flex items-center gap-2 text-xs">
+                        <span className="text-theme-secondary">{formatStockPrice(quote.price)}</span>
+                        <span className={quote.changePct >= 0 ? 'text-green-400' : 'text-red-400'}>
+                          {quote.changePct >= 0 ? '+' : ''}{formatPercentage(quote.changePct)}
+                        </span>
+                      </div>
+                    ) : (
+                      <span className="text-xs text-theme-muted">--</span>
+                    )}
                   </div>
-
-                  {/* Data */}
-                  {isLoading ? (
-                    <div className="space-y-1">
-                      <div className="h-4 bg-theme-secondary rounded animate-pulse"></div>
-                      <div className="h-3 bg-theme-secondary rounded w-2/3 animate-pulse"></div>
-                    </div>
-                  ) : quote ? (
-                    <div className="text-left">
-                      <div className="text-base font-bold text-theme-primary truncate">
-                        {formatStockPrice(quote.price)}
-                      </div>
-                      <div className="text-xs text-theme-secondary truncate">
-                        {quote.changePct >= 0 ? '↗' : '↘'} {formatPercentage(Math.abs(quote.changePct), false)}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="text-theme-muted text-xs truncate">Keine Daten</div>
-                  )}
                 </button>
               )
             })}
           </div>
-          </section>
+        </section>
 
-          {/* Section: Dashboard Components - Optimized Layout */}
-          <section>
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-theme-primary mb-2">Dashboard</h2>
-              <p className="text-sm text-theme-muted">Nachrichten, Trends und Marktbewegungen</p>
-            </div>
+        {/* Dashboard Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-            {/* Recently Analyzed + Quick Actions - Render immediately */}
-            <div className="space-y-6">
-              {/* Recently Analyzed */}
-              {lastTicker && (
-                <div className="bg-theme-card border border-theme/10 rounded-xl p-4 h-[200px] flex flex-col overflow-hidden">
-                  <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-3 flex-shrink-0">Zuletzt analysiert</h2>
-
-                  <button
-                    onClick={() => handleTickerSelect(lastTicker)}
-                    disabled={!stocksInteractive}
-                    className={`group flex items-center gap-3 p-3 rounded-lg transition-all duration-200 flex-1 min-h-0 ${
-                      stocksInteractive
-                        ? 'hover:bg-theme-hover cursor-pointer'
-                        : 'cursor-not-allowed opacity-60'
-                    }`}
-                  >
-                    <Logo
-                      ticker={lastTicker}
-                      alt={`${lastTicker} Logo`}
-                      className="w-10 h-10 rounded-lg flex-shrink-0"
-                      padding="small"
-                    />
-
-                    <div className="flex-1 text-left min-w-0">
-                      <h3 className="text-base font-bold text-theme-primary group-hover:text-brand transition-colors truncate">
-                        {lastTicker}
-                      </h3>
-                      <p className="text-sm text-theme-muted truncate">
-                        Zur Analyse
-                      </p>
-                    </div>
-
-                    <ArrowRightIcon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors flex-shrink-0"/>
-                  </button>
-                </div>
-              )}
-
-              {/* Quick Actions */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-4 h-[200px] flex flex-col overflow-hidden">
-                <h2 className="text-sm font-semibold text-theme-muted uppercase tracking-wide mb-3 flex-shrink-0">Schnellzugriff</h2>
-
-                <div className="space-y-1 flex-1 overflow-hidden">
-                  {[
-                    { icon: BookmarkIcon, label: 'Watchlist', href: '/analyse/watchlist' },
-                    { icon: MapIcon, label: 'Heatmap', href: '/analyse/heatmap' },
-                    { icon: CalendarIcon, label: 'Earnings', href: '/analyse/earnings' },
-                    { icon: SparklesIcon, label: 'FinClue AI', href: '/analyse/ai' }
-                  ].map((item) => (
-                    <Link
-                      key={item.label}
-                      href={item.href}
-                      className="group flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-theme-secondary transition-all duration-200"
-                    >
-                      <item.icon className="w-4 h-4 text-theme-muted group-hover:text-brand transition-colors flex-shrink-0" />
-                      <span className="text-sm text-theme-primary group-hover:text-brand transition-colors truncate">
-                        {item.label}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            {/* Watchlist News - Lazy loaded */}
-            <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[416px] flex flex-col">
-              <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
-                <OptimizedWatchlistNews watchlistTickers={watchlistTickers} />
-              </React.Suspense>
-            </div>
-
-            {/* Right Column - Market Movers (full height) */}
-            <div className="space-y-6">
-              {/* Market Movers - Now takes full height */}
-              <div className="bg-theme-card border border-theme/10 rounded-xl p-5 h-[416px] flex flex-col">
-                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
-                  <MarketMovers
-                    watchlistTickers={watchlistTickers}
-                    popularTickers={POPULAR_STOCKS}
-                  />
-                </React.Suspense>
-              </div>
-            </div>
+          {/* Watchlist News */}
+          <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5 min-h-[350px]">
+            <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
+              <OptimizedWatchlistNews watchlistTickers={watchlistTickers} />
+            </React.Suspense>
           </div>
-          </section>
 
-          {/* Section: Super-Investors */}
-          <section>
-            <div className="mb-6">
-              <h2 className="text-xl font-bold text-theme-primary mb-2">Super-Investor Trades</h2>
-              <p className="text-sm text-theme-muted">Aktuelle Käufe und Verkäufe der erfolgreichsten Investoren</p>
-            </div>
-
-            {/* Guru Trades - Full Width */}
-            <div className="bg-theme-card border border-theme/10 rounded-xl p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <TrophyIcon className="w-5 h-5 text-yellow-400" />
-                <h3 className="text-lg font-bold text-theme-primary">Neueste 13F Trades</h3>
-              </div>
-              <div className="max-h-[400px] overflow-y-auto">
-                <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
-                  <LatestGuruTrades variant="full" />
-                </React.Suspense>
-              </div>
-            </div>
-          </section>
-
-          {/* Footer */}
-          <div className="text-center">
-            <p className="text-xs text-theme-muted flex items-center justify-center gap-2">
-              <ClockIcon className="w-4 h-4" />
-              YTD basiert auf letztem Handelstag 2024 •
-              1M basiert auf ~30 Kalendertagen •
-              Alle Daten via FMP API • Live-Updates alle 15 Minuten
-            </p>
+          {/* Market Movers */}
+          <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5 min-h-[350px]">
+            <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
+              <MarketMovers
+                watchlistTickers={watchlistTickers}
+                popularTickers={POPULAR_STOCKS}
+              />
+            </React.Suspense>
           </div>
         </div>
+
+        {/* Super-Investor Trades */}
+        <section>
+          <div className="mb-4">
+            <h2 className="text-sm font-medium text-theme-muted uppercase tracking-wide">Super-Investor Trades</h2>
+            <p className="text-xs text-theme-muted mt-1">Aktuelle Käufe und Verkäufe der erfolgreichsten Investoren</p>
+          </div>
+
+          <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
+            <div className="max-h-[350px] overflow-y-auto">
+              <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
+                <LatestGuruTrades variant="full" />
+              </React.Suspense>
+            </div>
+          </div>
+        </section>
+
       </main>
     </div>
   )

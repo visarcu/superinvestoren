@@ -224,7 +224,7 @@ const GlobalLearnToggle = React.memo(() => {
         flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border transition-all duration-200 text-xs font-medium
         ${isLearnMode 
           ? 'bg-brand/20 border-green-500/40 text-brand-light shadow-sm' 
-          : 'bg-theme-tertiary/30 border-theme text-theme-muted hover:text-theme-primary hover:border-green-500/30'
+          : 'bg-theme-tertiary/30 border-white/[0.06] text-theme-muted hover:text-theme-primary hover:border-green-500/30'
         }
       `}
       title={`Lern-Modus ${isLearnMode ? 'deaktivieren' : 'aktivieren'}`}
@@ -290,15 +290,15 @@ const CollapsedSidebar = React.memo(({
   }
 
   return (
-    <div className="w-[88px] bg-theme-primary border-r border-theme/10 flex flex-col items-center py-4 relative z-20">
-      
+    <div className="w-[72px] bg-theme-primary border-r border-white/[0.04] flex flex-col items-center py-3 relative z-20">
+
       {/* Logo */}
-      <Link href="/" className="mb-4 group">
-        <div className="w-10 h-10 rounded-xl bg-brand/10 border border-brand/20 flex items-center justify-center transition-all group-hover:border-green-400/40 group-hover:bg-brand/20">
+      <Link href="/" className="mb-3 group">
+        <div className="w-8 h-8 rounded-lg bg-brand/10 border border-brand/20 flex items-center justify-center transition-all group-hover:border-green-400/40 group-hover:bg-brand/20">
           <div className="flex items-end gap-0.5">
-            <span className="w-1 h-3 rounded-full bg-brand"></span>
-            <span className="w-1 h-4 rounded-full bg-green-400"></span>
-            <span className="w-1 h-5 rounded-full bg-green-300"></span>
+            <span className="w-0.5 h-2 rounded-full bg-brand"></span>
+            <span className="w-0.5 h-2.5 rounded-full bg-green-400"></span>
+            <span className="w-0.5 h-3 rounded-full bg-green-300"></span>
           </div>
         </div>
       </Link>
@@ -307,7 +307,10 @@ const CollapsedSidebar = React.memo(({
       <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5 overflow-y-auto">
         {NAV_ITEMS.map((item) => {
           const Icon = item.icon
-          const isActive = pathname === item.href || pathname.startsWith(item.href + '/')
+          // Exact match for /analyse (Dashboard), prefix match for all other routes
+          const isActive = item.href === '/analyse'
+            ? pathname === '/analyse'
+            : pathname === item.href || pathname.startsWith(item.href + '/')
           const isPremiumLocked = item.premium && !user.isPremium
 
           return (
@@ -328,14 +331,14 @@ const CollapsedSidebar = React.memo(({
               )}
               
               <div className="relative">
-                <Icon className="w-7 h-7" />
+                <Icon className="w-5 h-5" />
                 {/* Premium badge */}
                 {isPremiumLocked && (
-                  <div className="absolute -top-1 -right-1 w-2 h-2 bg-yellow-400 rounded-full"></div>
+                  <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                 )}
               </div>
-              
-              <span className={`text-[10px] mt-1 font-medium leading-tight ${
+
+              <span className={`text-[9px] mt-0.5 font-medium leading-tight ${
                 isActive ? 'text-brand-light' : 'text-theme-muted group-hover:text-theme-secondary'
               }`}>
                 {getShortLabel(item.id)}
@@ -360,14 +363,14 @@ const CollapsedSidebar = React.memo(({
             }
           `}
         >
-          <Cog6ToothIcon className="w-7 h-7" />
-          <span className="text-[11px] mt-1 font-medium">Settings</span>
+          <Cog6ToothIcon className="w-5 h-5" />
+          <span className="text-[9px] mt-0.5 font-medium">Settings</span>
         </button>
 
         {/* Settings Popup */}
         {showSettingsPopup && (
           <div className="absolute left-full ml-2 bottom-0 z-50">
-            <div className="bg-theme-card border border-theme/20 shadow-xl rounded-xl py-2 w-48">
+            <div className="bg-theme-card border border-white/[0.06] shadow-xl rounded-xl py-2 w-48">
               {SETTINGS_ITEMS.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href
@@ -431,14 +434,14 @@ const CollapsedSidebar = React.memo(({
       <div className="mt-2">
         <Link href="/profile" className="flex flex-col items-center group">
           <div className="relative">
-            <div className="w-9 h-9 bg-brand rounded-xl flex items-center justify-center text-black font-semibold text-sm group-hover:bg-green-400 transition-colors">
+            <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center text-black font-semibold text-xs group-hover:bg-green-400 transition-colors">
               {getInitials()}
             </div>
             {user.isPremium && (
-              <div className="absolute -top-1 -right-1 w-3 h-3 bg-yellow-400 rounded-full border-2 border-theme-primary"></div>
+              <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-yellow-400 rounded-full border border-[#0F0F11]"></div>
             )}
           </div>
-          <span className="text-[11px] mt-1 font-medium text-theme-muted group-hover:text-theme-secondary">
+          <span className="text-[9px] mt-0.5 font-medium text-theme-muted group-hover:text-theme-secondary">
             {user.isPremium ? 'Premium' : 'Profil'}
           </span>
         </Link>
@@ -450,10 +453,10 @@ const CollapsedSidebar = React.memo(({
           href="/pricing"
           className="mt-2 flex flex-col items-center group"
         >
-          <div className="w-9 h-9 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center group-hover:from-yellow-300 group-hover:to-orange-400 transition-all shadow-lg">
-            <SparklesIcon className="w-4 h-4 text-white" />
+          <div className="w-7 h-7 bg-yellow-500/20 border border-yellow-500/30 rounded-lg flex items-center justify-center group-hover:bg-yellow-500/30 transition-all">
+            <SparklesIcon className="w-3.5 h-3.5 text-yellow-400" />
           </div>
-          <span className="text-[11px] mt-1 font-medium text-yellow-500">Upgrade</span>
+          <span className="text-[9px] mt-0.5 font-medium text-yellow-500">Upgrade</span>
         </Link>
       )}
     </div>
@@ -563,9 +566,9 @@ const CommandPalette = React.memo(({
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-[15vh]">
-      <div className="bg-theme-card border border-theme rounded-xl w-full max-w-lg mx-4 shadow-2xl">
-        
-        <div className="p-3 border-b border-theme">
+      <div className="bg-theme-card border border-white/[0.06] rounded-xl w-full max-w-lg mx-4 shadow-2xl">
+
+        <div className="p-3 border-b border-white/[0.06]">
           <div className="relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-muted" />
             <input
@@ -574,7 +577,7 @@ const CommandPalette = React.memo(({
               placeholder="Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2.5 bg-theme-input border border-theme rounded-lg text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20 text-sm"
+              className="w-full pl-10 pr-10 py-2.5 bg-theme-input border border-white/[0.06] rounded-lg text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-white/[0.15] focus:ring-0 text-sm"
             />
             <button
               onClick={onClose}
@@ -649,7 +652,7 @@ const CommandPalette = React.memo(({
           )}
           
           {query.length > 0 && !query.match(/^[A-Z]{1,5}$/i) && (
-            <div className="p-2 border-t border-theme/20">
+            <div className="p-2 border-t border-white/[0.06]">
               <button
                 onClick={() => {
                   onNavigate(`/analyse/finclue-ai?q=${encodeURIComponent(query)}`)
@@ -670,18 +673,18 @@ const CommandPalette = React.memo(({
           )}
         </div>
 
-        <div className="p-2 border-t border-theme flex items-center justify-between text-xs text-theme-muted">
+        <div className="p-2 border-t border-white/[0.06] flex items-center justify-between text-xs text-theme-muted">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">↵</kbd>
+              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs">↵</kbd>
               Auswählen
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs">Esc</kbd>
               Schließen
             </span>
           </div>
-          <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs">⌘K</kbd>
         </div>
       </div>
     </div>
@@ -877,14 +880,14 @@ function LayoutContent({ children }: LayoutProps) {
       <div className="flex-1 flex flex-col bg-theme-primary">
         
         {/* TOP BAR */}
-        <div className="py-4 bg-theme-primary border-b border-theme/10 flex items-center px-6">
+        <div className="py-4 bg-theme-primary border-b border-white/[0.04] flex items-center px-6">
           <div className="flex items-center gap-6 flex-1">
             
             {/* Search Bar */}
             <div className="flex-1 max-w-2xl">
               <button
                 onClick={() => setShowCommandPalette(true)}
-                className="w-full flex items-center gap-3 px-5 py-3.5 bg-theme-card hover:bg-theme-card border border-theme/20 hover:border-green-500/50 rounded-xl transition-all duration-200 group shadow-sm hover:shadow-md"
+                className="w-full flex items-center gap-3 px-5 py-3.5 bg-theme-card hover:bg-theme-card border border-white/[0.04] hover:border-green-500/50 rounded-xl transition-all duration-200 group shadow-sm hover:shadow-md"
               >
                 <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted group-hover:text-brand-light transition-colors" />
                 <span className="text-sm text-theme-muted group-hover:text-theme-secondary transition-colors flex-1 text-left">
@@ -892,7 +895,7 @@ function LayoutContent({ children }: LayoutProps) {
                 </span>
                 <div className="flex items-center gap-2">
                   <SparklesIcon className="w-4 h-4 text-brand-light/50 group-hover:text-brand-light transition-colors" />
-                  <kbd className="px-2 py-1 text-xs bg-theme-tertiary/50 border border-theme/30 rounded text-theme-muted">
+                  <kbd className="px-2 py-1 text-xs bg-theme-tertiary/50 border border-white/[0.08] rounded text-theme-muted">
                     ⌘K
                   </kbd>
                 </div>
@@ -931,7 +934,7 @@ function LayoutContent({ children }: LayoutProps) {
         {/* STOCK HEADER */}
         {isStockPage && currentTicker && (
           <div className="bg-theme-primary px-6 py-4">
-            <div className="bg-theme-card rounded-xl shadow-lg border border-theme/10 overflow-hidden">
+            <div className="bg-theme-card rounded-xl shadow-lg border border-white/[0.06] overflow-hidden">
               <div className="px-6 py-5">
                 {stockLoading ? (
                   <div className="flex items-center justify-center py-8">
@@ -948,7 +951,7 @@ function LayoutContent({ children }: LayoutProps) {
                 ) : quote && profile ? (
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-4">
-                      <div className="w-14 h-14 bg-white rounded-xl p-2 shadow-md border border-theme/5">
+                      <div className="w-14 h-14 bg-white rounded-xl p-2 shadow-md border border-white/[0.04]">
                         <Logo 
                           ticker={currentTicker}
                           alt={`${currentTicker} Logo`}
@@ -1016,7 +1019,7 @@ function LayoutContent({ children }: LayoutProps) {
               </div>
               
               {/* Tabs */}
-              <div className="bg-theme-secondary/5 border-t border-theme/10">
+              <div className="bg-theme-secondary/5 border-t border-white/[0.04]">
                 <div className="px-6">
                   <nav className="flex items-center gap-1">
                     {STOCK_TABS.map((tab) => {
@@ -1069,7 +1072,7 @@ function LayoutContent({ children }: LayoutProps) {
         </div>
 
         {/* FOOTER */}
-        <div className="h-5 bg-theme-secondary/50 border-t border-theme/10 flex items-center justify-between px-3 text-xs text-theme-muted">
+        <div className="h-5 bg-theme-secondary/50 border-t border-white/[0.04] flex items-center justify-between px-3 text-xs text-theme-muted">
           <div className="flex items-center gap-2">
             <span>Market: {marketStatus.status}</span>
             <span>•</span>

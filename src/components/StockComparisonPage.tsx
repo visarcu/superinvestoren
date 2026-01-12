@@ -1,1037 +1,965 @@
-// Professional Stock Comparison - TradingView Style
+// Stock Comparison - FEY GRAPHS STYLE
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useCallback } from 'react'
 import {
- ResponsiveContainer,
- LineChart,
- Line,
- XAxis,
- YAxis,
- CartesianGrid,
- Tooltip as RechartsTooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
 } from 'recharts'
-import { 
- XMarkIcon, 
- PlusIcon,
- ChartBarIcon,
- SparklesIcon,
- TableCellsIcon
+import {
+  XMarkIcon,
+  PlusIcon,
+  MagnifyingGlassIcon,
+  ArrowPathIcon,
+  Cog6ToothIcon,
+  SparklesIcon,
 } from '@heroicons/react/24/outline'
 import { stocks as availableStocks } from '@/data/stocks'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { supabase } from '@/lib/supabaseClient'
-import LoadingSpinner from '@/components/LoadingSpinner'
 import Link from 'next/link'
+import Logo from '@/components/Logo'
 
-// Professional Metrics with categories
-const METRICS = [
- // Fundamentals
- { value: 'revenue', label: 'Umsatz', category: 'Fundamentale Daten', unit: 'currency' },
- { value: 'netIncome', label: 'Nettogewinn', category: 'Fundamentale Daten', unit: 'currency' },
- { value: 'ebitda', label: 'EBITDA', category: 'Fundamentale Daten', unit: 'currency' },
- { value: 'eps', label: 'Gewinn je Aktie', category: 'Fundamentale Daten', unit: 'currency' },
- { value: 'freeCashFlow', label: 'Free Cash Flow', category: 'Fundamentale Daten', unit: 'currency' },
- 
- // Valuation
- { value: 'peRatio', label: 'KGV', category: 'Bewertung', unit: 'ratio' },
- { value: 'pbRatio', label: 'KBV', category: 'Bewertung', unit: 'ratio' },
- { value: 'psRatio', label: 'KUV', category: 'Bewertung', unit: 'ratio' },
- 
- // Profitability 
- { value: 'roe', label: 'Eigenkapitalrendite', category: 'Rentabilität', unit: 'percentage' },
- { value: 'roa', label: 'Gesamtkapitalrendite', category: 'Rentabilität', unit: 'percentage' },
- { value: 'grossMargin', label: 'Bruttomarge', category: 'Rentabilität', unit: 'percentage' },
- { value: 'operatingMargin', label: 'Operative Marge', category: 'Rentabilität', unit: 'percentage' },
- { value: 'netMargin', label: 'Nettomarge', category: 'Rentabilität', unit: 'percentage' },
- 
- // Financial Health
- { value: 'currentRatio', label: 'Liquidität 1. Grades', category: 'Finanzielle Gesundheit', unit: 'ratio' },
- { value: 'debtToEquity', label: 'Verschuldungsgrad', category: 'Finanzielle Gesundheit', unit: 'ratio' },
- { value: 'totalDebt', label: 'Gesamtverschuldung', category: 'Finanzielle Gesundheit', unit: 'currency' },
- { value: 'cash', label: 'Liquide Mittel', category: 'Finanzielle Gesundheit', unit: 'currency' },
+// Chart Colors - Fey Style
+const CHART_COLORS = [
+  '#2962FF', // Blue
+  '#FF6B35', // Orange
+  '#00C853', // Green
+  '#FF9800', // Amber
+  '#9C27B0', // Purple
+  '#00BCD4', // Cyan
+  '#E91E63', // Pink
+  '#607D8B', // Blue Grey
 ]
 
-// Professional color scheme
-const CHART_COLORS = [
- '#2962FF', '#00C851', '#FF9800', '#FF5722', '#9C27B0', 
- '#00BCD4', '#607D8B', '#795548', '#E91E63', '#009688'
+// Zeiträume für tägliche Aktienkurse
+const PRICE_PERIODS = [
+  { value: '3M', label: '3M', days: 90 },
+  { value: '6M', label: '6M', days: 180 },
+  { value: '1Y', label: '1Y', days: 365 },
+  { value: '3Y', label: '3Y', days: 1095 },
+  { value: '5Y', label: '5Y', days: 1825 },
+]
+
+// Zeiträume für jährliche Finanzdaten (KGV, Umsatz)
+const FINANCIAL_PERIODS = [
+  { value: '3Y', label: '3J', years: 3 },
+  { value: '5Y', label: '5J', years: 5 },
+  { value: '10Y', label: '10J', years: 10 },
+]
+
+// Verfügbare Metriken
+const METRICS = [
+  { value: 'price', label: 'Aktienkurs', unit: 'currency' },
+  { value: 'pe', label: 'KGV', unit: 'ratio' },
+  { value: 'revenue', label: 'Umsatz', unit: 'large_currency' },
+]
+
+// Popular stocks for suggestions
+const SUGGESTION_STOCKS = [
+  { ticker: 'GOOGL', name: 'Alphabet Inc.' },
+  { ticker: 'AMZN', name: 'Amazon.com Inc.' },
+  { ticker: 'META', name: 'Meta Platforms Inc.' },
+  { ticker: 'NVDA', name: 'NVIDIA Corporation' },
+  { ticker: 'TSLA', name: 'Tesla Inc.' },
+  { ticker: 'BRK.B', name: 'Berkshire Hathaway' },
+  { ticker: 'JPM', name: 'JPMorgan Chase' },
+  { ticker: 'V', name: 'Visa Inc.' },
 ]
 
 interface User {
- id: string
- email: string
- isPremium: boolean
+  id: string
+  email: string
+  isPremium: boolean
+}
+
+interface StockData {
+  ticker: string
+  name: string
+  data: { date: string; value: number; change: number }[]
+  currentValue: number
+  performance: number
+  min: number
+  max: number
+  avg: number
 }
 
 export default function StockComparisonPage() {
- const { formatCurrency } = useCurrency()
- 
- const [user, setUser] = useState<User | null>(null)
- const [loadingUser, setLoadingUser] = useState(true)
- const [selectedStocks, setSelectedStocks] = useState<string[]>([])
- const [selectedMetrics, setSelectedMetrics] = useState<string[]>(['revenue', 'netIncome', 'peRatio'])
- const [stockSearch, setStockSearch] = useState('')
- const [showStockDropdown, setShowStockDropdown] = useState(false)
- const [emptyStateSearch, setEmptyStateSearch] = useState('')
- const [showEmptyStateDropdown, setShowEmptyStateDropdown] = useState(false)
- const [comparisonData, setComparisonData] = useState<any>(null)
- const [loading, setLoading] = useState(false)
- const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
- const [years, setYears] = useState(5)
- const [viewMode, setViewMode] = useState<'chart' | 'table'>('chart')
- const [showAllData, setShowAllData] = useState(false)
+  const { formatCurrency } = useCurrency()
 
- // Load User
- useEffect(() => {
-   async function loadUser() {
-     try {
-       const { data: { session } } = await supabase.auth.getSession()
-       
-       if (session?.user) {
-         const { data: profile } = await supabase
-           .from('profiles')
-           .select('is_premium')
-           .eq('user_id', session.user.id)
-           .maybeSingle()
+  const [user, setUser] = useState<User | null>(null)
+  const [loadingUser, setLoadingUser] = useState(true)
+  const [selectedStocks, setSelectedStocks] = useState<StockData[]>([])
+  const [pricePeriod, setPricePeriod] = useState('1Y')
+  const [financialPeriod, setFinancialPeriod] = useState('5Y')
+  const [selectedMetric, setSelectedMetric] = useState('price')
+  const [loading, setLoading] = useState(false)
+  const [showSearchModal, setShowSearchModal] = useState(false)
+  const [searchQuery, setSearchQuery] = useState('')
+  const [sidebarSearch, setSidebarSearch] = useState('')
 
-         setUser({
-           id: session.user.id,
-           email: session.user.email || '',
-           isPremium: profile?.is_premium || false
-         })
-       }
-     } catch (error) {
-       console.error('Error loading user:', error)
-     } finally {
-       setLoadingUser(false)
-     }
-   }
+  // Formatierung je nach Metrik
+  const formatValue = useCallback((value: number) => {
+    if (selectedMetric === 'pe') {
+      return value.toFixed(1) + 'x'
+    }
+    if (selectedMetric === 'revenue') {
+      if (value >= 1e12) return `${(value / 1e12).toFixed(1)} Bio $`
+      if (value >= 1e9) return `${(value / 1e9).toFixed(1)} Mrd $`
+      if (value >= 1e6) return `${(value / 1e6).toFixed(1)} Mio $`
+      return formatCurrency(value)
+    }
+    return formatCurrency(value)
+  }, [selectedMetric, formatCurrency])
 
-   loadUser()
- }, [])
+  // Aktuelles Metrik-Label
+  const currentMetricLabel = METRICS.find(m => m.value === selectedMetric)?.label || 'Aktienkurs'
 
- // Load comparison data
- useEffect(() => {
-   if (selectedStocks.length === 0) return
+  // Load User
+  useEffect(() => {
+    async function loadUser() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
 
-   const loadComparisonData = async () => {
-     setLoading(true)
-     try {
-       const response = await fetch(
-         `/api/compare-stocks?tickers=${selectedStocks.join(',')}&period=${period}&years=${years}`
-       )
-       const data = await response.json()
-       setComparisonData(data)
-     } catch (error) {
-       console.error('Error loading comparison data:', error)
-     } finally {
-       setLoading(false)
-     }
-   }
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_premium')
+            .eq('user_id', session.user.id)
+            .maybeSingle()
 
-   loadComparisonData()
- }, [selectedStocks, period, years])
+          setUser({
+            id: session.user.id,
+            email: session.user.email || '',
+            isPremium: profile?.is_premium || false
+          })
+        }
+      } catch (error) {
+        console.error('Error loading user:', error)
+      } finally {
+        setLoadingUser(false)
+      }
+    }
 
- const filteredStocks = useMemo(() => {
-   if (!stockSearch || stockSearch.length < 1) return []
-   const query = stockSearch.toLowerCase()
-   return availableStocks
-     .filter(stock => 
-       stock.ticker.toLowerCase().includes(query) || 
-       stock.name.toLowerCase().includes(query)
-     )
-     .filter(stock => !selectedStocks.includes(stock.ticker))
-     .slice(0, 8)
- }, [stockSearch, selectedStocks])
+    loadUser()
+  }, [])
 
- const filteredEmptyStateStocks = useMemo(() => {
-   if (!emptyStateSearch || emptyStateSearch.length < 1) return []
-   const query = emptyStateSearch.toLowerCase()
-   return availableStocks
-     .filter(stock => 
-       stock.ticker.toLowerCase().includes(query) || 
-       stock.name.toLowerCase().includes(query)
-     )
-     .slice(0, 8)
- }, [emptyStateSearch])
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Arrow keys to cycle timeframes
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+        if (selectedMetric === 'price') {
+          const currentIndex = PRICE_PERIODS.findIndex(p => p.value === pricePeriod)
+          if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            setPricePeriod(PRICE_PERIODS[currentIndex - 1].value)
+          } else if (e.key === 'ArrowRight' && currentIndex < PRICE_PERIODS.length - 1) {
+            setPricePeriod(PRICE_PERIODS[currentIndex + 1].value)
+          }
+        } else {
+          const currentIndex = FINANCIAL_PERIODS.findIndex(p => p.value === financialPeriod)
+          if (e.key === 'ArrowLeft' && currentIndex > 0) {
+            setFinancialPeriod(FINANCIAL_PERIODS[currentIndex - 1].value)
+          } else if (e.key === 'ArrowRight' && currentIndex < FINANCIAL_PERIODS.length - 1) {
+            setFinancialPeriod(FINANCIAL_PERIODS[currentIndex + 1].value)
+          }
+        }
+      }
+      // Cmd/Ctrl + K for search
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setShowSearchModal(true)
+      }
+      // Escape to close modal
+      if (e.key === 'Escape') {
+        setShowSearchModal(false)
+      }
+    }
 
- const maxStocks = user?.isPremium ? 8 : 3
- const maxMetrics = user?.isPremium ? 15 : 6
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedMetric, pricePeriod, financialPeriod])
 
- // Chart data calculation - Common time range or all data
- const chartData = useMemo(() => {
-   if (!comparisonData || selectedStocks.length === 0 || selectedMetrics.length === 0) return []
+  // Load stock data based on selected metric
+  const loadStockData = useCallback(async (ticker: string): Promise<StockData | null> => {
+    try {
+      const stockInfo = availableStocks.find(s => s.ticker === ticker)
+      const name = stockInfo?.name || ticker
 
-   if (showAllData) {
-     // Show all available years
-     const allYears = new Set<string>()
-     Object.values(comparisonData).forEach((stockData: any) => {
-       stockData.data?.forEach((d: any) => {
-         allYears.add(d.year)
-       })
-     })
+      if (selectedMetric === 'price') {
+        // ===== AKTIENKURS - Historical Price API =====
+        const response = await fetch(`/api/historical/${ticker}`)
+        const data = await response.json()
 
-     return Array.from(allYears).sort().map(year => {
-       const dataPoint: any = { year }
-       
-       selectedStocks.forEach(ticker => {
-         selectedMetrics.forEach(metric => {
-           const stockData = comparisonData[ticker]
-           const yearData = stockData?.data?.find((d: any) => d.year === year)
-           if (yearData) {
-             const key = selectedMetrics.length > 1 ? `${ticker}_${metric}` : ticker
-             dataPoint[key] = yearData[metric] || 0
-           }
-         })
-       })
-       
-       return dataPoint
-     })
-   } else {
-     // Common time range only
-     const stockYears = selectedStocks.map(ticker => {
-       const stockData = comparisonData[ticker]
-       return new Set(stockData?.data?.map((d: any) => d.year) || [])
-     })
-     
-     const commonYears = stockYears.length > 0 
-       ? stockYears.reduce((intersection, years) => 
-           new Set([...intersection].filter(year => years.has(year)))
-         )
-       : new Set()
+        if (!data.historical || data.historical.length === 0) return null
 
-     return Array.from(commonYears).sort().map(year => {
-       const dataPoint: any = { year }
-       
-       selectedStocks.forEach(ticker => {
-         selectedMetrics.forEach(metric => {
-           const stockData = comparisonData[ticker]
-           const yearData = stockData?.data?.find((d: any) => d.year === year)
-           if (yearData) {
-             const key = selectedMetrics.length > 1 ? `${ticker}_${metric}` : ticker
-             dataPoint[key] = yearData[metric] || 0
-           }
-         })
-       })
-       
-       return dataPoint
-     })
-   }
- }, [comparisonData, selectedMetrics, selectedStocks, showAllData])
+        const period = PRICE_PERIODS.find(p => p.value === pricePeriod)
+        const daysToShow = period?.days || 365
+        const cutoffDate = new Date()
+        cutoffDate.setDate(cutoffDate.getDate() - daysToShow)
 
- // Check for additional available data
- const additionalDataInfo = useMemo(() => {
-   if (!comparisonData || selectedStocks.length === 0) return null
-   
-   const allAvailableYears = new Set<string>()
-   const commonYears = new Set(chartData.map(d => d.year))
-   
-   selectedStocks.forEach(ticker => {
-     const stockData = comparisonData[ticker]
-     stockData?.data?.forEach((d: any) => allAvailableYears.add(d.year))
-   })
-   
-   const additionalYears = Array.from(allAvailableYears).filter(year => !commonYears.has(year))
-   
-   if (additionalYears.length === 0) return null
-   
-   const stocksWithAdditional = selectedStocks.filter(ticker => {
-     const stockData = comparisonData[ticker]
-     return additionalYears.some(year => 
-       stockData?.data?.some((d: any) => d.year === year)
-     )
-   })
-   
-   return {
-     years: additionalYears.sort(),
-     stocks: stocksWithAdditional
-   }
- }, [comparisonData, selectedStocks, chartData])
+        const filteredHistorical = data.historical.filter((d: any) =>
+          new Date(d.date) >= cutoffDate
+        )
 
- // Chart lines calculation
- const chartLines = useMemo(() => {
-   const lines: { key: string; name: string; color: string }[] = []
-   let colorIndex = 0
-   
-   selectedStocks.forEach((ticker) => {
-     selectedMetrics.forEach((metric) => {
-       const stockInfo = comparisonData?.[ticker]
-       const metricInfo = METRICS.find(m => m.value === metric)
-       
-       if (selectedMetrics.length > 1) {
-         lines.push({
-           key: `${ticker}_${metric}`,
-           name: `${stockInfo?.name || ticker} - ${metricInfo?.label || metric}`,
-           color: CHART_COLORS[colorIndex % CHART_COLORS.length],
-         })
-       } else {
-         lines.push({
-           key: ticker,
-           name: stockInfo?.name || ticker,
-           color: CHART_COLORS[colorIndex % CHART_COLORS.length],
-         })
-       }
-       colorIndex++
-     })
-   })
-   
-   return lines
- }, [selectedStocks, selectedMetrics, comparisonData])
+        if (filteredHistorical.length === 0) return null
 
- // Professional multi-year table data
- const tableData = useMemo(() => {
-   if (!comparisonData || selectedStocks.length === 0) return []
-   
-   // Get available years from data
-   const allYears = new Set<string>()
-   Object.values(comparisonData).forEach((stockData: any) => {
-     stockData.data?.forEach((d: any) => allYears.add(d.year))
-   })
-   const sortedYears = Array.from(allYears).sort().slice(-years) // Last N years
-   
-   return selectedMetrics.map(metric => {
-     const metricInfo = METRICS.find(m => m.value === metric)
-     const row: any = { 
-       metric: metricInfo?.label || metric,
-       category: metricInfo?.category || '',
-       unit: metricInfo?.unit || 'currency'
-     }
-     
-     selectedStocks.forEach(ticker => {
-       const stockData = comparisonData[ticker]
-       
-       // Add data for each year
-       sortedYears.forEach(year => {
-         const yearData = stockData?.data?.find((d: any) => d.year === year)
-         row[`${ticker}_${year}`] = yearData?.[metric]
-       })
-       
-       // Calculate statistics
-       const values = sortedYears
-         .map(year => stockData?.data?.find((d: any) => d.year === year)?.[metric])
-         .filter(v => v != null && v !== 0)
-       
-       if (values.length >= 2) {
-         // CAGR calculation
-         const firstValue = values[0]
-         const lastValue = values[values.length - 1]
-         const yearsCount = values.length - 1
-         const cagr = yearsCount > 0 ? (Math.pow(Math.abs(lastValue / firstValue), 1 / yearsCount) - 1) * 100 : 0
-         row[`${ticker}_cagr`] = isNaN(cagr) ? 0 : cagr
-         
-         // Average
-         row[`${ticker}_avg`] = values.reduce((a, b) => a + b, 0) / values.length
-         
-         // Latest value
-         row[`${ticker}_latest`] = lastValue
-       }
-     })
-     
-     return row
-   })
- }, [comparisonData, selectedStocks, selectedMetrics, years])
+        // Ältester Wert zuerst (für korrekte Prozent-Berechnung)
+        const sortedData = filteredHistorical.slice().reverse()
+        const firstValue = sortedData[0].close
 
- // Get available years for table headers
- const availableYears = useMemo(() => {
-   if (!comparisonData) return []
-   
-   const allYears = new Set<string>()
-   Object.values(comparisonData).forEach((stockData: any) => {
-     stockData.data?.forEach((d: any) => allYears.add(d.year))
-   })
-   return Array.from(allYears).sort().slice(-Math.min(years, 5)) // Show max 5 years in table
- }, [comparisonData, years])
+        const processedData = sortedData.map((d: any) => ({
+          date: d.date,
+          value: d.close,
+          change: ((d.close - firstValue) / firstValue) * 100
+        }))
 
- const formatTableValue = (value: number, unit: string) => {
-   if (!value && value !== 0) return '--'
-   
-   switch (unit) {
-     case 'percentage':
-       return `${(value * 100).toFixed(1)}%`
-     case 'ratio':
-       return value.toFixed(2)
-     case 'currency':
-       return formatCurrency(value)
-     default:
-       return formatCurrency(value)
-   }
- }
+        const values = processedData.map((d: any) => d.value)
+        return {
+          ticker,
+          name,
+          data: processedData,
+          currentValue: processedData[processedData.length - 1]?.value || 0,
+          performance: processedData[processedData.length - 1]?.change || 0,
+          min: Math.min(...values),
+          max: Math.max(...values),
+          avg: values.reduce((a: number, b: number) => a + b, 0) / values.length
+        }
 
- // Y-Axis formatter for charts
- const formatYAxis = (value: number) => {
-   // Use German number formatting
-   if (Math.abs(value) >= 1e12) {
-     return `${(value / 1e12).toFixed(1).replace('.', ',')} B`
-   }
-   if (Math.abs(value) >= 1e9) {
-     return `${(value / 1e9).toFixed(1).replace('.', ',')} Mrd`
-   }
-   if (Math.abs(value) >= 1e6) {
-     return `${(value / 1e6).toFixed(1).replace('.', ',')} Mio`
-   }
-   if (Math.abs(value) >= 1e3) {
-     return `${(value / 1e3).toFixed(1).replace('.', ',')} T`
-   }
-   
-   // For percentages and ratios
-   const currentMetric = selectedMetrics[0]
-   const metricInfo = METRICS.find(m => m.value === currentMetric)
-   
-   if (metricInfo?.unit === 'percentage') {
-     return `${(value * 100).toFixed(0)}%`
-   }
-   if (metricInfo?.unit === 'ratio') {
-     return value.toFixed(1).replace('.', ',')
-   }
-   
-   return value.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.')
- }
+      } else {
+        // ===== KGV oder UMSATZ - Financial Data API =====
+        const period = FINANCIAL_PERIODS.find(p => p.value === financialPeriod)
+        const yearsToLoad = period?.years || 5
 
- // Tooltip formatter with German formatting
- const formatTooltipValue = (value: number, name: string) => {
-   const metric = selectedMetrics.find(m => name.includes(METRICS.find(met => met.value === m)?.label || ''))
-   const metricInfo = metric ? METRICS.find(m => m.value === metric) : METRICS.find(m => m.value === selectedMetrics[0])
-   
-   if (!value && value !== 0) return '--'
-   
-   switch (metricInfo?.unit) {
-     case 'percentage':
-       return `${(value * 100).toFixed(2).replace('.', ',')}%`
-     case 'ratio':
-       return value.toFixed(2).replace('.', ',')
-     case 'currency':
-       return formatCurrency(value)
-     default:
-       return formatCurrency(value)
-   }
- }
+        const response = await fetch(`/api/financial-data/${ticker}?years=${yearsToLoad}&period=annual`)
+        const data = await response.json()
 
- if (loadingUser) {
-   return (
-     <div className="flex h-screen items-center justify-center">
-       <LoadingSpinner />
-     </div>
-   )
- }
+        if (!data.incomeStatements || data.incomeStatements.length === 0) return null
 
- return (
-   <div className="min-h-screen bg-theme-primary">
-     <div className="max-w-full mx-auto px-4 py-3">
-       
-       {/* PROFESSIONAL HEADER */}
-       <div className="flex items-center justify-between mb-3 pb-3 border-b border-theme/10">
-         <div className="flex items-center gap-4">
-           <div>
-             <h1 className="text-base font-semibold text-theme-primary">Aktien-Vergleich</h1>
-             <p className="text-xs text-theme-muted">
-               {selectedStocks.length}/{maxStocks} Aktien • {selectedMetrics.length}/{maxMetrics} Metriken
-             </p>
-           </div>
-           
-           <div className="flex items-center gap-1.5 px-2 py-1 bg-brand/10 rounded text-xs">
-             <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
-             <span className="text-brand-light font-medium">Live</span>
-           </div>
-         </div>
-         
-         <div className="flex items-center gap-3">
-           {/* View Toggle */}
-           <div className="flex bg-theme-secondary/30 rounded-md p-0.5">
-             <button
-               onClick={() => setViewMode('table')}
-               className={`px-3 py-1 rounded text-xs font-medium transition-all ${
-                 viewMode === 'table' 
-                   ? 'bg-theme-card text-theme-primary shadow-sm' 
-                   : 'text-theme-muted hover:text-theme-primary'
-               }`}
-             >
-               <TableCellsIcon className="w-3 h-3 mr-1 inline" />
-               Table
-             </button>
-             <button
-               onClick={() => setViewMode('chart')}
-               className={`px-3 py-1 rounded text-xs font-medium transition-all ${
-                 viewMode === 'chart' 
-                   ? 'bg-theme-card text-theme-primary shadow-sm' 
-                   : 'text-theme-muted hover:text-theme-primary'
-               }`}
-             >
-               <ChartBarIcon className="w-3 h-3 mr-1 inline" />
-               Chart
-             </button>
-           </div>
-           
-           {!user?.isPremium && (
-             <Link
-               href="/pricing"
-               className="flex items-center gap-1 px-2 py-1 bg-brand text-white rounded text-xs font-medium hover:bg-brand transition-colors"
-             >
-               <SparklesIcon className="w-3 h-3" />
-               Pro
-             </Link>
-           )}
-         </div>
-       </div>
+        // Daten sind neueste zuerst - umkehren für chronologische Reihenfolge
+        const incomeStatements = [...data.incomeStatements].reverse()
+        const keyMetrics = [...(data.keyMetrics || [])].reverse()
 
-       {/* INLINE CONTROLS */}
-       <div className="flex items-center gap-4 mb-4 p-3 bg-theme-card/50 rounded-lg border border-theme/10">
-         
-         {/* Stock Selection */}
-         <div className="flex items-center gap-2">
-           <span className="text-xs text-theme-muted font-medium">Aktien:</span>
-           <div className="flex gap-1">
-             {selectedStocks.map((ticker, index) => (
-               <div
-                 key={ticker}
-                 className="inline-flex items-center gap-1 px-2 py-0.5 bg-theme-secondary/60 rounded text-xs border border-theme/20"
-               >
-                 <div 
-                   className="w-1 h-1 rounded-full"
-                   style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }}
-                 />
-                 <span className="font-medium text-theme-primary">{ticker}</span>
-                 <button
-                   onClick={() => setSelectedStocks(prev => prev.filter(s => s !== ticker))}
-                   className="hover:text-red-400 transition-colors"
-                 >
-                   <XMarkIcon className="w-2.5 h-2.5" />
-                 </button>
-               </div>
-             ))}
-             
-             {selectedStocks.length < maxStocks && (
-               <div className="relative">
-                 <div className="flex items-center gap-1">
-                   <input
-                     type="text"
-                     placeholder="Aktie hinzufügen..."
-                     value={stockSearch}
-                     onChange={(e) => {
-                       setStockSearch(e.target.value)
-                       setShowStockDropdown(e.target.value.length > 0)
-                     }}
-                     onFocus={() => setShowStockDropdown(stockSearch.length > 0)}
-                     onBlur={() => setTimeout(() => setShowStockDropdown(false), 150)}
-                     className="px-2 py-0.5 bg-theme-secondary border border-dashed border-theme/60 rounded text-xs text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:bg-theme-card focus:shadow-sm w-32"
-                   />
-                   <PlusIcon className="w-3 h-3 text-theme-muted" />
-                 </div>
-                 
-                 {showStockDropdown && filteredStocks.length > 0 && (
-                   <div className="absolute top-full mt-1 left-0 w-64 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 max-h-48 overflow-y-auto">
-                     {filteredStocks.map(stock => (
-                       <button
-                         key={stock.ticker}
-                         onMouseDown={() => {
-                           setSelectedStocks(prev => [...prev, stock.ticker])
-                           setStockSearch('')
-                           setShowStockDropdown(false)
-                         }}
-                         className="w-full px-3 py-2 text-left hover:bg-theme-secondary/30 transition-colors flex items-center justify-between"
-                       >
-                         <div>
-                           <span className="font-medium text-xs text-theme-primary">{stock.ticker}</span>
-                           <div className="text-xs text-theme-muted truncate max-w-40">{stock.name}</div>
-                         </div>
-                         <PlusIcon className="w-3 h-3 text-brand" />
-                       </button>
-                     ))}
-                   </div>
-                 )}
-               </div>
-             )}
-           </div>
-         </div>
+        // Alle geladenen Daten nutzen (nicht filtern für jährliche Daten)
+        const limitedIncome = incomeStatements
+        const limitedMetrics = keyMetrics
 
-         <div className="w-px h-4 bg-theme/20"></div>
+        if (limitedIncome.length === 0) return null
 
-         {/* Quick Metric Toggles */}
-         <div className="flex items-center gap-2">
-           <span className="text-xs text-theme-muted font-medium">Kennzahlen:</span>
-           {['revenue', 'netIncome', 'peRatio', 'roe', 'freeCashFlow'].map(metric => {
-             const metricInfo = METRICS.find(m => m.value === metric)
-             const isSelected = selectedMetrics.includes(metric)
-             const canToggle = isSelected || selectedMetrics.length < maxMetrics
-             
-             return (
-               <button
-                 key={metric}
-                 onClick={() => {
-                   if (isSelected) {
-                     setSelectedMetrics(prev => prev.filter(m => m !== metric))
-                   } else if (canToggle) {
-                     setSelectedMetrics(prev => [...prev, metric])
-                   }
-                 }}
-                 disabled={!canToggle}
-                 className={`px-2 py-0.5 rounded text-xs font-medium transition-all border ${
-                   isSelected
-                     ? 'bg-brand text-white border-green-600'
-                     : canToggle
-                       ? 'bg-theme-secondary/30 text-theme-secondary border-theme/20 hover:border-green-500/50 hover:text-theme-primary'
-                       : 'bg-theme-secondary/20 text-theme-muted border-theme/10 cursor-not-allowed opacity-50'
-                 }`}
-               >
-                 {metricInfo?.label}
-               </button>
-             )
-           })}
-         </div>
+        let processedData: { date: string; value: number; change: number }[] = []
 
-         <div className="w-px h-4 bg-theme/20"></div>
+        if (selectedMetric === 'revenue') {
+          // ===== UMSATZ =====
+          const firstRevenue = limitedIncome[0]?.revenue || 0
 
-         {/* Period & Years */}
-         <div className="flex items-center gap-2">
-           <div className="flex bg-theme-secondary/20 rounded p-0.5">
-             {[3, 5, 10].map(y => (
-               <button
-                 key={y}
-                 onClick={() => setYears(y)}
-                 className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${
-                   years === y 
-                     ? 'bg-theme-card text-theme-primary shadow-sm' 
-                     : 'text-theme-muted hover:text-theme-primary'
-                 }`}
-               >
-                 {y}Y
-               </button>
-             ))}
-           </div>
-           
-           <div className="flex bg-theme-secondary/20 rounded p-0.5">
-             <button
-               onClick={() => setPeriod('annual')}
-               className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${
-                 period === 'annual' 
-                   ? 'bg-theme-card text-theme-primary shadow-sm' 
-                   : 'text-theme-muted hover:text-theme-primary'
-               }`}
-             >
-               Jährlich
-             </button>
-             <button
-               onClick={() => setPeriod('quarterly')}
-               className={`px-2 py-0.5 rounded text-xs font-medium transition-all ${
-                 period === 'quarterly' 
-                   ? 'bg-theme-card text-theme-primary shadow-sm' 
-                   : 'text-theme-muted hover:text-theme-primary'
-               }`}
-             >
-               Quartalsweise
-             </button>
-           </div>
-         </div>
-       </div>
+          processedData = limitedIncome.map((income: any) => {
+            const revenue = income.revenue || 0
+            return {
+              date: income.calendarYear || income.date?.slice(0, 4) || '',
+              value: revenue,
+              change: firstRevenue !== 0 ? ((revenue - firstRevenue) / firstRevenue) * 100 : 0
+            }
+          })
 
-       {selectedStocks.length === 0 ? (
-         /* EMPTY STATE */
-         <div className="flex items-center justify-center min-h-96">
-           <div className="text-center">
-             <ChartBarIcon className="w-16 h-16 text-theme-muted/40 mx-auto mb-4" />
-             <h3 className="text-lg font-medium text-theme-primary mb-2">Aktien-Vergleich starten</h3>
-             <p className="text-sm text-theme-muted mb-4 max-w-md">
-               Füge Aktien hinzu um ihre Finanzkennzahlen, Ratios und Performance zu vergleichen.
-             </p>
-             <div className="flex items-center justify-center gap-2 relative">
-               <input
-                 type="text"
-                 placeholder="Ticker eingeben..."
-                 value={emptyStateSearch}
-                 onChange={(e) => {
-                   setEmptyStateSearch(e.target.value)
-                   setShowEmptyStateDropdown(e.target.value.length > 0)
-                 }}
-                 onFocus={() => setShowEmptyStateDropdown(emptyStateSearch.length > 0)}
-                 onBlur={() => setTimeout(() => setShowEmptyStateDropdown(false), 150)}
-                 className="px-3 py-2 bg-theme-card border border-theme/20 rounded-lg text-sm text-theme-primary placeholder-theme-muted focus:outline-none focus:border-green-500 focus:ring-1 focus:ring-brand/20"
-               />
-               {filteredEmptyStateStocks.length > 0 && showEmptyStateDropdown && (
-                 <div className="absolute top-full mt-2 w-64 bg-theme-card border border-theme/20 rounded-lg shadow-xl z-50 max-h-48 overflow-y-auto">
-                   {filteredEmptyStateStocks.map(stock => (
-                     <button
-                       key={stock.ticker}
-                       onMouseDown={() => {
-                         setSelectedStocks([stock.ticker])
-                         setEmptyStateSearch('')
-                         setShowEmptyStateDropdown(false)
-                       }}
-                       className="w-full px-3 py-2 text-left hover:bg-theme-secondary/30 transition-colors"
-                     >
-                       <div className="font-medium text-sm text-theme-primary">{stock.ticker}</div>
-                       <div className="text-xs text-theme-muted truncate">{stock.name}</div>
-                     </button>
-                   ))}
-                 </div>
-               )}
-             </div>
-           </div>
-         </div>
-       ) : (
-         /* MAIN CONTENT - StockUnlock Layout */
-         <div className="space-y-4">
-           
-           {/* METRICS SELECTOR - Horizontal */}
-           <div className="bg-theme-card rounded-lg border border-theme/10 p-3">
-             <div className="text-xs font-medium text-theme-muted uppercase tracking-wide mb-3">
-               Kennzahlen ({selectedMetrics.length}/{maxMetrics})
-             </div>
-             
-             <div className="grid grid-cols-4 gap-0">
-               {Object.entries(
-                 METRICS.reduce((acc, metric) => {
-                   if (!acc[metric.category]) acc[metric.category] = []
-                   acc[metric.category].push(metric)
-                   return acc
-                 }, {} as Record<string, typeof METRICS>)
-               ).map(([category, metrics], categoryIndex, array) => (
-                 <div key={category} className={`px-3 ${categoryIndex % 2 === 1 ? 'bg-theme-secondary/5' : ''} ${categoryIndex < array.length - 1 ? 'border-r border-theme/10' : ''}`}>
-                   <div className="text-xs font-medium text-theme-primary mb-2">{category}</div>
-                   <div className="space-y-1">
-                     {metrics.map(metric => {
-                       const isSelected = selectedMetrics.includes(metric.value)
-                       const canSelect = isSelected || selectedMetrics.length < maxMetrics
-                       
-                       return (
-                         <button
-                           key={metric.value}
-                           onClick={() => {
-                             if (isSelected) {
-                               setSelectedMetrics(prev => prev.filter(m => m !== metric.value))
-                             } else if (canSelect) {
-                               setSelectedMetrics(prev => [...prev, metric.value])
-                             }
-                           }}
-                           disabled={!canSelect}
-                           className={`w-full text-left px-2 py-1 rounded text-xs transition-all ${
-                             isSelected
-                               ? 'bg-brand text-white'
-                               : canSelect
-                                 ? 'hover:bg-theme-secondary/40 text-theme-secondary'
-                                 : 'text-theme-muted/50 cursor-not-allowed'
-                           }`}
-                         >
-                           {metric.label}
-                         </button>
-                       )
-                     })}
-                   </div>
-                 </div>
-               ))}
-             </div>
-           </div>
+        } else if (selectedMetric === 'pe') {
+          // ===== KGV (P/E Ratio) =====
+          const firstPE = limitedMetrics[0]?.peRatio || 0
 
-           {loading ? (
-             <div className="bg-theme-card rounded-lg border border-theme/10 h-96 flex items-center justify-center">
-               <LoadingSpinner />
-             </div>
-           ) : viewMode === 'table' ? (
-             /* PROFESSIONAL MULTI-YEAR TABLE */
-             <div className="bg-theme-card rounded-lg border border-theme/10">
-               <div className="p-4 overflow-auto max-h-[600px]">
-                 <table className="w-full text-xs">
-                   <thead className="sticky top-0 bg-theme-card z-10">
-                     <tr className="border-b border-theme/20">
-                       <th className="text-left py-2 px-3 text-theme-muted font-medium uppercase tracking-wide w-40">
-                         Kennzahl
-                       </th>
-                       {selectedStocks.map((ticker, stockIndex) => (
-                         <React.Fragment key={ticker}>
-                           <th 
-                             className={`text-center py-2 px-1 border-l border-theme/20 ${stockIndex === 0 ? '' : 'border-l-2'}`}
-                             colSpan={availableYears.length + 2}
-                           >
-                             <div className="flex items-center justify-center gap-1.5 mb-1">
-                               <div 
-                                 className="w-2 h-2 rounded-full"
-                                 style={{ backgroundColor: CHART_COLORS[stockIndex % CHART_COLORS.length] }}
-                               />
-                               <span className="font-semibold text-theme-primary text-sm">{ticker}</span>
-                             </div>
-                             <div className="flex text-xs text-theme-muted font-normal">
-                               {availableYears.map(year => (
-                                 <div key={year} className="flex-1 text-center py-1">
-                                   {year}
-                                 </div>
-                               ))}
-                               <div className="flex-1 text-center py-1 font-medium">Ø</div>
-                               <div className="flex-1 text-center py-1 font-medium">CAGR</div>
-                             </div>
-                           </th>
-                         </React.Fragment>
-                       ))}
-                     </tr>
-                   </thead>
-                   <tbody>
-                     {tableData.map((row, rowIndex) => (
-                       <tr key={row.metric} className={`border-b border-theme/10 hover:bg-theme-secondary/10 ${rowIndex % 2 === 0 ? 'bg-theme-secondary/5' : ''}`}>
-                         <td className="py-2 px-3 sticky left-0 bg-theme-card">
-                           <div className="flex flex-col">
-                             <span className="font-medium text-theme-primary text-xs">{row.metric}</span>
-                             <span className="text-theme-muted/60 text-xs">({row.category})</span>
-                           </div>
-                         </td>
-                         {selectedStocks.map((ticker, stockIndex) => (
-                           <React.Fragment key={ticker}>
-                             {availableYears.map(year => {
-                               const value = row[`${ticker}_${year}`]
-                               return (
-                                 <td key={year} className={`text-right py-2 px-1 ${stockIndex === 0 ? '' : stockIndex === 1 ? 'border-l border-theme/20' : 'border-l-2 border-theme/20'}`}>
-                                   <span className="font-medium text-theme-primary">
-                                     {formatTableValue(value, row.unit)}
-                                   </span>
-                                 </td>
-                               )
-                             })}
-                             
-                             <td className={`text-right py-2 px-1 bg-theme-secondary/20 ${stockIndex === 0 ? '' : 'border-l border-theme/20'}`}>
-                               <span className="font-semibold text-theme-primary">
-                                 {formatTableValue(row[`${ticker}_avg`], row.unit)}
-                               </span>
-                             </td>
-                             
-                             <td className="text-right py-2 px-1 bg-theme-secondary/20">
-                               <span className={`font-semibold ${
-                                 row[`${ticker}_cagr`] > 0 ? 'text-brand' : row[`${ticker}_cagr`] < 0 ? 'text-red-500' : 'text-theme-muted'
-                               }`}>
-                                 {row[`${ticker}_cagr`] ? `${row[`${ticker}_cagr`].toFixed(1)}%` : '--'}
-                               </span>
-                             </td>
-                           </React.Fragment>
-                         ))}
-                       </tr>
-                     ))}
-                   </tbody>
-                 </table>
-               </div>
-             </div>
-           ) : (
-             /* CHART VIEW - StockUnlock Layout */
-             <>
-               {chartData.length === 0 ? (
-                 <div className="bg-theme-card rounded-lg border border-theme/10 h-96 flex items-center justify-center">
-                   <div className="text-center">
-                     <ChartBarIcon className="w-12 h-12 text-theme-muted/40 mx-auto mb-3" />
-                     <p className="text-theme-muted">Keine Daten für Chart-Ansicht</p>
-                     <p className="text-xs text-theme-muted mt-1">Wähle Aktien und Kennzahlen aus</p>
-                   </div>
-                 </div>
-               ) : (
-                 <>
-                   {/* Chart */}
-                   <div className="bg-theme-card rounded-lg border border-theme/10 p-4 h-[450px]">
-                     <ResponsiveContainer width="100%" height="100%">
-                       <LineChart 
-                         data={chartData} 
-                         margin={{ top: 20, right: 20, left: 70, bottom: 60 }}
-                       >
-                         <CartesianGrid 
-                           strokeDasharray="2 4" 
-                           stroke="#404040" 
-                           strokeWidth={0.8}
-                           opacity={0.6}
-                           horizontal={true}
-                           vertical={true}
-                         />
-                         <XAxis 
-                           dataKey="year" 
-                           stroke="var(--text-muted)"
-                           tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                           axisLine={{ stroke: 'var(--border-color)', opacity: 0.3 }}
-                           tickLine={false}
-                           dy={10}
-                         />
-                         <YAxis 
-                           stroke="var(--text-muted)"
-                           tick={{ fontSize: 11, fill: 'var(--text-muted)' }}
-                           axisLine={{ stroke: 'rgba(255,255,255,0.1)', opacity: 0.5 }}
-                           tickLine={false}
-                           width={70}
-                           tickFormatter={formatYAxis}
-                         />
-                         <RechartsTooltip
-                           contentStyle={{
-                             backgroundColor: 'var(--card-bg)',
-                             border: '1px solid var(--border-color)',
-                             borderRadius: '8px',
-                             fontSize: '12px',
-                             padding: '12px',
-                             boxShadow: '0 8px 32px rgba(0, 0, 0, 0.12)'
-                           }}
-                           cursor={{ stroke: 'var(--border-color)', strokeWidth: 1, opacity: 0.7 }}
-                           formatter={formatTooltipValue}
-                           labelFormatter={(label) => `Jahr: ${label}`}
-                         />
-                         
-                         {chartLines.map((line) => (
-                           <Line
-                             key={line.key}
-                             type="monotone"
-                             dataKey={line.key}
-                             stroke={line.color}
-                             strokeWidth={2.5}
-                             dot={false}
-                             activeDot={{ r: 4, fill: line.color, stroke: 'var(--card-bg)', strokeWidth: 2 }}
-                             name={line.name}
-                           />
-                         ))}
-                       </LineChart>
-                     </ResponsiveContainer>
-                   </div>
-                   
-                   {/* Professional Legend */}
-                   <div className="bg-theme-card rounded-lg border border-theme/10 p-3 mt-4">
-                     <div className="flex flex-wrap items-center justify-between">
-                       <div className="flex flex-wrap gap-4">
-                         {chartLines.map((line) => (
-                           <div key={line.key} className="flex items-center gap-2">
-                             <div 
-                               className="w-4 h-0.5 rounded-full"
-                               style={{ backgroundColor: line.color }}
-                             />
-                             <span className="text-xs font-medium text-theme-primary">
-                               {line.name}
-                             </span>
-                           </div>
-                         ))}
-                       </div>
-                       
-                       {/* Info Badge for Additional Data */}
-                       {additionalDataInfo && !showAllData && (
-                         <div className="flex items-center gap-3">
-                           <div className="flex items-center gap-2 px-2 py-1 bg-blue-500/10 rounded text-xs">
-                             <div className="w-1.5 h-1.5 bg-blue-400 rounded-full"></div>
-                             <span className="text-blue-400 font-medium">
-                               {additionalDataInfo.stocks.join(', ')} hat Daten bis {Math.max(...additionalDataInfo.years.map(y => parseInt(y)))}
-                             </span>
-                           </div>
-                           <button
-                             onClick={() => setShowAllData(true)}
-                             className="px-2 py-1 bg-theme-secondary/30 hover:bg-blue-500/20 rounded text-xs font-medium text-theme-secondary hover:text-blue-400 transition-colors"
-                           >
-                             Alle Daten zeigen
-                           </button>
-                         </div>
-                       )}
-                       
-                       {/* Toggle back to common range */}
-                       {showAllData && (
-                         <button
-                           onClick={() => setShowAllData(false)}
-                           className="px-2 py-1 bg-orange-500/10 hover:bg-orange-500/20 rounded text-xs font-medium text-orange-400 transition-colors"
-                         >
-                           Nur gemeinsamer Zeitraum
-                         </button>
-                       )}
-                     </div>
-                   </div>
-                   
-                   {/* Statistics Below Chart */}
-                   <div className="bg-theme-card rounded-lg border border-theme/10 p-4 mt-4">
-                     <div className="text-sm font-semibold text-theme-primary mb-4">Statistiken</div>
-                     
-                     <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
-                       {chartLines.map((line, lineIndex) => {
-                         const values = chartData
-                           .map(d => d[line.key])
-                           .filter(v => v != null && v !== 0)
-                         
-                         if (values.length < 2) return null
-                         
-                         const firstValue = values[0]
-                         const lastValue = values[values.length - 1]
-                         const yearsCount = values.length - 1
-                         const cagr = yearsCount > 0 ? (Math.pow(Math.abs(lastValue / firstValue), 1 / yearsCount) - 1) * 100 : 0
-                         const average = values.reduce((a, b) => a + b, 0) / values.length
-                         const sortedValues = [...values].sort((a, b) => a - b)
-                         const median = sortedValues.length % 2 === 0
-                           ? (sortedValues[sortedValues.length / 2 - 1] + sortedValues[sortedValues.length / 2]) / 2
-                           : sortedValues[Math.floor(sortedValues.length / 2)]
-                         const min = Math.min(...values)
-                         const max = Math.max(...values)
-                         
-                         return (
-                           <div key={line.key} className="bg-theme-secondary/10 rounded-lg p-4 border border-theme/5">
-                             <div className="flex items-center gap-2 mb-4 pb-2 border-b border-theme/15">
-                               <div 
-                                 className="w-3 h-3 rounded-full shadow-sm"
-                                 style={{ 
-                                   backgroundColor: line.color,
-                                   boxShadow: `0 0 0 2px ${line.color}20`
-                                 }}
-                               />
-                               <div className="flex flex-col flex-1">
-                                 <span className="text-sm font-semibold text-theme-primary">
-                                   {line.name.split(' - ')[0]}
-                                 </span>
-                                 {line.name.includes(' - ') && (
-                                   <span className="text-xs text-theme-muted font-medium">
-                                     {line.name.split(' - ')[1]}
-                                   </span>
-                                 )}
-                               </div>
-                             </div>
-                             
-                             <div className="grid grid-cols-2 gap-4">
-                               <div className="flex flex-col">
-                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">CAGR</div>
-                                 <div className={`font-bold text-sm ${cagr >= 0 ? 'text-brand' : 'text-red-500'}`}>
-                                   {isNaN(cagr) ? '--' : `${cagr.toFixed(1)}%`}
-                                 </div>
-                               </div>
-                               
-                               <div className="flex flex-col">
-                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">Aktuell</div>
-                                 <div className="font-bold text-theme-primary text-sm">
-                                   {formatTooltipValue(lastValue, line.name)}
-                                 </div>
-                               </div>
-                               
-                               <div className="flex flex-col">
-                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">Durchschnitt</div>
-                                 <div className="font-bold text-theme-primary text-sm">
-                                   {formatTooltipValue(average, line.name)}
-                                 </div>
-                               </div>
-                               
-                               <div className="flex flex-col">
-                                 <div className="text-theme-muted text-xs mb-2 font-medium uppercase tracking-wide">Median</div>
-                                 <div className="font-bold text-theme-primary text-sm">
-                                   {formatTooltipValue(median, line.name)}
-                                 </div>
-                               </div>
-                             </div>
-                           </div>
-                         )
-                       })}
-                     </div>
-                   </div>
-                 </>
-               )}
-             </>
-           )}
-         </div>
-       )}
+          processedData = limitedMetrics.map((metric: any, index: number) => {
+            const pe = metric.peRatio || 0
+            const income = limitedIncome[index]
+            return {
+              date: income?.calendarYear || metric.date?.slice(0, 4) || '',
+              value: pe,
+              change: firstPE !== 0 ? ((pe - firstPE) / firstPE) * 100 : 0
+            }
+          }).filter((d: any) => d.value !== 0) // Filtere Jahre ohne KGV
+        }
 
-       {/* PREMIUM CTA - COMPACT */}
-       {!user?.isPremium && (
-         <div className="bg-brand/5 border border-brand/20 rounded-lg p-3 mt-4">
-           <div className="flex items-center justify-between">
-             <div>
-               <div className="text-sm font-medium text-theme-primary">Professionelle Features freischalten</div>
-               <div className="text-xs text-theme-muted">Bis zu 8 Aktien mit 15+ Kennzahlen vergleichen</div>
-             </div>
-             <Link
-               href="/pricing"
-               className="px-4 py-2 bg-brand text-white rounded-lg text-xs font-medium hover:bg-brand transition-colors flex items-center gap-1"
-             >
-               <SparklesIcon className="w-3 h-3" />
-               Premium freischalten
-             </Link>
-           </div>
-         </div>
-       )}
-     </div>
-   </div>
- )
+        if (processedData.length === 0) return null
+
+        const values = processedData.map((d: any) => d.value).filter((v: number) => v !== 0)
+        if (values.length === 0) return null
+
+        return {
+          ticker,
+          name,
+          data: processedData,
+          currentValue: processedData[processedData.length - 1]?.value || 0,
+          performance: processedData[processedData.length - 1]?.change || 0,
+          min: Math.min(...values),
+          max: Math.max(...values),
+          avg: values.reduce((a: number, b: number) => a + b, 0) / values.length
+        }
+      }
+    } catch (error) {
+      console.error(`Error loading data for ${ticker}:`, error)
+      return null
+    }
+  }, [selectedMetric, pricePeriod, financialPeriod])
+
+  // Add stock
+  const addStock = useCallback(async (ticker: string) => {
+    if (selectedStocks.find(s => s.ticker === ticker)) return
+    if (selectedStocks.length >= (user?.isPremium ? 8 : 4)) return
+
+    setLoading(true)
+    const stockData = await loadStockData(ticker)
+    if (stockData) {
+      setSelectedStocks(prev => [...prev, stockData])
+    }
+    setLoading(false)
+    setShowSearchModal(false)
+    setSearchQuery('')
+    setSidebarSearch('')
+  }, [selectedStocks, user, loadStockData])
+
+  // Remove stock
+  const removeStock = useCallback((ticker: string) => {
+    setSelectedStocks(prev => prev.filter(s => s.ticker !== ticker))
+  }, [])
+
+  // Reload all stocks when period or metric changes
+  useEffect(() => {
+    if (selectedStocks.length === 0) return
+
+    const reloadStocks = async () => {
+      setLoading(true)
+      const tickers = selectedStocks.map(s => s.ticker)
+      const newData = await Promise.all(tickers.map(loadStockData))
+      setSelectedStocks(newData.filter(Boolean) as StockData[])
+      setLoading(false)
+    }
+
+    reloadStocks()
+  }, [selectedMetric, pricePeriod, financialPeriod]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Chart data - percentage for price, absolute values for KGV/Umsatz
+  const chartData = useMemo(() => {
+    if (selectedStocks.length === 0) return []
+
+    // Find common dates across all stocks
+    const allDates = new Set<string>()
+    selectedStocks.forEach(stock => {
+      stock.data.forEach(d => allDates.add(d.date))
+    })
+
+    return Array.from(allDates).sort().map(date => {
+      const point: any = { date }
+      selectedStocks.forEach(stock => {
+        const dataPoint = stock.data.find(d => d.date === date)
+        if (dataPoint) {
+          // Für Aktienkurs: Prozent, für KGV/Umsatz: Absolute Werte
+          point[stock.ticker] = selectedMetric === 'price'
+            ? dataPoint.change
+            : dataPoint.value
+        }
+      })
+      return point
+    })
+  }, [selectedStocks, selectedMetric])
+
+  // Filtered stocks for search
+  const filteredStocks = useMemo(() => {
+    const query = (searchQuery || sidebarSearch).toLowerCase()
+    if (!query) return []
+    return availableStocks
+      .filter(stock =>
+        stock.ticker.toLowerCase().includes(query) ||
+        stock.name.toLowerCase().includes(query)
+      )
+      .filter(stock => !selectedStocks.find(s => s.ticker === stock.ticker))
+      .slice(0, 8)
+  }, [searchQuery, sidebarSearch, selectedStocks])
+
+  // Suggestions (exclude already selected)
+  const suggestions = useMemo(() => {
+    return SUGGESTION_STOCKS.filter(s => !selectedStocks.find(ss => ss.ticker === s.ticker))
+  }, [selectedStocks])
+
+  const maxStocks = user?.isPremium ? 8 : 4
+
+  if (loadingUser) {
+    return (
+      <div className="flex h-screen items-center justify-center bg-theme-primary">
+        <div className="w-8 h-8 border-2 border-white/20 border-t-brand rounded-full animate-spin" />
+      </div>
+    )
+  }
+
+  return (
+    <div className="h-[calc(100vh-60px)] flex flex-col bg-theme-primary">
+
+      {/* ===== HEADER - Minimal Fey Style ===== */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-white/[0.04]">
+        <div>
+          <h1 className="text-xl font-semibold text-white">Graphen</h1>
+          <p className="text-sm text-gray-500">
+            {new Date().toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {!user?.isPremium && (
+            <Link
+              href="/pricing"
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-brand hover:bg-green-400 text-black text-sm font-medium rounded-lg transition-colors"
+            >
+              <SparklesIcon className="w-4 h-4" />
+              Pro
+            </Link>
+          )}
+          <button
+            onClick={() => setShowSearchModal(true)}
+            className="p-2 text-gray-400 hover:text-white hover:bg-white/[0.05] rounded-lg transition-colors"
+          >
+            <MagnifyingGlassIcon className="w-5 h-5" />
+          </button>
+        </div>
+      </div>
+
+      {/* ===== MAIN CONTENT - Split Layout ===== */}
+      <div className="flex flex-1 overflow-hidden">
+
+        {/* LEFT SIDEBAR - Graph Selection */}
+        <div className="w-[320px] border-r border-white/[0.04] flex flex-col bg-[#0a0a0b]">
+
+          {/* Section: Graph Selection */}
+          <div className="p-4">
+            <h3 className="text-sm font-medium text-white mb-3">Graph-Auswahl</h3>
+
+            {/* Metrik-Auswahl */}
+            <div className="mb-4">
+              <div className="text-xs text-gray-500 mb-2 font-medium">Metrik</div>
+              <div className="flex gap-1">
+                {METRICS.map((metric) => (
+                  <button
+                    key={metric.value}
+                    onClick={() => setSelectedMetric(metric.value)}
+                    className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                      selectedMetric === metric.value
+                        ? 'bg-brand text-black'
+                        : 'bg-white/[0.03] text-gray-400 hover:bg-white/[0.06] hover:text-white'
+                    }`}
+                  >
+                    {metric.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Add Stock Input */}
+            <div className="relative mb-3">
+              <div className="flex items-center gap-2 px-3 py-2.5 bg-white/[0.03] border border-white/[0.06] rounded-lg hover:border-white/[0.1] transition-colors">
+                <PlusIcon className="w-4 h-4 text-gray-500" />
+                <input
+                  placeholder="Graphen vergleichen"
+                  value={sidebarSearch}
+                  onChange={(e) => setSidebarSearch(e.target.value)}
+                  className="bg-transparent text-sm text-white placeholder-gray-500 outline-none flex-1"
+                />
+                <button
+                  onClick={() => {
+                    // Reload all data
+                    if (selectedStocks.length > 0) {
+                      const reloadStocks = async () => {
+                        setLoading(true)
+                        const tickers = selectedStocks.map(s => s.ticker)
+                        const newData = await Promise.all(tickers.map(loadStockData))
+                        setSelectedStocks(newData.filter(Boolean) as StockData[])
+                        setLoading(false)
+                      }
+                      reloadStocks()
+                    }
+                  }}
+                  className="p-1 hover:bg-white/10 rounded transition-colors"
+                >
+                  <ArrowPathIcon className={`w-4 h-4 text-gray-500 ${loading ? 'animate-spin' : ''}`} />
+                </button>
+              </div>
+
+              {/* Search Dropdown */}
+              {sidebarSearch && filteredStocks.length > 0 && (
+                <div className="absolute top-full mt-1 left-0 right-0 bg-[#1a1a1d] border border-white/[0.1] rounded-lg shadow-xl z-50 max-h-64 overflow-y-auto">
+                  {filteredStocks.map(stock => (
+                    <button
+                      key={stock.ticker}
+                      onClick={() => addStock(stock.ticker)}
+                      className="w-full flex items-center justify-between px-3 py-2.5 hover:bg-white/[0.05] transition-colors"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Logo ticker={stock.ticker} alt={stock.ticker} className="w-6 h-6 rounded" padding="none" />
+                        <div className="text-left">
+                          <div className="text-sm font-medium text-white">{stock.ticker}</div>
+                          <div className="text-xs text-gray-500 truncate max-w-[180px]">{stock.name}</div>
+                        </div>
+                      </div>
+                      <span className="px-2 py-0.5 bg-white/5 rounded text-xs text-gray-400">
+                        {currentMetricLabel}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Selected Stocks List */}
+            <div className="space-y-1">
+              {selectedStocks.map((stock, index) => (
+                <div
+                  key={stock.ticker}
+                  className="flex items-center justify-between px-3 py-2.5 rounded-lg hover:bg-white/[0.03] group transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-1 h-8 rounded-full"
+                      style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }}
+                    />
+                    <div>
+                      <span className="text-sm font-medium text-white">{stock.ticker}</span>
+                      <span className="text-sm text-gray-500 ml-2">{currentMetricLabel}</span>
+                    </div>
+                  </div>
+                  <button
+                    onClick={() => removeStock(stock.ticker)}
+                    className="opacity-0 group-hover:opacity-100 p-1 hover:bg-white/10 rounded transition-all"
+                  >
+                    <XMarkIcon className="w-4 h-4 text-gray-400" />
+                  </button>
+                </div>
+              ))}
+            </div>
+
+            {selectedStocks.length === 0 && (
+              <div className="text-center py-8 text-gray-500 text-sm">
+                Füge Aktien hinzu um sie zu vergleichen
+              </div>
+            )}
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-white/[0.06] mx-4" />
+
+          {/* Section: Comparison Suggestions */}
+          <div className="p-4 flex-1 overflow-y-auto">
+            <h3 className="text-sm font-medium text-gray-500 mb-3">Vergleichsvorschläge</h3>
+
+            <div className="space-y-1">
+              {suggestions.slice(0, 6).map((stock) => (
+                <button
+                  key={stock.ticker}
+                  onClick={() => addStock(stock.ticker)}
+                  disabled={selectedStocks.length >= maxStocks}
+                  className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.03] text-left transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  <div className="w-1 h-6 rounded-full bg-gray-700" />
+                  <div>
+                    <span className="text-sm text-gray-400">{stock.ticker}</span>
+                    <span className="text-sm text-gray-600 ml-2">{currentMetricLabel}</span>
+                  </div>
+                </button>
+              ))}
+            </div>
+
+            {/* Limit Info */}
+            {!user?.isPremium && (
+              <div className="mt-4 p-3 bg-brand/5 border border-brand/20 rounded-lg">
+                <p className="text-xs text-gray-400">
+                  {selectedStocks.length}/{maxStocks} Aktien •
+                  <Link href="/pricing" className="text-brand ml-1 hover:underline">
+                    Upgrade für mehr
+                  </Link>
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* RIGHT SIDE - Chart Area */}
+        <div className="flex-1 flex flex-col bg-theme-primary">
+
+          {/* Chart Container */}
+          <div className="flex-1 p-6">
+            {selectedStocks.length === 0 ? (
+              /* Empty State */
+              <div className="h-full flex items-center justify-center">
+                <div className="text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-white/[0.03] rounded-2xl flex items-center justify-center">
+                    <MagnifyingGlassIcon className="w-8 h-8 text-gray-600" />
+                  </div>
+                  <h3 className="text-lg font-medium text-white mb-2">Wähle Aktien zum Vergleichen</h3>
+                  <p className="text-sm text-gray-500 mb-4 max-w-sm">
+                    Nutze die Sidebar links oder drücke <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-gray-400 text-xs">⌘K</kbd> um Aktien hinzuzufügen
+                  </p>
+                  <button
+                    onClick={() => setShowSearchModal(true)}
+                    className="px-4 py-2 bg-brand hover:bg-green-400 text-black font-medium rounded-lg transition-colors"
+                  >
+                    Aktie hinzufügen
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="h-full relative">
+
+                {/* Time Period Selector - Dynamisch je nach Metrik */}
+                <div className="absolute top-0 right-0 z-10 flex items-center gap-1 bg-white/[0.03] rounded-lg p-1">
+                  {selectedMetric === 'price' ? (
+                    // Aktienkurs: Tägliche Zeiträume
+                    PRICE_PERIODS.map((period) => (
+                      <button
+                        key={period.value}
+                        onClick={() => setPricePeriod(period.value)}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                          pricePeriod === period.value
+                            ? 'bg-white/10 text-white'
+                            : 'text-gray-500 hover:text-gray-300'
+                        }`}
+                      >
+                        {period.label}
+                      </button>
+                    ))
+                  ) : (
+                    // KGV/Umsatz: Jährliche Zeiträume
+                    FINANCIAL_PERIODS.map((period) => (
+                      <button
+                        key={period.value}
+                        onClick={() => setFinancialPeriod(period.value)}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+                          financialPeriod === period.value
+                            ? 'bg-white/10 text-white'
+                            : 'text-gray-500 hover:text-gray-300'
+                        }`}
+                      >
+                        {period.label}
+                      </button>
+                    ))
+                  )}
+                  <button className="p-1.5 text-gray-500 hover:text-white transition-colors">
+                    <Cog6ToothIcon className="w-4 h-4" />
+                  </button>
+                </div>
+
+                {/* Loading Overlay */}
+                {loading && (
+                  <div className="absolute inset-0 bg-theme-primary/80 flex items-center justify-center z-20">
+                    <div className="w-8 h-8 border-2 border-white/20 border-t-brand rounded-full animate-spin" />
+                  </div>
+                )}
+
+                {/* Chart */}
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={chartData} margin={{ top: 40, right: 80, left: 20, bottom: 20 }}>
+                    <CartesianGrid
+                      strokeDasharray="3 3"
+                      stroke="rgba(255,255,255,0.03)"
+                      vertical={false}
+                    />
+                    <XAxis
+                      dataKey="date"
+                      stroke="rgba(255,255,255,0.1)"
+                      tick={{ fill: '#6b7280', fontSize: 11 }}
+                      axisLine={false}
+                      tickLine={false}
+                      tickFormatter={(value) => {
+                        // Für Jahreszahlen (KGV/Umsatz) nur das Jahr zeigen
+                        if (selectedMetric !== 'price') {
+                          return value
+                        }
+                        const date = new Date(value)
+                        return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
+                      }}
+                      interval="preserveStartEnd"
+                      minTickGap={50}
+                    />
+                    <YAxis
+                      stroke="rgba(255,255,255,0.1)"
+                      tick={{ fill: '#6b7280', fontSize: 11 }}
+                      axisLine={false}
+                      tickLine={false}
+                      width={70}
+                      tickFormatter={(value) => {
+                        if (selectedMetric === 'price') {
+                          return `${value > 0 ? '+' : ''}${value.toFixed(0)}%`
+                        }
+                        if (selectedMetric === 'pe') {
+                          return `${value.toFixed(0)}x`
+                        }
+                        if (selectedMetric === 'revenue') {
+                          if (value >= 1e12) return `${(value / 1e12).toFixed(0)} Bio`
+                          if (value >= 1e9) return `${(value / 1e9).toFixed(0)} Mrd`
+                          if (value >= 1e6) return `${(value / 1e6).toFixed(0)} Mio`
+                          return value.toFixed(0)
+                        }
+                        return value.toFixed(0)
+                      }}
+                      domain={['auto', 'auto']}
+                    />
+                    <RechartsTooltip
+                      contentStyle={{
+                        backgroundColor: '#1a1a1d',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        borderRadius: '8px',
+                        padding: '12px'
+                      }}
+                      labelStyle={{ color: '#9ca3af', marginBottom: '8px' }}
+                      formatter={(value: number, name: string) => {
+                        if (selectedMetric === 'price') {
+                          return [`${value > 0 ? '+' : ''}${value.toFixed(2)}%`, name]
+                        }
+                        if (selectedMetric === 'pe') {
+                          return [`${value.toFixed(1)}x`, name]
+                        }
+                        if (selectedMetric === 'revenue') {
+                          if (value >= 1e12) return [`${(value / 1e12).toFixed(2)} Bio $`, name]
+                          if (value >= 1e9) return [`${(value / 1e9).toFixed(2)} Mrd $`, name]
+                          if (value >= 1e6) return [`${(value / 1e6).toFixed(2)} Mio $`, name]
+                          return [`${value.toFixed(0)} $`, name]
+                        }
+                        return [value.toFixed(2), name]
+                      }}
+                      labelFormatter={(label) => {
+                        // Für Jahreszahlen kein Datum formatieren
+                        if (selectedMetric !== 'price') {
+                          return `Jahr: ${label}`
+                        }
+                        return new Date(label).toLocaleDateString('de-DE', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                        })
+                      }}
+                    />
+
+                    {selectedStocks.map((stock, index) => (
+                      <Line
+                        key={stock.ticker}
+                        type="monotone"
+                        dataKey={stock.ticker}
+                        stroke={CHART_COLORS[index % CHART_COLORS.length]}
+                        strokeWidth={2}
+                        dot={false}
+                        activeDot={{ r: 4, strokeWidth: 0 }}
+                      />
+                    ))}
+                  </LineChart>
+                </ResponsiveContainer>
+
+                {/* Performance Labels (am rechten Rand des Charts) */}
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 space-y-2">
+                  {selectedStocks.map((stock, index) => (
+                    <div
+                      key={stock.ticker}
+                      className="flex items-center gap-2 px-2 py-1 rounded text-xs"
+                      style={{ backgroundColor: `${CHART_COLORS[index % CHART_COLORS.length]}20` }}
+                    >
+                      <span style={{ color: CHART_COLORS[index % CHART_COLORS.length] }}>
+                        {stock.ticker}{' '}
+                        {selectedMetric === 'price'
+                          ? `${stock.performance > 0 ? '+' : ''}${stock.performance.toFixed(1)}%`
+                          : selectedMetric === 'pe'
+                            ? `${stock.currentValue.toFixed(1)}x`
+                            : formatValue(stock.currentValue)
+                        }
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* ===== FOOTER - Graph Series ===== */}
+      {selectedStocks.length > 0 && (
+        <div className="border-t border-white/[0.04] bg-[#0a0a0b]">
+          <div className="px-6 py-3">
+            <div className="flex items-center justify-between mb-3">
+              <h3 className="text-sm font-medium text-gray-500">Graph-Serien</h3>
+              <div className="text-xs text-gray-600">
+                Drücke <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-gray-400">←</kbd>
+                <kbd className="px-1.5 py-0.5 bg-white/5 rounded text-gray-400 ml-1">→</kbd>
+                <span className="ml-1">für Zeiträume</span>
+              </div>
+            </div>
+
+            {/* Series Table */}
+            <div className="space-y-1">
+              {selectedStocks.map((stock, index) => (
+                <div
+                  key={stock.ticker}
+                  className="flex items-center py-2.5 hover:bg-white/[0.02] rounded-lg px-2 -mx-2 transition-colors"
+                >
+                  {/* Stock Info */}
+                  <div className="flex items-center gap-3 w-56">
+                    <div
+                      className="w-0.5 h-6 rounded-full"
+                      style={{ backgroundColor: CHART_COLORS[index % CHART_COLORS.length] }}
+                    />
+                    <Logo ticker={stock.ticker} alt={stock.ticker} className="w-6 h-6 rounded" padding="none" />
+                    <div>
+                      <span className="text-sm font-medium text-white">{stock.ticker}</span>
+                      <span className="text-sm text-gray-500 ml-2 truncate max-w-[120px] inline-block align-bottom">
+                        {stock.name.length > 15 ? stock.name.slice(0, 15) + '...' : stock.name}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Metric Badge */}
+                  <div className="flex items-center gap-2 px-3 py-1 bg-white/[0.03] rounded-lg mr-6">
+                    <div className="w-3 h-0.5 bg-gray-500 rounded" />
+                    <span className="text-xs text-gray-400">{currentMetricLabel}</span>
+                  </div>
+
+                  {/* Stats */}
+                  <div className="flex items-center gap-8 text-xs flex-1">
+                    <div>
+                      <span className="text-gray-500">Minimum</span>
+                      <span className="text-red-400 ml-2 font-medium">{formatValue(stock.min)}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Durchschnitt</span>
+                      <span className="text-gray-300 ml-2 font-medium">{formatValue(stock.avg)}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Maximum</span>
+                      <span className="text-green-400 ml-2 font-medium">{formatValue(stock.max)}</span>
+                    </div>
+                    <div>
+                      <span className="text-gray-500">Aktuell</span>
+                      <span className="text-white ml-2 font-medium">{formatValue(stock.currentValue)}</span>
+                    </div>
+                    {selectedMetric === 'price' && (
+                      <div>
+                        <span className="text-gray-500">{pricePeriod} Veränderung</span>
+                        <span className={`ml-2 px-2 py-0.5 rounded text-xs font-medium ${
+                          stock.performance > 0
+                            ? 'bg-green-500/20 text-green-400'
+                            : 'bg-red-500/20 text-red-400'
+                        }`}>
+                          {stock.performance > 0 ? '+' : ''}{stock.performance.toFixed(1)}%
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Remove Button */}
+                  <button
+                    onClick={() => removeStock(stock.ticker)}
+                    className="p-1 text-gray-600 hover:text-gray-400 transition-colors ml-2"
+                  >
+                    <XMarkIcon className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ===== SEARCH MODAL - Fey Style ===== */}
+      {showSearchModal && (
+        <div
+          className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-start justify-center pt-[20vh]"
+          onClick={() => setShowSearchModal(false)}
+        >
+          <div
+            className="bg-[#141416] border border-white/[0.08] rounded-2xl w-[480px] shadow-2xl overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Search Input - Clean */}
+            <div className="p-5 border-b border-white/[0.06]">
+              <div className="flex items-center gap-3">
+                <MagnifyingGlassIcon className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                <input
+                  placeholder="Aktie suchen..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="bg-transparent text-white placeholder-gray-500 outline-none flex-1 text-base"
+                  autoFocus
+                />
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery('')}
+                    className="p-1 hover:bg-white/10 rounded-full transition-colors"
+                  >
+                    <XMarkIcon className="w-4 h-4 text-gray-500" />
+                  </button>
+                )}
+              </div>
+              <div className="text-xs text-gray-600 mt-3">
+                Bis zu {maxStocks} Aktien vergleichen
+              </div>
+            </div>
+
+            {/* Search Results - Clean List */}
+            <div className="max-h-[360px] overflow-y-auto">
+              {searchQuery ? (
+                filteredStocks.length > 0 ? (
+                  <div className="p-2">
+                    {filteredStocks.map((stock) => (
+                      <button
+                        key={stock.ticker}
+                        onClick={() => addStock(stock.ticker)}
+                        disabled={selectedStocks.length >= maxStocks}
+                        className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/[0.04] transition-colors disabled:opacity-40 disabled:cursor-not-allowed group"
+                      >
+                        <Logo ticker={stock.ticker} alt={stock.ticker} className="w-9 h-9 rounded-lg" padding="none" />
+                        <div className="flex-1 text-left">
+                          <div className="text-sm font-medium text-white">{stock.ticker}</div>
+                          <div className="text-xs text-gray-500 truncate">{stock.name}</div>
+                        </div>
+                        <PlusIcon className="w-4 h-4 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-gray-500 text-sm">
+                    Keine Ergebnisse für "{searchQuery}"
+                  </div>
+                )
+              ) : (
+                /* Vorschläge wenn keine Suche */
+                <div className="p-2">
+                  <div className="px-3 py-2 text-xs text-gray-600 font-medium">Vorschläge</div>
+                  {SUGGESTION_STOCKS
+                    .filter(s => !selectedStocks.find(ss => ss.ticker === s.ticker))
+                    .slice(0, 6)
+                    .map((stock) => (
+                      <button
+                        key={stock.ticker}
+                        onClick={() => addStock(stock.ticker)}
+                        disabled={selectedStocks.length >= maxStocks}
+                        className="w-full flex items-center gap-3 px-3 py-3 rounded-xl hover:bg-white/[0.04] transition-colors disabled:opacity-40 disabled:cursor-not-allowed group"
+                      >
+                        <Logo ticker={stock.ticker} alt={stock.ticker} className="w-9 h-9 rounded-lg" padding="none" />
+                        <div className="flex-1 text-left">
+                          <div className="text-sm font-medium text-white">{stock.ticker}</div>
+                          <div className="text-xs text-gray-500">{stock.name}</div>
+                        </div>
+                        <PlusIcon className="w-4 h-4 text-gray-600 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </button>
+                    ))}
+                </div>
+              )}
+            </div>
+
+            {/* Footer mit Keyboard Hint */}
+            <div className="px-5 py-3 border-t border-white/[0.06] bg-white/[0.02]">
+              <div className="flex items-center justify-between text-xs text-gray-600">
+                <span>Drücke <kbd className="px-1.5 py-0.5 bg-white/[0.06] rounded text-gray-500 font-mono">ESC</kbd> zum Schließen</span>
+                <span>{selectedStocks.length}/{maxStocks} ausgewählt</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  )
 }
