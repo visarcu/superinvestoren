@@ -3,23 +3,30 @@
 
 import { useState, useEffect } from 'react'
 import { SunIcon, MoonIcon, ComputerDesktopIcon } from '@heroicons/react/24/outline'
+import { LIGHT_THEME_DISABLED } from '@/lib/useTheme'
 
 type Theme = 'light' | 'dark' | 'system'
 
 export default function ThemeSwitcher() {
-  const [theme, setTheme] = useState<Theme>('light')
+  const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
 
   // Hydration fix
   useEffect(() => {
     setMounted(true)
-    
-    // Load saved theme or default to light
+
+    // ✅ Light Theme deaktiviert: Immer dunkel
+    if (LIGHT_THEME_DISABLED) {
+      setTheme('dark')
+      return
+    }
+
+    // Load saved theme or default to dark
     const savedTheme = localStorage.getItem('theme') as Theme
     if (savedTheme && ['light', 'dark', 'system'].includes(savedTheme)) {
       setTheme(savedTheme)
     } else {
-      setTheme('light') // Default zu hell
+      setTheme('dark') // Default zu dunkel
     }
   }, [])
 
@@ -70,6 +77,26 @@ export default function ThemeSwitcher() {
     { key: 'dark', icon: MoonIcon, label: 'Dunkel' },
     { key: 'system', icon: ComputerDesktopIcon, label: 'System' }
   ]
+
+  // ✅ Light Theme deaktiviert: Sichtbar aber disabled mit "Bald verfügbar" Hinweis
+  if (LIGHT_THEME_DISABLED) {
+    return (
+      <div className="relative group">
+        <div className="flex items-center gap-2 px-3 py-2 bg-neutral-800/50 border border-neutral-700/30 rounded-lg opacity-60 cursor-not-allowed">
+          <SunIcon className="w-4 h-4 text-neutral-500" />
+          <span className="text-sm font-medium text-neutral-500 hidden sm:block">Light</span>
+          <span className="text-xs text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded ml-1">
+            Bald
+          </span>
+        </div>
+        {/* Tooltip on hover */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+          <p className="text-xs text-neutral-400">Light Theme wird überarbeitet</p>
+          <p className="text-xs text-amber-500">Bald verfügbar</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="relative">
@@ -123,11 +150,18 @@ export default function ThemeSwitcher() {
 
 // Alternative: Simple Toggle Version
 export function SimpleThemeToggle() {
-  const [isDark, setIsDark] = useState(false)
+  const [isDark, setIsDark] = useState(true)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
     setMounted(true)
+
+    // ✅ Light Theme deaktiviert: Immer dunkel
+    if (LIGHT_THEME_DISABLED) {
+      setIsDark(true)
+      return
+    }
+
     const saved = localStorage.getItem('theme')
     const isDarkMode = saved === 'dark' || (!saved && window.matchMedia('(prefers-color-scheme: dark)').matches)
     setIsDark(isDarkMode)
@@ -135,7 +169,7 @@ export function SimpleThemeToggle() {
 
   useEffect(() => {
     if (!mounted) return
-    
+
     const root = document.documentElement
     root.classList.remove('light', 'dark')
     root.classList.add(isDark ? 'dark' : 'light')
@@ -144,6 +178,24 @@ export function SimpleThemeToggle() {
 
   if (!mounted) {
     return <div className="w-8 h-8 bg-theme-hover rounded-lg animate-pulse"></div>
+  }
+
+  // ✅ Light Theme deaktiviert: Sichtbar aber disabled mit Tooltip
+  if (LIGHT_THEME_DISABLED) {
+    return (
+      <div className="relative group">
+        <div className="relative w-12 h-6 bg-neutral-800/50 rounded-full opacity-50 cursor-not-allowed">
+          <div className="absolute top-0.5 left-0.5 w-5 h-5 bg-neutral-700 rounded-full shadow-md flex items-center justify-center">
+            <SunIcon className="w-3 h-3 text-neutral-500" />
+          </div>
+        </div>
+        {/* Tooltip on hover */}
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-2 bg-neutral-900 border border-neutral-800 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap z-50">
+          <p className="text-xs text-neutral-400">Light Theme wird überarbeitet</p>
+          <p className="text-xs text-amber-500">Bald verfügbar</p>
+        </div>
+      </div>
+    )
   }
 
   return (

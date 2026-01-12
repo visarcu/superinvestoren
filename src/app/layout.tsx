@@ -21,16 +21,11 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
+                // Light Theme temporär deaktiviert - immer Dark Mode
                 try {
-                  var theme = localStorage.getItem('theme');
-                  if (theme === 'light') {
-                    document.documentElement.classList.remove('dark');
-                    document.documentElement.classList.add('light');
-                  } else if (theme === 'system') {
-                    var isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                    document.documentElement.classList.remove('dark', 'light');
-                    document.documentElement.classList.add(isDark ? 'dark' : 'light');
-                  }
+                  document.documentElement.classList.remove('light');
+                  document.documentElement.classList.add('dark');
+                  localStorage.setItem('finclue-terminal-theme', 'dark');
                 } catch (e) {}
               })();
             `,

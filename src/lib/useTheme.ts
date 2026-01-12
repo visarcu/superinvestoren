@@ -1,4 +1,4 @@
-// lib/useTheme.ts - FIXED VERSION - Theme Toggle funktioniert wieder!
+// lib/useTheme.ts - Dark Theme Only (Light Theme temporär deaktiviert)
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -6,12 +6,16 @@ import { usePathname } from 'next/navigation'
 
 export type Theme = 'light' | 'dark'
 
+// ✅ Feature Flag: Light Theme temporär deaktiviert
+// Auf false setzen um Light Theme wieder zu aktivieren
+export const LIGHT_THEME_DISABLED = true
+
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>('dark')
   const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
 
-  // ✅ Routes die Theme Toggle haben dürfen
+  // ✅ Routes die Theme Toggle haben dürfen (wenn Light Theme aktiv)
   const themeToggleRoutes = [
     '/analyse',
     '/dashboard',
@@ -23,24 +27,33 @@ export function useTheme() {
   const alwaysDarkRoutes = [
     '/pricing',
     '/auth',
-    '/superinvestor', 
+    '/superinvestor',
     '/news'
   ]
 
   // ✅ FIXED: Bessere Route-Matching Logic
-  const allowsThemeToggle = themeToggleRoutes.some(route => 
+  const allowsThemeToggle = !LIGHT_THEME_DISABLED && themeToggleRoutes.some(route =>
     pathname.startsWith(route)
   )
 
   // ✅ FIXED: Homepage und spezifische Dark Routes
-  const isAlwaysDark = pathname === '/' || alwaysDarkRoutes.some(route => 
+  const isAlwaysDark = LIGHT_THEME_DISABLED || pathname === '/' || alwaysDarkRoutes.some(route =>
     pathname.startsWith(route)
   )
 
   // Client-side mounting und Theme laden
   useEffect(() => {
     setMounted(true)
-    
+
+    // ✅ Light Theme deaktiviert: Immer dunkel
+    if (LIGHT_THEME_DISABLED) {
+      setTheme('dark')
+      applyTheme('dark')
+      // Alte Light-Theme Einstellung überschreiben
+      localStorage.setItem('finclue-terminal-theme', 'dark')
+      return
+    }
+
     if (isAlwaysDark) {
       // ✅ Für Marketing-Seiten: IMMER dunkel
       setTheme('dark')
@@ -55,8 +68,8 @@ export function useTheme() {
         setTheme(savedTheme)
         applyTheme(savedTheme)
       } else {
-        // Standard: Terminal jetzt HELL (wenn keine Einstellung gespeichert)
-        const initialTheme = 'light'
+        // Standard: Terminal jetzt DUNKEL
+        const initialTheme = 'dark'
         setTheme(initialTheme)
         applyTheme(initialTheme)
         localStorage.setItem('finclue-terminal-theme', initialTheme)
@@ -104,24 +117,30 @@ export function useTheme() {
     document.body.style.display = ''
   }
 
-  // Theme wechseln (nur für Terminal-Routen)
+  // Theme wechseln (nur für Terminal-Routen, wenn Light Theme aktiviert)
   const toggleTheme = () => {
+    // ✅ Light Theme deaktiviert: Toggle ignorieren
+    if (LIGHT_THEME_DISABLED) {
+      return
+    }
+
     if (!mounted || !allowsThemeToggle || isAlwaysDark) {
       return
     }
-    
+
     const newTheme: Theme = theme === 'dark' ? 'light' : 'dark'
-    
+
     setTheme(newTheme)
     applyTheme(newTheme)
     // ✅ Separate Storage für Terminal-Theme
     localStorage.setItem('finclue-terminal-theme', newTheme)
   }
 
-  return { 
+  return {
     theme: isAlwaysDark ? 'dark' : theme, // ✅ Marketing-Seiten immer dunkel
     toggleTheme,
     mounted,
-    allowsThemeToggle: allowsThemeToggle && !isAlwaysDark // ✅ Theme Toggle nur wo erlaubt
+    allowsThemeToggle: allowsThemeToggle && !isAlwaysDark, // ✅ Theme Toggle nur wo erlaubt
+    lightThemeDisabled: LIGHT_THEME_DISABLED // ✅ Für UI-Komponenten
   }
 }

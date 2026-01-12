@@ -2,7 +2,6 @@
 import React from 'react'
 import { stocks } from '@/data/stocks'
 import Link from 'next/link'
-import Logo from '@/components/Logo'
 import { ArrowLeftIcon } from '@heroicons/react/24/outline'
 import GrowthAnalysisClient from '@/components/GrowthAnalysisClient'
 
@@ -40,15 +39,15 @@ export default function GrowthAnalysisPage({ params }: { params: { ticker: strin
   // Falls die Aktie nicht existiert, gib 404 aus
   if (!stock) {
     return (
-      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+      <div className="min-h-screen bg-dark flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-4xl font-bold text-theme-primary mb-4">Aktie nicht gefunden</h1>
-          <p className="text-theme-secondary mb-8">
+          <h1 className="text-2xl font-medium text-white mb-2">Aktie nicht gefunden</h1>
+          <p className="text-neutral-500 mb-6">
             Die Aktie mit dem Symbol "{ticker}" konnte nicht gefunden werden.
           </p>
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-700 text-white font-medium rounded-lg transition-colors duration-200"
+            className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition-colors"
           >
             <ArrowLeftIcon className="w-4 h-4" />
             Zurück zur Analyse
@@ -59,13 +58,8 @@ export default function GrowthAnalysisPage({ params }: { params: { ticker: strin
   }
 
   return (
-    <div className="min-h-screen bg-theme-primary">
-   
-
-      {/* ✅ FULL WIDTH MAIN CONTENT */}
-      <main className="w-full px-6 lg:px-8 py-8">
-        <GrowthAnalysisClient ticker={ticker} />
-      </main>
+    <div className="min-h-screen bg-dark">
+      <GrowthAnalysisClient ticker={ticker} />
     </div>
   )
 }
