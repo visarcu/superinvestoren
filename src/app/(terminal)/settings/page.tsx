@@ -1,6 +1,6 @@
-// src/app/settings/page.tsx - DASHBOARD DESIGN KONSISTENZ
+// src/app/settings/page.tsx - FEY STYLE REDESIGN
 import Link from 'next/link'
-import { 
+import {
   CogIcon,
   ArrowLeftIcon,
   Cog6ToothIcon,
@@ -8,16 +8,19 @@ import {
   EyeIcon,
   LanguageIcon,
   SwatchIcon,
-  ShieldCheckIcon
+  ShieldCheckIcon,
+  SunIcon,
+  MoonIcon,
+  CheckIcon
 } from '@heroicons/react/24/outline'
 
 export default function SettingsPage() {
   const upcomingFeatures = [
     {
-      icon: SwatchIcon,
-      title: 'Dark/Light Mode Toggle',
-      description: 'Wechsle zwischen dunklem und hellem Design',
-      status: 'Geplant'
+      icon: SunIcon,
+      title: 'Light Mode',
+      description: 'Hell-Modus wird überarbeitet',
+      status: 'In Entwicklung'
     },
     {
       icon: BellIcon,
@@ -72,211 +75,219 @@ export default function SettingsPage() {
     }
   ]
 
-  const getStatusColor = (status: string) => {
+  const getStatusText = (status: string) => {
     switch (status) {
       case 'In Entwicklung':
-        return 'bg-yellow-500/20 text-yellow-400'
+        return 'text-yellow-400'
       case 'Geplant':
-        return 'bg-brand/20 text-brand-light'
+        return 'text-neutral-500'
       default:
-        return 'bg-gray-500/20 text-gray-900'
+        return 'text-neutral-600'
     }
   }
 
   return (
-    <div className="min-h-screen bg-theme-primary">
-      <div className="w-full px-4 py-4 space-y-4">
-        
-        {/* Header */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-6">
-            <div className="max-w-4xl">
-              <div className="flex items-center gap-2 mb-3">
-                <Cog6ToothIcon className="w-5 h-5 text-blue-400" />
-                <span className="text-sm font-medium text-blue-400">Einstellungen</span>
+    <div className="min-h-screen bg-neutral-950">
+      <div className="w-full px-6 lg:px-8 py-8">
+
+        {/* Header - Flat Style */}
+        <div className="border-b border-neutral-800 pb-8 mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <Cog6ToothIcon className="w-4 h-4 text-neutral-500" />
+            <span className="text-sm text-neutral-500">Einstellungen</span>
+          </div>
+
+          <h1 className="text-2xl font-semibold text-white mb-2">
+            App-Konfiguration
+          </h1>
+
+          <p className="text-neutral-400 text-sm max-w-2xl">
+            Passe FinClue an deine Bedürfnisse an. Weitere Einstellungen werden laufend hinzugefügt.
+          </p>
+        </div>
+
+        {/* Appearance Section - Flat */}
+        <div className="border-b border-neutral-800 pb-8 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <SwatchIcon className="w-5 h-5 text-neutral-500" />
+            <div>
+              <h2 className="text-base font-medium text-white">Erscheinungsbild</h2>
+              <p className="text-neutral-500 text-sm">Wähle dein bevorzugtes Design</p>
+            </div>
+          </div>
+
+          <div className="space-y-3 max-w-md">
+            {/* Dark Theme - Active */}
+            <div className="flex items-center justify-between p-4 bg-neutral-900 border border-emerald-500/30 rounded-xl">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                  <MoonIcon className="w-5 h-5 text-white" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-white">Dark</p>
+                  <p className="text-xs text-neutral-500">Aktuell aktiv</p>
+                </div>
               </div>
-              
-              <h1 className="text-2xl md:text-3xl font-bold text-theme-primary mb-2">
-                App-Konfiguration
-                <span className="block text-brand-light">und Präferenzen</span>
-              </h1>
-              
-              <p className="text-theme-secondary max-w-2xl">
-                Passe FinClue an deine Bedürfnisse an. Weitere Einstellungen werden laufend hinzugefügt.
-              </p>
+              <div className="w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center">
+                <CheckIcon className="w-3 h-3 text-white" />
+              </div>
+            </div>
+
+            {/* Light Theme - Disabled */}
+            <div className="flex items-center justify-between p-4 bg-neutral-900/50 border border-neutral-800 rounded-xl opacity-50 cursor-not-allowed">
+              <div className="flex items-center gap-4">
+                <div className="w-10 h-10 bg-neutral-800 rounded-lg flex items-center justify-center">
+                  <SunIcon className="w-5 h-5 text-neutral-600" />
+                </div>
+                <div>
+                  <p className="text-sm font-medium text-neutral-500">Light</p>
+                  <p className="text-xs text-neutral-600">Wird überarbeitet</p>
+                </div>
+              </div>
+              <span className="text-xs text-amber-500 bg-amber-500/10 px-2 py-1 rounded font-medium">
+                Bald verfügbar
+              </span>
             </div>
           </div>
         </div>
 
-        {/* Coming Soon Status */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-8 text-center">
-            <div className="w-24 h-24 mx-auto bg-theme-tertiary/30 rounded-2xl flex items-center justify-center mb-6">
-              <CogIcon className="w-12 h-12 text-theme-secondary" />
+        {/* Coming Soon - Flat with Icon Left */}
+        <div className="border-b border-neutral-800 pb-8 mb-8">
+          <div className="flex items-start gap-4">
+            <div className="w-12 h-12 bg-neutral-900 rounded-xl flex items-center justify-center flex-shrink-0">
+              <CogIcon className="w-6 h-6 text-neutral-500" />
             </div>
-            
-            <div className="space-y-4 mb-8 max-w-md mx-auto">
-              <h2 className="text-xl font-semibold text-theme-primary">
-                Einstellungen kommen bald
+            <div className="flex-1">
+              <h2 className="text-base font-medium text-white mb-1">
+                Weitere Einstellungen kommen bald
               </h2>
-              <p className="text-theme-secondary text-sm">
-                Wir arbeiten an umfangreichen Einstellungsmöglichkeiten für eine bessere Benutzererfahrung. Einige Features sind bereits in Entwicklung.
+              <p className="text-neutral-500 text-sm mb-4">
+                Wir arbeiten an umfangreichen Einstellungsmöglichkeiten für eine bessere Benutzererfahrung.
               </p>
-            </div>
-            
-            <Link
-              href="/analyse"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-black rounded-lg transition-colors font-medium"
-            >
-              <ArrowLeftIcon className="w-4 h-4" />
-              Zurück zum Dashboard
-            </Link>
-          </div>
-        </div>
-
-        {/* Upcoming Features */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <CogIcon className="w-5 h-5 text-purple-400" />
-              <div>
-                <h2 className="text-lg font-semibold text-theme-primary">Geplante Features</h2>
-                <p className="text-theme-secondary text-sm">Diese Einstellungen werden bald verfügbar sein</p>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {upcomingFeatures.map((feature, index) => {
-                const Icon = feature.icon
-                return (
-                  <div 
-                    key={index}
-                    className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-colors border border-theme/10"
-                  >
-                    <div className="flex items-start gap-3 mb-3">
-                      <div className="w-10 h-10 bg-theme-tertiary/50 rounded-lg flex items-center justify-center flex-shrink-0">
-                        <Icon className="w-5 h-5 text-theme-muted" />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-sm font-semibold text-theme-primary mb-1">
-                          {feature.title}
-                        </h3>
-                        <p className="text-xs text-theme-secondary">
-                          {feature.description}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-end">
-                      <span className={`text-xs px-2 py-1 rounded ${getStatusColor(feature.status)}`}>
-                        {feature.status}
-                      </span>
-                    </div>
-                  </div>
-                )
-              })}
+              <Link
+                href="/analyse"
+                className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors"
+              >
+                <ArrowLeftIcon className="w-4 h-4" />
+                Zurück zum Dashboard
+              </Link>
             </div>
           </div>
         </div>
 
-        {/* Quick Navigation */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-6">
-            <div className="flex items-center gap-3 mb-6">
-              <ArrowLeftIcon className="w-5 h-5 text-brand-light" />
-              <div>
-                <h2 className="text-lg font-semibold text-theme-primary">Schnellzugriff</h2>
-                <p className="text-theme-secondary text-sm">Zurück zu wichtigen Bereichen</p>
-              </div>
-            </div>
+        {/* Upcoming Features - Flat List */}
+        <div className="border-b border-neutral-800 pb-8 mb-8">
+          <h2 className="text-sm font-medium text-neutral-400 mb-4">Geplante Features</h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {quickActions.map((action, index) => (
-                <Link 
+          <div className="space-y-0">
+            {upcomingFeatures.map((feature, index) => {
+              const Icon = feature.icon
+              return (
+                <div
                   key={index}
-                  href={action.href}
-                  className="p-4 rounded-lg hover:bg-theme-secondary/20 transition-all group border border-theme/10 hover:border-brand/20"
+                  className="flex items-center justify-between py-4 border-b border-neutral-800/50 last:border-0"
                 >
-                  <div className="text-center">
-                    <h3 className="font-medium text-theme-primary text-sm mb-1 group-hover:text-brand-light transition-colors">
-                      {action.title}
-                    </h3>
-                    <p className="text-xs text-theme-secondary">{action.description}</p>
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 bg-neutral-900 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 text-neutral-500" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-medium text-white">
+                        {feature.title}
+                      </h3>
+                      <p className="text-xs text-neutral-500">
+                        {feature.description}
+                      </p>
+                    </div>
                   </div>
-                </Link>
-              ))}
+                  <span className={`text-xs font-medium ${getStatusText(feature.status)}`}>
+                    {feature.status}
+                  </span>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Quick Navigation - Pill Buttons */}
+        <div className="border-b border-neutral-800 pb-8 mb-8">
+          <h2 className="text-sm font-medium text-neutral-400 mb-4">Schnellzugriff</h2>
+
+          <div className="flex flex-wrap gap-3">
+            {quickActions.map((action, index) => (
+              <Link
+                key={index}
+                href={action.href}
+                className="px-4 py-2 bg-neutral-900 hover:bg-neutral-800 rounded-lg transition-colors"
+              >
+                <span className="text-sm text-neutral-300">{action.title}</span>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Current Status - Two Columns No Border */}
+        <div className="border-b border-neutral-800 pb-8 mb-8">
+          <div className="flex items-center gap-2 mb-4">
+            <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+            <h2 className="text-sm font-medium text-neutral-400">Aktueller Status</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="text-sm font-medium text-white mb-1">Automatische Synchronisation</h4>
+              <p className="text-xs text-neutral-500 mb-2">
+                Deine Präferenzen werden automatisch gespeichert und geräteübergreifend synchronisiert.
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                <span className="text-xs text-emerald-400">Aktiv</span>
+              </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium text-white mb-1">Datenschutz</h4>
+              <p className="text-xs text-neutral-500 mb-2">
+                Alle deine Daten werden verschlüsselt und sicher in der EU gespeichert.
+              </p>
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></div>
+                <span className="text-xs text-emerald-400">Geschützt</span>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Current Status */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-6">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-5 h-5 bg-green-400/20 rounded flex items-center justify-center">
-                <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-              </div>
-              <h3 className="text-base font-semibold text-theme-primary">Aktueller Status</h3>
-            </div>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="p-4 rounded-lg border border-theme/10">
-                <h4 className="text-sm font-medium text-theme-primary mb-2">Automatische Synchronisation</h4>
-                <p className="text-xs text-theme-secondary mb-3">
-                  Deine Präferenzen werden automatisch gespeichert und geräteübergreifend synchronisiert.
-                </p>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-brand-light">Aktiv</span>
-                </div>
-              </div>
-              
-              <div className="p-4 rounded-lg border border-theme/10">
-                <h4 className="text-sm font-medium text-theme-primary mb-2">Datenschutz</h4>
-                <p className="text-xs text-theme-secondary mb-3">
-                  Alle deine Daten werden verschlüsselt und sicher in der EU gespeichert.
-                </p>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                  <span className="text-xs text-brand-light">Geschützt</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* Development Roadmap - Flat Timeline */}
+        <div>
+          <h2 className="text-sm font-medium text-neutral-400 mb-4">Entwicklungs-Roadmap</h2>
 
-        {/* Development Timeline */}
-        <div className="bg-theme-card rounded-lg">
-          <div className="p-6">
-            <h3 className="text-base font-semibold text-theme-primary mb-4">Entwicklungs-Roadmap</h3>
-            
-            <div className="space-y-4">
-              <div className="flex items-center gap-4">
-                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-theme-primary">Dashboard & Watchlist</div>
-                  <div className="text-xs text-theme-muted">Basis-Funktionalität - Abgeschlossen</div>
-                </div>
-                <div className="text-xs text-brand-light font-medium">✓ Fertig</div>
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+              <div className="flex-1">
+                <div className="text-sm font-medium text-white">Dashboard & Watchlist</div>
+                <div className="text-xs text-neutral-500">Basis-Funktionalität - Abgeschlossen</div>
               </div>
-              
-              <div className="flex items-center gap-4">
-                <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-theme-primary">Erweiterte Einstellungen</div>
-                  <div className="text-xs text-theme-muted">Theme-Anpassung, Benachrichtigungen</div>
-                </div>
-                <div className="text-xs text-yellow-400 font-medium">🔄 Q1 2025</div>
+              <div className="text-xs text-emerald-400 font-medium">✓ Fertig</div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-2 bg-yellow-400 rounded-full"></div>
+              <div className="flex-1">
+                <div className="text-sm font-medium text-white">Erweiterte Einstellungen</div>
+                <div className="text-xs text-neutral-500">Theme-Anpassung, Benachrichtigungen</div>
               </div>
-              
-              <div className="flex items-center gap-4">
-                <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                <div className="flex-1">
-                  <div className="text-sm font-medium text-theme-primary">Personalisierung</div>
-                  <div className="text-xs text-theme-muted">Individuelle Dashboards, Sprachen</div>
-                </div>
-                <div className="text-xs text-brand-light font-medium">📅 Q2 2025</div>
+              <div className="text-xs text-yellow-400 font-medium">Q1 2025</div>
+            </div>
+
+            <div className="flex items-center gap-4">
+              <div className="w-2 h-2 bg-neutral-600 rounded-full"></div>
+              <div className="flex-1">
+                <div className="text-sm font-medium text-white">Personalisierung</div>
+                <div className="text-xs text-neutral-500">Individuelle Dashboards, Sprachen</div>
               </div>
+              <div className="text-xs text-neutral-500 font-medium">Q2 2025</div>
             </div>
           </div>
         </div>

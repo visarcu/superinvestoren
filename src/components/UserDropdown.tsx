@@ -2,7 +2,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
-import { User, Settings, LogOut, Mail, Crown, ChevronDown, Sparkles } from 'lucide-react';
+import { User, Settings, LogOut, Mail, Crown, ChevronDown, Sparkles, Sun, Moon } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
@@ -156,6 +156,35 @@ export default function UserDropdown({ user, profile }: Props) {
                   )}
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Appearance Section - Theme Toggle */}
+          <div className="px-3 py-3 border-b border-gray-700/50">
+            <p className="text-xs text-gray-500 mb-3 font-medium uppercase tracking-wide">Erscheinungsbild</p>
+
+            {/* Dark - Active */}
+            <div className="flex items-center justify-between py-2 px-2 rounded-lg bg-gray-700/30">
+              <div className="flex items-center gap-3">
+                <div className="p-1.5 rounded-lg bg-gray-600/50">
+                  <Moon size={14} className="text-white" />
+                </div>
+                <span className="text-sm text-white font-medium">Dark</span>
+              </div>
+              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+            </div>
+
+            {/* Light - Disabled */}
+            <div className="flex items-center justify-between py-2 px-2 mt-1 opacity-50 cursor-not-allowed">
+              <div className="flex items-center gap-3">
+                <div className="p-1.5 rounded-lg bg-gray-700/30">
+                  <Sun size={14} className="text-gray-500" />
+                </div>
+                <span className="text-sm text-gray-500">Light</span>
+              </div>
+              <span className="text-[10px] text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded font-medium">
+                Bald
+              </span>
             </div>
           </div>
 

@@ -16,33 +16,25 @@ import PortfolioPerformanceChart from '@/components/PortfolioPerformanceChart'
 import SearchTickerInput from '@/components/SearchTickerInput'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
-import { BrokerType, getBrokerConfig, getBrokerColor } from '@/lib/brokerConfig'
-import { BrokerBadge } from '@/components/PortfolioBrokerSelector'
+import { BrokerType, getBrokerConfig } from '@/lib/brokerConfig'
 import {
   BriefcaseIcon,
-  ArrowLeftIcon,
-  ArrowTrendingUpIcon,
-  ArrowTrendingDownIcon,
-  CurrencyDollarIcon,
-  CurrencyEuroIcon,
-  ChartBarIcon,
   PlusIcon,
   ArrowPathIcon,
   EyeIcon,
   PencilIcon,
   XMarkIcon,
-  NewspaperIcon,
   ClockIcon,
   ArrowTopRightOnSquareIcon,
   CheckIcon,
   InformationCircleIcon,
   ExclamationTriangleIcon,
   ArrowDownTrayIcon,
-  DevicePhoneMobileIcon,
-  ComputerDesktopIcon,
   LockClosedIcon,
   ChevronDownIcon,
-  Squares2X2Icon
+  Squares2X2Icon,
+  ChartBarIcon,
+  CurrencyDollarIcon
 } from '@heroicons/react/24/outline'
 
 // Free User Limit für Portfolio-Positionen
@@ -99,94 +91,84 @@ interface NewsArticle {
   symbol: string
 }
 
-// Skeleton Components for Loading
-const SkeletonCard = () => (
-  <div className="bg-theme-card rounded-xl p-4 border border-theme/10 animate-pulse">
-    <div className="h-4 bg-theme-secondary/30 rounded w-24 mb-2"></div>
-    <div className="h-8 bg-theme-secondary/30 rounded w-32"></div>
+// Skeleton Component for Loading - Fey Style
+const SkeletonRow = () => (
+  <div className="flex items-center justify-between py-3 border-b border-neutral-800/50 animate-pulse">
+    <div className="flex items-center gap-3">
+      <div className="w-8 h-8 bg-neutral-800 rounded-full"></div>
+      <div>
+        <div className="h-4 bg-neutral-800 rounded w-12 mb-1"></div>
+        <div className="h-3 bg-neutral-800 rounded w-20"></div>
+      </div>
+    </div>
+    <div className="flex items-center gap-4">
+      <div className="h-4 bg-neutral-800 rounded w-16"></div>
+      <div className="h-4 bg-neutral-800 rounded w-12"></div>
+    </div>
   </div>
 )
 
-const SkeletonRow = () => (
-  <tr className="border-t border-theme/10 animate-pulse">
-    <td className="px-4 py-4">
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-theme-secondary/30 rounded-lg"></div>
-        <div>
-          <div className="h-4 bg-theme-secondary/30 rounded w-16 mb-1"></div>
-          <div className="h-3 bg-theme-secondary/30 rounded w-24"></div>
-        </div>
-      </div>
-    </td>
-    {[...Array(7)].map((_, i) => (
-      <td key={i} className="px-4 py-4">
-        <div className="h-4 bg-theme-secondary/30 rounded w-16 mx-auto"></div>
-      </td>
-    ))}
-  </tr>
-)
-
-// Premium Upgrade Modal Component
+// Premium Upgrade Modal Component - Fey Style
 const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean, onClose: () => void, feature: string }) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-theme-card rounded-2xl max-w-md w-full p-6 shadow-2xl border border-theme/20">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-neutral-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-neutral-800">
         {/* Header */}
         <div className="text-center mb-6">
-          <div className="w-16 h-16 mx-auto mb-4 bg-gradient-to-br from-amber-400 to-orange-500 rounded-2xl flex items-center justify-center">
-            <LockClosedIcon className="w-8 h-8 text-white" />
+          <div className="w-14 h-14 mx-auto mb-4 bg-amber-500/20 rounded-xl flex items-center justify-center">
+            <LockClosedIcon className="w-7 h-7 text-amber-400" />
           </div>
-          <h2 className="text-xl font-bold text-theme-primary mb-2">Premium Feature</h2>
-          <p className="text-theme-secondary text-sm">{feature}</p>
+          <h2 className="text-lg font-semibold text-white mb-2">Premium Feature</h2>
+          <p className="text-neutral-400 text-sm">{feature}</p>
         </div>
 
         {/* Benefits */}
         <div className="space-y-3 mb-6">
           <div className="flex items-center gap-3 text-sm">
-            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
-              <CheckIcon className="w-3 h-3 text-brand" />
+            <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-emerald-400" />
             </div>
-            <span className="text-theme-primary">Unbegrenzte Portfolio-Positionen</span>
+            <span className="text-neutral-300">Unbegrenzte Portfolio-Positionen</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
-              <CheckIcon className="w-3 h-3 text-brand" />
+            <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-emerald-400" />
             </div>
-            <span className="text-theme-primary">Dividenden-Tracking & Prognosen</span>
+            <span className="text-neutral-300">Dividenden-Tracking & Prognosen</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
-              <CheckIcon className="w-3 h-3 text-brand" />
+            <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-emerald-400" />
             </div>
-            <span className="text-theme-primary">Performance-Insights & Analysen</span>
+            <span className="text-neutral-300">Performance-Insights & Analysen</span>
           </div>
           <div className="flex items-center gap-3 text-sm">
-            <div className="w-5 h-5 rounded-full bg-brand/20 flex items-center justify-center">
-              <CheckIcon className="w-3 h-3 text-brand" />
+            <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <CheckIcon className="w-3 h-3 text-emerald-400" />
             </div>
-            <span className="text-theme-primary">Portfolio-Historie & Transaktionen</span>
+            <span className="text-neutral-300">Portfolio-Historie & Transaktionen</span>
           </div>
         </div>
 
         {/* Price */}
-        <div className="text-center mb-6 p-4 bg-theme-tertiary/50 rounded-xl">
-          <div className="text-3xl font-bold text-theme-primary">9€<span className="text-lg font-normal text-theme-secondary">/Monat</span></div>
-          <p className="text-xs text-theme-muted mt-1">Jederzeit kündbar</p>
+        <div className="text-center mb-6 p-4 bg-neutral-800/50 rounded-xl">
+          <div className="text-2xl font-bold text-white">9€<span className="text-base font-normal text-neutral-400">/Monat</span></div>
+          <p className="text-xs text-neutral-500 mt-1">Jederzeit kündbar</p>
         </div>
 
         {/* Buttons */}
         <div className="flex gap-3">
           <button
             onClick={onClose}
-            className="flex-1 px-4 py-3 text-sm font-medium bg-theme-tertiary text-theme-secondary rounded-xl hover:bg-theme-hover transition-colors"
+            className="flex-1 px-4 py-3 text-sm font-medium bg-neutral-800 text-neutral-400 rounded-xl hover:bg-neutral-700 transition-colors"
           >
             Später
           </button>
           <Link
             href="/pricing"
-            className="flex-1 px-4 py-3 text-sm font-medium bg-brand text-white rounded-xl hover:bg-brand/90 transition-colors text-center"
+            className="flex-1 px-4 py-3 text-sm font-medium bg-emerald-500 text-white rounded-xl hover:bg-emerald-400 transition-colors text-center"
           >
             Jetzt upgraden
           </Link>
@@ -195,68 +177,6 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean, on
     </div>
   )
 }
-
-// Mobile Card View Component
-const MobileHoldingCard = ({ holding, onView, onEdit, onDelete, onTopUp, formatCurrency, formatStockPrice, formatPercentage, totalValue }: any) => (
-  <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-    <div className="flex items-start justify-between mb-3">
-      <div className="flex items-center gap-3">
-        <Logo
-          ticker={holding.symbol}
-          alt={holding.symbol}
-          className="w-10 h-10"
-          padding="small"
-        />
-        <div>
-          <p className="font-bold text-theme-primary">{holding.symbol}</p>
-          <p className="text-xs text-theme-muted">{holding.quantity} Stück</p>
-        </div>
-      </div>
-      <div className="text-right">
-        <p className="font-bold text-theme-primary">
-          {formatCurrency(holding.value)}
-        </p>
-        <p className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-          {formatPercentage(holding.gain_loss_percent)}
-        </p>
-      </div>
-    </div>
-
-    <div className="grid grid-cols-2 gap-3 text-xs mb-3">
-      <div>
-        <p className="text-theme-muted">Kaufpreis</p>
-        <p className="text-theme-primary font-semibold">{formatStockPrice(holding.purchase_price_display)}</p>
-      </div>
-      <div>
-        <p className="text-theme-muted">Aktuell</p>
-        <p className="text-theme-primary font-semibold">{formatStockPrice(holding.current_price_display)}</p>
-      </div>
-    </div>
-
-    {holding.superinvestors && holding.superinvestors.count > 0 && (
-      <div className="flex items-center justify-center mb-3 py-2 bg-brand/10 rounded-lg">
-        <span className="text-xs text-brand-light">
-          {holding.superinvestors.count} Superinvestoren
-        </span>
-      </div>
-    )}
-
-    <div className="flex gap-2">
-      <button onClick={() => onView(holding.symbol)} className="flex-1 p-2 bg-theme-secondary/30 rounded-lg">
-        <EyeIcon className="w-4 h-4 mx-auto text-theme-secondary" />
-      </button>
-      <button onClick={() => onTopUp(holding)} className="flex-1 p-2 bg-brand/20 rounded-lg">
-        <PlusIcon className="w-4 h-4 mx-auto text-brand-light" />
-      </button>
-      <button onClick={() => onEdit(holding)} className="flex-1 p-2 bg-blue-400/20 rounded-lg">
-        <PencilIcon className="w-4 h-4 mx-auto text-blue-400" />
-      </button>
-      <button onClick={() => onDelete(holding.id)} className="flex-1 p-2 bg-red-400/20 rounded-lg">
-        <XMarkIcon className="w-4 h-4 mx-auto text-red-400" />
-      </button>
-    </div>
-  </div>
-)
 
 export default function PortfolioDashboard() {
   const router = useRouter()
@@ -284,7 +204,6 @@ export default function PortfolioDashboard() {
   const [activeTab, setActiveTab] = useState<'overview' | 'news' | 'dividends' | 'insights' | 'history'>('overview')
   const [editingPosition, setEditingPosition] = useState<Holding | null>(null)
   const [showSuperinvestorsModal, setShowSuperinvestorsModal] = useState<Holding | null>(null)
-  const [isMobile, setIsMobile] = useState(false)
 
   // Premium State
   const [isPremium, setIsPremium] = useState(false)
@@ -334,16 +253,6 @@ export default function PortfolioDashboard() {
   const [totalGainLossPercent, setTotalGainLossPercent] = useState(0)
   const [activeInvestments, setActiveInvestments] = useState(0)
   const [cashPositionDisplay, setCashPositionDisplay] = useState(0)
-
-  // Check for mobile on mount and resize
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768)
-    }
-    checkMobile()
-    window.addEventListener('resize', checkMobile)
-    return () => window.removeEventListener('resize', checkMobile)
-  }, [])
 
   // Force EUR for German portfolio app
   useEffect(() => {
@@ -1114,15 +1023,16 @@ export default function PortfolioDashboard() {
     })
   }
 
-  // Loading State
+  // Loading State - Fey Style
   if (loading) {
     return (
-      <div className="min-h-screen bg-theme-primary">
-        <div className="w-full px-6 lg:px-8 py-6">
+      <div className="min-h-screen bg-dark">
+        <div className="w-full px-6 py-6">
           <div className="animate-pulse">
-            <div className="h-8 bg-theme-secondary/30 rounded w-48 mb-6"></div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-              {[...Array(4)].map((_, i) => <SkeletonCard key={i} />)}
+            <div className="h-6 bg-neutral-800 rounded w-40 mb-2"></div>
+            <div className="h-10 bg-neutral-800 rounded w-48 mb-8"></div>
+            <div className="space-y-0">
+              {[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}
             </div>
           </div>
         </div>
@@ -1130,17 +1040,17 @@ export default function PortfolioDashboard() {
     )
   }
 
-  // Error State
+  // Error State - Fey Style
   if (error) {
     return (
-      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+      <div className="min-h-screen bg-dark flex items-center justify-center">
         <div className="text-center max-w-md p-6">
-          <ExclamationTriangleIcon className="w-12 h-12 text-red-400 mx-auto mb-4" />
-          <h2 className="text-xl font-bold text-theme-primary mb-2">Fehler beim Laden</h2>
-          <p className="text-theme-secondary mb-4">{error}</p>
+          <ExclamationTriangleIcon className="w-10 h-10 text-red-400 mx-auto mb-4" />
+          <h2 className="text-lg font-medium text-white mb-2">Fehler beim Laden</h2>
+          <p className="text-neutral-400 text-sm mb-4">{error}</p>
           <button
             onClick={() => loadPortfolio(depotIdParam)}
-            className="px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
+            className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors"
           >
             Erneut versuchen
           </button>
@@ -1150,334 +1060,200 @@ export default function PortfolioDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-theme-primary">
-      {/* Header */}
-      <div className="border-b border-theme/5">
-        <div className="w-full px-6 lg:px-8 py-6">
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-6 group"
-          >
-            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-            Zurück zum Dashboard
-          </Link>
+    <div className="min-h-screen bg-dark">
+      {/* Header - Fey Style Compact */}
+      <div className="border-b border-neutral-800">
+        <div className="w-full px-6 py-6">
+          {/* Portfolio Name + Actions Row */}
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-3">
+              <h1 className="text-xl font-medium text-white">{portfolio?.name || 'Mein Portfolio'}</h1>
 
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div className="flex items-center gap-4 group">
-              {/* Broker Color Indicator */}
-              <div
-                className="w-12 h-12 rounded-xl flex items-center justify-center border border-theme/10"
-                style={{
-                  backgroundColor: portfolio?.id === 'all'
-                    ? 'rgba(16, 185, 129, 0.2)'
-                    : portfolio?.broker_color
-                      ? `${portfolio.broker_color}20`
-                      : 'white'
-                }}
-              >
-                {portfolio?.id === 'all' ? (
-                  <Squares2X2Icon className="w-6 h-6 text-brand" />
-                ) : (
-                  <BriefcaseIcon
-                    className="w-6 h-6"
-                    style={{
-                      color: portfolio?.broker_color
-                        ? getBrokerColor(portfolio.broker_type, portfolio.broker_color)
-                        : '#10B981'
-                    }}
-                  />
-                )}
-              </div>
-
-              <div>
-                <div className="flex items-center gap-2">
-                  <h1 className="text-2xl font-bold text-theme-primary">
-                    {portfolio?.name || 'Mein Portfolio'}
-                  </h1>
-                  {portfolio?.id !== 'all' && (
-                    <button
-                      onClick={() => {
-                        setNewPortfolioName(portfolio?.name || 'Mein Portfolio')
-                        setShowNameModal(true)
-                      }}
-                      className="p-1.5 hover:bg-theme-secondary/50 rounded-lg transition-colors opacity-0 group-hover:opacity-100"
-                      title="Portfolio umbenennen"
-                    >
-                      <PencilIcon className="w-4 h-4 text-theme-secondary" />
-                    </button>
-                  )}
-                </div>
-                <div className="flex items-center gap-2 mt-1">
-                  {portfolio?.id !== 'all' && portfolio?.broker_type && (
-                    <BrokerBadge
-                      brokerId={portfolio.broker_type}
-                      customName={portfolio.broker_name}
-                      customColor={portfolio.broker_color}
-                      size="sm"
-                    />
-                  )}
-                  {portfolio?.id === 'all' && (
-                    <span className="text-xs text-brand bg-brand/10 px-2 py-0.5 rounded-full">
-                      {allPortfolios.length} Depots
-                    </span>
-                  )}
-                </div>
-              </div>
-
-              {/* Depot Switcher Dropdown */}
+              {/* Depot Switcher */}
               {allPortfolios.length > 0 && (
-                <div className="relative ml-2">
+                <div className="relative">
                   <button
                     onClick={() => setShowDepotSwitcher(!showDepotSwitcher)}
-                    className="flex items-center gap-2 px-4 py-2 bg-theme-secondary/30 hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
+                    className="p-1 hover:bg-neutral-800 rounded transition-colors"
                     title="Depot wechseln"
                   >
-                    <span className="text-sm text-theme-secondary">Depot wechseln</span>
-                    <ChevronDownIcon className={`w-4 h-4 text-theme-secondary transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
+                    <ChevronDownIcon className={`w-4 h-4 text-neutral-500 transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
                   </button>
 
                   {showDepotSwitcher && (
                     <>
-                      <div
-                        className="fixed inset-0 z-10"
-                        onClick={() => setShowDepotSwitcher(false)}
-                      />
-                      <div className="absolute left-0 top-full mt-2 w-72 bg-theme-card border border-theme/20 rounded-xl shadow-xl z-20 py-2 max-h-96 overflow-y-auto">
+                      <div className="fixed inset-0 z-10" onClick={() => setShowDepotSwitcher(false)} />
+                      <div className="absolute left-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl z-20 py-2 max-h-80 overflow-y-auto">
                         {/* All Depots Option */}
                         {allPortfolios.length > 1 && (
                           <>
                             <Link
                               href="/analyse/portfolio/dashboard?depot=all"
                               onClick={() => setShowDepotSwitcher(false)}
-                              className={`flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors ${
-                                portfolio?.id === 'all' ? 'bg-brand/10' : ''
-                              }`}
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${portfolio?.id === 'all' ? 'bg-emerald-500/10' : ''}`}
                             >
-                              <div className="w-8 h-8 bg-brand/20 rounded-lg flex items-center justify-center">
-                                <Squares2X2Icon className="w-4 h-4 text-brand" />
-                              </div>
-                              <div className="flex-1">
-                                <p className="font-medium text-theme-primary">Alle Depots</p>
-                                <p className="text-xs text-theme-muted">{allPortfolios.length} Depots kombiniert</p>
-                              </div>
-                              {portfolio?.id === 'all' && (
-                                <CheckIcon className="w-4 h-4 text-brand" />
-                              )}
+                              <Squares2X2Icon className="w-4 h-4 text-emerald-400" />
+                              <span className="text-sm text-white">Alle Depots</span>
+                              {portfolio?.id === 'all' && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
                             </Link>
-                            <hr className="my-2 border-theme/10" />
+                            <hr className="my-1 border-neutral-800" />
                           </>
                         )}
 
-                        {/* Individual Depots */}
                         {allPortfolios.map((p) => {
-                          const brokerColor = getBrokerColor(p.broker_type, p.broker_color)
                           const isActive = portfolio?.id === p.id
-
                           return (
                             <Link
                               key={p.id}
                               href={`/analyse/portfolio/dashboard?depot=${p.id}`}
                               onClick={() => setShowDepotSwitcher(false)}
-                              className={`flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors ${
-                                isActive ? 'bg-brand/10' : ''
-                              }`}
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${isActive ? 'bg-emerald-500/10' : ''}`}
                             >
-                              <div
-                                className="w-8 h-8 rounded-lg flex items-center justify-center"
-                                style={{ backgroundColor: `${brokerColor}20` }}
-                              >
-                                <BriefcaseIcon className="w-4 h-4" style={{ color: brokerColor }} />
-                              </div>
-                              <div className="flex-1 min-w-0">
-                                <p className="font-medium text-theme-primary truncate">{p.name}</p>
-                                {p.broker_type && (
-                                  <BrokerBadge
-                                    brokerId={p.broker_type}
-                                    customName={p.broker_name}
-                                    customColor={p.broker_color}
-                                    size="sm"
-                                  />
-                                )}
-                              </div>
-                              {isActive && (
-                                <CheckIcon className="w-4 h-4 text-brand" />
-                              )}
+                              <BriefcaseIcon className="w-4 h-4 text-neutral-400" />
+                              <span className="text-sm text-white truncate">{p.name}</span>
+                              {isActive && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
                             </Link>
                           )
                         })}
 
-                        {/* Add New Depot Link */}
-                        <hr className="my-2 border-theme/10" />
+                        <hr className="my-1 border-neutral-800" />
                         <Link
                           href="/analyse/portfolio/depots/neu"
                           onClick={() => setShowDepotSwitcher(false)}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors text-brand"
+                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors text-emerald-400"
                         >
-                          <div className="w-8 h-8 bg-brand/10 rounded-lg flex items-center justify-center">
-                            <PlusIcon className="w-4 h-4" />
-                          </div>
-                          <span className="font-medium">Neues Depot erstellen</span>
-                        </Link>
-
-                        {/* Manage Depots Link */}
-                        <Link
-                          href="/analyse/portfolio/depots"
-                          onClick={() => setShowDepotSwitcher(false)}
-                          className="flex items-center gap-3 px-4 py-3 hover:bg-theme-secondary/30 transition-colors text-theme-secondary"
-                        >
-                          <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
-                            <ChartBarIcon className="w-4 h-4" />
-                          </div>
-                          <span className="font-medium">Depots verwalten</span>
+                          <PlusIcon className="w-4 h-4" />
+                          <span className="text-sm">Neues Depot</span>
                         </Link>
                       </div>
                     </>
                   )}
                 </div>
               )}
+
+              {portfolio?.id !== 'all' && (
+                <button
+                  onClick={() => {
+                    setNewPortfolioName(portfolio?.name || '')
+                    setShowNameModal(true)
+                  }}
+                  className="p-1 hover:bg-neutral-800 rounded transition-colors opacity-0 hover:opacity-100"
+                  title="Umbenennen"
+                >
+                  <PencilIcon className="w-3.5 h-3.5 text-neutral-500" />
+                </button>
+              )}
             </div>
 
-            <div className="flex items-center gap-3">
-              {/* Alle Depots Link */}
-              <Link
-                href="/analyse/portfolio/depots"
-                className="flex items-center gap-2 px-4 py-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
-                title="Alle Depots anzeigen"
-              >
-                <Squares2X2Icon className="w-5 h-5 text-theme-secondary" />
-                <span className="text-sm text-theme-secondary hidden sm:inline">Meine Depots</span>
-              </Link>
-
-              <button
-                onClick={exportToCSV}
-                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors"
-                title="Export CSV"
-              >
-                <ArrowDownTrayIcon className="w-5 h-5 text-theme-secondary" />
-              </button>
-
+            <div className="flex items-center gap-2">
               <button
                 onClick={refreshPrices}
                 disabled={refreshing}
-                className="p-2 bg-theme-card hover:bg-theme-secondary/50 border border-theme/10 rounded-lg transition-colors disabled:opacity-50"
-                title="Kurse aktualisieren"
+                className="p-2 hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50"
+                title="Aktualisieren"
               >
-                <ArrowPathIcon className={`w-5 h-5 text-theme-secondary ${refreshing ? 'animate-spin' : ''}`} />
+                <ArrowPathIcon className={`w-4 h-4 text-neutral-400 ${refreshing ? 'animate-spin' : ''}`} />
               </button>
+              <button
+                onClick={exportToCSV}
+                className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
+                title="Export"
+              >
+                <ArrowDownTrayIcon className="w-4 h-4 text-neutral-400" />
+              </button>
+              <Link
+                href="/analyse/portfolio/depots"
+                className="p-2 hover:bg-neutral-800 rounded-lg transition-colors"
+                title="Depots"
+              >
+                <Squares2X2Icon className="w-4 h-4 text-neutral-400" />
+              </Link>
             </div>
           </div>
 
+          {/* Kompakte Stats - Fey Style */}
+          <div className="flex items-baseline gap-8">
+            <div>
+              <p className="text-3xl font-bold text-white">{formatCurrency(totalValue)}</p>
+              <div className="flex items-center gap-3 mt-1">
+                <span className={`text-sm font-medium ${totalGainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {totalGainLoss >= 0 ? '+' : ''}{formatCurrency(totalGainLoss)}
+                </span>
+                <span className={`text-sm ${totalGainLossPercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {formatPercentage(totalGainLossPercent)}
+                </span>
+                <span className="text-xs text-neutral-500">All-time</span>
+              </div>
+            </div>
+
+            {/* Inline Stats */}
+            <div className="hidden md:flex items-center gap-6 text-sm">
+              <div>
+                <span className="text-neutral-500">Cash</span>
+                <span className="text-white ml-2">{formatCurrency(cashPositionDisplay)}</span>
+                <button
+                  onClick={() => {
+                    setNewCashAmount(cashPositionDisplay.toString())
+                    setShowCashModal(true)
+                  }}
+                  className="ml-1 p-0.5 hover:bg-neutral-800 rounded transition-colors"
+                >
+                  <PencilIcon className="w-3 h-3 text-neutral-600 hover:text-neutral-400" />
+                </button>
+              </div>
+              <div>
+                <span className="text-neutral-500">Positionen</span>
+                <span className="text-white ml-2">{activeInvestments}</span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
+      {/* Tab Navigation - Fey Style */}
+      <div className="flex items-center gap-6 px-6 border-b border-neutral-800">
+        {[
+          { key: 'overview', label: 'Holdings', premium: false },
+          { key: 'news', label: 'News', premium: false },
+          { key: 'dividends', label: 'Dividenden', premium: true },
+          { key: 'insights', label: 'Insights', premium: true },
+          { key: 'history', label: 'Activity', premium: true }
+        ].map(tab => (
+          <button
+            key={tab.key}
+            onClick={() => handleTabChange(tab.key as any)}
+            className={`py-3 text-sm font-medium border-b-2 -mb-px transition-colors flex items-center gap-1.5 ${
+              activeTab === tab.key
+                ? 'text-white border-white'
+                : 'text-neutral-500 border-transparent hover:text-neutral-300'
+            }`}
+          >
+            {tab.label}
+            {!isPremium && tab.premium && (
+              <LockClosedIcon className="w-3 h-3 text-amber-500" />
+            )}
+          </button>
+        ))}
+      </div>
+
       {/* Main Content */}
-      <main className="w-full px-6 lg:px-8 py-8">
-        {/* Metrics Overview */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-            <p className="text-sm text-theme-secondary mb-1">Portfolio Wert</p>
-            <p className="text-xl lg:text-2xl font-bold text-theme-primary">
-              {formatCurrency(totalValue)}
-            </p>
-            <p className="text-xs text-theme-muted mt-1">
-              inkl. {formatCurrency(cashPositionDisplay)} Cash
-            </p>
-          </div>
-
-          <div className="bg-theme-card rounded-xl p-4 border border-theme/10 relative group">
-            <p className="text-sm text-theme-secondary mb-1">Cash Position</p>
-            <p className="text-xl lg:text-2xl font-bold text-theme-primary">
-              {formatCurrency(cashPositionDisplay)}
-            </p>
-            <p className="text-xs text-theme-muted mt-1">
-              {totalValue > 0 ? formatPercentage((cashPositionDisplay / totalValue) * 100, false) : '0%'} des Portfolios
-            </p>
-
-            {/* Edit Button - erscheint bei hover */}
-            <button
-              onClick={() => {
-                setNewCashAmount(cashPositionDisplay.toString())
-                setShowCashModal(true)
-              }}
-              className="absolute top-2 right-2 p-1.5 bg-theme-secondary/50 hover:bg-theme-secondary rounded-lg opacity-0 group-hover:opacity-100 transition-all"
-              title="Cash bearbeiten"
-            >
-              <PencilIcon className="w-4 h-4 text-theme-secondary" />
-            </button>
-          </div>
-
-          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-            <p className="text-sm text-theme-secondary mb-1">Rendite</p>
-            <div className="flex items-center gap-2">
-              <p className={`text-xl lg:text-2xl font-bold ${totalGainLoss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                {totalGainLoss >= 0 ? '+' : '-'}{formatCurrency(Math.abs(totalGainLoss))}
-              </p>
-              {totalGainLoss >= 0 ? (
-                <ArrowTrendingUpIcon className="w-5 h-5 text-brand-light" />
-              ) : (
-                <ArrowTrendingDownIcon className="w-5 h-5 text-red-400" />
-              )}
-            </div>
-            <p className={`text-xs mt-1 ${totalGainLossPercent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-              {formatPercentage(totalGainLossPercent)} All-time
-            </p>
-          </div>
-
-          <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-            <p className="text-sm text-theme-secondary mb-1">Investments</p>
-            <p className="text-xl lg:text-2xl font-bold text-theme-primary">
-              {activeInvestments}
-            </p>
-            <p className="text-xs text-theme-muted mt-1">Positionen</p>
-          </div>
-        </div>
-
-        {/* Exchange Rate Info */}
+      <main className="w-full px-6 py-6">
+        {/* Exchange Rate Info - Minimal */}
         {exchangeRate && (
-          <div className="bg-theme-card/50 rounded-lg p-2 mb-4 flex items-center justify-between">
-            <div className="flex items-center gap-2 text-xs text-theme-muted">
-              <InformationCircleIcon className="w-4 h-4" />
-              <span>Wechselkurs: 1 USD = {exchangeRate.toFixed(4)} EUR</span>
-              {lastCurrencyUpdate && (
-                <span>• Stand: {lastCurrencyUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
-              )}
-            </div>
+          <div className="mb-4 flex items-center gap-2 text-xs text-neutral-500">
+            <span>USD/EUR: {exchangeRate.toFixed(4)}</span>
+            {lastCurrencyUpdate && (
+              <span>• {lastCurrencyUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
+            )}
             <button
               onClick={loadExchangeRate}
               disabled={currencyLoading}
-              className="text-brand-light hover:text-green-300 text-xs"
+              className="text-emerald-400 hover:text-emerald-300"
             >
-              {currencyLoading ? 'Lade...' : 'Aktualisieren'}
+              {currencyLoading ? '...' : '↻'}
             </button>
           </div>
         )}
-
-        {/* Tab Navigation */}
-        <div className="flex gap-4 lg:gap-6 border-b border-theme/10 mb-6 overflow-x-auto">
-          {[
-            { key: 'overview', label: 'Übersicht', icon: null, premium: false },
-            { key: 'news', label: 'News', icon: NewspaperIcon, premium: false },
-            { key: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, premium: true },
-            { key: 'insights', label: 'Insights', icon: ChartBarIcon, premium: true },
-            { key: 'history', label: 'Historie', icon: ClockIcon, premium: true }
-          ].map(tab => (
-            <button
-              key={tab.key}
-              onClick={() => handleTabChange(tab.key as any)}
-              className={`pb-3 px-1 font-medium whitespace-nowrap transition-colors flex items-center gap-2 text-sm lg:text-base ${
-                activeTab === tab.key
-                  ? 'text-brand-light border-b-2 border-green-400'
-                  : 'text-theme-secondary hover:text-theme-primary'
-              } ${!isPremium && tab.premium ? 'opacity-70' : ''}`}
-            >
-              {tab.icon && <tab.icon className="w-4 h-4" />}
-              {tab.label}
-              {!isPremium && tab.premium && (
-                <LockClosedIcon className="w-3 h-3 text-amber-400" />
-              )}
-            </button>
-          ))}
-        </div>
 
         {/* Tab Content */}
         {activeTab === 'overview' && (
@@ -1521,8 +1297,8 @@ export default function PortfolioDashboard() {
                 </div>
 
                 <div className="space-y-4">
-                  <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-                    <h4 className="font-semibold text-theme-primary mb-3 text-sm">
+                  <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
+                    <h4 className="font-medium text-white mb-3 text-sm">
                       Top Positionen
                     </h4>
                     <div className="space-y-3">
@@ -1534,7 +1310,7 @@ export default function PortfolioDashboard() {
                           return (
                             <div key={holding.symbol} className="flex items-center justify-between">
                               <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-theme-muted w-4">{index + 1}.</span>
+                                <span className="text-xs font-medium text-neutral-600 w-4">{index + 1}.</span>
                                 <Logo
                                   ticker={holding.symbol}
                                   alt={holding.symbol}
@@ -1542,16 +1318,16 @@ export default function PortfolioDashboard() {
                                   padding="none"
                                 />
                                 <div>
-                                  <p className="font-semibold text-theme-primary text-xs">
+                                  <p className="font-medium text-white text-xs">
                                     {holding.symbol}
                                   </p>
-                                  <p className="text-xs text-theme-muted">
+                                  <p className="text-xs text-neutral-500">
                                     {formatCurrency(holding.value)}
                                   </p>
                                 </div>
                               </div>
                               <div className="text-right">
-                                <span className="text-xs font-medium text-theme-secondary">
+                                <span className="text-xs font-medium text-neutral-400">
                                   {percentage.toFixed(1)}%
                                 </span>
                               </div>
@@ -1561,28 +1337,28 @@ export default function PortfolioDashboard() {
                       }
                     </div>
                   </div>
-                  
-                  <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-                    <h4 className="font-semibold text-theme-primary mb-3 text-sm">
+
+                  <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800">
+                    <h4 className="font-medium text-white mb-3 text-sm">
                       Portfolio Diversifikation
                     </h4>
                     <div className="space-y-3">
                       <div className="flex justify-between items-center">
-                        <span className="text-xs text-theme-secondary">Positionen</span>
-                        <span className="text-sm font-semibold text-theme-primary">
+                        <span className="text-xs text-neutral-500">Positionen</span>
+                        <span className="text-sm font-medium text-white">
                           {activeInvestments}
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs text-theme-secondary">Cash %</span>
-                        <span className="text-sm font-semibold text-theme-primary">
+                        <span className="text-xs text-neutral-500">Cash %</span>
+                        <span className="text-sm font-medium text-white">
                           {totalValue > 0 ? ((cashPositionDisplay / totalValue) * 100).toFixed(1) : '0.0'}%
                         </span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-xs text-theme-secondary">Größte Position</span>
-                        <span className="text-sm font-semibold text-theme-primary">
-                          {holdings.length > 0 
+                        <span className="text-xs text-neutral-500">Größte Position</span>
+                        <span className="text-sm font-medium text-white">
+                          {holdings.length > 0
                             ? ((Math.max(...holdings.map(h => h.value)) / totalValue) * 100).toFixed(1) + '%'
                             : '0.0%'
                           }
@@ -1596,12 +1372,12 @@ export default function PortfolioDashboard() {
 
             {/* Free User Info Badge */}
             {!isPremium && (
-              <div className="mb-4 p-3 bg-brand/10 border border-brand/20 rounded-lg flex items-center gap-3">
-                <InformationCircleIcon className="w-5 h-5 text-brand flex-shrink-0" />
+              <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg flex items-center gap-3">
+                <InformationCircleIcon className="w-5 h-5 text-amber-400 flex-shrink-0" />
                 <div className="flex-1">
-                  <p className="text-sm text-theme-secondary">
-                    <span className="font-medium text-theme-primary">Free Account:</span> Du kannst bis zu {FREE_USER_POSITION_LIMIT} Positionen hinzufügen.
-                    <Link href="/pricing" className="text-brand hover:text-brand-light ml-1 font-medium">
+                  <p className="text-sm text-neutral-400">
+                    <span className="font-medium text-white">Free Account:</span> Du kannst bis zu {FREE_USER_POSITION_LIMIT} Positionen hinzufügen.
+                    <Link href="/pricing" className="text-emerald-400 hover:text-emerald-300 ml-1 font-medium">
                       Upgrade für unbegrenzte Positionen →
                     </Link>
                   </p>
@@ -1609,246 +1385,179 @@ export default function PortfolioDashboard() {
               </div>
             )}
 
-            {/* Holdings Table or Cards */}
-            <div className="bg-theme-card rounded-xl border border-theme/10 overflow-hidden">
-              <div className="p-4 border-b border-theme/10 flex items-center justify-between">
-                <h2 className="text-lg font-semibold text-theme-primary">Ihre Positionen</h2>
-                <div className="flex items-center gap-3">
-                  {/* View Mode Toggle */}
-                  <div className="flex items-center gap-1 bg-theme-secondary/30 rounded-lg p-1">
-                    <button
-                      onClick={() => setIsMobile(false)}
-                      className={`p-1.5 rounded ${!isMobile ? 'bg-theme-card' : ''}`}
-                      title="Tabelle"
-                    >
-                      <ComputerDesktopIcon className="w-4 h-4 text-theme-secondary" />
-                    </button>
-                    <button
-                      onClick={() => setIsMobile(true)}
-                      className={`p-1.5 rounded ${isMobile ? 'bg-theme-card' : ''}`}
-                      title="Karten"
-                    >
-                      <DevicePhoneMobileIcon className="w-4 h-4 text-theme-secondary" />
-                    </button>
-                  </div>
-                  
-                  <button
-                    onClick={openAddPositionModal}
-                    className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors"
-                  >
-                    <PlusIcon className="w-4 h-4" />
-                    <span className="hidden lg:inline">Position hinzufügen</span>
-                  </button>
-                </div>
+            {/* Holdings List - Fey Style */}
+            <div>
+              {/* Header Row */}
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-medium text-neutral-400">Holdings</h2>
+                <button
+                  onClick={openAddPositionModal}
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-emerald-400 hover:text-emerald-300 hover:bg-neutral-800 rounded-lg transition-colors"
+                >
+                  <PlusIcon className="w-4 h-4" />
+                  <span>Position</span>
+                </button>
               </div>
 
               {holdingsLoading ? (
-                <div className="p-4">
-                  {isMobile ? (
-                    <div className="space-y-4">
-                      {[...Array(3)].map((_, i) => (
-                        <div key={i} className="bg-theme-secondary/30 rounded-xl p-4 animate-pulse">
-                          <div className="h-4 bg-theme-secondary/50 rounded w-24 mb-2"></div>
-                          <div className="h-6 bg-theme-secondary/50 rounded w-32"></div>
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <table className="w-full">
-                      <tbody>
-                        {[...Array(3)].map((_, i) => <SkeletonRow key={i} />)}
-                      </tbody>
-                    </table>
-                  )}
+                <div className="space-y-0">
+                  {[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}
                 </div>
               ) : holdings.length > 0 ? (
-                isMobile ? (
-                  <div className="p-4 space-y-4">
-                    {holdings.map(holding => (
-                      <MobileHoldingCard
-                        key={holding.id}
-                        holding={holding}
-                        onView={handleViewStock}
-                        onEdit={openEditModal}
-                        onDelete={handleDeletePosition}
-                        onTopUp={(h: Holding) => {
-                          setTopUpPosition(h)
-                          setTopUpPrice('')
-                        }}
-                        formatCurrency={formatCurrency}
-                        formatStockPrice={formatStockPrice}
-                        formatPercentage={formatPercentage}
-                        totalValue={totalValue}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <table className="w-full">
-                      <thead className="bg-theme-secondary/30">
-                        <tr>
-                          <th className="text-left px-4 py-3 text-sm font-medium text-theme-secondary">Symbol</th>
-                          <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Anzahl</th>
-                          <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Kaufpreis</th>
-                          <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Aktueller Preis</th>
-                          <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Wert</th>
-                          <th className="text-right px-4 py-3 text-sm font-medium text-theme-secondary">Gewinn/Verlust</th>
-                          <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Superinvestoren</th>
-                          <th className="text-center px-4 py-3 text-sm font-medium text-theme-secondary">Aktionen</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {holdings.map((holding) => {
-                          const currentPrice = holding.current_price_display || 0
-                          const purchasePrice = holding.purchase_price_display || 0
-                          const dayChange = currentPrice - purchasePrice
-                          const dayChangePercent = purchasePrice > 0 
-                            ? (dayChange / purchasePrice) * 100 
-                            : 0
-                          
-                          return (
-                            <tr key={holding.id} className="border-t border-theme/10 hover:bg-theme-secondary/10 transition-colors">
-                              <td className="px-4 py-4">
-                                <div className="flex items-center gap-3">
-                                  <Logo
-                                    ticker={holding.symbol}
-                                    alt={holding.symbol}
-                                    className="w-10 h-10"
-                                    padding="small"
-                                  />
-                                  <div>
-                                    <p className="font-bold text-theme-primary">{holding.symbol}</p>
-                                    <p className="text-xs text-theme-muted truncate max-w-[150px]">{holding.name}</p>
-                                  </div>
-                                </div>
-                              </td>
-                              <td className="text-right px-4 py-4">
-                                <p className="font-semibold text-theme-primary">
-                                  {holding.quantity.toLocaleString('de-DE')}
-                                </p>
-                              </td>
-                              <td className="text-right px-4 py-4">
-                                <p className="font-semibold text-theme-primary">
-                                  {formatStockPrice(holding.purchase_price_display)}
-                                </p>
-                              </td>
-                              <td className="text-right px-4 py-4">
-                                <p className="font-semibold text-theme-primary">
-                                  {formatStockPrice(holding.current_price_display)}
-                                </p>
-                                <div className={`text-xs mt-1 flex items-center justify-end gap-1 ${dayChangePercent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                                  {dayChangePercent >= 0 ? (
-                                    <ArrowTrendingUpIcon className="w-3 h-3" />
-                                  ) : (
-                                    <ArrowTrendingDownIcon className="w-3 h-3" />
-                                  )}
-                                  <span>{formatPercentage(dayChangePercent)}</span>
-                                </div>
-                              </td>
-                              <td className="text-right px-4 py-4">
-                                <p className="font-bold text-lg text-theme-primary">
-                                  {formatCurrency(holding.value)}
-                                </p>
-                                <p className="text-xs text-theme-muted">
-                                  {totalValue > 0 ? formatPercentage((holding.value / totalValue) * 100, false) : '0%'}
-                                </p>
-                              </td>
-                              <td className="text-right px-4 py-4">
-                                <div className={`inline-flex flex-col items-end px-3 py-2 rounded-lg ${
-                                  holding.gain_loss >= 0 ? 'bg-brand/10' : 'bg-red-500/10'
-                                }`}>
-                                  <p className={`font-bold text-sm ${holding.gain_loss >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                                    {holding.gain_loss >= 0 ? '+' : '-'}{formatCurrency(Math.abs(holding.gain_loss))}
-                                  </p>
-                                  <p className={`text-xs font-medium ${holding.gain_loss_percent >= 0 ? 'text-brand-light' : 'text-red-400'}`}>
-                                    {formatPercentage(holding.gain_loss_percent)}
-                                  </p>
-                                </div>
-                              </td>
-                              <td className="text-center px-4 py-4">
-                                {holding.superinvestors && holding.superinvestors.count > 0 ? (
+                <div className="space-y-0">
+                  {holdings
+                    .sort((a, b) => b.value - a.value)
+                    .map((holding, index) => {
+                      const percentage = totalValue > 0 ? (holding.value / totalValue) * 100 : 0
+
+                      return (
+                        <div
+                          key={holding.id}
+                          className="group flex items-center justify-between py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+                          onClick={() => handleViewStock(holding.symbol)}
+                        >
+                          {/* Left: Rank + Logo + Info */}
+                          <div className="flex items-center gap-3">
+                            <span className="w-5 text-xs text-neutral-600 font-medium">{index + 1}</span>
+                            <Logo
+                              ticker={holding.symbol}
+                              alt={holding.symbol}
+                              className="w-8 h-8"
+                              padding="none"
+                            />
+                            <div>
+                              <div className="flex items-center gap-2">
+                                <span className="font-medium text-white text-sm">{holding.symbol}</span>
+                                {holding.superinvestors && holding.superinvestors.count > 0 && (
                                   <button
-                                    onClick={() => setShowSuperinvestorsModal(holding)}
-                                    className="inline-flex items-center gap-2 px-3 py-1.5 bg-brand/10 border border-brand/20 rounded-lg hover:bg-brand/20 transition-all cursor-pointer"
-                                  >
-                                    <div className="w-5 h-5 bg-brand rounded-full flex items-center justify-center">
-                                      <span className="text-xs font-bold text-white">
-                                        {holding.superinvestors.count}
-                                      </span>
-                                    </div>
-                                    <span className="text-sm font-medium text-brand">
-                                      Investoren
-                                    </span>
-                                  </button>
-                                ) : (
-                                  <div className="inline-flex items-center px-3 py-1.5 bg-theme-secondary/30 rounded-lg">
-                                    <span className="text-xs text-theme-muted">
-                                      Keine Daten
-                                    </span>
-                                  </div>
-                                )}
-                              </td>
-                              <td className="px-4 py-4">
-                                <div className="flex items-center justify-center gap-1">
-                                  <button
-                                    onClick={() => handleViewStock(holding.symbol)}
-                                    className="p-2 hover:bg-theme-secondary/30 rounded-lg transition-colors"
-                                    title="Aktie analysieren"
-                                  >
-                                    <EyeIcon className="w-4 h-4 text-theme-secondary" />
-                                  </button>
-                                  <button
-                                    onClick={() => {
-                                      setTopUpPosition(holding)
-                                      setTopUpPrice('')
+                                    onClick={(e) => {
+                                      e.stopPropagation()
+                                      setShowSuperinvestorsModal(holding)
                                     }}
-                                    className="p-2 hover:bg-brand/20 rounded-lg transition-colors"
-                                    title="Position aufstocken"
+                                    className="flex items-center gap-1 px-1.5 py-0.5 bg-emerald-500/10 rounded text-xs text-emerald-400 hover:bg-emerald-500/20 transition-colors"
                                   >
-                                    <PlusIcon className="w-4 h-4 text-brand-light" />
+                                    <span>{holding.superinvestors.count}</span>
+                                    <span className="hidden sm:inline">SI</span>
                                   </button>
-                                  <button
-                                    onClick={() => openEditModal(holding)}
-                                    className="p-2 hover:bg-blue-400/20 rounded-lg transition-colors"
-                                    title="Position bearbeiten"
-                                  >
-                                    <PencilIcon className="w-4 h-4 text-blue-400" />
-                                  </button>
-                                  <button 
-                                    onClick={() => handleDeletePosition(holding.id)}
-                                    className="p-2 hover:bg-red-400/20 rounded-lg transition-colors"
-                                    title="Position löschen"
-                                  >
-                                    <XMarkIcon className="w-4 h-4 text-red-400" />
-                                  </button>
-                                </div>
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                )
+                                )}
+                              </div>
+                              <p className="text-xs text-neutral-500">
+                                {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.current_price_display)}
+                              </p>
+                            </div>
+                          </div>
+
+                          {/* Right: Value + Performance + Actions */}
+                          <div className="flex items-center gap-4">
+                            <div className="text-right">
+                              <p className="font-medium text-white text-sm">{formatCurrency(holding.value)}</p>
+                              <div className="flex items-center justify-end gap-2">
+                                <span className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                  {holding.gain_loss_percent >= 0 ? '+' : ''}{formatPercentage(holding.gain_loss_percent)}
+                                </span>
+                                <span className="text-xs text-neutral-600">{percentage.toFixed(1)}%</span>
+                              </div>
+                            </div>
+
+                            {/* Action Buttons - Show on hover */}
+                            <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  setTopUpPosition(holding)
+                                  setTopUpPrice('')
+                                }}
+                                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                                title="Aufstocken"
+                              >
+                                <PlusIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-emerald-400" />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  openEditModal(holding)
+                                }}
+                                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                                title="Bearbeiten"
+                              >
+                                <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-blue-400" />
+                              </button>
+                              <button
+                                onClick={(e) => {
+                                  e.stopPropagation()
+                                  handleDeletePosition(holding.id)
+                                }}
+                                className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                                title="Löschen"
+                              >
+                                <XMarkIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-red-400" />
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      )
+                    })}
+
+                  {/* Cash Position - Inline in List */}
+                  {cashPositionDisplay > 0 && (
+                    <div
+                      className="group flex items-center justify-between py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+                      onClick={() => {
+                        setNewCashAmount(cashPositionDisplay.toString())
+                        setShowCashModal(true)
+                      }}
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="w-5 text-xs text-neutral-600 font-medium">{holdings.length + 1}</span>
+                        <div className="w-8 h-8 bg-neutral-800 rounded-full flex items-center justify-center">
+                          <CurrencyDollarIcon className="w-4 h-4 text-neutral-400" />
+                        </div>
+                        <div>
+                          <span className="font-medium text-white text-sm">Cash</span>
+                          <p className="text-xs text-neutral-500">Verfügbar</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="text-right">
+                          <p className="font-medium text-white text-sm">{formatCurrency(cashPositionDisplay)}</p>
+                          <span className="text-xs text-neutral-600">
+                            {totalValue > 0 ? ((cashPositionDisplay / totalValue) * 100).toFixed(1) : '0.0'}%
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation()
+                              setNewCashAmount(cashPositionDisplay.toString())
+                              setShowCashModal(true)
+                            }}
+                            className="p-1.5 hover:bg-neutral-800 rounded transition-colors"
+                            title="Cash bearbeiten"
+                          >
+                            <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-blue-400" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
               ) : (
-                <div className="py-16 text-center">
-                  <img
-                    src="/illustrations/undraw_investing_uzcu.svg"
-                    alt="Investieren starten"
-                    className="w-56 h-56 mx-auto mb-8 opacity-90"
-                  />
-                  <h3 className="text-xl font-semibold text-theme-primary mb-2">
-                    Starte dein Portfolio
+                <div className="py-12 text-center">
+                  <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800/50 rounded-xl flex items-center justify-center">
+                    <BriefcaseIcon className="w-8 h-8 text-neutral-600" />
+                  </div>
+                  <h3 className="text-base font-medium text-white mb-1">
+                    Keine Positionen
                   </h3>
-                  <p className="text-theme-secondary mb-6 max-w-md mx-auto">
-                    Füge deine erste Aktie hinzu und behalte den Überblick über deine Investments.
+                  <p className="text-neutral-500 text-sm mb-4">
+                    Füge deine erste Aktie hinzu
                   </p>
                   <button
                     onClick={openAddPositionModal}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-brand hover:bg-green-400 text-white rounded-lg transition-colors font-medium"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors"
                   >
-                    <PlusIcon className="w-5 h-5" />
-                    Erste Position hinzufügen
+                    <PlusIcon className="w-4 h-4" />
+                    Position hinzufügen
                   </button>
                 </div>
               )}
@@ -1856,57 +1565,57 @@ export default function PortfolioDashboard() {
           </>
         )}
 
-        {/* Other Tabs remain the same */}
+        {/* News Tab - Fey Style */}
         {activeTab === 'news' && (
           <div className="space-y-4">
             {newsLoading ? (
               <div className="flex items-center justify-center py-12">
                 <div className="text-center">
-                  <ArrowPathIcon className="w-6 h-6 text-brand-light animate-spin mx-auto mb-3" />
-                  <p className="text-theme-secondary">Lade Portfolio News...</p>
+                  <ArrowPathIcon className="w-6 h-6 text-emerald-400 animate-spin mx-auto mb-3" />
+                  <p className="text-neutral-400">Lade Portfolio News...</p>
                 </div>
               </div>
             ) : newsError ? (
               <div className="text-center py-12">
                 <ExclamationTriangleIcon className="w-12 h-12 text-red-400 mx-auto mb-3" />
-                <p className="text-theme-secondary mb-2">Fehler beim Laden der News</p>
+                <p className="text-neutral-400 mb-2">Fehler beim Laden der News</p>
                 <button
                   onClick={loadPortfolioNews}
-                  className="text-brand-light hover:text-green-300 text-sm"
+                  className="text-emerald-400 hover:text-emerald-300 text-sm"
                 >
                   Erneut versuchen
                 </button>
               </div>
             ) : portfolioNews.length > 0 ? (
               portfolioNews.map((article, index) => (
-                <article 
+                <article
                   key={`${article.url}-${index}`}
-                  className="bg-theme-card rounded-xl p-6 border border-theme/10 hover:bg-theme-secondary/10 transition-colors"
+                  className="bg-neutral-900/50 rounded-xl p-5 border border-neutral-800 hover:bg-neutral-900 transition-colors"
                 >
                   <div className="flex items-start justify-between gap-4 mb-3">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <span className="px-2 py-1 bg-brand/20 text-brand-light rounded text-xs font-medium">
+                        <span className="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">
                           {article.symbol}
                         </span>
-                        <span className="text-xs text-theme-muted flex items-center gap-1">
+                        <span className="text-xs text-neutral-500 flex items-center gap-1">
                           <ClockIcon className="w-3 h-3" />
                           {formatDate(article.publishedDate)}
                         </span>
-                        <span className="text-xs text-theme-muted">
+                        <span className="text-xs text-neutral-500">
                           {article.site}
                         </span>
                       </div>
-                      <h3 className="text-lg font-semibold text-theme-primary mb-2 leading-tight">
+                      <h3 className="text-base font-medium text-white mb-2 leading-tight">
                         {article.title}
                       </h3>
-                      <p className="text-theme-secondary text-sm leading-relaxed line-clamp-3">
+                      <p className="text-neutral-400 text-sm leading-relaxed line-clamp-3">
                         {article.text}
                       </p>
                     </div>
                     {article.image && (
-                      <img 
-                        src={article.image} 
+                      <img
+                        src={article.image}
                         alt=""
                         className="w-24 h-24 rounded-lg object-cover flex-shrink-0"
                         onError={(e) => {
@@ -1915,19 +1624,19 @@ export default function PortfolioDashboard() {
                       />
                     )}
                   </div>
-                  <div className="flex items-center justify-between pt-3 border-t border-theme/10">
+                  <div className="flex items-center justify-between pt-3 border-t border-neutral-800">
                     <Link
                       href={article.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-brand-light hover:text-green-300 transition-colors text-sm"
+                      className="inline-flex items-center gap-2 text-emerald-400 hover:text-emerald-300 transition-colors text-sm"
                     >
                       <span>Artikel lesen</span>
                       <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                     </Link>
                     <Link
                       href={`/analyse/stocks/${article.symbol.toLowerCase()}`}
-                      className="inline-flex items-center gap-2 text-theme-secondary hover:text-theme-primary transition-colors text-sm"
+                      className="inline-flex items-center gap-2 text-neutral-500 hover:text-white transition-colors text-sm"
                     >
                       <EyeIcon className="w-3 h-3" />
                       <span>{article.symbol} analysieren</span>
@@ -1937,15 +1646,13 @@ export default function PortfolioDashboard() {
               ))
             ) : (
               <div className="text-center py-12">
-                <img
-                  src="/illustrations/undraw_personal-finance_xpqg.svg"
-                  alt="Finanznachrichten"
-                  className="w-40 h-40 mx-auto mb-6 opacity-80"
-                />
-                <h3 className="text-lg font-semibold text-theme-primary mb-2">
+                <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800/50 rounded-xl flex items-center justify-center">
+                  <ChartBarIcon className="w-8 h-8 text-neutral-600" />
+                </div>
+                <h3 className="text-base font-medium text-white mb-1">
                   Keine News verfügbar
                 </h3>
-                <p className="text-theme-secondary text-sm max-w-sm mx-auto">
+                <p className="text-neutral-500 text-sm max-w-sm mx-auto">
                   Füge Positionen hinzu, um aktuelle Nachrichten zu deinen Aktien zu sehen.
                 </p>
               </div>

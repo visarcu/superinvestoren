@@ -239,20 +239,14 @@ const GlobalLearnToggle = React.memo(() => {
 })
 
 // SIDEBAR WITH LABELS - FISCAL STYLE
-const CollapsedSidebar = React.memo(({ 
-  user, 
-  pathname, 
-  handleSignOut,
-  theme,
-  toggleTheme,
-  allowsThemeToggle
-}: { 
+const CollapsedSidebar = React.memo(({
+  user,
+  pathname,
+  handleSignOut
+}: {
   user: User
   pathname: string
   handleSignOut: () => void
-  theme: 'light' | 'dark'
-  toggleTheme: () => void
-  allowsThemeToggle: boolean
 }) => {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false)
   const settingsRef = useRef<HTMLDivElement>(null)
@@ -395,6 +389,33 @@ const CollapsedSidebar = React.memo(({
 
               <div className="h-px bg-theme/20 my-2"></div>
 
+              {/* Theme Section */}
+              <div className="px-3 py-2">
+                <p className="text-[10px] text-neutral-500 mb-2 font-medium uppercase tracking-wide">Design</p>
+
+                {/* Dark - Active */}
+                <div className="flex items-center justify-between py-1.5 px-1 rounded bg-neutral-800/50">
+                  <div className="flex items-center gap-2">
+                    <MoonIcon className="w-3.5 h-3.5 text-white" />
+                    <span className="text-xs text-white font-medium">Dark</span>
+                  </div>
+                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                </div>
+
+                {/* Light - Disabled */}
+                <div className="flex items-center justify-between py-1.5 px-1 mt-1 opacity-50 cursor-not-allowed">
+                  <div className="flex items-center gap-2">
+                    <SunIcon className="w-3.5 h-3.5 text-neutral-500" />
+                    <span className="text-xs text-neutral-500">Light</span>
+                  </div>
+                  <span className="text-[9px] text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded">
+                    Bald
+                  </span>
+                </div>
+              </div>
+
+              <div className="h-px bg-theme/20 my-1"></div>
+
               <button
                 onClick={() => window.location.href = 'mailto:team@finclue.de'}
                 className="w-full flex items-center gap-3 px-4 py-2 text-sm text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition-colors"
@@ -402,19 +423,6 @@ const CollapsedSidebar = React.memo(({
                 <EnvelopeIcon className="w-4 h-4" />
                 Support
               </button>
-
-              {allowsThemeToggle && (
-                <button
-                  onClick={() => {
-                    toggleTheme()
-                    setShowSettingsPopup(false)
-                  }}
-                  className="w-full flex items-center gap-3 px-4 py-2 text-sm text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition-colors"
-                >
-                  {theme === 'dark' ? <SunIcon className="w-4 h-4" /> : <MoonIcon className="w-4 h-4" />}
-                  {theme === 'dark' ? 'Hell' : 'Dunkel'}
-                </button>
-              )}
 
               <div className="h-px bg-theme/20 my-2"></div>
 
@@ -867,13 +875,10 @@ function LayoutContent({ children }: LayoutProps) {
       <LearnSidebar />
       
       {/* COLLAPSED SIDEBAR */}
-      <CollapsedSidebar 
+      <CollapsedSidebar
         user={user}
         pathname={pathname}
         handleSignOut={handleSignOut}
-        theme={theme}
-        toggleTheme={toggleTheme}
-        allowsThemeToggle={allowsThemeToggle}
       />
 
       {/* MAIN CONTENT */}
