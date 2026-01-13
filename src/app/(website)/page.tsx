@@ -122,58 +122,59 @@ export default function ProfessionalHomePage() {
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
 
-      {/* Hero Section */}
-      <section className="pt-32 pb-0">
+      {/* Hero Section - Linear Style */}
+      <section className="pt-16 lg:pt-28">
         {/* Text Content */}
         <div className="text-center px-6 max-w-4xl mx-auto">
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-medium text-white leading-[0.85] tracking-[-0.02em]">
+          <h1 className="text-5xl md:text-6xl lg:text-7xl font-medium text-white leading-[1.1] tracking-[-0.02em]">
             Professionelle
             <br />
             <span className="text-neutral-400">Aktienanalyse</span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-neutral-400 max-w-2xl mx-auto leading-relaxed mt-8">
+          <p className="text-lg md:text-xl text-neutral-400 max-w-xl mx-auto leading-relaxed mt-6">
             Institutionelle Investment-Daten und Tools für bessere Anlageentscheidungen
           </p>
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-8">
             <Link
               href="/analyse"
-              className="px-8 py-4 bg-white text-black font-semibold rounded-xl transition-all hover:bg-neutral-100 text-lg"
+              className="px-6 py-3 bg-white text-black font-medium rounded-lg transition-all hover:bg-neutral-100 text-base"
             >
               Terminal öffnen
             </Link>
 
             <Link
               href="/superinvestor"
-              className="px-8 py-4 text-white font-medium rounded-xl border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-900 transition-all text-lg"
+              className="px-6 py-3 text-neutral-300 font-medium transition-all hover:text-white text-base flex items-center gap-1"
             >
-              Portfolio-Tracking →
+              Portfolio-Tracking <span className="text-neutral-500">→</span>
             </Link>
           </div>
+
+
+
+
+          
         </div>
 
-        {/* Hero Terminal Image - Minimaler Abstand, volle Breite */}
-        <div className="relative mt-12 w-full px-4">
-          {/* Subtle Glow behind the image */}
-          <div className="absolute inset-0 -z-10 blur-3xl opacity-30 bg-gradient-to-r from-emerald-500/20 via-transparent to-cyan-500/20 scale-110" />
+        {/* Hero Terminal Image */}
+        <div className="relative mt-4 lg:mt-20">
+          <div className="absolute inset-0 -z-10 blur-3xl opacity-50 bg-gradient-to-r from-emerald-500/10 via-transparent to-cyan-500/10 scale-110" />
 
-          {/* Terminal Image */}
-          <div className="relative max-w-7xl mx-auto">
+          <div className="relative">
             <Image
               src="/images/hero-terminal.png"
               alt="FinClue Terminal - Professionelle Aktienanalyse"
               width={1920}
               height={1080}
-              className="w-full rounded-t-xl lg:rounded-t-2xl"
+              className="w-full max-w-6xl mx-auto rounded-xl lg:rounded-2xl"
               priority
+              
             />
 
-            {/* Strong Bottom Vignette - 60% fade from bottom */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] from-5% via-[#0a0a0a]/70 via-40% to-transparent to-80% pointer-events-none rounded-t-xl lg:rounded-t-2xl" />
-
-            {/* Side Vignettes */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/40 via-transparent to-[#0a0a0a]/40 pointer-events-none rounded-t-xl lg:rounded-t-2xl" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-[#0a0a0a]/20 to-transparent pointer-events-none rounded-xl lg:rounded-2xl" />
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_40%,rgba(10,10,10,0.8)_100%)] pointer-events-none rounded-xl lg:rounded-2xl" />
           </div>
         </div>
       </section>
