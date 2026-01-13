@@ -3,14 +3,20 @@ import React, { useState, FormEvent } from 'react'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
 
-export default function NewsletterSignup() {
+interface NewsletterSignupProps {
+  variant?: 'dark' | 'light'
+}
+
+export default function NewsletterSignup({ variant = 'dark' }: NewsletterSignupProps) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [message, setMessage] = useState('')
 
+  const isLight = variant === 'light'
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
-    
+
     if (!email.trim()) {
       setStatus('error')
       setMessage('Bitte gib eine E-Mail-Adresse ein')
@@ -46,19 +52,24 @@ export default function NewsletterSignup() {
     }
   }
 
-  // Success State - Subtle improvement
+  // Success State
   if (status === 'success') {
     return (
       <div className="text-center max-w-md mx-auto">
-        <div style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-             className="p-6 border rounded-xl">
-          <div className="w-12 h-12 bg-theme-secondary/20 rounded-xl flex items-center justify-center mx-auto mb-4">
+        <div className={`p-6 border rounded-xl ${
+          isLight
+            ? 'bg-white border-gray-200'
+            : 'bg-[var(--bg-card)] border-[var(--border-color)]'
+        }`}>
+          <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 ${
+            isLight ? 'bg-emerald-100' : 'bg-theme-secondary/20'
+          }`}>
             <span className="text-2xl">✅</span>
           </div>
-          <h3 className="text-lg font-semibold text-white mb-2">
+          <h3 className={`text-lg font-semibold mb-2 ${isLight ? 'text-gray-900' : 'text-white'}`}>
             Erfolgreich angemeldet!
           </h3>
-          <p className="text-theme-secondary text-sm mb-4">
+          <p className={`text-sm mb-4 ${isLight ? 'text-gray-500' : 'text-theme-secondary'}`}>
             {message}
           </p>
           <button
@@ -66,7 +77,11 @@ export default function NewsletterSignup() {
               setStatus('idle')
               setMessage('')
             }}
-            className="text-sm text-theme-secondary hover:text-white transition-colors"
+            className={`text-sm transition-colors ${
+              isLight
+                ? 'text-gray-500 hover:text-gray-900'
+                : 'text-theme-secondary hover:text-white'
+            }`}
           >
             Weitere E-Mail hinzufügen
           </button>
@@ -77,7 +92,7 @@ export default function NewsletterSignup() {
 
   return (
     <div className="max-w-md mx-auto">
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex gap-3">
         <div className="flex-1">
           <input
             type="email"
@@ -85,34 +100,41 @@ export default function NewsletterSignup() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={status === 'loading'}
-            className="
+            className={`
               w-full px-4 py-3 rounded-lg
-              bg-white/5 border border-white/10
-              text-white placeholder-white/40
-              focus:outline-none focus:border-white/20 focus:bg-white/10
               disabled:opacity-50 disabled:cursor-not-allowed
               transition-all duration-200
-            "
+              ${isLight
+                ? 'bg-white border border-gray-300 text-gray-900 placeholder-gray-400 focus:outline-none focus:border-gray-400'
+                : 'bg-white/5 border border-white/10 text-white placeholder-white/40 focus:outline-none focus:border-white/20 focus:bg-white/10'
+              }
+            `}
             required
           />
         </div>
-        
+
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="
-            px-6 py-3 
-            bg-white text-black font-medium rounded-lg
-            hover:bg-white/90
+          className={`
+            px-6 py-3 font-medium rounded-lg
             disabled:opacity-50 disabled:cursor-not-allowed
             transition-all duration-200
             flex items-center justify-center gap-2
             whitespace-nowrap
-          "
+            ${isLight
+              ? 'bg-gray-900 text-white hover:bg-gray-800'
+              : 'bg-white text-black hover:bg-white/90'
+            }
+          `}
         >
           {status === 'loading' ? (
             <>
-              <div className="animate-spin w-4 h-4 border-2 border-black/30 border-t-black rounded-full"></div>
+              <div className={`animate-spin w-4 h-4 border-2 rounded-full ${
+                isLight
+                  ? 'border-white/30 border-t-white'
+                  : 'border-black/30 border-t-black'
+              }`}></div>
               <span>Wird angemeldet...</span>
             </>
           ) : (
@@ -123,8 +145,12 @@ export default function NewsletterSignup() {
 
       {/* Error Message */}
       {status === 'error' && message && (
-        <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-          <p className="text-red-400 text-sm">
+        <div className={`mt-3 p-3 rounded-lg ${
+          isLight
+            ? 'bg-red-50 border border-red-200'
+            : 'bg-red-500/10 border border-red-500/20'
+        }`}>
+          <p className={`text-sm ${isLight ? 'text-red-600' : 'text-red-400'}`}>
             {message}
           </p>
         </div>

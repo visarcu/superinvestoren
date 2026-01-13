@@ -6,7 +6,7 @@ author: "FinClue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2025-08-14"
 readTime: "7 min"
-category: "news"
+category: "superinvestor-news"
 tags: ["Warren Buffett", "13F Filings", "Berkshire Hathaway", "Pool Corp", "T-Mobile", "Aktienkäufe"]
 imageUrl: "/images/buffett-13f-q2-2025.png"
 imageAlt: "Warren Buffett Portfolio Q2 2025"

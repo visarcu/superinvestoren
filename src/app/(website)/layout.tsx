@@ -18,6 +18,9 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
   const [isNavigating, setIsNavigating] = useState(false)
   const pathname = usePathname()
 
+  // Check if we're on a blog page for light theme
+  const isLightTheme = pathname?.startsWith('/blog')
+
   useEffect(() => {
     setIsClient(true)
   }, [])
@@ -29,77 +32,81 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
 
   if (!mounted || !isClient) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#0a0a0a]">
+      <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? 'bg-white' : 'bg-[#0a0a0a]'}`}>
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-end gap-0.5">
             <div className="w-2 h-4 bg-brand rounded-sm animate-pulse"></div>
             <div className="w-2 h-6 bg-brand rounded-sm animate-pulse animation-delay-150"></div>
             <div className="w-2 h-8 bg-brand rounded-sm animate-pulse animation-delay-300"></div>
           </div>
-          <p className="text-gray-400 text-sm">Lade FinClue...</p>
+          <p className={`text-sm ${isLightTheme ? 'text-gray-500' : 'text-gray-400'}`}>Lade FinClue...</p>
         </div>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0a0a0a] text-white" suppressHydrationWarning>
+    <div className={`min-h-screen flex flex-col ${isLightTheme ? 'bg-white text-gray-900' : 'bg-[#0a0a0a] text-white'}`} suppressHydrationWarning>
       <CurrencyProvider>
         {/* Page Transition Loader */}
         <PageTransitionLoader />
-        
+
         <Navbar />
 
-        <main className={`flex-grow ${pathname?.startsWith('/superinvestor') ? '' : 'pt-40'}`}>
+        <main className={`flex-grow ${pathname?.startsWith('/superinvestor') || isLightTheme ? '' : 'pt-16'}`}>
           {children}
         </main>
 
         {/* Footer - hidden in superinvestor section (has its own layout) */}
         {!pathname?.startsWith('/superinvestor') && (
-        <footer className="bg-[#0a0a0a] border-t border-white/10 py-10">
+        <footer className={`py-10 border-t ${
+          isLightTheme
+            ? 'bg-white border-gray-200'
+            : 'bg-[#0a0a0a] border-white/10'
+        }`}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            
+
             <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
-              
+
               <div className="md:col-span-1">
                 <div className="flex items-center gap-2 mb-3">
                   <div className="flex items-end gap-0.5">
-                    <div className="w-1.5 h-3 bg-brand rounded-sm"></div>
-                    <div className="w-1.5 h-4 bg-brand rounded-sm"></div>
-                    <div className="w-1.5 h-5 bg-brand rounded-sm"></div>
+                    <div className="w-1.5 h-3 bg-emerald-500 rounded-sm"></div>
+                    <div className="w-1.5 h-4 bg-emerald-500 rounded-sm"></div>
+                    <div className="w-1.5 h-5 bg-emerald-500 rounded-sm"></div>
                   </div>
-                  <span className="text-lg font-bold text-white">FinClue</span>
+                  <span className={`text-lg font-bold ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>FinClue</span>
                 </div>
-                <p className="text-sm text-gray-400 leading-relaxed">
+                <p className={`text-sm leading-relaxed ${isLightTheme ? 'text-gray-500' : 'text-gray-400'}`}>
                   Professionelle Investment-Analyse und Super-Investor Portfolios für bessere Anlageentscheidungen.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-3 text-sm">Produkte</h3>
+                <h3 className={`font-semibold mb-3 text-sm ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>Produkte</h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link 
-                      href="/analyse" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/analyse"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       Aktien-Analyse
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/superinvestor" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/superinvestor"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       Super-Investoren
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/pricing" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/pricing"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       Preise
@@ -109,26 +116,26 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-3 text-sm">Unternehmen</h3>
+                <h3 className={`font-semibold mb-3 text-sm ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>Unternehmen</h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link 
-                      href="/news" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/blog"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       Blog
                     </Link>
                   </li>
                   <li>
-                    <a href="mailto:team@finclue.de" className="text-gray-400 hover:text-brand-light transition-colors text-sm">
+                    <a href="mailto:team@finclue.de" className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}>
                       Kontakt
                     </a>
                   </li>
                   <li>
-                    <Link 
-                      href="/impressum" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/impressum"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       Impressum
@@ -138,28 +145,28 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
               </div>
 
               <div>
-                <h3 className="text-white font-semibold mb-3 text-sm">Rechtliches</h3>
+                <h3 className={`font-semibold mb-3 text-sm ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>Rechtliches</h3>
                 <ul className="space-y-2">
                   <li>
-                    <Link 
-                      href="/privacy" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/privacy"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       Datenschutz
                     </Link>
                   </li>
                   <li>
-                    <Link 
-                      href="/terms" 
-                      className="text-gray-400 hover:text-brand-light transition-colors text-sm"
+                    <Link
+                      href="/terms"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
                     >
                       AGB
                     </Link>
                   </li>
                   <li>
-                    <span className="text-gray-400 text-sm">
+                    <span className={`text-sm ${isLightTheme ? 'text-gray-400' : 'text-gray-400'}`}>
                       Keine Anlageberatung
                     </span>
                   </li>
@@ -167,24 +174,24 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
               </div>
             </div>
 
-            <div className="pt-6 border-t border-white/10">
+            <div className={`pt-6 border-t ${isLightTheme ? 'border-gray-200' : 'border-white/10'}`}>
               <div className="flex flex-col md:flex-row items-center justify-between gap-3">
-                
-                <div className="text-sm text-gray-400">
+
+                <div className={`text-sm ${isLightTheme ? 'text-gray-400' : 'text-gray-400'}`}>
                   © {new Date().getFullYear()} FinClue. Alle Rechte vorbehalten.
                 </div>
 
-                <div className="flex items-center gap-4 text-xs text-gray-400">
+                <div className={`flex items-center gap-4 text-xs ${isLightTheme ? 'text-gray-400' : 'text-gray-400'}`}>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-brand rounded-full animate-pulse"></div>
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></div>
                     <span>Live-Daten</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-brand rounded-full"></div>
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
                     <span>DSGVO-konform</span>
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 bg-brand rounded-full"></div>
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
                     <span>SSL-gesichert</span>
                   </div>
                 </div>

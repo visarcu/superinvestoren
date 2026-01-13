@@ -40,16 +40,25 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
-
-module.exports = {
-  async redirects() {
-    return [
-      {
-        source: '/analyse/stocks/:ticker/social',
-        destination: '/analyse/stocks/:ticker/news',
-        permanent: true,
-      },
-    ]
-  },
+// Add redirects to the config
+nextConfig.redirects = async () => {
+  return [
+    {
+      source: '/analyse/stocks/:ticker/social',
+      destination: '/analyse/stocks/:ticker/news',
+      permanent: true,
+    },
+    {
+      source: '/news',
+      destination: '/blog',
+      permanent: true,
+    },
+    {
+      source: '/news/:slug',
+      destination: '/blog/:slug',
+      permanent: true,
+    },
+  ]
 }
+
+module.exports = nextConfig;
