@@ -48,7 +48,7 @@ function matchesFilter(post: BlogPost, filter: string): boolean {
   if (filter === 'superinvestor') {
     // Superinvestor Updates = mehrere Kategorien + Posts mit relatedInvestors
     const isSuperinvestorCategory = ['superinvestor-news', 'portfolio-moves', 'insider-trading'].includes(post.category)
-    const hasRelatedInvestors = post.relatedInvestors && post.relatedInvestors.length > 0
+    const hasRelatedInvestors = Boolean(post.relatedInvestors && post.relatedInvestors.length > 0)
     return isSuperinvestorCategory || hasRelatedInvestors
   }
 
