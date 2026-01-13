@@ -48,26 +48,11 @@ export async function checkPremiumStatus(userId: string): Promise<PremiumStatus>
     if (endDate) {
       const diffTime = endDate.getTime() - now.getTime();
       daysRemaining = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-      
-      // Wenn abgelaufen, Status automatisch aktualisieren
-      if (daysRemaining <= 0 && profile.is_premium) {
-        await supabase
-          .from('profiles')
-          .update({ 
-            is_premium: false,
-            subscription_status: 'expired'
-          })
-          .eq('user_id', userId);
-        
-        return {
-          isPremium: false,
-          status: 'expired',
-          endDate,
-          daysRemaining: 0,
-          customerId: profile.stripe_customer_id,
-          subscriptionId: profile.stripe_subscription_id,
-        };
-      }
+
+      // WICHTIG: Wir ändern NICHT automatisch is_premium hier!
+      // Die Deaktivierung soll NUR über den Stripe Webhook passieren
+      // (customer.subscription.deleted Event), da nur Stripe die
+      // wahre Quelle für den Subscription-Status ist.
     }
 
     return {
