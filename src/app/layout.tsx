@@ -21,12 +21,18 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                // Light Theme temporär deaktiviert - immer Dark Mode
                 try {
-                  document.documentElement.classList.remove('light');
+                  // Lade gespeichertes Theme oder verwende 'dark' als Standard
+                  var savedTheme = localStorage.getItem('finclue-terminal-theme');
+                  var theme = savedTheme || 'dark';
+
+                  // Wende Theme an
+                  document.documentElement.classList.remove('light', 'dark');
+                  document.documentElement.classList.add(theme);
+                } catch (e) {
+                  // Fallback zu dark
                   document.documentElement.classList.add('dark');
-                  localStorage.setItem('finclue-terminal-theme', 'dark');
-                } catch (e) {}
+                }
               })();
             `,
           }}

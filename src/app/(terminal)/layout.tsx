@@ -250,6 +250,7 @@ const CollapsedSidebar = React.memo(({
 }) => {
   const [showSettingsPopup, setShowSettingsPopup] = useState(false)
   const settingsRef = useRef<HTMLDivElement>(null)
+  const { theme, toggleTheme, allowsThemeToggle } = useTheme()
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -284,15 +285,21 @@ const CollapsedSidebar = React.memo(({
   }
 
   return (
-    <div className="w-[72px] bg-theme-primary border-r border-white/[0.04] flex flex-col items-center py-3 relative z-20">
+    <div className={`w-[72px] bg-theme-primary flex flex-col items-center py-3 relative z-20 ${
+      theme === 'dark' ? 'border-r border-white/[0.04]' : 'border-r border-neutral-200'
+    }`}>
 
-      {/* Logo */}
+      {/* Logo - Theme aware */}
       <Link href="/" className="mb-3 group">
-        <div className="w-8 h-8 rounded-lg bg-brand/10 border border-brand/20 flex items-center justify-center transition-all group-hover:border-green-400/40 group-hover:bg-brand/20">
+        <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
+          theme === 'dark'
+            ? 'bg-brand/10 border border-brand/20 group-hover:border-green-400/40 group-hover:bg-brand/20'
+            : 'bg-neutral-100 border border-neutral-300 group-hover:border-neutral-400 group-hover:bg-neutral-200'
+        }`}>
           <div className="flex items-end gap-0.5">
-            <span className="w-0.5 h-2 rounded-full bg-brand"></span>
-            <span className="w-0.5 h-2.5 rounded-full bg-green-400"></span>
-            <span className="w-0.5 h-3 rounded-full bg-green-300"></span>
+            <span className={`w-0.5 h-2 rounded-full ${theme === 'dark' ? 'bg-brand' : 'bg-neutral-800'}`}></span>
+            <span className={`w-0.5 h-2.5 rounded-full ${theme === 'dark' ? 'bg-green-400' : 'bg-neutral-600'}`}></span>
+            <span className={`w-0.5 h-3 rounded-full ${theme === 'dark' ? 'bg-green-300' : 'bg-neutral-400'}`}></span>
           </div>
         </div>
       </Link>
@@ -393,25 +400,49 @@ const CollapsedSidebar = React.memo(({
               <div className="px-3 py-2">
                 <p className="text-[10px] text-neutral-500 mb-2 font-medium uppercase tracking-wide">Design</p>
 
-                {/* Dark - Active */}
-                <div className="flex items-center justify-between py-1.5 px-1 rounded bg-neutral-800/50">
+                {/* Dark Theme Option */}
+                <button
+                  onClick={() => theme === 'light' && allowsThemeToggle && toggleTheme()}
+                  className={`w-full flex items-center justify-between py-1.5 px-1 rounded transition-colors ${
+                    theme === 'dark' ? 'bg-neutral-800/50' : 'hover:bg-neutral-800/30 cursor-pointer'
+                  }`}
+                >
                   <div className="flex items-center gap-2">
                     <MoonIcon className="w-3.5 h-3.5 text-white" />
                     <span className="text-xs text-white font-medium">Dark</span>
                   </div>
-                  <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
-                </div>
+                  {theme === 'dark' && (
+                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                  )}
+                </button>
 
-                {/* Light - Disabled */}
-                <div className="flex items-center justify-between py-1.5 px-1 mt-1 opacity-50 cursor-not-allowed">
-                  <div className="flex items-center gap-2">
-                    <SunIcon className="w-3.5 h-3.5 text-neutral-500" />
-                    <span className="text-xs text-neutral-500">Light</span>
+                {/* Light Theme Option */}
+                {!allowsThemeToggle ? (
+                  <div className="flex items-center justify-between py-1.5 px-1 mt-1 opacity-50 cursor-not-allowed">
+                    <div className="flex items-center gap-2">
+                      <SunIcon className="w-3.5 h-3.5 text-neutral-500" />
+                      <span className="text-xs text-neutral-500">Light</span>
+                    </div>
+                    <span className="text-[9px] text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded">
+                      Bald
+                    </span>
                   </div>
-                  <span className="text-[9px] text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded">
-                    Bald
-                  </span>
-                </div>
+                ) : (
+                  <button
+                    onClick={() => theme === 'dark' && toggleTheme()}
+                    className={`w-full flex items-center justify-between py-1.5 px-1 mt-1 rounded transition-colors ${
+                      theme === 'light' ? 'bg-neutral-800/50' : 'hover:bg-neutral-800/30 cursor-pointer'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <SunIcon className="w-3.5 h-3.5 text-yellow-400" />
+                      <span className="text-xs text-white font-medium">Light</span>
+                    </div>
+                    {theme === 'light' && (
+                      <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
+                    )}
+                  </button>
+                )}
               </div>
 
               <div className="h-px bg-theme/20 my-1"></div>
@@ -438,15 +469,21 @@ const CollapsedSidebar = React.memo(({
         )}
       </div>
 
-      {/* User Avatar */}
+      {/* User Avatar - Theme aware */}
       <div className="mt-2">
         <Link href="/profile" className="flex flex-col items-center group">
           <div className="relative">
-            <div className="w-7 h-7 bg-brand rounded-lg flex items-center justify-center text-black font-semibold text-xs group-hover:bg-green-400 transition-colors">
+            <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-semibold text-xs transition-colors ${
+              theme === 'dark'
+                ? 'bg-brand text-black group-hover:bg-green-400'
+                : 'bg-neutral-800 text-white group-hover:bg-neutral-700'
+            }`}>
               {getInitials()}
             </div>
             {user.isPremium && (
-              <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-yellow-400 rounded-full border border-[#0F0F11]"></div>
+              <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-yellow-400 rounded-full border ${
+                theme === 'dark' ? 'border-[#0F0F11]' : 'border-white'
+              }`}></div>
             )}
           </div>
           <span className="text-[9px] mt-0.5 font-medium text-theme-muted group-hover:text-theme-secondary">

@@ -5,6 +5,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { User, Settings, LogOut, Mail, Crown, ChevronDown, Sparkles, Sun, Moon } from 'lucide-react';
 import { supabase } from '@/lib/supabaseClient';
 import { useRouter } from 'next/navigation';
+import { useTheme } from '@/lib/useTheme';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 interface UserProfile {
@@ -24,6 +25,7 @@ export default function UserDropdown({ user, profile }: Props) {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
+  const { theme, toggleTheme, lightThemeDisabled } = useTheme();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -163,29 +165,55 @@ export default function UserDropdown({ user, profile }: Props) {
           <div className="px-3 py-3 border-b border-gray-700/50">
             <p className="text-xs text-gray-500 mb-3 font-medium uppercase tracking-wide">Erscheinungsbild</p>
 
-            {/* Dark - Active */}
-            <div className="flex items-center justify-between py-2 px-2 rounded-lg bg-gray-700/30">
+            {/* Dark Theme Option */}
+            <button
+              onClick={() => theme === 'light' && !lightThemeDisabled && toggleTheme()}
+              className={`w-full flex items-center justify-between py-2 px-2 rounded-lg transition-colors ${
+                theme === 'dark' ? 'bg-gray-700/30' : 'hover:bg-gray-700/20 cursor-pointer'
+              }`}
+            >
               <div className="flex items-center gap-3">
                 <div className="p-1.5 rounded-lg bg-gray-600/50">
                   <Moon size={14} className="text-white" />
                 </div>
                 <span className="text-sm text-white font-medium">Dark</span>
               </div>
-              <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
-            </div>
+              {theme === 'dark' && (
+                <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+              )}
+            </button>
 
-            {/* Light - Disabled */}
-            <div className="flex items-center justify-between py-2 px-2 mt-1 opacity-50 cursor-not-allowed">
-              <div className="flex items-center gap-3">
-                <div className="p-1.5 rounded-lg bg-gray-700/30">
-                  <Sun size={14} className="text-gray-500" />
+            {/* Light Theme Option */}
+            {lightThemeDisabled ? (
+              <div className="flex items-center justify-between py-2 px-2 mt-1 opacity-50 cursor-not-allowed">
+                <div className="flex items-center gap-3">
+                  <div className="p-1.5 rounded-lg bg-gray-700/30">
+                    <Sun size={14} className="text-gray-500" />
+                  </div>
+                  <span className="text-sm text-gray-500">Light</span>
                 </div>
-                <span className="text-sm text-gray-500">Light</span>
+                <span className="text-[10px] text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded font-medium">
+                  Bald
+                </span>
               </div>
-              <span className="text-[10px] text-amber-500 bg-amber-500/10 px-1.5 py-0.5 rounded font-medium">
-                Bald
-              </span>
-            </div>
+            ) : (
+              <button
+                onClick={() => theme === 'dark' && toggleTheme()}
+                className={`w-full flex items-center justify-between py-2 px-2 mt-1 rounded-lg transition-colors ${
+                  theme === 'light' ? 'bg-gray-700/30' : 'hover:bg-gray-700/20 cursor-pointer'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <div className="p-1.5 rounded-lg bg-gray-600/50">
+                    <Sun size={14} className="text-yellow-400" />
+                  </div>
+                  <span className="text-sm text-white font-medium">Light</span>
+                </div>
+                {theme === 'light' && (
+                  <div className="w-2 h-2 bg-emerald-500 rounded-full"></div>
+                )}
+              </button>
+            )}
           </div>
 
           {/* Menu Items */}

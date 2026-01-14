@@ -25,70 +25,75 @@
      --text-2xl: 1.375rem;   /* 22px - Page headers */
      --text-3xl: 1.75rem;    /* 28px - Hero numbers */
      
-     /* ===== LIGHT THEME - Warm & Clean wie Fiscal.ai ===== */
+     /* ===== LIGHT THEME - Warm & Structured wie Quartr ===== */
 
-     /* Backgrounds - Warmer cremiger Ton wie Fiscal.ai */
-     --color-bg-primary: #faf9f7;
+     /* Backgrounds - Soft gray base, not pure white */
+     --color-bg-primary: #f8f9fa;
      --color-bg-card: #ffffff;
-     --color-bg-hover: #f5f4f2;
-     --color-bg-secondary: #f0efed;
-     --color-bg-tertiary: #e8e7e5;
+     --color-bg-hover: #f1f3f4;
+     --color-bg-secondary: #eef0f2;
+     --color-bg-tertiary: #e3e5e8;
      --color-bg-input: #ffffff;
      --color-bg-elevated: #ffffff;
-     
-     /* Text - Höherer Kontrast */
-     --color-text-primary: #0f172a;
-     --color-text-secondary: #475569;
-     --color-text-muted: #94a3b8;
-     --color-text-faint: #cbd5e1;
-     
-     /* Borders - Wärmer passend zum Hintergrund */
-     --color-border: #e5e4e2;
-     --color-border-light: #f0efed;
-     --color-border-focus: #3b82f6;
-     --color-divider: #e2e8f0;
-     
-     /* Primary Action - Professionelles Blau */
-     --color-primary: #2563eb;
-     --color-primary-hover: #1d4ed8;
-     --color-primary-light: #3b82f6;
-     --color-primary-muted: #dbeafe;
-     
+
+     /* Sidebar - Slightly darker for contrast */
+     --color-sidebar-bg: #f1f3f5;
+     --color-sidebar-hover: rgba(0, 0, 0, 0.04);
+     --color-sidebar-active: rgba(0, 0, 0, 0.08);
+
+     /* Text - Good contrast */
+     --color-text-primary: #1a1a1a;
+     --color-text-secondary: #4a4a4a;
+     --color-text-muted: #8a8a8a;
+     --color-text-faint: #b8b8b8;
+
+     /* Borders - Visible but subtle */
+     --color-border: #e0e0e0;
+     --color-border-light: #ebebeb;
+     --color-border-focus: #16a34a;
+     --color-divider: #e5e5e5;
+
+     /* Primary Action - Green to match dark theme */
+     --color-primary: #16a34a;
+     --color-primary-hover: #15803d;
+     --color-primary-light: #22c55e;
+     --color-primary-muted: rgba(22, 163, 74, 0.1);
+
      /* Semantic Colors */
      --color-success: #16a34a;
-     --color-success-bg: #f0fdf4;
-     --color-success-muted: #dcfce7;
-     
+     --color-success-bg: rgba(22, 163, 74, 0.08);
+     --color-success-muted: rgba(22, 163, 74, 0.15);
+
      --color-danger: #dc2626;
-     --color-danger-bg: #fef2f2;
-     --color-danger-muted: #fee2e2;
-     
+     --color-danger-bg: rgba(220, 38, 38, 0.08);
+     --color-danger-muted: rgba(220, 38, 38, 0.15);
+
      --color-warning: #d97706;
-     --color-warning-bg: #fffbeb;
-     
+     --color-warning-bg: rgba(217, 119, 6, 0.08);
+
      --color-info: #0284c7;
-     --color-info-bg: #f0f9ff;
-     
-     /* Chart-Palette */
-     --chart-1: #2563eb;
-     --chart-2: #7c3aed;
-     --chart-3: #0891b2;
-     --chart-4: #059669;
-     --chart-5: #d97706;
-     --chart-6: #dc2626;
+     --color-info-bg: rgba(2, 132, 199, 0.08);
+
+     /* Chart-Palette - Consistent with dark theme */
+     --chart-1: #16a34a;
+     --chart-2: #8b5cf6;
+     --chart-3: #06b6d4;
+     --chart-4: #3b82f6;
+     --chart-5: #f59e0b;
+     --chart-6: #ef4444;
      --chart-positive: #16a34a;
      --chart-negative: #dc2626;
-     --chart-neutral: #64748b;
-     --chart-grid: #cbd5e1;
-     --chart-axis: #94a3b8;
-     
-     /* Shadows */
-     --shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
-     --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
-     --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.04);
-     --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
-     --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04);
-     --shadow-dropdown: 0 4px 12px rgba(15, 23, 42, 0.12);
+     --chart-neutral: #71717a;
+     --chart-grid: rgba(0, 0, 0, 0.06);
+     --chart-axis: #a1a1aa;
+
+     /* Shadows - More visible for depth */
+     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
+     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
+     --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.15);
      
      /* Spacing */
      --space-0: 0;
@@ -1018,4 +1023,234 @@ article ul, article ol {
   border-left: 4px solid #d1d5db !important; /* gray-300 */
   padding-left: 1rem !important;
   font-style: italic !important;
+}
+
+/* =====================================================================
+   LIGHT MODE OVERRIDES
+   Override hardcoded dark theme colors for light mode
+   ===================================================================== */
+
+/* Light mode: Override hardcoded dark backgrounds */
+:root:not(.dark) {
+  /* Make borders visible in light mode */
+}
+
+/* Override hardcoded border colors in light mode */
+:root:not(.dark) [class*="border-white"],
+:root:not(.dark) [class*="border-neutral-8"],
+:root:not(.dark) [class*="border-neutral-7"],
+:root:not(.dark) [class*="border-gray-8"],
+:root:not(.dark) [class*="border-gray-7"] {
+  border-color: #e0e0e0 !important;
+}
+
+/* Override hardcoded dark backgrounds in light mode */
+:root:not(.dark) [class*="bg-neutral-9"],
+:root:not(.dark) [class*="bg-neutral-8"],
+:root:not(.dark) [class*="bg-gray-9"],
+:root:not(.dark) [class*="bg-gray-8"],
+:root:not(.dark) [class*="bg-\[#0"],
+:root:not(.dark) [class*="bg-\[#1"] {
+  background-color: var(--color-bg-card) !important;
+}
+
+/* Override secondary/hover backgrounds in light mode */
+:root:not(.dark) [class*="bg-neutral-800/"],
+:root:not(.dark) [class*="bg-gray-800/"],
+:root:not(.dark) [class*="bg-neutral-700/"],
+:root:not(.dark) [class*="bg-gray-700/"] {
+  background-color: var(--color-bg-secondary) !important;
+}
+
+/* Ensure text is readable in light mode */
+:root:not(.dark) [class*="text-white"] {
+  color: var(--color-text-primary) !important;
+}
+
+:root:not(.dark) [class*="text-neutral-4"],
+:root:not(.dark) [class*="text-neutral-5"],
+:root:not(.dark) [class*="text-gray-4"],
+:root:not(.dark) [class*="text-gray-5"] {
+  color: var(--color-text-secondary) !important;
+}
+
+:root:not(.dark) [class*="text-neutral-3"],
+:root:not(.dark) [class*="text-gray-3"] {
+  color: var(--color-text-primary) !important;
+}
+
+/* Cards and elevated surfaces in light mode */
+:root:not(.dark) .card,
+:root:not(.dark) [class*="bg-theme-card"] {
+  background-color: var(--color-bg-card) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: var(--shadow-card) !important;
+}
+
+/* All card-like containers should have borders in light mode */
+:root:not(.dark) [class*="rounded-xl"],
+:root:not(.dark) [class*="rounded-lg"],
+:root:not(.dark) [class*="rounded-2xl"] {
+  border-color: var(--color-border);
+}
+
+/* Ensure cards on gray background stand out */
+:root:not(.dark) [class*="bg-theme-card"]:not([class*="border"]) {
+  border: 1px solid var(--color-border) !important;
+}
+
+/* Sidebar in light mode */
+:root:not(.dark) aside,
+:root:not(.dark) [class*="sidebar"] {
+  background-color: var(--color-sidebar-bg) !important;
+  border-right: 1px solid var(--color-border) !important;
+}
+
+/* Main content area border */
+:root:not(.dark) main {
+  background-color: var(--color-bg-primary) !important;
+}
+
+/* Dropdowns and popups in light mode */
+:root:not(.dark) [class*="dropdown"],
+:root:not(.dark) [class*="popup"],
+:root:not(.dark) [class*="menu"] {
+  background-color: var(--color-bg-card) !important;
+  border-color: var(--color-border) !important;
+  box-shadow: var(--shadow-dropdown) !important;
+}
+
+/* Dividers in light mode */
+:root:not(.dark) [class*="divide-"] > * + * {
+  border-color: var(--color-divider) !important;
+}
+
+:root:not(.dark) hr,
+:root:not(.dark) [class*="h-px"][class*="bg-"] {
+  background-color: var(--color-divider) !important;
+}
+
+/* Input fields in light mode */
+:root:not(.dark) input,
+:root:not(.dark) textarea,
+:root:not(.dark) select {
+  background-color: var(--color-bg-input) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text-primary) !important;
+}
+
+:root:not(.dark) input::placeholder,
+:root:not(.dark) textarea::placeholder {
+  color: var(--color-text-muted) !important;
+}
+
+/* Buttons in light mode - ensure visibility */
+:root:not(.dark) button[class*="bg-neutral"],
+:root:not(.dark) button[class*="bg-gray"] {
+  background-color: var(--color-bg-secondary) !important;
+  border-color: var(--color-border) !important;
+}
+
+:root:not(.dark) button[class*="bg-neutral"]:hover,
+:root:not(.dark) button[class*="bg-gray"]:hover {
+  background-color: var(--color-bg-tertiary) !important;
+}
+
+/* Terminal sidebar specific */
+:root:not(.dark) [class*="w-16"][class*="flex-col"],
+:root:not(.dark) [class*="w-\\[64px\\]"] {
+  background-color: var(--color-sidebar-bg) !important;
+  border-right: 1px solid var(--color-border) !important;
+}
+
+/* Tables in light mode */
+:root:not(.dark) table {
+  border-color: var(--color-border) !important;
+}
+
+:root:not(.dark) th,
+:root:not(.dark) td {
+  border-color: var(--color-border-light) !important;
+}
+
+:root:not(.dark) thead {
+  background-color: var(--color-bg-secondary) !important;
+}
+
+:root:not(.dark) tbody tr:hover {
+  background-color: var(--color-bg-hover) !important;
+}
+
+/* Scrollbar in light mode */
+:root:not(.dark) ::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2) !important;
+}
+
+:root:not(.dark) ::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Preserve colored elements */
+:root:not(.dark) [class*="text-emerald"],
+:root:not(.dark) [class*="text-green"],
+:root:not(.dark) [class*="text-red"],
+:root:not(.dark) [class*="text-yellow"],
+:root:not(.dark) [class*="text-blue"],
+:root:not(.dark) [class*="text-purple"],
+:root:not(.dark) [class*="text-amber"],
+:root:not(.dark) [class*="text-brand"] {
+  /* Keep original colors */
+  color: inherit;
+}
+
+:root:not(.dark) [class*="bg-emerald"],
+:root:not(.dark) [class*="bg-green"],
+:root:not(.dark) [class*="bg-red"],
+:root:not(.dark) [class*="bg-yellow"],
+:root:not(.dark) [class*="bg-blue"],
+:root:not(.dark) [class*="bg-purple"],
+:root:not(.dark) [class*="bg-amber"],
+:root:not(.dark) [class*="bg-brand"] {
+  /* Keep original colors */
+  background-color: inherit;
+}
+
+/* =====================================================================
+   LIGHT MODE - LOGO & PROFILE BADGE OVERRIDES
+   Make logo and profile badge visible in light mode
+   ===================================================================== */
+
+/* Logo in sidebar - use dark colors in light mode */
+:root:not(.dark) [class*="bg-brand/10"] {
+  background-color: rgba(0, 0, 0, 0.06) !important;
+}
+
+:root:not(.dark) [class*="border-brand/20"] {
+  border-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Logo bars - darker in light mode */
+:root:not(.dark) [class*="bg-brand"]:not([class*="bg-brand/"]) {
+  background-color: #18181b !important;
+}
+
+:root:not(.dark) [class*="bg-green-400"] {
+  background-color: #374151 !important;
+}
+
+:root:not(.dark) [class*="bg-green-300"] {
+  background-color: #4b5563 !important;
+}
+
+/* Profile badge - dark background in light mode */
+:root:not(.dark) .w-7.h-7.bg-brand,
+:root:not(.dark) [class*="rounded-lg"][class*="bg-brand"]:not([class*="/"]) {
+  background-color: #18181b !important;
+  color: #ffffff !important;
+}
+
+/* Ensure profile initials are visible */
+:root:not(.dark) .w-7.h-7.bg-brand span,
+:root:not(.dark) .w-7.h-7.bg-brand div {
+  color: #ffffff !important;
 }
