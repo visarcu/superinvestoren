@@ -1,4 +1,4 @@
-// src/app/auth/layout.tsx - FIXED FOR APP ROUTER
+// src/app/auth/layout.tsx - QUARTR STYLE CENTERED DESIGN
 'use client'
 
 import type { ReactNode } from 'react'
@@ -7,145 +7,52 @@ import { Analytics } from "@vercel/analytics/next"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen text-white font-['Poppins',system-ui,sans-serif] antialiased" style={{ backgroundColor: '#000000' }}>
-        
-        {/* Header */}
-        <header className="absolute top-0 left-0 right-0 z-50">
-          <div className="max-w-7xl mx-auto px-6 py-4">
-            <div className="flex items-center justify-between">
-              
-              {/* Logo */}
-              <Link href="/" className="flex items-center gap-2 group">
+    <div className="min-h-screen bg-black text-white font-['Inter',system-ui,sans-serif] antialiased flex flex-col">
+
+      {/* Main Content - Centered */}
+      <main className="flex-1 flex items-center justify-center px-4 py-12">
+        <div className="w-full max-w-[420px]">
+
+          {/* Card Container */}
+          <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8">
+
+            {/* Logo */}
+            <div className="flex justify-center mb-6">
+              <Link href="/" className="flex items-center gap-2.5">
                 <div className="flex items-end gap-0.5">
-                  <div className="w-1.5 h-3 bg-brand rounded-sm"></div>
-                  <div className="w-1.5 h-4 bg-brand rounded-sm"></div>
-                  <div className="w-1.5 h-5 bg-brand rounded-sm"></div>
+                  <div className="w-1.5 h-3 bg-emerald-500 rounded-full"></div>
+                  <div className="w-1.5 h-4 bg-emerald-400 rounded-full"></div>
+                  <div className="w-1.5 h-5 bg-emerald-300 rounded-full"></div>
                 </div>
-                <span className="text-lg font-bold text-white group-hover:text-brand-light transition-colors">
+                <span className="text-lg font-semibold text-white">
                   FinClue
                 </span>
               </Link>
+            </div>
 
-              {/* Navigation */}
-              <div className="flex items-center gap-4">
-                <Link 
-                  href="/" 
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                >
-                  Startseite
-                </Link>
-                <Link 
-                  href="/pricing" 
-                  className="text-gray-400 hover:text-white transition-colors text-sm"
-                >
-                  Preise
-                </Link>
-              </div>
+            {/* Form Content */}
+            <div>
+              {children}
             </div>
           </div>
-        </header>
 
-        {/* Main Content Container */}
-        <div className="min-h-screen relative" style={{ backgroundColor: '#000000' }}>
-          
-          {/* Content Area */}
-          <main className="min-h-screen flex items-center justify-center px-4 py-16 relative z-20">
-            <div className="w-full max-w-7xl flex items-center justify-between gap-16">
-              
-              {/* LINKS: Login Form */}
-              <div className="w-full max-w-md">
-                <div className="backdrop-blur-xl rounded-lg p-8 shadow-xl" style={{ backgroundColor: '#1a1a1a' }}>
-                  
-                  <div className="text-center mb-8">
-                    <div className="flex items-center justify-center gap-2 mb-4">
-                      <div className="flex items-end gap-0.5">
-                        <div className="w-1 h-2 bg-brand rounded-sm"></div>
-                        <div className="w-1 h-3 bg-brand rounded-sm"></div>
-                        <div className="w-1 h-4 bg-brand rounded-sm"></div>
-                      </div>
-                      <span className="text-lg font-bold text-white">FinClue</span>
-                    </div>
-                    <h1 className="text-2xl font-bold text-white mb-2">
-                      Willkommen zurück
-                    </h1>
-                    <p className="text-theme-secondary">
-                      Melde dich an, um fortzufahren
-                    </p>
-                  </div>
-
-                  <div className="space-y-5">
-                    {children}
-                  </div>
-                </div>
-                
-                <div className="mt-8 text-center">
-                  <div className="flex items-center justify-center gap-3 text-xs text-theme-secondary">
-                    <Link href="/privacy" className="hover:text-white transition-colors">
-                      Datenschutz
-                    </Link>
-                    <span>•</span>
-                    <Link href="/terms" className="hover:text-white transition-colors">
-                      AGB
-                    </Link>
-                    <span>•</span>
-                    <a href="mailto:team@finclue.de" className="hover:text-white transition-colors">
-                      Support
-                    </a>
-                  </div>
-                </div>
-              </div>
-
-              {/* RECHTS: Headline */}
-              <div className="flex-1 relative hidden lg:block">
-                <div className="text-center">
-                  <h2 className="text-6xl font-bold text-white mb-6">
-                    Sieh was andere übersehen.
-                    <br />
-                    <br></br>
-                     {/*  <span className="text-brand-light">Aktien analysieren wie die Profis</span> */}
-                    <br></br>
-                    <br></br>
-                    <br></br>
-                  </h2>
-                </div>
-              </div>
-            </div>
-          </main>
-        </div>
-
-        {/* LAPTOP LAYER */}
-        <div 
-          className="fixed bottom-0 left-30 right-0 hidden lg:block pointer-events-none z-10"
-          style={{ 
-            height: '70vh',
-            overflow: 'hidden'
-          }}
-        >
-          <div className="relative w-full h-full flex items-end justify-center pr-20">
-            <div className="relative" style={{ marginBottom: '-8vh' }}>
-              <img 
-                src="/laptop-finclue-preview.png" 
-                alt="FinClue Analytics Dashboard"
-                className="pointer-events-auto hover:scale-105 transition-transform duration-500 drop-shadow-2xl"
-                style={{ 
-                  height: '65vh',
-                  width: 'auto'
-                }}
-              />
-              
-              {/* Glowing Effect */}
-              <div 
-                className="absolute top-0 right-0 bg-gradient-to-l from-brand/15 to-transparent rounded-lg blur-2xl -z-10"
-                style={{
-                  width: '50%',
-                  height: '100%'
-                }}
-              ></div>
-            </div>
+          {/* Footer Links - Outside Card */}
+          <div className="mt-6 text-center">
+            <p className="text-xs text-neutral-600">
+              FinClue{' '}
+              <Link href="/terms" className="hover:text-neutral-400 transition-colors underline">
+                AGB
+              </Link>
+              {' '}und{' '}
+              <Link href="/privacy" className="hover:text-neutral-400 transition-colors underline">
+                Datenschutz
+              </Link>
+            </p>
           </div>
         </div>
+      </main>
 
-        <Analytics />
+      <Analytics />
     </div>
   )
 }

@@ -1,27 +1,20 @@
-// src/app/auth/signup/page.tsx - NEW THEME DESIGN
+// src/app/auth/signup/page.tsx - CLEAN FEY STYLE DESIGN
 'use client'
 
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { 
-  EyeIcon, 
-  EyeSlashIcon, 
-  EnvelopeIcon, 
-  LockClosedIcon, 
-  UserIcon,
-  CheckCircleIcon 
-} from '@heroicons/react/24/outline'
+import { EyeIcon, EyeSlashIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 // Deutsche Fehlermeldungen
 function translateAuthError(error: string): string {
   const errorMap: { [key: string]: string } = {
-    'User already registered': 'Ein Account mit dieser E-Mail-Adresse existiert bereits',
+    'User already registered': 'Ein Account mit dieser E-Mail existiert bereits',
     'Invalid email': 'Ungültige E-Mail-Adresse',
     'Password should be at least 6 characters': 'Passwort muss mindestens 6 Zeichen lang sein',
     'Signup disabled': 'Registrierung ist derzeit deaktiviert',
-    'Too many requests': 'Zu viele Registrierungsversuche. Bitte warten Sie einen Moment',
+    'Too many requests': 'Zu viele Versuche. Bitte warten Sie einen Moment',
     'Rate limit exceeded': 'Zu viele Versuche. Bitte warten Sie einen Moment',
     'fetch': 'Verbindungsfehler. Prüfen Sie Ihre Internetverbindung',
     'network': 'Netzwerkfehler. Bitte versuchen Sie es erneut',
@@ -37,26 +30,26 @@ function translateAuthError(error: string): string {
   return error
 }
 
-// Password Strength Indicator
+// Password Strength Indicator - Clean Style
 function PasswordStrength({ password }: { password: string }) {
   const requirements = [
-    { text: 'Mindestens 6 Zeichen', met: password.length >= 6 },
-    { text: 'Ein Großbuchstabe', met: /[A-Z]/.test(password) },
-    { text: 'Eine Zahl', met: /\d/.test(password) },
+    { text: 'Min. 6 Zeichen', met: password.length >= 6 },
+    { text: 'Großbuchstabe', met: /[A-Z]/.test(password) },
+    { text: 'Zahl', met: /\d/.test(password) },
   ]
 
   if (password.length === 0) return null
 
   return (
-    <div className="space-y-1.5">
+    <div className="flex items-center gap-3 mt-2">
       {requirements.map((req, index) => (
-        <div key={index} className="flex items-center gap-2 text-xs">
-          {req.met ? (
-            <CheckCircleIcon className="w-3 h-3 text-brand" />
-          ) : (
-            <div style={{ borderColor: 'var(--border-color)' }} className="w-3 h-3 rounded-full border"></div>
-          )}
-          <span className={req.met ? 'text-brand-light' : 'text-theme-secondary'}>
+        <div key={index} className="flex items-center gap-1.5 text-xs">
+          <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${
+            req.met ? 'bg-emerald-500' : 'bg-neutral-800'
+          }`}>
+            {req.met && <CheckIcon className="w-2 h-2 text-white" />}
+          </div>
+          <span className={req.met ? 'text-neutral-300' : 'text-neutral-600'}>
             {req.text}
           </span>
         </div>
@@ -115,7 +108,7 @@ export default function SignUpPage() {
     }
 
     if (!acceptTerms) {
-      setError('Bitte akzeptieren Sie die Nutzungsbedingungen')
+      setError('Bitte akzeptiere die Nutzungsbedingungen')
       return
     }
 
@@ -132,18 +125,18 @@ export default function SignUpPage() {
           }
         }
       })
-      
+
       if (error) {
         const translatedError = translateAuthError(error.message)
         setError(translatedError)
       } else {
-        setSuccess('Account erstellt! Bitte überprüfen Sie Ihre E-Mails zur Bestätigung.')
+        setSuccess('Account erstellt! Bitte überprüfe deine E-Mails.')
         setTimeout(() => {
           router.push('/auth/signin?registered=1')
         }, 2000)
       }
     } catch (err) {
-      setError('Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.')
+      setError('Ein unerwarteter Fehler ist aufgetreten')
     } finally {
       setLoading(false)
     }
@@ -151,118 +144,81 @@ export default function SignUpPage() {
 
   return (
     <>
-      {/* Header Text */}
-      <div className="text-center mb-6">
-        <div className="flex items-center justify-center gap-2 mb-3">
-          <div className="flex items-end gap-0.5">
-            <div className="w-1 h-2 bg-brand rounded-sm"></div>
-            <div className="w-1 h-3 bg-brand rounded-sm"></div>
-            <div className="w-1 h-4 bg-brand rounded-sm"></div>
-          </div>
-          <span className="text-base font-bold text-white">FinClue</span>
-        </div>
-        <h1 className="text-xl font-bold text-white mb-1">
-          Account erstellen
-        </h1>
-        <p className="text-theme-secondary text-sm">
-          Starte deine Investment-Reise
-        </p>
-      </div>
+      {/* Title */}
+      <h1 className="text-xl font-semibold text-white text-center mb-6">
+        Registrieren
+      </h1>
 
       {/* Messages */}
       {success && (
-        <div className="bg-brand/10 border border-brand/20 rounded-lg p-3 mb-4">
-          <div className="flex items-center gap-2">
-            <CheckCircleIcon className="w-4 h-4 text-brand-light flex-shrink-0" />
-            <p className="text-brand-light text-sm">{success}</p>
-          </div>
+        <div className="mb-4 py-2.5 px-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+          <p className="text-emerald-400 text-sm text-center">{success}</p>
         </div>
       )}
 
       {error && (
-        <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 mb-4">
-          <div className="flex items-center gap-2">
-            <div className="w-4 h-4 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
-              <span className="text-red-400 text-xs">!</span>
-            </div>
-            <p className="text-red-400 text-sm">{error}</p>
-          </div>
+        <div className="mb-4 py-2.5 px-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+          <p className="text-red-400 text-sm text-center">{error}</p>
         </div>
       )}
 
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-4">
-        
+      <form onSubmit={handleSubmit} className="space-y-3">
+
         {/* Name Field */}
         <div className="space-y-1.5">
-          <label htmlFor="name" className="text-sm font-medium text-white">
-            Vollständiger Name
+          <label htmlFor="name" className="text-sm text-neutral-400">
+            Name
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <UserIcon className="h-4 w-4 text-theme-secondary" />
-            </div>
-            <input
-              id="name"
-              type="text"
-              required
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
-              placeholder="Max Mustermann"
-              disabled={loading}
-            />
-          </div>
+          <input
+            id="name"
+            type="text"
+            required
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="w-full px-3.5 py-2.5 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+            placeholder="Max Mustermann"
+            disabled={loading}
+          />
         </div>
 
         {/* Email Field */}
         <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm font-medium text-white">
-            E-Mail-Adresse
+          <label htmlFor="email" className="text-sm text-neutral-400">
+            E-Mail
           </label>
-          <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <EnvelopeIcon className="h-4 w-4 text-theme-secondary" />
-            </div>
-            <input
-              id="email"
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-3 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
-              placeholder="name@beispiel.de"
-              disabled={loading}
-            />
-          </div>
+          <input
+            id="email"
+            type="email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-3.5 py-2.5 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+            placeholder="name@beispiel.de"
+            disabled={loading}
+          />
         </div>
-        
+
         {/* Password Field */}
         <div className="space-y-1.5">
-          <label htmlFor="password" className="text-sm font-medium text-white">
+          <label htmlFor="password" className="text-sm text-neutral-400">
             Passwort
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <LockClosedIcon className="h-4 w-4 text-theme-secondary" />
-            </div>
             <input
               id="password"
               type={showPassword ? 'text' : 'password'}
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
-              placeholder="Passwort wählen"
+              className="w-full px-3.5 py-2.5 pr-10 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+              placeholder="••••••••"
               disabled={loading}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-secondary hover:text-white transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-white transition-colors"
             >
               {showPassword ? (
                 <EyeSlashIcon className="h-4 w-4" />
@@ -276,28 +232,24 @@ export default function SignUpPage() {
 
         {/* Confirm Password Field */}
         <div className="space-y-1.5">
-          <label htmlFor="confirmPassword" className="text-sm font-medium text-white">
+          <label htmlFor="confirmPassword" className="text-sm text-neutral-400">
             Passwort bestätigen
           </label>
           <div className="relative">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <LockClosedIcon className="h-4 w-4 text-theme-secondary" />
-            </div>
             <input
               id="confirmPassword"
               type={showConfirmPassword ? 'text' : 'password'}
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-9 pr-10 py-2.5 border rounded-lg text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all text-sm"
-              placeholder="Passwort wiederholen"
+              className="w-full px-3.5 py-2.5 pr-10 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+              placeholder="••••••••"
               disabled={loading}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-secondary hover:text-white transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-white transition-colors"
             >
               {showConfirmPassword ? (
                 <EyeSlashIcon className="h-4 w-4" />
@@ -309,40 +261,52 @@ export default function SignUpPage() {
         </div>
 
         {/* Checkboxes */}
-        <div className="space-y-3">
+        <div className="space-y-2.5 pt-1">
           {/* Terms & Conditions */}
-          <label className="flex items-start gap-2.5 cursor-pointer">
+          <label className="flex items-start gap-2.5 cursor-pointer group">
+            <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition-colors flex-shrink-0 ${
+              acceptTerms
+                ? 'bg-emerald-500 border-emerald-500'
+                : 'border-neutral-600 group-hover:border-neutral-500'
+            }`}>
+              {acceptTerms && <CheckIcon className="w-2.5 h-2.5 text-white" />}
+            </div>
             <input
               type="checkbox"
               checked={acceptTerms}
               onChange={(e) => setAcceptTerms(e.target.checked)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="mt-0.5 w-4 h-4 text-brand border rounded focus:ring-brand focus:ring-2"
+              className="sr-only"
               required
             />
-            <span className="text-sm text-theme-secondary">
+            <span className="text-xs text-neutral-500 leading-relaxed">
               Ich akzeptiere die{' '}
-              <Link href="/terms" target="_blank" className="text-brand-light hover:text-green-300 underline">
-                Nutzungsbedingungen
+              <Link href="/terms" target="_blank" className="text-neutral-300 hover:text-emerald-400 transition-colors">
+                AGB
               </Link>
               {' '}und{' '}
-              <Link href="/privacy" target="_blank" className="text-brand-light hover:text-green-300 underline">
+              <Link href="/privacy" target="_blank" className="text-neutral-300 hover:text-emerald-400 transition-colors">
                 Datenschutzerklärung
               </Link>
             </span>
           </label>
 
           {/* Newsletter Opt-in */}
-          <label className="flex items-start gap-2.5 cursor-pointer">
+          <label className="flex items-start gap-2.5 cursor-pointer group">
+            <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition-colors flex-shrink-0 ${
+              newsletterOptIn
+                ? 'bg-emerald-500 border-emerald-500'
+                : 'border-neutral-600 group-hover:border-neutral-500'
+            }`}>
+              {newsletterOptIn && <CheckIcon className="w-2.5 h-2.5 text-white" />}
+            </div>
             <input
               type="checkbox"
               checked={newsletterOptIn}
               onChange={(e) => setNewsletterOptIn(e.target.checked)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="mt-0.5 w-4 h-4 text-brand border rounded focus:ring-brand focus:ring-2"
+              className="sr-only"
             />
-            <span className="text-sm text-theme-secondary">
-              Ja, ich möchte über neue Features informiert werden (optional)
+            <span className="text-xs text-neutral-500">
+              Updates zu neuen Features erhalten
             </span>
           </label>
         </div>
@@ -351,13 +315,13 @@ export default function SignUpPage() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 bg-brand hover:bg-green-400 disabled:bg-brand/50 text-black font-semibold rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
+          className="w-full py-2.5 rounded-lg font-medium transition-colors disabled:cursor-not-allowed flex items-center justify-center text-white text-sm mt-4"
+          style={{ backgroundColor: loading ? 'rgba(16, 185, 129, 0.5)' : '#10b981' }}
+          onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#34d399')}
+          onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#10b981')}
         >
           {loading ? (
-            <>
-              <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin"></div>
-              Account wird erstellt...
-            </>
+            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
           ) : (
             'Account erstellen'
           )}
@@ -365,66 +329,51 @@ export default function SignUpPage() {
       </form>
 
       {/* Divider */}
-      <div className="flex items-center gap-3 my-4">
-        <div style={{ backgroundColor: 'var(--border-color)' }} className="flex-1 h-px"></div>
-        <span className="text-xs text-theme-secondary">oder</span>
-        <div style={{ backgroundColor: 'var(--border-color)' }} className="flex-1 h-px"></div>
+      <div className="flex items-center gap-3 my-5">
+        <div className="flex-1 h-px bg-neutral-800"></div>
+        <span className="text-xs text-neutral-600">oder</span>
+        <div className="flex-1 h-px bg-neutral-800"></div>
       </div>
 
-      {/* Google Sign Up */}
-      <button
-        onClick={handleGoogleSignUp}
-        disabled={loading}
-        style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-        className="w-full py-2.5 hover:bg-theme-hover border text-white font-medium rounded-lg transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-2 text-sm"
-      >
-        <svg className="w-4 h-4" viewBox="0 0 24 24">
-          <path
-            fill="#4285F4"
-            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-          />
-          <path
-            fill="#34A853"
-            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-          />
-          <path
-            fill="#FBBC05"
-            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-          />
-          <path
-            fill="#EA4335"
-            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-          />
-        </svg>
-        Mit Google registrieren
-      </button>
+      {/* OAuth Buttons - Icon Style like Quartr */}
+      <div className="flex justify-center">
+        <button
+          onClick={handleGoogleSignUp}
+          disabled={loading}
+          className="w-12 h-12 bg-neutral-800/50 hover:bg-neutral-700/50 border border-neutral-700 rounded-lg transition-colors disabled:cursor-not-allowed flex items-center justify-center"
+          title="Mit Google registrieren"
+        >
+          <svg className="w-5 h-5" viewBox="0 0 24 24">
+            <path
+              fill="#4285F4"
+              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+            />
+            <path
+              fill="#34A853"
+              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+            />
+            <path
+              fill="#FBBC05"
+              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+            />
+            <path
+              fill="#EA4335"
+              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+            />
+          </svg>
+        </button>
+      </div>
 
       {/* Sign In Link */}
-      <div className="text-center mt-4">
-        <p className="text-theme-secondary text-xs">
-          Bereits einen Account?{' '}
-          <Link 
-            href="/auth/signin" 
-            className="text-brand-light hover:text-green-300 font-medium transition-colors"
-          >
-            Jetzt anmelden
-          </Link>
-        </p>
-      </div>
-
-      {/* Trust Indicators */}
-      <div className="mt-6 text-center">
-        <div className="flex items-center justify-center gap-4 text-xs text-theme-secondary">
-          <div className="flex items-center gap-1">
-            <div className="w-1 h-1 bg-brand rounded-full"></div>
-            <span>Kostenlos starten</span>
-          </div>
-          <div className="flex items-center gap-1">
-            <div className="w-1 h-1 bg-brand rounded-full"></div>
-            <span>DSGVO-konform</span>
-          </div>
-        </div>
-      </div>
+      <p className="text-center mt-6 text-sm text-neutral-500">
+        Bereits einen Account?{' '}
+        <Link
+          href="/auth/signin"
+          className="text-white hover:text-emerald-400 transition-colors font-medium"
+        >
+          Anmelden
+        </Link>
+      </p>
     </>
   )
 }

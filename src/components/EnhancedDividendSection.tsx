@@ -1,25 +1,17 @@
 // src/components/EnhancedDividendSection.tsx
-// PROFESSIONELLE DIVIDENDEN-ANALYSE - MIT DEUTSCHER FORMATIERUNG
+// DIVIDENDEN-ANALYSE - FEY/QUARTR CLEAN STYLE
 
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { 
-  BanknotesIcon, 
-  ShieldCheckIcon,
-  ExclamationTriangleIcon,
-  InformationCircleIcon,
-  CheckCircleIcon,
+import {
+  BanknotesIcon,
   XCircleIcon,
-  BugAntIcon,
   ArrowTrendingUpIcon,
   CalendarIcon,
-  ChartBarIcon,
-  DocumentTextIcon,
-  BuildingLibraryIcon,
-  ArrowPathRoundedSquareIcon
+  DocumentTextIcon
 } from '@heroicons/react/24/outline'
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, BarChart, Bar, ComposedChart, Area, AreaChart, CartesianGrid } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, CartesianGrid } from 'recharts'
 import { useCurrency } from '@/lib/CurrencyContext'
 
 interface DividendData {
@@ -34,16 +26,6 @@ interface QuarterlyDividend {
   quarter: string
   year: number
   adjAmount: number
-  exDividendDate?: string
-  recordDate?: string
-  payableDate?: string
-}
-
-interface PayoutRatioHistory {
-  year: number
-  payoutRatio: number
-  ttmEPS: number
-  ttmDividend: number
 }
 
 interface DividendCAGR {
@@ -57,29 +39,7 @@ interface DividendCAGR {
 
 interface FinancialHealthMetrics {
   freeCashFlowCoverage: number
-  debtToEquity: number
-  interestCoverage: number
-  currentRatio: number
-  quickRatio: number
   roe: number
-  roa: number
-}
-
-interface StockSplit {
-  symbol: string
-  date: string
-  numerator: number
-  denominator: number
-  ratio: string
-  type: string
-  description: string
-}
-
-interface PayoutSafetyData {
-  text: string
-  color: 'green' | 'yellow' | 'red' | 'gray'
-  level: 'very_safe' | 'safe' | 'moderate' | 'risky' | 'critical' | 'unsustainable' | 'no_data'
-  payout: number
 }
 
 interface EnhancedDividendSectionProps {
@@ -87,22 +47,20 @@ interface EnhancedDividendSectionProps {
   isPremium?: boolean
 }
 
-export default function EnhancedDividendSection({ 
-  ticker, 
-  isPremium = false 
+export default function EnhancedDividendSection({
+  ticker,
+  isPremium = false
 }: EnhancedDividendSectionProps) {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [dividendData, setDividendData] = useState<DividendData[]>([])
   const [currentInfo, setCurrentInfo] = useState<any>(null)
   const [quarterlyHistory, setQuarterlyHistory] = useState<QuarterlyDividend[]>([])
-  const [payoutRatioHistory, setPayoutRatioHistory] = useState<PayoutRatioHistory[]>([])
   const [cagrAnalysis, setCagrAnalysis] = useState<DividendCAGR[]>([])
   const [financialHealth, setFinancialHealth] = useState<FinancialHealthMetrics | null>(null)
-  const [activeTab, setActiveTab] = useState<'overview' | 'quarterly' | 'health'>('overview')
   const [historyTab, setHistoryTab] = useState<'yearly' | 'quarterly'>('yearly')
 
-  const { formatStockPrice, formatPercentage, currency } = useCurrency()
+  const { formatStockPrice, formatPercentage } = useCurrency()
 
   useEffect(() => {
     async function loadEnhancedDividendData() {
@@ -110,16 +68,14 @@ export default function EnhancedDividendSection({
       setError(null)
 
       try {
-        console.log(`🔍 Loading enhanced dividend data for ${ticker}...`)
-        
         const response = await fetch(`/api/dividends/${ticker}`)
-        
+
         if (!response.ok) {
           throw new Error(`API Error: ${response.status}`)
         }
-        
+
         const data = await response.json()
-        
+
         const historical = data.historical || {}
         const processedData: DividendData[] = Object.entries(historical)
           .map(([year, amount]) => ({
@@ -141,14 +97,11 @@ export default function EnhancedDividendSection({
         setDividendData(processedData)
         setCurrentInfo(data.currentInfo)
         setQuarterlyHistory(data.quarterlyHistory || [])
-        setPayoutRatioHistory(data.payoutRatioHistory || [])
         setCagrAnalysis(data.cagrAnalysis || [])
         setFinancialHealth(data.financialHealth)
-        
-        console.log(`✅ Enhanced data loaded: ${processedData.length} years, ${data.quarterlyHistory?.length || 0} quarters, Health: ${data.financialHealth ? 'Yes' : 'No'}`)
-        
+
       } catch (error) {
-        console.error('❌ Error loading enhanced dividend data:', error)
+        console.error('Error loading dividend data:', error)
         setError('Fehler beim Laden der Dividendendaten')
       } finally {
         setLoading(false)
@@ -183,12 +136,6 @@ export default function EnhancedDividendSection({
     })}${suffix}`
   }
 
-  const getMetricColor = (value: number, thresholds: { good: number, ok: number }) => {
-    if (value >= thresholds.good) return 'text-brand-light'
-    if (value >= thresholds.ok) return 'text-yellow-400'
-    return 'text-red-400'
-  }
-
   const formatTooltipValue = (value: number, name: string) => {
     if (name === 'Dividende' || name === 'dividendPerShare') {
       return [formatCurrencyDE(value), 'Dividende']
@@ -196,20 +143,21 @@ export default function EnhancedDividendSection({
     if (name === 'Wachstum' || name === 'growth') {
       return [formatPercentDE(value, true), 'Wachstum']
     }
-    if (name === 'Payout Ratio' || name === 'payoutRatio') {
-      return [formatPercentDE(value * 100), 'Payout Ratio']
-    }
     return [value, name]
   }
 
   if (loading) {
     return (
-      <div className="professional-card p-6">
-        <div className="animate-pulse">
-          <div className="h-6 bg-theme-tertiary rounded mb-4"></div>
-          <div className="space-y-3">
-            <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
-            <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+      <div className="space-y-6">
+        <div className="bg-theme-card rounded-xl border border-theme-light p-6">
+          <div className="animate-pulse space-y-4">
+            <div className="h-5 bg-theme-secondary/50 rounded w-48"></div>
+            <div className="grid grid-cols-4 gap-4">
+              {[1,2,3,4].map(i => (
+                <div key={i} className="h-20 bg-theme-secondary/30 rounded-lg"></div>
+              ))}
+            </div>
+            <div className="h-48 bg-theme-secondary/20 rounded-lg"></div>
           </div>
         </div>
       </div>
@@ -218,10 +166,10 @@ export default function EnhancedDividendSection({
 
   if (error) {
     return (
-      <div className="professional-card p-6">
+      <div className="bg-theme-card rounded-xl border border-theme-light p-6">
         <div className="flex items-center gap-3 text-red-400">
           <XCircleIcon className="w-5 h-5" />
-          <span>{error}</span>
+          <span className="text-sm">{error}</span>
         </div>
       </div>
     )
@@ -229,351 +177,207 @@ export default function EnhancedDividendSection({
 
   return (
     <div className="space-y-6">
-      
-      {/* Header Card mit Key Metrics */}
-      <div className="professional-card p-6">
-        <div className="flex items-center justify-between mb-6">
+
+      {/* Header Card - Key Metrics */}
+      <div className="bg-theme-card rounded-xl border border-theme-light">
+        <div className="p-5 border-b border-theme-light">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-blue-500/20 rounded-lg flex items-center justify-center">
-              <BanknotesIcon className="w-4 h-4 text-blue-400" />
+            <div className="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+              <BanknotesIcon className="w-4 h-4 text-emerald-500" />
             </div>
-            <h3 className="text-xl font-bold text-theme-primary">Dividenden-Analyse</h3>
+            <h3 className="text-base font-semibold text-theme-primary">Dividenden-Analyse</h3>
           </div>
         </div>
 
-        {/* Key Metrics in Boxen */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-  <div className="bg-theme-secondary/10 border border-theme/20 rounded-xl p-5 text-center shadow-sm hover:shadow-md transition-shadow">
-    <div className="text-3xl font-bold text-brand-light mb-2">
-      {currentInfo?.currentYield ? formatPercentDE(currentInfo.currentYield * 100) : 'N/A'}
-    </div>
-    <div className="text-sm text-theme-secondary font-semibold">Aktuelle Rendite</div>
-  </div>
-
-          <div className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-theme-primary mb-1">
-              {currentInfo?.dividendPerShareTTM ? formatCurrencyDE(currentInfo.dividendPerShareTTM) : 'N/A'}
+        {/* Key Metrics Grid */}
+        <div className="p-5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="text-center">
+              <div className="text-2xl font-semibold text-emerald-500 mb-1">
+                {currentInfo?.currentYield ? formatPercentDE(currentInfo.currentYield * 100) : '–'}
+              </div>
+              <div className="text-xs text-theme-muted">Aktuelle Rendite</div>
             </div>
-            <div className="text-sm text-theme-secondary">TTM Dividende</div>
+
+            <div className="text-center">
+              <div className="text-2xl font-semibold text-theme-primary mb-1">
+                {currentInfo?.dividendPerShareTTM ? formatCurrencyDE(currentInfo.dividendPerShareTTM) : '–'}
+              </div>
+              <div className="text-xs text-theme-muted">TTM Dividende</div>
+            </div>
+
+            <div className="text-center">
+              <div className="text-2xl font-semibold text-theme-primary mb-1">
+                {currentInfo?.dividendGrowthRate ? formatPercentDE(currentInfo.dividendGrowthRate) : '–'}
+              </div>
+              <div className="text-xs text-theme-muted">Ø Wachstum (5J)</div>
+            </div>
+
+            <div className="text-center">
+              <div className="text-2xl font-semibold text-theme-primary mb-1">
+                {dividendData.length}
+              </div>
+              <div className="text-xs text-theme-muted">Jahre Historie</div>
+            </div>
           </div>
 
-          <div className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-theme-primary mb-1">
-              {currentInfo?.dividendGrowthRate ? formatPercentDE(currentInfo.dividendGrowthRate) : 'N/A'}
+          {/* Main Dividend Chart */}
+          {dividendData.length > 0 && (
+            <div className="h-56">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={dividendData.slice(-20)}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" strokeOpacity={0.5} />
+                  <XAxis
+                    dataKey="year"
+                    stroke="var(--color-text-muted)"
+                    fontSize={11}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    stroke="var(--color-text-muted)"
+                    fontSize={11}
+                    tickFormatter={(value) => formatCurrencySimple(value)}
+                    tickLine={false}
+                    axisLine={false}
+                    width={50}
+                  />
+                  <Tooltip
+                    contentStyle={{
+                      backgroundColor: 'var(--color-bg-card)',
+                      border: '1px solid var(--color-border)',
+                      borderRadius: '8px',
+                      fontSize: '12px'
+                    }}
+                    formatter={formatTooltipValue}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="dividendPerShare"
+                    stroke="#3B82F6"
+                    strokeWidth={2}
+                    dot={{ r: 3, fill: '#3B82F6' }}
+                    activeDot={{ r: 5, fill: '#3B82F6' }}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
             </div>
-            <div className="text-sm text-theme-secondary">Ø Wachstum (5J)</div>
-          </div>
-
-          <div className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
-            <div className="text-2xl font-bold text-theme-primary mb-1">
-              {dividendData.length}
-            </div>
-            <div className="text-sm text-theme-secondary">Jahre Historie</div>
-          </div>
+          )}
         </div>
-
-        {/* Main Dividend Chart mit Grid */}
-        {dividendData.length > 0 && (
-          <div className="h-64 mt-6">
-            <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={dividendData.slice(-20)}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
-                <XAxis
-                  dataKey="year"
-                  stroke="rgb(148, 163, 184)"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
-                />
-                <YAxis
-                  stroke="rgb(148, 163, 184)"
-                  fontSize={12}
-                  tickFormatter={(value) => formatCurrencySimple(value)}
-                  tickLine={false}
-                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'rgb(55, 65, 81)',
-                    border: '1px solid rgb(75, 85, 99)',
-                    borderRadius: '12px',
-                    color: 'rgb(243, 244, 246)'
-                  }}
-                  labelStyle={{ color: 'rgb(243, 244, 246)', fontWeight: 'bold' }}
-                  formatter={formatTooltipValue}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="dividendPerShare"
-                  stroke="#3B82F6"
-                  strokeWidth={3}
-                  dot={{ r: 4, fill: '#3B82F6' }}
-                  activeDot={{ r: 6, fill: '#3B82F6' }}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        )}
       </div>
 
-      {/* CAGR Analysis Section in Boxen */}
+      {/* CAGR Analysis */}
       {cagrAnalysis.length > 0 && (
-        <div className="professional-card p-6">
-          <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
-            <ArrowTrendingUpIcon className="w-5 h-5" />
-            Dividendenwachstum (CAGR)
-          </h4>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {cagrAnalysis.map((cagr) => (
-              <div key={cagr.period} className="bg-theme-tertiary/40 border border-theme/10 rounded-xl p-4 text-center">
-                <div className={`text-2xl font-bold mb-1 ${
-                  cagr.cagr > 10 ? 'text-brand-light' :
-                  cagr.cagr > 5 ? 'text-blue-400' :
-                  cagr.cagr > 0 ? 'text-yellow-400' : 'text-red-400'
-                }`}>
-                  {formatPercentDE(cagr.cagr)}
-                </div>
-                <div className="text-sm text-theme-secondary font-medium">{cagr.period} CAGR</div>
-                <div className="text-xs text-theme-muted mt-2 pt-2 border-t border-theme/10">
-                  {formatCurrencyDE(cagr.startValue)} → {formatCurrencyDE(cagr.endValue)}
-                </div>
-              </div>
-            ))}
+        <div className="bg-theme-card rounded-xl border border-theme-light">
+          <div className="p-5 border-b border-theme-light">
+            <div className="flex items-center gap-3">
+              <ArrowTrendingUpIcon className="w-4 h-4 text-theme-muted" />
+              <h4 className="text-sm font-semibold text-theme-primary">Dividendenwachstum (CAGR)</h4>
+            </div>
           </div>
-        </div>
-      )}
-
-      {/* Payout Ratio Chart mit Grid */}
-      {payoutRatioHistory.length > 0 && (
-        <div className="professional-card p-6">
-          <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
-            <ChartBarIcon className="w-5 h-5" />
-            Payout Ratio Entwicklung
-          </h4>
-          
-          <div className="h-64">
-            <ResponsiveContainer width="100%" height="100%">
-              <AreaChart data={payoutRatioHistory}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
-                <XAxis
-                  dataKey="year"
-                  stroke="rgb(148, 163, 184)"
-                  fontSize={12}
-                  tickLine={false}
-                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
-                />
-                <YAxis
-                  stroke="rgb(148, 163, 184)"
-                  fontSize={12}
-                  tickFormatter={(value) => formatPercentDE(value * 100)}
-                  tickLine={false}
-                  axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: 'rgb(55, 65, 81)',
-                    border: '1px solid rgb(75, 85, 99)',
-                    borderRadius: '12px',
-                    color: 'rgb(243, 244, 246)'
-                  }}
-                  formatter={formatTooltipValue}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="payoutRatio"
-                  stroke="#8B5CF6"
-                  fill="#8B5CF6"
-                  fillOpacity={0.2}
-                />
-              </AreaChart>
-            </ResponsiveContainer>
-          </div>
-          
-          {/* Current Payout Ratio */}
-          <div className="mt-4 p-4 bg-theme-tertiary/30 rounded-lg">
-            <div className="flex justify-between items-center">
-              <span className="text-theme-secondary">Aktuelle Payout Ratio</span>
-              <div className="flex items-center gap-3">
-                <span className="text-theme-primary font-semibold">
-                  {currentInfo?.payoutRatio ? formatPercentDE(currentInfo.payoutRatio * 100) : 'N/A'}
-                </span>
-                {currentInfo?.payoutSafety && (
-                  <div className="flex items-center gap-2">
-                    <div className={`w-2 h-2 rounded-full ${
-                      currentInfo.payoutSafety.color === 'green' ? 'bg-green-400' :
-                      currentInfo.payoutSafety.color === 'yellow' ? 'bg-yellow-400' :
-                      currentInfo.payoutSafety.color === 'red' ? 'bg-red-400' :
-                      'bg-gray-400'
-                    }`} />
-                    <span className={`text-xs font-medium ${
-                      currentInfo.payoutSafety.color === 'green' ? 'text-brand-light' :
-                      currentInfo.payoutSafety.color === 'yellow' ? 'text-yellow-400' :
-                      currentInfo.payoutSafety.color === 'red' ? 'text-red-400' :
-                      'text-gray-400'
-                    }`}>
-                      {currentInfo.payoutSafety.text}
-                    </span>
+          <div className="p-5">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              {cagrAnalysis.map((cagr) => (
+                <div key={cagr.period} className="text-center p-4 bg-theme-secondary/20 rounded-lg">
+                  <div className={`text-xl font-semibold mb-1 ${
+                    cagr.cagr > 10 ? 'text-emerald-500' :
+                    cagr.cagr > 5 ? 'text-blue-400' :
+                    cagr.cagr > 0 ? 'text-amber-400' : 'text-red-400'
+                  }`}>
+                    {formatPercentDE(cagr.cagr)}
                   </div>
-                )}
-              </div>
+                  <div className="text-xs text-theme-muted font-medium">{cagr.period} CAGR</div>
+                  <div className="text-xs text-theme-muted mt-2 pt-2 border-t border-theme-light">
+                    {formatCurrencyDE(cagr.startValue)} → {formatCurrencyDE(cagr.endValue)}
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       )}
 
-      {/* Kernanalyse */}
-      <div className="space-y-6">
-        <div className="professional-card p-6">
-          <h4 className="text-lg font-bold text-theme-primary mb-4">Kernanalyse</h4>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            
-            {/* Growth Trend Chart mit Grid */}
-            {dividendData.length > 0 && (
-              <div>
-                <h5 className="text-lg font-semibold text-theme-primary mb-4">Wachstumstrend (20 Jahre)</h5>
-                <div className="h-48">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={dividendData.slice(-20).filter(d => d.year > dividendData.slice(-20)[0]?.year)}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.1)" />
-                      <XAxis
-                        dataKey="year"
-                        stroke="rgb(148, 163, 184)"
-                        fontSize={12}
-                        tickLine={false}
-                        axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
-                      />
-                      <YAxis
-                        stroke="rgb(148, 163, 184)"
-                        fontSize={12}
-                        tickFormatter={(value) => formatPercentDE(value)}
-                        tickLine={false}
-                        axisLine={{ stroke: 'rgba(148, 163, 184, 0.2)' }}
-                      />
-                      <Tooltip
-                        contentStyle={{
-                          backgroundColor: 'rgb(55, 65, 81)',
-                          border: '1px solid rgb(75, 85, 99)',
-                          borderRadius: '12px',
-                          color: 'rgb(243, 244, 246)'
-                        }}
-                        formatter={formatTooltipValue}
-                      />
-                      <Bar
-                        dataKey="growth"
-                        fill="#3B82F6"
-                        radius={[2, 2, 0, 0]}
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              </div>
-            )}
-
-            {/* Key Stats */}
-            <div>
-              <h5 className="text-lg font-semibold text-theme-primary mb-4">Kennzahlen</h5>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
-                  <span className="text-theme-secondary">Dividenden-Qualität</span>
-                  <span className="text-theme-primary font-semibold">
-                    {currentInfo?.dividendQuality || 'N/A'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center p-3 bg-theme-tertiary rounded-lg">
-                  <span className="text-theme-secondary">Jahre Historie</span>
-                  <span className="text-theme-primary font-semibold">
-                    {dividendData.length} Jahre
-                  </span>
-                </div>
-              </div>
-            </div>
+      {/* Financial Health */}
+      {financialHealth && (
+        <div className="bg-theme-card rounded-xl border border-theme-light">
+          <div className="p-5 border-b border-theme-light">
+            <h4 className="text-sm font-semibold text-theme-primary">Finanzielle Gesundheit</h4>
           </div>
-        </div>
-
-        {/* Financial Health */}
-        {financialHealth && (
-          <div className="professional-card p-6">
-            <h4 className="text-lg font-bold text-theme-primary mb-4">Finanzielle Gesundheit</h4>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              
-              <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                <div className="text-sm text-theme-secondary mb-1">FCF Coverage</div>
-                <div className={`text-2xl font-bold ${getMetricColor(financialHealth.freeCashFlowCoverage, { good: 2, ok: 1 })}`}>
+          <div className="p-5">
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <div className="text-xs text-theme-muted mb-1">FCF Coverage</div>
+                <div className={`text-xl font-semibold ${
+                  financialHealth.freeCashFlowCoverage >= 2 ? 'text-emerald-500' :
+                  financialHealth.freeCashFlowCoverage >= 1 ? 'text-amber-400' : 'text-red-400'
+                }`}>
                   {formatRatioDE(financialHealth.freeCashFlowCoverage)}
                 </div>
               </div>
-
-              <div className="p-4 bg-theme-tertiary/30 rounded-lg">
-                <div className="text-sm text-theme-secondary mb-1">ROE</div>
-                <div className={`text-2xl font-bold ${getMetricColor(financialHealth.roe, { good: 15, ok: 10 })}`}>
+              <div>
+                <div className="text-xs text-theme-muted mb-1">ROE</div>
+                <div className={`text-xl font-semibold ${
+                  financialHealth.roe >= 15 ? 'text-emerald-500' :
+                  financialHealth.roe >= 10 ? 'text-amber-400' : 'text-red-400'
+                }`}>
                   {formatPercentDE(financialHealth.roe)}
                 </div>
               </div>
-              
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
 
-      {/* Tabbed Dividend History */}
-      <div className="professional-card p-6">
+      {/* History Tabs */}
+      <div className="bg-theme-card rounded-xl border border-theme-light">
         {/* Tab Navigation */}
-        <div className="border-b border-theme/20 mb-6">
-          <nav className="flex space-x-8">
+        <div className="p-4 border-b border-theme-light">
+          <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg w-fit">
             {[
               { id: 'yearly', label: 'Jährliche Historie', icon: DocumentTextIcon },
               { id: 'quarterly', label: 'Quartalsweise Historie', icon: CalendarIcon }
             ].map((tab) => {
               const Icon = tab.icon
+              const isActive = historyTab === tab.id
               return (
                 <button
                   key={tab.id}
                   onClick={() => setHistoryTab(tab.id as any)}
-                  className={`flex items-center gap-2 py-4 px-2 border-b-2 transition-colors font-medium ${
-                    historyTab === tab.id
-                      ? 'border-blue-400 text-blue-400'
-                      : 'border-transparent text-theme-secondary hover:text-theme-primary'
+                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    isActive
+                      ? 'bg-theme-card text-theme-primary shadow-sm'
+                      : 'text-theme-muted hover:text-theme-secondary'
                   }`}
                 >
-                  <Icon className="w-4 h-4" />
+                  <Icon className="w-3.5 h-3.5" />
                   {tab.label}
                 </button>
               )
             })}
-          </nav>
+          </div>
         </div>
 
         {/* Tab Content */}
-        {historyTab === 'yearly' ? (
-          <div>
-            <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
-              <DocumentTextIcon className="w-5 h-5" />
-              Jährliche Dividenden-Historie
-            </h4>
-            
-            <div className="overflow-hidden rounded-lg border border-theme">
+        <div className="p-5">
+          {historyTab === 'yearly' ? (
+            <div className="overflow-x-auto">
               <table className="w-full">
-                <thead className="bg-theme-tertiary/50">
-                  <tr>
-                    <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Jahr</th>
-                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Dividende/Aktie</th>
-                    <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Wachstum</th>
+                <thead>
+                  <tr className="border-b border-theme-light">
+                    <th className="text-left py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Jahr</th>
+                    <th className="text-right py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Dividende/Aktie</th>
+                    <th className="text-right py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Wachstum</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {dividendData.slice().reverse().map((row, index) => (
-                    <tr key={row.year} className={`hover:bg-theme-tertiary/30 transition-colors ${
-                      index !== dividendData.length - 1 ? 'border-b border-theme/50' : ''
-                    }`}>
-                      <td className="py-3 px-4 text-theme-primary font-semibold">{row.year}</td>
-                      
-                      <td className="py-3 px-4 text-right text-theme-primary font-medium">
+                  {dividendData.slice().reverse().map((row) => (
+                    <tr key={row.year} className="border-b border-theme-light last:border-0 hover:bg-theme-secondary/10 transition-colors">
+                      <td className="py-3 text-sm text-theme-primary font-medium">{row.year}</td>
+                      <td className="py-3 text-right text-sm text-theme-primary">
                         {formatCurrencyDE(row.dividendPerShare)}
                       </td>
-                      
-                      <td className={`py-3 px-4 text-right font-semibold ${
-                        row.growth > 0 ? 'text-brand-light' : 
+                      <td className={`py-3 text-right text-sm font-medium ${
+                        row.growth > 0 ? 'text-emerald-500' :
                         row.growth < 0 ? 'text-red-400' : 'text-theme-muted'
                       }`}>
                         {row.growth !== 0 ? formatPercentDE(row.growth, true) : '–'}
@@ -583,38 +387,31 @@ export default function EnhancedDividendSection({
                 </tbody>
               </table>
             </div>
-          </div>
-        ) : (
-          quarterlyHistory.length > 0 ? (
-            <div>
-              <h4 className="text-lg font-bold text-theme-primary mb-4 flex items-center gap-2">
-                <CalendarIcon className="w-5 h-5" />
-                Quartalsweise Dividenden-Historie
-              </h4>
-              
-              <div className="overflow-hidden rounded-lg border border-theme">
+          ) : (
+            quarterlyHistory.length > 0 ? (
+              <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-theme-tertiary/50">
-                    <tr>
-                      <th className="text-left py-3 px-4 text-theme-muted font-semibold text-sm">Datum</th>
-                      <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Quartal</th>
-                      <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Betrag</th>
-                      <th className="text-right py-3 px-4 text-theme-muted font-semibold text-sm">Split-Adj.</th>
+                  <thead>
+                    <tr className="border-b border-theme-light">
+                      <th className="text-left py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Datum</th>
+                      <th className="text-right py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Quartal</th>
+                      <th className="text-right py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Betrag</th>
+                      <th className="text-right py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Split-Adj.</th>
                     </tr>
                   </thead>
                   <tbody>
                     {quarterlyHistory.slice(0, 40).map((quarter, index) => (
-                      <tr key={`${quarter.date}-${index}`} className="hover:bg-theme-tertiary/30 transition-colors border-b border-theme/50">
-                        <td className="py-3 px-4 text-theme-primary font-medium">
+                      <tr key={`${quarter.date}-${index}`} className="border-b border-theme-light last:border-0 hover:bg-theme-secondary/10 transition-colors">
+                        <td className="py-3 text-sm text-theme-primary">
                           {new Date(quarter.date).toLocaleDateString('de-DE')}
                         </td>
-                        <td className="py-3 px-4 text-right text-theme-secondary">
+                        <td className="py-3 text-right text-sm text-theme-muted">
                           {quarter.quarter} {quarter.year}
                         </td>
-                        <td className="py-3 px-4 text-right text-theme-primary font-semibold">
+                        <td className="py-3 text-right text-sm text-theme-primary">
                           {formatCurrencyDE(quarter.amount)}
                         </td>
-                        <td className="py-3 px-4 text-right text-brand-light font-medium">
+                        <td className="py-3 text-right text-sm text-emerald-500 font-medium">
                           {formatCurrencyDE(quarter.adjAmount)}
                         </td>
                       </tr>
@@ -622,23 +419,21 @@ export default function EnhancedDividendSection({
                   </tbody>
                 </table>
               </div>
-            </div>
-          ) : (
-            <div className="text-center py-8 text-theme-muted">
-              <CalendarIcon className="w-8 h-8 mx-auto mb-2 opacity-50" />
-              <p>Keine quartalsweisen Daten verfügbar</p>
-            </div>
-          )
-        )}
+            ) : (
+              <div className="text-center py-8">
+                <CalendarIcon className="w-8 h-8 mx-auto mb-2 text-theme-muted opacity-50" />
+                <p className="text-sm text-theme-muted">Keine quartalsweisen Daten verfügbar</p>
+              </div>
+            )
+          )}
+        </div>
       </div>
 
       {/* Disclaimer */}
-      <div className="text-xs text-theme-muted text-center mt-6 p-3 bg-theme-tertiary/30 rounded">
-        <p>
-          Analyse basiert auf historischen Daten. Dividenden können jederzeit angepasst werden. 
-          Diese Darstellung stellt keine Anlageberatung dar.
-        </p>
-      </div>
+      <p className="text-xs text-theme-muted text-center">
+        Analyse basiert auf historischen Daten. Dividenden können jederzeit angepasst werden.
+        Diese Darstellung stellt keine Anlageberatung dar.
+      </p>
     </div>
   )
 }

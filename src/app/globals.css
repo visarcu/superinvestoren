@@ -247,6 +247,12 @@
    .border-theme { border-color: var(--color-border); }
    .border-theme-light { border-color: var(--color-border-light); }
    .divide-theme > * + * { border-color: var(--color-divider); }
+
+   /* Border opacity variants for theme consistency */
+   .border-theme\/5 { border-color: var(--color-border-light); }
+   .border-theme\/10 { border-color: var(--color-border); }
+   .border-theme\/20 { border-color: var(--color-border); }
+   .border-theme\/30 { border-color: var(--color-border); }
    
    /* ===== TYPOGRAPHY SCALE ===== */
    h1, h2, h3, h4, h5, h6 {

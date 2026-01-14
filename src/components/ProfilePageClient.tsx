@@ -1,4 +1,4 @@
-// src/components/ProfilePageClient.tsx - THEME-COMPATIBLE VERSION
+// src/components/ProfilePageClient.tsx - FEY STYLE REDESIGN V2 (NUR DESIGN, KEINE FUNKTIONALITÄT)
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -6,14 +6,20 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import StripeConnectButton from '@/components/StripeConnectButton';
 import { usePremiumStatus } from '@/lib/premiumUtils';
-import { 
-  UserIcon, 
-  ArrowLeftIcon,
+import Link from 'next/link';
+import {
+  UserIcon,
   ArrowPathIcon,
-  ArrowRightOnRectangleIcon,
+  ArrowLeftStartOnRectangleIcon,
   CreditCardIcon,
   BellIcon,
-  SparklesIcon
+  SparklesIcon,
+  EnvelopeIcon,
+  ShieldCheckIcon,
+  Cog6ToothIcon,
+  CheckBadgeIcon,
+  CalendarDaysIcon,
+  ChartBarIcon
 } from '@heroicons/react/24/outline';
 
 interface UserProfile {
@@ -40,12 +46,12 @@ export default function ProfilePageClient() {
 
   const { premiumStatus, loading: premiumLoading, refetch: refetchPremium } = usePremiumStatus(user?.id);
 
-  // ALLE FUNKTIONEN BLEIBEN GLEICH
+  // ALLE FUNKTIONEN BLEIBEN GLEICH - NUR DESIGN ÄNDERUNG
   const checkAuth = async () => {
     try {
       console.log('🔍 Checking auth...');
       setError(null);
-      
+
       const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
       if (sessionError) {
@@ -128,7 +134,7 @@ export default function ProfilePageClient() {
 
     const stripeSuccess = searchParams.get('stripe_success');
     const stripeCanceled = searchParams.get('stripe_canceled');
-    
+
     if (stripeSuccess === 'true' || stripeCanceled === 'true') {
       console.log('🔧 ProfilePageClient: Cleaning up URL parameters');
       const newUrl = window.location.pathname;
@@ -165,51 +171,66 @@ export default function ProfilePageClient() {
 
   const getMemberSince = () => {
     try {
-      return new Date(user?.created_at || '').toLocaleDateString('de-DE', { 
-        month: 'long', 
-        year: 'numeric' 
+      return new Date(user?.created_at || '').toLocaleDateString('de-DE', {
+        month: 'long',
+        year: 'numeric'
       });
     } catch {
       return 'Unbekannt';
     }
   };
 
-  // Loading State - MIT THEME CLASSES
+  const getDisplayName = () => {
+    if (profile?.first_name && profile?.last_name) {
+      return `${profile.first_name} ${profile.last_name}`;
+    }
+    if (profile?.first_name) {
+      return profile.first_name;
+    }
+    return user?.email?.split('@')[0] || 'User';
+  };
+
+  // Loading State
   if (loading || premiumLoading) {
     return (
-      <div className="min-h-screen bg-theme-primary">
-        <div className="flex min-h-screen items-center justify-center">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-            <p className="text-theme-muted">Lade Profil...</p>
-          </div>
+      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <p className="text-theme-secondary text-sm">Lade Profil...</p>
         </div>
       </div>
     );
   }
 
-  // Error State - MIT THEME CLASSES
+  // Error State
   if (error) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-lg mx-auto px-4 py-24">
-          <div className="bg-theme-card border border-theme/5 rounded-xl p-8 text-center">
-            <h1 className="text-xl font-medium text-theme-primary mb-3">Fehler beim Laden</h1>
-            <p className="text-theme-muted text-sm mb-6">{error}</p>
-            
-            <div className="flex flex-col sm:flex-row gap-3 justify-center">
-              <button
-                onClick={refreshUserData}
-                className="px-4 py-2 bg-brand text-white font-medium rounded-lg hover:bg-brand transition-colors"
-              >
-                Erneut versuchen
-              </button>
-              <button
-                onClick={() => router.push('/analyse')}
-                className="px-4 py-2 bg-theme-card border border-theme/10 text-theme-primary font-medium rounded-lg hover:bg-theme-hover transition-colors"
-              >
-                Zur Analyse
-              </button>
+        <div className="w-full px-6 lg:px-8 py-8">
+          <div className="border-b border-theme pb-8 mb-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                <ShieldCheckIcon className="w-6 h-6 text-red-400" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-base font-medium text-theme-primary mb-1">Fehler beim Laden</h2>
+                <p className="text-theme-muted text-sm mb-4">{error}</p>
+                <div className="flex gap-3">
+                  <button
+                    onClick={refreshUserData}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors"
+                  >
+                    <ArrowPathIcon className="w-4 h-4" />
+                    Erneut versuchen
+                  </button>
+                  <Link
+                    href="/analyse"
+                    className="px-4 py-2 text-theme-secondary hover:text-theme-primary text-sm transition-colors"
+                  >
+                    Zur Analyse
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -220,157 +241,213 @@ export default function ProfilePageClient() {
   if (!user) {
     return (
       <div className="min-h-screen bg-theme-primary">
-        <div className="max-w-lg mx-auto px-4 py-24">
-          <div className="bg-theme-card border border-theme/5 rounded-xl p-8 text-center">
-            <h1 className="text-xl font-medium text-theme-primary mb-3">Nicht eingeloggt</h1>
-            <p className="text-theme-muted mb-6">Bitte melden Sie sich an, um Ihr Profil zu verwalten.</p>
-            <button
-              onClick={() => router.push('/auth/signin')}
-              className="px-6 py-3 bg-brand text-white font-medium rounded-lg hover:bg-brand transition-colors"
-            >
-              Zur Anmeldung
-            </button>
+        <div className="w-full px-6 lg:px-8 py-8">
+          <div className="border-b border-theme pb-8 mb-8">
+            <div className="flex items-start gap-4">
+              <div className="w-12 h-12 bg-theme-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+                <UserIcon className="w-6 h-6 text-theme-muted" />
+              </div>
+              <div className="flex-1">
+                <h2 className="text-base font-medium text-theme-primary mb-1">Nicht eingeloggt</h2>
+                <p className="text-theme-muted text-sm mb-4">Bitte melden Sie sich an, um Ihr Profil zu verwalten.</p>
+                <button
+                  onClick={() => router.push('/auth/signin')}
+                  className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors"
+                >
+                  Zur Anmeldung
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     );
   }
 
-  // ✅ THEME-COMPATIBLE DESIGN
+  // Main Profile Design
   return (
     <div className="min-h-screen bg-theme-primary">
-      
-      {/* Clean Header mit Theme Classes */}
-      <div className="border-b border-theme/5">
-        <div className="max-w-4xl mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => router.push('/analyse')}
-                className="p-2 hover:bg-theme-hover rounded-lg transition-colors group"
-              >
-                <ArrowLeftIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary" />
-              </button>
-              <div>
-                <h1 className="text-2xl font-semibold text-theme-primary">Profil</h1>
-                <p className="text-sm text-theme-muted">Account-Verwaltung</p>
-              </div>
-            </div>
-            
-            {premiumStatus.isPremium && (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/10 text-brand border border-brand/20 rounded-lg">
-                <SparklesIcon className="w-4 h-4" />
-                <span className="text-sm font-medium">Premium</span>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
+      <div className="w-full px-6 lg:px-8 py-8 max-w-4xl">
 
-      {/* Main Content mit Theme Classes */}
-      <main className="max-w-4xl mx-auto px-4 py-12 space-y-8">
-        
-        {/* User Card */}
-        <div className="bg-theme-card border border-theme/5 rounded-xl p-8">
-          <div className="flex items-center gap-6">
-            {/* Avatar */}
-            <div className="w-16 h-16 bg-brand/10 border border-brand/20 rounded-full flex items-center justify-center text-brand font-medium text-xl">
-              {getInitials()}
-            </div>
-            
-            <div className="flex-1">
-              <h2 className="text-xl font-semibold text-theme-primary">
-                {profile?.first_name && profile?.last_name 
-                  ? `${profile.first_name} ${profile.last_name}`
-                  : 'Willkommen'
-                }
-              </h2>
-              <p className="text-theme-secondary">{user.email}</p>
-              <div className="flex items-center gap-4 mt-2 text-sm text-theme-muted">
-                <span>Mitglied seit {getMemberSince()}</span>
-                <div className="w-1 h-1 bg-theme-muted/30 rounded-full"></div>
-                <span className={premiumStatus.isPremium ? 'text-brand' : ''}>
-                  {premiumStatus.isPremium ? 'Premium Account' : 'Free Plan'}
-                </span>
-              </div>
-            </div>
+        {/* Header */}
+        <div className="border-b border-theme pb-8 mb-8">
+          <div className="flex items-center gap-2 mb-3">
+            <UserIcon className="w-4 h-4 text-theme-muted" />
+            <span className="text-sm text-theme-muted">Profil</span>
           </div>
+
+          <h1 className="text-2xl font-semibold text-theme-primary mb-2">
+            Account-Verwaltung
+          </h1>
+          <p className="text-theme-secondary text-sm">
+            Verwalte dein Konto und deine Einstellungen
+          </p>
         </div>
 
-        {/* Account Info Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
-          {/* Account Daten */}
-          <div className="bg-theme-card border border-theme/5 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-theme-primary mb-4">Account-Daten</h3>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-xs text-theme-muted mb-1.5">E-Mail-Adresse</label>
-                <div className="text-theme-primary font-medium">{user.email || 'Unbekannt'}</div>
+        {/* Profile Card */}
+        <div className="border-b border-theme pb-8 mb-8">
+          <div className="flex items-start gap-6">
+            {/* Large Avatar */}
+            <div className="relative flex-shrink-0">
+              <div className={`w-20 h-20 rounded-2xl flex items-center justify-center text-2xl font-bold ${
+                premiumStatus.isPremium
+                  ? 'bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 text-emerald-400 border-2 border-emerald-500/30'
+                  : 'bg-theme-secondary text-theme-primary border-2 border-theme'
+              }`}>
+                {getInitials()}
               </div>
+              {premiumStatus.isPremium && (
+                <div className="absolute -bottom-1 -right-1 w-7 h-7 bg-emerald-500 rounded-lg flex items-center justify-center shadow-lg">
+                  <SparklesIcon className="w-4 h-4 text-white" />
+                </div>
+              )}
+            </div>
 
-              <div>
-                <label className="block text-xs text-theme-muted mb-1.5">Status</label>
-                <div className="text-theme-primary font-medium">
-                  {premiumStatus.isPremium ? 'Premium' : 'Free Plan'}
+            {/* User Info */}
+            <div className="flex-1 min-w-0 pt-1">
+              <div className="flex items-center gap-3 mb-1">
+                <h2 className="text-xl font-semibold text-theme-primary truncate">
+                  {getDisplayName()}
+                </h2>
+                {premiumStatus.isPremium && (
+                  <span className="flex-shrink-0 px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-semibold rounded-full border border-emerald-500/20">
+                    PREMIUM
+                  </span>
+                )}
+              </div>
+              <p className="text-theme-secondary text-sm mb-3">{user.email}</p>
+
+              {/* Stats Row */}
+              <div className="flex items-center gap-6">
+                <div className="flex items-center gap-2">
+                  <CalendarDaysIcon className="w-4 h-4 text-theme-muted" />
+                  <span className="text-xs text-theme-muted">Mitglied seit {getMemberSince()}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <CheckBadgeIcon className="w-4 h-4 text-theme-muted" />
+                  <span className="text-xs text-theme-muted">
+                    {profile?.email_verified ? 'E-Mail verifiziert' : 'E-Mail nicht verifiziert'}
+                  </span>
                 </div>
               </div>
+            </div>
 
-              <div>
-                <label className="block text-xs text-theme-muted mb-1.5">Mitglied seit</label>
-                <div className="text-theme-primary font-medium">{getMemberSince()}</div>
+            {/* Refresh Button */}
+            <button
+              onClick={refreshUserData}
+              className="p-2.5 text-theme-muted hover:text-theme-primary hover:bg-theme-secondary rounded-xl transition-all"
+              title="Daten aktualisieren"
+            >
+              <ArrowPathIcon className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Two Column Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+
+          {/* Left Column - Account Info */}
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-9 h-9 bg-blue-500/10 rounded-lg flex items-center justify-center">
+                <EnvelopeIcon className="w-4.5 h-4.5 text-blue-400" />
               </div>
+              <h3 className="text-sm font-semibold text-theme-primary uppercase tracking-wide">Account-Daten</h3>
+            </div>
+
+            <div className="space-y-4">
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-theme-muted">E-Mail</span>
+                <span className="text-sm text-theme-primary font-medium">{user.email}</span>
+              </div>
+              <div className="h-px bg-theme-secondary"></div>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-theme-muted">Plan</span>
+                <span className={`text-sm font-medium ${premiumStatus.isPremium ? 'text-emerald-400' : 'text-theme-primary'}`}>
+                  {premiumStatus.isPremium ? 'Premium' : 'Free'}
+                </span>
+              </div>
+              <div className="h-px bg-theme-secondary"></div>
+              <div className="flex items-center justify-between py-2">
+                <span className="text-sm text-theme-muted">Mitglied seit</span>
+                <span className="text-sm text-theme-primary font-medium">{getMemberSince()}</span>
+              </div>
+              {premiumStatus.isPremium && premiumStatus.endDate && (
+                <>
+                  <div className="h-px bg-theme-secondary"></div>
+                  <div className="flex items-center justify-between py-2">
+                    <span className="text-sm text-theme-muted">Verlängert am</span>
+                    <span className="text-sm text-theme-primary font-medium">
+                      {new Date(premiumStatus.endDate).toLocaleDateString('de-DE')}
+                    </span>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
-          {/* Premium Management */}
-          <div className="bg-theme-card border border-theme/5 rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-theme-primary mb-4">Premium-Verwaltung</h3>
+          {/* Right Column - Premium */}
+          <div>
+            <div className="flex items-center gap-3 mb-5">
+              <div className="w-9 h-9 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                <CreditCardIcon className="w-4.5 h-4.5 text-purple-400" />
+              </div>
+              <h3 className="text-sm font-semibold text-theme-primary uppercase tracking-wide">Abonnement</h3>
+            </div>
+
             <StripeConnectButton onStatusChange={refreshUserData} />
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          
-          {/* Notifications */}
-          <button
-            onClick={() => router.push('/notifications')}
-            className="bg-theme-card border border-theme/5 rounded-xl p-4 hover:border-theme/10 hover:bg-theme-hover transition-all group text-center"
-          >
-            <BellIcon className="w-5 h-5 text-theme-muted group-hover:text-brand mb-2 mx-auto" />
-            <div className="text-sm font-medium text-theme-primary">Alerts</div>
-          </button>
-          
-          {/* Refresh */}
-          <button
-            onClick={refreshUserData}
-            className="bg-theme-card border border-theme/5 rounded-xl p-4 hover:border-theme/10 hover:bg-theme-hover transition-all group text-center"
-          >
-            <ArrowPathIcon className="w-5 h-5 text-theme-muted group-hover:text-theme-primary mb-2 mx-auto" />
-            <div className="text-sm font-medium text-theme-primary">Refresh</div>
-          </button>
+        {/* Navigation Links */}
+        <div className="border-t border-theme pt-8 mb-8">
+          <h3 className="text-xs font-semibold text-theme-muted uppercase tracking-wide mb-4">Navigation</h3>
 
-          {/* Back */}
-          <button
-            onClick={() => router.push('/analyse')}
-            className="bg-theme-card border border-theme/5 rounded-xl p-4 hover:border-theme/10 hover:bg-theme-hover transition-all group text-center"
-          >
-            <ArrowLeftIcon className="w-5 h-5 text-theme-muted group-hover:text-brand mb-2 mx-auto" />
-            <div className="text-sm font-medium text-theme-primary">Analyse</div>
-          </button>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <Link
+              href="/analyse"
+              className="flex flex-col items-center gap-2 p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-xl transition-all group"
+            >
+              <ChartBarIcon className="w-5 h-5 text-theme-muted group-hover:text-emerald-400 transition-colors" />
+              <span className="text-xs font-medium text-theme-secondary group-hover:text-theme-primary transition-colors">Dashboard</span>
+            </Link>
 
-          {/* Sign Out */}
-          <button
-            onClick={handleSignOut}
-            className="bg-theme-card border border-theme/5 rounded-xl p-4 hover:border-red-500/20 hover:bg-red-500/5 transition-all group text-center"
-          >
-            <ArrowRightOnRectangleIcon className="w-5 h-5 text-theme-muted group-hover:text-red-500 mb-2 mx-auto" />
-            <div className="text-sm font-medium text-theme-primary">Logout</div>
-          </button>
+            <Link
+              href="/notifications"
+              className="flex flex-col items-center gap-2 p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-xl transition-all group"
+            >
+              <BellIcon className="w-5 h-5 text-theme-muted group-hover:text-emerald-400 transition-colors" />
+              <span className="text-xs font-medium text-theme-secondary group-hover:text-theme-primary transition-colors">Alerts</span>
+            </Link>
+
+            <Link
+              href="/settings"
+              className="flex flex-col items-center gap-2 p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-xl transition-all group"
+            >
+              <Cog6ToothIcon className="w-5 h-5 text-theme-muted group-hover:text-emerald-400 transition-colors" />
+              <span className="text-xs font-medium text-theme-secondary group-hover:text-theme-primary transition-colors">Settings</span>
+            </Link>
+
+            <button
+              onClick={handleSignOut}
+              className="flex flex-col items-center gap-2 p-4 bg-theme-secondary hover:bg-red-500/10 rounded-xl transition-all group"
+            >
+              <ArrowLeftStartOnRectangleIcon className="w-5 h-5 text-theme-muted group-hover:text-red-400 transition-colors" />
+              <span className="text-xs font-medium text-theme-secondary group-hover:text-red-400 transition-colors">Logout</span>
+            </button>
+          </div>
         </div>
-      </main>
+
+        {/* Footer Info */}
+        <div className="text-center">
+          <p className="text-xs text-theme-muted">
+            Fragen? Kontaktiere uns unter{' '}
+            <a href="mailto:support@finclue.de" className="text-emerald-400 hover:underline">
+              support@finclue.de
+            </a>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

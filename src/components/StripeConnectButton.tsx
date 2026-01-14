@@ -197,239 +197,197 @@ export default function StripeConnectButton({ onStatusChange }: StripeConnectBut
     );
   }
 
-  // TRIAL AKTIV mit Theme
+  // TRIAL AKTIV - Clean Flat Design
   if (trialInfo?.isTrialing) {
-    // ✅ NEU: Check if cancelled
     const isCancelled = premiumStatus.status === 'canceled';
-    
-    console.log('🔍 Premium Status Debug:', {
-      status: premiumStatus.status,
-      isCancelled,
-      completeStatus: premiumStatus,
-      allKeys: Object.keys(premiumStatus)
-    });
 
     return (
-      <div className="space-y-4">
-        {/* Trial Status */}
-        <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-theme-tertiary/50 rounded-full flex items-center justify-center border border-theme">
-                <span className="text-lg">{isCancelled ? '🔄' : '🚀'}</span>
-              </div>
-              <div>
-                <h3 className="text-theme-primary font-semibold">
-                  {isCancelled ? 'Abo gekündigt' : '14-Tage Trial aktiv'}
-                </h3>
-                <div className="space-y-1">
-                  <p className="text-theme-secondary text-sm">
-                    Noch <span className="font-bold text-theme-primary">{trialInfo.daysLeft} Tage</span> kostenlos
-                  </p>
-                  <p className="text-theme-muted text-xs">
-                    {isCancelled ? 'Premium läuft noch bis Ende der Periode' : 'Danach 9€/Monat • Jederzeit kündbar'}
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex gap-2">
-              <button
-                onClick={refetch}
-                disabled={actionLoading}
-                className="px-3 py-2 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
-              >
-                {actionLoading ? '...' : 'Aktualisieren'}
-              </button>
-              <button
-                onClick={handleCustomerPortal}
-                disabled={actionLoading}
-                className="px-3 py-2 bg-theme-primary text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
-              >
-                {actionLoading ? '...' : 'Verwalten'}
-              </button>
-            </div>
+      <div className="space-y-6">
+        {/* Status Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className={`w-2.5 h-2.5 rounded-full ${isCancelled ? 'bg-orange-400' : 'bg-blue-400'} animate-pulse`}></div>
+            <span className="text-sm font-medium text-theme-primary">
+              {isCancelled ? 'Gekündigt' : 'Trial aktiv'}
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={refetch}
+              disabled={actionLoading}
+              className="text-xs text-theme-muted hover:text-theme-secondary transition-colors"
+            >
+              {actionLoading ? '...' : 'Aktualisieren'}
+            </button>
+            <button
+              onClick={handleCustomerPortal}
+              disabled={actionLoading}
+              className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
+            >
+              {actionLoading ? '...' : 'Verwalten →'}
+            </button>
           </div>
         </div>
 
-        {/* Trial Features - alle verfügbar */}
-        <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-3">
-          <h5 className="text-theme-primary font-medium mb-2 text-sm">✨ Alle Premium Features freigeschaltet:</h5>
-          <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Erweiterte Analysen
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Interaktive Charts
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Historische Daten
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Priority Support
-            </div>
+        {/* Details Grid */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between py-2 border-b border-theme">
+            <span className="text-sm text-theme-muted">Verbleibend</span>
+            <span className={`text-sm font-medium ${trialInfo.daysLeft <= 3 ? 'text-orange-400' : 'text-theme-primary'}`}>
+              {trialInfo.daysLeft} Tage kostenlos
+            </span>
+          </div>
+          <div className="flex items-center justify-between py-2 border-b border-theme">
+            <span className="text-sm text-theme-muted">Danach</span>
+            <span className="text-sm text-theme-primary font-medium">9€/Monat</span>
+          </div>
+          <div className="flex items-center justify-between py-2">
+            <span className="text-sm text-theme-muted">Kündigung</span>
+            <span className="text-sm text-theme-secondary">Jederzeit möglich</span>
           </div>
         </div>
 
-        {/* Trial Reminder */}
+        {/* Features - Inline */}
+        <div className="pt-2">
+          <p className="text-xs text-theme-muted mb-2">Alle Features freigeschaltet:</p>
+          <div className="flex flex-wrap gap-2">
+            <span className="text-xs px-2 py-1 bg-theme-secondary rounded text-theme-secondary">Analysen</span>
+            <span className="text-xs px-2 py-1 bg-theme-secondary rounded text-theme-secondary">Charts</span>
+            <span className="text-xs px-2 py-1 bg-theme-secondary rounded text-theme-secondary">Historische Daten</span>
+          </div>
+        </div>
+
+        {/* Trial Warning */}
         {trialInfo.daysLeft <= 3 && (
-          <div className="bg-orange-500/20 border border-orange-500/30 rounded-lg p-3">
-            <div className="flex items-center gap-2">
-              <span className="text-orange-400">⏰</span>
-              <div>
-                <p className="text-orange-300 text-sm font-medium">
-                  Trial endet in {trialInfo.daysLeft} Tagen
-                </p>
-                <p className="text-orange-400/80 text-xs">
-                  Nutze den Verwalten-Button um dein Abo anzupassen
-                </p>
-              </div>
-            </div>
-          </div>
+          <p className="text-xs text-orange-400">
+            Trial endet bald · Abo wird automatisch verlängert
+          </p>
         )}
       </div>
     );
   }
 
-  // PREMIUM AKTIV (nach Trial) mit Theme
+  // PREMIUM AKTIV (nach Trial) - Clean Flat Design
   if (premiumStatus.isPremium) {
     const isCanceled = premiumStatus.status === 'canceled';
-    
-    return (
-      <div className="space-y-4">
-        {/* Premium Status */}
-        <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-theme-tertiary/50 rounded-full flex items-center justify-center border border-theme">
-                <span className="text-lg">{isCanceled ? '🔄' : '⭐'}</span>
-              </div>
-              <div>
-                <h3 className="text-theme-primary font-semibold">
-                  {isCanceled ? 'Premium gekündigt' : 'Premium aktiv'}
-                </h3>
-                <div className="space-y-1">
-                  {premiumStatus.status && (
-                    <p className="text-theme-secondary text-sm">
-                      Status: <span className="font-medium capitalize">{premiumStatus.status}</span>
-                    </p>
-                  )}
-                  {premiumStatus.endDate && (
-                    <p className="text-theme-secondary text-sm">
-                      {isCanceled ? 'Läuft bis:' : 'Verlängert bis:'} {premiumStatus.endDate.toLocaleDateString('de-DE')}
-                    </p>
-                  )}
-                  {premiumStatus.daysRemaining !== null && premiumStatus.daysRemaining > 0 && (
-                    <p className="text-theme-primary text-sm">
-                      Noch {premiumStatus.daysRemaining} Tage{isCanceled ? ' Premium-Zugang' : ''}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
 
-            <div className="flex gap-2">
-              <button
-                onClick={refetch}
-                disabled={actionLoading}
-                className="px-3 py-2 bg-theme-tertiary/50 text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
-              >
-                {actionLoading ? '...' : 'Aktualisieren'}
-              </button>
-              <button
-                onClick={handleCustomerPortal}
-                disabled={actionLoading}
-                className="px-3 py-2 bg-theme-primary text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors text-sm border border-theme"
-              >
-                {actionLoading ? '...' : 'Verwalten'}
-              </button>
-            </div>
+    return (
+      <div className="space-y-6">
+        {/* Status Header */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className={`w-2.5 h-2.5 rounded-full ${isCanceled ? 'bg-orange-400' : 'bg-emerald-500'}`}></div>
+            <span className="text-sm font-medium text-theme-primary">
+              {isCanceled ? 'Gekündigt' : 'Aktiv'}
+            </span>
+          </div>
+          <div className="flex gap-2">
+            <button
+              onClick={refetch}
+              disabled={actionLoading}
+              className="text-xs text-theme-muted hover:text-theme-secondary transition-colors"
+            >
+              {actionLoading ? '...' : 'Aktualisieren'}
+            </button>
+            <button
+              onClick={handleCustomerPortal}
+              disabled={actionLoading}
+              className="text-xs text-emerald-400 hover:text-emerald-300 transition-colors font-medium"
+            >
+              {actionLoading ? '...' : 'Verwalten →'}
+            </button>
           </div>
         </div>
 
-        {/* Premium Features */}
-        <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-3">
-          <h5 className="text-theme-primary font-medium mb-2 text-sm">Premium Features aktiv:</h5>
-          <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Erweiterte Analysen
+        {/* Details Grid */}
+        <div className="space-y-3">
+          {premiumStatus.endDate && (
+            <div className="flex items-center justify-between py-2 border-b border-theme">
+              <span className="text-sm text-theme-muted">
+                {isCanceled ? 'Läuft bis' : 'Nächste Verlängerung'}
+              </span>
+              <span className="text-sm text-theme-primary font-medium">
+                {premiumStatus.endDate.toLocaleDateString('de-DE')}
+              </span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Alle Charts
+          )}
+          {premiumStatus.daysRemaining !== null && premiumStatus.daysRemaining > 0 && (
+            <div className="flex items-center justify-between py-2 border-b border-theme">
+              <span className="text-sm text-theme-muted">Verbleibend</span>
+              <span className="text-sm text-theme-primary font-medium">
+                {premiumStatus.daysRemaining} Tage
+              </span>
             </div>
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Keine Werbung
-            </div>
-            <div className="flex items-center gap-1">
-              <span className="text-brand-light">✓</span> Priority Support
-            </div>
+          )}
+          <div className="flex items-center justify-between py-2">
+            <span className="text-sm text-theme-muted">Preis</span>
+            <span className="text-sm text-theme-primary font-medium">9€/Monat</span>
+          </div>
+        </div>
+
+        {/* Features - Inline */}
+        <div className="pt-2">
+          <p className="text-xs text-theme-muted mb-2">Inkludiert:</p>
+          <div className="flex flex-wrap gap-2">
+            <span className="text-xs px-2 py-1 bg-theme-secondary rounded text-theme-secondary">Alle Analysen</span>
+            <span className="text-xs px-2 py-1 bg-theme-secondary rounded text-theme-secondary">Charts</span>
+            <span className="text-xs px-2 py-1 bg-theme-secondary rounded text-theme-secondary">Priority Support</span>
           </div>
         </div>
       </div>
     );
   }
 
-  // KEIN PREMIUM - Standard Trial mit optionalem Skip - mit Theme
+  // KEIN PREMIUM - Clean Flat Design
   return (
-    <div className="space-y-4">
-      {/* Hauptsächlicher Trial Call-to-Action */}
-      <div className="bg-theme-tertiary/30 border border-theme rounded-xl p-6">
-        <div className="text-center space-y-4">
-          <div className="w-12 h-12 bg-theme-tertiary/50 rounded-full flex items-center justify-center mx-auto border border-theme">
-            <span className="text-2xl">🚀</span>
-          </div>
-          <div>
-            <h3 className="text-theme-primary font-semibold text-lg">Premium kostenlos testen</h3>
-            <p className="text-theme-secondary text-sm">
-              14 Tage alle Features gratis • Danach 9€/Monat • Jederzeit kündbar
-            </p>
-          </div>
-          <button
-            onClick={() => handleStripeCheckout(true)} // MIT Trial
-            disabled={actionLoading}
-            className="w-full px-6 py-3 bg-theme-primary text-theme-secondary rounded-lg hover:bg-theme-tertiary transition-colors font-medium flex items-center justify-center gap-2 border border-theme"
-          >
-            {actionLoading ? (
-              <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-theme-secondary"></div>
-            ) : (
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            )}
-            Kostenlos anmelden
-          </button>
-          <p className="text-xs text-theme-muted">
-            Kreditkarte erforderlich • Erste 14 Tage kostenlos • Jederzeit kündbar
-          </p>
-          
-          {/* Dezenter Skip-Link */}
-          <button
-            onClick={() => handleStripeCheckout(false)} // OHNE Trial
-            disabled={actionLoading}
-            className="text-xs text-theme-muted hover:text-theme-secondary underline transition-colors"
-          >
-            Ohne Trial direkt abonnieren
-          </button>
+    <div className="space-y-6">
+      {/* Status Header */}
+      <div className="flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-2.5 h-2.5 rounded-full bg-neutral-400"></div>
+          <span className="text-sm font-medium text-theme-primary">Free</span>
         </div>
       </div>
 
-      {/* Was ist enthalten */}
-      <div className="bg-theme-tertiary/30 border border-theme rounded-lg p-3">
-        <h5 className="text-theme-primary font-medium mb-2 text-sm">14 Tage kostenlos enthalten:</h5>
-        <div className="grid grid-cols-2 gap-1 text-xs text-theme-secondary">
-          <div className="flex items-center gap-1">
-            <span className="text-brand-light">✓</span> Alle Analysen
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-brand-light">✓</span> Interaktive Charts  
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-brand-light">✓</span> Historische Daten
-          </div>
-          <div className="flex items-center gap-1">
-            <span className="text-brand-light">✓</span> Priority Support
-          </div>
+      {/* Details Grid */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between py-2 border-b border-theme">
+          <span className="text-sm text-theme-muted">Trial verfügbar</span>
+          <span className="text-sm text-theme-primary font-medium">14 Tage kostenlos</span>
         </div>
+        <div className="flex items-center justify-between py-2 border-b border-theme">
+          <span className="text-sm text-theme-muted">Danach</span>
+          <span className="text-sm text-theme-primary font-medium">9€/Monat</span>
+        </div>
+        <div className="flex items-center justify-between py-2">
+          <span className="text-sm text-theme-muted">Kündigung</span>
+          <span className="text-sm text-theme-secondary">Jederzeit möglich</span>
+        </div>
+      </div>
+
+      {/* CTA Button */}
+      <button
+        onClick={() => handleStripeCheckout(true)}
+        disabled={actionLoading}
+        className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium rounded-lg transition-colors flex items-center justify-center gap-2"
+      >
+        {actionLoading ? (
+          <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+        ) : (
+          'Trial starten'
+        )}
+      </button>
+
+      {/* Footer */}
+      <div className="flex items-center justify-between text-xs text-theme-muted">
+        <span>Kreditkarte erforderlich</span>
+        <button
+          onClick={() => handleStripeCheckout(false)}
+          disabled={actionLoading}
+          className="hover:text-theme-secondary transition-colors"
+        >
+          Direkt abonnieren →
+        </button>
       </div>
     </div>
   );

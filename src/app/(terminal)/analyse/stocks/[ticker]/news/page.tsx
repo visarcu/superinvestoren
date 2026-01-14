@@ -1,34 +1,22 @@
-// src/app/(terminal)/analyse/stocks/[ticker]/news/page.tsx
+// src/app/(terminal)/analyse/stocks/[ticker]/news/page.tsx - FEY/QUARTR CLEAN STYLE
 'use client'
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
-import Logo from '@/components/Logo'
 import SocialPulse from '@/components/SocialPulse'
-import { 
+import {
   NewspaperIcon,
   ClockIcon,
   ArrowTopRightOnSquareIcon,
-  FunnelIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ExclamationTriangleIcon,
-  GlobeAltIcon,
-  UserIcon,
-  CalendarIcon,
-  SparklesIcon,
-  ArrowLeftIcon,
+  SignalIcon,
   ChartBarIcon,
-  DocumentTextIcon,
-  BanknotesIcon,
-  SignalIcon
+  BookmarkIcon
 } from '@heroicons/react/24/outline'
-import { 
-  BookmarkIcon as BookmarkSolidIcon,
-  HeartIcon as HeartSolidIcon
-} from '@heroicons/react/24/solid'
 
 interface NewsArticle {
   title: string
@@ -46,18 +34,6 @@ interface User {
   isPremium: boolean
 }
 
-// Echte News laden - keine Mock-Daten für Finanznachrichten!
-const loadRealNewsData = async (ticker: string): Promise<NewsArticle[]> => {
-  try {
-    // TODO: Implementiere echte News-API
-    // Vorläufig leere Liste zurückgeben bis echte API verfügbar ist
-    return []
-  } catch (error) {
-    console.error('Error loading news:', error)
-    return []
-  }
-}
-
 export default function NewsPage({ params }: { params: { ticker: string } }) {
   const ticker = params.ticker.toUpperCase()
   const [user, setUser] = useState<User | null>(null)
@@ -68,16 +44,11 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
   const [totalPages, setTotalPages] = useState(1)
   const [selectedSource, setSelectedSource] = useState<string>('all')
   const [savedArticles, setSavedArticles] = useState<Set<string>>(new Set())
-  
-  // NEU: Tab State für News vs Social
   const [activeTab, setActiveTab] = useState<'news' | 'social'>('news')
-  
-  // Get stock info for header
+
   const stock = stocks.find(s => s.ticker === ticker)
-  
   const ARTICLES_PER_PAGE = 20
 
-  // User laden
   useEffect(() => {
     async function loadUser() {
       try {
@@ -88,12 +59,7 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
             .select('is_premium')
             .eq('user_id', session.user.id)
             .maybeSingle()
-
-          setUser({
-            id: session.user.id,
-            email: session.user.email || '',
-            isPremium: profile?.is_premium || false
-          })
+          setUser({ id: session.user.id, email: session.user.email || '', isPremium: profile?.is_premium || false })
         }
       } catch (error) {
         console.error('Error loading user:', error)
@@ -102,57 +68,30 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
     loadUser()
   }, [])
 
-  // News laden - NUR wenn news tab aktiv
   useEffect(() => {
     if (activeTab !== 'news') {
-      setLoading(false) // Kein Loading für Social Tab
+      setLoading(false)
       return
     }
-    
+
     async function loadNews() {
       setLoading(true)
       setError(null)
-      
+
       try {
-        console.log(`🔍 Loading news for ${ticker}, page ${currentPage}...`)
-        
-        let articles: NewsArticle[] = []
-        
-        try {
-          // Stock News über sichere Backend API Route (mit eingebauter Fallback-Logik)
-          const newsRes = await fetch(
-            `/api/stock-news/${ticker}?page=${currentPage}&limit=${ARTICLES_PER_PAGE}`
-          )
-          
-          if (newsRes.ok) {
-            const data = await newsRes.json()
-            articles = data.articles || []
-            console.log(`✅ Stock News API successful: ${articles.length} articles for ${ticker}`)
-          } else {
-            console.error(`❌ Stock News API failed for ${ticker}:`, newsRes.status)
-            articles = []
-          }
-        } catch (err) {
-          console.warn(`❌ News API error for ${ticker}:`, err)
-          articles = []
-        }
+        const newsRes = await fetch(`/api/stock-news/${ticker}?page=${currentPage}&limit=${ARTICLES_PER_PAGE}`)
 
-        // Fallback zu Mock-Daten wenn keine echten Daten
-        if (articles.length === 0) {
-          articles = await loadRealNewsData(ticker)
-          console.log('⚠️ Using mock news data')
-          setError('Keine aktuellen Nachrichten verfügbar. Beispieldaten werden angezeigt.')
+        if (newsRes.ok) {
+          const data = await newsRes.json()
+          setNewsData(data.articles || [])
+        } else {
+          setNewsData([])
+          setError('Keine aktuellen Nachrichten verfügbar.')
         }
-
-        setNewsData(articles)
-        setTotalPages(Math.max(1, Math.ceil(articles.length / ARTICLES_PER_PAGE)))
-        
       } catch (error) {
-        console.error('❌ Critical error loading news:', error)
+        console.error('Error loading news:', error)
         setError('Fehler beim Laden der Nachrichten')
-        const newsArticles = await loadRealNewsData(ticker)
-        setNewsData(newsArticles)
-        setTotalPages(1)
+        setNewsData([])
       } finally {
         setLoading(false)
       }
@@ -163,28 +102,25 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
     }
   }, [ticker, currentPage, user, activeTab])
 
+  useEffect(() => {
+    setTotalPages(Math.max(1, Math.ceil(newsData.length / ARTICLES_PER_PAGE)))
+  }, [newsData])
+
   const formatDate = (dateString: string) => {
     const date = new Date(dateString)
     const now = new Date()
     const diffTime = Math.abs(now.getTime() - date.getTime())
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24))
-    
+
     if (diffDays === 1) return 'Heute'
     if (diffDays === 2) return 'Gestern'
     if (diffDays <= 7) return `vor ${diffDays - 1} Tagen`
-    
-    return date.toLocaleDateString('de-DE', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    })
+
+    return date.toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit', year: 'numeric' })
   }
 
   const formatTime = (dateString: string) => {
-    return new Date(dateString).toLocaleTimeString('de-DE', {
-      hour: '2-digit',
-      minute: '2-digit'
-    })
+    return new Date(dateString).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
   }
 
   const toggleSaveArticle = (articleUrl: string) => {
@@ -197,352 +133,232 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
     setSavedArticles(newSaved)
   }
 
-  const getSourceIcon = (site: string) => {
-    if (site.toLowerCase().includes('reuters')) return '📰'
-    if (site.toLowerCase().includes('bloomberg')) return '💼'
-    if (site.toLowerCase().includes('yahoo')) return '🟢'
-    if (site.toLowerCase().includes('marketwatch')) return '📈'
-    if (site.toLowerCase().includes('cnbc')) return '📺'
-    return '🌐'
-  }
-
-  const filteredNews = selectedSource === 'all' 
-    ? newsData 
+  const filteredNews = selectedSource === 'all'
+    ? newsData
     : newsData.filter(article => article.site.toLowerCase().includes(selectedSource.toLowerCase()))
 
   const sources = Array.from(new Set(newsData.map(article => article.site))).slice(0, 5)
 
   return (
     <div className="min-h-screen bg-theme-primary">
-      <main className="w-full px-6 lg:px-8 py-8 space-y-8">
-        
-        {/* Info Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <p className="text-theme-secondary">
-              {activeTab === 'news' 
-                ? `Aktuelle News und Marktentwicklungen für` 
-                : `Social Media Sentiment für`} <span className="font-semibold text-theme-primary">{ticker}</span>
-            </p>
-            <p className="text-theme-muted text-sm mt-1">
-              {activeTab === 'news' 
-                ? 'Kostenlos verfügbar • Täglich aktualisiert'
-                : 'StockTwits & Twitter Analyse • Live Daten'}
-            </p>
-          </div>
-          
-          <div className="flex items-center gap-2 px-3 py-2 bg-theme-secondary/30 border border-theme/20 text-theme-primary rounded-lg text-sm">
-            <div className="w-2 h-2 bg-theme-primary rounded-full animate-pulse"></div>
-            <span>{activeTab === 'news' ? 'Live News' : 'Live Sentiment'}</span>
-          </div>
+      <main className="w-full px-6 lg:px-8 py-8 space-y-6">
+
+        {/* Tab Navigation - Pill Style */}
+        <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg w-fit">
+          {[
+            { id: 'news', label: 'Nachrichten', icon: NewspaperIcon },
+            { id: 'social', label: 'Social Pulse', icon: SignalIcon }
+          ].map((tab) => {
+            const Icon = tab.icon
+            const isActive = activeTab === tab.id
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setActiveTab(tab.id as any)}
+                className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                  isActive
+                    ? 'bg-theme-card text-theme-primary shadow-sm'
+                    : 'text-theme-muted hover:text-theme-secondary'
+                }`}
+              >
+                <Icon className="w-4 h-4" />
+                {tab.label}
+              </button>
+            )
+          })}
         </div>
 
-        {/* TAB NAVIGATION */}
-        <div className="bg-theme-card rounded-xl p-1 border border-theme/10">
-          <nav className="flex gap-1">
-            <button
-              onClick={() => setActiveTab('news')}
-              className={`
-                flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all
-                ${activeTab === 'news'
-                  ? 'bg-theme-primary text-white shadow-md'
-                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
-                }
-              `}
-            >
-              <NewspaperIcon className="w-4 h-4" />
-              Nachrichten
-            </button>
-            
-            <button
-              onClick={() => setActiveTab('social')}
-              className={`
-                flex-1 flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-sm font-medium transition-all
-                ${activeTab === 'social'
-                  ? 'bg-theme-primary text-white shadow-md'
-                  : 'text-theme-secondary hover:text-theme-primary hover:bg-theme-secondary/30'
-                }
-              `}
-            >
-              <SignalIcon className="w-4 h-4" />
-              Social Pulse
-            </button>
-          </nav>
-        </div>
-
-        {/* CONTENT AREA */}
+        {/* News Tab Content */}
         {activeTab === 'news' ? (
           <>
-            {/* Error Message */}
-            {error && (
-              <div className="bg-theme-secondary/30 border border-theme/20 rounded-xl p-4 flex items-center gap-3">
-                <ExclamationTriangleIcon className="w-5 h-5 text-theme-secondary" />
-                <span className="text-theme-secondary">{error}</span>
-              </div>
-            )}
-
-            {/* Filter Bar - nur für News */}
-            <div className="bg-theme-card rounded-xl p-4 border border-theme/10">
-              <div className="flex flex-wrap items-center gap-3">
-                <div className="flex items-center gap-2">
-                  <div className="w-6 h-6 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
-                    <FunnelIcon className="w-3 h-3 text-theme-secondary" />
-                  </div>
-                  <span className="text-theme-muted font-medium text-sm">Filter:</span>
-                </div>
-                
+            {/* Filter Bar - Clean Style */}
+            {newsData.length > 0 && (
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="text-xs text-theme-muted">Filter:</span>
                 <button
                   onClick={() => setSelectedSource('all')}
-                  className={`px-3 py-1.5 rounded-lg transition-all text-sm ${
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                     selectedSource === 'all'
-                      ? 'bg-theme-primary text-white'
-                      : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
+                      ? 'bg-theme-card text-theme-primary border border-theme-light'
+                      : 'text-theme-muted hover:text-theme-secondary'
                   }`}
                 >
                   Alle Quellen ({newsData.length})
                 </button>
-                
                 {sources.map(source => (
                   <button
                     key={source}
                     onClick={() => setSelectedSource(source)}
-                    className={`px-3 py-1.5 rounded-lg transition-all flex items-center gap-2 text-sm ${
+                    className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                       selectedSource === source
-                        ? 'bg-theme-primary text-white'
-                        : 'bg-theme-tertiary/50 text-theme-primary hover:bg-theme-tertiary/70'
+                        ? 'bg-theme-card text-theme-primary border border-theme-light'
+                        : 'text-theme-muted hover:text-theme-secondary'
                     }`}
                   >
-                    <span>{getSourceIcon(source)}</span>
                     {source}
                   </button>
                 ))}
               </div>
-            </div>
+            )}
 
-            {/* News Articles */}
+            {/* Error Message */}
+            {error && (
+              <div className="bg-theme-card rounded-xl border border-theme-light p-4">
+                <div className="flex items-center gap-3">
+                  <ExclamationTriangleIcon className="w-5 h-5 text-theme-muted" />
+                  <span className="text-theme-muted text-sm">{error}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Loading State */}
             {loading ? (
               <div className="flex items-center justify-center h-64">
                 <div className="text-center">
-                  <div className="w-6 h-6 border-2 border-theme-primary border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-                  <p className="text-theme-muted mt-4">Lade Nachrichten für {ticker}...</p>
+                  <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+                  <span className="text-theme-muted text-sm">Lade Nachrichten...</span>
                 </div>
               </div>
             ) : (
-              <div className="space-y-4">
-                {filteredNews.map((article, index) => (
-                  <article 
-                    key={article.url + index}
-                    className="bg-theme-card rounded-xl hover:bg-theme-secondary/20 transition-all overflow-hidden group border border-theme/10"
-                  >
-                    <div className="p-6">
-                      <div className="flex flex-col lg:flex-row gap-6">
-                        {/* Article Image */}
-                        {article.image && (
-                          <div className="lg:w-64 h-40 lg:h-24 rounded-lg overflow-hidden flex-shrink-0">
-                            <img 
-                              src={article.image} 
-                              alt={article.title}
-                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                              onError={(e) => {
-                                e.currentTarget.src = `https://images.unsplash.com/photo-1611532736853-04841ac2c85b?w=400&h=200&fit=crop`
-                              }}
-                            />
-                          </div>
-                        )}
-                        
-                        {/* Article Content */}
-                        <div className="flex-1 space-y-3">
-                          {/* Article Header */}
-                          <div className="flex items-start justify-between gap-4">
-                            <h2 className="text-lg font-semibold text-theme-primary leading-tight group-hover:text-theme-secondary transition-colors">
-                              {article.title}
-                            </h2>
-                            
-                            {/* Bookmark nur für Premium User */}
-                            {user?.isPremium && (
-                              <button
-                                onClick={() => toggleSaveArticle(article.url)}
-                                className="p-1.5 rounded-lg bg-theme-tertiary/50 hover:bg-theme-tertiary/70 transition-colors"
-                              >
-                                <BookmarkSolidIcon 
-                                  className={`w-4 h-4 ${
-                                    savedArticles.has(article.url) ? 'text-theme-primary' : 'text-theme-muted'
-                                  }`} 
-                                />
-                              </button>
-                            )}
-                          </div>
+              <>
+                {/* News Articles - Clean Card Style */}
+                <div className="space-y-4">
+                  {filteredNews.map((article, index) => (
+                    <article
+                      key={article.url + index}
+                      className="bg-theme-card rounded-xl border border-theme-light overflow-hidden hover:border-emerald-500/30 transition-colors group"
+                    >
+                      <div className="p-5">
+                        <div className="flex flex-col lg:flex-row gap-5">
+                          {/* Article Image */}
+                          {article.image && (
+                            <div className="lg:w-48 h-32 lg:h-28 rounded-lg overflow-hidden flex-shrink-0 bg-theme-secondary/30">
+                              <img
+                                src={article.image}
+                                alt={article.title}
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                onError={(e) => {
+                                  e.currentTarget.style.display = 'none'
+                                }}
+                              />
+                            </div>
+                          )}
 
-                          {/* Article Meta */}
-                          <div className="flex items-center gap-4 text-sm text-theme-muted">
-                            <div className="flex items-center gap-1">
-                              <GlobeAltIcon className="w-3 h-3" />
-                              <span>{getSourceIcon(article.site)} {article.site}</span>
+                          {/* Article Content */}
+                          <div className="flex-1 space-y-3">
+                            {/* Header */}
+                            <div className="flex items-start justify-between gap-4">
+                              <h2 className="text-base font-medium text-theme-primary leading-snug group-hover:text-emerald-400 transition-colors">
+                                {article.title}
+                              </h2>
+                              {user?.isPremium && (
+                                <button
+                                  onClick={() => toggleSaveArticle(article.url)}
+                                  className="p-1.5 rounded-lg hover:bg-theme-secondary/30 transition-colors flex-shrink-0"
+                                >
+                                  <BookmarkIcon
+                                    className={`w-4 h-4 ${
+                                      savedArticles.has(article.url) ? 'text-emerald-400 fill-emerald-400' : 'text-theme-muted'
+                                    }`}
+                                  />
+                                </button>
+                              )}
                             </div>
-                            
-                            <div className="flex items-center gap-1">
-                              <ClockIcon className="w-3 h-3" />
-                              <span>{formatDate(article.publishedDate)} • {formatTime(article.publishedDate)}</span>
-                            </div>
-                            
-                            {article.symbol && (
-                              <span className="px-2 py-0.5 bg-theme-secondary/30 text-theme-primary rounded text-xs font-medium">
-                                {article.symbol}
+
+                            {/* Meta */}
+                            <div className="flex items-center gap-4 text-xs text-theme-muted">
+                              <span>{article.site}</span>
+                              <span className="flex items-center gap-1">
+                                <ClockIcon className="w-3 h-3" />
+                                {formatDate(article.publishedDate)} • {formatTime(article.publishedDate)}
                               </span>
-                            )}
-                          </div>
+                              {article.symbol && (
+                                <span className="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded text-xs">
+                                  {article.symbol}
+                                </span>
+                              )}
+                            </div>
 
-                          {/* Article Text */}
-                          <p className="text-theme-secondary text-sm leading-relaxed">
-                            {article.text}
-                          </p>
+                            {/* Text */}
+                            <p className="text-theme-muted text-sm line-clamp-2">
+                              {article.text}
+                            </p>
 
-                          {/* Article Actions */}
-                          <div className="flex items-center justify-between pt-3 border-t border-theme/5">
+                            {/* Action */}
                             <Link
                               href={article.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="inline-flex items-center gap-2 px-3 py-1.5 bg-theme-secondary/30 hover:bg-theme-secondary/50 text-theme-primary rounded-lg transition-colors text-sm font-medium"
+                              className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
                             >
-                              <span>Artikel lesen</span>
+                              Artikel lesen
                               <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                             </Link>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-            )}
+                    </article>
+                  ))}
+                </div>
 
-            {/* Pagination - nur für News */}
-            {totalPages > 1 && (
-              <div className="flex items-center justify-center gap-4">
-                <button
-                  onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
-                  disabled={currentPage === 0}
-                  className="flex items-center gap-2 px-4 py-2 bg-theme-card hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme/10"
-                >
-                  <ChevronLeftIcon className="w-4 h-4" />
-                  Zurück
-                </button>
-                
-                <span className="text-theme-muted text-sm">
-                  Seite {currentPage + 1} von {totalPages}
-                </span>
-                
-                <button
-                  onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
-                  disabled={currentPage >= totalPages - 1}
-                  className="flex items-center gap-2 px-4 py-2 bg-theme-card hover:bg-theme-secondary/50 disabled:opacity-50 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-colors border border-theme/10"
-                >
-                  Weiter
-                  <ChevronRightIcon className="w-4 h-4" />
-                </button>
-              </div>
+                {/* Empty State */}
+                {filteredNews.length === 0 && !error && (
+                  <div className="bg-theme-card rounded-xl border border-theme-light p-8 text-center">
+                    <div className="w-12 h-12 bg-theme-secondary/30 rounded-full flex items-center justify-center mx-auto mb-3">
+                      <NewspaperIcon className="w-6 h-6 text-theme-muted" />
+                    </div>
+                    <p className="text-theme-muted text-sm">Keine Nachrichten für {ticker} gefunden</p>
+                  </div>
+                )}
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-4">
+                    <button
+                      onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
+                      disabled={currentPage === 0}
+                      className="flex items-center gap-2 px-4 py-2 bg-theme-card border border-theme-light rounded-lg text-sm text-theme-primary hover:border-emerald-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      <ChevronLeftIcon className="w-4 h-4" />
+                      Zurück
+                    </button>
+                    <span className="text-theme-muted text-sm">
+                      Seite {currentPage + 1} von {totalPages}
+                    </span>
+                    <button
+                      onClick={() => setCurrentPage(Math.min(totalPages - 1, currentPage + 1))}
+                      disabled={currentPage >= totalPages - 1}
+                      className="flex items-center gap-2 px-4 py-2 bg-theme-card border border-theme-light rounded-lg text-sm text-theme-primary hover:border-emerald-500/30 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                    >
+                      Weiter
+                      <ChevronRightIcon className="w-4 h-4" />
+                    </button>
+                  </div>
+                )}
+              </>
             )}
           </>
         ) : (
-          /* SOCIAL PULSE TAB */
-          <div className="bg-theme-card rounded-xl p-6 border border-theme/10">
-            <SocialPulse ticker={ticker} />
-          </div>
+          /* Social Pulse Tab */
+          <SocialPulse ticker={ticker} />
         )}
 
-        {/* CTA für Analysis */}
-        <div className="bg-theme-card rounded-lg p-6 border border-theme/10">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="text-center sm:text-left">
-              <h3 className="text-lg font-semibold text-theme-primary mb-1">
-                Detaillierte {ticker} Analyse verfügbar
-              </h3>
-              <p className="text-theme-muted text-sm">
-                Financial Statements • Wachstumsanalyse • DCF Bewertung • Advanced Charts
-              </p>
-            </div>
-            
-            <div className="flex items-center gap-3">
-              <Link
-                href={`/analyse/stocks/${ticker.toLowerCase()}`}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-theme-primary hover:bg-theme-secondary text-white rounded-lg transition-colors"
-              >
-                <ChartBarIcon className="w-4 h-4" />
-                Zur Analyse
-              </Link>
-              
-              <Link
-                href={`/analyse/stocks/${ticker.toLowerCase()}/financials`}
-                className="inline-flex items-center gap-2 px-4 py-2 bg-theme-secondary hover:bg-theme-tertiary text-theme-primary rounded-lg transition-colors"
-              >
-                <DocumentTextIcon className="w-4 h-4" />
-                Financials
-              </Link>
-            </div>
+        {/* Quick Link - Clean Style */}
+        <Link
+          href={`/analyse/stocks/${ticker.toLowerCase()}`}
+          className="flex items-center gap-3 p-4 bg-theme-card rounded-xl border border-theme-light hover:border-emerald-500/30 transition-colors group"
+        >
+          <div className="w-10 h-10 bg-emerald-500/10 rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-5 h-5 text-emerald-400" />
           </div>
-        </div>
-
-        {/* Premium User Benefits */}
-        {user?.isPremium && (
-          <div className="bg-theme-secondary/20 rounded-xl p-6 border border-theme/20">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-8 h-8 bg-theme-primary rounded-lg flex items-center justify-center">
-                <SparklesIcon className="w-4 h-4 text-white" />
-              </div>
-              <h3 className="text-lg font-semibold text-theme-primary">
-                Premium Aktiv - Erweiterte Features verfügbar
-              </h3>
-            </div>
-            <p className="text-theme-muted text-sm mb-4">
-              Du hast Zugang zu Financial Statements, Wachstumsanalysen, DCF Calculator und weiteren Premium-Features.
+          <div>
+            <p className="text-sm font-medium text-theme-primary group-hover:text-emerald-400 transition-colors">
+              {ticker} Analyse
             </p>
-            <div className="flex flex-wrap gap-2">
-              <Link
-                href={`/analyse/stocks/${ticker.toLowerCase()}/financials`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-theme-secondary/30 text-theme-primary rounded-md text-sm hover:bg-theme-secondary/50 transition-colors"
-              >
-                <DocumentTextIcon className="w-3 h-3" />
-                Financial Statements
-              </Link>
-              <Link
-                href={`/analyse/stocks/${ticker.toLowerCase()}/growth`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-theme-secondary/30 text-theme-primary rounded-md text-sm hover:bg-theme-secondary/50 transition-colors"
-              >
-                <ChartBarIcon className="w-3 h-3" />
-                Wachstumsanalyse
-              </Link>
-              <Link
-                href={`/analyse/dcf?ticker=${ticker}`}
-                className="inline-flex items-center gap-1 px-3 py-1.5 bg-theme-secondary/30 text-theme-primary rounded-md text-sm hover:bg-theme-secondary/50 transition-colors"
-              >
-                <BanknotesIcon className="w-3 h-3" />
-                DCF Calculator
-              </Link>
-            </div>
+            <p className="text-xs text-theme-muted">Kennzahlen, Charts, Bewertungen</p>
           </div>
-        )}
+        </Link>
 
-        {/* Non-Premium User - Soft CTA */}
-        {!user?.isPremium && (
-          <div className="bg-theme-card rounded-xl p-6 border border-theme/10 text-center">
-            <div className="w-12 h-12 mx-auto mb-4 bg-theme-secondary/20 rounded-xl flex items-center justify-center">
-              <SparklesIcon className="w-6 h-6 text-theme-secondary" />
-            </div>
-            <h3 className="text-lg font-semibold text-theme-primary mb-2">
-              Erweiterte Analyse-Tools
-            </h3>
-            <p className="text-theme-muted text-sm mb-4 max-w-md mx-auto">
-              Erhalte Zugang zu Financial Statements, Wachstumsanalysen, DCF Calculator und erweiterten Charts für {ticker} und 3000+ weitere Aktien.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-theme-primary hover:bg-theme-secondary text-white rounded-lg transition-colors text-sm"
-            >
-              Premium Features entdecken
-            </Link>
-          </div>
-        )}
       </main>
     </div>
   )

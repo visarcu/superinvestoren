@@ -1,16 +1,16 @@
-// src/components/WorkingStockChart.tsx - CLEAN VERSION mit Währungsformatierung
+// src/components/WorkingStockChart.tsx - FEY/QUARTR CLEAN STYLE
 'use client'
 import React, { useState, useMemo, useEffect, useRef } from 'react'
-import { 
-  ResponsiveContainer, 
+import {
+  ResponsiveContainer,
   ComposedChart,
-  Area, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
+  Area,
+  XAxis,
+  YAxis,
   Tooltip,
   Line
 } from 'recharts'
+import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { useCurrency } from '@/lib/CurrencyContext'
 
@@ -39,117 +39,48 @@ const TIME_RANGES = [
 ]
 
 const CHART_MODES = [
-  { id: 'price', label: 'Preis', icon: '💰' },
-  { id: 'total_return', label: 'Performance', icon: '📈' },
-  { id: 'market_cap', label: 'Marktkapitalisierung', icon: '🏢' },
-  { id: '10k_growth', label: '10.000€ Investment', icon: '💎' },
+  { id: 'price', label: 'Preis' },
+  { id: 'total_return', label: 'Performance' },
 ]
 
-// ✅ GRÜN als erste Farbe (war blau)
-const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4', '#f97316']
+const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4']
 
 const POPULAR_STOCKS = [
-  { symbol: 'AAPL', name: 'Apple Inc.' },
-  { symbol: 'MSFT', name: 'Microsoft Corporation' },
-  { symbol: 'GOOGL', name: 'Alphabet Inc.' },
-  { symbol: 'NVDA', name: 'NVIDIA Corporation' },
-  { symbol: 'TSLA', name: 'Tesla Inc.' },
-  { symbol: 'AMZN', name: 'Amazon.com Inc.' },
-  { symbol: 'META', name: 'Meta Platforms Inc.' },
-  { symbol: 'NFLX', name: 'Netflix Inc.' },
-  { symbol: 'AMD', name: 'Advanced Micro Devices' },
-  { symbol: 'INTC', name: 'Intel Corporation' },
-  { symbol: 'CRM', name: 'Salesforce Inc.' },
-  { symbol: 'ORCL', name: 'Oracle Corporation' },
-  { symbol: 'ADBE', name: 'Adobe Inc.' },
-  { symbol: 'PYPL', name: 'PayPal Holdings Inc.' },
-  { symbol: 'UBER', name: 'Uber Technologies Inc.' },
-  { symbol: 'ZOOM', name: 'Zoom Video Communications' },
-  { symbol: 'SNAP', name: 'Snap Inc.' },
-  { symbol: 'SPOT', name: 'Spotify Technology SA' },
-  { symbol: 'SQ', name: 'Block Inc.' },
-  { symbol: 'SPY', name: 'S&P 500 ETF (USA Index)' },
-  { symbol: 'QQQ', name: 'NASDAQ 100 ETF (Tech Index)' },
-  { symbol: 'VTI', name: 'Total Stock Market ETF (USA Gesamt)' },
-  { symbol: 'IWDA', name: 'MSCI World ETF (Weltindex)' },
-  { symbol: 'EUNL', name: 'MSCI World EUR ETF (Weltindex Euro)' },
-  { symbol: 'VWRL', name: 'FTSE All-World ETF (Weltindex)' },
-  { symbol: 'DIA', name: 'Dow Jones ETF (USA Index)' },
-  { symbol: 'IVV', name: 'iShares S&P 500 ETF (USA Index)' },
+  { symbol: 'AAPL', name: 'Apple' },
+  { symbol: 'MSFT', name: 'Microsoft' },
+  { symbol: 'GOOGL', name: 'Alphabet' },
+  { symbol: 'NVDA', name: 'NVIDIA' },
+  { symbol: 'TSLA', name: 'Tesla' },
+  { symbol: 'AMZN', name: 'Amazon' },
+  { symbol: 'META', name: 'Meta' },
+  { symbol: 'SPY', name: 'S&P 500 ETF' },
+  { symbol: 'QQQ', name: 'NASDAQ 100 ETF' },
 ]
 
 export default function WorkingStockChart({ ticker, data, onAddComparison }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
-  const [comparisonStocks, setComparisonStocks] = useState<Array<{ticker: string, data: StockData[], color: string}>>([])
+  const [comparisonStocks, setComparisonStocks] = useState<Array<{ ticker: string, data: StockData[], color: string }>>([])
   const [newTicker, setNewTicker] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [suggestions, setSuggestions] = useState<Array<{symbol: string, name: string}>>([])
+  const [suggestions, setSuggestions] = useState<Array<{ symbol: string, name: string }>>([])
   const [showSuggestions, setShowSuggestions] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [showMovingAverages, setShowMovingAverages] = useState(false)
+  const [showMA, setShowMA] = useState(false)
   const chartContainerRef = useRef<HTMLDivElement>(null)
-  
+
   const { theme } = useTheme()
-  
-  const { 
-    formatCurrency, 
-    formatStockPrice, 
-    formatPercentage, 
-    formatMarketCap 
-  } = useCurrency()
+  const { formatStockPrice, formatPercentage } = useCurrency()
 
-  // Theme-aware colors
-  const getThemeColors = () => {
-    const isDark = theme === 'dark'
-    return {
-      chartBg: isDark ? 'transparent' : 'transparent',
-      textPrimary: isDark ? '#ffffff' : '#0f172a',
-      textSecondary: isDark ? '#d1d5db' : '#374151',
-      textMuted: isDark ? '#9ca3af' : '#64748b',
-      buttonBg: isDark ? '#374151' : '#f1f5f9',
-      buttonBgActive: isDark ? '#ffffff' : '#ffffff',
-      buttonText: isDark ? '#d1d5db' : '#475569',
-      buttonTextActive: isDark ? '#111827' : '#111827',
-      buttonHover: isDark ? '#4b5563' : '#e2e8f0',
-      inputBg: isDark ? '#374151' : '#ffffff',
-      inputBorder: isDark ? '#4b5563' : '#d1d5db',
-      inputText: isDark ? '#ffffff' : '#111827',
-      inputPlaceholder: isDark ? '#9ca3af' : '#9ca3af',
-      gridColor: isDark ? '#4b5563' : '#cbd5e1',
-      axisColor: isDark ? '#6b7280' : '#64748b',
-      tooltipBg: isDark ? '#1f2937' : '#ffffff',
-      tooltipBorder: isDark ? '#4b5563' : '#d1d5db',
-      tooltipText: isDark ? '#ffffff' : '#111827',
-      statsBg: isDark ? 'rgba(31, 41, 55, 0.2)' : 'rgba(241, 245, 249, 0.8)',
-      statsCardBg: isDark ? 'rgba(55, 65, 81, 0.2)' : 'rgba(255, 255, 255, 0.9)',
-      suggestionsBg: isDark ? '#1f2937' : '#ffffff',
-      suggestionsBorder: isDark ? '#4b5563' : '#d1d5db',
-      suggestionsHover: isDark ? '#374151' : '#f8fafc',
-    }
-  }
-
-  const themeColors = getThemeColors()
-
-  // Moving Averages berechnen
-  const calculateMovingAverage = (data: StockData[], period: number) => {
-    return data.map((item, index) => {
-      if (index < period - 1) return { ...item, ma: null }
-      
-      const slice = data.slice(index - period + 1, index + 1)
-      const average = slice.reduce((sum, d) => sum + d.close, 0) / period
-      
-      return { ...item, ma: average }
-    })
-  }
+  const isDark = theme === 'dark'
 
   // Filter data by time range
   const getFilteredData = (stockData: StockData[]) => {
     if (!stockData.length) return []
-    
+
     const now = new Date()
     let cutoffDate: Date
-    
+
     if (selectedRange === 'YTD') {
       cutoffDate = new Date(now.getFullYear(), 0, 1)
     } else if (selectedRange === 'MAX') {
@@ -159,68 +90,64 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       if (!timeRange || typeof timeRange.days !== 'number') {
         return stockData.sort((a, b) => a.date.localeCompare(b.date))
       }
-      
+
       const days = timeRange.days
       if (days === 1) {
         const sortedData = stockData.sort((a, b) => b.date.localeCompare(a.date))
         return sortedData.slice(0, Math.min(5, sortedData.length)).reverse()
       }
-      
+
       cutoffDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000)
     }
 
     const filtered = stockData
       .filter(d => new Date(d.date) >= cutoffDate)
       .sort((a, b) => a.date.localeCompare(b.date))
-    
+
     if (filtered.length === 0 && stockData.length > 0) {
       const sortedData = stockData.sort((a, b) => b.date.localeCompare(a.date))
       return sortedData.slice(0, Math.min(10, sortedData.length)).reverse()
     }
-    
+
     return filtered
   }
 
-  // Chart Data Berechnung
-  const calculateChartData = (stockData: StockData[], mode: string, tickerSymbol: string) => {
+  // Calculate chart data
+  const calculateChartData = (stockData: StockData[], mode: string) => {
     const filteredData = getFilteredData(stockData)
     if (!filteredData.length) return []
 
     const basePrice = filteredData[0].close
 
     return filteredData.map(d => {
-      switch (mode) {
-        case 'price':
-          return { date: d.date, value: d.close }
-        case 'total_return':
-          return { 
-            date: d.date, 
-            value: ((d.close - basePrice) / basePrice) * 100 
-          }
-        case 'market_cap':
-          return { 
-            date: d.date, 
-            value: d.close * 1000000000
-          }
-        case '10k_growth':
-          return { 
-            date: d.date, 
-            value: 10000 * (d.close / basePrice)
-          }
-        default:
-          return { date: d.date, value: d.close }
+      if (mode === 'total_return') {
+        return { date: d.date, value: ((d.close - basePrice) / basePrice) * 100 }
       }
+      return { date: d.date, value: d.close }
     })
   }
 
-  // Chart Data mit Moving Averages
+  // Moving Average
+  const calculateMA = (stockData: StockData[], period: number) => {
+    return stockData.map((item, index) => {
+      if (index < period - 1) return null
+      const slice = stockData.slice(index - period + 1, index + 1)
+      return slice.reduce((sum, d) => sum + d.close, 0) / period
+    })
+  }
+
+  // Chart data
   const chartData = useMemo(() => {
-    const mainData = calculateChartData(data, selectedMode, ticker)
+    const mainData = calculateChartData(data, selectedMode)
     if (!mainData.length) return []
 
-    let result = mainData.map(d => ({
+    const filteredData = getFilteredData(data)
+    const ma50 = showMA ? calculateMA(filteredData, 50) : []
+
+    let result = mainData.map((d, i) => ({
       date: d.date,
       [ticker]: d.value,
+      ma50: ma50[i] || null,
       formattedDate: new Date(d.date).toLocaleDateString('de-DE', {
         day: '2-digit',
         month: '2-digit',
@@ -229,7 +156,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     }))
 
     comparisonStocks.forEach(stock => {
-      const stockData = calculateChartData(stock.data, selectedMode, stock.ticker)
+      const stockData = calculateChartData(stock.data, selectedMode)
       result.forEach(item => {
         const stockPoint = stockData.find(s => s.date === item.date)
         if (stockPoint) {
@@ -238,133 +165,80 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       })
     })
 
-    if (showMovingAverages && selectedMode === 'price') {
-      const filteredData = getFilteredData(data)
-      const ma20Data = calculateMovingAverage(filteredData, 20)
-      const ma50Data = calculateMovingAverage(filteredData, 50)
-      
-      result.forEach(item => {
-        const ma20Point = ma20Data.find(d => d.date === item.date)
-        const ma50Point = ma50Data.find(d => d.date === item.date)
-        
-        if (ma20Point?.ma) item[`${ticker}_MA20`] = ma20Point.ma
-        if (ma50Point?.ma) item[`${ticker}_MA50`] = ma50Point.ma
-      })
-    }
-
     return result
-  }, [data, comparisonStocks, selectedRange, selectedMode, ticker, showMovingAverages])
+  }, [data, comparisonStocks, selectedRange, selectedMode, ticker, showMA])
 
-  // Fullscreen toggle
-  const toggleFullscreen = async () => {
-    if (!chartContainerRef.current) return
-
-    try {
-      if (!isFullscreen) {
-        if (chartContainerRef.current.requestFullscreen) {
-          await chartContainerRef.current.requestFullscreen()
-        }
-      } else {
-        if (document.exitFullscreen) {
-          await document.exitFullscreen()
-        }
-      }
-    } catch (error) {
-      console.error('Fullscreen error:', error)
-    }
-  }
-
-  // Fullscreen change listener
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement)
-    }
-
-    document.addEventListener('fullscreenchange', handleFullscreenChange)
-    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
-  }, [])
-
-  // Autocomplete Logic
-  useEffect(() => {
-    if (!newTicker.trim() || newTicker.length < 1) {
-      setSuggestions([])
-      setShowSuggestions(false)
-      return
-    }
-
-    const query = newTicker.toLowerCase()
-    const matches = POPULAR_STOCKS.filter(stock => 
-      stock.symbol.toLowerCase().includes(query) || 
-      stock.name.toLowerCase().includes(query)
-    ).slice(0, 8)
-
-    setSuggestions(matches)
-    setShowSuggestions(matches.length > 0)
-  }, [newTicker])
-
-  // Current price
+  // Current price & stats
   const currentPrice = useMemo(() => {
     if (!data.length) return 0
     const sortedData = [...data].sort((a, b) => b.date.localeCompare(a.date))
     return sortedData[0].close
   }, [data])
 
-  // Performance stats calculation
   const performanceStats = useMemo(() => {
-    if (!chartData.length) return {}
-    
-    const stats: Record<string, {change: number, changePercent: number, endValue: number}> = {}
-    const allStocks = [ticker, ...comparisonStocks.map(s => s.ticker)]
-    
-    allStocks.forEach(stockTicker => {
-      const firstValue = chartData[0][stockTicker] as number
-      const lastValue = chartData[chartData.length - 1][stockTicker] as number
-      
-      if (typeof firstValue === 'number' && typeof lastValue === 'number') {
-        if (selectedMode === 'total_return') {
-          stats[stockTicker] = { 
-            change: lastValue - firstValue, 
-            changePercent: lastValue,
-            endValue: lastValue
-          }
-        } else if (firstValue > 0) {
-          const change = lastValue - firstValue
-          const changePercent = (change / firstValue) * 100
-          const endValue = stockTicker === ticker ? currentPrice : lastValue
-          stats[stockTicker] = { change, changePercent, endValue }
-        }
-      }
-    })
-    
-    return stats
-  }, [chartData, ticker, comparisonStocks, selectedMode, currentPrice])
+    if (!chartData.length) return null
+    const firstValue = chartData[0][ticker] as number
+    const lastValue = chartData[chartData.length - 1][ticker] as number
 
-  // Suggestion selection
-  const handleSelectSuggestion = (suggestion: {symbol: string, name: string}) => {
-    setNewTicker(suggestion.symbol)
-    setShowSuggestions(false)
-    setTimeout(() => {
-      if (suggestion.symbol !== ticker && !comparisonStocks.some(s => s.ticker === suggestion.symbol)) {
-        handleAddStockWithTicker(suggestion.symbol)
+    if (typeof firstValue !== 'number' || typeof lastValue !== 'number' || firstValue <= 0) return null
+
+    if (selectedMode === 'total_return') {
+      return { changePercent: lastValue }
+    }
+
+    return { changePercent: ((lastValue - firstValue) / firstValue) * 100 }
+  }, [chartData, ticker, selectedMode])
+
+  // Fullscreen
+  const toggleFullscreen = async () => {
+    if (!chartContainerRef.current) return
+    try {
+      if (!isFullscreen) {
+        await chartContainerRef.current.requestFullscreen?.()
+      } else {
+        await document.exitFullscreen?.()
       }
-    }, 100)
+    } catch (error) {
+      console.error('Fullscreen error:', error)
+    }
   }
 
-  // Add stock with specific ticker
-  const handleAddStockWithTicker = async (tickerToAdd: string) => {
-    if (!onAddComparison) return
-    
+  useEffect(() => {
+    const handleFullscreenChange = () => setIsFullscreen(!!document.fullscreenElement)
+    document.addEventListener('fullscreenchange', handleFullscreenChange)
+    return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
+  }, [])
+
+  // Autocomplete
+  useEffect(() => {
+    if (!newTicker.trim()) {
+      setSuggestions([])
+      setShowSuggestions(false)
+      return
+    }
+    const query = newTicker.toLowerCase()
+    const matches = POPULAR_STOCKS.filter(s =>
+      s.symbol.toLowerCase().includes(query) || s.name.toLowerCase().includes(query)
+    ).slice(0, 6)
+    setSuggestions(matches)
+    setShowSuggestions(matches.length > 0)
+  }, [newTicker])
+
+  // Add comparison
+  const handleAddStock = async (tickerToAdd: string) => {
+    if (!onAddComparison || !tickerToAdd.trim()) return
+    const upper = tickerToAdd.toUpperCase()
+    if (upper === ticker || comparisonStocks.some(s => s.ticker === upper)) {
+      setNewTicker('')
+      return
+    }
+
     try {
       setIsLoading(true)
-      const newData = await onAddComparison(tickerToAdd)
-      
+      const newData = await onAddComparison(upper)
       if (newData.length > 0) {
         const color = COLORS[(comparisonStocks.length + 1) % COLORS.length]
-        setComparisonStocks(prev => [...prev, { 
-          ticker: tickerToAdd, 
-          data: newData, 
-          color 
-        }])
+        setComparisonStocks(prev => [...prev, { ticker: upper, data: newData, color }])
         setNewTicker('')
         setShowSuggestions(false)
       }
@@ -375,413 +249,212 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     }
   }
 
-  // Add comparison stock
-  const handleAddStock = async () => {
-    if (!newTicker.trim() || !onAddComparison) return
-    
-    const upperTicker = newTicker.toUpperCase()
-    if (upperTicker === ticker || comparisonStocks.some(s => s.ticker === upperTicker)) {
-      setNewTicker('')
-      setShowSuggestions(false)
-      return
-    }
-    
-    await handleAddStockWithTicker(upperTicker)
-  }
-
-  // Remove stock
-  const removeStock = (tickerToRemove: string) => {
-    setComparisonStocks(prev => prev.filter(s => s.ticker !== tickerToRemove))
-  }
-
-  // Formatierungsfunktionen
+  // Format functions
   const formatValue = (value: number) => {
-    switch (selectedMode) {
-      case 'total_return':
-        return formatPercentage(value)
-      case 'market_cap':
-        return formatMarketCap(value)
-      case '10k_growth':
-        return formatCurrency(value)
-      default:
-        return formatStockPrice(value)
-    }
-  }
-
-  // Custom Tooltip
-  const renderTooltip = (props: any) => {
-    const { active, payload } = props
-    if (active && payload && payload.length) {
-      const data = payload[0].payload
-      
-      return (
-        <div 
-          className="rounded-lg p-3 shadow-lg border"
-          style={{ 
-            backgroundColor: themeColors.tooltipBg,
-            borderColor: themeColors.tooltipBorder
-          }}
-        >
-          <p className="text-sm mb-2" style={{ color: themeColors.textMuted }}>
-            {data.formattedDate}
-          </p>
-          {payload.map((entry: any, index: number) => {
-            if (entry.dataKey.includes('_MA')) return null
-            
-            return (
-              <div key={index} className="flex items-center gap-2">
-                <div 
-                  className="w-3 h-3 rounded-full" 
-                  style={{ backgroundColor: entry.color }}
-                />
-                <span 
-                  className="font-medium"
-                  style={{ color: themeColors.textPrimary }}
-                >
-                  {entry.dataKey}: {formatValue(entry.value)}
-                </span>
-              </div>
-            )
-          })}
-        </div>
-      )
-    }
-    return null
+    return selectedMode === 'total_return' ? formatPercentage(value) : formatStockPrice(value)
   }
 
   const formatXAxisTick = (value: string) => {
     const date = new Date(value)
-    
-    if (selectedRange === '3Y' || selectedRange === '5Y' || selectedRange === 'MAX') {
-      return date.toLocaleDateString('de-DE', { 
-        year: '2-digit',
-        month: 'short'
-      })
+    if (['3Y', '5Y', 'MAX', '1Y'].includes(selectedRange)) {
+      return date.toLocaleDateString('de-DE', { year: '2-digit', month: 'short' })
     }
-    
-    if (selectedRange === '1Y') {
-      return date.toLocaleDateString('de-DE', { 
-        year: '2-digit',
-        month: 'short'
-      })
-    }
-    
-    if (selectedRange === '1D') {
-      const time = date.toLocaleTimeString('de-DE', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      })
-      
-      if (time !== '00:00') {
-        return time
-      }
-    }
-    
-    return date.toLocaleDateString('de-DE', { 
-      month: 'short', 
-      day: 'numeric' 
-    })
-  }
-
-  const getMinTickGap = () => {
-    const baseGap = isFullscreen ? 80 : 60
-    
-    if (selectedRange === '5Y' || selectedRange === 'MAX') {
-      return baseGap * 2
-    }
-    if (selectedRange === '3Y') {
-      return Math.floor(baseGap * 1.5)
-    }
-    if (selectedRange === '1Y') {
-      return Math.floor(baseGap * 1.2)
-    }
-    if (selectedRange === '1D' || selectedRange === '5D') {
-      return Math.floor(baseGap * 0.8)
-    }
-    
-    return baseGap
+    return date.toLocaleDateString('de-DE', { month: 'short', day: 'numeric' })
   }
 
   const formatYAxisTick = (value: number) => {
-    switch (selectedMode) {
-      case 'total_return':
-        return `${value.toFixed(0)}%`
-      case 'market_cap':
-        if (value >= 1e12) return `${(value / 1e12).toFixed(1)}T`
-        if (value >= 1e9) return `${(value / 1e9).toFixed(1)}B`
-        return `${(value / 1e6).toFixed(0)}M`
-      case '10k_growth':
-        return `${(value / 1000).toFixed(0)}K`
-      default:
-        return value.toFixed(0)
-    }
+    if (selectedMode === 'total_return') return `${value.toFixed(0)}%`
+    if (value >= 1000) return `${(value / 1000).toFixed(0)}K`
+    return value.toFixed(0)
   }
 
-  const mainStats = performanceStats[ticker]
-  const chartHeight = isFullscreen ? "h-[calc(100vh-120px)]" : "h-[300px] sm:h-[400px] lg:h-[480px]"
+  // Custom Tooltip - Clean Style
+  const renderTooltip = (props: any) => {
+    const { active, payload } = props
+    if (!active || !payload?.length) return null
+
+    const data = payload[0].payload
+
+    return (
+      <div className="bg-theme-card border border-theme-light rounded-lg p-3 shadow-lg">
+        <p className="text-xs text-theme-muted mb-2">{data.formattedDate}</p>
+        {payload.map((entry: any, index: number) => {
+          if (entry.dataKey === 'ma50') return null
+          return (
+            <div key={index} className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
+              <span className="text-sm text-theme-primary font-medium">
+                {entry.dataKey}: {formatValue(entry.value)}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const isPositive = performanceStats && performanceStats.changePercent >= 0
+  const chartColor = isPositive ? '#10b981' : '#ef4444'
 
   return (
-    <div className="space-y-6" ref={chartContainerRef}>
-      
-      {/* Fullscreen Button */}
-      <button
-        onClick={toggleFullscreen}
-        className="absolute top-4 right-4 z-10 w-9 h-9 rounded-md flex items-center justify-center transition-all duration-200 border"
-        style={{ 
-          backgroundColor: themeColors.buttonBg,
-          borderColor: themeColors.inputBorder,
-          color: themeColors.textMuted
-        }}
-        title={isFullscreen ? 'Vollbild verlassen' : 'Vollbild'}
-      >
-        {isFullscreen ? (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        ) : (
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
-          </svg>
-        )}
-      </button>
-
-      {/* Header with Price & Performance */}
-      <div className="space-y-2">
-        <div className="flex items-center gap-3">
-          <h2 
-            className="text-lg font-semibold"
-            style={{ color: themeColors.textSecondary }}
-          >
-            {ticker} • Historischer Kursverlauf
-          </h2>
-        </div>
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-          <div className="flex items-center gap-3">
-            <span 
-              className="text-3xl font-bold"
-              style={{ color: themeColors.textPrimary }}
-            >
-              {formatStockPrice(currentPrice)}
-            </span>
-            {mainStats && (
-              <div className="flex items-center gap-2">
-                {/* ✅ GRÜN/ROT statt BLAU für Performance Badge */}
-                <span className={`inline-flex items-center gap-1 text-sm font-semibold px-3 py-1.5 rounded-lg ${
-                  mainStats.changePercent >= 0 
-                    ? 'text-positive bg-positive/10' 
-                    : 'text-negative bg-negative/10'
-                }`}>
-                  {mainStats.changePercent >= 0 ? '↗' : '↘'}
-                  {formatPercentage(mainStats.changePercent)}
+    <div
+      ref={chartContainerRef}
+      className={`bg-theme-card rounded-xl border border-theme-light ${isFullscreen ? 'p-6' : ''}`}
+    >
+      {/* Header */}
+      <div className="p-5 border-b border-theme-light">
+        <div className="flex items-start justify-between">
+          <div>
+            <p className="text-xs text-theme-muted mb-1">{ticker} • Historischer Kursverlauf</p>
+            <div className="flex items-baseline gap-3">
+              <span className="text-2xl font-semibold text-theme-primary">
+                {formatStockPrice(currentPrice)}
+              </span>
+              {performanceStats && (
+                <span className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {isPositive ? '↗' : '↘'}{formatPercentage(performanceStats.changePercent)}
                 </span>
-                <span 
-                  className="text-sm"
-                  style={{ color: themeColors.textMuted }}
-                >
-                  ({selectedRange})
-                </span>
-              </div>
-            )}
+              )}
+              <span className="text-xs text-theme-muted">({selectedRange})</span>
+            </div>
           </div>
+
+          {/* Fullscreen Button */}
+          <button
+            onClick={toggleFullscreen}
+            className="p-2 rounded-lg hover:bg-theme-secondary/30 text-theme-muted transition-colors"
+            title={isFullscreen ? 'Schließen' : 'Vollbild'}
+          >
+            {isFullscreen ? (
+              <XMarkIcon className="w-5 h-5" />
+            ) : (
+              <ArrowsPointingOutIcon className="w-5 h-5" />
+            )}
+          </button>
         </div>
       </div>
 
       {/* Controls */}
-      <div className="space-y-4">
-        {/* Modus + Zeiträume */}
-        <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-          <div className="flex items-center gap-3">
-            <span 
-              className="text-sm font-medium"
-              style={{ color: themeColors.textMuted }}
-            >
-              Modus:
-            </span>
-            <select
-              value={selectedMode}
-              onChange={(e) => setSelectedMode(e.target.value)}
-              className="px-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand"
-              style={{
-                backgroundColor: themeColors.inputBg,
-                borderColor: themeColors.inputBorder,
-                color: themeColors.inputText
-              }}
-            >
-              {CHART_MODES.map((mode) => (
-                <option key={mode.id} value={mode.id}>
-                  {mode.icon} {mode.label}
-                </option>
+      <div className="p-5 space-y-4">
+        {/* Mode & Time Range */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          {/* Mode Selector */}
+          <div className="flex items-center gap-2">
+            <span className="text-xs text-theme-muted">Modus:</span>
+            <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg">
+              {CHART_MODES.map(mode => (
+                <button
+                  key={mode.id}
+                  onClick={() => setSelectedMode(mode.id)}
+                  className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                    selectedMode === mode.id
+                      ? 'bg-theme-card text-theme-primary shadow-sm'
+                      : 'text-theme-muted hover:text-theme-secondary'
+                  }`}
+                >
+                  {mode.label}
+                </button>
               ))}
-            </select>
+            </div>
           </div>
 
-          {/* Time Range Buttons */}
-          <div 
-            className="flex items-center gap-0.5 rounded-lg p-1 flex-wrap"
-            style={{ backgroundColor: themeColors.buttonBg }}
-          >
-            {TIME_RANGES.map((range) => (
+          {/* Time Range - Pill Style */}
+          <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg overflow-x-auto">
+            {TIME_RANGES.map(range => (
               <button
                 key={range.label}
                 onClick={() => setSelectedRange(range.label)}
-                className={`px-2 md:px-3 py-1.5 text-xs md:text-sm rounded-md transition-all duration-200 whitespace-nowrap font-medium ${
-                  selectedRange === range.label ? 'shadow-sm' : ''
+                className={`px-2.5 py-1.5 rounded-md text-xs font-medium transition-all whitespace-nowrap ${
+                  selectedRange === range.label
+                    ? 'bg-theme-card text-theme-primary shadow-sm'
+                    : 'text-theme-muted hover:text-theme-secondary'
                 }`}
-                style={{
-                  backgroundColor: selectedRange === range.label ? themeColors.buttonBgActive : 'transparent',
-                  color: selectedRange === range.label ? themeColors.buttonTextActive : themeColors.buttonText
-                }}
               >
                 {range.label}
               </button>
             ))}
           </div>
 
-          {/* Moving Averages Toggle */}
-          <div className="flex items-center gap-3 ml-auto">
-            {selectedMode === 'price' && (
-              <button
-                onClick={() => setShowMovingAverages(!showMovingAverages)}
-                className={`px-3 py-1.5 text-sm rounded-lg transition-all duration-200 font-medium ${
-                  showMovingAverages 
-                    ? 'bg-purple-600 text-white shadow-md' 
-                    : 'hover:opacity-80'
-                }`}
-                style={{
-                  backgroundColor: showMovingAverages ? undefined : themeColors.buttonBg,
-                  color: showMovingAverages ? undefined : themeColors.buttonText
-                }}
-                title="Gleitende Durchschnitte (20, 50 Tage)"
-              >
-                MA
-              </button>
-            )}
-          </div>
+          {/* MA Toggle */}
+          {selectedMode === 'price' && (
+            <button
+              onClick={() => setShowMA(!showMA)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                showMA
+                  ? 'bg-purple-500/20 text-purple-400'
+                  : 'bg-theme-secondary/30 text-theme-muted hover:text-theme-secondary'
+              }`}
+            >
+              MA
+            </button>
+          )}
         </div>
 
-        {/* Aktien vergleichen */}
+        {/* Comparison Input */}
         {onAddComparison && (
-          <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-            <span 
-              className="text-sm font-medium"
-              style={{ color: themeColors.textMuted }}
-            >
-              Aktien vergleichen:
-            </span>
-            
-            <div className="flex items-center gap-3 flex-1 max-w-md">
-              <div className="relative flex-1">
-                <input
-                  type="text"
-                  value={newTicker}
-                  onChange={(e) => setNewTicker(e.target.value)}
-                  placeholder="z.B. SP500, MSCI World, Apple, Tesla..."
-                  className="w-full px-4 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand focus:border-brand"
-                  style={{
-                    backgroundColor: themeColors.inputBg,
-                    borderColor: themeColors.inputBorder,
-                    color: themeColors.inputText
-                  }}
-                  onKeyPress={(e) => e.key === 'Enter' && handleAddStock()}
-                  onFocus={() => newTicker && setShowSuggestions(true)}
-                  onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                  disabled={isLoading}
-                />
-                
-                {/* Suggestions */}
-                {showSuggestions && suggestions.length > 0 && (
-                  <div 
-                    className="absolute top-full left-0 right-0 mt-1 border rounded-lg shadow-xl z-50 max-h-60 overflow-y-auto"
-                    style={{
-                      backgroundColor: themeColors.suggestionsBg,
-                      borderColor: themeColors.suggestionsBorder
-                    }}
-                  >
-                    {suggestions.map((suggestion, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleSelectSuggestion(suggestion)}
-                        className="w-full px-4 py-3 text-left transition-colors border-b last:border-b-0"
-                        style={{
-                          borderColor: themeColors.suggestionsBorder,
-                          backgroundColor: 'transparent'
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.backgroundColor = themeColors.suggestionsHover
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.backgroundColor = 'transparent'
-                        }}
-                      >
-                        <div className="flex items-center gap-3">
-                          <span 
-                            className="font-medium text-sm"
-                            style={{ color: themeColors.textPrimary }}
-                          >
-                            {suggestion.symbol}
-                          </span>
-                          {(suggestion.name.includes('ETF') || suggestion.name.includes('Index') || ['SPY', 'QQQ', 'VTI', 'IWDA', 'EUNL', 'VWRL', 'DIA', 'IVV'].includes(suggestion.symbol)) && (
-                            <span className="text-xs bg-brand text-white px-2 py-0.5 rounded">Index/ETF</span>
-                          )}
-                        </div>
-                        <div 
-                          className="text-xs truncate"
-                          style={{ color: themeColors.textMuted }}
-                        >
-                          {suggestion.name}
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                )}
-              </div>
-              
-              <button
-                onClick={handleAddStock}
-                disabled={!newTicker.trim() || isLoading}
-                className="px-5 py-2 text-sm bg-theme-secondary hover:bg-theme-tertiary disabled:bg-gray-400 disabled:cursor-not-allowed text-theme-primary rounded-lg transition-all duration-200 font-medium whitespace-nowrap"
-              >
-                {isLoading ? 'Lädt...' : 'Hinzufügen'}
-              </button>
+          <div className="flex items-center gap-3">
+            <span className="text-xs text-theme-muted">Aktien vergleichen:</span>
+            <div className="relative flex-1 max-w-xs">
+              <input
+                type="text"
+                value={newTicker}
+                onChange={(e) => setNewTicker(e.target.value)}
+                placeholder="z.B. SP500, MSCI World, Apple, Tesla..."
+                className="w-full px-3 py-2 bg-theme-secondary/30 border border-theme-light rounded-lg text-sm text-theme-primary placeholder-theme-muted focus:outline-none focus:border-emerald-500/50 transition-colors"
+                onKeyPress={(e) => e.key === 'Enter' && handleAddStock(newTicker)}
+                onFocus={() => newTicker && setShowSuggestions(true)}
+                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
+                disabled={isLoading}
+              />
+
+              {/* Suggestions Dropdown */}
+              {showSuggestions && suggestions.length > 0 && (
+                <div className="absolute top-full left-0 right-0 mt-1 bg-theme-card border border-theme-light rounded-lg shadow-xl z-50 overflow-hidden">
+                  {suggestions.map((s, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setNewTicker(s.symbol)
+                        handleAddStock(s.symbol)
+                      }}
+                      className="w-full px-3 py-2.5 text-left hover:bg-theme-secondary/30 transition-colors border-b border-theme-light last:border-b-0"
+                    >
+                      <span className="text-sm font-medium text-theme-primary">{s.symbol}</span>
+                      <span className="text-xs text-theme-muted ml-2">{s.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
+            <button
+              onClick={() => handleAddStock(newTicker)}
+              disabled={!newTicker.trim() || isLoading}
+              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-theme-secondary/50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              {isLoading ? '...' : 'Hinzufügen'}
+            </button>
           </div>
         )}
 
-        {/* Aktive Aktien */}
+        {/* Active Comparison Stocks */}
         {comparisonStocks.length > 0 && (
-          <div className="flex flex-wrap items-center gap-3">
-            <span 
-              className="text-sm font-medium"
-              style={{ color: themeColors.textMuted }}
-            >
-              Aktive Aktien:
-            </span>
-            
-            {/* ✅ GRÜN statt BLAU für Main Ticker Badge */}
-            <div className="flex items-center gap-2 bg-positive/10 rounded-full px-4 py-2">
-              <div className="w-3 h-3 rounded-full bg-positive" />
-              <span className="text-sm text-positive font-medium">{ticker}</span>
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 rounded-full">
+              <div className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span className="text-xs font-medium text-emerald-400">{ticker}</span>
             </div>
-            
-            {comparisonStocks.map((stock) => (
-              <div 
-                key={stock.ticker} 
-                className="flex items-center gap-2 rounded-full px-4 py-2"
-                style={{ backgroundColor: themeColors.statsCardBg }}
+            {comparisonStocks.map(stock => (
+              <div
+                key={stock.ticker}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-theme-secondary/30 rounded-full"
               >
-                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: stock.color }} />
-                <span 
-                  className="text-sm font-medium"
-                  style={{ color: themeColors.textPrimary }}
-                >
-                  {stock.ticker}
-                </span>
+                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: stock.color }} />
+                <span className="text-xs font-medium text-theme-primary">{stock.ticker}</span>
                 <button
-                  onClick={() => removeStock(stock.ticker)}
-                  className="text-sm ml-1 p-0.5 rounded-full hover:bg-red-500/20 transition-all duration-200"
-                  style={{ color: themeColors.textMuted }}
+                  onClick={() => setComparisonStocks(prev => prev.filter(s => s.ticker !== stock.ticker))}
+                  className="ml-1 text-theme-muted hover:text-red-400 transition-colors"
                 >
-                  ✕
+                  ×
                 </button>
               </div>
             ))}
@@ -789,88 +462,58 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         )}
       </div>
 
-      {/* CHART */}
-      <div className={`${chartHeight} w-full`}>
+      {/* Chart */}
+      <div className={`px-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : 'h-[350px]'}`}>
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={{ top: 15, right: 25, left: 15, bottom: 25 }}>
+          <ComposedChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 20 }}>
             <defs>
-              <linearGradient id="priceGradientGreen" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10B981" stopOpacity={0.4}/>
-                <stop offset="95%" stopColor="#10B981" stopOpacity={0}/>
-              </linearGradient>
-              <linearGradient id="priceGradientRed" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#EF4444" stopOpacity={0.4}/>
-                <stop offset="95%" stopColor="#EF4444" stopOpacity={0}/>
+              <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={chartColor} stopOpacity={0.3} />
+                <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
               </linearGradient>
             </defs>
-            
-            <CartesianGrid 
-              strokeDasharray="2 4" 
-              stroke={themeColors.gridColor} 
-              opacity={0.6}
-              horizontal={true}
-              vertical={false}
-            />
-            <XAxis 
+
+            <XAxis
               dataKey="date"
-              axisLine={true}
-              tickLine={true}
-              stroke={themeColors.axisColor}
-              tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
+              axisLine={{ stroke: isDark ? '#374151' : '#e5e7eb' }}
+              tickLine={false}
+              tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
               tickFormatter={formatXAxisTick}
-              minTickGap={getMinTickGap()}
-              height={50}
+              minTickGap={60}
             />
-            <YAxis 
-              axisLine={true}
-              tickLine={true}
-              stroke={themeColors.axisColor}
-              tick={{ fill: themeColors.axisColor, fontSize: isFullscreen ? 12 : 11 }}
+            <YAxis
+              axisLine={false}
+              tickLine={false}
+              tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
               tickFormatter={formatYAxisTick}
-              width={70}
+              width={50}
             />
-            <Tooltip 
-              content={renderTooltip} 
-              cursor={{ 
-                stroke: themeColors.axisColor, 
-                strokeWidth: 1, 
-                strokeDasharray: '3 3' 
-              }}
-            />
-            
-            {/* Performance Labels */}
-            {Object.entries(performanceStats).map(([stockTicker, stats]) => {
-              // Farbe basierend auf Performance (grün/rot), nicht auf Stock-Farbe
-              const performanceColor = stats.changePercent >= 0 ? '#10B981' : '#EF4444'
+            <Tooltip content={renderTooltip} cursor={{ stroke: isDark ? '#4b5563' : '#d1d5db', strokeDasharray: '3 3' }} />
 
-              return (
-                <text
-                  key={stockTicker}
-                  x="95%"
-                  y={`${20 + Object.keys(performanceStats).indexOf(stockTicker) * 25}px`}
-                  textAnchor="end"
-                  fill={performanceColor}
-                  fontSize={isFullscreen ? "14" : "12"}
-                  fontWeight="bold"
-                >
-                  {formatPercentage(stats.changePercent)}
-                </text>
-              )
-            })}
+            {/* Performance Label */}
+            {performanceStats && (
+              <text
+                x="97%"
+                y="25"
+                textAnchor="end"
+                fill={chartColor}
+                fontSize="13"
+                fontWeight="600"
+              >
+                {isPositive ? '+' : ''}{formatPercentage(performanceStats.changePercent)}
+              </text>
+            )}
 
-            {/* Main stock - Area wenn keine Vergleiche, sonst Line */}
+            {/* Main Area/Line */}
             {comparisonStocks.length === 0 && selectedMode === 'price' ? (
               <Area
                 type="monotone"
                 dataKey={ticker}
-                stroke={mainStats && mainStats.changePercent >= 0 ? "#10B981" : "#EF4444"}
+                stroke={chartColor}
                 strokeWidth={2}
-                fill={mainStats && mainStats.changePercent >= 0 ? "url(#priceGradientGreen)" : "url(#priceGradientRed)"}
+                fill="url(#chartGradient)"
                 dot={false}
-                activeDot={{ 
-                  r: 4, 
-                  fill: mainStats && mainStats.changePercent >= 0 ? "#10B981" : "#EF4444"
-                }}
+                activeDot={{ r: 4, fill: chartColor }}
               />
             ) : (
               <Line
@@ -883,34 +526,21 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               />
             )}
 
-            {/* Moving Averages - MA20 (gelb) und MA50 (orange) */}
-            {showMovingAverages && selectedMode === 'price' && (
-              <>
-                <Line
-                  type="monotone"
-                  dataKey={`${ticker}_MA20`}
-                  stroke="#fbbf24"
-                  strokeWidth={1.5}
-                  strokeDasharray="5 5"
-                  dot={false}
-                  activeDot={false}
-                  connectNulls={true}
-                />
-                <Line
-                  type="monotone"
-                  dataKey={`${ticker}_MA50`}
-                  stroke="#f97316"
-                  strokeWidth={1.5}
-                  strokeDasharray="3 3"
-                  dot={false}
-                  activeDot={false}
-                  connectNulls={true}
-                />
-              </>
+            {/* MA50 */}
+            {showMA && selectedMode === 'price' && (
+              <Line
+                type="monotone"
+                dataKey="ma50"
+                stroke="#a855f7"
+                strokeWidth={1.5}
+                strokeDasharray="4 4"
+                dot={false}
+                connectNulls
+              />
             )}
-            
-            {/* Comparison stock lines */}
-            {comparisonStocks.map((stock) => (
+
+            {/* Comparison Lines */}
+            {comparisonStocks.map(stock => (
               <Line
                 key={stock.ticker}
                 type="monotone"
@@ -925,33 +555,15 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
         </ResponsiveContainer>
       </div>
 
-      {/* Footer - Simplified */}
-      <div 
-        className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-sm"
-        style={{ color: themeColors.textMuted }}
-      >
-        <span>Modus: {CHART_MODES.find(m => m.id === selectedMode)?.label}</span>
-        <span>Powered by <span className="text-brand font-semibold">FinClue</span></span>
-      </div>
-
-      {/* Moving Averages Legende - nur wenn aktiv */}
-      {showMovingAverages && selectedMode === 'price' && (
-        <div 
-          className="flex items-center gap-6 text-sm"
-          style={{ color: themeColors.textMuted }}
-        >
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-px bg-yellow-400" style={{ backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 2px, currentColor 2px, currentColor 4px)' }}></div>
-            <span>MA20 (20-Tage Durchschnitt)</span>
-          </div>
-          <div className="flex items-center gap-3">
-            <div className="w-6 h-px bg-orange-500" style={{ backgroundImage: 'repeating-linear-gradient(to right, transparent, transparent 1px, currentColor 1px, currentColor 2px)' }}></div>
+      {/* Footer */}
+      {showMA && selectedMode === 'price' && (
+        <div className="px-5 pb-4">
+          <div className="flex items-center gap-2 text-xs text-theme-muted">
+            <div className="w-4 h-0.5 bg-purple-400" style={{ backgroundImage: 'repeating-linear-gradient(to right, #a855f7, #a855f7 3px, transparent 3px, transparent 6px)' }} />
             <span>MA50 (50-Tage Durchschnitt)</span>
           </div>
         </div>
       )}
-
-      {/* ✅ PERFORMANCE SUMMARY BOX ENTFERNT - Info ist bereits im Chart Header */}
     </div>
   )
 }

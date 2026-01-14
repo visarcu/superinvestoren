@@ -20,7 +20,8 @@ export function useTheme() {
     '/analyse',
     '/dashboard',
     '/profile',
-    '/settings'
+    '/settings',
+    '/notifications'
   ]
 
   // ✅ Routes die IMMER dunkel sein sollen (spezifische zuerst!)

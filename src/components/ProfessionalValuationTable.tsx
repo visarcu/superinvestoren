@@ -406,8 +406,8 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
 
   if (!isPremium) {
     return (
-      <div className="bg-theme-card rounded-xl border border-theme/10">
-        <div className="px-6 py-4 border-b border-theme/10">
+      <div className="bg-theme-card rounded-xl border border-theme-light">
+        <div className="px-6 py-4 border-b border-theme-light">
           <div className="flex items-center gap-3">
             <CalculatorIcon className="w-6 h-6 text-theme-primary" />
             <h3 className="text-xl font-bold text-theme-primary">Bewertung & Kennzahlen</h3>
@@ -535,9 +535,9 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
   ];
 
   return (
-    <div className="bg-theme-card rounded-xl overflow-hidden border border-theme/10">
+    <div className="bg-theme-card rounded-xl overflow-hidden border border-theme-light">
       {/* Header */}
-      <div className="p-6 border-b border-theme/5">
+      <div className="p-6 border-b border-theme-light">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
             <CalculatorIcon className="w-4 h-4 text-theme-primary" />
@@ -599,7 +599,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       </div>
 
       {/* Footer */}
-      <div className="p-4 bg-theme-tertiary/10 text-xs text-theme-muted border-t border-theme/5">
+      <div className="p-4 bg-theme-tertiary/10 text-xs text-theme-muted border-t border-theme-light">
         <p>
           Alle Daten basieren auf den neuesten verfügbaren Finanzdaten von {ticker}. 
           TTM = Trailing Twelve Months, FWD = Forward (Analystenschätzungen).

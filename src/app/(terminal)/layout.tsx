@@ -297,9 +297,9 @@ const CollapsedSidebar = React.memo(({
             : 'bg-neutral-100 border border-neutral-300 group-hover:border-neutral-400 group-hover:bg-neutral-200'
         }`}>
           <div className="flex items-end gap-0.5">
-            <span className={`w-0.5 h-2 rounded-full ${theme === 'dark' ? 'bg-brand' : 'bg-neutral-800'}`}></span>
-            <span className={`w-0.5 h-2.5 rounded-full ${theme === 'dark' ? 'bg-green-400' : 'bg-neutral-600'}`}></span>
-            <span className={`w-0.5 h-3 rounded-full ${theme === 'dark' ? 'bg-green-300' : 'bg-neutral-400'}`}></span>
+            <span className={`w-0.5 h-2 rounded-full ${theme === 'dark' ? 'bg-brand' : 'bg-black'}`}></span>
+            <span className={`w-0.5 h-2.5 rounded-full ${theme === 'dark' ? 'bg-green-400' : 'bg-black'}`}></span>
+            <span className={`w-0.5 h-3 rounded-full ${theme === 'dark' ? 'bg-green-300' : 'bg-black'}`}></span>
           </div>
         </div>
       </Link>
