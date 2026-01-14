@@ -248,9 +248,14 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                           <div className="flex-1 space-y-3">
                             {/* Header */}
                             <div className="flex items-start justify-between gap-4">
-                              <h2 className="text-base font-medium text-theme-primary leading-snug group-hover:text-emerald-400 transition-colors">
+                              <Link
+                                href={article.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-base font-medium text-white leading-snug hover:text-emerald-400 transition-colors no-underline"
+                              >
                                 {article.title}
-                              </h2>
+                              </Link>
                               {user?.isPremium && (
                                 <button
                                   onClick={() => toggleSaveArticle(article.url)}
@@ -280,20 +285,15 @@ export default function NewsPage({ params }: { params: { ticker: string } }) {
                             </div>
 
                             {/* Text */}
-                            <p className="text-theme-muted text-sm line-clamp-2">
+                            <p className="text-theme-secondary text-sm line-clamp-2">
                               {article.text}
                             </p>
 
                             {/* Action */}
-                            <Link
-                              href={article.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1.5 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
-                            >
-                              Artikel lesen
+                            <span className="inline-flex items-center gap-1.5 text-xs text-theme-muted">
+                              {article.site}
                               <ArrowTopRightOnSquareIcon className="w-3 h-3" />
-                            </Link>
+                            </span>
                           </div>
                         </div>
                       </div>

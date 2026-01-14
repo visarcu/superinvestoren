@@ -400,7 +400,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 value={newTicker}
                 onChange={(e) => setNewTicker(e.target.value)}
                 placeholder="z.B. SP500, MSCI World, Apple, Tesla..."
-                className="w-full px-3 py-2 bg-theme-secondary/30 border border-theme-light rounded-lg text-sm text-theme-primary placeholder-theme-muted focus:outline-none focus:border-emerald-500/50 transition-colors"
+                className="w-full px-3 py-2 bg-theme-card border border-theme-light rounded-lg text-sm text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-emerald-500/50 transition-colors"
                 onKeyPress={(e) => e.key === 'Enter' && handleAddStock(newTicker)}
                 onFocus={() => newTicker && setShowSuggestions(true)}
                 onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}

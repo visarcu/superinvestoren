@@ -272,25 +272,53 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
     return translations[englishKey] || englishKey;
   };
 
-  // Custom Tooltip für deutsche Formatierung - Improved Styling
+  // Custom Tooltip für deutsche Formatierung - Theme-aware Styling
   const CustomTooltip = ({ active, payload, label }: any) => {
     if (active && payload && payload.length) {
       return (
-        <div className="bg-gray-900/95 backdrop-blur-sm p-3 rounded-lg border border-gray-700/50 shadow-xl">
-          <p className="text-white font-semibold mb-2 text-sm">
+        <div className="bg-theme-card border border-theme-light rounded-lg p-3 shadow-lg">
+          <p className="text-theme-primary font-medium mb-2 text-sm">
             {typeof label === 'number' ? `${label}` : label}
           </p>
           {payload.map((entry: any, index: number) => (
             <div key={index} className="flex items-center gap-2 text-sm">
-              <div 
-                className="w-2 h-2 rounded-full flex-shrink-0" 
+              <div
+                className="w-2 h-2 rounded-full flex-shrink-0"
                 style={{ backgroundColor: entry.color }}
               />
-              <span className="text-gray-200">
-                {getGermanLabel(entry.dataKey || entry.name)}: 
+              <span className="text-theme-muted">
+                {getGermanLabel(entry.dataKey || entry.name)}:
               </span>
-              <span className="text-white font-medium">
+              <span className="text-theme-primary font-medium">
                 {formatPercentage(entry.value, true)}
+              </span>
+            </div>
+          ))}
+        </div>
+      );
+    }
+    return null;
+  };
+
+  // Custom Tooltip für indexierte Werte - Theme-aware
+  const IndexedTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="bg-theme-card border border-theme-light rounded-lg p-3 shadow-lg">
+          <p className="text-theme-primary font-medium mb-2 text-sm">
+            Jahr: {label}
+          </p>
+          {payload.map((entry: any, index: number) => (
+            <div key={index} className="flex items-center gap-2 text-sm">
+              <div
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ backgroundColor: entry.color }}
+              />
+              <span className="text-theme-muted">
+                {getGermanLabel(entry.dataKey || entry.name)}:
+              </span>
+              <span className="text-theme-primary font-medium">
+                {Number(entry.value).toFixed(1)}
               </span>
             </div>
           ))}
@@ -492,13 +520,7 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
                   fontSize={12}
                   tickFormatter={(value) => `${value}`}
                 />
-                <Tooltip 
-                  formatter={(value: any, name: string) => [
-                    `${Number(value).toFixed(1)}`, 
-                    getGermanLabel(name)
-                  ]}
-                  labelFormatter={(label) => `Jahr: ${label}`}
-                />
+                <Tooltip content={<IndexedTooltip />} />
                 <Legend 
                   formatter={(value) => {
                     const labels: { [key: string]: string } = {
