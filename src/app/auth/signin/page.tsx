@@ -69,7 +69,7 @@ export default function SignInPage() {
 
       {/* Sign In Form */}
       <form onSubmit={handleSignIn} className="space-y-4">
-        
+
         {/* Email Field */}
         <div className="space-y-2">
           <label htmlFor="email" className="text-sm font-medium text-white">
@@ -77,7 +77,7 @@ export default function SignInPage() {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <EnvelopeIcon className="h-5 w-5 text-theme-secondary" />
+              <EnvelopeIcon className="h-5 w-5 text-gray-500" />
             </div>
             <input
               id="email"
@@ -85,8 +85,7 @@ export default function SignInPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-10 pr-4 py-3 border rounded-xl text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all"
+              className="w-full pl-10 pr-4 py-3 bg-[#111113] border border-white/[0.06] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:ring-1 focus:ring-brand-light/50 transition-all"
               placeholder="name@beispiel.de"
             />
           </div>
@@ -99,7 +98,7 @@ export default function SignInPage() {
           </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <LockClosedIcon className="h-5 w-5 text-theme-secondary" />
+              <LockClosedIcon className="h-5 w-5 text-gray-500" />
             </div>
             <input
               id="password"
@@ -107,14 +106,13 @@ export default function SignInPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-              className="w-full pl-10 pr-12 py-3 border rounded-xl text-white placeholder-theme-secondary focus:outline-none focus:border-green-500 focus:ring-2 focus:ring-brand/20 transition-all"
+              className="w-full pl-10 pr-12 py-3 bg-[#111113] border border-white/[0.06] rounded-xl text-white placeholder-gray-500 focus:outline-none focus:border-brand-light/50 focus:ring-1 focus:ring-brand-light/50 transition-all"
               placeholder="Dein Passwort"
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-theme-secondary hover:text-white transition-colors"
+              className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-white transition-colors"
             >
               {showPassword ? (
                 <EyeSlashIcon className="h-5 w-5" />
@@ -127,8 +125,8 @@ export default function SignInPage() {
 
         {/* Forgot Password Link */}
         <div className="text-right">
-          <Link 
-            href="/auth/forgot-password" 
+          <Link
+            href="/auth/forgot-password"
             className="text-sm text-brand-light hover:text-green-300 transition-colors"
           >
             Passwort vergessen?
@@ -151,17 +149,16 @@ export default function SignInPage() {
 
       {/* Divider */}
       <div className="flex items-center gap-4 my-6">
-        <div style={{ backgroundColor: 'var(--border-color)' }} className="flex-1 h-px"></div>
-        <span className="text-sm text-theme-secondary">oder</span>
-        <div style={{ backgroundColor: 'var(--border-color)' }} className="flex-1 h-px"></div>
+        <div className="flex-1 h-px bg-white/[0.06]"></div>
+        <span className="text-sm text-gray-500">oder</span>
+        <div className="flex-1 h-px bg-white/[0.06]"></div>
       </div>
 
       {/* Google Sign In */}
       <button
         onClick={handleGoogleSignIn}
         disabled={loading}
-        style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border-color)' }}
-        className="w-full py-3 hover:bg-theme-hover border text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-3"
+        className="w-full py-3 bg-[#111113] hover:bg-[#1A1A1D] border border-white/[0.06] text-white font-medium rounded-xl transition-all duration-200 transform hover:scale-[1.02] disabled:scale-100 disabled:cursor-not-allowed flex items-center justify-center gap-3"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24">
           <path
@@ -186,10 +183,10 @@ export default function SignInPage() {
 
       {/* Sign Up Link */}
       <div className="text-center mt-6">
-        <p className="text-theme-secondary text-sm">
+        <p className="text-gray-500 text-sm">
           Noch kein Account?{' '}
-          <Link 
-            href="/auth/signup" 
+          <Link
+            href="/auth/signup"
             className="text-brand-light hover:text-green-300 font-medium transition-colors"
           >
             Jetzt registrieren
