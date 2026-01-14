@@ -100,6 +100,7 @@ export default function ModernDashboard() {
   const [stocksInteractive, setStocksInteractive] = useState(false)
   const [currentTime, setCurrentTime] = useState(new Date())
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
+  const [userName, setUserName] = useState<string | null>(null)
   const { formatStockPrice, formatPercentage } = useCurrency()
 
   const POPULAR_STOCKS = useMemo(() => [
@@ -107,26 +108,44 @@ export default function ModernDashboard() {
     'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC'
   ], [])
 
-  // Load Watchlist
+  // Load Watchlist & User Profile
   useEffect(() => {
-    async function loadWatchlist() {
+    async function loadUserData() {
       try {
         const { data: { session } } = await supabase.auth.getSession()
         if (session?.user) {
-          const { data } = await supabase
+          // Load watchlist
+          const { data: watchlistData } = await supabase
             .from('watchlists')
             .select('ticker')
             .eq('user_id', session.user.id)
 
-          if (data) {
-            setWatchlistTickers(data.map(item => item.ticker))
+          if (watchlistData) {
+            setWatchlistTickers(watchlistData.map(item => item.ticker))
+          }
+
+          // Load user profile for name
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('first_name')
+            .eq('user_id', session.user.id)
+            .maybeSingle()
+
+          if (profile?.first_name) {
+            setUserName(profile.first_name)
+          } else if (session.user.email) {
+            // Fallback: Extract name from email (part before @)
+            const emailName = session.user.email.split('@')[0]
+            // Capitalize first letter
+            const capitalizedName = emailName.charAt(0).toUpperCase() + emailName.slice(1)
+            setUserName(capitalizedName)
           }
         }
       } catch (error) {
-        console.error('Error loading watchlist:', error)
+        console.error('Error loading user data:', error)
       }
     }
-    loadWatchlist()
+    loadUserData()
   }, [])
 
   // Clock
@@ -252,7 +271,7 @@ export default function ModernDashboard() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-semibold text-theme-primary">
-              Hallo 👋
+              Hallo{userName ? ` ${userName}` : ''} 👋
             </h1>
             <p className="text-theme-muted text-sm">
               {currentTime.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })}
