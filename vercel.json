@@ -1,8 +1,16 @@
 {
-    "crons": [
-      {
-        "path": "/api/notifications/check-watchlist",
-        "schedule": "0 9,15,21 * * *"
-      }
-    ]
-  }
+  "crons": [
+    {
+      "path": "/api/notifications/check-filings",
+      "schedule": "0 */6 * * *"
+    },
+    {
+      "path": "/api/notifications/check-watchlist",
+      "schedule": "0 9,16 * * 1-5"
+    },
+    {
+      "path": "/api/notifications/check-earnings",
+      "schedule": "0 8 * * *"
+    }
+  ]
+}

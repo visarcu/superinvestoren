@@ -29,7 +29,8 @@ import {
   BellIcon,
   ArrowTrendingUpIcon,
   FunnelIcon,
-  ArrowTrendingDownIcon
+  ArrowTrendingDownIcon,
+  InboxIcon
 } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
@@ -37,7 +38,6 @@ import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import { useExchangeRate } from '@/hooks/useExchangeRate'
 
 import LearnSidebar from '@/components/LearnSidebar'
-import NotificationCenter from '@/components/NotificationCenter'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import ScoreBadge from '@/components/ScoreBadge'
@@ -129,6 +129,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
   { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio' },
   { id: 'screener', label: 'Screener', icon: FunnelIcon, href: '/analyse/screener' },
+  { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },
   { id: 'dcf', label: 'DCF Calculator', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
   { id: 'insider', label: 'Insider Trading', icon: EyeIcon, href: '/analyse/insider' },
   { id: 'ai', label: 'FinClue AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
@@ -213,6 +214,40 @@ function useStockData(ticker: string | null) {
   return { quote, profile, loading, error }
 }
 
+function useUnreadNotifications(userId: string | null) {
+  const [unreadCount, setUnreadCount] = useState(0)
+
+  useEffect(() => {
+    if (!userId) return
+
+    async function fetchUnread() {
+      const { count } = await supabase
+        .from('notifications')
+        .select('*', { count: 'exact', head: true })
+        .eq('read', false)
+
+      setUnreadCount(count || 0)
+    }
+    fetchUnread()
+
+    const channel = supabase
+      .channel('unread-notifications')
+      .on('postgres_changes', {
+        event: '*',
+        schema: 'public',
+        table: 'notifications',
+        filter: `user_id=eq.${userId}`
+      }, () => {
+        fetchUnread()
+      })
+      .subscribe()
+
+    return () => { supabase.removeChannel(channel) }
+  }, [userId])
+
+  return unreadCount
+}
+
 // ===== COMPONENTS =====
 const GlobalLearnToggle = React.memo(() => {
   const { isLearnMode, toggleLearnMode } = useLearnMode()
@@ -251,6 +286,7 @@ const CollapsedSidebar = React.memo(({
   const [showSettingsPopup, setShowSettingsPopup] = useState(false)
   const settingsRef = useRef<HTMLDivElement>(null)
   const { theme, toggleTheme, allowsThemeToggle } = useTheme()
+  const unreadCount = useUnreadNotifications(user?.id || null)
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -277,6 +313,7 @@ const CollapsedSidebar = React.memo(({
       'dividends': 'Dividenden',
       'portfolio': 'Portfolio',
       'screener': 'Screener',
+      'inbox': 'Inbox',
       'dcf': 'DCF',
       'insider': 'Insider',
       'ai': 'AI',
@@ -336,6 +373,12 @@ const CollapsedSidebar = React.memo(({
                 {/* Premium badge */}
                 {isPremiumLocked && (
                   <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
+                )}
+                {/* Unread notifications badge */}
+                {item.id === 'inbox' && unreadCount > 0 && (
+                  <div className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                    {unreadCount > 99 ? '99+' : unreadCount}
+                  </div>
                 )}
               </div>
 
@@ -947,7 +990,6 @@ function LayoutContent({ children }: LayoutProps) {
           
           <div className="flex items-center gap-3">
             <GlobalLearnToggle />
-            <NotificationCenter />
             
             <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-theme-tertiary/30 rounded-lg">
               <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`} />
