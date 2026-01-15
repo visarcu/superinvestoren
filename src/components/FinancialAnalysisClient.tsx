@@ -1980,18 +1980,18 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         <div className="flex flex-wrap items-center gap-6 justify-between mb-6">
           
           <div className="flex items-center gap-8">
-            {/* PERIODE TOGGLE */}
+            {/* PERIODE TOGGLE - Fey Style */}
             <div className="flex items-center gap-3">
-              <span className="text-sm text-theme-primary font-semibold">Periode:</span>
-              <div className="flex bg-theme-tertiary rounded-lg p-1">
+              <span className="text-sm text-theme-secondary font-medium">Periode:</span>
+              <div className="flex bg-white/[0.06] dark:bg-white/[0.06] border border-white/[0.08] rounded-lg p-1">
                 {(['annual', 'quarterly'] as const).map((p) => (
                   <button
                     key={p}
                     onClick={() => handlePremiumAction(() => setPeriod(p))}
-                    className={`px-4 py-2 text-sm rounded-md transition-all duration-200 font-medium ${
+                    className={`px-4 py-1.5 text-sm rounded-md transition-all duration-200 font-medium ${
                       period === p
-                        ? 'bg-brand text-white shadow-sm'
-                        : 'text-theme-secondary hover:text-brand hover:bg-brand/10'
+                        ? 'bg-theme-primary text-theme-bg shadow-sm'
+                        : 'text-theme-muted hover:text-theme-primary'
                     }`}
                   >
                     {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
@@ -2008,18 +2008,18 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         {/* ✅ NEUE PRESET CONTROLS */}
         <div className="mb-6 pb-6 border-b border-white/[0.04]">
           <div className="flex flex-wrap items-center gap-4">
-            {/* Preset Quick Buttons */}
+            {/* Preset Quick Buttons - Fey Style */}
             <div className="flex items-center gap-2">
-              <span className="text-sm text-theme-primary font-semibold">Presets:</span>
+              <span className="text-sm text-theme-secondary font-medium">Presets:</span>
               <div className="flex gap-2">
                 {Object.entries(CHART_PRESETS).slice(0, 5).map(([key, preset]) => (
                   <button
                     key={key}
                     onClick={() => applyPreset(key)}
-                    className={`px-3 py-1.5 text-xs rounded-lg transition-all ${
+                    className={`px-3 py-1.5 text-xs rounded-lg border transition-all ${
                       selectedPreset === key
-                        ? 'bg-brand text-white'
-                        : 'bg-theme-tertiary text-theme-secondary hover:bg-brand/10 hover:text-brand'
+                        ? 'bg-theme-primary text-theme-bg border-theme-primary'
+                        : 'bg-transparent text-theme-muted border-white/[0.08] hover:border-white/[0.15] hover:text-theme-primary'
                     }`}
                     title={(preset as LocalChartPreset).description}
                   >
@@ -2029,12 +2029,12 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 ))}
               </div>
             </div>
- 
-            {/* More Presets Dropdown */}
+
+            {/* More Presets Dropdown - Fey Style */}
             <select
               value={selectedPreset}
               onChange={(e) => applyPreset(e.target.value)}
-              className="px-3 py-1.5 text-xs bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-theme-hover transition-colors"
+              className="px-3 py-1.5 text-xs bg-transparent text-theme-muted border border-white/[0.08] rounded-lg hover:border-white/[0.15] hover:text-theme-primary transition-colors cursor-pointer"
             >
               <option value="">Weitere Presets...</option>
               <optgroup label="Standard Presets">
@@ -2054,11 +2054,11 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 </optgroup>
               )}
             </select>
- 
-            {/* Save Current Button */}
+
+            {/* Save Current Button - Fey Style */}
             <button
               onClick={() => handlePremiumAction(() => setShowSavePresetDialog(true))}
-              className="px-3 py-1.5 text-xs bg-theme-tertiary text-theme-secondary rounded-lg hover:bg-brand/10 hover:text-brand-light transition-colors"
+              className="px-3 py-1.5 text-xs bg-transparent text-theme-muted border border-white/[0.08] rounded-lg hover:border-white/[0.15] hover:text-theme-primary transition-colors"
             >
               💾 Aktuelle Auswahl speichern
             </button>
@@ -2190,63 +2190,49 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
 )}
         </div>
         
-        {/* KENNZAHLEN AUSWAHL - PROFESSIONELL */}
-     {/* KENNZAHLEN AUSWAHL - CLEAN & MINIMAL */}
-     <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <h4 className="text-sm font-medium text-theme-secondary">Kennzahlen</h4>
-            <div className="flex gap-3 text-xs">
-              <button
-                onClick={() => handlePremiumAction(() => {
-                  setVisibleCharts(ALL_METRICS)
-                  setSelectedPreset('')
-                })}
-                className="text-theme-muted hover:text-theme-primary transition-colors"
-              >
-                Alle
-              </button>
-              <span className="text-theme-muted">|</span>
-              <button
-                onClick={() => handlePremiumAction(() => {
-                  setVisibleCharts([])
-                  setSelectedPreset('')
-                })}
-                className="text-theme-muted hover:text-theme-primary transition-colors"
-              >
-                Keine
-              </button>
-            </div>
-          </div>
-          
-          <div className="flex flex-wrap gap-x-6 gap-y-2">
-            {ALL_METRICS.map((chartKey) => (
+        {/* KENNZAHLEN AUSWAHL - Fey Style: Clean Pill Toggles */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {ALL_METRICS.map((chartKey) => {
+            const isSelected = visibleCharts.includes(chartKey)
+
+            return (
               <button
                 key={chartKey}
                 onClick={() => handlePremiumAction(() => toggleChartVisibility(chartKey))}
-                className="flex items-center gap-2 py-1 text-sm transition-colors group"
+                className={`px-3 py-1.5 text-xs rounded-md transition-all ${
+                  isSelected
+                    ? 'bg-theme-primary text-theme-bg font-medium'
+                    : 'text-theme-muted hover:text-theme-primary hover:bg-white/[0.04]'
+                }`}
               >
-                {/* Checkbox Style Indicator */}
-                <div className={`w-4 h-4 rounded border-2 flex items-center justify-center transition-all ${
-                  visibleCharts.includes(chartKey) 
-                    ? 'bg-brand border-brand' 
-                    : 'border-theme-muted group-hover:border-theme-secondary'
-                }`}>
-                  {visibleCharts.includes(chartKey) && (
-                    <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                    </svg>
-                  )}
-                </div>
-                <span className={`transition-colors ${
-                  visibleCharts.includes(chartKey) 
-                    ? 'text-theme-primary' 
-                    : 'text-theme-muted group-hover:text-theme-secondary'
-                }`}>
-                  {getChartName(chartKey)}
-                </span>
+                {getChartName(chartKey)}
               </button>
-            ))}
-          </div>
+            )
+          })}
+
+          {/* Divider */}
+          <div className="w-px h-5 bg-white/[0.08] mx-2" />
+
+          {/* Quick Actions */}
+          <button
+            onClick={() => handlePremiumAction(() => {
+              setVisibleCharts(ALL_METRICS)
+              setSelectedPreset('')
+            })}
+            className="px-2 py-1.5 text-xs text-theme-muted hover:text-theme-primary transition-colors"
+          >
+            Alle
+          </button>
+          <span className="text-white/[0.15]">|</span>
+          <button
+            onClick={() => handlePremiumAction(() => {
+              setVisibleCharts([])
+              setSelectedPreset('')
+            })}
+            className="px-2 py-1.5 text-xs text-theme-muted hover:text-theme-primary transition-colors"
+          >
+            Keine
+          </button>
         </div>
       </div>
  

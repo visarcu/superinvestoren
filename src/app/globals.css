@@ -1199,6 +1199,36 @@ article ul, article ol {
   background-color: var(--color-bg-hover) !important;
 }
 
+/* ===== GLOBAL SCROLLBAR STYLES ===== */
+/* Dark mode - default for app */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+}
+
 /* Scrollbar in light mode */
 :root:not(.dark) ::-webkit-scrollbar-thumb {
   background-color: rgba(0, 0, 0, 0.2) !important;
@@ -1206,6 +1236,28 @@ article ul, article ol {
 
 :root:not(.dark) ::-webkit-scrollbar-thumb:hover {
   background-color: rgba(0, 0, 0, 0.3) !important;
+}
+
+:root:not(.dark) * {
+  scrollbar-color: rgba(0, 0, 0, 0.15) transparent;
+}
+
+/* ===== SELECT DROPDOWNS - Dark Theme Compatible ===== */
+select {
+  background-color: var(--color-bg-card);
+  color: var(--color-text-primary);
+}
+
+select option {
+  background-color: var(--color-bg-card);
+  color: var(--color-text-primary);
+  padding: 8px 12px;
+}
+
+select optgroup {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-secondary);
+  font-weight: 600;
 }
 
 /* Preserve colored elements */

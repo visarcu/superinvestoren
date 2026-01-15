@@ -717,6 +717,12 @@ export default function StockComparisonPage() {
                           if (value >= 1e6) return `${(value / 1e6).toFixed(0)} Mio`
                           return value.toFixed(0)
                         }
+                        if (selectedMetric === 'shares') {
+                          if (value >= 1e12) return `${(value / 1e12).toFixed(1)} Bio`
+                          if (value >= 1e9) return `${(value / 1e9).toFixed(1)} Mrd`
+                          if (value >= 1e6) return `${(value / 1e6).toFixed(0)} Mio`
+                          return value.toFixed(0)
+                        }
                         return value.toFixed(0)
                       }}
                       domain={['auto', 'auto']}
@@ -741,6 +747,12 @@ export default function StockComparisonPage() {
                           if (value >= 1e9) return [`${(value / 1e9).toFixed(2)} Mrd $`, name]
                           if (value >= 1e6) return [`${(value / 1e6).toFixed(2)} Mio $`, name]
                           return [`${value.toFixed(0)} $`, name]
+                        }
+                        if (selectedMetric === 'shares') {
+                          if (value >= 1e12) return [`${(value / 1e12).toFixed(2)} Bio Aktien`, name]
+                          if (value >= 1e9) return [`${(value / 1e9).toFixed(2)} Mrd Aktien`, name]
+                          if (value >= 1e6) return [`${(value / 1e6).toFixed(2)} Mio Aktien`, name]
+                          return [`${value.toFixed(0)} Aktien`, name]
                         }
                         return [value.toFixed(2), name]
                       }}
