@@ -312,7 +312,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               </span>
               {performanceStats && (
                 <span className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                  {isPositive ? '↗' : '↘'}{formatPercentage(performanceStats.changePercent)}
+                  {isPositive ? '↗' : '↘'}{formatPercentage(performanceStats.changePercent, false)}
                 </span>
               )}
               <span className="text-xs text-theme-muted">({selectedRange})</span>
@@ -500,7 +500,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 fontSize="13"
                 fontWeight="600"
               >
-                {isPositive ? '+' : ''}{formatPercentage(performanceStats.changePercent)}
+                {formatPercentage(performanceStats.changePercent)}
               </text>
             )}
 
