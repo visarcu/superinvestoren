@@ -94,6 +94,8 @@ export async function POST(request: NextRequest) {
 
     let totalEmailsSent = 0
     let totalInAppNotifications = 0
+    let totalTickersChecked = 0
+    let totalDipsFound = 0
 
     // 2. Für jeden User: Watchlist prüfen
     for (const userSettings of usersWithNotifications || []) {
@@ -107,6 +109,8 @@ export async function POST(request: NextRequest) {
         if (watchlistError || !watchlistItems?.length) {
           continue
         }
+
+        totalTickersChecked += watchlistItems.length
 
         const dippedStocks = []
         const inAppNotificationsToCreate = []
@@ -129,6 +133,7 @@ export async function POST(request: NextRequest) {
             const isDip = dipPercent <= -userSettings.watchlist_threshold_percent
             
             if (isDip) {
+              totalDipsFound++
               // Prüfen letzte Notification für diese Aktie
               const { data: lastNotification } = await supabaseService
                 .from('notification_log')
@@ -269,13 +274,16 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    console.log(`[Cron] Checked ${totalTickersChecked} tickers, found ${totalDipsFound} dips`)
     console.log(`[Cron] Sent ${totalEmailsSent} email notifications`)
     console.log(`[Cron] Created ${totalInAppNotifications} in-app notifications`)
-    
+
     return NextResponse.json({
       success: true,
       testMode: !!TEST_USER_ID,
       usersChecked: usersWithNotifications?.length || 0,
+      tickersChecked: totalTickersChecked,
+      dipsFound: totalDipsFound,
       emailNotificationsSent: totalEmailsSent,
       inAppNotificationsSent: totalInAppNotifications
     })

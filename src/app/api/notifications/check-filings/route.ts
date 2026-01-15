@@ -143,19 +143,27 @@ export async function POST(request: NextRequest) {
 
     let totalFilingNotifications = 0
     let totalFilingEmails = 0
+    let totalInvestorsChecked = 0
+    let newFilingsFound = 0
+    const newFilingsList: string[] = []
 
     // Für jeden User prüfen
     for (const userSettings of usersWithFilingNotifications || []) {
       const preferredInvestors = userSettings.preferred_investors || []
-      
+
       if (preferredInvestors.length === 0) continue
 
       for (const investorSlug of preferredInvestors) {
+        totalInvestorsChecked++
         try {
           // Check für neue Filings für diesen Investor
           const hasNewFiling = await checkForNewFiling(investorSlug)
           
           if (hasNewFiling) {
+            if (!newFilingsList.includes(investorSlug)) {
+              newFilingsFound++
+              newFilingsList.push(investorSlug)
+            }
             // Prüfen ob wir schon heute eine Filing-Notification gesendet haben
             const today = new Date().toISOString().split('T')[0]
             
@@ -226,13 +234,18 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    console.log(`[Filing Cron] Checked ${totalInvestorsChecked} investor subscriptions`)
+    console.log(`[Filing Cron] Found ${newFilingsFound} new filings: ${newFilingsList.join(', ') || 'none'}`)
     console.log(`[Filing Cron] Created ${totalFilingNotifications} in-app notifications`)
     console.log(`[Filing Cron] Sent ${totalFilingEmails} filing emails`)
-    
+
     return NextResponse.json({
       success: true,
       testMode: !!TEST_USER_ID,
       usersChecked: usersWithFilingNotifications?.length || 0,
+      investorsChecked: totalInvestorsChecked,
+      newFilingsFound,
+      newFilingsList,
       filingNotificationsSent: totalFilingNotifications,
       filingEmailsSent: totalFilingEmails
     })

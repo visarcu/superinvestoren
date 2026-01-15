@@ -10,7 +10,8 @@ import {
   UserIcon,
   CheckIcon,
   XMarkIcon,
-  ArrowLeftIcon
+  ArrowLeftIcon,
+  CalendarIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
@@ -20,6 +21,9 @@ interface NotificationSettings {
   filings_enabled: boolean
   preferred_investors: string[]
   email_frequency: 'immediate' | 'daily' | 'weekly'
+  earnings_enabled: boolean
+  earnings_email_enabled: boolean
+  earnings_days_before: number
 }
 
 export default function NotificationSettings() {
@@ -28,7 +32,10 @@ export default function NotificationSettings() {
     watchlist_threshold_percent: 10,
     filings_enabled: false,
     preferred_investors: [],
-    email_frequency: 'immediate'
+    email_frequency: 'immediate',
+    earnings_enabled: true,
+    earnings_email_enabled: false,
+    earnings_days_before: 3
   })
 
   const [loading, setLoading] = useState(true)
@@ -68,7 +75,10 @@ export default function NotificationSettings() {
           watchlist_threshold_percent: data.watchlist_threshold_percent,
           filings_enabled: data.filings_enabled,
           preferred_investors: data.preferred_investors || [],
-          email_frequency: data.email_frequency
+          email_frequency: data.email_frequency,
+          earnings_enabled: data.earnings_enabled ?? true,
+          earnings_email_enabled: data.earnings_email_enabled ?? false,
+          earnings_days_before: data.earnings_days_before ?? 3
         })
       }
     } catch (error) {
@@ -400,6 +410,80 @@ export default function NotificationSettings() {
                   </div>
                 )}
               </div>
+            )}
+          </div>
+        </div>
+
+        {/* Earnings Alerts Section */}
+        <div className="border-b border-theme pb-8 mb-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+              <CalendarIcon className="w-5 h-5 text-orange-400" />
+            </div>
+            <div>
+              <h2 className="text-base font-medium text-theme-primary">Earnings-Alerts</h2>
+              <p className="text-theme-muted text-sm">Erinnerungen für anstehende Quartalszahlen</p>
+            </div>
+          </div>
+
+          <div className="space-y-4 max-w-md">
+            <div className="flex items-center justify-between py-3">
+              <div>
+                <p className="text-sm font-medium text-theme-primary">Earnings-Benachrichtigungen</p>
+                <p className="text-xs text-theme-muted">In-App Alerts für Aktien in deiner Watchlist</p>
+              </div>
+              <button
+                onClick={() => updateSetting('earnings_enabled', !settings.earnings_enabled)}
+                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                  settings.earnings_enabled ? 'bg-emerald-500' : 'bg-theme-tertiary'
+                }`}
+              >
+                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
+                  settings.earnings_enabled ? 'translate-x-6' : 'translate-x-1'
+                }`} />
+              </button>
+            </div>
+
+            {settings.earnings_enabled && (
+              <>
+                <div className="flex items-center justify-between py-3 border-t border-theme">
+                  <div>
+                    <p className="text-sm font-medium text-theme-primary">E-Mail-Benachrichtigung</p>
+                    <p className="text-xs text-theme-muted">Zusätzlich per E-Mail erinnern</p>
+                  </div>
+                  <button
+                    onClick={() => updateSetting('earnings_email_enabled', !settings.earnings_email_enabled)}
+                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                      settings.earnings_email_enabled ? 'bg-emerald-500' : 'bg-theme-tertiary'
+                    }`}
+                  >
+                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
+                      settings.earnings_email_enabled ? 'translate-x-6' : 'translate-x-1'
+                    }`} />
+                  </button>
+                </div>
+
+                <div className="py-3 border-t border-theme">
+                  <p className="text-sm font-medium text-theme-primary mb-3">
+                    Erinnere mich {settings.earnings_days_before} Tag{settings.earnings_days_before !== 1 ? 'e' : ''} vorher
+                  </p>
+                  <div className="flex gap-2">
+                    {[1, 2, 3, 5, 7].map(days => (
+                      <button
+                        key={days}
+                        onClick={() => updateSetting('earnings_days_before', days)}
+                        className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
+                          settings.earnings_days_before === days
+                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                            : 'bg-theme-secondary text-theme-secondary hover:text-theme-primary border border-transparent'
+                        }`}
+                      >
+                        {days} {days === 1 ? 'Tag' : 'Tage'}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </>
             )}
           </div>
         </div>

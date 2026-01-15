@@ -112,9 +112,9 @@ export async function POST(request: NextRequest) {
                 Du erhältst diese E-Mail aufgrund deiner Watchlist-Einstellungen.
               </p>
               <div style="text-align: center;">
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL}/notifications/settings" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">Einstellungen</a>
+                <a href="https://finclue.de/notifications/settings" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">Einstellungen</a>
                 <span style="color: #d1d5db;">•</span>
-                <a href="${process.env.NEXT_PUBLIC_BASE_URL}" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">FinClue</a>
+                <a href="https://finclue.de" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">FinClue</a>
               </div>
             </div>
 
