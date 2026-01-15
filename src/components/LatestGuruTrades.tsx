@@ -44,7 +44,8 @@ const investorNames: Record<string, string> = {
   mandel: 'Stephen Mandel',
   marks: 'Howard Marks',
   rogers: 'John Rogers',
-  spier: 'Guy Spier'
+  spier: 'Guy Spier',
+  gregalexander: 'Greg Alexander'
 }
 
 // Investor Images
@@ -81,9 +82,10 @@ const getInvestorImage = (slug: string): string => {
     akre: 'akre.png',
     russo: 'russo.png',
     gayner: 'gayner.png',
-    weitz: 'weitz.png'
+    weitz: 'weitz.png',
+    gregalexander: 'gregalexander.png'
   }
-  
+
   return imageMap[slug] ? `/images/${imageMap[slug]}` : '/images/default-investor.png'
 }
 

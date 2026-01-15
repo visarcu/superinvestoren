@@ -283,85 +283,72 @@ export default function InvestorTabs({
 
   return (
     <div>
-      {/* Tab Navigation - Komplett Schwarz/Grau */}
-      <div className="flex flex-wrap gap-2 mb-8">
-        {availableTabs.map(({ key, label, icon: Icon, isHighlighted, description }) => (
-          <button
-            key={key}
-            onClick={() => onTabChange(key)}
-            className={`px-6 py-3 rounded-xl font-medium transition-all duration-200 flex items-center gap-2 relative group hover:scale-[1.02] ${
-              tab === key
-                ? isHighlighted
-                  ? 'bg-gradient-to-r from-green-600 to-green-500 text-white shadow-lg shadow-green-500/25'
-                  : key === 'ai'
-                    ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg shadow-purple-500/25'
-                    : 'bg-gray-700 text-white shadow-lg shadow-gray-500/25'
-                : 'bg-gray-800/50 text-gray-400 hover:text-white hover:bg-gray-700/50 transition-colors'
-            }`}
-            title={description}
-          >
-            <Icon className="w-4 h-4" />
-            {label}
-            {isHighlighted && tab !== key && (
-              <div className="absolute -top-1 -right-1 w-2 h-2 bg-green-400 rounded-full animate-pulse" />
-            )}
-          </button>
-        ))}
+      {/* Tab Navigation - Fey/Quartr Pill Style */}
+      <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg w-fit">
+        {availableTabs.map(({ key, label, icon: Icon, description }) => {
+          const isActive = tab === key
+          return (
+            <button
+              key={key}
+              onClick={() => onTabChange(key)}
+              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
+                isActive
+                  ? 'bg-theme-card text-theme-primary shadow-sm'
+                  : 'text-theme-muted hover:text-theme-secondary'
+              }`}
+              title={description}
+            >
+              <Icon className="w-4 h-4" />
+              {label}
+            </button>
+          )
+        })}
       </div>
 
-      {/* Tab Content - Echtes Schwarz */}
+      {/* Tab Content - Theme-aware */}
       {tab === 'portfolio' || tab === 'transactions' ? (
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl overflow-hidden hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
-          
+        <div className="bg-theme-card border border-white/[0.06] rounded-xl overflow-hidden mt-6">
+
           {/* PORTFOLIO TAB */}
           {tab === 'portfolio' && (
             <div className="overflow-x-auto">
-              <table className="w-full border-collapse text-gray-100">
+              <table className="w-full border-collapse">
                 <thead>
-                  <tr className="text-sm text-gray-400 border-b border-white/[0.1] bg-[#0F0F11]">
-                    <th className="text-left px-6 py-5 font-semibold tracking-wide">Unternehmen</th>
-                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Aktien</th>
-                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Wert (USD)</th>
-                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Anteil</th>
-                    <th className="text-right px-6 py-5 font-semibold tracking-wide">Letzte Aktivität</th>
+                  <tr className="text-sm text-theme-muted border-b border-white/[0.06]">
+                    <th className="text-left px-5 py-4 font-medium">Unternehmen</th>
+                    <th className="text-right px-5 py-4 font-medium">Aktien</th>
+                    <th className="text-right px-5 py-4 font-medium">Wert (USD)</th>
+                    <th className="text-right px-5 py-4 font-medium">Anteil</th>
+                    <th className="text-right px-5 py-4 font-medium">Aktivität</th>
                   </tr>
                 </thead>
                 <tbody>
                   {displayedHoldings.map((p, i) => (
-                    <tr 
-                      key={i} 
-                      className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200 group"
+                    <tr
+                      key={i}
+                      className="border-b border-white/[0.04] hover:bg-theme-hover transition-colors"
                     >
-                      <td className="px-6 py-5">
+                      <td className="px-5 py-4">
                         <NameAndTicker position={p} />
                       </td>
-                      <td className="px-6 py-4 text-right font-mono text-gray-300 group-hover:text-white transition-colors">
+                      <td className="px-5 py-4 text-right font-mono text-theme-secondary text-sm">
                         {fmtShares(p.shares)}
                       </td>
-                      <td className="px-6 py-4 text-right font-mono font-semibold text-white">
+                      <td className="px-5 py-4 text-right font-mono font-medium text-theme-primary text-sm">
                         {fmtValue(p.value)}
                       </td>
-                      <td className="px-6 py-4 text-right font-mono text-gray-300">
+                      <td className="px-5 py-4 text-right font-mono text-theme-secondary text-sm">
                         {fmtPercent(p.value / holdings.reduce((s,x)=>s+x.value,0))}
                       </td>
                       <td className="px-6 py-4 text-right">
                         {p.deltaShares > 0
                           ? (p.pctDelta === 0
-                              ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-brand/20 text-brand-light rounded-full text-sm font-medium border border-green-500/30">
-                                  <ArrowTrendingUpIcon className="w-3 h-3" />
-                                  Neueinkauf
-                                </span>
-                              : <span className="inline-flex items-center gap-1 px-3 py-1 bg-brand/20 text-brand-light rounded-full text-sm font-medium border border-green-500/30">
-                                  <ArrowTrendingUpIcon className="w-3 h-3" />
-                                  +{fmtPercent(p.pctDelta)}
-                                </span>
+                              ? <span className="text-emerald-400 text-sm font-medium">Neu</span>
+                              : <span className="text-emerald-400 text-sm font-medium">+{fmtPercent(p.pctDelta)}</span>
                             )
                           : p.deltaShares < 0
-                            ? <span className="inline-flex items-center gap-1 px-3 py-1 bg-red-500/20 text-red-400 rounded-full text-sm font-medium border border-red-500/30">
-                                <ArrowTrendingDownIcon className="w-3 h-3" />
-                                -{fmtPercent(Math.abs(p.pctDelta))}
-                              </span>
-                            : <span className="text-gray-500 text-sm">—</span>
+                            ? <span className="text-red-400 text-sm font-medium">-{fmtPercent(Math.abs(p.pctDelta))}</span>
+                            : <span className="text-theme-muted text-sm">—</span>
                         }
                       </td>
                     </tr>
@@ -370,83 +357,67 @@ export default function InvestorTabs({
               </table>
 
               {holdings.length > 20 && (
-                <div className="border-t border-white/[0.06] p-6 text-center bg-[#0F0F11]">
+                <div className="border-t border-white/[0.06] p-4 text-center">
                   <button
                     onClick={() => setShowAll(!showAll)}
-                    className="px-6 py-3 text-sm rounded-lg bg-[#161618] hover:bg-[#1A1A1D] text-gray-200 hover:text-white transition-all duration-200 font-medium hover:scale-105 shadow-lg border border-white/[0.06]"
+                    className="px-4 py-2 text-sm rounded-lg bg-theme-secondary/30 hover:bg-theme-hover text-theme-secondary hover:text-theme-primary transition-colors font-medium"
                   >
                     {showAll
-                      ? 'Weniger Positionen anzeigen'
-                      : `Alle ${holdings.length} Positionen anzeigen`}
+                      ? 'Weniger anzeigen'
+                      : `Alle ${holdings.length} Positionen`}
                   </button>
                 </div>
               )}
             </div>
           )}
 
-          {/* TRANSACTIONS TAB - Alle Filter in Grau */}
+          {/* TRANSACTIONS TAB - Fey/Quartr Style */}
           {tab === 'transactions' && (
             <div>
-              <div className="flex flex-wrap gap-3 p-6 border-b border-white/[0.06] bg-[#0F0F11]">
-                <div className="flex items-center gap-2 mr-4">
-                  <ArrowsRightLeftIcon className="w-5 h-5 text-gray-400" />
-                  <span className="text-sm text-gray-400 font-semibold">Filter:</span>
-                </div>
-                
+              {/* Filter Bar */}
+              <div className="flex flex-wrap items-center gap-2 p-4 border-b border-white/[0.06]">
+                <span className="text-xs text-theme-muted mr-2">Filter:</span>
                 {[
-                  { key: 'all' as TransactionFilter, label: 'Alle', icon: BoltIcon, count: allTransactions.reduce((sum, g) => sum + g.items.length, 0) },
-                  { key: 'buys' as TransactionFilter, label: 'Käufe', icon: ArrowTrendingUpIcon, count: buys.reduce((sum, g) => sum + g.items.length, 0) },
-                  { key: 'sells' as TransactionFilter, label: 'Verkäufe', icon: ArrowTrendingDownIcon, count: sells.reduce((sum, g) => sum + g.items.length, 0) },
-                ].map(({ key, label, icon: Icon, count }) => (
+                  { key: 'all' as TransactionFilter, label: 'Alle', count: allTransactions.reduce((sum, g) => sum + g.items.length, 0) },
+                  { key: 'buys' as TransactionFilter, label: 'Käufe', count: buys.reduce((sum, g) => sum + g.items.length, 0) },
+                  { key: 'sells' as TransactionFilter, label: 'Verkäufe', count: sells.reduce((sum, g) => sum + g.items.length, 0) },
+                ].map(({ key, label, count }) => (
                   <button
                     key={key}
                     onClick={() => setTransactionFilter(key)}
-                    className={`px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 flex items-center gap-2 hover:scale-105 ${
+                    className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
                       transactionFilter === key
-                        ? key === 'buys'
-                          ? 'bg-brand text-white shadow-lg shadow-green-500/25'
-                          : key === 'sells'
-                            ? 'bg-red-600 text-white shadow-lg shadow-red-500/25'
-                            : 'bg-gray-700 text-white shadow-lg shadow-gray-500/25'
-                        : 'bg-[#161618] text-gray-400 hover:text-white hover:bg-[#1A1A1D]'
+                        ? 'bg-theme-card text-theme-primary border border-white/[0.08]'
+                        : 'text-theme-muted hover:text-theme-secondary'
                     }`}
                   >
-                    <Icon className="w-4 h-4" />
-                    {label}
-                    <span className={`px-2 py-0.5 text-xs rounded-full font-semibold ${
-                      transactionFilter === key
-                        ? 'bg-white/20 text-white'
-                        : 'bg-gray-600/50 text-gray-500'
-                    }`}>
-                      {count}
-                    </span>
+                    {label} ({count})
                   </button>
                 ))}
               </div>
 
               <div className="overflow-x-auto">
-                <table className="w-full border-collapse text-gray-100">
+                <table className="w-full border-collapse">
                   <thead>
-                    <tr className="text-sm text-gray-400 border-b border-white/[0.1] bg-[#0F0F11]">
-                      <th className="text-left px-6 py-4 font-semibold tracking-wide">Unternehmen</th>
-                      <th className="text-right px-6 py-4 font-semibold tracking-wide">Δ Aktien</th>
-                      <th className="text-right px-6 py-4 font-semibold tracking-wide">Transaktionswert</th>
-                      <th className="text-right px-6 py-4 font-semibold tracking-wide">Typ</th>
-                      <th className="text-right px-6 py-4 font-semibold tracking-wide">% Veränderung</th>
+                    <tr className="text-sm text-theme-muted border-b border-white/[0.06]">
+                      <th className="text-left px-5 py-4 font-medium">Unternehmen</th>
+                      <th className="text-right px-5 py-4 font-medium">Δ Aktien</th>
+                      <th className="text-right px-5 py-4 font-medium">Wert</th>
+                      <th className="text-right px-5 py-4 font-medium">Typ</th>
+                      <th className="text-right px-5 py-4 font-medium">Veränderung</th>
                     </tr>
                   </thead>
                   <tbody>
                     {getFilteredTransactions().map((group, gi) => (
                       <React.Fragment key={gi}>
                         <tr>
-                          <td 
-                            colSpan={5} 
-                            className="px-6 py-5 border-t border-white/[0.06] font-bold text-white uppercase tracking-wide text-sm bg-[#0F0F11]"
+                          <td
+                            colSpan={5}
+                            className="px-5 py-3 border-t border-white/[0.06] bg-theme-secondary/20"
                           >
-                            <div className="flex items-center gap-3">
-                              <div className="w-2 h-2 bg-green-400 rounded-full"></div>
-                              {group.period}
-                              <span className="text-xs text-gray-400 font-normal normal-case">
+                            <div className="flex items-center gap-2">
+                              <span className="text-sm font-medium text-theme-primary">{group.period}</span>
+                              <span className="text-xs text-theme-muted">
                                 ({group.items.length} Transaktionen)
                               </span>
                             </div>
@@ -455,76 +426,53 @@ export default function InvestorTabs({
 
                         {group.items.length > 0
                           ? group.items.map((p, i) => (
-                              <tr key={i} className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200 group">
-                                <td className="px-6 py-5">
+                              <tr key={i} className="border-b border-white/[0.04] hover:bg-theme-hover transition-colors">
+                                <td className="px-5 py-4">
                                   <NameAndTicker position={p} />
                                 </td>
-                                <td className="px-6 py-5 text-right">
-                                  <span className={`inline-flex items-center gap-1 px-3 py-1.5 text-sm rounded-full font-semibold border ${
-                                    p.deltaShares > 0
-                                      ? 'bg-brand/20 text-green-300 border-green-500/30'
-                                      : 'bg-red-500/20 text-red-300 border-red-500/30'
+                                <td className="px-5 py-4 text-right">
+                                  <span className={`text-sm font-medium ${
+                                    p.deltaShares > 0 ? 'text-emerald-400' : 'text-red-400'
                                   }`}>
-                                    {p.deltaShares > 0 ? (
-                                      <ArrowTrendingUpIcon className="w-3 h-3" />
-                                    ) : (
-                                      <ArrowTrendingDownIcon className="w-3 h-3" />
-                                    )}
                                     {p.deltaShares > 0 ? '+' : ''}{formatShares(p.deltaShares)}
                                   </span>
                                 </td>
-                                <td className="px-6 py-5 text-right">
-                                  <span className="text-white font-semibold font-mono">
+                                <td className="px-5 py-4 text-right">
+                                  <span className="text-theme-primary font-mono text-sm">
                                     {(() => {
                                       const transactionValue = Math.abs(p.deltaShares * (p.value / p.shares))
                                       return formatCurrency(transactionValue)
                                     })()}
                                   </span>
                                 </td>
-                                <td className="px-6 py-5 text-right">
-                                  <span className={`text-sm font-semibold ${
-                                    p.deltaShares > 0 ? 'text-brand-light' : 'text-red-400'
+                                <td className="px-5 py-4 text-right">
+                                  <span className={`text-sm ${
+                                    p.deltaShares > 0 ? 'text-emerald-400' : 'text-red-400'
                                   }`}>
                                     {p.deltaShares > 0 ? 'Kauf' : 'Verkauf'}
                                   </span>
                                 </td>
-                                <td className="px-6 py-4 text-right font-mono text-gray-300 group-hover:text-white transition-colors">
+                                <td className="px-5 py-4 text-right text-theme-secondary text-sm">
                                   {(() => {
                                     const prevShares = p.shares - p.deltaShares
                                     if (prevShares === 0) {
-                                      return <span className="text-brand-light font-semibold text-sm">Neueinkauf</span>
+                                      return <span className="text-emerald-400">Neu</span>
                                     }
-                                    return <span className="font-semibold">{formatPercentage(Math.abs(p.pctDelta) * 100, false)}</span>
+                                    return formatPercentage(Math.abs(p.pctDelta) * 100, false)
                                   })()}
                                 </td>
                               </tr>
                             ))
                           : (
                             <tr>
-                              <td colSpan={5} className="px-6 py-12 text-center text-gray-500">
-                                <div className="flex flex-col items-center gap-3">
-                                  <div className="w-16 h-16 rounded-full flex items-center justify-center bg-gray-900/50 border border-gray-800/50">
-                                    {transactionFilter === 'buys' ? (
-                                      <ArrowTrendingUpIcon className="w-8 h-8 text-gray-600" />
-                                    ) : transactionFilter === 'sells' ? (
-                                      <ArrowTrendingDownIcon className="w-8 h-8 text-gray-600" />
-                                    ) : (
-                                      <BoltIcon className="w-8 h-8 text-gray-600" />
-                                    )}
-                                  </div>
-                                  <div className="text-center">
-                                    <p className="text-sm font-medium text-gray-400">
-                                      {transactionFilter === 'buys'
-                                        ? 'Keine Käufe in diesem Quartal'
-                                        : transactionFilter === 'sells'
-                                          ? 'Keine Verkäufe in diesem Quartal'
-                                          : 'Keine Transaktionen in diesem Quartal'}
-                                    </p>
-                                    <p className="text-xs text-gray-600 mt-1">
-                                      Der Investor war in diesem Zeitraum inaktiv
-                                    </p>
-                                  </div>
-                                </div>
+                              <td colSpan={5} className="px-5 py-8 text-center">
+                                <p className="text-sm text-theme-muted">
+                                  {transactionFilter === 'buys'
+                                    ? 'Keine Käufe in diesem Quartal'
+                                    : transactionFilter === 'sells'
+                                      ? 'Keine Verkäufe in diesem Quartal'
+                                      : 'Keine Transaktionen in diesem Quartal'}
+                                </p>
                               </td>
                             </tr>
                           )

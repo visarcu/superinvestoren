@@ -82,9 +82,9 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
   };
 
   const getFormColor = (form: string) => {
-    if (form.includes('/A')) return 'text-yellow-400 bg-yellow-500/20';
-    if (form.startsWith('13F')) return 'text-brand-light bg-brand/20';
-    return 'text-gray-400 bg-gray-500/20';
+    if (form.includes('/A')) return 'text-amber-400 bg-amber-500/10 border border-amber-500/20';
+    if (form.startsWith('13F')) return 'text-emerald-400 bg-emerald-500/10 border border-emerald-500/20';
+    return 'text-theme-muted bg-theme-secondary/20 border border-white/[0.06]';
   };
 
   return (
@@ -93,22 +93,22 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-blue-500/20 rounded-lg flex items-center justify-center">
-            <DocumentTextIcon className="w-5 h-5 text-blue-400" />
+          <div className="w-10 h-10 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+            <DocumentTextIcon className="w-5 h-5 text-theme-muted" />
           </div>
           <div>
-            <h2 className="text-xl font-bold text-white">SEC Filings</h2>
-            <p className="text-sm text-gray-400">Originale Quelldokumente</p>
+            <h2 className="text-lg font-medium text-theme-primary">SEC Filings</h2>
+            <p className="text-sm text-theme-muted">Originale Quelldokumente</p>
           </div>
         </div>
 
         {/* Filter */}
         <div className="flex items-center gap-2">
-          <FunnelIcon className="w-4 h-4 text-gray-400" />
+          <FunnelIcon className="w-4 h-4 text-theme-muted" />
           <select
             value={filterType}
             onChange={(e) => setFilterType(e.target.value as any)}
-            className="bg-gray-800 border border-gray-700 text-white text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-theme-card border border-white/[0.06] text-theme-primary text-sm rounded-lg px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-emerald-500/30"
           >
             <option value="all">Alle Filings</option>
             <option value="13F">Nur 13F</option>
@@ -119,29 +119,29 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-white">{filings.length}</div>
-          <div className="text-sm text-gray-400">Gesamt Filings</div>
+        <div className="bg-theme-secondary/20 border border-white/[0.04] rounded-xl p-4 text-center">
+          <div className="text-2xl font-semibold text-theme-primary">{filings.length}</div>
+          <div className="text-sm text-theme-muted">Gesamt Filings</div>
         </div>
-        <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-brand-light">
+        <div className="bg-theme-secondary/20 border border-white/[0.04] rounded-xl p-4 text-center">
+          <div className="text-2xl font-semibold text-emerald-400">
             {filings.filter(f => f.form.startsWith('13F')).length}
           </div>
-          <div className="text-sm text-gray-400">13F Reports</div>
+          <div className="text-sm text-theme-muted">13F Reports</div>
         </div>
-        <div className="bg-gray-800/50 rounded-lg p-4 text-center">
-          <div className="text-2xl font-bold text-yellow-400">
+        <div className="bg-theme-secondary/20 border border-white/[0.04] rounded-xl p-4 text-center">
+          <div className="text-2xl font-semibold text-amber-400">
             {filings.filter(f => f.status === 'amendment').length}
           </div>
-          <div className="text-sm text-gray-400">Korrekturen</div>
+          <div className="text-sm text-theme-muted">Korrekturen</div>
         </div>
       </div>
 
       {/* Filings Table */}
-      <div className="bg-gray-800/30 rounded-xl border border-gray-700 overflow-hidden">
-        
+      <div className="bg-theme-card border border-white/[0.06] rounded-xl overflow-hidden">
+
         {/* Table Header */}
-        <div className="grid grid-cols-6 gap-4 p-4 bg-gray-800/50 border-b border-gray-700 text-sm font-medium text-gray-400">
+        <div className="grid grid-cols-6 gap-4 p-4 bg-theme-secondary/20 border-b border-white/[0.06] text-sm font-medium text-theme-muted">
           <div>Formular-Typ</div>
           <div>Periode</div>
           <div>Eingereicht am</div>
@@ -151,11 +151,11 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
         </div>
 
         {/* Table Body */}
-        <div className="divide-y divide-gray-700">
+        <div className="divide-y divide-white/[0.04]">
           {filteredFilings.map((filing, index) => (
-            <div 
+            <div
               key={`${filing.quarter}-${index}`}
-              className="grid grid-cols-6 gap-4 p-4 hover:bg-gray-800/30 transition-colors"
+              className="grid grid-cols-6 gap-4 p-4 hover:bg-theme-hover transition-colors"
             >
               {/* Form Type */}
               <div className="flex items-center gap-2">
@@ -163,23 +163,23 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
                   {filing.form}
                 </span>
                 {filing.status === 'amendment' && (
-                  <span className="text-xs text-yellow-400" title="Korrektur">●</span>
+                  <span className="text-xs text-amber-400" title="Korrektur">●</span>
                 )}
               </div>
 
               {/* Period */}
-              <div className="text-white font-medium">{filing.quarter}</div>
+              <div className="text-theme-primary font-medium">{filing.quarter}</div>
 
               {/* Filing Date */}
-              <div className="text-gray-300">{formatDate(filing.date)}</div>
+              <div className="text-theme-secondary">{formatDate(filing.date)}</div>
 
               {/* Positions */}
-              <div className="text-gray-300">{filing.positions.toLocaleString('de-DE')}</div>
+              <div className="text-theme-secondary">{filing.positions.toLocaleString('de-DE')}</div>
 
               {/* Accession */}
-              <div className="text-gray-400 font-mono text-xs">
-                {filing.accession !== 'N/A' ? 
-                  filing.accession.substring(0, 15) + '...' : 
+              <div className="text-theme-muted font-mono text-xs">
+                {filing.accession !== 'N/A' ?
+                  filing.accession.substring(0, 15) + '...' :
                   'Nicht verfügbar'
                 }
               </div>
@@ -191,14 +191,14 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
                     href={filing.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium rounded transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 text-xs font-medium rounded-lg border border-emerald-500/20 transition-colors"
                   >
                     <DocumentTextIcon className="w-3 h-3" />
                     SEC öffnen
                     <ArrowTopRightOnSquareIcon className="w-3 h-3" />
                   </a>
                 ) : (
-                  <span className="text-gray-500 text-xs">Nicht verfügbar</span>
+                  <span className="text-theme-muted text-xs">Nicht verfügbar</span>
                 )}
               </div>
             </div>
@@ -206,7 +206,7 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
         </div>
 
         {filteredFilings.length === 0 && (
-          <div className="p-8 text-center text-gray-500">
+          <div className="p-8 text-center text-theme-muted">
             <DocumentTextIcon className="w-12 h-12 mx-auto mb-4 opacity-30" />
             <p>Keine Filings für den gewählten Filter gefunden.</p>
           </div>
@@ -214,15 +214,15 @@ export default function FilingsTab({ investorSlug, snapshots }: FilingsTabProps)
       </div>
 
       {/* Info Footer */}
-      <div className="bg-gray-800/30 rounded-lg p-4 border border-gray-700/50">
+      <div className="bg-theme-secondary/10 rounded-xl p-4 border border-white/[0.04]">
         <div className="flex items-start gap-3">
-          <InformationCircleIcon className="w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5" />
-          <div className="text-sm text-gray-400">
+          <InformationCircleIcon className="w-5 h-5 text-theme-muted flex-shrink-0 mt-0.5" />
+          <div className="text-sm text-theme-muted">
             <p className="mb-2">
-              <strong className="text-white">13F-HR:</strong> Quartalsberichte für institutionelle Investment Manager mit über 100 Mio. $ verwalteten Vermögens.
+              <strong className="text-theme-secondary">13F-HR:</strong> Quartalsberichte für institutionelle Investment Manager mit über 100 Mio. $ verwalteten Vermögens.
             </p>
             <p>
-              <strong className="text-white">Korrekturen (/A):</strong> Berichtigungen zu bereits eingereichten Reports. 
+              <strong className="text-theme-secondary">Korrekturen (/A):</strong> Berichtigungen zu bereits eingereichten Reports.
               Alle Daten auf dieser Seite basieren auf den neuesten verfügbaren Filings der SEC.
             </p>
           </div>

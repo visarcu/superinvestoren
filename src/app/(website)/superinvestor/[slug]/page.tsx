@@ -202,7 +202,7 @@ const getOptionStyling = (optionType: string | undefined) => {
       }
     case 'OPTION':
       return {
-        badge: 'bg-gray-800/50 text-gray-500 border-gray-800/30',
+        badge: 'bg-gray-800/50 text-theme-muted border-gray-800/30',
         label: 'OPTION',
         icon: '⚡'
       }
@@ -251,14 +251,14 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
       
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="font-medium text-white">
+          <span className="font-medium text-theme-primary">
             {ticker || cleanName}
           </span>
           <OptionBadge position={position} />
         </div>
         
         {ticker && cleanName !== ticker && (
-          <div className="text-sm text-gray-500 font-normal truncate">
+          <div className="text-sm text-theme-muted font-normal truncate">
             {cleanName}
           </div>
         )}
@@ -405,30 +405,30 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       
       {/* Header */}
       <div className="text-center">
-        <h2 className="text-3xl font-light text-white mb-4">
+        <h2 className="text-2xl font-semibold text-theme-primary mb-4">
           Einzelunternehmen-Analyse
         </h2>
-        <p className="text-gray-500 max-w-2xl mx-auto">
+        <p className="text-theme-muted max-w-2xl mx-auto">
           Verfolge {investorName}s Ownership-Geschichte für einzelne Unternehmen über die Zeit
         </p>
       </div>
 
       {/* Company Selector */}
-      <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+      <div className="bg-theme-card border border-theme-light rounded-xl p-5">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-[#0a0a0b] rounded-lg flex items-center justify-center">
-            <ChartBarIcon className="w-5 h-5 text-gray-400" />
+          <div className="w-10 h-10 bg-theme-primary rounded-lg flex items-center justify-center">
+            <ChartBarIcon className="w-5 h-5 text-theme-secondary" />
           </div>
-          <h3 className="text-xl font-medium text-white">Unternehmen auswählen</h3>
+          <h3 className="text-lg font-medium text-theme-primary">Unternehmen auswählen</h3>
         </div>
         
         <select
           value={selectedCompany}
           onChange={(e) => setSelectedCompany(e.target.value)}
-          className="w-full px-4 py-3 bg-[#0a0a0b] border border-white/5 rounded-lg text-white focus:outline-none focus:ring-1 focus:ring-green-900/50 focus:border-green-900/50"
+          className="w-full px-4 py-3 bg-theme-primary border border-white/5 rounded-lg text-theme-primary focus:outline-none focus:ring-1 focus:ring-green-900/50 focus:border-green-900/50"
         >
           {companies.map(company => (
-            <option key={company.cusip} value={company.cusip} className="bg-[#0a0a0b]">
+            <option key={company.cusip} value={company.cusip} className="bg-theme-primary">
               {company.displayName} {company.totalValue ? `(${formatCurrency(company.totalValue)})` : ''}
             </option>
           ))}
@@ -437,14 +437,14 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
 
       {/* Current Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+        <div className="bg-theme-card border border-theme-light rounded-xl p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
               <ChartBarIcon className="w-4 h-4 text-green-900/60" />
             </div>
-            <h4 className="text-sm font-medium text-gray-500">Aktuelle Shares</h4>
+            <h4 className="text-sm font-medium text-theme-muted">Aktuelle Shares</h4>
           </div>
-          <p className="text-2xl font-light text-white">
+          <p className="text-xl font-medium text-theme-primary">
             {latestData ? formatShares(latestData.shares) : '0'}
           </p>
           {sharesChange !== 0 && (
@@ -455,26 +455,26 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           )}
         </div>
 
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+        <div className="bg-theme-card border border-theme-light rounded-xl p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-gray-400" />
+              <ChartBarIcon className="w-4 h-4 text-theme-secondary" />
             </div>
-            <h4 className="text-sm font-medium text-gray-500">Aktueller Wert</h4>
+            <h4 className="text-sm font-medium text-theme-muted">Aktueller Wert</h4>
           </div>
-          <p className="text-2xl font-light text-white">
+          <p className="text-xl font-medium text-theme-primary">
             {latestData ? formatCurrency(latestData.value) : formatCurrency(0)}
           </p>
         </div>
 
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+        <div className="bg-theme-card border border-theme-light rounded-xl p-5">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-gray-400" />
+              <ChartBarIcon className="w-4 h-4 text-theme-secondary" />
             </div>
-            <h4 className="text-sm font-medium text-gray-500">Portfolio-Anteil</h4>
+            <h4 className="text-sm font-medium text-theme-muted">Portfolio-Anteil</h4>
           </div>
-          <p className="text-2xl font-light text-white">
+          <p className="text-xl font-medium text-theme-primary">
             {latestData ? `${formatCurrency(latestData.portfolioPercentage, 'number')}%` : '0%'}
           </p>
           {percentageChange !== 0 && (
@@ -490,14 +490,14 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         
         {/* Portfolio Percentage Chart */}
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+        <div className="bg-theme-card border border-theme-light rounded-xl p-5">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-gray-400" />
+              <ChartBarIcon className="w-4 h-4 text-theme-secondary" />
             </div>
             <div>
-              <h3 className="text-lg font-medium text-white">Portfolio-Anteil über Zeit</h3>
-              <p className="text-sm text-gray-500">{selectedCompanyInfo.ticker}</p>
+              <h3 className="text-lg font-medium text-theme-primary">Portfolio-Anteil über Zeit</h3>
+              <p className="text-sm text-theme-muted">{selectedCompanyInfo.ticker}</p>
             </div>
           </div>
           
@@ -538,14 +538,14 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
         </div>
 
         {/* Shares Chart */}
-        <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+        <div className="bg-theme-card border border-theme-light rounded-xl p-5">
           <div className="flex items-center gap-3 mb-6">
             <div className="w-8 h-8 bg-white/5 rounded-lg flex items-center justify-center">
-              <ChartBarIcon className="w-4 h-4 text-gray-400" />
+              <ChartBarIcon className="w-4 h-4 text-theme-secondary" />
             </div>
             <div>
-              <h3 className="text-lg font-medium text-white">Anzahl Aktien über Zeit</h3>
-              <p className="text-sm text-gray-500">{selectedCompanyInfo.ticker}</p>
+              <h3 className="text-lg font-medium text-theme-primary">Anzahl Aktien über Zeit</h3>
+              <p className="text-sm text-theme-muted">{selectedCompanyInfo.ticker}</p>
             </div>
           </div>
           
@@ -589,16 +589,16 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
       </div>
 
       {/* History Table */}
-      <div className="bg-[#161618] border border-white/[0.06] rounded-2xl overflow-hidden hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+      <div className="bg-theme-card border border-theme-light rounded-2xl overflow-hidden hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
         <div className="p-6 border-b border-white/5">
-          <h3 className="text-lg font-medium text-white">Detaillierte Historie</h3>
-          <p className="text-sm text-gray-500 mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
+          <h3 className="text-lg font-medium text-theme-primary">Detaillierte Historie</h3>
+          <p className="text-sm text-theme-muted mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
         </div>
         
         <div className="overflow-x-auto">
           <table className="w-full">
-            <thead className="bg-[#0F0F11] border-b border-white/[0.1]">
-              <tr className="text-sm text-gray-400">
+            <thead className="bg-theme-secondary/20 border-b border-white/[0.1]">
+              <tr className="text-sm text-theme-secondary">
                 <th className="text-left p-5 font-semibold tracking-wide">Quartal</th>
                 <th className="text-right p-5 font-semibold tracking-wide">Aktien</th>
                 <th className="text-right p-5 font-semibold tracking-wide">Wert</th>
@@ -614,8 +614,8 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                 const isSold = previousEntry?.exists && !data.exists
                 
                 return (
-                  <tr key={data.quarter} className="border-b border-white/[0.04] hover:bg-[#1A1A1D]/30 transition-all duration-200">
-                    <td className="p-5 font-semibold text-white">{data.quarter}</td>
+                  <tr key={data.quarter} className="border-b border-white/[0.04] hover:bg-theme-hover/30 transition-all duration-200">
+                    <td className="p-5 font-semibold text-theme-primary">{data.quarter}</td>
                     <td className="p-5 text-right font-mono text-gray-300 text-sm">
                       {data.exists ? formatShares(data.shares) : <span className="text-gray-600">—</span>}
                     </td>
@@ -912,34 +912,34 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
       <section className="relative bg-theme-primary pt-8 pb-10">
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-          {/* Main Hero Card - CLEAN VERSION */}
-          <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 lg:p-10">
+          {/* Main Hero Card - Fey/Quartr Style */}
+          <div className="bg-theme-card border border-theme-light rounded-xl p-6 lg:p-8">
 
             {/* Top Row: Avatar, Name, Follow Button */}
-            <div className="flex items-start justify-between gap-6 mb-8">
+            <div className="flex items-start justify-between gap-6 mb-6">
 
               {/* Left: Avatar & Name */}
-              <div className="flex items-center gap-5">
+              <div className="flex items-center gap-4">
                 <div className="relative">
                   <InvestorAvatar
                     name={mainName}
                     imageUrl={`/images/${slug}.png`}
                     size="lg"
-                    className="ring-1 ring-white/10"
+                    className="ring-1 ring-theme-light"
                   />
                   {slug === 'buffett' && (
-                    <div className="absolute -bottom-1 -right-1 w-6 h-6 bg-amber-500/20 rounded-full flex items-center justify-center border border-amber-500/30">
-                      <span className="text-xs">👑</span>
+                    <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-amber-500/20 rounded-full flex items-center justify-center border border-amber-500/30">
+                      <span className="text-[10px]">👑</span>
                     </div>
                   )}
                 </div>
 
                 <div>
-                  <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold text-white tracking-tight">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-semibold text-theme-primary">
                     {mainName}
                   </h1>
                   {subtitle && (
-                    <p className="text-gray-500 mt-1">
+                    <p className="text-theme-muted text-sm mt-0.5">
                       {subtitle}
                     </p>
                   )}
@@ -955,35 +955,35 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             </div>
 
             {/* Meta Row: Period & Update Date */}
-            <div className="flex items-center gap-4 mb-8">
-              <span className="px-3 py-1.5 bg-brand/10 text-brand-light text-sm font-medium rounded-md border border-brand/20">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 text-xs font-medium rounded-md">
                 {period}
               </span>
-              <span className="text-gray-600 text-sm flex items-center gap-2">
-                <span className="w-1.5 h-1.5 bg-brand rounded-full"></span>
+              <span className="text-theme-muted text-xs flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full"></span>
                 Aktualisiert {formattedDate}
               </span>
             </div>
 
             {/* Stats Row - Clean Inline Design */}
-            <div className="flex flex-wrap items-center gap-x-10 gap-y-4 pt-6 border-t border-white/[0.06]">
+            <div className="flex flex-wrap items-center gap-x-8 gap-y-3 pt-5 border-t border-theme-light">
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Portfolio-Wert</p>
-                <p className="text-xl font-semibold text-white">{formatCurrency(totalVal)}</p>
+                <p className="text-xs text-theme-muted uppercase tracking-wider mb-0.5">Portfolio-Wert</p>
+                <p className="text-lg font-semibold text-theme-primary">{formatCurrency(totalVal)}</p>
               </div>
 
-              <div className="w-px h-10 bg-white/[0.06] hidden sm:block"></div>
+              <div className="w-px h-8 bg-theme-light hidden sm:block"></div>
 
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Positionen</p>
-                <p className="text-xl font-semibold text-white">{holdings.length}</p>
+                <p className="text-xs text-theme-muted uppercase tracking-wider mb-0.5">Positionen</p>
+                <p className="text-lg font-semibold text-theme-primary">{holdings.length}</p>
               </div>
 
-              <div className="w-px h-10 bg-white/[0.06] hidden sm:block"></div>
+              <div className="w-px h-8 bg-theme-light hidden sm:block"></div>
 
               <div>
-                <p className="text-xs text-gray-500 uppercase tracking-wider mb-1">Top 3 Anteil</p>
-                <p className="text-xl font-semibold text-white">
+                <p className="text-xs text-theme-muted uppercase tracking-wider mb-0.5">Top 3 Anteil</p>
+                <p className="text-lg font-semibold text-theme-primary">
                   {formatCurrency((holdings.slice(0, 3).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100, 'number')}%
                 </p>
               </div>
@@ -1016,14 +1016,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
           <div className="space-y-10">
             
             {/* Portfolio Value Chart */}
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+            <div className="bg-theme-card border border-theme-light rounded-xl p-5">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                  <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-4 h-4 text-theme-muted" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-medium text-white">Portfolio-Entwicklung</h3>
-                  <p className="text-sm text-gray-600">Historische Wertentwicklung</p>
+                  <h3 className="text-lg font-medium text-theme-primary">Portfolio-Entwicklung</h3>
+                  <p className="text-sm text-theme-muted">Historische Wertentwicklung</p>
                 </div>
               </div>
               
@@ -1034,14 +1034,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
             {/* Cash Position Chart (nur für Buffett) */}
             {slug === 'buffett' && cashSeries.length > 0 && (
-              <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+              <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                    <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                  <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                    <ChartBarIcon className="w-4 h-4 text-theme-muted" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-medium text-white">Cash Position</h3>
-                    <p className="text-sm text-gray-600">Berkshire Hathaways Liquiditätsreserven</p>
+                    <h3 className="text-lg font-medium text-theme-primary">Cash Position</h3>
+                    <p className="text-sm text-theme-muted">Berkshire Hathaways Liquiditätsreserven</p>
                   </div>
                 </div>
                 
@@ -1052,14 +1052,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             )}
 
             {/* Sektor Overview */}
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+            <div className="bg-theme-card border border-theme-light rounded-xl p-5">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                  <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-4 h-4 text-theme-muted" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-medium text-white">Sektor-Übersicht</h3>
-                  <p className="text-sm text-gray-600">Diversifikation nach Branchen</p>
+                  <h3 className="text-lg font-medium text-theme-primary">Sektor-Übersicht</h3>
+                  <p className="text-sm text-theme-muted">Diversifikation nach Branchen</p>
                 </div>
               </div>
               
@@ -1089,12 +1089,12 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     .sort((a, b) => b.value - a.value)
                     .slice(0, 6)
                     .map((sector) => (
-                      <div key={sector.sector} className="bg-[#161618] border border-white/[0.06] rounded-lg p-4 hover:bg-[#1A1A1D] hover:border-green-500/30 transition-all duration-200">
+                      <div key={sector.sector} className="bg-theme-card border border-theme-light rounded-lg p-4 hover:bg-theme-hover hover:border-green-500/30 transition-all duration-200">
                         <div className="flex items-center gap-3 mb-2">
                           <div className="w-2 h-2 bg-green-400/40 rounded-full"></div>
-                          <span className="text-white font-medium text-sm">{sector.sector}</span>
+                          <span className="text-theme-primary font-medium text-sm">{sector.sector}</span>
                         </div>
-                        <div className="text-gray-500 text-xs mb-1">
+                        <div className="text-theme-muted text-xs mb-1">
                           {formatCurrency(sector.value)} ({formatCurrency(sector.percentage, 'number')}%)
                         </div>
                         <div className="text-gray-700 text-xs">
@@ -1107,20 +1107,20 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             </div>
 
             {/* Top Positions */}
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+            <div className="bg-theme-card border border-theme-light rounded-xl p-5">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                  <StarIcon className="w-5 h-5 text-gray-500" />
+                <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                  <StarIcon className="w-4 h-4 text-theme-muted" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-medium text-white">Top Positionen</h3>
-                  <p className="text-sm text-gray-600">Größte Holdings im Portfolio</p>
+                  <h3 className="text-lg font-medium text-theme-primary">Top Positionen</h3>
+                  <p className="text-sm text-theme-muted">Größte Holdings im Portfolio</p>
                 </div>
               </div>
               
               <div className="space-y-2">
                 {holdings.slice(0, 10).map((holding, index) => (
-                  <div key={holding.cusip} className="group flex items-center justify-between py-4 px-5 bg-[#0F0F11] rounded-xl border border-white/[0.04] hover:bg-[#1A1A1D] hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/20 transition-all duration-300">
+                  <div key={holding.cusip} className="group flex items-center justify-between py-4 px-5 bg-theme-secondary/20 rounded-xl border border-white/[0.04] hover:bg-theme-hover hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/20 transition-all duration-300">
                     <div className="flex items-center gap-4">
                       <div className="flex items-center justify-center w-8 h-8 text-xs font-bold text-brand-light/70 bg-brand/10 rounded-lg group-hover:bg-brand/20 transition-all duration-300">
                         {index + 1}
@@ -1128,10 +1128,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       <CompanyNameWithOptions position={holding} />
                     </div>
                     <div className="text-right">
-                      <div className="text-white font-semibold text-lg group-hover:text-brand-light transition-colors">
+                      <div className="text-theme-primary font-semibold text-lg group-hover:text-brand-light transition-colors">
                         {formatCurrency(holding.value)}
                       </div>
-                      <div className="text-gray-500 text-sm font-medium">
+                      <div className="text-theme-muted text-sm font-medium">
                         {formatCurrency((holding.value / totalVal) * 100, 'number')}% Portfolio
                       </div>
                     </div>
@@ -1141,14 +1141,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
             </div>
 
             {/* Sektor Breakdown Chart */}
-            <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+            <div className="bg-theme-card border border-theme-light rounded-xl p-5">
               <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                  <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                  <ChartBarIcon className="w-4 h-4 text-theme-muted" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-medium text-white">Sektor-Verteilung</h3>
-                  <p className="text-sm text-gray-600">Detaillierte Aufschlüsselung nach Branchen</p>
+                  <h3 className="text-lg font-medium text-theme-primary">Sektor-Verteilung</h3>
+                  <p className="text-sm text-theme-muted">Detaillierte Aufschlüsselung nach Branchen</p>
                 </div>
               </div>
               
@@ -1187,10 +1187,10 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         {tab === 'analytics' && (
           <div className="space-y-8">
             <div className="text-center mb-8">
-              <h2 className="text-3xl font-light text-white mb-4">
+              <h2 className="text-2xl font-semibold text-theme-primary mb-4">
                 Portfolio-Analytik
               </h2>
-              <p className="text-gray-500 max-w-2xl mx-auto">
+              <p className="text-theme-muted max-w-2xl mx-auto">
                 Detaillierte Einblicke in {mainName}s Investment-Strategie
               </p>
             </div>
@@ -1201,8 +1201,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 onClick={() => setAnalyticsView('overview')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'overview' 
-                    ? 'bg-green-900/20 text-white border border-green-900/30' 
-                    : 'bg-[#161618] text-gray-500 hover:bg-[#1A1A1D] hover:text-white border border-white/[0.06]'
+                    ? 'bg-green-900/20 text-theme-primary border border-green-900/30' 
+                    : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
                 }`}
               >
                 Übersicht
@@ -1211,8 +1211,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 onClick={() => setAnalyticsView('companies')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'companies' 
-                    ? 'bg-green-900/20 text-white border border-green-900/30' 
-                    : 'bg-[#161618] text-gray-500 hover:bg-[#1A1A1D] hover:text-white border border-white/[0.06]'
+                    ? 'bg-green-900/20 text-theme-primary border border-green-900/30' 
+                    : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
                 }`}
               >
                 Einzelunternehmen
@@ -1221,8 +1221,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 onClick={() => setAnalyticsView('sectors')}
                 className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
                   analyticsView === 'sectors' 
-                    ? 'bg-green-900/20 text-white border border-green-900/30' 
-                    : 'bg-[#161618] text-gray-500 hover:bg-[#1A1A1D] hover:text-white border border-white/[0.06]'
+                    ? 'bg-green-900/20 text-theme-primary border border-green-900/30' 
+                    : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
                 }`}
               >
                 Sektoren
@@ -1235,53 +1235,53 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                   
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+                  <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
+                      <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
                         <ChartBarIcon className="w-5 h-5 text-green-900/60" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-500">Portfolio-Wert</h3>
+                      <h3 className="text-sm font-medium text-theme-muted">Portfolio-Wert</h3>
                     </div>
-                    <p className="text-2xl font-light text-white">
+                    <p className="text-xl font-medium text-theme-primary">
                       {formatCurrency(totalVal, 'number')}
                     </p>
                     <p className="text-xs text-gray-600">Gesamtwert aller Positionen</p>
                   </div>
                   
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+                  <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                        <StarIcon className="w-5 h-5 text-gray-500" />
+                      <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                        <StarIcon className="w-4 h-4 text-theme-muted" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-500">Anzahl Holdings</h3>
+                      <h3 className="text-sm font-medium text-theme-muted">Anzahl Holdings</h3>
                     </div>
-                    <p className="text-2xl font-light text-white">
+                    <p className="text-xl font-medium text-theme-primary">
                       {holdings.length}
                     </p>
                     <p className="text-xs text-gray-600">Verschiedene Positionen</p>
                   </div>
                   
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+                  <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                        <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                      <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                        <ChartBarIcon className="w-4 h-4 text-theme-muted" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-500">Top 10 Anteil</h3>
+                      <h3 className="text-sm font-medium text-theme-muted">Top 10 Anteil</h3>
                     </div>
-                    <p className="text-2xl font-light text-white">
+                    <p className="text-xl font-medium text-theme-primary">
                       {formatCurrency((holdings.slice(0, 10).reduce((sum, h) => sum + h.value, 0) / totalVal) * 100, 'number')}%
                     </p>
                     <p className="text-xs text-gray-600">Konzentration</p>
                   </div>
                   
-                  <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+                  <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                        <CalendarIcon className="w-5 h-5 text-gray-500" />
+                      <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                        <CalendarIcon className="w-4 h-4 text-theme-muted" />
                       </div>
-                      <h3 className="text-sm font-medium text-gray-500">Quartale</h3>
+                      <h3 className="text-sm font-medium text-theme-muted">Quartale</h3>
                     </div>
-                    <p className="text-2xl font-light text-white">
+                    <p className="text-xl font-medium text-theme-primary">
                       {snapshots.length}
                     </p>
                     <p className="text-xs text-gray-600">Verfügbare Daten</p>
@@ -1289,14 +1289,14 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 </div>
                 
                 {/* Sektor-Chart */}
-                <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-6 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+                <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                   <div className="flex items-center gap-3 mb-6">
-                    <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                      <ChartBarIcon className="w-5 h-5 text-gray-500" />
+                    <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                      <ChartBarIcon className="w-4 h-4 text-theme-muted" />
                     </div>
                     <div>
-                      <h3 className="text-xl font-medium text-white">Sektor-Verteilung</h3>
-                      <p className="text-sm text-gray-600">Basierend auf echten Sektor-Daten</p>
+                      <h3 className="text-lg font-medium text-theme-primary">Sektor-Verteilung</h3>
+                      <p className="text-sm text-theme-muted">Basierend auf echten Sektor-Daten</p>
                     </div>
                   </div>
                   
@@ -1351,22 +1351,22 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
        {tab === 'filings' && (
          <div className="space-y-8">
            <div className="text-center mb-8">
-             <h2 className="text-3xl font-light text-white mb-4">
+             <h2 className="text-2xl font-semibold text-theme-primary mb-4">
                13F Filings
              </h2>
-             <p className="text-gray-500 max-w-2xl mx-auto">
+             <p className="text-theme-muted max-w-2xl mx-auto">
                Offizielle Quartalsberichte und Filing-Historie für {mainName}
              </p>
            </div>
            
-           <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+           <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
              <div className="flex items-center gap-3 mb-6">
-               <div className="w-10 h-10 bg-white/5 rounded-lg flex items-center justify-center">
-                 <DocumentTextIcon className="w-5 h-5 text-gray-500" />
+               <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                 <DocumentTextIcon className="w-4 h-4 text-theme-muted" />
                </div>
                <div>
-                 <h3 className="text-xl font-medium text-white">Originaldokumente</h3>
-                 <p className="text-sm text-gray-600">SEC Filing-Historie und offizielle Berichte</p>
+                 <h3 className="text-lg font-medium text-theme-primary">Originaldokumente</h3>
+                 <p className="text-sm text-theme-muted">SEC Filing-Historie und offizielle Berichte</p>
                </div>
              </div>
              
@@ -1382,23 +1382,23 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
        {tab === 'ai' && (
          <div className="space-y-8">
            <div className="max-w-2xl mx-auto text-center">
-             <div className="bg-[#161618] border border-white/[0.06] rounded-2xl p-8 hover:bg-[#1A1A1D] hover:border-white/[0.1] transition-all duration-300">
+             <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
                <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
                  <SparklesIcon className="w-10 h-10 text-brand-light/60" />
                </div>
                
-               <h3 className="text-2xl font-light text-white mb-3">
+               <h3 className="text-xl font-medium text-theme-primary mb-3">
                  FinClue AI Portfolio-Analyse
                </h3>
                
-               <p className="text-gray-500 mb-6 leading-relaxed">
+               <p className="text-theme-muted mb-6 leading-relaxed">
                  Starte ein intelligentes Gespräch über {mainName}s Portfolio, 
                  Investmentstrategien und Marktpositionen.
                </p>
                
                <button
                  onClick={handleAIChat}
-                 className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-white font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-brand/10"
+                 className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-theme-primary font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-brand/10"
                >
                  {userLoading ? (
                    <>

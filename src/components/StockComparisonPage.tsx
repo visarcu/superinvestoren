@@ -58,6 +58,7 @@ const METRICS = [
   { value: 'price', label: 'Aktienkurs', unit: 'currency' },
   { value: 'pe', label: 'KGV', unit: 'ratio' },
   { value: 'revenue', label: 'Umsatz', unit: 'large_currency' },
+  { value: 'shares', label: 'Aktien im Umlauf', unit: 'large_number' },
 ]
 
 // Popular stocks for suggestions
@@ -113,6 +114,13 @@ export default function StockComparisonPage() {
       if (value >= 1e9) return `${(value / 1e9).toFixed(1)} Mrd $`
       if (value >= 1e6) return `${(value / 1e6).toFixed(1)} Mio $`
       return formatCurrency(value)
+    }
+    if (selectedMetric === 'shares') {
+      if (value >= 1e12) return `${(value / 1e12).toFixed(2)} Bio`
+      if (value >= 1e9) return `${(value / 1e9).toFixed(2)} Mrd`
+      if (value >= 1e6) return `${(value / 1e6).toFixed(1)} Mio`
+      if (value >= 1e3) return `${(value / 1e3).toFixed(0)} Tsd`
+      return value.toFixed(0)
     }
     return formatCurrency(value)
   }, [selectedMetric, formatCurrency])
@@ -265,6 +273,19 @@ export default function StockComparisonPage() {
               change: firstRevenue !== 0 ? ((revenue - firstRevenue) / firstRevenue) * 100 : 0
             }
           })
+
+        } else if (selectedMetric === 'shares') {
+          // ===== AKTIEN IM UMLAUF =====
+          const firstShares = limitedIncome[0]?.weightedAverageShsOut || 0
+
+          processedData = limitedIncome.map((income: any) => {
+            const shares = income.weightedAverageShsOut || 0
+            return {
+              date: income.calendarYear || income.date?.slice(0, 4) || '',
+              value: shares,
+              change: firstShares !== 0 ? ((shares - firstShares) / firstShares) * 100 : 0
+            }
+          }).filter((d: any) => d.value !== 0)
 
         } else if (selectedMetric === 'pe') {
           // ===== KGV (P/E Ratio) =====

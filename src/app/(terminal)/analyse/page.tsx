@@ -542,7 +542,7 @@ export default function ModernDashboard() {
           </div>
 
           <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
-            <div className="max-h-[350px] overflow-y-auto">
+            <div className="max-h-[350px] overflow-y-auto scrollbar-thin">
               <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>}>
                 <LatestGuruTrades variant="full" />
               </React.Suspense>
