@@ -6,11 +6,15 @@
     },
     {
       "path": "/api/notifications/check-watchlist",
-      "schedule": "0 9,16 * * 1-5"
+      "schedule": "0 9,15,21 * * *"
     },
     {
       "path": "/api/notifications/check-earnings",
-      "schedule": "0 8 * * *"
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/notifications/send-weekly-earnings",
+      "schedule": "0 8 * * 1"
     }
   ]
 }

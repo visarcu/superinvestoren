@@ -2,9 +2,10 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { BellIcon, UserPlusIcon, CheckIcon, ArrowRightIcon } from '@heroicons/react/24/outline'
+import { BellIcon, UserPlusIcon, CheckIcon, ArrowRightIcon, LockClosedIcon } from '@heroicons/react/24/outline'
 import { BellIcon as BellIconSolid } from '@heroicons/react/24/solid'
 import { supabase } from '@/lib/supabaseClient'
+import Link from 'next/link'
 
 interface PublicInvestorFollowButtonProps {
   investorSlug: string
@@ -21,13 +22,14 @@ export default function PublicInvestorFollowButton({
 }: PublicInvestorFollowButtonProps) {
   const [user, setUser] = useState<any>(null)
   const [isFollowing, setIsFollowing] = useState(false)
+  const [isPremium, setIsPremium] = useState(false)
   const [loading, setLoading] = useState(true)
   const [actionLoading, setActionLoading] = useState(false)
 
   // Check auth status
   useEffect(() => {
     checkAuthAndFollowStatus()
-    
+
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
       checkAuthAndFollowStatus()
@@ -39,15 +41,25 @@ export default function PublicInvestorFollowButton({
   async function checkAuthAndFollowStatus() {
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      
+
       if (!session?.user) {
         setUser(null)
         setIsFollowing(false)
+        setIsPremium(false)
         setLoading(false)
         return
       }
 
       setUser(session.user)
+
+      // Check premium status
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('user_id', session.user.id)
+        .maybeSingle()
+
+      setIsPremium(profile?.is_premium || false)
 
       // Check if user follows this investor
       const { data: settings } = await supabase
@@ -63,6 +75,7 @@ export default function PublicInvestorFollowButton({
       console.error('Error checking auth:', error)
       setUser(null)
       setIsFollowing(false)
+      setIsPremium(false)
     } finally {
       setLoading(false)
     }
@@ -76,12 +89,22 @@ export default function PublicInvestorFollowButton({
       return
     }
 
-    setActionLoading(true)
     const action = isFollowing ? 'unfollow' : 'follow'
+
+    // Premium check for follow action
+    if (action === 'follow' && !isPremium) {
+      if (typeof window !== 'undefined' && 'showToast' in window) {
+        (window as any).showToast('Investoren folgen ist ein Premium Feature', 'error')
+      }
+      window.location.href = '/pricing'
+      return
+    }
+
+    setActionLoading(true)
 
     try {
       const { data: { session } } = await supabase.auth.getSession()
-      
+
       if (!session?.access_token) {
         throw new Error('No valid session')
       }
@@ -100,16 +123,25 @@ export default function PublicInvestorFollowButton({
 
       const result = await response.json()
 
+      // Handle premium required error
+      if (response.status === 403 && result.error === 'Premium required') {
+        if (typeof window !== 'undefined' && 'showToast' in window) {
+          (window as any).showToast('Investoren folgen ist ein Premium Feature', 'error')
+        }
+        window.location.href = '/pricing'
+        return
+      }
+
       if (!response.ok || !result.success) {
         throw new Error(result.error || 'Follow failed')
       }
 
       setIsFollowing(result.isFollowing)
 
-      // Show success message (falls du Toast-System hast)
+      // Show success message
       if (typeof window !== 'undefined' && 'showToast' in window) {
         (window as any).showToast(
-          result.isFollowing 
+          result.isFollowing
             ? `Folge jetzt ${investorName} - erhältst E-Mails bei 13F-Filings!`
             : `Folge ${investorName} nicht mehr`,
           result.isFollowing ? 'success' : 'info'
@@ -118,8 +150,8 @@ export default function PublicInvestorFollowButton({
 
     } catch (error) {
       console.error('Follow error:', error)
-      
-      // Show error message (falls du Toast-System hast)
+
+      // Show error message
       if (typeof window !== 'undefined' && 'showToast' in window) {
         (window as any).showToast('Fehler beim Aktualisieren der Benachrichtigungen', 'error')
       }
@@ -145,29 +177,41 @@ export default function PublicInvestorFollowButton({
     )
   }
 
-  // COMPACT MODE - Icon button only
+  // Show premium locked state for non-premium authenticated users
+  const showPremiumLock = user && !isPremium && !isFollowing
+
+  // COMPACT MODE - Button with text
   if (compact) {
     return (
       <button
         onClick={handleFollow}
         disabled={actionLoading}
-        className={`group relative p-3 rounded-xl border transition-all duration-200 ${
+        className={`group inline-flex items-center gap-2 px-3 py-2 rounded-lg font-medium transition-all duration-200 text-sm ${
           isFollowing
-            ? 'bg-brand/10 border-green-500/30 text-brand-light'
-            : 'bg-white/[0.03] border-white/[0.08] text-gray-400 hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white'
+            ? 'bg-brand/10 border border-green-500/30 text-brand-light'
+            : showPremiumLock
+              ? 'bg-white/[0.03] border border-white/[0.08] text-gray-400 hover:bg-white/[0.06]'
+              : 'bg-white/[0.03] border border-white/[0.08] text-gray-300 hover:bg-white/[0.06] hover:border-white/[0.12] hover:text-white'
         } ${className}`}
-        title={isFollowing ? 'Du folgst diesem Investor' : 'Investor folgen für Updates'}
+        title={showPremiumLock ? 'Premium Feature - Upgrade für Benachrichtigungen' : isFollowing ? 'Du folgst diesem Investor' : 'Investor folgen für Updates'}
       >
         {actionLoading ? (
-          <div className="w-5 h-5 border-2 border-current border-t-transparent rounded-full animate-spin" />
+          <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
         ) : isFollowing ? (
-          <BellIconSolid className="w-5 h-5" />
+          <BellIconSolid className="w-4 h-4" />
+        ) : showPremiumLock ? (
+          <LockClosedIcon className="w-4 h-4" />
         ) : (
-          <BellIcon className="w-5 h-5" />
+          <BellIcon className="w-4 h-4" />
         )}
-        {isFollowing && !actionLoading && (
-          <span className="absolute -top-1 -right-1 w-3 h-3 bg-brand rounded-full border-2 border-[#161618]"></span>
-        )}
+        <span>
+          {isFollowing
+            ? 'Du folgst diesem Investor'
+            : showPremiumLock
+              ? 'Folgen'
+              : 'Folgen'
+          }
+        </span>
       </button>
     )
   }
@@ -184,41 +228,70 @@ export default function PublicInvestorFollowButton({
           <span>{investorName} folgen</span>
           <ArrowRightIcon className="w-4 h-4" />
         </button>
-        
+
         <div className="text-center space-y-2">
           <p className="text-sm text-gray-600 dark:text-gray-300 font-medium">
-            📧 E-Mail-Benachrichtigungen bei neuen 13F-Filings
+            E-Mail-Benachrichtigungen bei neuen 13F-Filings
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
-            Kostenlos registrieren • Keine Spam • Jederzeit abmelden
+            Registrieren und Premium upgraden
           </p>
         </div>
 
         {/* Features Preview */}
         <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-lg border border-gray-200 dark:border-gray-700">
           <h4 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-2">
-            Was du erhältst:
+            Premium Feature:
           </h4>
           <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1">
-            <li>✅ Sofortige E-Mails bei neuen Filings</li>
-            <li>✅ Portfolio-Änderungen im Detail</li>
-            <li>✅ Neue Käufe und Verkäufe</li>
-            <li>⭐ Premium: Erweiterte Analysen</li>
+            <li>Sofortige E-Mails bei neuen Filings</li>
+            <li>Portfolio-Änderungen im Detail</li>
+            <li>Neue Käufe und Verkäufe</li>
           </ul>
         </div>
       </div>
     )
   }
 
-  // LOGGED IN - Show follow/unfollow button
+  // LOGGED IN BUT NOT PREMIUM - Show upgrade prompt
+  if (showPremiumLock) {
+    return (
+      <div className={`space-y-4 ${className}`}>
+        <button
+          onClick={handleFollow}
+          disabled={actionLoading}
+          className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-gray-700/50 border border-gray-600 text-gray-400 rounded-xl font-semibold transition-all duration-200 hover:bg-gray-600/50"
+        >
+          <LockClosedIcon className="w-5 h-5" />
+          <span>{investorName} folgen</span>
+        </button>
+
+        <div className="text-center">
+          <p className="text-sm text-gray-500 mb-2">
+            <LockClosedIcon className="w-4 h-4 inline mr-1" />
+            Investoren folgen ist ein Premium Feature
+          </p>
+          <Link
+            href="/pricing"
+            className="inline-flex items-center gap-2 text-sm text-brand-light hover:underline font-medium"
+          >
+            Jetzt upgraden
+            <ArrowRightIcon className="w-4 h-4" />
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
+  // LOGGED IN AND PREMIUM - Show follow/unfollow button
   return (
     <div className={`space-y-4 ${className}`}>
       <button
         onClick={handleFollow}
         disabled={actionLoading}
         className={`w-full flex items-center justify-center gap-3 px-6 py-4 rounded-xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-[1.02] ${
-          isFollowing 
-            ? 'bg-brand/20 border-2 border-green-500/30 text-brand dark:text-brand-light hover:bg-brand/30' 
+          isFollowing
+            ? 'bg-brand/20 border-2 border-green-500/30 text-brand dark:text-brand-light hover:bg-brand/30'
             : 'bg-brand hover:bg-green-400 text-white'
         } ${actionLoading ? 'opacity-50 cursor-not-allowed transform-none' : ''}`}
       >
@@ -229,29 +302,29 @@ export default function PublicInvestorFollowButton({
         ) : (
           <BellIcon className="w-5 h-5" />
         )}
-        
+
         <span>
-          {actionLoading 
-            ? 'Wird gespeichert...' 
-            : isFollowing 
-              ? `Folge ${investorName}` 
+          {actionLoading
+            ? 'Wird gespeichert...'
+            : isFollowing
+              ? `Folge ${investorName}`
               : `${investorName} folgen`
           }
         </span>
-        
+
         {isFollowing && !actionLoading && <CheckIcon className="w-4 h-4" />}
       </button>
-      
+
       <div className="text-center">
         {isFollowing ? (
           <div className="p-3 bg-brand/10 border border-brand/20 rounded-lg">
             <p className="text-sm text-brand-light font-medium">
-              ✅ Du erhältst E-Mails bei neuen 13F-Filings
+              Du erhältst E-Mails bei neuen 13F-Filings
             </p>
           </div>
         ) : (
           <p className="text-sm text-gray-600 dark:text-gray-300">
-            📧 Erhalte E-Mails bei neuen Portfolio-Änderungen
+            Erhalte E-Mails bei neuen Portfolio-Änderungen
           </p>
         )}
       </div>

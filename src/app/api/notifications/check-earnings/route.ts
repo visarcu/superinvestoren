@@ -1,4 +1,6 @@
 // src/app/api/notifications/check-earnings/route.ts
+// Creates IN-APP notifications for upcoming earnings based on user's earnings_days_before setting
+// Email notifications are now handled separately by /api/notifications/send-weekly-earnings
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
@@ -8,8 +10,10 @@ const supabase = createClient(
 )
 
 // TEST MODE: Set to your user ID to only send notifications to yourself
-// Set to null to send to all users
-const TEST_USER_ID = process.env.TEST_USER_ID || null
+// Set to null to send to all users. Must be a valid UUID format.
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const envTestUserId = process.env.TEST_USER_ID || null
+const TEST_USER_ID = envTestUserId && UUID_REGEX.test(envTestUserId) ? envTestUserId : null
 
 export async function POST(request: Request) {
   const authHeader = request.headers.get('authorization')
@@ -18,13 +22,13 @@ export async function POST(request: Request) {
   }
 
   try {
-    console.log('[Earnings Cron] Starting earnings check...')
+    console.log('[Earnings Cron] Starting earnings check (in-app notifications only)...')
     console.log(`[Earnings Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
 
-    // 1. Get users with earnings notifications enabled
+    // 1. Get users with earnings notifications enabled (in-app)
     let settingsQuery = supabase
       .from('notification_settings')
-      .select('user_id, earnings_enabled, earnings_email_enabled, earnings_days_before')
+      .select('user_id, earnings_enabled, earnings_days_before')
       .eq('earnings_enabled', true)
 
     if (TEST_USER_ID) {
@@ -46,8 +50,7 @@ export async function POST(request: Request) {
         usersChecked: 0,
         tickersChecked: 0,
         earningsFoundInPeriod: 0,
-        notificationsCreated: 0,
-        emailsSent: 0
+        notificationsCreated: 0
       })
     }
 
@@ -107,10 +110,8 @@ export async function POST(request: Request) {
     console.log(`[Earnings Cron] Found ${upcomingEarnings.length} earnings events for watchlist tickers`)
 
     let notificationsCreated = 0
-    let emailsSent = 0
-    const earningsToEmail: Map<string, Array<{ symbol: string; date: string; daysUntil: number }>> = new Map()
 
-    // 4. Process each earning event
+    // 4. Process each earning event - create IN-APP notifications only
     for (const earning of upcomingEarnings) {
       const earningsDate = new Date(earning.date)
       const daysUntil = Math.ceil((earningsDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24))
@@ -155,62 +156,12 @@ export async function POST(request: Request) {
             read: false
           })
           notificationsCreated++
-          console.log(`[Earnings Cron] ✅ Created notification for ${earning.symbol} (${daysUntil} days) - User ${userId}`)
-
-          // Collect for email if enabled
-          if (userSetting.earnings_email_enabled) {
-            if (!earningsToEmail.has(userId)) {
-              earningsToEmail.set(userId, [])
-            }
-            earningsToEmail.get(userId)!.push({
-              symbol: earning.symbol,
-              date: earning.date,
-              daysUntil
-            })
-          }
+          console.log(`[Earnings Cron] ✅ Created in-app notification for ${earning.symbol} (${daysUntil} days) - User ${userId}`)
         }
       }
     }
 
-    // 5. Send emails to users who have it enabled
-    for (const [userId, earnings] of earningsToEmail) {
-      try {
-        const { data: { user } } = await supabase.auth.admin.getUserById(userId)
-
-        if (user?.email) {
-          const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/notifications/send-earnings-email`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${process.env.CRON_SECRET}`
-            },
-            body: JSON.stringify({
-              userEmail: user.email,
-              earnings,
-              isTest: !!TEST_USER_ID
-            })
-          })
-
-          if (emailResponse.ok) {
-            emailsSent++
-            console.log(`[Earnings Cron] 📧 Email sent to ${user.email} for ${earnings.length} earnings`)
-
-            // Log to notification_log
-            await supabase.from('notification_log').insert({
-              user_id: userId,
-              notification_type: 'earnings_email',
-              reference_id: earnings.map(e => e.symbol).join(','),
-              content: { earnings },
-              email_sent: true
-            })
-          }
-        }
-      } catch (emailError) {
-        console.error(`[Earnings Cron] Email error for user ${userId}:`, emailError)
-      }
-    }
-
-    console.log(`[Earnings Cron] Complete: ${notificationsCreated} notifications, ${emailsSent} emails`)
+    console.log(`[Earnings Cron] Complete: ${notificationsCreated} in-app notifications created`)
 
     return NextResponse.json({
       success: true,
@@ -219,7 +170,6 @@ export async function POST(request: Request) {
       tickersChecked: tickers.length,
       earningsFoundInPeriod: upcomingEarnings.length,
       notificationsCreated,
-      emailsSent,
       earningsDetails: upcomingEarnings.map((e: any) => ({
         symbol: e.symbol,
         date: e.date

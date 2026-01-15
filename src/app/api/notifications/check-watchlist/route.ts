@@ -4,8 +4,10 @@ import { supabase } from '@/lib/supabaseClient'
 import { createClient } from '@supabase/supabase-js'
 
 // TEST MODE: Set to your user ID to only send notifications to yourself
-// Set to null to send to all users
-const TEST_USER_ID = process.env.TEST_USER_ID || null
+// Set to null to send to all users. Must be a valid UUID format.
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const envTestUserId = process.env.TEST_USER_ID || null
+const TEST_USER_ID = envTestUserId && UUID_REGEX.test(envTestUserId) ? envTestUserId : null
 
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -222,21 +224,30 @@ export async function POST(request: NextRequest) {
         }
 
         // 5. Email senden wenn Dips gefunden wurden (DANACH)
+        // ⚠️ PREMIUM CHECK: Only Premium users receive email notifications
         if (dippedStocks.length > 0) {
           const { data: profile } = await supabaseService
             .from('profiles')
-            .select('user_id')
+            .select('user_id, is_premium')
             .eq('user_id', userSettings.user_id)
             .maybeSingle()
 
-          if (profile) {
+          // Check if user is Premium (or in test mode)
+          const isPremiumUser = profile?.is_premium || false
+          const bypassPremiumCheck = !!TEST_USER_ID && userSettings.user_id === TEST_USER_ID
+
+          if (profile && (isPremiumUser || bypassPremiumCheck)) {
             const { data: { user } } = await supabaseService.auth.admin.getUserById(userSettings.user_id)
-            
+
             if (user?.email) {
+              if (bypassPremiumCheck && !isPremiumUser) {
+                console.log(`[Cron] Test mode: Bypassing premium check for user ${userSettings.user_id}`)
+              }
+
               // Email-Service aufrufen
               await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/notifications/send-email`, {
                 method: 'POST',
-                headers: { 
+                headers: {
                   'Content-Type': 'application/json',
                   'Authorization': `Bearer ${process.env.CRON_SECRET}`
                 },
@@ -265,6 +276,8 @@ export async function POST(request: NextRequest) {
 
               totalEmailsSent += dippedStocks.length
             }
+          } else if (!isPremiumUser) {
+            console.log(`[Cron] Skipping email for non-Premium user ${userSettings.user_id} (in-app notification already created)`)
           }
         }
 

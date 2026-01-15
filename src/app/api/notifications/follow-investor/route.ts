@@ -37,6 +37,22 @@ export async function POST(request: NextRequest) {
     }
 
     const { investorSlug, action } = await request.json()
+
+    // ⚠️ PREMIUM CHECK: Following investors is a Premium feature
+    if (action === 'follow') {
+      const { data: profile } = await supabaseService
+        .from('profiles')
+        .select('is_premium')
+        .eq('user_id', user.id)
+        .maybeSingle()
+
+      if (!profile?.is_premium) {
+        return NextResponse.json({
+          error: 'Premium required',
+          message: 'Investoren folgen ist ein Premium Feature'
+        }, { status: 403 })
+      }
+    }
     
     if (!investorSlug || !['follow', 'unfollow'].includes(action)) {
       return NextResponse.json({ error: 'Invalid parameters' }, { status: 400 })

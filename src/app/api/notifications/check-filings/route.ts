@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
 // TEST MODE: Set to your user ID to only send notifications to yourself
-// Set to null to send to all users
-const TEST_USER_ID = process.env.TEST_USER_ID || null
+// Set to null to send to all users. Must be a valid UUID format.
+const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+const envTestUserId = process.env.TEST_USER_ID || null
+const TEST_USER_ID = envTestUserId && UUID_REGEX.test(envTestUserId) ? envTestUserId : null
 
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
