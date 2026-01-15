@@ -234,7 +234,7 @@ export default function NotificationSettings() {
       <div className="w-full px-6 lg:px-8 py-8">
 
         {/* Header - Flat Style */}
-        <div className="border-b border-theme pb-8 mb-8">
+        <div className="border-b border-neutral-200 dark:border-white/[0.08] pb-8 mb-10">
           <Link
             href="/inbox"
             className="inline-flex items-center gap-2 text-theme-muted hover:text-theme-primary transition-colors mb-6 group text-sm"
@@ -276,39 +276,44 @@ export default function NotificationSettings() {
         )}
 
         {/* Watchlist Alerts Section */}
-        <div className="border-b border-theme pb-8 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+        <div className="border-b border-neutral-200 dark:border-white/[0.08] pb-10 mb-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-blue-500/10 rounded-xl flex items-center justify-center">
               <ChartBarIcon className="w-5 h-5 text-blue-400" />
             </div>
             <div>
-              <h2 className="text-base font-medium text-theme-primary">Watchlist-Alerts</h2>
+              <h2 className="text-base font-semibold text-theme-primary">Watchlist-Alerts</h2>
               <p className="text-theme-muted text-sm">Benachrichtigungen bei Kursrückgängen</p>
             </div>
           </div>
 
           <div className="space-y-4 max-w-md">
-            <div className="flex items-center justify-between py-3">
+            <div className="flex items-center justify-between py-3 px-4 rounded-xl hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors -mx-4">
               <div>
                 <p className="text-sm font-medium text-theme-primary">Watchlist-Benachrichtigungen</p>
                 <p className="text-xs text-theme-muted">E-Mails bei Schnäppchen in deiner Watchlist</p>
               </div>
-              <button
-                onClick={() => updateSetting('watchlist_enabled', !settings.watchlist_enabled)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.watchlist_enabled
-                    ? 'bg-emerald-500'
-                    : 'bg-neutral-300 dark:bg-neutral-700'
-                }`}
-              >
-                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
-                  settings.watchlist_enabled ? 'translate-x-6' : 'translate-x-1'
-                }`} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => updateSetting('watchlist_enabled', !settings.watchlist_enabled)}
+                  className={`flex items-center justify-center w-6 h-6 rounded-md border-2 transition-all ${
+                    settings.watchlist_enabled
+                      ? 'bg-emerald-500 border-emerald-500 text-white'
+                      : 'bg-transparent border-gray-400 dark:border-gray-500'
+                  }`}
+                >
+                  {settings.watchlist_enabled && (
+                    <CheckIcon className="w-4 h-4" />
+                  )}
+                </button>
+                <span className={`text-xs font-medium ${settings.watchlist_enabled ? 'text-emerald-500' : 'text-gray-400'}`}>
+                  {settings.watchlist_enabled ? 'Aktiv' : 'Inaktiv'}
+                </span>
+              </div>
             </div>
 
             {settings.watchlist_enabled && (
-              <div className="py-3 border-t border-theme">
+              <div className="py-4 border-t border-neutral-200 dark:border-white/[0.08]">
                 <p className="text-sm font-medium text-theme-primary mb-3">
                   Benachrichtigung ab Rückgang von: {settings.watchlist_threshold_percent}%
                 </p>
@@ -332,39 +337,44 @@ export default function NotificationSettings() {
         </div>
 
         {/* Superinvestor Filings Section */}
-        <div className="border-b border-theme pb-8 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+        <div className="border-b border-neutral-200 dark:border-white/[0.08] pb-10 mb-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-purple-500/10 rounded-xl flex items-center justify-center">
               <UserIcon className="w-5 h-5 text-purple-400" />
             </div>
             <div>
-              <h2 className="text-base font-medium text-theme-primary">Superinvestor-Filings</h2>
+              <h2 className="text-base font-semibold text-theme-primary">Superinvestor-Filings</h2>
               <p className="text-theme-muted text-sm">Neue 13F-Berichte deiner gefolgten Investoren</p>
             </div>
           </div>
 
           <div className="space-y-4">
-            <div className="flex items-center justify-between py-3 max-w-md">
+            <div className="flex items-center justify-between py-3 px-4 rounded-xl hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors -mx-4 max-w-md">
               <div>
                 <p className="text-sm font-medium text-theme-primary">Filing-Benachrichtigungen</p>
                 <p className="text-xs text-theme-muted">E-Mails bei neuen Quartalsberichten</p>
               </div>
-              <button
-                onClick={() => updateSetting('filings_enabled', !settings.filings_enabled)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.filings_enabled
-                    ? 'bg-emerald-500'
-                    : 'bg-neutral-300 dark:bg-neutral-700'
-                }`}
-              >
-                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
-                  settings.filings_enabled ? 'translate-x-6' : 'translate-x-1'
-                }`} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => updateSetting('filings_enabled', !settings.filings_enabled)}
+                  className={`flex items-center justify-center w-6 h-6 rounded-md border-2 transition-all ${
+                    settings.filings_enabled
+                      ? 'bg-emerald-500 border-emerald-500 text-white'
+                      : 'bg-transparent border-gray-400 dark:border-gray-500'
+                  }`}
+                >
+                  {settings.filings_enabled && (
+                    <CheckIcon className="w-4 h-4" />
+                  )}
+                </button>
+                <span className={`text-xs font-medium ${settings.filings_enabled ? 'text-emerald-500' : 'text-gray-400'}`}>
+                  {settings.filings_enabled ? 'Aktiv' : 'Inaktiv'}
+                </span>
+              </div>
             </div>
 
             {settings.filings_enabled && (
-              <div className="py-4 border-t border-theme">
+              <div className="py-4 border-t border-neutral-200 dark:border-white/[0.08]">
                 <p className="text-sm text-theme-muted mb-4">
                   Wähle Investoren aus, für die du Filing-Benachrichtigungen erhalten möchtest:
                 </p>
@@ -395,18 +405,21 @@ export default function NotificationSettings() {
                 </div>
 
                 {settings.preferred_investors.length > 0 && (
-                  <div className="mt-4 pt-4 border-t border-theme">
+                  <div className="mt-4 pt-4 border-t border-neutral-200 dark:border-white/[0.08]">
                     <p className="text-xs text-theme-muted mb-2">
                       Du folgst {settings.preferred_investors.length} Investor{settings.preferred_investors.length !== 1 ? 'en' : ''}
                     </p>
-                    <div className="flex flex-wrap gap-1">
-                      {settings.preferred_investors.slice(0, 10).map(investor => (
-                        <span key={investor} className="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-xs">
-                          {investor}
-                        </span>
-                      ))}
+                    <div className="flex flex-wrap gap-1.5">
+                      {settings.preferred_investors.slice(0, 10).map(slug => {
+                        const investor = investors.find(i => i.slug === slug)
+                        return (
+                          <span key={slug} className="px-2.5 py-1 bg-emerald-500/10 text-emerald-400 rounded-md text-xs font-medium">
+                            {investor?.name || slug}
+                          </span>
+                        )
+                      })}
                       {settings.preferred_investors.length > 10 && (
-                        <span className="px-2 py-1 bg-theme-secondary text-theme-muted rounded text-xs">
+                        <span className="px-2.5 py-1 bg-neutral-100 dark:bg-neutral-800 text-theme-muted rounded-md text-xs font-medium">
                           +{settings.preferred_investors.length - 10} weitere
                         </span>
                       )}
@@ -419,59 +432,69 @@ export default function NotificationSettings() {
         </div>
 
         {/* Earnings Alerts Section */}
-        <div className="border-b border-theme pb-8 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+        <div className="border-b border-neutral-200 dark:border-white/[0.08] pb-10 mb-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-orange-500/10 rounded-xl flex items-center justify-center">
               <CalendarIcon className="w-5 h-5 text-orange-400" />
             </div>
             <div>
-              <h2 className="text-base font-medium text-theme-primary">Earnings-Alerts</h2>
+              <h2 className="text-base font-semibold text-theme-primary">Earnings-Alerts</h2>
               <p className="text-theme-muted text-sm">Erinnerungen für anstehende Quartalszahlen</p>
             </div>
           </div>
 
           <div className="space-y-4 max-w-md">
-            <div className="flex items-center justify-between py-3">
+            <div className="flex items-center justify-between py-3 px-4 rounded-xl hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors -mx-4">
               <div>
                 <p className="text-sm font-medium text-theme-primary">Earnings-Benachrichtigungen</p>
                 <p className="text-xs text-theme-muted">In-App Alerts für Aktien in deiner Watchlist</p>
               </div>
-              <button
-                onClick={() => updateSetting('earnings_enabled', !settings.earnings_enabled)}
-                className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.earnings_enabled
-                    ? 'bg-emerald-500'
-                    : 'bg-neutral-300 dark:bg-neutral-700'
-                }`}
-              >
-                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
-                  settings.earnings_enabled ? 'translate-x-6' : 'translate-x-1'
-                }`} />
-              </button>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => updateSetting('earnings_enabled', !settings.earnings_enabled)}
+                  className={`flex items-center justify-center w-6 h-6 rounded-md border-2 transition-all ${
+                    settings.earnings_enabled
+                      ? 'bg-emerald-500 border-emerald-500 text-white'
+                      : 'bg-transparent border-gray-400 dark:border-gray-500'
+                  }`}
+                >
+                  {settings.earnings_enabled && (
+                    <CheckIcon className="w-4 h-4" />
+                  )}
+                </button>
+                <span className={`text-xs font-medium ${settings.earnings_enabled ? 'text-emerald-500' : 'text-gray-400'}`}>
+                  {settings.earnings_enabled ? 'Aktiv' : 'Inaktiv'}
+                </span>
+              </div>
             </div>
 
             {settings.earnings_enabled && (
               <>
-                <div className="flex items-center justify-between py-3 border-t border-theme">
+                <div className="flex items-center justify-between py-3 px-4 rounded-xl hover:bg-neutral-50 dark:hover:bg-white/[0.02] transition-colors -mx-4 border-t border-neutral-200 dark:border-white/[0.08]">
                   <div>
                     <p className="text-sm font-medium text-theme-primary">E-Mail-Benachrichtigung</p>
                     <p className="text-xs text-theme-muted">Zusätzlich per E-Mail erinnern</p>
                   </div>
-                  <button
-                    onClick={() => updateSetting('earnings_email_enabled', !settings.earnings_email_enabled)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      settings.earnings_email_enabled
-                        ? 'bg-emerald-500'
-                        : 'bg-neutral-300 dark:bg-neutral-700'
-                    }`}
-                  >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
-                      settings.earnings_email_enabled ? 'translate-x-6' : 'translate-x-1'
-                    }`} />
-                  </button>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => updateSetting('earnings_email_enabled', !settings.earnings_email_enabled)}
+                      className={`flex items-center justify-center w-6 h-6 rounded-md border-2 transition-all ${
+                        settings.earnings_email_enabled
+                          ? 'bg-emerald-500 border-emerald-500 text-white'
+                          : 'bg-transparent border-gray-400 dark:border-gray-500'
+                      }`}
+                    >
+                      {settings.earnings_email_enabled && (
+                        <CheckIcon className="w-4 h-4" />
+                      )}
+                    </button>
+                    <span className={`text-xs font-medium ${settings.earnings_email_enabled ? 'text-emerald-500' : 'text-gray-400'}`}>
+                      {settings.earnings_email_enabled ? 'Aktiv' : 'Inaktiv'}
+                    </span>
+                  </div>
                 </div>
 
-                <div className="py-3 border-t border-theme">
+                <div className="py-4 border-t border-neutral-200 dark:border-white/[0.08]">
                   <p className="text-sm font-medium text-theme-primary mb-3">
                     Erinnere mich {settings.earnings_days_before} Tag{settings.earnings_days_before !== 1 ? 'e' : ''} vorher
                   </p>
@@ -497,13 +520,13 @@ export default function NotificationSettings() {
         </div>
 
         {/* Email Frequency Section */}
-        <div className="border-b border-theme pb-8 mb-8">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="w-10 h-10 bg-theme-secondary rounded-lg flex items-center justify-center">
+        <div className="border-b border-neutral-200 dark:border-white/[0.08] pb-10 mb-10">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="w-10 h-10 bg-yellow-500/10 rounded-xl flex items-center justify-center">
               <EnvelopeIcon className="w-5 h-5 text-yellow-400" />
             </div>
             <div>
-              <h2 className="text-base font-medium text-theme-primary">E-Mail-Häufigkeit</h2>
+              <h2 className="text-base font-semibold text-theme-primary">E-Mail-Häufigkeit</h2>
               <p className="text-theme-muted text-sm">Wie oft möchtest du Benachrichtigungen erhalten?</p>
             </div>
           </div>
@@ -517,10 +540,10 @@ export default function NotificationSettings() {
               <button
                 key={option.value}
                 onClick={() => updateSetting('email_frequency', option.value as any)}
-                className={`w-full p-4 rounded-lg border text-left transition-all ${
+                className={`w-full p-4 rounded-xl border text-left transition-all ${
                   settings.email_frequency === option.value
                     ? 'bg-emerald-500/10 border-emerald-500/30'
-                    : 'bg-theme-secondary border-transparent hover:border-theme'
+                    : 'bg-neutral-50 dark:bg-white/[0.02] border-neutral-200 dark:border-white/[0.06] hover:border-neutral-300 dark:hover:border-white/[0.1]'
                 }`}
               >
                 <div className="flex items-center justify-between">
