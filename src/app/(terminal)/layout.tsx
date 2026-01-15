@@ -136,7 +136,7 @@ const NAV_ITEMS: NavItem[] = [
 ]
 
 const SETTINGS_ITEMS: NavItem[] = [
-  { id: 'notifications', label: 'Benachrichtigungen', icon: BellIcon, href: '/notifications' },
+  { id: 'notifications', label: 'Benachrichtigungen', icon: BellIcon, href: '/inbox' },
   { id: 'profile', label: 'Profil', icon: UserCircleIcon, href: '/profile' },
   { id: 'settings', label: 'Einstellungen', icon: Cog6ToothIcon, href: '/settings' },
 ]
@@ -574,7 +574,7 @@ const CommandPalette = React.memo(({
     const baseCommands = [
       { id: 'nav-dashboard', title: 'Dashboard', subtitle: 'Marktübersicht', icon: HomeIcon, href: '/analyse', category: 'navigation' },
       { id: 'nav-watchlist', title: 'Watchlist', subtitle: 'Gespeicherte Aktien', icon: BookmarkIcon, href: '/analyse/watchlist', category: 'navigation' },
-      { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/notifications', category: 'settings' },
+      { id: 'nav-notifications', title: 'Benachrichtigungen', subtitle: 'E-Mail Einstellungen', icon: BellIcon, href: '/inbox', category: 'settings' },
       { id: 'nav-dcf', title: 'DCF Calculator', subtitle: 'Aktien bewerten', icon: CalculatorIcon, href: '/analyse/dcf', category: 'navigation' },
       { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
       { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },

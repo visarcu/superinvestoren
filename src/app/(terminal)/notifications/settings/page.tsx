@@ -236,11 +236,11 @@ export default function NotificationSettings() {
         {/* Header - Flat Style */}
         <div className="border-b border-theme pb-8 mb-8">
           <Link
-            href="/notifications"
+            href="/inbox"
             className="inline-flex items-center gap-2 text-theme-muted hover:text-theme-primary transition-colors mb-6 group text-sm"
           >
             <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Zurück zu Benachrichtigungen
+            Zurück zur Inbox
           </Link>
 
           <div className="flex items-center gap-2 mb-3">
@@ -296,10 +296,12 @@ export default function NotificationSettings() {
               <button
                 onClick={() => updateSetting('watchlist_enabled', !settings.watchlist_enabled)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.watchlist_enabled ? 'bg-emerald-500' : 'bg-theme-tertiary'
+                  settings.watchlist_enabled
+                    ? 'bg-emerald-500'
+                    : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
                 }`}
               >
-                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
+                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
                   settings.watchlist_enabled ? 'translate-x-6' : 'translate-x-1'
                 }`} />
               </button>
@@ -350,10 +352,12 @@ export default function NotificationSettings() {
               <button
                 onClick={() => updateSetting('filings_enabled', !settings.filings_enabled)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.filings_enabled ? 'bg-emerald-500' : 'bg-theme-tertiary'
+                  settings.filings_enabled
+                    ? 'bg-emerald-500'
+                    : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
                 }`}
               >
-                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
+                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
                   settings.filings_enabled ? 'translate-x-6' : 'translate-x-1'
                 }`} />
               </button>
@@ -435,10 +439,12 @@ export default function NotificationSettings() {
               <button
                 onClick={() => updateSetting('earnings_enabled', !settings.earnings_enabled)}
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                  settings.earnings_enabled ? 'bg-emerald-500' : 'bg-theme-tertiary'
+                  settings.earnings_enabled
+                    ? 'bg-emerald-500'
+                    : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
                 }`}
               >
-                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
+                <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
                   settings.earnings_enabled ? 'translate-x-6' : 'translate-x-1'
                 }`} />
               </button>
@@ -454,10 +460,12 @@ export default function NotificationSettings() {
                   <button
                     onClick={() => updateSetting('earnings_email_enabled', !settings.earnings_email_enabled)}
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      settings.earnings_email_enabled ? 'bg-emerald-500' : 'bg-theme-tertiary'
+                      settings.earnings_email_enabled
+                        ? 'bg-emerald-500'
+                        : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
                     }`}
                   >
-                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${
+                    <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
                       settings.earnings_email_enabled ? 'translate-x-6' : 'translate-x-1'
                     }`} />
                   </button>
@@ -554,7 +562,7 @@ export default function NotificationSettings() {
           </button>
 
           <Link
-            href="/notifications"
+            href="/inbox"
             className="px-6 py-2.5 text-theme-secondary hover:text-theme-primary font-medium transition-colors"
           >
             Abbrechen

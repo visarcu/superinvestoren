@@ -342,7 +342,7 @@ export default function WatchlistPage() {
                   <div className="flex items-center gap-2 text-xs text-theme-muted">
                     <span>📧 E-Mail-Benachrichtigungen aktiv</span>
                     <Link
-                      href="/notifications"
+                      href="/notifications/settings"
                       className="text-brand-light hover:text-green-300 underline"
                     >
                       Anpassen

@@ -397,8 +397,8 @@ export default function NotificationCenter() {
           {/* Footer */}
           {notifications.length > 0 && (
             <div className="p-3 border-t border-theme/10 text-center">
-              <Link 
-                href="/notifications"
+              <Link
+                href="/inbox"
                 className="text-sm text-brand-light hover:text-green-300 font-medium"
                 onClick={() => setIsOpen(false)}
               >

@@ -413,7 +413,7 @@ export default function ProfilePageClient() {
             </Link>
 
             <Link
-              href="/notifications"
+              href="/inbox"
               className="flex flex-col items-center gap-2 p-4 bg-theme-secondary hover:bg-theme-tertiary rounded-xl transition-all group"
             >
               <BellIcon className="w-5 h-5 text-theme-muted group-hover:text-emerald-400 transition-colors" />
