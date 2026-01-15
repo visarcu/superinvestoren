@@ -2,6 +2,10 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+// TEST MODE: Set to your user ID to only send notifications to yourself
+// Set to null to send to all users
+const TEST_USER_ID = process.env.TEST_USER_ID || null
+
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -111,9 +115,10 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('[Filing Cron] Starting filing alerts check...')
-    
+    console.log(`[Filing Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
+
     // Alle User mit aktivierten Filing-Notifications holen
-    const { data: usersWithFilingNotifications, error: usersError } = await supabaseService
+    let query = supabaseService
       .from('notification_settings')
       .select(`
         user_id,
@@ -121,6 +126,13 @@ export async function POST(request: NextRequest) {
         profiles!inner(email_verified)
       `)
       .eq('filings_enabled', true)
+
+    // Filter by test user if set
+    if (TEST_USER_ID) {
+      query = query.eq('user_id', TEST_USER_ID)
+    }
+
+    const { data: usersWithFilingNotifications, error: usersError } = await query
 
     if (usersError) {
       console.error('[Filing Cron] Users Error:', usersError)
@@ -219,6 +231,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       success: true,
+      testMode: !!TEST_USER_ID,
       usersChecked: usersWithFilingNotifications?.length || 0,
       filingNotificationsSent: totalFilingNotifications,
       filingEmailsSent: totalFilingEmails

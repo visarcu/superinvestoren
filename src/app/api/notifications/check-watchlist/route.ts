@@ -3,6 +3,10 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
 import { createClient } from '@supabase/supabase-js'
 
+// TEST MODE: Set to your user ID to only send notifications to yourself
+// Set to null to send to all users
+const TEST_USER_ID = process.env.TEST_USER_ID || null
+
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
   process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -61,9 +65,10 @@ export async function POST(request: NextRequest) {
     }
 
     console.log('[Cron] Starting watchlist check...')
-    
+    console.log(`[Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
+
     // 1. Alle User mit aktivierten Watchlist-Notifications holen
-    const { data: usersWithNotifications, error: usersError } = await supabaseService
+    let query = supabaseService
       .from('notification_settings')
       .select(`
         user_id,
@@ -72,6 +77,13 @@ export async function POST(request: NextRequest) {
         profiles!inner(email_verified)
       `)
       .eq('watchlist_enabled', true)
+
+    // Filter by test user if set
+    if (TEST_USER_ID) {
+      query = query.eq('user_id', TEST_USER_ID)
+    }
+
+    const { data: usersWithNotifications, error: usersError } = await query
 
     if (usersError) {
       console.error('[Cron] Users Error:', usersError)
@@ -262,6 +274,7 @@ export async function POST(request: NextRequest) {
     
     return NextResponse.json({
       success: true,
+      testMode: !!TEST_USER_ID,
       usersChecked: usersWithNotifications?.length || 0,
       emailNotificationsSent: totalEmailsSent,
       inAppNotificationsSent: totalInAppNotifications
