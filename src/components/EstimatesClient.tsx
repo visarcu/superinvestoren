@@ -21,6 +21,7 @@ import {
   AreaChart,
   ReferenceLine
 } from 'recharts'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 interface User {
   id: string
@@ -156,7 +157,17 @@ export default function EstimatesClient({ ticker }: EstimatesClientProps) {
       {/* Price Targets Section */}
       {priceTargets?.consensus && currentPrice && (
         <div className="bg-theme-card rounded-lg p-6">
-          <h3 className="text-xl font-bold text-theme-primary mb-6">Kursziele</h3>
+          <div className="flex items-center gap-2 mb-6">
+            <h3 className="text-xl font-bold text-theme-primary">Kursziele</h3>
+            <div className="relative group">
+              <InformationCircleIcon className="w-4 h-4 text-theme-muted cursor-help" />
+              <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-50">
+                <div className="bg-theme-card border border-white/10 rounded-lg px-3 py-2 text-xs text-theme-secondary w-64 shadow-lg">
+                  Kursziele basieren auf Schätzungen von Wall Street Analysten (Goldman Sachs, Morgan Stanley, JP Morgan u.a.), aggregiert über Financial Modeling Prep.
+                </div>
+              </div>
+            </div>
+          </div>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Current vs Target */}

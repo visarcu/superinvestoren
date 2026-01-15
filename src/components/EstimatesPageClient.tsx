@@ -14,6 +14,7 @@ import {
   Tooltip,
   Cell
 } from 'recharts'
+import { InformationCircleIcon } from '@heroicons/react/24/outline'
 
 interface User {
   id: string
@@ -184,7 +185,17 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
 
       {/* ===== HEADER ===== */}
       <div className="mb-8 pb-6 border-b border-neutral-800">
-        <h1 className="text-xl font-medium text-white mb-1">Analysten-Schätzungen</h1>
+        <div className="flex items-center gap-2 mb-1">
+          <h1 className="text-xl font-medium text-white">Analysten-Schätzungen</h1>
+          <div className="relative group">
+            <InformationCircleIcon className="w-4 h-4 text-neutral-500 cursor-help" />
+            <div className="absolute left-0 top-full mt-2 hidden group-hover:block z-50">
+              <div className="bg-neutral-900 border border-neutral-700 rounded-lg px-3 py-2 text-xs text-neutral-400 w-72 shadow-lg">
+                Kursziele und Schätzungen basieren auf aggregierten Daten von Wall Street Analysten (Goldman Sachs, Morgan Stanley, JP Morgan, Bank of America u.a.), bereitgestellt über Financial Modeling Prep.
+              </div>
+            </div>
+          </div>
+        </div>
         <p className="text-sm text-neutral-500">
           Kursziele, Umsatz- und Gewinnprognosen für {ticker}
         </p>
@@ -302,32 +313,43 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
                   const isEstimate = parseInt(est.date?.substring(0, 4) || '0') >= currentYear
 
                   return (
-                    <tr key={est.date || index} className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                      <td className="py-3 text-sm font-medium text-white">
+                    <tr
+                      key={est.date || index}
+                      className={`border-b border-neutral-800/50 transition-colors ${
+                        isEstimate
+                          ? 'hover:bg-neutral-800/20'
+                          : 'opacity-50 hover:opacity-70'
+                      }`}
+                    >
+                      <td className={`py-3 text-sm font-medium ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
                         {est.date?.substring(0, 4) || `FY${index}`}
                       </td>
-                      <td className="py-3 text-sm text-right font-mono text-white">
+                      <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
                         {est.estimatedRevenueAvg
                           ? `${(est.estimatedRevenueAvg / 1e9).toFixed(1)} Mrd.`
                           : '–'}
                       </td>
                       <td className={`py-3 text-sm text-right font-mono ${
                         revenueGrowth !== null
-                          ? revenueGrowth >= 0 ? 'text-emerald-400' : 'text-red-400'
+                          ? isEstimate
+                            ? (revenueGrowth >= 0 ? 'text-emerald-400' : 'text-red-400')
+                            : (revenueGrowth >= 0 ? 'text-emerald-400/60' : 'text-red-400/60')
                           : 'text-neutral-500'
                       }`}>
                         {revenueGrowth !== null
                           ? `${revenueGrowth >= 0 ? '+' : ''}${revenueGrowth.toFixed(1)}%`
                           : '–'}
                       </td>
-                      <td className="py-3 text-sm text-right font-mono text-white">
+                      <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
                         {est.estimatedEpsAvg
                           ? `$${est.estimatedEpsAvg.toFixed(2)}`
                           : '–'}
                       </td>
                       <td className={`py-3 text-sm text-right font-mono ${
                         epsGrowth !== null
-                          ? epsGrowth >= 0 ? 'text-emerald-400' : 'text-red-400'
+                          ? isEstimate
+                            ? (epsGrowth >= 0 ? 'text-emerald-400' : 'text-red-400')
+                            : (epsGrowth >= 0 ? 'text-emerald-400/60' : 'text-red-400/60')
                           : 'text-neutral-500'
                       }`}>
                         {epsGrowth !== null
@@ -336,9 +358,9 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
                       </td>
                       <td className="py-3 text-sm text-right">
                         {isEstimate ? (
-                          <span className="text-amber-500">Prognose</span>
+                          <span className="text-amber-400 font-medium">Prognose</span>
                         ) : (
-                          <span className="text-neutral-400">Ist</span>
+                          <span className="text-neutral-500 text-xs">Historisch</span>
                         )}
                       </td>
                     </tr>
