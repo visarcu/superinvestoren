@@ -1,4 +1,4 @@
-// src/app/auth/signup/page.tsx - CLEAN FEY STYLE DESIGN
+// src/app/auth/signup/page.tsx - QUARTR STYLE DESIGN
 'use client'
 
 import { useState } from 'react'
@@ -30,7 +30,7 @@ function translateAuthError(error: string): string {
   return error
 }
 
-// Password Strength Indicator - Clean Style
+// Password Strength Indicator
 function PasswordStrength({ password }: { password: string }) {
   const requirements = [
     { text: 'Min. 6 Zeichen', met: password.length >= 6 },
@@ -41,15 +41,15 @@ function PasswordStrength({ password }: { password: string }) {
   if (password.length === 0) return null
 
   return (
-    <div className="flex items-center gap-3 mt-2">
+    <div className="flex items-center gap-4 mt-2.5">
       {requirements.map((req, index) => (
         <div key={index} className="flex items-center gap-1.5 text-xs">
-          <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center ${
+          <div className={`w-3.5 h-3.5 rounded-full flex items-center justify-center transition-colors ${
             req.met ? 'bg-emerald-500' : 'bg-neutral-800'
           }`}>
             {req.met && <CheckIcon className="w-2 h-2 text-white" />}
           </div>
-          <span className={req.met ? 'text-neutral-300' : 'text-neutral-600'}>
+          <span className={`transition-colors ${req.met ? 'text-neutral-300' : 'text-neutral-600'}`}>
             {req.text}
           </span>
         </div>
@@ -145,29 +145,66 @@ export default function SignUpPage() {
   return (
     <>
       {/* Title */}
-      <h1 className="text-xl font-semibold text-white text-center mb-6">
-        Registrieren
+      <h1 className="text-2xl font-semibold text-white text-center mb-2">
+        Account erstellen
       </h1>
+      <p className="text-neutral-500 text-center text-sm mb-8">
+        Starte jetzt kostenlos mit FinClue
+      </p>
 
       {/* Messages */}
       {success && (
-        <div className="mb-4 py-2.5 px-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
+        <div className="mb-6 py-3 px-4 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
           <p className="text-emerald-400 text-sm text-center">{success}</p>
         </div>
       )}
 
       {error && (
-        <div className="mb-4 py-2.5 px-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+        <div className="mb-6 py-3 px-4 bg-red-500/10 border border-red-500/20 rounded-xl">
           <p className="text-red-400 text-sm text-center">{error}</p>
         </div>
       )}
 
+      {/* Google Sign Up Button */}
+      <button
+        onClick={handleGoogleSignUp}
+        disabled={loading}
+        className="w-full py-3 px-4 bg-[#1a1a1c] hover:bg-[#222224] border border-neutral-800 rounded-xl transition-all disabled:cursor-not-allowed flex items-center justify-center gap-3 mb-6"
+      >
+        <svg className="w-5 h-5" viewBox="0 0 24 24">
+          <path
+            fill="#4285F4"
+            d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+          />
+          <path
+            fill="#34A853"
+            d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+          />
+          <path
+            fill="#FBBC05"
+            d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+          />
+          <path
+            fill="#EA4335"
+            d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+          />
+        </svg>
+        <span className="text-sm font-medium text-neutral-300">Mit Google registrieren</span>
+      </button>
+
+      {/* Divider */}
+      <div className="flex items-center gap-4 mb-6">
+        <div className="flex-1 h-px bg-neutral-800"></div>
+        <span className="text-xs text-neutral-600 uppercase tracking-wider">oder</span>
+        <div className="flex-1 h-px bg-neutral-800"></div>
+      </div>
+
       {/* Form */}
-      <form onSubmit={handleSubmit} className="space-y-3">
+      <form onSubmit={handleSubmit} className="space-y-4">
 
         {/* Name Field */}
-        <div className="space-y-1.5">
-          <label htmlFor="name" className="text-sm text-neutral-400">
+        <div className="space-y-2">
+          <label htmlFor="name" className="text-sm text-neutral-400 block">
             Name
           </label>
           <input
@@ -176,15 +213,15 @@ export default function SignUpPage() {
             required
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+            className="w-full px-4 py-3 bg-[#1a1a1c] border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:bg-[#1e1e20] transition-all text-sm"
             placeholder="Max Mustermann"
             disabled={loading}
           />
         </div>
 
         {/* Email Field */}
-        <div className="space-y-1.5">
-          <label htmlFor="email" className="text-sm text-neutral-400">
+        <div className="space-y-2">
+          <label htmlFor="email" className="text-sm text-neutral-400 block">
             E-Mail
           </label>
           <input
@@ -193,15 +230,15 @@ export default function SignUpPage() {
             required
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3.5 py-2.5 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+            className="w-full px-4 py-3 bg-[#1a1a1c] border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:bg-[#1e1e20] transition-all text-sm"
             placeholder="name@beispiel.de"
             disabled={loading}
           />
         </div>
 
         {/* Password Field */}
-        <div className="space-y-1.5">
-          <label htmlFor="password" className="text-sm text-neutral-400">
+        <div className="space-y-2">
+          <label htmlFor="password" className="text-sm text-neutral-400 block">
             Passwort
           </label>
           <div className="relative">
@@ -211,14 +248,14 @@ export default function SignUpPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3.5 py-2.5 pr-10 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+              className="w-full px-4 py-3 pr-11 bg-[#1a1a1c] border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:bg-[#1e1e20] transition-all text-sm"
               placeholder="••••••••"
               disabled={loading}
             />
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-white transition-colors"
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-neutral-500 hover:text-neutral-300 transition-colors"
             >
               {showPassword ? (
                 <EyeSlashIcon className="h-4 w-4" />
@@ -231,8 +268,8 @@ export default function SignUpPage() {
         </div>
 
         {/* Confirm Password Field */}
-        <div className="space-y-1.5">
-          <label htmlFor="confirmPassword" className="text-sm text-neutral-400">
+        <div className="space-y-2">
+          <label htmlFor="confirmPassword" className="text-sm text-neutral-400 block">
             Passwort bestätigen
           </label>
           <div className="relative">
@@ -242,14 +279,14 @@ export default function SignUpPage() {
               required
               value={confirmPassword}
               onChange={(e) => setConfirmPassword(e.target.value)}
-              className="w-full px-3.5 py-2.5 pr-10 bg-neutral-800/50 border border-neutral-700 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-500 transition-colors text-sm"
+              className="w-full px-4 py-3 pr-11 bg-[#1a1a1c] border border-neutral-800 rounded-xl text-white placeholder-neutral-600 focus:outline-none focus:border-neutral-600 focus:bg-[#1e1e20] transition-all text-sm"
               placeholder="••••••••"
               disabled={loading}
             />
             <button
               type="button"
               onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute inset-y-0 right-0 pr-3 flex items-center text-neutral-500 hover:text-white transition-colors"
+              className="absolute inset-y-0 right-0 pr-4 flex items-center text-neutral-500 hover:text-neutral-300 transition-colors"
             >
               {showConfirmPassword ? (
                 <EyeSlashIcon className="h-4 w-4" />
@@ -261,15 +298,15 @@ export default function SignUpPage() {
         </div>
 
         {/* Checkboxes */}
-        <div className="space-y-2.5 pt-1">
+        <div className="space-y-3 pt-2">
           {/* Terms & Conditions */}
-          <label className="flex items-start gap-2.5 cursor-pointer group">
-            <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition-colors flex-shrink-0 ${
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <div className={`mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center transition-all flex-shrink-0 ${
               acceptTerms
-                ? 'bg-emerald-500 border-emerald-500'
-                : 'border-neutral-600 group-hover:border-neutral-500'
+                ? 'bg-white border-white'
+                : 'border-neutral-700 group-hover:border-neutral-500 bg-transparent'
             }`}>
-              {acceptTerms && <CheckIcon className="w-2.5 h-2.5 text-white" />}
+              {acceptTerms && <CheckIcon className="w-3 h-3 text-neutral-900" />}
             </div>
             <input
               type="checkbox"
@@ -278,26 +315,26 @@ export default function SignUpPage() {
               className="sr-only"
               required
             />
-            <span className="text-xs text-neutral-500 leading-relaxed">
+            <span className="text-sm text-neutral-500 leading-relaxed">
               Ich akzeptiere die{' '}
-              <Link href="/terms" target="_blank" className="text-neutral-300 hover:text-emerald-400 transition-colors">
+              <Link href="/terms" target="_blank" className="text-neutral-300 hover:text-white transition-colors">
                 AGB
               </Link>
               {' '}und{' '}
-              <Link href="/privacy" target="_blank" className="text-neutral-300 hover:text-emerald-400 transition-colors">
+              <Link href="/privacy" target="_blank" className="text-neutral-300 hover:text-white transition-colors">
                 Datenschutzerklärung
               </Link>
             </span>
           </label>
 
           {/* Newsletter Opt-in */}
-          <label className="flex items-start gap-2.5 cursor-pointer group">
-            <div className={`mt-0.5 w-4 h-4 rounded border flex items-center justify-center transition-colors flex-shrink-0 ${
+          <label className="flex items-start gap-3 cursor-pointer group">
+            <div className={`mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center transition-all flex-shrink-0 ${
               newsletterOptIn
-                ? 'bg-emerald-500 border-emerald-500'
-                : 'border-neutral-600 group-hover:border-neutral-500'
+                ? 'bg-white border-white'
+                : 'border-neutral-700 group-hover:border-neutral-500 bg-transparent'
             }`}>
-              {newsletterOptIn && <CheckIcon className="w-2.5 h-2.5 text-white" />}
+              {newsletterOptIn && <CheckIcon className="w-3 h-3 text-neutral-900" />}
             </div>
             <input
               type="checkbox"
@@ -305,71 +342,32 @@ export default function SignUpPage() {
               onChange={(e) => setNewsletterOptIn(e.target.checked)}
               className="sr-only"
             />
-            <span className="text-xs text-neutral-500">
+            <span className="text-sm text-neutral-500">
               Updates zu neuen Features erhalten
             </span>
           </label>
         </div>
 
-        {/* Sign Up Button */}
+        {/* Sign Up Button - Light/White Style */}
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2.5 rounded-lg font-medium transition-colors disabled:cursor-not-allowed flex items-center justify-center text-white text-sm mt-4"
-          style={{ backgroundColor: loading ? 'rgba(16, 185, 129, 0.5)' : '#10b981' }}
-          onMouseEnter={(e) => !loading && (e.currentTarget.style.backgroundColor = '#34d399')}
-          onMouseLeave={(e) => !loading && (e.currentTarget.style.backgroundColor = '#10b981')}
+          className="w-full py-3 rounded-xl font-medium transition-all disabled:cursor-not-allowed flex items-center justify-center bg-white hover:bg-neutral-100 text-neutral-900 text-sm mt-2"
         >
           {loading ? (
-            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <div className="w-4 h-4 border-2 border-neutral-400 border-t-neutral-900 rounded-full animate-spin"></div>
           ) : (
             'Account erstellen'
           )}
         </button>
       </form>
 
-      {/* Divider */}
-      <div className="flex items-center gap-3 my-5">
-        <div className="flex-1 h-px bg-neutral-800"></div>
-        <span className="text-xs text-neutral-600">oder</span>
-        <div className="flex-1 h-px bg-neutral-800"></div>
-      </div>
-
-      {/* OAuth Buttons - Icon Style like Quartr */}
-      <div className="flex justify-center">
-        <button
-          onClick={handleGoogleSignUp}
-          disabled={loading}
-          className="w-12 h-12 bg-neutral-800/50 hover:bg-neutral-700/50 border border-neutral-700 rounded-lg transition-colors disabled:cursor-not-allowed flex items-center justify-center"
-          title="Mit Google registrieren"
-        >
-          <svg className="w-5 h-5" viewBox="0 0 24 24">
-            <path
-              fill="#4285F4"
-              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-            />
-            <path
-              fill="#34A853"
-              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-            />
-            <path
-              fill="#FBBC05"
-              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
-            />
-            <path
-              fill="#EA4335"
-              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-            />
-          </svg>
-        </button>
-      </div>
-
       {/* Sign In Link */}
-      <p className="text-center mt-6 text-sm text-neutral-500">
+      <p className="text-center mt-8 text-sm text-neutral-500">
         Bereits einen Account?{' '}
         <Link
           href="/auth/signin"
-          className="text-white hover:text-emerald-400 transition-colors font-medium"
+          className="text-white hover:text-neutral-300 transition-colors font-medium"
         >
           Anmelden
         </Link>

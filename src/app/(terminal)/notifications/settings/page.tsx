@@ -298,7 +298,7 @@ export default function NotificationSettings() {
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                   settings.watchlist_enabled
                     ? 'bg-emerald-500'
-                    : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
+                    : 'bg-neutral-300 dark:bg-neutral-700'
                 }`}
               >
                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
@@ -354,7 +354,7 @@ export default function NotificationSettings() {
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                   settings.filings_enabled
                     ? 'bg-emerald-500'
-                    : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
+                    : 'bg-neutral-300 dark:bg-neutral-700'
                 }`}
               >
                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
@@ -441,7 +441,7 @@ export default function NotificationSettings() {
                 className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                   settings.earnings_enabled
                     ? 'bg-emerald-500'
-                    : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
+                    : 'bg-neutral-300 dark:bg-neutral-700'
                 }`}
               >
                 <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
@@ -462,7 +462,7 @@ export default function NotificationSettings() {
                     className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
                       settings.earnings_email_enabled
                         ? 'bg-emerald-500'
-                        : 'bg-neutral-300 dark:bg-neutral-600 ring-1 ring-inset ring-neutral-400/50 dark:ring-neutral-500/50'
+                        : 'bg-neutral-300 dark:bg-neutral-700'
                     }`}
                   >
                     <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-md ${
@@ -541,32 +541,41 @@ export default function NotificationSettings() {
           </div>
         </div>
 
-        {/* Save Button */}
-        <div className="flex items-center gap-4">
-          <button
-            onClick={saveSettings}
-            disabled={saving}
-            className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-medium rounded-lg transition-all disabled:opacity-50 flex items-center gap-2"
-          >
-            {saving ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                Speichern...
-              </>
-            ) : (
-              <>
-                <CheckIcon className="w-4 h-4" />
-                Einstellungen speichern
-              </>
-            )}
-          </button>
+        {/* Spacer for sticky footer */}
+        <div className="h-24"></div>
+      </div>
 
-          <Link
-            href="/inbox"
-            className="px-6 py-2.5 text-theme-secondary hover:text-theme-primary font-medium transition-colors"
-          >
-            Abbrechen
-          </Link>
+      {/* Sticky Save Footer */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white dark:bg-[#0a0a0b] border-t border-neutral-200 dark:border-white/[0.08] py-4 px-6 lg:px-8 z-50">
+        <div className="max-w-3xl mx-auto flex items-center justify-between">
+          <p className="text-sm text-theme-muted hidden sm:block">
+            Vergiss nicht deine Änderungen zu speichern
+          </p>
+          <div className="flex items-center gap-3 ml-auto">
+            <Link
+              href="/inbox"
+              className="px-5 py-2.5 text-theme-secondary hover:text-theme-primary font-medium transition-colors border border-neutral-200 dark:border-white/[0.08] rounded-lg hover:border-neutral-300 dark:hover:border-white/[0.15]"
+            >
+              Abbrechen
+            </Link>
+            <button
+              onClick={saveSettings}
+              disabled={saving}
+              className="px-6 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold rounded-lg transition-all disabled:opacity-50 flex items-center gap-2 shadow-lg shadow-emerald-500/25"
+            >
+              {saving ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  Speichern...
+                </>
+              ) : (
+                <>
+                  <CheckIcon className="w-4 h-4" />
+                  Speichern
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
     </div>

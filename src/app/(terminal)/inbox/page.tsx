@@ -299,9 +299,11 @@ export default function InboxPage() {
                       const cardContent = (
                         <div
                           className={`
-                            flex items-center gap-4 p-4 rounded-xl transition-all
-                            bg-white dark:bg-[#141416] hover:bg-neutral-50 dark:hover:bg-[#1a1a1c] border border-neutral-200 dark:border-white/[0.04] hover:border-neutral-300 dark:hover:border-white/[0.08]
-                            ${!notification.read ? 'border-l-2 border-l-emerald-500' : ''}
+                            flex items-center gap-4 p-4 rounded-xl transition-all relative
+                            ${!notification.read
+                              ? 'bg-emerald-50 dark:bg-emerald-500/5 border-l-4 border-l-emerald-500 border border-emerald-200 dark:border-emerald-500/20 hover:bg-emerald-100 dark:hover:bg-emerald-500/10'
+                              : 'bg-white dark:bg-[#141416] hover:bg-neutral-50 dark:hover:bg-[#1a1a1c] border border-neutral-200 dark:border-white/[0.04] hover:border-neutral-300 dark:hover:border-white/[0.08]'
+                            }
                           `}
                           onClick={() => {
                             if (!notification.read && !notification.href) {
@@ -309,6 +311,15 @@ export default function InboxPage() {
                             }
                           }}
                         >
+                          {/* Unread Badge */}
+                          {!notification.read && (
+                            <div className="absolute top-2 right-2">
+                              <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold bg-emerald-500 text-white">
+                                NEU
+                              </span>
+                            </div>
+                          )}
+
                           {/* Icon */}
                           <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${config.bg}`}>
                             <Icon className={`w-5 h-5 ${config.iconColor}`} />
@@ -317,20 +328,20 @@ export default function InboxPage() {
                           {/* Content */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <h3 className={`text-[15px] font-medium ${!notification.read ? 'text-theme-primary' : 'text-theme-secondary'}`}>
+                              <h3 className={`text-[15px] font-medium ${!notification.read ? 'text-theme-primary font-semibold' : 'text-theme-secondary'}`}>
                                 {notification.title}
                               </h3>
                               {!notification.read && (
-                                <span className="w-2 h-2 rounded-full bg-emerald-500 flex-shrink-0" />
+                                <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 flex-shrink-0 animate-pulse" />
                               )}
                             </div>
-                            <p className="text-sm text-theme-muted mt-0.5 truncate">
+                            <p className={`text-sm mt-0.5 truncate ${!notification.read ? 'text-theme-secondary' : 'text-theme-muted'}`}>
                               {notification.message}
                             </p>
                           </div>
 
                           {/* Date */}
-                          <span className="text-xs text-theme-muted flex-shrink-0">
+                          <span className={`text-xs flex-shrink-0 ${!notification.read ? 'text-emerald-600 dark:text-emerald-400 font-medium' : 'text-theme-muted'}`}>
                             {formatDate(notification.created_at)}
                           </span>
                         </div>

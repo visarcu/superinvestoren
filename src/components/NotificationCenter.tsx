@@ -245,11 +245,16 @@ export default function NotificationCenter() {
           <BellIcon className="w-5 h-5" />
         )}
         
-        {/* Badge */}
+        {/* Badge - Prominent with pulse animation */}
         {unreadCount > 0 && (
-          <div className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full min-w-[18px] h-[18px] flex items-center justify-center font-bold">
-            {unreadCount > 99 ? '99+' : unreadCount}
-          </div>
+          <>
+            {/* Pulse ring */}
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-400 rounded-full animate-ping opacity-75"></span>
+            {/* Badge */}
+            <div className="absolute -top-1 -right-1 bg-red-500 text-white text-[11px] rounded-full min-w-[20px] h-[20px] flex items-center justify-center font-bold shadow-lg shadow-red-500/50 border-2 border-white dark:border-neutral-900">
+              {unreadCount > 99 ? '99+' : unreadCount}
+            </div>
+          </>
         )}
       </button>
 

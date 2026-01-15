@@ -7,45 +7,45 @@ import { Analytics } from "@vercel/analytics/next"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-black text-white font-['Inter',system-ui,sans-serif] antialiased flex flex-col">
+    <div className="min-h-screen bg-[#0a0a0b] text-white font-['Inter',system-ui,sans-serif] antialiased flex flex-col">
 
       {/* Main Content - Centered */}
       <main className="flex-1 flex items-center justify-center px-4 py-12">
-        <div className="w-full max-w-[420px]">
+        <div className="w-full max-w-[440px]">
 
-          {/* Card Container */}
-          <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8">
+          {/* Logo - Above Card */}
+          <div className="flex justify-center mb-8">
+            <Link href="/" className="flex items-center gap-3 group">
+              <div className="flex items-end gap-0.5">
+                <div className="w-1.5 h-3 bg-emerald-500 rounded-full transition-all group-hover:h-4"></div>
+                <div className="w-1.5 h-4 bg-emerald-400 rounded-full transition-all group-hover:h-5"></div>
+                <div className="w-1.5 h-5 bg-emerald-300 rounded-full transition-all group-hover:h-6"></div>
+              </div>
+              <span className="text-xl font-semibold text-white">
+                FinClue
+              </span>
+            </Link>
+          </div>
 
-            {/* Logo */}
-            <div className="flex justify-center mb-6">
-              <Link href="/" className="flex items-center gap-2.5">
-                <div className="flex items-end gap-0.5">
-                  <div className="w-1.5 h-3 bg-emerald-500 rounded-full"></div>
-                  <div className="w-1.5 h-4 bg-emerald-400 rounded-full"></div>
-                  <div className="w-1.5 h-5 bg-emerald-300 rounded-full"></div>
-                </div>
-                <span className="text-lg font-semibold text-white">
-                  FinClue
-                </span>
-              </Link>
-            </div>
-
+          {/* Card Container - Subtle, no harsh borders */}
+          <div className="bg-[#111113] rounded-2xl p-8 shadow-2xl shadow-black/50">
             {/* Form Content */}
-            <div>
-              {children}
-            </div>
+            {children}
           </div>
 
           {/* Footer Links - Outside Card */}
-          <div className="mt-6 text-center">
+          <div className="mt-8 text-center">
             <p className="text-xs text-neutral-600">
-              FinClue{' '}
-              <Link href="/terms" className="hover:text-neutral-400 transition-colors underline">
+              <Link href="/terms" className="hover:text-neutral-400 transition-colors">
                 AGB
               </Link>
-              {' '}und{' '}
-              <Link href="/privacy" className="hover:text-neutral-400 transition-colors underline">
+              {' · '}
+              <Link href="/privacy" className="hover:text-neutral-400 transition-colors">
                 Datenschutz
+              </Link>
+              {' · '}
+              <Link href="/" className="hover:text-neutral-400 transition-colors">
+                FinClue
               </Link>
             </p>
           </div>

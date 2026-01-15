@@ -374,9 +374,9 @@ const CollapsedSidebar = React.memo(({
                 {isPremiumLocked && (
                   <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
                 )}
-                {/* Unread notifications badge */}
+                {/* Unread notifications badge - visible in both themes */}
                 {item.id === 'inbox' && unreadCount > 0 && (
-                  <div className="absolute -top-1 -right-1 min-w-[16px] h-4 px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center">
+                  <div className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md ring-2 ring-white dark:ring-[#0F0F11]">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </div>
                 )}

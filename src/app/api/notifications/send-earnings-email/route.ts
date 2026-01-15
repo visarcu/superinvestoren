@@ -108,7 +108,7 @@ export async function POST(request: NextRequest) {
 
             <!-- CTA Buttons -->
             <div style="text-align: center; margin: 32px 0 24px 0;">
-              <a href="https://finclue.de/watchlist"
+              <a href="https://finclue.de/analyse/watchlist"
                  target="_blank"
                  rel="noopener noreferrer"
                  style="display: inline-block; background: #374151; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: 500; font-size: 14px; border: 1px solid #374151; margin-right: 8px;">
@@ -132,7 +132,7 @@ export async function POST(request: NextRequest) {
             <div style="text-align: center;">
               <a href="https://finclue.de/notifications/settings" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Einstellungen</a>
               <span style="color: #d1d5db;">•</span>
-              <a href="https://finclue.de/watchlist" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Watchlist</a>
+              <a href="https://finclue.de/analyse/watchlist" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Watchlist</a>
             </div>
           </div>
 
