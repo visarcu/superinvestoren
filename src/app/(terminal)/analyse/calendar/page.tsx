@@ -27,7 +27,7 @@ interface EarningsEvent {
 type ViewMode = 'day' | 'week' | 'month'
 
 // Filter-Konfiguration für relevante Large-Cap Earnings
-const MIN_MARKET_CAP = 5_000_000_000 // $5 Mrd. minimum Market Cap
+const MIN_MARKET_CAP = 3_000_000_000 // $3 Mrd. minimum Market Cap
 
 // Börsen-Suffixe die wir ausschließen (asiatische/emerging markets)
 const EXCLUDED_SUFFIXES = [
@@ -88,6 +88,9 @@ function sortByMarketCap(a: EarningsEvent, b: EarningsEvent): number {
   return bMcap - aMcap
 }
 
+// Maximale Anzahl Earnings pro Sektion (pre/post market) bevor "mehr anzeigen"
+const DEFAULT_VISIBLE_COUNT = 8
+
 export default function EarningsCalendarPage() {
   const router = useRouter()
   const [viewMode, setViewMode] = useState<ViewMode>('week')
@@ -96,6 +99,7 @@ export default function EarningsCalendarPage() {
   const [loading, setLoading] = useState(true)
   const [filterWatchlist, setFilterWatchlist] = useState(false)
   const [watchlistSymbols, setWatchlistSymbols] = useState<string[]>([])
+  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
 
   // Load watchlist symbols from Supabase
   useEffect(() => {
@@ -255,6 +259,19 @@ export default function EarningsCalendarPage() {
   // Deutsche Tagesbezeichnungen
   const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
 
+  // Toggle expanded state for a section
+  const toggleSection = (sectionKey: string) => {
+    setExpandedSections(prev => {
+      const next = new Set(prev)
+      if (next.has(sectionKey)) {
+        next.delete(sectionKey)
+      } else {
+        next.add(sectionKey)
+      }
+      return next
+    })
+  }
+
   return (
     <div className="min-h-screen bg-theme-bg">
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -269,7 +286,7 @@ export default function EarningsCalendarPage() {
           <div className="flex items-center gap-4">
             {/* Large Cap Info Badge */}
             <span className="px-2 py-1 text-xs text-theme-muted bg-theme-secondary/30 rounded">
-              Large-Caps (&gt;$5 Mrd. MCap)
+              Large-Caps (&gt;$3 Mrd. MCap)
             </span>
 
             {/* View Toggle */}
@@ -392,9 +409,37 @@ export default function EarningsCalendarPage() {
                           Vorbörslich
                         </div>
                         <div className="space-y-1">
-                          {dayEarnings.preMarket.map((event, i) => (
-                            <EarningsItem key={i} event={event} />
-                          ))}
+                          {(() => {
+                            const sectionKey = `${dateKey}-pre`
+                            const isExpanded = expandedSections.has(sectionKey)
+                            const items = dayEarnings.preMarket
+                            const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
+                            const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
+
+                            return (
+                              <>
+                                {visibleItems.map((event, i) => (
+                                  <EarningsItem key={i} event={event} />
+                                ))}
+                                {hiddenCount > 0 && !isExpanded && (
+                                  <button
+                                    onClick={() => toggleSection(sectionKey)}
+                                    className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
+                                  >
+                                    +{hiddenCount} mehr
+                                  </button>
+                                )}
+                                {isExpanded && hiddenCount > 0 && (
+                                  <button
+                                    onClick={() => toggleSection(sectionKey)}
+                                    className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
+                                  >
+                                    weniger
+                                  </button>
+                                )}
+                              </>
+                            )
+                          })()}
                         </div>
                       </div>
                     )}
@@ -406,9 +451,37 @@ export default function EarningsCalendarPage() {
                           Nachbörslich
                         </div>
                         <div className="space-y-1">
-                          {dayEarnings.postMarket.map((event, i) => (
-                            <EarningsItem key={i} event={event} />
-                          ))}
+                          {(() => {
+                            const sectionKey = `${dateKey}-post`
+                            const isExpanded = expandedSections.has(sectionKey)
+                            const items = dayEarnings.postMarket
+                            const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
+                            const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
+
+                            return (
+                              <>
+                                {visibleItems.map((event, i) => (
+                                  <EarningsItem key={i} event={event} />
+                                ))}
+                                {hiddenCount > 0 && !isExpanded && (
+                                  <button
+                                    onClick={() => toggleSection(sectionKey)}
+                                    className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
+                                  >
+                                    +{hiddenCount} mehr
+                                  </button>
+                                )}
+                                {isExpanded && hiddenCount > 0 && (
+                                  <button
+                                    onClick={() => toggleSection(sectionKey)}
+                                    className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
+                                  >
+                                    weniger
+                                  </button>
+                                )}
+                              </>
+                            )
+                          })()}
                         </div>
                       </div>
                     )}
@@ -436,23 +509,24 @@ export default function EarningsCalendarPage() {
   )
 }
 
-// Format revenue for tooltip (German)
-function formatRevenue(revenue: number | null): string {
-  if (!revenue) return ''
-  if (revenue >= 1e9) return `~${(revenue / 1e9).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 1 })} Mrd. $`
-  if (revenue >= 1e6) return `~${(revenue / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`
-  return `~${revenue.toLocaleString('de-DE')} $`
+// Format Market Cap for display (German)
+function formatMarketCap(marketCap: number | null): string {
+  if (!marketCap) return ''
+  if (marketCap >= 1e12) return `~${(marketCap / 1e12).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 1 })} Bio. $`
+  if (marketCap >= 1e9) return `~${(marketCap / 1e9).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mrd. $`
+  if (marketCap >= 1e6) return `~${(marketCap / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`
+  return `~${marketCap.toLocaleString('de-DE')} $`
 }
 
 // Earnings Item Component
 function EarningsItem({ event }: { event: EarningsEvent }) {
-  const revenueText = formatRevenue(event.revenueEstimate)
+  const marketCapText = formatMarketCap(event.marketCap)
 
   return (
     <Link
       href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
       className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-theme-hover transition-colors group"
-      title={`${event.name || event.symbol}${revenueText ? ` • Revenue Est.: ${revenueText}` : ''}`}
+      title={`${event.name || event.symbol}${marketCapText ? ` • MCap: ${marketCapText}` : ''}`}
     >
       <Logo
         ticker={event.symbol}
@@ -462,9 +536,9 @@ function EarningsItem({ event }: { event: EarningsEvent }) {
       <span className="text-xs font-medium text-theme-primary group-hover:text-theme-accent transition-colors truncate">
         {event.symbol}
       </span>
-      {revenueText && (
-        <span className="text-[9px] text-theme-muted ml-auto">
-          {revenueText}
+      {marketCapText && (
+        <span className="text-[9px] text-theme-muted ml-auto whitespace-nowrap">
+          {marketCapText}
         </span>
       )}
     </Link>
