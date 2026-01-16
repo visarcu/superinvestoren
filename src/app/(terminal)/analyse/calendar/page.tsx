@@ -521,6 +521,7 @@ function formatMarketCap(marketCap: number | null): string {
 // Earnings Item Component
 function EarningsItem({ event }: { event: EarningsEvent }) {
   const marketCapText = formatMarketCap(event.marketCap)
+  const displayName = event.name && event.name !== event.symbol ? event.name : null
 
   return (
     <Link
@@ -533,11 +534,20 @@ function EarningsItem({ event }: { event: EarningsEvent }) {
         alt={event.symbol}
         className="w-5 h-5 rounded flex-shrink-0"
       />
-      <span className="text-xs font-medium text-theme-primary group-hover:text-theme-accent transition-colors truncate">
-        {event.symbol}
-      </span>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs font-medium text-theme-primary group-hover:text-theme-accent transition-colors">
+            {event.symbol}
+          </span>
+          {displayName && (
+            <span className="text-[10px] text-theme-muted truncate">
+              {displayName}
+            </span>
+          )}
+        </div>
+      </div>
       {marketCapText && (
-        <span className="text-[9px] text-theme-muted ml-auto whitespace-nowrap">
+        <span className="text-[9px] text-theme-muted whitespace-nowrap flex-shrink-0">
           {marketCapText}
         </span>
       )}
