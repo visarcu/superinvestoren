@@ -9,7 +9,7 @@ const POPULAR_STOCKS = [
 
 const MARKET_INDICES: Record<string, string> = {
   'SPX': '^GSPC',
-  'IXIC': '^IXIC', 
+  'IXIC': '^IXIC',
   'DAX': '^GDAXI',
   'DJI': '^DJI'
 }

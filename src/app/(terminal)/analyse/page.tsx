@@ -31,6 +31,10 @@ const LatestGuruTrades = dynamic(() => import('@/components/LatestGuruTrades'), 
   loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-48"></div>,
   ssr: false
 })
+const SectorPerformance = dynamic(() => import('@/components/SectorPerformance'), {
+  loading: () => <div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>,
+  ssr: false
+})
 
 // ===== TYPES =====
 type Quote = {
@@ -336,26 +340,11 @@ export default function ModernDashboard() {
             </p>
           </div>
 
-          {/* Quick Actions Card */}
+          {/* Sector Performance Card */}
           <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
-            <h3 className="text-sm font-medium text-theme-primary mb-3">Schnellzugriff</h3>
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                { icon: BookmarkIcon, label: 'Watchlist', href: '/analyse/watchlist' },
-                { icon: MapIcon, label: 'Heatmap', href: '/analyse/heatmap' },
-                { icon: CalendarIcon, label: 'Earnings', href: '/analyse/earnings' },
-                { icon: SparklesIcon, label: 'FinClue AI', href: '/analyse/finclue-ai' }
-              ].map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="flex items-center gap-2 px-3 py-2 rounded-lg bg-theme-secondary/30 hover:bg-theme-hover text-theme-secondary hover:text-theme-primary transition-all text-sm"
-                >
-                  <item.icon className="w-4 h-4" />
-                  {item.label}
-                </Link>
-              ))}
-            </div>
+            <React.Suspense fallback={<div className="animate-pulse bg-theme-secondary rounded-lg h-32"></div>}>
+              <SectorPerformance />
+            </React.Suspense>
           </div>
         </div>
 
@@ -393,7 +382,7 @@ export default function ModernDashboard() {
                             <div className="h-4 w-12 bg-theme-secondary rounded animate-pulse ml-auto"></div>
                           ) : quote ? (
                             <span className={`font-medium ${quote.positive ? 'text-green-400' : 'text-red-400'}`}>
-                              {quote.positive ? '+' : ''}{formatPercentage(quote.changePct)}
+                              {formatPercentage(quote.changePct)}
                             </span>
                           ) : '--'}
                         </td>
@@ -500,7 +489,7 @@ export default function ModernDashboard() {
                       <div className="flex items-center gap-2 text-xs">
                         <span className="text-theme-secondary">{formatStockPrice(quote.price)}</span>
                         <span className={quote.changePct >= 0 ? 'text-green-400' : 'text-red-400'}>
-                          {quote.changePct >= 0 ? '+' : ''}{formatPercentage(quote.changePct)}
+                          {formatPercentage(quote.changePct)}
                         </span>
                       </div>
                     ) : (
