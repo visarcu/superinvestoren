@@ -105,6 +105,8 @@ export default function ModernDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
   const [userName, setUserName] = useState<string | null>(null)
+  const [aiSummary, setAiSummary] = useState<string | null>(null)
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(false)
   const { formatStockPrice, formatPercentage } = useCurrency()
 
   const POPULAR_STOCKS = useMemo(() => [
@@ -267,6 +269,42 @@ export default function ModernDashboard() {
     }
   }, [marketQuotes])
 
+  // Load AI Market Summary when market data is available
+  useEffect(() => {
+    async function loadAiSummary() {
+      // Only load if we have market data and no summary yet
+      if (Object.keys(marketQuotes).length === 0 || aiSummary) return
+
+      setAiSummaryLoading(true)
+      try {
+        // First get sector data
+        const sectorRes = await fetch('/api/sector-performance')
+        const sectorData = sectorRes.ok ? await sectorRes.json() : { sectors: [] }
+
+        // Call AI summary API
+        const response = await fetch('/api/market-summary', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            markets: marketQuotes,
+            sectors: sectorData.sectors || []
+          })
+        })
+
+        if (response.ok) {
+          const data = await response.json()
+          setAiSummary(data.summary)
+        }
+      } catch (error) {
+        console.error('Failed to load AI summary:', error)
+      } finally {
+        setAiSummaryLoading(false)
+      }
+    }
+
+    loadAiSummary()
+  }, [marketQuotes, aiSummary])
+
   return (
     <div className="min-h-screen bg-theme-primary">
 
@@ -336,7 +374,16 @@ export default function ModernDashboard() {
               )}
             </div>
             <p className="text-sm text-theme-secondary leading-relaxed">
-              {marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'}
+              {aiSummaryLoading ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-3 h-3 border border-theme-muted border-t-transparent rounded-full animate-spin"></span>
+                  Analysiere Marktbewegungen...
+                </span>
+              ) : aiSummary ? (
+                aiSummary
+              ) : (
+                marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'
+              )}
             </p>
           </div>
 

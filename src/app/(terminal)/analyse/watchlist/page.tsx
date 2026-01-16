@@ -1,26 +1,21 @@
-// src/app/watchlist/page.tsx - KOMPLETT MIT ALLEN ANPASSUNGEN
+// src/app/watchlist/page.tsx - Fey-Style Watchlist mit Earnings Integration
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
-import { 
-  TrashIcon, 
-  ChartBarIcon, 
-  ArrowTrendingDownIcon, 
-  ArrowTrendingUpIcon,
-  BookmarkIcon,
+import {
+  TrashIcon,
+  ChartBarIcon,
   ArrowPathIcon,
-  AdjustmentsHorizontalIcon,
-  ArrowLeftIcon,
   Squares2X2Icon,
-  ViewColumnsIcon,
   TableCellsIcon,
   ChevronUpIcon,
-  ChevronDownIcon
+  ChevronDownIcon,
+  CalendarDaysIcon
 } from '@heroicons/react/24/outline';
-import { ExclamationTriangleIcon } from '@heroicons/react/24/solid';
 import Logo from '@/components/Logo';
+import { fmtNum, fmtPercent, fmtVolume } from '@/utils/formatters';
 
 interface WatchlistItem {
   id: string;
@@ -30,6 +25,7 @@ interface WatchlistItem {
 
 interface StockData {
   ticker: string;
+  companyName?: string;
   price: number;
   change: number;
   changePercent: number;
@@ -40,30 +36,45 @@ interface StockData {
   marketCap?: number;
   volume?: number;
   peRatio?: number;
-  daysSinceATH?: number;
+  exchange?: string;
+  currency?: string;
+  revenueGrowthYOY?: number;
 }
 
-type SortColumn = 'ticker' | 'price' | 'changePercent' | 'week52High' | 'dipPercent' | 'marketCap' | 'peRatio';
+interface EarningsEvent {
+  symbol: string;
+  companyName?: string;
+  date: string;
+  time: string;
+  epsEstimate?: number | null;
+}
+
+type SortColumn = 'ticker' | 'price' | 'changePercent' | 'revenueGrowthYOY' | 'earnings' | 'volume';
 type SortDirection = 'asc' | 'desc';
+type ViewMode = 'list' | 'grid';
 
 export default function WatchlistPage() {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
   const [stockData, setStockData] = useState<Record<string, StockData>>({});
+  const [earningsEvents, setEarningsEvents] = useState<EarningsEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [dataLoading, setDataLoading] = useState(false);
   const [user, setUser] = useState<any>(null);
-  const [showOnlyDips, setShowOnlyDips] = useState(false);
-  const [dipThreshold, setDipThreshold] = useState(10);
-  const [viewMode, setViewMode] = useState<'cards' | 'compact' | 'table'>('table');
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [sortColumn, setSortColumn] = useState<SortColumn>('ticker');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
   const router = useRouter();
+
+  // Get current date info (German)
+  const today = new Date();
+  const dayName = today.toLocaleDateString('de-DE', { weekday: 'long' });
+  const monthDay = today.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
 
   useEffect(() => {
     async function fetchWatchlist() {
       try {
         const { data: { session }, error: sessionErr } = await supabase.auth.getSession();
-        
+
         if (sessionErr) {
           console.error('[Watchlist] Session Error:', sessionErr.message);
           router.push('/auth/signin');
@@ -88,9 +99,13 @@ export default function WatchlistPage() {
           setWatchlistItems([]);
         } else {
           setWatchlistItems(data || []);
-          
+
           if (data && data.length > 0) {
-            await loadStockData(data.map(item => item.ticker));
+            const tickers = data.map(item => item.ticker);
+            await Promise.all([
+              loadStockData(tickers),
+              loadEarningsData(tickers, session.user.id)
+            ]);
           }
         }
       } catch (error) {
@@ -108,37 +123,88 @@ export default function WatchlistPage() {
     const stockDataMap: Record<string, StockData> = {};
 
     try {
-      const res = await fetch(`/api/quotes?symbols=${tickers.join(',')}`);
-      
-      if (res.ok) {
-        const quotes = await res.json();
-        
+      // Load quotes and screener data in parallel
+      const [quotesRes, screenerRes] = await Promise.all([
+        fetch(`/api/quotes?symbols=${tickers.join(',')}`),
+        fetch('/data/stocks-screener.json')
+      ]);
+
+      // Parse screener data for revenue growth
+      let screenerData: Record<string, any> = {};
+      if (screenerRes.ok) {
+        try {
+          const screenerJson = await screenerRes.json();
+          if (screenerJson.stocks) {
+            screenerJson.stocks.forEach((stock: any) => {
+              screenerData[stock.symbol] = stock;
+            });
+          }
+        } catch (e) {
+          console.warn('Could not parse screener data:', e);
+        }
+      }
+
+      if (quotesRes.ok) {
+        const quotes = await quotesRes.json();
+
         quotes.forEach((quote: any) => {
           if (quote) {
             const dipPercent = ((quote.price - quote.yearHigh) / quote.yearHigh) * 100;
-            
+            const screenerStock = screenerData[quote.symbol];
+
             stockDataMap[quote.symbol] = {
               ticker: quote.symbol,
+              companyName: quote.name,
               price: quote.price,
               change: quote.change,
               changePercent: quote.changesPercentage,
               week52High: quote.yearHigh,
               week52Low: quote.yearLow,
               dipPercent: dipPercent,
-              isDip: dipPercent <= -dipThreshold,
+              isDip: dipPercent <= -10,
               marketCap: quote.marketCap,
               volume: quote.volume,
-              peRatio: quote.pe
+              peRatio: quote.pe,
+              exchange: quote.exchange,
+              currency: 'USD',
+              // Get revenue growth from screener data (revenueGrowth1Y is YOY)
+              revenueGrowthYOY: screenerStock?.revenueGrowth1Y ?? null
             };
           }
         });
       }
-      
+
       setStockData(stockDataMap);
     } catch (error) {
       console.error('Error loading stock data:', error);
     } finally {
       setDataLoading(false);
+    }
+  }
+
+  async function loadEarningsData(tickers: string[], userId: string) {
+    try {
+      // Get earnings for the next 90 days
+      const startDate = new Date();
+      const endDate = new Date();
+      endDate.setDate(endDate.getDate() + 90);
+
+      const res = await fetch(`/api/earnings-calendar/week?from=${startDate.toISOString().split('T')[0]}&to=${endDate.toISOString().split('T')[0]}`);
+
+      if (res.ok) {
+        const data = await res.json();
+        // Filter to only watchlist tickers and sort by date
+        const watchlistEarnings = (data.earnings || [])
+          .filter((e: EarningsEvent) => tickers.includes(e.symbol))
+          .sort((a: EarningsEvent, b: EarningsEvent) =>
+            new Date(a.date).getTime() - new Date(b.date).getTime()
+          )
+          .slice(0, 5); // Show max 5 upcoming
+
+        setEarningsEvents(watchlistEarnings);
+      }
+    } catch (error) {
+      console.error('Error loading earnings:', error);
     }
   }
 
@@ -175,16 +241,17 @@ export default function WatchlistPage() {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
       setSortColumn(column);
-      setSortDirection('asc');
+      setSortDirection('desc');
     }
   };
 
-  const getSortedItems = () => {
-    const itemsToSort = showOnlyDips 
-      ? watchlistItems.filter(item => stockData[item.ticker]?.isDip)
-      : watchlistItems;
+  // Get next earnings date for a ticker
+  const getNextEarnings = (ticker: string): EarningsEvent | undefined => {
+    return earningsEvents.find(e => e.symbol === ticker);
+  };
 
-    return [...itemsToSort].sort((a, b) => {
+  const sortedItems = useMemo(() => {
+    return [...watchlistItems].sort((a, b) => {
       const dataA = stockData[a.ticker];
       const dataB = stockData[b.ticker];
 
@@ -204,434 +271,370 @@ export default function WatchlistPage() {
         case 'changePercent':
           compareValue = (dataA.changePercent || 0) - (dataB.changePercent || 0);
           break;
-        case 'week52High':
-          compareValue = (dataA.week52High || 0) - (dataB.week52High || 0);
+        case 'revenueGrowthYOY':
+          compareValue = (dataA.revenueGrowthYOY || 0) - (dataB.revenueGrowthYOY || 0);
           break;
-        case 'dipPercent':
-          compareValue = (dataA.dipPercent || 0) - (dataB.dipPercent || 0);
+        case 'volume':
+          compareValue = (dataA.volume || 0) - (dataB.volume || 0);
           break;
-        case 'marketCap':
-          compareValue = (dataA.marketCap || 0) - (dataB.marketCap || 0);
-          break;
-        case 'peRatio':
-          compareValue = (dataA.peRatio || 0) - (dataB.peRatio || 0);
+        case 'earnings':
+          const earningsA = getNextEarnings(a.ticker);
+          const earningsB = getNextEarnings(b.ticker);
+          if (!earningsA && !earningsB) return 0;
+          if (!earningsA) return 1;
+          if (!earningsB) return -1;
+          compareValue = new Date(earningsA.date).getTime() - new Date(earningsB.date).getTime();
           break;
       }
 
       return sortDirection === 'asc' ? compareValue : -compareValue;
     });
+  }, [watchlistItems, stockData, sortColumn, sortDirection, earningsEvents]);
+
+  const formatEarningsDate = (dateString: string, time: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffDays = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+
+    if (diffDays === 0) {
+      const timeStr = time === 'bmo' ? '8:00' : time === 'amc' ? '17:00' : '';
+      return `Heute um ${timeStr}`;
+    } else if (diffDays === 1) {
+      const timeStr = time === 'bmo' ? '8:00' : time === 'amc' ? '17:00' : '';
+      return `Morgen um ${timeStr}`;
+    } else {
+      const dateFormatted = date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
+      const timeStr = time === 'bmo' ? '8:00' : time === 'amc' ? '17:00' : '';
+      return `${dateFormatted} um ${timeStr}`;
+    }
   };
+
+  const SortHeader = ({ column, label, align = 'left' }: { column: SortColumn; label: string; align?: 'left' | 'right' }) => (
+    <th
+      className={`px-4 py-3 text-xs font-medium text-neutral-500 cursor-pointer hover:text-white transition-colors ${align === 'right' ? 'text-right' : 'text-left'}`}
+      onClick={() => handleSort(column)}
+    >
+      <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
+        {label}
+        {sortColumn === column && (
+          sortDirection === 'asc'
+            ? <ChevronUpIcon className="w-3 h-3" />
+            : <ChevronDownIcon className="w-3 h-3" />
+        )}
+      </div>
+    </th>
+  );
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-theme-primary">
-        <div className="flex min-h-screen items-center justify-center py-12 px-4">
+      <div className="min-h-screen bg-[#0a0a0a]">
+        <div className="flex min-h-screen items-center justify-center">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-500 mx-auto mb-4"></div>
-            <p className="text-theme-secondary">Lade Watchlist...</p>
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-white mx-auto mb-4"></div>
+            <p className="text-neutral-500 text-sm">Lade Watchlist...</p>
           </div>
         </div>
       </div>
     );
   }
 
-  const sortedItems = getSortedItems();
-  const dipCount = watchlistItems.filter(item => stockData[item.ticker]?.isDip).length;
-
-  const formatMarketCap = (marketCap: number) => {
-    if (marketCap >= 1e12) return `${(marketCap / 1e12).toFixed(1).replace('.', ',')} Bio. $`;
-    if (marketCap >= 1e9) return `${(marketCap / 1e9).toFixed(1).replace('.', ',')} Mrd. $`;
-    if (marketCap >= 1e6) return `${(marketCap / 1e6).toFixed(0)} Mio. $`;
-    return `${marketCap.toLocaleString('de-DE')} $`;
-  };
-
-  const formatPrice = (price: number) => {
-    return `${price.toFixed(2).replace('.', ',')} $`;
-  };
-
-  const SortIndicator = ({ column }: { column: SortColumn }) => {
-    if (sortColumn !== column) {
-      return <div className="w-3 h-3" />;
-    }
-    return sortDirection === 'asc' ? (
-      <ChevronUpIcon className="w-3 h-3 text-brand-light" />
-    ) : (
-      <ChevronDownIcon className="w-3 h-3 text-brand-light" />
-    );
-  };
-
   return (
-    <div className="min-h-screen bg-theme-primary">
-      
-      {/* Professional Header */}
-      <div className="border-b border-white/[0.04]">
-        <div className="w-full px-6 lg:px-8 py-6">
-          
-          <Link
-            href="/analyse"
-            className="inline-flex items-center gap-2 text-theme-secondary hover:text-brand-light transition-colors duration-200 mb-4 group"
-          >
-            <ArrowLeftIcon className="w-4 h-4 group-hover:-translate-x-1 transition-transform duration-200" />
-            Zurück zur Analyse
-          </Link>
+    <div className="min-h-screen bg-[#0a0a0a] text-white">
+      {/* Header */}
+      <div className="px-6 lg:px-8 pt-6 pb-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-xl font-semibold text-white">Watchlist</h1>
+            <p className="text-sm text-neutral-500">{dayName}, {monthDay}</p>
+          </div>
 
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-3 mb-2">
-                <BookmarkIcon className="w-6 h-6 text-brand-light" />
-                <h1 className="text-3xl font-bold text-theme-primary">
-                  Deine Watchlist
-                </h1>
-              </div>
-              <div className="flex items-center gap-4 text-theme-secondary">
-                <span className="text-sm">
-                  {watchlistItems.length} {watchlistItems.length === 1 ? 'Aktie' : 'Aktien'}
-                </span>
-                {dipCount > 0 && (
-                  <>
-                    <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                    <span className="text-sm text-red-400">
-                      {dipCount} Schnäppchen entdeckt
-                    </span>
-                  </>
-                )}
-                <div className="w-1 h-1 bg-theme-muted rounded-full"></div>
-                <span className="text-sm">Live-Kurse</span>
-              </div>
-            </div>
-            
-            {watchlistItems.length > 0 && (
-              <div className="flex items-center gap-3">
-                <button
-                  onClick={() => loadStockData(watchlistItems.map(item => item.ticker))}
-                  disabled={dataLoading}
-                  className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
-                >
-                  <ArrowPathIcon className={`w-4 h-4 ${dataLoading ? 'animate-spin' : ''}`} />
-                  <span className="font-medium">{dataLoading ? 'Laden...' : 'Aktualisieren'}</span>
-                </button>
-              </div>
-            )}
+          <div className="flex items-center gap-3">
+            <button
+              onClick={() => {
+                if (watchlistItems.length > 0) {
+                  const tickers = watchlistItems.map(item => item.ticker);
+                  loadStockData(tickers);
+                  if (user?.id) loadEarningsData(tickers, user.id);
+                }
+              }}
+              disabled={dataLoading}
+              className="p-2 text-neutral-400 hover:text-white transition-colors disabled:opacity-50"
+            >
+              <ArrowPathIcon className={`w-5 h-5 ${dataLoading ? 'animate-spin' : ''}`} />
+            </button>
           </div>
         </div>
       </div>
 
-      <main className="w-full px-6 lg:px-8 py-6 space-y-6">
-        
-        {/* Schnäppchen-Radar mit integriertem E-Mail Hinweis */}
-        {watchlistItems.length > 0 && (
-          <section>
-            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
-              <div className="flex flex-col gap-4">
-                
-                <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-                  <div className="flex items-center gap-4">
-                    <div className="flex items-center gap-3">
-                      <ArrowTrendingDownIcon className="w-6 h-6 text-red-400" />
-                      <h2 className="text-xl font-semibold text-theme-primary">
-                        Schnäppchen-Radar
-                      </h2>
-                    </div>
-                    {dipCount > 0 && (
-                      <span className="px-3 py-1 bg-red-500/20 text-red-400 text-sm rounded-lg font-medium">
-                        {dipCount} Schnäppchen gefunden
-                      </span>
-                    )}
+      <main className="px-6 lg:px-8 pb-8 space-y-6">
+
+        {watchlistItems.length === 0 ? (
+          /* Empty State */
+          <div className="text-center py-20">
+            <div className="w-16 h-16 mx-auto bg-neutral-800 rounded-2xl flex items-center justify-center mb-6">
+              <ChartBarIcon className="w-8 h-8 text-neutral-600" />
+            </div>
+            <h2 className="text-lg font-medium text-white mb-2">Deine Watchlist ist leer</h2>
+            <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
+              Füge Aktien hinzu, um ihre Performance und Earnings zu verfolgen.
+            </p>
+            <div className="flex gap-3 justify-center">
+              <Link
+                href="/superinvestor"
+                className="px-4 py-2 bg-white text-black rounded-lg hover:bg-neutral-200 transition-colors text-sm font-medium"
+              >
+                Super-Investoren entdecken
+              </Link>
+              <Link
+                href="/analyse/finder"
+                className="px-4 py-2 text-neutral-400 hover:text-white transition-colors text-sm"
+              >
+                Aktien finden
+              </Link>
+            </div>
+          </div>
+        ) : (
+          <>
+            {/* Top Cards Row */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+              {/* Upcoming Earnings Card */}
+              <div className="bg-[#111111] border border-neutral-800 rounded-xl p-5">
+                <h2 className="text-sm font-medium text-white mb-4">Anstehende Earnings</h2>
+
+                {earningsEvents.length === 0 ? (
+                  <div className="text-center py-6">
+                    <CalendarDaysIcon className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
+                    <p className="text-neutral-500 text-sm">Keine anstehenden Earnings</p>
                   </div>
-                  
-                  <div className="flex items-center gap-2 text-xs text-theme-muted">
-                    <span>📧 E-Mail-Benachrichtigungen aktiv</span>
-                    <Link
-                      href="/notifications/settings"
-                      className="text-brand-light hover:text-green-300 underline"
-                    >
-                      Anpassen
-                    </Link>
+                ) : (
+                  <div className="space-y-0">
+                    {earningsEvents.map((event, idx) => (
+                      <Link
+                        key={idx}
+                        href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
+                        className="flex items-center justify-between py-3 border-b border-neutral-800 last:border-b-0 hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors"
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-1 h-8 bg-emerald-500 rounded-full" />
+                          <div>
+                            <span className="font-medium text-white">{event.symbol}</span>
+                            {stockData[event.symbol]?.companyName && (
+                              <span className="text-neutral-500 text-sm ml-2">
+                                {stockData[event.symbol].companyName}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-neutral-400 text-sm">
+                            {formatEarningsDate(event.date, event.time)}
+                          </span>
+                          {event.epsEstimate && (
+                            <span className="text-xs px-2 py-1 bg-neutral-800 text-neutral-400 rounded">
+                              Est.
+                            </span>
+                          )}
+                        </div>
+                      </Link>
+                    ))}
                   </div>
+                )}
+              </div>
+
+              {/* Performance Card - Coming Soon */}
+              <div className="bg-[#111111] border border-neutral-800 rounded-xl p-5 relative">
+                <div className="flex items-center justify-between mb-4">
+                  <h2 className="text-sm font-medium text-white">Deine Performance</h2>
+                  <span className="text-xs px-2 py-1 bg-neutral-800 text-neutral-500 rounded">
+                    Coming Soon
+                  </span>
                 </div>
-                
-                <div className="flex flex-wrap items-center gap-4">
-                  <div className="flex items-center gap-3">
-                    <AdjustmentsHorizontalIcon className="w-4 h-4 text-theme-secondary" />
-                    <label className="text-theme-secondary text-sm">Schwelle:</label>
-                    <input
-                      type="range"
-                      min="5"
-                      max="30"
-                      value={dipThreshold}
-                      onChange={(e) => {
-                        setDipThreshold(Number(e.target.value));
-                        const newStockData = { ...stockData };
-                        Object.keys(newStockData).forEach(ticker => {
-                          newStockData[ticker].isDip = newStockData[ticker].dipPercent <= -Number(e.target.value);
-                        });
-                        setStockData(newStockData);
-                      }}
-                      className="w-20 accent-green-500"
-                    />
-                    <span className="text-theme-primary text-sm w-12">-{dipThreshold}%</span>
-                  </div>
 
-                  <button
-                    onClick={() => setShowOnlyDips(!showOnlyDips)}
-                    className={`px-4 py-2 rounded-lg transition font-medium text-sm ${
-                      showOnlyDips 
-                        ? 'bg-red-500 text-white' 
-                        : 'bg-theme-card border border-white/[0.04] text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
-                    }`}
-                  >
-                    {showOnlyDips ? 'Alle anzeigen' : 'Nur Schnäppchen'}
-                  </button>
+                {/* Placeholder Content */}
+                <div className="flex flex-col items-center justify-center py-8 text-center">
+                  <ChartBarIcon className="w-10 h-10 text-neutral-700 mb-3" />
+                  <p className="text-neutral-500 text-sm">
+                    Portfolio-Performance-Tracking wird bald verfügbar sein
+                  </p>
+                  <p className="text-neutral-600 text-xs mt-1">
+                    Verfolge deine Watchlist-Performance über Zeit
+                  </p>
+                </div>
+              </div>
+            </div>
 
-                  <div className="flex bg-theme-secondary/20 rounded-lg p-1">
+            {/* Watched Stocks Section */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-sm font-medium text-white">Beobachtete Aktien</h2>
+
+                <div className="flex items-center gap-2">
+                  {/* View Mode Toggle */}
+                  <div className="flex bg-neutral-800 rounded-lg p-1">
                     <button
-                      onClick={() => setViewMode('table')}
-                      className={`p-2 rounded-md transition-colors ${
-                        viewMode === 'table' 
-                          ? 'bg-theme-card text-theme-primary shadow-sm' 
-                          : 'text-theme-muted hover:text-theme-primary'
+                      onClick={() => setViewMode('list')}
+                      className={`p-1.5 rounded-md transition-colors ${
+                        viewMode === 'list'
+                          ? 'bg-neutral-700 text-white'
+                          : 'text-neutral-500 hover:text-white'
                       }`}
-                      title="Tabelle"
                     >
                       <TableCellsIcon className="w-4 h-4" />
                     </button>
                     <button
-                      onClick={() => setViewMode('compact')}
-                      className={`p-2 rounded-md transition-colors ${
-                        viewMode === 'compact' 
-                          ? 'bg-theme-card text-theme-primary shadow-sm' 
-                          : 'text-theme-muted hover:text-theme-primary'
+                      onClick={() => setViewMode('grid')}
+                      className={`p-1.5 rounded-md transition-colors ${
+                        viewMode === 'grid'
+                          ? 'bg-neutral-700 text-white'
+                          : 'text-neutral-500 hover:text-white'
                       }`}
-                      title="Kompakt"
-                    >
-                      <ViewColumnsIcon className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => setViewMode('cards')}
-                      className={`p-2 rounded-md transition-colors ${
-                        viewMode === 'cards' 
-                          ? 'bg-theme-card text-theme-primary shadow-sm' 
-                          : 'text-theme-muted hover:text-theme-primary'
-                      }`}
-                      title="Karten"
                     >
                       <Squares2X2Icon className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-        )}
 
-        {/* Watchlist Content */}
-        <section>
-          {sortedItems.length === 0 ? (
-            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-12 text-center">
-              <div className="w-24 h-24 mx-auto bg-theme-secondary rounded-2xl flex items-center justify-center mb-6">
-                {showOnlyDips ? (
-                  <ArrowTrendingDownIcon className="w-12 h-12 text-theme-muted" />
-                ) : (
-                  <BookmarkIcon className="w-12 h-12 text-theme-muted" />
-                )}
-              </div>
-              
-              <div className="space-y-4 max-w-md mx-auto">
-                <h2 className="text-xl font-semibold text-theme-primary">
-                  {showOnlyDips 
-                    ? watchlistItems.length > 0 
-                      ? 'Keine Schnäppchen gefunden'
-                      : 'Keine Aktien in der Watchlist'
-                    : 'Keine Aktien in der Watchlist'
-                  }
-                </h2>
-                <p className="text-theme-secondary text-sm">
-                  {showOnlyDips && watchlistItems.length > 0
-                    ? `Alle deine Aktien sind weniger als ${dipThreshold}% von ihrem 52-Wochen-Hoch entfernt.`
-                    : 'Füge Aktien zu deiner Watchlist hinzu, um sie zu verfolgen und Schnäppchen zu entdecken.'
-                  }
-                </p>
-              </div>
-              
-              {!showOnlyDips && (
-                <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-                  <Link
-                    href="/superinvestor"
-                    className="px-6 py-3 bg-brand text-white rounded-lg hover:bg-brand transition font-medium"
-                  >
-                    Super-Investoren entdecken
-                  </Link>
-                  <Link
-                    href="/analyse"
-                    className="px-6 py-3 bg-theme-card border border-white/[0.04] text-theme-secondary rounded-lg hover:bg-theme-hover hover:text-theme-primary transition font-medium"
-                  >
-                    Aktien finden
-                  </Link>
-                </div>
-              )}
-            </div>
-          ) : (
-            <>
-              {viewMode === 'table' && (
-                <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
+              {viewMode === 'list' ? (
+                /* Table View */
+                <div className="bg-[#111111] border border-neutral-800 rounded-xl overflow-hidden">
                   <div className="overflow-x-auto">
-                    <table className="w-full text-sm">
-                      <thead className="bg-theme-secondary/20">
-                        <tr className="text-left">
-                          <th className="px-4 py-3">
-                            <button 
-                              onClick={() => handleSort('ticker')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1"
-                            >
-                              Aktie
-                              <SortIndicator column="ticker" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 text-right">
-                            <button 
-                              onClick={() => handleSort('price')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
-                            >
-                              Kurs
-                              <SortIndicator column="price" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 text-right">
-                            <button 
-                              onClick={() => handleSort('changePercent')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
-                            >
-                              Änderung
-                              <SortIndicator column="changePercent" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 text-right">
-                            <button 
-                              onClick={() => handleSort('week52High')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
-                            >
-                              52W High
-                              <SortIndicator column="week52High" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 text-right">
-                            <button 
-                              onClick={() => handleSort('dipPercent')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
-                            >
-                              Max Drawdown
-                              <SortIndicator column="dipPercent" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 text-right">
-                            <button 
-                              onClick={() => handleSort('marketCap')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
-                            >
-                              Marktkapitalisierung
-                              <SortIndicator column="marketCap" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 text-right">
-                            <button 
-                              onClick={() => handleSort('peRatio')}
-                              className="font-semibold text-theme-primary hover:text-brand-light transition-colors flex items-center gap-1 ml-auto"
-                            >
-                              P/E
-                              <SortIndicator column="peRatio" />
-                            </button>
-                          </th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary">Status</th>
-                          <th className="px-4 py-3 font-semibold text-theme-primary"></th>
+                    <table className="w-full">
+                      <thead className="border-b border-neutral-800">
+                        <tr>
+                          <SortHeader column="ticker" label="Company" />
+                          <th className="px-4 py-3 text-xs font-medium text-neutral-500 text-center">Ccy</th>
+                          <th className="px-4 py-3 text-xs font-medium text-neutral-500">Exchange</th>
+                          <SortHeader column="revenueGrowthYOY" label="Umsatzwachstum" align="right" />
+                          <SortHeader column="earnings" label="Earnings" align="right" />
+                          <SortHeader column="volume" label="Volume" align="right" />
+                          <th className="px-4 py-3 text-xs font-medium text-neutral-500 text-center">Daily chart</th>
+                          <th className="px-4 py-3 text-xs font-medium text-neutral-500 text-right">Price</th>
+                          <SortHeader column="changePercent" label="Performance" align="right" />
+                          <th className="px-4 py-3 w-10"></th>
                         </tr>
                       </thead>
                       <tbody>
                         {sortedItems.map((item) => {
                           const data = stockData[item.ticker];
-                          const hasData = !!data;
-                          
+                          const earnings = getNextEarnings(item.ticker);
+
                           return (
-                            <tr key={item.id} className="border-t border-white/[0.04] hover:bg-theme-secondary/10 transition-colors">
+                            <tr
+                              key={item.id}
+                              className="border-b border-neutral-800/50 hover:bg-neutral-800/30 transition-colors"
+                            >
+                              {/* Company */}
                               <td className="px-4 py-3">
-                                <div className="flex items-center gap-3">
-                                  <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-8 h-8 rounded-lg" />
+                                <Link
+                                  href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                                  className="flex items-center gap-3 group"
+                                >
+                                  <Logo ticker={item.ticker} alt={item.ticker} className="w-8 h-8 rounded-lg" />
                                   <div>
-                                    <div className="font-semibold text-theme-primary">{item.ticker}</div>
-                                    <div className="text-xs text-theme-muted">
-                                      {new Date(item.created_at).toLocaleDateString('de-DE')}
-                                    </div>
+                                    <span className="font-medium text-white group-hover:text-emerald-400 transition-colors">
+                                      {item.ticker}
+                                    </span>
+                                    {data?.companyName && (
+                                      <span className="text-neutral-500 text-sm ml-2 hidden lg:inline">
+                                        {data.companyName}
+                                      </span>
+                                    )}
                                   </div>
+                                </Link>
+                              </td>
+
+                              {/* Currency */}
+                              <td className="px-4 py-3 text-center">
+                                <span className="text-xs px-2 py-1 bg-neutral-800 text-neutral-400 rounded">
+                                  {data?.currency || 'USD'}
+                                </span>
+                              </td>
+
+                              {/* Exchange */}
+                              <td className="px-4 py-3 text-sm text-neutral-400">
+                                {data?.exchange || '-'}
+                              </td>
+
+                              {/* YOY Revenue */}
+                              <td className="px-4 py-3 text-right">
+                                {data?.revenueGrowthYOY != null ? (
+                                  <span className={`text-sm font-medium ${
+                                    data.revenueGrowthYOY >= 0 ? 'text-emerald-400' : 'text-red-400'
+                                  }`}>
+                                    {fmtPercent(data.revenueGrowthYOY)}
+                                    {data.revenueGrowthYOY >= 0 ? ' ↗' : ' ↘'}
+                                  </span>
+                                ) : (
+                                  <span className="text-neutral-500 text-sm">–</span>
+                                )}
+                              </td>
+
+                              {/* Earnings */}
+                              <td className="px-4 py-3 text-right text-sm text-neutral-400">
+                                {earnings ? (
+                                  <span>
+                                    {new Date(earnings.date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })} est
+                                  </span>
+                                ) : (
+                                  <span className="text-neutral-600">Ausstehend</span>
+                                )}
+                              </td>
+
+                              {/* Volume */}
+                              <td className="px-4 py-3 text-right text-sm text-neutral-400">
+                                {fmtVolume(data?.volume)}
+                              </td>
+
+                              {/* Mini Chart */}
+                              <td className="px-4 py-3">
+                                <div className="flex items-end gap-px h-6 justify-center">
+                                  {Array.from({ length: 20 }).map((_, i) => (
+                                    <div
+                                      key={i}
+                                      className="w-1 rounded-t bg-neutral-600"
+                                      style={{ height: `${Math.random() * 80 + 20}%` }}
+                                    />
+                                  ))}
                                 </div>
                               </td>
+
+                              {/* Price */}
                               <td className="px-4 py-3 text-right">
-                                {hasData ? (
-                                  <div className="font-bold text-theme-primary">
-                                    {formatPrice(data.price)}
-                                  </div>
-                                ) : (
-                                  <div className="text-theme-muted">-</div>
-                                )}
-                              </td>
-                              <td className="px-4 py-3 text-right">
-                                {hasData ? (
-                                  <div className={`inline-flex items-center gap-1 font-semibold ${
-                                    data.change >= 0 ? 'text-brand' : 'text-red-500'
-                                  }`}>
-                                    {data.change >= 0 ? '▲' : '▼'}
-                                    {data.changePercent.toFixed(2)}%
-                                  </div>
-                                ) : (
-                                  <div className="text-theme-muted">-</div>
-                                )}
-                              </td>
-                              <td className="px-4 py-3 text-right text-theme-secondary">
-                                {hasData ? formatPrice(data.week52High) : '-'}
-                              </td>
-                              <td className="px-4 py-3 text-right">
-                                {hasData ? (
-                                  <div className={`font-semibold ${
-                                    data.dipPercent <= -dipThreshold ? 'text-red-500' : 'text-theme-primary'
-                                  }`}>
-                                    {data.dipPercent.toFixed(1)}%
-                                  </div>
-                                ) : (
-                                  <div className="text-theme-muted">-</div>
-                                )}
-                              </td>
-                              <td className="px-4 py-3 text-right text-theme-secondary">
-                                {hasData && data.marketCap ? formatMarketCap(data.marketCap) : '-'}
-                              </td>
-                              <td className="px-4 py-3 text-right text-theme-secondary">
-                                {hasData && data.peRatio ? data.peRatio.toFixed(1).replace('.', ',') : '-'}
-                              </td>
-                              <td className="px-4 py-3">
-                                {hasData && data.isDip ? (
-                                  <span className="px-2 py-1 bg-red-500/20 text-red-400 text-xs rounded font-medium">
-                                    Schnäppchen
-                                  </span>
-                                ) : hasData ? (
-                                  <span className="px-2 py-1 bg-theme-secondary/20 text-theme-muted text-xs rounded">
-                                    Normal
-                                  </span>
-                                ) : null}
-                              </td>
-                              <td className="px-4 py-3">
-                                <div className="flex items-center gap-2">
-                                  <Link
-                                    href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
-                                    className="p-1 text-theme-muted hover:text-theme-primary transition-colors"
-                                    title="Analyse"
-                                  >
-                                    <ChartBarIcon className="w-4 h-4" />
-                                  </Link>
-                                  <button
-                                    onClick={() => removeFromWatchlist(item.id, item.ticker)}
-                                    className="p-1 text-theme-muted hover:text-red-500 transition-colors"
-                                    title="Entfernen"
-                                  >
-                                    <TrashIcon className="w-4 h-4" />
-                                  </button>
+                                <div className="font-medium text-white">
+                                  {data?.price != null ? `$${fmtNum(data.price)}` : '–'}
                                 </div>
+                                {data?.change != null && (
+                                  <div className={`text-xs ${data.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                    {data.change >= 0 ? '+' : ''}${fmtNum(data.change)}
+                                  </div>
+                                )}
+                              </td>
+
+                              {/* Performance */}
+                              <td className="px-4 py-3 text-right">
+                                {data?.changePercent != null ? (
+                                  <span className={`text-sm font-medium px-2 py-1 rounded ${
+                                    data.changePercent >= 0
+                                      ? 'text-emerald-400 bg-emerald-400/10'
+                                      : 'text-red-400 bg-red-400/10'
+                                  }`}>
+                                    {fmtPercent(data.changePercent)}
+                                  </span>
+                                ) : (
+                                  <span className="text-neutral-500">–</span>
+                                )}
+                              </td>
+
+                              {/* Actions */}
+                              <td className="px-4 py-3">
+                                <button
+                                  onClick={() => removeFromWatchlist(item.id, item.ticker)}
+                                  className="p-1.5 text-neutral-500 hover:text-red-400 transition-colors rounded hover:bg-red-400/10"
+                                >
+                                  <TrashIcon className="w-4 h-4" />
+                                </button>
                               </td>
                             </tr>
                           );
@@ -640,202 +643,88 @@ export default function WatchlistPage() {
                     </table>
                   </div>
                 </div>
-              )}
-
-              {viewMode === 'compact' && (
-                <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-3">
+              ) : (
+                /* Grid View */
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   {sortedItems.map((item) => {
                     const data = stockData[item.ticker];
-                    const hasData = !!data;
-                    
-                    return (
-                      <div key={item.id} className={`bg-theme-card border rounded-xl p-4 hover:border-white/[0.08] transition-all ${
-                        hasData && data.isDip ? 'bg-red-500/5 border-red-500/20' : 'border-theme/5'
-                      }`}>
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3">
-                            <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-10 h-10 rounded-lg" />
-                            <div>
-                              <div className="flex items-center gap-2">
-                                <h4 className="font-bold text-theme-primary">{item.ticker}</h4>
-                                {hasData && data.isDip && (
-                                  <span className="w-2 h-2 bg-red-500 rounded-full" />
-                                )}
-                              </div>
-                              {hasData && (
-                                <div className="text-lg font-bold text-theme-primary">
-                                  {formatPrice(data.price)}
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                          
-                          <div className="text-right">
-                            {hasData && (
-                              <div className={`inline-flex items-center gap-1 px-2 py-1 rounded text-sm font-bold ${
-                                data.change >= 0 
-                                  ? 'text-brand bg-brand/10' 
-                                  : 'text-red-500 bg-red-500/10'
-                              }`}>
-                                {data.change >= 0 ? '▲' : '▼'}
-                                {data.changePercent.toFixed(2)}%
-                              </div>
-                            )}
-                            <div className="mt-1 text-xs text-theme-muted">
-                              {hasData ? `Max DD: ${data.dipPercent.toFixed(1)}%` : 'Laden...'}
-                            </div>
-                          </div>
-                        </div>
-                        
-                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-white/[0.04]">
-                          <div className="flex gap-4 text-xs text-theme-muted">
-                            <span>52W: {hasData ? formatPrice(data.week52High) : '-'}</span>
-                            {hasData && data.marketCap && (
-                              <span>MCap: {formatMarketCap(data.marketCap)}</span>
-                            )}
-                          </div>
-                          
-                          <div className="flex gap-2">
-                            <Link
-                              href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
-                              className="p-1 text-theme-muted hover:text-theme-primary transition-colors"
-                            >
-                              <ChartBarIcon className="w-4 h-4" />
-                            </Link>
-                            <button
-                              onClick={() => removeFromWatchlist(item.id, item.ticker)}
-                              className="p-1 text-theme-muted hover:text-red-500 transition-colors"
-                            >
-                              <TrashIcon className="w-4 h-4" />
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              )}
+                    const earnings = getNextEarnings(item.ticker);
 
-              {viewMode === 'cards' && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {sortedItems.map((item) => {
-                    const data = stockData[item.ticker];
-                    const hasData = !!data;
-                    
                     return (
-                    <div key={item.id} className="bg-theme-card border border-white/[0.04] rounded-xl p-6 hover:border-white/[0.08] transition-all duration-200 group">
-                      
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="flex items-center gap-3">
-                          <Logo
-                            ticker={item.ticker}
-                            alt={`${item.ticker} Logo`}
-                            className="w-10 h-10 rounded-lg"
-                          />
-                          <div>
-                            <h4 className="text-lg font-bold text-theme-primary flex items-center gap-2">
+                      <Link
+                        key={item.id}
+                        href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                        className="bg-[#111111] border border-neutral-800 rounded-xl p-4 hover:border-neutral-700 transition-colors block"
+                      >
+                        {/* Header */}
+                        <div className="flex items-center gap-3 mb-4">
+                          <Logo ticker={item.ticker} alt={item.ticker} className="w-10 h-10 rounded-lg" />
+                          <div className="flex-1 min-w-0">
+                            <span className="font-medium text-white">
                               {item.ticker}
-                              {hasData && data.isDip && (
-                                <ExclamationTriangleIcon className="w-4 h-4 text-red-400" title="Schnäppchen!" />
-                              )}
-                            </h4>
-                            <p className="text-xs text-theme-muted">
-                              {new Date(item.created_at).toLocaleDateString('de-DE')}
-                            </p>
-                          </div>
-                        </div>
-                        <button
-                          onClick={() => removeFromWatchlist(item.id, item.ticker)}
-                          className="p-2 text-theme-muted hover:text-red-400 hover:bg-red-500/10 rounded-lg transition opacity-0 group-hover:opacity-100"
-                          title="Aus Watchlist entfernen"
-                        >
-                          <TrashIcon className="w-4 h-4" />
-                        </button>
-                      </div>
-
-                      {hasData ? (
-                        <div className="space-y-4">
-                          <div className="space-y-3">
-                            <div className="text-2xl font-bold text-theme-primary">
-                              {formatPrice(data.price)}
-                            </div>
-                            
-                            <div className={`inline-flex items-center gap-2 text-sm font-bold px-3 py-1 rounded-lg ${
-                              data.change >= 0 
-                                ? 'text-brand-light bg-brand/20' 
-                                : 'text-red-400 bg-red-500/20'
-                            }`}>
-                              {data.change >= 0 ? (
-                                <ArrowTrendingUpIcon className="w-4 h-4" />
-                              ) : (
-                                <ArrowTrendingDownIcon className="w-4 h-4" />
-                              )}
-                              <span>
-                                {data.changePercent >= 0 ? '+' : ''}{data.changePercent.toFixed(2)}%
-                              </span>
-                            </div>
-                          </div>
-
-                          <div className="space-y-2 pt-3 border-t border-white/[0.04]">
-                            <div className="flex justify-between text-xs">
-                              <span className="text-theme-muted">52W High:</span>
-                              <span className="text-theme-primary font-medium">{formatPrice(data.week52High)}</span>
-                            </div>
-                            <div className="flex justify-between text-xs">
-                              <span className="text-theme-muted">52W Low:</span>
-                              <span className="text-theme-primary font-medium">{formatPrice(data.week52Low)}</span>
-                            </div>
-                            <div className="flex justify-between text-xs">
-                              <span className="text-theme-muted">Von 52W High:</span>
-                              <span className={`font-bold ${
-                                data.dipPercent <= -dipThreshold ? 'text-red-400' : 'text-theme-primary'
-                              }`}>
-                                {data.dipPercent.toFixed(1)}%
-                              </span>
-                            </div>
-
-                            {data.isDip && (
-                              <div className="p-3 bg-theme-secondary border border-white/[0.04] rounded-lg mt-3">
-                                <div className="flex items-center gap-2">
-                                  <div className="w-1.5 h-1.5 bg-theme-primary rounded-full"></div>
-                                  <p className="text-theme-primary text-xs font-medium">
-                                  Signifikante Korrektur
-                                  </p>
-                                </div>
-                                <p className="text-theme-muted text-xs mt-1">
-                                  {Math.abs(data.dipPercent).toFixed(1)}% unter 52-Wochen-Hoch
-                                </p>
-                              </div>
+                            </span>
+                            {data?.companyName && (
+                              <p className="text-neutral-500 text-sm truncate">
+                                {data.companyName}
+                              </p>
                             )}
                           </div>
-                        </div>
-                      ) : (
-                        <div className="flex items-center justify-center py-8">
-                          {dataLoading ? (
-                            <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-green-500"></div>
-                          ) : (
-                            <p className="text-theme-muted text-sm">Daten werden geladen...</p>
+                          {data?.changePercent != null && (
+                            <span className={`text-sm font-medium px-2 py-1 rounded ${
+                              data.changePercent >= 0
+                                ? 'text-emerald-400 bg-emerald-400/10'
+                                : 'text-red-400 bg-red-400/10'
+                            }`}>
+                              {fmtPercent(data.changePercent)}
+                            </span>
                           )}
                         </div>
-                      )}
 
-                      <div className="mt-6">
-                        <Link
-                          href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
-                          className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-theme-secondary hover:bg-theme-hover text-theme-primary rounded-lg transition font-medium text-sm"
-                        >
-                          <ChartBarIcon className="w-4 h-4" />
-                          <span>Analyse</span>
-                        </Link>
-                      </div>
-                    </div>
+                        {/* Price & Details */}
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between">
+                            <span className="text-neutral-500 text-sm">Kurs</span>
+                            <span className="text-lg font-bold text-white">
+                              {data?.price != null ? `$${fmtNum(data.price)}` : '–'}
+                            </span>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-neutral-500 text-sm">Tagesänderung</span>
+                            {data?.change != null ? (
+                              <span className={`text-sm ${data.change >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                {data.change >= 0 ? '+' : ''}${fmtNum(data.change)}
+                              </span>
+                            ) : (
+                              <span className="text-neutral-500 text-sm">–</span>
+                            )}
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <span className="text-neutral-500 text-sm">Umsatzwachstum</span>
+                            {data?.revenueGrowthYOY != null ? (
+                              <span className={`text-sm ${data.revenueGrowthYOY >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                                {fmtPercent(data.revenueGrowthYOY)}
+                              </span>
+                            ) : (
+                              <span className="text-neutral-500 text-sm">–</span>
+                            )}
+                          </div>
+                          {earnings && (
+                            <div className="flex items-center justify-between pt-2 border-t border-neutral-800">
+                              <span className="text-neutral-500 text-sm">Nächste Earnings</span>
+                              <span className="text-sm text-blue-400">
+                                {new Date(earnings.date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })}
+                              </span>
+                            </div>
+                          )}
+                        </div>
+                      </Link>
                     );
                   })}
                 </div>
               )}
-            </>
-          )}
-        </section>
+            </div>
+          </>
+        )}
       </main>
     </div>
   );

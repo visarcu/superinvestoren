@@ -36,7 +36,9 @@
     "rag:update-daily": "tsx scripts/updateRAG.ts",
     "update-sectors": "tsx scripts/updateSectors.ts",
     "update-sectors:prod": "NODE_ENV=production tsx scripts/updateSectors.ts",
-    "update-ter": "node scripts/update-ter-data.js"
+    "update-ter": "node scripts/update-ter-data.js",
+    "update-screener": "tsx scripts/update-stocks-screener.ts",
+    "sync-earnings": "tsx scripts/sync-earnings.ts"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",

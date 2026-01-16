@@ -71,6 +71,22 @@ export async function GET(request: NextRequest) {
     if (searchParams.get('exchange')) {
       fmpParams.append('exchange', searchParams.get('exchange')!)
     }
+
+    // P/E Ratio Filter (für Stock Finder)
+    if (searchParams.get('peMoreThan')) {
+      fmpParams.append('peMoreThan', searchParams.get('peMoreThan')!)
+    }
+    if (searchParams.get('peLowerThan')) {
+      fmpParams.append('peLowerThan', searchParams.get('peLowerThan')!)
+    }
+
+    // EPS Filter
+    if (searchParams.get('epsMoreThan')) {
+      fmpParams.append('epsMoreThan', searchParams.get('epsMoreThan')!)
+    }
+    if (searchParams.get('epsLowerThan')) {
+      fmpParams.append('epsLowerThan', searchParams.get('epsLowerThan')!)
+    }
     
     // Force ETFs to be excluded for stock screener
     fmpParams.append('isEtf', 'false')
@@ -171,10 +187,10 @@ export async function GET(request: NextRequest) {
       country: stock.country
     }))
 
-    // Get live quotes for top 20 results if requested
+    // Get live quotes for top results if requested
     const liveQuotes = searchParams.get('liveQuotes')
     if (liveQuotes === 'true' && cleanedData.length > 0) {
-      const topSymbols = cleanedData.slice(0, 20).map((stock: any) => stock.symbol)
+      const topSymbols = cleanedData.slice(0, 100).map((stock: any) => stock.symbol)
       
       try {
         // Add timeout to prevent slow responses
@@ -198,7 +214,9 @@ export async function GET(request: NextRequest) {
                 price: (liveQuote as any).price,
                 changesPercentage: (liveQuote as any).changesPercentage || (stock as any).changesPercentage,
                 change: (liveQuote as any).change || (stock as any).change,
-                volume: (liveQuote as any).volume || (stock as any).volume
+                volume: (liveQuote as any).volume || (stock as any).volume,
+                pe: (liveQuote as any).pe || (stock as any).pe,
+                eps: (liveQuote as any).eps || (stock as any).eps
               }
             }
             return stock
