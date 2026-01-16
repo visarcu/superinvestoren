@@ -6,53 +6,66 @@ import { useRouter } from 'next/navigation'
 import {
   MagnifyingGlassIcon,
   SparklesIcon,
-  ArrowTrendingUpIcon,
-  ArrowTrendingDownIcon,
 } from '@heroicons/react/24/outline'
 import { useCurrency } from '@/lib/CurrencyContext'
 
 // Typen
 interface Stock {
   symbol: string
-  companyName: string
-  price: number
-  changesPercentage: number
-  marketCap: number
+  name: string
+  price: number | null
+  marketCap: number | null
   pe: number | null
-  eps: number | null
   sector: string
   exchange: string
-  volume: number
   dividendYield: number | null
+  // Erweiterte Metriken aus JSON
+  revenueGrowth1Y: number | null
+  revenueGrowth3Y: number | null
+  epsGrowth1Y: number | null
+  roe: number | null
+  netProfitMargin: number | null
 }
 
 interface ParsedFilters {
   sector?: string
   exchange?: string
   country?: string
+  // Bewertung
   marketCapMin?: number
   marketCapMax?: number
   priceMin?: number
   priceMax?: number
   peMin?: number
   peMax?: number
-  epsMin?: number
-  epsMax?: number
+  priceToBookMin?: number
+  priceToBookMax?: number
   dividendMin?: number
   dividendMax?: number
   betaMin?: number
   betaMax?: number
-  volumeMin?: number
-  isPositive?: boolean
-  isNegative?: boolean
+  // Wachstum
+  revenueGrowth1YMin?: number
+  revenueGrowth3YMin?: number
+  revenueGrowth5YMin?: number
+  epsGrowth1YMin?: number
+  epsGrowth3YMin?: number
+  epsGrowth5YMin?: number
+  // Profitabilität
+  grossMarginMin?: number
+  operatingMarginMin?: number
+  netProfitMarginMin?: number
+  roeMin?: number
+  roaMin?: number
+  roicMin?: number
 }
 
-// Vorschläge für den User
+// Vorschläge für den User - erweitert um Wachstum & Profitabilität
 const SUGGESTIONS = [
-  { label: 'Tech Aktien mit KGV unter 25', query: 'Tech Aktien mit KGV unter 25' },
-  { label: 'Large Cap Dividenden', query: 'Large Cap Aktien mit Dividende über 2%' },
-  { label: 'Günstige Healthcare', query: 'Günstige Healthcare Aktien mit KGV unter 20' },
-  { label: 'Mega Cap Tech', query: 'Mega Cap Technologie Aktien' },
+  { label: 'Wachstumsaktien', query: 'Aktien mit Umsatzwachstum über 15% und ROE über 15%' },
+  { label: 'Qualitätsaktien', query: 'Profitable Aktien mit ROE über 20% und Nettomarge über 15%' },
+  { label: 'Value Tech', query: 'Tech Aktien mit KGV unter 25' },
+  { label: 'Dividenden Champions', query: 'Large Cap mit Dividende über 3%' },
 ]
 
 export default function StockFinderPage() {
@@ -73,34 +86,7 @@ export default function StockFinderPage() {
     inputRef.current?.focus()
   }, [])
 
-  // Filter in API-Parameter umwandeln
-  const filtersToParams = (filters: ParsedFilters): URLSearchParams => {
-    const params = new URLSearchParams()
-
-    if (filters.sector) params.append('sector', filters.sector)
-    if (filters.exchange) params.append('exchange', filters.exchange)
-    if (filters.country) params.append('country', filters.country)
-    if (filters.marketCapMin) params.append('marketCapMoreThan', filters.marketCapMin.toString())
-    if (filters.marketCapMax) params.append('marketCapLowerThan', filters.marketCapMax.toString())
-    if (filters.priceMin) params.append('priceMoreThan', filters.priceMin.toString())
-    if (filters.priceMax) params.append('priceLowerThan', filters.priceMax.toString())
-    if (filters.peMin) params.append('peMoreThan', filters.peMin.toString())
-    if (filters.peMax) params.append('peLowerThan', filters.peMax.toString())
-    if (filters.epsMin) params.append('epsMoreThan', filters.epsMin.toString())
-    if (filters.epsMax) params.append('epsLowerThan', filters.epsMax.toString())
-    if (filters.dividendMin) params.append('dividendMoreThan', filters.dividendMin.toString())
-    if (filters.dividendMax) params.append('dividendLowerThan', filters.dividendMax.toString())
-    if (filters.betaMin) params.append('betaMoreThan', filters.betaMin.toString())
-    if (filters.betaMax) params.append('betaLowerThan', filters.betaMax.toString())
-    if (filters.volumeMin) params.append('volumeMoreThan', filters.volumeMin.toString())
-
-    params.append('limit', '100')
-    params.append('liveQuotes', 'true')
-
-    return params
-  }
-
-  // Suche ausführen
+  // Suche ausführen - nutzt jetzt lokale JSON-Daten
   const handleSearch = useCallback(async (searchQuery?: string) => {
     const q = searchQuery || query
     if (!q.trim()) return
@@ -124,26 +110,19 @@ export default function StockFinderPage() {
       setParsing(false)
       setLoading(true)
 
-      // 2. Aktien mit Filtern laden
-      const params = filtersToParams(filters)
-      const screenerRes = await fetch(`/api/screener?${params.toString()}`)
+      // 2. Aktien aus lokalem JSON Cache laden
+      const searchRes = await fetch('/api/stock-finder/search', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filters, limit: 100 })
+      })
 
-      if (!screenerRes.ok) throw new Error('Failed to fetch stocks')
+      if (!searchRes.ok) throw new Error('Failed to fetch stocks')
 
-      let data: Stock[] = await screenerRes.json()
-
-      // 3. Client-seitige Filter für isPositive/isNegative
-      if (filters.isPositive) {
-        data = data.filter(s => s.changesPercentage > 0)
-      }
-      if (filters.isNegative) {
-        data = data.filter(s => s.changesPercentage < 0)
-      }
-
-      // Sortieren nach Market Cap (Standard)
-      data.sort((a, b) => (b.marketCap || 0) - (a.marketCap || 0))
+      const { stocks: data, total } = await searchRes.json()
 
       setStocks(data)
+      console.log(`✅ ${total} Aktien gefunden`)
     } catch (err) {
       console.error('Search error:', err)
       setError('Fehler bei der Suche. Bitte versuche es erneut.')
@@ -171,19 +150,34 @@ export default function StockFinderPage() {
     router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
   }
 
-  // Filter-Tags anzeigen
+  // Filter-Tags anzeigen - erweitert um neue Metriken
   const renderFilterTags = () => {
     const tags: string[] = []
 
+    // Basis
     if (activeFilters.sector) tags.push(activeFilters.sector)
     if (activeFilters.exchange) tags.push(activeFilters.exchange)
+
+    // Bewertung
     if (activeFilters.marketCapMin) tags.push(`MCap > ${formatMarketCap(activeFilters.marketCapMin)}`)
     if (activeFilters.marketCapMax) tags.push(`MCap < ${formatMarketCap(activeFilters.marketCapMax)}`)
     if (activeFilters.peMin) tags.push(`P/E > ${activeFilters.peMin}`)
     if (activeFilters.peMax) tags.push(`P/E < ${activeFilters.peMax}`)
     if (activeFilters.dividendMin) tags.push(`Div > ${activeFilters.dividendMin}%`)
-    if (activeFilters.isPositive) tags.push('Gewinner')
-    if (activeFilters.isNegative) tags.push('Verlierer')
+
+    // Wachstum
+    if (activeFilters.revenueGrowth1YMin) tags.push(`Rev 1Y > ${activeFilters.revenueGrowth1YMin}%`)
+    if (activeFilters.revenueGrowth3YMin) tags.push(`Rev 3Y > ${activeFilters.revenueGrowth3YMin}%`)
+    if (activeFilters.revenueGrowth5YMin) tags.push(`Rev 5Y > ${activeFilters.revenueGrowth5YMin}%`)
+    if (activeFilters.epsGrowth1YMin) tags.push(`EPS 1Y > ${activeFilters.epsGrowth1YMin}%`)
+    if (activeFilters.epsGrowth3YMin) tags.push(`EPS 3Y > ${activeFilters.epsGrowth3YMin}%`)
+    if (activeFilters.epsGrowth5YMin) tags.push(`EPS 5Y > ${activeFilters.epsGrowth5YMin}%`)
+
+    // Profitabilität
+    if (activeFilters.roeMin) tags.push(`ROE > ${activeFilters.roeMin}%`)
+    if (activeFilters.roicMin) tags.push(`ROIC > ${activeFilters.roicMin}%`)
+    if (activeFilters.netProfitMarginMin) tags.push(`Nettomarge > ${activeFilters.netProfitMarginMin}%`)
+    if (activeFilters.grossMarginMin) tags.push(`Bruttomarge > ${activeFilters.grossMarginMin}%`)
 
     if (tags.length === 0) return null
 
@@ -273,7 +267,7 @@ export default function StockFinderPage() {
               </span>
             </div>
 
-            {/* Table */}
+            {/* Table - erweitert um Wachstum & Profitabilität */}
             {stocks.length > 0 ? (
               <div className="overflow-x-auto">
                 <table className="w-full">
@@ -282,10 +276,11 @@ export default function StockFinderPage() {
                       <th className="text-left px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Unternehmen</th>
                       <th className="text-left px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Sektor</th>
                       <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Kurs</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Veränderung</th>
                       <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">P/E</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Market Cap</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Börse</th>
+                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Rev 3Y</th>
+                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">ROE</th>
+                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Div</th>
+                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">MCap</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -302,7 +297,7 @@ export default function StockFinderPage() {
                             </div>
                             <div>
                               <div className="font-medium text-theme-primary">{stock.symbol}</div>
-                              <div className="text-xs text-theme-muted truncate max-w-[200px]">{stock.companyName}</div>
+                              <div className="text-xs text-theme-muted truncate max-w-[180px]">{stock.name}</div>
                             </div>
                           </div>
                         </td>
@@ -312,28 +307,34 @@ export default function StockFinderPage() {
                           </span>
                         </td>
                         <td className="px-4 py-3 text-right font-mono text-theme-primary">
-                          {formatStockPrice(stock.price)}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <span className={`inline-flex items-center gap-1 font-mono text-sm ${
-                            stock.changesPercentage >= 0 ? 'text-green-400' : 'text-red-400'
-                          }`}>
-                            {stock.changesPercentage >= 0 ? (
-                              <ArrowTrendingUpIcon className="w-3.5 h-3.5" />
-                            ) : (
-                              <ArrowTrendingDownIcon className="w-3.5 h-3.5" />
-                            )}
-                            {stock.changesPercentage >= 0 ? '+' : ''}{stock.changesPercentage?.toFixed(2)}%
-                          </span>
+                          {stock.price ? formatStockPrice(stock.price) : '-'}
                         </td>
                         <td className="px-4 py-3 text-right font-mono text-theme-secondary">
                           {stock.pe ? stock.pe.toFixed(1) : '-'}
                         </td>
-                        <td className="px-4 py-3 text-right font-mono text-theme-secondary">
-                          {formatMarketCap(stock.marketCap)}
+                        <td className="px-4 py-3 text-right">
+                          {stock.revenueGrowth3Y !== null ? (
+                            <span className={`font-mono text-sm ${stock.revenueGrowth3Y >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                              {stock.revenueGrowth3Y >= 0 ? '+' : ''}{stock.revenueGrowth3Y.toFixed(1)}%
+                            </span>
+                          ) : (
+                            <span className="text-theme-muted">-</span>
+                          )}
                         </td>
-                        <td className="px-4 py-3 text-right text-xs text-theme-muted">
-                          {stock.exchange}
+                        <td className="px-4 py-3 text-right">
+                          {stock.roe !== null ? (
+                            <span className={`font-mono text-sm ${stock.roe >= 15 ? 'text-green-400' : 'text-theme-secondary'}`}>
+                              {stock.roe.toFixed(1)}%
+                            </span>
+                          ) : (
+                            <span className="text-theme-muted">-</span>
+                          )}
+                        </td>
+                        <td className="px-4 py-3 text-right font-mono text-theme-secondary">
+                          {stock.dividendYield !== null ? `${(stock.dividendYield * 100).toFixed(1)}%` : '-'}
+                        </td>
+                        <td className="px-4 py-3 text-right font-mono text-theme-secondary">
+                          {stock.marketCap ? formatMarketCap(stock.marketCap) : '-'}
                         </td>
                       </tr>
                     ))}
