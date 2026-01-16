@@ -52,9 +52,10 @@ async function loadStocks(): Promise<ScreenerStock[]> {
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8')
     const data = JSON.parse(fileContent)
-    cachedStocks = data.stocks || []
+    const stocks: ScreenerStock[] = data.stocks || []
+    cachedStocks = stocks
     cacheTime = now
-    return cachedStocks
+    return stocks
   } catch (error) {
     console.error('Fehler beim Laden der Stock-Daten:', error)
     return []
