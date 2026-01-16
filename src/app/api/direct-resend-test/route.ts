@@ -2,7 +2,16 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
+// Lazy initialization - wird erst bei erster Nutzung initialisiert
+// Dies verhindert Build-Fehler wenn RESEND_API_KEY nicht gesetzt ist
+let _resend: Resend | null = null
+
+function getResend(): Resend {
+  if (!_resend) {
+    _resend = new Resend(process.env.RESEND_API_KEY)
+  }
+  return _resend
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,7 +20,7 @@ export async function POST(request: NextRequest) {
     console.log('[Direct Test] API Key prefix:', process.env.RESEND_API_KEY?.substring(0, 8))
 
     // Direkte E-Mail ohne irgendwelche API-Aufrufe
-    const { data: emailResult, error: emailError } = await resend.emails.send({
+    const { data: emailResult, error: emailError } = await getResend().emails.send({
       from: 'FinClue <team@finclue.de>',
       to: ['visarcurraj95@gmail.com'],
       subject: '🧪 DIRECT TEST - ' + new Date().toLocaleTimeString(),

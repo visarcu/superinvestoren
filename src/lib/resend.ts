@@ -1,13 +1,28 @@
 // src/lib/resend.ts - KOMPLETTE DATEI
 import { Resend } from 'resend';
 
-// API-Key Validierung
-if (!process.env.RESEND_API_KEY) {
-  throw new Error('RESEND_API_KEY environment variable is not set');
+// Lazy initialization - wird erst bei erster Nutzung initialisiert
+// Dies verhindert Build-Fehler wenn RESEND_API_KEY nicht gesetzt ist
+let _resend: Resend | null = null;
+
+function getResend(): Resend {
+  if (!_resend) {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY environment variable is not set');
+    }
+    _resend = new Resend(process.env.RESEND_API_KEY);
+  }
+  return _resend;
 }
 
-// ✅ RESEND INSTANCE DEFINIEREN (das hat gefehlt!)
-export const resend = new Resend(process.env.RESEND_API_KEY);
+// Export als Proxy-Objekt für Abwärtskompatibilität
+export const resend = {
+  emails: {
+    send: async (options: Parameters<Resend['emails']['send']>[0]) => {
+      return getResend().emails.send(options);
+    }
+  }
+};
 
 // ✅ WILLKOMMENS-EMAIL FUNKTION
 export async function sendWelcomeEmail(email: string) {

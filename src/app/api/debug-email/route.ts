@@ -1,30 +1,39 @@
 // src/app/api/debug-email/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
+import { createClient, SupabaseClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
 
-const supabaseService = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
-    }
+// Lazy initialization - wird erst bei erster Nutzung initialisiert
+// Dies verhindert Build-Fehler wenn Umgebungsvariablen nicht gesetzt sind
+let _supabaseService: SupabaseClient | null = null
+
+function getSupabaseService(): SupabaseClient {
+  if (!_supabaseService) {
+    _supabaseService = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
+    )
   }
-)
+  return _supabaseService
+}
 
 export async function POST(request: NextRequest) {
   try {
     const targetUserId = 'd5bd6951-6479-4279-afd6-a019d9f6f153'
 
     // 1. User Email holen
-    const { data: { user }, error: userError } = await supabaseService.auth.admin.getUserById(targetUserId)
-    
+    const { data: { user }, error: userError } = await getSupabaseService().auth.admin.getUserById(targetUserId)
+
     console.log('[Debug] User data:', { userId: targetUserId, email: user?.email, userError })
 
     // 2. Letzte Notification Logs prüfen
-    const { data: recentLogs, error: logsError } = await supabaseService
+    const { data: recentLogs, error: logsError } = await getSupabaseService()
       .from('notification_log')
       .select('*')
       .eq('user_id', targetUserId)
@@ -36,7 +45,7 @@ export async function POST(request: NextRequest) {
     // 3. Direct Resend Test
     if (user?.email) {
       console.log('[Debug] Testing direct Resend API call...')
-      
+
       try {
         const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -86,9 +95,9 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('[Debug] Fatal error:', error)
-    return NextResponse.json({ 
-      error: 'Internal server error', 
-      details: error instanceof Error ? error.message : 'Unknown error' 
+    return NextResponse.json({
+      error: 'Internal server error',
+      details: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
   }
 }

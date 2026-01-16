@@ -3,10 +3,18 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-// OpenAI Client initialisieren
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization - wird erst bei erster Nutzung initialisiert
+// Dies verhindert Build-Fehler wenn OPENAI_API_KEY nicht gesetzt ist
+let _openai: OpenAI | null = null;
+
+function getOpenAI(): OpenAI {
+  if (!_openai) {
+    _openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return _openai;
+}
 
 interface FinancialData {
   ticker: string;
@@ -137,7 +145,7 @@ Verwende keine zusätzlichen Formatierungen oder Erklärungen.
 `;
 
   try {
-    const completion = await openai.chat.completions.create({
+    const completion = await getOpenAI().chat.completions.create({
       model: "gpt-4o-mini", // Günstig und hochwertig
       messages: [
         {
