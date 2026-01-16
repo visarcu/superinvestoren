@@ -71,6 +71,22 @@ export async function GET(request: NextRequest) {
     if (searchParams.get('exchange')) {
       fmpParams.append('exchange', searchParams.get('exchange')!)
     }
+
+    // P/E Ratio Filter (für Stock Finder)
+    if (searchParams.get('peMoreThan')) {
+      fmpParams.append('peMoreThan', searchParams.get('peMoreThan')!)
+    }
+    if (searchParams.get('peLowerThan')) {
+      fmpParams.append('peLowerThan', searchParams.get('peLowerThan')!)
+    }
+
+    // EPS Filter
+    if (searchParams.get('epsMoreThan')) {
+      fmpParams.append('epsMoreThan', searchParams.get('epsMoreThan')!)
+    }
+    if (searchParams.get('epsLowerThan')) {
+      fmpParams.append('epsLowerThan', searchParams.get('epsLowerThan')!)
+    }
     
     // Force ETFs to be excluded for stock screener
     fmpParams.append('isEtf', 'false')
