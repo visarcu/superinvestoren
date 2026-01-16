@@ -8,9 +8,6 @@ import {
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
   ArrowRightIcon,
-  BookmarkIcon,
-  MapIcon,
-  CalendarIcon,
   SparklesIcon,
   EyeIcon,
 } from '@heroicons/react/24/outline'
@@ -105,6 +102,8 @@ export default function ModernDashboard() {
   const [currentTime, setCurrentTime] = useState(new Date())
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
   const [userName, setUserName] = useState<string | null>(null)
+  const [aiSummary, setAiSummary] = useState<string | null>(null)
+  const [aiSummaryLoading, setAiSummaryLoading] = useState(false)
   const { formatStockPrice, formatPercentage } = useCurrency()
 
   const POPULAR_STOCKS = useMemo(() => [
@@ -168,24 +167,62 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Two-phase loading
+  // Two-phase loading with parallel AI summary
   useEffect(() => {
     async function loadDashboardData() {
       setLoading(true)
       setMarketLoading(true)
+      setAiSummaryLoading(true)
 
       try {
-        const cachedResponse = await fetch('/api/dashboard-cached')
+        // Load cached data and sector data in parallel
+        const [cachedResponse, sectorResponse] = await Promise.all([
+          fetch('/api/dashboard-cached'),
+          fetch('/api/sector-performance')
+        ])
+
+        let marketsForAI: Record<string, any> = {}
+        let sectorsForAI: any[] = []
+
         if (cachedResponse.ok) {
           const cachedData = await cachedResponse.json()
           if (cachedData.quotes) {
             setQuotes(cachedData.quotes)
             setStocksInteractive(true)
           }
-          if (cachedData.markets) setMarketQuotes(cachedData.markets)
+          if (cachedData.markets) {
+            setMarketQuotes(cachedData.markets)
+            marketsForAI = cachedData.markets
+          }
           setMarketLoading(false)
         }
 
+        if (sectorResponse.ok) {
+          const sectorData = await sectorResponse.json()
+          sectorsForAI = sectorData.sectors || []
+        }
+
+        // Load AI summary in parallel (don't wait for it)
+        if (Object.keys(marketsForAI).length > 0 && !aiSummary) {
+          fetch('/api/market-summary', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              markets: marketsForAI,
+              sectors: sectorsForAI
+            })
+          })
+            .then(res => res.ok ? res.json() : null)
+            .then(data => {
+              if (data?.summary) setAiSummary(data.summary)
+            })
+            .catch(err => console.error('AI summary error:', err))
+            .finally(() => setAiSummaryLoading(false))
+        } else {
+          setAiSummaryLoading(false)
+        }
+
+        // Load additional watchlist tickers if needed
         const allTickers = [...POPULAR_STOCKS, ...watchlistTickers]
         const uniqueTickers = [...new Set(allTickers)]
 
@@ -202,6 +239,7 @@ export default function ModernDashboard() {
 
       } catch (error: any) {
         console.error('Failed to load dashboard data:', error)
+        setAiSummaryLoading(false)
       } finally {
         setLoading(false)
         setMarketLoading(false)
@@ -209,7 +247,7 @@ export default function ModernDashboard() {
     }
 
     loadDashboardData()
-  }, [POPULAR_STOCKS, watchlistTickers])
+  }, [POPULAR_STOCKS, watchlistTickers, aiSummary])
 
   const handleTickerSelect = useCallback((ticker: string) => {
     if (typeof window !== 'undefined') {
@@ -336,7 +374,16 @@ export default function ModernDashboard() {
               )}
             </div>
             <p className="text-sm text-theme-secondary leading-relaxed">
-              {marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'}
+              {aiSummaryLoading ? (
+                <span className="inline-flex items-center gap-2">
+                  <span className="w-3 h-3 border border-theme-muted border-t-transparent rounded-full animate-spin"></span>
+                  Analysiere Marktbewegungen...
+                </span>
+              ) : aiSummary ? (
+                aiSummary
+              ) : (
+                marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'
+              )}
             </p>
           </div>
 
@@ -346,6 +393,7 @@ export default function ModernDashboard() {
               <SectorPerformance />
             </React.Suspense>
           </div>
+
         </div>
 
         {/* Markets Section */}
