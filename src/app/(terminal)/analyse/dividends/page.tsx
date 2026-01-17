@@ -1,27 +1,17 @@
-// Dividends Kalender - Simple Watchlist Focus
+// Dividenden Kalender - Fey Style Week/Month View
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { supabase } from '@/lib/supabaseClient'
-import { 
-  CalendarIcon,
-  ArrowLeftIcon,
-  ArrowPathIcon,
-  BookmarkIcon,
-  ExclamationCircleIcon,
+import {
+  ChevronLeftIcon,
+  ChevronRightIcon,
   CurrencyDollarIcon,
-  ExclamationTriangleIcon
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
+import { supabase } from '@/lib/supabaseClient'
 
-interface WatchlistItem {
-  id: string
-  ticker: string
-  created_at: string
-}
-
+// Types
 interface DividendEvent {
   ticker: string
   companyName: string
@@ -35,426 +25,567 @@ interface DividendEvent {
   frequency: string
 }
 
+type ViewMode = 'week' | 'month'
+
 export default function DividendsCalendarPage() {
-  const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([])
+  const [viewMode, setViewMode] = useState<ViewMode>('week')
+  const [currentDate, setCurrentDate] = useState(new Date())
   const [dividendEvents, setDividendEvents] = useState<DividendEvent[]>([])
   const [loading, setLoading] = useState(true)
-  const [dividendsLoading, setDividendsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const router = useRouter()
+  const [watchlistSymbols, setWatchlistSymbols] = useState<string[]>([])
 
-  // Fetch user watchlist
+  // Load watchlist symbols from Supabase
   useEffect(() => {
-    async function fetchWatchlist() {
+    async function loadWatchlist() {
       try {
-        const { data: { session }, error: sessionErr } = await supabase.auth.getSession()
-        
-        if (sessionErr) {
-          console.error('Session Error:', sessionErr.message)
-          router.push('/auth/signin')
-          return
-        }
+        const { data: { session } } = await supabase.auth.getSession()
 
         if (!session?.user) {
-          router.push('/auth/signin')
+          setWatchlistSymbols([])
           return
         }
 
-        const { data, error: dbErr } = await supabase
+        const { data, error } = await supabase
           .from('watchlists')
-          .select('id, ticker, created_at')
+          .select('ticker')
           .eq('user_id', session.user.id)
-          .order('created_at', { ascending: false })
 
-        if (dbErr) {
-          console.error('DB Error:', dbErr.message)
-          setError('Fehler beim Laden der Watchlist')
-        } else {
-          setWatchlistItems(data || [])
-          
-          // Auto-load dividends if we have watchlist items
-          if (data && data.length > 0) {
-            fetchDividends(data.map(item => item.ticker))
-          }
+        if (error) {
+          console.error('Failed to load watchlist:', error)
+          setWatchlistSymbols([])
+          return
+        }
+
+        const symbols = (data || []).map((item: { ticker: string }) => item.ticker.toUpperCase())
+        setWatchlistSymbols(symbols)
+      } catch (error) {
+        console.error('Failed to load watchlist:', error)
+        setWatchlistSymbols([])
+      }
+    }
+    loadWatchlist()
+  }, [])
+
+  // Get week dates (Mo-Fr)
+  const weekDates = useMemo(() => {
+    const dates: Date[] = []
+    const startOfWeek = new Date(currentDate)
+    const day = startOfWeek.getDay()
+    const diff = day === 0 ? -6 : 1 - day
+    startOfWeek.setDate(startOfWeek.getDate() + diff)
+
+    for (let i = 0; i < 5; i++) {
+      const date = new Date(startOfWeek)
+      date.setDate(startOfWeek.getDate() + i)
+      dates.push(date)
+    }
+    return dates
+  }, [currentDate])
+
+  // Get month dates for calendar grid
+  const monthDates = useMemo(() => {
+    const year = currentDate.getFullYear()
+    const month = currentDate.getMonth()
+
+    const firstDay = new Date(year, month, 1)
+    const startDate = new Date(firstDay)
+    const dayOfWeek = startDate.getDay()
+    const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+    startDate.setDate(startDate.getDate() + diff)
+
+    const dates: Date[] = []
+    for (let i = 0; i < 42; i++) {
+      const date = new Date(startDate)
+      date.setDate(startDate.getDate() + i)
+      dates.push(date)
+    }
+
+    const weeks: Date[][] = []
+    for (let i = 0; i < 6; i++) {
+      const week = dates.slice(i * 7, (i + 1) * 7)
+      const hasCurrentMonthDay = week.some(d => d.getMonth() === month)
+      if (hasCurrentMonthDay) {
+        weeks.push(week)
+      }
+    }
+
+    return weeks
+  }, [currentDate])
+
+  // Format date for API
+  const formatDateAPI = (date: Date) => {
+    return date.toISOString().split('T')[0]
+  }
+
+  // Get date range for month view API calls
+  const monthDateRange = useMemo(() => {
+    if (monthDates.length === 0) return { from: '', to: '' }
+    const allDates = monthDates.flat()
+    return {
+      from: formatDateAPI(allDates[0]),
+      to: formatDateAPI(allDates[allDates.length - 1])
+    }
+  }, [monthDates])
+
+  // Load dividend data
+  useEffect(() => {
+    async function loadDividends() {
+      if (watchlistSymbols.length === 0) {
+        setDividendEvents([])
+        setLoading(false)
+        return
+      }
+
+      setLoading(true)
+      try {
+        const tickersParam = watchlistSymbols.join(',')
+        const response = await fetch(`/api/dividends-calendar?tickers=${encodeURIComponent(tickersParam)}`)
+
+        if (response.ok) {
+          const events = await response.json()
+          setDividendEvents(Array.isArray(events) ? events : [])
         }
       } catch (error) {
-        console.error('Error:', error)
-        setError('Unbekannter Fehler beim Laden der Daten')
+        console.error('Failed to load dividends:', error)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchWatchlist()
-  }, [router])
+    loadDividends()
+  }, [watchlistSymbols])
 
-  // Fetch dividend events for watchlist tickers
-  const fetchDividends = async (tickers: string[]) => {
-    if (tickers.length === 0) {
-      setDividendEvents([])
-      return
-    }
-
-    setDividendsLoading(true)
-    setError(null)
-
-    try {
-      const tickersParam = tickers.join(',')
-      const response = await fetch(`/api/dividends-calendar?tickers=${encodeURIComponent(tickersParam)}`)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`)
-      }
-      
-      const events = await response.json()
-      setDividendEvents(Array.isArray(events) ? events : [])
-      
-    } catch (error) {
-      console.error('Error fetching dividends:', error)
-      setError('Fehler beim Laden der Dividenden-Termine')
-      setDividendEvents([])
-    } finally {
-      setDividendsLoading(false)
-    }
+  // Navigate weeks
+  const goToPreviousWeek = () => {
+    const newDate = new Date(currentDate)
+    newDate.setDate(newDate.getDate() - 7)
+    setCurrentDate(newDate)
   }
 
-  // Group events by payment date for display (more relevant for investors)
-  const groupedEvents = dividendEvents.reduce((groups, event) => {
-    const date = event.paymentDate
-    if (!groups[date]) {
-      groups[date] = []
+  const goToNextWeek = () => {
+    const newDate = new Date(currentDate)
+    newDate.setDate(newDate.getDate() + 7)
+    setCurrentDate(newDate)
+  }
+
+  // Navigate months
+  const goToPreviousMonth = () => {
+    const newDate = new Date(currentDate)
+    newDate.setMonth(newDate.getMonth() - 1)
+    setCurrentDate(newDate)
+  }
+
+  const goToNextMonth = () => {
+    const newDate = new Date(currentDate)
+    newDate.setMonth(newDate.getMonth() + 1)
+    setCurrentDate(newDate)
+  }
+
+  const goToToday = () => {
+    setCurrentDate(new Date())
+  }
+
+  const goToPrevious = viewMode === 'month' ? goToPreviousMonth : goToPreviousWeek
+  const goToNext = viewMode === 'month' ? goToNextMonth : goToNextWeek
+
+  // Filter dividends for current view (payment date within range)
+  const filteredDividends = useMemo(() => {
+    let from: string, to: string
+
+    if (viewMode === 'month') {
+      from = monthDateRange.from
+      to = monthDateRange.to
+    } else {
+      from = formatDateAPI(weekDates[0])
+      to = formatDateAPI(weekDates[4])
     }
-    groups[date].push(event)
-    return groups
-  }, {} as Record<string, DividendEvent[]>)
 
-  const sortedDates = Object.keys(groupedEvents).sort()
-
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr)
-    return date.toLocaleDateString('de-DE', {
-      weekday: 'short',
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
+    return dividendEvents.filter(event => {
+      const paymentDate = event.paymentDate
+      return paymentDate >= from && paymentDate <= to
     })
+  }, [dividendEvents, viewMode, weekDates, monthDateRange])
+
+  // Group dividends by payment date (for week view)
+  const groupedDividends = useMemo(() => {
+    const groups: Record<string, DividendEvent[]> = {}
+
+    weekDates.forEach(date => {
+      const dateKey = formatDateAPI(date)
+      groups[dateKey] = []
+    })
+
+    filteredDividends.forEach(event => {
+      const dateKey = event.paymentDate
+      if (groups[dateKey]) {
+        groups[dateKey].push(event)
+      }
+    })
+
+    // Sort each group by dividend amount (highest first)
+    Object.values(groups).forEach(group => {
+      group.sort((a, b) => b.dividend - a.dividend)
+    })
+
+    return groups
+  }, [filteredDividends, weekDates])
+
+  // Group dividends by date for month view
+  const monthGroupedDividends = useMemo(() => {
+    const groups: Record<string, DividendEvent[]> = {}
+
+    monthDates.flat().forEach(date => {
+      const dateKey = formatDateAPI(date)
+      groups[dateKey] = []
+    })
+
+    filteredDividends.forEach(event => {
+      const dateKey = event.paymentDate
+      if (groups[dateKey]) {
+        groups[dateKey].push(event)
+      }
+    })
+
+    Object.values(groups).forEach(group => {
+      group.sort((a, b) => b.dividend - a.dividend)
+    })
+
+    return groups
+  }, [filteredDividends, monthDates])
+
+  // Format month/year header
+  const monthYearHeader = useMemo(() => {
+    if (viewMode === 'month') {
+      return currentDate.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+    }
+
+    const firstDate = weekDates[0]
+    const lastDate = weekDates[4]
+
+    if (firstDate.getMonth() === lastDate.getMonth()) {
+      return firstDate.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+    } else {
+      return `${firstDate.toLocaleDateString('de-DE', { month: 'short' })} - ${lastDate.toLocaleDateString('de-DE', { month: 'short', year: 'numeric' })}`
+    }
+  }, [weekDates, viewMode, currentDate])
+
+  // Check if date is today
+  const isToday = (date: Date) => {
+    const today = new Date()
+    return date.toDateString() === today.toDateString()
   }
 
+  // Deutsche Tagesbezeichnungen
+  const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+
+  // Format currency
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('de-DE', {
-      style: 'currency',
-      currency: 'USD',
       minimumFractionDigits: 2,
       maximumFractionDigits: 3
-    }).format(amount)
+    }).format(amount) + ' $'
   }
 
-  const isUpcoming = (dateStr: string) => {
-    const eventDate = new Date(dateStr)
-    const today = new Date()
-    today.setHours(0, 0, 0, 0)
-    return eventDate >= today
+  // Frequency translations
+  const frequencyLabels: Record<string, string> = {
+    'Quarterly': 'Vierteljährlich',
+    'Annual': 'Jährlich',
+    'Monthly': 'Monatlich',
+    'Semi-Annual': 'Halbjährlich'
   }
-
-  const upcomingEvents = sortedDates.filter(date => isUpcoming(date))
-  const pastEvents = sortedDates.filter(date => !isUpcoming(date)).reverse()
-
-  // Calculate total expected dividends
-  const totalExpectedDividends = upcomingEvents.reduce((sum, date) => 
-    sum + groupedEvents[date].reduce((eventSum, event) => eventSum + event.dividend, 0), 0
-  )
 
   return (
-    <div className="min-h-screen bg-theme-primary">
-      {/* Header */}
-      <header className="bg-theme-card border-b border-theme/10">
-        <div className="flex items-center justify-between p-4">
-          <div className="flex items-center space-x-4">
-            <Link href="/analyse" className="text-theme-secondary hover:text-theme-primary transition-colors">
-              <ArrowLeftIcon className="h-5 w-5" />
-            </Link>
-            <Logo className="h-6" alt="FinClue Logo" />
-            <div>
-              <h1 className="text-lg font-semibold text-theme-primary">Dividenden-Kalender</h1>
-              <p className="text-sm text-theme-secondary">
-                {watchlistItems.length} Aktien in deiner Watchlist
-              </p>
+    <div className="min-h-screen bg-theme-bg">
+      <div className="max-w-7xl mx-auto px-4 py-6">
+
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <CurrencyDollarIcon className="w-5 h-5 text-theme-accent" />
+            <h1 className="text-xl font-semibold text-theme-primary">Dividenden Kalender</h1>
+          </div>
+
+          <div className="flex items-center gap-4">
+            {/* Watchlist Info Badge */}
+            <span className="px-2 py-1 text-xs text-theme-muted bg-theme-secondary/30 rounded">
+              {watchlistSymbols.length} Watchlist-Aktien
+            </span>
+          </div>
+        </div>
+
+        {/* Calendar Controls */}
+        <div className="flex items-center justify-between mb-6">
+          {/* Month/Year + Navigation */}
+          <div className="flex items-center gap-4">
+            <h2 className="text-lg font-medium text-theme-primary">{monthYearHeader}</h2>
+            <div className="flex items-center gap-1">
+              <button
+                onClick={goToPrevious}
+                className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
+              >
+                <ChevronLeftIcon className="w-4 h-4" />
+              </button>
+              <button
+                onClick={goToToday}
+                className="px-2 py-1 text-xs text-theme-secondary hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
+              >
+                Heute
+              </button>
+              <button
+                onClick={goToNext}
+                className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
+              >
+                <ChevronRightIcon className="w-4 h-4" />
+              </button>
             </div>
           </div>
-          
-          <button
-            onClick={() => fetchDividends(watchlistItems.map(item => item.ticker))}
-            disabled={dividendsLoading || watchlistItems.length === 0}
-            className="flex items-center space-x-2 px-4 py-2 bg-brand/10 text-brand-light rounded-lg 
-                     hover:bg-brand/20 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-          >
-            <ArrowPathIcon className={`h-4 w-4 ${dividendsLoading ? 'animate-spin' : ''}`} />
-            <span>Aktualisieren</span>
-          </button>
-        </div>
-      </header>
 
-      <div className="p-6">
-        {/* Loading State */}
-        {loading && (
-          <div className="text-center py-12">
-            <ArrowPathIcon className="h-8 w-8 animate-spin text-theme-secondary mx-auto mb-4" />
-            <p className="text-theme-secondary">Lade Watchlist...</p>
+          {/* Right side controls */}
+          <div className="flex items-center gap-4">
+            {/* View Mode Toggle */}
+            <div className="flex items-center gap-1 bg-theme-card border border-white/[0.04] rounded-lg p-1">
+              <button
+                onClick={() => setViewMode('week')}
+                className={`px-3 py-1 text-xs rounded transition-colors ${
+                  viewMode === 'week'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:text-theme-primary'
+                }`}
+              >
+                Woche
+              </button>
+              <button
+                onClick={() => setViewMode('month')}
+                className={`px-3 py-1 text-xs rounded transition-colors ${
+                  viewMode === 'month'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:text-theme-primary'
+                }`}
+              >
+                Monat
+              </button>
+            </div>
           </div>
-        )}
+        </div>
 
-        {/* Empty Watchlist */}
-        {!loading && watchlistItems.length === 0 && (
-          <div className="text-center py-12">
-            <BookmarkIcon className="h-12 w-12 text-theme-muted mx-auto mb-4" />
+        {/* Calendar Grid */}
+        <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
+          {viewMode === 'week' ? (
+            <>
+              {/* Week View - Day Headers */}
+              <div className="grid grid-cols-5 border-b border-white/[0.04]">
+                {weekDates.map((date, index) => (
+                  <div
+                    key={index}
+                    className={`px-4 py-3 text-center border-r border-white/[0.04] last:border-r-0 ${
+                      isToday(date) ? 'bg-theme-accent/5' : ''
+                    }`}
+                  >
+                    <div className="text-xs text-theme-muted mb-1">{dayNames[index]}</div>
+                    <div className={`text-sm font-medium ${
+                      isToday(date) ? 'text-theme-accent' : 'text-theme-primary'
+                    }`}>
+                      {date.getDate()}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Week View - Calendar Content */}
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                <div className="grid grid-cols-5 min-h-[500px]">
+                  {weekDates.map((date, dayIndex) => {
+                    const dateKey = formatDateAPI(date)
+                    const dayDividends = groupedDividends[dateKey] || []
+
+                    return (
+                      <div
+                        key={dayIndex}
+                        className={`border-r border-white/[0.04] last:border-r-0 ${
+                          isToday(date) ? 'bg-theme-accent/5' : ''
+                        }`}
+                      >
+                        {dayDividends.length > 0 ? (
+                          <div className="p-2">
+                            <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
+                              Zahlungen
+                            </div>
+                            <div className="space-y-1">
+                              {dayDividends.map((event, i) => (
+                                <DividendItem key={i} event={event} formatCurrency={formatCurrency} frequencyLabels={frequencyLabels} />
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="flex items-center justify-center h-full text-theme-muted/30 text-xs">
+                            -
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {/* Month View - Day Headers */}
+              <div className="grid grid-cols-7 border-b border-white/[0.04]">
+                {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day, index) => (
+                  <div
+                    key={index}
+                    className="px-2 py-2 text-center border-r border-white/[0.04] last:border-r-0"
+                  >
+                    <div className="text-xs text-theme-muted">{day}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Month View - Calendar Content */}
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                <div>
+                  {monthDates.map((week, weekIndex) => (
+                    <div key={weekIndex} className="grid grid-cols-7 border-b border-white/[0.04] last:border-b-0">
+                      {week.map((date, dayIndex) => {
+                        const dateKey = formatDateAPI(date)
+                        const dayDividends = monthGroupedDividends[dateKey] || []
+                        const isCurrentMonth = date.getMonth() === currentDate.getMonth()
+                        const isTodayDate = isToday(date)
+                        const isWeekend = dayIndex >= 5
+
+                        return (
+                          <div
+                            key={dayIndex}
+                            className={`min-h-[100px] p-1.5 border-r border-white/[0.04] last:border-r-0 ${
+                              isTodayDate ? 'bg-theme-accent/5' : ''
+                            } ${!isCurrentMonth ? 'opacity-40' : ''} ${isWeekend ? 'bg-white/[0.01]' : ''}`}
+                          >
+                            {/* Date Number */}
+                            <div className={`text-xs font-medium mb-1 ${
+                              isTodayDate
+                                ? 'text-theme-accent'
+                                : isCurrentMonth
+                                  ? 'text-theme-primary'
+                                  : 'text-theme-muted'
+                            }`}>
+                              {date.getDate()}
+                            </div>
+
+                            {/* Dividends for the day */}
+                            {dayDividends.length > 0 && (
+                              <div className="space-y-0.5">
+                                {dayDividends.slice(0, 3).map((event, i) => (
+                                  <Link
+                                    key={i}
+                                    href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+                                    className="flex items-center gap-1 px-1 py-0.5 rounded hover:bg-theme-hover transition-colors group"
+                                    title={`${event.companyName} - ${formatCurrency(event.dividend)}`}
+                                  >
+                                    <Logo
+                                      ticker={event.ticker}
+                                      alt={event.ticker}
+                                      className="w-4 h-4 rounded flex-shrink-0"
+                                    />
+                                    <span className="text-[10px] text-theme-secondary group-hover:text-theme-accent truncate">
+                                      {event.ticker}
+                                    </span>
+                                  </Link>
+                                ))}
+                                {dayDividends.length > 3 && (
+                                  <div className="text-[9px] text-theme-muted px-1">
+                                    +{dayDividends.length - 3} mehr
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
+          )}
+        </div>
+
+        {/* Total Count */}
+        <div className="mt-4 text-center text-sm text-theme-muted">
+          {filteredDividends.length} Dividenden-Zahlungen {viewMode === 'week' ? 'diese Woche' : 'diesen Monat'}
+        </div>
+
+        {/* Empty State */}
+        {!loading && watchlistSymbols.length === 0 && (
+          <div className="mt-8 text-center py-12 bg-theme-card border border-white/[0.04] rounded-xl">
+            <CurrencyDollarIcon className="w-12 h-12 text-theme-muted mx-auto mb-4" />
             <h3 className="text-lg font-medium text-theme-primary mb-2">
-              Keine Watchlist-Einträge
+              Keine Watchlist-Aktien
             </h3>
             <p className="text-theme-secondary mb-6">
               Füge Aktien zu deiner Watchlist hinzu, um Dividenden-Termine zu sehen.
             </p>
             <Link
               href="/analyse/watchlist"
-              className="inline-flex items-center px-4 py-2 bg-brand text-white rounded-lg hover:bg-brand transition-colors"
+              className="inline-flex items-center px-4 py-2 bg-theme-accent text-white rounded-lg hover:bg-theme-accent/80 transition-colors"
             >
-              <BookmarkIcon className="h-4 w-4 mr-2" />
               Zur Watchlist
             </Link>
           </div>
         )}
-
-        {/* Error State */}
-        {error && (
-          <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-4 mb-6">
-            <div className="flex items-center space-x-2">
-              <ExclamationCircleIcon className="h-5 w-5 text-red-400" />
-              <span className="text-red-400 font-medium">Fehler</span>
-            </div>
-            <p className="text-red-300 mt-1">{error}</p>
-          </div>
-        )}
-
-        {/* Dividends Loading */}
-        {dividendsLoading && watchlistItems.length > 0 && (
-          <div className="text-center py-8">
-            <ArrowPathIcon className="h-6 w-6 animate-spin text-theme-secondary mx-auto mb-2" />
-            <p className="text-theme-secondary">Lade Dividenden-Termine...</p>
-          </div>
-        )}
-
-        {/* Main Content */}
-        {!loading && !dividendsLoading && watchlistItems.length > 0 && (
-          <>
-            {/* Summary Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-              <div className="bg-theme-card rounded-lg p-4">
-                <div className="flex items-center space-x-3">
-                  <CurrencyDollarIcon className="h-8 w-8 text-brand-light" />
-                  <div>
-                    <p className="text-theme-secondary text-sm">Erwartete Dividenden</p>
-                    <p className="text-theme-primary text-lg font-semibold">
-                      {formatCurrency(totalExpectedDividends)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-theme-card rounded-lg p-4">
-                <div className="flex items-center space-x-3">
-                  <CalendarIcon className="h-8 w-8 text-blue-400" />
-                  <div>
-                    <p className="text-theme-secondary text-sm">Kommende Termine</p>
-                    <p className="text-theme-primary text-lg font-semibold">
-                      {upcomingEvents.reduce((sum, date) => sum + groupedEvents[date].length, 0)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-theme-card rounded-lg p-4">
-                <div className="flex items-center space-x-3">
-                  <CalendarIcon className="h-8 w-8 text-theme-secondary" />
-                  <div>
-                    <p className="text-theme-secondary text-sm">Termine insgesamt</p>
-                    <p className="text-theme-primary text-lg font-semibold">{dividendEvents.length}</p>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-theme-card rounded-lg p-4">
-                <div className="flex items-center space-x-3">
-                  <BookmarkIcon className="h-8 w-8 text-purple-400" />
-                  <div>
-                    <p className="text-theme-secondary text-sm">Watchlist Aktien</p>
-                    <p className="text-theme-primary text-lg font-semibold">{watchlistItems.length}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* No Dividend Events */}
-            {dividendEvents.length === 0 && (
-              <div className="text-center py-8">
-                <CurrencyDollarIcon className="h-12 w-12 text-theme-muted mx-auto mb-4" />
-                <h3 className="text-lg font-medium text-theme-primary mb-2">
-                  Keine Dividenden-Termine gefunden
-                </h3>
-                <p className="text-theme-secondary">
-                  Für die Aktien in deiner Watchlist wurden keine aktuellen Dividenden-Termine gefunden.
-                </p>
-              </div>
-            )}
-
-            {/* Upcoming Events */}
-            {upcomingEvents.length > 0 && (
-              <div className="mb-8">
-                <h2 className="text-xl font-semibold text-theme-primary mb-4 flex items-center">
-                  <CalendarIcon className="h-5 w-5 mr-2 text-brand-light" />
-                  Kommende Dividenden
-                </h2>
-                
-                <div className="space-y-4">
-                  {upcomingEvents.map(date => (
-                    <div key={date} className="bg-theme-card rounded-lg p-4">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-medium text-theme-primary">{formatDate(date)}</h3>
-                        <span className="text-xs bg-blue-500/20 text-blue-400 px-2 py-1 rounded">
-                          Zahlung
-                        </span>
-                      </div>
-                      
-                      <div className="grid gap-3">
-                        {groupedEvents[date].map((event, index) => {
-                          // Calculate urgency for Ex-Date
-                          const daysUntilEx = Math.ceil((new Date(event.exDate).getTime() - new Date().getTime()) / (1000 * 60 * 60 * 24))
-                          const isUrgent = daysUntilEx <= 3 && daysUntilEx >= 0
-                          
-                          // Frequency translations
-                          const frequencyLabels = {
-                            'Quarterly': 'Vierteljährlich',
-                            'Annual': 'Jährlich', 
-                            'Monthly': 'Monatlich',
-                            'Semi-Annual': 'Halbjährlich'
-                          }
-
-                          return (
-                            <div key={index} className="p-3 bg-theme-hover rounded-lg">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-3">
-                                  <Link
-                                    href={`/analyse/stocks/${event.ticker}`}
-                                    className="font-mono font-medium text-brand-light hover:text-green-300 transition-colors"
-                                  >
-                                    {event.ticker}
-                                  </Link>
-                                  <div>
-                                    <p className="text-theme-primary text-sm">{event.companyName}</p>
-                                    <div className="flex items-center gap-2 mt-1">
-                                      <span className="text-xs px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded">
-                                        {frequencyLabels[event.frequency as keyof typeof frequencyLabels] || event.frequency}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                
-                                <div className="text-right">
-                                  <p className="text-theme-primary font-medium">{formatCurrency(event.dividend)}</p>
-                                  {event.yield && (
-                                    <p className="text-brand-light text-xs font-medium">
-                                      {event.yield.toFixed(2)}% Rendite
-                                    </p>
-                                  )}
-                                  <p className="text-theme-muted text-xs">
-                                    Ex-Date: {formatDate(event.exDate)}
-                                  </p>
-                                </div>
-                              </div>
-
-                              {/* Urgency Indicator */}
-                              {isUrgent && (
-                                <div className="flex items-center gap-1 text-orange-400 text-xs mt-2 pt-2 border-t border-theme/20">
-                                  <ExclamationTriangleIcon className="w-3 h-3" />
-                                  <span>⚠️ Ex-Date in {daysUntilEx} {daysUntilEx === 1 ? 'Tag' : 'Tagen'}</span>
-                                </div>
-                              )}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            {/* Past Events */}
-            {pastEvents.length > 0 && (
-              <div>
-                <h2 className="text-xl font-semibold text-theme-primary mb-4 flex items-center">
-                  <CalendarIcon className="h-5 w-5 mr-2 text-theme-secondary" />
-                  Vergangene Dividenden
-                </h2>
-                
-                <div className="space-y-4">
-                  {pastEvents.slice(0, 10).map(date => (
-                    <div key={date} className="bg-theme-card rounded-lg p-4 opacity-75">
-                      <div className="flex items-center justify-between mb-3">
-                        <h3 className="font-medium text-theme-secondary">{formatDate(date)}</h3>
-                        <span className="text-xs bg-theme-secondary/20 text-theme-secondary px-2 py-1 rounded">
-                          Vergangen
-                        </span>
-                      </div>
-                      
-                      <div className="grid gap-3">
-                        {groupedEvents[date].map((event, index) => {
-                          const frequencyLabels = {
-                            'Quarterly': 'Vierteljährlich',
-                            'Annual': 'Jährlich', 
-                            'Monthly': 'Monatlich',
-                            'Semi-Annual': 'Halbjährlich'
-                          }
-
-                          return (
-                            <div key={index} className="p-3 bg-theme-hover rounded-lg opacity-75">
-                              <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-3">
-                                  <Link
-                                    href={`/analyse/stocks/${event.ticker}`}
-                                    className="font-mono font-medium text-theme-secondary hover:text-theme-primary transition-colors"
-                                  >
-                                    {event.ticker}
-                                  </Link>
-                                  <div>
-                                    <p className="text-theme-secondary text-sm">{event.companyName}</p>
-                                    <div className="flex items-center gap-2 mt-1">
-                                      <span className="text-xs px-2 py-0.5 bg-theme-secondary/20 text-theme-secondary rounded">
-                                        {frequencyLabels[event.frequency as keyof typeof frequencyLabels] || event.frequency}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                                
-                                <div className="text-right">
-                                  <p className="text-theme-secondary font-medium">{formatCurrency(event.dividend)}</p>
-                                  {event.yield && (
-                                    <p className="text-theme-muted text-xs font-medium">
-                                      {event.yield.toFixed(2)}% Rendite
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
-          </>
-        )}
       </div>
     </div>
+  )
+}
+
+// Dividend Item Component
+function DividendItem({
+  event,
+  formatCurrency,
+  frequencyLabels
+}: {
+  event: DividendEvent
+  formatCurrency: (amount: number) => string
+  frequencyLabels: Record<string, string>
+}) {
+  return (
+    <Link
+      href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+      className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-theme-hover transition-colors group"
+      title={`${event.companyName} • ${formatCurrency(event.dividend)}${event.yield ? ` • ${event.yield.toFixed(2)}% Rendite` : ''}`}
+    >
+      <Logo
+        ticker={event.ticker}
+        alt={event.ticker}
+        className="w-5 h-5 rounded flex-shrink-0"
+      />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-1.5">
+          <span className="text-xs font-medium text-theme-primary group-hover:text-theme-accent transition-colors">
+            {event.ticker}
+          </span>
+          <span className="text-[10px] text-theme-muted truncate">
+            {frequencyLabels[event.frequency] || event.frequency}
+          </span>
+        </div>
+      </div>
+      <div className="text-right flex-shrink-0">
+        <span className="text-[10px] text-theme-accent font-medium">
+          {formatCurrency(event.dividend)}
+        </span>
+        {event.yield && (
+          <p className="text-[9px] text-theme-muted">
+            {event.yield.toFixed(2)}%
+          </p>
+        )}
+      </div>
+    </Link>
   )
 }
