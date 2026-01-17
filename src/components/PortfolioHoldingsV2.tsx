@@ -3,7 +3,7 @@
 import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabaseClient';
-import { getBulkQuotes } from '@/lib/fmp';
+import { getBulkQuotesWithChanges, type BulkQuoteData } from '@/lib/fmp';
 import { getExchangeRates } from '@/lib/currencyService';
 import {
   PlusIcon,
@@ -22,6 +22,7 @@ import PortfolioPerformanceChart from '@/components/PortfolioPerformanceChart';
 import PortfolioHistory from '@/components/PortfolioHistory';
 import PortfolioAllocationChart from '@/components/PortfolioAllocationChart';
 import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview';
+import PortfolioSectorBreakdown from '@/components/PortfolioSectorBreakdown';
 import { stocks } from '@/data/stocks';
 import { fmtNum, fmtPercent } from '@/utils/formatters';
 
@@ -50,6 +51,8 @@ interface Holding {
   value: number;               // EUR
   gain_loss: number;           // EUR
   gain_loss_percent: number;
+  day_change_usd: number;      // Today's change in USD
+  day_change_percent: number;  // Today's change percent
 }
 
 interface PortfolioHoldingsV2Props {
@@ -133,6 +136,24 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
     });
     return invested;
   }, [allHoldings]);
+
+  // Today's change - calculated from individual stock changes
+  const todaysChange = useMemo(() => {
+    let changeEur = 0;
+    let totalValueForPercent = 0;
+    allHoldings.forEach((holdings) => {
+      holdings.forEach(h => {
+        // Change in EUR = change per share (USD) * quantity * exchange rate
+        const changeForHolding = h.day_change_usd * h.quantity * usdToEurRate;
+        changeEur += changeForHolding;
+        totalValueForPercent += h.value;
+      });
+    });
+    // Percent change based on previous day's value
+    const prevValue = totalValueForPercent - changeEur;
+    const percent = prevValue > 0 ? (changeEur / prevValue) * 100 : 0;
+    return { amount: changeEur, percent };
+  }, [allHoldings, usdToEurRate]);
 
   // Flatten all holdings for chart
   const allHoldingsFlat = useMemo(() => {
@@ -236,17 +257,17 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
       }
     }
 
-    // Get current prices (USD) and exchange rate in parallel
-    let currentPricesUsd: Record<string, number> = {};
+    // Get current prices with changes (USD) and exchange rate in parallel
+    let quotesData: Record<string, BulkQuoteData> = {};
     let exchangeRate = 0.92; // Fallback
 
     try {
-      const [pricesResult, ratesResult] = await Promise.all([
-        allSymbols.length > 0 ? getBulkQuotes(allSymbols) : Promise.resolve({}),
+      const [quotesResult, ratesResult] = await Promise.all([
+        allSymbols.length > 0 ? getBulkQuotesWithChanges(allSymbols) : Promise.resolve({}),
         getExchangeRates()
       ]);
 
-      currentPricesUsd = pricesResult;
+      quotesData = quotesResult;
       exchangeRate = ratesResult.USD_EUR;
       setUsdToEurRate(exchangeRate);
     } catch (e) {
@@ -264,8 +285,11 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
 
       if (holdingsData) {
         holdingsData.forEach(h => {
+          // Get quote data for this symbol
+          const quoteData = quotesData[h.symbol] || { price: 0, change: 0, changesPercentage: 0, previousClose: 0 };
+
           // Current price in USD from FMP
-          const currentPriceUsd = currentPricesUsd[h.symbol] || 0;
+          const currentPriceUsd = quoteData.price;
           // Convert to EUR
           const currentPriceEur = currentPriceUsd * exchangeRate;
 
@@ -289,7 +313,9 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
             purchase_date: h.purchase_date,
             value: valueEur,
             gain_loss: gainLossEur,
-            gain_loss_percent: gainLossPercent
+            gain_loss_percent: gainLossPercent,
+            day_change_usd: quoteData.change,
+            day_change_percent: quoteData.changesPercentage
           });
         });
       }
@@ -600,6 +626,57 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
           </div>
         </div>
 
+        {/* Quick Stats Row */}
+        {hasAnyHoldings && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6 pb-6 border-b border-neutral-800">
+            {/* Total Value */}
+            <div>
+              <p className="text-xs text-neutral-500 mb-1">Gesamtwert</p>
+              <p className="text-lg font-semibold text-white">€{fmtNum(totalValue)}</p>
+            </div>
+
+            {/* Today's Change */}
+            <div>
+              <p className="text-xs text-neutral-500 mb-1">Heute</p>
+              <div className="flex items-center gap-2">
+                <span className={`text-lg font-semibold ${todaysChange.amount >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {todaysChange.amount >= 0 ? '+' : ''}€{fmtNum(Math.abs(todaysChange.amount))}
+                </span>
+                <span className={`text-xs px-1.5 py-0.5 rounded ${
+                  todaysChange.percent >= 0
+                    ? 'text-emerald-400 bg-emerald-400/10'
+                    : 'text-red-400 bg-red-400/10'
+                }`}>
+                  {todaysChange.percent >= 0 ? '+' : ''}{todaysChange.percent.toFixed(2)}%
+                </span>
+              </div>
+            </div>
+
+            {/* Total Gain/Loss */}
+            <div>
+              <p className="text-xs text-neutral-500 mb-1">Gesamt G/V</p>
+              <div className="flex items-center gap-2">
+                <span className={`text-lg font-semibold ${totalGainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {totalGainLoss >= 0 ? '+' : ''}€{fmtNum(Math.abs(totalGainLoss))}
+                </span>
+                <span className={`text-xs px-1.5 py-0.5 rounded ${
+                  totalGainLossPercent >= 0
+                    ? 'text-emerald-400 bg-emerald-400/10'
+                    : 'text-red-400 bg-red-400/10'
+                }`}>
+                  {totalGainLossPercent >= 0 ? '+' : ''}{totalGainLossPercent.toFixed(2)}%
+                </span>
+              </div>
+            </div>
+
+            {/* Invested */}
+            <div>
+              <p className="text-xs text-neutral-500 mb-1">Investiert</p>
+              <p className="text-lg font-semibold text-white">€{fmtNum(totalInvested)}</p>
+            </div>
+          </div>
+        )}
+
         {/* Performance Chart + Allocation Side by Side */}
         {hasAnyHoldings ? (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -842,10 +919,21 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
         </div>
       )}
 
-      {/* Upcoming Earnings - show when in holdings view and have holdings */}
+      {/* Earnings + Sector Breakdown - Side by Side */}
       {activeView === 'holdings' && hasAnyHoldings && (
-        <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
-          <PortfolioEarningsPreview symbols={allHoldingsFlat.map(h => h.symbol)} />
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Upcoming Earnings */}
+          <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
+            <PortfolioEarningsPreview symbols={allHoldingsFlat.map(h => h.symbol)} />
+          </div>
+
+          {/* Sector Breakdown */}
+          <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
+            <PortfolioSectorBreakdown
+              holdings={allHoldingsFlat}
+              totalValue={totalValue}
+            />
+          </div>
         </div>
       )}
 

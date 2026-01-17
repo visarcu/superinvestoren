@@ -40,19 +40,19 @@ export interface StockQuote {
   export async function getBulkQuotes(symbols: string[]): Promise<Record<string, number>> {
     try {
       if (symbols.length === 0) return {}
-      
+
       const symbolsString = symbols.join(',')
       console.log(`🔍 Fetching bulk quotes for: ${symbolsString}`)
       const response = await fetch(`/api/quotes?symbols=${symbolsString}`)
-      
+
       if (!response.ok) {
         console.error('Failed to fetch quotes:', response.status, response.statusText)
         return {}
       }
-      
+
       const data = await response.json()
       console.log('📊 Raw quotes response:', data)
-      
+
       const prices: Record<string, number> = {}
       if (Array.isArray(data)) {
         data.forEach((quote: StockQuote) => {
@@ -63,11 +63,53 @@ export interface StockQuote {
           }
         })
       }
-      
+
       console.log(`✅ Processed ${Object.keys(prices).length} quotes:`, prices)
       return prices
     } catch (error) {
       console.error('❌ Error fetching bulk quotes:', error)
+      return {}
+    }
+  }
+
+  // Full quote data including daily changes
+  export interface BulkQuoteData {
+    price: number
+    change: number
+    changesPercentage: number
+    previousClose: number
+  }
+
+  export async function getBulkQuotesWithChanges(symbols: string[]): Promise<Record<string, BulkQuoteData>> {
+    try {
+      if (symbols.length === 0) return {}
+
+      const symbolsString = symbols.join(',')
+      const response = await fetch(`/api/quotes?symbols=${symbolsString}`)
+
+      if (!response.ok) {
+        return {}
+      }
+
+      const data = await response.json()
+
+      const quotes: Record<string, BulkQuoteData> = {}
+      if (Array.isArray(data)) {
+        data.forEach((quote: StockQuote) => {
+          if (quote && quote.symbol) {
+            quotes[quote.symbol] = {
+              price: quote.price || 0,
+              change: quote.change || 0,
+              changesPercentage: quote.changesPercentage || 0,
+              previousClose: quote.previousClose || 0
+            }
+          }
+        })
+      }
+
+      return quotes
+    } catch (error) {
+      console.error('Error fetching bulk quotes with changes:', error)
       return {}
     }
   }
