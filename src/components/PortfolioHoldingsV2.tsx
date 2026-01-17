@@ -19,8 +19,11 @@ import {
 import Logo from '@/components/Logo';
 import SearchTickerInput from '@/components/SearchTickerInput';
 import PortfolioPerformanceChart from '@/components/PortfolioPerformanceChart';
+import PortfolioHistory from '@/components/PortfolioHistory';
 import { stocks } from '@/data/stocks';
 import { fmtNum, fmtPercent } from '@/utils/formatters';
+
+type PortfolioView = 'holdings' | 'history';
 
 interface Portfolio {
   id: string;
@@ -59,6 +62,7 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
   const [holdingsLoading, setHoldingsLoading] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [expandedPortfolios, setExpandedPortfolios] = useState<Set<string>>(new Set());
+  const [activeView, setActiveView] = useState<PortfolioView>('holdings');
 
   // Add Position State
   const [showAddPosition, setShowAddPosition] = useState(false);
@@ -541,30 +545,57 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
     <div className="space-y-6">
       {/* Portfolio Summary Card with Performance Chart - Fey Style */}
       <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
-        {/* Action Buttons */}
-        <div className="flex justify-end gap-2 mb-4">
-          <button
-            onClick={refreshPrices}
-            disabled={refreshing}
-            className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50"
-            title="Preise aktualisieren"
-          >
-            <ArrowPathIcon className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
-          </button>
-          <button
-            onClick={() => setShowCreatePortfolio(true)}
-            className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
-            title="Neues Depot"
-          >
-            <Cog6ToothIcon className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => setShowAddPosition(true)}
-            className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
-            title="Position hinzufügen"
-          >
-            <PlusIcon className="w-5 h-5" />
-          </button>
+        {/* Header with View Toggle and Actions */}
+        <div className="flex items-center justify-between mb-4">
+          {/* View Toggle */}
+          <div className="flex bg-neutral-800/50 rounded-lg p-1">
+            <button
+              onClick={() => setActiveView('holdings')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                activeView === 'holdings'
+                  ? 'bg-neutral-700 text-white'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Positionen
+            </button>
+            <button
+              onClick={() => setActiveView('history')}
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                activeView === 'history'
+                  ? 'bg-neutral-700 text-white'
+                  : 'text-neutral-400 hover:text-white'
+              }`}
+            >
+              Historie
+            </button>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex gap-2">
+            <button
+              onClick={refreshPrices}
+              disabled={refreshing}
+              className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50"
+              title="Preise aktualisieren"
+            >
+              <ArrowPathIcon className={`w-5 h-5 ${refreshing ? 'animate-spin' : ''}`} />
+            </button>
+            <button
+              onClick={() => setShowCreatePortfolio(true)}
+              className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+              title="Neues Depot"
+            >
+              <Cog6ToothIcon className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setShowAddPosition(true)}
+              className="p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors"
+              title="Position hinzufügen"
+            >
+              <PlusIcon className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
         {/* Performance Chart */}
@@ -584,8 +615,8 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
         )}
       </div>
 
-      {/* Holdings by Portfolio - Fey Style */}
-      {portfolios.length > 0 ? (
+      {/* Holdings View */}
+      {activeView === 'holdings' && portfolios.length > 0 && (
         <div className="space-y-4">
           {portfolios.map((portfolio) => {
             const isExpanded = expandedPortfolios.has(portfolio.id);
@@ -775,8 +806,10 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
             );
           })}
         </div>
-      ) : (
-        /* Empty State */
+      )}
+
+      {/* Empty State for Holdings */}
+      {activeView === 'holdings' && portfolios.length === 0 && (
         <div className="bg-[#111111] border border-neutral-800 rounded-xl p-12 text-center">
           <BanknotesIcon className="w-12 h-12 text-neutral-700 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-white mb-2">Kein Portfolio vorhanden</h3>
@@ -789,6 +822,26 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
           >
             Position hinzufügen
           </button>
+        </div>
+      )}
+
+      {/* History View */}
+      {activeView === 'history' && portfolios.length > 0 && (
+        <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
+          <PortfolioHistory
+            portfolioId={portfolios[0]?.id || ''}
+            holdings={allHoldingsFlat.map(h => ({
+              symbol: h.symbol,
+              name: h.name,
+              quantity: h.quantity,
+              purchase_price: h.purchase_price,
+              purchase_date: h.purchase_date || new Date().toISOString().split('T')[0]
+            }))}
+            onTransactionChange={() => {
+              // Reload all data when transactions change
+              loadAllData();
+            }}
+          />
         </div>
       )}
 
