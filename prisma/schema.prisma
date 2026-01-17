@@ -83,6 +83,27 @@ model Subscriber {
   @@unique([email, investorSlug])
 }
 
+// Earnings Calendar - cached from FMP API
+model EarningsCalendar {
+  id              String   @id @default(cuid())
+  symbol          String
+  companyName     String?
+  date            DateTime
+  time            String   // 'bmo' (before market open), 'amc' (after market close), 'dmh' (during market hours)
+  fiscalQuarter   Int?     // 1, 2, 3, 4
+  fiscalYear      Int?
+  epsEstimate     Float?
+  epsActual       Float?
+  revenueEstimate Float?
+  revenueActual   Float?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([symbol, date])
+  @@index([date])
+  @@index([symbol])
+}
+
 //model InvestorSubscription {
 // id         String   @id @default(cuid())
 // investorId String

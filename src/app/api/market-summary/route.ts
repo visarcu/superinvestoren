@@ -48,7 +48,7 @@ export async function POST(request: Request) {
     const bottomSector = sortedSectors[sortedSectors.length - 1]
 
     // Prompt für OpenAI
-    const prompt = `Du bist ein Finanzmarkt-Analyst. Basierend auf diesen aktuellen Marktdaten, schreibe ZWEI kurze, informative Sätze auf Deutsch (insgesamt max 40 Wörter).
+    const prompt = `Du bist ein Finanzmarkt-Analyst. Basierend auf diesen aktuellen Marktdaten, schreibe EINEN kurzen, informativen Satz (max 25 Wörter) auf Deutsch der erklärt WARUM die Märkte heute so performen.
 
 MARKTDATEN:
 - S&P 500: ${markets.spx?.changePct >= 0 ? '+' : ''}${markets.spx?.changePct?.toFixed(2)}%
@@ -62,11 +62,11 @@ SCHWÄCHSTER SEKTOR: ${bottomSector?.sectorDE} (${bottomSector?.change >= 0 ? '+
 GESAMTSTIMMUNG: ${isBullish ? 'Bullisch' : 'Bearisch'}
 
 WICHTIG:
-- Schreibe GENAU zwei Sätze
-- Satz 1: Beschreibe die aktuelle Marktlage und welche Sektoren führen
-- Satz 2: Gib Kontext oder erkläre mögliche Gründe für die Bewegungen
-- Kein Markdown, keine Emojis, keine Aufzählungen
-- Beispiel: "Die US-Märkte zeigen sich freundlich, angeführt von starken Tech-Werten. Defensive Sektoren wie Versorger profitieren von der Rotation aus zyklischen Werten."`
+- Schreibe NUR einen Satz
+- Erkläre das "Warum" nicht nur das "Was"
+- Nenne konkrete Gründe wenn möglich (z.B. Sektor-Stärke, Tech-Rally, etc.)
+- Kein Markdown, keine Emojis
+- Beispiel-Stil: "Die Indizes steigen getrieben von Tech-Werten, während der Energiesektor schwächelt."`
 
     const response = await fetch(OPENAI_API_URL, {
       method: 'POST',
@@ -80,7 +80,7 @@ WICHTIG:
           { role: 'user', content: prompt }
         ],
         temperature: 0.3,
-        max_tokens: 150
+        max_tokens: 100
       })
     })
 
@@ -108,7 +108,7 @@ WICHTIG:
       generated: true
     }, {
       headers: {
-        'Cache-Control': 'public, max-age=900, stale-while-revalidate=1800' // 15 min cache
+        'Cache-Control': 'public, max-age=1800, stale-while-revalidate=3600' // 30 min cache
       }
     })
 

@@ -187,10 +187,10 @@ export async function GET(request: NextRequest) {
       country: stock.country
     }))
 
-    // Get live quotes for top 20 results if requested
+    // Get live quotes for top results if requested
     const liveQuotes = searchParams.get('liveQuotes')
     if (liveQuotes === 'true' && cleanedData.length > 0) {
-      const topSymbols = cleanedData.slice(0, 20).map((stock: any) => stock.symbol)
+      const topSymbols = cleanedData.slice(0, 100).map((stock: any) => stock.symbol)
       
       try {
         // Add timeout to prevent slow responses
@@ -214,7 +214,9 @@ export async function GET(request: NextRequest) {
                 price: (liveQuote as any).price,
                 changesPercentage: (liveQuote as any).changesPercentage || (stock as any).changesPercentage,
                 change: (liveQuote as any).change || (stock as any).change,
-                volume: (liveQuote as any).volume || (stock as any).volume
+                volume: (liveQuote as any).volume || (stock as any).volume,
+                pe: (liveQuote as any).pe || (stock as any).pe,
+                eps: (liveQuote as any).eps || (stock as any).eps
               }
             }
             return stock

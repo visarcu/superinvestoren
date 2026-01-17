@@ -164,15 +164,21 @@ export default function PortfolioPerformanceChart({
 
   const timeRanges: TimeRange[] = ['1W', '1M', '3M', '6M', '1Y', 'MAX']
 
+  // Echte Rendite berechnen: (Wert - Investiert) / Investiert
+  // Dies zeigt die tatsächliche Performance, nicht beeinflusst durch Einzahlungen
   const rangePerformance = useMemo(() => {
     if (chartData.length === 0) {
       return { gain: totalGain, percent: totalGainPercent, isPositive }
     }
 
-    const startValue = chartData[0]?.value || 0
-    const endValue = chartData[chartData.length - 1]?.value || 0
-    const gain = endValue - startValue
-    const percent = startValue > 0 ? (gain / startValue) * 100 : 0
+    // Letzter Datenpunkt im ausgewählten Zeitraum
+    const lastPoint = chartData[chartData.length - 1]
+    const currentValue = lastPoint?.value || 0
+    const currentInvested = lastPoint?.invested || 0
+
+    // Echte Rendite = (Wert - Investiert) / Investiert
+    const gain = currentValue - currentInvested
+    const percent = currentInvested > 0 ? (gain / currentInvested) * 100 : 0
 
     return { gain, percent, isPositive: gain >= 0 }
   }, [chartData, totalGain, totalGainPercent, isPositive])
@@ -203,13 +209,7 @@ export default function PortfolioPerformanceChart({
             </div>
           </div>
           <p className="text-sm text-neutral-500 mt-1">
-            {rangePerformance.isPositive ? '+' : ''}{rangePerformance.percent.toFixed(2)}%{' '}
-            {selectedRange === '1W' && 'diese Woche'}
-            {selectedRange === '1M' && 'diesen Monat'}
-            {selectedRange === '3M' && 'in 3 Monaten'}
-            {selectedRange === '6M' && 'in 6 Monaten'}
-            {selectedRange === '1Y' && 'dieses Jahr'}
-            {selectedRange === 'MAX' && 'seit Kauf'}
+            {rangePerformance.isPositive ? '+' : ''}{rangePerformance.percent.toFixed(2)}% Rendite
           </p>
         </div>
 
@@ -334,14 +334,8 @@ export default function PortfolioPerformanceChart({
         </div>
         <div>
           <p className="text-xs text-neutral-500 mb-1">Gewinn/Verlust</p>
-          <p className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {isPositive ? '+' : ''}{formatCurrency(totalGain)}
-          </p>
-        </div>
-        <div>
-          <p className="text-xs text-neutral-500 mb-1">Rendite (Gesamt)</p>
-          <p className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {isPositive ? '+' : ''}{totalGainPercent.toFixed(2)}%
+          <p className={`text-sm font-medium ${rangePerformance.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+            {rangePerformance.isPositive ? '+' : ''}{formatCurrency(rangePerformance.gain)}
           </p>
         </div>
       </div>
