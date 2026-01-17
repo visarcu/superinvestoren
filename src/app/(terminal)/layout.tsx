@@ -125,7 +125,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/analyse' },
   { id: 'compare', label: 'Aktien-Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
   { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/watchlist' },
-  { id: 'calendar', label: 'Earnings Calendar', icon: CalendarIcon, href: '/analyse/calendar' },
+  { id: 'calendar', label: 'Earnings Kalender', icon: CalendarIcon, href: '/analyse/calendar' },
   { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
   { id: 'finder', label: 'Stock Finder', icon: SparklesIcon, href: '/analyse/finder' },
   { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },

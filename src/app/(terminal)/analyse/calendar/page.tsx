@@ -152,18 +152,74 @@ export default function EarningsCalendarPage() {
     return dates
   }, [currentDate])
 
-  // Format date for API
+  // Get month dates for calendar grid (full weeks including previous/next month days)
+  const monthDates = useMemo(() => {
+    const year = currentDate.getFullYear()
+    const month = currentDate.getMonth()
+
+    // First day of the month
+    const firstDay = new Date(year, month, 1)
+    // Last day of the month
+    const lastDay = new Date(year, month + 1, 0)
+
+    // Start from Monday of the week containing the first day
+    const startDate = new Date(firstDay)
+    const dayOfWeek = startDate.getDay()
+    const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
+    startDate.setDate(startDate.getDate() + diff)
+
+    // Generate 6 weeks of dates (42 days) to cover all possible month layouts
+    const dates: Date[] = []
+    for (let i = 0; i < 42; i++) {
+      const date = new Date(startDate)
+      date.setDate(startDate.getDate() + i)
+      dates.push(date)
+    }
+
+    // Only include weeks that have at least one day in the current month
+    const weeks: Date[][] = []
+    for (let i = 0; i < 6; i++) {
+      const week = dates.slice(i * 7, (i + 1) * 7)
+      const hasCurrentMonthDay = week.some(d => d.getMonth() === month)
+      if (hasCurrentMonthDay) {
+        weeks.push(week)
+      }
+    }
+
+    return weeks
+  }, [currentDate])
+
+  // Format date for API - defined before useMemo hooks that use it
   const formatDateAPI = (date: Date) => {
     return date.toISOString().split('T')[0]
   }
+
+  // Get date range for month view API calls
+  const monthDateRange = useMemo(() => {
+    if (monthDates.length === 0) return { from: '', to: '' }
+    const allDates = monthDates.flat()
+    return {
+      from: formatDateAPI(allDates[0]),
+      to: formatDateAPI(allDates[allDates.length - 1])
+    }
+  }, [monthDates])
 
   // Load earnings data (alle Earnings, Filter wird später angewendet)
   useEffect(() => {
     async function loadEarnings() {
       setLoading(true)
       try {
-        const from = formatDateAPI(weekDates[0])
-        const to = formatDateAPI(weekDates[4])
+        let from: string, to: string
+
+        if (viewMode === 'month') {
+          from = monthDateRange.from
+          to = monthDateRange.to
+        } else {
+          from = formatDateAPI(weekDates[0])
+          to = formatDateAPI(weekDates[4])
+        }
+
+        if (!from || !to) return
 
         const res = await fetch(`/api/earnings-calendar/week?from=${from}&to=${to}`)
         if (res.ok) {
@@ -179,7 +235,7 @@ export default function EarningsCalendarPage() {
     }
 
     loadEarnings()
-  }, [weekDates])
+  }, [weekDates, monthDateRange, viewMode])
 
   // Filter für relevante Earnings (Large-Cap + Watchlist)
   const earnings = useMemo(() => {
@@ -199,9 +255,26 @@ export default function EarningsCalendarPage() {
     setCurrentDate(newDate)
   }
 
+  // Navigate months
+  const goToPreviousMonth = () => {
+    const newDate = new Date(currentDate)
+    newDate.setMonth(newDate.getMonth() - 1)
+    setCurrentDate(newDate)
+  }
+
+  const goToNextMonth = () => {
+    const newDate = new Date(currentDate)
+    newDate.setMonth(newDate.getMonth() + 1)
+    setCurrentDate(newDate)
+  }
+
   const goToToday = () => {
     setCurrentDate(new Date())
   }
+
+  // Navigation handlers based on view mode
+  const goToPrevious = viewMode === 'month' ? goToPreviousMonth : goToPreviousWeek
+  const goToNext = viewMode === 'month' ? goToNextMonth : goToNextWeek
 
   // Filter earnings based on watchlist toggle
   const filteredEarnings = useMemo(() => {
@@ -209,7 +282,7 @@ export default function EarningsCalendarPage() {
     return earnings.filter(event => watchlistSymbols.includes(event.symbol.toUpperCase()))
   }, [earnings, filterWatchlist, watchlistSymbols])
 
-  // Group earnings by date and time, sorted by revenue
+  // Group earnings by date and time, sorted by revenue (for week view)
   const groupedEarnings = useMemo(() => {
     const groups: Record<string, { preMarket: EarningsEvent[], postMarket: EarningsEvent[] }> = {}
 
@@ -238,8 +311,37 @@ export default function EarningsCalendarPage() {
     return groups
   }, [filteredEarnings, weekDates])
 
+  // Group earnings by date for month view
+  const monthGroupedEarnings = useMemo(() => {
+    const groups: Record<string, EarningsEvent[]> = {}
+
+    // Initialize all dates in the month view
+    monthDates.flat().forEach(date => {
+      const dateKey = formatDateAPI(date)
+      groups[dateKey] = []
+    })
+
+    filteredEarnings.forEach(event => {
+      const dateKey = event.date
+      if (groups[dateKey]) {
+        groups[dateKey].push(event)
+      }
+    })
+
+    // Sort each group by market cap
+    Object.values(groups).forEach(group => {
+      group.sort(sortByMarketCap)
+    })
+
+    return groups
+  }, [filteredEarnings, monthDates])
+
   // Format month/year header
   const monthYearHeader = useMemo(() => {
+    if (viewMode === 'month') {
+      return currentDate.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+    }
+
     const firstDate = weekDates[0]
     const lastDate = weekDates[4]
 
@@ -248,7 +350,7 @@ export default function EarningsCalendarPage() {
     } else {
       return `${firstDate.toLocaleDateString('de-DE', { month: 'short' })} - ${lastDate.toLocaleDateString('de-DE', { month: 'short', year: 'numeric' })}`
     }
-  }, [weekDates])
+  }, [weekDates, viewMode, currentDate])
 
   // Check if date is today
   const isToday = (date: Date) => {
@@ -315,7 +417,7 @@ export default function EarningsCalendarPage() {
             <h2 className="text-lg font-medium text-theme-primary">{monthYearHeader}</h2>
             <div className="flex items-center gap-1">
               <button
-                onClick={goToPreviousWeek}
+                onClick={goToPrevious}
                 className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
               >
                 <ChevronLeftIcon className="w-4 h-4" />
@@ -327,7 +429,7 @@ export default function EarningsCalendarPage() {
                 Heute
               </button>
               <button
-                onClick={goToNextWeek}
+                onClick={goToNext}
                 className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
               >
                 <ChevronRightIcon className="w-4 h-4" />
@@ -354,154 +456,258 @@ export default function EarningsCalendarPage() {
               </div>
             </label>
 
-            {/* View Mode - Currently only Week view */}
+            {/* View Mode Toggle */}
             <div className="flex items-center gap-1 bg-theme-card border border-white/[0.04] rounded-lg p-1">
-              <span className="px-3 py-1 text-xs bg-theme-hover text-theme-primary rounded">
+              <button
+                onClick={() => setViewMode('week')}
+                className={`px-3 py-1 text-xs rounded transition-colors ${
+                  viewMode === 'week'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:text-theme-primary'
+                }`}
+              >
                 Woche
-              </span>
+              </button>
+              <button
+                onClick={() => setViewMode('month')}
+                className={`px-3 py-1 text-xs rounded transition-colors ${
+                  viewMode === 'month'
+                    ? 'bg-theme-hover text-theme-primary'
+                    : 'text-theme-muted hover:text-theme-primary'
+                }`}
+              >
+                Monat
+              </button>
             </div>
           </div>
         </div>
 
-        {/* Week Calendar Grid */}
+        {/* Calendar Grid */}
         <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
-          {/* Day Headers */}
-          <div className="grid grid-cols-5 border-b border-white/[0.04]">
-            {weekDates.map((date, index) => (
-              <div
-                key={index}
-                className={`px-4 py-3 text-center border-r border-white/[0.04] last:border-r-0 ${
-                  isToday(date) ? 'bg-theme-accent/5' : ''
-                }`}
-              >
-                <div className="text-xs text-theme-muted mb-1">{dayNames[index]}</div>
-                <div className={`text-sm font-medium ${
-                  isToday(date) ? 'text-theme-accent' : 'text-theme-primary'
-                }`}>
-                  {date.getDate()}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Calendar Content */}
-          {loading ? (
-            <div className="flex items-center justify-center py-20">
-              <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
-            </div>
-          ) : (
-            <div className="grid grid-cols-5 min-h-[500px]">
-              {weekDates.map((date, dayIndex) => {
-                const dateKey = formatDateAPI(date)
-                const dayEarnings = groupedEarnings[dateKey] || { preMarket: [], postMarket: [] }
-
-                return (
+          {viewMode === 'week' ? (
+            <>
+              {/* Week View - Day Headers */}
+              <div className="grid grid-cols-5 border-b border-white/[0.04]">
+                {weekDates.map((date, index) => (
                   <div
-                    key={dayIndex}
-                    className={`border-r border-white/[0.04] last:border-r-0 ${
+                    key={index}
+                    className={`px-4 py-3 text-center border-r border-white/[0.04] last:border-r-0 ${
                       isToday(date) ? 'bg-theme-accent/5' : ''
                     }`}
                   >
-                    {/* Pre-Market Section */}
-                    {dayEarnings.preMarket.length > 0 && (
-                      <div className="p-2">
-                        <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
-                          Vorbörslich
-                        </div>
-                        <div className="space-y-1">
-                          {(() => {
-                            const sectionKey = `${dateKey}-pre`
-                            const isExpanded = expandedSections.has(sectionKey)
-                            const items = dayEarnings.preMarket
-                            const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
-                            const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
-
-                            return (
-                              <>
-                                {visibleItems.map((event, i) => (
-                                  <EarningsItem key={i} event={event} />
-                                ))}
-                                {hiddenCount > 0 && !isExpanded && (
-                                  <button
-                                    onClick={() => toggleSection(sectionKey)}
-                                    className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
-                                  >
-                                    +{hiddenCount} mehr
-                                  </button>
-                                )}
-                                {isExpanded && hiddenCount > 0 && (
-                                  <button
-                                    onClick={() => toggleSection(sectionKey)}
-                                    className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
-                                  >
-                                    weniger
-                                  </button>
-                                )}
-                              </>
-                            )
-                          })()}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Post-Market Section */}
-                    {dayEarnings.postMarket.length > 0 && (
-                      <div className="p-2 border-t border-white/[0.02]">
-                        <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
-                          Nachbörslich
-                        </div>
-                        <div className="space-y-1">
-                          {(() => {
-                            const sectionKey = `${dateKey}-post`
-                            const isExpanded = expandedSections.has(sectionKey)
-                            const items = dayEarnings.postMarket
-                            const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
-                            const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
-
-                            return (
-                              <>
-                                {visibleItems.map((event, i) => (
-                                  <EarningsItem key={i} event={event} />
-                                ))}
-                                {hiddenCount > 0 && !isExpanded && (
-                                  <button
-                                    onClick={() => toggleSection(sectionKey)}
-                                    className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
-                                  >
-                                    +{hiddenCount} mehr
-                                  </button>
-                                )}
-                                {isExpanded && hiddenCount > 0 && (
-                                  <button
-                                    onClick={() => toggleSection(sectionKey)}
-                                    className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
-                                  >
-                                    weniger
-                                  </button>
-                                )}
-                              </>
-                            )
-                          })()}
-                        </div>
-                      </div>
-                    )}
-
-                    {/* Empty State */}
-                    {dayEarnings.preMarket.length === 0 && dayEarnings.postMarket.length === 0 && (
-                      <div className="flex items-center justify-center h-full text-theme-muted/30 text-xs">
-                        -
-                      </div>
-                    )}
+                    <div className="text-xs text-theme-muted mb-1">{dayNames[index]}</div>
+                    <div className={`text-sm font-medium ${
+                      isToday(date) ? 'text-theme-accent' : 'text-theme-primary'
+                    }`}>
+                      {date.getDate()}
+                    </div>
                   </div>
-                )
-              })}
-            </div>
+                ))}
+              </div>
+
+              {/* Week View - Calendar Content */}
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                <div className="grid grid-cols-5 min-h-[500px]">
+                  {weekDates.map((date, dayIndex) => {
+                    const dateKey = formatDateAPI(date)
+                    const dayEarnings = groupedEarnings[dateKey] || { preMarket: [], postMarket: [] }
+
+                    return (
+                      <div
+                        key={dayIndex}
+                        className={`border-r border-white/[0.04] last:border-r-0 ${
+                          isToday(date) ? 'bg-theme-accent/5' : ''
+                        }`}
+                      >
+                        {/* Pre-Market Section */}
+                        {dayEarnings.preMarket.length > 0 && (
+                          <div className="p-2">
+                            <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
+                              Vorbörslich
+                            </div>
+                            <div className="space-y-1">
+                              {(() => {
+                                const sectionKey = `${dateKey}-pre`
+                                const isExpanded = expandedSections.has(sectionKey)
+                                const items = dayEarnings.preMarket
+                                const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
+                                const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
+
+                                return (
+                                  <>
+                                    {visibleItems.map((event, i) => (
+                                      <EarningsItem key={i} event={event} />
+                                    ))}
+                                    {hiddenCount > 0 && !isExpanded && (
+                                      <button
+                                        onClick={() => toggleSection(sectionKey)}
+                                        className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
+                                      >
+                                        +{hiddenCount} mehr
+                                      </button>
+                                    )}
+                                    {isExpanded && hiddenCount > 0 && (
+                                      <button
+                                        onClick={() => toggleSection(sectionKey)}
+                                        className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
+                                      >
+                                        weniger
+                                      </button>
+                                    )}
+                                  </>
+                                )
+                              })()}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Post-Market Section */}
+                        {dayEarnings.postMarket.length > 0 && (
+                          <div className="p-2 border-t border-white/[0.02]">
+                            <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
+                              Nachbörslich
+                            </div>
+                            <div className="space-y-1">
+                              {(() => {
+                                const sectionKey = `${dateKey}-post`
+                                const isExpanded = expandedSections.has(sectionKey)
+                                const items = dayEarnings.postMarket
+                                const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
+                                const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
+
+                                return (
+                                  <>
+                                    {visibleItems.map((event, i) => (
+                                      <EarningsItem key={i} event={event} />
+                                    ))}
+                                    {hiddenCount > 0 && !isExpanded && (
+                                      <button
+                                        onClick={() => toggleSection(sectionKey)}
+                                        className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
+                                      >
+                                        +{hiddenCount} mehr
+                                      </button>
+                                    )}
+                                    {isExpanded && hiddenCount > 0 && (
+                                      <button
+                                        onClick={() => toggleSection(sectionKey)}
+                                        className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
+                                      >
+                                        weniger
+                                      </button>
+                                    )}
+                                  </>
+                                )
+                              })()}
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Empty State */}
+                        {dayEarnings.preMarket.length === 0 && dayEarnings.postMarket.length === 0 && (
+                          <div className="flex items-center justify-center h-full text-theme-muted/30 text-xs">
+                            -
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </>
+          ) : (
+            <>
+              {/* Month View - Day Headers */}
+              <div className="grid grid-cols-7 border-b border-white/[0.04]">
+                {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day, index) => (
+                  <div
+                    key={index}
+                    className="px-2 py-2 text-center border-r border-white/[0.04] last:border-r-0"
+                  >
+                    <div className="text-xs text-theme-muted">{day}</div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Month View - Calendar Content */}
+              {loading ? (
+                <div className="flex items-center justify-center py-20">
+                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                </div>
+              ) : (
+                <div>
+                  {monthDates.map((week, weekIndex) => (
+                    <div key={weekIndex} className="grid grid-cols-7 border-b border-white/[0.04] last:border-b-0">
+                      {week.map((date, dayIndex) => {
+                        const dateKey = formatDateAPI(date)
+                        const dayEarnings = monthGroupedEarnings[dateKey] || []
+                        const isCurrentMonth = date.getMonth() === currentDate.getMonth()
+                        const isTodayDate = isToday(date)
+                        const isWeekend = dayIndex >= 5
+
+                        return (
+                          <div
+                            key={dayIndex}
+                            className={`min-h-[100px] p-1.5 border-r border-white/[0.04] last:border-r-0 ${
+                              isTodayDate ? 'bg-theme-accent/5' : ''
+                            } ${!isCurrentMonth ? 'opacity-40' : ''} ${isWeekend ? 'bg-white/[0.01]' : ''}`}
+                          >
+                            {/* Date Number */}
+                            <div className={`text-xs font-medium mb-1 ${
+                              isTodayDate
+                                ? 'text-theme-accent'
+                                : isCurrentMonth
+                                  ? 'text-theme-primary'
+                                  : 'text-theme-muted'
+                            }`}>
+                              {date.getDate()}
+                            </div>
+
+                            {/* Earnings for the day */}
+                            {dayEarnings.length > 0 && (
+                              <div className="space-y-0.5">
+                                {dayEarnings.slice(0, 3).map((event, i) => (
+                                  <Link
+                                    key={i}
+                                    href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
+                                    className="flex items-center gap-1 px-1 py-0.5 rounded hover:bg-theme-hover transition-colors group"
+                                    title={`${event.name || event.symbol} - ${event.time === 'bmo' ? 'Vorbörslich' : 'Nachbörslich'}`}
+                                  >
+                                    <Logo
+                                      ticker={event.symbol}
+                                      alt={event.symbol}
+                                      className="w-4 h-4 rounded flex-shrink-0"
+                                    />
+                                    <span className="text-[10px] text-theme-secondary group-hover:text-theme-accent truncate">
+                                      {event.symbol}
+                                    </span>
+                                  </Link>
+                                ))}
+                                {dayEarnings.length > 3 && (
+                                  <div className="text-[9px] text-theme-muted px-1">
+                                    +{dayEarnings.length - 3} mehr
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
 
         {/* Total Count */}
         <div className="mt-4 text-center text-sm text-theme-muted">
-          {filteredEarnings.length} relevante Earnings diese Woche
+          {filteredEarnings.length} relevante Earnings {viewMode === 'week' ? 'diese Woche' : 'diesen Monat'}
           {filterWatchlist && watchlistSymbols.length > 0 && ` (aus ${watchlistSymbols.length} Watchlist-Aktien)`}
         </div>
       </div>
