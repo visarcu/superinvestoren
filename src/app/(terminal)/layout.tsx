@@ -124,10 +124,9 @@ interface CommandPaletteItem {
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/analyse' },
   { id: 'compare', label: 'Aktien-Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
-  { id: 'watchlist', label: 'Watchlist', icon: BookmarkIcon, href: '/analyse/watchlist' },
+  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/watchlist' },
   { id: 'calendar', label: 'Earnings Calendar', icon: CalendarIcon, href: '/analyse/calendar' },
   { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
-  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio' },
   { id: 'finder', label: 'Stock Finder', icon: SparklesIcon, href: '/analyse/finder' },
   { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },
   { id: 'dcf', label: 'DCF Calculator', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
