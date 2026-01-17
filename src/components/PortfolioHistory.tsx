@@ -474,38 +474,26 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
 
   return (
     <div className="space-y-6">
-      {/* Summary Stats - Flat inline row */}
+      {/* Summary Stats - Clean Fey Style */}
       <div className="flex flex-wrap items-baseline gap-x-8 gap-y-4 pb-6 border-b border-neutral-800">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <ClockIcon className="w-4 h-4 text-neutral-500" />
-            <span className="text-xs text-neutral-500">Transaktionen</span>
-          </div>
-          <p className="text-2xl font-semibold text-white">{transactions.length}</p>
+          <p className="text-xs text-neutral-500 mb-1">Transaktionen</p>
+          <p className="text-lg font-medium text-white">{transactions.length}</p>
         </div>
 
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <ArrowDownTrayIcon className="w-4 h-4 text-blue-400" />
-            <span className="text-xs text-neutral-500">Käufe</span>
-          </div>
-          <p className="text-2xl font-semibold text-blue-400">{formatEuro(getTotalByType('buy'))}</p>
+          <p className="text-xs text-neutral-500 mb-1">Käufe</p>
+          <p className="text-lg font-medium text-white">{formatEuro(getTotalByType('buy'))}</p>
         </div>
 
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <ArrowUpTrayIcon className="w-4 h-4 text-emerald-400" />
-            <span className="text-xs text-neutral-500">Verkäufe</span>
-          </div>
-          <p className="text-2xl font-semibold text-emerald-400">{formatEuro(getTotalByType('sell'))}</p>
+          <p className="text-xs text-neutral-500 mb-1">Verkäufe</p>
+          <p className="text-lg font-medium text-emerald-400">{formatEuro(getTotalByType('sell'))}</p>
         </div>
 
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <CurrencyDollarIcon className="w-4 h-4 text-purple-400" />
-            <span className="text-xs text-neutral-500">Dividenden</span>
-          </div>
-          <p className="text-2xl font-semibold text-purple-400">{formatEuro(getTotalByType('dividend'))}</p>
+          <p className="text-xs text-neutral-500 mb-1">Dividenden</p>
+          <p className="text-lg font-medium text-emerald-400">{formatEuro(getTotalByType('dividend'))}</p>
         </div>
       </div>
 
@@ -518,44 +506,39 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
             </h3>
 
             <div className="space-y-4">
-              {/* Transaction Type Selector */}
+              {/* Transaction Type Selector - Clean Fey Style */}
               <div>
-                <label className="block text-sm text-neutral-400 mb-2">
-                  Typ
-                </label>
-                <div className="grid grid-cols-3 gap-2">
+                <label className="block text-sm text-neutral-400 mb-2">Typ</label>
+                <div className="flex bg-neutral-800/50 rounded-lg p-1">
                   <button
                     onClick={() => setTransactionType('buy')}
-                    className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
+                    className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-all ${
                       transactionType === 'buy'
-                        ? 'bg-emerald-500/20 border-emerald-500/50 text-emerald-400'
-                        : 'border-neutral-700 text-neutral-400 hover:border-neutral-600'
+                        ? 'bg-neutral-700 text-white'
+                        : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    <ArrowDownTrayIcon className="w-4 h-4" />
-                    <span className="text-xs">Kauf</span>
+                    Kauf
                   </button>
                   <button
                     onClick={() => setTransactionType('sell')}
-                    className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
+                    className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-all ${
                       transactionType === 'sell'
-                        ? 'bg-red-500/20 border-red-500/50 text-red-400'
-                        : 'border-neutral-700 text-neutral-400 hover:border-neutral-600'
+                        ? 'bg-neutral-700 text-white'
+                        : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    <ArrowUpTrayIcon className="w-4 h-4" />
-                    <span className="text-xs">Verkauf</span>
+                    Verkauf
                   </button>
                   <button
                     onClick={() => setTransactionType('dividend')}
-                    className={`py-2 px-3 rounded-lg border transition-colors flex flex-col items-center gap-1 ${
+                    className={`flex-1 py-2 px-3 text-sm font-medium rounded-md transition-all ${
                       transactionType === 'dividend'
-                        ? 'bg-purple-500/20 border-purple-500/50 text-purple-400'
-                        : 'border-neutral-700 text-neutral-400 hover:border-neutral-600'
+                        ? 'bg-neutral-700 text-white'
+                        : 'text-neutral-400 hover:text-white'
                     }`}
                   >
-                    <CurrencyDollarIcon className="w-4 h-4" />
-                    <span className="text-xs">Dividende</span>
+                    Dividende
                   </button>
                 </div>
               </div>
@@ -707,9 +690,9 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
         </div>
       )}
 
-      {/* Controls - Pill buttons */}
+      {/* Controls - Neutral pill buttons (Fey style) */}
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between">
-        <div className="flex flex-wrap gap-2">
+        <div className="flex bg-neutral-800/50 rounded-lg p-1">
           {[
             { key: 'all', label: 'Alle' },
             { key: 'buy', label: 'Käufe' },
@@ -720,10 +703,10 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
             <button
               key={key}
               onClick={() => setFilter(key as typeof filter)}
-              className={`px-3 py-1.5 text-sm font-medium rounded-lg transition-colors ${
+              className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
                 filter === key
-                  ? 'bg-emerald-500 text-white'
-                  : 'bg-neutral-800 text-neutral-400 hover:text-white hover:bg-neutral-700'
+                  ? 'bg-neutral-700 text-white'
+                  : 'text-neutral-400 hover:text-white'
               }`}
             >
               {label}
@@ -822,13 +805,13 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                     <div className="flex items-center gap-4 text-xs text-neutral-500">
                       <span>{yearStats.count} Aktivitäten</span>
                       {yearStats.bought > 0 && (
-                        <span className="text-red-400">{formatEuro(yearStats.bought)} gekauft</span>
+                        <span className="text-red-400">-{formatEuro(yearStats.bought)}</span>
                       )}
                       {yearStats.sold > 0 && (
-                        <span className="text-emerald-400">{formatEuro(yearStats.sold)} verkauft</span>
+                        <span className="text-emerald-400">+{formatEuro(yearStats.sold)}</span>
                       )}
                       {yearStats.dividends > 0 && (
-                        <span className="text-purple-400">{formatEuro(yearStats.dividends)} Dividenden</span>
+                        <span className="text-emerald-400">+{formatEuro(yearStats.dividends)} Div.</span>
                       )}
                     </div>
                   </button>
@@ -886,15 +869,10 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                             padding="small"
                                           />
                                         ) : (
-                                          <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${
-                                            transaction.type === 'cash_deposit' ? 'bg-emerald-500/20' :
-                                            transaction.type === 'cash_withdrawal' ? 'bg-red-500/20' :
-                                            transaction.type === 'dividend' ? 'bg-purple-500/20' :
-                                            'bg-neutral-700'
-                                          }`}>
+                                          <div className="w-7 h-7 rounded-lg flex items-center justify-center bg-neutral-800">
                                             {transaction.type === 'cash_deposit' && <PlusIcon className="w-3.5 h-3.5 text-emerald-400" />}
                                             {transaction.type === 'cash_withdrawal' && <MinusIcon className="w-3.5 h-3.5 text-red-400" />}
-                                            {transaction.type === 'dividend' && <BanknotesIcon className="w-3.5 h-3.5 text-purple-400" />}
+                                            {transaction.type === 'dividend' && <BanknotesIcon className="w-3.5 h-3.5 text-neutral-400" />}
                                           </div>
                                         )}
 
@@ -903,13 +881,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                             <span className="font-medium text-white text-sm">
                                               {isCashTransaction ? (transaction.type === 'cash_deposit' ? 'Einzahlung' : 'Auszahlung') : transaction.symbol}
                                             </span>
-                                            <span className={`text-[10px] px-1.5 py-0.5 rounded ${
-                                              transaction.type === 'buy' ? 'bg-blue-500/20 text-blue-400' :
-                                              transaction.type === 'sell' ? 'bg-emerald-500/20 text-emerald-400' :
-                                              transaction.type === 'dividend' ? 'bg-purple-500/20 text-purple-400' :
-                                              transaction.type === 'cash_deposit' ? 'bg-emerald-500/20 text-emerald-400' :
-                                              'bg-red-500/20 text-red-400'
-                                            }`}>
+                                            <span className="text-[10px] px-1.5 py-0.5 rounded bg-neutral-700/50 text-neutral-400">
                                               {getTransactionLabel(transaction.type)}
                                             </span>
                                           </div>
@@ -940,10 +912,10 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                               e.stopPropagation()
                                               openEditTransaction(transaction)
                                             }}
-                                            className="p-1.5 hover:bg-blue-500/20 rounded transition-colors"
+                                            className="p-1.5 hover:bg-neutral-700 rounded transition-colors"
                                             title="Bearbeiten"
                                           >
-                                            <PencilIcon className="w-3.5 h-3.5 text-blue-400" />
+                                            <PencilIcon className="w-3.5 h-3.5 text-neutral-400" />
                                           </button>
                                           <button
                                             onClick={(e) => {
@@ -951,10 +923,10 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
                                               handleDeleteTransaction(transaction)
                                             }}
                                             disabled={saving}
-                                            className="p-1.5 hover:bg-red-500/20 rounded transition-colors disabled:opacity-50"
+                                            className="p-1.5 hover:bg-neutral-700 rounded transition-colors disabled:opacity-50"
                                             title="Löschen"
                                           >
-                                            <XMarkIcon className="w-3.5 h-3.5 text-red-400" />
+                                            <XMarkIcon className="w-3.5 h-3.5 text-neutral-400" />
                                           </button>
                                         </div>
                                       </div>
@@ -992,15 +964,7 @@ export default function PortfolioHistory({ portfolioId, holdings, onTransactionC
             {/* Info Badge */}
             <div className="bg-neutral-800/50 rounded-lg p-3 mb-4 border border-neutral-700/50">
               <div className="flex items-center gap-2">
-                <span className={`px-2 py-1 rounded text-xs font-medium ${
-                  editingTransaction.type === 'buy'
-                    ? 'bg-blue-500/20 text-blue-400'
-                    : editingTransaction.type === 'sell'
-                    ? 'bg-emerald-500/20 text-emerald-400'
-                    : editingTransaction.type === 'dividend'
-                    ? 'bg-purple-500/20 text-purple-400'
-                    : 'bg-neutral-700 text-neutral-400'
-                }`}>
+                <span className="px-2 py-1 rounded text-xs font-medium bg-neutral-700 text-neutral-400">
                   {getTransactionLabel(editingTransaction.type)}
                 </span>
                 <span className="font-medium text-white">{editingTransaction.symbol}</span>
