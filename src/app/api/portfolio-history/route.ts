@@ -296,9 +296,43 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // 7. Lade S&P 500 (SPY) Benchmark-Daten für Vergleich
+    let benchmarkData: Array<{ date: string; value: number }> = []
+    try {
+      const spyHistory = await fetchHistoricalPrices('SPY', fromDate, toDate)
+      if (spyHistory.length > 0 && chartData.length > 0) {
+        // Finde den ersten Tag mit Portfolio-Daten
+        const firstPortfolioDate = chartData[0].date
+        const firstPortfolioInvested = chartData[0].invested
+
+        // Finde den SPY-Preis am ersten Portfolio-Tag
+        const firstSPYPrice = spyHistory.find(d => d.date >= firstPortfolioDate)?.close || spyHistory[0].close
+
+        // Normalisiere SPY auf den gleichen Startwert wie das investierte Kapital
+        benchmarkData = spyHistory
+          .filter(d => d.date >= firstPortfolioDate)
+          .map(d => ({
+            date: d.date,
+            value: (d.close / firstSPYPrice) * firstPortfolioInvested
+          }))
+      }
+    } catch (benchmarkError) {
+      console.error('Error fetching benchmark data:', benchmarkError)
+    }
+
+    // Sample benchmark data to match chart data
+    let sampledBenchmark = benchmarkData
+    if (benchmarkData.length > 60) {
+      const step = Math.ceil(benchmarkData.length / 60)
+      sampledBenchmark = benchmarkData.filter((_, index) =>
+        index % step === 0 || index === benchmarkData.length - 1
+      )
+    }
+
     return NextResponse.json({
       success: true,
       data: sampledData,
+      benchmark: sampledBenchmark,
       meta: {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,
