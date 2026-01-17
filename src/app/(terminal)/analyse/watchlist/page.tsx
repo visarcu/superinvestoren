@@ -1,8 +1,8 @@
-// src/app/watchlist/page.tsx - Fey-Style Watchlist mit Earnings Integration
+// src/app/watchlist/page.tsx - Fey-Style Watchlist mit Holdings Integration
 'use client';
 import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 import {
   TrashIcon,
@@ -15,6 +15,7 @@ import {
   CalendarDaysIcon
 } from '@heroicons/react/24/outline';
 import Logo from '@/components/Logo';
+import PortfolioHoldingsV2 from '@/components/PortfolioHoldingsV2';
 import { fmtNum, fmtPercent, fmtVolume } from '@/utils/formatters';
 
 interface WatchlistItem {
@@ -52,6 +53,7 @@ interface EarningsEvent {
 type SortColumn = 'ticker' | 'price' | 'changePercent' | 'revenueGrowthYOY' | 'earnings' | 'volume';
 type SortDirection = 'asc' | 'desc';
 type ViewMode = 'list' | 'grid';
+type ActiveView = 'holdings' | 'watchlist';
 
 export default function WatchlistPage() {
   const [watchlistItems, setWatchlistItems] = useState<WatchlistItem[]>([]);
@@ -63,7 +65,17 @@ export default function WatchlistPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [sortColumn, setSortColumn] = useState<SortColumn>('ticker');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
+  const [activeView, setActiveView] = useState<ActiveView>('watchlist');
   const router = useRouter();
+  const searchParams = useSearchParams();
+
+  // Check URL params for initial view
+  useEffect(() => {
+    const view = searchParams.get('view');
+    if (view === 'holdings') {
+      setActiveView('holdings');
+    }
+  }, [searchParams]);
 
   // Get current date info (German)
   const today = new Date();
@@ -344,57 +356,92 @@ export default function WatchlistPage() {
       <div className="px-6 lg:px-8 pt-6 pb-4">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-xl font-semibold text-white">Watchlist</h1>
+            <h1 className="text-xl font-semibold text-white">Portfolio</h1>
             <p className="text-sm text-neutral-500">{dayName}, {monthDay}</p>
           </div>
 
           <div className="flex items-center gap-3">
-            <button
-              onClick={() => {
-                if (watchlistItems.length > 0) {
-                  const tickers = watchlistItems.map(item => item.ticker);
-                  loadStockData(tickers);
-                  if (user?.id) loadEarningsData(tickers, user.id);
-                }
-              }}
-              disabled={dataLoading}
-              className="p-2 text-neutral-400 hover:text-white transition-colors disabled:opacity-50"
-            >
-              <ArrowPathIcon className={`w-5 h-5 ${dataLoading ? 'animate-spin' : ''}`} />
-            </button>
+            {/* Holdings/Watchlist Toggle - Fey Style */}
+            <div className="flex bg-neutral-800/50 rounded-lg p-1">
+              <button
+                onClick={() => setActiveView('holdings')}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                  activeView === 'holdings'
+                    ? 'bg-neutral-700 text-white'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Holdings
+              </button>
+              <button
+                onClick={() => setActiveView('watchlist')}
+                className={`px-3 py-1.5 text-sm font-medium rounded-md transition-all ${
+                  activeView === 'watchlist'
+                    ? 'bg-neutral-700 text-white'
+                    : 'text-neutral-400 hover:text-white'
+                }`}
+              >
+                Watchlist
+              </button>
+            </div>
+
+            {/* Refresh Button - only for watchlist */}
+            {activeView === 'watchlist' && (
+              <button
+                onClick={() => {
+                  if (watchlistItems.length > 0) {
+                    const tickers = watchlistItems.map(item => item.ticker);
+                    loadStockData(tickers);
+                    if (user?.id) loadEarningsData(tickers, user.id);
+                  }
+                }}
+                disabled={dataLoading}
+                className="p-2 text-neutral-400 hover:text-white transition-colors disabled:opacity-50"
+              >
+                <ArrowPathIcon className={`w-5 h-5 ${dataLoading ? 'animate-spin' : ''}`} />
+              </button>
+            )}
           </div>
         </div>
       </div>
 
       <main className="px-6 lg:px-8 pb-8 space-y-6">
 
-        {watchlistItems.length === 0 ? (
-          /* Empty State */
-          <div className="text-center py-20">
-            <div className="w-16 h-16 mx-auto bg-neutral-800 rounded-2xl flex items-center justify-center mb-6">
-              <ChartBarIcon className="w-8 h-8 text-neutral-600" />
-            </div>
-            <h2 className="text-lg font-medium text-white mb-2">Deine Watchlist ist leer</h2>
-            <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
-              Füge Aktien hinzu, um ihre Performance und Earnings zu verfolgen.
-            </p>
-            <div className="flex gap-3 justify-center">
-              <Link
-                href="/superinvestor"
-                className="px-4 py-2 bg-white text-black rounded-lg hover:bg-neutral-200 transition-colors text-sm font-medium"
-              >
-                Super-Investoren entdecken
-              </Link>
-              <Link
-                href="/analyse/finder"
-                className="px-4 py-2 text-neutral-400 hover:text-white transition-colors text-sm"
-              >
-                Aktien finden
-              </Link>
-            </div>
-          </div>
-        ) : (
+        {/* Holdings View */}
+        {activeView === 'holdings' && user && (
+          <PortfolioHoldingsV2 user={user} />
+        )}
+
+        {/* Watchlist View */}
+        {activeView === 'watchlist' && (
           <>
+            {watchlistItems.length === 0 ? (
+              /* Empty State */
+              <div className="text-center py-20">
+                <div className="w-16 h-16 mx-auto bg-neutral-800 rounded-2xl flex items-center justify-center mb-6">
+                  <ChartBarIcon className="w-8 h-8 text-neutral-600" />
+                </div>
+                <h2 className="text-lg font-medium text-white mb-2">Deine Watchlist ist leer</h2>
+                <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
+                  Füge Aktien hinzu, um ihre Performance und Earnings zu verfolgen.
+                </p>
+                <div className="flex gap-3 justify-center">
+                  <Link
+                    href="/superinvestor"
+                    className="px-4 py-2 bg-white text-black rounded-lg hover:bg-neutral-200 transition-colors text-sm font-medium"
+                  >
+                    Super-Investoren entdecken
+                  </Link>
+                  <Link
+                    href="/analyse/finder"
+                    className="px-4 py-2 text-neutral-400 hover:text-white transition-colors text-sm"
+                  >
+                    Aktien finden
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <>
             {/* Top Cards Row */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
@@ -723,6 +770,8 @@ export default function WatchlistPage() {
                 </div>
               )}
             </div>
+              </>
+            )}
           </>
         )}
       </main>
