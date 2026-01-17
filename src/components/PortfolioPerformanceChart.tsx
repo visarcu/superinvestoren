@@ -334,14 +334,8 @@ export default function PortfolioPerformanceChart({
         </div>
         <div>
           <p className="text-xs text-neutral-500 mb-1">Gewinn/Verlust</p>
-          <p className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {isPositive ? '+' : ''}{formatCurrency(totalGain)}
-          </p>
-        </div>
-        <div>
-          <p className="text-xs text-neutral-500 mb-1">Rendite (Gesamt)</p>
-          <p className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {isPositive ? '+' : ''}{totalGainPercent.toFixed(2)}%
+          <p className={`text-sm font-medium ${rangePerformance.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+            {rangePerformance.isPositive ? '+' : ''}{formatCurrency(rangePerformance.gain)}
           </p>
         </div>
       </div>

@@ -20,6 +20,8 @@ import Logo from '@/components/Logo';
 import SearchTickerInput from '@/components/SearchTickerInput';
 import PortfolioPerformanceChart from '@/components/PortfolioPerformanceChart';
 import PortfolioHistory from '@/components/PortfolioHistory';
+import PortfolioAllocationChart from '@/components/PortfolioAllocationChart';
+import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview';
 import { stocks } from '@/data/stocks';
 import { fmtNum, fmtPercent } from '@/utils/formatters';
 
@@ -598,15 +600,30 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
           </div>
         </div>
 
-        {/* Performance Chart */}
+        {/* Performance Chart + Allocation Side by Side */}
         {hasAnyHoldings ? (
-          <PortfolioPerformanceChart
-            portfolioId={portfolios[0]?.id || ''}
-            holdings={allHoldingsFlat}
-            totalValue={totalValue}
-            totalCost={totalInvested}
-            cashPosition={portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0)}
-          />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Performance Chart - Takes 2/3 on large screens */}
+            <div className="lg:col-span-2">
+              <PortfolioPerformanceChart
+                portfolioId={portfolios[0]?.id || ''}
+                holdings={allHoldingsFlat}
+                totalValue={totalValue}
+                totalCost={totalInvested}
+                cashPosition={portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0)}
+              />
+            </div>
+
+            {/* Allocation Chart - Takes 1/3 on large screens, with left border */}
+            <div className="lg:col-span-1 lg:border-l lg:border-neutral-800 lg:pl-6">
+              <PortfolioAllocationChart
+                holdings={allHoldingsFlat}
+                totalValue={totalValue}
+                cashPosition={portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0)}
+                activeInvestments={allHoldingsFlat.length}
+              />
+            </div>
+          </div>
         ) : (
           <div className="text-center py-8">
             <div className="text-3xl font-bold text-white mb-2">€0,00</div>
@@ -822,6 +839,13 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
           >
             Position hinzufügen
           </button>
+        </div>
+      )}
+
+      {/* Upcoming Earnings - show when in holdings view and have holdings */}
+      {activeView === 'holdings' && hasAnyHoldings && (
+        <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
+          <PortfolioEarningsPreview symbols={allHoldingsFlat.map(h => h.symbol)} />
         </div>
       )}
 
