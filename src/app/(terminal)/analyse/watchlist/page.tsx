@@ -65,7 +65,7 @@ export default function WatchlistPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('list');
   const [sortColumn, setSortColumn] = useState<SortColumn>('ticker');
   const [sortDirection, setSortDirection] = useState<SortDirection>('asc');
-  const [activeView, setActiveView] = useState<ActiveView>('watchlist');
+  const [activeView, setActiveView] = useState<ActiveView>('holdings');
   const router = useRouter();
   const searchParams = useSearchParams();
 

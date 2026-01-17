@@ -111,12 +111,12 @@ export default function PortfolioEarningsPreview({ symbols }: PortfolioEarningsP
           <Link
             key={`${event.ticker}-${event.date}-${index}`}
             href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
-            className="flex items-center justify-between py-3 border-b border-neutral-800/50 last:border-0 hover:bg-neutral-800/30 -mx-2 px-2 rounded-lg transition-colors group"
+            className="flex items-center justify-between py-3 border-b border-neutral-800 last:border-b-0 hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors group"
           >
             <div className="flex items-center gap-3">
-              <Logo ticker={event.ticker} alt={event.ticker} className="w-7 h-7 rounded-lg" />
+              <div className="w-1 h-8 bg-emerald-500 rounded-full" />
               <div>
-                <span className="font-medium text-white text-sm group-hover:text-emerald-400 transition-colors">
+                <span className="font-medium text-white group-hover:text-emerald-400 transition-colors">
                   {event.ticker}
                 </span>
                 <p className="text-neutral-500 text-xs">
