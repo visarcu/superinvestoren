@@ -661,6 +661,7 @@ import katz_2025_Q1 from './katz/2025-Q1.json'
 import katz_2025_Q2 from './katz/2025-Q2.json'
 import katz_2025_Q3 from './katz/2025-Q3.json'
 import katz_2025_Q4 from './katz/2025-Q4.json'
+import katz_2026_Q1 from './katz/2026-Q1.json'
 
 //klarman
 import klarman_2024_Q2 from './klarman/2024-Q2.json'
@@ -1764,6 +1765,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: katz_2025_Q2},
     {quarter: '2025-Q3', data: katz_2025_Q3},
     {quarter: '2025-Q4', data: katz_2025_Q4},
+    {quarter: '2026-Q1', data: katz_2026_Q1},
    ],
 
    weitz: [

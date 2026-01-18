@@ -214,8 +214,7 @@ export async function POST(request: NextRequest) {
       .from('notification_settings')
       .select(`
         user_id,
-        preferred_investors,
-        profiles!inner(email_verified)
+        preferred_investors
       `)
       .eq('filings_enabled', true)
 

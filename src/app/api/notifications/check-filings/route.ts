@@ -1,6 +1,7 @@
 // src/app/api/notifications/check-filings/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import holdingsHistory from '@/data/holdings'
 
 // TEST MODE: Set to your user ID to only send notifications to yourself
 // Set to null to send to all users. Must be a valid UUID format.
@@ -18,6 +19,23 @@ const supabaseService = createClient(
     }
   }
 )
+
+// Holdings-Daten Typ
+interface QuarterData {
+  form: string
+  date: string
+  period: string
+  accession: string
+  quarterKey: string
+  positions: any[]
+  totalValue: number
+  positionsCount: number
+}
+
+interface HoldingsSnapshot {
+  quarter: string
+  data: QuarterData
+}
 
 // Helper: In-App Notification erstellen
 async function createInAppNotification({
@@ -71,40 +89,68 @@ function getInvestorName(slug: string): string {
   return names[slug] || slug
 }
 
+// Helper: Hole das neueste Filing-Datum für einen Investor
+function getLatestFilingDate(investorSlug: string): { date: string; quarterKey: string } | null {
+  const investorData = (holdingsHistory as Record<string, HoldingsSnapshot[]>)[investorSlug]
+
+  if (!investorData || investorData.length === 0) {
+    return null
+  }
+
+  // Sortiere nach Quarter (neuestes zuerst)
+  const sorted = [...investorData].sort((a, b) => {
+    return b.quarter.localeCompare(a.quarter)
+  })
+
+  const latestSnapshot = sorted[0]
+  return {
+    date: latestSnapshot.data.date,
+    quarterKey: latestSnapshot.data.quarterKey
+  }
+}
+
 // Helper: Check für neue Filings basierend auf Holdings-Daten
-async function checkForNewFiling(investorSlug: string): Promise<boolean> {
+async function checkForNewFiling(investorSlug: string): Promise<{ isNew: boolean; filingDate?: string; quarterKey?: string }> {
   try {
-    // Checke ob heute schon eine Notification gesendet wurde
-    const today = new Date().toISOString().split('T')[0]
-    
-    const { data: recentCheck } = await supabaseService
-      .from('notification_log')
-      .select('sent_at')
-      .eq('notification_type', 'filing_alert')
-      .eq('reference_id', investorSlug)
-      .gte('sent_at', `${today}T00:00:00.000Z`)
-      .maybeSingle()
-    
-    if (recentCheck) {
-      console.log(`[Filing Check] Already sent notification for ${investorSlug} today`)
-      return false
+    // Hole das neueste Filing aus den Holdings-Daten
+    const latestFiling = getLatestFilingDate(investorSlug)
+
+    if (!latestFiling) {
+      console.log(`[Filing Check] No holdings data found for ${investorSlug}`)
+      return { isNew: false }
     }
 
-    // Prüfe ob es neue Holdings-Daten gibt (vereinfacht: checke letztes Quarter)
-    // In Production würdest du hier die Holdings-API oder File-System prüfen
-    
-    // Für Test: Spezielle Investoren haben "neue Filings"
-    const hasNewFilingToday = ['spier'].includes(investorSlug)
-    
-    if (hasNewFilingToday) {
-      console.log(`[Filing Check] ✅ New filing detected for ${investorSlug}`)
-      return true
+    console.log(`[Filing Check] Latest filing for ${investorSlug}: ${latestFiling.date} (${latestFiling.quarterKey})`)
+
+    // Prüfe ob wir für dieses Filing (basierend auf quarterKey) schon eine Notification gesendet haben
+    const { data: existingNotification } = await supabaseService
+      .from('notification_log')
+      .select('sent_at, content')
+      .eq('notification_type', 'filing_alert')
+      .eq('reference_id', investorSlug)
+      .order('sent_at', { ascending: false })
+      .limit(1)
+      .maybeSingle()
+
+    // Wenn es keine vorherige Notification gibt, ist es neu
+    if (!existingNotification) {
+      console.log(`[Filing Check] ✅ No previous notification for ${investorSlug}, marking as new`)
+      return { isNew: true, filingDate: latestFiling.date, quarterKey: latestFiling.quarterKey }
     }
-    
-    return false
+
+    // Prüfe ob das quarterKey in der letzten Notification anders ist
+    const lastNotifiedQuarter = existingNotification.content?.quarterKey
+
+    if (lastNotifiedQuarter !== latestFiling.quarterKey) {
+      console.log(`[Filing Check] ✅ New quarter detected for ${investorSlug}: ${latestFiling.quarterKey} (last notified: ${lastNotifiedQuarter})`)
+      return { isNew: true, filingDate: latestFiling.date, quarterKey: latestFiling.quarterKey }
+    }
+
+    console.log(`[Filing Check] Already notified for ${investorSlug} ${latestFiling.quarterKey}`)
+    return { isNew: false }
   } catch (error) {
     console.error(`[Filing Check] Error checking ${investorSlug}:`, error)
-    return false
+    return { isNew: false }
   }
 }
 
@@ -124,8 +170,7 @@ export async function POST(request: NextRequest) {
       .from('notification_settings')
       .select(`
         user_id,
-        preferred_investors,
-        profiles!inner(email_verified)
+        preferred_investors
       `)
       .eq('filings_enabled', true)
 
@@ -159,26 +204,25 @@ export async function POST(request: NextRequest) {
         totalInvestorsChecked++
         try {
           // Check für neue Filings für diesen Investor
-          const hasNewFiling = await checkForNewFiling(investorSlug)
-          
-          if (hasNewFiling) {
+          const filingCheck = await checkForNewFiling(investorSlug)
+
+          if (filingCheck.isNew) {
             if (!newFilingsList.includes(investorSlug)) {
               newFilingsFound++
               newFilingsList.push(investorSlug)
             }
-            // Prüfen ob wir schon heute eine Filing-Notification gesendet haben
-            const today = new Date().toISOString().split('T')[0]
-            
-            const { data: recentNotification } = await supabaseService
+
+            // Prüfen ob dieser User schon eine Notification für dieses Quarter bekommen hat
+            const { data: existingUserNotification } = await supabaseService
               .from('notification_log')
               .select('id')
               .eq('user_id', userSettings.user_id)
               .eq('notification_type', 'filing_alert')
               .eq('reference_id', investorSlug)
-              .gte('sent_at', `${today}T00:00:00.000Z`)
+              .filter('content->>quarterKey', 'eq', filingCheck.quarterKey)
               .maybeSingle()
 
-            if (!recentNotification) {
+            if (!existingUserNotification) {
               const investorName = getInvestorName(investorSlug)
 
               // ✅ In-App Notification erstellen
@@ -186,21 +230,21 @@ export async function POST(request: NextRequest) {
                 userId: userSettings.user_id,
                 type: 'filing_alert',
                 title: `Neues 13F-Filing von ${investorName}`,
-                message: `Neue Portfolio-Änderungen verfügbar`,
-                data: { investor: investorSlug },
+                message: `${filingCheck.quarterKey} Portfolio-Änderungen verfügbar`,
+                data: { investor: investorSlug, quarterKey: filingCheck.quarterKey },
                 href: `/superinvestor/${investorSlug}`
               })
-              
+
               totalFilingNotifications++
 
               // ✅ E-Mail senden
               const { data: { user } } = await supabaseService.auth.admin.getUserById(userSettings.user_id)
-              
+
               if (user?.email) {
                 // Filing E-Mail senden
                 const emailResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/notifications/send-filing-email`, {
                   method: 'POST',
-                  headers: { 
+                  headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${process.env.CRON_SECRET}`
                   },
@@ -208,21 +252,27 @@ export async function POST(request: NextRequest) {
                     userEmail: user.email,
                     investorSlug,
                     investorName,
-                    isTest: false // Für Test-Modus
+                    quarterKey: filingCheck.quarterKey,
+                    filingDate: filingCheck.filingDate
                   })
                 })
 
                 if (emailResponse.ok) {
                   totalFilingEmails++
-                  
-                  // Notification Log erstellen
+
+                  // Notification Log erstellen (mit quarterKey für Duplikat-Prüfung)
                   await supabaseService
                     .from('notification_log')
                     .insert({
                       user_id: userSettings.user_id,
                       notification_type: 'filing_alert',
                       reference_id: investorSlug,
-                      content: { investor: investorSlug, investorName },
+                      content: {
+                        investor: investorSlug,
+                        investorName,
+                        quarterKey: filingCheck.quarterKey,
+                        filingDate: filingCheck.filingDate
+                      },
                       email_sent: true
                     })
                 }

@@ -75,8 +75,7 @@ export async function POST(request: NextRequest) {
       .select(`
         user_id,
         watchlist_threshold_percent,
-        last_notification_sent,
-        profiles!inner(email_verified)
+        last_notification_sent
       `)
       .eq('watchlist_enabled', true)
 
