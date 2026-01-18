@@ -66,6 +66,8 @@ interface Position {
   deltaShares: number
   pctDelta: number
   ticker?: string
+  prevValue?: number
+  prevShares?: number
   optionType?: 'STOCK' | 'CALL' | 'PUT' | 'OPTION'
   typeInfo?: {
     label: string
@@ -767,28 +769,34 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     snapshots.map((snap, idx) => {
       const prevRaw = idx > 0 ? snapshots[idx - 1].data.positions : []
       const prevMap = new Map<string, number>()
-      prevRaw.forEach(p => prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares))
+      const prevValueMap = new Map<string, number>()
+      prevRaw.forEach(p => {
+        prevMap.set(p.cusip, (prevMap.get(p.cusip) || 0) + p.shares)
+        prevValueMap.set(p.cusip, (prevValueMap.get(p.cusip) || 0) + p.value)
+      })
 
       const mergedEntries = Array.from(mergePositions(snap.data.positions).entries())
         .map(([cusip, { shares, value }]) => {
           const originalPosition = snap.data.positions.find(p => p.cusip === cusip)
           const stockData = stocks.find(s => s.cusip === cusip)
-          
+
           let ticker = originalPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
           let displayName = originalPosition?.name || stockData?.name || cusip
-          
-          const formattedName = ticker && displayName && ticker !== displayName 
+
+          const formattedName = ticker && displayName && ticker !== displayName
             ? `${ticker} - ${displayName}`
             : displayName
-          
-          return { 
-            cusip, 
-            shares, 
-            value, 
-            name: formattedName, 
+
+          return {
+            cusip,
+            shares,
+            value,
+            name: formattedName,
             ticker,
             deltaShares: 0,
             pctDelta: 0,
+            prevValue: prevValueMap.get(cusip) || 0,
+            prevShares: prevMap.get(cusip) || 0,
             optionType: (originalPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
             typeInfo: originalPosition?.typeInfo ? {
               label: originalPosition.typeInfo.label || 'Stock',
@@ -804,25 +812,32 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
       for (const [cusip] of prevMap.entries()) {
         if (!seen.has(cusip)) {
           const stockData = stocks.find(s => s.cusip === cusip)
-          let ticker = stockData?.ticker || cusip.replace(/0+$/, '')
-          let displayName = stockData?.name || cusip
-          
-          const formattedName = ticker && displayName && ticker !== displayName 
+          const prevPosition = prevRaw.find(p => p.cusip === cusip)
+          let ticker = prevPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
+          let displayName = prevPosition?.name || stockData?.name || cusip
+
+          const formattedName = ticker && displayName && ticker !== displayName
             ? `${ticker} - ${displayName}`
             : displayName
-            
-          mergedEntries.push({ 
-            cusip, 
-            shares: 0, 
-            value: 0, 
-            name: formattedName, 
+
+          // For complete sells: store the previous value for price calculation
+          const prevValue = prevValueMap.get(cusip) || 0
+          const prevShares = prevMap.get(cusip) || 0
+
+          mergedEntries.push({
+            cusip,
+            shares: 0,
+            value: 0,
+            name: formattedName,
             ticker,
             deltaShares: 0,
             pctDelta: 0,
-            optionType: 'STOCK',
+            prevValue,
+            prevShares,
+            optionType: (prevPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
             typeInfo: undefined,
-            titleOfClass: null,
-            putCall: null
+            titleOfClass: prevPosition?.titleOfClass || null,
+            putCall: prevPosition?.putCall || null
           })
         }
       }

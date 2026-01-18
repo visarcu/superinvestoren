@@ -25,6 +25,8 @@ interface Position {
   deltaShares: number
   pctDelta: number
   ticker?: string
+  prevValue?: number
+  prevShares?: number
   // ✅ Option-Informationen (passend zu Burry JSON)
   optionType?: 'STOCK' | 'CALL' | 'PUT' | 'OPTION'
   typeInfo?: {
@@ -440,6 +442,16 @@ export default function InvestorTabs({
                                 <td className="px-5 py-4 text-right">
                                   <span className="text-theme-primary font-mono text-sm">
                                     {(() => {
+                                      // Bei 100% Verkauf (shares = 0) verwende Preis aus dem vorherigen Quartal
+                                      if (p.shares === 0 && p.prevShares && p.prevValue) {
+                                        // Kompletter Verkauf - berechne mit dem Preis aus dem vorherigen Quartal
+                                        const prevPricePerShare = p.prevValue / p.prevShares
+                                        const transactionValue = Math.abs(p.deltaShares) * prevPricePerShare
+                                        return formatCurrency(transactionValue)
+                                      }
+                                      if (p.shares === 0) {
+                                        return '—'
+                                      }
                                       const transactionValue = Math.abs(p.deltaShares * (p.value / p.shares))
                                       return formatCurrency(transactionValue)
                                     })()}

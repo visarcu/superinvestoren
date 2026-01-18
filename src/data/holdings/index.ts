@@ -679,6 +679,7 @@ import spier_2025_Q1 from './spier/2025-Q1.json'
 import spier_2025_Q2 from './spier/2025-Q2.json'
 import spier_2025_Q3 from './spier/2025-Q3.json'
 import spier_2025_Q4 from './spier/2025-Q4.json'
+import spier_2026_Q1 from './spier/2026-Q1.json'
 
 //triplefrond
 import triplefrond_2024_Q2 from './triplefrond/2024-Q2.json'
@@ -1801,6 +1802,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q2', data: spier_2025_Q2},
     { quarter: '2025-Q3', data: spier_2025_Q3},
     { quarter: '2025-Q4', data: spier_2025_Q4},
+    { quarter: '2026-Q1', data: spier_2026_Q1},
    ],
 
    triplefrond: [
