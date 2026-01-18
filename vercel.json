@@ -1,6 +1,10 @@
 {
   "crons": [
     {
+      "path": "/api/cron/check-new-sec-filings",
+      "schedule": "0 18 * * *"
+    },
+    {
       "path": "/api/notifications/check-filings",
       "schedule": "0 */6 * * *"
     },
