@@ -2,11 +2,67 @@
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
+import { etfs } from '@/data/etfs'
 
 // In-Memory Cache für schnellere Antworten
 let cachedStocks: ScreenerStock[] | null = null
 let cacheTime: number = 0
 const CACHE_DURATION = 5 * 60 * 1000 // 5 Minuten
+
+// ETF-Symbole als Set für schnelle Lookup
+const etfSymbols = new Set(etfs.map(e => e.symbol.toUpperCase()))
+
+// Prüft ob ein Stock ein ETF oder Mutual Fund ist (basierend auf Symbol und Name)
+function isETFOrMutualFund(symbol: string, name?: string): boolean {
+  // 1. Check gegen ETF-Registry
+  if (etfSymbols.has(symbol.toUpperCase())) return true
+
+  const upperSymbol = symbol.toUpperCase()
+
+  // 2. Mutual Fund Symbol-Patterns (enden typischerweise auf X)
+  // Beispiele: VSMPX, VFIAX, PMFLX, FXAIX
+  if (upperSymbol.length === 5 && upperSymbol.endsWith('X')) {
+    // Bekannte Mutual Fund Prefixe
+    const mutualFundPrefixes = ['VS', 'VF', 'VT', 'VB', 'VI', 'PM', 'FX', 'FD', 'SW', 'TR', 'PR']
+    if (mutualFundPrefixes.some(prefix => upperSymbol.startsWith(prefix))) {
+      return true
+    }
+  }
+
+  // 3. Check Name-Patterns
+  if (name) {
+    const upperName = name.toUpperCase()
+
+    // Direkte ETF-Kennzeichnung
+    if (upperName.includes(' ETF') || upperName.endsWith(' ETF') || upperName.startsWith('ETF ')) {
+      return true
+    }
+
+    // Mutual Fund Patterns
+    if (upperName.includes('INDEX FD') || upperName.includes('INDEX FUND') ||
+        upperName.includes('ADMIRAL') || upperName.includes('INVESTOR SH') ||
+        upperName.includes('INSTITUTIONAL') || upperName.includes('INSTL') ||
+        upperName.includes('MUTUAL FUND')) {
+      return true
+    }
+
+    // Bekannte ETF/Fund-Issuer + Trust/Fund Kombination
+    const fundIssuers = ['ISHARES', 'VANGUARD', 'SPDR', 'INVESCO', 'PROSHARES',
+                         'WISDOMTREE', 'VANECK', 'SCHWAB', 'XTRACKERS', 'AMUNDI',
+                         'FIDELITY', 'PIMCO', 'T. ROWE', 'BLACKROCK', 'JPMORGAN',
+                         'AMERICAN FUNDS', 'FRANKLIN', 'PUTNAM', 'DODGE & COX']
+    const fundKeywords = ['ETF', 'TRUST', 'FUND', 'INDEX', 'PORTFOLIO']
+
+    const hasIssuer = fundIssuers.some(issuer => upperName.includes(issuer))
+    const hasKeyword = fundKeywords.some(keyword => upperName.includes(keyword))
+
+    if (hasIssuer && hasKeyword) {
+      return true
+    }
+  }
+
+  return false
+}
 
 interface ScreenerStock {
   symbol: string
@@ -52,7 +108,9 @@ async function loadStocks(): Promise<ScreenerStock[]> {
   try {
     const fileContent = fs.readFileSync(filePath, 'utf-8')
     const data = JSON.parse(fileContent)
-    const stocks: ScreenerStock[] = data.stocks || []
+    const allStocks: ScreenerStock[] = data.stocks || []
+    // ETFs und Mutual Funds rausfiltern - Stock Finder zeigt nur Einzelaktien
+    const stocks = allStocks.filter(s => !isETFOrMutualFund(s.symbol, s.name))
     cachedStocks = stocks
     cacheTime = now
     return stocks
