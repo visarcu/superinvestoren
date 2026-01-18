@@ -302,13 +302,15 @@ export async function POST(request: NextRequest) {
         <p><strong>Nächster Schritt:</strong> Führe <code>npm run fetch13f</code> aus um die Holdings zu aktualisieren.</p>
       `
 
-      await resend.emails.send({
-        from: 'FinClue <team.finclue@gmail.com>',
+      const emailResult = await resend.emails.send({
+        from: 'FinClue <team@finclue.de>',
         to: ADMIN_EMAIL,
-        subject: `🚨 ${newFilings.length} neue 13F Filing(s) auf der SEC`,
+        subject: `${newFilings.length} neue 13F Filing(s) auf der SEC`,
         html: emailHtml,
         text: `Neue 13F-HR Filings gefunden:\n\n${filingsList}\n\nNächster Schritt: npm run fetch13f ausführen`
       })
+
+      console.log(`[SEC Check] Email result:`, emailResult)
 
       console.log(`[SEC Check] Admin email sent to ${ADMIN_EMAIL}`)
     }
