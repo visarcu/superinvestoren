@@ -10,9 +10,18 @@
 let exchangeRateCache: { rate: number; timestamp: number } | null = null
 const CACHE_DURATION_MS = 5 * 60 * 1000 // 5 Minuten
 
+// Custom Error für Wechselkurs-Probleme
+export class ExchangeRateError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'ExchangeRateError'
+  }
+}
+
 /**
  * Holt den aktuellen EUR/USD Wechselkurs
  * Verwendet um USD-Kurse von der API in EUR umzurechnen
+ * @throws ExchangeRateError wenn der Kurs nicht geladen werden kann
  */
 export async function getEURRate(): Promise<number> {
   // Check cache
@@ -35,10 +44,8 @@ export async function getEURRate(): Promise<number> {
     console.error('Fehler beim Laden des Wechselkurses:', error)
   }
 
-  // Fallback rate wenn API nicht verfügbar
-  // Stand Dezember 2024: 1 USD ≈ 0.96 EUR
-  console.warn('Verwende Fallback-Wechselkurs: 0.96')
-  return 0.96
+  // Kein Fallback - Error werfen wenn API nicht erreichbar
+  throw new ExchangeRateError('Wechselkurs konnte nicht geladen werden. Bitte versuche es später erneut.')
 }
 
 /**

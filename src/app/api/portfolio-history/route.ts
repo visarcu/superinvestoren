@@ -153,7 +153,7 @@ export async function POST(request: NextRequest) {
 
     // 4. Tracke den ersten Kauftag pro Symbol (für korrekte Startberechnung)
     const firstPurchaseDateBySymbol = new Map<string, string>()
-    
+
     if (useTransactions) {
       transactionsBySymbol.forEach((txs, symbol) => {
         const firstBuy = txs.find(tx => tx.type === 'buy')
@@ -169,27 +169,64 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // 5. Berechne den Startwert pro Symbol am Kauftag (für relative Entwicklung)
-    // Der Trick: Am Kauftag ist der "Wert" = was du bezahlt hast
-    // Danach: relativer Kursverlauf
-    const startPriceBySymbol = new Map<string, number>() // USD Kurs am Kauftag
-    
-    uniqueSymbols.forEach(symbol => {
-      const firstDate = firstPurchaseDateBySymbol.get(symbol)
-      if (firstDate) {
-        const priceMap = pricesBySymbol.get(symbol)
-        // Finde den ersten verfügbaren Kurs am oder nach dem Kaufdatum
-        const sortedPriceDates = Array.from(priceMap?.keys() || []).sort()
-        for (const priceDate of sortedPriceDates) {
-          if (priceDate >= firstDate) {
-            startPriceBySymbol.set(symbol, priceMap?.get(priceDate) || 0)
-            break
+    // 5. Hilfsfunktion: Berechne gewichteten Durchschnittskurs (USD) basierend auf allen Käufen bis zu einem Datum
+    // Dies ist die korrekte Methode für Performance-Berechnung bei mehreren Tranchen
+    function getWeightedAvgPurchasePriceUSD(
+      symbol: string,
+      asOfDate: string,
+      priceMap: Map<string, number>
+    ): number {
+      if (!useTransactions) {
+        // Fallback: Einzelkauf - nimm den Kurs am ersten Kaufdatum
+        const holding = holdings.find(h => h.symbol === symbol)
+        if (!holding?.purchase_date) return 0
+
+        const sortedDates = Array.from(priceMap.keys()).sort()
+        for (const d of sortedDates) {
+          if (d >= holding.purchase_date) {
+            return priceMap.get(d) || 0
+          }
+        }
+        return 0
+      }
+
+      // Mit Transaktionen: Berechne gewichteten Durchschnitt aller Käufe
+      const txs = transactionsBySymbol.get(symbol) || []
+      let totalShares = 0
+      let weightedPriceSum = 0
+
+      for (const tx of txs) {
+        if (tx.date > asOfDate) continue
+
+        if (tx.type === 'buy') {
+          // Finde den USD-Kurs am Kaufdatum
+          const sortedDates = Array.from(priceMap.keys()).sort()
+          let priceAtBuy = 0
+          for (const d of sortedDates) {
+            if (d >= tx.date) {
+              priceAtBuy = priceMap.get(d) || 0
+              break
+            }
+          }
+          if (priceAtBuy > 0) {
+            weightedPriceSum += tx.quantity * priceAtBuy
+            totalShares += tx.quantity
+          }
+        } else if (tx.type === 'sell') {
+          // Bei Verkauf: Proportional reduzieren (Average Cost Method)
+          if (totalShares > 0) {
+            const avgBefore = weightedPriceSum / totalShares
+            totalShares -= tx.quantity
+            weightedPriceSum = totalShares > 0 ? avgBefore * totalShares : 0
           }
         }
       }
-    })
+
+      return totalShares > 0 ? weightedPriceSum / totalShares : 0
+    }
 
     // 6. Für jeden Tag: Berechne Wert und investiertes Kapital
+    // KORREKTE LOGIK: Gewichteter Durchschnittskurs für alle Käufe bis zu diesem Datum
     const chartData: Array<{ date: string; value: number; invested: number; performance: number }> = []
 
     sortedDates.forEach(date => {
@@ -199,11 +236,10 @@ export async function POST(request: NextRequest) {
       uniqueSymbols.forEach(symbol => {
         const priceMap = pricesBySymbol.get(symbol)
         const currentPriceUSD = priceMap?.get(date)
-        const startPriceUSD = startPriceBySymbol.get(symbol) || 0
         const firstPurchaseDate = firstPurchaseDateBySymbol.get(symbol)
 
         if (!currentPriceUSD) return
-        
+
         // Position existiert erst ab Kaufdatum
         if (firstPurchaseDate && date < firstPurchaseDate) return
 
@@ -211,7 +247,7 @@ export async function POST(request: NextRequest) {
           const txs = transactionsBySymbol.get(symbol) || []
 
           let sharesOwned = 0
-          let costBasis = 0 // In EUR
+          let costBasis = 0 // In EUR (was der User bezahlt hat)
 
           txs.forEach(tx => {
             if (tx.date <= date) {
@@ -227,28 +263,30 @@ export async function POST(request: NextRequest) {
           })
 
           if (sharesOwned > 0 && costBasis > 0) {
-            // NEUE LOGIK: Relative Kursentwicklung basierend auf Cost Basis
-            // Performance = (aktueller Kurs / Startkurs) - 1
-            // Wert = Cost Basis * (1 + Performance)
-            
-            if (startPriceUSD > 0) {
-              const priceChange = (currentPriceUSD - startPriceUSD) / startPriceUSD
+            // KORRIGIERTE LOGIK: Gewichteter Durchschnittskurs basierend auf allen Käufen bis heute
+            // Dies berücksichtigt mehrere Tranchen korrekt
+            const weightedAvgPriceUSD = getWeightedAvgPurchasePriceUSD(symbol, date, priceMap!)
+
+            if (weightedAvgPriceUSD > 0) {
+              // Performance = (aktueller Kurs / gewichteter Durchschnittskurs) - 1
+              const priceChange = (currentPriceUSD - weightedAvgPriceUSD) / weightedAvgPriceUSD
               const currentValue = costBasis * (1 + priceChange)
               totalValue += currentValue
             } else {
-              // Fallback: Wert = Cost Basis (keine Kursdaten zum Vergleich)
+              // Fallback: Wert = Cost Basis (keine Kursdaten)
               totalValue += costBasis
             }
-            
+
             totalInvested += costBasis
           }
         } else {
-          // Fallback: Holdings-basiert
+          // Fallback: Holdings-basiert (einzelner Kauf)
           const holding = holdings.find(h => h.symbol === symbol)
           if (!holding) return
 
           const costBasis = (holding.purchase_price || 0) * holding.quantity
-          
+          const startPriceUSD = getWeightedAvgPurchasePriceUSD(symbol, date, priceMap!)
+
           if (startPriceUSD > 0) {
             const priceChange = (currentPriceUSD - startPriceUSD) / startPriceUSD
             const currentValue = costBasis * (1 + priceChange)
@@ -256,7 +294,7 @@ export async function POST(request: NextRequest) {
           } else {
             totalValue += costBasis
           }
-          
+
           totalInvested += costBasis
         }
       })
@@ -296,43 +334,55 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 7. Lade S&P 500 (SPY) Benchmark-Daten für Vergleich
-    let benchmarkData: Array<{ date: string; value: number }> = []
+    // 7. Lade S&P 500 (SPY) Benchmark-Daten für Performance-Vergleich (in %)
+    let performanceData: Array<{ date: string; portfolioPerformance: number; spyPerformance: number }> = []
     try {
       const spyHistory = await fetchHistoricalPrices('SPY', fromDate, toDate)
       if (spyHistory.length > 0 && chartData.length > 0) {
         // Finde den ersten Tag mit Portfolio-Daten
         const firstPortfolioDate = chartData[0].date
-        const firstPortfolioInvested = chartData[0].invested
 
         // Finde den SPY-Preis am ersten Portfolio-Tag
-        const firstSPYPrice = spyHistory.find(d => d.date >= firstPortfolioDate)?.close || spyHistory[0].close
+        const firstSPYDataPoint = spyHistory.find(d => d.date >= firstPortfolioDate)
+        const firstSPYPrice = firstSPYDataPoint?.close || spyHistory[0].close
 
-        // Normalisiere SPY auf den gleichen Startwert wie das investierte Kapital
-        benchmarkData = spyHistory
-          .filter(d => d.date >= firstPortfolioDate)
-          .map(d => ({
-            date: d.date,
-            value: (d.close / firstSPYPrice) * firstPortfolioInvested
-          }))
+        // Erstelle SPY-Lookup Map
+        const spyPriceMap = new Map<string, number>()
+        spyHistory.forEach(d => spyPriceMap.set(d.date, d.close))
+
+        // Performance-Daten: Beide in % ab dem gleichen Startpunkt
+        // Portfolio-Performance basiert auf den bereits berechneten chartData
+        // SPY-Performance: (aktueller Kurs / Startkurs - 1) * 100
+        performanceData = chartData.map(point => {
+          const spyPrice = spyPriceMap.get(point.date)
+          const spyPerformance = spyPrice && firstSPYPrice
+            ? ((spyPrice / firstSPYPrice) - 1) * 100
+            : 0
+
+          return {
+            date: point.date,
+            portfolioPerformance: point.performance, // Bereits berechnet: ((value - invested) / invested) * 100
+            spyPerformance: Math.round(spyPerformance * 100) / 100
+          }
+        })
       }
     } catch (benchmarkError) {
       console.error('Error fetching benchmark data:', benchmarkError)
     }
 
-    // Sample benchmark data to match chart data
-    let sampledBenchmark = benchmarkData
-    if (benchmarkData.length > 60) {
-      const step = Math.ceil(benchmarkData.length / 60)
-      sampledBenchmark = benchmarkData.filter((_, index) =>
-        index % step === 0 || index === benchmarkData.length - 1
+    // Sample performance data
+    let sampledPerformance = performanceData
+    if (performanceData.length > 60) {
+      const step = Math.ceil(performanceData.length / 60)
+      sampledPerformance = performanceData.filter((_, index) =>
+        index % step === 0 || index === performanceData.length - 1
       )
     }
 
     return NextResponse.json({
       success: true,
-      data: sampledData,
-      benchmark: sampledBenchmark,
+      data: sampledData, // Wertentwicklung: { date, value, invested, performance }
+      performanceData: sampledPerformance, // Performance: { date, portfolioPerformance, spyPerformance } in %
       meta: {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,

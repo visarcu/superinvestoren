@@ -7,7 +7,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotes } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
-import { getEURRate, calculateGainLoss, currencyManager } from '@/lib/portfolioCurrency'
+import { getEURRate, calculateGainLoss, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
 import PortfolioDividends from '@/components/PortfolioDividends'
 import PortfolioHistory from '@/components/PortfolioHistory'
 import PortfolioBreakdownsDE from '@/components/PortfolioBreakdownsDE'
@@ -219,6 +219,10 @@ export default function PortfolioDashboard() {
   const [exchangeRate, setExchangeRate] = useState<number | null>(null)
   const [currencyLoading, setCurrencyLoading] = useState(false)
   const [lastCurrencyUpdate, setLastCurrencyUpdate] = useState<Date | null>(null)
+  const [exchangeRateError, setExchangeRateError] = useState<string | null>(null)
+
+  // Price Loading Error State
+  const [priceLoadError, setPriceLoadError] = useState<string | null>(null)
   
   // Add Position Form State
   const [newSymbol, setNewSymbol] = useState('')
@@ -286,6 +290,7 @@ export default function PortfolioDashboard() {
   // Core Functions with Error Recovery
   const loadExchangeRate = async () => {
     setCurrencyLoading(true)
+    setExchangeRateError(null)
     try {
       const rate = await currencyManager.getCurrentUSDtoEURRate()
       setExchangeRate(rate)
@@ -293,7 +298,11 @@ export default function PortfolioDashboard() {
     } catch (error) {
       console.error('Error loading exchange rate:', error)
       setExchangeRate(null)
-      // Don't fail the whole app for exchange rate
+      if (error instanceof ExchangeRateError) {
+        setExchangeRateError(error.message)
+      } else {
+        setExchangeRateError('Wechselkurs konnte nicht geladen werden')
+      }
     } finally {
       setCurrencyLoading(false)
     }
@@ -417,15 +426,23 @@ export default function PortfolioDashboard() {
         let currentPricesUSD: Record<string, number> = {}
         try {
           currentPricesUSD = await getBulkQuotes(symbols)
+          // Validiere dass wir Kurse für alle Symbole haben
+          const missingPrices = symbols.filter(s => !currentPricesUSD[s] || currentPricesUSD[s] <= 0)
+          if (missingPrices.length > 0) {
+            console.warn('Missing prices for symbols:', missingPrices)
+            setPriceLoadError(`Kurse nicht verfügbar für: ${missingPrices.join(', ')}`)
+          }
         } catch (priceError) {
-          holdingsData.forEach(h => {
-            currentPricesUSD[h.symbol] = h.purchase_price || 0
-          })
+          console.error('Error fetching prices:', priceError)
+          setPriceLoadError('Aktienkurse konnten nicht geladen werden. Bitte später erneut versuchen.')
+          // Keine Daten anzeigen wenn Kurse nicht verfügbar
+          return
         }
 
         const holdingsWithCurrentPrices = holdingsData.map(holding => ({
           ...holding,
-          current_price: currentPricesUSD[holding.symbol] || holding.purchase_price || 0
+          // Nur gültige Kurse verwenden, keine Fallbacks
+          current_price: currentPricesUSD[holding.symbol] || 0
         }))
 
         const convertedHoldings = await currencyManager.convertHoldingsForDisplay(
@@ -471,22 +488,32 @@ export default function PortfolioDashboard() {
       
       if (holdingsData && holdingsData.length > 0) {
         const symbols = holdingsData.map(h => h.symbol)
-        
-        // Try to get current prices with fallback
+
+        // Kurse laden - kein Fallback auf Kaufpreis
         let currentPricesUSD: Record<string, number> = {}
         try {
           currentPricesUSD = await getBulkQuotes(symbols)
+          // Validiere dass wir Kurse für alle Symbole haben
+          const missingPrices = symbols.filter(s => !currentPricesUSD[s] || currentPricesUSD[s] <= 0)
+          if (missingPrices.length > 0) {
+            console.warn('Missing prices for symbols:', missingPrices)
+            setPriceLoadError(`Kurse nicht verfügbar für: ${missingPrices.join(', ')}`)
+          } else {
+            setPriceLoadError(null) // Reset error bei erfolg
+          }
         } catch (priceError) {
-          console.error('Error fetching prices, using purchase prices as fallback:', priceError)
-          // Fallback: use purchase prices
-          holdingsData.forEach(h => {
-            currentPricesUSD[h.symbol] = h.purchase_price || 0
-          })
+          console.error('Error fetching prices:', priceError)
+          setPriceLoadError('Aktienkurse konnten nicht geladen werden. Bitte später erneut versuchen.')
+          // Zeige leere Liste mit Fehlermeldung statt falsche Daten
+          setHoldings([])
+          calculateMetrics([], portfolio?.cash_position || 0)
+          return
         }
-        
+
         const holdingsWithCurrentPrices = holdingsData.map(holding => ({
           ...holding,
-          current_price: currentPricesUSD[holding.symbol] || holding.purchase_price || 0
+          // Nur gültige Kurse verwenden, keine Fallbacks
+          current_price: currentPricesUSD[holding.symbol] || 0
         }))
 
         // Convert for display
@@ -690,24 +717,24 @@ export default function PortfolioDashboard() {
         if (error) throw error
 
         // Log transaction in history
-        try {
-          const totalValue = quantity * basePrice
-          await supabase
-            .from('portfolio_transactions')
-            .insert({
-              portfolio_id: portfolio?.id,
-              type: 'buy',
-              symbol: selectedStock?.symbol,
-              name: selectedStock?.name,
-              quantity: quantity,
-              price: priceIncludingFees,
-              total_value: totalValue + fees,
-              date: newPurchaseDate,
-              notes: fees > 0 ? `Kaufpreis: ${formatCurrency(basePrice)}, Gebühren: ${formatCurrency(fees)}` : null
-            })
-        } catch (txError) {
-          // Ignoriere Fehler falls Tabelle nicht existiert
-          console.log('Transaction logging skipped:', txError)
+        const totalValue = quantity * basePrice
+        const { error: txError } = await supabase
+          .from('portfolio_transactions')
+          .insert({
+            portfolio_id: portfolio?.id,
+            type: 'buy',
+            symbol: selectedStock?.symbol,
+            name: selectedStock?.name,
+            quantity: quantity,
+            price: priceIncludingFees,
+            total_value: totalValue + fees,
+            date: newPurchaseDate,
+            notes: fees > 0 ? `Kaufpreis: ${formatCurrency(basePrice)}, Gebühren: ${formatCurrency(fees)}` : null
+          })
+
+        if (txError) {
+          console.error('Transaction logging error:', txError)
+          // Nicht fatal - Position wurde bereits erstellt
         }
       } else {
         const cashAmountEUR = parseFloat(cashAmount)
@@ -721,22 +748,22 @@ export default function PortfolioDashboard() {
         if (error) throw error
 
         // Log cash deposit transaction
-        try {
-          await supabase
-            .from('portfolio_transactions')
-            .insert({
-              portfolio_id: portfolio?.id,
-              type: 'cash_deposit',
-              symbol: 'CASH',
-              name: 'Einzahlung',
-              quantity: 1,
-              price: cashAmountEUR,
-              total_value: cashAmountEUR,
-              date: new Date().toISOString().split('T')[0],
-              notes: `Cash hinzugefügt: ${formatCurrency(cashAmountEUR)}`
-            })
-        } catch (txError) {
-          console.log('Transaction logging skipped:', txError)
+        const { error: txError } = await supabase
+          .from('portfolio_transactions')
+          .insert({
+            portfolio_id: portfolio?.id,
+            type: 'cash_deposit',
+            symbol: 'CASH',
+            name: 'Einzahlung',
+            quantity: 1,
+            price: cashAmountEUR,
+            total_value: cashAmountEUR,
+            date: new Date().toISOString().split('T')[0],
+            notes: `Cash hinzugefügt: ${formatCurrency(cashAmountEUR)}`
+          })
+
+        if (txError) {
+          console.error('Cash deposit logging error:', txError)
         }
       }
 
@@ -831,23 +858,23 @@ export default function PortfolioDashboard() {
       if (error) throw error
 
       // Log transaction in history
-      try {
-        const totalValue = newQty * newPrice
-        await supabase
-          .from('portfolio_transactions')
-          .insert({
-            portfolio_id: portfolio?.id,
-            type: 'buy',
-            symbol: topUpPosition.symbol,
-            name: topUpPosition.name,
-            quantity: newQty,
-            price: priceWithFees,
-            total_value: totalValue + fees,
-            date: topUpDate,
-            notes: fees > 0 ? `Aufstockung - Kaufpreis: ${formatCurrency(newPrice)}, Gebühren: ${formatCurrency(fees)}` : 'Aufstockung'
-          })
-      } catch (txError) {
-        console.log('Transaction logging skipped:', txError)
+      const totalValue = newQty * newPrice
+      const { error: txError } = await supabase
+        .from('portfolio_transactions')
+        .insert({
+          portfolio_id: portfolio?.id,
+          type: 'buy',
+          symbol: topUpPosition.symbol,
+          name: topUpPosition.name,
+          quantity: newQty,
+          price: priceWithFees,
+          total_value: totalValue + fees,
+          date: topUpDate,
+          notes: fees > 0 ? `Aufstockung - Kaufpreis: ${formatCurrency(newPrice)}, Gebühren: ${formatCurrency(fees)}` : 'Aufstockung'
+        })
+
+      if (txError) {
+        console.error('Top-up transaction logging error:', txError)
       }
 
       // Reset und Reload
@@ -884,27 +911,24 @@ export default function PortfolioDashboard() {
 
       if (error) throw error
 
-      // Log transaction in history (optional - falls Tabelle existiert)
-      try {
-        // Nutze lowercase types passend zur existierenden Tabellenstruktur
-        const transactionType = difference > 0 ? 'cash_deposit' : 'cash_withdrawal'
+      // Log transaction in history
+      const transactionType = difference > 0 ? 'cash_deposit' : 'cash_withdrawal'
+      const { error: txError } = await supabase
+        .from('portfolio_transactions')
+        .insert({
+          portfolio_id: portfolio.id,
+          type: transactionType,
+          symbol: 'CASH',
+          name: difference > 0 ? 'Einzahlung' : 'Auszahlung',
+          quantity: 1,
+          price: Math.abs(difference),
+          total_value: Math.abs(difference),
+          date: new Date().toISOString().split('T')[0],
+          notes: `Cash ${difference > 0 ? 'hinzugefügt' : 'entnommen'}: ${formatCurrency(Math.abs(difference))}`
+        })
 
-        await supabase
-          .from('portfolio_transactions')
-          .insert({
-            portfolio_id: portfolio.id,
-            type: transactionType,
-            symbol: 'CASH',
-            name: difference > 0 ? 'Einzahlung' : 'Auszahlung',
-            quantity: 1,
-            price: Math.abs(difference),
-            total_value: Math.abs(difference),
-            date: new Date().toISOString().split('T')[0],
-            notes: `Cash ${difference > 0 ? 'hinzugefügt' : 'entnommen'}: ${formatCurrency(Math.abs(difference))}`
-          })
-      } catch (txError) {
-        // Ignoriere Fehler falls Tabelle nicht existiert oder constraint fehlt
-        console.log('Transaction logging skipped:', txError)
+      if (txError) {
+        console.error('Cash transaction logging error:', txError)
       }
 
       setShowCashModal(false)
@@ -1061,6 +1085,40 @@ export default function PortfolioDashboard() {
 
   return (
     <div className="min-h-screen bg-dark">
+      {/* Error Banners */}
+      {(exchangeRateError || priceLoadError) && (
+        <div className="w-full px-6 pt-4 space-y-2">
+          {exchangeRateError && (
+            <div className="flex items-center gap-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+              <ExclamationTriangleIcon className="w-5 h-5 text-amber-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm text-amber-200">{exchangeRateError}</p>
+              </div>
+              <button
+                onClick={loadExchangeRate}
+                className="text-xs text-amber-400 hover:text-amber-300 underline flex-shrink-0"
+              >
+                Erneut versuchen
+              </button>
+            </div>
+          )}
+          {priceLoadError && (
+            <div className="flex items-center gap-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+              <ExclamationTriangleIcon className="w-5 h-5 text-red-400 flex-shrink-0" />
+              <div className="flex-1">
+                <p className="text-sm text-red-200">{priceLoadError}</p>
+              </div>
+              <button
+                onClick={() => loadPortfolio(depotIdParam)}
+                className="text-xs text-red-400 hover:text-red-300 underline flex-shrink-0"
+              >
+                Erneut versuchen
+              </button>
+            </div>
+          )}
+        </div>
+      )}
+
       {/* Header - Fey Style Compact */}
       <div className="border-b border-neutral-800">
         <div className="w-full px-6 py-6">
