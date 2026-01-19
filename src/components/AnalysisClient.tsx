@@ -1,7 +1,7 @@
 // src/components/AnalysisClient.tsx - VOLLSTÄNDIG SICHER
 'use client'
 
-import React, { useState, useEffect, useMemo, useCallback } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { stocks } from '../data/stocks'
 import { supabase } from '@/lib/supabaseClient'
 import Link from 'next/link'
@@ -18,6 +18,7 @@ import { LEARN_DEFINITIONS } from '@/data/learnDefinitions'
 import { useLearnMode } from '@/lib/LearnModeContext'
 import { useCurrency } from '@/lib/CurrencyContext'
 import OwnershipSection from '@/components/OwnershipSection'
+import StockNewsSummary from '@/components/StockNewsSummary'
 
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
 const WatchlistButton = dynamic(
@@ -135,11 +136,6 @@ interface User {
   isPremium: boolean
 }
 
-interface StockData {
-  date: string
-  close: number
-}
-
 interface PayoutSafetyData {
   text: string
   color: 'green' | 'yellow' | 'red' | 'gray'
@@ -233,7 +229,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
   // Enhanced Dividend Data State
   const [enhancedDividendData, setEnhancedDividendData] = useState<EnhancedDividendData | null>(null)
-  const [dividendApiData, setDividendApiData] = useState<any>(null)
 
     // ✅ FCF Yield State
     const [fcfYield, setFcfYield] = useState<number | null>(null)
@@ -243,39 +238,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     const [sbcImpact, setSbcImpact] = useState<number | null>(null)
     const [stockBasedCompensation, setStockBasedCompensation] = useState<number | null>(null)
 
-  // ✅ MEMOIZED: Vergleichsaktien laden für Chart
-  const handleAddComparison = useCallback(async (comparisonTicker: string): Promise<StockData[]> => {
-    try {
-      console.log('🔍 Loading comparison stock:', comparisonTicker)
-      
-      // ✅ SICHER: Verwende eigene API Route
-      const response = await fetch(`/api/historical/${comparisonTicker}`)
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      const historical = data.historical || []
-      
-      const formattedData: StockData[] = historical
-        .slice()
-        .reverse()
-        .map((h: any) => ({
-          date: h.date,
-          close: h.close
-        }))
-      
-      console.log(`✅ Loaded ${formattedData.length} data points for ${comparisonTicker}`)
-      return formattedData
-      
-    } catch (error) {
-      console.error('❌ Error loading comparison data:', error)
-      return []
-    }
-  }, [])
-
-  // Removed duplicate - using global definition above
 
 
 
@@ -444,7 +406,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         try {
           console.log(`🔍 [AnalysisClient] Loading enhanced dividend data...`)
           const dividendData = await apiCalls[3].value.json()
-          setDividendApiData(dividendData)
           setEnhancedDividendData(dividendData.currentInfo)
           console.log(`✅ [AnalysisClient] Enhanced dividend data loaded:`, dividendData)
         } catch (error) {
@@ -923,14 +884,36 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
 
 
      
-      {/* ✅ GROWTH + CHART SEKTION - OPTIMIERT */}
+      {/* ✅ CHART + NEWS SEKTION - Clean Layout wie Fey */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-        
-        {/* LINKE SPALTE - GROWTH & NEWS */}
+
+        {/* LINKE SPALTE - CHART (3/5) */}
+        <div className="lg:col-span-3">
+          {history.length > 0 ? (
+            <WorkingStockChart
+              ticker={ticker}
+              data={history}
+            />
+          ) : (
+            <div className="bg-theme-card rounded-xl border border-theme-light p-6 flex items-center justify-center min-h-[450px]">
+              <LoadingSpinner />
+            </div>
+          )}
+        </div>
+
+        {/* RECHTE SPALTE - NEWS & GROWTH (2/5) */}
         <div className="lg:col-span-2 space-y-6">
+          {/* NEWS SUMMARY - AI-generierte Zusammenfassung */}
+          <StockNewsSummary
+            ticker={ticker}
+            companyName={stock?.name}
+            price={livePrice ?? undefined}
+            changePct={livePrice && previousClose ? ((livePrice - previousClose) / previousClose) * 100 : undefined}
+          />
+
           {/* GROWTH SEKTION */}
-          <LazyWrapper 
-            minHeight="300px" 
+          <LazyWrapper
+            minHeight="300px"
             rootMargin="250px"
             className="bg-theme-card rounded-lg"
             fallback={
@@ -948,133 +931,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               </div>
             }
           >
-            <GrowthSection 
+            <GrowthSection
               ticker={ticker}
               isPremium={user?.isPremium || false}
             />
           </LazyWrapper>
-
-          {/* DIVIDENDEN ÜBERSICHT */}
-          <div className="bg-theme-card rounded-lg">
-            <div className="p-6 border-b border-white/[0.03]">
-              <div className="flex items-center justify-between">
-                <div>
-                  <h3 className="text-lg font-semibold text-theme-primary">Dividende</h3>
-                  <p className="text-theme-secondary text-sm mt-1">Aktuelle Ausschüttung</p>
-                </div>
-                <Link
-                  href={`/analyse/stocks/${ticker.toLowerCase()}/dividends`}
-                  className="text-xs text-brand-light hover:text-green-300 transition-colors"
-                >
-                  Details →
-                </Link>
-              </div>
-            </div>
-            <div className="p-6">
-              {dividendApiData?.currentInfo ? (
-                <div className="space-y-4">
-                  {/* Hauptkennzahlen */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-3 bg-theme-secondary/20 rounded-lg">
-                      <div className="text-sm text-theme-muted mb-1">Rendite</div>
-                      <div className="text-xl font-bold text-theme-primary">
-                        {dividendApiData.currentInfo.currentYield ? 
-                          `${(dividendApiData.currentInfo.currentYield * 100).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%` : '–'
-                        }
-                      </div>
-                    </div>
-                    <div className="text-center p-3 bg-theme-secondary/20 rounded-lg">
-                      <div className="text-sm text-theme-muted mb-1">TTM</div>
-                      <div className="text-xl font-bold text-theme-primary">
-                        {dividendApiData.currentInfo.dividendPerShareTTM ? 
-                          formatCurrency(dividendApiData.currentInfo.dividendPerShareTTM) : '–'
-                        }
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Sicherheit & Wachstum */}
-                  <div className="space-y-3">
-                    {dividendApiData.currentInfo.payoutSafety && (
-                      <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04]">
-                        <span className="text-sm text-theme-muted">Sicherheit</span>
-                        <span className="text-sm font-medium text-theme-primary">
-                          {dividendApiData.currentInfo.payoutSafety.text}
-                        </span>
-                      </div>
-                    )}
-
-                    {dividendApiData.cagrAnalysis && dividendApiData.cagrAnalysis.length > 0 && (
-                      <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04]">
-                        <span className="text-sm text-theme-muted">Wachstum (3Y)</span>
-                        <span className="text-sm font-medium text-theme-primary">
-                          {(() => {
-                            const threeYearCAGR = dividendApiData.cagrAnalysis.find((item: any) => item.years === 3)?.cagr || 0;
-                            return `${threeYearCAGR > 0 ? '+' : ''}${threeYearCAGR.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
-                          })()}
-                        </span>
-                      </div>
-                    )}
-
-                    {dividendApiData.currentInfo.payoutRatio !== undefined && (
-                      <div className="flex items-center justify-between p-3 rounded-lg border border-white/[0.04]">
-                        <span className="text-sm text-theme-muted">Payout Ratio</span>
-                        <span className="text-sm font-medium text-theme-primary">
-                          {(dividendApiData.currentInfo.payoutRatio * 100).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%
-                        </span>
-                      </div>
-                    )}
-                  </div>
-
-                  {/* Ex-Dividend Date */}
-                  {dividendApiData.currentInfo.exDividendDate && (
-                    <div className="p-3 bg-blue-500/5 border border-blue-500/20 rounded-lg">
-                      <div className="text-xs text-blue-400 mb-1">Nächster Ex-Dividend</div>
-                      <div className="text-sm font-medium text-theme-primary">
-                        {new Date(dividendApiData.currentInfo.exDividendDate).toLocaleDateString('de-DE')}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ) : (
-                <div className="text-center py-8">
-                  <div className="w-12 h-12 bg-theme-secondary rounded-lg flex items-center justify-center mx-auto mb-3">
-                    <svg className="w-6 h-6 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1" />
-                    </svg>
-                  </div>
-                  <p className="text-theme-muted text-sm">Keine Dividenden-Daten verfügbar</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-
-        {/* ✅ HISTORISCHER KURSVERLAUF - RECHTE SPALTE (3/5) */}
-        <div className="lg:col-span-3">
-          {history.length > 0 ? (
-            <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-white/[0.03]">
-                <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
-              </div>
-              <div className="p-6 relative">
-                <WorkingStockChart 
-                  ticker={ticker} 
-                  data={history} 
-                  onAddComparison={handleAddComparison}
-                />
-              </div>
-            </div>
-          ) : (
-            <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-white/[0.03]">
-                <h3 className="text-xl font-bold text-theme-primary">Historischer Kursverlauf</h3>
-              </div>
-              <div className="p-6 flex items-center justify-center min-h-[400px]">
-                <LoadingSpinner />
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

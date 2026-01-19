@@ -22,7 +22,6 @@ interface StockData {
 interface Props {
   ticker: string
   data: StockData[]
-  onAddComparison?: (ticker: string) => Promise<StockData[]>
 }
 
 const TIME_RANGES = [
@@ -43,28 +42,9 @@ const CHART_MODES = [
   { id: 'total_return', label: 'Performance' },
 ]
 
-const COLORS = ['#10b981', '#ef4444', '#3b82f6', '#f59e0b', '#8b5cf6', '#06b6d4']
-
-const POPULAR_STOCKS = [
-  { symbol: 'AAPL', name: 'Apple' },
-  { symbol: 'MSFT', name: 'Microsoft' },
-  { symbol: 'GOOGL', name: 'Alphabet' },
-  { symbol: 'NVDA', name: 'NVIDIA' },
-  { symbol: 'TSLA', name: 'Tesla' },
-  { symbol: 'AMZN', name: 'Amazon' },
-  { symbol: 'META', name: 'Meta' },
-  { symbol: 'SPY', name: 'S&P 500 ETF' },
-  { symbol: 'QQQ', name: 'NASDAQ 100 ETF' },
-]
-
-export default function WorkingStockChart({ ticker, data, onAddComparison }: Props) {
+export default function WorkingStockChart({ ticker, data }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
-  const [comparisonStocks, setComparisonStocks] = useState<Array<{ ticker: string, data: StockData[], color: string }>>([])
-  const [newTicker, setNewTicker] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const [suggestions, setSuggestions] = useState<Array<{ symbol: string, name: string }>>([])
-  const [showSuggestions, setShowSuggestions] = useState(false)
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showMA, setShowMA] = useState(false)
   const chartContainerRef = useRef<HTMLDivElement>(null)
@@ -155,18 +135,8 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
       })
     }))
 
-    comparisonStocks.forEach(stock => {
-      const stockData = calculateChartData(stock.data, selectedMode)
-      result.forEach(item => {
-        const stockPoint = stockData.find(s => s.date === item.date)
-        if (stockPoint) {
-          item[stock.ticker] = stockPoint.value
-        }
-      })
-    })
-
     return result
-  }, [data, comparisonStocks, selectedRange, selectedMode, ticker, showMA])
+  }, [data, selectedRange, selectedMode, ticker, showMA])
 
   // Current price & stats
   const currentPrice = useMemo(() => {
@@ -209,64 +179,11 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange)
   }, [])
 
-  // Autocomplete
-  useEffect(() => {
-    if (!newTicker.trim()) {
-      setSuggestions([])
-      setShowSuggestions(false)
-      return
-    }
-    const query = newTicker.toLowerCase()
-    const matches = POPULAR_STOCKS.filter(s =>
-      s.symbol.toLowerCase().includes(query) || s.name.toLowerCase().includes(query)
-    ).slice(0, 6)
-    setSuggestions(matches)
-    setShowSuggestions(matches.length > 0)
-  }, [newTicker])
-
-  // Add comparison
-  const handleAddStock = async (tickerToAdd: string) => {
-    if (!onAddComparison || !tickerToAdd.trim()) return
-    const upper = tickerToAdd.toUpperCase()
-    if (upper === ticker || comparisonStocks.some(s => s.ticker === upper)) {
-      setNewTicker('')
-      return
-    }
-
-    try {
-      setIsLoading(true)
-      const newData = await onAddComparison(upper)
-      if (newData.length > 0) {
-        const color = COLORS[(comparisonStocks.length + 1) % COLORS.length]
-        setComparisonStocks(prev => [...prev, { ticker: upper, data: newData, color }])
-        setNewTicker('')
-        setShowSuggestions(false)
-      }
-    } catch (error) {
-      console.error('Error loading stock:', error)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
   // Format functions
   const formatValue = (value: number) => {
     return selectedMode === 'total_return' ? formatPercentage(value) : formatStockPrice(value)
   }
 
-  const formatXAxisTick = (value: string) => {
-    const date = new Date(value)
-    if (['3Y', '5Y', 'MAX', '1Y'].includes(selectedRange)) {
-      return date.toLocaleDateString('de-DE', { year: '2-digit', month: 'short' })
-    }
-    return date.toLocaleDateString('de-DE', { month: 'short', day: 'numeric' })
-  }
-
-  const formatYAxisTick = (value: number) => {
-    if (selectedMode === 'total_return') return `${value.toFixed(0)}%`
-    if (value >= 1000) return `${(value / 1000).toFixed(0)}K`
-    return value.toFixed(0)
-  }
 
   // Custom Tooltip - Clean Style
   const renderTooltip = (props: any) => {
@@ -390,105 +307,37 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
           )}
         </div>
 
-        {/* Comparison Input */}
-        {onAddComparison && (
-          <div className="flex items-center gap-3">
-            <span className="text-xs text-theme-muted">Aktien vergleichen:</span>
-            <div className="relative flex-1 max-w-xs">
-              <input
-                type="text"
-                value={newTicker}
-                onChange={(e) => setNewTicker(e.target.value)}
-                placeholder="z.B. SP500, MSCI World, Apple, Tesla..."
-                className="w-full px-3 py-2 bg-theme-card border border-theme-light rounded-lg text-sm text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-emerald-500/50 transition-colors"
-                onKeyPress={(e) => e.key === 'Enter' && handleAddStock(newTicker)}
-                onFocus={() => newTicker && setShowSuggestions(true)}
-                onBlur={() => setTimeout(() => setShowSuggestions(false), 200)}
-                disabled={isLoading}
-              />
-
-              {/* Suggestions Dropdown */}
-              {showSuggestions && suggestions.length > 0 && (
-                <div className="absolute top-full left-0 right-0 mt-1 bg-theme-card border border-theme-light rounded-lg shadow-xl z-50 overflow-hidden">
-                  {suggestions.map((s, i) => (
-                    <button
-                      key={i}
-                      onClick={() => {
-                        setNewTicker(s.symbol)
-                        handleAddStock(s.symbol)
-                      }}
-                      className="w-full px-3 py-2.5 text-left hover:bg-theme-secondary/30 transition-colors border-b border-theme-light last:border-b-0"
-                    >
-                      <span className="text-sm font-medium text-theme-primary">{s.symbol}</span>
-                      <span className="text-xs text-theme-muted ml-2">{s.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => handleAddStock(newTicker)}
-              disabled={!newTicker.trim() || isLoading}
-              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-theme-secondary/50 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
-            >
-              {isLoading ? '...' : 'Hinzufügen'}
-            </button>
-          </div>
-        )}
-
-        {/* Active Comparison Stocks */}
-        {comparisonStocks.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2">
-            <div className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 rounded-full">
-              <div className="w-2 h-2 rounded-full bg-emerald-500" />
-              <span className="text-xs font-medium text-emerald-400">{ticker}</span>
-            </div>
-            {comparisonStocks.map(stock => (
-              <div
-                key={stock.ticker}
-                className="flex items-center gap-1.5 px-3 py-1.5 bg-theme-secondary/30 rounded-full"
-              >
-                <div className="w-2 h-2 rounded-full" style={{ backgroundColor: stock.color }} />
-                <span className="text-xs font-medium text-theme-primary">{stock.ticker}</span>
-                <button
-                  onClick={() => setComparisonStocks(prev => prev.filter(s => s.ticker !== stock.ticker))}
-                  className="ml-1 text-theme-muted hover:text-red-400 transition-colors"
-                >
-                  ×
-                </button>
-              </div>
-            ))}
-          </div>
-        )}
       </div>
 
-      {/* Chart */}
+      {/* Chart - Clean minimal style like Fey */}
       <div className={`px-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : 'h-[350px]'}`}>
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={{ top: 10, right: 20, left: 10, bottom: 20 }}>
+          <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
             <defs>
               <linearGradient id="chartGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor={chartColor} stopOpacity={0.3} />
+                <stop offset="5%" stopColor={chartColor} stopOpacity={0.2} />
                 <stop offset="95%" stopColor={chartColor} stopOpacity={0} />
               </linearGradient>
             </defs>
 
+            {/* Minimal X-Axis like Fey - just a few date labels, no lines */}
             <XAxis
               dataKey="date"
-              axisLine={{ stroke: isDark ? '#374151' : '#e5e7eb' }}
-              tickLine={false}
-              tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
-              tickFormatter={formatXAxisTick}
-              minTickGap={60}
-            />
-            <YAxis
               axisLine={false}
               tickLine={false}
               tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
-              tickFormatter={formatYAxisTick}
-              width={50}
+              tickFormatter={(value) => {
+                const date = new Date(value)
+                if (['3Y', '5Y', 'MAX'].includes(selectedRange)) {
+                  return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
+                }
+                return date.toLocaleDateString('de-DE', { month: 'short', day: 'numeric' })
+              }}
+              interval="preserveStartEnd"
+              minTickGap={80}
             />
-            <Tooltip content={renderTooltip} cursor={{ stroke: isDark ? '#4b5563' : '#d1d5db', strokeDasharray: '3 3' }} />
+            <YAxis hide domain={['dataMin', 'dataMax']} />
+            <Tooltip content={renderTooltip} cursor={{ stroke: isDark ? '#4b5563' : '#d1d5db', strokeWidth: 1 }} />
 
             {/* Performance Label */}
             {performanceStats && (
@@ -505,7 +354,7 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
             )}
 
             {/* Main Area/Line */}
-            {comparisonStocks.length === 0 && selectedMode === 'price' ? (
+            {selectedMode === 'price' ? (
               <Area
                 type="monotone"
                 dataKey={ticker}
@@ -519,10 +368,10 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
               <Line
                 type="monotone"
                 dataKey={ticker}
-                stroke={COLORS[0]}
+                stroke={chartColor}
                 strokeWidth={2}
                 dot={false}
-                activeDot={{ r: 4, fill: COLORS[0] }}
+                activeDot={{ r: 4, fill: chartColor }}
               />
             )}
 
@@ -538,19 +387,6 @@ export default function WorkingStockChart({ ticker, data, onAddComparison }: Pro
                 connectNulls
               />
             )}
-
-            {/* Comparison Lines */}
-            {comparisonStocks.map(stock => (
-              <Line
-                key={stock.ticker}
-                type="monotone"
-                dataKey={stock.ticker}
-                stroke={stock.color}
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 4, fill: stock.color }}
-              />
-            ))}
           </ComposedChart>
         </ResponsiveContainer>
       </div>
