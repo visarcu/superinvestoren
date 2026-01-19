@@ -26,15 +26,6 @@ interface EarningsEvent {
 
 type ViewMode = 'week' | 'month'
 
-// Format Market Cap for display
-function formatMarketCap(marketCap: number | null): string {
-  if (!marketCap) return ''
-  if (marketCap >= 1e12) return `$${(marketCap / 1e12).toFixed(1)}T`
-  if (marketCap >= 1e9) return `$${(marketCap / 1e9).toFixed(0)}B`
-  if (marketCap >= 1e6) return `$${(marketCap / 1e6).toFixed(0)}M`
-  return `$${marketCap.toLocaleString()}`
-}
-
 export default function PublicEarningsCalendarPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('week')
   const [currentDate, setCurrentDate] = useState(new Date())
@@ -42,8 +33,9 @@ export default function PublicEarningsCalendarPage() {
   const [loading, setLoading] = useState(true)
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
 
-  // Deutsche Tagesbezeichnungen
+  // Deutsche Tagesbezeichnungen (kurz für mobile, lang für desktop)
   const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+  const dayNamesShort = ['Mo', 'Di', 'Mi', 'Do', 'Fr']
 
   // Get week dates (Mo-Fr)
   const weekDates = useMemo(() => {
@@ -293,11 +285,17 @@ export default function PublicEarningsCalendarPage() {
           </div>
 
           <div className="flex items-center gap-3">
-            {/* Large-Cap Badge */}
-            <span className="px-2 py-1 text-xs text-neutral-500 bg-white/5 rounded">
-              Large-Caps (&gt;$10B)
-            </span>
-
+            {/* PRO Watchlist Filter - Locked */}
+            <Link
+              href="/analyse/calendar"
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-xs text-neutral-500 hover:bg-white/10 hover:text-neutral-300 transition-colors"
+            >
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+              Nur Watchlist
+              <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-medium rounded">PRO</span>
+            </Link>
             {/* View Toggle */}
             <div className="flex items-center gap-1 bg-white/5 rounded-lg p-1">
               <button
@@ -333,12 +331,15 @@ export default function PublicEarningsCalendarPage() {
                 {weekDates.map((date, index) => (
                   <div
                     key={index}
-                    className={`px-4 py-3 text-center border-r border-white/5 last:border-r-0 ${
+                    className={`px-1 sm:px-4 py-2 sm:py-3 text-center border-r border-white/5 last:border-r-0 ${
                       isToday(date) ? 'bg-white/[0.02]' : ''
                     }`}
                   >
-                    <div className="text-xs text-neutral-500 mb-1">{dayNames[index]}</div>
-                    <div className={`text-sm font-medium ${
+                    <div className="text-[10px] sm:text-xs text-neutral-500 mb-0.5 sm:mb-1">
+                      <span className="sm:hidden">{dayNamesShort[index]}</span>
+                      <span className="hidden sm:inline">{dayNames[index]}</span>
+                    </div>
+                    <div className={`text-sm sm:text-base font-medium ${
                       isToday(date) ? 'text-white' : 'text-neutral-300'
                     }`}>
                       {date.getDate()}
@@ -367,9 +368,10 @@ export default function PublicEarningsCalendarPage() {
                       >
                         {/* Pre-Market */}
                         {dayEarnings.preMarket.length > 0 && (
-                          <div className="p-2">
-                            <div className="text-[10px] text-neutral-500 uppercase tracking-wider mb-2 px-1">
-                              Vorbörslich
+                          <div className="p-1.5 sm:p-2">
+                            <div className="text-[9px] sm:text-[10px] text-neutral-500 uppercase tracking-wider mb-1.5 sm:mb-2 px-1">
+                              <span className="sm:hidden">BMO</span>
+                              <span className="hidden sm:inline">Vorbörslich</span>
                             </div>
                             <div className="space-y-1">
                               {(() => {
@@ -409,9 +411,10 @@ export default function PublicEarningsCalendarPage() {
 
                         {/* Post-Market */}
                         {dayEarnings.postMarket.length > 0 && (
-                          <div className="p-2 border-t border-white/[0.03]">
-                            <div className="text-[10px] text-neutral-500 uppercase tracking-wider mb-2 px-1">
-                              Nachbörslich
+                          <div className="p-1.5 sm:p-2 border-t border-white/[0.03]">
+                            <div className="text-[9px] sm:text-[10px] text-neutral-500 uppercase tracking-wider mb-1.5 sm:mb-2 px-1">
+                              <span className="sm:hidden">AMC</span>
+                              <span className="hidden sm:inline">Nachbörslich</span>
                             </div>
                             <div className="space-y-1">
                               {(() => {
@@ -509,7 +512,7 @@ export default function PublicEarningsCalendarPage() {
                             </div>
 
                             {dayEarnings.length > 0 && (
-                              <div className="space-y-0.5">
+                              <div className="space-y-1 sm:space-y-0.5">
                                 {dayEarnings.slice(0, 3).map((event, i) => {
                                   const shortName = event.name && event.name.length > 12
                                     ? event.name.substring(0, 10) + '...'
@@ -518,22 +521,22 @@ export default function PublicEarningsCalendarPage() {
                                     <Link
                                       key={i}
                                       href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
-                                      className="flex items-center gap-1 px-1 py-0.5 rounded hover:bg-white/5 transition-colors group"
+                                      className="flex items-center gap-1.5 sm:gap-1 px-1 py-1 sm:py-0.5 rounded hover:bg-white/5 transition-colors group"
                                       title={`${event.name || event.symbol} (${event.symbol}) - ${event.time === 'bmo' ? 'Vorbörslich' : 'Nachbörslich'}`}
                                     >
                                       <Logo
                                         ticker={event.symbol}
                                         alt={event.symbol}
-                                        className="w-4 h-4 rounded flex-shrink-0"
+                                        className="w-6 h-6 sm:w-5 sm:h-5 rounded flex-shrink-0"
                                       />
-                                      <span className="text-[10px] text-neutral-400 group-hover:text-white truncate">
+                                      <span className="text-[11px] sm:text-[10px] text-neutral-400 group-hover:text-white truncate">
                                         {shortName}
                                       </span>
                                     </Link>
                                   )
                                 })}
                                 {dayEarnings.length > 3 && (
-                                  <div className="text-[9px] text-neutral-600 px-1">
+                                  <div className="text-[10px] sm:text-[9px] text-neutral-600 px-1">
                                     +{dayEarnings.length - 3} mehr
                                   </div>
                                 )}
@@ -550,38 +553,43 @@ export default function PublicEarningsCalendarPage() {
           )}
         </div>
 
-        {/* Total Count */}
-        <div className="mt-4 text-center text-sm text-neutral-500">
-          {earnings.length} Large-Cap Earnings {viewMode === 'week' ? 'diese Woche' : 'diesen Monat'}
+        {/* Powered by FinClue */}
+        <div className="text-center mt-8 pb-4">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 text-xs text-neutral-500 hover:text-neutral-400 transition-colors"
+          >
+            <span>Powered by</span>
+            <span className="font-semibold text-neutral-400">FinClue</span>
+          </Link>
         </div>
+
       </section>
 
       {/* Marketing Section - Screenshot Feature */}
-      <section className="border-t border-white/5 py-20">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Sofortige Klarheit. Kein Durcheinander.
+      <section className="border-t border-white/5 pt-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 mb-6">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-2">
+              Earnings verstehen. Schneller entscheiden.
             </h2>
-            <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
-              KI-generierte Zusammenfassungen liefern alle wichtigen Details, klar strukturiert
-              und übersichtlich aufbereitet — damit du keine langen Reports mehr lesen musst.
+            <p className="text-neutral-400 text-base md:text-lg max-w-2xl mx-auto">
+              KI-generierte Zusammenfassungen liefern dir die wichtigsten Erkenntnisse aus jedem
+              Earnings Call — klar strukturiert, auf Deutsch, in Sekunden statt Stunden.
             </p>
           </div>
+        </div>
 
-          {/* Screenshot Container */}
-          <div className="relative rounded-xl overflow-hidden border border-white/10 shadow-2xl">
-            <Image
-              src="/images/earnings-transcript-screenshot.png"
-              alt="FinClue Earnings Transcript mit AI-Zusammenfassung"
-              width={1400}
-              height={800}
-              className="w-full h-auto"
-              priority
-            />
-            {/* Gradient Overlay at bottom */}
-            <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-          </div>
+        {/* Screenshot - mit negativem margin um schwarzen Rand oben zu verstecken */}
+        <div className="overflow-hidden -mt-[12%]">
+          <Image
+            src="/images/earnings-transcript-screenshot.png"
+            alt="FinClue Earnings Transcript mit AI-Zusammenfassung"
+            width={1920}
+            height={1080}
+            className="w-full h-auto"
+            priority
+          />
         </div>
       </section>
 
@@ -717,10 +725,9 @@ export default function PublicEarningsCalendarPage() {
   )
 }
 
-// Earnings Item Component
+// Earnings Item Component - Optimized for mobile
 function EarningsItem({ event }: { event: EarningsEvent }) {
-  const marketCapText = formatMarketCap(event.marketCap || null)
-  // Kürze lange Namen
+  // Mehr Platz für Namen ohne MarketCap
   const displayName = event.name && event.name.length > 20
     ? event.name.substring(0, 18) + '...'
     : (event.name || event.symbol)
@@ -728,24 +735,17 @@ function EarningsItem({ event }: { event: EarningsEvent }) {
   return (
     <Link
       href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
-      className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-white/5 transition-colors group"
-      title={`${event.name || event.symbol} (${event.symbol})${marketCapText ? ` • ${marketCapText}` : ''}`}
+      className="flex items-center gap-2 sm:gap-2.5 px-1.5 sm:px-2 py-2 sm:py-1.5 rounded hover:bg-white/5 transition-colors group"
+      title={`${event.name || event.symbol} (${event.symbol})`}
     >
       <Logo
         ticker={event.symbol}
         alt={event.symbol}
-        className="w-5 h-5 rounded flex-shrink-0"
+        className="w-7 h-7 sm:w-6 sm:h-6 rounded flex-shrink-0"
       />
-      <div className="flex-1 min-w-0">
-        <span className="text-xs font-medium text-neutral-300 group-hover:text-white transition-colors truncate block">
-          {displayName}
-        </span>
-      </div>
-      {marketCapText && (
-        <span className="text-[9px] text-neutral-600 whitespace-nowrap flex-shrink-0">
-          {marketCapText}
-        </span>
-      )}
+      <span className="text-[11px] sm:text-xs font-medium text-neutral-300 group-hover:text-white transition-colors truncate">
+        {displayName}
+      </span>
     </Link>
   )
 }
