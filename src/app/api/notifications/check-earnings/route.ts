@@ -20,7 +20,19 @@ export async function POST(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
+  return handleEarningsCheck()
+}
 
+export async function GET(request: Request) {
+  // Vercel Cron Jobs use GET requests
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleEarningsCheck()
+}
+
+async function handleEarningsCheck() {
   try {
     console.log('[Earnings Cron] Starting earnings check (in-app notifications only)...')
     console.log(`[Earnings Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
@@ -179,8 +191,4 @@ export async function POST(request: Request) {
     console.error('[Earnings Cron] Fatal error:', error)
     return NextResponse.json({ error: 'Failed to check earnings' }, { status: 500 })
   }
-}
-
-export async function GET() {
-  return NextResponse.json({ message: 'Use POST to trigger earnings check', testMode: !!TEST_USER_ID })
 }

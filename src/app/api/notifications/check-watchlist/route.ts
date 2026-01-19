@@ -59,13 +59,24 @@ async function createInAppNotification({
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    // Auth-Check für Cron-Job (geheimer Key)
-    const authHeader = request.headers.get('authorization')
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleWatchlistCheck()
+}
 
+export async function GET(request: NextRequest) {
+  // Vercel Cron Jobs use GET requests
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleWatchlistCheck()
+}
+
+async function handleWatchlistCheck() {
+  try {
     console.log('[Cron] Starting watchlist check...')
     console.log(`[Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
 

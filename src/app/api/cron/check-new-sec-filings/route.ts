@@ -214,13 +214,24 @@ async function getLatestSECFiling(cik: string): Promise<{ quarterKey: string; fi
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    // Auth-Check
-    const authHeader = request.headers.get('authorization')
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleSECFilingCheck()
+}
 
+export async function GET(request: NextRequest) {
+  // Vercel Cron Jobs use GET requests
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleSECFilingCheck()
+}
+
+async function handleSECFilingCheck() {
+  try {
     console.log('[SEC Check] Starting check for new 13F filings...')
 
     const newFilings: Array<{
@@ -335,14 +346,4 @@ export async function POST(request: NextRequest) {
       error: error instanceof Error ? error.message : 'Unknown error'
     }, { status: 500 })
   }
-}
-
-// GET für manuelles Testen im Browser
-export async function GET(request: NextRequest) {
-  // Für GET: nur Status anzeigen, kein Check ausführen
-  return NextResponse.json({
-    message: 'SEC Filing Check Endpoint',
-    usage: 'POST mit Authorization: Bearer CRON_SECRET',
-    investorsConfigured: Object.keys(investorCiks).length
-  })
 }

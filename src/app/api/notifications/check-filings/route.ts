@@ -155,13 +155,24 @@ async function checkForNewFiling(investorSlug: string): Promise<{ isNew: boolean
 }
 
 export async function POST(request: NextRequest) {
-  try {
-    // Auth-Check
-    const authHeader = request.headers.get('authorization')
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleFilingCheck()
+}
 
+export async function GET(request: NextRequest) {
+  // Vercel Cron Jobs use GET requests
+  const authHeader = request.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+  return handleFilingCheck()
+}
+
+async function handleFilingCheck() {
+  try {
     console.log('[Filing Cron] Starting filing alerts check...')
     console.log(`[Filing Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
 
