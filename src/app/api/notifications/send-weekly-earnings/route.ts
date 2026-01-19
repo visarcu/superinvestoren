@@ -187,6 +187,24 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  return handleWeeklyEarnings()
+}
+
+export async function GET(request: Request) {
+  // Vercel Cron Jobs use GET requests, so we need to handle auth differently
+  const authHeader = request.headers.get('authorization')
+
+  // Check for Vercel Cron secret (sent automatically by Vercel)
+  // Or manual trigger with Bearer token
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  }
+
+  // Reuse the same logic as POST
+  return handleWeeklyEarnings()
+}
+
+async function handleWeeklyEarnings() {
   try {
     console.log('[Weekly Earnings] Starting weekly earnings digest...')
     console.log(`[Weekly Earnings] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
@@ -256,8 +274,6 @@ export async function POST(request: Request) {
     console.log(`[Weekly Earnings] Checking earnings from ${fromDate} to ${toDate}`)
 
     // 4. Fetch earnings calendar for the week
-    const allTickers = [...new Set(watchlistItems.map(w => w.ticker))]
-
     const response = await fetch(
       `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
     )
@@ -349,7 +365,7 @@ export async function POST(request: Request) {
       const htmlContent = generateEmailHtml(groupedEarnings, weekRange, isTest)
 
       try {
-        const { data: emailResult, error: emailError } = await resend.emails.send({
+        const { error: emailError } = await resend.emails.send({
           from: 'FinClue <team@finclue.de>',
           to: [user.email],
           subject,
@@ -403,12 +419,4 @@ export async function POST(request: Request) {
     console.error('[Weekly Earnings] Fatal error:', error)
     return NextResponse.json({ error: 'Failed to send weekly earnings digest' }, { status: 500 })
   }
-}
-
-export async function GET() {
-  return NextResponse.json({
-    message: 'Use POST to trigger weekly earnings digest',
-    testMode: !!TEST_USER_ID,
-    description: 'Sends weekly earnings calendar email every Monday at 8:00 UTC'
-  })
 }
