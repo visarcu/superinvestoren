@@ -1,0 +1,2805 @@
+{
+  "form": "13F-HR",
+  "date": "2025-08-14",
+  "period": "2025-08-14",
+  "accession": "0000936753-25-000065",
+  "quarterKey": "2025-Q3",
+  "positions": [
+    {
+      "name": "MADISON SQUARE GARDEN ENTMT",
+      "cusip": "558256103",
+      "shares": 7690795,
+      "value": 307401076,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "SPHERE ENTERTAINMENT CO",
+      "cusip": "55826T102",
+      "shares": 6910778,
+      "value": 288870520,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "MATTEL INC",
+      "cusip": "577081102",
+      "shares": 13702677,
+      "value": 270216790,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LAZARD INC",
+      "cusip": "52110M109",
+      "shares": 5588743,
+      "value": 268147889,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AFFILIATED MANAGERS GROUP IN",
+      "cusip": "008252108",
+      "shares": 1300916,
+      "value": 255981241,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ONESPAWORLD HOLDINGS LIMITED",
+      "cusip": "P73684113",
+      "shares": 12274015,
+      "value": 250267166,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENERAC HLDGS INC",
+      "cusip": "368736104",
+      "shares": 1741441,
+      "value": 249391766,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 964596,
+      "value": 246724365,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ENVISTA HOLDINGS CORPORATION",
+      "cusip": "29415F104",
+      "shares": 12100969,
+      "value": 236452934,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDG L",
+      "cusip": "G66721104",
+      "shares": 11657336,
+      "value": 236410774,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 4475083,
+      "value": 230019266,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BOYD GAMING CORP",
+      "cusip": "103304101",
+      "shares": 2729018,
+      "value": 213491078,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHARLES RIV LABS INTL INC",
+      "cusip": "159864107",
+      "shares": 1378087,
+      "value": 209097141,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FIRST AMERN FINL CORP",
+      "cusip": "31847R102",
+      "shares": 3343749,
+      "value": 205272751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BIO RAD LABS INC",
+      "cusip": "090572207",
+      "shares": 802229,
+      "value": 193593902,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "ADT INC DEL",
+      "cusip": "00090Q103",
+      "shares": 22281279,
+      "value": 188722433,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RESIDEO TECHNOLOGIES INC",
+      "cusip": "76118Y104",
+      "shares": 8543530,
+      "value": 188470272,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 1661485,
+      "value": 174190087,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BOK FINL CORP",
+      "cusip": "05561Q201",
+      "shares": 1727855,
+      "value": 168690484,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "ADTALEM GLOBAL ED INC",
+      "cusip": "00737L103",
+      "shares": 1319412,
+      "value": 167868789,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PRESTIGE CONSMR HEALTHCARE I",
+      "cusip": "74112D101",
+      "shares": 2085461,
+      "value": 166524061,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NORTHERN TR CORP",
+      "cusip": "665859104",
+      "shares": 1279824,
+      "value": 162268885,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENTEX CORP",
+      "cusip": "371901109",
+      "shares": 7085571,
+      "value": 155811706,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MANCHESTER UTD PLC NEW",
+      "cusip": "G5784H106",
+      "shares": 8710060,
+      "value": 155126169,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD CL A",
+      "putCall": null
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 12003186,
+      "value": 154841099,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS B COM",
+      "putCall": null
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 729885,
+      "value": 152509471,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 1476232,
+      "value": 144965982,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "CORE LABORATORIES INC",
+      "cusip": "21867A105",
+      "shares": 12572779,
+      "value": 144838414,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 883115,
+      "value": 127168560,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 3792522,
+      "value": 112599978,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 1225300,
+      "value": 109407037,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHECK POINT SOFTWARE TECH LT",
+      "cusip": "M22465104",
+      "shares": 493547,
+      "value": 109197274,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD",
+      "putCall": null
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 4648903,
+      "value": 106738813,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 213138,
+      "value": 106016973,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ZEBRA TECHNOLOGIES CORPORATI",
+      "cusip": "989207105",
+      "shares": 316466,
+      "value": 97585456,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "APTIV PLC",
+      "cusip": "G3265R107",
+      "shares": 1386513,
+      "value": 94587917,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "LABCORP HOLDINGS INC",
+      "cusip": "504922105",
+      "shares": 335516,
+      "value": 88076305,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "KNOWLES CORP",
+      "cusip": "49926D109",
+      "shares": 4622985,
+      "value": 81456996,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 1164574,
+      "value": 80332315,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS I",
+      "cusip": "535219109",
+      "shares": 6804981,
+      "value": 79414128,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JANUS HENDERSON GROUP PLC",
+      "cusip": "G4474Y214",
+      "shares": 2036989,
+      "value": 79116653,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "ALGONQUIN PWR UTILS CORP",
+      "cusip": "015857105",
+      "shares": 13112831,
+      "value": 75136522,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTERPUBLIC GROUP COS INC",
+      "cusip": "460690100",
+      "shares": 2896677,
+      "value": 70910653,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 292564,
+      "value": 66333036,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NVENT ELECTRIC PLC",
+      "cusip": "G6700G107",
+      "shares": 873921,
+      "value": 64014713,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "WEX INC",
+      "cusip": "96208T104",
+      "shares": 352570,
+      "value": 51789007,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GCM GROSVENOR INC",
+      "cusip": "36831E108",
+      "shares": 4452562,
+      "value": 51471617,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "FIRST SOLAR INC",
+      "cusip": "336433107",
+      "shares": 307292,
+      "value": 50869118,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VERIZON COMMUNICATIONS INC",
+      "cusip": "92343V104",
+      "shares": 1171161,
+      "value": 50676136,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KORN FERRY",
+      "cusip": "500643200",
+      "shares": 568460,
+      "value": 41685172,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "GILEAD SCIENCES INC",
+      "cusip": "375558103",
+      "shares": 368861,
+      "value": 40895619,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 188311,
+      "value": 40065048,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 297900,
+      "value": 39629637,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 406048,
+      "value": 37047820,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 549893,
+      "value": 36958309,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NETAPP INC",
+      "cusip": "64110D104",
+      "shares": 344734,
+      "value": 36731408,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KEYSIGHT TECHNOLOGIES INC",
+      "cusip": "49338L103",
+      "shares": 220989,
+      "value": 36211258,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SCHLUMBERGER LTD",
+      "cusip": "806857108",
+      "shares": 1059263,
+      "value": 35803089,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM STK",
+      "putCall": null
+    },
+    {
+      "name": "CREDICORP LTD",
+      "cusip": "G2519Y108",
+      "shares": 147208,
+      "value": 32903932,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CENTERPOINT ENERGY INC",
+      "cusip": "15189T107",
+      "shares": 884095,
+      "value": 32481650,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTEL CORP",
+      "cusip": "458140100",
+      "shares": 1410999,
+      "value": 31606378,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 177381,
+      "value": 30582258,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 214945,
+      "value": 30118093,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "STANLEY BLACK & DECKER INC",
+      "cusip": "854502101",
+      "shares": 424573,
+      "value": 28764821,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 36054,
+      "value": 25517219,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LESLIES INC",
+      "cusip": "527064109",
+      "shares": 58604723,
+      "value": 24608123,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ALLSTATE CORP",
+      "cusip": "020002101",
+      "shares": 118737,
+      "value": 23902945,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ZIMMER BIOMET HOLDINGS INC",
+      "cusip": "98956P102",
+      "shares": 250370,
+      "value": 22836248,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 477903,
+      "value": 22614370,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AFLAC INC",
+      "cusip": "001055102",
+      "shares": 214369,
+      "value": 22607355,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOLSON COORS BEVERAGE CO",
+      "cusip": "60871R209",
+      "shares": 467331,
+      "value": 22473948,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
+    },
+    {
+      "name": "MGP INGREDIENTS INC NEW",
+      "cusip": "55303J106",
+      "shares": 719144,
+      "value": 21552746,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 172170,
+      "value": 21350802,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "WESTERN ALLIANCE BANCORP",
+      "cusip": "957638109",
+      "shares": 259369,
+      "value": 20225595,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MASCO CORP",
+      "cusip": "574599106",
+      "shares": 309472,
+      "value": 19917618,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "OWENS CORNING NEW",
+      "cusip": "690742101",
+      "shares": 140449,
+      "value": 19314546,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VAIL RESORTS INC",
+      "cusip": "91879Q109",
+      "shares": 119332,
+      "value": 18750637,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "D R HORTON INC",
+      "cusip": "23331A109",
+      "shares": 144643,
+      "value": 18647376,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ONESPAWORLD HOLDINGS LIMITED",
+      "cusip": "P73684113",
+      "shares": 874549,
+      "value": 17832054,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SIMPSON MFG INC",
+      "cusip": "829073105",
+      "shares": 91806,
+      "value": 14258390,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD TAX-MANAGED FDS",
+      "cusip": "921943858",
+      "shares": 245539,
+      "value": 13998178,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "VAN FTSE DEV MKT",
+      "putCall": null
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDG L",
+      "cusip": "G66721104",
+      "shares": 663891,
+      "value": 13463709,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 147555,
+      "value": 13175186,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HACKETT GROUP INC",
+      "cusip": "404609109",
+      "shares": 515572,
+      "value": 13105840,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NORTHERN TR CORP",
+      "cusip": "665859104",
+      "shares": 90910,
+      "value": 11526479,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 224054,
+      "value": 11516376,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AFFILIATED MANAGERS GROUP IN",
+      "cusip": "008252108",
+      "shares": 54159,
+      "value": 10656866,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MATTEL INC",
+      "cusip": "577081102",
+      "shares": 495095,
+      "value": 9763273,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 37164,
+      "value": 9505808,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FIRST AMERN FINL CORP",
+      "cusip": "31847R102",
+      "shares": 150708,
+      "value": 9251964,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PRESTIGE CONSMR HEALTHCARE I",
+      "cusip": "74112D101",
+      "shares": 109986,
+      "value": 8782382,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RESIDEO TECHNOLOGIES INC",
+      "cusip": "76118Y104",
+      "shares": 386832,
+      "value": 8533514,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENERAC HLDGS INC",
+      "cusip": "368736104",
+      "shares": 59253,
+      "value": 8485622,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BOYD GAMING CORP",
+      "cusip": "103304101",
+      "shares": 105721,
+      "value": 8270554,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MADISON SQUARE GARDEN ENTMT",
+      "cusip": "558256103",
+      "shares": 197295,
+      "value": 7885881,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "ADT INC DEL",
+      "cusip": "00090Q103",
+      "shares": 921698,
+      "value": 7806782,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SPHERE ENTERTAINMENT CO",
+      "cusip": "55826T102",
+      "shares": 181802,
+      "value": 7599324,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "LAZARD INC",
+      "cusip": "52110M109",
+      "shares": 156496,
+      "value": 7508678,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LABCORP HOLDINGS INC",
+      "cusip": "504922105",
+      "shares": 28543,
+      "value": 7492823,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "SNAP ON INC",
+      "cusip": "833034101",
+      "shares": 22906,
+      "value": 7127889,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 305482,
+      "value": 7013867,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ORACLE CORP",
+      "cusip": "68389X105",
+      "shares": 31885,
+      "value": 6971018,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 48035,
+      "value": 6917040,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 30031,
+      "value": 6801721,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "ADTALEM GLOBAL ED INC",
+      "cusip": "00737L103",
+      "shares": 53416,
+      "value": 6796118,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "WEX INC",
+      "cusip": "96208T104",
+      "shares": 45825,
+      "value": 6731234,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTERPUBLIC GROUP COS INC",
+      "cusip": "460690100",
+      "shares": 274619,
+      "value": 6722673,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ZEBRA TECHNOLOGIES CORPORATI",
+      "cusip": "989207105",
+      "shares": 21198,
+      "value": 6536615,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "KEYSIGHT TECHNOLOGIES INC",
+      "cusip": "49338L103",
+      "shares": 39247,
+      "value": 6431013,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PHINIA INC",
+      "cusip": "71880K101",
+      "shares": 138700,
+      "value": 6170763,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
+    },
+    {
+      "name": "BOK FINL CORP",
+      "cusip": "05561Q201",
+      "shares": 61917,
+      "value": 6044957,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "LOCKHEED MARTIN CORP",
+      "cusip": "539830109",
+      "shares": 12710,
+      "value": 5886509,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MASCO CORP",
+      "cusip": "574599106",
+      "shares": 88711,
+      "value": 5709440,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENTEX CORP",
+      "cusip": "371901109",
+      "shares": 256509,
+      "value": 5640633,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 52924,
+      "value": 5548552,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 26488,
+      "value": 5534668,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "APA CORPORATION",
+      "cusip": "03743Q108",
+      "shares": 299492,
+      "value": 5477709,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOSAIC CO NEW",
+      "cusip": "61945C103",
+      "shares": 148340,
+      "value": 5411443,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHEVRON CORP NEW",
+      "cusip": "166764100",
+      "shares": 37763,
+      "value": 5407284,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 180008,
+      "value": 5344438,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHARLES RIV LABS INTL INC",
+      "cusip": "159864107",
+      "shares": 34748,
+      "value": 5272314,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MANCHESTER UTD PLC NEW",
+      "cusip": "G5784H106",
+      "shares": 293153,
+      "value": 5221055,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD CL A",
+      "putCall": null
+    },
+    {
+      "name": "BARRICK MNG CORP",
+      "cusip": "06849F108",
+      "shares": 244597,
+      "value": 5092510,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 50408,
+      "value": 4950066,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 31163,
+      "value": 4760148,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CORE LABORATORIES INC",
+      "cusip": "21867A105",
+      "shares": 403684,
+      "value": 4650440,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ENVISTA HOLDINGS CORPORATION",
+      "cusip": "29415F104",
+      "shares": 237106,
+      "value": 4633051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 346382,
+      "value": 4468328,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS B COM",
+      "putCall": null
+    },
+    {
+      "name": "KB FINL GROUP INC",
+      "cusip": "48241A105",
+      "shares": 52122,
+      "value": 4304756,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADR",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INTL EQUITY INDEX F",
+      "cusip": "922042742",
+      "shares": 33476,
+      "value": 4302336,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "TT WRLD ST ETF",
+      "putCall": null
+    },
+    {
+      "name": "NVENT ELECTRIC PLC",
+      "cusip": "G6700G107",
+      "shares": 53817,
+      "value": 3942095,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "BIO RAD LABS INC",
+      "cusip": "090572207",
+      "shares": 15175,
+      "value": 3662031,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287630",
+      "shares": 21467,
+      "value": 3386634,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUS 2000 VAL ETF",
+      "putCall": null
+    },
+    {
+      "name": "SNAP ON INC",
+      "cusip": "833034101",
+      "shares": 9182,
+      "value": 2857255,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SIMPSON MFG INC",
+      "cusip": "829073105",
+      "shares": 15277,
+      "value": 2372671,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BORGWARNER INC",
+      "cusip": "099724106",
+      "shares": 64987,
+      "value": 2175765,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 15483,
+      "value": 2169478,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "ZIMVIE INC",
+      "cusip": "98888T107",
+      "shares": 206401,
+      "value": 1929849,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ONESPAWORLD HOLDINGS LIMITED",
+      "cusip": "P73684113",
+      "shares": 64592,
+      "value": 1317031,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTERCORP FINL SVCS INC",
+      "cusip": "P5626F128",
+      "shares": 28734,
+      "value": 1095627,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "LINDBLAD EXPEDITIONS HLDGS I",
+      "cusip": "535219109",
+      "shares": 87072,
+      "value": 1016130,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NORWEGIAN CRUISE LINE HLDG L",
+      "cusip": "G66721104",
+      "shares": 48150,
+      "value": 976482,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "BRINKS CO",
+      "cusip": "109696104",
+      "shares": 10599,
+      "value": 946385,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KASPI KZ JSC",
+      "cusip": "48581R205",
+      "shares": 11009,
+      "value": 934554,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "FISERV INC",
+      "cusip": "337738108",
+      "shares": 5405,
+      "value": 931876,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LESLIES INC",
+      "cusip": "527064109",
+      "shares": 2208756,
+      "value": 927457,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NORTHERN TR CORP",
+      "cusip": "665859104",
+      "shares": 5630,
+      "value": 713828,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 2330,
+      "value": 595967,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FIRST AMERN FINL CORP",
+      "cusip": "31847R102",
+      "shares": 9612,
+      "value": 590081,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "RESIDEO TECHNOLOGIES INC",
+      "cusip": "76118Y104",
+      "shares": 25847,
+      "value": 570185,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KKR & CO INC",
+      "cusip": "48251W104",
+      "shares": 4209,
+      "value": 559923,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENERAC HLDGS INC",
+      "cusip": "368736104",
+      "shares": 3901,
+      "value": 558662,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PRESTIGE CONSMR HEALTHCARE I",
+      "cusip": "74112D101",
+      "shares": 6880,
+      "value": 549368,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 2590,
+      "value": 502434,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 3457,
+      "value": 497808,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NVENT ELECTRIC PLC",
+      "cusip": "G6700G107",
+      "shares": 6303,
+      "value": 461695,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "MATTEL INC",
+      "cusip": "577081102",
+      "shares": 23014,
+      "value": 453836,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ZEBRA TECHNOLOGIES CORPORATI",
+      "cusip": "989207105",
+      "shares": 1405,
+      "value": 433246,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "LAZARD INC",
+      "cusip": "52110M109",
+      "shares": 8758,
+      "value": 420209,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KEYSIGHT TECHNOLOGIES INC",
+      "cusip": "49338L103",
+      "shares": 2525,
+      "value": 413747,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FAIR ISAAC CORP",
+      "cusip": "303250104",
+      "shares": 224,
+      "value": 409463,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CBRE GROUP INC",
+      "cusip": "12504L109",
+      "shares": 2908,
+      "value": 407469,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "WEX INC",
+      "cusip": "96208T104",
+      "shares": 2691,
+      "value": 395281,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KENNAMETAL INC",
+      "cusip": "489170100",
+      "shares": 16813,
+      "value": 386026,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CHARLES RIV LABS INTL INC",
+      "cusip": "159864107",
+      "shares": 2513,
+      "value": 381297,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GENTEX CORP",
+      "cusip": "371901109",
+      "shares": 17192,
+      "value": 378052,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MANCHESTER UTD PLC NEW",
+      "cusip": "G5784H106",
+      "shares": 21221,
+      "value": 377946,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD CL A",
+      "putCall": null
+    },
+    {
+      "name": "ADTALEM GLOBAL ED INC",
+      "cusip": "00737L103",
+      "shares": 2859,
+      "value": 363751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KNOWLES CORP",
+      "cusip": "49926D109",
+      "shares": 20579,
+      "value": 362602,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ADT INC DEL",
+      "cusip": "00090Q103",
+      "shares": 41621,
+      "value": 352530,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LABCORP HOLDINGS INC",
+      "cusip": "504922105",
+      "shares": 1339,
+      "value": 351501,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "ENVISTA HOLDINGS CORPORATION",
+      "cusip": "29415F104",
+      "shares": 17591,
+      "value": 343728,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 484,
+      "value": 342551,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 1704,
+      "value": 330559,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CARLYLE GROUP INC",
+      "cusip": "14316J108",
+      "shares": 6407,
+      "value": 329320,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 1437,
+      "value": 325811,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOTOROLA SOLUTIONS INC",
+      "cusip": "620076307",
+      "shares": 764,
+      "value": 321231,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "SPHERE ENTERTAINMENT CO",
+      "cusip": "55826T102",
+      "shares": 7657,
+      "value": 320063,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "MADISON SQUARE GARDEN ENTMT",
+      "cusip": "558256103",
+      "shares": 7918,
+      "value": 316482,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "MADISON SQUARE GRDN SPRT COR",
+      "cusip": "55825T103",
+      "shares": 1464,
+      "value": 305903,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "BIO RAD LABS INC",
+      "cusip": "090572207",
+      "shares": 1220,
+      "value": 294410,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "SNAP ON INC",
+      "cusip": "833034101",
+      "shares": 917,
+      "value": 285352,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AXALTA COATING SYS LTD",
+      "cusip": "G0750C108",
+      "shares": 9444,
+      "value": 280392,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ZIMMER BIOMET HOLDINGS INC",
+      "cusip": "98956P102",
+      "shares": 2820,
+      "value": 257212,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BRADY CORP",
+      "cusip": "104674106",
+      "shares": 3660,
+      "value": 248770,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "MASCO CORP",
+      "cusip": "574599106",
+      "shares": 3741,
+      "value": 240771,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SIMPSON MFG INC",
+      "cusip": "829073105",
+      "shares": 1530,
+      "value": 237624,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AFLAC INC",
+      "cusip": "001055102",
+      "shares": 2246,
+      "value": 236863,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INTERPUBLIC GROUP COS INC",
+      "cusip": "460690100",
+      "shares": 9362,
+      "value": 229182,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "KORN FERRY",
+      "cusip": "500643200",
+      "shares": 3116,
+      "value": 228496,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 2160,
+      "value": 226454,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SMUCKER J M CO",
+      "cusip": "832696405",
+      "shares": 2298,
+      "value": 225664,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 785,
+      "value": 209485,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 3084,
+      "value": 207276,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HACKETT GROUP INC",
+      "cusip": "404609109",
+      "shares": 7659,
+      "value": 194692,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "DUN & BRADSTREET HLDGS INC",
+      "cusip": "26484T106",
+      "shares": 19393,
+      "value": 176282,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PARAMOUNT GLOBAL",
+      "cusip": "92556H206",
+      "shares": 13532,
+      "value": 174563,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS B COM",
+      "putCall": null
+    },
+    {
+      "name": "PHINIA INC",
+      "cusip": "71880K101",
+      "shares": 1460,
+      "value": 64955,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
+    },
+    {
+      "name": "LESLIES INC",
+      "cusip": "527064109",
+      "shares": 89927,
+      "value": 37760,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 8822290087,
+  "positionsCount": 199,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 8822290087
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

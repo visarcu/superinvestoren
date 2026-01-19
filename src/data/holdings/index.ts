@@ -68,6 +68,7 @@ import akre_2024_Q4 from './akre/2024-Q4.json'
 import akre_2025_Q1 from './akre/2025-Q1.json'
 import akre_2025_Q2 from './akre/2025-Q2.json'
 import akre_2025_Q3 from './akre/2025-Q3.json'
+import akre_2025_Q4 from './akre/2025-Q4.json'
 
 //olstein
 import olstein_2024_Q1 from './olstein/2024-Q1.json'
@@ -98,6 +99,7 @@ import greenhaven_2025_Q1 from './greenhaven/2025-Q1.json'
 import greenhaven_2025_Q2 from './greenhaven/2025-Q2.json'
 import greenhaven_2025_Q3 from './greenhaven/2025-Q3.json'
 import greenhaven_2025_Q4 from './greenhaven/2025-Q4.json'
+import greenhaven_2026_Q1 from './greenhaven/2026-Q1.json'
 
 
 import gregalexander_2024_Q1 from './gregalexander/2024-Q1.json'
@@ -234,6 +236,7 @@ import hohn_2024_Q4 from './hohn/2024-Q4.json'
 import hohn_2025_Q1 from './hohn/2025-Q1.json'
 import hohn_2025_Q2 from './hohn/2025-Q2.json'
 import hohn_2025_Q3 from './hohn/2025-Q3.json'
+import hohn_2025_Q4 from './hohn/2025-Q4.json'
 
 //yacktman
 import yacktman_2024_Q2 from './yacktman/2024-Q2.json'
@@ -645,6 +648,8 @@ import rogers_2024_Q3 from './rogers/2024-Q3.json'
 import rogers_2024_Q4 from './rogers/2024-Q4.json'
 import rogers_2025_Q1 from './rogers/2025-Q1.json'
 import rogers_2025_Q2 from './rogers/2025-Q2.json'
+import rogers_2025_Q3 from './rogers/2025-Q3.json'
+import rogers_2025_Q4 from './rogers/2025-Q4.json'
 
 //ariel apprciation fund john rogers
 import ariel_appreciation_2024_Q2 from './ariel_appreciation/2024-Q2.json'
@@ -999,13 +1004,14 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
    akre: [
    
-    { quarter: '2024-Q1', data: akre_2024_Q1},
-    { quarter: '2024-Q2', data: akre_2024_Q2},
-    { quarter: '2024-Q3', data: akre_2024_Q3},
-    { quarter: '2024-Q4', data: akre_2024_Q4},
-    { quarter: '2025-Q1', data: akre_2025_Q1},
-    { quarter: '2025-Q2', data: akre_2025_Q2},
-    { quarter: '2025-Q3', data: akre_2025_Q3},
+    {quarter: '2024-Q1', data: akre_2024_Q1},
+    {quarter: '2024-Q2', data: akre_2024_Q2},
+    {quarter: '2024-Q3', data: akre_2024_Q3},
+    {quarter: '2024-Q4', data: akre_2024_Q4},
+    {quarter: '2025-Q1', data: akre_2025_Q1},
+    {quarter: '2025-Q2', data: akre_2025_Q2},
+    {quarter: '2025-Q3', data: akre_2025_Q3},
+    {quarter: '2025-Q4', data: akre_2025_Q4},
 
    ],
    olstein: [
@@ -1050,14 +1056,15 @@ const holdingsHistory: Record<string, Snapshot[]> = {
 
    greenhaven: [
    
-    { quarter: '2024-Q1', data: greenhaven_2024_Q1},
-    { quarter: '2024-Q2', data: greenhaven_2024_Q2},
-    { quarter: '2024-Q3', data: greenhaven_2024_Q3},
-    { quarter: '2024-Q4', data: greenhaven_2024_Q4},
-    { quarter: '2025-Q1', data: greenhaven_2025_Q1},
-    { quarter: '2025-Q2', data: greenhaven_2025_Q2},
-    { quarter: '2025-Q3', data: greenhaven_2025_Q3},
-    { quarter: '2025-Q4', data: greenhaven_2025_Q4},
+    {quarter: '2024-Q1', data: greenhaven_2024_Q1},
+    {quarter: '2024-Q2', data: greenhaven_2024_Q2},
+    {quarter: '2024-Q3', data: greenhaven_2024_Q3},
+    {quarter: '2024-Q4', data: greenhaven_2024_Q4},
+    {quarter: '2025-Q1', data: greenhaven_2025_Q1},
+    {quarter: '2025-Q2', data: greenhaven_2025_Q2},
+    {quarter: '2025-Q3', data: greenhaven_2025_Q3},
+    {quarter: '2025-Q4', data: greenhaven_2025_Q4},
+    {quarter: '2026-Q1', data: greenhaven_2026_Q1},
   
    ],
    gregalexander: [
@@ -1254,6 +1261,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: hohn_2025_Q1},
     { quarter: '2025-Q2', data: hohn_2025_Q2},
     { quarter: '2025-Q3', data: hohn_2025_Q3},
+    { quarter: '2025-Q4', data: hohn_2025_Q4},
    ],
 
    yacktman: [
@@ -1747,6 +1755,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2024-Q4', data: rogers_2024_Q4},
     {quarter: '2025-Q1', data: rogers_2025_Q1},
     {quarter: '2025-Q2', data: rogers_2025_Q2},
+    {quarter: '2025-Q4', data: rogers_2025_Q3},
+    {quarter: '2025-Q3', data: rogers_2025_Q4},
    ],
 
    ariel_appreciation: [
