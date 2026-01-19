@@ -90,12 +90,11 @@ function generateEmailHtml(earnings: GroupedEarnings, weekRange: string, isTest:
       const timeLabel = getTimeLabel(earning.time)
 
       calendarHtml += `
-        <div style="padding: 14px 16px; ${borderBottom} display: flex; align-items: center; justify-content: space-between;">
-          <div>
+        <div style="padding: 14px 16px; ${borderBottom}">
+          <div style="display: flex; align-items: center; gap: 12px;">
             <strong style="color: #111827; font-size: 15px;">${earning.symbol}</strong>
-          </div>
-          <div style="color: #6b7280; font-size: 13px;">
-            ${timeLabel}
+            <span style="color: #9ca3af; font-size: 12px;">•</span>
+            <span style="color: #6b7280; font-size: 13px;">${timeLabel}</span>
           </div>
         </div>
       `
