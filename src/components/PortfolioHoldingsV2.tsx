@@ -23,6 +23,7 @@ import PortfolioHistory from '@/components/PortfolioHistory';
 import PortfolioAllocationChart from '@/components/PortfolioAllocationChart';
 import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview';
 import PortfolioSectorBreakdown from '@/components/PortfolioSectorBreakdown';
+import PortfolioDividendSummary from '@/components/PortfolioDividendSummary';
 import { stocks } from '@/data/stocks';
 import { fmtNum, fmtPercent } from '@/utils/formatters';
 
@@ -919,12 +920,24 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
         </div>
       )}
 
-      {/* Earnings + Sector Breakdown - Side by Side */}
+      {/* Earnings + Dividends + Sector Breakdown */}
       {activeView === 'holdings' && hasAnyHoldings && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Upcoming Earnings */}
           <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
             <PortfolioEarningsPreview symbols={allHoldingsFlat.map(h => h.symbol)} />
+          </div>
+
+          {/* Dividend Summary */}
+          <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
+            <PortfolioDividendSummary
+              holdings={allHoldingsFlat.map(h => ({
+                symbol: h.symbol,
+                name: h.name,
+                quantity: h.quantity,
+                value: h.value
+              }))}
+            />
           </div>
 
           {/* Sector Breakdown */}

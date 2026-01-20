@@ -16,6 +16,7 @@ import {
   ChartBarIcon,
   UsersIcon,
   CalendarDaysIcon,
+  GlobeAltIcon,
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
@@ -347,6 +348,7 @@ const produkteLinks = [
   { href: '/analyse', label: 'Aktien-Analyse', description: '10.000+ Aktien', icon: ChartBarIcon },
   { href: '/superinvestor', label: 'Super-Investoren', description: 'Portfolio Tracking', icon: UsersIcon },
   { href: '/earnings-calendar', label: 'Earnings Kalender', description: 'Quartalszahlen Termine', icon: CalendarDaysIcon },
+  { href: '/economic-calendar', label: 'Wirtschaftskalender', description: 'Makro-Termine', icon: GlobeAltIcon },
 ]
 
 export default function Navbar() {

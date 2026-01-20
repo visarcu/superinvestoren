@@ -12,9 +12,13 @@ export interface Stock {
   // Dann die anderen Dateien importieren (OHNE das Interface!)
   import { stocks as usStocks } from './stocks-us'
   import { stocks as deStocks } from './stocks-de'
-  
+  import { stocks as ukStocks } from './stocks-uk'
+  import { stocks as jpStocks } from './stocks-jp'
+
   // Kombiniertes Array exportieren
   export const stocks: Stock[] = [
     ...usStocks,
-    ...deStocks
+    ...deStocks,
+    ...ukStocks,
+    ...jpStocks
   ]

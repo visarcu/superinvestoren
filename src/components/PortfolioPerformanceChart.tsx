@@ -525,27 +525,6 @@ export default function PortfolioPerformanceChart({
         )}
       </div>
 
-      {/* Stats Footer */}
-      <div className="flex flex-wrap items-baseline gap-x-8 gap-y-4 mt-6 pt-4 border-t border-neutral-800">
-        <div>
-          <p className="text-xs text-neutral-500 mb-1">Investiert</p>
-          <p className="text-sm font-medium text-white">{formatCurrency(totalCost)}</p>
-        </div>
-        <div>
-          <p className="text-xs text-neutral-500 mb-1">Gewinn/Verlust</p>
-          <p className={`text-sm font-medium ${rangePerformance.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-            {rangePerformance.isPositive ? '+' : ''}{formatCurrency(rangePerformance.gain)}
-          </p>
-        </div>
-        {chartView === 'performance' && currentPerformanceVsSpy && (
-          <div>
-            <p className="text-xs text-neutral-500 mb-1">S&P 500 Rendite</p>
-            <p className={`text-sm font-medium ${currentPerformanceVsSpy.spy >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
-              {currentPerformanceVsSpy.spy >= 0 ? '+' : ''}{currentPerformanceVsSpy.spy.toFixed(2)}%
-            </p>
-          </div>
-        )}
-      </div>
     </div>
   )
 }

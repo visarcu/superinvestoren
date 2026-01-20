@@ -152,17 +152,6 @@ export default function PortfolioSectorBreakdown({ holdings, totalValue }: Portf
           </PieChart>
         </ResponsiveContainer>
 
-        {/* Center Content */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-center">
-            <p className="text-lg font-semibold text-white">
-              {sectorData.length}
-            </p>
-            <p className="text-[10px] text-neutral-500 uppercase tracking-wide">
-              Sektoren
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Legend - Compact list */}

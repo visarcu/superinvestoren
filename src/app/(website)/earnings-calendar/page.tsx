@@ -24,12 +24,30 @@ interface EarningsEvent {
   marketCap: number | null
 }
 
+interface EconomicEvent {
+  date: string
+  country: string
+  event: string
+  impact: 'High' | 'Medium' | 'Low'
+}
+
 type ViewMode = 'week' | 'month'
+
+// Country flag emoji mapping
+const countryFlags: Record<string, string> = {
+  'US': '🇺🇸',
+  'EU': '🇪🇺',
+  'DE': '🇩🇪',
+  'UK': '🇬🇧',
+  'JP': '🇯🇵',
+  'CN': '🇨🇳',
+}
 
 export default function PublicEarningsCalendarPage() {
   const [viewMode, setViewMode] = useState<ViewMode>('week')
   const [currentDate, setCurrentDate] = useState(new Date())
   const [rawEarnings, setRawEarnings] = useState<EarningsEvent[]>([])
+  const [economicEvents, setEconomicEvents] = useState<EconomicEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
 
@@ -124,6 +142,41 @@ export default function PublicEarningsCalendarPage() {
     }
     loadEarnings()
   }, [weekDates, monthDateRange, viewMode])
+
+  // Load economic events for macro highlights (current week only)
+  useEffect(() => {
+    async function loadEconomicEvents() {
+      try {
+        const from = formatDateAPI(weekDates[0])
+        const to = formatDateAPI(weekDates[4])
+        const res = await fetch(`/api/economic-calendar?from=${from}&to=${to}`)
+        if (res.ok) {
+          const data = await res.json()
+          // Filter for High impact only
+          const highImpact = (data || []).filter((e: EconomicEvent) => e.impact === 'High')
+          setEconomicEvents(highImpact)
+        }
+      } catch (error) {
+        console.error('Failed to load economic events:', error)
+      }
+    }
+    loadEconomicEvents()
+  }, [weekDates])
+
+  // Get top 3 macro events for highlights
+  const macroHighlights = useMemo(() => {
+    return economicEvents.slice(0, 3).map(event => {
+      const dateParts = event.date.split(/[T ]/)
+      const dateStr = dateParts[0]
+      const date = new Date(dateStr)
+      const dayName = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'][date.getDay()]
+      return {
+        ...event,
+        dayName,
+        dateFormatted: `${dayName}, ${date.getDate()}.${date.getMonth() + 1}.`
+      }
+    })
+  }, [economicEvents])
 
   // Filter for large-cap stocks (>$10B)
   const earnings = useMemo(() => {
@@ -321,6 +374,33 @@ export default function PublicEarningsCalendarPage() {
             </div>
           </div>
         </div>
+
+        {/* Macro Highlights - Only show when there are events */}
+        {macroHighlights.length > 0 && (
+          <div className="mb-4 p-3 bg-[#111111] border border-white/5 rounded-xl">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-4 flex-wrap">
+                <span className="text-[10px] uppercase tracking-wider text-neutral-500 font-medium">
+                  Makro diese Woche
+                </span>
+                {macroHighlights.map((event, i) => (
+                  <div key={i} className="flex items-center gap-2 text-xs">
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
+                    <span className="text-neutral-500">{countryFlags[event.country] || event.country}</span>
+                    <span className="text-neutral-300">{event.event.length > 30 ? event.event.substring(0, 28) + '...' : event.event}</span>
+                    <span className="text-neutral-600">{event.dateFormatted}</span>
+                  </div>
+                ))}
+              </div>
+              <Link
+                href="/economic-calendar"
+                className="text-[10px] text-neutral-500 hover:text-white transition-colors whitespace-nowrap"
+              >
+                Alle Events →
+              </Link>
+            </div>
+          </div>
+        )}
 
         {/* Calendar Grid */}
         <div className="bg-[#111111] border border-white/5 rounded-xl overflow-hidden">
