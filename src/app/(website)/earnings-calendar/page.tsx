@@ -811,12 +811,12 @@ function EarningsItem({ event }: { event: EarningsEvent }) {
       className="group"
       title={`${event.name || event.symbol} (${event.symbol})`}
     >
-      {/* Mobile: Logo only */}
-      <div className="sm:hidden">
+      {/* Mobile: Logo only - smaller, contained */}
+      <div className="sm:hidden flex items-center justify-center">
         <Logo
           ticker={event.symbol}
           alt={event.symbol}
-          className="w-9 h-9 rounded"
+          className="w-7 h-7 rounded"
         />
       </div>
       {/* Desktop: Logo + Name */}
@@ -840,33 +840,46 @@ function MobileEarningsGrid({ items, isExpanded, onToggle }: {
   isExpanded: boolean
   onToggle: () => void
 }) {
-  const DEFAULT_VISIBLE_MOBILE = 8
-  const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_MOBILE)
-  const hiddenCount = items.length - DEFAULT_VISIBLE_MOBILE
+  const DEFAULT_VISIBLE_MOBILE = 6
+  const DEFAULT_VISIBLE_DESKTOP = 6
+  const visibleItemsMobile = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_MOBILE)
+  const visibleItemsDesktop = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_DESKTOP)
+  const hiddenCountMobile = items.length - DEFAULT_VISIBLE_MOBILE
+  const hiddenCountDesktop = items.length - DEFAULT_VISIBLE_DESKTOP
 
   return (
     <>
-      {/* Mobile: Grid of logos */}
-      <div className="sm:hidden grid grid-cols-4 gap-1.5">
-        {visibleItems.map((event, i) => (
+      {/* Mobile: 2-column grid of small logos - contained within column */}
+      <div className="sm:hidden grid grid-cols-2 gap-1">
+        {visibleItemsMobile.map((event, i) => (
           <EarningsItem key={i} event={event} />
         ))}
       </div>
       {/* Desktop: List */}
       <div className="hidden sm:block space-y-1">
-        {visibleItems.map((event, i) => (
+        {visibleItemsDesktop.map((event, i) => (
           <EarningsItem key={i} event={event} />
         ))}
       </div>
-      {hiddenCount > 0 && !isExpanded && (
+      {/* Mobile expand button */}
+      {hiddenCountMobile > 0 && !isExpanded && (
         <button
           onClick={onToggle}
-          className="w-full py-1 text-[10px] text-neutral-500 hover:text-neutral-400 transition-colors"
+          className="sm:hidden w-full py-1 text-[10px] text-neutral-500 hover:text-neutral-400 transition-colors"
         >
-          +{hiddenCount} mehr
+          +{hiddenCountMobile} mehr
         </button>
       )}
-      {isExpanded && hiddenCount > 0 && (
+      {/* Desktop expand button */}
+      {hiddenCountDesktop > 0 && !isExpanded && (
+        <button
+          onClick={onToggle}
+          className="hidden sm:block w-full py-1 text-[10px] text-neutral-500 hover:text-neutral-400 transition-colors"
+        >
+          +{hiddenCountDesktop} mehr
+        </button>
+      )}
+      {isExpanded && (hiddenCountMobile > 0 || hiddenCountDesktop > 0) && (
         <button
           onClick={onToggle}
           className="w-full py-1 text-[10px] text-neutral-600 hover:text-neutral-500 transition-colors"
