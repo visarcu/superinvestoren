@@ -2,7 +2,7 @@
 // /earnings-calendar
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useEffect, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import Logo from '@/components/Logo'
@@ -11,7 +11,8 @@ import {
   ChevronRightIcon,
   ArrowRightIcon,
   CheckIcon,
-  ArrowPathIcon
+  ArrowPathIcon,
+  ArrowDownTrayIcon
 } from '@heroicons/react/24/outline'
 
 interface EarningsEvent {
@@ -50,6 +51,8 @@ export default function PublicEarningsCalendarPage() {
   const [economicEvents, setEconomicEvents] = useState<EconomicEvent[]>([])
   const [loading, setLoading] = useState(true)
   const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
+  const [isExporting, setIsExporting] = useState(false)
+  const calendarRef = useRef<HTMLDivElement>(null)
 
   // Deutsche Tagesbezeichnungen (kurz für mobile, lang für desktop)
   const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
@@ -291,7 +294,44 @@ export default function PublicEarningsCalendarPage() {
     })
   }
 
-  const DEFAULT_VISIBLE = 6
+  // Export calendar as image
+  const exportAsImage = async () => {
+    if (!calendarRef.current || isExporting) return
+
+    setIsExporting(true)
+    try {
+      // Dynamically import html2canvas
+      const html2canvas = (await import('html2canvas')).default
+
+      const canvas = await html2canvas(calendarRef.current, {
+        backgroundColor: '#0a0a0a',
+        scale: 2,
+        logging: false,
+        useCORS: true,
+        allowTaint: true,
+      })
+
+      // Convert to blob and download
+      canvas.toBlob((blob: Blob | null) => {
+        if (blob) {
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          const weekStart = weekDates[0].toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
+          const weekEnd = weekDates[4].toLocaleDateString('de-DE', { day: '2-digit', month: '2-digit' })
+          a.download = `earnings-kalender-${weekStart}-${weekEnd}.png`
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          URL.revokeObjectURL(url)
+        }
+      }, 'image/png')
+    } catch (error) {
+      console.error('Failed to export image:', error)
+    } finally {
+      setIsExporting(false)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -337,16 +377,26 @@ export default function PublicEarningsCalendarPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Export Button - Hidden on very small screens */}
+            <button
+              onClick={exportAsImage}
+              disabled={isExporting || loading}
+              className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-white/5 border border-white/10 rounded-lg text-xs text-neutral-500 hover:bg-white/10 hover:text-neutral-300 transition-colors disabled:opacity-50"
+              title="Als Bild speichern"
+            >
+              <ArrowDownTrayIcon className="w-3.5 h-3.5" />
+              <span className="hidden md:inline">{isExporting ? 'Exportiere...' : 'Als Bild'}</span>
+            </button>
             {/* PRO Watchlist Filter - Locked */}
             <Link
               href="/analyse/calendar"
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-xs text-neutral-500 hover:bg-white/10 hover:text-neutral-300 transition-colors"
+              className="hidden sm:inline-flex items-center gap-2 px-3 py-1.5 bg-white/5 border border-white/10 rounded-lg text-xs text-neutral-500 hover:bg-white/10 hover:text-neutral-300 transition-colors"
             >
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
               </svg>
-              Nur Watchlist
+              <span className="hidden md:inline">Nur Watchlist</span>
               <span className="px-1.5 py-0.5 bg-emerald-500/20 text-emerald-400 text-[10px] font-medium rounded">PRO</span>
             </Link>
             {/* View Toggle */}
@@ -403,7 +453,7 @@ export default function PublicEarningsCalendarPage() {
         )}
 
         {/* Calendar Grid */}
-        <div className="bg-[#111111] border border-white/5 rounded-xl overflow-hidden">
+        <div ref={calendarRef} className="bg-[#111111] border border-white/5 rounded-xl overflow-hidden">
           {viewMode === 'week' ? (
             <>
               {/* Week View Headers */}
@@ -453,39 +503,11 @@ export default function PublicEarningsCalendarPage() {
                               <span className="sm:hidden">BMO</span>
                               <span className="hidden sm:inline">Vorbörslich</span>
                             </div>
-                            <div className="space-y-1">
-                              {(() => {
-                                const sectionKey = `${dateKey}-pre`
-                                const isExpanded = expandedSections.has(sectionKey)
-                                const items = dayEarnings.preMarket
-                                const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE)
-                                const hiddenCount = items.length - DEFAULT_VISIBLE
-
-                                return (
-                                  <>
-                                    {visibleItems.map((event, i) => (
-                                      <EarningsItem key={i} event={event} />
-                                    ))}
-                                    {hiddenCount > 0 && !isExpanded && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-neutral-500 hover:text-neutral-400 transition-colors"
-                                      >
-                                        +{hiddenCount} mehr
-                                      </button>
-                                    )}
-                                    {isExpanded && hiddenCount > 0 && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-neutral-600 hover:text-neutral-500 transition-colors"
-                                      >
-                                        weniger
-                                      </button>
-                                    )}
-                                  </>
-                                )
-                              })()}
-                            </div>
+                            <MobileEarningsGrid
+                              items={dayEarnings.preMarket}
+                              isExpanded={expandedSections.has(`${dateKey}-pre`)}
+                              onToggle={() => toggleSection(`${dateKey}-pre`)}
+                            />
                           </div>
                         )}
 
@@ -496,39 +518,11 @@ export default function PublicEarningsCalendarPage() {
                               <span className="sm:hidden">AMC</span>
                               <span className="hidden sm:inline">Nachbörslich</span>
                             </div>
-                            <div className="space-y-1">
-                              {(() => {
-                                const sectionKey = `${dateKey}-post`
-                                const isExpanded = expandedSections.has(sectionKey)
-                                const items = dayEarnings.postMarket
-                                const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE)
-                                const hiddenCount = items.length - DEFAULT_VISIBLE
-
-                                return (
-                                  <>
-                                    {visibleItems.map((event, i) => (
-                                      <EarningsItem key={i} event={event} />
-                                    ))}
-                                    {hiddenCount > 0 && !isExpanded && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-neutral-500 hover:text-neutral-400 transition-colors"
-                                      >
-                                        +{hiddenCount} mehr
-                                      </button>
-                                    )}
-                                    {isExpanded && hiddenCount > 0 && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-neutral-600 hover:text-neutral-500 transition-colors"
-                                      >
-                                        weniger
-                                      </button>
-                                    )}
-                                  </>
-                                )
-                              })()}
-                            </div>
+                            <MobileEarningsGrid
+                              items={dayEarnings.postMarket}
+                              isExpanded={expandedSections.has(`${dateKey}-post`)}
+                              onToggle={() => toggleSection(`${dateKey}-post`)}
+                            />
                           </div>
                         )}
 
@@ -805,9 +799,8 @@ export default function PublicEarningsCalendarPage() {
   )
 }
 
-// Earnings Item Component - Optimized for mobile
+// Earnings Item Component - Logo-only on mobile, with name on desktop
 function EarningsItem({ event }: { event: EarningsEvent }) {
-  // Mehr Platz für Namen ohne MarketCap
   const displayName = event.name && event.name.length > 20
     ? event.name.substring(0, 18) + '...'
     : (event.name || event.symbol)
@@ -815,17 +808,72 @@ function EarningsItem({ event }: { event: EarningsEvent }) {
   return (
     <Link
       href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
-      className="flex items-center gap-2 sm:gap-2.5 px-1.5 sm:px-2 py-2 sm:py-1.5 rounded hover:bg-white/5 transition-colors group"
+      className="group"
       title={`${event.name || event.symbol} (${event.symbol})`}
     >
-      <Logo
-        ticker={event.symbol}
-        alt={event.symbol}
-        className="w-7 h-7 sm:w-6 sm:h-6 rounded flex-shrink-0"
-      />
-      <span className="text-[11px] sm:text-xs font-medium text-neutral-300 group-hover:text-white transition-colors truncate">
-        {displayName}
-      </span>
+      {/* Mobile: Logo only */}
+      <div className="sm:hidden">
+        <Logo
+          ticker={event.symbol}
+          alt={event.symbol}
+          className="w-9 h-9 rounded"
+        />
+      </div>
+      {/* Desktop: Logo + Name */}
+      <div className="hidden sm:flex items-center gap-2.5 px-2 py-1.5 rounded hover:bg-white/5 transition-colors">
+        <Logo
+          ticker={event.symbol}
+          alt={event.symbol}
+          className="w-6 h-6 rounded flex-shrink-0"
+        />
+        <span className="text-xs font-medium text-neutral-300 group-hover:text-white transition-colors truncate">
+          {displayName}
+        </span>
+      </div>
     </Link>
+  )
+}
+
+// Mobile Grid wrapper for earnings items
+function MobileEarningsGrid({ items, isExpanded, onToggle }: {
+  items: EarningsEvent[]
+  isExpanded: boolean
+  onToggle: () => void
+}) {
+  const DEFAULT_VISIBLE_MOBILE = 8
+  const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_MOBILE)
+  const hiddenCount = items.length - DEFAULT_VISIBLE_MOBILE
+
+  return (
+    <>
+      {/* Mobile: Grid of logos */}
+      <div className="sm:hidden grid grid-cols-4 gap-1.5">
+        {visibleItems.map((event, i) => (
+          <EarningsItem key={i} event={event} />
+        ))}
+      </div>
+      {/* Desktop: List */}
+      <div className="hidden sm:block space-y-1">
+        {visibleItems.map((event, i) => (
+          <EarningsItem key={i} event={event} />
+        ))}
+      </div>
+      {hiddenCount > 0 && !isExpanded && (
+        <button
+          onClick={onToggle}
+          className="w-full py-1 text-[10px] text-neutral-500 hover:text-neutral-400 transition-colors"
+        >
+          +{hiddenCount} mehr
+        </button>
+      )}
+      {isExpanded && hiddenCount > 0 && (
+        <button
+          onClick={onToggle}
+          className="w-full py-1 text-[10px] text-neutral-600 hover:text-neutral-500 transition-colors"
+        >
+          weniger
+        </button>
+      )}
+    </>
   )
 }
