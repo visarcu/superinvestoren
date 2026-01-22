@@ -3,123 +3,116 @@
 import Image from 'next/image'
 import { useState } from 'react'
 
+// Logo.dev API Token (public key - safe to expose in client)
+const LOGO_DEV_TOKEN = process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN || ''
 
 type LogoProps = {
-  src?: string  // Optional, wird automatisch generiert falls nicht angegeben
-  ticker?: string  // NEU: Ticker für automatische Logo-Erkennung
+  src?: string
+  ticker?: string
   alt: string
   className?: string
-  padding?: 'none' | 'small' | 'medium' | 'large'
-  size?: number  // NEU: Für API-Logos
 }
 
-// ✅ Liste der Tickers mit lokalen Logos (für Performance)
+// Lokale Logos für häufig verwendete Ticker (Performance)
 const LOCAL_LOGOS = new Set([
-  'AAPL', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'TSLA', 'META', 'NVDA', 
+  'AAPL', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'TSLA', 'META', 'NVDA',
   'BRK.B', 'UNH', 'JNJ', 'V', 'WMT', 'JPM', 'MA', 'PG', 'HD', 'CVX',
   'LLY', 'ABBV', 'BAC', 'KO', 'PEP', 'TMO', 'COST', 'AVGO', 'DIS', 'ABT',
   'VZ', 'ADBE', 'CMCSA', 'DHR', 'NKE', 'TXN', 'ORCL', 'NEE', 'XOM', 'NFLX',
   'CRM', 'WFC', 'RTX', 'UPS', 'INTU', 'IBM', 'AMD', 'QCOM', 'CAT', 'GS'
-  // Erweitere diese Liste nach Bedarf
 ])
 
-export default function Logo({ 
-  src, 
-  ticker, 
-  alt, 
-  className, 
-  padding = 'small',
-  size = 64 
-}: LogoProps) {
-  const [fallbackLevel, setFallbackLevel] = useState(0)
-  
-  // Padding-Klassen
-  const paddingClasses = {
-    none: 'p-0',
-    small: 'p-1',
-    medium: 'p-2', 
-    large: 'p-3'
+// Konsistente Farbe basierend auf Ticker
+const getTickerColor = (ticker: string): string => {
+  const colors = [
+    'bg-blue-600', 'bg-emerald-600', 'bg-violet-600', 'bg-amber-600',
+    'bg-rose-600', 'bg-cyan-600', 'bg-indigo-600', 'bg-teal-600',
+    'bg-orange-600', 'bg-pink-600', 'bg-lime-600', 'bg-sky-600'
+  ]
+  let hash = 0
+  for (let i = 0; i < ticker.length; i++) {
+    hash = ticker.charCodeAt(i) + ((hash << 5) - hash)
   }
+  return colors[Math.abs(hash) % colors.length]
+}
 
-  // ✅ Smart Logo URL Generation
-  const getLogoUrl = () => {
-    const upperTicker = ticker?.toUpperCase()
-    
-    // 1. Falls src explizit angegeben, verwende das
+export default function Logo({
+  src,
+  ticker,
+  alt,
+  className,
+}: LogoProps) {
+  const [fallbackStage, setFallbackStage] = useState(0)
+
+  const upperTicker = ticker?.toUpperCase()
+
+  // Smart Logo URL mit Fallback-Kette
+  const getLogoUrl = (): string | null => {
     if (src) return src
-    
-    // 2. Falls kein ticker, verwende default
     if (!upperTicker) return '/logos/default.svg'
-    
-    // 3. Smart Fallback System
-    switch (fallbackLevel) {
+
+    switch (fallbackStage) {
       case 0:
-        // Versuche lokales Logo falls in der Liste
+        // 1. Lokales Logo falls vorhanden
         if (LOCAL_LOGOS.has(upperTicker)) {
           return `/logos/${upperTicker.toLowerCase()}.svg`
         }
-        // Sonst direkt zu API-Logo
+        // 2. Logo.dev API (beste Abdeckung)
+        if (LOGO_DEV_TOKEN) {
+          return `https://img.logo.dev/ticker/${upperTicker}?token=${LOGO_DEV_TOKEN}`
+        }
+        // Fallback zu FMP wenn kein Token
         return `https://financialmodelingprep.com/image-stock/${upperTicker}.png`
-        
       case 1:
-        // Financial Modeling Prep API (kostenlos, gute Qualität)
+        // Fallback: FMP
         return `https://financialmodelingprep.com/image-stock/${upperTicker}.png`
-        
-      case 2:
-        // Yahoo Finance API (Alternative)
-        return `https://logo.clearbit.com/${getCompanyDomain(upperTicker)}`
-        
-      case 3:
-        // Ultimativer Fallback
-        return '/logos/default.svg'
-        
       default:
-        return '/logos/default.svg'
+        return null
     }
   }
 
-  // ✅ Company Domain Mapping für Clearbit (nur für bekannte)
-  const getCompanyDomain = (ticker: string) => {
-    const domainMap: Record<string, string> = {
-      'AAPL': 'apple.com',
-      'MSFT': 'microsoft.com',
-      'GOOGL': 'google.com',
-      'AMZN': 'amazon.com',
-      'TSLA': 'tesla.com',
-      'META': 'meta.com',
-      'NFLX': 'netflix.com',
-      'NVDA': 'nvidia.com',
-      // Füge weitere wichtige hinzu...
-    }
-    return domainMap[ticker] || `${ticker.toLowerCase()}.com`
+  const getInitials = () => {
+    if (!upperTicker) return '?'
+    return upperTicker.substring(0, 2)
   }
 
-  // ✅ Error Handler für Fallback-Chain
-  const handleError = () => {
-    console.log(`Logo fallback level ${fallbackLevel} failed for ${ticker}`)
-    if (fallbackLevel < 3) {
-      setFallbackLevel(prev => prev + 1)
-    }
+  const logoUrl = getLogoUrl()
+
+  // Initialen als finaler Fallback
+  if (!logoUrl && upperTicker) {
+    return (
+      <div
+        className={`
+          relative
+          rounded-lg
+          overflow-hidden
+          ${getTickerColor(upperTicker)}
+          flex items-center justify-center
+          ${className ?? ''}
+        `}
+      >
+        <span className="text-white font-bold" style={{ fontSize: '0.4em' }}>
+          {getInitials()}
+        </span>
+      </div>
+    )
   }
 
   return (
     <div
       className={`
         relative
-        rounded-full
         overflow-hidden
-        bg-white
-        shadow-lg
         ${className ?? ''}
       `}
     >
       <Image
-        src={getLogoUrl()}
+        src={logoUrl || '/logos/default.svg'}
         alt={alt}
         fill
-        className={`object-contain ${paddingClasses[padding]}`}
-        onError={handleError}
-        unoptimized={!getLogoUrl().startsWith('/')} // Für alle externen URLs
+        className="object-contain"
+        onError={() => setFallbackStage(prev => prev + 1)}
+        unoptimized={!logoUrl?.startsWith('/')}
       />
     </div>
   )

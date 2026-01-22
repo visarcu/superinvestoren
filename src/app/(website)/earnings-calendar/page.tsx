@@ -792,7 +792,7 @@ export default function PublicEarningsCalendarPage() {
       {/* Footer Branding */}
       <div className="py-8 border-t border-white/5 text-center">
         <p className="text-sm text-neutral-600">
-          Earnings-Daten bereitgestellt von FinClue · Aktualisiert: {new Date().toLocaleDateString('de-DE')}
+          Earnings-Daten bereitgestellt von FinClue · Logos by <a href="https://logo.dev" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-neutral-400 transition-colors">Logo.dev</a> · Aktualisiert: {new Date().toLocaleDateString('de-DE')}
         </p>
       </div>
     </div>
