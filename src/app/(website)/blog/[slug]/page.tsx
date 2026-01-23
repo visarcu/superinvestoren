@@ -48,12 +48,12 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!post) {
     return {
-      title: 'Artikel nicht gefunden | FinClue Blog',
+      title: 'Artikel nicht gefunden | Finclue Blog',
     }
   }
 
   return {
-    title: `${post.title} | FinClue Blog`,
+    title: `${post.title} | Finclue Blog`,
     description: post.excerpt,
     openGraph: {
       title: post.title,

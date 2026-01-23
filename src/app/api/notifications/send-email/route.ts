@@ -43,13 +43,13 @@ export async function POST(request: NextRequest) {
         <head>
           <meta charset="utf-8">
           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>Watchlist Alert | FinClue</title>
+          <title>Watchlist Alert | Finclue</title>
         </head>
         <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #1f2937; background-color: #f9fafb;">
           
           <!-- Header -->
           <div style="max-width: 600px; margin: 0 auto; padding: 32px 20px 0 20px; text-align: center;">
-            <h1 style="color: #374151; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.025em;">FinClue</h1>
+            <h1 style="color: #374151; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: -0.025em;">Finclue</h1>
             <p style="color: #6b7280; margin: 4px 0 0 0; font-size: 14px;">Watchlist Benachrichtigung</p>
           </div>
 
@@ -114,7 +114,7 @@ export async function POST(request: NextRequest) {
               <div style="text-align: center;">
                 <a href="https://finclue.de/notifications/settings" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">Einstellungen</a>
                 <span style="color: #d1d5db;">•</span>
-                <a href="https://finclue.de" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">FinClue</a>
+                <a href="https://finclue.de" style="color: #6b7280; text-decoration: none; font-size: 13px; margin: 0 8px;">Finclue</a>
               </div>
             </div>
 
@@ -130,7 +130,7 @@ export async function POST(request: NextRequest) {
 
     // Email senden via Resend
     const { data: emailResult, error: emailError } = await resend.emails.send({
-      from: 'FinClue <team@finclue.de>',
+      from: 'Finclue <team@finclue.de>',
       to: [userEmail],
       subject,
       html: emailContent,

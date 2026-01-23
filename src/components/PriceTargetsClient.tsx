@@ -390,7 +390,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
         </div>
         
         <div className="px-6 pb-4 flex justify-end">
-          <span className="text-xs text-theme-muted">Powered by FinClue</span>
+          <span className="text-xs text-theme-muted">Powered by Finclue</span>
         </div>
       </div>
 
@@ -447,7 +447,7 @@ export default function PriceTargetsClient({ ticker }: { ticker: string }) {
           </div>
           
           <div className="px-6 pb-4 flex justify-end">
-            <span className="text-xs text-theme-muted">Powered by FinClue</span>
+            <span className="text-xs text-theme-muted">Powered by Finclue</span>
           </div>
         </div>
       )}

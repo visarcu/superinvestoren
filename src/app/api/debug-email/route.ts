@@ -50,9 +50,9 @@ export async function POST(request: NextRequest) {
         const resend = new Resend(process.env.RESEND_API_KEY)
 
         const { data: emailResult, error: emailError } = await resend.emails.send({
-          from: 'FinClue <team@finclue.de>',
+          from: 'Finclue <team@finclue.de>',
           to: [user.email],
-          subject: '[DEBUG] Test E-Mail von FinClue',
+          subject: '[DEBUG] Test E-Mail von Finclue',
           html: `
             <h1>Debug Test E-Mail</h1>
             <p>Wenn du diese E-Mail erhältst, funktioniert Resend.</p>

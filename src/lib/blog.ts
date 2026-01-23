@@ -45,7 +45,7 @@ const getDefaultPost = (slug: string): Partial<BlogPost> => ({
   slug,
   title: 'Untitled',
   excerpt: '',
-  author: 'FinClue Research', // 🔧 Besserer Default
+  author: 'Finclue Research', // 🔧 Besserer Default
   authorImage: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=32&h=32&fit=crop&crop=face',
   publishedDate: new Date().toISOString().split('T')[0],
   readTime: '5 min',

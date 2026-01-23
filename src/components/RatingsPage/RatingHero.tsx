@@ -44,7 +44,7 @@ export default function RatingHero({
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold text-theme-primary">
-              FinClue Rating
+              Finclue Rating
             </h2>
             <div className="flex items-center gap-2 mt-1">
               <span className="text-lg font-mono font-semibold text-theme-secondary">{ticker}</span>

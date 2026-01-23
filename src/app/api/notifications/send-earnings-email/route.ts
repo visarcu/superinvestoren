@@ -67,14 +67,14 @@ export async function POST(request: NextRequest) {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${subject} | FinClue</title>
+        <title>${subject} | Finclue</title>
       </head>
       <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.5; color: #111827; background-color: #f9fafb;">
 
         <!-- Header -->
         <div style="max-width: 600px; margin: 0 auto; padding: 32px 20px 16px 20px;">
           <div style="text-align: center; margin-bottom: 24px;">
-            <h1 style="color: #374151; margin: 0; font-size: 24px; font-weight: 700;">FinClue</h1>
+            <h1 style="color: #374151; margin: 0; font-size: 24px; font-weight: 700;">Finclue</h1>
             <p style="color: #9ca3af; margin: 4px 0 0 0; font-size: 14px;">Earnings Reminder</p>
             ${isTest ? '<p style="background: #fbbf24; color: #92400e; padding: 6px 12px; border-radius: 4px; font-size: 12px; font-weight: 500; margin: 8px auto; display: inline-block;">🧪 TEST E-MAIL</p>' : ''}
           </div>
@@ -147,7 +147,7 @@ export async function POST(request: NextRequest) {
 
     // Email senden via Resend
     const { data: emailResult, error: emailError } = await resend.emails.send({
-      from: 'FinClue <team@finclue.de>',
+      from: 'Finclue <team@finclue.de>',
       to: [userEmail],
       subject,
       html: emailContent,

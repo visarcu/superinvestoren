@@ -102,7 +102,7 @@ export default function TestEmailDelivery() {
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
           <h3 className="font-semibold mb-2">🔍 Was wir testen:</h3>
           <ul className="text-sm space-y-1 list-disc list-inside text-blue-800">
-            <li>Standard FinClue FROM (team@finclue.de)</li>
+            <li>Standard Finclue FROM (team@finclue.de)</li>
             <li>Alternative FROM (noreply@finclue.de)</li>
             <li>Einfacher Text ohne HTML</li>
             <li>Watchlist-ähnlicher Inhalt</li>

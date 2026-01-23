@@ -153,7 +153,7 @@ export default function RatingsClient({ ticker }: { ticker: string }) {
             <span className="text-2xl font-semibold text-white">{grade}</span>
             <span className="text-neutral-500">• {label}</span>
           </div>
-          <p className="text-sm text-neutral-500">FinClue Score</p>
+          <p className="text-sm text-neutral-500">Finclue Score</p>
           {scoreTrend !== 0 && (
             <p className={`text-xs mt-1 ${scoreTrend > 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {scoreTrend > 0 ? '↗' : '↘'} {Math.abs(scoreTrend).toFixed(1)} vs. Vorquartal

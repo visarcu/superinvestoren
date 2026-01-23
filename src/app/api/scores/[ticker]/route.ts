@@ -62,7 +62,7 @@ export async function GET(request: Request, { params }: RouteParams) {
     })
 
     // Enhanced scoring with calculated growth metrics
-    const finclueScore = calculateRealisticFinClueScore({
+    const finclueScore = calculateRealisticFinclueScore({
       altman: altmanData?.[0],
       piotroski: piotroskiData?.[0],
       ratios: ratiosData?.[0],
@@ -82,7 +82,7 @@ export async function GET(request: Request, { params }: RouteParams) {
     const historicalScores = ratiosData?.slice(0, 3).map((ratio: any, index: number) => ({
       date: ratio?.date || `${2024 - index}-12-31`,
       period: `${2024 - index}`,
-      score: calculateRealisticFinClueScore({
+      score: calculateRealisticFinclueScore({
         altman: altmanData?.[0],
         piotroski: piotroskiData?.[0],
         ratios: ratio,
@@ -116,7 +116,7 @@ function safeNumber(value: any, defaultValue: number = 0): number {
   return Number(value)
 }
 
-function calculateRealisticFinClueScore(data: any): number {
+function calculateRealisticFinclueScore(data: any): number {
   const { altman, piotroski, ratios, metrics, quote } = data || {}
   
   let totalScore = 0

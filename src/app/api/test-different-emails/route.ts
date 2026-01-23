@@ -15,26 +15,26 @@ export async function POST(request: NextRequest) {
     // Test verschiedene FROM-Adressen und Inhalte
     const tests = [
       {
-        name: 'Standard FinClue',
-        from: 'FinClue <team@finclue.de>',
+        name: 'Standard Finclue',
+        from: 'Finclue <team@finclue.de>',
         subject: '📊 Guy Spier Filing Test #1',
-        html: '<h1>Standard FinClue Test</h1><p>Test um ' + new Date().toLocaleTimeString() + '</p>'
+        html: '<h1>Standard Finclue Test</h1><p>Test um ' + new Date().toLocaleTimeString() + '</p>'
       },
       {
         name: 'Andere FROM Domain',
-        from: 'FinClue <noreply@finclue.de>',
+        from: 'Finclue <noreply@finclue.de>',
         subject: '📊 Guy Spier Filing Test #2', 
         html: '<h1>Andere FROM Domain Test</h1><p>Test um ' + new Date().toLocaleTimeString() + '</p>'
       },
       {
         name: 'Einfacher Text',
-        from: 'FinClue <team@finclue.de>',
+        from: 'Finclue <team@finclue.de>',
         subject: 'Einfacher Test',
         html: '<p>Hallo, das ist ein sehr einfacher Test ohne komplexen HTML.</p>'
       },
       {
         name: 'Ähnlich zu Watchlist',
-        from: 'FinClue <team@finclue.de>',
+        from: 'Finclue <team@finclue.de>',
         subject: '🚨 Deine Watchlist Update',
         html: `
           <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

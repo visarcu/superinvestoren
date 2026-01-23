@@ -82,7 +82,7 @@ export default function TestSubjects() {
           <li>Prüfe deinen <strong>Posteingang</strong> (Primary Tab bei Gmail)</li>
           <li>Prüfe den <strong>Spam-Ordner</strong></li>
           <li>Prüfe <strong>Promotions Tab</strong> bei Gmail</li>
-          <li>Suche nach "FinClue" oder "Subject Line"</li>
+          <li>Suche nach "Finclue" oder "Subject Line"</li>
           <li>Sag mir welche E-Mails ankommen!</li>
         </ol>
       </div>

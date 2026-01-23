@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { DocumentTextIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Allgemeine Geschäftsbedingungen – FinClue',
+  title: 'Allgemeine Geschäftsbedingungen – Finclue',
 }
 
 export default function TermsPage() {
@@ -34,7 +34,7 @@ export default function TermsPage() {
             
             {/* Subtitle */}
             <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-              Unsere Nutzungsbedingungen für FinClue.
+              Unsere Nutzungsbedingungen für Finclue.
               Transparent und fair für alle Nutzer.
             </p>
 
@@ -63,9 +63,9 @@ export default function TermsPage() {
               Diese Allgemeinen Geschäftsbedingungen (AGB) gelten für alle Verträge, die
               über die Website{' '}
               <Link href="/" className="text-white hover:text-gray-300 transition-colors">
-                FinClue
+                Finclue
               </Link>{' '}
-              zwischen dem Anbieter FinClue (nachfolgend „Anbieter") und den Nutzern (nachfolgend
+              zwischen dem Anbieter Finclue (nachfolgend „Anbieter") und den Nutzern (nachfolgend
               „Kunde") geschlossen werden.
             </p>
           </div>
@@ -252,7 +252,7 @@ export default function TermsPage() {
       <section className="bg-black pb-16 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
           <p className="text-gray-400 mb-2">
-            © 2025 FinClue. Alle Rechte vorbehalten.
+            © 2025 Finclue. Alle Rechte vorbehalten.
           </p>
           <p className="text-sm text-gray-500">
             Bei Fragen zu unseren AGBs wenden Sie sich gerne an uns.

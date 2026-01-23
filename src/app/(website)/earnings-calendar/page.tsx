@@ -627,14 +627,14 @@ export default function PublicEarningsCalendarPage() {
           )}
         </div>
 
-        {/* Powered by FinClue */}
+        {/* Powered by Finclue */}
         <div className="text-center mt-8 pb-4">
           <Link
             href="/"
             className="inline-flex items-center gap-2 text-xs text-neutral-500 hover:text-neutral-400 transition-colors"
           >
             <span>Powered by</span>
-            <span className="font-semibold text-neutral-400">FinClue</span>
+            <span className="font-semibold text-neutral-400">Finclue</span>
           </Link>
         </div>
 
@@ -658,7 +658,7 @@ export default function PublicEarningsCalendarPage() {
         <div className="overflow-hidden -mt-[12%]">
           <Image
             src="/images/earnings-transcript-screenshot.png"
-            alt="FinClue Earnings Transcript mit AI-Zusammenfassung"
+            alt="Finclue Earnings Transcript mit AI-Zusammenfassung"
             width={1920}
             height={1080}
             className="w-full h-auto"
@@ -792,7 +792,7 @@ export default function PublicEarningsCalendarPage() {
       {/* Footer Branding */}
       <div className="py-8 border-t border-white/5 text-center">
         <p className="text-sm text-neutral-600">
-          Earnings-Daten bereitgestellt von FinClue · Logos by <a href="https://logo.dev" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-neutral-400 transition-colors">Logo.dev</a> · Aktualisiert: {new Date().toLocaleDateString('de-DE')}
+          Earnings-Daten bereitgestellt von Finclue · Logos by <a href="https://logo.dev" target="_blank" rel="noopener noreferrer" className="text-neutral-500 hover:text-neutral-400 transition-colors">Logo.dev</a> · Aktualisiert: {new Date().toLocaleDateString('de-DE')}
         </p>
       </div>
     </div>

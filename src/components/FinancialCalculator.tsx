@@ -187,7 +187,7 @@ export default function FinancialCalculator() {
     <div className="max-w-6xl mx-auto p-6 space-y-6">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-white mb-2">FinClue Financial Calculator</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">Finclue Financial Calculator</h1>
         <p className="text-gray-400">Erweiterte Kennzahlen-Analyse und DCF-Bewertung</p>
       </div>
 
@@ -446,10 +446,10 @@ export default function FinancialCalculator() {
           <div className="w-8 h-8 bg-purple-500/20 rounded-lg flex items-center justify-center">
             <CalculatorIcon className="w-4 h-4 text-purple-400" />
           </div>
-          <h3 className="text-lg font-semibold text-white">FinClue AI Integration</h3>
+          <h3 className="text-lg font-semibold text-white">Finclue AI Integration</h3>
         </div>
         <p className="text-gray-300 text-sm">
-          Diese Berechnungen werden automatisch in der FinClue AI verwendet, um dir 
+          Diese Berechnungen werden automatisch in der Finclue AI verwendet, um dir 
           präzise und datenbasierte Aktienanalysen zu liefern. Frage die AI nach 
           Bewertungen, Risiken oder Vergleichen - sie nutzt diese erweiterten Kennzahlen 
           für fundierte Antworten.

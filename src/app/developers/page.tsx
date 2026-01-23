@@ -34,7 +34,7 @@ export default function DevelopersPage() {
       liveDemo: "Live Demo",
       warrenBuffett: "Warren Buffett Portfolio Widget",
       demoDescription: "Dieses Widget zeigt echte Portfolio-Daten von Berkshire Hathaways letzter 13F Einreichung. Es aktualisiert sich automatisch bei neuen Daten.",
-      whyFinclue: "Warum FinClue Widgets?",
+      whyFinclue: "Warum Finclue Widgets?",
       realData: "Echte 13F Daten",
       quarterlyUpdates: "Quartalsweise Updates", 
       germanTranslation: "Deutsche Übersetzung",
@@ -54,7 +54,7 @@ export default function DevelopersPage() {
       liveDemo: "Live Demo",
       warrenBuffett: "Warren Buffett Portfolio Widget",
       demoDescription: "This widget shows real portfolio data from Berkshire Hathaway's latest 13F filing. It updates automatically with new data.",
-      whyFinclue: "Why FinClue Widgets?",
+      whyFinclue: "Why Finclue Widgets?",
       realData: "Real 13F Data",
       quarterlyUpdates: "Quarterly Updates",
       germanTranslation: "German Translation", 
@@ -252,7 +252,7 @@ export default function MyComponent() {
           </div>
         </div>
         
-        {/* Why FinClue Widgets Section */}
+        {/* Why Finclue Widgets Section */}
         <div className="mb-20">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight">

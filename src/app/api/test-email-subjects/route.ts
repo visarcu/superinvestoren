@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
       '📊 Neues 13F-Filing von Guy Spier',  // Original Filing Subject
       '[TEST] Neues 13F-Filing von Guy Spier',  // Mit TEST Tag
       'Guy Spier Portfolio Update',  // Ohne Emojis/Keywords
-      'FinClue Notification Test'  // Neutral
+      'Finclue Notification Test'  // Neutral
     ]
 
     const results = []
@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       
       try {
         const { data: emailResult, error: emailError } = await resend.emails.send({
-          from: 'FinClue <team@finclue.de>',
+          from: 'Finclue <team@finclue.de>',
           to: [userEmail],
           subject: subject,
           html: `

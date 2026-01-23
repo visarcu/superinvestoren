@@ -1403,7 +1403,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                </div>
                
                <h3 className="text-xl font-medium text-theme-primary mb-3">
-                 FinClue AI Portfolio-Analyse
+                 Finclue AI Portfolio-Analyse
                </h3>
                
                <p className="text-theme-muted mb-6 leading-relaxed">

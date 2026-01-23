@@ -2,7 +2,7 @@
 import { ShieldCheckIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Datenschutzerklärung – FinClue',
+  title: 'Datenschutzerklärung – Finclue',
 }
 
 export default function Page() {
@@ -265,7 +265,7 @@ export default function Page() {
       <section className="bg-black pb-16 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
           <p className="text-gray-400 mb-2">
-            © 2025 FinClue. Alle Rechte vorbehalten.
+            © 2025 Finclue. Alle Rechte vorbehalten.
           </p>
           <p className="text-sm text-gray-500">
             Bei Fragen zum Datenschutz wenden Sie sich gerne an uns.

@@ -226,7 +226,7 @@ export async function generateMetadata({ params }: PageProps) {
   }
 
   return {
-    title: `${termData.term} - Finanz-Lexikon | FinClue`,
+    title: `${termData.term} - Finanz-Lexikon | Finclue`,
     description: termData.definition.slice(0, 160),
   }
 }

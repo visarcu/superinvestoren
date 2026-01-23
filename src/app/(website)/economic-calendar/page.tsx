@@ -568,7 +568,7 @@ export default function EconomicCalendarPage() {
       <footer className="border-t border-white/5 py-8 mt-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <p className="text-center text-sm text-neutral-600">
-            Powered by <Link href="/" className="text-neutral-400 hover:text-white transition-colors">FinClue</Link>
+            Powered by <Link href="/" className="text-neutral-400 hover:text-white transition-colors">Finclue</Link>
           </p>
         </div>
       </footer>

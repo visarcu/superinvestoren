@@ -286,7 +286,7 @@ Was möchtest du wissen?`,
             </div>
             <div>
               <h2 className="text-xl font-bold text-white">
-                FinClue AI Chat
+                Finclue AI Chat
               </h2>
               <p className="text-sm text-gray-400">
                 {investorName} Portfolio-Analyse
@@ -439,7 +439,7 @@ Was möchtest du wissen?`,
           </div>
           
           <div className="mt-3 text-xs text-gray-500 text-center">
-            Powered by FinClue AI • Drücke Enter zum Senden • Keine Anlageberatung
+            Powered by Finclue AI • Drücke Enter zum Senden • Keine Anlageberatung
           </div>
         </div>
       </div>

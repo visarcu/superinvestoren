@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { SparklesIcon } from '@heroicons/react/24/outline'
-import FinClueAI from '@/components/FinclueAI'
+import FinclueAI from '@/components/FinclueAI'
 import { supabase } from '@/lib/supabaseClient'
 
 interface User {
@@ -12,7 +12,7 @@ interface User {
   isPremium: boolean
 }
 
-export default function FinClueAIPage() {
+export default function FinclueAIPage() {
   const [user, setUser] = useState<User | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -48,7 +48,7 @@ export default function FinClueAIPage() {
       <div className="h-full flex items-center justify-center bg-gray-950">
         <div className="text-center">
           <div className="w-8 h-8 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-gray-400">Lade FinClue AI...</p>
+          <p className="text-gray-400">Lade Finclue AI...</p>
         </div>
       </div>
     )
@@ -57,7 +57,7 @@ export default function FinClueAIPage() {
   // Direct global AI - no ticker selection required
   return (
     <div className="h-full">
-      <FinClueAI 
+      <FinclueAI 
         ticker={null} 
         isPremium={user?.isPremium || false} 
       />

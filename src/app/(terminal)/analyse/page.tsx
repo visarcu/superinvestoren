@@ -362,7 +362,7 @@ export default function ModernDashboard() {
               className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-black font-medium rounded-lg text-sm transition-all"
             >
               <SparklesIcon className="w-4 h-4" />
-              FinClue AI
+              Finclue AI
             </Link>
             <Link
               href="/analyse/watchlist"

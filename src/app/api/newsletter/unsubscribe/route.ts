@@ -150,7 +150,7 @@ function generateSuccessPage(message: string): string {
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Newsletter Abmelden - FinClue</title>
+      <title>Newsletter Abmelden - Finclue</title>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -178,7 +178,7 @@ function generateErrorPage(error: string): string {
     <!DOCTYPE html>
     <html>
     <head>
-      <title>Fehler - FinClue</title>
+      <title>Fehler - Finclue</title>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
@@ -197,7 +197,7 @@ function generateErrorPage(error: string): string {
           falls das Problem weiterhin besteht.
         </p>
         <div style="margin-top: 24px;">
-          <a href="https://finclue.de" style="background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-block;">Zurück zu FinClue</a>
+          <a href="https://finclue.de" style="background: #10b981; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 500; display: inline-block;">Zurück zu Finclue</a>
         </div>
       </div>
     </body>

@@ -176,7 +176,7 @@ async function getLatestSECFiling(cik: string): Promise<{ quarterKey: string; fi
   try {
     const response = await fetch(`https://data.sec.gov/submissions/CIK${cik}.json`, {
       headers: {
-        'User-Agent': 'FinClue contact@finclue.de',
+        'User-Agent': 'Finclue contact@finclue.de',
         'Accept': 'application/json'
       }
     })
@@ -314,7 +314,7 @@ async function handleSECFilingCheck() {
       `
 
       const emailResult = await resend.emails.send({
-        from: 'FinClue <team@finclue.de>',
+        from: 'Finclue <team@finclue.de>',
         to: ADMIN_EMAIL,
         subject: `${newFilings.length} neue 13F Filing(s) auf der SEC`,
         html: emailHtml,

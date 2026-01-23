@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
         )
 
         const { data, error } = await resend.emails.send({
-          from: 'FinClue Newsletter <team@finclue.de>',
+          from: 'Finclue Newsletter <team@finclue.de>',
           to: [subscriber.email],
           subject: subject,
           html: personalizedHtml,
@@ -144,7 +144,7 @@ function generateNewsletterHtml(subject: string, content: string): string {
                                 <div style="display: inline-block; width: 50px; height: 50px; background-color: rgba(255,255,255,0.2); border-radius: 10px; margin-bottom: 15px; line-height: 50px;">
                                     <span style="color: white; font-size: 20px; font-weight: bold;">F</span>
                                 </div>
-                                <h1 style="margin: 0; color: white; font-size: 24px; font-weight: 700;">FinClue Newsletter</h1>
+                                <h1 style="margin: 0; color: white; font-size: 24px; font-weight: 700;">Finclue Newsletter</h1>
                                 <p style="margin: 8px 0 0; color: rgba(255,255,255,0.9); font-size: 14px;">${new Date().toLocaleDateString('de-DE', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
                             </td>
                         </tr>
@@ -163,10 +163,10 @@ function generateNewsletterHtml(subject: string, content: string): string {
                             <td style="padding: 30px; border-top: 1px solid #e5e7eb; text-align: center; background-color: #f9fafb;">
                                 <p style="margin: 0 0 10px; color: #6b7280; font-size: 14px;">
                                     Viele Grüße,<br>
-                                    Dein FinClue Team
+                                    Dein Finclue Team
                                 </p>
                                 <div style="margin: 15px 0;">
-                                    <a href="https://finclue.de" style="color: #3b82f6; text-decoration: none; font-size: 14px;">FinClue.de besuchen</a>
+                                    <a href="https://finclue.de" style="color: #3b82f6; text-decoration: none; font-size: 14px;">Finclue.de besuchen</a>
                                     <span style="color: #d1d5db; margin: 0 8px;">•</span>
                                     <a href="https://finclue.de/api/newsletter/unsubscribe?email=EMAIL_PLACEHOLDER" style="color: #6b7280; text-decoration: none; font-size: 12px;">Abmelden</a>
                                 </div>

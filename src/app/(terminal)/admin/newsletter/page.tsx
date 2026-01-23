@@ -206,9 +206,9 @@ export default function NewsletterAdminPage() {
               <textarea
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                placeholder="# FinClue Quarterly Update
+                placeholder="# Finclue Quarterly Update
 
-Hallo liebe FinClue Community! 👋
+Hallo liebe Finclue Community! 👋
 
 ## 📈 Markt-Highlights Q3 2024
 
@@ -225,11 +225,11 @@ Die wichtigsten Ereignisse des Quartals...
 
 ## 🎯 Was kommt als nächstes?
 
-Neue Features auf FinClue.de...
+Neue Features auf Finclue.de...
 
 ---
 Viele Grüße,
-Dein FinClue Team"
+Dein Finclue Team"
                 rows={20}
                 className="w-full px-4 py-3 bg-gray-900 border border-gray-800 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:border-gray-700 font-mono text-sm"
               />
@@ -304,7 +304,7 @@ Dein FinClue Team"
               <div className="max-w-none">
                 <div className="bg-gray-800 p-4 rounded-lg mb-4">
                   <h4 className="text-white font-semibold text-lg">{subject || 'Newsletter Betreff'}</h4>
-                  <p className="text-gray-400 text-sm mt-1">FinClue Newsletter • {new Date().toLocaleDateString('de-DE')}</p>
+                  <p className="text-gray-400 text-sm mt-1">Finclue Newsletter • {new Date().toLocaleDateString('de-DE')}</p>
                 </div>
                 <div 
                   className="text-gray-300 leading-relaxed text-sm"
@@ -334,10 +334,10 @@ Dein FinClue Team"
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <button
               onClick={() => {
-                setSubject('FinClue Quarterly Update - Q4 2024')
-                setContent(`# FinClue Quarterly Update Q4 2024
+                setSubject('Finclue Quarterly Update - Q4 2024')
+                setContent(`# Finclue Quarterly Update Q4 2024
 
-Hallo liebe FinClue Community! 👋
+Hallo liebe Finclue Community! 👋
 
 ## 📈 Markt-Highlights Q4 2024
 
@@ -349,11 +349,11 @@ Hallo liebe FinClue Community! 👋
 **Bill Ackman (Pershing Square):**
 - 
 
-## 🎯 Neue Features auf FinClue
+## 🎯 Neue Features auf Finclue
 
 ---
 Viele Grüße,
-Dein FinClue Team`)
+Dein Finclue Team`)
               }}
               className="p-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg text-left transition-colors"
             >
@@ -366,7 +366,7 @@ Dein FinClue Team`)
                 setSubject('🚨 Breaking: Buffett kauft neue Aktie!')
                 setContent(`# Breaking News: Warren Buffett macht großen Kauf! 🚨
 
-Hallo FinClue Community!
+Hallo Finclue Community!
 
 Berkshire Hathaway hat gerade ein neues 13F-Filing eingereicht mit einer überraschenden neuen Position:
 
@@ -381,10 +381,10 @@ Berkshire Hathaway hat gerade ein neues 13F-Filing eingereicht mit einer überra
 [Analyse...]
 
 ---
-Mehr Details auf FinClue.de
+Mehr Details auf Finclue.de
 
 Viele Grüße,
-Dein FinClue Team`)
+Dein Finclue Team`)
               }}
               className="p-4 bg-gray-800 hover:bg-gray-700 border border-gray-700 rounded-lg text-left transition-colors"
             >

@@ -4,11 +4,11 @@ import BlogPageClient from '@/components/BlogPageClient'
 import { getAllPosts } from '@/lib/blog'
 
 export const metadata: Metadata = {
-  title: 'Blog | FinClue',
-  description: 'Aktienanalysen, Superinvestor Updates und Investment-Guides von FinClue. Fundierte Einblicke für bessere Anlageentscheidungen.',
+  title: 'Blog | Finclue',
+  description: 'Aktienanalysen, Superinvestor Updates und Investment-Guides von Finclue. Fundierte Einblicke für bessere Anlageentscheidungen.',
   openGraph: {
-    title: 'Blog | FinClue',
-    description: 'Aktienanalysen, Superinvestor Updates und Investment-Guides von FinClue.',
+    title: 'Blog | Finclue',
+    description: 'Aktienanalysen, Superinvestor Updates und Investment-Guides von Finclue.',
   }
 }
 

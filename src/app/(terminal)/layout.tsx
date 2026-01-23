@@ -131,7 +131,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },
   { id: 'dcf', label: 'DCF Calculator', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
   { id: 'insider', label: 'Insider Trading', icon: EyeIcon, href: '/analyse/insider' },
-  { id: 'ai', label: 'FinClue AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
+  { id: 'ai', label: 'Finclue AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
 ]
 
 const SETTINGS_ITEMS: NavItem[] = [
@@ -578,7 +578,7 @@ const CommandPalette = React.memo(({
       { id: 'nav-insider', title: 'Insider Trading', subtitle: 'Aktuelle Insider-Aktivitäten', icon: EyeIcon, href: '/analyse/insider', category: 'navigation' },
       { id: 'nav-earnings', title: 'Earnings Calendar', subtitle: 'Anstehende Termine', icon: CalendarIcon, href: '/analyse/earnings', category: 'navigation' },
       { id: 'nav-dividends', title: 'Dividenden Calendar', subtitle: 'Dividenden-Termine', icon: CurrencyDollarIcon, href: '/analyse/dividends', category: 'navigation' },
-      { id: 'nav-ai', title: 'FinClue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/finclue-ai', category: 'navigation' },
+      { id: 'nav-ai', title: 'Finclue AI', subtitle: 'KI-gestützte Analyse', icon: SparklesIcon, href: '/analyse/finclue-ai', category: 'navigation' },
       { id: 'nav-profile', title: 'Profil', subtitle: 'Account verwalten', icon: UserCircleIcon, href: '/profile', category: 'settings' },
       { id: 'nav-settings', title: 'Einstellungen', subtitle: 'Konfiguration', icon: Cog6ToothIcon, href: '/settings', category: 'settings' },
       { id: 'action-upgrade', title: 'Premium upgraden', subtitle: 'Alle Features freischalten', icon: SparklesIcon, href: '/pricing', category: 'actions' },
@@ -752,7 +752,7 @@ const CommandPalette = React.memo(({
                 </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-theme-secondary group-hover:text-theme-primary">
-                    "{query}" mit FinClue AI analysieren
+                    "{query}" mit Finclue AI analysieren
                   </div>
                 </div>
               </button>
@@ -932,7 +932,7 @@ function LayoutContent({ children }: LayoutProps) {
       <div className="h-screen bg-theme-primary flex items-center justify-center">
         <div className="text-center">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
-          <p className="text-theme-secondary text-sm">Loading FinClue...</p>
+          <p className="text-theme-secondary text-sm">Loading Finclue...</p>
         </div>
       </div>
     )

@@ -2,7 +2,7 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'FinClue',
+  title: 'Finclue',
   description: 'Professionelle Aktien-Analyse Platform',
 }
 

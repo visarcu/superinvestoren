@@ -82,7 +82,7 @@ export default function ScoreBadge({ ticker }: { ticker: string }) {
           <div className="space-y-3">
             <div>
               <div className="flex items-center justify-between mb-1">
-                <span className="text-xs text-theme-muted">FinClue Score</span>
+                <span className="text-xs text-theme-muted">Finclue Score</span>
                 <span className="text-sm font-bold text-theme-primary">{scores.finclueScore}/100</span>
               </div>
               <div className="w-full bg-theme-tertiary rounded-full h-1.5">

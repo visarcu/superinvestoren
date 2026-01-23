@@ -13,13 +13,13 @@ export interface Newsletter {
     {
       id: 'newsletter-52',
       issueNumber: 52,
-      title: 'FinClue Newsletter #52: Warren Buffetts Apple-Verkäufe',
+      title: 'Finclue Newsletter #52: Warren Buffetts Apple-Verkäufe',
       excerpt: 'Diese Woche: Berkshire Hathaway reduziert Apple-Position um weitere 25%. Was steckt dahinter und was bedeutet das für Privatanleger?',
       publishedDate: '2024-12-16',
       content: `
   # Warren Buffett verkauft Apple - Was jetzt?
   
-  Liebe FinClue Community,
+  Liebe Finclue Community,
   
   diese Woche dominiert eine Nachricht die Schlagzeilen: Warren Buffett hat erneut Apple-Aktien verkauft. Die Oracle of Omaha reduzierte Berkshires Apple-Position um weitere 25%, nachdem bereits im Sommer erhebliche Verkäufe getätigt wurden.
   
@@ -87,7 +87,7 @@ export interface Newsletter {
   **Was denkst du über Buffetts Strategie? Antwort einfach auf diese E-Mail!**
   
   Beste Grüße und erfolgreiche Investments,  
-  Dein FinClue Team
+  Dein Finclue Team
   
   *P.S.: Verfolge Berkshires Portfolio-Änderungen live auf [finclue.de/superinvestor/buffett](https://finclue.de/superinvestor/buffett)*
       `
@@ -96,7 +96,7 @@ export interface Newsletter {
     {
       id: 'newsletter-51',
       issueNumber: 51,
-      title: 'FinClue Newsletter #51: Fed-Entscheidung und Marktausblick',
+      title: 'Finclue Newsletter #51: Fed-Entscheidung und Marktausblick',
       excerpt: 'Fed hält Zinsen stabil, Tech-Aktien erholen sich. Plus: Neue Positionen bei Pershing Square und eine Überraschung von Howard Marks.',
       publishedDate: '2024-12-09',
       content: `
@@ -149,7 +149,7 @@ export interface Newsletter {
   ---
   
   Beste Grüße,  
-  Dein FinClue Team
+  Dein Finclue Team
       `
     }
   

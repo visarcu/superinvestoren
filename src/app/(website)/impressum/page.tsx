@@ -2,7 +2,7 @@
 import { BuildingOfficeIcon } from '@heroicons/react/24/outline'
 
 export const metadata = {
-  title: 'Impressum – FinClue',
+  title: 'Impressum – Finclue',
 }
 
 export default function ImpressumPage() {
@@ -33,7 +33,7 @@ export default function ImpressumPage() {
             
             {/* Subtitle */}
             <p className="text-xl text-gray-400 max-w-3xl mx-auto mb-10 leading-relaxed">
-              Alle wichtigen Informationen über FinClue
+              Alle wichtigen Informationen über Finclue
               gemäß den gesetzlichen Bestimmungen.
             </p>
           </div>
@@ -166,7 +166,7 @@ export default function ImpressumPage() {
       <section className="bg-black pb-16 border-t border-white/5">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center pt-8">
           <p className="text-gray-400 mb-2">
-            © 2025 FinClue. Alle Rechte vorbehalten.
+            © 2025 Finclue. Alle Rechte vorbehalten.
           </p>
           <p className="text-sm text-gray-500">
             Bei Fragen erreichen Sie uns jederzeit über die angegebenen Kontaktdaten.

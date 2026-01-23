@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { Disclosure } from '@headlessui/react'
+import Image from 'next/image'
 import {
   Bars3Icon,
   XMarkIcon,
@@ -449,11 +450,13 @@ export default function Navbar() {
 
         {/* Left: Logo */}
         <Link href="/" className="flex items-center gap-2.5">
-          <div className="flex items-end gap-0.5">
-            <div className="w-1.5 h-3 bg-emerald-500 rounded-sm"></div>
-            <div className="w-1.5 h-4 bg-emerald-500 rounded-sm"></div>
-            <div className="w-1.5 h-5 bg-emerald-500 rounded-sm"></div>
-          </div>
+          <Image
+            src="/logos/logo-transparent-white.svg"
+            alt="Finclue Logo"
+            width={32}
+            height={32}
+            className="w-8 h-8"
+          />
           <span className={`font-semibold text-lg tracking-tight ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>Finclue</span>
         </Link>
 

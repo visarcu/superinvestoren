@@ -137,7 +137,7 @@ async function fetchChartData(ticker: string, period: string = '6M'): Promise<an
     const response = await fetch(
       `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?from=${fromDate}&to=${toDate}&apikey=${FMP_API_KEY}`,
       { 
-        headers: { 'User-Agent': 'FinClue-App/1.0' },
+        headers: { 'User-Agent': 'Finclue-App/1.0' },
         signal: AbortSignal.timeout(10000)
       }
     )
@@ -287,7 +287,7 @@ async function getRagContext(message: string, ticker?: string): Promise<{ contex
 
 // System Prompt Builder
 function buildSystemPrompt(analysisType: string): string {
-  const basePrompt = `Du bist "FinClue AI", ein spezialisierter Finanzanalyst-Assistent.
+  const basePrompt = `Du bist "Finclue AI", ein spezialisierter Finanzanalyst-Assistent.
 
 WICHTIGE RICHTLINIEN:
 • Antworte IMMER auf Deutsch in natürlicher, conversationaler Sprache
@@ -781,7 +781,7 @@ Antworte auf Deutsch und beantworte die spezifische Frage basierend auf Portfoli
 
 // GENERAL PROMPT BUILDER
 function buildGeneralPrompt(message: string, currentDate: string, ragContext: string): string {
-  return `${ragContext}Du bist FinClue AI, ein spezialisierter Finanzanalyst-Assistent.
+  return `${ragContext}Du bist Finclue AI, ein spezialisierter Finanzanalyst-Assistent.
 
 Aktuelles Datum: ${currentDate}
 
@@ -982,7 +982,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log(`🚀 DEBUG: [Enhanced FinClue AI] ${analysisType} analysis request`, { 
+    console.log(`🚀 DEBUG: [Enhanced Finclue AI] ${analysisType} analysis request`, { 
       message: message.substring(0, 100) + '...',
       ticker, 
       investor,
@@ -1097,7 +1097,7 @@ export async function POST(request: NextRequest) {
     })
 
   } catch (error) {
-    console.error('❌ DEBUG: [Enhanced FinClue AI] Error:', error)
+    console.error('❌ DEBUG: [Enhanced Finclue AI] Error:', error)
     
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
     

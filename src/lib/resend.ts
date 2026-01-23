@@ -30,16 +30,16 @@ export async function sendWelcomeEmail(email: string) {
     console.log('🎉 Sending welcome email to:', email);
 
     const { data, error } = await resend.emails.send({
-      from: 'FinClue <team@finclue.de>',
+      from: 'Finclue <team@finclue.de>',
       to: [email],
-      subject: '🎉 Willkommen bei FinClue! Nie wieder ein Update verpassen',
+      subject: '🎉 Willkommen bei Finclue! Nie wieder ein Update verpassen',
       html: `
         <!DOCTYPE html>
         <html lang="de">
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Willkommen bei FinClue</title>
+            <title>Willkommen bei Finclue</title>
         </head>
         <body style="margin: 0; padding: 0; background-color: #0f172a; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #0f172a; min-height: 100vh;">
@@ -53,7 +53,7 @@ export async function sendWelcomeEmail(email: string) {
                                     <div style="display: inline-block; width: 64px; height: 64px; background-color: rgba(255,255,255,0.15); border-radius: 16px; margin-bottom: 20px; line-height: 64px; backdrop-filter: blur(10px);">
                                         <span style="color: white; font-size: 28px; font-weight: 800;">F</span>
                                     </div>
-                                    <h1 style="margin: 0; color: white; font-size: 32px; font-weight: 800; letter-spacing: -0.5px;">FinClue</h1>
+                                    <h1 style="margin: 0; color: white; font-size: 32px; font-weight: 800; letter-spacing: -0.5px;">Finclue</h1>
                                     <p style="margin: 12px 0 0; color: rgba(255,255,255,0.9); font-size: 18px; font-weight: 500;">Nie wieder ein Update verpassen</p>
                                 </td>
                             </tr>
@@ -92,7 +92,7 @@ export async function sendWelcomeEmail(email: string) {
                                             </tr>
                                             <tr>
                                                 <td style="padding: 8px 0; color: rgba(255,255,255,0.95); font-size: 15px; line-height: 1.6;">
-                                                    <strong>🚀 Neue Features:</strong> Exklusive Updates zu FinClue
+                                                    <strong>🚀 Neue Features:</strong> Exklusive Updates zu Finclue
                                                 </td>
                                             </tr>
                                         </table>
@@ -102,7 +102,7 @@ export async function sendWelcomeEmail(email: string) {
                                     <div style="text-align: center; margin: 36px 0;">
                                         <a href="https://finclue.de" 
                                            style="display: inline-block; background: linear-gradient(135deg, #10b981 0%, #059669 100%); color: white; text-decoration: none; padding: 18px 36px; border-radius: 12px; font-weight: 700; font-size: 17px; box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3); transition: all 0.2s;">
-                                            🚀 FinClue jetzt erkunden
+                                            🚀 Finclue jetzt erkunden
                                         </a>
                                     </div>
 
@@ -120,7 +120,7 @@ export async function sendWelcomeEmail(email: string) {
                                 <td style="padding: 32px 40px; border-top: 1px solid #334155; text-align: center; background-color: #0f172a; border-radius: 0 0 16px 16px;">
                                     <p style="margin: 0 0 12px; color: #64748b; font-size: 15px; font-weight: 600;">
                                         Viele Grüße,<br>
-                                        <span style="color: #10b981;">Dein FinClue Team</span>
+                                        <span style="color: #10b981;">Dein Finclue Team</span>
                                     </p>
                                     <div style="margin: 20px 0 0;">
                                         <a href="https://finclue.de" style="color: #10b981; text-decoration: none; font-size: 14px; font-weight: 500; margin-right: 16px;">finclue.de</a>

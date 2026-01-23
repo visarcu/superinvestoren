@@ -149,7 +149,7 @@ export default function SignUpPage() {
         Account erstellen
       </h1>
       <p className="text-neutral-500 text-center text-sm mb-8">
-        Starte jetzt kostenlos mit FinClue
+        Starte jetzt kostenlos mit Finclue
       </p>
 
       {/* Messages */}

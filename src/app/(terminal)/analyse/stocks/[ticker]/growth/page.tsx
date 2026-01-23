@@ -24,8 +24,8 @@ export async function generateMetadata({ params }: { params: { ticker: string } 
   
   return {
     title: stock 
-      ? `${stock.name} (${ticker}) - Wachstumsanalyse | FinClue`
-      : `${ticker} - Wachstumsanalyse | FinClue`,
+      ? `${stock.name} (${ticker}) - Wachstumsanalyse | Finclue`
+      : `${ticker} - Wachstumsanalyse | Finclue`,
     description: stock
       ? `Detaillierte Wachstumsanalyse von ${stock.name} (${ticker}): Revenue Growth, EPS Growth, CAGR-Berechnungen und Forward Estimates.`
       : `Wachstumsanalyse für ${ticker} mit Revenue Growth, EPS Growth und historischen Trends.`,

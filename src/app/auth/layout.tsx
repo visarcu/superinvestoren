@@ -3,6 +3,7 @@
 
 import type { ReactNode } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Analytics } from "@vercel/analytics/next"
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
@@ -16,13 +17,15 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
           {/* Logo - Above Card */}
           <div className="flex justify-center mb-8">
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="flex items-end gap-0.5">
-                <div className="w-1.5 h-3 bg-emerald-500 rounded-full transition-all group-hover:h-4"></div>
-                <div className="w-1.5 h-4 bg-emerald-400 rounded-full transition-all group-hover:h-5"></div>
-                <div className="w-1.5 h-5 bg-emerald-300 rounded-full transition-all group-hover:h-6"></div>
-              </div>
+              <Image
+                src="/logos/logo-transparent-white.svg"
+                alt="Finclue Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
               <span className="text-xl font-semibold text-white">
-                FinClue
+                Finclue
               </span>
             </Link>
           </div>
@@ -45,7 +48,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
               </Link>
               {' · '}
               <Link href="/" className="hover:text-neutral-400 transition-colors">
-                FinClue
+                Finclue
               </Link>
             </p>
           </div>

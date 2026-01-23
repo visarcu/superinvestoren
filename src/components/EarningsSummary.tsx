@@ -102,7 +102,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
             <SparklesIcon className="w-5 h-5 text-brand animate-pulse" />
           </div>
           <div className="text-sm font-medium text-theme-primary mb-2">
-            FinClue AI analysiert...
+            Finclue AI analysiert...
           </div>
           <div className="text-xs text-theme-muted">
             Generiere Zusammenfassung für Q{quarter} {year}

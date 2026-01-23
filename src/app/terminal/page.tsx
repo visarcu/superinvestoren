@@ -253,7 +253,7 @@ const Terminal = () => {
               <div className="w-1.5 h-4 bg-brand rounded-sm"></div>
               <div className="w-1.5 h-5 bg-brand rounded-sm"></div>
             </div>
-            <span className="text-xl font-bold text-white">FinClue</span>
+            <span className="text-xl font-bold text-white">Finclue</span>
             <span className="text-xs bg-brand/20 text-brand-light px-2 py-1 rounded font-medium">
               Terminal
             </span>

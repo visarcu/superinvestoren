@@ -12,8 +12,8 @@ export async function generateMetadata({
   const symbol = ticker.toUpperCase()
   
   return {
-    title: `${symbol} Bewertung & Scores - FinClue Rating`,
-    description: `Detaillierte Bewertungsanalyse für ${symbol}: FinClue Score, Altman Z-Score, Piotroski F-Score und fundamentale Faktoren.`,
+    title: `${symbol} Bewertung & Scores - Finclue Rating`,
+    description: `Detaillierte Bewertungsanalyse für ${symbol}: Finclue Score, Altman Z-Score, Piotroski F-Score und fundamentale Faktoren.`,
   }
 }
 

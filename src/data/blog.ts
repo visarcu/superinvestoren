@@ -118,7 +118,7 @@ Wenn selbst der CEO bei diesen Preisen verkauft (auch wenn planmäßig), sollten
 
 **Bottom Line:** Nvidia ist ein großartiges Unternehmen – aber bei $164 möglicherweise keine großartige Aktie mehr.`,
     author: {
-      name: 'FinClue Research',
+      name: 'Finclue Research',
       image: '/images/finclue-logo.png',
       bio: 'Unser Research-Team analysiert täglich die Portfolios der erfolgreichsten Investoren weltweit.'
     },
@@ -134,7 +134,7 @@ Wenn selbst der CEO bei diesen Preisen verkauft (auch wenn planmäßig), sollten
     featured: true,
     premium: false,
     seo: {
-      metaTitle: 'Nvidia 4-Billionen-Dollar: Jensen Huang Verkauf Analyse | FinClue',
+      metaTitle: 'Nvidia 4-Billionen-Dollar: Jensen Huang Verkauf Analyse | Finclue',
       metaDescription: 'Nvidia erreicht 4-Billionen-Dollar Marktkapitalisierung. Warum verkauft CEO Jensen Huang Aktien für 15 Millionen? Vollständige Analyse.'
     },
     relatedStocks: ['NVDA', 'AAPL', 'MSFT']
@@ -186,7 +186,7 @@ Du siehst nicht nur, was gekauft wird, sondern auch, was verkauft wird. Wenn Buf
 
 ### **Professionelle Tools:**
 - **WhaleWisdom:** Benutzerfreundliche Aufbereitung der SEC-Daten
-- **FinClue:** Automatisches Tracking von 90+ Super-Investoren mit Alerts
+- **Finclue:** Automatisches Tracking von 90+ Super-Investoren mit Alerts
 
 ## So liest du ein 13F Filing richtig
 
@@ -263,9 +263,9 @@ Super-Investoren haben andere Risikoprofile und Anlagehorizonte als Privatanlege
 - **Carl Icahn (Icahn Enterprises):** Corporate Raider
 - **Daniel Loeb (Third Point):** Event-driven
 
-## Wie FinClue dir dabei hilft
+## Wie Finclue dir dabei hilft
 
-Bei FinClue tracken wir über 90 Super-Investoren automatisch und schicken dir Alerts bei wichtigen Änderungen:
+Bei Finclue tracken wir über 90 Super-Investoren automatisch und schicken dir Alerts bei wichtigen Änderungen:
 
 ✅ **Echtzeit-Benachrichtigungen:** Neue Filings sofort im Dashboard
 
@@ -299,9 +299,9 @@ Bei FinClue tracken wir über 90 Super-Investoren automatisch und schicken dir A
 
 Mit diesem Wissen wirst du zu einem besseren, informierteren Investor.
 
-**Ready to start?** Tracke die besten Investoren der Welt mit FinClue und verpasse nie wieder einen wichtigen Move.`,
+**Ready to start?** Tracke die besten Investoren der Welt mit Finclue und verpasse nie wieder einen wichtigen Move.`,
     author: {
-      name: 'FinClue Research',
+      name: 'Finclue Research',
       image: '/images/finclue-logo.png',
       bio: 'Unser Research-Team analysiert täglich die Portfolios der erfolgreichsten Investoren weltweit.'
     },
@@ -329,9 +329,9 @@ Mit diesem Wissen wirst du zu einem besseren, informierteren Investor.
     slug: 'newsletter-kw47-wochenrueckblick',
     title: 'Wochenrückblick KW47: Die Highlights der Woche',
     excerpt: 'Von Nvidias 4-Billionen-Meilenstein bis zu Metas 3,5-Milliarden-Brillen-Deal – hier sind die wichtigsten Investment-Moves der Woche im Überblick.',
-    content: `# FinClue Newsletter KW47
+    content: `# Finclue Newsletter KW47
 
-Hallo liebe FinClue-Community!
+Hallo liebe Finclue-Community!
  
 Was für eine Woche! Die Märkte haben uns mal wieder daran erinnert, warum wir dieses Spiel so lieben. Von historischen Meilensteinen bis hin zu strategischen Schachzügen der Superinvestoren – hier ist euer kompakter Überblick über das, was diese Woche wirklich zählte.
 ­
@@ -369,13 +369,13 @@ Diese Woche zeigt wieder: Die großen Trends setzen sich fort. KI bleibt das dom
  
 **Besonders spannend:** Die Insider-Verkäufe zeigen, dass selbst die CEOs bei diesen Bewertungen Gewinne mitnehmen. Das ist nicht bearish, sondern gesunde Portfoliodiversifikation nach historischen Rallyes.
  
-## 🎯 Euer FinClue-Vorteil
+## 🎯 Euer Finclue-Vorteil
 
-Ihr wollt diese Insider-Moves nicht mehr verpassen? Bei FinClue tracken wir nicht nur die Depots von über 90 Superinvestoren, sondern auch solche Insider-Käufe und -verkäufe in Echtzeit.`,
+Ihr wollt diese Insider-Moves nicht mehr verpassen? Bei Finclue tracken wir nicht nur die Depots von über 90 Superinvestoren, sondern auch solche Insider-Käufe und -verkäufe in Echtzeit.`,
     author: {
-      name: 'FinClue Team',
+      name: 'Finclue Team',
       image: '/images/finclue-logo.png',
-      bio: 'Das FinClue Team kuratiert wöchentlich die wichtigsten Investment-News und Super-Investor Updates.'
+      bio: 'Das Finclue Team kuratiert wöchentlich die wichtigsten Investment-News und Super-Investor Updates.'
     },
     publishedDate: '2025-07-14',
     readTime: '5 min',

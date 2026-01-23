@@ -165,7 +165,7 @@ export default function ProfessionalHomePage() {
           <div className="relative">
             <Image
               src="/images/hero-terminal.png"
-              alt="FinClue Terminal - Professionelle Aktienanalyse"
+              alt="Finclue Terminal - Professionelle Aktienanalyse"
               width={1920}
               height={1080}
               className="w-full max-w-6xl mx-auto rounded-xl lg:rounded-2xl"

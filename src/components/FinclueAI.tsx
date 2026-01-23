@@ -58,7 +58,7 @@ interface QuickPrompt {
 }
 
 // ✅ ENHANCED INTERFACE für Unified AI
-interface FinClueAIProps {
+interface FinclueAIProps {
   ticker?: string | null
   investor?: string | null
   portfolioData?: any
@@ -346,7 +346,7 @@ function getInitialWelcomeMessage(ticker?: string | null, investor?: string | nu
   
   switch (contextType) {
     case 'stock':
-      return `Hallo! Ich bin FinClue AI. Lass uns über ${ticker!.toUpperCase()} sprechen. Ich habe Zugriff auf aktuelle Finanzdaten, Quartalszahlen, News und SEC-Filings.
+      return `Hallo! Ich bin Finclue AI. Lass uns über ${ticker!.toUpperCase()} sprechen. Ich habe Zugriff auf aktuelle Finanzdaten, Quartalszahlen, News und SEC-Filings.
 
 Frag mich nach:
 • Quartalszahlen & Kennzahlen
@@ -372,7 +372,7 @@ Ich kann dir helfen bei:
 Was möchtest du über ${investor}s Portfolio wissen?`
 
     default:
-      return `Hallo! Ich bin FinClue AI, dein intelligenter Finanzassistent. Ich erkenne automatisch, worüber du sprechen möchtest und lade die entsprechenden Daten.
+      return `Hallo! Ich bin Finclue AI, dein intelligenter Finanzassistent. Ich erkenne automatisch, worüber du sprechen möchtest und lade die entsprechenden Daten.
 
 Frag mich nach:
 • Jeder Aktie (z.B. "Apple Quartalszahlen")
@@ -601,7 +601,7 @@ function MultiTickerSelector({
 }
 
 // ✅ MAIN ENHANCED UNIFIED COMPONENT
-export default function FinClueAI({ 
+export default function FinclueAI({ 
   ticker, 
   investor,
   portfolioData,
@@ -609,7 +609,7 @@ export default function FinClueAI({
   showQuickPrompts = true,
   compactMode = false,
   isPremium 
-}: FinClueAIProps) {
+}: FinclueAIProps) {
   
   // ✅ ENHANCED INITIAL STATE mit Dynamic Welcome Message
   const [messages, setMessages] = useState<Message[]>([
@@ -765,9 +765,9 @@ export default function FinClueAI({
       let errorContent = 'Entschuldigung, es gab einen Fehler bei der Verarbeitung deiner Anfrage.'
       if (error instanceof Error) {
         if (error.message === 'Premium subscription required') {
-          errorContent = 'Für FinClue AI wird ein Premium-Abonnement benötigt. Bitte upgrade dein Konto.'
+          errorContent = 'Für Finclue AI wird ein Premium-Abonnement benötigt. Bitte upgrade dein Konto.'
         } else if (error.message === 'Not authenticated') {
-          errorContent = 'Du musst angemeldet sein, um FinClue AI zu verwenden.'
+          errorContent = 'Du musst angemeldet sein, um Finclue AI zu verwenden.'
         }
       }
 
@@ -818,7 +818,7 @@ export default function FinClueAI({
           </div>
           <h3 className="text-2xl font-bold text-theme-primary mb-4">Premium Feature</h3>
           <p className="text-theme-secondary mb-6 leading-relaxed">
-            FinClue AI ist ein Premium-Feature. Upgrade jetzt und erhalte Zugang zu unserem 
+            Finclue AI ist ein Premium-Feature. Upgrade jetzt und erhalte Zugang zu unserem 
             KI-Finanzassistenten für detaillierte Aktienanalysen.
           </p>
           <button 
@@ -848,7 +848,7 @@ export default function FinClueAI({
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-theme-primary flex items-center gap-2">
-                  FinClue AI
+                  Finclue AI
                   {ragStatus.enabled && (
                     <div className="flex items-center gap-1 px-2 py-1 bg-blue-500/20 border border-blue-500/30 rounded-full">
                       <DocumentDuplicateIcon className="w-3 h-3 text-blue-400" />
@@ -1008,7 +1008,7 @@ export default function FinClueAI({
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
                   <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                   <span className="ml-2 text-sm">
-                    FinClue AI analysiert{ragStatus.enabled ? ' mit Dokumenten' : ''}
+                    Finclue AI analysiert{ragStatus.enabled ? ' mit Dokumenten' : ''}
                     {hybridContext.contextType === 'hybrid' ? ' (Hybrid-Kontext)' : ''}...
                   </span>
                 </div>
@@ -1074,7 +1074,7 @@ export default function FinClueAI({
               )}
               <span className="flex items-center gap-1">
                 <SparklesIcon className="w-3 h-3" />
-                Powered by FinClue AI
+                Powered by Finclue AI
               </span>
             </div>
           </div>

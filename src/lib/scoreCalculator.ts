@@ -1,5 +1,5 @@
 // src/lib/scoreCalculator.ts
-export async function calculateAdvancedFinClueScore(
+export async function calculateAdvancedFinclueScore(
     ticker: string,
     financials: any,
     quote: any,

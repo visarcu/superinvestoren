@@ -526,7 +526,7 @@ export class OptimizedDataIngestionService {
           `https://financialmodelingprep.com/api/v4/earning_call_transcript/${ticker}?year=${year}&quarter=${quarter}&apikey=${apiKey}`,
           { 
             signal: controller.signal,
-            headers: { 'User-Agent': 'FinClue-App/1.0' }
+            headers: { 'User-Agent': 'Finclue-App/1.0' }
           }
         )
         
@@ -586,7 +586,7 @@ export class OptimizedDataIngestionService {
           `https://financialmodelingprep.com/api/v3/stock_news?tickers=${ticker}&limit=${limit}&apikey=${apiKey}`,
           { 
             signal: controller.signal,
-            headers: { 'User-Agent': 'FinClue-App/1.0' }
+            headers: { 'User-Agent': 'Finclue-App/1.0' }
           }
         )
         

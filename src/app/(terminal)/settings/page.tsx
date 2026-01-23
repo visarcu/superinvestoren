@@ -101,7 +101,7 @@ export default function SettingsPage() {
           </h1>
 
           <p className="text-theme-secondary text-sm max-w-2xl">
-            Passe FinClue an deine Bedürfnisse an. Weitere Einstellungen werden laufend hinzugefügt.
+            Passe Finclue an deine Bedürfnisse an. Weitere Einstellungen werden laufend hinzugefügt.
           </p>
         </div>
 

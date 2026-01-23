@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
     // Direkte E-Mail ohne irgendwelche API-Aufrufe
     const { data: emailResult, error: emailError } = await getResend().emails.send({
-      from: 'FinClue <team@finclue.de>',
+      from: 'Finclue <team@finclue.de>',
       to: ['visarcurraj95@gmail.com'],
       subject: '🧪 DIRECT TEST - ' + new Date().toLocaleTimeString(),
       html: `

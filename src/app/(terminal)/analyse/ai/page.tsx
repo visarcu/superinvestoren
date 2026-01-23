@@ -1,4 +1,4 @@
-// src/app/analyse/ai/page.tsx - REDIRECT to Global FinClue AI
+// src/app/analyse/ai/page.tsx - REDIRECT to Global Finclue AI
 'use client'
 
 import { useEffect } from 'react'
@@ -9,8 +9,8 @@ export default function OldAIRedirect() {
   const router = useRouter()
 
   useEffect(() => {
-    // Redirect to global FinClue AI
-    console.log('🔄 Redirecting old /analyse/ai to global FinClue AI')
+    // Redirect to global Finclue AI
+    console.log('🔄 Redirecting old /analyse/ai to global Finclue AI')
     router.replace('/analyse/finclue-ai')
   }, [router])
 
@@ -22,10 +22,10 @@ export default function OldAIRedirect() {
           <SparklesIcon className="w-8 h-8 text-purple-400 animate-pulse" />
         </div>
         <h2 className="text-xl font-semibold text-theme-primary mb-3">
-          Wechsle zu Global FinClue AI
+          Wechsle zu Global Finclue AI
         </h2>
         <p className="text-theme-secondary mb-6">
-          Leite weiter zur globalen FinClue AI...
+          Leite weiter zur globalen Finclue AI...
         </p>
         <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
       </div>

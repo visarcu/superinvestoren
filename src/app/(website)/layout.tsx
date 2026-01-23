@@ -5,6 +5,7 @@ import '@/app/globals.css'
 import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Analytics } from "@vercel/analytics/next"
 import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { useTheme } from '@/lib/useTheme'
@@ -39,7 +40,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
             <div className="w-2 h-6 bg-brand rounded-sm animate-pulse animation-delay-150"></div>
             <div className="w-2 h-8 bg-brand rounded-sm animate-pulse animation-delay-300"></div>
           </div>
-          <p className={`text-sm ${isLightTheme ? 'text-gray-500' : 'text-gray-400'}`}>Lade FinClue...</p>
+          <p className={`text-sm ${isLightTheme ? 'text-gray-500' : 'text-gray-400'}`}>Lade Finclue...</p>
         </div>
       </div>
     )
@@ -70,12 +71,14 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
 
               <div className="md:col-span-1">
                 <div className="flex items-center gap-2 mb-3">
-                  <div className="flex items-end gap-0.5">
-                    <div className="w-1.5 h-3 bg-emerald-500 rounded-sm"></div>
-                    <div className="w-1.5 h-4 bg-emerald-500 rounded-sm"></div>
-                    <div className="w-1.5 h-5 bg-emerald-500 rounded-sm"></div>
-                  </div>
-                  <span className={`text-lg font-bold ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>FinClue</span>
+                  <Image
+                    src="/logos/logo-transparent-white.svg"
+                    alt="Finclue Logo"
+                    width={28}
+                    height={28}
+                    className="w-7 h-7"
+                  />
+                  <span className={`text-lg font-bold ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>Finclue</span>
                 </div>
                 <p className={`text-sm leading-relaxed ${isLightTheme ? 'text-gray-500' : 'text-gray-400'}`}>
                   Professionelle Investment-Analyse und Super-Investor Portfolios für bessere Anlageentscheidungen.
@@ -178,7 +181,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
               <div className="flex flex-col md:flex-row items-center justify-between gap-3">
 
                 <div className={`text-sm ${isLightTheme ? 'text-gray-400' : 'text-gray-400'}`}>
-                  © {new Date().getFullYear()} FinClue. Alle Rechte vorbehalten.
+                  © {new Date().getFullYear()} Finclue. Alle Rechte vorbehalten.
                 </div>
 
                 <div className={`flex items-center gap-4 text-xs ${isLightTheme ? 'text-gray-400' : 'text-gray-400'}`}>
