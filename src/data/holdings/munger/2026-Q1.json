@@ -1,0 +1,75 @@
+{
+  "form": "13F-HR",
+  "date": "2026-01-13",
+  "period": "2026-01-13",
+  "accession": "0001437749-26-001178",
+  "quarterKey": "2026-Q1",
+  "positions": [
+    {
+      "name": "Wells Fargo & Co",
+      "cusip": "949746101",
+      "shares": 1413000,
+      "value": 131691600,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 2000000,
+      "value": 110000000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Alibaba Group Holding Ltd",
+      "cusip": "01609W102",
+      "shares": 195000,
+      "value": 28583100,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Sponsored ADS",
+      "putCall": null
+    },
+    {
+      "name": "US Bancorp",
+      "cusip": "902973304",
+      "shares": 119500,
+      "value": 6376520,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    }
+  ],
+  "totalValue": 276651220,
+  "positionsCount": 4,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 276651220
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

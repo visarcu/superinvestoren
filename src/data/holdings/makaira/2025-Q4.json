@@ -1,0 +1,187 @@
+{
+  "form": "13F-HR",
+  "date": "2025-11-17",
+  "period": "2025-11-17",
+  "accession": "0001540866-25-000008",
+  "quarterKey": "2025-Q4",
+  "positions": [
+    {
+      "name": "CHARTER COMMUNICATIONS CL A ORD",
+      "cusip": "16119P108",
+      "shares": 164000,
+      "value": 45117220,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "BATH AND BODY WORKS ORD",
+      "cusip": "070830104",
+      "shares": 1370000,
+      "value": 35291200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LAMAR ADVERTISING CL A REIT",
+      "cusip": "512816109",
+      "shares": 170000,
+      "value": 20811400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "FLUTTER ENTERTAINMENT ORD",
+      "cusip": "G3643J108",
+      "shares": 81422,
+      "value": 20681188,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "DOMINOS PIZZA ORD",
+      "cusip": "25754A201",
+      "shares": 37000,
+      "value": 15973270,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CDW ORD",
+      "cusip": "12514G108",
+      "shares": 100000,
+      "value": 15928000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BEL FUSE CL B ORD",
+      "cusip": "077347300",
+      "shares": 100000,
+      "value": 14102000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
+    },
+    {
+      "name": "CACTUS CL A ORD",
+      "cusip": "127203107",
+      "shares": 263409,
+      "value": 10396753,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "SAVERS VALUE VILLAGE ORD",
+      "cusip": "80517M109",
+      "shares": 780000,
+      "value": 10335000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LIMBACH HOLDINGS ORD",
+      "cusip": "53263P105",
+      "shares": 52239,
+      "value": 5073452,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HEICO CL A ORD",
+      "cusip": "422806208",
+      "shares": 2171,
+      "value": 551629,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "BEL FUSE CL A ORD",
+      "cusip": "077347201",
+      "shares": 4001,
+      "value": 465516,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    }
+  ],
+  "totalValue": 194726628,
+  "positionsCount": 12,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 194726628
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

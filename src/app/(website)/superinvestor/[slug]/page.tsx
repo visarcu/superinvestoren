@@ -177,6 +177,13 @@ buffett: 'Warren Buffett – Berkshire Hathaway',
   ark_investment_management: 'Catherine Wood',
   druckenmiller: 'Stanley Druckenmiller',
   thiel: 'Peter Thiel - Thiel Macro LLC',
+  wyden: 'Adam Wyden - ADW Capital Management',
+  ubben: 'Jeffrey Ubben - Valueact Holdings',
+  brenton: 'Andrew Brenton - Turtle Creek Asset Management',
+  martin: 'Fred Martin - Disciplined Growth Investors',
+  ellenbogen: 'Henry Ellenbogen - Durable Capital Partners',
+  greenbrier:'Greenbrier Partners Capital Management',
+  bares: 'Brian Bares - Bares Capital Management',
 
   //mutual funds
   cunniff_sequoia: 'Ruane Cunniff – Sequoia Fund',

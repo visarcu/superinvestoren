@@ -2,11 +2,11 @@
 
 import React, { useState, useCallback, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { useAuth } from '@/contexts/UserContext'
 import AIAnalyseInput from './AIAnalyseInput'
 import AIAnalyseOutput from './AIAnalyseOutput'
 import AIAnalyseLoading from './AIAnalyseLoading'
 import { ExclamationTriangleIcon, LockClosedIcon } from '@heroicons/react/24/outline'
+import type { User } from '@supabase/supabase-js'
 
 interface AnalysisResult {
   analysis: string
@@ -14,6 +14,7 @@ interface AnalysisResult {
   companyName: string
   currentPrice: number
   marketCap: number
+  fairValue: number
   timestamp: string
 }
 
@@ -21,23 +22,62 @@ interface AIAnalyseTabProps {
   ticker?: string // Optional: pre-fill ticker (e.g., from stock page)
 }
 
+const SESSION_STORAGE_KEY = 'finclue_ai_analysis_result'
+
 export default function AIAnalyseTab({ ticker: initialTicker }: AIAnalyseTabProps) {
-  const { user, isAuthenticated } = useAuth()
+  const [user, setUser] = useState<User | null>(null)
   const [accessToken, setAccessToken] = useState<string | null>(null)
+  const [authLoading, setAuthLoading] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
   const [result, setResult] = useState<AnalysisResult | null>(null)
   const [error, setError] = useState<string | null>(null)
 
-  // Get access token when user is authenticated
+  // Check auth state on mount
   useEffect(() => {
-    async function getToken() {
-      if (isAuthenticated) {
+    async function checkAuth() {
+      try {
         const { data: { session } } = await supabase.auth.getSession()
+        setUser(session?.user || null)
         setAccessToken(session?.access_token || null)
+      } catch (err) {
+        console.error('Auth check error:', err)
+      } finally {
+        setAuthLoading(false)
       }
     }
-    getToken()
-  }, [isAuthenticated])
+    checkAuth()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+      setAccessToken(session?.access_token || null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  // Load cached result from sessionStorage on mount
+  useEffect(() => {
+    try {
+      const cached = sessionStorage.getItem(SESSION_STORAGE_KEY)
+      if (cached) {
+        const parsed = JSON.parse(cached) as AnalysisResult
+        // Check if the cached result is still valid (less than 30 minutes old)
+        const timestamp = new Date(parsed.timestamp).getTime()
+        const now = Date.now()
+        const thirtyMinutes = 30 * 60 * 1000
+        if (now - timestamp < thirtyMinutes) {
+          setResult(parsed)
+        } else {
+          // Clear expired cache
+          sessionStorage.removeItem(SESSION_STORAGE_KEY)
+        }
+      }
+    } catch (err) {
+      console.error('Error loading cached analysis:', err)
+      sessionStorage.removeItem(SESSION_STORAGE_KEY)
+    }
+  }, [])
 
   const handleAnalyze = useCallback(async (ticker: string) => {
     if (!accessToken) {
@@ -65,14 +105,23 @@ export default function AIAnalyseTab({ ticker: initialTicker }: AIAnalyseTabProp
         throw new Error(data.error || 'Analyse fehlgeschlagen')
       }
 
-      setResult({
+      const newResult = {
         analysis: data.analysis,
         ticker: data.ticker,
         companyName: data.companyName,
         currentPrice: data.currentPrice,
         marketCap: data.marketCap,
+        fairValue: data.fairValue,
         timestamp: data.timestamp
-      })
+      }
+      setResult(newResult)
+
+      // Save to sessionStorage for persistence across page refreshes
+      try {
+        sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(newResult))
+      } catch (err) {
+        console.error('Error saving analysis to session:', err)
+      }
     } catch (err) {
       console.error('AI Analysis error:', err)
       setError(err instanceof Error ? err.message : 'Unbekannter Fehler')
@@ -80,6 +129,15 @@ export default function AIAnalyseTab({ ticker: initialTicker }: AIAnalyseTabProp
       setIsLoading(false)
     }
   }, [accessToken])
+
+  // Loading auth state
+  if (authLoading) {
+    return (
+      <div className="flex items-center justify-center py-16">
+        <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" />
+      </div>
+    )
+  }
 
   // Not logged in
   if (!user) {
@@ -163,7 +221,9 @@ export default function AIAnalyseTab({ ticker: initialTicker }: AIAnalyseTabProp
             companyName={result.companyName}
             currentPrice={result.currentPrice}
             marketCap={result.marketCap}
+            fairValue={result.fairValue}
             timestamp={result.timestamp}
+            accessToken={accessToken}
           />
 
           {/* New Analysis Button */}
@@ -172,6 +232,8 @@ export default function AIAnalyseTab({ ticker: initialTicker }: AIAnalyseTabProp
               onClick={() => {
                 setResult(null)
                 setError(null)
+                // Clear session storage when starting a new analysis
+                sessionStorage.removeItem(SESSION_STORAGE_KEY)
               }}
               className="px-6 py-3 bg-theme-secondary hover:bg-theme-hover text-theme-primary rounded-lg font-medium transition-colors"
             >

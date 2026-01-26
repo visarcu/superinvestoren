@@ -9,27 +9,67 @@
       "name": "Wells Fargo & Co",
       "cusip": "949746101",
       "shares": 1413000,
-      "value": 99249120
+      "value": 99249120,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
     },
     {
       "name": "Bank of America Corp",
       "cusip": "060505104",
       "shares": 2000000,
-      "value": 87900000
+      "value": 87900000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
     },
     {
       "name": "Alibaba Group Holding Ltd",
       "cusip": "01609W102",
       "shares": 195000,
-      "value": 16534050
+      "value": 16534050,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Sponsored ADS",
+      "putCall": null
     },
     {
       "name": "US Bancorp",
       "cusip": "902973304",
       "shares": 119500,
-      "value": 5715685
+      "value": 5715685,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
     }
   ],
   "totalValue": 209398855,
-  "positionsCount": 4
+  "positionsCount": 4,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 209398855
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

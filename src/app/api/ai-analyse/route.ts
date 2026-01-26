@@ -97,8 +97,8 @@ async function fetchFinancialData(ticker: string): Promise<FinancialData | null>
   }
 }
 
-// Build the DCF analysis prompt with real financial data
-function buildDCFPrompt(data: FinancialData): string {
+// Build the DCF analysis prompt with real financial data and pre-calculated values
+function buildDCFPromptWithValues(data: FinancialData): { prompt: string; baseFairValue: number } {
   const { profile, quote, incomeStatements, balanceSheets, cashFlowStatements, keyMetrics, ratios } = data
 
   // Format financial history table
@@ -115,13 +115,86 @@ function buildDCFPrompt(data: FinancialData): string {
   const latestRatios = ratios[0] || {}
   const latestMetrics = keyMetrics[0] || {}
   const latestBalance = balanceSheets[0] || {}
-  const latestCashFlow = cashFlowStatements[0] || {}
 
   // Calculate key metrics
   const sharesOutstanding = quote.sharesOutstanding || latestBalance.commonStock || 0
   const totalDebt = latestBalance.totalDebt || 0
   const cash = latestBalance.cashAndCashEquivalents || 0
   const beta = profile.beta || 1.0
+  const currentPrice = quote.price || 0
+
+  // ===== PRE-CALCULATE DCF VALUES =====
+  const riskFreeRate = 0.045 // 4.5%
+  const equityRiskPremium = 0.05 // 5.0%
+  const wacc = riskFreeRate + beta * equityRiskPremium
+
+  // Get latest FCF and calculate historical growth
+  const fcfHistory = cashFlowStatements.slice(0, 5)
+    .map(cf => cf.freeCashFlow)
+    .filter(fcf => fcf && fcf > 0)
+
+  // Use latest FCF as base (must be positive for DCF to work)
+  const latestFCF = cashFlowStatements[0]?.freeCashFlow || 0
+  const baseFCF = Math.max(latestFCF, 1e9) // Use at least $1B if FCF is negative/zero
+
+  // Calculate historical FCF CAGR if possible
+  let historicalGrowthRate = 0.08 // Default 8% if can't calculate
+  if (fcfHistory.length >= 2) {
+    const oldestFCF = fcfHistory[fcfHistory.length - 1]
+    const newestFCF = fcfHistory[0]
+    if (oldestFCF > 0 && newestFCF > 0) {
+      const years = fcfHistory.length - 1
+      historicalGrowthRate = Math.pow(newestFCF / oldestFCF, 1 / years) - 1
+      // Cap growth rate between 0% and 25%
+      historicalGrowthRate = Math.max(0, Math.min(0.25, historicalGrowthRate))
+    }
+  }
+
+  // DCF calculation function
+  const calculateDCF = (fcfGrowthRate: number, terminalGrowthRate: number): number => {
+    let totalPV = 0
+    let projectedFCF = baseFCF
+
+    // Project 5 years of FCF
+    for (let year = 1; year <= 5; year++) {
+      projectedFCF = projectedFCF * (1 + fcfGrowthRate)
+      const pvFactor = Math.pow(1 + wacc, year)
+      totalPV += projectedFCF / pvFactor
+    }
+
+    // Terminal Value (Gordon Growth)
+    const terminalFCF = projectedFCF * (1 + terminalGrowthRate)
+    const terminalValue = terminalFCF / (wacc - terminalGrowthRate)
+    const pvTerminal = terminalValue / Math.pow(1 + wacc, 5)
+
+    // Enterprise Value
+    const enterpriseValue = totalPV + pvTerminal
+
+    // Equity Value
+    const equityValue = enterpriseValue - totalDebt + cash
+
+    // Fair Value per Share
+    return sharesOutstanding > 0 ? equityValue / sharesOutstanding : 0
+  }
+
+  // Calculate scenarios
+  const bearGrowthRate = historicalGrowthRate * 0.5 // Half the growth
+  const baseGrowthRate = historicalGrowthRate
+  const bullGrowthRate = historicalGrowthRate * 1.5 // 50% higher growth
+
+  const bearFairValue = calculateDCF(bearGrowthRate, 0.015)
+  const baseFairValue = calculateDCF(baseGrowthRate, 0.025)
+  const bullFairValue = calculateDCF(bullGrowthRate, 0.03)
+
+  // Calculate upside/downside percentages
+  const bearVsCurrent = currentPrice > 0 ? ((bearFairValue - currentPrice) / currentPrice * 100) : 0
+  const baseVsCurrent = currentPrice > 0 ? ((baseFairValue - currentPrice) / currentPrice * 100) : 0
+  const bullVsCurrent = currentPrice > 0 ? ((bullFairValue - currentPrice) / currentPrice * 100) : 0
+
+  // Determine valuation rating
+  let valuation = 'FAIR BEWERTET'
+  if (baseVsCurrent > 15) valuation = 'UNTERBEWERTET'
+  else if (baseVsCurrent < -15) valuation = 'ÜBERBEWERTET'
 
   const prompt = `Du bist ein erfahrener Aktienanalyst. Erstelle eine professionelle DCF-Bewertung.
 
@@ -130,7 +203,7 @@ Unternehmen: ${profile.companyName}
 Ticker: ${profile.symbol}
 Sektor: ${profile.sector || 'N/A'}
 Branche: ${profile.industry || 'N/A'}
-Aktueller Kurs: ${quote.price?.toFixed(2) || 'N/A'} USD
+Aktueller Kurs: ${currentPrice.toFixed(2)} USD
 Marktkapitalisierung: ${quote.marketCap ? (quote.marketCap / 1e9).toFixed(2) + 'B USD' : 'N/A'}
 
 === FINANZDATEN (letzte 5 Jahre) ===
@@ -154,9 +227,26 @@ ${financialHistory}
 - Total Debt: ${totalDebt ? (totalDebt / 1e9).toFixed(2) + 'B USD' : 'N/A'}
 - Cash & Equivalents: ${cash ? (cash / 1e9).toFixed(2) + 'B USD' : 'N/A'}
 
+=== VORBERECHNETE DCF-WERTE ===
+(WICHTIG: Nutze exakt diese Werte in der Analyse!)
+
+DCF-Parameter:
+- Risk-Free Rate: 4.5%
+- Equity Risk Premium: 5.0%
+- WACC: ${(wacc * 100).toFixed(2)}%
+- Basis-FCF: ${(baseFCF / 1e9).toFixed(2)}B USD
+- Historische FCF-Wachstumsrate: ${(historicalGrowthRate * 100).toFixed(1)}%
+
+Berechnete faire Werte:
+- Bear Case (${(bearGrowthRate * 100).toFixed(1)}% Wachstum, 1.5% Terminal): ${bearFairValue.toFixed(2)} USD (${bearVsCurrent >= 0 ? '+' : ''}${bearVsCurrent.toFixed(1)}% vs. Kurs)
+- Base Case (${(baseGrowthRate * 100).toFixed(1)}% Wachstum, 2.5% Terminal): ${baseFairValue.toFixed(2)} USD (${baseVsCurrent >= 0 ? '+' : ''}${baseVsCurrent.toFixed(1)}% vs. Kurs)
+- Bull Case (${(bullGrowthRate * 100).toFixed(1)}% Wachstum, 3.0% Terminal): ${bullFairValue.toFixed(2)} USD (${bullVsCurrent >= 0 ? '+' : ''}${bullVsCurrent.toFixed(1)}% vs. Kurs)
+
+Bewertung: ${valuation}
+
 === AUFGABE ===
 
-Erstelle eine strukturierte Analyse mit folgenden Abschnitten:
+Erstelle eine strukturierte Analyse. NUTZE DIE VORBERECHNETEN WERTE OBEN - rechne NICHT selbst!
 
 ## 1. Unternehmensprofil
 Kurze Beschreibung des Geschäftsmodells und der Wettbewerbsposition (2-3 Sätze).
@@ -166,47 +256,36 @@ Bewerte die finanzielle Gesundheit basierend auf den Kennzahlen. Was sind Stärk
 
 ## 3. DCF-Bewertung
 
-Berechne den fairen Wert mit folgenden Annahmen:
-- Risk-Free Rate: 4.5%
-- Equity Risk Premium: 5.0%
-- Beta: ${beta.toFixed(2)} (aus Daten)
-- WACC berechnen
-- FCF-Projektion: 5 Jahre basierend auf historischem Wachstum
-- Terminal Growth Rate: 2.5%
-
-Zeige die Rechnung:
-- WACC = Risk-Free Rate + Beta × Equity Risk Premium
-- Projizierte FCFs für Jahr 1-5
-- Terminal Value
-- Enterprise Value
-- Equity Value (minus Debt, plus Cash)
-- Fairer Wert pro Aktie
+Erkläre die DCF-Methodik kurz und präsentiere die vorberechneten Ergebnisse:
+- WACC: ${(wacc * 100).toFixed(2)}%
+- Basis-FCF und angenommenes Wachstum
+- Fairer Wert: ${baseFairValue.toFixed(2)} USD
 
 ## 4. Szenarien
 
-| Szenario | Annahme | Fairer Wert | vs. Aktuell |
-|----------|---------|-------------|-------------|
-| Bear Case | FCF-Wachstum halbiert, Terminal Growth 1.5% | X USD | -X% / +X% |
-| Base Case | Historisches Wachstum, Terminal Growth 2.5% | X USD | -X% / +X% |
-| Bull Case | FCF-Wachstum +50%, Terminal Growth 3.0% | X USD | -X% / +X% |
+| Szenario | FCF-Wachstum | Terminal Growth | Fairer Wert | vs. Aktuell |
+|----------|--------------|-----------------|-------------|-------------|
+| Bear Case | ${(bearGrowthRate * 100).toFixed(1)}% | 1.5% | ${bearFairValue.toFixed(2)} USD | ${bearVsCurrent >= 0 ? '+' : ''}${bearVsCurrent.toFixed(1)}% |
+| Base Case | ${(baseGrowthRate * 100).toFixed(1)}% | 2.5% | ${baseFairValue.toFixed(2)} USD | ${baseVsCurrent >= 0 ? '+' : ''}${baseVsCurrent.toFixed(1)}% |
+| Bull Case | ${(bullGrowthRate * 100).toFixed(1)}% | 3.0% | ${bullFairValue.toFixed(2)} USD | ${bullVsCurrent >= 0 ? '+' : ''}${bullVsCurrent.toFixed(1)}% |
 
 ## 5. Fazit
 
-- Aktueller Kurs: ${quote.price?.toFixed(2)} USD
-- Fairer Wert (Base Case): X USD
-- Upside/Downside: X%
-- Bewertung: [UNTERBEWERTET / FAIR BEWERTET / ÜBERBEWERTET]
+- **Aktueller Kurs:** ${currentPrice.toFixed(2)} USD
+- **Fairer Wert (Base Case):** ${baseFairValue.toFixed(2)} USD
+- **Upside/Downside:** ${baseVsCurrent >= 0 ? '+' : ''}${baseVsCurrent.toFixed(1)}%
+- **Bewertung:** ${valuation}
 
 Kurze Begründung (2-3 Sätze) und was der wichtigste Faktor für die Bewertung ist.
 
 === REGELN ===
-- Nutze nur die bereitgestellten Daten, keine Annahmen über andere Zahlen
+- NUTZE EXAKT DIE VORBERECHNETEN WERTE - keine eigenen Berechnungen!
 - Sei präzise und quantitativ
 - Vermeide Floskeln wie "es ist wichtig zu beachten"
 - Antworte auf Deutsch
 - Formatiere mit Markdown`
 
-  return prompt
+  return { prompt, baseFairValue }
 }
 
 // Rate limiting check
@@ -342,10 +421,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Build prompt and call OpenAI
-    const prompt = buildDCFPrompt(financialData)
-    console.log(`📝 Prompt built, length: ${prompt.length} chars`)
+    const promptData = buildDCFPromptWithValues(financialData)
+    console.log(`📝 Prompt built, length: ${promptData.prompt.length} chars`)
 
-    const openAIResponse = await callOpenAI(prompt)
+    const openAIResponse = await callOpenAI(promptData.prompt)
     const responseData = await openAIResponse.json()
 
     const analysis = responseData.choices?.[0]?.message?.content || ''
@@ -361,6 +440,7 @@ export async function POST(request: NextRequest) {
       companyName: financialData.profile.companyName,
       currentPrice: financialData.quote.price,
       marketCap: financialData.quote.marketCap,
+      fairValue: promptData.baseFairValue, // Include fair value for gauge
       usage: responseData.usage,
       remaining,
       timestamp: new Date().toISOString()

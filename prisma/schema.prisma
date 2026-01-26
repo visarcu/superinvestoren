@@ -13,7 +13,7 @@ model User {
   email                   String                   @unique
   passwordHash            String
   stripeCustomerId  String?   @unique
-  stripeSubscriptionId  String?  
+  stripeSubscriptionId  String?
   stripeSubId      String?
   isPremium               Boolean                  @default(true)
   emailVerified           Boolean                  @default(false)
@@ -26,6 +26,7 @@ model User {
   watchlist               WatchlistItem[]
   passwordResetTokens     PasswordResetToken[]
   chartPresets            ChartPreset[]
+  aiReportDownloads       AIReportDownload[]
 }
 
 model WatchlistItem {
@@ -104,17 +105,16 @@ model EarningsCalendar {
   @@index([symbol])
 }
 
-//model InvestorSubscription {
-// id         String   @id @default(cuid())
-// investorId String
-//email      String
-//  confirmed  Boolean  @default(false)   // für Double-Opt-In
-//createdAt  DateTime @default(now())
+// AI Report Downloads - tracks who downloads DCF reports
+model AIReportDownload {
+  id          String   @id @default(cuid())
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
+  ticker      String
+  companyName String?
+  createdAt   DateTime @default(now())
 
-// @@unique([investorId, email])
-//}
-
-//model InvestorLastFiling {
-//investorId String  @id
-//date       DateTime
-//}
+  @@index([userId])
+  @@index([createdAt])
+  @@index([ticker])
+}

@@ -110,7 +110,7 @@ async function fetchChartData(ticker: string, period: string = '6M'): Promise<an
 
     const endDate = new Date()
     const startDate = new Date()
-    
+
     switch (period) {
       case '1M':
         startDate.setMonth(endDate.getMonth() - 1)
@@ -136,17 +136,17 @@ async function fetchChartData(ticker: string, period: string = '6M'): Promise<an
 
     const response = await fetch(
       `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?from=${fromDate}&to=${toDate}&apikey=${FMP_API_KEY}`,
-      { 
+      {
         headers: { 'User-Agent': 'Finclue-App/1.0' },
         signal: AbortSignal.timeout(10000)
       }
     )
-    
+
     if (!response.ok) {
       console.error(`FMP API error for ${ticker}: ${response.status}`)
       return []
     }
-    
+
     const data = await response.json()
     return data.historical?.reverse() || []
   } catch (error) {
@@ -165,6 +165,9 @@ interface FinancialData {
   recentNews: any[]
   chartData?: any[]
   quarterlyEarnings?: any[]
+  priceTargets?: any
+  estimates?: any
+  insiderTrading?: any[]
 }
 
 // Hole aktuelle Finanzdaten
@@ -175,7 +178,7 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       return null
     }
 
-    console.log(`🔍 DEBUG: Fetching financial data for ${ticker}`)
+    console.log(`🔍 DEBUG: Fetching supercharged financial data for ${ticker}`)
 
     const [
       quoteResponse,
@@ -183,26 +186,20 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       incomeResponse,
       ratiosResponse,
       newsResponse,
-      earningsResponse
+      earningsResponse,
+      targetsResponse,
+      estimatesResponse,
+      insiderResponse
     ] = await Promise.allSettled([
-      fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${FMP_API_KEY}`, {
-        signal: AbortSignal.timeout(8000)
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${FMP_API_KEY}`, {
-        signal: AbortSignal.timeout(8000)
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?limit=1&apikey=${FMP_API_KEY}`, {
-        signal: AbortSignal.timeout(8000)
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/ratios/${ticker}?limit=1&apikey=${FMP_API_KEY}`, {
-        signal: AbortSignal.timeout(8000)
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/stock_news?tickers=${ticker}&limit=5&apikey=${FMP_API_KEY}`, {
-        signal: AbortSignal.timeout(8000)
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=quarter&limit=4&apikey=${FMP_API_KEY}`, {
-        signal: AbortSignal.timeout(8000)
-      })
+      fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?limit=1&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/ratios/${ticker}?limit=1&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/stock_news?tickers=${ticker}&limit=5&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=quarter&limit=4&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v4/price-target-summary?symbol=${ticker}&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?limit=1&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v4/insider-trading?symbol=${ticker}&limit=5&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) })
     ])
 
     const results = await Promise.allSettled([
@@ -211,15 +208,18 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       incomeResponse.status === 'fulfilled' && incomeResponse.value.ok ? incomeResponse.value.json() : null,
       ratiosResponse.status === 'fulfilled' && ratiosResponse.value.ok ? ratiosResponse.value.json() : null,
       newsResponse.status === 'fulfilled' && newsResponse.value.ok ? newsResponse.value.json() : null,
-      earningsResponse.status === 'fulfilled' && earningsResponse.value.ok ? earningsResponse.value.json() : null
+      earningsResponse.status === 'fulfilled' && earningsResponse.value.ok ? earningsResponse.value.json() : null,
+      targetsResponse.status === 'fulfilled' && targetsResponse.value.ok ? targetsResponse.value.json() : null,
+      estimatesResponse.status === 'fulfilled' && estimatesResponse.value.ok ? estimatesResponse.value.json() : null,
+      insiderResponse.status === 'fulfilled' && insiderResponse.value.ok ? insiderResponse.value.json() : null
     ])
 
-    const [quote, profile, income, ratios, news, earnings] = results.map(r => 
+    const [quote, profile, income, ratios, news, earnings, targets, estimates, insider] = results.map(r =>
       r.status === 'fulfilled' ? r.value : null
     )
 
     const currentDate = new Date().toLocaleDateString('de-DE')
-    
+
     const result: FinancialData = {
       currentDate,
       quote: quote?.[0] || null,
@@ -227,7 +227,10 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       latestIncome: income?.[0] || null,
       latestRatios: ratios?.[0] || null,
       recentNews: news?.slice(0, 3) || [],
-      quarterlyEarnings: earnings || []
+      quarterlyEarnings: earnings || [],
+      priceTargets: targets?.[0] || null,
+      estimates: estimates?.[0] || null,
+      insiderTrading: insider || []
     }
 
     if (includeCharts) {
@@ -242,7 +245,9 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
   }
 }
 
-// RAG-Enhanced Context Builder
+import { queryPerplexity } from '@/lib/perplexityService'
+
+// RAG-Enhanced Context Builder with Perplexity Fallback
 async function getRagContext(message: string, ticker?: string): Promise<{ context: string, sources: string[] }> {
   try {
     if (!ragSystem || !ragPromptBuilder) {
@@ -259,24 +264,40 @@ async function getRagContext(message: string, ticker?: string): Promise<{ contex
       document_types: ['earnings_call', 'news', 'sec_filing']
     })
 
-    console.log(`📚 DEBUG: RAG search results: ${ragResults.length} documents found`)
+    let context = ""
+    const sources: string[] = []
 
-    if (ragResults.length === 0) {
-      return { context: '', sources: [] }
+    // Check if we have strong RAG results
+    const hasStrongResults = ragResults.length > 0 && ragResults[0].relevance_score > 0.3
+
+    if (hasStrongResults) {
+      console.log(`📚 DEBUG: RAG found ${ragResults.length} relevant documents`)
+      context = "\n=== RELEVANTE FINANZDOKUMENTE ===\n\n"
+      ragResults.forEach((result, index) => {
+        context += `${index + 1}. Quelle: ${result.source}\n`
+        context += `   Relevanz: ${(result.relevance_score * 100).toFixed(1)}%\n`
+        context += `   Inhalt: ${result.content.substring(0, 500)}...\n\n`
+        sources.push(result.source)
+      })
     }
 
-    let context = "\n=== RELEVANTE FINANZDOKUMENTE ===\n\n"
-    const sources: string[] = []
-    
-    ragResults.forEach((result, index) => {
-      context += `${index + 1}. Quelle: ${result.source}\n`
-      context += `   Relevanz: ${(result.relevance_score * 100).toFixed(1)}%\n`
-      context += `   Inhalt: ${result.content.substring(0, 500)}...\n\n`
-      sources.push(result.source)
-    })
+    // Perplexity Fallback for real-time gap filling (only if ticker is available and results are weak/none)
+    if (ticker && (!hasStrongResults || ragResults.length < 2)) {
+      console.log(`🌐 DEBUG: Triggering Perplexity fallback for ${ticker}...`)
+      const realTimeData = await queryPerplexity(ticker, message)
 
-    context += "=== ENDE DOKUMENTE ===\n\n"
-    context += "WICHTIG: Nutze diese Dokumente für akkurate, quellenbasierte Antworten. Erwähne die Quellen wenn du Informationen daraus verwendest.\n\n"
+      if (realTimeData) {
+        context += `\n=== ECHTZEIT-WEB-ANALYSE (${ticker}) ===\n`
+        context += `${realTimeData.content}\n`
+        context += `Quelle: ${realTimeData.source}\n\n`
+        sources.push(realTimeData.source)
+      }
+    }
+
+    if (context) {
+      context += "=== ENDE KONTEXT ===\n\n"
+      context += "WICHTIG: Nutze diese Informationen für akkurate Antworten. Erwähne Quellen wenn du sie verwendest.\n\n"
+    }
 
     return { context, sources }
   } catch (error) {
@@ -373,7 +394,7 @@ function buildHybridPrompt(
   // ✅ Add stock data if available
   if (financialData) {
     const { quote, profile, latestRatios, quarterlyEarnings, recentNews } = financialData
-    
+
     prompt += `## AKTUELLE ${ticker.toUpperCase()} DATEN:
 **Aktienkurs:** ${quote?.price || 'N/A'} USD (${quote?.changesPercentage >= 0 ? '+' : ''}${quote?.changesPercentage || 'N/A'}%)
 **Marktkapitalisierung:** ${quote?.marketCap ? (quote.marketCap / 1000000000).toFixed(1) + 'B USD' : 'N/A'}
@@ -392,7 +413,7 @@ P/E: ${latestRatios.priceEarningsRatio?.toFixed(2) || 'N/A'} | P/B: ${latestRati
       const latest = quarterlyEarnings[0]
       const quarterDate = new Date(latest.date)
       const quarterName = `Q${Math.ceil((quarterDate.getMonth() + 1) / 3)} ${quarterDate.getFullYear()}`
-      
+
       prompt += `**Letztes Quartal (${quarterName}):**
 Umsatz: $${(latest.revenue / 1e9).toFixed(2)}B | EPS: $${latest.eps} | Nettogewinn: $${(latest.netIncome / 1e9).toFixed(2)}B
 
@@ -408,7 +429,28 @@ Umsatz: $${(latest.revenue / 1e9).toFixed(2)}B | EPS: $${latest.eps} | Nettogewi
 
     if (recentNews && recentNews.length > 0) {
       prompt += `**Aktuelle News:**
-${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} (${new Date(news.publishedDate).toLocaleDateString('de-DE')})`).join('\n')}
+${recentNews.slice(0, 2).map((news: any, i: number) => `${i + 1}. ${news.title} (${new Date(news.publishedDate).toLocaleDateString('de-DE')})`).join('\n')}
+
+`
+    }
+
+    if (financialData.priceTargets) {
+      const pt = financialData.priceTargets
+      prompt += `**Analysten-Konsens (FMP):** Zielpreis $${pt.targetMedian?.toFixed(2) || 'N/A'} (Aktuell: $${financialData.quote?.price}) | Upside: ${pt.upside?.toFixed(1) || 'N/A'}% | Ratings: ${pt.buyUnits} Buy, ${pt.holdUnits} Hold, ${pt.sellUnits} Sell
+
+`
+    }
+
+    if (financialData.estimates) {
+      const est = financialData.estimates
+      prompt += `**Gewinnschätzungen:** Erwartetes EPS (Nächstes Jahr): $${est.estimatedEpsAvg?.toFixed(2) || 'N/A'} | Erwarteter Umsatz: $${(est.estimatedRevenueAvg / 1e9).toFixed(2) || 'N/A'}B
+
+`
+    }
+
+    if (financialData.insiderTrading && financialData.insiderTrading.length > 0) {
+      const buys = financialData.insiderTrading.filter((t: any) => t.transactionType?.toLowerCase().includes('buy') || t.acquiredDisposedCode === 'A')
+      prompt += `**Insider-Aktivität:** ${buys.length > 0 ? `Zuletzt ${buys.length} Käufe von Management/Insidern registriert.` : 'Keine signifikanten Käufe in den letzten Transaktionen.'}
 
 `
     }
@@ -417,7 +459,7 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} ($
   // ✅ Add portfolio data if available
   if (portfolioData) {
     const { latestQuarter, totalValue, positionsCount, topHoldings, portfolioChanges } = portfolioData
-    
+
     prompt += `## ${investor.toUpperCase().replace(/-/g, ' ')} PORTFOLIO-DATEN:
 **Portfolio-Wert:** ${(totalValue / 1000000000).toFixed(1)}B USD
 **Anzahl Positionen:** ${positionsCount}
@@ -426,8 +468,8 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} ($
 `
 
     // Check if investor holds the ticker
-    const holding = topHoldings?.find((h: any) => 
-      h.ticker?.toUpperCase() === ticker.toUpperCase() || 
+    const holding = topHoldings?.find((h: any) =>
+      h.ticker?.toUpperCase() === ticker.toUpperCase() ||
       h.name?.toLowerCase().includes(ticker.toLowerCase().replace('inc', '').replace('corp', '').replace('co', '').trim())
     )
 
@@ -438,11 +480,11 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} ($
 • Aktien: ${holding.shares?.toLocaleString() || 'N/A'}
 
 `
-      
+
       if (holding.quarterlyChange) {
         const change = holding.quarterlyChange
         let changeText = 'Unverändert'
-        
+
         switch (change.type) {
           case 'new':
             changeText = '🆕 NEUE POSITION'
@@ -454,7 +496,7 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} ($
             changeText = `📉 REDUZIERT um ${Math.abs(change.percentChange || 0).toFixed(1)}%`
             break
         }
-        
+
         prompt += `**Quartalsänderung:** ${changeText}
 
 `
@@ -536,25 +578,25 @@ async function buildContextualPrompt(
   contextHints?: any
 ): Promise<{ prompt: string, ragSources: string[] }> {
   const currentDate = new Date().toLocaleDateString('de-DE')
-  
+
   console.log(`🎯 DEBUG: Building ${analysisType} prompt with primary context: ${primaryContext}`)
-  
+
   // Enhanced RAG query for hybrid contexts
-  const ragQuery = ticker && investor 
-    ? `${message} ${ticker} ${investor}` 
+  const ragQuery = ticker && investor
+    ? `${message} ${ticker} ${investor}`
     : message
   const { context: ragContext, sources } = await getRagContext(ragQuery, ticker)
 
   // ✅ NEW: HYBRID CONTEXT HANDLING
   if (analysisType === 'hybrid') {
     const hybridPrompt = buildHybridPrompt(
-      ticker!, 
-      investor!, 
-      financialData, 
-      portfolioData, 
-      message, 
-      currentDate, 
-      ragContext, 
+      ticker!,
+      investor!,
+      financialData,
+      portfolioData,
+      message,
+      currentDate,
+      ragContext,
       primaryContext,
       contextHints
     )
@@ -568,12 +610,12 @@ async function buildContextualPrompt(
       const stockPrompt = buildStockAnalysisPrompt(ticker!, financialData, message, ragContext)
       console.log(`📝 DEBUG: Stock prompt built, length: ${stockPrompt.length}`)
       return { prompt: stockPrompt, ragSources: sources }
-      
+
     case 'superinvestor':
       const superinvestorPrompt = buildSuperinvestorPrompt(investor!, portfolioData, message, currentDate, ragContext)
       console.log(`📝 DEBUG: Superinvestor prompt built, length: ${superinvestorPrompt.length}`)
       return { prompt: superinvestorPrompt, ragSources: sources }
-      
+
     case 'general':
     default:
       const generalPrompt = buildGeneralPrompt(message, currentDate, ragContext)
@@ -594,11 +636,11 @@ Leider sind keine aktuellen Finanzdaten verfügbar. Nutze die verfügbaren Dokum
   const { currentDate, quote, profile, latestIncome, latestRatios, recentNews, quarterlyEarnings } = financialData
 
   const userQuestion = message.toLowerCase()
-  const isSpecificMetricQuestion = userQuestion.includes('kuv') || userQuestion.includes('p/e') || 
-                                   userQuestion.includes('pe') || userQuestion.includes('roe') || 
-                                   userQuestion.includes('verschuldung') || userQuestion.includes('dividende') ||
-                                   userQuestion.includes('pb') || userQuestion.includes('peg') ||
-                                   userQuestion.includes('marge') || userQuestion.includes('debt')
+  const isSpecificMetricQuestion = userQuestion.includes('kuv') || userQuestion.includes('p/e') ||
+    userQuestion.includes('pe') || userQuestion.includes('roe') ||
+    userQuestion.includes('verschuldung') || userQuestion.includes('dividende') ||
+    userQuestion.includes('pb') || userQuestion.includes('peg') ||
+    userQuestion.includes('marge') || userQuestion.includes('debt')
 
   let prompt = `${ragContext}**Aktuelle Daten für ${ticker}** (Stand: ${currentDate}):
 
@@ -627,30 +669,55 @@ ROE: ${latestRatios.returnOnEquity ? (latestRatios.returnOnEquity * 100).toFixed
 Verschuldungsgrad (D/E): ${latestRatios.debtToEquity?.toFixed(2) || 'N/A'} | Current Ratio: ${latestRatios.currentRatio?.toFixed(2) || 'N/A'} | Quick Ratio: ${latestRatios.quickRatio?.toFixed(2) || 'N/A'} | Zinsdeckung: ${latestRatios.interestCoverage?.toFixed(1) || 'N/A'}x`
   }
 
-  if (quarterlyEarnings && quarterlyEarnings.length > 0 && 
-      (!isSpecificMetricQuestion || userQuestion.includes('quartal') || userQuestion.includes('wachstum') || 
-       userQuestion.includes('entwicklung') || userQuestion.includes('umsatz') || userQuestion.includes('earnings'))) {
+  if (quarterlyEarnings && quarterlyEarnings.length > 0 &&
+    (!isSpecificMetricQuestion || userQuestion.includes('quartal') || userQuestion.includes('wachstum') ||
+      userQuestion.includes('entwicklung') || userQuestion.includes('umsatz') || userQuestion.includes('earnings'))) {
     const latestQuarter = quarterlyEarnings[0]
     const quarterDate = new Date(latestQuarter.date)
     const quarterName = `Q${Math.ceil((quarterDate.getMonth() + 1) / 3)} ${quarterDate.getFullYear()}`
-    
+
     prompt += `
 
 **Letztes Quartal (${quarterName}):**
 Umsatz: $${(latestQuarter.revenue / 1e9).toFixed(2)}B | EPS: $${latestQuarter.eps} | Nettogewinn: $${(latestQuarter.netIncome / 1e9).toFixed(2)}B`
-    
+
     if (quarterlyEarnings.length > 1) {
       const growthRate = ((latestQuarter.revenue - quarterlyEarnings[1].revenue) / quarterlyEarnings[1].revenue * 100).toFixed(1)
       prompt += ` | Wachstum: ${growthRate}% YoY`
     }
   }
 
-  if (recentNews && recentNews.length > 0 && 
-      (!isSpecificMetricQuestion || userQuestion.includes('news') || userQuestion.includes('nachrichten') || userQuestion.includes('aktuell'))) {
+  if (recentNews && recentNews.length > 0 &&
+    (!isSpecificMetricQuestion || userQuestion.includes('news') || userQuestion.includes('nachrichten') || userQuestion.includes('aktuell'))) {
     prompt += `
 
 **Aktuelle Nachrichten:**
-${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} (${new Date(news.publishedDate).toLocaleDateString('de-DE')})`).join('\n')}`
+${recentNews.slice(0, 2).map((news: any, i: number) => `${i + 1}. ${news.title} (${new Date(news.publishedDate).toLocaleDateString('de-DE')})`).join('\n')}`
+  }
+
+  if (financialData.priceTargets) {
+    const pt = financialData.priceTargets
+    prompt += `
+
+**Analysten-Konsens (FMP):**
+Zielpreis (Median): $${pt.targetMedian?.toFixed(2) || 'N/A'} | Aktueller Kurs: $${financialData.quote?.price} | Upside: ${pt.upside?.toFixed(1) || pt.targetMedian ? (((pt.targetMedian / financialData.quote?.price) - 1) * 100).toFixed(1) : 'N/A'}%
+Ratings: ${pt.buyUnits || 0} Buy, ${pt.holdUnits || 0} Hold, ${pt.sellUnits || 0} Sell`
+  }
+
+  if (financialData.estimates) {
+    const est = financialData.estimates
+    prompt += `
+
+**Analysten-Schätzungen (Forward):**
+Erwartetes EPS: $${est.estimatedEpsAvg?.toFixed(2) || 'N/A'} | Erwarteter Umsatz: $${(est.estimatedRevenueAvg / 1e9).toFixed(2) || 'N/A'}B`
+  }
+
+  if (financialData.insiderTrading && financialData.insiderTrading.length > 0) {
+    const sorted = [...financialData.insiderTrading].sort((a, b) => new Date(b.transactionDate).getTime() - new Date(a.transactionDate).getTime())
+    prompt += `
+
+**Jüngste Insider-Aktivität:**
+${sorted.slice(0, 3).map((t: any) => `- ${new Date(t.transactionDate).toLocaleDateString('de-DE')}: ${t.reportingName} (${t.typeOfOwner}) ${t.transactionType} ${t.securitiesTransacted.toLocaleString()} Aktien @ $${t.price}`).join('\n')}`
   }
 
   prompt += `
@@ -676,9 +743,9 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i+1}. ${news.title} ($
 
 // SUPERINVESTOR PROMPT BUILDER
 function buildSuperinvestorPrompt(
-  investor: string, 
-  portfolioData: any, 
-  message: string, 
+  investor: string,
+  portfolioData: any,
+  message: string,
   currentDate: string,
   ragContext: string
 ): string {
@@ -689,9 +756,9 @@ function buildSuperinvestorPrompt(
 Leider sind keine aktuellen Portfolio-Daten verfügbar. Nutze verfügbare Dokumente und gib allgemeine Informationen über Value-Investing Strategien.`
   }
 
-  const { 
-    latestQuarter, 
-    totalValue, 
+  const {
+    latestQuarter,
+    totalValue,
     positionsCount,
     topHoldings,
     portfolioChanges,
@@ -714,7 +781,7 @@ Leider sind keine aktuellen Portfolio-Daten verfügbar. Nutze verfügbare Dokume
     topHoldings.slice(0, 10).forEach((holding: any, i: number) => {
       const change = holding.quarterlyChange
       let changeText = 'Unverändert'
-      
+
       if (change) {
         switch (change.type) {
           case 'new':
@@ -753,7 +820,7 @@ ${i + 1}. ${holding.ticker || 'N/A'} - ${holding.name}
 
 ## SEKTOR-VERTEILUNG:`
     Object.entries(sectorAllocation)
-      .sort(([,a], [,b]) => (b as number) - (a as number))
+      .sort(([, a], [, b]) => (b as number) - (a as number))
       .forEach(([sector, percentage]) => {
         prompt += `\n• ${sector}: ${(percentage as number).toFixed(1)}%`
       })
@@ -799,16 +866,16 @@ Antworte auf Deutsch und biete hilfreiche Finanzanalysen.`
 function checkRateLimit(ip: string): boolean {
   const now = Date.now()
   const userLimit = rateLimiter.get(ip)
-  
+
   if (!userLimit || now > userLimit.resetTime) {
     rateLimiter.set(ip, { count: 1, resetTime: now + WINDOW_MS })
     return true
   }
-  
+
   if (userLimit.count >= RATE_LIMIT) {
     return false
   }
-  
+
   userLimit.count++
   return true
 }
@@ -822,9 +889,9 @@ async function verifyUserAndPremium(request: NextRequest) {
     }
 
     const token = authHeader.replace('Bearer ', '')
-    
+
     const { data: { user }, error } = await supabase.auth.getUser(token)
-    
+
     if (error || !user) {
       console.error('Auth error:', error)
       return { error: 'Invalid token', status: 401 }
@@ -891,7 +958,7 @@ async function callOpenAI(messages: ChatMessage[], analysisType: string) {
 function parseAIResponse(content: string, analysisType: string): EnhancedAIResponse {
   const charts: ChartData[] = []
   const actions: QuickAction[] = []
-  
+
   const chartRegex = /\[CHART:(\w+):([^:]+):?([^\]]*)\]/g
   let match
   while ((match = chartRegex.exec(content)) !== null) {
@@ -905,7 +972,7 @@ function parseAIResponse(content: string, analysisType: string): EnhancedAIRespo
       data: []
     })
   }
-  
+
   const actionRegex = /\[ACTION:([^:]+):([^:]+):([^\]]+)\]/g
   while ((match = actionRegex.exec(content)) !== null) {
     const [, label, identifier, prompt] = match
@@ -917,15 +984,15 @@ function parseAIResponse(content: string, analysisType: string): EnhancedAIRespo
       prompt
     })
   }
-  
+
   const cleanContent = content
     .replace(/\[CHART:[^\]]+\]/g, '')
     .replace(/\[ACTION:[^\]]+\]/g, '')
     .trim()
-  
-  return { 
-    content: cleanContent, 
-    charts, 
+
+  return {
+    content: cleanContent,
+    charts,
     actions,
     metadata: {
       tickers: charts.map(c => c.ticker).filter(Boolean) as string[],
@@ -941,13 +1008,13 @@ export async function POST(request: NextRequest) {
   try {
     await initializeRAGSystem()
 
-    const ip = request.headers.get('x-forwarded-for') || 
-               request.headers.get('x-real-ip') || 
-               'unknown'
-    
+    const ip = request.headers.get('x-forwarded-for') ||
+      request.headers.get('x-real-ip') ||
+      'unknown'
+
     if (!checkRateLimit(ip)) {
       return NextResponse.json(
-        { 
+        {
           error: `Zu viele Anfragen. Limit: ${RATE_LIMIT} pro 15min`,
           remaining: 0
         },
@@ -964,9 +1031,9 @@ export async function POST(request: NextRequest) {
     }
 
     const body: RequestBody = await request.json()
-    const { 
-      message, 
-      context, 
+    const {
+      message,
+      context,
       analysisType = 'general',
       primaryContext = 'general',
       ticker,
@@ -982,9 +1049,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    console.log(`🚀 DEBUG: [Enhanced Finclue AI] ${analysisType} analysis request`, { 
+    console.log(`🚀 DEBUG: [Enhanced Finclue AI] ${analysisType} analysis request`, {
       message: message.substring(0, 100) + '...',
-      ticker, 
+      ticker,
       investor,
       analysisType,
       primaryContext,
@@ -1006,7 +1073,7 @@ export async function POST(request: NextRequest) {
       try {
         console.log('👑 DEBUG: Loading portfolio data for:', investor)
         enhancedPortfolioData = preparePortfolioDataForAI(investor)
-        
+
         if (!enhancedPortfolioData && fallbackPortfolioData) {
           console.log(`🔄 DEBUG: Using fallback portfolio data for ${investor}`)
           enhancedPortfolioData = fallbackPortfolioData
@@ -1047,10 +1114,10 @@ export async function POST(request: NextRequest) {
     ]
 
     console.log(`📡 DEBUG: Calling OpenAI for ${analysisType} analysis...`)
-    
+
     const openAIResponse = await callOpenAI(messages, analysisType)
     const responseData = await openAIResponse.json()
-    
+
     const aiContent = responseData.choices?.[0]?.message?.content || ''
     console.log('📥 DEBUG: AI Response received:', {
       responseLength: aiContent.length,
@@ -1058,18 +1125,27 @@ export async function POST(request: NextRequest) {
       isHybrid: analysisType === 'hybrid',
       preview: aiContent.substring(0, 200) + '...'
     })
-    
+
     const parsedResponse = parseAIResponse(aiContent, analysisType)
-    
-    // ✅ ENHANCED: Add hybrid metadata
+
+    // ✅ ENHANCED: Add hybrid metadata and explicit internal sources
     if (parsedResponse.metadata) {
-      parsedResponse.metadata.ragSources = ragSources
+      const finalSources = [...(ragSources || [])]
+
+      if (enhancedPortfolioData) {
+        finalSources.unshift('SuperInvestor Database (Official 13F Filings)')
+      }
+      if (enhancedStockData) {
+        finalSources.unshift('Finclue Financial API (Live Market Data)')
+      }
+
+      parsedResponse.metadata.ragSources = Array.from(new Set(finalSources))
       parsedResponse.metadata.isHybrid = analysisType === 'hybrid'
       parsedResponse.metadata.primaryContext = primaryContext
       parsedResponse.metadata.ticker = ticker
       parsedResponse.metadata.investor = investor
     }
-    
+
     // Load chart data if needed
     if (ticker && (analysisType === 'stock' || analysisType === 'hybrid')) {
       for (const chart of parsedResponse.charts || []) {
@@ -1081,9 +1157,9 @@ export async function POST(request: NextRequest) {
     }
 
     const remaining = RATE_LIMIT - (rateLimiter.get(ip)?.count || 0)
-    
+
     console.log(`✅ DEBUG: Enhanced AI response generated successfully for ${analysisType} with ${ragSources.length} RAG sources`)
-    
+
     return NextResponse.json({
       success: true,
       response: parsedResponse,
@@ -1098,13 +1174,13 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('❌ DEBUG: [Enhanced Finclue AI] Error:', error)
-    
+
     const errorMessage = error instanceof Error ? error.message : 'Unknown error'
-    
+
     try {
       const body: RequestBody = await request.json()
       const { message, context, analysisType = 'general' } = body
-      
+
       const messages: ChatMessage[] = [
         ...context.slice(-6),
         { role: 'user', content: message }
@@ -1113,17 +1189,17 @@ export async function POST(request: NextRequest) {
       console.log('🔄 DEBUG: Falling back to basic OpenAI call...')
       const openAIResponse = await callOpenAI(messages, analysisType)
       const responseData = await openAIResponse.json()
-      
+
       const aiContent = responseData.choices?.[0]?.message?.content || ''
       const parsedResponse = parseAIResponse(aiContent, analysisType)
-      
+
       parsedResponse.content += "\n\n⚠️ Hinweis: Erweiterte Finanzdaten temporär nicht verfügbar."
-      
+
       const ip = request.headers.get('x-forwarded-for') || 'unknown'
       const remaining = RATE_LIMIT - (rateLimiter.get(ip)?.count || 0)
-      
+
       console.log('✅ DEBUG: Fallback response generated')
-      
+
       return NextResponse.json({
         success: true,
         response: parsedResponse,
@@ -1131,7 +1207,7 @@ export async function POST(request: NextRequest) {
         remaining,
         fallback: true
       })
-      
+
     } catch (fallbackError) {
       console.error('❌ DEBUG: Fallback also failed:', fallbackError)
       return NextResponse.json(

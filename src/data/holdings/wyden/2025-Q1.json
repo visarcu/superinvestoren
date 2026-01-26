@@ -9,33 +9,81 @@
       "name": "PAR TECHNOLOGY CORP",
       "cusip": "698884103",
       "shares": 2597229,
-      "value": 188740631
+      "value": 188740631,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "RCI HOSPITALITY HLDGS INC",
       "cusip": "74934Q108",
       "shares": 888468,
-      "value": 51060256
+      "value": 51060256,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GFL ENVIRONMENTAL INC",
       "cusip": "36168Q104",
       "shares": 990000,
-      "value": 44094600
+      "value": 44094600,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SUB VTG SHS",
+      "putCall": null
     },
     {
       "name": "API GROUP CORP",
       "cusip": "00187Y100",
       "shares": 1066922,
-      "value": 38377184
+      "value": 38377184,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM STK",
+      "putCall": null
     },
     {
       "name": "FAT BRANDS INC",
       "cusip": "30258N105",
       "shares": 587400,
-      "value": 3124968
+      "value": 3124968,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS A COM",
+      "putCall": null
     }
   ],
   "totalValue": 325397639,
-  "positionsCount": 5
+  "positionsCount": 5,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 325397639
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

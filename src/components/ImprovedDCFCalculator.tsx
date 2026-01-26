@@ -3,11 +3,14 @@
 import React, { useState, useMemo } from 'react'
 import {
   CheckIcon,
-  InformationCircleIcon
+  InformationCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon
 } from '@heroicons/react/24/outline'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
+import MarginOfSafetyGauge from '@/components/MarginOfSafetyGauge'
 
 interface StockData {
   ticker: string
@@ -16,8 +19,10 @@ interface StockData {
   epsTTM: number
   peTTM: number
   epsGrowth: number
+  epsGrowth5Y: number
   fcfPerShare: number
   fcfYield: number
+  fcfGrowth5Y: number
   sbcImpact: number
 }
 
@@ -45,7 +50,12 @@ export default function ImprovedDCFCalculator() {
   const [fcfGrowthRate, setFcfGrowthRate] = useState<string>('')
   const [targetFcfYield, setTargetFcfYield] = useState<string>('')
   const [desiredReturnCashFlow, setDesiredReturnCashFlow] = useState<string>('10')
-  const [useFcfMultiple, setUseFcfMultiple] = useState(false)
+
+  // Advanced settings
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [projectionYears, setProjectionYears] = useState<string>('5')
+  const [growthDecayRate, setGrowthDecayRate] = useState<string>('0')
+  const [terminalGrowthRate, setTerminalGrowthRate] = useState<string>('3')
 
   // Filtered stocks for search
   const filteredStocks = searchQuery
@@ -59,11 +69,11 @@ export default function ImprovedDCFCalculator() {
   const loadStockData = async (ticker: string) => {
     setLoading(true)
     try {
-      // Fetch key metrics and quote
+      // Fetch key metrics, quote and growth data
       const [quoteRes, metricsRes, growthRes] = await Promise.all([
         fetch(`/api/fmp/quote?symbol=${ticker}`),
         fetch(`/api/fmp/key-metrics-ttm?symbol=${ticker}`),
-        fetch(`/api/fmp/financial-growth?symbol=${ticker}&limit=1`)
+        fetch(`/api/fmp/financial-growth?symbol=${ticker}&limit=5`)
       ])
 
       const quoteData = await quoteRes.json()
@@ -72,14 +82,24 @@ export default function ImprovedDCFCalculator() {
 
       const quote = Array.isArray(quoteData) ? quoteData[0] : quoteData
       const metrics = Array.isArray(metricsData) ? metricsData[0] : metricsData
-      const growth = Array.isArray(growthData) ? growthData[0] : growthData
+      const growthArray = Array.isArray(growthData) ? growthData : []
 
       const price = quote?.price || 0
       const epsTTM = metrics?.netIncomePerShareTTM || quote?.eps || 0
       const peTTM = metrics?.peRatioTTM || quote?.pe || (price / epsTTM) || 0
       const fcfPerShare = metrics?.freeCashFlowPerShareTTM || 0
       const fcfYield = metrics?.freeCashFlowYieldTTM ? metrics.freeCashFlowYieldTTM * 100 : (fcfPerShare / price * 100) || 0
-      const epsGrowth = growth?.epsgrowth ? growth.epsgrowth * 100 : 0
+
+      // Calculate 5-year average growth rates
+      const epsGrowthValues = growthArray.map((g: { epsgrowth?: number }) => g.epsgrowth).filter((v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v))
+      const epsGrowth5Y = epsGrowthValues.length > 0
+        ? (epsGrowthValues.reduce((a: number, b: number) => a + b, 0) / epsGrowthValues.length) * 100
+        : 0
+
+      const fcfGrowthValues = growthArray.map((g: { freeCashFlowGrowth?: number }) => g.freeCashFlowGrowth).filter((v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v))
+      const fcfGrowth5Y = fcfGrowthValues.length > 0
+        ? (fcfGrowthValues.reduce((a: number, b: number) => a + b, 0) / fcfGrowthValues.length) * 100
+        : 0
 
       // Calculate SBC impact (Stock Based Compensation as % of FCF)
       const sbcImpact = metrics?.stockBasedCompensationToRevenueTTM ? metrics.stockBasedCompensationToRevenueTTM * -100 : 0
@@ -90,9 +110,11 @@ export default function ImprovedDCFCalculator() {
         price,
         epsTTM,
         peTTM,
-        epsGrowth,
+        epsGrowth: growthArray[0]?.epsgrowth ? growthArray[0].epsgrowth * 100 : 0,
+        epsGrowth5Y,
         fcfPerShare,
         fcfYield,
+        fcfGrowth5Y,
         sbcImpact
       }
 
@@ -110,6 +132,29 @@ export default function ImprovedDCFCalculator() {
     }
   }
 
+  // Auto-fill growth rates from historical data
+  const handleAutoFillGrowth = () => {
+    if (!stockData) return
+    if (mode === 'earnings') {
+      // Cap between 5% and 20% like GuruFocus
+      const cappedGrowth = Math.max(5, Math.min(20, stockData.epsGrowth5Y))
+      setEpsGrowthRate(cappedGrowth.toFixed(1))
+      // Also suggest a reasonable PE based on growth (PEG = 1 rule of thumb)
+      const suggestedPE = Math.max(10, Math.min(35, cappedGrowth * 1.5))
+      setTargetPE(suggestedPE.toFixed(0))
+    } else {
+      const cappedGrowth = Math.max(5, Math.min(20, stockData.fcfGrowth5Y))
+      setFcfGrowthRate(cappedGrowth.toFixed(1))
+      // Suggest FCF yield based on typical ranges (3-8%)
+      setTargetFcfYield('4')
+    }
+  }
+
+  // Get parsed values for calculations
+  const years = parseInt(projectionYears) || 5
+  const decay = parseFloat(growthDecayRate) / 100 || 0
+  const terminalGrowth = parseFloat(terminalGrowthRate) / 100 || 0.03
+
   // Handle stock selection
   const handleSelectStock = (ticker: string) => {
     setSearchQuery('')
@@ -124,7 +169,7 @@ export default function ImprovedDCFCalculator() {
     }
 
     const eps = parseFloat(epsInput)
-    const growth = parseFloat(epsGrowthRate) / 100
+    let growth = parseFloat(epsGrowthRate) / 100
     const pe = parseFloat(targetPE)
     const desiredReturn = parseFloat(desiredReturnEarnings) / 100
     const currentPrice = stockData.price
@@ -133,12 +178,13 @@ export default function ImprovedDCFCalculator() {
       return null
     }
 
-    // Project EPS for 5 years
+    // Project EPS for N years with decay
     const projections = []
     let projectedEps = eps
+    const currentYear = new Date().getFullYear()
 
-    for (let year = 0; year <= 5; year++) {
-      const yearLabel = `Q1 ${2025 + year}`
+    for (let year = 0; year <= years; year++) {
+      const yearLabel = `${currentYear + year}`
       const futurePrice = projectedEps * pe
 
       projections.push({
@@ -147,28 +193,34 @@ export default function ImprovedDCFCalculator() {
         price: futurePrice
       })
 
+      // Apply growth with decay
       projectedEps = projectedEps * (1 + growth)
+      growth = Math.max(terminalGrowth, growth * (1 - decay))
     }
 
-    // Calculate future value in 5 years
-    const futureEps = eps * Math.pow(1 + growth, 5)
-    const futurePrice = futureEps * pe
+    // Final values
+    const futureEps = projections[years].eps
+    const futurePrice = projections[years].price
 
-    // Return from today's price
-    const returnFromToday = ((futurePrice / currentPrice) - 1) * 100
+    // CAGR from today's price
+    const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
 
     // Entry price for desired return
-    // Formula: EntryPrice = FuturePrice / (1 + desiredReturn)^5
-    const entryPrice = futurePrice / Math.pow(1 + desiredReturn, 5)
+    const entryPrice = futurePrice / Math.pow(1 + desiredReturn, years)
+
+    // Upside/downside
+    const upside = ((entryPrice - currentPrice) / currentPrice) * 100
 
     return {
       projections,
       futureEps,
       futurePrice,
-      returnFromToday,
-      entryPrice
+      cagr: cagr * 100,
+      entryPrice,
+      upside,
+      fairValue: entryPrice
     }
-  }, [stockData, epsInput, epsGrowthRate, targetPE, desiredReturnEarnings])
+  }, [stockData, epsInput, epsGrowthRate, targetPE, desiredReturnEarnings, years, decay, terminalGrowth])
 
   // Calculate Cash Flow-based projections
   const cashFlowCalculation = useMemo(() => {
@@ -177,7 +229,7 @@ export default function ImprovedDCFCalculator() {
     }
 
     const fcf = parseFloat(fcfInput)
-    const growth = parseFloat(fcfGrowthRate) / 100
+    let growth = parseFloat(fcfGrowthRate) / 100
     const targetYield = parseFloat(targetFcfYield) / 100
     const desiredReturn = parseFloat(desiredReturnCashFlow) / 100
     const currentPrice = stockData.price
@@ -186,13 +238,13 @@ export default function ImprovedDCFCalculator() {
       return null
     }
 
-    // Project FCF for 5 years
+    // Project FCF for N years with decay
     const projections = []
     let projectedFcf = fcf
+    const currentYear = new Date().getFullYear()
 
-    for (let year = 0; year <= 5; year++) {
-      const yearLabel = `Q1 ${2025 + year}`
-      // Fair price based on target FCF yield: Price = FCF / Yield
+    for (let year = 0; year <= years; year++) {
+      const yearLabel = `${currentYear + year}`
       const fairPrice = projectedFcf / targetYield
 
       projections.push({
@@ -201,27 +253,34 @@ export default function ImprovedDCFCalculator() {
         price: fairPrice
       })
 
+      // Apply growth with decay
       projectedFcf = projectedFcf * (1 + growth)
+      growth = Math.max(terminalGrowth, growth * (1 - decay))
     }
 
-    // Calculate future values
-    const futureFcf = fcf * Math.pow(1 + growth, 5)
-    const futurePrice = futureFcf / targetYield
+    // Final values
+    const futureFcf = projections[years].fcf
+    const futurePrice = projections[years].price
 
-    // Return from today's price
-    const returnFromToday = ((futurePrice / currentPrice) - 1) * 100
+    // CAGR from today's price
+    const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
 
     // Entry price for desired return
-    const entryPrice = futurePrice / Math.pow(1 + desiredReturn, 5)
+    const entryPrice = futurePrice / Math.pow(1 + desiredReturn, years)
+
+    // Upside/downside
+    const upside = ((entryPrice - currentPrice) / currentPrice) * 100
 
     return {
       projections,
       futureFcf,
       futurePrice,
-      returnFromToday,
-      entryPrice
+      cagr: cagr * 100,
+      entryPrice,
+      upside,
+      fairValue: entryPrice
     }
-  }, [stockData, fcfInput, fcfGrowthRate, targetFcfYield, desiredReturnCashFlow])
+  }, [stockData, fcfInput, fcfGrowthRate, targetFcfYield, desiredReturnCashFlow, years, decay, terminalGrowth])
 
   // Get current calculation based on mode
   const currentCalculation = mode === 'earnings' ? earningsCalculation : cashFlowCalculation
@@ -362,6 +421,18 @@ export default function ImprovedDCFCalculator() {
                   </div>
                 </div>
 
+                {/* Auto-fill Button */}
+                <button
+                  onClick={handleAutoFillGrowth}
+                  className="w-full mb-4 px-4 py-2 bg-theme-secondary hover:bg-theme-hover text-theme-secondary rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  5-Jahres Durchschnitt übernehmen
+                  <span className="text-xs text-theme-muted">({stockData.epsGrowth5Y.toFixed(1)}%)</span>
+                </button>
+
                 {/* EPS Input */}
                 <div className="mb-5">
                   <label className="block text-sm text-theme-secondary mb-2">EPS (TTM)</label>
@@ -449,13 +520,25 @@ export default function ImprovedDCFCalculator() {
                       <div className="text-lg font-semibold text-theme-primary">{stockData.fcfYield.toFixed(2)}%</div>
                     </div>
                     <div>
-                      <div className="text-xs text-theme-muted">SBC Impact</div>
-                      <div className={`text-lg font-semibold ${stockData.sbcImpact >= 0 ? 'text-brand' : 'text-red-600'}`}>
-                        {stockData.sbcImpact.toFixed(2)}%
+                      <div className="text-xs text-theme-muted">FCF Wachstum (5J)</div>
+                      <div className={`text-lg font-semibold ${stockData.fcfGrowth5Y >= 0 ? 'text-brand' : 'text-red-600'}`}>
+                        {stockData.fcfGrowth5Y.toFixed(1)}%
                       </div>
                     </div>
                   </div>
                 </div>
+
+                {/* Auto-fill Button */}
+                <button
+                  onClick={handleAutoFillGrowth}
+                  className="w-full mb-4 px-4 py-2 bg-theme-secondary hover:bg-theme-hover text-theme-secondary rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                  </svg>
+                  5-Jahres Durchschnitt übernehmen
+                  <span className="text-xs text-theme-muted">({stockData.fcfGrowth5Y.toFixed(1)}%)</span>
+                </button>
 
                 {/* FCF Input */}
                 <div className="mb-5">
@@ -494,31 +577,20 @@ export default function ImprovedDCFCalculator() {
                 {/* FCF Yield */}
                 <div className="mb-5">
                   <label className="block text-sm text-theme-secondary mb-2">Ziel FCF-Rendite</label>
-                  <div className="flex items-center gap-3 mb-2">
-                    <label className="flex items-center gap-2 text-sm text-theme-muted">
-                      <input
-                        type="checkbox"
-                        checked={useFcfMultiple}
-                        onChange={(e) => setUseFcfMultiple(e.target.checked)}
-                        className="rounded border-theme text-brand focus:ring-brand"
-                      />
-                      FCF-Multiple verwenden
-                    </label>
-                  </div>
                   <div className="flex">
                     <input
                       type="text"
                       value={targetFcfYield}
                       onChange={(e) => setTargetFcfYield(e.target.value)}
-                      placeholder="FCF-Rendite eingeben"
-                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      placeholder="4"
+                      className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
                     />
                     <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
                       {isTargetYieldValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                       %
                     </span>
                   </div>
-                  <p className="text-xs text-theme-muted mt-1.5">Die Free Cash Flow Rendite, die du für die Aktie als angemessen erachtest.</p>
+                  <p className="text-xs text-theme-muted mt-1.5">Die FCF Rendite, die du für fair erachtest (typisch: 3-6%).</p>
                 </div>
 
                 {/* Desired Return */}
@@ -540,29 +612,98 @@ export default function ImprovedDCFCalculator() {
                 </div>
               </>
             )}
+
+            {/* Advanced Settings */}
+            <div className="border-t border-theme pt-4 mt-4">
+              <button
+                onClick={() => setShowAdvanced(!showAdvanced)}
+                className="flex items-center justify-between w-full text-sm text-theme-secondary hover:text-theme-primary transition-colors"
+              >
+                <span className="font-medium">Erweiterte Einstellungen</span>
+                {showAdvanced ? (
+                  <ChevronUpIcon className="w-4 h-4" />
+                ) : (
+                  <ChevronDownIcon className="w-4 h-4" />
+                )}
+              </button>
+
+              {showAdvanced && (
+                <div className="mt-4 space-y-4">
+                  {/* Projection Years */}
+                  <div>
+                    <label className="block text-sm text-theme-secondary mb-2">Projektionsjahre</label>
+                    <input
+                      type="text"
+                      value={projectionYears}
+                      onChange={(e) => setProjectionYears(e.target.value)}
+                      className="w-full border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+                    />
+                    <p className="text-xs text-theme-muted mt-1">Anzahl der Jahre für die Projektion (Standard: 5)</p>
+                  </div>
+
+                  {/* Growth Decay Rate */}
+                  <div>
+                    <label className="block text-sm text-theme-secondary mb-2">Growth Decay Rate</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={growthDecayRate}
+                        onChange={(e) => setGrowthDecayRate(e.target.value)}
+                        placeholder="0"
+                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">%</span>
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1">Reduziert das Wachstum jährlich um diesen Prozentsatz (0 = kein Decay)</p>
+                  </div>
+
+                  {/* Terminal Growth Rate */}
+                  <div>
+                    <label className="block text-sm text-theme-secondary mb-2">Terminal Growth Rate</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={terminalGrowthRate}
+                        onChange={(e) => setTerminalGrowthRate(e.target.value)}
+                        placeholder="3"
+                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">%</span>
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1">Minimales langfristiges Wachstum (typisch: 2-4%)</p>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
 
-          {/* Right: 5-Year Projection */}
+          {/* Right: N-Year Projection */}
           <div className="bg-theme-card border border-theme rounded-xl p-6">
-            <h3 className="text-lg font-semibold text-theme-primary mb-6">5-Jahres Projektion</h3>
+            <h3 className="text-lg font-semibold text-theme-primary mb-6">{years}-Jahres Projektion</h3>
 
             {currentCalculation ? (
               <>
-                {/* Calculation Results */}
-                <div className="bg-theme-secondary rounded-lg p-4 mb-6">
-                  <div className="text-sm text-theme-muted text-center mb-3">Berechnungsergebnis</div>
-                  <div className="grid grid-cols-2 gap-8 text-center">
-                    <div>
-                      <div className="text-xs text-theme-muted mb-1">Rendite vom heutigen Preis</div>
-                      <div className={`text-2xl font-bold ${currentCalculation.returnFromToday >= 0 ? 'text-brand' : 'text-red-600'}`}>
-                        {currentCalculation.returnFromToday >= 0 ? '' : ''}{currentCalculation.returnFromToday.toFixed(2)}%
-                      </div>
+                {/* Margin of Safety Gauge */}
+                <div className="flex justify-center mb-6">
+                  <MarginOfSafetyGauge
+                    currentPrice={stockData.price}
+                    fairValue={currentCalculation.entryPrice}
+                    size="md"
+                  />
+                </div>
+
+                {/* Additional Stats */}
+                <div className="grid grid-cols-2 gap-4 mb-6">
+                  <div className="text-center p-3 border border-theme rounded-lg">
+                    <div className="text-xs text-theme-muted mb-1">Erwartete CAGR</div>
+                    <div className={`text-lg font-semibold ${currentCalculation.cagr >= 0 ? 'text-brand' : 'text-red-600'}`}>
+                      {currentCalculation.cagr.toFixed(1)}%
                     </div>
-                    <div>
-                      <div className="text-xs text-theme-muted mb-1">Einstiegspreis für {mode === 'earnings' ? desiredReturnEarnings : desiredReturnCashFlow}% Rendite</div>
-                      <div className="text-2xl font-bold text-theme-primary">
-                        ${currentCalculation.entryPrice.toFixed(2)}
-                      </div>
+                  </div>
+                  <div className="text-center p-3 border border-theme rounded-lg">
+                    <div className="text-xs text-theme-muted mb-1">Zielkurs ({years}J)</div>
+                    <div className="text-lg font-semibold text-theme-primary">
+                      ${currentCalculation.futurePrice.toFixed(2)}
                     </div>
                   </div>
                 </div>
@@ -635,14 +776,14 @@ export default function ImprovedDCFCalculator() {
 
       {/* Info Box */}
       {stockData && !loading && (
-        <div className="mt-8 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+        <div className="mt-8 p-4 border border-theme rounded-xl">
           <div className="flex gap-3">
-            <InformationCircleIcon className="w-5 h-5 text-blue-500 flex-shrink-0 mt-0.5" />
+            <InformationCircleIcon className="w-5 h-5 text-theme-muted flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-blue-800 dark:text-blue-300 font-medium text-sm">Hinweis zur Berechnung</p>
-              <p className="text-blue-600 dark:text-blue-400 text-sm mt-1">
+              <p className="text-theme-secondary font-medium text-sm">Hinweis zur Berechnung</p>
+              <p className="text-theme-muted text-sm mt-1">
                 {mode === 'earnings'
-                  ? 'Die Earnings-Methode berechnet den fairen Wert basierend auf projiziertem EPS und einem Ziel-KGV. Der Entry Price zeigt dir, welchen Preis du zahlen solltest, um deine gewünschte Rendite zu erzielen.'
+                  ? 'Die Earnings-Methode berechnet den fairen Wert basierend auf projiziertem EPS und einem Ziel-KGV. Der Fair Value zeigt, welchen Preis du zahlen solltest, um deine gewünschte Rendite zu erzielen.'
                   : 'Die Cash Flow-Methode berechnet den fairen Wert basierend auf projiziertem Free Cash Flow und einer Ziel-FCF-Yield. Diese Methode ist besonders nützlich für Unternehmen mit stabilem Cash Flow.'
                 }
               </p>

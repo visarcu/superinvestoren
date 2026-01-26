@@ -1329,3 +1329,163 @@ select optgroup {
 :root:not(.dark) .w-7.h-7.bg-brand div {
   color: #ffffff !important;
 }
+
+/* =====================================================================
+   AI ANALYSIS CONTENT - THEME-AWARE MARKDOWN STYLES
+   For AI-generated DCF analysis output
+   ===================================================================== */
+
+.ai-analysis-content {
+  color: var(--color-text-secondary);
+  line-height: 1.75;
+  font-size: var(--text-sm);
+}
+
+.ai-analysis-content h1,
+.ai-analysis-content h2,
+.ai-analysis-content h3,
+.ai-analysis-content h4,
+.ai-analysis-content h5,
+.ai-analysis-content h6 {
+  color: var(--color-text-primary) !important;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+}
+
+.ai-analysis-content h1 {
+  font-size: var(--text-2xl);
+  margin-top: 0;
+}
+
+.ai-analysis-content h2 {
+  font-size: var(--text-lg);
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.ai-analysis-content h3 {
+  font-size: var(--text-base);
+}
+
+.ai-analysis-content h4 {
+  font-size: var(--text-sm);
+}
+
+.ai-analysis-content p {
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+}
+
+.ai-analysis-content strong,
+.ai-analysis-content b {
+  color: var(--color-text-primary) !important;
+  font-weight: 600;
+}
+
+.ai-analysis-content a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.ai-analysis-content a:hover {
+  color: var(--color-primary-hover);
+}
+
+.ai-analysis-content ul,
+.ai-analysis-content ol {
+  color: var(--color-text-secondary);
+  margin-bottom: 1rem;
+  padding-left: 1.5rem;
+}
+
+.ai-analysis-content li {
+  color: var(--color-text-secondary);
+  margin-bottom: 0.5rem;
+}
+
+.ai-analysis-content li strong,
+.ai-analysis-content li b {
+  color: var(--color-text-primary) !important;
+}
+
+.ai-analysis-content li::marker {
+  color: var(--color-text-secondary);
+}
+
+/* Tables in AI analysis */
+.ai-analysis-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0 1.5rem;
+  font-size: var(--text-sm);
+}
+
+.ai-analysis-content thead {
+  background-color: var(--color-bg-secondary);
+}
+
+.ai-analysis-content th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-primary);
+  border-bottom: 2px solid var(--color-border);
+}
+
+.ai-analysis-content td {
+  padding: 0.75rem 1rem;
+  color: var(--color-text-primary);
+  border-bottom: 1px solid var(--color-border-light);
+}
+
+.ai-analysis-content tbody tr:hover {
+  background-color: var(--color-bg-hover);
+}
+
+.ai-analysis-content tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Code blocks */
+.ai-analysis-content code {
+  background-color: var(--color-bg-secondary);
+  color: var(--color-text-primary);
+  padding: 0.2rem 0.4rem;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+}
+
+.ai-analysis-content pre {
+  background-color: var(--color-bg-secondary);
+  padding: 1rem;
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+.ai-analysis-content pre code {
+  background: none;
+  padding: 0;
+}
+
+/* Blockquotes */
+.ai-analysis-content blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 1rem;
+  margin: 1rem 0;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* Horizontal rules */
+.ai-analysis-content hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: 1.5rem 0;
+}

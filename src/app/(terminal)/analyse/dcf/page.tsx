@@ -8,7 +8,7 @@ import { CalculatorIcon, SparklesIcon } from '@heroicons/react/24/outline'
 type TabType = 'manual' | 'ai'
 
 export default function DCFCalculatorPage() {
-  const [activeTab, setActiveTab] = useState<TabType>('manual')
+  const [activeTab, setActiveTab] = useState<TabType>('ai')
 
   return (
     <div className="p-6 bg-theme-primary min-h-screen">

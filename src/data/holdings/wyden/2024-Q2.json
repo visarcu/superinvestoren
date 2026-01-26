@@ -9,39 +9,97 @@
       "name": "API GROUP CORP",
       "cusip": "00187Y100",
       "shares": 5950000,
-      "value": 233656500
+      "value": 233656500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM STK",
+      "putCall": null
     },
     {
       "name": "PAR TECHNOLOGY CORP",
       "cusip": "698884103",
       "shares": 2296944,
-      "value": 104189380
+      "value": 104189380,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GFL ENVIRONMENTAL INC",
       "cusip": "36168Q104",
       "shares": 1650000,
-      "value": 56925000
+      "value": 56925000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SUB VTG SHS",
+      "putCall": null
     },
     {
       "name": "RCI HOSPITALITY HLDGS INC",
       "cusip": "74934Q108",
       "shares": 934592,
-      "value": 54206336
+      "value": 54206336,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PAR TECHNOLOGY CORP",
       "cusip": "698884103",
       "shares": 1050000,
-      "value": 47628000
+      "value": 47628000,
+      "optionType": "CALL",
+      "typeInfo": {
+        "label": "Call Option",
+        "badge": "bg-green-100 text-green-800 border-green-200",
+        "strategy": "leveraged_long"
+      },
+      "titleOfClass": "COM",
+      "putCall": "Call"
     },
     {
       "name": "FAT BRANDS INC",
       "cusip": "30258N105",
       "shares": 587400,
-      "value": 4464240
+      "value": 4464240,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CLASS A COM",
+      "putCall": null
     }
   ],
   "totalValue": 501069456,
-  "positionsCount": 6
+  "positionsCount": 6,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 453441456,
+      "CALL": 47628000
+    },
+    "percentages": {
+      "STOCK": "90.5%",
+      "CALL": "9.5%"
+    }
+  }
 }

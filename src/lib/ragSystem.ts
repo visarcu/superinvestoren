@@ -15,7 +15,7 @@ function loadEnvIfNeeded() {
     try {
       const envPath = resolve(process.cwd(), '.env.local')
       const envContent = readFileSync(envPath, 'utf8')
-      
+
       const lines = envContent.split('\n')
       for (const line of lines) {
         const trimmed = line.trim()
@@ -23,7 +23,7 @@ function loadEnvIfNeeded() {
           const equalIndex = trimmed.indexOf('=')
           const key = trimmed.substring(0, equalIndex).trim()
           const value = trimmed.substring(equalIndex + 1).trim().replace(/^["']|["']$/g, '')
-          
+
           if (key && value && !process.env[key]) {
             process.env[key] = value
           }
@@ -106,7 +106,7 @@ export class FinancialRAGSystem {
     if (!process.env.PINECONE_API_KEY) {
       throw new Error('PINECONE_API_KEY is required')
     }
-    
+
     if (!process.env.OPENAI_API_KEY) {
       throw new Error('OPENAI_API_KEY is required')
     }
@@ -134,7 +134,7 @@ export class FinancialRAGSystem {
   async initialize(indexName: string = "finclue-financial-docs"): Promise<void> {
     try {
       const pineconeIndex = this.pinecone.Index(indexName)
-      
+
       this.vectorStore = await PineconeStore.fromExistingIndex(
         this.embeddings,
         {
@@ -143,7 +143,7 @@ export class FinancialRAGSystem {
           namespace: "financial-documents", // Separate namespace for financial docs
         }
       )
-      
+
       console.log(`RAG System initialized with index: ${indexName}`)
     } catch (error) {
       console.error('Error initializing RAG system:', error)
@@ -160,7 +160,7 @@ export class FinancialRAGSystem {
     try {
       // Split document into chunks
       const chunks: string[] = await this.textSplitter.splitText(doc.content)
-      
+
       // Create Langchain documents
       const documents: Document[] = chunks.map((chunk: string, index: number) => new Document({
         pageContent: chunk,
@@ -179,7 +179,7 @@ export class FinancialRAGSystem {
 
       // Add to vector store
       await this.vectorStore.addDocuments(documents)
-      
+
       console.log(`Added ${documents.length} chunks for document ${doc.id}`)
     } catch (error) {
       console.error(`Error adding document ${doc.id}:`, error)
@@ -198,15 +198,15 @@ export class FinancialRAGSystem {
 
       // Build metadata filter
       const filter: Record<string, any> = {}
-      
+
       if (ticker) {
         filter.ticker = { $eq: ticker }
       }
-      
+
       if (document_types && document_types.length > 0) {
         filter.type = { $in: document_types }
       }
-      
+
       if (date_range) {
         filter.date = {
           $gte: date_range.start,
@@ -244,13 +244,13 @@ export class FinancialRAGSystem {
     }
 
     const results = await this.search(ragQuery)
-    
+
     if (results.length === 0) {
       return "No relevant documents found."
     }
 
     let context = "RELEVANTE DOKUMENTE UND INFORMATIONEN:\n\n"
-    
+
     results.forEach((result: RAGResult, index: number) => {
       context += `${index + 1}. Quelle: ${result.source}\n`
       context += `   Relevanz: ${(result.relevance_score * 100).toFixed(1)}%\n`
@@ -263,7 +263,7 @@ export class FinancialRAGSystem {
 
 // Document Processors
 export class DocumentProcessor {
-  
+
   // Process SEC 10-K filing
   static async process10K(filing: {
     ticker: string
@@ -285,7 +285,7 @@ export class DocumentProcessor {
     }
 
     const content = Object.values(sections).join("\n\n")
-    
+
     return {
       id: `10k_${filing.ticker}_${filing.year}`,
       type: 'sec_filing',
@@ -383,9 +383,9 @@ export class RAGPromptBuilder {
     try {
       // Extract key queries from the user message
       const queries = this.extractQueries(originalPrompt)
-      
+
       let ragContext = ""
-      
+
       // Get relevant context for each query
       for (const query of queries) {
         const context = await this.ragSystem.getContextForPrompt(query, ticker)
@@ -409,7 +409,7 @@ export class RAGPromptBuilder {
   private extractQueries(prompt: string): string[] {
     // Simple query extraction - could be enhanced with NLP
     const queries: string[] = []
-    
+
     // Extract ticker mentions
     const tickerMatches = prompt.match(/\b[A-Z]{1,5}\b/g)
     if (tickerMatches) {
@@ -419,7 +419,7 @@ export class RAGPromptBuilder {
     // Extract question patterns
     const questionWords = ['what', 'why', 'how', 'when', 'where', 'who']
     const sentences = prompt.split(/[.!?]+/)
-    
+
     sentences.forEach((sentence: string) => {
       const lower = sentence.toLowerCase().trim()
       if (questionWords.some((word: string) => lower.startsWith(word))) {
@@ -470,7 +470,7 @@ export class DataIngestionService {
 
   // Get FMP API Key (flexible - checks both locations)
   private getFmpApiKey(): string {
-    const key = process.env.FMP_API_KEY
+    const key = process.env.FMP_API_KEY || process.env.NEXT_PUBLIC_FMP_API_KEY
     if (!key) {
       throw new Error('FMP API Key not found. Set FMP_API_KEY environment variable')
     }
@@ -484,12 +484,12 @@ export class DataIngestionService {
       const response = await fetch(
         `https://financialmodelingprep.com/api/v4/earning_call_transcript/${ticker}?year=${year}&quarter=${quarter}&apikey=${apiKey}`
       )
-      
+
       if (!response.ok) {
         console.warn(`No earnings call data for ${ticker} Q${quarter} ${year}`)
         return
       }
-      
+
       const data = await response.json()
       if (data && data[0] && data[0].content) {
         const document = await DocumentProcessor.processEarningsCall({
@@ -518,14 +518,14 @@ export class DataIngestionService {
       const response = await fetch(
         `https://financialmodelingprep.com/api/v3/stock_news?tickers=${ticker}&limit=${limit}&apikey=${apiKey}`
       )
-      
+
       if (!response.ok) {
         console.warn(`No news data for ${ticker}`)
         return
       }
-      
+
       const articles = await response.json()
-      
+
       let ingestedCount = 0
       for (const article of articles.slice(0, 20)) { // Limit to prevent quota issues
         if (article.text && article.text.length > 100) { // Only meaningful articles
@@ -545,10 +545,44 @@ export class DataIngestionService {
           ingestedCount++
         }
       }
-      
+
       console.log(`✅ Ingested ${ingestedCount} news articles for ${ticker}`)
     } catch (error) {
       console.error(`Error ingesting news for ${ticker}:`, error)
+    }
+  }
+
+  // Ingest SEC Filings from FMP
+  async ingestSECFilings(ticker: string, limit: number = 3): Promise<void> {
+    try {
+      const apiKey = this.getFmpApiKey()
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/sec_filings/${ticker}?type=10-K&limit=${limit}&apikey=${apiKey}`
+      )
+
+      if (!response.ok) {
+        console.warn(`No SEC filings found for ${ticker}`)
+        return
+      }
+
+      const filings = await response.json()
+      for (const filing of filings) {
+        if (filing.fillingDate) {
+          const document = await DocumentProcessor.process10K({
+            ticker,
+            company_name: ticker,
+            year: new Date(filing.fillingDate).getFullYear(),
+            filing_date: filing.fillingDate,
+            cik: filing.cik,
+            business_section: `Filing Link: ${filing.finalLink}\n\nSEC Filing Type: ${filing.type}`
+          })
+
+          await this.ragSystem.addDocument(document)
+          console.log(`✅ Ingested SEC Filing: ${ticker} ${filing.type} (${filing.fillingDate})`)
+        }
+      }
+    } catch (error) {
+      console.error(`Error ingesting SEC filings for ${ticker}:`, error)
     }
   }
 
@@ -559,24 +593,25 @@ export class DataIngestionService {
 
     for (const ticker of tickers) {
       console.log(`📈 Processing ${ticker}...`)
-      
-      // Ingest recent earnings calls (last 4 quarters)
+
+      // 1. Ingest recent earnings calls
       for (let i = 0; i < 4; i++) {
         let year = currentYear
         let quarter = currentQuarter - i
-        
         if (quarter <= 0) {
           quarter += 4
           year -= 1
         }
-        
         await this.ingestEarningsCall(ticker, year, quarter)
-        await new Promise(resolve => setTimeout(resolve, 1000)) // Rate limiting
+        await new Promise(resolve => setTimeout(resolve, 1000))
       }
 
-      // Ingest recent news
+      // 2. Ingest SEC Filings
+      await this.ingestSECFilings(ticker, 1)
+
+      // 3. Ingest recent news
       await this.ingestNews(ticker)
-      await new Promise(resolve => setTimeout(resolve, 2000)) // Rate limiting
+      await new Promise(resolve => setTimeout(resolve, 2000))
     }
   }
 }

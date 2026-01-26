@@ -9,231 +9,543 @@
       "name": "ATS CORP",
       "cusip": "00217Y104",
       "shares": 8338573,
-      "value": 254159705
+      "value": 254159705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MIDDLEBY CORP",
       "cusip": "596278101",
       "shares": 1866359,
-      "value": 252798327
+      "value": 252798327,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CELANESE",
       "cusip": "150870103",
       "shares": 3506440,
-      "value": 242680712
+      "value": 242680712,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BREAD FINANCIAL HOLDINGS INC",
       "cusip": "018581108",
       "shares": 3740994,
-      "value": 228425094
+      "value": 228425094,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CARMAX INC",
       "cusip": "143130102",
       "shares": 2590071,
-      "value": 211764205
+      "value": 211764205,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BRUNSWICK CORP",
       "cusip": "117043109",
       "shares": 2965460,
-      "value": 191805953
+      "value": 191805953,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "COLLIERS INTERNATIONAL GROUP INC",
       "cusip": "194693107",
       "shares": 1284723,
-      "value": 174683786
+      "value": 174683786,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BERRY GLOBAL GROUP",
       "cusip": "08579W103",
       "shares": 2615849,
-      "value": 169166955
+      "value": 169166955,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "INGERSOLL-RAND INC",
       "cusip": "45687V106",
       "shares": 1728416,
-      "value": 156352511
+      "value": 156352511,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "OPEN TEXT CORP",
       "cusip": "683715106",
       "shares": 5366703,
-      "value": 151985029
+      "value": 151985029,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BRP INC",
       "cusip": "05577W200",
       "shares": 2970680,
-      "value": 151118492
+      "value": 151118492,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SS&C TECHNOLOGIES HOLDINGS INC",
       "cusip": "78467J100",
       "shares": 1953588,
-      "value": 148042899
+      "value": 148042899,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "FLOOR & DECOR",
       "cusip": "339750101",
       "shares": 1371683,
-      "value": 136756795
+      "value": 136756795,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SERVICE CORP INTERNATIONAL",
       "cusip": "817565104",
       "shares": 1667147,
-      "value": 133071674
+      "value": 133071674,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TFI INTERNATIONAL INC",
       "cusip": "87241L109",
       "shares": 971426,
-      "value": 131229938
+      "value": 131229938,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BORGWARNER INC",
       "cusip": "099724106",
       "shares": 4078780,
-      "value": 129664416
+      "value": 129664416,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "GILDAN ACTIVEWEAR INC",
       "cusip": "375916103",
       "shares": 2605480,
-      "value": 122587834
+      "value": 122587834,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "JELD-WEN HOLDINGS INC",
       "cusip": "47580P103",
       "shares": 14842920,
-      "value": 121563515
+      "value": 121563515,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WILLSCOT HOLDINGS",
       "cusip": "971378104",
       "shares": 3594848,
-      "value": 120247666
+      "value": 120247666,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "KINSALE CAPITAL GROUP INC",
       "cusip": "49714P108",
       "shares": 244823,
-      "value": 113874522
+      "value": 113874522,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "ENCORE CAPITAL GROUP INC",
       "cusip": "292554102",
       "shares": 2057143,
-      "value": 98269721
+      "value": 98269721,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MAGNA INTERNATIONAL INC",
       "cusip": "559222401",
       "shares": 2284378,
-      "value": 95464157
+      "value": 95464157,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "VONTIER",
       "cusip": "928881101",
       "shares": 2564237,
-      "value": 93517723
+      "value": 93517723,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CVS HEALTH CORP",
       "cusip": "126650100",
       "shares": 1952991,
-      "value": 87669766
+      "value": 87669766,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "EURONET WORLDWIDE INC",
       "cusip": "298736109",
       "shares": 819157,
-      "value": 84242106
+      "value": 84242106,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "KNIGHT-SWIFT TRANSPORTATION",
       "cusip": "499049104",
       "shares": 240063,
-      "value": 12732942
+      "value": 12732942,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "MAGNERA CORPORATION",
       "cusip": "55939A107",
       "shares": 572587,
-      "value": 10403906
+      "value": 10403906,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "COGENT COMMUNICATIONS HOLDINGS",
       "cusip": "19239V302",
       "shares": 125200,
-      "value": 9649164
+      "value": 9649164,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PATRICK INDUSTRIES INC",
       "cusip": "703343103",
       "shares": 68100,
-      "value": 5657748
+      "value": 5657748,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "BUILDERS FIRSTSOURCE INC",
       "cusip": "12008R107",
       "shares": 19140,
-      "value": 2735680
+      "value": 2735680,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "WEST FRASER TIMBER CO. LTD",
       "cusip": "952845105",
       "shares": 18350,
-      "value": 1588193
+      "value": 1588193,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "SEALED AIR CORP",
       "cusip": "81211K100",
       "shares": 42040,
-      "value": 1422213
+      "value": 1422213,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CLEARWATER PAPER CORP",
       "cusip": "18538R103",
       "shares": 9200,
-      "value": 273884
+      "value": 273884,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TENNANT CO",
       "cusip": "880345103",
       "shares": 3200,
-      "value": 260896
+      "value": 260896,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DOCEBO INC",
       "cusip": "25609L105",
       "shares": 3300,
-      "value": 147741
+      "value": 147741,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PHINIA INC",
       "cusip": "71880K101",
       "shares": 1500,
-      "value": 72255
+      "value": 72255,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "PENNANT GROUP",
       "cusip": "70805E109",
       "shares": 2500,
-      "value": 66300
+      "value": 66300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "LULU S FASHION LOUNGE",
       "cusip": "55003A108",
       "shares": 55000,
-      "value": 62150
+      "value": 62150,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 3846216573,
-  "positionsCount": 38
+  "positionsCount": 38,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 3846216573
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }
