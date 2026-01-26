@@ -508,8 +508,14 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i + 1}. ${news.title} 
     }
 
     // Recent portfolio activity context
+    if (portfolioData.transactionsHistory) {
+      prompt += `### HISTORISCHE PORTFOLIO-ÄNDERUNGEN (LOG):
+${portfolioData.transactionsHistory}
+`
+    }
+
     if (portfolioChanges) {
-      prompt += `**Jüngste Portfolio-Aktivitäten (Q1 2025):**
+      prompt += `**Aktuellster Berichtszeitraum (Latest Snapshot):**
 • 🆕 Neue Positionen: ${portfolioChanges.newPositions?.length || 0}
 • 📈 Erhöhte Positionen: ${portfolioChanges.increasedPositions?.length || 0}
 • 📉 Reduzierte Positionen: ${portfolioChanges.decreasedPositions?.length || 0}
@@ -552,7 +558,7 @@ Separate $616M Portfolio mit 122 Wertpapieren - kaufte kürzlich Aktien mit $775
 • **PRIMÄRER FOKUS:** ${primaryContext} - gewichte diesen Aspekt stärker
 • **INTELLIGENTE INTEGRATION:** Verbinde Aktienanalyse mit Investor-Perspektive geschickt
 • **PORTFOLIO-KONTEXT:** Wenn ${investor.replace(/-/g, ' ')} ${ticker} hält, analysiere die Position im Portfolio-Kontext
-• **AKTUELLE BEWEGUNGEN:** Nutze die Q1 2025 Portfolio-Bewegungen für relevante Insights
+• **BEWEGUNGEN:** Nutze die bereitgestellten Portfolio-Änderungs-Logs für relevante Insights über verschiedene Zeiträume
 • **DATENBASIS:** FMP-Kennzahlen + Portfolio-Filings + RAG-Dokumente intelligent kombinieren
 • **SCHREIBSTIL:** Conversational und natürlich, wie ein Finanzexperte der beide Bereiche beherrscht
 • **QUELLENHINWEISE:** Erwähne "laut FMP" für Kennzahlen und Datenquellen bei Portfolio-Infos
@@ -805,10 +811,16 @@ ${i + 1}. ${holding.ticker || 'N/A'} - ${holding.name}
     })
   }
 
+  if (portfolioData.transactionsHistory) {
+    prompt += `
+## HISTORISCHE PORTFOLIO-ÄNDERUNGEN (LOG):
+${portfolioData.transactionsHistory}`
+  }
+
   if (portfolioChanges) {
     prompt += `
 
-## PORTFOLIO AKTIVITÄTEN (letztes Quartal):
+## PORTFOLIO AKTIVITÄTEN (aktuellster Berichtszeitraum):
 • 🆕 Neue Positionen: ${portfolioChanges.newPositions?.length || 0}
 • 📈 Erhöhte Positionen: ${portfolioChanges.increasedPositions?.length || 0}
 • 📉 Reduzierte Positionen: ${portfolioChanges.decreasedPositions?.length || 0}
