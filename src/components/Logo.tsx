@@ -11,6 +11,7 @@ type LogoProps = {
   ticker?: string
   alt: string
   className?: string
+  padding?: 'none' | 'small' | 'medium' // kept for backwards compatibility
 }
 
 // Lokale Logos für häufig verwendete Ticker (Performance)
@@ -41,6 +42,7 @@ export default function Logo({
   ticker,
   alt,
   className,
+  padding: _padding, // Accepted but ignored - kept for backwards compatibility
 }: LogoProps) {
   const [fallbackStage, setFallbackStage] = useState(0)
 

@@ -504,7 +504,6 @@ export default function ModernDashboard() {
                     ticker={lastTicker}
                     alt={`${lastTicker} Logo`}
                     className="w-10 h-10 rounded-lg"
-                    padding="small"
                   />
                   <div className="flex-1 text-left">
                     <h4 className="font-semibold text-theme-primary">{lastTicker}</h4>
@@ -554,7 +553,6 @@ export default function ModernDashboard() {
                       ticker={ticker}
                       alt={`${ticker} Logo`}
                       className="w-7 h-7 rounded-md"
-                      padding="none"
                     />
                     {quote && (
                       <div className={`w-1.5 h-1.5 rounded-full ${
