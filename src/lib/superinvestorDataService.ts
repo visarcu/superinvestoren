@@ -341,7 +341,7 @@ export function getHistoricalPerformance(
 }
 
 // NEW: Summary of changes over the last X quarters
-export function getRecentTransactionsSummary(investorSlug: string, count: number = 4): string {
+export function getRecentTransactionsSummary(investorSlug: string, count: number = 8): string {
   if (!isValidHoldingsHistory(holdingsHistory)) return ""
   const snapshots = (holdingsHistory[investorSlug] as HoldingsSnapshot[]) || []
   if (snapshots.length < 2) return ""
