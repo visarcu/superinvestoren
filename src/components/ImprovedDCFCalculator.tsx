@@ -365,13 +365,13 @@ export default function ImprovedDCFCalculator() {
       {/* Mode Toggle */}
       {stockData && !loading && (
         <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-theme-secondary rounded-lg p-1">
+          <div className="inline-flex bg-theme-secondary border border-theme rounded-lg p-1">
             <button
               onClick={() => setMode('earnings')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
                 mode === 'earnings'
-                  ? 'bg-brand text-white shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
+                  ? 'bg-theme-card text-theme-primary shadow-sm border border-theme'
+                  : 'text-theme-muted hover:text-theme-primary'
               }`}
             >
               Earnings
@@ -380,8 +380,8 @@ export default function ImprovedDCFCalculator() {
               onClick={() => setMode('cashflow')}
               className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
                 mode === 'cashflow'
-                  ? 'bg-brand text-white shadow-sm'
-                  : 'text-theme-secondary hover:text-theme-primary'
+                  ? 'bg-theme-card text-theme-primary shadow-sm border border-theme'
+                  : 'text-theme-muted hover:text-theme-primary'
               }`}
             >
               Cash Flow

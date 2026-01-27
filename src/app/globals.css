@@ -1336,7 +1336,7 @@ select optgroup {
    ===================================================================== */
 
 .ai-analysis-content {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   line-height: 1.75;
   font-size: var(--text-sm);
 }
@@ -1374,7 +1374,7 @@ select optgroup {
 }
 
 .ai-analysis-content p {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   margin-bottom: 1rem;
 }
 
@@ -1395,13 +1395,13 @@ select optgroup {
 
 .ai-analysis-content ul,
 .ai-analysis-content ol {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   margin-bottom: 1rem;
   padding-left: 1.5rem;
 }
 
 .ai-analysis-content li {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   margin-bottom: 0.5rem;
 }
 
@@ -1411,7 +1411,7 @@ select optgroup {
 }
 
 .ai-analysis-content li::marker {
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
 }
 
 /* Tables in AI analysis */
@@ -1479,7 +1479,7 @@ select optgroup {
   border-left: 4px solid var(--color-primary);
   padding-left: 1rem;
   margin: 1rem 0;
-  color: var(--color-text-secondary);
+  color: var(--color-text-primary);
   font-style: italic;
 }
 

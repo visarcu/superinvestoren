@@ -1404,19 +1404,20 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
         {/* AI TAB */}
         {tab === 'ai' && (
-          <div className="space-y-8 animate-in fade-in duration-500 h-[700px]">
+          <div className="space-y-8 animate-in fade-in duration-500">
             {!user || !user.isPremium ? (
               <AISneakPeak
                 investorSlug={slug}
                 investorName={mainName}
               />
             ) : (
-              <div className="h-full border border-theme-light rounded-2xl overflow-hidden shadow-2xl">
+              <div className="bg-transparent border-none">
                 <FinclueAI
                   investor={slug}
                   portfolioData={latest}
                   isPremium={true}
                   showQuickPrompts={true}
+                  compactMode={true}
                 />
               </div>
             )}

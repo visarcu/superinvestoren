@@ -143,23 +143,6 @@ export default function MarginOfSafetyGauge({
           fill={getColor()}
         />
 
-        {/* Labels */}
-        <text
-          x={15}
-          y={centerY - 5}
-          className={`${config.labelSize} fill-theme-muted`}
-          textAnchor="start"
-        >
-          Unter
-        </text>
-        <text
-          x={config.width - 15}
-          y={centerY - 5}
-          className={`${config.labelSize} fill-theme-muted`}
-          textAnchor="end"
-        >
-          Über
-        </text>
       </svg>
 
       {/* Value display */}

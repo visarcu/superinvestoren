@@ -308,7 +308,7 @@ export default function AIAnalyseOutput({
           </svg>
           <p className="text-theme-muted text-xs leading-relaxed">
             <span className="font-medium text-theme-secondary">Was ist DCF?</span> Die Discounted-Cash-Flow-Methode berechnet den fairen Wert einer Aktie basierend auf zukünftigen Cashflows.{' '}
-            <a href="/learn/dcf-methode" className="text-brand hover:underline">Mehr erfahren →</a>
+            <a href="/blog/dcf-methode-erklaert" className="text-brand hover:underline">Mehr erfahren →</a>
           </p>
         </div>
         <div className="flex items-start gap-2">

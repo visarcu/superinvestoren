@@ -1150,7 +1150,7 @@ function LayoutContent({ children }: LayoutProps) {
         )}
       
         {/* CONTENT */}
-        <div className="flex-1 overflow-auto bg-theme-primary">
+        <div className="flex-1 bg-theme-primary overflow-x-hidden">
           {children}
         </div>
 

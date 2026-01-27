@@ -72,7 +72,7 @@ interface ChatMessage {
 interface RequestBody {
   message: string
   context: ChatMessage[]
-  analysisType: 'stock' | 'superinvestor' | 'general' | 'hybrid'  // ✅ ADDED: hybrid
+  analysisType: 'stock' | 'superinvestor' | 'general' | 'hybrid' | 'stock-pulse'  // ✅ ADDED: stock-pulse
   primaryContext?: 'stock' | 'superinvestor' | 'general'         // ✅ NEW: primary context
   ticker?: string
   compareWith?: string[]
@@ -643,12 +643,52 @@ async function buildContextualPrompt(
       console.log(`📝 DEBUG: Superinvestor prompt built, length: ${superinvestorPrompt.length}`)
       return { prompt: superinvestorPrompt, ragSources: sources }
 
+    case 'stock-pulse':
+      const pulsePrompt = buildStockPulsePrompt(ticker!, financialData, ragContext)
+      console.log(`📝 DEBUG: Stock pulse prompt built, length: ${pulsePrompt.length}`)
+      return { prompt: pulsePrompt, ragSources: sources }
+
     case 'general':
     default:
       const generalPrompt = buildGeneralPrompt(message, currentDate, ragContext)
       console.log(`📝 DEBUG: General prompt built, length: ${generalPrompt.length}`)
       return { prompt: generalPrompt, ragSources: sources }
   }
+}
+
+function buildStockPulsePrompt(ticker: string, financialData: any, ragContext: string): string {
+  let prompt = `Du bist ein erfahrener AI-Aktienanalyst. Erstelle eine **60-Sekunden-Kurzanalyse (Pulse Check)** für die Aktie **${ticker.toUpperCase()}**.
+  
+### DATENBASIS:
+**QUALITATIVE INSIGHTS (RAG):**
+${ragContext || 'Keine spezifischen Dokumente gefunden.'}
+
+`
+
+  if (financialData) {
+    prompt += `**FINANZDATEN (FMP):**
+• KGV (PE): ${financialData.peRatio?.toFixed(1) || 'N/A'}
+• Dividendenrendite: ${financialData.dividendYield != null ? (financialData.dividendYield * 100).toFixed(2) + '%' : 'N/A'}
+• Beta: ${financialData.beta?.toFixed(2) || 'N/A'}
+• Marktkapitalasierung: ${financialData.mktCap != null ? (financialData.mktCap / 1e9).toFixed(1) + 'B USD' : 'N/A'}
+
+`
+  }
+
+  prompt += `**AUFGABE:**
+Generiere genau 3 BULL-Argumente (Pro) und genau 3 BEAR-Argumente (Contra).
+Jedes Argument muss prägnant, datenbasiert und real sein.
+
+**FORMATIERUNGS-REGELN:**
+- Nutze Markdown-Listen (-).
+- Halte dich kurz (max. 15-20 Wörter pro Punkt).
+- Sei objektiv und professionell.
+- Beziehe dich bei den Bull/Bear Argumenten explizit auf die qualitativen RAG-Insights oben, falls vorhanden.
+- Am Ende gib ein **Gesamt-Fazit** in einem Satz.
+
+**WICHTIG:** Die Antwort muss strukturiert sein mit "### BULL-ARGUMENTE", "### BEAR-ARGUMENTE" und "### FAZIT". Keine weitere Einleitung.`
+
+  return prompt
 }
 
 // STOCK ANALYSIS PROMPT BUILDER

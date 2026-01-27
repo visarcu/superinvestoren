@@ -19,6 +19,7 @@ import { useLearnMode } from '@/lib/LearnModeContext'
 import { useCurrency } from '@/lib/CurrencyContext'
 import OwnershipSection from '@/components/OwnershipSection'
 import StockNewsSummary from '@/components/StockNewsSummary'
+import StockAISidebar from '@/components/ai/StockAISidebar'
 
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
 const WatchlistButton = dynamic(
@@ -63,7 +64,7 @@ const PremiumCTA = ({ title, description }: { title: string; description: string
     </div>
     <h3 className="text-xl font-semibold text-theme-primary mb-3">{title}</h3>
     <p className="text-theme-secondary mb-6 max-w-md mx-auto leading-relaxed">{description}</p>
-    
+
     <Link
       href="/pricing"
       className="btn-primary inline-flex items-center gap-2 px-6 py-3"
@@ -77,12 +78,12 @@ const PremiumCTA = ({ title, description }: { title: string; description: string
 )
 
 // ULTRA CLEAN Premium Blur
-const PremiumBlur = ({ 
-  children, 
-  featureName 
-}: { 
-  children: React.ReactNode; 
-  featureName: string 
+const PremiumBlur = ({
+  children,
+  featureName
+}: {
+  children: React.ReactNode;
+  featureName: string
 }) => (
   <div className="relative">
     <div className="filter blur-sm opacity-60 pointer-events-none select-none">
@@ -158,15 +159,15 @@ interface EnhancedDividendData {
 
 // ─── Komponente: AnalysisClient ───────────────────────────────────────────────
 export default function AnalysisClient({ ticker }: { ticker: string }) {
-  const { 
-    formatCurrency, 
-    formatPercentage, 
+  const {
+    formatCurrency,
+    formatPercentage,
     formatMarketCap,
     formatAxisValueDE,
     setCurrency,
-    detectCurrencyFromTicker 
+    detectCurrencyFromTicker
   } = useCurrency()
-  
+
   const stock = stocks.find((s) => s.ticker === ticker)
 
   // 2) User State
@@ -230,13 +231,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // Enhanced Dividend Data State
   const [enhancedDividendData, setEnhancedDividendData] = useState<EnhancedDividendData | null>(null)
 
-    // ✅ FCF Yield State
-    const [fcfYield, setFcfYield] = useState<number | null>(null)
+  // ✅ FCF Yield State
+  const [fcfYield, setFcfYield] = useState<number | null>(null)
 
-    // ✅ SBC (Stock-Based Compensation) States
-    const [sbcAdjFcfYield, setSbcAdjFcfYield] = useState<number | null>(null)
-    const [sbcImpact, setSbcImpact] = useState<number | null>(null)
-    const [stockBasedCompensation, setStockBasedCompensation] = useState<number | null>(null)
+  // ✅ SBC (Stock-Based Compensation) States
+  const [sbcAdjFcfYield, setSbcAdjFcfYield] = useState<number | null>(null)
+  const [sbcImpact, setSbcImpact] = useState<number | null>(null)
+  const [stockBasedCompensation, setStockBasedCompensation] = useState<number | null>(null)
 
 
 
@@ -246,7 +247,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     async function loadUser() {
       try {
         const { data: { session } } = await supabase.auth.getSession()
-        
+
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
@@ -275,7 +276,7 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
     // Einfache Ticker-basierte Erkennung als Sofort-Lösung
     const detectedCurrency = detectCurrencyFromTicker(ticker)
     setCurrency(detectedCurrency)
-    
+
     // TODO: Später aus API-Response nehmen:
     // if (stockData?.reportedCurrency) {
     //   setCurrency(detectCurrencyFromAPI(stockData.reportedCurrency))
@@ -285,26 +286,26 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // Forward P/E Berechnung - MEMOIZED
   const forwardPECalculated = useMemo(() => {
     if (!livePrice || estimates.length === 0) return null;
-    
+
     const currentYear = new Date().getFullYear()
     const nextYear = currentYear + 1
-    
-    const nextYearEstimate = estimates.find(e => 
+
+    const nextYearEstimate = estimates.find(e =>
       parseInt(e.date.slice(0, 4), 10) === nextYear
     )
-    
+
     if (nextYearEstimate && nextYearEstimate.estimatedEpsAvg > 0) {
       return livePrice / nextYearEstimate.estimatedEpsAvg
     }
-    
-    const currentYearEstimate = estimates.find(e => 
+
+    const currentYearEstimate = estimates.find(e =>
       parseInt(e.date.slice(0, 4), 10) === currentYear
     )
-    
+
     if (currentYearEstimate && currentYearEstimate.estimatedEpsAvg > 0) {
       return livePrice / currentYearEstimate.estimatedEpsAvg
     }
-    
+
     return null;
   }, [livePrice, estimates])
 
@@ -316,14 +317,14 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
   // Memoized payout safety styling calculations
   const payoutSafetyStyles = useMemo(() => {
     if (!enhancedDividendData?.payoutSafety) return null;
-    
+
     const colorMap = {
       green: { bg: 'bg-green-400 animate-pulse', text: 'text-brand-light' },
       yellow: { bg: 'bg-yellow-400 animate-pulse', text: 'text-yellow-400' },
       red: { bg: 'bg-red-400 animate-pulse', text: 'text-red-400' },
       gray: { bg: 'bg-gray-400', text: 'text-gray-400' }
     };
-    
+
     return colorMap[enhancedDividendData.payoutSafety.color as keyof typeof colorMap] || colorMap.gray;
   }, [enhancedDividendData?.payoutSafety?.color])
 
@@ -336,11 +337,11 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       console.log(`🔄 [AnalysisClient] Using individual API calls for ${ticker} (combined API disabled temporarily)`)
       loadAllDataFallback()
     }
-    
+
     // Optimized fallback function with parallel API calls  
     async function loadAllDataFallback() {
       console.log(`🚀 [AnalysisClient] Using optimized parallel API calls for ${ticker}`)
-      
+
       // Start all API calls in parallel using Promise.allSettled
       const apiCalls = await Promise.allSettled([
         fetch(`/api/profile/${ticker}`),           // 0
@@ -493,8 +494,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
       }
 
       // Process EV/EBIT calculation (requires both Enterprise Values and Income Statement)
-      if (apiCalls[9].status === 'fulfilled' && apiCalls[9].value.ok && 
-          apiCalls[8].status === 'fulfilled' && apiCalls[8].value.ok) {
+      if (apiCalls[9].status === 'fulfilled' && apiCalls[9].value.ok &&
+        apiCalls[8].status === 'fulfilled' && apiCalls[8].value.ok) {
         try {
           const [e] = (await apiCalls[9].value.json()) as any[]
           const [i] = (await apiCalls[8].value.json()) as any[]
@@ -630,426 +631,376 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
         </div>
       </div>
 
-      {/* LEARN MODE INFO - Nur anzeigen wenn aktiviert */}
-      {isLearnMode && (
-        <div className="bg-brand/10 rounded-lg p-4 mb-6">
-          <div className="flex items-start gap-3">
-            <AcademicCapIcon className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
-            <div>
-              <h4 className="text-sm font-semibold text-brand-light mb-1">Lern-Modus aktiviert</h4>
-              <p className="text-xs text-theme-secondary leading-relaxed">
-                Klicke auf die 🎓 Icons neben Kennzahlen, um detaillierte Erklärungen, Berechnungen und Beispiele zu erhalten.
-              </p>
+      {/* AI PULSE CHECK */}
+      <StockAISidebar 
+          ticker={ticker}
+          isPremium={user?.isPremium ?? false}
+          financialData={{
+              peRatio: peTTM,
+              dividendYield: enhancedDividendData?.currentYield,
+              beta: profileData?.beta,
+              mktCap: liveMarketCap
+          }}
+      />
+
+        {/* LEARN MODE INFO - Nur anzeigen wenn aktiviert */}
+        {isLearnMode && (
+          <div className="bg-brand/10 rounded-lg p-4 mb-6">
+            <div className="flex items-start gap-3">
+              <AcademicCapIcon className="w-5 h-5 text-brand-light flex-shrink-0 mt-0.5" />
+              <div>
+                <h4 className="text-sm font-semibold text-brand-light mb-1">Lern-Modus aktiviert</h4>
+                <p className="text-xs text-theme-secondary leading-relaxed">
+                  Klicke auf die 🎓 Icons neben Kennzahlen, um detaillierte Erklärungen, Berechnungen und Beispiele zu erhalten.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
 
 
 
-{/* =====================================================
+        {/* =====================================================
    ÜBERSICHT SECTION v4 - MIT SUBTILEN TRENNLINIEN
    
    Ersetze die komplette "ULTRA CLEAN ÜBERSICHT" Section
    ===================================================== */}
 
-{/* ===== ÜBERSICHT - CLEAN WITH DIVIDERS ===== */}
-<div className="bg-theme-card rounded-xl border border-white/[0.04]">
-  <div className="px-6 py-4 border-b border-white/[0.04]">
-    <h3 className="text-lg font-semibold text-theme-primary">Übersicht</h3>
-  </div>
-  
-  <div className="p-6">
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-      
-      {/* ===== MARKTDATEN ===== */}
-      <div>
-        <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
-          Marktdaten
-        </h4>
-        <div className="divide-y divide-white/[0.04]">
-          <div className="flex justify-between items-center py-2.5 first:pt-0">
-            <span className="text-sm text-theme-secondary">Marktkapitalisierung</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {liveMarketCap != null ? formatMarketCap(liveMarketCap) : '–'}
-            </span>
+        {/* ===== ÜBERSICHT - CLEAN WITH DIVIDERS ===== */}
+        <div className="bg-theme-card rounded-xl border border-white/[0.04]">
+          <div className="px-6 py-4 border-b border-white/[0.04]">
+            <h3 className="text-lg font-semibold text-theme-primary">Übersicht</h3>
           </div>
-          <div className="flex justify-between items-center py-2.5">
-            <span className="text-sm text-theme-secondary">Volumen</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {volume != null ? `${(volume / 1e6).toLocaleString('de-DE', { maximumFractionDigits: 0 })} Mio.` : '–'}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-2.5">
-            <span className="text-sm text-theme-secondary">Beta</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {profileData?.beta?.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '–'}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-2.5">
-            <span className="text-sm text-theme-secondary">Tagesspanne</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {previousClose && livePrice 
-                ? `${Math.min(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${Math.max(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
-                : '–'}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-2.5 last:pb-0">
-            <span className="text-sm text-theme-secondary">52W-Spanne</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {week52Low && week52High 
-                ? `${week52Low.toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${week52High.toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
-                : '–'}
-            </span>
-          </div>
-        </div>
-      </div>
 
-      {/* ===== DIVIDENDE ===== */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider">
-            Dividende
-          </h4>
-          <Link
-            href={`/analyse/stocks/${ticker.toLowerCase()}/dividends`}
-            className="text-xs text-theme-muted hover:text-brand transition-colors"
-          >
-            Details →
-          </Link>
-        </div>
-        <div className="divide-y divide-white/[0.04]">
-          <div className="flex justify-between items-center py-2.5 first:pt-0">
-            <span className="text-sm text-theme-secondary">Rendite</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {enhancedDividendData?.currentYield != null 
-                ? formatPercentage(enhancedDividendData.currentYield * 100) 
-                : '–'}
-            </span>
-          </div>
-          <div className="flex justify-between items-center py-2.5">
-            <span className="text-sm text-theme-secondary">Payout Ratio</span>
-            <span className="text-sm font-semibold text-theme-primary">
-              {enhancedDividendData?.payoutRatio != null 
-                ? formatPercentage(enhancedDividendData.payoutRatio * 100) 
-                : '–'}
-            </span>
-          </div>
-          {enhancedDividendData?.payoutSafety && (
-            <div className="flex justify-between items-center py-2.5">
-              <span className="text-sm text-theme-secondary">Einschätzung</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {enhancedDividendData.payoutSafety.text}
-              </span>
-            </div>
-          )}
-          {enhancedDividendData?.lastDividendDate && (
-            <div className="flex justify-between items-center py-2.5 last:pb-0">
-              <span className="text-sm text-theme-secondary">Letzte Zahlung</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {new Date(enhancedDividendData.lastDividendDate).toLocaleDateString('de-DE')}
-              </span>
-            </div>
-          )}
-        </div>
-      </div>
+          <div className="p-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-      {/* ===== BEWERTUNG ===== */}
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider">
-            Bewertung
-          </h4>
-          <Link
-            href={`/analyse/stocks/${ticker.toLowerCase()}/valuation`}
-            className="text-xs text-theme-muted hover:text-brand transition-colors"
-          >
-            Details →
-          </Link>
-        </div>
-        
-        {user?.isPremium ? (
-          <div className="divide-y divide-white/[0.04]">
-            <div className="flex justify-between items-center py-2.5 first:pt-0">
-              <span className="text-sm text-theme-secondary">KGV TTM</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {peTTM != null ? `${peTTM.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-2.5">
-              <span className="text-sm text-theme-secondary">KGV Erw.</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-2.5">
-              <span className="text-sm text-theme-secondary">FCF Yield</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
-              </span>
-            </div>
-            {stockBasedCompensation != null && stockBasedCompensation > 0 && (
-              <>
-                <div className="flex justify-between items-center py-2.5">
-                  <span className="text-sm text-theme-secondary">SBC Adj. FCF</span>
-                  <span className="text-sm font-semibold text-theme-primary">
-                    {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center py-2.5">
-                  <span className="text-sm text-theme-secondary">SBC Impact</span>
-                  <span className={`text-sm font-semibold ${
-                    sbcImpact != null && sbcImpact < -15 ? 'text-negative' : 
-                    sbcImpact != null && sbcImpact < -5 ? 'text-amber-500' : 
-                    'text-theme-primary'
-                  }`}>
-                    {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { maximumFractionDigits: 1 })}%` : '–'}
-                  </span>
-                </div>
-              </>
-            )}
-            <div className="flex justify-between items-center py-2.5 last:pb-0">
-              <span className="text-sm text-theme-secondary">EV/EBIT</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {evEbit != null ? `${evEbit.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div className="relative min-h-[180px]">
-            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-white/[0.04]">
-              <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">KGV TTM</span><span className="text-sm">34,3x</span></div>
-              <div className="flex justify-between py-2.5"><span className="text-sm">KGV Erw.</span><span className="text-sm">25,7x</span></div>
-              <div className="flex justify-between py-2.5"><span className="text-sm">FCF Yield</span><span className="text-sm">+1,99%</span></div>
-              <div className="flex justify-between py-2.5"><span className="text-sm">EV/EBIT</span><span className="text-sm">28,5x</span></div>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Link href="/pricing" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 hover:bg-brand/20 rounded-lg text-xs font-medium text-brand transition-colors">
-                <LockClosedIcon className="w-3.5 h-3.5" />
-                Premium freischalten
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ===== MARGEN ===== */}
-      <div>
-        <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
-          Margen
-        </h4>
-        
-        {user?.isPremium ? (
-          <div className="divide-y divide-white/[0.04]">
-            <div className="flex justify-between items-center py-2.5 first:pt-0">
-              <span className="text-sm text-theme-secondary">Bruttomarge</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-2.5">
-              <span className="text-sm text-theme-secondary">Op. Marge</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
-              </span>
-            </div>
-            <div className="flex justify-between items-center py-2.5 last:pb-0">
-              <span className="text-sm text-theme-secondary">Nettomarge</span>
-              <span className="text-sm font-semibold text-theme-primary">
-                {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
-              </span>
-            </div>
-          </div>
-        ) : (
-          <div className="relative min-h-[120px]">
-            <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-white/[0.04]">
-              <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">Bruttomarge</span><span className="text-sm">+68,82%</span></div>
-              <div className="flex justify-between py-2.5"><span className="text-sm">Op. Marge</span><span className="text-sm">+45,62%</span></div>
-              <div className="flex justify-between py-2.5"><span className="text-sm">Nettomarge</span><span className="text-sm">+36,15%</span></div>
-            </div>
-            <div className="absolute inset-0 flex items-center justify-center">
-              <Link href="/pricing" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 hover:bg-brand/20 rounded-lg text-xs font-medium text-brand transition-colors">
-                <LockClosedIcon className="w-3.5 h-3.5" />
-                Premium
-              </Link>
-            </div>
-          </div>
-        )}
-      </div>
-    </div>
-  </div>
-</div>
-
-
-
-     
-      {/* ✅ CHART + NEWS SEKTION - Clean Layout wie Fey */}
-      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
-
-        {/* LINKE SPALTE - CHART (3/5) */}
-        <div className="lg:col-span-3">
-          {history.length > 0 ? (
-            <WorkingStockChart
-              ticker={ticker}
-              data={history}
-            />
-          ) : (
-            <div className="bg-theme-card rounded-xl border border-theme-light p-6 flex items-center justify-center min-h-[450px]">
-              <LoadingSpinner />
-            </div>
-          )}
-        </div>
-
-        {/* RECHTE SPALTE - NEWS & GROWTH (2/5) */}
-        <div className="lg:col-span-2 space-y-6">
-          {/* NEWS SUMMARY - AI-generierte Zusammenfassung */}
-          <StockNewsSummary
-            ticker={ticker}
-            companyName={stock?.name}
-            price={livePrice ?? undefined}
-            changePct={livePrice && previousClose ? ((livePrice - previousClose) / previousClose) * 100 : undefined}
-          />
-
-          {/* GROWTH SEKTION */}
-          <LazyWrapper
-            minHeight="300px"
-            rootMargin="250px"
-            className="bg-theme-card rounded-lg"
-            fallback={
-              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
-                <div className="text-center">
-                  <div className="animate-pulse flex space-x-4">
-                    <div className="flex-1 space-y-3 py-1">
-                      <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
-                      <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
-                      <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
-                    </div>
+              {/* ===== MARKTDATEN ===== */}
+              <div>
+                <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
+                  Marktdaten
+                </h4>
+                <div className="divide-y divide-white/[0.04]">
+                  <div className="flex justify-between items-center py-2.5 first:pt-0">
+                    <span className="text-sm text-theme-secondary">Marktkapitalisierung</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {liveMarketCap != null ? formatMarketCap(liveMarketCap) : '–'}
+                    </span>
                   </div>
-                  <p className="text-theme-muted text-sm mt-4">Lade Wachstums-Analyse...</p>
+                  <div className="flex justify-between items-center py-2.5">
+                    <span className="text-sm text-theme-secondary">Volumen</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {volume != null ? `${(volume / 1e6).toLocaleString('de-DE', { maximumFractionDigits: 0 })} Mio.` : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-2.5">
+                    <span className="text-sm text-theme-secondary">Beta</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {profileData?.beta?.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) ?? '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-2.5">
+                    <span className="text-sm text-theme-secondary">Tagesspanne</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {previousClose && livePrice
+                        ? `${Math.min(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${Math.max(previousClose, livePrice).toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
+                        : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-2.5 last:pb-0">
+                    <span className="text-sm text-theme-secondary">52W-Spanne</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {week52Low && week52High
+                        ? `${week52Low.toLocaleString('de-DE', { minimumFractionDigits: 2 })} - ${week52High.toLocaleString('de-DE', { minimumFractionDigits: 2 })}`
+                        : '–'}
+                    </span>
+                  </div>
                 </div>
               </div>
-            }
-          >
-            <GrowthSection
-              ticker={ticker}
-              isPremium={user?.isPremium || false}
-            />
-          </LazyWrapper>
-        </div>
-      </div>
 
-      {/* ✅ KENNZAHLEN-CHARTS - ULTRA CLEAN (KEINE ÄUSSERE BOX!) */}
-      <div className="space-y-6">
-        <h3 className="text-xl font-bold text-theme-primary">Kennzahlen-Charts</h3>
-        {user?.isPremium ? (
-          <FinancialAnalysisClient
-            ticker={ticker}
-            isPremium={user?.isPremium}
-            userId={user?.id}
-          />
-        ) : (
-          /* Premium Teaser: Echte Charts mit Blur + CTA */
-          <div className="relative">
-            {/* Geblurrte echte FinancialAnalysisClient */}
-            <div className="filter blur-sm opacity-50 pointer-events-none select-none">
-              <FinancialAnalysisClient
-                ticker={ticker}
-                isPremium={false}
-                userId={undefined}
-              />
-            </div>
-
-            {/* Premium CTA Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-theme-bg/80 via-transparent to-theme-bg/80">
-              <a
-                href="/pricing"
-                className="bg-theme-card/95 backdrop-blur-sm rounded-xl px-6 py-4 text-center shadow-xl border border-brand/20 hover:border-green-500/40 transition-all hover:scale-105"
-              >
-                <div className="w-12 h-12 bg-brand/20 rounded-full flex items-center justify-center mx-auto mb-3">
-                  <BoltIcon className="w-6 h-6 text-brand" />
+              {/* ===== DIVIDENDE ===== */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider">
+                    Dividende
+                  </h4>
+                  <Link
+                    href={`/analyse/stocks/${ticker.toLowerCase()}/dividends`}
+                    className="text-xs text-theme-muted hover:text-brand transition-colors"
+                  >
+                    Details →
+                  </Link>
                 </div>
-                <p className="text-theme-primary font-semibold text-lg mb-1">Kennzahlen-Charts</p>
-                <p className="text-theme-secondary text-sm mb-3">Umsatz, Gewinn, Margen & mehr</p>
-                <span className="inline-flex items-center gap-2 text-brand font-medium text-sm">
-                  Premium freischalten
-                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </span>
-              </a>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* ✅ WALL STREET + ESTIMATES - ULTRA CLEAN */}
-      {(estimates.length > 0 || recs) && (
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          
-          {/* WALL STREET RATINGS */}
-          {recs && (
-            <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-white/[0.03]">
-                <h3 className="text-lg font-bold text-theme-primary">Wall Street Bewertungen</h3>
+                <div className="divide-y divide-white/[0.04]">
+                  <div className="flex justify-between items-center py-2.5 first:pt-0">
+                    <span className="text-sm text-theme-secondary">Rendite</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {enhancedDividendData?.currentYield != null
+                        ? formatPercentage(enhancedDividendData.currentYield * 100)
+                        : '–'}
+                    </span>
+                  </div>
+                  <div className="flex justify-between items-center py-2.5">
+                    <span className="text-sm text-theme-secondary">Payout Ratio</span>
+                    <span className="text-sm font-semibold text-theme-primary">
+                      {enhancedDividendData?.payoutRatio != null
+                        ? formatPercentage(enhancedDividendData.payoutRatio * 100)
+                        : '–'}
+                    </span>
+                  </div>
+                  {enhancedDividendData?.payoutSafety && (
+                    <div className="flex justify-between items-center py-2.5">
+                      <span className="text-sm text-theme-secondary">Einschätzung</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {enhancedDividendData.payoutSafety.text}
+                      </span>
+                    </div>
+                  )}
+                  {enhancedDividendData?.lastDividendDate && (
+                    <div className="flex justify-between items-center py-2.5 last:pb-0">
+                      <span className="text-sm text-theme-secondary">Letzte Zahlung</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {new Date(enhancedDividendData.lastDividendDate).toLocaleDateString('de-DE')}
+                      </span>
+                    </div>
+                  )}
+                </div>
               </div>
-              <div className="p-6">
+
+              {/* ===== BEWERTUNG ===== */}
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider">
+                    Bewertung
+                  </h4>
+                  <Link
+                    href={`/analyse/stocks/${ticker.toLowerCase()}/valuation`}
+                    className="text-xs text-theme-muted hover:text-brand transition-colors"
+                  >
+                    Details →
+                  </Link>
+                </div>
+
                 {user?.isPremium ? (
-                  <div className="space-y-4 text-sm">
-                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
-                      <span className="text-brand-light flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-400 rounded-full"></div>
-                        Strong Buy
+                  <div className="divide-y divide-white/[0.04]">
+                    <div className="flex justify-between items-center py-2.5 first:pt-0">
+                      <span className="text-sm text-theme-secondary">KGV TTM</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {peTTM != null ? `${peTTM.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
                       </span>
-                      <span className="text-theme-primary font-bold">{recs.strongBuy}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
-                      <span className="text-green-300 flex items-center gap-2">
-                        <div className="w-3 h-3 bg-green-300 rounded-full"></div>
-                        Buy
+                    <div className="flex justify-between items-center py-2.5">
+                      <span className="text-sm text-theme-secondary">KGV Erw.</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {forwardPE != null ? `${forwardPE.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
                       </span>
-                      <span className="text-theme-primary font-bold">{recs.buy}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
-                      <span className="text-yellow-400 flex items-center gap-2">
-                        <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
-                        Hold
+                    <div className="flex justify-between items-center py-2.5">
+                      <span className="text-sm text-theme-secondary">FCF Yield</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {fcfYield != null ? formatPercentage(fcfYield * 100) : '–'}
                       </span>
-                      <span className="text-theme-primary font-bold">{recs.hold}</span>
                     </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
-                      <span className="text-red-300 flex items-center gap-2">
-                        <div className="w-3 h-3 bg-red-300 rounded-full"></div>
-                        Sell
+                    {stockBasedCompensation != null && stockBasedCompensation > 0 && (
+                      <>
+                        <div className="flex justify-between items-center py-2.5">
+                          <span className="text-sm text-theme-secondary">SBC Adj. FCF</span>
+                          <span className="text-sm font-semibold text-theme-primary">
+                            {sbcAdjFcfYield != null ? formatPercentage(sbcAdjFcfYield * 100) : '–'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2.5">
+                          <span className="text-sm text-theme-secondary">SBC Impact</span>
+                          <span className={`text-sm font-semibold ${sbcImpact != null && sbcImpact < -15 ? 'text-negative' :
+                            sbcImpact != null && sbcImpact < -5 ? 'text-amber-500' :
+                              'text-theme-primary'
+                            }`}>
+                            {sbcImpact != null ? `${sbcImpact.toLocaleString('de-DE', { maximumFractionDigits: 1 })}%` : '–'}
+                          </span>
+                        </div>
+                      </>
+                    )}
+                    <div className="flex justify-between items-center py-2.5 last:pb-0">
+                      <span className="text-sm text-theme-secondary">EV/EBIT</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {evEbit != null ? `${evEbit.toLocaleString('de-DE', { maximumFractionDigits: 1 })}x` : '–'}
                       </span>
-                      <span className="text-theme-primary font-bold">{recs.sell}</span>
-                    </div>
-                    <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
-                      <span className="text-red-400 flex items-center gap-2">
-                        <div className="w-3 h-3 bg-red-400 rounded-full"></div>
-                        Strong Sell
-                      </span>
-                      <span className="text-theme-primary font-bold">{recs.strongSell}</span>
-                    </div>
-                    
-                    {/* Summary */}
-                    <div className="mt-6 pt-4 border-t border-theme">
-                      <div className="flex justify-between items-center text-sm">
-                        <span className="text-theme-secondary">Gesamt Analysten:</span>
-                        <span className="text-theme-primary font-medium">
-                          {recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell}
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center text-sm mt-2">
-                        <span className="text-theme-secondary">Bullish:</span>
-                        <span className="text-brand-light font-medium">
-                          {Math.round(((recs.strongBuy + recs.buy) / Math.max(1, recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell)) * 100)}%
-                        </span>
-                      </div>
                     </div>
                   </div>
                 ) : (
-                  <PremiumBlur featureName="Wall Street">
+                  <div className="relative min-h-[180px]">
+                    <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-white/[0.04]">
+                      <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">KGV TTM</span><span className="text-sm">34,3x</span></div>
+                      <div className="flex justify-between py-2.5"><span className="text-sm">KGV Erw.</span><span className="text-sm">25,7x</span></div>
+                      <div className="flex justify-between py-2.5"><span className="text-sm">FCF Yield</span><span className="text-sm">+1,99%</span></div>
+                      <div className="flex justify-between py-2.5"><span className="text-sm">EV/EBIT</span><span className="text-sm">28,5x</span></div>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Link href="/pricing" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 hover:bg-brand/20 rounded-lg text-xs font-medium text-brand transition-colors">
+                        <LockClosedIcon className="w-3.5 h-3.5" />
+                        Premium freischalten
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* ===== MARGEN ===== */}
+              <div>
+                <h4 className="text-xs font-semibold text-theme-muted uppercase tracking-wider mb-4">
+                  Margen
+                </h4>
+
+                {user?.isPremium ? (
+                  <div className="divide-y divide-white/[0.04]">
+                    <div className="flex justify-between items-center py-2.5 first:pt-0">
+                      <span className="text-sm text-theme-secondary">Bruttomarge</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {grossMargin != null ? formatPercentage(grossMargin * 100) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center py-2.5">
+                      <span className="text-sm text-theme-secondary">Op. Marge</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {operatingMargin != null ? formatPercentage(operatingMargin * 100) : '–'}
+                      </span>
+                    </div>
+                    <div className="flex justify-between items-center py-2.5 last:pb-0">
+                      <span className="text-sm text-theme-secondary">Nettomarge</span>
+                      <span className="text-sm font-semibold text-theme-primary">
+                        {profitMargin != null ? formatPercentage(profitMargin * 100) : '–'}
+                      </span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="relative min-h-[120px]">
+                    <div className="filter blur-sm opacity-40 pointer-events-none divide-y divide-white/[0.04]">
+                      <div className="flex justify-between py-2.5 first:pt-0"><span className="text-sm">Bruttomarge</span><span className="text-sm">+68,82%</span></div>
+                      <div className="flex justify-between py-2.5"><span className="text-sm">Op. Marge</span><span className="text-sm">+45,62%</span></div>
+                      <div className="flex justify-between py-2.5"><span className="text-sm">Nettomarge</span><span className="text-sm">+36,15%</span></div>
+                    </div>
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <Link href="/pricing" className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-brand/10 hover:bg-brand/20 rounded-lg text-xs font-medium text-brand transition-colors">
+                        <LockClosedIcon className="w-3.5 h-3.5" />
+                        Premium
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+
+        {/* ✅ CHART + NEWS SEKTION - Clean Layout wie Fey */}
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+          {/* LINKE SPALTE - CHART (3/5) */}
+          <div className="lg:col-span-3">
+            {history.length > 0 ? (
+              <WorkingStockChart
+                ticker={ticker}
+                data={history}
+              />
+            ) : (
+              <div className="bg-theme-card rounded-xl border border-theme-light p-6 flex items-center justify-center min-h-[450px]">
+                <LoadingSpinner />
+              </div>
+            )}
+          </div>
+
+          {/* RECHTE SPALTE - NEWS & GROWTH (2/5) */}
+          <div className="lg:col-span-2 space-y-6">
+            <StockNewsSummary ticker={ticker} />
+
+            {/* GROWTH SEKTION */}
+            <LazyWrapper
+              minHeight="300px"
+              rootMargin="250px"
+              className="bg-theme-card rounded-lg"
+              fallback={
+                <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
+                  <div className="text-center">
+                    <div className="animate-pulse flex space-x-4">
+                      <div className="flex-1 space-y-3 py-1">
+                        <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
+                        <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
+                        <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+                      </div>
+                    </div>
+                    <p className="text-theme-muted text-sm mt-4">Lade Wachstums-Analyse...</p>
+                  </div>
+                </div>
+              }
+            >
+              <GrowthSection
+                ticker={ticker}
+                isPremium={user?.isPremium || false}
+              />
+            </LazyWrapper>
+          </div>
+        </div>
+
+        {/* ✅ KENNZAHLEN-CHARTS - ULTRA CLEAN (KEINE ÄUSSERE BOX!) */}
+        <div className="space-y-6">
+          <h3 className="text-xl font-bold text-theme-primary">Kennzahlen-Charts</h3>
+          {user?.isPremium ? (
+            <FinancialAnalysisClient
+              ticker={ticker}
+              isPremium={user?.isPremium}
+              userId={user?.id}
+            />
+          ) : (
+            /* Premium Teaser: Echte Charts mit Blur + CTA */
+            <div className="relative">
+              {/* Geblurrte echte FinancialAnalysisClient */}
+              <div className="filter blur-sm opacity-50 pointer-events-none select-none">
+                <FinancialAnalysisClient
+                  ticker={ticker}
+                  isPremium={false}
+                  userId={undefined}
+                />
+              </div>
+
+              {/* Premium CTA Overlay */}
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-t from-theme-bg/80 via-transparent to-theme-bg/80">
+                <a
+                  href="/pricing"
+                  className="bg-theme-card/95 backdrop-blur-sm rounded-xl px-6 py-4 text-center shadow-xl border border-brand/20 hover:border-green-500/40 transition-all hover:scale-105"
+                >
+                  <div className="w-12 h-12 bg-brand/20 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <BoltIcon className="w-6 h-6 text-brand" />
+                  </div>
+                  <p className="text-theme-primary font-semibold text-lg mb-1">Kennzahlen-Charts</p>
+                  <p className="text-theme-secondary text-sm mb-3">Umsatz, Gewinn, Margen & mehr</p>
+                  <span className="inline-flex items-center gap-2 text-brand font-medium text-sm">
+                    Premium freischalten
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                    </svg>
+                  </span>
+                </a>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* ✅ WALL STREET + ESTIMATES - ULTRA CLEAN */}
+        {(estimates.length > 0 || recs) && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            {/* WALL STREET RATINGS */}
+            {recs && (
+              <div className="bg-theme-card rounded-lg">
+                <div className="px-6 py-4 border-b border-white/[0.03]">
+                  <h3 className="text-lg font-bold text-theme-primary">Wall Street Bewertungen</h3>
+                </div>
+                <div className="p-6">
+                  {user?.isPremium ? (
                     <div className="space-y-4 text-sm">
                       <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
                         <span className="text-brand-light flex items-center gap-2">
@@ -1086,139 +1037,92 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         </span>
                         <span className="text-theme-primary font-bold">{recs.strongSell}</span>
                       </div>
+
+                      {/* Summary */}
+                      <div className="mt-6 pt-4 border-t border-theme">
+                        <div className="flex justify-between items-center text-sm">
+                          <span className="text-theme-secondary">Gesamt Analysten:</span>
+                          <span className="text-theme-primary font-medium">
+                            {recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell}
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center text-sm mt-2">
+                          <span className="text-theme-secondary">Bullish:</span>
+                          <span className="text-brand-light font-medium">
+                            {Math.round(((recs.strongBuy + recs.buy) / Math.max(1, recs.strongBuy + recs.buy + recs.hold + recs.sell + recs.strongSell)) * 100)}%
+                          </span>
+                        </div>
+                      </div>
                     </div>
-                  </PremiumBlur>
-                )}
+                  ) : (
+                    <PremiumBlur featureName="Wall Street">
+                      <div className="space-y-4 text-sm">
+                        <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
+                          <span className="text-brand-light flex items-center gap-2">
+                            <div className="w-3 h-3 bg-green-400 rounded-full"></div>
+                            Strong Buy
+                          </span>
+                          <span className="text-theme-primary font-bold">{recs.strongBuy}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
+                          <span className="text-green-300 flex items-center gap-2">
+                            <div className="w-3 h-3 bg-green-300 rounded-full"></div>
+                            Buy
+                          </span>
+                          <span className="text-theme-primary font-bold">{recs.buy}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
+                          <span className="text-yellow-400 flex items-center gap-2">
+                            <div className="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                            Hold
+                          </span>
+                          <span className="text-theme-primary font-bold">{recs.hold}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
+                          <span className="text-red-300 flex items-center gap-2">
+                            <div className="w-3 h-3 bg-red-300 rounded-full"></div>
+                            Sell
+                          </span>
+                          <span className="text-theme-primary font-bold">{recs.sell}</span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-white/[0.04] last:border-b-0">
+                          <span className="text-red-400 flex items-center gap-2">
+                            <div className="w-3 h-3 bg-red-400 rounded-full"></div>
+                            Strong Sell
+                          </span>
+                          <span className="text-theme-primary font-bold">{recs.strongSell}</span>
+                        </div>
+                      </div>
+                    </PremiumBlur>
+                  )}
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {estimates.length > 0 && (
-            <div className="lg:col-span-2 bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-white/[0.03]">
-                <h3 className="text-lg font-bold text-theme-primary">
-                  Analysten Schätzungen (ab {new Date().getFullYear()})
-                </h3>
-              </div>
-              <div className="p-6">
-                {user?.isPremium ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    
-         
-{/* Revenue Estimates */}
-<div>
-  <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
-  <div className="overflow-x-auto">
-    <table className="professional-table">
-      <thead>
-        <tr>
-          <th>GJ</th>
-          <th className="text-right">Durchschnitt</th>
-          <th className="text-right">Niedrig</th>
-          <th className="text-right">Hoch</th>
-          <th className="text-right">Analysten</th>
-          <th className="text-right">YoY</th>
-        </tr>
-      </thead>
-      <tbody>
-        {estimates.slice().reverse().map((e, idx, arr) => {
-          const fy = e.date.slice(0, 4)
-          let yoy: number | null = null
-          if (idx > 0) {
-            const prev = arr[idx - 1].estimatedRevenueAvg
-            if (prev > 0) {
-              yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
-            }
-          }
-
-          return (
-            <tr key={e.date}>
-              <td className="font-medium">{fy}</td>
-              <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
-              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
-              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
-              <td className="text-right text-theme-secondary">
-                {e.numberAnalystEstimatedRevenue || '–'}
-              </td>
-              <td className={`text-right font-medium ${
-                yoy == null ? 'text-theme-secondary' : 
-                yoy > 0 ? 'text-brand-light' : 
-                'text-red-400'
-              }`}>
-                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
-              </td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
-  </div>
-</div>
-
-{/* Earnings Estimates */}
-<div>
-  <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
-  <div className="overflow-x-auto">
-    <table className="professional-table">
-      <thead>
-        <tr>
-          <th>GJ</th>
-          <th className="text-right">EPS Durchschn.</th>
-          <th className="text-right">Niedrig</th>
-          <th className="text-right">Hoch</th>
-          <th className="text-right">Analysten</th>
-          <th className="text-right">YoY</th>
-        </tr>
-      </thead>
-      <tbody>
-        {estimates.slice().reverse().map((e, idx, arr) => {
-          const fy = e.date.slice(0, 4)
-          let yoy: number | null = null
-          if (idx > 0) {
-            const prev = arr[idx - 1].estimatedEpsAvg
-            if (prev !== 0) {
-              yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
-            }
-          }
-
-          return (
-            <tr key={e.date}>
-              <td className="font-medium">{fy}</td>
-              <td className="text-right">{formatCurrency(e.estimatedEpsAvg)}</td>
-              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsLow)}</td>
-              <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsHigh)}</td>
-              <td className="text-right text-theme-secondary">
-                {e.numberAnalystsEstimatedEps || '–'}
-              </td>
-              <td className={`text-right font-medium ${
-                yoy == null ? 'text-theme-secondary' : 
-                yoy > 0 ? 'text-brand-light' : 
-                'text-red-400'
-              }`}>
-                {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
-              </td>
-            </tr>
-          )
-        })}
-      </tbody>
-    </table>
-  </div>
-</div>
-                 
-                  </div>
-                ) : (
-                  <PremiumBlur featureName="Schätzungen">
+            {estimates.length > 0 && (
+              <div className="lg:col-span-2 bg-theme-card rounded-lg">
+                <div className="px-6 py-4 border-b border-white/[0.03]">
+                  <h3 className="text-lg font-bold text-theme-primary">
+                    Analysten Schätzungen (ab {new Date().getFullYear()})
+                  </h3>
+                </div>
+                <div className="p-6">
+                  {user?.isPremium ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+
+                      {/* Revenue Estimates */}
                       <div>
                         <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
                         <div className="overflow-x-auto">
                           <table className="professional-table">
                             <thead>
                               <tr>
-                                <th>FY</th>
-                                <th className="text-right">Avg</th>
-                                <th className="text-right">Low</th>
-                                <th className="text-right">High</th>
+                                <th>GJ</th>
+                                <th className="text-right">Durchschnitt</th>
+                                <th className="text-right">Niedrig</th>
+                                <th className="text-right">Hoch</th>
+                                <th className="text-right">Analysten</th>
                                 <th className="text-right">YoY</th>
                               </tr>
                             </thead>
@@ -1232,7 +1136,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
                                   }
                                 }
-                                const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-brand-light' : 'text-red-400'
 
                                 return (
                                   <tr key={e.date}>
@@ -1240,7 +1143,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
                                     <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
                                     <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
-                                    <td className={`text-right font-medium ${yoyClass}`}>
+                                    <td className="text-right text-theme-secondary">
+                                      {e.numberAnalystEstimatedRevenue || '–'}
+                                    </td>
+                                    <td className={`text-right font-medium ${yoy == null ? 'text-theme-secondary' :
+                                      yoy > 0 ? 'text-brand-light' :
+                                        'text-red-400'
+                                      }`}>
                                       {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
                                     </td>
                                   </tr>
@@ -1251,16 +1160,18 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                         </div>
                       </div>
 
+                      {/* Earnings Estimates */}
                       <div>
                         <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
                         <div className="overflow-x-auto">
                           <table className="professional-table">
                             <thead>
                               <tr>
-                                <th>FY</th>
-                                <th className="text-right">EPS Avg</th>
-                                <th className="text-right">Low</th>
-                                <th className="text-right">High</th>
+                                <th>GJ</th>
+                                <th className="text-right">EPS Durchschn.</th>
+                                <th className="text-right">Niedrig</th>
+                                <th className="text-right">Hoch</th>
+                                <th className="text-right">Analysten</th>
                                 <th className="text-right">YoY</th>
                               </tr>
                             </thead>
@@ -1274,7 +1185,6 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
                                   }
                                 }
-                                const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-brand-light' : 'text-red-400'
 
                                 return (
                                   <tr key={e.date}>
@@ -1282,7 +1192,13 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                                     <td className="text-right">{formatCurrency(e.estimatedEpsAvg)}</td>
                                     <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsLow)}</td>
                                     <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsHigh)}</td>
-                                    <td className={`text-right font-medium ${yoyClass}`}>
+                                    <td className="text-right text-theme-secondary">
+                                      {e.numberAnalystsEstimatedEps || '–'}
+                                    </td>
+                                    <td className={`text-right font-medium ${yoy == null ? 'text-theme-secondary' :
+                                      yoy > 0 ? 'text-brand-light' :
+                                        'text-red-400'
+                                      }`}>
                                       {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
                                     </td>
                                   </tr>
@@ -1292,165 +1208,253 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
                           </table>
                         </div>
                       </div>
+
                     </div>
-                  </PremiumBlur>
-                )}
-              </div>
+                  ) : (
+                    <PremiumBlur featureName="Schätzungen">
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div>
+                          <h4 className="text-sm font-semibold text-theme-primary mb-4">Umsatzschätzungen</h4>
+                          <div className="overflow-x-auto">
+                            <table className="professional-table">
+                              <thead>
+                                <tr>
+                                  <th>FY</th>
+                                  <th className="text-right">Avg</th>
+                                  <th className="text-right">Low</th>
+                                  <th className="text-right">High</th>
+                                  <th className="text-right">YoY</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {estimates.slice().reverse().map((e, idx, arr) => {
+                                  const fy = e.date.slice(0, 4)
+                                  let yoy: number | null = null
+                                  if (idx > 0) {
+                                    const prev = arr[idx - 1].estimatedRevenueAvg
+                                    if (prev > 0) {
+                                      yoy = ((e.estimatedRevenueAvg - prev) / prev) * 100
+                                    }
+                                  }
+                                  const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-brand-light' : 'text-red-400'
 
+                                  return (
+                                    <tr key={e.date}>
+                                      <td className="font-medium">{fy}</td>
+                                      <td className="text-right">{formatCurrency(e.estimatedRevenueAvg)}</td>
+                                      <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueLow)}</td>
+                                      <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedRevenueHigh)}</td>
+                                      <td className={`text-right font-medium ${yoyClass}`}>
+                                        {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
+                                      </td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
 
+                        <div>
+                          <h4 className="text-sm font-semibold text-theme-primary mb-4">Gewinnschätzungen</h4>
+                          <div className="overflow-x-auto">
+                            <table className="professional-table">
+                              <thead>
+                                <tr>
+                                  <th>FY</th>
+                                  <th className="text-right">EPS Avg</th>
+                                  <th className="text-right">Low</th>
+                                  <th className="text-right">High</th>
+                                  <th className="text-right">YoY</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {estimates.slice().reverse().map((e, idx, arr) => {
+                                  const fy = e.date.slice(0, 4)
+                                  let yoy: number | null = null
+                                  if (idx > 0) {
+                                    const prev = arr[idx - 1].estimatedEpsAvg
+                                    if (prev !== 0) {
+                                      yoy = ((e.estimatedEpsAvg - prev) / prev) * 100
+                                    }
+                                  }
+                                  const yoyClass = yoy == null ? '' : yoy >= 0 ? 'text-brand-light' : 'text-red-400'
 
-              <div className="px-6 pb-4 border-t border-white/[0.04]">
-                <Link
-                  href={`/analyse/stocks/${ticker.toLowerCase()}/estimates`}
-                  className="inline-flex items-center gap-2 text-sm text-theme-secondary hover:text-brand-light transition-colors group"
-                >
-                  <svg className="w-4 h-4 group-hover:text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                  </svg>
-                  <span>Erweiterte Schätzungen & Kursziele anzeigen</span>
-                  <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                  </svg>
-                </Link>
-              </div>
-
-
-
-
-            </div>
-          )}
-        </div>
-      )}
-    
-      {/* ✅ COMPANY PROFILE + OWNERSHIP - SIDE-BY-SIDE LAYOUT */}
-      {profileData && (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          
-          {/* ✅ COMPANY PROFILE + EMPLOYEE COUNT - LINKE SPALTE */}
-          <div className="space-y-6">
-            
-            {/* Company Profile */}
-            <div className="bg-theme-card rounded-lg">
-              <div className="px-6 py-4 border-b border-white/[0.03]">
-                <h3 className="text-xl font-bold text-theme-primary">Company Profile</h3>
-              </div>
-              
-              <div className="p-6">
-                {/* Info-Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                  
-                  {/* Basis-Info */}
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Basics</h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-theme-secondary">Sektor</span>
-                        <span className="text-theme-primary font-medium">{profileData.sector ?? '–'}</span>
+                                  return (
+                                    <tr key={e.date}>
+                                      <td className="font-medium">{fy}</td>
+                                      <td className="text-right">{formatCurrency(e.estimatedEpsAvg)}</td>
+                                      <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsLow)}</td>
+                                      <td className="text-right text-theme-secondary">{formatCurrency(e.estimatedEpsHigh)}</td>
+                                      <td className={`text-right font-medium ${yoyClass}`}>
+                                        {yoy == null ? '–' : `${yoy >= 0 ? '+' : ''}${yoy.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
+                                      </td>
+                                    </tr>
+                                  )
+                                })}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-theme-secondary">Branche</span>
-                        <span className="text-theme-primary font-medium">{profileData.industry ?? '–'}</span>
+                    </PremiumBlur>
+                  )}
+                </div>
+
+
+
+                <div className="px-6 pb-4 border-t border-white/[0.04]">
+                  <Link
+                    href={`/analyse/stocks/${ticker.toLowerCase()}/estimates`}
+                    className="inline-flex items-center gap-2 text-sm text-theme-secondary hover:text-brand-light transition-colors group"
+                  >
+                    <svg className="w-4 h-4 group-hover:text-brand-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span>Erweiterte Schätzungen & Kursziele anzeigen</span>
+                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+                    </svg>
+                  </Link>
+                </div>
+
+
+
+
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* ✅ COMPANY PROFILE + OWNERSHIP - SIDE-BY-SIDE LAYOUT */}
+        {profileData && (
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+            {/* ✅ COMPANY PROFILE + EMPLOYEE COUNT - LINKE SPALTE */}
+            <div className="space-y-6">
+
+              {/* Company Profile */}
+              <div className="bg-theme-card rounded-lg">
+                <div className="px-6 py-4 border-b border-white/[0.03]">
+                  <h3 className="text-xl font-bold text-theme-primary">Company Profile</h3>
+                </div>
+
+                <div className="p-6">
+                  {/* Info-Grid */}
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+
+                    {/* Basis-Info */}
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Basics</h4>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-theme-secondary">Sektor</span>
+                          <span className="text-theme-primary font-medium">{profileData.sector ?? '–'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-theme-secondary">Branche</span>
+                          <span className="text-theme-primary font-medium">{profileData.industry ?? '–'}</span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-theme-secondary">IPO</span>
+                          <span className="text-theme-primary font-medium">{profileData.ipoDate?.slice(0, 4) ?? '–'}</span>
+                        </div>
                       </div>
-                      <div className="flex justify-between">
-                        <span className="text-theme-secondary">IPO</span>
-                        <span className="text-theme-primary font-medium">{profileData.ipoDate?.slice(0, 4) ?? '–'}</span>
+                    </div>
+
+                    {/* Größe & Kontakt */}
+                    <div className="space-y-3">
+                      <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Größe</h4>
+                      <div className="space-y-2 text-sm">
+                        <div className="flex justify-between">
+                          <span className="text-theme-secondary">Mitarbeiter</span>
+                          <span className="text-theme-primary font-medium">
+                            {profileData.fullTimeEmployees ?
+                              `${(Number(profileData.fullTimeEmployees) / 1000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}k` : '–'}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="text-theme-secondary">Land</span>
+                          <span className="text-theme-primary font-medium">{profileData.country ?? '–'}</span>
+                        </div>
+                        <div>
+                          <span className="text-theme-secondary block mb-1">Website</span>
+                          <a
+                            href={profileData.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-brand-light hover:text-green-300 transition-colors text-sm font-medium"
+                          >
+                            {profileData.website?.replace(/^https?:\/\//, '') ?? '–'}
+                          </a>
+                        </div>
                       </div>
                     </div>
                   </div>
 
-                  {/* Größe & Kontakt */}
-                  <div className="space-y-3">
-                    <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide">Größe</h4>
-                    <div className="space-y-2 text-sm">
-                      <div className="flex justify-between">
-                        <span className="text-theme-secondary">Mitarbeiter</span>
-                        <span className="text-theme-primary font-medium">
-                          {profileData.fullTimeEmployees ? 
-                            `${(Number(profileData.fullTimeEmployees) / 1000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}k` : '–'}
-                        </span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span className="text-theme-secondary">Land</span>
-                        <span className="text-theme-primary font-medium">{profileData.country ?? '–'}</span>
-                      </div>
-                      <div>
-                        <span className="text-theme-secondary block mb-1">Website</span>
-                        <a
-                          href={profileData.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-brand-light hover:text-green-300 transition-colors text-sm font-medium"
-                        >
-                          {profileData.website?.replace(/^https?:\/\//, '') ?? '–'}
-                        </a>
-                      </div>
-                    </div>
+                  {/* Beschreibung */}
+                  <div>
+                    <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide mb-3">Über das Unternehmen</h4>
+                    <p className="text-theme-secondary leading-relaxed text-sm">
+                      {profileData.description ?
+                        profileData.description.length > 400 ?
+                          profileData.description.substring(0, 400) + '...' :
+                          profileData.description
+                        : 'Keine Beschreibung verfügbar.'}
+                    </p>
                   </div>
                 </div>
-
-                {/* Beschreibung */}
-                <div>
-                  <h4 className="text-sm font-semibold text-theme-secondary uppercase tracking-wide mb-3">Über das Unternehmen</h4>
-                  <p className="text-theme-secondary leading-relaxed text-sm">
-                    {profileData.description ? 
-                      profileData.description.length > 400 ? 
-                        profileData.description.substring(0, 400) + '...' : 
-                        profileData.description 
-                      : 'Keine Beschreibung verfügbar.'}
-                  </p>
-                </div>
               </div>
+
+              {/* ✨ Company Efficiency Metrics - LAZY LOADED */}
+              <LazyWrapper
+                minHeight="250px"
+                rootMargin="200px"
+                fallback={
+                  <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '250px' }}>
+                    <div className="text-center">
+                      <div className="animate-pulse space-y-3">
+                        <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
+                        <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
+                        <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
+                      </div>
+                      <p className="text-theme-muted text-sm mt-4">Lade Effizienz-Kennzahlen...</p>
+                    </div>
+                  </div>
+                }
+              >
+                <CompanyEfficiencyMetrics
+                  ticker={ticker}
+                  isPremium={user?.isPremium || false}
+                />
+              </LazyWrapper>
+
             </div>
 
-            {/* ✨ Company Efficiency Metrics - LAZY LOADED */}
-            <LazyWrapper 
-              minHeight="250px" 
+            {/* ✅ OWNERSHIP STRUCTURE - LAZY LOADED */}
+            <LazyWrapper
+              minHeight="350px"
               rootMargin="200px"
               fallback={
-                <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '250px' }}>
+                <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '350px' }}>
                   <div className="text-center">
                     <div className="animate-pulse space-y-3">
+                      <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
                       <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
                       <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
-                      <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
                     </div>
-                    <p className="text-theme-muted text-sm mt-4">Lade Effizienz-Kennzahlen...</p>
+                    <p className="text-theme-muted text-sm mt-4">Lade Eigentümerstruktur...</p>
                   </div>
                 </div>
               }
             >
-              <CompanyEfficiencyMetrics 
-                ticker={ticker} 
-                isPremium={user?.isPremium || false} 
+              <OwnershipSection
+                ticker={ticker}
+                isPremium={user?.isPremium || false}
               />
             </LazyWrapper>
-            
           </div>
-
-          {/* ✅ OWNERSHIP STRUCTURE - LAZY LOADED */}
-          <LazyWrapper 
-            minHeight="350px" 
-            rootMargin="200px"
-            fallback={
-              <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '350px' }}>
-                <div className="text-center">
-                  <div className="animate-pulse space-y-3">
-                    <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
-                    <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
-                    <div className="h-4 bg-theme-tertiary rounded w-3/4"></div>
-                  </div>
-                  <p className="text-theme-muted text-sm mt-4">Lade Eigentümerstruktur...</p>
-                </div>
-              </div>
-            }
-          >
-            <OwnershipSection 
-              ticker={ticker} 
-              isPremium={user?.isPremium || false} 
-            />
-          </LazyWrapper>
-        </div>
-      )}
+        )}
     </div>
   )
 }

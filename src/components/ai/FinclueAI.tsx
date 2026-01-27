@@ -38,16 +38,45 @@ export default function FinclueAI({
     compactMode = false,
     isPremium
 }: FinclueAIProps) {
+    const storageKey = `finclue_chat_${ticker || investor || 'general'}`
 
-    const [messages, setMessages] = useState<Message[]>([
-        {
-            id: '1',
-            type: 'assistant',
-            content: getInitialWelcomeMessage(ticker, investor, initialMessage),
-            timestamp: new Date(),
-            ragEnabled: true
+    const [messages, setMessages] = useState<Message[]>([])
+    const [initialLoadDone, setInitialLoadDone] = useState(false)
+
+    // Initial Load
+    useEffect(() => {
+        const cached = sessionStorage.getItem(storageKey)
+        if (cached) {
+            try {
+                const parsed = JSON.parse(cached)
+                // Convert string dates back to Date objects
+                setMessages(parsed.map((m: any) => ({
+                    ...m,
+                    timestamp: new Date(m.timestamp)
+                })))
+            } catch (e) {
+                console.error('Error parsing cached messages', e)
+            }
+        } else {
+            setMessages([
+                {
+                    id: '1',
+                    type: 'assistant',
+                    content: getInitialWelcomeMessage(ticker, investor, initialMessage),
+                    timestamp: new Date(),
+                    ragEnabled: true
+                }
+            ])
         }
-    ])
+        setInitialLoadDone(true)
+    }, [storageKey, ticker, investor, initialMessage])
+
+    // Save to Cache
+    useEffect(() => {
+        if (initialLoadDone && messages.length > 0) {
+            sessionStorage.setItem(storageKey, JSON.stringify(messages))
+        }
+    }, [messages, storageKey, initialLoadDone])
 
     const [input, setInput] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -161,7 +190,7 @@ export default function FinclueAI({
     }
 
     return (
-        <div className={`flex flex-col h-full bg-theme-bg overflow-hidden ${compactMode ? 'rounded-xl border border-theme' : ''}`}>
+        <div className={`flex flex-col h-full overflow-hidden ${compactMode ? 'bg-transparent' : 'bg-theme-bg'}`}>
             {/* Header */}
             {!compactMode && (
                 <div className="p-4 border-b border-theme flex items-center justify-between bg-theme-secondary/30 backdrop-blur-md">

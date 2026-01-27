@@ -15,6 +15,20 @@ export default function AISneakPeak({ investorSlug, investorName }: AISneakPeakP
     const [result, setResult] = useState<any>(null)
     const [error, setError] = useState<string | null>(null)
 
+    const storageKey = `finclue_trial_${investorSlug}`
+
+    // Initial Load from Session
+    React.useEffect(() => {
+        const cached = sessionStorage.getItem(storageKey)
+        if (cached) {
+            try {
+                setResult(JSON.parse(cached))
+            } catch (e) {
+                console.error('Error parsing cached trial result', e)
+            }
+        }
+    }, [storageKey])
+
     const handleFetchSneakPeak = async () => {
         setIsLoading(true)
         setError(null)
@@ -39,6 +53,8 @@ export default function AISneakPeak({ investorSlug, investorName }: AISneakPeakP
             }
 
             setResult(data.response)
+            // Cache the result
+            sessionStorage.setItem(storageKey, JSON.stringify(data.response))
         } catch (err: any) {
             setError(err.message)
         } finally {
@@ -49,8 +65,8 @@ export default function AISneakPeak({ investorSlug, investorName }: AISneakPeakP
     if (result) {
         return (
             <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4 duration-700">
-                <div className="bg-theme-card border border-theme-light rounded-2xl overflow-hidden shadow-xl">
-                    <div className="p-6">
+                <div className="bg-transparent border-none">
+                    <div className="p-0">
                         <AIChatMessage
                             message={{
                                 id: 'sneak-peak',
@@ -64,8 +80,8 @@ export default function AISneakPeak({ investorSlug, investorName }: AISneakPeakP
                         />
                     </div>
 
-                    {/* Conversion CTA */}
-                    <div className="bg-gradient-to-r from-brand/10 to-brand/5 p-8 text-center border-t border-brand/10">
+                    {/* Conversion CTA - More integrated */}
+                    <div className="bg-theme-card border border-brand/20 p-8 text-center rounded-2xl shadow-xl">
                         <div className="inline-flex items-center gap-2 px-3 py-1 bg-brand text-white rounded-full text-xs font-bold uppercase tracking-wider mb-4 animate-pulse">
                             Bonus Insight
                         </div>
@@ -98,30 +114,29 @@ export default function AISneakPeak({ investorSlug, investorName }: AISneakPeakP
     }
 
     return (
-        <div className="max-w-2xl mx-auto py-12">
-            <div className="bg-theme-card border border-theme-light rounded-3xl p-10 overflow-hidden relative group hover:border-brand/30 transition-all duration-500 shadow-2xl">
+        <div className="max-w-2xl mx-auto py-8">
+            <div className="bg-theme-secondary/20 border border-theme-light rounded-2xl p-8 relative group hover:border-brand/20 transition-all duration-500">
                 {/* Glow effect */}
                 <div className="absolute -top-24 -right-24 w-48 h-48 bg-brand/10 rounded-full blur-[80px] pointer-events-none group-hover:bg-brand/20 transition-all duration-700"></div>
                 <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-brand/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-brand/10 transition-all duration-700"></div>
 
                 <div className="relative z-10 text-center">
-                    <div className="w-20 h-20 bg-gradient-to-br from-brand/20 to-brand/5 rounded-2xl flex items-center justify-center mx-auto mb-8 rotate-3 group-hover:rotate-6 transition-transform duration-500 shadow-inner border border-brand/10">
-                        <SparklesIcon className="w-10 h-10 text-brand animate-pulse" />
+                    <div className="w-16 h-16 bg-brand/10 rounded-xl flex items-center justify-center mx-auto mb-6 border border-brand/10">
+                        <SparklesIcon className="w-8 h-8 text-brand animate-pulse" />
                     </div>
 
-                    <h2 className="text-3xl font-bold text-theme-primary mb-4 tracking-tight">
+                    <h2 className="text-2xl font-bold text-theme-primary mb-3">
                         Was kauft {investorName}?
                     </h2>
 
-                    <p className="text-theme-muted text-lg mb-10 leading-relaxed">
-                        Unsere AI hat die SEC-Filings analysiert. Hol dir jetzt eine
-                        kostenlose Kurzanalyse der letzten Portfolio-Änderungen.
+                    <p className="text-theme-muted mb-8 leading-relaxed">
+                        Hol dir jetzt eine kostenlose AI-Analyse der letzten Portfolio-Änderungen.
                     </p>
 
                     <button
                         onClick={handleFetchSneakPeak}
                         disabled={isLoading}
-                        className="w-full sm:w-auto px-10 py-5 bg-gradient-to-r from-brand to-brand-light hover:from-brand-light hover:to-brand text-white text-lg font-bold rounded-2xl transition-all duration-300 flex items-center justify-center gap-3 shadow-xl shadow-brand/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-70 disabled:hover:scale-100"
+                        className="w-full sm:w-auto px-8 py-4 bg-brand hover:bg-brand-light text-white font-bold rounded-xl transition-all duration-300 flex items-center justify-center gap-3 shadow-lg shadow-brand/10 group-hover:scale-[1.02]"
                     >
                         {isLoading ? (
                             <>
