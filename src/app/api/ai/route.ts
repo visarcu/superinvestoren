@@ -43,6 +43,26 @@ const rateLimiter = new Map<string, { count: number; resetTime: number }>()
 const RATE_LIMIT = 20
 const WINDOW_MS = 15 * 60 * 1000
 
+// Trial Rate Limiting (1 trial query per window)
+const trialRateLimiter = new Map<string, { count: number; resetTime: number }>()
+const TRIAL_LIMIT = 1 // Strict 1 query for sneak peak
+const TRIAL_WINDOW_MS = 24 * 60 * 60 * 1000 // 24 hours for trials
+
+function checkTrialLimit(ip: string): boolean {
+  const now = Date.now()
+  const trial = trialRateLimiter.get(ip)
+  if (!trial || now > trial.resetTime) {
+    trialRateLimiter.set(ip, { count: 1, resetTime: now + TRIAL_WINDOW_MS })
+    return true
+  }
+  return trial.count < TRIAL_LIMIT
+}
+
+function incrementTrialCount(ip: string) {
+  const trial = trialRateLimiter.get(ip)
+  if (trial) trial.count++
+}
+
 interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
@@ -58,11 +78,12 @@ interface RequestBody {
   compareWith?: string[]
   investor?: string
   portfolioData?: any
+  isTrial?: boolean                                              // ✅ NEW: Trial mode
   contextHints?: {                                                // ✅ NEW: context hints
-    isHybridQuery: boolean
-    hasExplicitTicker: boolean
-    hasExplicitInvestor: boolean
-    messageContainsPortfolioTerms: boolean
+    isHybridQuery: boolean,
+    hasExplicitTicker: boolean,
+    hasExplicitInvestor: boolean,
+    messageContainsPortfolioTerms: boolean,
     messageContainsStockTerms?: boolean
   }
 }
@@ -1034,14 +1055,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const authResult = await verifyUserAndPremium(request)
-    if ('error' in authResult) {
-      return NextResponse.json(
-        { error: authResult.error },
-        { status: authResult.status }
-      )
-    }
-
     const body: RequestBody = await request.json()
     const {
       message,
@@ -1051,8 +1064,30 @@ export async function POST(request: NextRequest) {
       ticker,
       investor,
       portfolioData: fallbackPortfolioData,
+      isTrial = false,
       contextHints
     } = body
+
+    // ✅ NEW TRIAL LOGIC: Skip premium check for limited investor sneak peaks
+    const isInvestorTrial = isTrial && analysisType === 'superinvestor' && !!investor
+
+    if (isInvestorTrial) {
+      console.log(`🎁 TRIAL: Sneak peak request for ${investor} from ${ip}`)
+      if (!checkTrialLimit(ip)) {
+        return NextResponse.json(
+          { error: 'Du hast dein kostenloses AI-Guthaben aufgebraucht. Bitte melde dich an für mehr!' },
+          { status: 429 }
+        )
+      }
+    } else {
+      const authResult = await verifyUserAndPremium(request)
+      if ('error' in authResult) {
+        return NextResponse.json(
+          { error: authResult.error },
+          { status: authResult.status }
+        )
+      }
+    }
 
     if (!message?.trim()) {
       return NextResponse.json(
@@ -1166,6 +1201,10 @@ export async function POST(request: NextRequest) {
           chart.data = await fetchChartData(chart.ticker, chart.period)
         }
       }
+    }
+
+    if (typeof isInvestorTrial !== 'undefined' && isInvestorTrial) {
+      incrementTrialCount(ip)
     }
 
     const remaining = RATE_LIMIT - (rateLimiter.get(ip)?.count || 0)

@@ -48,6 +48,7 @@ import articlesGates from '@/data/articles/gates.json'
 import ArticleList from '@/components/ArticleList'
 import type { Article } from '@/components/ArticleList'
 import PublicInvestorFollowButton from '@/components/PublicInvestorFollowButton'
+import AISneakPeak from '@/components/ai/AISneakPeak'
 
 // User Interface für Premium-Check
 interface User {
@@ -100,73 +101,73 @@ interface OwnershipHistoryPoint {
 }
 
 const investorNames: Record<string, string> = {
-buffett: 'Warren Buffett – Berkshire Hathaway',
+  buffett: 'Warren Buffett – Berkshire Hathaway',
   ackman: 'Bill Ackman – Pershing Square Capital Management',
   gates: 'Bill & Melinda Gates Foundation Trust',
   torray: 'Torray Investment Partners LLC',
   davis: 'Christoper Davis - Davis Selected Advisers',
   altarockpartners: 'Mark Massey - Altarock Partners Llc',
-  greenhaven:'Edgar Wachenheim III - Greenhaven Associates Inc',
-  vinall:'Robert Vinall - RV Capital AG',
+  greenhaven: 'Edgar Wachenheim III - Greenhaven Associates Inc',
+  vinall: 'Robert Vinall - RV Capital AG',
   meridiancontrarian: 'Meridian Contrarian Fund',
-  hawkins:' Mason Hawkins - Southeastern Asset Management Inc',
-  olstein:'Robert Olstein - Olstein Capital Management',
+  hawkins: ' Mason Hawkins - Southeastern Asset Management Inc',
+  olstein: 'Robert Olstein - Olstein Capital Management',
   peltz: 'Nelson Peltz - Trian Fund Management',
-  gregalexander:'Greg Alexander - Conifer Management',
+  gregalexander: 'Greg Alexander - Conifer Management',
   miller: 'Bill Miller - Miller Value Partners',
   tangen: 'Nicolai Tangen - AKO Capital',
-  burry:'Michael Burry - Scion Asset Management',
+  burry: 'Michael Burry - Scion Asset Management',
   pabrai: 'Mohnish Pabrai - Dalal Street Llc',
   kantesaria: 'Dev Kantesaria - Valley Forge Capital Management',
   greenblatt: 'Joel Greenblatt - Gotham Asset Management',
   fisher: 'Ken Fisher - Fisher Asset Management',
-  soros:'George Soros - Soros Fund Management Llc',
-  haley:'Connor Haley - Alta Fox Capital Management',
+  soros: 'George Soros - Soros Fund Management Llc',
+  haley: 'Connor Haley - Alta Fox Capital Management',
   vandenberg: 'Arnold Van Den Berg - Van Den Berg Management',
-  dodgecox:'Van Duyn Dodge & E. Morris Cox - Dodge & Cox',
-  pzena:'Richard Pzena - Pzena Investment Management',
-  mairspower:'Mairs & Power Inc',
+  dodgecox: 'Van Duyn Dodge & E. Morris Cox - Dodge & Cox',
+  pzena: 'Richard Pzena - Pzena Investment Management',
+  mairspower: 'Mairs & Power Inc',
   weitz: 'Wallace Weitz - Weitz Investment Management',
-  yacktman:'Yacktman Asset Management LP',
-  gayner:'Thomas Gayner - Markel Group',
-  armitage:'John Armitage - Egerton Capital',
+  yacktman: 'Yacktman Asset Management LP',
+  gayner: 'Thomas Gayner - Markel Group',
+  armitage: 'John Armitage - Egerton Capital',
   burn: 'Harry Burn - Sound Shore',
-  cantillon:'William von Mueffling - Cantillon Capital Management',
-  jensen:'Eric Schoenstein - Jensen Investment Management',
+  cantillon: 'William von Mueffling - Cantillon Capital Management',
+  jensen: 'Eric Schoenstein - Jensen Investment Management',
   abrams: 'David Abrams - Abrams Capital Management',
   firsteagle: 'First Eagle Investment Management',
   polen: 'Polen Capital Management',
-  tarasoff:'Josh Tarasoff - Greenlea Lane Capital',
+  tarasoff: 'Josh Tarasoff - Greenlea Lane Capital',
   rochon: 'Francois Rochon - Giverny Capital',
   russo: 'Thomas Russo - Gardner Russo & Quinn',
   akre: 'Chuck Akre - Akre Capital Management',
-  triplefrond:'Triple Frond Partners',
+  triplefrond: 'Triple Frond Partners',
   whitman: 'Marty Whitman - Third Avenue Management',
-  patientcapital:'Samantha McLemore - Patient Capital Management',
+  patientcapital: 'Samantha McLemore - Patient Capital Management',
   klarman: 'Seth Klarman - Baupost Group',
   makaira: 'Tom Bancroft - Makaira Partners',
   ketterer: 'Sarah Ketterer - Causeway Capital Management',
-  train:'Lindsell Train',
+  train: 'Lindsell Train',
   smith: 'Terry Smith - Fundsmith',
   watsa: 'Prem Watsa - Fairfax Financial Holdings',
   lawrence: 'Bryan Lawrence - Oakliff Capital',
   dorsey: 'Pat Dorsey - Dorsey Asset Management',
-  hohn:'Chris Hohn - TCI Fund Management',
+  hohn: 'Chris Hohn - TCI Fund Management',
   hong: 'Dennis Hong - ShawSpring Partners',
   kahn: 'Kahn Brothers Group',
   coleman: 'Chase Coleman - Tiger Global Management',
-  dalio:'Ray Dalio - Bridgewater Associates',
+  dalio: 'Ray Dalio - Bridgewater Associates',
   loeb: 'Daniel Loeb - Third Point',
   tepper: 'David Tepper - Appaloosa Management',
   icahn: 'Carl Icahn - Icahn Capital Management',
   lilu: 'Li Lu - Himalaya Capital Management',
-  ainslie:'Lee Ainslie - Maverick Capital',
-  greenberg:'Glenn Greenberg - Brave Warrior Advisors',
+  ainslie: 'Lee Ainslie - Maverick Capital',
+  greenberg: 'Glenn Greenberg - Brave Warrior Advisors',
   mandel: 'Stephen Mandel - Lone Pine Capital',
   marks: 'Howard Marks - Oaktree Capital Management',
-  rogers:'John Rogers - Ariel Investments',
-  ariel_appreciation: 'Ariel Appreciation Fund', 
-  ariel_focus: 'Ariel Focus Fund', 
+  rogers: 'John Rogers - Ariel Investments',
+  ariel_appreciation: 'Ariel Appreciation Fund',
+  ariel_focus: 'Ariel Focus Fund',
   cunniff: 'Ruane, Cunniff & Goldfarb L.P.',
   spier: 'Guy Spier - Aquamarine Capital',
   chou: 'Francis Chou - Chou Associates',
@@ -182,7 +183,7 @@ buffett: 'Warren Buffett – Berkshire Hathaway',
   brenton: 'Andrew Brenton - Turtle Creek Asset Management',
   martin: 'Fred Martin - Disciplined Growth Investors',
   ellenbogen: 'Henry Ellenbogen - Durable Capital Partners',
-  greenbrier:'Greenbrier Partners Capital Management',
+  greenbrier: 'Greenbrier Partners Capital Management',
   bares: 'Brian Bares - Bares Capital Management',
 
   //mutual funds
@@ -195,7 +196,7 @@ buffett: 'Warren Buffett – Berkshire Hathaway',
 // Option-Styling Helper
 const getOptionStyling = (optionType: string | undefined) => {
   if (!optionType) return null
-  
+
   switch (optionType) {
     case 'PUT':
       return {
@@ -223,14 +224,14 @@ const getOptionStyling = (optionType: string | undefined) => {
 // Option Badge Komponente
 const OptionBadge = ({ position }: { position: Position }) => {
   const optionType = position.optionType
-  
+
   if (!optionType || optionType === 'STOCK') return null
-  
+
   const styling = getOptionStyling(optionType)
   if (!styling) return null
-  
+
   return (
-    <span 
+    <span
       className={`inline-flex items-center gap-1 px-2 py-0.5 text-xs font-medium rounded border ${styling.badge}`}
       title={position.titleOfClass || `${optionType} Option`}
     >
@@ -244,7 +245,7 @@ const OptionBadge = ({ position }: { position: Position }) => {
 const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Position, showLogo?: boolean }) => {
   const ticker = getTicker(position)
   const cleanName = getCleanCompanyName(position)
-  
+
   const content = (
     <div className="flex items-center gap-3">
       {showLogo && ticker && (
@@ -257,7 +258,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
           />
         </div>
       )}
-      
+
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2 flex-wrap">
           <span className="font-medium text-theme-primary">
@@ -265,13 +266,13 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
           </span>
           <OptionBadge position={position} />
         </div>
-        
+
         {ticker && cleanName !== ticker && (
           <div className="text-sm text-theme-muted font-normal truncate">
             {cleanName}
           </div>
         )}
-        
+
         {position.titleOfClass && position.optionType && position.optionType !== 'STOCK' && (
           <div className="text-xs text-gray-600 truncate">
             {position.titleOfClass}
@@ -280,7 +281,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
       </div>
     </div>
   )
-  
+
   if (ticker) {
     return (
       <Link
@@ -291,7 +292,7 @@ const CompanyNameWithOptions = ({ position, showLogo = true }: { position: Posit
       </Link>
     )
   }
-  
+
   return content
 }
 
@@ -306,7 +307,7 @@ const getTicker = (position: Position): string => {
 const getCleanCompanyName = (position: Position): string => {
   let name = position.name
   const ticker = getTicker(position)
-  
+
   if (ticker && name) {
     if (name.startsWith(`${ticker} - `)) {
       return name.substring(ticker.length + 3)
@@ -318,25 +319,25 @@ const getCleanCompanyName = (position: Position): string => {
       return ticker
     }
   }
-  
+
   return name
 }
 
 const getAllCompanies = (snapshots: any[]): CompanyInfo[] => {
   const latestSnapshot = snapshots[snapshots.length - 1]
   if (!latestSnapshot) return []
-  
+
   const companiesMap = new Map<string, { ticker: string; name: string; totalValue: number }>()
-  
+
   latestSnapshot.data.positions.forEach((position: Position) => {
     const existing = companiesMap.get(position.cusip)
-    
+
     if (existing) {
       existing.totalValue += position.value
     } else {
       const ticker = getTicker(position)
       const cleanName = getCleanCompanyName(position)
-      
+
       companiesMap.set(position.cusip, {
         ticker,
         name: cleanName,
@@ -344,7 +345,7 @@ const getAllCompanies = (snapshots: any[]): CompanyInfo[] => {
       })
     }
   })
-  
+
   return Array.from(companiesMap.entries())
     .map(([cusip, { ticker, name, totalValue }]) => ({
       cusip,
@@ -360,12 +361,12 @@ const generateOwnershipHistory = (snapshots: any[], selectedCusip: string): Owne
   return snapshots
     .map(snapshot => {
       const matchingPositions = snapshot.data.positions.filter((p: Position) => p.cusip === selectedCusip)
-      
+
       const aggregatedShares = matchingPositions.reduce((sum: number, p: Position) => sum + p.shares, 0)
       const aggregatedValue = matchingPositions.reduce((sum: number, p: Position) => sum + p.value, 0)
-      
+
       const totalValue = snapshot.data.positions.reduce((sum: number, p: Position) => sum + p.value, 0)
-      
+
       return {
         quarter: snapshot.quarter,
         shares: aggregatedShares,
@@ -381,37 +382,37 @@ const generateOwnershipHistory = (snapshots: any[], selectedCusip: string): Owne
 function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[], investorName: string }) {
   const { formatCurrency, formatShares } = useCurrency()
   const companies = useMemo(() => getAllCompanies(snapshots), [snapshots])
-  
+
   const defaultCompany = useMemo(() => {
     return companies[0]?.cusip || ''
   }, [companies])
-  
+
   const [selectedCompany, setSelectedCompany] = useState<string>(defaultCompany)
-  
+
   useEffect(() => {
     if (defaultCompany && defaultCompany !== selectedCompany) {
       setSelectedCompany(defaultCompany)
     }
   }, [defaultCompany])
-  
+
   const selectedCompanyInfo = companies.find(c => c.cusip === selectedCompany)
-  const ownershipHistory = useMemo(() => 
-    generateOwnershipHistory(snapshots, selectedCompany), 
+  const ownershipHistory = useMemo(() =>
+    generateOwnershipHistory(snapshots, selectedCompany),
     [snapshots, selectedCompany]
   )
-  
+
   const latestData = ownershipHistory[ownershipHistory.length - 1]
   const previousData = ownershipHistory[ownershipHistory.length - 2]
-  
+
   const sharesChange = latestData && previousData ? latestData.shares - previousData.shares : 0
   const percentageChange = latestData && previousData ? latestData.portfolioPercentage - previousData.portfolioPercentage : 0
-  
+
 
   if (!selectedCompanyInfo) return null
 
   return (
     <div className="space-y-8">
-      
+
       {/* Header */}
       <div className="text-center">
         <h2 className="text-2xl font-semibold text-theme-primary mb-4">
@@ -430,7 +431,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           </div>
           <h3 className="text-lg font-medium text-theme-primary">Unternehmen auswählen</h3>
         </div>
-        
+
         <select
           value={selectedCompany}
           onChange={(e) => setSelectedCompany(e.target.value)}
@@ -497,7 +498,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        
+
         {/* Portfolio Percentage Chart */}
         <div className="bg-theme-card border border-theme-light rounded-xl p-5">
           <div className="flex items-center gap-3 mb-6">
@@ -509,17 +510,17 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
               <p className="text-sm text-theme-muted">{selectedCompanyInfo.ticker}</p>
             </div>
           </div>
-          
+
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={ownershipHistory}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1c" />
-              <XAxis 
-                dataKey="quarter" 
+              <XAxis
+                dataKey="quarter"
                 stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => value.replace('Q', 'Q')}
               />
-              <YAxis 
+              <YAxis
                 stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => `${value}%`}
@@ -557,17 +558,17 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
               <p className="text-sm text-theme-muted">{selectedCompanyInfo.ticker}</p>
             </div>
           </div>
-          
+
           <ResponsiveContainer width="100%" height={300}>
             <BarChart data={ownershipHistory}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1a1a1c" />
-              <XAxis 
-                dataKey="quarter" 
+              <XAxis
+                dataKey="quarter"
                 stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => value.replace('Q', 'Q')}
               />
-              <YAxis 
+              <YAxis
                 stroke="#4a4a4f"
                 fontSize={12}
                 tickFormatter={(value) => {
@@ -586,8 +587,8 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                 formatter={(value: any) => [formatShares(value), 'Aktien']}
                 labelFormatter={(label) => `Quartal: ${label}`}
               />
-              <Bar 
-                dataKey="shares" 
+              <Bar
+                dataKey="shares"
                 fill="#22c55e"
                 opacity={0.8}
                 radius={[4, 4, 0, 0]}
@@ -603,7 +604,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
           <h3 className="text-lg font-medium text-theme-primary">Detaillierte Historie</h3>
           <p className="text-sm text-theme-muted mt-1">Quartalsweise Entwicklung für {selectedCompanyInfo.ticker}</p>
         </div>
-        
+
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead className="bg-theme-secondary/20 border-b border-white/[0.1]">
@@ -621,7 +622,7 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                 const sharesChange = previousEntry ? data.shares - previousEntry.shares : 0
                 const isNew = !previousEntry?.exists && data.exists
                 const isSold = previousEntry?.exists && !data.exists
-                
+
                 return (
                   <tr key={data.quarter} className="border-b border-white/[0.04] hover:bg-theme-hover/30 transition-all duration-200">
                     <td className="p-5 font-semibold text-theme-primary">{data.quarter}</td>
@@ -644,11 +645,10 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
                           Verkauft
                         </span>
                       ) : sharesChange !== 0 ? (
-                        <span className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg ${
-                          sharesChange > 0 
-                            ? 'bg-brand/10 text-brand-light border border-brand/20' 
-                            : 'bg-red-500/10 text-red-400 border border-red-500/20'
-                        }`}>
+                        <span className={`inline-flex items-center px-3 py-1.5 text-xs font-medium rounded-lg ${sharesChange > 0
+                          ? 'bg-brand/10 text-brand-light border border-brand/20'
+                          : 'bg-red-500/10 text-red-400 border border-red-500/20'
+                          }`}>
                           {sharesChange > 0 ? '+' : ''}{formatShares(sharesChange)}
                         </span>
                       ) : (
@@ -718,7 +718,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     async function loadUser() {
       try {
         const { data: { session } } = await supabase.auth.getSession()
-        
+
         if (session?.user) {
           const { data: profile } = await supabase
             .from('profiles')
@@ -759,15 +759,15 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
   }
 
   const snapshots = holdingsHistory[slug]
-  
+
   if (!Array.isArray(snapshots) || snapshots.length < 1) return notFound()
 
   // Data processing
   const latest = snapshots[snapshots.length - 1].data
-  const previous = snapshots.length >= 2 
-    ? snapshots[snapshots.length - 2].data 
+  const previous = snapshots.length >= 2
+    ? snapshots[snapshots.length - 2].data
     : { positions: [], date: '', totalValue: 0 }
-  
+
   const formattedDate = latest.date?.split('-').reverse().join('.') || '–'
   const period = latest.date ? getPeriodFromDate(latest.date) : '–'
 
@@ -872,24 +872,24 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
     .map(([cusip, { shares, value }]) => {
       const prevShares = prevMap.get(cusip) || 0
       const delta = shares - prevShares
-      
+
       const originalPosition = latest.positions.find(p => p.cusip === cusip)
       const stockData = stocks.find(s => s.cusip === cusip)
-      
+
       let ticker = originalPosition?.ticker || stockData?.ticker || cusip.replace(/0+$/, '')
       let displayName = originalPosition?.name || stockData?.name || cusip
-      
-      const formattedName = ticker && displayName && ticker !== displayName 
+
+      const formattedName = ticker && displayName && ticker !== displayName
         ? `${ticker} - ${displayName}`
         : displayName
-      
+
       return {
-        cusip, 
-        name: formattedName, 
-        ticker, 
-        shares, 
+        cusip,
+        name: formattedName,
+        ticker,
+        shares,
         value,
-        deltaShares: delta, 
+        deltaShares: delta,
         pctDelta: prevShares > 0 ? delta / prevShares : 0,
         optionType: (originalPosition?.optionType as 'STOCK' | 'CALL' | 'PUT' | 'OPTION') || 'STOCK',
         typeInfo: originalPosition?.typeInfo ? {
@@ -1016,7 +1016,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
       {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        
+
         {/* Tabs */}
         <div className="mb-12">
           <InvestorTabs
@@ -1036,7 +1036,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
         {/* PORTFOLIO TAB */}
         {tab === 'portfolio' && (
           <div className="space-y-10">
-            
+
             {/* Portfolio Value Chart */}
             <div className="bg-theme-card border border-theme-light rounded-xl p-5">
               <div className="flex items-center gap-3 mb-6">
@@ -1048,8 +1048,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                   <p className="text-sm text-theme-muted">Historische Wertentwicklung</p>
                 </div>
               </div>
-              
-              <PortfolioValueChart 
+
+              <PortfolioValueChart
                 data={valueHistory}
               />
             </div>
@@ -1066,8 +1066,8 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-sm text-theme-muted">Berkshire Hathaways Liquiditätsreserven</p>
                   </div>
                 </div>
-                
-                <CashPositionChart 
+
+                <CashPositionChart
                   data={cashSeries}
                 />
               </div>
@@ -1084,7 +1084,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                   <p className="text-sm text-theme-muted">Diversifikation nach Branchen</p>
                 </div>
               </div>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {(() => {
                   const sectorMap = new Map()
@@ -1100,7 +1100,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       count: current.count + 1
                     })
                   })
-                  
+
                   return Array.from(sectorMap.entries())
                     .map(([sector, { value, count }]) => ({
                       sector,
@@ -1139,7 +1139,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                   <p className="text-sm text-theme-muted">Größte Holdings im Portfolio</p>
                 </div>
               </div>
-              
+
               <div className="space-y-2">
                 {holdings.slice(0, 10).map((holding, index) => (
                   <div key={holding.cusip} className="group flex items-center justify-between py-4 px-5 bg-theme-secondary/20 rounded-xl border border-white/[0.04] hover:bg-theme-hover hover:border-white/[0.1] hover:shadow-lg hover:shadow-black/20 transition-all duration-300">
@@ -1173,7 +1173,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                   <p className="text-sm text-theme-muted">Detaillierte Aufschlüsselung nach Branchen</p>
                 </div>
               </div>
-              
+
               <SectorBreakdownChart
                 data={(() => {
                   const sectorMap = new Map()
@@ -1189,7 +1189,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       count: current.count + 1
                     })
                   })
-                  
+
                   return Array.from(sectorMap.entries())
                     .map(([sector, { value, count }]) => ({
                       sector,
@@ -1216,36 +1216,33 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                 Detaillierte Einblicke in {mainName}s Investment-Strategie
               </p>
             </div>
-            
+
             {/* Analytics Sub-Tabs */}
             <div className="flex flex-wrap gap-2 justify-center mb-8">
               <button
                 onClick={() => setAnalyticsView('overview')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  analyticsView === 'overview' 
-                    ? 'bg-green-900/20 text-theme-primary border border-green-900/30' 
-                    : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${analyticsView === 'overview'
+                  ? 'bg-green-900/20 text-theme-primary border border-green-900/30'
+                  : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
+                  }`}
               >
                 Übersicht
               </button>
               <button
                 onClick={() => setAnalyticsView('companies')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  analyticsView === 'companies' 
-                    ? 'bg-green-900/20 text-theme-primary border border-green-900/30' 
-                    : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${analyticsView === 'companies'
+                  ? 'bg-green-900/20 text-theme-primary border border-green-900/30'
+                  : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
+                  }`}
               >
                 Einzelunternehmen
               </button>
               <button
                 onClick={() => setAnalyticsView('sectors')}
-                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${
-                  analyticsView === 'sectors' 
-                    ? 'bg-green-900/20 text-theme-primary border border-green-900/30' 
-                    : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
-                }`}
+                className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 ${analyticsView === 'sectors'
+                  ? 'bg-green-900/20 text-theme-primary border border-green-900/30'
+                  : 'bg-theme-card text-theme-muted hover:bg-theme-hover hover:text-theme-primary border border-theme-light'
+                  }`}
               >
                 Sektoren
               </button>
@@ -1256,7 +1253,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
               <>
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                  
+
                   <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
@@ -1269,7 +1266,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     </p>
                     <p className="text-xs text-gray-600">Gesamtwert aller Positionen</p>
                   </div>
-                  
+
                   <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
@@ -1282,7 +1279,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     </p>
                     <p className="text-xs text-gray-600">Verschiedene Positionen</p>
                   </div>
-                  
+
                   <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
@@ -1295,7 +1292,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     </p>
                     <p className="text-xs text-gray-600">Konzentration</p>
                   </div>
-                  
+
                   <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                     <div className="flex items-center gap-3 mb-4">
                       <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
@@ -1309,7 +1306,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                     <p className="text-xs text-gray-600">Verfügbare Daten</p>
                   </div>
                 </div>
-                
+
                 {/* Sektor-Chart */}
                 <div className="bg-theme-card border border-theme-light rounded-xl p-5">
                   <div className="flex items-center gap-3 mb-6">
@@ -1321,7 +1318,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                       <p className="text-sm text-theme-muted">Basierend auf echten Sektor-Daten</p>
                     </div>
                   </div>
-                  
+
                   <SectorBreakdownChart
                     data={(() => {
                       const sectorMap = new Map()
@@ -1337,7 +1334,7 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
                           count: current.count + 1
                         })
                       })
-                      
+
                       return Array.from(sectorMap.entries())
                         .map(([sector, { value, count }]) => ({
                           sector,
@@ -1354,113 +1351,101 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
             {/* Company Ownership History */}
             {analyticsView === 'companies' && (
-              <CompanyOwnershipHistory 
+              <CompanyOwnershipHistory
                 snapshots={snapshots}
                 investorName={mainName}
               />
             )}
 
             {analyticsView === 'sectors' && (
-              <AdvancedSectorAnalysis 
+              <AdvancedSectorAnalysis
                 snapshots={snapshots}
                 investorName={mainName}
-                />
-           )}
-         </div>
-       )}
+              />
+            )}
+          </div>
+        )}
 
-       {/* FILINGS TAB */}
-       {tab === 'filings' && (
-         <div className="space-y-8">
-           <div className="text-center mb-8">
-             <h2 className="text-2xl font-semibold text-theme-primary mb-4">
-               13F Filings
-             </h2>
-             <p className="text-theme-muted max-w-2xl mx-auto">
-               Offizielle Quartalsberichte und Filing-Historie für {mainName}
-             </p>
-           </div>
-           
-           <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
-             <div className="flex items-center gap-3 mb-6">
-               <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
-                 <DocumentTextIcon className="w-4 h-4 text-theme-muted" />
-               </div>
-               <div>
-                 <h3 className="text-lg font-medium text-theme-primary">Originaldokumente</h3>
-                 <p className="text-sm text-theme-muted">SEC Filing-Historie und offizielle Berichte</p>
-               </div>
-             </div>
-             
-             <FilingsTab 
-               investorSlug={slug}
-               snapshots={snapshots}
-             />
-           </div>
-         </div>
-       )}
+        {/* FILINGS TAB */}
+        {tab === 'filings' && (
+          <div className="space-y-8">
+            <div className="text-center mb-8">
+              <h2 className="text-2xl font-semibold text-theme-primary mb-4">
+                13F Filings
+              </h2>
+              <p className="text-theme-muted max-w-2xl mx-auto">
+                Offizielle Quartalsberichte und Filing-Historie für {mainName}
+              </p>
+            </div>
 
-       {/* AI TAB */}
-       {tab === 'ai' && (
-         <div className="space-y-8">
-           <div className="max-w-2xl mx-auto text-center">
-             <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
-               <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                 <SparklesIcon className="w-10 h-10 text-brand-light/60" />
-               </div>
-               
-               <h3 className="text-xl font-medium text-theme-primary mb-3">
-                 Finclue AI Portfolio-Analyse
-               </h3>
-               
-               <p className="text-theme-muted mb-6 leading-relaxed">
-                 Starte ein intelligentes Gespräch über {mainName}s Portfolio, 
-                 Investmentstrategien und Marktpositionen.
-               </p>
-               
-               <button
-                 onClick={handleAIChat}
-                 className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-theme-primary font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-brand/10"
-               >
-                 {userLoading ? (
-                   <>
-                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                     <span>Lade...</span>
-                   </>
-                 ) : !user ? (
-                   <>
-                     <LockClosedIcon className="w-5 h-5" />
-                     <span>Anmelden für AI Chat</span>
-                   </>
-                 ) : !user.isPremium ? (
-                   <>
-                     <SparklesIcon className="w-5 h-5" />
-                     <span>Premium für AI Chat</span>
-                   </>
-                 ) : (
-                   <>
-                     <SparklesIcon className="w-5 h-5" />
-                     <span>AI Chat starten</span>
-                   </>
-                 )}
-               </button>
-             </div>
-           </div>
-         </div>
-       )}
+            <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-theme-secondary/30 rounded-lg flex items-center justify-center">
+                  <DocumentTextIcon className="w-4 h-4 text-theme-muted" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-medium text-theme-primary">Originaldokumente</h3>
+                  <p className="text-sm text-theme-muted">SEC Filing-Historie und offizielle Berichte</p>
+                </div>
+              </div>
 
-  
-      
-     </div>
-   </div>
- )
+              <FilingsTab
+                investorSlug={slug}
+                snapshots={snapshots}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* AI TAB */}
+        {tab === 'ai' && (
+          <div className="space-y-8 animate-in fade-in duration-500">
+            {!user || !user.isPremium ? (
+              <AISneakPeak
+                investorSlug={slug}
+                investorName={mainName}
+              />
+            ) : (
+              <div className="max-w-2xl mx-auto text-center">
+                <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
+                  <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <SparklesIcon className="w-10 h-10 text-brand-light/60" />
+                  </div>
+
+                  <h3 className="text-xl font-medium text-theme-primary mb-3">
+                    Finclue AI Portfolio-Analyse
+                  </h3>
+
+                  <p className="text-theme-muted mb-6 leading-relaxed">
+                    Starte ein intelligentes Gespräch über {mainName}s Portfolio,
+                    Investmentstrategien und Marktpositionen.
+                  </p>
+
+                  <button
+                    onClick={handleAIChat}
+                    className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-theme-primary font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-brand/10"
+                  >
+                    <SparklesIcon className="w-5 h-5" />
+                    <span>AI Chat starten</span>
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+
+
+
+      </div>
+    </div>
+  )
 }
 
 // Main Export with Currency Provider
 export default function InvestorPage(props: InvestorPageProps) {
- return (
-   <CurrencyProvider>
-     <InvestorPageContent {...props} />
-   </CurrencyProvider>
- )
+  return (
+    <CurrencyProvider>
+      <InvestorPageContent {...props} />
+    </CurrencyProvider>
+  )
 }
