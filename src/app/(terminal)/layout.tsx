@@ -325,18 +325,18 @@ const CollapsedSidebar = React.memo(({
       theme === 'dark' ? 'border-r border-white/[0.04]' : 'border-r border-neutral-200'
     }`}>
 
-      {/* Logo - Theme aware */}
+      {/* Logo */}
       <Link href="/" className="mb-3 group">
         <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
           theme === 'dark'
             ? 'bg-brand/10 border border-brand/20 group-hover:border-green-400/40 group-hover:bg-brand/20'
             : 'bg-neutral-100 border border-neutral-300 group-hover:border-neutral-400 group-hover:bg-neutral-200'
         }`}>
-          <div className="flex items-end gap-0.5">
-            <span className={`w-0.5 h-2 rounded-full ${theme === 'dark' ? 'bg-brand' : 'bg-black'}`}></span>
-            <span className={`w-0.5 h-2.5 rounded-full ${theme === 'dark' ? 'bg-green-400' : 'bg-black'}`}></span>
-            <span className={`w-0.5 h-3 rounded-full ${theme === 'dark' ? 'bg-green-300' : 'bg-black'}`}></span>
-          </div>
+          <img
+            src={theme === 'dark' ? '/logos/logo-transparent-white.svg' : '/logos/logo-transparent-black.svg'}
+            alt="Finclue"
+            className="w-5 h-5"
+          />
         </div>
       </Link>
 

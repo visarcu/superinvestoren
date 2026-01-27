@@ -484,7 +484,7 @@ export default function PublicEarningsCalendarPage() {
                   <ArrowPathIcon className="w-6 h-6 text-neutral-600 animate-spin" />
                 </div>
               ) : (
-                <div className="grid grid-cols-5 min-h-[500px]">
+                <div className="grid grid-cols-5 items-start">
                   {weekDates.map((date, dayIndex) => {
                     const dateKey = formatDateAPI(date)
                     const dayEarnings = groupedEarnings[dateKey] || { preMarket: [], postMarket: [] }
@@ -492,7 +492,7 @@ export default function PublicEarningsCalendarPage() {
                     return (
                       <div
                         key={dayIndex}
-                        className={`border-r border-white/5 last:border-r-0 ${
+                        className={`border-r border-white/5 last:border-r-0 min-h-[120px] ${
                           isToday(date) ? 'bg-white/[0.02]' : ''
                         }`}
                       >
@@ -528,7 +528,7 @@ export default function PublicEarningsCalendarPage() {
 
                         {/* Empty State */}
                         {dayEarnings.preMarket.length === 0 && dayEarnings.postMarket.length === 0 && (
-                          <div className="flex items-center justify-center h-full text-neutral-700 text-xs py-20">
+                          <div className="flex items-center justify-center text-neutral-700 text-xs py-8">
                             -
                           </div>
                         )}
