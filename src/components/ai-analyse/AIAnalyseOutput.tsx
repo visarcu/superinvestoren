@@ -269,7 +269,7 @@ export default function AIAnalyseOutput({
           </div>
           <button
             onClick={handleDownload}
-            disabled={isDownloading || (downloadStatus && !downloadStatus.canDownload)}
+            disabled={isDownloading || (downloadStatus !== null && !downloadStatus.canDownload)}
             className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${
               !downloadStatus || downloadStatus.canDownload
                 ? 'bg-brand text-white hover:bg-brand/90'
