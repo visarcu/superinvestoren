@@ -969,79 +969,79 @@
    Force dark colors for article content on blog pages
    ===================================================================== */
 
-.prose h1,
-.prose h2,
-.prose h3,
-.prose h4,
-.prose h5,
-.prose h6,
-article h1,
-article h2,
-article h3,
-article h4,
-article h5,
-article h6 {
+:root:not(.dark) .prose h1,
+:root:not(.dark) .prose h2,
+:root:not(.dark) .prose h3,
+:root:not(.dark) .prose h4,
+:root:not(.dark) .prose h5,
+:root:not(.dark) .prose h6,
+:root:not(.dark) article h1,
+:root:not(.dark) article h2,
+:root:not(.dark) article h3,
+:root:not(.dark) article h4,
+:root:not(.dark) article h5,
+:root:not(.dark) article h6 {
   color: #111827 !important; /* gray-900 */
 }
 
-.prose h1, article h1 {
+:root:not(.dark) .prose h1, :root:not(.dark) article h1 {
   font-size: 1.875rem !important; /* text-3xl */
   font-weight: 700 !important;
   margin-top: 2rem !important;
   margin-bottom: 1.5rem !important;
 }
 
-.prose h2, article h2 {
+:root:not(.dark) .prose h2, :root:not(.dark) article h2 {
   font-size: 1.5rem !important; /* text-2xl */
   font-weight: 700 !important;
   margin-top: 3rem !important;
   margin-bottom: 1rem !important;
 }
 
-.prose h3, article h3 {
+:root:not(.dark) .prose h3, :root:not(.dark) article h3 {
   font-size: 1.25rem !important; /* text-xl */
   font-weight: 600 !important;
   margin-top: 2rem !important;
   margin-bottom: 0.75rem !important;
 }
 
-.prose h4, article h4 {
+:root:not(.dark) .prose h4, :root:not(.dark) article h4 {
   font-size: 1.125rem !important; /* text-lg */
   font-weight: 600 !important;
   margin-top: 1.5rem !important;
   margin-bottom: 0.5rem !important;
 }
 
-.prose p, article p {
+:root:not(.dark) .prose p, :root:not(.dark) article p {
   color: #4b5563 !important; /* gray-600 */
   line-height: 1.75 !important;
   margin-bottom: 1rem !important;
 }
 
-.prose strong, article strong {
+:root:not(.dark) .prose strong, :root:not(.dark) article strong {
   color: #111827 !important; /* gray-900 */
   font-weight: 600 !important;
 }
 
-.prose a, article a {
+:root:not(.dark) .prose a, :root:not(.dark) article a {
   color: #111827 !important; /* gray-900 */
   text-decoration: underline !important;
 }
 
-.prose a:hover, article a:hover {
+:root:not(.dark) .prose a:hover, :root:not(.dark) article a:hover {
   color: #4b5563 !important; /* gray-600 */
 }
 
-.prose ul, .prose ol,
-article ul, article ol {
+:root:not(.dark) .prose ul, :root:not(.dark) .prose ol,
+:root:not(.dark) article ul, :root:not(.dark) article ol {
   color: #4b5563 !important; /* gray-600 */
 }
 
-.prose li, article li {
+:root:not(.dark) .prose li, :root:not(.dark) article li {
   color: #4b5563 !important; /* gray-600 */
 }
 
-.prose blockquote, article blockquote {
+:root:not(.dark) .prose blockquote, :root:not(.dark) article blockquote {
   color: #6b7280 !important; /* gray-500 */
   border-left: 4px solid #d1d5db !important; /* gray-300 */
   padding-left: 1rem !important;

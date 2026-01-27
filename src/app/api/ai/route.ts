@@ -72,13 +72,19 @@ interface ChatMessage {
 interface RequestBody {
   message: string
   context: ChatMessage[]
-  analysisType: 'stock' | 'superinvestor' | 'general' | 'hybrid' | 'stock-pulse'  // ✅ ADDED: stock-pulse
+  analysisType: 'stock' | 'superinvestor' | 'general' | 'hybrid' | 'stock-pulse' | 'dcf-context' | 'dcf-validation'
   primaryContext?: 'stock' | 'superinvestor' | 'general'         // ✅ NEW: primary context
   ticker?: string
   compareWith?: string[]
   investor?: string
   portfolioData?: any
   isTrial?: boolean                                              // ✅ NEW: Trial mode
+  assumptions?: {                                                 // ✅ NEW: DCF Assumptions
+    growthRate?: number
+    exitMultiple?: number
+    terminalGrowth?: number
+    projectionYears?: number
+  }
   contextHints?: {                                                // ✅ NEW: context hints
     isHybridQuery: boolean,
     hasExplicitTicker: boolean,
@@ -602,7 +608,8 @@ async function buildContextualPrompt(
   investor?: string,
   financialData?: any,
   portfolioData?: any,
-  contextHints?: any
+  contextHints?: any,
+  assumptions?: any
 ): Promise<{ prompt: string, ragSources: string[] }> {
   const currentDate = new Date().toLocaleDateString('de-DE')
 
@@ -647,6 +654,16 @@ async function buildContextualPrompt(
       const pulsePrompt = buildStockPulsePrompt(ticker!, financialData, ragContext)
       console.log(`📝 DEBUG: Stock pulse prompt built, length: ${pulsePrompt.length}`)
       return { prompt: pulsePrompt, ragSources: sources }
+
+    case 'dcf-context':
+      const dcfPrompt = buildDCFPrompt(ticker!, message, currentDate, ragContext)
+      console.log(`📝 DEBUG: DCF context prompt built, length: ${dcfPrompt.length}`)
+      return { prompt: dcfPrompt, ragSources: sources }
+
+    case 'dcf-validation':
+      const validationPrompt = buildDCFValidationPrompt(ticker!, assumptions, ragContext)
+      console.log(`📝 DEBUG: DCF validation prompt built, length: ${validationPrompt.length}`)
+      return { prompt: validationPrompt, ragSources: sources }
 
     case 'general':
     default:
@@ -935,6 +952,53 @@ ANWEISUNGEN:
 Antworte auf Deutsch und biete hilfreiche Finanzanalysen.`
 }
 
+// DCF CONTEXT PROMPT BUILDER
+function buildDCFPrompt(ticker: string, message: string, currentDate: string, ragContext: string): string {
+  return `${ragContext}Du bist ein spezialisierter Aktienanalyst. Dein Ziel ist es, qualitative Unterstützung für eine DCF-Wertermittlung (Discounted Cash Flow) für **${ticker}** zu liefern.
+
+NUTZER-ANFRAGE: ${message}
+
+WICHTIGE ANWEISUNGEN:
+• Analysiere die bereitgestellten Dokumente (Earnings Calls, News, Berichte).
+• Liefere Argumente für die **Wachstumsannahmen** (Growth Rates) und das **Exit-Multiple** (KGV/FCF-Yield).
+• Identifiziere Moats, Wettbewerbsvorteile oder Risiken, die eine höhere/niedrigere Bewertung rechtfertigen könnten.
+• SCHREIBE KURZ & PRÄZISE (max 180 Wörter). Keine langen Einleitungen.
+• Formatierung: Nutze Fettdruck für wichtige Kennetappen, keine langen Listen.
+• Sprache: Deutsch.
+
+Ziel: Hilf dem Nutzer zu entscheiden, ob seine mathematischen Annahmen im DCF-Rechner mit der qualitativen Realität des Unternehmens übereinstimmen.`
+}
+
+// DCF VALIDATION PROMPT BUILDER (Critique Mode)
+function buildDCFValidationPrompt(
+  ticker: string,
+  assumptions: any,
+  ragContext: string
+): string {
+  const { growthRate, exitMultiple, terminalGrowth, projectionYears } = assumptions || {}
+
+  return `${ragContext}Du bist ein kritischer Senior-Equity-Analyst. Ein Junior-Analyst hat ein DCF-Modell für **${ticker}** erstellt und bittet dich um einen "Sanity Check" seiner Annahmen.
+
+**SEINE ANNAHMEN ERSTES JAHR:**
+• Geschätztes Wachstum: **${growthRate}%** pro Jahr (für ${projectionYears} Jahre)
+• Ziel-Multiple (Exit PE/Yield): **${exitMultiple}**
+• Terminal Growth Rate: **${terminalGrowth}%**
+
+**DEINE AUFGABE:**
+1. Prüfe diese Zahlen gegen die vorliegenden qualitativen Daten (Earnings Calls, Vision des Managements, Marktrisiken).
+2. **Kritik:** Sind ${growthRate}% realistisch? Erwähne konkrete Gründe für "Ja" oder "Nein" aus den Dokumenten.
+3. **Multiple-Check:** Passt ein Multiple von ${exitMultiple} zum historischen Kontext oder der Peer-Group laut Unterlagen?
+4. **Fazit:** Gib ein kurzes Urteil ab (z.B. "Konservativ", "Aggressiv", "Realistisch").
+
+**ANWEISUNGEN:**
+• Sei direkt und ehrlich. Keine Floskeln.
+• SCHREIBE KURZ (max 200 Wörter).
+• Sprache: Deutsch.
+• Formatierung: Nutze **Fett-Markierung** für Risiken oder Chancen.
+
+Ziel: Decke blinde Flecken in den mathematischen Annahmen auf.`
+}
+
 // Rate Limiting
 function checkRateLimit(ip: string): boolean {
   const now = Date.now()
@@ -1105,7 +1169,8 @@ export async function POST(request: NextRequest) {
       investor,
       portfolioData: fallbackPortfolioData,
       isTrial = false,
-      contextHints
+      contextHints,
+      assumptions
     } = body
 
     // ✅ NEW TRIAL LOGIC: Skip premium check for limited investor sneak peaks
@@ -1182,7 +1247,8 @@ export async function POST(request: NextRequest) {
       investor,
       enhancedStockData,
       enhancedPortfolioData,
-      contextHints
+      contextHints,
+      assumptions
     )
 
     console.log('🎯 DEBUG: Enhanced prompt created:', {

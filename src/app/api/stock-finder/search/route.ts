@@ -3,6 +3,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
 import { etfs } from '@/data/etfs'
+import { OptimizedFinancialRAGSystem } from '@/lib/ragOptimized'
+
+// RAG System Instanz
+const ragSystem = new OptimizedFinancialRAGSystem()
+let ragInitialized = false
 
 // In-Memory Cache für schnellere Antworten
 let cachedStocks: ScreenerStock[] | null = null
@@ -40,17 +45,17 @@ function isETFOrMutualFund(symbol: string, name?: string): boolean {
 
     // Mutual Fund Patterns
     if (upperName.includes('INDEX FD') || upperName.includes('INDEX FUND') ||
-        upperName.includes('ADMIRAL') || upperName.includes('INVESTOR SH') ||
-        upperName.includes('INSTITUTIONAL') || upperName.includes('INSTL') ||
-        upperName.includes('MUTUAL FUND')) {
+      upperName.includes('ADMIRAL') || upperName.includes('INVESTOR SH') ||
+      upperName.includes('INSTITUTIONAL') || upperName.includes('INSTL') ||
+      upperName.includes('MUTUAL FUND')) {
       return true
     }
 
     // Bekannte ETF/Fund-Issuer + Trust/Fund Kombination
     const fundIssuers = ['ISHARES', 'VANGUARD', 'SPDR', 'INVESCO', 'PROSHARES',
-                         'WISDOMTREE', 'VANECK', 'SCHWAB', 'XTRACKERS', 'AMUNDI',
-                         'FIDELITY', 'PIMCO', 'T. ROWE', 'BLACKROCK', 'JPMORGAN',
-                         'AMERICAN FUNDS', 'FRANKLIN', 'PUTNAM', 'DODGE & COX']
+      'WISDOMTREE', 'VANECK', 'SCHWAB', 'XTRACKERS', 'AMUNDI',
+      'FIDELITY', 'PIMCO', 'T. ROWE', 'BLACKROCK', 'JPMORGAN',
+      'AMERICAN FUNDS', 'FRANKLIN', 'PUTNAM', 'DODGE & COX']
     const fundKeywords = ['ETF', 'TRUST', 'FUND', 'INDEX', 'PORTFOLIO']
 
     const hasIssuer = fundIssuers.some(issuer => upperName.includes(issuer))
@@ -197,8 +202,46 @@ export async function POST(request: NextRequest) {
       }, { status: 503 })
     }
 
-    // Filter anwenden
-    const filteredStocks = filterStocks(allStocks, filters)
+    // 1. Thematische Suche (RAG)
+    let thematicTickers: string[] = []
+    if (filters.isThematic && filters.thematicTopic) {
+      try {
+        if (!ragInitialized) {
+          await ragSystem.initialize()
+          ragInitialized = true
+        }
+
+        console.log(`[Stock Finder] Thematic Search: ${filters.thematicTopic}`)
+        const results = await ragSystem.search({
+          query: filters.thematicTopic,
+          limit: 40 // Etwas mehr Treffer für bessere Filter-Basis
+        })
+
+        thematicTickers = results
+          .map(r => r.metadata?.ticker)
+          .filter((t): t is string => !!t)
+
+        // Ticker normieren und Duplikate entfernen
+        thematicTickers = [...new Set(thematicTickers.map(t => t.toUpperCase()))]
+        console.log(`[Stock Finder] RAG matched ${thematicTickers.length} unique tickers for "${filters.thematicTopic}"`)
+      } catch (ragError) {
+        console.error('[Stock Finder] RAG Search failed:', ragError)
+        // Bei Fehler machen wir mit dem Standard-Screener weiter
+      }
+    }
+
+    // 2. Basis-Menge festlegen (RAG Treffer oder alle)
+    let baseStocks = allStocks
+    if (filters.isThematic && thematicTickers.length > 0) {
+      baseStocks = allStocks.filter(s => thematicTickers.includes(s.symbol.toUpperCase()))
+    } else if (filters.isThematic && thematicTickers.length === 0) {
+      // Wenn thematic gewünscht aber nichts gefunden wurde, geben wir ggf. nichts zurück 
+      // oder machen Full-Search (hier: leer lassen damit User Feedback bekommt)
+      baseStocks = []
+    }
+
+    // 3. Quantitative Filter anwenden
+    const filteredStocks = filterStocks(baseStocks, filters)
 
     // Sortierung (nach Market Cap absteigend als Default)
     const sortedStocks = filteredStocks.sort((a, b) => {

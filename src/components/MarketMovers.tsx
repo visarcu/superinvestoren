@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react'
-import { 
+import {
   FireIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
@@ -19,10 +19,10 @@ interface MarketMoverStock {
   volumeRatio: number
 }
 
-const MarketMovers = React.memo(({ 
+const MarketMovers = React.memo(({
   watchlistTickers = [],
   popularTickers = []
-}: { 
+}: {
   watchlistTickers?: string[]
   popularTickers?: string[]
 }) => {
@@ -42,11 +42,11 @@ const MarketMovers = React.memo(({
   useEffect(() => {
     async function loadMarketMovers() {
       setLoading(true)
-      
+
       try {
         // Kombiniere Watchlist + Popular Tickers
         const allTickers = [...new Set([...watchlistTickers, ...popularTickers])]
-        
+
         if (allTickers.length === 0) {
           setLoading(false)
           return
@@ -57,51 +57,51 @@ const MarketMovers = React.memo(({
         const response = await fetch(`/api/market-movers?tickers=${tickerString}`, {
           next: { revalidate: 180 } // 3 minute cache
         })
-        
+
         if (!response.ok) {
           throw new Error('Failed to fetch market movers')
         }
-        
+
         const data = await response.json()
-        
+
         // Sortiere für verschiedene Kategorien
         const stocks: MarketMoverStock[] = data.stocks || []
-        
+
         // Top Gainers (größte positive Bewegung)
         const gainers = stocks
           .filter(s => s.changePct > 0)
           .sort((a, b) => b.changePct - a.changePct)
           .slice(0, 6) // Erweitert auf 6 für mehr Daten
-        
+
         // Top Losers (größte negative Bewegung)
         const losers = stocks
           .filter(s => s.changePct < 0)
           .sort((a, b) => a.changePct - b.changePct)
           .slice(0, 6) // Erweitert auf 6 für mehr Daten
-        
+
         // Most Active (höchstes Volume im Vergleich zum Average)
         const mostActive = stocks
           .filter(s => s.volumeRatio > 1.5) // Mindestens 50% über Average
           .sort((a, b) => b.volumeRatio - a.volumeRatio)
           .slice(0, 6) // Erweitert auf 6 für mehr Daten
-        
+
         setMoversData({
           gainers,
           losers,
           mostActive
         })
-        
+
       } catch (error) {
         console.error('Error loading market movers:', error)
       } finally {
         setLoading(false)
       }
     }
-    
+
     if (watchlistTickers.length > 0 || popularTickers.length > 0) {
-        loadMarketMovers()
-        // Kein setInterval mehr!
-      }
+      loadMarketMovers()
+      // Kein setInterval mehr!
+    }
   }, [watchlistTickers, popularTickers])
 
 
@@ -147,7 +147,7 @@ const MarketMovers = React.memo(({
           <h3 className="text-base font-semibold text-theme-primary">Market Movers</h3>
           <p className="text-xs text-theme-muted">Top Performer heute</p>
         </div>
-        
+
         <div className="flex items-center gap-1 px-2 py-1 bg-brand/20 text-brand-light rounded text-xs">
           <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
           <span>Live</span>
@@ -158,56 +158,50 @@ const MarketMovers = React.memo(({
       <div className="flex bg-theme-secondary/50 rounded-xl p-1">
         <button
           onClick={() => setActiveTab('gainers')}
-          className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
-            activeTab === 'gainers'
+          className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${activeTab === 'gainers'
               ? 'bg-theme-card text-theme-primary shadow-sm'
               : 'text-theme-muted hover:text-theme-primary'
-          }`}
+            }`}
         >
           <ArrowTrendingUpIcon className="w-3.5 h-3.5" />
           <span>Gainers</span>
           {moversData.gainers.length > 0 && (
-            <span className={`px-1.5 py-0.5 rounded text-xs ${
-              activeTab === 'gainers' ? 'bg-brand/20 text-brand-light' : 'bg-theme-secondary text-theme-muted'
-            }`}>
+            <span className={`px-1.5 py-0.5 rounded text-xs ${activeTab === 'gainers' ? 'bg-brand/20 text-brand-light' : 'bg-theme-secondary text-theme-muted'
+              }`}>
               {moversData.gainers.length}
             </span>
           )}
         </button>
-        
+
         <button
           onClick={() => setActiveTab('losers')}
-          className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
-            activeTab === 'losers'
+          className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${activeTab === 'losers'
               ? 'bg-theme-card text-theme-primary shadow-sm'
               : 'text-theme-muted hover:text-theme-primary'
-          }`}
+            }`}
         >
           <ArrowTrendingDownIcon className="w-3.5 h-3.5" />
           <span>Losers</span>
           {moversData.losers.length > 0 && (
-            <span className={`px-1.5 py-0.5 rounded text-xs ${
-              activeTab === 'losers' ? 'bg-red-500/20 text-red-400' : 'bg-theme-secondary text-theme-muted'
-            }`}>
+            <span className={`px-1.5 py-0.5 rounded text-xs ${activeTab === 'losers' ? 'bg-red-500/20 text-red-400' : 'bg-theme-secondary text-theme-muted'
+              }`}>
               {moversData.losers.length}
             </span>
           )}
         </button>
-        
+
         <button
           onClick={() => setActiveTab('active')}
-          className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${
-            activeTab === 'active'
+          className={`flex-1 flex items-center justify-center gap-2 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-200 ${activeTab === 'active'
               ? 'bg-theme-card text-theme-primary shadow-sm'
               : 'text-theme-muted hover:text-theme-primary'
-          }`}
+            }`}
         >
           <BoltIcon className="w-3.5 h-3.5" />
           <span>Active</span>
           {moversData.mostActive.length > 0 && (
-            <span className={`px-1.5 py-0.5 rounded text-xs ${
-              activeTab === 'active' ? 'bg-blue-500/20 text-blue-400' : 'bg-theme-secondary text-theme-muted'
-            }`}>
+            <span className={`px-1.5 py-0.5 rounded text-xs ${activeTab === 'active' ? 'bg-blue-500/20 text-blue-400' : 'bg-theme-secondary text-theme-muted'
+              }`}>
               {moversData.mostActive.length}
             </span>
           )}
@@ -230,22 +224,21 @@ const MarketMovers = React.memo(({
                 </div>
 
                 {/* Logo */}
-                <Logo 
+                <Logo
                   ticker={stock.ticker}
                   alt={stock.ticker}
                   className="w-6 h-6 rounded"
                   padding="small"
                 />
-                
+
                 {/* Ticker & Change */}
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-sm text-theme-primary group-hover:text-brand-light transition-colors">
                       {stock.ticker}
                     </span>
-                    <div className={`flex items-center gap-1 text-xs font-medium ${
-                      stock.changePct >= 0 ? 'text-brand-light' : 'text-red-400'
-                    }`}>
+                    <div className={`flex items-center gap-1 text-xs font-medium ${stock.changePct >= 0 ? 'text-green-400' : 'text-red-400'
+                      }`}>
                       {stock.changePct >= 0 ? (
                         <ArrowTrendingUpIcon className="w-3 h-3" />
                       ) : (
@@ -267,8 +260,8 @@ const MarketMovers = React.memo(({
               <EyeIcon className="w-6 h-6 text-theme-muted mx-auto mb-2 opacity-50" />
               <p className="text-xs text-theme-muted">
                 {activeTab === 'gainers' ? 'Keine Gewinner' :
-                 activeTab === 'losers' ? 'Keine Verlierer' :
-                 'Keine Aktivität'}
+                  activeTab === 'losers' ? 'Keine Verlierer' :
+                    'Keine Aktivität'}
               </p>
             </div>
           </div>

@@ -52,6 +52,8 @@ VERFÜGBARE FILTER:
 - volumeMin: Handelsvolumen Minimum
 - isPositive: true wenn nur positive Aktien gewünscht (grün, steigend, Gewinner)
 - isNegative: true wenn nur negative Aktien gewünscht (rot, fallend, Verlierer)
+- isThematic: true wenn die Suche qualitativ/thematisch ist (z.B. "Marktführer", "Zukunftstechnologie", "Moat", "KI", "Halterlose Schuhe")
+- thematicTopic: Das extrahierte Thema oder die Story für die RAG-Suche (z.B. "Artificial Intelligence", "Economic Moat", "Cybersecurity Leaders")
 
 ÜBERSETZUNGEN (DE → EN):
 - Technologie/Tech = Technology
@@ -73,6 +75,10 @@ VERFÜGBARE FILTER:
 - Dividende über X% = dividendMin: X
 - günstig/unterbewertet = peMax: 15
 - teuer/überbewertet = peMin: 30
+- S&P 500 / SP500 = marketCapMin: 15000000000, country: US
+- Nasdaq 100 = marketCapMin: 20000000000, exchange: NASDAQ
+- DAX / Dax = marketCapMin: 1000000000, country: DE
+- Penny Stocks = priceMax: 5, marketCapMax: 250000000
 
 REGELN:
 1. Gib NUR ein JSON-Objekt zurück, keine Erklärungen
@@ -80,12 +86,16 @@ REGELN:
 3. Wenn etwas unklar ist, lass den Filter weg
 4. Zahlen ohne Einheit interpretieren (1B = 1000000000, 10M = 10000000)
 5. Bei "unter/weniger als" nutze Max-Filter, bei "über/mehr als" nutze Min-Filter
+6. Markiere die Suche als "isThematic: true", wenn sie Begriffe enthält, die nicht durch P/E, Cap oder Sektoren abgedeckt werden können (z.B. "Moat", "Qualitätsführer", "AI Gewinner").
+7. "Billig" oder "Günstig" bezieht sich IMMER auf die Bewertung (P/E), NIEMALS auf die Größe des Unternehmens (Market Cap), außer es wird explizit "Penny Stocks" gesagt.
+8. Wenn ein Index (z.B. S&P 500) erwähnt wird, setze die entsprechenden numerischen Filter (Market Cap & Land) wie oben definiert.
 
 Beispiele:
-- "Tech Aktien mit KGV unter 25" → {"sector": "Technology", "peMax": 25}
-- "Large Cap Dividenden Aktien" → {"marketCapMin": 10000000000, "dividendMin": 1}
-- "Günstige Healthcare Aktien" → {"sector": "Healthcare", "peMax": 15}
-- "Aktien die heute steigen" → {"isPositive": true}
+- "Tech Aktien mit KGV unter 25" → {"sector": "Technology", "peMax": 25, "isThematic": false}
+- "Marktführer in Cybersicherheit" → {"isThematic": true, "thematicTopic": "Cybersecurity Leaders", "sector": "Technology"}
+- "Günstige S&P 500 Aktien" → {"marketCapMin": 15000000000, "country": "US", "peMax": 15, "isThematic": false}
+- "Große Firmen im S&P 500" → {"marketCapMin": 100000000000, "country": "US", "isThematic": false}
+- "Penny Stocks unter 1 Dollar" → {"priceMax": 1, "marketCapMax": 250000000, "isThematic": false}
 
 Antworte NUR mit dem JSON-Objekt:`
 
@@ -156,6 +166,14 @@ Antworte NUR mit dem JSON-Objekt:`
     // Boolean Filter
     if (filters.isPositive === true) validatedFilters.isPositive = true
     if (filters.isNegative === true) validatedFilters.isNegative = true
+
+    // Thematic Filter
+    if (filters.isThematic === true) {
+      validatedFilters.isThematic = true
+      validatedFilters.thematicTopic = filters.thematicTopic || ''
+    } else {
+      validatedFilters.isThematic = false
+    }
 
     return NextResponse.json({
       query,

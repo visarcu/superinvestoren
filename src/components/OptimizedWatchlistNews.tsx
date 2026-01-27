@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { 
+import {
   NewspaperIcon,
   ArrowTopRightOnSquareIcon,
   ClockIcon,
@@ -33,34 +33,34 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
         setLoading(false)
         return
       }
-      
+
       setLoading(true)
       setError(null)
-      
+
       try {
         const tickersString = watchlistTickers.slice(0, 5).join(',') // Limit to 5 for performance
         const response = await fetch(`/api/watchlist-news?tickers=${tickersString}`, {
           next: { revalidate: 300 } // 5 minute cache
         })
-        
+
         if (!response.ok) {
           throw new Error(`API Error: ${response.status}`)
         }
-        
+
         const newsJson = await response.json()
-        
+
         if (Array.isArray(newsJson) && newsJson.length > 0) {
           const sortedNews = newsJson
-            .sort((a: NewsArticle, b: NewsArticle) => 
+            .sort((a: NewsArticle, b: NewsArticle) =>
               new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
             )
             .slice(0, 3) // Only top 3 for faster loading
-          
+
           setNewsData(sortedNews)
         } else {
           setError('Keine aktuellen News verfügbar')
         }
-        
+
       } catch (error) {
         console.error('Error loading news:', error)
         setError('Fehler beim Laden der Nachrichten')
@@ -68,7 +68,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
         setLoading(false)
       }
     }
-    
+
     loadWatchlistNews()
   }, [watchlistTickers])
 
@@ -77,14 +77,14 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
     const now = new Date()
     const diffTime = Math.abs(now.getTime() - date.getTime())
     const diffHours = Math.floor(diffTime / (1000 * 60 * 60))
-    
+
     if (diffHours < 1) return 'Gerade eben'
     if (diffHours < 24) return `vor ${diffHours}h`
     if (diffHours < 48) return 'Gestern'
-    
+
     const diffDays = Math.floor(diffHours / 24)
     if (diffDays < 7) return `vor ${diffDays} Tagen`
-    
+
     return date.toLocaleDateString('de-DE', {
       day: '2-digit',
       month: '2-digit'
@@ -113,7 +113,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
             <p className="text-xs text-theme-muted">Lädt...</p>
           </div>
         </div>
-        
+
         <div className="space-y-2">
           {[1, 2, 3].map(i => (
             <div key={i} className="bg-theme-card border border-white/[0.04] rounded-lg p-3 animate-pulse">
@@ -138,10 +138,10 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
             <p className="text-xs text-theme-muted">{error || 'Keine News'}</p>
           </div>
         </div>
-        
+
         {watchlistTickers.length === 0 && (
-          <a 
-            href="/analyse/watchlist" 
+          <a
+            href="/analyse/watchlist"
             className="inline-flex items-center gap-2 px-3 py-2 bg-brand hover:bg-brand text-white rounded-lg transition-colors text-sm"
           >
             Zur Watchlist
@@ -160,7 +160,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
           <h3 className="text-base font-semibold text-theme-primary">Watchlist News</h3>
           <p className="text-xs text-theme-muted">{watchlistTickers.slice(0, 3).join(', ')}</p>
         </div>
-        
+
         <div className="flex items-center gap-1 px-2 py-1 bg-brand/20 text-brand-light rounded text-xs">
           <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
           <span>Live</span>
@@ -170,18 +170,18 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
       {/* News List - Scrollable */}
       <div className="flex-1 overflow-y-auto space-y-3">
         {newsData.map((article, index) => (
-          <article 
+          <article
             key={`${article.url}-${index}`}
             className="border border-white/[0.04] rounded-lg p-3 hover:border-white/[0.08] transition-all duration-200 group"
           >
             <div className="space-y-2">
               <div className="flex items-start justify-between gap-2">
-                <h4 className="text-theme-primary font-medium text-sm leading-tight line-clamp-2 group-hover:text-brand-light transition-colors flex-1">
+                <h4 className="text-theme-primary font-medium text-sm leading-tight line-clamp-2 group-hover:text-green-400 transition-colors flex-1">
                   {article.title}
                 </h4>
-                
+
                 {article.symbol && (
-                  <span className="px-1.5 py-0.5 bg-brand/20 text-brand-light rounded text-xs font-bold flex-shrink-0">
+                  <span className="px-1.5 py-0.5 bg-brand/10 text-green-400 border border-brand/20 rounded text-[10px] font-bold flex-shrink-0 uppercase tracking-wider">
                     {article.symbol}
                   </span>
                 )}
@@ -194,7 +194,7 @@ const OptimizedWatchlistNews = React.memo(({ watchlistTickers }: OptimizedWatchl
                   <ClockIcon className="w-3 h-3" />
                   <span>{formatDate(article.publishedDate)}</span>
                 </div>
-                
+
                 <a
                   href={article.url}
                   target="_blank"

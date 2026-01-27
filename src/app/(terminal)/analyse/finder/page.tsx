@@ -8,6 +8,11 @@ import {
   SparklesIcon,
 } from '@heroicons/react/24/outline'
 import { useCurrency } from '@/lib/CurrencyContext'
+import dynamic from 'next/dynamic'
+
+const StockFinderAnalyst = dynamic(() => import('@/components/ai/StockFinderAnalyst'), {
+  ssr: false
+})
 
 // Typen
 interface Stock {
@@ -259,93 +264,97 @@ export default function StockFinderPage() {
 
         {/* Results */}
         {hasSearched && !loading && !parsing && (
-          <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
-            {/* Results Header */}
-            <div className="px-4 py-3 border-b border-white/[0.04] flex items-center justify-between">
-              <span className="text-sm text-theme-secondary">
-                {stocks.length} Ergebnisse
-              </span>
-            </div>
+          <div>
+            <StockFinderAnalyst stocks={stocks} query={query} />
 
-            {/* Table - erweitert um Wachstum & Profitabilität */}
-            {stocks.length > 0 ? (
-              <div className="overflow-x-auto">
-                <table className="w-full">
-                  <thead>
-                    <tr className="border-b border-white/[0.04]">
-                      <th className="text-left px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Unternehmen</th>
-                      <th className="text-left px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Sektor</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Kurs</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">P/E</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Rev 3Y</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">ROE</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Div</th>
-                      <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">MCap</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {stocks.slice(0, 50).map((stock) => (
-                      <tr
-                        key={stock.symbol}
-                        onClick={() => handleStockClick(stock.symbol)}
-                        className="border-b border-white/[0.02] hover:bg-theme-hover cursor-pointer transition-colors"
-                      >
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-theme-secondary/30 flex items-center justify-center text-xs font-bold text-theme-primary">
-                              {stock.symbol.slice(0, 2)}
-                            </div>
-                            <div>
-                              <div className="font-medium text-theme-primary">{stock.symbol}</div>
-                              <div className="text-xs text-theme-muted truncate max-w-[180px]">{stock.name}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3">
-                          <span className="px-2 py-0.5 text-xs bg-theme-secondary/30 text-theme-secondary rounded">
-                            {stock.sector || '-'}
-                          </span>
-                        </td>
-                        <td className="px-4 py-3 text-right font-mono text-theme-primary">
-                          {stock.price ? formatStockPrice(stock.price) : '-'}
-                        </td>
-                        <td className="px-4 py-3 text-right font-mono text-theme-secondary">
-                          {stock.pe ? stock.pe.toFixed(1) : '-'}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          {stock.revenueGrowth3Y !== null ? (
-                            <span className={`font-mono text-sm ${stock.revenueGrowth3Y >= 0 ? 'text-green-400' : 'text-red-400'}`}>
-                              {stock.revenueGrowth3Y >= 0 ? '+' : ''}{stock.revenueGrowth3Y.toFixed(1)}%
-                            </span>
-                          ) : (
-                            <span className="text-theme-muted">-</span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          {stock.roe !== null ? (
-                            <span className={`font-mono text-sm ${stock.roe >= 15 ? 'text-green-400' : 'text-theme-secondary'}`}>
-                              {stock.roe.toFixed(1)}%
-                            </span>
-                          ) : (
-                            <span className="text-theme-muted">-</span>
-                          )}
-                        </td>
-                        <td className="px-4 py-3 text-right font-mono text-theme-secondary">
-                          {stock.dividendYield !== null ? `${(stock.dividendYield * 100).toFixed(1)}%` : '-'}
-                        </td>
-                        <td className="px-4 py-3 text-right font-mono text-theme-secondary">
-                          {stock.marketCap ? formatMarketCap(stock.marketCap) : '-'}
-                        </td>
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
+              {/* Results Header */}
+              <div className="px-4 py-3 border-b border-white/[0.04] flex items-center justify-between">
+                <span className="text-sm text-theme-secondary">
+                  {stocks.length} Ergebnisse
+                </span>
+              </div>
+
+              {/* Table - erweitert um Wachstum & Profitabilität */}
+              {stocks.length > 0 ? (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-white/[0.04]">
+                        <th className="text-left px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Unternehmen</th>
+                        <th className="text-left px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Sektor</th>
+                        <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Kurs</th>
+                        <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">P/E</th>
+                        <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Rev 3Y</th>
+                        <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">ROE</th>
+                        <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">Div</th>
+                        <th className="text-right px-4 py-3 text-xs font-medium text-theme-muted uppercase tracking-wider">MCap</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            ) : (
-              <div className="px-4 py-12 text-center text-theme-muted">
-                Keine Aktien gefunden. Versuche eine andere Suche.
-              </div>
-            )}
+                    </thead>
+                    <tbody>
+                      {stocks.slice(0, 50).map((stock) => (
+                        <tr
+                          key={stock.symbol}
+                          onClick={() => handleStockClick(stock.symbol)}
+                          className="border-b border-white/[0.02] hover:bg-theme-hover cursor-pointer transition-colors"
+                        >
+                          <td className="px-4 py-3">
+                            <div className="flex items-center gap-3">
+                              <div className="w-8 h-8 rounded-lg bg-theme-secondary/30 flex items-center justify-center text-xs font-bold text-theme-primary">
+                                {stock.symbol.slice(0, 2)}
+                              </div>
+                              <div>
+                                <div className="font-medium text-theme-primary">{stock.symbol}</div>
+                                <div className="text-xs text-theme-muted truncate max-w-[180px]">{stock.name}</div>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-4 py-3">
+                            <span className="px-2 py-0.5 text-xs bg-theme-secondary/30 text-theme-secondary rounded">
+                              {stock.sector || '-'}
+                            </span>
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-theme-primary">
+                            {stock.price ? formatStockPrice(stock.price) : '-'}
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-theme-secondary">
+                            {stock.pe ? stock.pe.toFixed(1) : '-'}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            {stock.revenueGrowth3Y !== null ? (
+                              <span className={`font-mono text-sm ${stock.revenueGrowth3Y >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                                {stock.revenueGrowth3Y >= 0 ? '+' : ''}{stock.revenueGrowth3Y.toFixed(1)}%
+                              </span>
+                            ) : (
+                              <span className="text-theme-muted">-</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-right">
+                            {stock.roe !== null ? (
+                              <span className={`font-mono text-sm ${stock.roe >= 15 ? 'text-green-400' : 'text-theme-secondary'}`}>
+                                {stock.roe.toFixed(1)}%
+                              </span>
+                            ) : (
+                              <span className="text-theme-muted">-</span>
+                            )}
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-theme-secondary">
+                            {stock.dividendYield !== null ? `${(stock.dividendYield * 100).toFixed(1)}%` : '-'}
+                          </td>
+                          <td className="px-4 py-3 text-right font-mono text-theme-secondary">
+                            {stock.marketCap ? formatMarketCap(stock.marketCap) : '-'}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="px-4 py-12 text-center text-theme-muted">
+                  Keine Aktien gefunden. Versuche eine andere Suche.
+                </div>
+              )}
+            </div>
           </div>
         )}
 

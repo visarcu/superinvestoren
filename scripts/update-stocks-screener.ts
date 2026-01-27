@@ -187,7 +187,7 @@ function deleteCheckpoint() {
     if (fs.existsSync(CONFIG.checkpointPath)) {
       fs.unlinkSync(CONFIG.checkpointPath)
     }
-  } catch (e) {}
+  } catch (e) { }
 }
 
 // ============================================
@@ -198,22 +198,25 @@ async function fetchAllStocks(): Promise<any[]> {
   console.log('📊 Lade Stock-Liste von FMP Screener...')
   const data = await fetchWithRetry(API.screener)
 
-  // Filtere nur US-Stocks (NASDAQ, NYSE, AMEX)
-  const usStocks = data.filter((s: any) =>
+  // Erlaube US-Exchanges + XETRA (Deutschland)
+  const allowedExchanges = ['NASDAQ', 'NYSE', 'AMEX', 'XETRA', 'EURONEXT', 'LSE', 'SIX']
+
+  const baseStocks = data.filter((s: any) =>
     s.exchangeShortName &&
-    ['NASDAQ', 'NYSE', 'AMEX'].includes(s.exchangeShortName) &&
+    (allowedExchanges.includes(s.exchangeShortName) || s.country === 'DE') &&
     s.symbol &&
-    !s.symbol.includes('.') && // Keine ADRs mit Punkten
-    s.marketCap > 0
+    s.marketCap > 0 &&
+    // Bei US-Stocks keine Punkte (ADRs), bei anderen (z.B. .DE) erlaubt
+    (s.country === 'US' ? !s.symbol.includes('.') : true)
   )
 
   // Sortiere nach Market Cap (größte zuerst)
-  usStocks.sort((a: any, b: any) => (b.marketCap || 0) - (a.marketCap || 0))
+  baseStocks.sort((a: any, b: any) => (b.marketCap || 0) - (a.marketCap || 0))
 
-  const limit = CONFIG.maxStocks > 0 ? CONFIG.maxStocks : usStocks.length
-  console.log(`✅ ${usStocks.length} US-Stocks gefunden, verarbeite ${limit}`)
+  const limit = CONFIG.maxStocks > 0 ? CONFIG.maxStocks : baseStocks.length
+  console.log(`✅ ${baseStocks.length} Stocks gefunden (Global), verarbeite ${limit}`)
 
-  return usStocks.slice(0, limit)
+  return baseStocks.slice(0, limit)
 }
 
 async function enrichStockData(baseStock: any): Promise<ScreenerStock> {
@@ -396,7 +399,7 @@ async function main() {
           const elapsed = (Date.now() - startTime) / 1000
           const rate = processed / elapsed
           const remaining = (total - processed) / rate
-          console.log(`  ✓ ${processed}/${total} (${((processed/total)*100).toFixed(1)}%) - ETA: ${Math.round(remaining/60)} min`)
+          console.log(`  ✓ ${processed}/${total} (${((processed / total) * 100).toFixed(1)}%) - ETA: ${Math.round(remaining / 60)} min`)
         }
 
       } catch (error) {
