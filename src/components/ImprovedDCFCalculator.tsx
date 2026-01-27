@@ -60,9 +60,9 @@ export default function ImprovedDCFCalculator() {
   // Filtered stocks for search
   const filteredStocks = searchQuery
     ? stocks.filter(s =>
-        s.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        s.name.toLowerCase().includes(searchQuery.toLowerCase())
-      ).slice(0, 8)
+      s.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      s.name.toLowerCase().includes(searchQuery.toLowerCase())
+    ).slice(0, 8)
     : []
 
   // Load stock data from API
@@ -368,21 +368,19 @@ export default function ImprovedDCFCalculator() {
           <div className="inline-flex bg-theme-secondary border border-theme rounded-lg p-1">
             <button
               onClick={() => setMode('earnings')}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
-                mode === 'earnings'
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${mode === 'earnings'
                   ? 'bg-theme-card text-theme-primary shadow-sm border border-theme'
                   : 'text-theme-muted hover:text-theme-primary'
-              }`}
+                }`}
             >
               Earnings
             </button>
             <button
               onClick={() => setMode('cashflow')}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${
-                mode === 'cashflow'
+              className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${mode === 'cashflow'
                   ? 'bg-theme-card text-theme-primary shadow-sm border border-theme'
                   : 'text-theme-muted hover:text-theme-primary'
-              }`}
+                }`}
             >
               Cash Flow
             </button>
@@ -735,9 +733,9 @@ export default function ImprovedDCFCalculator() {
                       <Line
                         type="monotone"
                         dataKey="price"
-                        stroke={currentCalculation.returnFromToday >= 0 ? '#22c55e' : '#ef4444'}
+                        stroke={currentCalculation.cagr >= 0 ? '#22c55e' : '#ef4444'}
                         strokeWidth={2}
-                        dot={{ fill: currentCalculation.returnFromToday >= 0 ? '#22c55e' : '#ef4444', strokeWidth: 0, r: 4 }}
+                        dot={{ fill: currentCalculation.cagr >= 0 ? '#22c55e' : '#ef4444', strokeWidth: 0, r: 4 }}
                         activeDot={{ r: 6 }}
                       />
                     </LineChart>
