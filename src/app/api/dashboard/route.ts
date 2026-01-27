@@ -1,12 +1,13 @@
 // Unified dashboard API - loads ALL data in one request
 import { NextResponse } from 'next/server'
 
-// Market indices mapping
+// US indices use futures (ESUSD, NQUSD, YMUSD) for near-realtime data outside market hours
+// DAX uses spot index since it's live during European trading hours
 const MARKET_INDICES: Record<string, string> = {
-  'SPX': '^GSPC',
-  'IXIC': '^IXIC',
-  'DAX': '^GDAXI',
-  'DJI': '^DJI'
+  'SPX': 'ESUSD',    // S&P 500 E-Mini Futures (live 23h/day)
+  'IXIC': 'NQUSD',   // NASDAQ 100 Futures (live 23h/day)
+  'DAX': '^GDAXI',   // DAX spot index (live during EU hours)
+  'DJI': 'YMUSD'     // Dow Jones Mini Futures (live 23h/day)
 }
 
 export async function GET(req: Request) {
