@@ -49,6 +49,7 @@ import ArticleList from '@/components/ArticleList'
 import type { Article } from '@/components/ArticleList'
 import PublicInvestorFollowButton from '@/components/PublicInvestorFollowButton'
 import AISneakPeak from '@/components/ai/AISneakPeak'
+import FinclueAI from '@/components/ai/FinclueAI'
 
 // User Interface für Premium-Check
 interface User {
@@ -667,8 +668,12 @@ function CompanyOwnershipHistory({ snapshots, investorName }: { snapshots: any[]
 }
 
 function splitInvestorName(full: string) {
-  const [name, subtitle] = full.split(' – ')
-  return { name, subtitle }
+  if (full.includes(' – ')) {
+    const [name, subtitle] = full.split(' – ')
+    return { name, subtitle }
+  }
+  const [name, ...rest] = full.split(' - ')
+  return { name, subtitle: rest.join(' - ') }
 }
 
 function getPeriodFromDate(dateStr: string) {
@@ -1399,36 +1404,20 @@ function InvestorPageContent({ params: { slug } }: InvestorPageProps) {
 
         {/* AI TAB */}
         {tab === 'ai' && (
-          <div className="space-y-8 animate-in fade-in duration-500">
+          <div className="space-y-8 animate-in fade-in duration-500 h-[700px]">
             {!user || !user.isPremium ? (
               <AISneakPeak
                 investorSlug={slug}
                 investorName={mainName}
               />
             ) : (
-              <div className="max-w-2xl mx-auto text-center">
-                <div className="bg-theme-card border border-theme-light rounded-2xl p-8 hover:bg-theme-hover hover:border-white/[0.1] transition-all duration-300">
-                  <div className="w-20 h-20 bg-gradient-to-br from-green-900/20 to-green-800/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                    <SparklesIcon className="w-10 h-10 text-brand-light/60" />
-                  </div>
-
-                  <h3 className="text-xl font-medium text-theme-primary mb-3">
-                    Finclue AI Portfolio-Analyse
-                  </h3>
-
-                  <p className="text-theme-muted mb-6 leading-relaxed">
-                    Starte ein intelligentes Gespräch über {mainName}s Portfolio,
-                    Investmentstrategien und Marktpositionen.
-                  </p>
-
-                  <button
-                    onClick={handleAIChat}
-                    className="w-full max-w-sm mx-auto px-8 py-4 bg-gradient-to-r from-green-600 to-green-500 hover:from-green-500 hover:to-green-400 text-theme-primary font-medium rounded-lg transition-all duration-200 flex items-center justify-center gap-3 shadow-lg hover:shadow-brand/10"
-                  >
-                    <SparklesIcon className="w-5 h-5" />
-                    <span>AI Chat starten</span>
-                  </button>
-                </div>
+              <div className="h-full border border-theme-light rounded-2xl overflow-hidden shadow-2xl">
+                <FinclueAI
+                  investor={slug}
+                  portfolioData={latest}
+                  isPremium={true}
+                  showQuickPrompts={true}
+                />
               </div>
             )}
           </div>
