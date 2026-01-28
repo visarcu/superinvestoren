@@ -4,7 +4,7 @@
 import type { ReactNode } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Analytics } from "@vercel/analytics/next"
+import { ConditionalAnalytics } from '@/components/ConditionalAnalytics'
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
@@ -55,7 +55,7 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         </div>
       </main>
 
-      <Analytics />
+      <ConditionalAnalytics />
     </div>
   )
 }

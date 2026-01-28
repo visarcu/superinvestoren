@@ -6,7 +6,7 @@ import type { ReactNode } from 'react'
 import Navbar from '@/components/Navbar'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Analytics } from "@vercel/analytics/next"
+import { ConditionalAnalytics } from '@/components/ConditionalAnalytics'
 import { CurrencyProvider } from '@/lib/CurrencyContext'
 import { useTheme } from '@/lib/useTheme'
 import { useEffect, useState } from 'react'
@@ -173,6 +173,14 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
                       Keine Anlageberatung
                     </span>
                   </li>
+                  <li>
+                    <button
+                      onClick={() => window.dispatchEvent(new Event('open-cookie-settings'))}
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
+                    >
+                      Cookie-Einstellungen
+                    </button>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -205,7 +213,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
         )}
       </CurrencyProvider>
 
-      <Analytics />
+      <ConditionalAnalytics />
     </div>
   )
 }

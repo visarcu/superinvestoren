@@ -1,5 +1,6 @@
 // src/app/layout.tsx - ROOT LAYOUT (FONT-FIX)
 import './globals.css'
+import { CookieConsent } from '@/components/CookieConsent'
 
 export const metadata = {
   title: 'Finclue',
@@ -40,6 +41,7 @@ export default function RootLayout({
       </head>
       <body className="font-sans bg-theme-primary text-theme-primary" suppressHydrationWarning>
         {children}
+        <CookieConsent />
       </body>
     </html>
   )
