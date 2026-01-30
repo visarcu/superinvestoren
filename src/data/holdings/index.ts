@@ -285,6 +285,7 @@ import vinall_2025_Q1 from './vinall/2025-Q1.json'
 import vinall_2025_Q2 from './vinall/2025-Q2.json'
 import vinall_2025_Q3 from './vinall/2025-Q3.json'
 import vinall_2025_Q4 from './vinall/2025-Q4.json'
+import vinall_2026_Q1 from './vinall/2026-Q1.json'
 
 //Cantillion Capital Mgmt
 import cantillon_2024_Q2 from './cantillon/2024-Q2.json'
@@ -480,6 +481,9 @@ import muhlenkamp_2024_Q2 from './muhlenkamp/2024-Q2.json'
 import muhlenkamp_2024_Q3 from './muhlenkamp/2024-Q3.json'
 import muhlenkamp_2024_Q4 from './muhlenkamp/2024-Q4.json'
 import muhlenkamp_2025_Q1 from './muhlenkamp/2025-Q1.json'
+import muhlenkamp_2025_Q2 from './muhlenkamp/2025-Q2.json'
+import muhlenkamp_2025_Q3 from './muhlenkamp/2025-Q3.json'
+import muhlenkamp_2025_Q4 from './muhlenkamp/2025-Q4.json'
 
 //tarasoff
 import tarasoff_2024_Q2 from './tarasoff/2024-Q2.json'
@@ -561,6 +565,9 @@ import meritage_2024_Q2 from './meritage/2024-Q2.json'
 import meritage_2024_Q3 from './meritage/2024-Q3.json'
 import meritage_2024_Q4 from './meritage/2024-Q4.json'
 import meritage_2025_Q1 from './meritage/2025-Q1.json'
+import meritage_2025_Q2 from './meritage/2025-Q2.json'
+import meritage_2025_Q3 from './meritage/2025-Q3.json'
+import meritage_2025_Q4 from './meritage/2025-Q4.json'
 
 //ketterer
 import ketterer_2024_Q2 from './ketterer/2024-Q2.json'
@@ -608,6 +615,8 @@ import fisher_2024_Q3 from './fisher/2024-Q3.json'
 import fisher_2024_Q4 from './fisher/2024-Q4.json'
 import fisher_2025_Q1 from './fisher/2025-Q1.json'
 import fisher_2025_Q2 from './fisher/2025-Q2.json'
+import fisher_2025_Q3 from './fisher/2025-Q3.json'
+import fisher_2025_Q4 from './fisher/2025-Q4.json'
 
 //Haley (Alta Fox Capital Mgmt)
 import haley_2024_Q1 from './haley/2024-Q1.json'
@@ -626,6 +635,7 @@ import mairspower_2024_Q4 from './mairspower/2024-Q4.json'
 import mairspower_2025_Q1 from './mairspower/2025-Q1.json'
 import mairspower_2025_Q2 from './mairspower/2025-Q2.json'
 import mairspower_2025_Q3 from './mairspower/2025-Q3.json'
+import mairspower_2025_Q4 from './mairspower/2025-Q4.json'
 
 
 
@@ -820,6 +830,7 @@ import tangen_2024_Q4 from './tangen/2024-Q4.json'
 import tangen_2025_Q1 from './tangen/2025-Q1.json'
 import tangen_2025_Q2 from './tangen/2025-Q2.json'
 import tangen_2025_Q3 from './tangen/2025-Q3.json'
+import tangen_2025_Q4 from './tangen/2025-Q4.json'
 
 //dalio
 import dalio_2024_Q1 from './dalio/2024-Q1.json'
@@ -1360,6 +1371,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: vinall_2025_Q2},
     {quarter: '2025-Q3', data: vinall_2025_Q3},
     {quarter: '2025-Q4', data: vinall_2025_Q4},
+    {quarter: '2026-Q1', data: vinall_2026_Q1},
    ],
 
    vandenberg: [
@@ -1591,6 +1603,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: muhlenkamp_2024_Q3},
     { quarter: '2024-Q4', data: muhlenkamp_2024_Q4},
     { quarter: '2025-Q1', data: muhlenkamp_2025_Q1},
+    { quarter: '2025-Q2', data: muhlenkamp_2025_Q2},
+    { quarter: '2025-Q3', data: muhlenkamp_2025_Q3},
+    { quarter: '2025-Q4', data: muhlenkamp_2025_Q4},
    ],
 
    tarasoff: [
@@ -1693,6 +1708,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2024-Q3', data: meritage_2024_Q3},
     { quarter: '2024-Q4', data: meritage_2024_Q4},
     { quarter: '2025-Q1', data: meritage_2025_Q1},
+    { quarter: '2025-Q2', data: meritage_2025_Q2},
+    { quarter: '2025-Q3', data: meritage_2025_Q3},
+    { quarter: '2025-Q4', data: meritage_2025_Q4},
    ],
 
    ketterer: [
@@ -1735,6 +1753,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q1', data: mairspower_2025_Q1},
     {quarter: '2025-Q2', data: mairspower_2025_Q2},
     {quarter: '2025-Q3', data: mairspower_2025_Q3},
+    {quarter: '2025-Q4', data: mairspower_2025_Q4},
    ],
 
 
@@ -1767,12 +1786,14 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    fisher: [
-    { quarter: '2024-Q1', data: fisher_2024_Q1},
-    { quarter: '2024-Q2', data: fisher_2024_Q2},
-    { quarter: '2024-Q3', data: fisher_2024_Q3},
-    { quarter: '2024-Q4', data: fisher_2024_Q4},
-    { quarter: '2025-Q1', data: fisher_2025_Q1},
-    { quarter: '2025-Q2', data: fisher_2025_Q2},
+    {quarter: '2024-Q1', data: fisher_2024_Q1},
+    {quarter: '2024-Q2', data: fisher_2024_Q2},
+    {quarter: '2024-Q3', data: fisher_2024_Q3},
+    {quarter: '2024-Q4', data: fisher_2024_Q4},
+    {quarter: '2025-Q1', data: fisher_2025_Q1},
+    {quarter: '2025-Q2', data: fisher_2025_Q2},
+    {quarter: '2025-Q3', data: fisher_2025_Q3},
+    {quarter: '2025-Q4', data: fisher_2025_Q4},
    ],
 
    soros: [
@@ -1900,7 +1921,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: dodgecox_2025_Q1},
     { quarter: '2025-Q2', data: dodgecox_2025_Q2},
     { quarter: '2025-Q3', data: dodgecox_2025_Q3},
-  //  { quarter: '2025-Q4', data: dodgecox_2025_Q4},
+  { quarter: '2025-Q4', data: dodgecox_2025_Q4},
    ],
 
    whitman: [
@@ -1951,6 +1972,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q1', data: tangen_2025_Q1},
     { quarter: '2025-Q2', data: tangen_2025_Q2},
     { quarter: '2025-Q3', data: tangen_2025_Q3},
+    { quarter: '2025-Q4', data: tangen_2025_Q4},
    ],
 
    ariel_focus: [
