@@ -6,6 +6,7 @@ import remarkGfm from 'remark-gfm'
 import Logo from '@/components/Logo'
 import MarginOfSafetyGauge from '@/components/MarginOfSafetyGauge'
 import { ArrowDownTrayIcon } from '@heroicons/react/24/outline'
+import { fmtPrice } from '@/utils/formatters'
 
 interface AIAnalyseOutputProps {
   analysis: string
@@ -167,7 +168,7 @@ export default function AIAnalyseOutput({
     <div class="meta">
       <div class="meta-item">
         <div class="meta-label">Aktueller Kurs</div>
-        <div class="meta-value">$${currentPrice?.toFixed(2)}</div>
+        <div class="meta-value">${currentPrice?.toLocaleString('de-DE', { style: 'currency', currency: 'USD' })}</div>
       </div>
       <div class="meta-item">
         <div class="meta-label">Marktkapitalisierung</div>
@@ -212,7 +213,7 @@ export default function AIAnalyseOutput({
             <div className="flex items-center gap-6 mt-2">
               <div>
                 <span className="text-theme-muted text-sm">Aktueller Kurs</span>
-                <p className="text-xl font-semibold text-theme-primary">${currentPrice?.toFixed(2)}</p>
+                <p className="text-xl font-semibold text-theme-primary">{fmtPrice(currentPrice)}</p>
               </div>
               <div>
                 <span className="text-theme-muted text-sm">Marktkapitalisierung</span>

@@ -33,6 +33,9 @@ interface StockData {
 
 type CalculatorMode = 'earnings' | 'cashflow'
 
+// Helper: Parse DE-Format input (Komma → Punkt) für parseFloat
+const parseDE = (val: string) => parseFloat(val.replace(',', '.'))
+
 export default function ImprovedDCFCalculator() {
   // Stock selection
   const [, setSelectedTicker] = useState<string>('')
@@ -138,9 +141,9 @@ export default function ImprovedDCFCalculator() {
           ticker: stockData.ticker,
           context: [],
           assumptions: {
-            growthRate: parseFloat(growth),
-            exitMultiple: parseFloat(multiple),
-            terminalGrowth: parseFloat(terminalGrowthRate),
+            growthRate: parseDE(growth),
+            exitMultiple: parseDE(multiple),
+            terminalGrowth: parseDE(terminalGrowthRate),
             projectionYears: parseInt(projectionYears)
           }
         })
@@ -224,8 +227,8 @@ export default function ImprovedDCFCalculator() {
       loadAiInsights(ticker)
 
       // Pre-fill inputs with actual data
-      setEpsInput(epsTTM.toFixed(2))
-      setFcfInput(fcfPerShare.toFixed(2))
+      setEpsInput(epsTTM.toFixed(2).replace('.', ','))
+      setFcfInput(fcfPerShare.toFixed(2).replace('.', ','))
 
     } catch (error) {
       console.error('Error loading stock data:', error)
@@ -262,8 +265,8 @@ export default function ImprovedDCFCalculator() {
 
   // Get parsed values for calculations
   const years = parseInt(projectionYears) || 5
-  const decay = parseFloat(growthDecayRate) / 100 || 0
-  const terminalGrowth = parseFloat(terminalGrowthRate) / 100 || 0.03
+  const decay = parseDE(growthDecayRate) / 100 || 0
+  const terminalGrowth = parseDE(terminalGrowthRate) / 100 || 0.03
 
   // Handle stock selection
   const handleSelectStock = (ticker: string) => {
@@ -278,10 +281,10 @@ export default function ImprovedDCFCalculator() {
       return null
     }
 
-    const eps = parseFloat(epsInput)
-    let growth = parseFloat(epsGrowthRate) / 100
-    const pe = parseFloat(targetPE)
-    const desiredReturn = parseFloat(desiredReturnEarnings) / 100
+    const eps = parseDE(epsInput)
+    let growth = parseDE(epsGrowthRate) / 100
+    const pe = parseDE(targetPE)
+    const desiredReturn = parseDE(desiredReturnEarnings) / 100
     const currentPrice = stockData.price
 
     if (isNaN(eps) || isNaN(growth) || isNaN(pe) || isNaN(desiredReturn)) {
@@ -342,10 +345,10 @@ export default function ImprovedDCFCalculator() {
       return null
     }
 
-    const fcf = parseFloat(fcfInput)
-    let growth = parseFloat(fcfGrowthRate) / 100
-    const targetYield = parseFloat(targetFcfYield) / 100
-    const desiredReturn = parseFloat(desiredReturnCashFlow) / 100
+    const fcf = parseDE(fcfInput)
+    let growth = parseDE(fcfGrowthRate) / 100
+    const targetYield = parseDE(targetFcfYield) / 100
+    const desiredReturn = parseDE(desiredReturnCashFlow) / 100
     const currentPrice = stockData.price
 
     if (isNaN(fcf) || isNaN(growth) || isNaN(targetYield) || isNaN(desiredReturn) || targetYield === 0) {
@@ -405,13 +408,13 @@ export default function ImprovedDCFCalculator() {
   const chartData = currentCalculation?.projections || []
 
   // Check if inputs are valid (show green checkmark)
-  const isEpsGrowthValid = epsGrowthRate !== '' && !isNaN(parseFloat(epsGrowthRate))
-  const isTargetPEValid = targetPE !== '' && !isNaN(parseFloat(targetPE))
-  const isDesiredReturnEarningsValid = desiredReturnEarnings !== '' && !isNaN(parseFloat(desiredReturnEarnings))
+  const isEpsGrowthValid = epsGrowthRate !== '' && !isNaN(parseDE(epsGrowthRate))
+  const isTargetPEValid = targetPE !== '' && !isNaN(parseDE(targetPE))
+  const isDesiredReturnEarningsValid = desiredReturnEarnings !== '' && !isNaN(parseDE(desiredReturnEarnings))
 
-  const isFcfGrowthValid = fcfGrowthRate !== '' && !isNaN(parseFloat(fcfGrowthRate))
-  const isTargetYieldValid = targetFcfYield !== '' && !isNaN(parseFloat(targetFcfYield))
-  const isDesiredReturnCashFlowValid = desiredReturnCashFlow !== '' && !isNaN(parseFloat(desiredReturnCashFlow))
+  const isFcfGrowthValid = fcfGrowthRate !== '' && !isNaN(parseDE(fcfGrowthRate))
+  const isTargetYieldValid = targetFcfYield !== '' && !isNaN(parseDE(targetFcfYield))
+  const isDesiredReturnCashFlowValid = desiredReturnCashFlow !== '' && !isNaN(parseDE(desiredReturnCashFlow))
 
   return (
     <div className="max-w-6xl mx-auto">
@@ -430,7 +433,7 @@ export default function ImprovedDCFCalculator() {
               setIsSearchOpen(true)
             }}
             onFocus={() => setIsSearchOpen(true)}
-            className="w-full bg-theme-card border border-theme rounded-lg px-4 py-3 text-theme-primary placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+            className="w-full bg-theme-card border border-white/[0.04] rounded-lg px-4 py-3 text-theme-primary placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
           />
           <button
             onClick={() => searchQuery && handleSelectStock(searchQuery.toUpperCase())}
@@ -441,7 +444,7 @@ export default function ImprovedDCFCalculator() {
 
           {isSearchOpen && filteredStocks.length > 0 && (
             <>
-              <div className="absolute top-full left-0 right-0 mt-2 bg-theme-card border border-theme rounded-lg shadow-xl z-50 overflow-hidden">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-theme-card border border-white/[0.04] rounded-lg shadow-xl z-50 overflow-hidden">
                 {filteredStocks.map(stock => (
                   <button
                     key={stock.ticker}
@@ -483,11 +486,11 @@ export default function ImprovedDCFCalculator() {
       {/* Mode Toggle */}
       {stockData && !loading && (
         <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-theme-secondary border border-theme rounded-lg p-1">
+          <div className="inline-flex bg-theme-card border border-white/[0.06] rounded-lg p-1">
             <button
               onClick={() => setMode('earnings')}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${mode === 'earnings'
-                ? 'bg-theme-card text-theme-primary shadow-sm border border-theme'
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === 'earnings'
+                ? 'bg-theme-secondary text-theme-primary shadow-sm'
                 : 'text-theme-muted hover:text-theme-primary'
                 }`}
             >
@@ -495,8 +498,8 @@ export default function ImprovedDCFCalculator() {
             </button>
             <button
               onClick={() => setMode('cashflow')}
-              className={`px-6 py-2 rounded-md text-sm font-medium transition-all ${mode === 'cashflow'
-                ? 'bg-theme-card text-theme-primary shadow-sm border border-theme'
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === 'cashflow'
+                ? 'bg-theme-secondary text-theme-primary shadow-sm'
                 : 'text-theme-muted hover:text-theme-primary'
                 }`}
             >
@@ -509,10 +512,10 @@ export default function ImprovedDCFCalculator() {
       {/* Main Content */}
       {stockData && !loading && (
         <>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
             {/* Left: Assumptions */}
-            <div className="bg-theme-card border border-theme rounded-xl p-6">
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
               <h3 className="text-lg font-semibold text-theme-primary mb-6">Annahmen</h3>
 
               {/* Projection Years + Margin of Safety (shared across modes) */}
@@ -781,7 +784,7 @@ export default function ImprovedDCFCalculator() {
               )}
 
               {/* Advanced Settings */}
-              <div className="border-t border-theme pt-4 mt-2">
+              <div className="border-t border-white/[0.04] pt-4 mt-2">
                 <button
                   onClick={() => setShowAdvanced(!showAdvanced)}
                   className="flex items-center justify-between w-full text-sm text-theme-secondary hover:text-theme-primary transition-colors"
@@ -832,7 +835,7 @@ export default function ImprovedDCFCalculator() {
               </div>
 
               {/* AI Assumption Check Button */}
-              <div className="mt-8 border-t border-theme pt-6">
+              <div className="mt-8 border-t border-white/[0.04] pt-6">
                 <button
                   onClick={handleValidationCheck}
                   disabled={isValidating || !currentCalculation}
@@ -891,7 +894,7 @@ export default function ImprovedDCFCalculator() {
             </div>
 
             {/* Right: N-Year Projection */}
-            <div className="bg-theme-card border border-theme rounded-xl p-6">
+            <div className="bg-theme-card border border-white/[0.04] rounded-xl p-5">
               <h3 className="text-lg font-semibold text-theme-primary mb-6">{years}-Jahres Projektion</h3>
 
               {currentCalculation ? (
@@ -907,13 +910,13 @@ export default function ImprovedDCFCalculator() {
 
                   {/* Additional Stats */}
                   <div className="grid grid-cols-2 gap-4 mb-6">
-                    <div className="text-center p-3 border border-theme rounded-lg">
+                    <div className="text-center p-3 border border-white/[0.04] rounded-lg">
                       <div className="text-xs text-theme-muted mb-1">Erwartete CAGR</div>
                       <div className={`text-lg font-semibold ${currentCalculation.cagr >= 0 ? 'text-brand' : 'text-red-600'}`}>
                         {fmtNum(currentCalculation.cagr, 1)}%
                       </div>
                     </div>
-                    <div className="text-center p-3 border border-theme rounded-lg">
+                    <div className="text-center p-3 border border-white/[0.04] rounded-lg">
                       <div className="text-xs text-theme-muted mb-1">Zielkurs ({years}J)</div>
                       <div className="text-lg font-semibold text-theme-primary">
                         {fmtPrice(currentCalculation.futurePrice)}
@@ -992,7 +995,7 @@ export default function ImprovedDCFCalculator() {
                   </div>
                   <h4 className="text-lg font-medium text-theme-secondary mb-2">Keine Daten</h4>
                   <p className="text-sm text-theme-muted max-w-xs">
-                    Fülle die Annahmen auf der linken Seite aus, um eine 5-Jahres Projektion zu erstellen. Der Chart aktualisiert sich automatisch.
+                    Fülle die Annahmen auf der linken Seite aus, um eine Projektion zu erstellen. Der Chart aktualisiert sich automatisch.
                   </p>
                 </div>
               )}
@@ -1081,7 +1084,7 @@ export default function ImprovedDCFCalculator() {
 
       {/* Info Box */}
       {stockData && !loading && (
-        <div className="mt-8 p-4 border border-theme rounded-xl">
+        <div className="mt-8 p-4 border border-white/[0.04] rounded-xl">
           <div className="flex gap-3">
             <InformationCircleIcon className="w-5 h-5 text-theme-muted flex-shrink-0 mt-0.5" />
             <div>

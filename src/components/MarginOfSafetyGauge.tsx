@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react'
+import { fmtPrice, fmtNum } from '@/utils/formatters'
 
 interface MarginOfSafetyGaugeProps {
   currentPrice: number
@@ -148,7 +149,7 @@ export default function MarginOfSafetyGauge({
       {/* Value display */}
       <div className="text-center -mt-2">
         <div className={`${config.fontSize} font-bold`} style={{ color: getColor() }}>
-          {marginOfSafety >= 0 ? '+' : ''}{marginOfSafety.toFixed(1)}%
+          {marginOfSafety >= 0 ? '+' : ''}{fmtNum(marginOfSafety, 1)}%
         </div>
         <div className={`${config.labelSize} text-theme-muted mt-1`}>
           Margin of Safety
@@ -162,12 +163,12 @@ export default function MarginOfSafetyGauge({
       <div className="flex items-center justify-center gap-6 mt-3 text-sm">
         <div className="text-center">
           <div className="text-theme-muted text-xs">Fair Value</div>
-          <div className="font-semibold text-theme-primary">${fairValue.toFixed(2)}</div>
+          <div className="font-semibold text-theme-primary">{fmtPrice(fairValue)}</div>
         </div>
         <div className="text-theme-muted">vs</div>
         <div className="text-center">
           <div className="text-theme-muted text-xs">Aktuell</div>
-          <div className="font-semibold text-theme-primary">${currentPrice.toFixed(2)}</div>
+          <div className="font-semibold text-theme-primary">{fmtPrice(currentPrice)}</div>
         </div>
       </div>
     </div>
