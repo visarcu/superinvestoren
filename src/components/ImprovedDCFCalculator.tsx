@@ -9,12 +9,13 @@ import {
   SparklesIcon,
   LightBulbIcon
 } from '@heroicons/react/24/outline'
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine } from 'recharts'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 import { stocks } from '@/data/stocks'
 import Logo from '@/components/Logo'
 import MarginOfSafetyGauge from '@/components/MarginOfSafetyGauge'
+import { fmtPrice, fmtNum } from '@/utils/formatters'
 
 interface StockData {
   ticker: string
@@ -55,9 +56,12 @@ export default function ImprovedDCFCalculator() {
   const [targetFcfYield, setTargetFcfYield] = useState<string>('')
   const [desiredReturnCashFlow, setDesiredReturnCashFlow] = useState<string>('10')
 
+  // Core settings (visible)
+  const [projectionYears, setProjectionYears] = useState<string>('10')
+  const [marginOfSafety, setMarginOfSafety] = useState<number>(0)
+
   // Advanced settings
   const [showAdvanced, setShowAdvanced] = useState(false)
-  const [projectionYears, setProjectionYears] = useState<string>('5')
   const [growthDecayRate, setGrowthDecayRate] = useState<string>('0')
   const [terminalGrowthRate, setTerminalGrowthRate] = useState<string>('3')
 
@@ -230,21 +234,29 @@ export default function ImprovedDCFCalculator() {
     }
   }
 
-  // Auto-fill growth rates from historical data
+  // Auto-fill growth rates from historical data (echte Werte, nicht gekappt)
   const handleAutoFillGrowth = () => {
     if (!stockData) return
     if (mode === 'earnings') {
-      // Cap between 5% and 20% like GuruFocus
-      const cappedGrowth = Math.max(5, Math.min(20, stockData.epsGrowth5Y))
-      setEpsGrowthRate(cappedGrowth.toFixed(1))
-      // Also suggest a reasonable PE based on growth (PEG = 1 rule of thumb)
-      const suggestedPE = Math.max(10, Math.min(35, cappedGrowth * 1.5))
+      // Setze den echten 5Y-Durchschnitt - User kann selbst anpassen
+      const growth = stockData.epsGrowth5Y
+      setEpsGrowthRate(growth.toFixed(1))
+      // Suggest PE: Use current PE (capped range), leicht konservativ
+      const currentPE = stockData.peTTM
+      const suggestedPE = currentPE > 0
+        ? Math.max(10, Math.min(40, Math.round(currentPE * 0.9))) // 10% Abschlag auf aktuelle PE
+        : Math.max(10, Math.min(35, growth * 1.5))
       setTargetPE(suggestedPE.toFixed(0))
     } else {
-      const cappedGrowth = Math.max(5, Math.min(20, stockData.fcfGrowth5Y))
-      setFcfGrowthRate(cappedGrowth.toFixed(1))
-      // Suggest FCF yield based on typical ranges (3-8%)
-      setTargetFcfYield('4')
+      // Setze den echten 5Y FCF-Durchschnitt
+      const growth = stockData.fcfGrowth5Y
+      setFcfGrowthRate(growth.toFixed(1))
+      // Suggest FCF yield based on current yield (leicht höher = konservativer)
+      const currentYield = stockData.fcfYield
+      const suggestedYield = currentYield > 0
+        ? Math.max(2, Math.min(8, Math.round(currentYield * 1.1 * 10) / 10)) // 10% Aufschlag
+        : 4
+      setTargetFcfYield(suggestedYield.toFixed(1))
     }
   }
 
@@ -304,7 +316,10 @@ export default function ImprovedDCFCalculator() {
     const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
 
     // Entry price for desired return
-    const entryPrice = futurePrice / Math.pow(1 + desiredReturn, years)
+    const entryPriceRaw = futurePrice / Math.pow(1 + desiredReturn, years)
+
+    // Apply Margin of Safety
+    const entryPrice = entryPriceRaw * (1 - marginOfSafety / 100)
 
     // Upside/downside
     const upside = ((entryPrice - currentPrice) / currentPrice) * 100
@@ -315,10 +330,11 @@ export default function ImprovedDCFCalculator() {
       futurePrice,
       cagr: cagr * 100,
       entryPrice,
+      entryPriceRaw,
       upside,
       fairValue: entryPrice
     }
-  }, [stockData, epsInput, epsGrowthRate, targetPE, desiredReturnEarnings, years, decay, terminalGrowth])
+  }, [stockData, epsInput, epsGrowthRate, targetPE, desiredReturnEarnings, years, decay, terminalGrowth, marginOfSafety])
 
   // Calculate Cash Flow-based projections
   const cashFlowCalculation = useMemo(() => {
@@ -364,7 +380,10 @@ export default function ImprovedDCFCalculator() {
     const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
 
     // Entry price for desired return
-    const entryPrice = futurePrice / Math.pow(1 + desiredReturn, years)
+    const entryPriceRaw = futurePrice / Math.pow(1 + desiredReturn, years)
+
+    // Apply Margin of Safety
+    const entryPrice = entryPriceRaw * (1 - marginOfSafety / 100)
 
     // Upside/downside
     const upside = ((entryPrice - currentPrice) / currentPrice) * 100
@@ -375,10 +394,11 @@ export default function ImprovedDCFCalculator() {
       futurePrice,
       cagr: cagr * 100,
       entryPrice,
+      entryPriceRaw,
       upside,
       fairValue: entryPrice
     }
-  }, [stockData, fcfInput, fcfGrowthRate, targetFcfYield, desiredReturnCashFlow, years, decay, terminalGrowth])
+  }, [stockData, fcfInput, fcfGrowthRate, targetFcfYield, desiredReturnCashFlow, years, decay, terminalGrowth, marginOfSafety])
 
   // Get current calculation based on mode
   const currentCalculation = mode === 'earnings' ? earningsCalculation : cashFlowCalculation
@@ -455,7 +475,7 @@ export default function ImprovedDCFCalculator() {
           <Logo ticker={stockData.ticker} className="w-12 h-12" alt="" />
           <div className="text-center">
             <h2 className="text-xl font-semibold text-theme-primary">{stockData.name}</h2>
-            <p className="text-2xl font-bold text-theme-primary">${stockData.price.toFixed(2)}</p>
+            <p className="text-2xl font-bold text-theme-primary">{fmtPrice(stockData.price)}</p>
           </div>
         </div>
       )}
@@ -495,6 +515,56 @@ export default function ImprovedDCFCalculator() {
             <div className="bg-theme-card border border-theme rounded-xl p-6">
               <h3 className="text-lg font-semibold text-theme-primary mb-6">Annahmen</h3>
 
+              {/* Projection Years + Margin of Safety (shared across modes) */}
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                {/* Projection Years */}
+                <div>
+                  <label className="block text-sm text-theme-secondary mb-2">Projektionsjahre</label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setProjectionYears(String(Math.max(1, parseInt(projectionYears) - 1)))}
+                      className="w-9 h-9 flex items-center justify-center bg-theme-secondary hover:bg-theme-hover border border-theme rounded-lg text-theme-primary transition-colors text-lg font-medium"
+                    >
+                      −
+                    </button>
+                    <input
+                      type="text"
+                      value={projectionYears}
+                      onChange={(e) => setProjectionYears(e.target.value)}
+                      className="flex-1 border border-theme rounded-lg px-3 py-2 text-center text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none text-lg font-semibold"
+                    />
+                    <button
+                      onClick={() => setProjectionYears(String(Math.min(30, parseInt(projectionYears) + 1)))}
+                      className="w-9 h-9 flex items-center justify-center bg-theme-secondary hover:bg-theme-hover border border-theme rounded-lg text-theme-primary transition-colors text-lg font-medium"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                {/* Margin of Safety */}
+                <div>
+                  <label className="block text-sm text-theme-secondary mb-2">Margin of Safety</label>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setMarginOfSafety(Math.max(0, marginOfSafety - 5))}
+                      className="w-9 h-9 flex items-center justify-center bg-theme-secondary hover:bg-theme-hover border border-theme rounded-lg text-theme-primary transition-colors text-lg font-medium"
+                    >
+                      −
+                    </button>
+                    <div className="flex-1 border border-theme rounded-lg px-3 py-2 text-center text-theme-primary bg-theme-input text-lg font-semibold">
+                      {marginOfSafety}%
+                    </div>
+                    <button
+                      onClick={() => setMarginOfSafety(Math.min(50, marginOfSafety + 5))}
+                      className="w-9 h-9 flex items-center justify-center bg-theme-secondary hover:bg-theme-hover border border-theme rounded-lg text-theme-primary transition-colors text-lg font-medium"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+
               {mode === 'earnings' ? (
                 <>
                   {/* Current Earnings Info */}
@@ -503,16 +573,16 @@ export default function ImprovedDCFCalculator() {
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div>
                         <div className="text-xs text-theme-muted">EPS (TTM)</div>
-                        <div className="text-lg font-semibold text-theme-primary">${stockData.epsTTM.toFixed(2)}</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtPrice(stockData.epsTTM)}</div>
                       </div>
                       <div>
                         <div className="text-xs text-theme-muted">PE (TTM)</div>
-                        <div className="text-lg font-semibold text-theme-primary">{stockData.peTTM.toFixed(2)}</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtNum(stockData.peTTM)}</div>
                       </div>
                       <div>
-                        <div className="text-xs text-theme-muted">EPS Wachstum</div>
-                        <div className={`text-lg font-semibold ${stockData.epsGrowth >= 0 ? 'text-brand' : 'text-red-600'}`}>
-                          {stockData.epsGrowth.toFixed(1)}%
+                        <div className="text-xs text-theme-muted">EPS Wachstum (5J ⌀)</div>
+                        <div className={`text-lg font-semibold ${stockData.epsGrowth5Y >= 0 ? 'text-brand' : 'text-red-600'}`}>
+                          {fmtNum(stockData.epsGrowth5Y, 1)}%
                         </div>
                       </div>
                     </div>
@@ -527,7 +597,7 @@ export default function ImprovedDCFCalculator() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     5-Jahres Durchschnitt übernehmen
-                    <span className="text-xs text-theme-muted">({stockData.epsGrowth5Y.toFixed(1)}%)</span>
+                    <span className="text-xs text-theme-muted">({fmtNum(stockData.epsGrowth5Y, 1)}%)</span>
                   </button>
 
                   {/* EPS Input */}
@@ -610,16 +680,16 @@ export default function ImprovedDCFCalculator() {
                     <div className="grid grid-cols-3 gap-4 text-center">
                       <div>
                         <div className="text-xs text-theme-muted">FCF/Share (TTM)</div>
-                        <div className="text-lg font-semibold text-theme-primary">${stockData.fcfPerShare.toFixed(2)}</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtPrice(stockData.fcfPerShare)}</div>
                       </div>
                       <div>
                         <div className="text-xs text-theme-muted">FCF Yield (TTM)</div>
-                        <div className="text-lg font-semibold text-theme-primary">{stockData.fcfYield.toFixed(2)}%</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtNum(stockData.fcfYield)}%</div>
                       </div>
                       <div>
                         <div className="text-xs text-theme-muted">FCF Wachstum (5J)</div>
                         <div className={`text-lg font-semibold ${stockData.fcfGrowth5Y >= 0 ? 'text-brand' : 'text-red-600'}`}>
-                          {stockData.fcfGrowth5Y.toFixed(1)}%
+                          {fmtNum(stockData.fcfGrowth5Y, 1)}%
                         </div>
                       </div>
                     </div>
@@ -634,7 +704,7 @@ export default function ImprovedDCFCalculator() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                     </svg>
                     5-Jahres Durchschnitt übernehmen
-                    <span className="text-xs text-theme-muted">({stockData.fcfGrowth5Y.toFixed(1)}%)</span>
+                    <span className="text-xs text-theme-muted">({fmtNum(stockData.fcfGrowth5Y, 1)}%)</span>
                   </button>
 
                   {/* FCF Input */}
@@ -711,7 +781,7 @@ export default function ImprovedDCFCalculator() {
               )}
 
               {/* Advanced Settings */}
-              <div className="border-t border-theme pt-4 mt-4">
+              <div className="border-t border-theme pt-4 mt-2">
                 <button
                   onClick={() => setShowAdvanced(!showAdvanced)}
                   className="flex items-center justify-between w-full text-sm text-theme-secondary hover:text-theme-primary transition-colors"
@@ -726,18 +796,6 @@ export default function ImprovedDCFCalculator() {
 
                 {showAdvanced && (
                   <div className="mt-4 space-y-4">
-                    {/* Projection Years */}
-                    <div>
-                      <label className="block text-sm text-theme-secondary mb-2">Projektionsjahre</label>
-                      <input
-                        type="text"
-                        value={projectionYears}
-                        onChange={(e) => setProjectionYears(e.target.value)}
-                        className="w-full border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
-                      />
-                      <p className="text-xs text-theme-muted mt-1">Anzahl der Jahre für die Projektion (Standard: 5)</p>
-                    </div>
-
                     {/* Growth Decay Rate */}
                     <div>
                       <label className="block text-sm text-theme-secondary mb-2">Growth Decay Rate</label>
@@ -852,13 +910,13 @@ export default function ImprovedDCFCalculator() {
                     <div className="text-center p-3 border border-theme rounded-lg">
                       <div className="text-xs text-theme-muted mb-1">Erwartete CAGR</div>
                       <div className={`text-lg font-semibold ${currentCalculation.cagr >= 0 ? 'text-brand' : 'text-red-600'}`}>
-                        {currentCalculation.cagr.toFixed(1)}%
+                        {fmtNum(currentCalculation.cagr, 1)}%
                       </div>
                     </div>
                     <div className="text-center p-3 border border-theme rounded-lg">
                       <div className="text-xs text-theme-muted mb-1">Zielkurs ({years}J)</div>
                       <div className="text-lg font-semibold text-theme-primary">
-                        ${currentCalculation.futurePrice.toFixed(2)}
+                        {fmtPrice(currentCalculation.futurePrice)}
                       </div>
                     </div>
                   </div>
@@ -876,7 +934,7 @@ export default function ImprovedDCFCalculator() {
                         <YAxis
                           tick={{ fontSize: 12, fill: 'var(--color-text-muted)' }}
                           axisLine={{ stroke: 'var(--color-divider)' }}
-                          tickFormatter={(value) => `$${value.toFixed(0)}`}
+                          tickFormatter={(value) => `$${fmtNum(value, 0)}`}
                         />
                         <Tooltip
                           contentStyle={{
@@ -885,7 +943,20 @@ export default function ImprovedDCFCalculator() {
                             borderRadius: '8px',
                             boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
                           }}
-                          formatter={(value: number) => [`$${value.toFixed(2)}`, 'Kurs']}
+                          formatter={(value: number) => [`$${fmtNum(value)}`, 'Kurs']}
+                        />
+                        {/* Aktueller Kurs als Referenzlinie */}
+                        <ReferenceLine
+                          y={stockData.price}
+                          stroke="var(--color-text-muted)"
+                          strokeDasharray="6 4"
+                          strokeWidth={1.5}
+                          label={{
+                            value: `Aktuell: $${fmtNum(stockData.price, 0)}`,
+                            position: 'right',
+                            fill: 'var(--color-text-muted)',
+                            fontSize: 11,
+                          }}
                         />
                         <Line
                           type="monotone"
