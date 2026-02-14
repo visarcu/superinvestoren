@@ -60,7 +60,7 @@ export default function ImprovedDCFCalculator() {
   const [desiredReturnCashFlow, setDesiredReturnCashFlow] = useState<string>('10')
 
   // Core settings (visible)
-  const [projectionYears, setProjectionYears] = useState<string>('10')
+  const [projectionYears, setProjectionYears] = useState<number>(10)
   const [marginOfSafety, setMarginOfSafety] = useState<number>(0)
 
   // Advanced settings
@@ -104,7 +104,10 @@ export default function ImprovedDCFCalculator() {
         })
       })
 
-      if (!response.ok) throw new Error('AI analysis failed')
+      if (!response.ok) {
+        if (response.status === 403) throw new Error('Premium subscription required')
+        throw new Error('AI analysis failed')
+      }
       const data = await response.json()
       setAiInsights(data.response.content)
     } catch (err: any) {
@@ -144,7 +147,7 @@ export default function ImprovedDCFCalculator() {
             growthRate: parseDE(growth),
             exitMultiple: parseDE(multiple),
             terminalGrowth: parseDE(terminalGrowthRate),
-            projectionYears: parseInt(projectionYears)
+            projectionYears: projectionYears
           }
         })
       })
@@ -264,7 +267,7 @@ export default function ImprovedDCFCalculator() {
   }
 
   // Get parsed values for calculations
-  const years = parseInt(projectionYears) || 5
+  const years = projectionYears || 5
   const decay = parseDE(growthDecayRate) / 100 || 0
   const terminalGrowth = parseDE(terminalGrowthRate) / 100 || 0.03
 
@@ -525,19 +528,16 @@ export default function ImprovedDCFCalculator() {
                   <label className="block text-sm text-theme-secondary mb-2">Projektionsjahre</label>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => setProjectionYears(String(Math.max(1, parseInt(projectionYears) - 1)))}
+                      onClick={() => setProjectionYears(Math.max(1, projectionYears - 1))}
                       className="w-9 h-9 flex items-center justify-center bg-theme-secondary hover:bg-theme-hover border border-theme rounded-lg text-theme-primary transition-colors text-lg font-medium"
                     >
                       −
                     </button>
-                    <input
-                      type="text"
-                      value={projectionYears}
-                      onChange={(e) => setProjectionYears(e.target.value)}
-                      className="flex-1 border border-theme rounded-lg px-3 py-2 text-center text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none text-lg font-semibold"
-                    />
+                    <div className="flex-1 border border-theme rounded-lg px-3 py-2 text-center text-theme-primary bg-theme-input text-lg font-semibold">
+                      {projectionYears}
+                    </div>
                     <button
-                      onClick={() => setProjectionYears(String(Math.min(30, parseInt(projectionYears) + 1)))}
+                      onClick={() => setProjectionYears(Math.min(30, projectionYears + 1))}
                       className="w-9 h-9 flex items-center justify-center bg-theme-secondary hover:bg-theme-hover border border-theme rounded-lg text-theme-primary transition-colors text-lg font-medium"
                     >
                       +
@@ -1052,13 +1052,19 @@ export default function ImprovedDCFCalculator() {
                 </div>
               ) : aiError ? (
                 <div className="py-8 text-center">
-                  <p className="text-sm text-red-400">Analyse konnte nicht geladen werden.</p>
-                  <button
-                    onClick={() => stockData && loadAiInsights(stockData.ticker)}
-                    className="mt-4 px-4 py-2 bg-theme-secondary text-theme-primary rounded-lg text-xs font-bold"
-                  >
-                    Erneut versuchen
-                  </button>
+                  {aiError === 'Premium subscription required' ? (
+                    <p className="text-sm text-theme-muted">Für AI Valuation Insights wird ein Premium-Abonnement benötigt.</p>
+                  ) : (
+                    <>
+                      <p className="text-sm text-red-400">Analyse konnte nicht geladen werden.</p>
+                      <button
+                        onClick={() => stockData && loadAiInsights(stockData.ticker)}
+                        className="mt-4 px-4 py-2 bg-theme-secondary text-theme-primary rounded-lg text-xs font-bold"
+                      >
+                        Erneut versuchen
+                      </button>
+                    </>
+                  )}
                 </div>
               ) : (
                 <div className="py-8 text-center text-theme-muted text-sm italic">

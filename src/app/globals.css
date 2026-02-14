@@ -1304,10 +1304,7 @@ select optgroup {
   border-color: rgba(0, 0, 0, 0.15) !important;
 }
 
-/* Logo bars - darker in light mode */
-:root:not(.dark) [class*="bg-brand"]:not([class*="bg-brand/"]) {
-  background-color: #18181b !important;
-}
+/* Profile badge - darker in light mode (scoped to small badges only) */
 
 :root:not(.dark) [class*="bg-green-400"] {
   background-color: #374151 !important;

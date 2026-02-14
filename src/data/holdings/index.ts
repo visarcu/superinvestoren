@@ -267,6 +267,8 @@ import polen_2025_Q2 from './polen/2025-Q2.json'
 import polen_2025_Q3 from './polen/2025-Q3.json'
 import polen_2025_Q4 from './polen/2025-Q4.json'
 
+import polen_2026_Q1 from './polen/2026-Q1.json'
+
 
 //viking
 
@@ -359,6 +361,8 @@ import russo_2025_Q1 from './russo/2025-Q1.json'
 import russo_2025_Q2 from './russo/2025-Q2.json'
 import russo_2025_Q3 from './russo/2025-Q3.json'
 import russo_2025_Q4 from './russo/2025-Q4.json'
+
+import russo_2026_Q1 from './russo/2026-Q1.json'
 
 //armitage
 import armitage_2024_Q2 from './armitage/2024-Q2.json'
@@ -781,6 +785,8 @@ import whitman_2025_Q2 from './whitman/2025-Q2.json'
 import whitman_2025_Q3 from './whitman/2025-Q3.json'
 import whitman_2025_Q4 from './whitman/2025-Q4.json'
 
+import whitman_2026_Q1 from './whitman/2026-Q1.json'
+
 //patientcapital
 import patientcapital_2024_Q2 from './patientcapital/2024-Q2.json'
 import patientcapital_2024_Q3 from './patientcapital/2024-Q3.json'
@@ -817,6 +823,9 @@ import weitz_2024_Q4 from './weitz/2024-Q4.json'
 import weitz_2025_Q1 from './weitz/2025-Q1.json'
 import weitz_2025_Q2 from './weitz/2025-Q2.json'
 import weitz_2025_Q3 from './weitz/2025-Q3.json'
+import weitz_2025_Q4 from './weitz/2025-Q4.json'
+
+import weitz_2026_Q1 from './weitz/2026-Q1.json'
 
 //makaira
 import makaira_2024_Q2 from './makaira/2024-Q2.json'
@@ -906,6 +915,8 @@ import kahn_2025_Q1 from './kahn/2025-Q1.json'
 import kahn_2025_Q2 from './kahn/2025-Q2.json'
 import kahn_2025_Q3 from './kahn/2025-Q3.json'
 import kahn_2025_Q4 from './kahn/2025-Q4.json'
+
+import kahn_2026_Q1 from './kahn/2026-Q1.json'
 
 
 
@@ -1112,6 +1123,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: kahn_2025_Q2},
     {quarter: '2025-Q3', data: kahn_2025_Q3},
     {quarter: '2025-Q4', data: kahn_2025_Q4},
+
+    {quarter: '2026-Q1', data: kahn_2026_Q1},
     
    ],
 
@@ -1354,6 +1367,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q2', data: polen_2025_Q2},
     { quarter: '2025-Q3', data: polen_2025_Q3},
     { quarter: '2025-Q4', data: polen_2025_Q4},
+
+    { quarter: '2026-Q1', data: polen_2026_Q1},
    ],
 
       druckenmiller: [
@@ -1475,6 +1490,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q2', data: russo_2025_Q2},
     { quarter: '2025-Q3', data: russo_2025_Q3},
     { quarter: '2025-Q4', data: russo_2025_Q4},
+
+    { quarter: '2026-Q1', data: russo_2026_Q1},
    ],
 
    armitage: [
@@ -1893,6 +1910,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q1', data: weitz_2025_Q1},
     {quarter: '2025-Q2', data: weitz_2025_Q2},
     {quarter: '2025-Q3', data: weitz_2025_Q3},
+    {quarter: '2025-Q4', data: weitz_2025_Q4},
+
+    {quarter: '2026-Q1', data: weitz_2026_Q1},
    ],
 
    makaira: [
@@ -1976,7 +1996,10 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: whitman_2025_Q2},
     {quarter: '2025-Q3', data: whitman_2025_Q3},
     {quarter: '2025-Q4', data: whitman_2025_Q4},
-   ],
+
+    {quarter: '2026-Q1', data: whitman_2026_Q1},
+
+  ],
 
    greenbrier: [
     { quarter: '2024-Q2', data: greenbrier_2024_Q2},
