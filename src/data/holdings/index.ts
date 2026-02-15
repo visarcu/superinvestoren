@@ -82,6 +82,8 @@ import olstein_2025_Q2 from './olstein/2025-Q2.json'
 import olstein_2025_Q3 from './olstein/2025-Q3.json'
 import olstein_2025_Q4 from './olstein/2025-Q4.json'
 
+import olstein_2026_Q1 from './olstein/2026-Q1.json'
+
 //greenberg
 import greenberg_2024_Q1 from './greenberg/2024-Q1.json'
 import greenberg_2024_Q2 from './greenberg/2024-Q2.json'
@@ -638,6 +640,8 @@ import davis_2025_Q2 from './davis/2025-Q2.json'
 import davis_2025_Q3 from './davis/2025-Q3.json'
 import davis_2025_Q4 from './davis/2025-Q4.json'
 
+import davis_2026_Q1 from './davis/2026-Q1.json'
+
 //greenblatt
 import greenblatt_2024_Q1 from './greenblatt/2024-Q1.json'
 import greenblatt_2024_Q2 from './greenblatt/2024-Q2.json'
@@ -1114,6 +1118,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q2', data: olstein_2025_Q2},
     { quarter: '2025-Q3', data: olstein_2025_Q3},
     { quarter: '2025-Q4', data: olstein_2025_Q4},
+
+    { quarter: '2026-Q1', data: olstein_2026_Q1},
    
     // …
    ],
@@ -1823,8 +1829,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
 
    davis: [
-    //{quarter: '2023-Q1', data: davis_2023_Q1},
-    //{quarter: '2023-Q2', data: davis_2023_Q2},
+
     {quarter: '2023-Q3', data: davis_2023_Q3},
     {quarter: '2023-Q4', data: davis_2023_Q4},
 
@@ -1836,6 +1841,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
   {quarter: '2025-Q2', data: davis_2025_Q2},
   {quarter: '2025-Q3', data: davis_2025_Q3},
   {quarter: '2025-Q4', data: davis_2025_Q4},
+
+  {quarter: '2026-Q1', data: davis_2026_Q1},
    ],
 
    mairspower: [

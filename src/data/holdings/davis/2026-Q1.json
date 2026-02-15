@@ -1,0 +1,1531 @@
+{
+  "form": "13F-HR",
+  "date": "2026-02-02",
+  "period": "2026-02-02",
+  "accession": "0001036325-26-000004",
+  "quarterKey": "2026-Q1",
+  "positions": [
+    {
+      "name": "Capital One Financial Corp",
+      "cusip": "14040H105",
+      "shares": 8614766,
+      "value": 2087878344,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "U.S. Bancorp",
+      "cusip": "902973304",
+      "shares": 22041759,
+      "value": 1176148497,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Meta Platforms, Inc, Class A",
+      "cusip": "30303M102",
+      "shares": 1752974,
+      "value": 1157130854,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Applied Materials, Inc",
+      "cusip": "038222105",
+      "shares": 4201298,
+      "value": 1079695847,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "CVS Health Corporation",
+      "cusip": "126650100",
+      "shares": 12760511,
+      "value": 1012674950,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "MGM Resorts International",
+      "cusip": "552953101",
+      "shares": 26820202,
+      "value": 978669323,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Alphabet Inc, Class A",
+      "cusip": "02079K305",
+      "shares": 3118760,
+      "value": 976174798,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Viatris Inc",
+      "cusip": "92556V106",
+      "shares": 78177984,
+      "value": 973315913,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Markel Group, Inc",
+      "cusip": "570535104",
+      "shares": 415160,
+      "value": 892495821,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Coterra Energy, Inc",
+      "cusip": "127097103",
+      "shares": 32537508,
+      "value": 856387283,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Amazon.com, Inc",
+      "cusip": "023135106",
+      "shares": 3429262,
+      "value": 791545223,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Wells Fargo & Co.",
+      "cusip": "949746101",
+      "shares": 8258031,
+      "value": 769649182,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Tyson Foods Inc",
+      "cusip": "902494103",
+      "shares": 12827540,
+      "value": 751950994,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway Inc, Class A",
+      "cusip": "084670108",
+      "shares": 943,
+      "value": 711776400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Teck Resources Ltd, Class B",
+      "cusip": "878742204",
+      "shares": 12019609,
+      "value": 575619508,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Texas Instruments, Inc",
+      "cusip": "882508104",
+      "shares": 2853227,
+      "value": 495008831,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Solventum Corp",
+      "cusip": "83444M101",
+      "shares": 6220072,
+      "value": 492879705,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "UnitedHealth Group Inc",
+      "cusip": "91324P102",
+      "shares": 1273400,
+      "value": 420368751,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Berkshire Hathaway Inc, Class B",
+      "cusip": "084670702",
+      "shares": 739875,
+      "value": 371908140,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Chubb Ltd",
+      "cusip": "H1467J104",
+      "shares": 1186647,
+      "value": 370380411,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Trip.com Group Ltd, ADR",
+      "cusip": "89677Q107",
+      "shares": 5053389,
+      "value": 363389353,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Pinterest, Inc, Class A",
+      "cusip": "72352L106",
+      "shares": 11801983,
+      "value": 305553581,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Quest Diagnostics Inc",
+      "cusip": "74834L100",
+      "shares": 1589883,
+      "value": 275895498,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Restaurant Brands International, Inc",
+      "cusip": "76131D103",
+      "shares": 4020791,
+      "value": 274339592,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Owens Corning",
+      "cusip": "690742101",
+      "shares": 2046583,
+      "value": 229034800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Alphabet Inc, Class C",
+      "cusip": "02079K107",
+      "shares": 710963,
+      "value": 223101674,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "AGCO Corporation",
+      "cusip": "001084102",
+      "shares": 2048835,
+      "value": 213736210,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Cigna Group",
+      "cusip": "125523100",
+      "shares": 752852,
+      "value": 207212398,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Full Truck Alliance Co. Ltd, ADR",
+      "cusip": "35969L108",
+      "shares": 17537524,
+      "value": 188177633,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "JPMorgan Chase & Co.",
+      "cusip": "46625H100",
+      "shares": 571586,
+      "value": 184176369,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Davis Select U.S. Equity ETF",
+      "cusip": "23908L207",
+      "shares": 3384566,
+      "value": 173052858,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "JBS N.V., Class A",
+      "cusip": "N4732M103",
+      "shares": 11854741,
+      "value": 170945362,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "ConocoPhillips",
+      "cusip": "20825C104",
+      "shares": 1797887,
+      "value": 168301392,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "AppLovin Corp, Class A",
+      "cusip": "03831W108",
+      "shares": 247981,
+      "value": 167098339,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Fifth Third Bancorp",
+      "cusip": "316773100",
+      "shares": 2744310,
+      "value": 128461151,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Davis Select International ETF",
+      "cusip": "23908L405",
+      "shares": 3892451,
+      "value": 110934845,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "PNC Financial Services Group, Inc",
+      "cusip": "693475105",
+      "shares": 530089,
+      "value": 110645477,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Davis Select Financial ETF",
+      "cusip": "23908L108",
+      "shares": 2130361,
+      "value": 102960342,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "Darling Ingredients Inc",
+      "cusip": "237266101",
+      "shares": 2842306,
+      "value": 102323526,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "IAC Inc",
+      "cusip": "44891N208",
+      "shares": 2514072,
+      "value": 98300787,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Davis Select Worldwide ETF",
+      "cusip": "23908L306",
+      "shares": 1917460,
+      "value": 89430314,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "American Express Co.",
+      "cusip": "025816109",
+      "shares": 241700,
+      "value": 89416822,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Wesco International, Inc",
+      "cusip": "95082P105",
+      "shares": 364502,
+      "value": 89172369,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "RenaissanceRe Holdings Ltd",
+      "cusip": "G7496G103",
+      "shares": 229739,
+      "value": 64593417,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Bank of America Corp",
+      "cusip": "060505104",
+      "shares": 1149873,
+      "value": 63243015,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Loews Corp",
+      "cusip": "540424108",
+      "shares": 600046,
+      "value": 63190844,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Rocket Companies, Inc, Class A",
+      "cusip": "77311W101",
+      "shares": 3227910,
+      "value": 62492338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Chime Financial, Inc",
+      "cusip": "16935C109",
+      "shares": 2472106,
+      "value": 62222908,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Bank of New York Mellon Corp",
+      "cusip": "064058100",
+      "shares": 521722,
+      "value": 60566667,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "NetEase Inc - ADR",
+      "cusip": "64110W102",
+      "shares": 426164,
+      "value": 58649113,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Sea Ltd, Class A, ADR",
+      "cusip": "81141R100",
+      "shares": 436534,
+      "value": 55689027,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Bank of N.T. Butterfield & Son Limited",
+      "cusip": "G0772R208",
+      "shares": 1053710,
+      "value": 52495832,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Everest Group, Ltd",
+      "cusip": "G3223R108",
+      "shares": 118017,
+      "value": 40049069,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Fiserv, Inc",
+      "cusip": "337738108",
+      "shares": 568982,
+      "value": 38218521,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Vale S.A., ADR",
+      "cusip": "91912E105",
+      "shares": 2931198,
+      "value": 38193510,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Charles Schwab Corp",
+      "cusip": "808513105",
+      "shares": 301695,
+      "value": 30142347,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Microsoft Corp",
+      "cusip": "594918104",
+      "shares": 60801,
+      "value": 29405634,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "KE Holdings Inc, Class A, ADR",
+      "cusip": "482497104",
+      "shares": 1851804,
+      "value": 29184431,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "iShares S&P 500 Value Index Fund",
+      "cusip": "464287408",
+      "shares": 127053,
+      "value": 26944130,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "Johnson Controls International plc",
+      "cusip": "G51502105",
+      "shares": 209960,
+      "value": 25143113,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Prologis, Inc",
+      "cusip": "74340W103",
+      "shares": 180126,
+      "value": 22994885,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "NVIDIA Corp",
+      "cusip": "67066G104",
+      "shares": 111038,
+      "value": 20709251,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "State Street Corp",
+      "cusip": "857477103",
+      "shares": 143773,
+      "value": 18548155,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Equinix, Inc",
+      "cusip": "29444U700",
+      "shares": 20773,
+      "value": 15915442,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "BXP, Inc",
+      "cusip": "101121101",
+      "shares": 233910,
+      "value": 15784247,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Oracle Corporation",
+      "cusip": "68389X105",
+      "shares": 79416,
+      "value": 15479547,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Brixmor Property Group, Inc",
+      "cusip": "11120U105",
+      "shares": 555970,
+      "value": 14577533,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "AvalonBay Communities, Inc",
+      "cusip": "053484101",
+      "shares": 78840,
+      "value": 14294480,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "SAP SE - ADR",
+      "cusip": "803054204",
+      "shares": 56347,
+      "value": 13688124,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Rexford Industrial Realty, Inc",
+      "cusip": "76169C100",
+      "shares": 344830,
+      "value": 13351818,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Cousins Properties, Inc",
+      "cusip": "222795502",
+      "shares": 499615,
+      "value": 12880075,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "ANGI Inc, Class A",
+      "cusip": "00183L201",
+      "shares": 948993,
+      "value": 12270479,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Digital Realty Trust, Inc",
+      "cusip": "253868103",
+      "shares": 79250,
+      "value": 12260768,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Simon Property Group, Inc",
+      "cusip": "828806109",
+      "shares": 66183,
+      "value": 12251135,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Sunstone Hotel Investors, Inc",
+      "cusip": "867892101",
+      "shares": 1279610,
+      "value": 11439713,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Public Storage, Inc",
+      "cusip": "74460D109",
+      "shares": 43520,
+      "value": 11293440,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "M & T Bank Corp",
+      "cusip": "55261F104",
+      "shares": 55846,
+      "value": 11251852,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "American Tower Corp",
+      "cusip": "03027X100",
+      "shares": 63970,
+      "value": 11231213,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Noah Holdings Ltd, Class A, ADS",
+      "cusip": "65487X102",
+      "shares": 1021585,
+      "value": 10256713,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Camden Property Trust",
+      "cusip": "133131102",
+      "shares": 86930,
+      "value": 9569254,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Truist Financial Corp",
+      "cusip": "89832Q109",
+      "shares": 192053,
+      "value": 9450928,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "JD.com Inc, Class A, ADR",
+      "cusip": "47215P106",
+      "shares": 329221,
+      "value": 9448643,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Regency Centers Corporation",
+      "cusip": "758849103",
+      "shares": 136650,
+      "value": 9432950,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Eastgroup Properties, Inc",
+      "cusip": "277276101",
+      "shares": 51630,
+      "value": 9197368,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "American Homes 4 Rent - Class A",
+      "cusip": "02665T306",
+      "shares": 278610,
+      "value": 8943381,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Ventas, Inc",
+      "cusip": "92276F100",
+      "shares": 114410,
+      "value": 8853046,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Alexandria Real Estate Equities, Inc",
+      "cusip": "015271109",
+      "shares": 178127,
+      "value": 8717535,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Mid-America Apartment Communities, Inc",
+      "cusip": "59522J103",
+      "shares": 59380,
+      "value": 8248476,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "COPT Defense Properties",
+      "cusip": "22002T108",
+      "shares": 294740,
+      "value": 8193772,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Healthpeak Properties, Inc",
+      "cusip": "42250P103",
+      "shares": 435936,
+      "value": 7009851,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Terreno Realty Corp",
+      "cusip": "88146M101",
+      "shares": 117937,
+      "value": 6924081,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Equity Residential",
+      "cusip": "29476L107",
+      "shares": 104515,
+      "value": 6588626,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "VICI Properties, Inc",
+      "cusip": "925652109",
+      "shares": 216240,
+      "value": 6080669,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Community Healthcare Trust, Inc",
+      "cusip": "20369C106",
+      "shares": 325560,
+      "value": 5345695,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Sun Communities, Inc",
+      "cusip": "866674104",
+      "shares": 42840,
+      "value": 5308304,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Realty Income Corp",
+      "cusip": "756109104",
+      "shares": 91390,
+      "value": 5151654,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Essex Property Trust, Inc",
+      "cusip": "297178105",
+      "shares": 16511,
+      "value": 4320598,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "UDR, Inc",
+      "cusip": "902653104",
+      "shares": 113280,
+      "value": 4155110,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Synopsys, Inc",
+      "cusip": "871607107",
+      "shares": 8655,
+      "value": 4065427,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Crown Castle, Inc",
+      "cusip": "22822V101",
+      "shares": 42160,
+      "value": 3746759,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Extra Space Storage, Inc",
+      "cusip": "30225T102",
+      "shares": 27955,
+      "value": 3640300,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Hudson Pacific Properties, Inc",
+      "cusip": "444097406",
+      "shares": 324026,
+      "value": 3509202,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Douglas Emmett, Inc",
+      "cusip": "25960P109",
+      "shares": 309810,
+      "value": 3404812,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "NetSTREIT Corp",
+      "cusip": "64119V303",
+      "shares": 189600,
+      "value": 3344544,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "CubeSmart",
+      "cusip": "229663109",
+      "shares": 90930,
+      "value": 3278027,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Taiwan Semiconductor Manufacturing, ADR",
+      "cusip": "874039100",
+      "shares": 7200,
+      "value": 2188008,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ADR",
+      "putCall": null
+    },
+    {
+      "name": "Lam Research Corp",
+      "cusip": "512807306",
+      "shares": 12280,
+      "value": 2102090,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    },
+    {
+      "name": "Crown Holdings, Inc",
+      "cusip": "228368106",
+      "shares": 8570,
+      "value": 882453,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Common Stock",
+      "putCall": null
+    }
+  ],
+  "totalValue": 22249323816,
+  "positionsCount": 108,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 22249323816
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

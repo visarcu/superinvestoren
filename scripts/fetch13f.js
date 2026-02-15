@@ -201,7 +201,7 @@ async function run() {
 
   for (const [slug, cik] of Object.entries(investorCiks)) {
     // ✅ TANGEN AKTIVIEREN: Jetzt für AKO Capital (Tangen)
-    if (slug !== 'firsteagle' && slug !== 'gayner' && slug !== 'yacktman') continue
+    if (slug !== 'olstein' && slug !== 'davis' && slug !== 'vinall') continue
 
     const invDir = path.join(baseDir, slug)
     await fs.mkdir(invDir, { recursive: true })
