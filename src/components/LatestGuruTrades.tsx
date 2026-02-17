@@ -7,86 +7,125 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline'
 import holdingsHistory from '@/data/holdings'
 import { stocks } from '@/data/stocks'
 import { useCurrency } from '@/lib/CurrencyContext'
+import InvestorAvatar from '@/components/InvestorAvatar'
 
 // Investor Namen Mapping
 const investorNames: Record<string, string> = {
   buffett: 'Warren Buffett',
-  gates: 'Bill Gates Foundation',
-  einhorn: 'David Einhorn',
   ackman: 'Bill Ackman',
-  miller: 'Bill Miller',
-  burry: 'Michael Burry',
-  icahn: 'Carl Icahn',
-  loeb: 'Daniel Loeb',
-  tepper: 'David Tepper',
-  dalio: 'Ray Dalio',
-  klarman: 'Seth Klarman',
-  soros: 'George Soros',
-  bloomstran: 'Christopher Bloomstran',
+  gates: 'Bill Gates Foundation',
   torray: 'Torray Investment Partners',
   davis: 'Christopher Davis',
+  altarockpartners: 'Mark Massey',
   greenhaven: 'Edgar Wachenheim III',
+  vinall: 'Robert Vinall',
+  meridiancontrarian: 'Meridian Contrarian Fund',
   hawkins: 'Mason Hawkins',
+  olstein: 'Robert Olstein',
   peltz: 'Nelson Peltz',
+  gregalexander: 'Greg Alexander',
+  miller: 'Bill Miller',
+  tangen: 'Nicolai Tangen',
+  burry: 'Michael Burry',
+  pabrai: 'Mohnish Pabrai',
+  kantesaria: 'Dev Kantesaria',
+  greenblatt: 'Joel Greenblatt',
   fisher: 'Ken Fisher',
+  soros: 'George Soros',
+  haley: 'Connor Haley',
+  vandenberg: 'Arnold Van Den Berg',
   dodgecox: 'Dodge & Cox',
   pzena: 'Richard Pzena',
+  mairspower: 'Mairs & Power',
   weitz: 'Wallace Weitz',
+  yacktman: 'Yacktman Asset Management',
   gayner: 'Thomas Gayner',
-  akre: 'Chuck Akre',
+  armitage: 'John Armitage',
+  burn: 'Harry Burn',
+  cantillon: 'William von Mueffling',
+  jensen: 'Eric Schoenstein',
+  abrams: 'David Abrams',
+  firsteagle: 'First Eagle Investment',
+  polen: 'Polen Capital',
+  tarasoff: 'Josh Tarasoff',
+  rochon: 'Francois Rochon',
   russo: 'Thomas Russo',
+  akre: 'Chuck Akre',
+  triplefrond: 'Triple Frond Partners',
+  whitman: 'Marty Whitman',
+  patientcapital: 'Samantha McLemore',
+  klarman: 'Seth Klarman',
+  makaira: 'Tom Bancroft',
+  ketterer: 'Sarah Ketterer',
+  train: 'Lindsell Train',
   smith: 'Terry Smith',
   watsa: 'Prem Watsa',
+  lawrence: 'Bryan Lawrence',
   dorsey: 'Pat Dorsey',
   hohn: 'Chris Hohn',
+  hong: 'Dennis Hong',
+  kahn: 'Kahn Brothers Group',
   coleman: 'Chase Coleman',
+  dalio: 'Ray Dalio',
+  loeb: 'Daniel Loeb',
+  tepper: 'David Tepper',
+  icahn: 'Carl Icahn',
+  lilu: 'Li Lu',
+  ainslie: 'Lee Ainslie',
   greenberg: 'Glenn Greenberg',
   mandel: 'Stephen Mandel',
   marks: 'Howard Marks',
   rogers: 'John Rogers',
+  ariel_appreciation: 'Ariel Appreciation Fund',
+  ariel_focus: 'Ariel Focus Fund',
+  cunniff: 'Ruane, Cunniff & Goldfarb',
   spier: 'Guy Spier',
-  gregalexander: 'Greg Alexander'
+  chou: 'Francis Chou',
+  sosin: 'Clifford Sosin',
+  welling: 'Glenn Welling',
+  lou: 'Norbert Lou',
+  munger: 'Charlie Munger',
+  ark_investment_management: 'Catherine Wood',
+  druckenmiller: 'Stanley Druckenmiller',
+  thiel: 'Peter Thiel',
+  wyden: 'Adam Wyden',
+  ubben: 'Jeffrey Ubben',
+  brenton: 'Andrew Brenton',
+  martin: 'Fred Martin',
+  ellenbogen: 'Henry Ellenbogen',
+  greenbrier: 'Greenbrier Partners',
+  bares: 'Brian Bares',
+  duan: 'Duan Yongping',
+  einhorn: 'David Einhorn',
+  bloomstran: 'Chris Bloomstran',
+  viking: 'Ole Andreas Halvorsen',
+  cooperman: 'Leon Cooperman',
+  berkowitz: 'Bruce Berkowitz',
+  donaldsmith: 'Donald Smith & Co.',
+  muhlenkamp: 'Ronald Muhlenkamp',
+  rolfe: 'David Rolfe',
+  karr: 'Robert Karr',
+  roepers: 'Alex Roepers',
+  meritage: 'Nathaniel Simons',
+  vulcanvalue: 'C.T. Fitzpatrick',
+  hillmanvalue: 'Hillman Value Fund',
+  lee: 'Thomas Lee',
+  lountzis: 'Paul Lountzis',
+  nygren: 'Bill Nygren',
+  nygren_oakmark_select: 'Bill Nygren (Select)',
+  bobrinskoy: 'Charles Bobrinskoy',
+  baron_partners_fund: 'Ron Baron',
+  ark_innovation_etf: 'Catherine Wood (ARK)',
+  'samantha-mclemore': 'Samantha McLemore',
+  'tom-bancroft': 'Tom Bancroft',
+  cunniff_sequoia: 'Ruane Cunniff (Sequoia)',
+  katz: 'David Katz',
+  tweedy_browne_fund_inc: 'Tweedy Browne',
 }
 
-// Investor Images
+// Investor Images - alle folgen dem Muster /images/{slug}.png
 const getInvestorImage = (slug: string): string => {
-  const imageMap: Record<string, string> = {
-    buffett: 'buffett.png',
-    gates: 'gates.png',
-    einhorn: 'einhorn.png',
-    ackman: 'ackman.png',
-    miller: 'miller.png',
-    burry: 'burry.png',
-    icahn: 'icahn.png',
-    loeb: 'loeb.png',
-    tepper: 'tepper.png',
-    dalio: 'dalio.png',
-    klarman: 'klarman.png',
-    soros: 'soros.png',
-    bloomstran: 'bloomstran.png',
-    dodgecox: 'dodgecox.png',
-    fisher: 'fisher.png',
-    greenhaven: 'greenhaven.png',
-    peltz: 'peltz.png',
-    pzena: 'pzena.png',
-    smith: 'smith.png',
-    watsa: 'watsa.png',
-    dorsey: 'dorsey.png',
-    hohn: 'hohn.png',
-    coleman: 'coleman.png',
-    greenberg: 'greenberg.png',
-    mandel: 'mandel.png',
-    marks: 'marks.png',
-    rogers: 'rogers.png',
-    spier: 'spier.png',
-    akre: 'akre.png',
-    russo: 'russo.png',
-    gayner: 'gayner.png',
-    weitz: 'weitz.png',
-    gregalexander: 'gregalexander.png'
-  }
-
-  return imageMap[slug] ? `/images/${imageMap[slug]}` : '/images/default-investor.png'
+  return `/images/${slug}.png`
 }
 
 interface Trade {
@@ -270,13 +309,11 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
             <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-5 py-4 hover:bg-theme-hover/30 transition-colors border-b border-white/[0.04] last:border-b-0">
               {/* Single Row Layout */}
               <div className="flex items-center gap-3">
-                <img
-                  src={trade.investorImage}
-                  alt={trade.investorName}
-                  className="w-9 h-9 rounded-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/default-investor.png'
-                  }}
+                <InvestorAvatar
+                  name={trade.investorName}
+                  imageUrl={trade.investorImage}
+                  size="sm"
+                  className="ring-1 ring-white/10"
                 />
 
                 <div className="flex-1 min-w-0">
@@ -344,13 +381,10 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
           {latestTrades.slice(0, 5).map((trade, index) => (
             <div key={`${trade.investor}-${trade.ticker}-${index}`} className="px-4 py-3 hover:bg-theme-hover/30 transition-colors border-b border-white/[0.04] last:border-b-0">
               <div className="flex items-center gap-2.5">
-                <img
-                  src={trade.investorImage}
-                  alt={trade.investorName}
-                  className="w-7 h-7 rounded-full object-cover"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/default-investor.png'
-                  }}
+                <InvestorAvatar
+                  name={trade.investorName}
+                  imageUrl={trade.investorImage}
+                  size="sm"
                 />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1.5">
@@ -409,13 +443,11 @@ export default function LatestGuruTrades({ variant = 'full', limit }: Props) {
             >
               {/* Investor Avatar */}
               <Link href={`/superinvestor/${trade.investor}`}>
-                <img
-                  src={trade.investorImage}
-                  alt={trade.investorName}
-                  className="w-9 h-9 rounded-full object-cover ring-1 ring-white/10 group-hover:ring-white/20 transition-all"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src = '/images/default-investor.png'
-                  }}
+                <InvestorAvatar
+                  name={trade.investorName}
+                  imageUrl={trade.investorImage}
+                  size="sm"
+                  className="ring-1 ring-white/10 group-hover:ring-white/20 transition-all"
                 />
               </Link>
 
