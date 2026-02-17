@@ -99,6 +99,14 @@ Key environment variables needed:
 - Custom path alias `@/*` maps to `./src/*`
 - German language comments and content throughout the codebase
 - Financial data is cached and updated via scheduled scripts
-- die FinclueAI ist ein Thema das ich sowieso "neu angehen" bzw verbessern wollte. Soll ich dir sagen was ich machen will und wir legen schrittweise los?
-- ich will dioe FinancialAnalysisClient als nächstes verbessern vom design (nur vom design). Genau will ich die Charts optimieren und zwar fehlen da aktuell x und y achse und vll ein dezentes grid dass die charts aufwerten würde. Bitte die Charts dementsprechend optimieren.
-- Fehler beim Aktualisieren: Could not find the 'updated_at' column of 'portfolio_holdings' in the schema cache
+
+### Strikte Regeln
+- **NIEMALS Mock Data, Fake-Daten, Placeholder oder hardcoded Test-Daten verwenden.** Alle Daten müssen aus echten Quellen kommen (API, Datenbank, Holdings-Dateien). Keine hardcoded User-IDs, E-Mail-Adressen oder Test-Werte im Production Code.
+- **Keine Test/Debug API Routes erstellen.** Wenn Debugging nötig ist, über `console.log` im Dev-Modus lösen, nicht über eigene API-Endpoints.
+- **Keine Secrets oder Key-Prefixe loggen.** Nur boolean Checks (`!!process.env.KEY`) sind erlaubt.
+- **Alle API Routes müssen authentifiziert sein** (außer öffentliche Endpoints wie `/api/quotes`, `/api/investor`, `/api/newsletter/subscribe`).
+
+### Offene Aufgaben
+- FinclueAI neu angehen und verbessern
+- FinancialAnalysisClient Charts optimieren: X/Y Achsen und dezentes Grid hinzufügen
+- Fehler beheben: Could not find the 'updated_at' column of 'portfolio_holdings' in the schema cache
