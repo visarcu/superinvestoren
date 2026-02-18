@@ -37,6 +37,8 @@ import buffett_2025_Q2 from './buffett/2025-Q2.json'
 import buffett_2025_Q3 from './buffett/2025-Q3.json'
 import buffett_2025_Q4 from './buffett/2025-Q4.json'
 
+import buffett_2026_Q1 from './buffett/2026-Q1.json'
+
 //Bill Ackman
 import ackman_2023_Q1 from './ackman/2023-Q1.json'
 import ackman_2023_Q2 from './ackman/2023-Q2.json'
@@ -50,6 +52,8 @@ import ackman_2025_Q1 from './ackman/2025-Q1.json'
 import ackman_2025_Q2 from './ackman/2025-Q2.json'
 import ackman_2025_Q3 from './ackman/2025-Q3.json'
 import ackman_2025_Q4 from './ackman/2025-Q4.json'
+
+import ackman_2026_Q1 from './ackman/2026-Q1.json'
 
 //Marks
 
@@ -225,6 +229,8 @@ import tepper_2025_Q1 from './tepper/2025-Q1.json'
 import tepper_2025_Q2 from './tepper/2025-Q2.json'
 import tepper_2025_Q3 from './tepper/2025-Q3.json'
 import tepper_2025_Q4 from './tepper/2025-Q4.json'
+
+import tepper_2026_Q1 from './tepper/2026-Q1.json'
 
 //pabrai
 import pabrai_2024_Q1 from './pabrai/2024-Q1.json'
@@ -1078,6 +1084,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q3', data: buffett_2025_Q3},
     { quarter: '2025-Q4', data: buffett_2025_Q4},
 
+    { quarter: '2026-Q1', data: buffett_2026_Q1},
+
   ],
   ackman: [
     {quarter: '2023-Q1', data: ackman_2023_Q1},
@@ -1092,6 +1100,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: ackman_2025_Q2},
     {quarter: '2025-Q3', data: ackman_2025_Q3},
     {quarter: '2025-Q4', data: ackman_2025_Q4},
+
+    {quarter: '2026-Q1', data: ackman_2026_Q1},
     // …
    ],
 
@@ -1330,6 +1340,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: tepper_2025_Q2},
     {quarter: '2025-Q3', data: tepper_2025_Q3},
     {quarter: '2025-Q4', data: tepper_2025_Q4},
+
+    {quarter: '2026-Q1', data: tepper_2026_Q1},
    ],
 
    greenblatt: [
