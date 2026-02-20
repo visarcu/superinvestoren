@@ -1,0 +1,89 @@
+{
+  "form": "13F-HR",
+  "date": "2026-02-17",
+  "period": "2026-02-17",
+  "accession": "0001697591-26-000002",
+  "quarterKey": "2026-Q1",
+  "positions": [
+    {
+      "name": "CARVANA CO CL A",
+      "cusip": "146869102",
+      "shares": 4610200,
+      "value": 1945596604,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HILTON GRAND VACATIONS",
+      "cusip": "43283105",
+      "shares": 5317380,
+      "value": 237952755,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CAPITAL ONE FINANCIAL CORP",
+      "cusip": "14040H105",
+      "shares": 584125,
+      "value": 141568535,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LATHAM GROUP",
+      "cusip": "51819L107",
+      "shares": 942397,
+      "value": 5984221,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CARDLYTICS, INC",
+      "cusip": "14161105",
+      "shares": 5198067,
+      "value": 5977777,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 2337079892,
+  "positionsCount": 5,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 2337079892
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}
