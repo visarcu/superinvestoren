@@ -146,6 +146,10 @@ import burry_2025_Q2 from './burry/2025-Q2.json'
 import burry_2025_Q3 from './burry/2025-Q3.json'
 import burry_2025_Q4 from './burry/2025-Q4.json'
 
+  //  import burry_2026_Q1 from './burry/2026-Q1.json'
+
+
+
 //Li Lu
 import lilu_2024_Q4 from './lilu/2024-Q4.json'
 import lilu_2025_Q1 from './lilu/2025-Q1.json'
@@ -870,6 +874,8 @@ import dodgecox_2025_Q2 from './dodgecox/2025-Q2.json'
 import dodgecox_2025_Q3 from './dodgecox/2025-Q3.json'
 import dodgecox_2025_Q4 from './dodgecox/2025-Q4.json'
 
+import dodgecox_2026_Q1 from './dodgecox/2026-Q1.json'
+
 //whitman
 import whitman_2024_Q2 from './whitman/2024-Q2.json'
 import whitman_2024_Q3 from './whitman/2024-Q3.json'
@@ -987,6 +993,8 @@ import pzena_2025_Q1 from './pzena/2025-Q1.json'
 import pzena_2025_Q2 from './pzena/2025-Q2.json'
 import pzena_2025_Q3 from './pzena/2025-Q3.json'
 import pzena_2025_Q4 from './pzena/2025-Q4.json'
+
+  import pzena_2026_Q1 from './pzena/2026-Q1.json'
 
 
 
@@ -1298,6 +1306,10 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    {quarter: '2025-Q2', data: burry_2025_Q2 },
    {quarter: '2025-Q3', data: burry_2025_Q3 },
    {quarter: '2025-Q4', data: burry_2025_Q4 },
+
+  // {quarter: '2026-Q1', data: burry_2026_Q1 },
+
+
    ],
 
     lilu: [
@@ -1456,6 +1468,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: pzena_2025_Q2},
     {quarter: '2025-Q3', data: pzena_2025_Q3},
     {quarter: '2025-Q4', data: pzena_2025_Q4},
+
+      {quarter: '2026-Q1', data: pzena_2026_Q1},
+   
    ],
 
    haley: [
@@ -2191,6 +2206,8 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q2', data: dodgecox_2025_Q2},
     { quarter: '2025-Q3', data: dodgecox_2025_Q3},
   { quarter: '2025-Q4', data: dodgecox_2025_Q4},
+
+  { quarter: '2026-Q1', data: dodgecox_2026_Q1},
    ],
 
    whitman: [
