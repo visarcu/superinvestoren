@@ -133,7 +133,7 @@ export default function PortfolioValueChart({
               chartView === 'performance' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
             }`}
           >
-            Performance vs. S&P 500
+            Performance vs. S&amp;P 500 (TWR)
           </button>
         </div>
 
@@ -159,7 +159,7 @@ export default function PortfolioValueChart({
         <div className="flex gap-6 mb-3">
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-emerald-400 rounded-full" />
-            <span className="text-xs text-neutral-400">Portfolio</span>
+            <span className="text-xs text-neutral-400">Portfolio (TWR)</span>
             <span className={`text-xs font-medium ${lastPerf.portfolioPerformance >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {lastPerf.portfolioPerformance >= 0 ? '+' : ''}{lastPerf.portfolioPerformance.toFixed(2)}%
             </span>
@@ -268,7 +268,7 @@ export default function PortfolioValueChart({
                     fontSize: '12px'
                   }}
                   formatter={(value: number, name: string) => {
-                    const label = name === 'portfolioPerformance' ? 'Portfolio' : 'S&P 500'
+                    const label = name === 'portfolioPerformance' ? 'Portfolio (TWR)' : 'S&P 500'
                     return [`${value >= 0 ? '+' : ''}${value.toFixed(2)}%`, label]
                   }}
                 />
