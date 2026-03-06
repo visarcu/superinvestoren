@@ -117,7 +117,7 @@ export default function ChartCanvas({
 
   if (visibleMetrics.length === 0 && !loading) {
     return (
-      <div className="flex-1 flex items-center justify-center">
+      <div className="h-full flex items-center justify-center">
         <div className="text-center">
           <svg className="w-16 h-16 mx-auto mb-4 text-theme-muted opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
             <path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
@@ -140,11 +140,16 @@ export default function ChartCanvas({
   const effectiveLeftUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : leftAxisUnit
   const effectiveRightUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : rightAxisUnit
 
-  // Determine tick count based on data density
-  const xTickCount = chartData.length <= 6 ? chartData.length : undefined
+  // Determine X-axis interval: show all ticks for sparse data (annual/quarterly),
+  // use auto for dense data (daily prices)
+  const xAxisInterval = useMemo(() => {
+    if (chartData.length <= 15) return 0 // Show every label for annual/quarterly data
+    if (chartData.length <= 30) return 1 // Every other label
+    return 'preserveStartEnd' as const
+  }, [chartData.length])
 
   return (
-    <div className="flex-1 relative" id="chart-builder-canvas">
+    <div className="h-full relative" id="chart-builder-canvas">
       {/* Loading overlay */}
       {loading && (
         <div className="absolute inset-0 bg-theme-primary/60 backdrop-blur-[1px] z-10 flex items-center justify-center">
@@ -162,7 +167,7 @@ export default function ChartCanvas({
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={chartData}
-            margin={{ top: 16, right: hasRightAxis ? 70 : 50, left: 10, bottom: 8 }}
+            margin={{ top: 16, right: hasRightAxis ? 70 : 50, left: 10, bottom: 20 }}
           >
             {/* Grid: subtle horizontal lines, very faint verticals */}
             <CartesianGrid
@@ -177,19 +182,22 @@ export default function ChartCanvas({
             {/* X-Axis */}
             <XAxis
               dataKey="date"
-              axisLine={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }}
+              axisLine={{ stroke: 'rgba(255,255,255,0.12)', strokeWidth: 1 }}
               tickLine={{ stroke: 'rgba(255,255,255,0.08)' }}
-              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
+              tick={{ fill: 'rgba(255,255,255,0.45)', fontSize: 11, fontWeight: 500 }}
               tickFormatter={(value: string) => {
+                // Annual: "2023"
                 if (value.length <= 4) return value
+                // Quarterly: "Q1 2023"
                 if (value.startsWith('Q')) return value
+                // Daily: "Mär 25"
                 const date = new Date(value)
                 return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
               }}
-              tickCount={xTickCount}
-              interval="preserveStartEnd"
-              minTickGap={60}
-              dy={6}
+              interval={xAxisInterval}
+              minTickGap={40}
+              dy={8}
+              padding={{ left: 10, right: 10 }}
             />
 
             {/* Left Y-Axis */}
