@@ -234,6 +234,32 @@ function getXAxisInterval(dataLength: number): number {
   return Math.floor(dataLength / 5)
 }
 
+// ✅ YoY Calculator: Veränderung zum Vorjahr (gleiche Logik wie im Modal)
+const PERCENT_METRICS_OVERVIEW = ['returnOnEquity', 'profitMargin']
+
+const calculateYoYOverview = (data: any[], key: string, index: number, isQuarterly: boolean = false): number | null => {
+  const offset = isQuarterly ? 4 : 1
+  const prevIndex = index - offset
+  if (prevIndex < 0 || !data[index] || !data[prevIndex]) return null
+  const current = data[index][key]
+  const previous = data[prevIndex][key]
+  if (current == null || previous == null) return null
+  if (PERCENT_METRICS_OVERVIEW.includes(key)) {
+    return (current - previous) * 100
+  }
+  if (previous === 0) return null
+  return ((current - previous) / Math.abs(previous)) * 100
+}
+
+// ✅ Tooltip-Container Style für Overview-Charts (dunkel, funktioniert auf jedem Theme)
+const overviewTooltipStyle: React.CSSProperties = {
+  backgroundColor: 'rgba(15, 23, 42, 0.95)',
+  border: '1px solid rgba(148, 163, 184, 0.2)',
+  borderRadius: '10px',
+  padding: '10px 14px',
+  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
+}
+
 // ─── Type Definitions ───────────────────────────────────────────────────────────
 type MetricKey =
   | 'revenue'
@@ -614,9 +640,10 @@ interface ChartCardProps {
   gradient?: string
   onExpand: () => void
   isPremium: boolean
+  period?: 'annual' | 'quarterly'
 }
 
-function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium }: ChartCardProps) {
+function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium, period }: ChartCardProps) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
 
   if (!isPremium) {
@@ -743,12 +770,18 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               width={35}
               domain={[0, 'dataMax']}
             />
-            <RechartsTooltip 
+            <RechartsTooltip
               cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload?.[0]) return null
                 const value = payload[0].value as number
-                
+                const isQuarterly = period === 'quarterly'
+
+                // YoY berechnen
+                const dataIndex = data.findIndex(d => d.label === label)
+                const yoy = dataIndex >= 0 ? calculateYoYOverview(data, metricKey, dataIndex, isQuarterly) : null
+                const isPercentMetric = PERCENT_METRICS_OVERVIEW.includes(metricKey)
+
                 let formattedValue = ''
                 if (metricKey === 'returnOnEquity') {
                   formattedValue = `${new Intl.NumberFormat('de-DE', {
@@ -767,9 +800,19 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                 }
 
                 return (
-                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
-                    <p className="text-theme-primary text-sm font-medium">{formattedValue}</p>
+                  <div style={overviewTooltipStyle}>
+                    <p style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '3px' }}>{label}</p>
+                    <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600 }}>{formattedValue}</p>
+                    {yoy !== null && (
+                      <p style={{
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        marginTop: '3px',
+                        color: yoy >= 0 ? '#4ade80' : '#f87171'
+                      }}>
+                        {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)}{isPercentMetric ? ' Pp.' : '%'} gg. Vj.
+                      </p>
+                    )}
                   </div>
                 )
               }}
@@ -816,7 +859,7 @@ function PremiumLockedChart({ title, onExpand }: { title: string, onExpand: () =
   )
 }
 
-function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
+function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[], onExpand: () => void, isPremium: boolean, period?: 'annual' | 'quarterly' }) {
   if (!isPremium) {
     return <PremiumLockedChart title="Gewinnmarge" onExpand={onExpand} />
   }
@@ -879,24 +922,38 @@ function ProfitMarginChart({ data, onExpand, isPremium }: { data: any[], onExpan
               width={35}
               domain={['dataMin', 'dataMax']}
             />
-            <RechartsTooltip 
+            <RechartsTooltip
               cursor={false}
               content={({ active, payload, label }) => {
                 if (!active || !payload?.[0]) return null
                 const value = payload[0].value as number
+                const isQuarterly = period === 'quarterly'
+                const dataIndex = validData.findIndex(d => d.label === label)
+                const yoy = dataIndex >= 0 ? calculateYoYOverview(validData, 'profitMargin', dataIndex, isQuarterly) : null
+
                 return (
-                  <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm">
-                    <p className="text-theme-secondary text-xs mb-1">{label}</p>
-                    <p className="text-theme-primary text-sm font-medium">
+                  <div style={overviewTooltipStyle}>
+                    <p style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '3px' }}>{label}</p>
+                    <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600 }}>
                       {(value * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
                     </p>
+                    {yoy !== null && (
+                      <p style={{
+                        fontSize: '11px',
+                        fontWeight: 600,
+                        marginTop: '3px',
+                        color: yoy >= 0 ? '#4ade80' : '#f87171'
+                      }}>
+                        {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)} Pp. gg. Vj.
+                      </p>
+                    )}
                   </div>
                 )
               }}
             />
-            <Bar 
-              dataKey="profitMargin" 
-              fill="#F97316" 
+            <Bar
+              dataKey="profitMargin"
+              fill="#F97316"
               radius={[2, 2, 0, 0]}
             />
           </BarChart>
@@ -2259,6 +2316,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 gradient={metric.gradient}
                 onExpand={() => setFullscreen(metricKey)}
                 isPremium={isPremium}
+                period={period}
               />
             )
           }
@@ -2294,11 +2352,12 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               )
             case 'profitMargin':
               return (
-                <ProfitMarginChart 
+                <ProfitMarginChart
                   key={metricKey}
-                  data={data} 
+                  data={data}
                   onExpand={() => setFullscreen('profitMargin')}
                   isPremium={isPremium}
+                  period={period}
                 />
               )
             case 'valuationMetrics':

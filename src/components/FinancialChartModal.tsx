@@ -81,6 +81,23 @@ const calculateYoY = (data: any[], key: string, index: number, isQuarterly: bool
   return ((current - previous) / Math.abs(previous)) * 100
 }
 
+// ✅ Growth-Daten Transformation: Berechnet YoY-Wachstumsraten pro Datenpunkt
+const transformToGrowthData = (data: any[], key: string, isQuarterly: boolean) => {
+  const offset = isQuarterly ? 4 : 1
+  return data.map((item, index) => {
+    const yoy = calculateYoY(data, key, index, isQuarterly)
+    return { ...item, [`${key}_growth`]: yoy }
+  }).slice(offset) // Erste Einträge ohne Vergleichswert entfernen
+}
+
+// ✅ Median-Berechnung für Referenzlinie
+const calculateMedian = (data: any[], key: string): number | null => {
+  const values = data.map(d => d[key]).filter(v => v != null && v !== 0).sort((a: number, b: number) => a - b)
+  if (values.length < 3) return null
+  const mid = Math.floor(values.length / 2)
+  return values.length % 2 !== 0 ? values[mid] : (values[mid - 1] + values[mid]) / 2
+}
+
 // ✅ Tooltip-Container Style (dunkel, funktioniert auf jedem Theme)
 const tooltipContainerStyle: React.CSSProperties = {
   backgroundColor: 'rgba(15, 23, 42, 0.95)',
@@ -369,6 +386,7 @@ export default function FinancialChartModal({
   const [data, setData] = useState<any[]>([])
   const [segmentData, setSegmentData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
+  const [viewMode, setViewMode] = useState<'absolute' | 'growth'>('absolute')
   
   const { currency, formatCurrency, formatAxisValueDE, formatStockPrice } = useCurrency()
 
@@ -438,6 +456,11 @@ export default function FinancialChartModal({
     ? calculateYoY(data, metricKey, data.length - 1, isQuarterly)
     : null
 
+  // ✅ Historischer Median (nur für absolute Ansicht, nicht bei Segment-/Valuations-Charts)
+  const NO_GROWTH_TOGGLE = ['revenueSegments', 'geographicSegments', 'valuationMetrics', 'cashDebt', 'pe']
+  const supportsGrowthView = metricKey && !NO_GROWTH_TOGGLE.includes(metricKey)
+  const historicalMedian = supportsGrowthView ? calculateMedian(data, metricKey) : null
+
   // ✅ Dynamische X-Achsen Konfiguration basierend auf Datenmenge
   const getXAxisConfig = (dataLength: number) => {
     if (dataLength > 30) {
@@ -486,6 +509,32 @@ export default function FinancialChartModal({
           </div>
           
           <div className="flex items-center gap-3">
+            {/* Growth Toggle - Nur für unterstützte Charts */}
+            {supportsGrowthView && (
+              <div className="flex bg-theme-tertiary rounded-lg p-0.5 border border-theme">
+                <button
+                  onClick={() => setViewMode('absolute')}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
+                    viewMode === 'absolute'
+                      ? 'bg-brand text-white shadow-sm'
+                      : 'text-theme-secondary hover:text-theme-primary'
+                  }`}
+                >
+                  Absolut
+                </button>
+                <button
+                  onClick={() => setViewMode('growth')}
+                  className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all duration-200 ${
+                    viewMode === 'growth'
+                      ? 'bg-brand text-white shadow-sm'
+                      : 'text-theme-secondary hover:text-theme-primary'
+                  }`}
+                >
+                  Wachstum
+                </button>
+              </div>
+            )}
+
             {/* Years Selector - QUALTRIM STYLE DROPDOWN */}
             <select
               value={years}
@@ -689,15 +738,72 @@ export default function FinancialChartModal({
                     )
                   }
 
-                  // ✅ PROFIT MARGIN CHART
+                  // ✅ PROFIT MARGIN CHART (mit Median + Growth-Modus)
                   if (metricKey === 'profitMargin') {
                     const validData = data.filter(d => d.profitMargin !== undefined && d.profitMargin !== null)
-                    
+                    const marginMedian = calculateMedian(validData, 'profitMargin')
+
+                    // Growth-Modus: Pp.-Veränderung
+                    if (viewMode === 'growth') {
+                      const growthData = transformToGrowthData(validData, 'profitMargin', isQuarterly)
+                      const growthKey = 'profitMargin_growth'
+                      return (
+                        <BarChart data={growthData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
+                          <XAxis
+                            dataKey="label"
+                            axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                            tickLine={false}
+                            tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                            angle={xAxisConfig.angle}
+                            textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                            height={70}
+                            interval={xAxisConfig.interval}
+                          />
+                          <YAxis
+                            axisLine={false}
+                            tickLine={false}
+                            tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                            tickFormatter={(v) => `${v >= 0 ? '+' : ''}${v.toFixed(1)} Pp.`}
+                            width={70}
+                            domain={['dataMin', 'dataMax']}
+                          />
+                          <ReferenceLine y={0} stroke="rgba(148, 163, 184, 0.5)" strokeWidth={1.5} />
+                          <RechartsTooltip
+                            content={({ active, payload, label }) => {
+                              if (!active || !payload?.[0]) return null
+                              const val = payload[0].value as number
+                              return (
+                                <div style={tooltipContainerStyle}>
+                                  <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                                  <p style={{ color: val != null && val >= 0 ? '#4ade80' : '#f87171', fontSize: '14px', fontWeight: 600 }}>
+                                    {val != null ? `${val >= 0 ? '+' : ''}${val.toFixed(1)} Pp. gg. Vorjahr` : '—'}
+                                  </p>
+                                </div>
+                              )
+                            }}
+                          />
+                          <Bar
+                            dataKey={growthKey}
+                            name="Δ Gewinnmarge"
+                            radius={[3, 3, 0, 0]}
+                            fill="rgba(249, 115, 22, 0.8)"
+                            shape={(props: any) => {
+                              const { x, y, width, height, payload } = props
+                              const value = payload[growthKey]
+                              const fill = value != null && value >= 0 ? 'rgba(74, 222, 128, 0.8)' : 'rgba(248, 113, 113, 0.8)'
+                              return <rect x={x} y={y} width={width} height={height} fill={fill} rx={3} ry={3} />
+                            }}
+                          />
+                        </BarChart>
+                      )
+                    }
+
                     return (
                       <BarChart data={validData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
-                        <XAxis 
-                          dataKey="label" 
+                        <XAxis
+                          dataKey="label"
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
                           tickLine={false}
                           tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
@@ -706,7 +812,7 @@ export default function FinancialChartModal({
                           height={70}
                           interval={xAxisConfig.interval}
                         />
-                        <YAxis 
+                        <YAxis
                           axisLine={false}
                           tickLine={false}
                           tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
@@ -714,6 +820,15 @@ export default function FinancialChartModal({
                           width={60}
                           domain={['dataMin - 0.05', 'dataMax + 0.05']}
                         />
+                        {marginMedian !== null && (
+                          <ReferenceLine
+                            y={marginMedian}
+                            stroke="rgba(148, 163, 184, 0.5)"
+                            strokeDasharray="6 4"
+                            strokeWidth={1.5}
+                            label={{ value: `Median ${(marginMedian * 100).toFixed(1)}%`, position: 'right', fontSize: 10, fill: '#94a3b8' }}
+                          />
+                        )}
                         <RechartsTooltip
                           content={({ active, payload, label }) => {
                             if (!active || !payload?.[0]) return null
@@ -858,12 +973,75 @@ export default function FinancialChartModal({
                     )
                   }
                   
-                  // ✅ STANDARD BAR CHART
+                  // ✅ STANDARD BAR CHART (mit Growth-Modus + Median)
+                  if (viewMode === 'growth' && supportsGrowthView) {
+                    const growthData = transformToGrowthData(data, metricKey, isQuarterly)
+                    const growthKey = `${metricKey}_growth`
+                    const isPercentMetric = PERCENT_METRICS.includes(metricKey)
+
+                    return (
+                      <BarChart data={growthData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
+                        <XAxis
+                          dataKey="label"
+                          axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+                          tickLine={false}
+                          tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
+                          angle={xAxisConfig.angle}
+                          textAnchor={xAxisConfig.angle ? "end" : "middle"}
+                          height={70}
+                          interval={xAxisConfig.interval}
+                        />
+                        <YAxis
+                          tickFormatter={(v: number) => `${v >= 0 ? '+' : ''}${v.toFixed(0)}${isPercentMetric ? ' Pp.' : '%'}`}
+                          axisLine={false}
+                          tickLine={false}
+                          tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
+                          width={70}
+                          domain={['dataMin', 'dataMax']}
+                        />
+                        <ReferenceLine y={0} stroke="rgba(148, 163, 184, 0.5)" strokeWidth={1.5} />
+                        <RechartsTooltip
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload?.[0]) return null
+                            const val = payload[0].value as number
+                            return (
+                              <div style={tooltipContainerStyle}>
+                                <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                                <p style={{
+                                  color: val != null && val >= 0 ? '#4ade80' : '#f87171',
+                                  fontSize: '14px',
+                                  fontWeight: 600
+                                }}>
+                                  {val != null
+                                    ? `${val >= 0 ? '+' : ''}${val.toFixed(1)}${isPercentMetric ? ' Pp.' : '%'} gg. Vorjahr`
+                                    : '—'}
+                                </p>
+                              </div>
+                            )
+                          }}
+                        />
+                        <Bar
+                          dataKey={growthKey}
+                          name={`${metricName} Wachstum`}
+                          radius={[3, 3, 0, 0]}
+                          fill={metric?.fill || 'rgba(59, 130, 246, 0.8)'}
+                          shape={(props: any) => {
+                            const { x, y, width, height, payload } = props
+                            const value = payload[growthKey]
+                            const fill = value != null && value >= 0 ? 'rgba(74, 222, 128, 0.8)' : 'rgba(248, 113, 113, 0.8)'
+                            return <rect x={x} y={y} width={width} height={height} fill={fill} rx={3} ry={3} />
+                          }}
+                        />
+                      </BarChart>
+                    )
+                  }
+
                   return (
                     <BarChart data={data} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
                       <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
-                      <XAxis 
-                        dataKey="label" 
+                      <XAxis
+                        dataKey="label"
                         axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
                         tickLine={false}
                         tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
@@ -884,13 +1062,33 @@ export default function FinancialChartModal({
                         tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                         width={70}
                       />
+                      {historicalMedian !== null && (
+                        <ReferenceLine
+                          y={historicalMedian}
+                          stroke="rgba(148, 163, 184, 0.5)"
+                          strokeDasharray="6 4"
+                          strokeWidth={1.5}
+                          label={{
+                            value: metricKey === 'returnOnEquity'
+                              ? `Median ${(historicalMedian * 100).toFixed(1)}%`
+                              : metricKey === 'eps' || metricKey === 'dividendPS'
+                                ? `Median ${historicalMedian.toFixed(2)}`
+                                : metricKey === 'sharesOutstanding'
+                                  ? `Median ${(historicalMedian / 1e9).toFixed(1)}B`
+                                  : `Median`,
+                            position: 'right',
+                            fontSize: 10,
+                            fill: '#94a3b8'
+                          }}
+                        />
+                      )}
                       <RechartsTooltip
                         content={({ active, payload, label }) => {
                           if (!active || !payload?.[0]) return null
                           const value = payload[0].value as number
                           const dataIndex = data.findIndex(d => d.label === label)
                           const yoy = calculateYoY(data, metricKey, dataIndex, isQuarterly)
-                          const isPercentMetric = metricKey === 'returnOnEquity' || metricKey === 'profitMargin'
+                          const isPercentMetric = PERCENT_METRICS.includes(metricKey)
 
                           let formattedValue = ''
                           if (metricKey === 'returnOnEquity') formattedValue = `${(value * 100).toFixed(1)}%`
