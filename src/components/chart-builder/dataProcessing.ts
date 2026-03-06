@@ -56,7 +56,12 @@ export function extractMetricTimeSeries(
   return sorted
     .filter(r => {
       const val = r[metricDef.field]
-      return val !== null && val !== undefined && val !== 0
+      if (val === null || val === undefined || val === 0) return false
+      // Filter out negative valuation multiples (meaningless when earnings are negative)
+      if (metricDef.unit === 'multiple' && val < 0) return false
+      // Filter out extreme outliers for multiples (> 500x is noise)
+      if (metricDef.unit === 'multiple' && Math.abs(val) > 500) return false
+      return true
     })
     .map(r => ({
       date: getDateLabel(r, granularity),
