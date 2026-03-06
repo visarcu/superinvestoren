@@ -1,11 +1,11 @@
 // src/app/analyse/compare/page.tsx
-import StockComparisonPage from '@/components/StockComparisonPage'
+import ChartBuilder from '@/components/chart-builder/ChartBuilder'
 
 export const metadata = {
-  title: 'Aktien-Vergleich | Finclue',
-  description: 'Vergleiche mehrere Aktien mit verschiedenen Kennzahlen',
+  title: 'Chart Builder | Finclue',
+  description: 'Erstelle benutzerdefinierte Charts mit mehreren Kennzahlen und Metriken',
 }
 
 export default function ComparePage() {
-  return <StockComparisonPage />
+  return <ChartBuilder />
 }
