@@ -40,6 +40,7 @@ export interface StockFinancialData {
   historicalPrices?: { date: string; close: number }[]
   fetchedAt: number
   granularity: Granularity
+  yearsLoaded: number
 }
 
 export interface ChartDataPoint {

@@ -56,17 +56,22 @@ export function extractMetricTimeSeries(
   return sorted
     .filter(r => {
       const val = r[metricDef.field]
-      if (val === null || val === undefined || val === 0) return false
-      // Filter out negative valuation multiples (meaningless when earnings are negative)
-      if (metricDef.unit === 'multiple' && val < 0) return false
-      // Filter out extreme outliers for multiples (> 500x is noise)
-      if (metricDef.unit === 'multiple' && Math.abs(val) > 500) return false
+      if (val === null || val === undefined) return false
+      // Filter out exact zeros (no data)
+      if (val === 0) return false
       return true
     })
-    .map(r => ({
-      date: getDateLabel(r, granularity),
-      value: normalizeValue(r[metricDef.field], metricDef.unit),
-    }))
+    .map(r => {
+      let val = r[metricDef.field]
+      // Cap extreme multiples to keep the chart readable
+      if (metricDef.unit === 'multiple') {
+        val = Math.max(-200, Math.min(500, val))
+      }
+      return {
+        date: getDateLabel(r, granularity),
+        value: normalizeValue(val, metricDef.unit),
+      }
+    })
 }
 
 /**
