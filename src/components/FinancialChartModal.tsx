@@ -62,17 +62,19 @@ const calculateCAGR = (data: any[], key: string, periods: number): number | null
   return cagr * 100
 }
 
-// YoY Calculator: Prozentuale Veränderung zum Vorperiode
-// Für Prozent-Metriken (ROE, Marge): Differenz in Prozentpunkten × 100 (da Werte als Dezimal gespeichert: 0.25 = 25%)
+// YoY Calculator: Veränderung zum Vorjahr
+// Annual: vorheriger Datenpunkt (index - 1)
+// Quarterly: Vorjahresquartal (index - 4), z.B. Q4'25 vs Q4'24
 const PERCENT_METRICS = ['returnOnEquity', 'profitMargin']
 
-const calculateYoY = (data: any[], key: string, index: number): number | null => {
-  if (index <= 0 || !data[index] || !data[index - 1]) return null
+const calculateYoY = (data: any[], key: string, index: number, isQuarterly: boolean = false): number | null => {
+  const offset = isQuarterly ? 4 : 1
+  const prevIndex = index - offset
+  if (prevIndex < 0 || !data[index] || !data[prevIndex]) return null
   const current = data[index][key]
-  const previous = data[index - 1][key]
+  const previous = data[prevIndex][key]
   if (current == null || previous == null) return null
   if (PERCENT_METRICS.includes(key)) {
-    // Differenz in Prozentpunkten (z.B. 0.30 - 0.25 = 0.05 → 5.0 Pp.)
     return (current - previous) * 100
   }
   if (previous === 0) return null
@@ -430,9 +432,10 @@ export default function FinancialChartModal({
   const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 13 : 4) : null
   const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 21 : 6) : null
 
-  // YoY: Aktuelle Veränderung zum Vorjahr/Vorquartal
-  const latestYoY = !isSegmentChart && data.length >= 2
-    ? calculateYoY(data, metricKey, data.length - 1)
+  // YoY: Aktuelle Veränderung zum Vorjahr (bei Quartalen: Vorjahresquartal)
+  const isQuarterly = period === 'quarterly'
+  const latestYoY = !isSegmentChart && data.length >= (isQuarterly ? 5 : 2)
+    ? calculateYoY(data, metricKey, data.length - 1, isQuarterly)
     : null
 
   // ✅ Dynamische X-Achsen Konfiguration basierend auf Datenmenge
@@ -716,7 +719,7 @@ export default function FinancialChartModal({
                             if (!active || !payload?.[0]) return null
                             const val = payload[0].value as number
                             const idx = validData.findIndex(d => d.label === label)
-                            const yoy = calculateYoY(validData, 'profitMargin', idx)
+                            const yoy = calculateYoY(validData, 'profitMargin', idx, isQuarterly)
                             return (
                               <div style={tooltipContainerStyle}>
                                 <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
@@ -886,7 +889,7 @@ export default function FinancialChartModal({
                           if (!active || !payload?.[0]) return null
                           const value = payload[0].value as number
                           const dataIndex = data.findIndex(d => d.label === label)
-                          const yoy = calculateYoY(data, metricKey, dataIndex)
+                          const yoy = calculateYoY(data, metricKey, dataIndex, isQuarterly)
                           const isPercentMetric = metricKey === 'returnOnEquity' || metricKey === 'profitMargin'
 
                           let formattedValue = ''
