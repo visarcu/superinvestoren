@@ -27,6 +27,41 @@ export function useChartBuilderData(
 ) {
   const fetchingRef = useRef<Set<string>>(new Set())
 
+  // Fetch price data separately and merge into existing cache
+  const fetchPriceData = useCallback(async (ticker: string) => {
+    const priceCacheKey = `${ticker}_price`
+    if (fetchingRef.current.has(priceCacheKey)) return
+    fetchingRef.current.add(priceCacheKey)
+
+    try {
+      const priceData = await fetch(`/api/historical/${ticker}`).then(r => r.json())
+      if (!priceData?.historical) return
+
+      const days = PRICE_PERIODS[state.timeRange] || 1825
+      const cutoffDate = new Date()
+      cutoffDate.setDate(cutoffDate.getDate() - days)
+
+      const historicalPrices = priceData.historical
+        .filter((d: any) => new Date(d.date) >= cutoffDate)
+        .map((d: any) => ({ date: d.date, close: d.close }))
+        .reverse()
+
+      // Merge price data into existing cache
+      const cached = state.dataCache[ticker]
+      if (cached) {
+        const updatedData: StockFinancialData = {
+          ...cached,
+          historicalPrices,
+        }
+        dispatch({ type: 'CACHE_DATA', ticker, data: updatedData })
+      }
+    } catch (error) {
+      console.error(`Failed to fetch price data for ${ticker}:`, error)
+    } finally {
+      fetchingRef.current.delete(priceCacheKey)
+    }
+  }, [state.timeRange, state.dataCache, dispatch])
+
   const fetchStockData = useCallback(async (ticker: string) => {
     const cacheKey = `${ticker}_${state.granularity}_${state.timeRange}`
 
@@ -128,13 +163,13 @@ export function useChartBuilderData(
     fetchAllData()
   }, [state.stocks.length, state.granularity, state.timeRange]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Fetch price data when a price metric is added
+  // Fetch price data when a price metric is added but cache doesn't have prices
   useEffect(() => {
     const priceMetrics = state.activeMetrics.filter(m => m.metricKey === 'stockPrice')
     for (const metric of priceMetrics) {
       const cached = state.dataCache[metric.stockTicker]
       if (cached && !cached.historicalPrices) {
-        fetchStockData(metric.stockTicker)
+        fetchPriceData(metric.stockTicker)
       }
     }
   }, [state.activeMetrics]) // eslint-disable-line react-hooks/exhaustive-deps
