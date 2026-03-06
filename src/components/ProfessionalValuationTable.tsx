@@ -371,9 +371,14 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
     return formatPercentage(diff, true); // Mit Vorzeichen
   };
 
-  const getDifferenceColor = (current: number, comparison: number): string => {
+  const getDifferenceColor = (current: number, comparison: number, isDividend: boolean = false): string => {
     if (!current || !comparison || isNaN(current) || isNaN(comparison)) return 'text-theme-muted';
-    return current > comparison ? 'text-theme-muted' : 'text-theme-secondary';
+    // For dividends: higher = better (green), lower = worse (red)
+    // For valuation ratios: higher = overvalued (red), lower = undervalued (green)
+    if (isDividend) {
+      return current > comparison ? 'text-emerald-500' : 'text-red-400';
+    }
+    return current > comparison ? 'text-red-400' : 'text-emerald-500';
   };
 
   if (loading) {
@@ -528,16 +533,18 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
           label: 'Dividendenrendite (TTM)',
           current: data.dividendYieldTTM,
           comparison: data.divYield5YAvg,
-          formatter: formatPercent
+          formatter: formatPercent,
+          important: false,
+          isDividend: true
         },
       ]
     }
   ];
 
   return (
-    <div className="bg-theme-card rounded-xl overflow-hidden border border-theme-light">
+    <div className="bg-theme-card rounded-xl overflow-hidden border border-theme shadow-[var(--shadow-card)]">
       {/* Header */}
-      <div className="p-6 border-b border-theme-light">
+      <div className="p-6 border-b border-theme">
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-theme-secondary/20 rounded-lg flex items-center justify-center">
             <CalculatorIcon className="w-4 h-4 text-theme-primary" />
@@ -552,12 +559,12 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
-          <thead className="bg-theme-tertiary/50">
-            <tr>
-              <th className="text-left py-3 px-6 text-theme-muted font-medium text-sm">Kennzahl</th>
-              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">{companyName || ticker}</th>
-              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">{companyName || ticker} 5J Ø</th>
-              <th className="text-right py-3 px-6 text-theme-muted font-medium text-sm">% Differenz</th>
+          <thead>
+            <tr className="border-b border-theme">
+              <th className="text-left py-3 px-6 text-theme-secondary font-medium text-sm">Kennzahl</th>
+              <th className="text-right py-3 px-6 text-theme-secondary font-medium text-sm">Aktuell</th>
+              <th className="text-right py-3 px-6 text-theme-secondary font-medium text-sm">5J Ø</th>
+              <th className="text-right py-3 px-6 text-theme-secondary font-medium text-sm">vs. Ø</th>
             </tr>
           </thead>
           <tbody>
@@ -565,33 +572,39 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
               <React.Fragment key={sectionIndex}>
                 {/* Section Header */}
                 <tr>
-                  <td colSpan={4} className="bg-theme-secondary text-theme-primary font-semibold text-xs uppercase tracking-wider px-6 py-3">
-                    {section.section}
+                  <td colSpan={4} className="pt-6 pb-2 px-6 border-t border-theme">
+                    <span className="text-[11px] font-semibold text-theme-muted uppercase tracking-widest">
+                      {section.section}
+                    </span>
                   </td>
                 </tr>
-                
+
                 {/* Metrics */}
-                {section.metrics.map((metric, index) => (
-                  <tr 
-                    key={index}
-                    className={`hover:bg-theme-secondary/20 transition-colors ${
-                      metric.important ? 'bg-theme-secondary/10' : ''
-                    }`}
-                  >
-                    <td className={`py-3 px-6 text-theme-primary font-medium text-sm ${metric.important ? 'font-semibold' : ''}`}>
-                      {metric.label}
-                    </td>
-                    <td className={`py-3 px-6 text-right font-mono ${metric.important ? 'font-semibold' : 'font-medium'} text-sm`}>
-                      {metric.formatter(metric.current)}
-                    </td>
-                    <td className="py-3 px-6 text-right text-theme-muted font-mono text-sm">
-                      {metric.formatter(metric.comparison)}
-                    </td>
-                    <td className={`py-3 px-6 text-right font-medium text-sm ${getDifferenceColor(metric.current, metric.comparison)}`}>
-                      {calculateDifference(metric.current, metric.comparison)}
-                    </td>
-                  </tr>
-                ))}
+                {section.metrics.map((metric, index) => {
+                  const isDividend = !!(metric as any).isDividend;
+                  const diffColor = getDifferenceColor(metric.current, metric.comparison, isDividend);
+                  const diffValue = calculateDifference(metric.current, metric.comparison);
+
+                  return (
+                    <tr
+                      key={index}
+                      className="border-b border-theme-light hover:bg-theme-hover transition-colors"
+                    >
+                      <td className={`py-2.5 px-6 text-theme-primary text-sm ${metric.important ? 'font-semibold' : 'font-medium'}`}>
+                        {metric.label}
+                      </td>
+                      <td className={`py-2.5 px-6 text-right font-mono tabular-nums text-sm text-theme-primary ${metric.important ? 'font-semibold' : ''}`}>
+                        {metric.formatter(metric.current)}
+                      </td>
+                      <td className="py-2.5 px-6 text-right text-theme-muted font-mono tabular-nums text-sm">
+                        {metric.formatter(metric.comparison)}
+                      </td>
+                      <td className={`py-2.5 px-6 text-right text-sm font-mono tabular-nums ${diffColor}`}>
+                        {diffValue}
+                      </td>
+                    </tr>
+                  );
+                })}
               </React.Fragment>
             ))}
           </tbody>
@@ -599,7 +612,7 @@ const ProfessionalValuationTable: React.FC<Props> = ({ ticker, companyName, isPr
       </div>
 
       {/* Footer */}
-      <div className="p-4 bg-theme-tertiary/10 text-xs text-theme-muted border-t border-theme-light">
+      <div className="p-4 bg-theme-secondary/20 text-xs text-theme-muted border-t border-theme">
         <p>
           Alle Daten basieren auf den neuesten verfügbaren Finanzdaten von {ticker}. 
           TTM = Trailing Twelve Months, FWD = Forward (Analystenschätzungen).

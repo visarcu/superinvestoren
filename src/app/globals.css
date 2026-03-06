@@ -246,6 +246,7 @@
    
    .border-theme { border-color: var(--color-border); }
    .border-theme-light { border-color: var(--color-border-light); }
+   .border-theme-primary { border-color: var(--color-text-primary); }
    .divide-theme > * + * { border-color: var(--color-divider); }
 
    /* Border opacity variants for theme consistency */
@@ -254,6 +255,55 @@
    .border-theme\/20 { border-color: var(--color-border); }
    .border-theme\/30 { border-color: var(--color-border); }
    
+   /* ===== FINANCIAL TABLE - STICKY FIRST COLUMN ===== */
+   .financial-table {
+     background-color: var(--color-bg-card);
+   }
+   .financial-table th:first-child,
+   .financial-table td:first-child {
+     position: sticky;
+     left: 0;
+     z-index: 10;
+     background-color: var(--color-bg-card);
+     min-width: 220px;
+   }
+   /* Subtle shadow on sticky column for depth when scrolling */
+   .financial-table th:first-child::after,
+   .financial-table td:first-child::after {
+     content: '';
+     position: absolute;
+     top: 0;
+     right: -8px;
+     bottom: 0;
+     width: 8px;
+     background: linear-gradient(to right, rgba(0,0,0,0.04), transparent);
+     pointer-events: none;
+   }
+   /* Match highlighted row backgrounds for sticky column */
+   .financial-table tr[class*="bg-theme-secondary"] td:first-child,
+   .financial-table tr[class*="bg-theme-secondary"] th:first-child {
+     background-color: var(--color-bg-secondary);
+   }
+   .financial-table tr[class*="bg-theme-tertiary"] td:first-child {
+     background-color: var(--color-bg-tertiary);
+   }
+   .financial-table thead tr th:first-child {
+     background-color: var(--color-bg-secondary);
+   }
+   /* Remove double border on first section header */
+   .financial-table tbody tr:first-child td {
+     border-top: none;
+   }
+   /* Card padding for first and last columns */
+   .financial-table td:first-child,
+   .financial-table th:first-child {
+     padding-left: 1rem;
+   }
+   .financial-table td:last-child,
+   .financial-table th:last-child {
+     padding-right: 1rem;
+   }
+
    /* ===== TYPOGRAPHY SCALE ===== */
    h1, h2, h3, h4, h5, h6 {
      font-weight: 600;

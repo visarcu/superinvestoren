@@ -82,13 +82,13 @@ const SparklineTooltip = ({
           className="absolute top-full left-1/2 transform -translate-x-1/2 mt-2 z-50"
           onClick={handleClick}
         >
-          <div className="bg-neutral-900 border border-neutral-800 rounded-lg shadow-xl p-4 min-w-[280px]">
+          <div className="bg-theme-card border border-theme rounded-lg shadow-xl p-4 min-w-[280px]">
 
             {/* Header */}
             <div className="flex items-center justify-between mb-3">
-              <h4 className="font-medium text-white text-sm">{label}</h4>
+              <h4 className="font-medium text-theme-primary text-sm">{label}</h4>
               <div className="text-right">
-                <div className="font-semibold text-white">{value}</div>
+                <div className="font-semibold text-theme-primary">{value}</div>
                 {growth && <div className="mt-1">{growth}</div>}
               </div>
             </div>
@@ -117,7 +117,7 @@ const SparklineTooltip = ({
             </div>
 
             {/* Mini Stats */}
-            <div className="flex justify-between text-xs text-neutral-500 mt-2 pt-2 border-t border-neutral-800">
+            <div className="flex justify-between text-xs text-theme-muted mt-2 pt-2 border-t border-theme">
               <span>Min: {Math.min(...data.map(d => d.value)).toFixed(1)}</span>
               <span>Max: {Math.max(...data.map(d => d.value)).toFixed(1)}</span>
               <span>{data.length} Jahre</span>
@@ -279,7 +279,7 @@ const GrowthIndicator = ({ current, previous }: {
 export default function FinancialsPage({ ticker, isPremium = false }: Props) {
   const [activeStatement, setActiveStatement] = useState<'income' | 'balance' | 'cashflow'>('income')
   const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
-  const [yearsToShow, setYearsToShow] = useState<number>(5)
+  const [yearsToShow, setYearsToShow] = useState<number>(10)
   const [isYearsDropdownOpen, setIsYearsDropdownOpen] = useState(false)
   const [rawStatements, setRawStatements] = useState<RawStatements | null>(null)
   const [loading, setLoading] = useState(true)
@@ -346,13 +346,13 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           {children}
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-neutral-900/90 backdrop-blur-sm rounded-lg p-4 text-center border border-neutral-800">
-            <LockClosedIcon className="w-6 h-6 text-neutral-500 mx-auto mb-2" />
-            <p className="text-white font-medium">Financial Statements</p>
-            <p className="text-neutral-500 text-sm">Premium erforderlich</p>
+          <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center border border-theme">
+            <LockClosedIcon className="w-6 h-6 text-theme-muted mx-auto mb-2" />
+            <p className="text-theme-primary font-medium">Financial Statements</p>
+            <p className="text-theme-muted text-sm">Premium erforderlich</p>
             <Link
               href="/pricing"
-              className="inline-flex items-center gap-1 text-neutral-400 hover:text-white text-xs font-medium mt-2 transition-colors"
+              className="inline-flex items-center gap-1 text-theme-secondary hover:text-theme-primary text-xs font-medium mt-2 transition-colors"
             >
               Upgrade <ArrowRightIcon className="w-3 h-3" />
             </Link>
@@ -364,19 +364,19 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
   // Income Statement
   const renderIncomeStatement = () => {
-    const incomeData = rawStatements?.income?.slice(0, yearsToShow).reverse() || []
+    const incomeData = rawStatements?.income?.slice(0, yearsToShow) || []
 
     if (!incomeData || incomeData.length === 0) {
       return (
         <div className="text-center py-16">
-          <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-neutral-600" />
-          <p className="text-neutral-500">Keine Daten verfügbar</p>
+          <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-theme-muted" />
+          <p className="text-theme-muted">Keine Daten verfügbar</p>
         </div>
       )
     }
 
-    const latestData = incomeData[incomeData.length - 1]
-    const previousData = incomeData[incomeData.length - 2]
+    const latestData = incomeData[0]
+    const previousData = incomeData[1]
 
     const revenue = latestData?.revenue || 0
     const netIncome = latestData?.netIncome || 0
@@ -390,36 +390,36 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
       <div className="space-y-6">
 
         {/* Inline Stats Bar */}
-        <div className="grid grid-cols-3 gap-8 py-6 border-b border-neutral-800">
-          <div>
-            <p className="text-2xl font-semibold text-white">{formatFinancialNumber(revenue)}</p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.revenue_trend}</p>
-            {previousData && <GrowthIndicator current={revenue} previous={previousData.revenue} />}
+        <div className="grid grid-cols-3 divide-x divide-theme bg-theme-secondary rounded-xl border border-theme shadow-sm">
+          <div className="p-5 pl-6">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1">{GERMAN_LABELS.revenue_trend}</p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{formatFinancialNumber(revenue)}</p>
+            {previousData && <div className="mt-1"><GrowthIndicator current={revenue} previous={previousData.revenue} /></div>}
           </div>
 
-          <div>
-            <p className="text-2xl font-semibold text-white">{formatFinancialNumber(netIncome)}</p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.net_income}</p>
-            {previousData && <GrowthIndicator current={netIncome} previous={previousData.netIncome} />}
+          <div className="p-5">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1">{GERMAN_LABELS.net_income}</p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{formatFinancialNumber(netIncome)}</p>
+            {previousData && <div className="mt-1"><GrowthIndicator current={netIncome} previous={previousData.netIncome} /></div>}
           </div>
 
-          <div>
-            <p className="text-2xl font-semibold text-white">{profitMargin.toFixed(1)}%</p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.profit_margin}</p>
-            <p className="text-xs text-neutral-600">Nettogewinn / Umsatz</p>
+          <div className="p-5">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1">{GERMAN_LABELS.profit_margin}</p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{profitMargin.toFixed(1)}%</p>
+            <p className="text-xs text-theme-muted mt-1">Nettogewinn / Umsatz</p>
           </div>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-theme bg-theme-card shadow-sm">
+          <table className="w-full text-sm financial-table">
             <thead>
-              <tr className="border-b border-neutral-800">
-                <th className="text-left py-3 text-neutral-400 font-medium" style={{width: '35%'}}>
+              <tr className="border-b-2 border-theme bg-theme-secondary/50">
+                <th className="text-left py-3 px-3 text-theme-secondary font-semibold text-xs uppercase tracking-wider" style={{width: '35%'}}>
                   {GERMAN_LABELS.income}
                 </th>
                 {incomeData.map((item) => (
-                  <th key={item.date} className="text-right py-3 text-neutral-400 font-medium">
+                  <th key={item.date} className="text-right py-3 px-2 text-theme-secondary font-semibold text-xs">
                     {period === 'annual' ? item.calendarYear : item.date.slice(0, 7)}
                   </th>
                 ))}
@@ -429,16 +429,16 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Revenue Section */}
               <tr>
-                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.revenue_growth}
                   </span>
                 </td>
               </tr>
 
               {/* Total Revenues */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">
                   <SparklineTooltip
                     data={revenueSparklineData}
                     value={formatFinancialNumber(latestData?.revenue || 0)}
@@ -446,28 +446,29 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                     color="#10b981"
                     growth={previousData && <GrowthIndicator current={latestData?.revenue || 0} previous={previousData?.revenue || 0} />}
                   >
-                    <span className="cursor-pointer hover:text-white transition-colors">
+                    <span className="cursor-pointer hover:text-theme-primary transition-colors">
                       {GERMAN_LABELS.total_revenues}
                     </span>
                   </SparklineTooltip>
                 </td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.revenue)}
                   </td>
                 ))}
               </tr>
 
               {/* Revenue Growth % */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-500 pl-4 italic text-sm">
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-muted pl-4 italic text-sm">
                   {GERMAN_LABELS.total_revenues_chg}
                 </td>
                 {incomeData.map((item, index) => {
-                  if (index === 0) return <td key={item.date} className="py-3 text-center text-neutral-600">–</td>
-                  const growth = ((item.revenue - incomeData[index-1].revenue) / incomeData[index-1].revenue) * 100
+                  if (index === incomeData.length - 1) return <td key={item.date} className="py-3 text-center text-theme-muted">–</td>
+                  const prevYear = incomeData[index + 1]
+                  const growth = ((item.revenue - prevYear.revenue) / Math.abs(prevYear.revenue)) * 100
                   return (
-                    <td key={item.date} className={`py-3 font-mono text-right ${
+                    <td key={item.date} className={`py-3 font-mono tabular-nums text-right ${
                       growth >= 0 ? 'text-emerald-400' : 'text-red-400'
                     }`}>
                       {growth >= 0 ? '+' : ''}{growth.toFixed(1)}%
@@ -477,18 +478,18 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
               </tr>
 
               {/* Cost of Goods Sold */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.cost_of_goods_sold}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.cost_of_goods_sold}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.costOfRevenue || (item.revenue - item.grossProfit))}
                   </td>
                 ))}
               </tr>
 
               {/* Gross Profit - Highlighted */}
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">
                   <SparklineTooltip
                     data={prepareSparklineData(rawStatements?.income || [], 'grossProfit')}
                     value={formatFinancialNumber(latestData?.grossProfit || 0)}
@@ -503,17 +504,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.grossProfit)}
                   </td>
                 ))}
               </tr>
 
               {/* Gross Margin */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-500 pl-4 italic text-sm">{GERMAN_LABELS.gross_profit_margin}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-muted pl-4 italic text-sm">{GERMAN_LABELS.gross_profit_margin}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {((item.grossProfit / item.revenue) * 100).toFixed(1)}%
                   </td>
                 ))}
@@ -521,56 +522,56 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Operating Expenses Section */}
               <tr>
-                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.operating_metrics}
                   </span>
                 </td>
               </tr>
 
               {/* Total Operating Expenses */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.total_operating_expenses}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.total_operating_expenses}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.totalOperatingExpenses || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Selling & Admin */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-400 pl-4">{GERMAN_LABELS.selling_admin_expenses}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-secondary pl-4">{GERMAN_LABELS.selling_admin_expenses}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.sellingGeneralAndAdministrativeExpenses || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* R&D */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-400 pl-4">{GERMAN_LABELS.rd_expenses}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-secondary pl-4">{GERMAN_LABELS.rd_expenses}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.researchAndDevelopmentExpenses || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* D&A */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-400 pl-4">{GERMAN_LABELS.depreciation_amortization}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-secondary pl-4">{GERMAN_LABELS.depreciation_amortization}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.depreciationAndAmortization || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Operating Income - Highlighted */}
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">
                   <SparklineTooltip
                     data={prepareSparklineData(rawStatements?.income || [], 'operatingIncome')}
                     value={formatFinancialNumber(latestData?.operatingIncome || 0)}
@@ -585,38 +586,38 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.operatingIncome)}
                   </td>
                 ))}
               </tr>
 
               {/* Operating Margin */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-500 pl-4 italic text-sm">{GERMAN_LABELS.operating_margin}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-muted pl-4 italic text-sm">{GERMAN_LABELS.operating_margin}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {((item.operatingIncome / item.revenue) * 100).toFixed(1)}%
                   </td>
                 ))}
               </tr>
 
               {/* EBIT */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300 flex items-center gap-2">
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary flex items-center gap-2">
                   {GERMAN_LABELS.ebit}
                   <LearnTooltipButton term="EBIT" />
                 </td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.ebitda ? (item.ebitda - (item.depreciationAndAmortization || 0)) : item.operatingIncome)}
                   </td>
                 ))}
               </tr>
 
               {/* EBITDA */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">
                   <SparklineTooltip
                     data={ebitdaSparklineData}
                     value={formatFinancialNumber(latestData?.ebitda || 0)}
@@ -624,14 +625,14 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                     color="#10b981"
                     growth={previousData && <GrowthIndicator current={latestData?.ebitda || 0} previous={previousData?.ebitda || 0} />}
                   >
-                    <span className="cursor-pointer hover:text-white transition-colors flex items-center gap-2">
+                    <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                       {GERMAN_LABELS.ebitda}
                       <LearnTooltipButton term="EBITDA" />
                     </span>
                   </SparklineTooltip>
                 </td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.ebitda || 0)}
                   </td>
                 ))}
@@ -639,82 +640,82 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Financial Results Section */}
               <tr>
-                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.financial_results}
                   </span>
                 </td>
               </tr>
 
               {/* Interest Income */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.interest_income}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.interest_income}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.interestIncome || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Interest Expense */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.interest_expense}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.interest_expense}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {formatFinancialNumber(Math.abs(item.interestExpense || 0))}
                   </td>
                 ))}
               </tr>
 
               {/* Net Interest */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.net_interest_expense}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.net_interest_expense}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber((item.interestIncome || 0) + (item.interestExpense || 0))}
                   </td>
                 ))}
               </tr>
 
               {/* Other Income */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.other_income}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.other_income}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.otherIncomeExpense || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Pre-Tax Income */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300 font-medium">{GERMAN_LABELS.pretax_income}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary font-medium">{GERMAN_LABELS.pretax_income}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.incomeBeforeTax || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Tax Expense */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.income_tax_expense}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.income_tax_expense}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.incomeTaxExpense || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Effective Tax Rate */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-500 pl-4 italic text-sm">{GERMAN_LABELS.effective_tax_rate}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-muted pl-4 italic text-sm">{GERMAN_LABELS.effective_tax_rate}</td>
                 {incomeData.map((item) => {
                   const taxRate = item.incomeBeforeTax && item.incomeBeforeTax > 0
                     ? ((item.incomeTaxExpense || 0) / item.incomeBeforeTax) * 100
                     : 0
                   return (
-                    <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                    <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                       {taxRate.toFixed(1)}%
                     </td>
                   )
@@ -722,8 +723,8 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
               </tr>
 
               {/* Net Income - Major Highlight */}
-              <tr className="border-b border-neutral-800 bg-neutral-800/20">
-                <td className="py-4 font-semibold text-white">
+              <tr className="border-b border-theme bg-theme-tertiary/50">
+                <td className="py-4 font-semibold text-theme-primary">
                   <SparklineTooltip
                     data={netIncomeSparklineData}
                     value={formatFinancialNumber(latestData?.netIncome || 0)}
@@ -738,17 +739,17 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-4 text-white font-mono text-right font-semibold text-base">
+                  <td key={item.date} className="py-4 text-theme-primary font-mono tabular-nums text-right font-semibold text-base">
                     {formatFinancialNumber(item.netIncome)}
                   </td>
                 ))}
               </tr>
 
               {/* Net Margin */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-500 pl-4 italic text-sm">{GERMAN_LABELS.net_margin}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-muted pl-4 italic text-sm">{GERMAN_LABELS.net_margin}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {((item.netIncome / item.revenue) * 100).toFixed(1)}%
                   </td>
                 ))}
@@ -756,48 +757,48 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Per Share Section */}
               <tr>
-                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={incomeData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.per_share}
                   </span>
                 </td>
               </tr>
 
               {/* Basic EPS */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.earnings_per_share}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.earnings_per_share}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {item.eps ? `${item.eps.toFixed(2)} $` : '–'}
                   </td>
                 ))}
               </tr>
 
               {/* Diluted EPS */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.eps_diluted}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.eps_diluted}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {(item.epsdiluted || item.eps) ? `${(item.epsdiluted || item.eps).toFixed(2)} $` : '–'}
                   </td>
                 ))}
               </tr>
 
               {/* Shares Outstanding */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-400">{GERMAN_LABELS.shares_outstanding}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-secondary">{GERMAN_LABELS.shares_outstanding}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {((item.weightedAverageShsOut || 0) / 1_000_000).toFixed(0)}
                   </td>
                 ))}
               </tr>
 
               {/* Diluted Shares */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-400">{GERMAN_LABELS.shares_outstanding_diluted}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-secondary">{GERMAN_LABELS.shares_outstanding_diluted}</td>
                 {incomeData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {((item.weightedAverageShsOutDil || item.weightedAverageShsOut || 0) / 1_000_000).toFixed(0)}
                   </td>
                 ))}
@@ -811,19 +812,19 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
   // Balance Sheet
   const renderBalanceSheet = () => {
-    const balanceData = rawStatements?.balance?.slice(0, yearsToShow).reverse() || []
+    const balanceData = rawStatements?.balance?.slice(0, yearsToShow) || []
 
     if (!balanceData || balanceData.length === 0) {
       return (
         <div className="text-center py-16">
-          <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-neutral-600" />
-          <p className="text-neutral-500">Keine Bilanz-Daten verfügbar</p>
+          <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-theme-muted" />
+          <p className="text-theme-muted">Keine Bilanz-Daten verfügbar</p>
         </div>
       )
     }
 
-    const latestData = balanceData[balanceData.length - 1]
-    const previousData = balanceData[balanceData.length - 2]
+    const latestData = balanceData[0]
+    const previousData = balanceData[1]
 
     const totalAssets = latestData?.totalAssets || 0
     const totalEquity = latestData?.totalStockholdersEquity || 0
@@ -838,45 +839,36 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
       <div className="space-y-6">
 
         {/* Inline Stats Bar */}
-        <div className="grid grid-cols-3 gap-8 py-6 border-b border-neutral-800">
-          <div>
-            <p className="text-2xl font-semibold text-white flex items-center gap-2">
-              {formatFinancialNumber(totalAssets)}
-              <LearnTooltipButton term="Bilanzsumme" />
-            </p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.total_assets}</p>
-            {previousData && <GrowthIndicator current={totalAssets} previous={previousData.totalAssets} />}
+        <div className="grid grid-cols-3 divide-x divide-theme bg-theme-secondary rounded-xl border border-theme shadow-sm">
+          <div className="p-5 pl-6">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1 flex items-center gap-1">{GERMAN_LABELS.total_assets} <LearnTooltipButton term="Bilanzsumme" /></p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{formatFinancialNumber(totalAssets)}</p>
+            {previousData && <div className="mt-1"><GrowthIndicator current={totalAssets} previous={previousData.totalAssets} /></div>}
           </div>
 
-          <div>
-            <p className="text-2xl font-semibold text-white flex items-center gap-2">
-              {formatFinancialNumber(totalEquity)}
-              <LearnTooltipButton term="Eigenkapital" />
-            </p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.total_equity}</p>
-            {previousData && <GrowthIndicator current={totalEquity} previous={previousData.totalStockholdersEquity} />}
+          <div className="p-5">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1 flex items-center gap-1">{GERMAN_LABELS.total_equity} <LearnTooltipButton term="Eigenkapital" /></p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{formatFinancialNumber(totalEquity)}</p>
+            {previousData && <div className="mt-1"><GrowthIndicator current={totalEquity} previous={previousData.totalStockholdersEquity} /></div>}
           </div>
 
-          <div>
-            <p className="text-2xl font-semibold text-white flex items-center gap-2">
-              {debtToEquity.toFixed(2)}
-              <LearnTooltipButton term="Verschuldungsgrad" />
-            </p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.debt_to_equity}</p>
-            <p className="text-xs text-neutral-600">Fremdkapital / Eigenkapital</p>
+          <div className="p-5">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1 flex items-center gap-1">{GERMAN_LABELS.debt_to_equity} <LearnTooltipButton term="Verschuldungsgrad" /></p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{debtToEquity.toFixed(2)}</p>
+            <p className="text-xs text-theme-muted mt-1">Fremdkapital / Eigenkapital</p>
           </div>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-theme bg-theme-card shadow-sm">
+          <table className="w-full text-sm financial-table">
             <thead>
-              <tr className="border-b border-neutral-800">
-                <th className="text-left py-3 text-neutral-400 font-medium" style={{width: '35%'}}>
+              <tr className="border-b-2 border-theme bg-theme-secondary/50">
+                <th className="text-left py-3 px-3 text-theme-secondary font-semibold text-xs uppercase tracking-wider" style={{width: '35%'}}>
                   {GERMAN_LABELS.balance}
                 </th>
                 {balanceData.map((item) => (
-                  <th key={item.date} className="text-right py-3 text-neutral-400 font-medium">
+                  <th key={item.date} className="text-right py-3 px-2 text-theme-secondary font-semibold text-xs">
                     {period === 'annual' ? item.calendarYear : item.date.slice(0, 7)}
                   </th>
                 ))}
@@ -886,16 +878,16 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Current Assets Section */}
               <tr>
-                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.current_assets}
                   </span>
                 </td>
               </tr>
 
               {/* Cash */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">
                   <SparklineTooltip
                     data={cashSparklineData}
                     value={formatFinancialNumber(latestData?.cashAndCashEquivalents || 0)}
@@ -903,59 +895,59 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                     color="#10b981"
                     growth={previousData && <GrowthIndicator current={latestData?.cashAndCashEquivalents || 0} previous={previousData?.cashAndCashEquivalents || 0} />}
                   >
-                    <span className="cursor-pointer hover:text-white transition-colors flex items-center gap-2">
+                    <span className="cursor-pointer hover:text-theme-primary transition-colors flex items-center gap-2">
                       {GERMAN_LABELS.cash_and_equivalents}
                       <LearnTooltipButton term="Liquide Mittel" />
                     </span>
                   </SparklineTooltip>
                 </td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.cashAndCashEquivalents || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.short_term_investments}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.short_term_investments}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.shortTermInvestments || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.accounts_receivable}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.accounts_receivable}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.netReceivables || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.inventory}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.inventory}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.inventory || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.other_current_assets}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.other_current_assets}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.otherCurrentAssets || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">{GERMAN_LABELS.total_current_assets}</td>
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">{GERMAN_LABELS.total_current_assets}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.totalCurrentAssets || 0)}
                   </td>
                 ))}
@@ -963,52 +955,52 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Non-Current Assets */}
               <tr>
-                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.non_current_assets}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.net_property_plant_equipment}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.net_property_plant_equipment}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.propertyPlantEquipmentNet || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.goodwill}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.goodwill}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.goodwill || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.intangible_assets}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.intangible_assets}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.intangibleAssets || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.long_term_investments}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.long_term_investments}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.longTermInvestments || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Total Assets - Major */}
-              <tr className="border-b border-neutral-800 bg-neutral-800/20">
-                <td className="py-4 font-semibold text-white">
+              <tr className="border-b border-theme bg-theme-tertiary/50">
+                <td className="py-4 font-semibold text-theme-primary">
                   <SparklineTooltip
                     data={assetsSparklineData}
                     value={formatFinancialNumber(latestData?.totalAssets || 0)}
@@ -1023,7 +1015,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-4 text-white font-mono text-right font-semibold text-base">
+                  <td key={item.date} className="py-4 text-theme-primary font-mono tabular-nums text-right font-semibold text-base">
                     {formatFinancialNumber(item.totalAssets || 0)}
                   </td>
                 ))}
@@ -1031,38 +1023,38 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Liabilities Sections - Abbreviated for length */}
               <tr>
-                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.current_liabilities}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.accounts_payable}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.accounts_payable}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.accountPayables || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.short_term_debt}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.short_term_debt}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.shortTermDebt || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white flex items-center gap-2">
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary flex items-center gap-2">
                   {GERMAN_LABELS.total_current_liabilities}
                   <LearnTooltipButton term="Kurzfristige Verbindlichkeiten" />
                 </td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.totalCurrentLiabilities || 0)}
                   </td>
                 ))}
@@ -1070,29 +1062,29 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Non-Current Liabilities */}
               <tr>
-                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.non_current_liabilities}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.long_term_debt}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.long_term_debt}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.longTermDebt || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white flex items-center gap-2">
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary flex items-center gap-2">
                   {GERMAN_LABELS.total_liabilities}
                   <LearnTooltipButton term="Langfristige Verbindlichkeiten" />
                 </td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.totalLiabilities || 0)}
                   </td>
                 ))}
@@ -1100,43 +1092,43 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Equity */}
               <tr>
-                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={balanceData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.equity_section}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.common_stock}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.common_stock}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.commonStock || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.retained_earnings}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.retained_earnings}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.retainedEarnings || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.treasury_stock}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.treasury_stock}</td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-400 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-secondary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.treasuryStock || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Total Equity - Major */}
-              <tr className="border-b border-neutral-800 bg-neutral-800/20">
-                <td className="py-4 font-semibold text-white">
+              <tr className="border-b border-theme bg-theme-tertiary/50">
+                <td className="py-4 font-semibold text-theme-primary">
                   <SparklineTooltip
                     data={equitySparklineData}
                     value={formatFinancialNumber(latestData?.totalStockholdersEquity || 0)}
@@ -1151,7 +1143,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {balanceData.map((item) => (
-                  <td key={item.date} className="py-4 text-white font-mono text-right font-semibold text-base">
+                  <td key={item.date} className="py-4 text-theme-primary font-mono tabular-nums text-right font-semibold text-base">
                     {formatFinancialNumber(item.totalStockholdersEquity || 0)}
                   </td>
                 ))}
@@ -1166,19 +1158,19 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
   // Cash Flow Statement
   const renderCashFlow = () => {
-    const cashflowData = rawStatements?.cashflow?.slice(0, yearsToShow).reverse() || []
+    const cashflowData = rawStatements?.cashflow?.slice(0, yearsToShow) || []
 
     if (!cashflowData || cashflowData.length === 0) {
       return (
         <div className="text-center py-16">
-          <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-neutral-600" />
-          <p className="text-neutral-500">Keine Cash Flow-Daten verfügbar</p>
+          <InformationCircleIcon className="w-12 h-12 mx-auto mb-4 text-theme-muted" />
+          <p className="text-theme-muted">Keine Cash Flow-Daten verfügbar</p>
         </div>
       )
     }
 
-    const latestData = cashflowData[cashflowData.length - 1]
-    const previousData = cashflowData[cashflowData.length - 2]
+    const latestData = cashflowData[0]
+    const previousData = cashflowData[1]
 
     const operatingCF = latestData?.netCashProvidedByOperatingActivities || 0
     const freeCF = latestData?.freeCashFlow || 0
@@ -1192,36 +1184,36 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
       <div className="space-y-6">
 
         {/* Inline Stats Bar */}
-        <div className="grid grid-cols-3 gap-8 py-6 border-b border-neutral-800">
-          <div>
-            <p className="text-2xl font-semibold text-white">{formatFinancialNumber(operatingCF)}</p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.operating_cash_flow}</p>
-            {previousData && <GrowthIndicator current={operatingCF} previous={previousData.netCashProvidedByOperatingActivities} />}
+        <div className="grid grid-cols-3 divide-x divide-theme bg-theme-secondary rounded-xl border border-theme shadow-sm">
+          <div className="p-5 pl-6">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1">{GERMAN_LABELS.operating_cash_flow}</p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{formatFinancialNumber(operatingCF)}</p>
+            {previousData && <div className="mt-1"><GrowthIndicator current={operatingCF} previous={previousData.netCashProvidedByOperatingActivities} /></div>}
           </div>
 
-          <div>
-            <p className="text-2xl font-semibold text-white">{formatFinancialNumber(freeCF)}</p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.free_cash_flow}</p>
-            {previousData && <GrowthIndicator current={freeCF} previous={previousData.freeCashFlow} />}
+          <div className="p-5">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1">{GERMAN_LABELS.free_cash_flow}</p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{formatFinancialNumber(freeCF)}</p>
+            {previousData && <div className="mt-1"><GrowthIndicator current={freeCF} previous={previousData.freeCashFlow} /></div>}
           </div>
 
-          <div>
-            <p className="text-2xl font-semibold text-white">{cashConversion.toFixed(0)}%</p>
-            <p className="text-sm text-neutral-500">{GERMAN_LABELS.cash_conversion}</p>
-            <p className="text-xs text-neutral-600">Operativer CF / Nettogewinn</p>
+          <div className="p-5">
+            <p className="text-xs font-medium text-theme-muted uppercase tracking-wider mb-1">{GERMAN_LABELS.cash_conversion}</p>
+            <p className="text-2xl font-bold text-theme-primary font-mono tabular-nums">{cashConversion.toFixed(0)}%</p>
+            <p className="text-xs text-theme-muted mt-1">Operativer CF / Nettogewinn</p>
           </div>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="overflow-x-auto rounded-xl border border-theme bg-theme-card shadow-sm">
+          <table className="w-full text-sm financial-table">
             <thead>
-              <tr className="border-b border-neutral-800">
-                <th className="text-left py-3 text-neutral-400 font-medium" style={{width: '35%'}}>
+              <tr className="border-b-2 border-theme bg-theme-secondary/50">
+                <th className="text-left py-3 px-3 text-theme-secondary font-semibold text-xs uppercase tracking-wider" style={{width: '35%'}}>
                   {GERMAN_LABELS.cashflow}
                 </th>
                 {cashflowData.map((item) => (
-                  <th key={item.date} className="text-right py-3 text-neutral-400 font-medium">
+                  <th key={item.date} className="text-right py-3 px-2 text-theme-secondary font-semibold text-xs">
                     {period === 'annual' ? item.calendarYear : item.date.slice(0, 7)}
                   </th>
                 ))}
@@ -1231,52 +1223,52 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Operating Activities */}
               <tr>
-                <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.operating_activities}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.net_income_cf}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.net_income_cf}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.netIncome || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.depreciation_amortization_cf}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.depreciation_amortization_cf}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.depreciationAndAmortization || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.stock_compensation}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.stock_compensation}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.stockBasedCompensation || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.changes_working_capital}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.changes_working_capital}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.changeInWorkingCapital || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Operating Cash Flow - Highlighted */}
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">
                   <SparklineTooltip
                     data={operatingCFSparklineData}
                     value={formatFinancialNumber(latestData?.netCashProvidedByOperatingActivities || 0)}
@@ -1290,7 +1282,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.netCashProvidedByOperatingActivities || 0)}
                   </td>
                 ))}
@@ -1298,35 +1290,35 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Investing Activities */}
               <tr>
-                <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.investing_activities}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.capital_expenditures}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.capital_expenditures}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.capitalExpenditure || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.acquisitions}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.acquisitions}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.acquisitionsNet || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">{GERMAN_LABELS.investing_cash_flow}</td>
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">{GERMAN_LABELS.investing_cash_flow}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.netCashUsedForInvestingActivites || 0)}
                   </td>
                 ))}
@@ -1334,53 +1326,53 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
               {/* Financing Activities */}
               <tr>
-                <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-b border-neutral-800">
-                  <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                <td colSpan={cashflowData.length + 1} className="pt-6 pb-2 border-t border-theme">
+                  <span className="text-[11px] font-semibold text-theme-secondary uppercase tracking-widest pl-2 border-l-2 border-theme-primary">
                     {GERMAN_LABELS.financing_activities}
                   </span>
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.dividends_paid}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.dividends_paid}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.dividendsPaid || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20">
-                <td className="py-3 text-neutral-300">{GERMAN_LABELS.share_repurchases}</td>
+              <tr className="border-b border-theme-light hover:bg-theme-hover">
+                <td className="py-3 text-theme-primary">{GERMAN_LABELS.share_repurchases}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-neutral-300 font-mono text-right">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right">
                     {formatFinancialNumber(item.commonStockRepurchased || 0)}
                   </td>
                 ))}
               </tr>
 
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">{GERMAN_LABELS.financing_cash_flow}</td>
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">{GERMAN_LABELS.financing_cash_flow}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.netCashUsedProvidedByFinancingActivities || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Net Cash Flow - Major */}
-              <tr className="border-b border-neutral-800 bg-neutral-800/20">
-                <td className="py-4 font-semibold text-white">{GERMAN_LABELS.net_cash_flow}</td>
+              <tr className="border-b border-theme bg-theme-tertiary/50">
+                <td className="py-4 font-semibold text-theme-primary">{GERMAN_LABELS.net_cash_flow}</td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-4 text-white font-mono text-right font-semibold text-base">
+                  <td key={item.date} className="py-4 text-theme-primary font-mono tabular-nums text-right font-semibold text-base">
                     {formatFinancialNumber(item.netChangeInCash || 0)}
                   </td>
                 ))}
               </tr>
 
               {/* Free Cash Flow */}
-              <tr className="border-b border-neutral-800/50 bg-neutral-800/10">
-                <td className="py-3 font-medium text-white">
+              <tr className="border-b border-theme-light bg-theme-secondary">
+                <td className="py-3 font-medium text-theme-primary">
                   <SparklineTooltip
                     data={freeCFSparklineData}
                     value={formatFinancialNumber(latestData?.freeCashFlow || 0)}
@@ -1394,7 +1386,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   </SparklineTooltip>
                 </td>
                 {cashflowData.map((item) => (
-                  <td key={item.date} className="py-3 text-white font-mono text-right font-medium">
+                  <td key={item.date} className="py-3 text-theme-primary font-mono tabular-nums text-right font-medium">
                     {formatFinancialNumber(item.freeCashFlow || 0)}
                   </td>
                 ))}
@@ -1409,7 +1401,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-dark">
+      <div className="min-h-screen bg-theme-primary">
         <div className="w-full px-6 lg:px-8 py-8">
           <div className="flex h-64 items-center justify-center">
             <LoadingSpinner />
@@ -1420,26 +1412,26 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-theme-primary">
       <main className="w-full px-6 lg:px-8 py-8 space-y-6">
 
         {/* Info Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
-            <p className="text-neutral-400">
-              {GERMAN_LABELS.comprehensive_analysis} <span className="font-medium text-white">{ticker.toUpperCase()}</span>
+            <p className="text-theme-secondary">
+              {GERMAN_LABELS.comprehensive_analysis} <span className="font-medium text-theme-primary">{ticker.toUpperCase()}</span>
             </p>
-            <p className="text-sm text-neutral-500 mt-1">
+            <p className="text-sm text-theme-muted mt-1">
               {GERMAN_LABELS.all_figures.replace('{unit}', 'USD')} • {GERMAN_LABELS.daily_updated}
             </p>
           </div>
         </div>
 
         {/* Controls */}
-        <div className="flex items-center justify-between py-4 border-b border-neutral-800">
+        <div className="flex items-center justify-between py-4 border-b border-theme">
           <div className="flex items-center gap-4">
-            <span className="text-sm text-neutral-500">Periode:</span>
-            <div className="flex bg-neutral-900 rounded-lg p-0.5">
+            <span className="text-sm text-theme-muted">Periode:</span>
+            <div className="flex bg-theme-secondary rounded-lg p-0.5">
               {(['annual', 'quarterly'] as const).map((p) => (
                 <button
                   key={p}
@@ -1447,7 +1439,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                   className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
                     period === p
                       ? 'bg-white text-black'
-                      : 'text-neutral-400 hover:text-white'
+                      : 'text-theme-secondary hover:text-theme-primary'
                   }`}
                 >
                   {p === 'annual' ? GERMAN_LABELS.annual : GERMAN_LABELS.quarterly}
@@ -1463,7 +1455,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 e.stopPropagation()
                 setIsYearsDropdownOpen(!isYearsDropdownOpen)
               }}
-              className="flex items-center gap-2 px-3 py-1.5 bg-neutral-900 border border-neutral-800 rounded-lg text-sm text-neutral-300 hover:text-white transition-colors"
+              className="flex items-center gap-2 px-3 py-1.5 bg-theme-secondary border border-theme rounded-lg text-sm text-theme-primary hover:text-theme-primary transition-colors"
             >
               <CalendarIcon className="w-4 h-4" />
               <span>{yearsToShow} Jahre</span>
@@ -1472,7 +1464,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
             {isYearsDropdownOpen && (
               <div
-                className="absolute top-10 right-0 w-36 bg-neutral-900 border border-neutral-800 rounded-lg shadow-lg py-1 z-50"
+                className="absolute top-10 right-0 w-36 bg-theme-card border border-theme rounded-lg shadow-lg py-1 z-50"
                 onClick={(e) => e.stopPropagation()}
               >
                 {[3, 5, 10].map((years) => (
@@ -1484,8 +1476,8 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                     }}
                     className={`w-full px-3 py-2 text-left text-sm transition-colors ${
                       yearsToShow === years
-                        ? 'bg-neutral-800 text-white'
-                        : 'text-neutral-400 hover:bg-neutral-800 hover:text-white'
+                        ? 'bg-theme-hover text-theme-primary'
+                        : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
                     }`}
                   >
                     {years} Jahre
@@ -1497,7 +1489,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         </div>
 
         {/* Tabs */}
-        <div className="flex items-center gap-6 border-b border-neutral-800 mb-6">
+        <div className="flex items-center gap-6 border-b border-theme mb-6">
           {[
             { key: 'income', label: GERMAN_LABELS.income, icon: DocumentTextIcon },
             { key: 'balance', label: GERMAN_LABELS.balance, icon: ChartBarIcon },
@@ -1508,8 +1500,8 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
               onClick={() => setActiveStatement(key as any)}
               className={`flex items-center gap-2 pb-3 text-sm font-medium transition-colors ${
                 activeStatement === key
-                  ? 'text-white border-b-2 border-white'
-                  : 'text-neutral-500 hover:text-neutral-300'
+                  ? 'text-theme-primary border-b-2 border-theme-primary'
+                  : 'text-theme-muted hover:text-theme-primary'
               }`}
             >
               <Icon className="w-4 h-4" />
@@ -1523,8 +1515,8 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           {!rawStatements ? (
             <div className="text-center py-16">
               <InformationCircleIcon className="w-12 h-12 text-red-400 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-white mb-2">Keine Daten verfügbar</h3>
-              <p className="text-neutral-500">
+              <h3 className="text-lg font-medium text-theme-primary mb-2">Keine Daten verfügbar</h3>
+              <p className="text-theme-muted">
                 Finanzdaten für {ticker.toUpperCase()} konnten nicht geladen werden.
               </p>
             </div>
