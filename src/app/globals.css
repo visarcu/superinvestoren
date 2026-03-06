@@ -25,33 +25,33 @@
      --text-2xl: 1.375rem;   /* 22px - Page headers */
      --text-3xl: 1.75rem;    /* 28px - Hero numbers */
      
-     /* ===== LIGHT THEME - Warm & Structured wie Quartr ===== */
+     /* ===== LIGHT THEME - Warm Stone, Linear/Notion Inspired ===== */
 
-     /* Backgrounds - Soft gray base, not pure white */
-     --color-bg-primary: #f8f9fa;
+     /* Backgrounds - Warm stone base, white cards for elevation */
+     --color-bg-primary: #f5f3f1;
      --color-bg-card: #ffffff;
-     --color-bg-hover: #f1f3f4;
-     --color-bg-secondary: #eef0f2;
-     --color-bg-tertiary: #e3e5e8;
+     --color-bg-hover: #f0eeec;
+     --color-bg-secondary: #eae8e6;
+     --color-bg-tertiary: #ddd9d6;
      --color-bg-input: #ffffff;
      --color-bg-elevated: #ffffff;
 
-     /* Sidebar - Slightly darker for contrast */
-     --color-sidebar-bg: #f1f3f5;
-     --color-sidebar-hover: rgba(0, 0, 0, 0.04);
-     --color-sidebar-active: rgba(0, 0, 0, 0.08);
+     /* Sidebar - Clearly distinct from content area */
+     --color-sidebar-bg: #eae7e4;
+     --color-sidebar-hover: rgba(0, 0, 0, 0.06);
+     --color-sidebar-active: rgba(0, 0, 0, 0.10);
 
-     /* Text - Good contrast */
-     --color-text-primary: #1a1a1a;
-     --color-text-secondary: #4a4a4a;
-     --color-text-muted: #8a8a8a;
-     --color-text-faint: #b8b8b8;
+     /* Text - Warm stone tones, clear hierarchy */
+     --color-text-primary: #1c1917;
+     --color-text-secondary: #57534e;
+     --color-text-muted: #a8a29e;
+     --color-text-faint: #d6d3d1;
 
-     /* Borders - Visible but subtle */
-     --color-border: #e0e0e0;
-     --color-border-light: #ebebeb;
+     /* Borders - Warm, visible */
+     --color-border: #d6d3d1;
+     --color-border-light: #e7e5e4;
      --color-border-focus: #16a34a;
-     --color-divider: #e5e5e5;
+     --color-divider: #e7e5e4;
 
      /* Primary Action - Green to match dark theme */
      --color-primary: #16a34a;
@@ -61,18 +61,18 @@
 
      /* Semantic Colors */
      --color-success: #16a34a;
-     --color-success-bg: rgba(22, 163, 74, 0.08);
-     --color-success-muted: rgba(22, 163, 74, 0.15);
+     --color-success-bg: rgba(22, 163, 74, 0.07);
+     --color-success-muted: rgba(22, 163, 74, 0.12);
 
      --color-danger: #dc2626;
-     --color-danger-bg: rgba(220, 38, 38, 0.08);
-     --color-danger-muted: rgba(220, 38, 38, 0.15);
+     --color-danger-bg: rgba(220, 38, 38, 0.07);
+     --color-danger-muted: rgba(220, 38, 38, 0.12);
 
      --color-warning: #d97706;
-     --color-warning-bg: rgba(217, 119, 6, 0.08);
+     --color-warning-bg: rgba(217, 119, 6, 0.07);
 
      --color-info: #0284c7;
-     --color-info-bg: rgba(2, 132, 199, 0.08);
+     --color-info-bg: rgba(2, 132, 199, 0.07);
 
      /* Chart-Palette - Consistent with dark theme */
      --chart-1: #16a34a;
@@ -83,17 +83,17 @@
      --chart-6: #ef4444;
      --chart-positive: #16a34a;
      --chart-negative: #dc2626;
-     --chart-neutral: #71717a;
+     --chart-neutral: #78716c;
      --chart-grid: rgba(0, 0, 0, 0.06);
-     --chart-axis: #a1a1aa;
+     --chart-axis: #a8a29e;
 
-     /* Shadows - More visible for depth */
-     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.06);
-     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-     --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-     --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.12), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.08), 0 1px 2px rgba(0, 0, 0, 0.04);
-     --shadow-dropdown: 0 4px 16px rgba(0, 0, 0, 0.15);
+     /* Shadows - Stronger for real depth and card elevation */
+     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.08);
+     --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.06);
+     --shadow-md: 0 4px 8px -1px rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.08);
+     --shadow-lg: 0 12px 24px -4px rgba(0, 0, 0, 0.15), 0 4px 8px -2px rgba(0, 0, 0, 0.08);
+     --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.10), 0 1px 2px rgba(0, 0, 0, 0.06);
+     --shadow-dropdown: 0 8px 24px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.08);
      
      /* Spacing */
      --space-0: 0;
@@ -981,7 +981,7 @@
 :root:not(.dark) article h4,
 :root:not(.dark) article h5,
 :root:not(.dark) article h6 {
-  color: #111827 !important; /* gray-900 */
+  color: #1c1917 !important; /* stone-900 */
 }
 
 :root:not(.dark) .prose h1, :root:not(.dark) article h1 {
@@ -1013,37 +1013,37 @@
 }
 
 :root:not(.dark) .prose p, :root:not(.dark) article p {
-  color: #4b5563 !important; /* gray-600 */
+  color: #57534e !important; /* stone-600 */
   line-height: 1.75 !important;
   margin-bottom: 1rem !important;
 }
 
 :root:not(.dark) .prose strong, :root:not(.dark) article strong {
-  color: #111827 !important; /* gray-900 */
+  color: #1c1917 !important; /* stone-900 */
   font-weight: 600 !important;
 }
 
 :root:not(.dark) .prose a, :root:not(.dark) article a {
-  color: #111827 !important; /* gray-900 */
+  color: #1c1917 !important; /* stone-900 */
   text-decoration: underline !important;
 }
 
 :root:not(.dark) .prose a:hover, :root:not(.dark) article a:hover {
-  color: #4b5563 !important; /* gray-600 */
+  color: #57534e !important; /* stone-600 */
 }
 
 :root:not(.dark) .prose ul, :root:not(.dark) .prose ol,
 :root:not(.dark) article ul, :root:not(.dark) article ol {
-  color: #4b5563 !important; /* gray-600 */
+  color: #57534e !important; /* stone-600 */
 }
 
 :root:not(.dark) .prose li, :root:not(.dark) article li {
-  color: #4b5563 !important; /* gray-600 */
+  color: #57534e !important; /* stone-600 */
 }
 
 :root:not(.dark) .prose blockquote, :root:not(.dark) article blockquote {
-  color: #6b7280 !important; /* gray-500 */
-  border-left: 4px solid #d1d5db !important; /* gray-300 */
+  color: #78716c !important; /* stone-500 */
+  border-left: 4px solid #d6d3d1 !important; /* stone-300 */
   padding-left: 1rem !important;
   font-style: italic !important;
 }
@@ -1064,7 +1064,7 @@
 :root:not(.dark) [class*="border-neutral-7"],
 :root:not(.dark) [class*="border-gray-8"],
 :root:not(.dark) [class*="border-gray-7"] {
-  border-color: #e0e0e0 !important;
+  border-color: var(--color-border) !important;
 }
 
 /* Override hardcoded dark backgrounds in light mode */
@@ -1204,6 +1204,26 @@
   background-color: var(--color-bg-hover) !important;
 }
 
+/* Override semi-transparent white backgrounds in light mode */
+:root:not(.dark) [class*="bg-white/[0.0"],
+:root:not(.dark) [class*="bg-white/[0.1"] {
+  background-color: var(--color-bg-secondary) !important;
+}
+
+/* Override dark hover states in light mode */
+:root:not(.dark) [class*="hover\:bg-gray-700"]:hover,
+:root:not(.dark) [class*="hover\:bg-gray-800"]:hover,
+:root:not(.dark) [class*="hover\:bg-neutral-700"]:hover,
+:root:not(.dark) [class*="hover\:bg-neutral-800"]:hover {
+  background-color: var(--color-bg-hover) !important;
+}
+
+/* Override ring colors in light mode */
+:root:not(.dark) [class*="ring-white"],
+:root:not(.dark) [class*="ring-\[#0"] {
+  --tw-ring-color: var(--color-bg-primary) !important;
+}
+
 /* ===== GLOBAL SCROLLBAR STYLES ===== */
 /* Dark mode - default for app */
 ::-webkit-scrollbar {
@@ -1307,11 +1327,11 @@ select optgroup {
 /* Profile badge - darker in light mode (scoped to small badges only) */
 
 :root:not(.dark) [class*="bg-green-400"] {
-  background-color: #374151 !important;
+  background-color: #44403c !important; /* stone-700 */
 }
 
 :root:not(.dark) [class*="bg-green-300"] {
-  background-color: #4b5563 !important;
+  background-color: #57534e !important; /* stone-600 */
 }
 
 /* Profile badge - dark background in light mode */

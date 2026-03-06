@@ -321,9 +321,7 @@ const CollapsedSidebar = React.memo(({
   }
 
   return (
-    <div className={`w-[72px] bg-theme-primary flex flex-col items-center py-3 relative z-20 ${
-      theme === 'dark' ? 'border-r border-white/[0.04]' : 'border-r border-neutral-200'
-    }`}>
+    <div className="w-[72px] bg-theme-primary flex flex-col items-center py-3 relative z-20 border-r border-theme">
 
       {/* Logo */}
       <Link href="/" className="mb-3 group">
@@ -413,7 +411,7 @@ const CollapsedSidebar = React.memo(({
         {/* Settings Popup */}
         {showSettingsPopup && (
           <div className="absolute left-full ml-2 bottom-0 z-50">
-            <div className="bg-theme-card border border-white/[0.06] shadow-xl rounded-xl py-2 w-48">
+            <div className="bg-theme-card border border-theme shadow-xl rounded-xl py-2 w-48">
               {SETTINGS_ITEMS.map((item) => {
                 const Icon = item.icon
                 const isActive = pathname === item.href
