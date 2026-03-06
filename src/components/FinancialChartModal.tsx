@@ -573,26 +573,6 @@ export default function FinancialChartModal({
             <div className="w-full h-full">
               <ResponsiveContainer width="100%" height="100%">
                 {(() => {
-                  const tooltipStyles = {
-                    contentStyle: { 
-                      backgroundColor: 'var(--bg-card)',
-                      border: '1px solid var(--border-color)',
-                      borderRadius: '12px',
-                      color: 'var(--text-primary)',
-                      fontSize: '13px',
-                      fontWeight: '500',
-                      padding: '10px 14px',
-                      backdropFilter: 'blur(12px)',
-                      boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)'
-                    },
-                    labelStyle: { 
-                      color: 'var(--text-primary)', 
-                      fontSize: '14px', 
-                      fontWeight: '600',
-                      marginBottom: '4px'
-                    }
-                  }
-
                   // Dynamische X-Achsen Einstellungen
                   const currentData = isSegmentChart ? segmentData : data
                   const xAxisConfig = getXAxisConfig(currentData.length)
@@ -630,27 +610,28 @@ export default function FinancialChartModal({
                           width={70}
                         />
                         <RechartsTooltip
+                          cursor={false}
                           content={({ active, payload, label }) => {
                             if (!active || !payload) return null
                             const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
                             const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
-                            
+
                             return (
-                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20 shadow-xl">
-                                <p className="text-theme-primary font-semibold text-sm mb-2">{label}</p>
+                              <div style={{ ...tooltipContainerStyle, padding: '10px 14px' }}>
+                                <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>{label}</p>
                                 {nonZeroPayload.slice(0, 8).map((entry, index) => (
-                                  <div key={index} className="flex justify-between gap-4 text-xs">
+                                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', marginBottom: '2px' }}>
                                     <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span className="text-theme-primary font-medium">{formatCurrency(entry.value as number)}</span>
+                                    <span style={{ color: '#f1f5f9', fontWeight: 500 }}>{formatCurrency(entry.value as number)}</span>
                                   </div>
                                 ))}
                                 {nonZeroPayload.length > 8 && (
-                                  <div className="text-xs text-theme-muted mt-1">+{nonZeroPayload.length - 8} weitere...</div>
+                                  <div style={{ fontSize: '11px', color: '#94a3b8', marginTop: '4px' }}>+{nonZeroPayload.length - 8} weitere...</div>
                                 )}
-                                <div className="border-t border-theme/20 mt-2 pt-2">
-                                  <div className="flex justify-between gap-4 text-xs font-bold">
-                                    <span className="text-theme-secondary">Gesamt:</span>
-                                    <span className="text-theme-primary">{formatCurrency(total)}</span>
+                                <div style={{ borderTop: '1px solid rgba(148, 163, 184, 0.2)', marginTop: '8px', paddingTop: '6px' }}>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', fontWeight: 700 }}>
+                                    <span style={{ color: '#94a3b8' }}>Gesamt:</span>
+                                    <span style={{ color: '#f1f5f9' }}>{formatCurrency(total)}</span>
                                   </div>
                                 </div>
                               </div>
@@ -658,7 +639,7 @@ export default function FinancialChartModal({
                           }}
                         />
                         {segmentKeys.map((segment, index) => (
-                          <Bar 
+                          <Bar
                             key={segment}
                             dataKey={segment}
                             stackId="a"
@@ -669,7 +650,7 @@ export default function FinancialChartModal({
                       </BarChart>
                     )
                   }
-                  
+
                   // ✅ GEOGRAPHIC SEGMENTS CHART
                   if (metricKey === 'geographicSegments') {
                     const allSegmentKeys = new Set<string>()
@@ -681,12 +662,12 @@ export default function FinancialChartModal({
                       })
                     })
                     const segmentKeys = Array.from(allSegmentKeys)
-                    
+
                     return (
                       <BarChart data={segmentData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
-                        <XAxis 
-                          dataKey="label" 
+                        <XAxis
+                          dataKey="label"
                           axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
                           tickLine={false}
                           tick={{ fontSize: xAxisConfig.fontSize, fill: 'var(--color-text-secondary)' }}
@@ -695,7 +676,7 @@ export default function FinancialChartModal({
                           height={70}
                           interval={xAxisConfig.interval}
                         />
-                        <YAxis 
+                        <YAxis
                           tickFormatter={formatAxisValueDE}
                           axisLine={false}
                           tickLine={false}
@@ -703,24 +684,25 @@ export default function FinancialChartModal({
                           width={70}
                         />
                         <RechartsTooltip
+                          cursor={false}
                           content={({ active, payload, label }) => {
                             if (!active || !payload) return null
                             const nonZeroPayload = payload.filter(entry => (entry.value as number) > 0)
                             const total = nonZeroPayload.reduce((sum, entry) => sum + (entry.value as number), 0)
                             
                             return (
-                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20 shadow-xl">
-                                <p className="text-theme-primary font-semibold text-sm mb-2">{label}</p>
+                              <div style={{ ...tooltipContainerStyle, padding: '10px 14px' }}>
+                                <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>{label}</p>
                                 {nonZeroPayload.slice(0, 8).map((entry, index) => (
-                                  <div key={index} className="flex justify-between gap-4 text-xs">
+                                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', marginBottom: '2px' }}>
                                     <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span className="text-theme-primary font-medium">{formatCurrency(entry.value as number)}</span>
+                                    <span style={{ color: '#f1f5f9', fontWeight: 500 }}>{formatCurrency(entry.value as number)}</span>
                                   </div>
                                 ))}
-                                <div className="border-t border-theme/20 mt-2 pt-2">
-                                  <div className="flex justify-between gap-4 text-xs font-bold">
-                                    <span className="text-theme-secondary">Gesamt:</span>
-                                    <span className="text-theme-primary">{formatCurrency(total)}</span>
+                                <div style={{ borderTop: '1px solid rgba(148, 163, 184, 0.2)', marginTop: '8px', paddingTop: '6px' }}>
+                                  <div style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', fontWeight: 700 }}>
+                                    <span style={{ color: '#94a3b8' }}>Gesamt:</span>
+                                    <span style={{ color: '#f1f5f9' }}>{formatCurrency(total)}</span>
                                   </div>
                                 </div>
                               </div>
@@ -728,7 +710,7 @@ export default function FinancialChartModal({
                           }}
                         />
                         {segmentKeys.map((segment, index) => (
-                          <Bar 
+                          <Bar
                             key={segment}
                             dataKey={segment}
                             stackId="a"
@@ -847,6 +829,7 @@ export default function FinancialChartModal({
                           />
                         )}
                         <RechartsTooltip
+                          cursor={false}
                           content={({ active, payload, label }) => {
                             if (!active || !payload?.[0]) return null
                             const val = payload[0].value as number
@@ -899,12 +882,12 @@ export default function FinancialChartModal({
                           content={({ active, payload, label }) => {
                             if (!active || !payload) return null
                             return (
-                              <div className="bg-theme-card rounded-lg px-3 py-2 backdrop-blur-sm border border-theme/20">
-                                <p className="text-theme-primary font-semibold text-sm mb-2">{label}</p>
+                              <div style={tooltipContainerStyle}>
+                                <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600, marginBottom: '8px' }}>{label}</p>
                                 {payload.map((entry, index) => (
-                                  <div key={index} className="flex justify-between gap-4 text-xs">
+                                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '12px', marginBottom: '2px' }}>
                                     <span style={{ color: entry.color }}>{entry.name}:</span>
-                                    <span className="text-theme-primary font-medium">{(entry.value as number).toFixed(1)}x</span>
+                                    <span style={{ color: '#f1f5f9', fontWeight: 500 }}>{(entry.value as number).toFixed(1)}x</span>
                                   </div>
                                 ))}
                               </div>
@@ -940,9 +923,22 @@ export default function FinancialChartModal({
                           tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                           width={70}
                         />
-                        <RechartsTooltip 
-                          formatter={(v: any, n: string) => [formatCurrency(v as number), n]}
-                          {...tooltipStyles}
+                        <RechartsTooltip
+                          cursor={false}
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload) return null
+                            return (
+                              <div style={tooltipContainerStyle}>
+                                <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '6px' }}>{label}</p>
+                                {payload.map((entry, index) => (
+                                  <div key={index} style={{ display: 'flex', justifyContent: 'space-between', gap: '16px', fontSize: '13px', marginBottom: '2px' }}>
+                                    <span style={{ color: entry.color, fontWeight: 500 }}>{entry.name}:</span>
+                                    <span style={{ color: '#f1f5f9', fontWeight: 600 }}>{formatCurrency(entry.value as number)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            )
+                          }}
                         />
                         <Bar dataKey="cash" name="Liquidität" fill="rgba(34, 197, 94, 0.8)" radius={[3, 3, 0, 0]} />
                         <Bar dataKey="debt" name="Schulden" fill="rgba(239, 68, 68, 0.8)" radius={[3, 3, 0, 0]} />
@@ -982,9 +978,17 @@ export default function FinancialChartModal({
                           dot={{ fill: '#F97316', strokeWidth: 0, r: 4 }}
                           activeDot={{ r: 6, fill: '#F97316', stroke: 'var(--bg-primary)', strokeWidth: 2 }}
                         />
-                        <RechartsTooltip 
-                          formatter={(v: number) => [v.toFixed(1) + 'x', 'KGV TTM']}
-                          {...tooltipStyles}
+                        <RechartsTooltip
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload?.[0]) return null
+                            const val = payload[0].value as number
+                            return (
+                              <div style={tooltipContainerStyle}>
+                                <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                                <p style={{ color: '#F97316', fontSize: '14px', fontWeight: 600 }}>{val.toFixed(1)}x</p>
+                              </div>
+                            )
+                          }}
                         />
                       </LineChart>
                     )
@@ -1114,6 +1118,7 @@ export default function FinancialChartModal({
                         />
                       )}
                       <RechartsTooltip
+                        cursor={false}
                         content={({ active, payload, label }) => {
                           if (!active || !payload?.[0]) return null
                           const value = payload[0].value as number
