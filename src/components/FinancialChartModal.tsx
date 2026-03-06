@@ -137,10 +137,13 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
     // ✅ QUALTRIM: Nehme die richtigen Datenpunkte
     const slicedData = filteredIncomeData.slice(0, dataPoints)
     
-    const combinedData = slicedData.reverse().map((income: any, index: number) => {
-      const balance = balanceData[balanceData.length - 1 - index] || {}
-      const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
-      const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
+    const combinedData = slicedData.reverse().map((income: any) => {
+      // ✅ FIX: Match by date/calendarYear instead of array index
+      const matchKey = period === 'quarterly' ? 'date' : 'calendarYear'
+      const matchVal = income[matchKey]
+      const balance = balanceData.find((b: any) => b[matchKey] === matchVal) || {}
+      const cashFlow = cashFlowData.find((c: any) => c[matchKey] === matchVal) || {}
+      const metrics = keyMetricsData.find((m: any) => m[matchKey] === matchVal) || {}
       
       // Label basierend auf Period
       let label = ''

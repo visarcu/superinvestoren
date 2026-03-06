@@ -102,10 +102,14 @@ class FinancialDataService {
       }
 
       // ✅ NEHME NUR DIE ANGEFORDERTEN JAHRE (aber aus gefilterten Daten)
-      const combinedData = filteredIncomeData.slice(0, years).reverse().map((income: any, index: number) => {
-        const balance = balanceData[balanceData.length - 1 - index] || {}
-        const cashFlow = cashFlowData[cashFlowData.length - 1 - index] || {}
-        const metrics = keyMetricsData[keyMetricsData.length - 1 - index] || {}
+      const combinedData = filteredIncomeData.slice(0, years).reverse().map((income: any) => {
+        // ✅ FIX: Match by date/calendarYear instead of array index
+        // FMP arrays may have different lengths, so index-based matching produces wrong results
+        const matchKey = period === 'quarterly' ? 'date' : 'calendarYear'
+        const matchVal = income[matchKey]
+        const balance = balanceData.find((b: any) => b[matchKey] === matchVal) || {}
+        const cashFlow = cashFlowData.find((c: any) => c[matchKey] === matchVal) || {}
+        const metrics = keyMetricsData.find((m: any) => m[matchKey] === matchVal) || {}
         // ✅ IMPROVED: Qualtrim-Style Labels (Q1'24 für Quartale, Jahr für Annual)
         const formatLabel = () => {
           if (period === 'annual') {
