@@ -33,7 +33,8 @@ export function useChartBuilderData(
     // Check if already fetching or cached
     if (fetchingRef.current.has(cacheKey)) return
     const cached = state.dataCache[ticker]
-    if (cached && cached.granularity === state.granularity && Date.now() - cached.fetchedAt < 30 * 60 * 1000) {
+    const years = getYearsForRange(state.timeRange)
+    if (cached && cached.granularity === state.granularity && cached.yearsLoaded >= years && Date.now() - cached.fetchedAt < 30 * 60 * 1000) {
       return
     }
 
@@ -41,7 +42,6 @@ export function useChartBuilderData(
     dispatch({ type: 'SET_LOADING', loading: true })
 
     try {
-      const years = getYearsForRange(state.timeRange)
       const period = getPeriodParam(state.granularity)
 
       // Check if we need price data
@@ -87,6 +87,7 @@ export function useChartBuilderData(
         historicalPrices,
         fetchedAt: Date.now(),
         granularity: state.granularity,
+        yearsLoaded: years,
       }
 
       dispatch({ type: 'CACHE_DATA', ticker, data: stockData })
@@ -100,10 +101,12 @@ export function useChartBuilderData(
 
   // Fetch data for all stocks that need it
   const fetchAllData = useCallback(async () => {
+    const years = getYearsForRange(state.timeRange)
     const tickersToFetch = state.stocks.filter(ticker => {
       const cached = state.dataCache[ticker]
       if (!cached) return true
       if (cached.granularity !== state.granularity) return true
+      if (cached.yearsLoaded < years) return true
       if (Date.now() - cached.fetchedAt > 30 * 60 * 1000) return true
       return false
     })
@@ -117,7 +120,7 @@ export function useChartBuilderData(
     } finally {
       dispatch({ type: 'SET_LOADING', loading: false })
     }
-  }, [state.stocks, state.dataCache, state.granularity, fetchStockData, dispatch])
+  }, [state.stocks, state.dataCache, state.granularity, state.timeRange, fetchStockData, dispatch])
 
   // Auto-fetch when stocks, granularity, or time range changes
   useEffect(() => {
