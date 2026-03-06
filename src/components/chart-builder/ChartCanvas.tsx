@@ -115,6 +115,22 @@ export default function ChartCanvas({
     return values
   }, [chartData, visibleMetrics])
 
+  // Determine X-axis interval: show all ticks for sparse data (annual/quarterly),
+  // use auto for dense data (daily prices)
+  // NOTE: All hooks must be above any early return to satisfy Rules of Hooks
+  const xAxisInterval = useMemo(() => {
+    if (chartData.length <= 15) return 0
+    if (chartData.length <= 30) return 1
+    return 'preserveStartEnd' as const
+  }, [chartData.length])
+
+  // Determine Y-axis unit for formatting
+  const leftAxisUnit = yAxisConfigs.find(c => c.side === 'left')?.unit || 'number'
+  const rightAxisUnit = yAxisConfigs.find(c => c.side === 'right')?.unit
+  const hasRightAxis = yAxisConfigs.length > 1
+  const effectiveLeftUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : leftAxisUnit
+  const effectiveRightUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : rightAxisUnit
+
   if (visibleMetrics.length === 0 && !loading) {
     return (
       <div className="h-full flex items-center justify-center">
@@ -130,23 +146,6 @@ export default function ChartCanvas({
       </div>
     )
   }
-
-  // Determine Y-axis unit for formatting
-  const leftAxisUnit = yAxisConfigs.find(c => c.side === 'left')?.unit || 'number'
-  const rightAxisUnit = yAxisConfigs.find(c => c.side === 'right')?.unit
-  const hasRightAxis = yAxisConfigs.length > 1
-
-  // Override unit for view modes that transform values
-  const effectiveLeftUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : leftAxisUnit
-  const effectiveRightUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : rightAxisUnit
-
-  // Determine X-axis interval: show all ticks for sparse data (annual/quarterly),
-  // use auto for dense data (daily prices)
-  const xAxisInterval = useMemo(() => {
-    if (chartData.length <= 15) return 0 // Show every label for annual/quarterly data
-    if (chartData.length <= 30) return 1 // Every other label
-    return 'preserveStartEnd' as const
-  }, [chartData.length])
 
   return (
     <div className="h-full relative" id="chart-builder-canvas">
