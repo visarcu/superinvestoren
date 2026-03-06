@@ -108,7 +108,7 @@ export default function ChartBuilder() {
       />
 
       {/* Main content */}
-      <div className="flex flex-1 overflow-hidden">
+      <div className="flex flex-1 min-h-0 overflow-hidden">
         {/* Sidebar */}
         <ChartSidebar
           state={state}
@@ -116,8 +116,8 @@ export default function ChartBuilder() {
           maxStocks={maxStocks}
         />
 
-        {/* Chart area */}
-        <div className="flex-1 flex flex-col overflow-hidden">
+        {/* Chart + Footer column */}
+        <div className="flex-1 flex flex-col min-h-0 overflow-y-auto">
           {/* Time controls */}
           <TimeControls
             granularity={state.granularity}
@@ -129,24 +129,26 @@ export default function ChartBuilder() {
             onViewModeChange={m => dispatch({ type: 'SET_VIEW_MODE', viewMode: m })}
           />
 
-          {/* Chart */}
-          <ChartCanvas
-            chartData={chartData}
+          {/* Chart - constrained height like QualtTrim */}
+          <div className="h-[min(55vh,480px)] min-h-[320px] flex-shrink-0">
+            <ChartCanvas
+              chartData={chartData}
+              activeMetrics={state.activeMetrics}
+              yAxisConfigs={yAxisConfigs}
+              viewMode={state.viewMode}
+              loading={state.loading}
+            />
+          </div>
+
+          {/* Footer stats */}
+          <ChartFooter
             activeMetrics={state.activeMetrics}
-            yAxisConfigs={yAxisConfigs}
+            chartData={chartData}
             viewMode={state.viewMode}
-            loading={state.loading}
+            onRemoveMetric={id => dispatch({ type: 'REMOVE_METRIC', id })}
           />
         </div>
       </div>
-
-      {/* Footer stats */}
-      <ChartFooter
-        activeMetrics={state.activeMetrics}
-        chartData={chartData}
-        viewMode={state.viewMode}
-        onRemoveMetric={id => dispatch({ type: 'REMOVE_METRIC', id })}
-      />
 
       {/* Preset Modal */}
       <PresetModal
