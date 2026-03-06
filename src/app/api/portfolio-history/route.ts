@@ -334,25 +334,77 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 7. Lade S&P 500 (SPY) Benchmark-Daten für Performance-Vergleich (in %)
+    // 7. Berechne TWR (True Time-Weighted Return) für fairen Benchmark-Vergleich
+    // TWR eliminiert den Einfluss von Cash-Flow-Zeitpunkten
+    // Methode: Chain-Linking von täglichen Sub-Perioden-Returns
+    //   - An Tagen OHNE Transaktion: return = (V_heute / V_gestern) - 1
+    //   - An Tagen MIT Transaktion:  return = (V_heute / (V_gestern + Cashflow)) - 1
+    // TWR_kumulativ = (1+r₁) × (1+r₂) × ... × (1+rₙ) - 1
+
+    // Erstelle ein Set der Transaktionsdaten mit ihrem Cashflow-Betrag (in EUR)
+    const cashflowByDate = new Map<string, number>()
+    if (useTransactions) {
+      allTransactions.forEach(tx => {
+        const cf = cashflowByDate.get(tx.date) || 0
+        if (tx.type === 'buy') {
+          // Kauf = Geldzufluss ins Portfolio
+          cashflowByDate.set(tx.date, cf + (tx.quantity * tx.price))
+        } else if (tx.type === 'sell') {
+          // Verkauf = Geldabfluss aus Portfolio
+          cashflowByDate.set(tx.date, cf - (tx.quantity * tx.price))
+        }
+      })
+    }
+
+    // Berechne laufende TWR über chartData
+    const twrData: Array<{ date: string; twrCumulative: number }> = []
+    let cumulativeTWR = 1.0
+
+    for (let i = 0; i < chartData.length; i++) {
+      if (i === 0) {
+        twrData.push({ date: chartData[i].date, twrCumulative: 0 })
+        continue
+      }
+
+      const prevValue = chartData[i - 1].value
+      const prevDate = chartData[i - 1].date
+      const currentValue = chartData[i].value
+
+      // Cashflow am vorherigen Tag (nach Bewertung eingegangen)
+      const cashflow = cashflowByDate.get(prevDate) || 0
+
+      // Adjusted start value: Vorheriger Wert + Cashflow der danach eingegangen ist
+      const adjustedStartValue = prevValue + cashflow
+
+      if (adjustedStartValue > 0) {
+        const periodReturn = currentValue / adjustedStartValue
+        cumulativeTWR *= periodReturn
+      }
+
+      twrData.push({
+        date: chartData[i].date,
+        twrCumulative: (cumulativeTWR - 1) * 100 // in %
+      })
+    }
+
+    // TWR-Lookup Map
+    const twrByDate = new Map<string, number>()
+    twrData.forEach(d => twrByDate.set(d.date, d.twrCumulative))
+
+    // 8. Lade S&P 500 (SPY) Benchmark-Daten für Performance-Vergleich (in %)
     let performanceData: Array<{ date: string; portfolioPerformance: number; spyPerformance: number }> = []
     try {
       const spyHistory = await fetchHistoricalPrices('SPY', fromDate, toDate)
       if (spyHistory.length > 0 && chartData.length > 0) {
-        // Finde den ersten Tag mit Portfolio-Daten
         const firstPortfolioDate = chartData[0].date
-
-        // Finde den SPY-Preis am ersten Portfolio-Tag
         const firstSPYDataPoint = spyHistory.find(d => d.date >= firstPortfolioDate)
         const firstSPYPrice = firstSPYDataPoint?.close || spyHistory[0].close
 
-        // Erstelle SPY-Lookup Map
         const spyPriceMap = new Map<string, number>()
         spyHistory.forEach(d => spyPriceMap.set(d.date, d.close))
 
-        // Performance-Daten: Beide in % ab dem gleichen Startpunkt
-        // Portfolio-Performance basiert auf den bereits berechneten chartData
-        // SPY-Performance: (aktueller Kurs / Startkurs - 1) * 100
+        // Performance-Daten: TWR für Portfolio, Price Return für SPY
+        // Beide starten bei 0% → fairer Vergleich
         performanceData = chartData.map(point => {
           const spyPrice = spyPriceMap.get(point.date)
           const spyPerformance = spyPrice && firstSPYPrice
@@ -361,7 +413,7 @@ export async function POST(request: NextRequest) {
 
           return {
             date: point.date,
-            portfolioPerformance: point.performance, // Bereits berechnet: ((value - invested) / invested) * 100
+            portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100, // TWR in %
             spyPerformance: Math.round(spyPerformance * 100) / 100
           }
         })
