@@ -330,20 +330,28 @@ export default function PortfolioPerformanceChart({
             ) : (
               <>
                 <h3 className="text-sm font-medium text-neutral-400 mb-2">
-                  Performance vs. S&P 500
+                  Kursentwicklung vs. S&P 500
                 </h3>
                 <div className="flex items-center gap-3">
-                  <span className={`text-2xl font-semibold ${rangePerformance.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {rangePerformance.isPositive ? '+' : ''}{rangePerformance.percent.toFixed(2)}%
-                  </span>
-                  {currentPerformanceVsSpy && (
-                    <div className={`flex items-center gap-1 px-2 py-1 rounded-lg text-xs ${
-                      currentPerformanceVsSpy.diff >= 0
-                        ? 'bg-emerald-500/10 text-emerald-400'
-                        : 'bg-red-500/10 text-red-400'
-                    }`}>
-                      vs. S&P: {currentPerformanceVsSpy.diff >= 0 ? '+' : ''}{currentPerformanceVsSpy.diff.toFixed(2)}%
-                    </div>
+                  {currentPerformanceVsSpy ? (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-neutral-500">Portfolio</span>
+                        <span className={`text-sm font-semibold ${currentPerformanceVsSpy.portfolio >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                          {currentPerformanceVsSpy.portfolio >= 0 ? '+' : ''}{currentPerformanceVsSpy.portfolio.toFixed(2)}%
+                        </span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-neutral-500">S&P 500</span>
+                        <span className={`text-sm font-semibold ${currentPerformanceVsSpy.spy >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
+                          {currentPerformanceVsSpy.spy >= 0 ? '+' : ''}{currentPerformanceVsSpy.spy.toFixed(2)}%
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <span className={`text-sm font-semibold ${rangePerformance.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {rangePerformance.isPositive ? '+' : ''}{rangePerformance.percent.toFixed(2)}%
+                    </span>
                   )}
                 </div>
               </>

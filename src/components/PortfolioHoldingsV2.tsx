@@ -726,6 +726,9 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
                   </span>
                 )}
               </div>
+              {xirrPercent !== null && (
+                <p className="text-[10px] text-neutral-600 mt-0.5">Interner Zinsfuß (XIRR)</p>
+              )}
             </div>
 
             {/* Invested */}
@@ -854,7 +857,7 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
                           <div className="col-span-2 text-right">Wert</div>
                           <div className="col-span-2 text-right">Ø Kaufpreis</div>
                           <div className="col-span-2 text-right">Kurs (EUR)</div>
-                          <div className="col-span-2 text-right">Rendite</div>
+                          <div className="col-span-2 text-right">G/V</div>
                           <div className="col-span-1"></div>
                         </div>
 
