@@ -8,6 +8,8 @@ import {
   Bar,
   LineChart,
   Line,
+  AreaChart,
+  Area,
   ReferenceLine,
   XAxis,
   YAxis,
@@ -743,12 +745,29 @@ export default function FinancialChartModal({
                     const validData = data.filter(d => d.profitMargin !== undefined && d.profitMargin !== null)
                     const marginMedian = calculateMedian(validData, 'profitMargin')
 
-                    // Growth-Modus: Pp.-Veränderung
+                    // Growth-Modus: Pp.-Veränderung als Area Chart
                     if (viewMode === 'growth') {
                       const growthData = transformToGrowthData(validData, 'profitMargin', isQuarterly)
                       const growthKey = 'profitMargin_growth'
+                      const values = growthData.map(d => d[growthKey] ?? 0)
+                      const dataMax = Math.max(...values)
+                      const dataMin = Math.min(...values)
+                      const gradientOffset = dataMax <= 0 ? 0 : dataMin >= 0 ? 1 : dataMax / (dataMax - dataMin)
+
                       return (
-                        <BarChart data={growthData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <AreaChart data={growthData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                          <defs>
+                            <linearGradient id="splitFillMargin" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset={0} stopColor="#4ade80" stopOpacity={0.25} />
+                              <stop offset={gradientOffset} stopColor="#4ade80" stopOpacity={0.05} />
+                              <stop offset={gradientOffset} stopColor="#f87171" stopOpacity={0.05} />
+                              <stop offset={1} stopColor="#f87171" stopOpacity={0.25} />
+                            </linearGradient>
+                            <linearGradient id="splitStrokeMargin" x1="0" y1="0" x2="0" y2="1">
+                              <stop offset={gradientOffset} stopColor="#4ade80" stopOpacity={1} />
+                              <stop offset={gradientOffset} stopColor="#f87171" stopOpacity={1} />
+                            </linearGradient>
+                          </defs>
                           <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                           <XAxis
                             dataKey="label"
@@ -766,9 +785,8 @@ export default function FinancialChartModal({
                             tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                             tickFormatter={(v) => `${v >= 0 ? '+' : ''}${v.toFixed(1)} Pp.`}
                             width={70}
-                            domain={['dataMin', 'dataMax']}
                           />
-                          <ReferenceLine y={0} stroke="rgba(148, 163, 184, 0.5)" strokeWidth={1.5} />
+                          <ReferenceLine y={0} stroke="rgba(148, 163, 184, 0.6)" strokeWidth={1.5} />
                           <RechartsTooltip
                             content={({ active, payload, label }) => {
                               if (!active || !payload?.[0]) return null
@@ -783,19 +801,18 @@ export default function FinancialChartModal({
                               )
                             }}
                           />
-                          <Bar
+                          <Area
+                            type="monotone"
                             dataKey={growthKey}
                             name="Δ Gewinnmarge"
-                            radius={[3, 3, 0, 0]}
-                            fill="rgba(249, 115, 22, 0.8)"
-                            shape={(props: any) => {
-                              const { x, y, width, height, payload } = props
-                              const value = payload[growthKey]
-                              const fill = value != null && value >= 0 ? 'rgba(74, 222, 128, 0.8)' : 'rgba(248, 113, 113, 0.8)'
-                              return <rect x={x} y={y} width={width} height={height} fill={fill} rx={3} ry={3} />
-                            }}
+                            stroke="url(#splitStrokeMargin)"
+                            fill="url(#splitFillMargin)"
+                            strokeWidth={2.5}
+                            dot={{ r: 3, fill: 'var(--bg-primary)', strokeWidth: 2, stroke: '#94a3b8' }}
+                            activeDot={{ r: 5, strokeWidth: 2 }}
+                            connectNulls
                           />
-                        </BarChart>
+                        </AreaChart>
                       )
                     }
 
@@ -973,14 +990,30 @@ export default function FinancialChartModal({
                     )
                   }
                   
-                  // ✅ STANDARD BAR CHART (mit Growth-Modus + Median)
+                  // ✅ STANDARD AREA CHART (Growth-Modus mit grün/rot Gradient)
                   if (viewMode === 'growth' && supportsGrowthView) {
                     const growthData = transformToGrowthData(data, metricKey, isQuarterly)
                     const growthKey = `${metricKey}_growth`
                     const isPercentMetric = PERCENT_METRICS.includes(metricKey)
+                    const growthValues = growthData.map(d => d[growthKey] ?? 0)
+                    const gMax = Math.max(...growthValues)
+                    const gMin = Math.min(...growthValues)
+                    const gradientOffset = gMax <= 0 ? 0 : gMin >= 0 ? 1 : gMax / (gMax - gMin)
 
                     return (
-                      <BarChart data={growthData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                      <AreaChart data={growthData} margin={{ top: 20, right: 30, bottom: 80, left: 80 }}>
+                        <defs>
+                          <linearGradient id="splitFill" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset={0} stopColor="#4ade80" stopOpacity={0.25} />
+                            <stop offset={gradientOffset} stopColor="#4ade80" stopOpacity={0.05} />
+                            <stop offset={gradientOffset} stopColor="#f87171" stopOpacity={0.05} />
+                            <stop offset={1} stopColor="#f87171" stopOpacity={0.25} />
+                          </linearGradient>
+                          <linearGradient id="splitStroke" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset={gradientOffset} stopColor="#4ade80" stopOpacity={1} />
+                            <stop offset={gradientOffset} stopColor="#f87171" stopOpacity={1} />
+                          </linearGradient>
+                        </defs>
                         <CartesianGrid strokeDasharray="3 3" stroke="rgba(148, 163, 184, 0.3)" vertical={false} />
                         <XAxis
                           dataKey="label"
@@ -998,9 +1031,8 @@ export default function FinancialChartModal({
                           tickLine={false}
                           tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                           width={70}
-                          domain={['dataMin', 'dataMax']}
                         />
-                        <ReferenceLine y={0} stroke="rgba(148, 163, 184, 0.5)" strokeWidth={1.5} />
+                        <ReferenceLine y={0} stroke="rgba(148, 163, 184, 0.6)" strokeWidth={1.5} />
                         <RechartsTooltip
                           content={({ active, payload, label }) => {
                             if (!active || !payload?.[0]) return null
@@ -1021,19 +1053,18 @@ export default function FinancialChartModal({
                             )
                           }}
                         />
-                        <Bar
+                        <Area
+                          type="monotone"
                           dataKey={growthKey}
                           name={`${metricName} Wachstum`}
-                          radius={[3, 3, 0, 0]}
-                          fill={metric?.fill || 'rgba(59, 130, 246, 0.8)'}
-                          shape={(props: any) => {
-                            const { x, y, width, height, payload } = props
-                            const value = payload[growthKey]
-                            const fill = value != null && value >= 0 ? 'rgba(74, 222, 128, 0.8)' : 'rgba(248, 113, 113, 0.8)'
-                            return <rect x={x} y={y} width={width} height={height} fill={fill} rx={3} ry={3} />
-                          }}
+                          stroke="url(#splitStroke)"
+                          fill="url(#splitFill)"
+                          strokeWidth={2.5}
+                          dot={{ r: 3, fill: 'var(--bg-primary)', strokeWidth: 2, stroke: '#94a3b8' }}
+                          activeDot={{ r: 5, strokeWidth: 2 }}
+                          connectNulls
                         />
-                      </BarChart>
+                      </AreaChart>
                     )
                   }
 
