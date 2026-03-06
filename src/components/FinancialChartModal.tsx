@@ -79,6 +79,15 @@ const calculateYoY = (data: any[], key: string, index: number): number | null =>
   return ((current - previous) / Math.abs(previous)) * 100
 }
 
+// ✅ Tooltip-Container Style (dunkel, funktioniert auf jedem Theme)
+const tooltipContainerStyle: React.CSSProperties = {
+  backgroundColor: 'rgba(15, 23, 42, 0.95)',
+  border: '1px solid rgba(148, 163, 184, 0.2)',
+  borderRadius: '10px',
+  padding: '10px 14px',
+  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)',
+}
+
 // ✅ HELPER: Quartalslabel-Formatierung
 const formatQuarterLabel = (date: string): string => {
   if (!date) return '—'
@@ -709,18 +718,14 @@ export default function FinancialChartModal({
                             const idx = validData.findIndex(d => d.label === label)
                             const yoy = calculateYoY(validData, 'profitMargin', idx)
                             return (
-                              <div style={{
-                                backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)',
-                                borderRadius: '12px', padding: '10px 14px', backdropFilter: 'blur(12px)',
-                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)'
-                              }}>
-                                <p style={{ color: 'var(--text-secondary)', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
-                                <p style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: 600 }}>
+                              <div style={tooltipContainerStyle}>
+                                <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                                <p style={{ color: '#f1f5f9', fontSize: '14px', fontWeight: 600 }}>
                                   Gewinnmarge: {(val * 100).toFixed(1)}%
                                 </p>
                                 {yoy !== null && (
                                   <p style={{ fontSize: '12px', fontWeight: 600, marginTop: '4px',
-                                    color: yoy >= 0 ? 'rgb(74, 222, 128)' : 'rgb(248, 113, 113)' }}>
+                                    color: yoy >= 0 ? '#4ade80' : '#f87171' }}>
                                     {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)} Pp. gg. Vorjahr
                                   </p>
                                 )}
@@ -891,24 +896,17 @@ export default function FinancialChartModal({
                           else formattedValue = formatCurrency(value)
 
                           return (
-                            <div style={{
-                              backgroundColor: 'var(--bg-card)',
-                              border: '1px solid var(--border-color)',
-                              borderRadius: '12px',
-                              padding: '10px 14px',
-                              backdropFilter: 'blur(12px)',
-                              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)'
-                            }}>
-                              <p style={{ color: 'var(--text-secondary)', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
-                              <p style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: 600 }}>{formattedValue}</p>
+                            <div style={tooltipContainerStyle}>
+                              <p style={{ color: '#94a3b8', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                              <p style={{ color: '#f1f5f9', fontSize: '14px', fontWeight: 600 }}>{formattedValue}</p>
                               {yoy !== null && (
                                 <p style={{
                                   fontSize: '12px',
                                   fontWeight: 600,
                                   marginTop: '4px',
-                                  color: yoy >= 0 ? 'rgb(74, 222, 128)' : 'rgb(248, 113, 113)'
+                                  color: yoy >= 0 ? '#4ade80' : '#f87171'
                                 }}>
-                                  {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)}% {isPercentMetric ? 'Pp.' : 'gg. Vorjahr'}
+                                  {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)}{isPercentMetric ? ' Pp.' : '%'} gg. Vorjahr
                                 </p>
                               )}
                             </div>
