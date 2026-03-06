@@ -46,20 +46,37 @@ interface FinancialChartModalProps {
 }
 
 // CAGR Calculator
-const calculateCAGR = (data: any[], key: string, years: number): number | null => {
+const calculateCAGR = (data: any[], key: string, periods: number): number | null => {
   if (data.length < 2) return null
-  
-  const relevantData = data.filter(d => d[key] != null && d[key] > 0).slice(-years)
+
+  const relevantData = data.filter(d => d[key] != null && d[key] > 0).slice(-periods)
   if (relevantData.length < 2) return null
-  
+
   const startValue = relevantData[0][key]
   const endValue = relevantData[relevantData.length - 1][key]
-  const periods = relevantData.length - 1
-  
-  if (startValue <= 0 || endValue <= 0 || periods <= 0) return null
-  
-  const cagr = Math.pow(endValue / startValue, 1 / periods) - 1
+  const n = relevantData.length - 1
+
+  if (startValue <= 0 || endValue <= 0 || n <= 0) return null
+
+  const cagr = Math.pow(endValue / startValue, 1 / n) - 1
   return cagr * 100
+}
+
+// YoY Calculator: Prozentuale Veränderung zum Vorperiode
+// Für Prozent-Metriken (ROE, Marge): Differenz in Prozentpunkten × 100 (da Werte als Dezimal gespeichert: 0.25 = 25%)
+const PERCENT_METRICS = ['returnOnEquity', 'profitMargin']
+
+const calculateYoY = (data: any[], key: string, index: number): number | null => {
+  if (index <= 0 || !data[index] || !data[index - 1]) return null
+  const current = data[index][key]
+  const previous = data[index - 1][key]
+  if (current == null || previous == null) return null
+  if (PERCENT_METRICS.includes(key)) {
+    // Differenz in Prozentpunkten (z.B. 0.30 - 0.25 = 0.05 → 5.0 Pp.)
+    return (current - previous) * 100
+  }
+  if (previous === 0) return null
+  return ((current - previous) / Math.abs(previous)) * 100
 }
 
 // ✅ HELPER: Quartalslabel-Formatierung
@@ -399,9 +416,15 @@ export default function FinancialChartModal({
   const metricName = metric?.name || metricKey
 
   const isSegmentChart = metricKey === 'revenueSegments' || metricKey === 'geographicSegments'
-  const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 4 : 2) : null
-  const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 12 : 4) : null
-  const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 20 : 6) : null
+  // CAGR: Korrekte Periodenanzahl (quarterly: 4 pro Jahr, annual: 1 pro Jahr) + 1 für Start/End
+  const cagr1Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 5 : 2) : null
+  const cagr3Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 13 : 4) : null
+  const cagr5Y = !isSegmentChart ? calculateCAGR(data, metricKey, period === 'quarterly' ? 21 : 6) : null
+
+  // YoY: Aktuelle Veränderung zum Vorjahr/Vorquartal
+  const latestYoY = !isSegmentChart && data.length >= 2
+    ? calculateYoY(data, metricKey, data.length - 1)
+    : null
 
   // ✅ Dynamische X-Achsen Konfiguration basierend auf Datenmenge
   const getXAxisConfig = (dataLength: number) => {
@@ -679,9 +702,31 @@ export default function FinancialChartModal({
                           width={60}
                           domain={['dataMin - 0.05', 'dataMax + 0.05']}
                         />
-                        <RechartsTooltip 
-                          formatter={(v: number) => [`${(v * 100).toFixed(1)}%`, 'Gewinnmarge']}
-                          {...tooltipStyles}
+                        <RechartsTooltip
+                          content={({ active, payload, label }) => {
+                            if (!active || !payload?.[0]) return null
+                            const val = payload[0].value as number
+                            const idx = validData.findIndex(d => d.label === label)
+                            const yoy = calculateYoY(validData, 'profitMargin', idx)
+                            return (
+                              <div style={{
+                                backgroundColor: 'var(--bg-card)', border: '1px solid var(--border-color)',
+                                borderRadius: '12px', padding: '10px 14px', backdropFilter: 'blur(12px)',
+                                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)'
+                              }}>
+                                <p style={{ color: 'var(--text-secondary)', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                                <p style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: 600 }}>
+                                  Gewinnmarge: {(val * 100).toFixed(1)}%
+                                </p>
+                                {yoy !== null && (
+                                  <p style={{ fontSize: '12px', fontWeight: 600, marginTop: '4px',
+                                    color: yoy >= 0 ? 'rgb(74, 222, 128)' : 'rgb(248, 113, 113)' }}>
+                                    {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)} Pp. gg. Vorjahr
+                                  </p>
+                                )}
+                              </div>
+                            )
+                          }}
                         />
                         <Bar dataKey="profitMargin" name="Gewinnmarge" fill="rgba(249, 115, 22, 0.8)" radius={[3, 3, 0, 0]} />
                       </BarChart>
@@ -831,14 +876,44 @@ export default function FinancialChartModal({
                         tick={{ fontSize: 11, fill: 'var(--color-text-secondary)' }}
                         width={70}
                       />
-                      <RechartsTooltip 
-                        formatter={(v: any, n: string) => {
-                          if (metricKey === 'returnOnEquity') return [`${((v as number) * 100).toFixed(1)}%`, n]
-                          if (metricKey === 'eps' || metricKey === 'dividendPS') return [formatStockPrice(v as number), n]
-                          if (metricKey === 'sharesOutstanding') return [`${((v as number) / 1e9).toFixed(2)} Mrd. Aktien`, n]
-                          return [formatCurrency(v as number), n]
+                      <RechartsTooltip
+                        content={({ active, payload, label }) => {
+                          if (!active || !payload?.[0]) return null
+                          const value = payload[0].value as number
+                          const dataIndex = data.findIndex(d => d.label === label)
+                          const yoy = calculateYoY(data, metricKey, dataIndex)
+                          const isPercentMetric = metricKey === 'returnOnEquity' || metricKey === 'profitMargin'
+
+                          let formattedValue = ''
+                          if (metricKey === 'returnOnEquity') formattedValue = `${(value * 100).toFixed(1)}%`
+                          else if (metricKey === 'eps' || metricKey === 'dividendPS') formattedValue = formatStockPrice(value)
+                          else if (metricKey === 'sharesOutstanding') formattedValue = `${(value / 1e9).toFixed(2)} Mrd. Aktien`
+                          else formattedValue = formatCurrency(value)
+
+                          return (
+                            <div style={{
+                              backgroundColor: 'var(--bg-card)',
+                              border: '1px solid var(--border-color)',
+                              borderRadius: '12px',
+                              padding: '10px 14px',
+                              backdropFilter: 'blur(12px)',
+                              boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.2)'
+                            }}>
+                              <p style={{ color: 'var(--text-secondary)', fontSize: '12px', marginBottom: '4px' }}>{label}</p>
+                              <p style={{ color: 'var(--text-primary)', fontSize: '14px', fontWeight: 600 }}>{formattedValue}</p>
+                              {yoy !== null && (
+                                <p style={{
+                                  fontSize: '12px',
+                                  fontWeight: 600,
+                                  marginTop: '4px',
+                                  color: yoy >= 0 ? 'rgb(74, 222, 128)' : 'rgb(248, 113, 113)'
+                                }}>
+                                  {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)}% {isPercentMetric ? 'Pp.' : 'gg. Vorjahr'}
+                                </p>
+                              )}
+                            </div>
+                          )
                         }}
-                        {...tooltipStyles}
                       />
                       <Bar
                         dataKey={metricKey}
@@ -854,23 +929,26 @@ export default function FinancialChartModal({
           )}
         </div>
 
-        {/* FOOTER WITH CAGR - QUALTRIM STYLE */}
+        {/* FOOTER WITH YoY + CAGR */}
         {!isSegmentChart && (
           <div className="border-t border-theme px-6 py-4 bg-theme-secondary">
-            <div className="flex justify-center items-center gap-8">
+            <div className="flex justify-center items-center gap-6">
               {[
-                { label: '1Y', value: cagr1Y },
-                { label: '2Y', value: cagr3Y },
-                { label: '5Y', value: cagr5Y }
-              ].map((item) => (
-                <div key={item.label} className="flex items-center gap-2">
+                { label: 'YoY', value: latestYoY },
+                { label: '1J', value: cagr1Y },
+                { label: '3J', value: cagr3Y },
+                { label: '5J', value: cagr5Y }
+              ].map((item, i) => (
+                <div key={item.label} className={`flex items-center gap-2 ${i === 0 ? 'pr-4 border-r border-theme' : ''}`}>
                   <span className="text-theme-muted text-sm font-medium">{item.label}:</span>
                   <span className={`text-sm font-bold px-2 py-0.5 rounded ${
-                    item.value && item.value >= 0 
-                      ? 'text-green-400 bg-green-500/10' 
-                      : 'text-red-400 bg-red-500/10'
+                    item.value != null && item.value >= 0
+                      ? 'text-green-400 bg-green-500/10'
+                      : item.value != null
+                        ? 'text-red-400 bg-red-500/10'
+                        : 'text-theme-muted'
                   }`}>
-                    {item.value !== null ? `${item.value >= 0 ? '+' : ''}${item.value.toFixed(2)}%` : '—'}
+                    {item.value !== null ? `${item.value >= 0 ? '+' : ''}${item.value.toFixed(1)}%` : '—'}
                   </span>
                 </div>
               ))}
