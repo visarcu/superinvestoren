@@ -1,0 +1,160 @@
+// src/components/chart-builder/ChartBuilder.tsx
+'use client'
+
+import { useMemo, useState, useEffect, useCallback } from 'react'
+import { User } from '@supabase/supabase-js'
+import { supabase } from '@/lib/supabaseClient'
+import { useChartBuilderReducer } from './useChartBuilderReducer'
+import { useChartBuilderData } from './useChartBuilderData'
+import { buildChartData, filterByTimeRange, determineYAxisConfig } from './dataProcessing'
+import ChartHeader from './ChartHeader'
+import ChartSidebar from './ChartSidebar'
+import ChartCanvas from './ChartCanvas'
+import TimeControls from './TimeControls'
+import ChartFooter from './ChartFooter'
+import PresetModal from './PresetModal'
+
+export default function ChartBuilder() {
+  const [state, dispatch] = useChartBuilderReducer()
+  const [user, setUser] = useState<User | null>(null)
+  const [isPremium, setIsPremium] = useState(false)
+  const [showPresetModal, setShowPresetModal] = useState(false)
+  const [showMyCharts, setShowMyCharts] = useState(false)
+
+  // Auth check
+  useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser()
+      setUser(user || null)
+
+      if (user) {
+        try {
+          const { data: { session } } = await supabase.auth.getSession()
+          if (session?.access_token) {
+            const response = await fetch('/api/user/premium-status', {
+              headers: { Authorization: `Bearer ${session.access_token}` },
+            })
+            if (response.ok) {
+              const data = await response.json()
+              setIsPremium(data.isPremium || false)
+            }
+          }
+        } catch {
+          // Ignore premium check failures
+        }
+      }
+    }
+    checkAuth()
+  }, [])
+
+  // Data fetching
+  useChartBuilderData(state, dispatch)
+
+  const maxStocks = isPremium ? 8 : 4
+
+  // Check if any metric is a price metric
+  const hasPriceMetric = useMemo(
+    () => state.activeMetrics.some(m => m.metricKey === 'stockPrice'),
+    [state.activeMetrics]
+  )
+
+  // Build chart data
+  const rawChartData = useMemo(
+    () => buildChartData(state.activeMetrics, state.dataCache, state.viewMode, state.granularity),
+    [state.activeMetrics, state.dataCache, state.viewMode, state.granularity]
+  )
+
+  // Filter by time range
+  const chartData = useMemo(
+    () => filterByTimeRange(rawChartData, state.timeRange, state.customDateRange),
+    [rawChartData, state.timeRange, state.customDateRange]
+  )
+
+  // Y-axis configuration
+  const yAxisConfigs = useMemo(
+    () => determineYAxisConfig(state.activeMetrics),
+    [state.activeMetrics]
+  )
+
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Escape closes modals
+      if (e.key === 'Escape') {
+        if (showPresetModal) setShowPresetModal(false)
+        if (showMyCharts) setShowMyCharts(false)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [showPresetModal, showMyCharts])
+
+  // Get current date for subtitle
+  const today = new Date().toLocaleDateString('de-DE', {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  })
+
+  return (
+    <div className="h-[calc(100vh-60px)] flex flex-col bg-theme-primary overflow-hidden">
+      {/* Header */}
+      <ChartHeader
+        state={state}
+        dispatch={dispatch}
+        onOpenPresets={() => setShowPresetModal(true)}
+        onOpenMyCharts={() => setShowMyCharts(true)}
+        isPremium={isPremium}
+      />
+
+      {/* Main content */}
+      <div className="flex flex-1 overflow-hidden">
+        {/* Sidebar */}
+        <ChartSidebar
+          state={state}
+          dispatch={dispatch}
+          maxStocks={maxStocks}
+        />
+
+        {/* Chart area */}
+        <div className="flex-1 flex flex-col overflow-hidden">
+          {/* Time controls */}
+          <TimeControls
+            granularity={state.granularity}
+            timeRange={state.timeRange}
+            viewMode={state.viewMode}
+            hasPriceMetric={hasPriceMetric}
+            onGranularityChange={g => dispatch({ type: 'SET_GRANULARITY', granularity: g })}
+            onTimeRangeChange={r => dispatch({ type: 'SET_TIME_RANGE', timeRange: r })}
+            onViewModeChange={m => dispatch({ type: 'SET_VIEW_MODE', viewMode: m })}
+          />
+
+          {/* Chart */}
+          <ChartCanvas
+            chartData={chartData}
+            activeMetrics={state.activeMetrics}
+            yAxisConfigs={yAxisConfigs}
+            viewMode={state.viewMode}
+            loading={state.loading}
+          />
+        </div>
+      </div>
+
+      {/* Footer stats */}
+      <ChartFooter
+        activeMetrics={state.activeMetrics}
+        chartData={chartData}
+        viewMode={state.viewMode}
+        onRemoveMetric={id => dispatch({ type: 'REMOVE_METRIC', id })}
+      />
+
+      {/* Preset Modal */}
+      <PresetModal
+        isOpen={showPresetModal}
+        onClose={() => setShowPresetModal(false)}
+        dispatch={dispatch}
+        hasStocks={state.stocks.length > 0}
+      />
+    </div>
+  )
+}
