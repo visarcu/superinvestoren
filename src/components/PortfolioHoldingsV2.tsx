@@ -26,6 +26,7 @@ import PortfolioSectorBreakdown from '@/components/PortfolioSectorBreakdown';
 import PortfolioDividendSummary from '@/components/PortfolioDividendSummary';
 import { stocks } from '@/data/stocks';
 import { fmtNum, fmtPercent } from '@/utils/formatters';
+import { calculateXIRR, type Cashflow } from '@/utils/xirr';
 
 type PortfolioView = 'holdings' | 'history';
 
@@ -155,6 +156,39 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
     const percent = prevValue > 0 ? (changeEur / prevValue) * 100 : 0;
     return { amount: changeEur, percent };
   }, [allHoldings, usdToEurRate]);
+
+  // XIRR (annualisierte Rendite) - Money-Weighted Return
+  const xirrPercent = useMemo(() => {
+    const cashflows: Cashflow[] = [];
+
+    allHoldings.forEach((holdings) => {
+      holdings.forEach(h => {
+        if (h.purchase_date && h.purchase_price > 0 && h.quantity > 0) {
+          cashflows.push({
+            amount: -(h.purchase_price * h.quantity),
+            date: new Date(h.purchase_date)
+          });
+        }
+      });
+    });
+
+    // Aktienwert ohne Cash als terminaler Cashflow
+    const stockValue = totalValue - portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0);
+
+    if (stockValue > 0 && cashflows.length > 0) {
+      cashflows.push({
+        amount: stockValue,
+        date: new Date()
+      });
+    }
+
+    cashflows.sort((a, b) => a.date.getTime() - b.date.getTime());
+
+    if (cashflows.length < 2) return null;
+
+    const result = calculateXIRR(cashflows);
+    return result !== null ? result * 100 : null;
+  }, [allHoldings, totalValue, portfolios]);
 
   // Flatten all holdings for chart
   const allHoldingsFlat = useMemo(() => {
@@ -358,6 +392,20 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
         });
 
       if (error) throw error;
+
+      // Auto-create corresponding buy transaction
+      const qty = parseFloat(newQuantity);
+      const price = parseFloat(newPurchasePrice);
+      await supabase.from('portfolio_transactions').insert({
+        portfolio_id: targetPortfolio.id,
+        type: 'buy',
+        symbol: selectedStock.symbol.toUpperCase(),
+        name: selectedStock.name,
+        quantity: qty,
+        price: price,
+        total_value: qty * price,
+        date: newPurchaseDate
+      });
 
       // Reload all holdings
       await loadAllHoldings(portfolios);
@@ -653,20 +701,30 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
               </div>
             </div>
 
-            {/* Total Gain/Loss */}
+            {/* Gewinn mit XIRR als Rendite */}
             <div>
-              <p className="text-xs text-neutral-500 mb-1">Gesamt G/V</p>
+              <p className="text-xs text-neutral-500 mb-1">Gewinn</p>
               <div className="flex items-center gap-2">
                 <span className={`text-lg font-semibold ${totalGainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                   {totalGainLoss >= 0 ? '+' : ''}€{fmtNum(Math.abs(totalGainLoss))}
                 </span>
-                <span className={`text-xs px-1.5 py-0.5 rounded ${
-                  totalGainLossPercent >= 0
-                    ? 'text-emerald-400 bg-emerald-400/10'
-                    : 'text-red-400 bg-red-400/10'
-                }`}>
-                  {totalGainLossPercent >= 0 ? '+' : ''}{totalGainLossPercent.toFixed(2)}%
-                </span>
+                {xirrPercent !== null ? (
+                  <span className={`text-xs px-1.5 py-0.5 rounded ${
+                    xirrPercent >= 0
+                      ? 'text-emerald-400 bg-emerald-400/10'
+                      : 'text-red-400 bg-red-400/10'
+                  }`}>
+                    {xirrPercent >= 0 ? '+' : ''}{xirrPercent.toFixed(2)}% p.a.
+                  </span>
+                ) : (
+                  <span className={`text-xs px-1.5 py-0.5 rounded ${
+                    totalGainLossPercent >= 0
+                      ? 'text-emerald-400 bg-emerald-400/10'
+                      : 'text-red-400 bg-red-400/10'
+                  }`}>
+                    {totalGainLossPercent >= 0 ? '+' : ''}{totalGainLossPercent.toFixed(2)}%
+                  </span>
+                )}
               </div>
             </div>
 
