@@ -11,15 +11,16 @@ interface CardProps {
 export default function Card({
   children,
   className = '',
-  borderColor = 'border-gray-700',
-  hoverBg = 'hover:bg-gray-700/50',
+  borderColor = 'border-theme',
+  hoverBg = 'hover:bg-theme-hover',
 }: CardProps) {
   return (
     <div
       className={`
-        bg-gray-800/60 backdrop-blur-md
+        bg-theme-card
         border ${borderColor}
         rounded-2xl p-5
+        shadow-[var(--shadow-card)]
         transition ${hoverBg}
         ${className}
       `}
