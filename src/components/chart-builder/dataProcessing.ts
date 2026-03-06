@@ -372,15 +372,26 @@ export function filterByTimeRange(
   const years = yearsMap[timeRange]
   if (!years) return data
 
-  // For annual data (dates like "2023"), filter by year
+  // For annual data (dates like "2023"), use the latest data point as anchor
+  // instead of current year, since annual data for the current year often isn't available yet
   const firstDate = data[0].date
   if (firstDate.length <= 4) {
-    const currentYear = new Date().getFullYear()
-    const cutoff = currentYear - years
+    const lastYear = Math.max(...data.map(d => parseInt(d.date)))
+    const cutoff = lastYear - years
     return data.filter(d => parseInt(d.date) >= cutoff)
   }
 
-  // For daily/quarterly data, filter by date
+  // For quarterly data (like "Q1 2023"), also use last data point as anchor
+  if (firstDate.startsWith('Q')) {
+    const lastYear = Math.max(...data.map(d => parseInt(d.date.split(' ')[1]) || 0))
+    const cutoff = lastYear - years
+    return data.filter(d => {
+      const year = parseInt(d.date.split(' ')[1]) || 0
+      return year >= cutoff
+    })
+  }
+
+  // For daily data, filter by date
   const cutoffDate = new Date()
   cutoffDate.setFullYear(cutoffDate.getFullYear() - years)
   const cutoffStr = cutoffDate.toISOString().substring(0, 10)

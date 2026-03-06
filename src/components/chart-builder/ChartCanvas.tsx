@@ -29,6 +29,59 @@ interface ChartCanvasProps {
   loading: boolean
 }
 
+// Custom tooltip component for a cleaner look
+function CustomTooltip({ active, payload, label, viewMode }: any) {
+  if (!active || !payload || payload.length === 0) return null
+
+  // Format the date label
+  let formattedLabel = label
+  if (label && label.length === 10 && label.includes('-')) {
+    const date = new Date(label)
+    formattedLabel = date.toLocaleDateString('de-DE', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    })
+  }
+
+  return (
+    <div className="bg-[#1c1c1f] border border-white/[0.12] rounded-lg shadow-xl px-3.5 py-3 min-w-[180px]">
+      <div className="text-[11px] font-semibold text-white/60 mb-2 tracking-wide">
+        {formattedLabel}
+      </div>
+      <div className="space-y-1.5">
+        {payload.map((entry: any) => {
+          if (entry.value === undefined || entry.value === null) return null
+          const [ticker, metricKey] = entry.name.split('_')
+          const def = getMetricDefinition(metricKey)
+          const unit = (viewMode === 'percent_change' || viewMode === 'indexed')
+            ? 'percent'
+            : (def?.unit || 'number')
+          return (
+            <div key={entry.name} className="flex items-center justify-between gap-4">
+              <div className="flex items-center gap-2 min-w-0">
+                <div
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: entry.color }}
+                />
+                <span className="text-[11px] text-white/70 truncate">
+                  {def?.label || metricKey}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-semibold text-white/50">{ticker}:</span>
+                <span className="text-[11px] font-bold text-white tabular-nums">
+                  {formatMetricValue(entry.value, unit)}
+                </span>
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
 export default function ChartCanvas({
   chartData,
   activeMetrics,
@@ -45,24 +98,22 @@ export default function ChartCanvas({
   const currentValues = useMemo(() => {
     if (chartData.length === 0) return {}
     const lastPoint = chartData[chartData.length - 1]
-    const values: Record<string, { value: number; color: string; label: string }> = {}
+    const values: Record<string, { value: number; color: string; ticker: string; label: string }> = {}
     for (const metric of visibleMetrics) {
       const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
       const val = lastPoint[seriesKey]
       if (typeof val === 'number') {
         const def = getMetricDefinition(metric.metricKey)
-        const unit = viewMode === 'percent_change' || viewMode === 'indexed'
-          ? 'percent'
-          : (def?.unit || 'number')
         values[seriesKey] = {
           value: val,
           color: metric.color,
-          label: `${metric.stockTicker} ${def?.label || ''}`,
+          ticker: metric.stockTicker,
+          label: def?.label || '',
         }
       }
     }
     return values
-  }, [chartData, visibleMetrics, viewMode])
+  }, [chartData, visibleMetrics])
 
   if (visibleMetrics.length === 0 && !loading) {
     return (
@@ -89,93 +140,115 @@ export default function ChartCanvas({
   const effectiveLeftUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : leftAxisUnit
   const effectiveRightUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : rightAxisUnit
 
+  // Determine tick count based on data density
+  const xTickCount = chartData.length <= 6 ? chartData.length : undefined
+
   return (
     <div className="flex-1 relative" id="chart-builder-canvas">
       {/* Loading overlay */}
       {loading && (
         <div className="absolute inset-0 bg-theme-primary/60 backdrop-blur-[1px] z-10 flex items-center justify-center">
-          <svg className="animate-spin h-8 w-8 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
-          </svg>
+          <div className="flex items-center gap-3">
+            <svg className="animate-spin h-5 w-5 text-brand" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+            </svg>
+            <span className="text-xs text-theme-muted font-medium">Daten laden...</span>
+          </div>
         </div>
       )}
 
-      <div className="h-full w-full p-4">
+      <div className="h-full w-full px-2 pt-4 pb-2">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart data={chartData} margin={{ top: 20, right: hasRightAxis ? 80 : 60, left: 20, bottom: 20 }}>
+          <LineChart
+            data={chartData}
+            margin={{ top: 16, right: hasRightAxis ? 70 : 50, left: 10, bottom: 8 }}
+          >
+            {/* Grid: subtle horizontal lines, very faint verticals */}
             <CartesianGrid
-              strokeDasharray="3 3"
-              stroke="rgba(255,255,255,0.04)"
-              vertical={false}
+              strokeDasharray="none"
+              stroke="rgba(255,255,255,0.06)"
+              vertical={true}
+              horizontalPoints={undefined}
+              verticalFill={[]}
+              horizontalFill={[]}
             />
+
+            {/* X-Axis */}
             <XAxis
               dataKey="date"
-              stroke="rgba(255,255,255,0.1)"
-              tick={{ fill: '#6b7280', fontSize: 11 }}
+              axisLine={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'rgba(255,255,255,0.08)' }}
+              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
               tickFormatter={(value: string) => {
                 if (value.length <= 4) return value
-                // Quarterly format like "Q1 2023"
                 if (value.startsWith('Q')) return value
-                // Date format
                 const date = new Date(value)
                 return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
               }}
+              tickCount={xTickCount}
               interval="preserveStartEnd"
-              minTickGap={50}
+              minTickGap={60}
+              dy={6}
             />
+
+            {/* Left Y-Axis */}
             <YAxis
               yAxisId="left"
               orientation="left"
-              stroke="rgba(255,255,255,0.1)"
-              tick={{ fill: '#6b7280', fontSize: 11 }}
-              width={70}
+              axisLine={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }}
+              tickLine={{ stroke: 'rgba(255,255,255,0.08)' }}
+              tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
+              width={65}
               tickFormatter={(value: number) => formatYAxisTick(value, effectiveLeftUnit)}
               domain={['auto', 'auto']}
               scale={viewMode === 'log' ? 'log' : 'auto'}
               allowDataOverflow={viewMode === 'log'}
+              dx={-4}
             />
+
+            {/* Right Y-Axis (if mixed units) */}
             {hasRightAxis && effectiveRightUnit && (
               <YAxis
                 yAxisId="right"
                 orientation="right"
-                stroke="rgba(255,255,255,0.1)"
-                tick={{ fill: '#6b7280', fontSize: 11 }}
-                width={70}
+                axisLine={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 1 }}
+                tickLine={{ stroke: 'rgba(255,255,255,0.08)' }}
+                tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
+                width={65}
                 tickFormatter={(value: number) => formatYAxisTick(value, effectiveRightUnit)}
                 domain={['auto', 'auto']}
                 scale={viewMode === 'log' ? 'log' : 'auto'}
                 allowDataOverflow={viewMode === 'log'}
+                dx={4}
               />
             )}
 
             {/* Reference line at zero for indexed/percent_change modes */}
             {(viewMode === 'indexed' || viewMode === 'percent_change') && (
-              <ReferenceLine yAxisId="left" y={0} stroke="rgba(255,255,255,0.15)" strokeDasharray="3 3" />
+              <ReferenceLine
+                yAxisId="left"
+                y={0}
+                stroke="rgba(255,255,255,0.2)"
+                strokeDasharray="4 4"
+                strokeWidth={1}
+              />
             )}
 
+            {/* Custom Tooltip */}
             <RechartsTooltip
-              contentStyle={{
-                backgroundColor: '#1a1a1d',
-                border: '1px solid rgba(255,255,255,0.1)',
-                borderRadius: '8px',
-                padding: '12px',
-                fontSize: '12px',
+              content={<CustomTooltip viewMode={viewMode} />}
+              cursor={{
+                stroke: 'rgba(255,255,255,0.15)',
+                strokeWidth: 1,
+                strokeDasharray: '4 4',
               }}
-              labelStyle={{ color: '#a1a1aa', marginBottom: '8px', fontWeight: 500 }}
-              formatter={(value: number, name: string) => {
-                const [ticker, metricKey] = name.split('_')
-                const def = getMetricDefinition(metricKey)
-                const unit = (viewMode === 'percent_change' || viewMode === 'indexed')
-                  ? 'percent'
-                  : (def?.unit || 'number')
-                return [formatMetricValue(value, unit), `${ticker} ${def?.label || metricKey}`]
-              }}
+              isAnimationActive={false}
             />
 
+            {/* Data lines */}
             {visibleMetrics.map(metric => {
               const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
-              const def = getMetricDefinition(metric.metricKey)
               const yAxisId = hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left'
 
               return (
@@ -185,11 +258,18 @@ export default function ChartCanvas({
                   dataKey={seriesKey}
                   yAxisId={yAxisId}
                   stroke={metric.color}
-                  strokeWidth={2}
+                  strokeWidth={2.5}
                   dot={false}
-                  activeDot={{ r: 4, strokeWidth: 0 }}
+                  activeDot={{
+                    r: 4,
+                    strokeWidth: 2,
+                    stroke: metric.color,
+                    fill: '#1c1c1f',
+                  }}
                   name={seriesKey}
                   connectNulls
+                  animationDuration={400}
+                  animationEasing="ease-out"
                 />
               )
             })}
@@ -199,8 +279,8 @@ export default function ChartCanvas({
 
       {/* Performance labels on right edge */}
       {Object.entries(currentValues).length > 0 && (
-        <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-2">
-          {Object.entries(currentValues).map(([key, { value, color, label }]) => {
+        <div className="absolute right-2 top-8 flex flex-col gap-1.5">
+          {Object.entries(currentValues).map(([key, { value, color, ticker, label }]) => {
             const def = getMetricDefinition(key.split('_')[1])
             const unit = (viewMode === 'percent_change' || viewMode === 'indexed')
               ? 'percent'
@@ -208,8 +288,12 @@ export default function ChartCanvas({
             return (
               <div
                 key={key}
-                className="flex items-center gap-1.5 px-2 py-1 rounded text-[10px] font-medium whitespace-nowrap"
-                style={{ backgroundColor: `${color}20`, color }}
+                className="flex items-center gap-1 px-2 py-0.5 rounded-md text-[10px] font-semibold whitespace-nowrap tabular-nums"
+                style={{
+                  backgroundColor: `${color}15`,
+                  color,
+                  borderLeft: `2px solid ${color}`,
+                }}
               >
                 {formatMetricValue(value, unit)}
               </div>
