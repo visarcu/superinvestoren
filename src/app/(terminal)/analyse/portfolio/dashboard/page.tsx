@@ -405,6 +405,7 @@ export default function PortfolioDashboard() {
               activeInvestments={p.activeInvestments}
               formatCurrency={p.formatCurrency}
               formatPercentage={p.formatPercentage}
+              onCashClick={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}
             />
 
             {/* Chart */}
@@ -653,8 +654,16 @@ export default function PortfolioDashboard() {
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-neutral-400 mb-2">Neuer Cash-Betrag (EUR)</label>
-                  <input type="number" min="0" step="0.01" value={newCashAmount} onChange={(e) => setNewCashAmount(e.target.value)} placeholder="0.00"
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                  <div className="flex gap-2">
+                    <input type="number" min="0" step="0.01" value={newCashAmount} onChange={(e) => setNewCashAmount(e.target.value)} placeholder="0.00"
+                      className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                    {p.cashPosition > 0 && (
+                      <button onClick={() => setNewCashAmount('0')}
+                        className="px-3 py-2 text-xs text-red-400 border border-red-500/30 hover:bg-red-500/10 rounded-lg transition-colors whitespace-nowrap">
+                        Auf 0
+                      </button>
+                    )}
+                  </div>
                 </div>
                 {newCashAmount && parseFloat(newCashAmount) !== p.cashPosition && (
                   <div className={`p-3 rounded-lg ${parseFloat(newCashAmount) > p.cashPosition ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
