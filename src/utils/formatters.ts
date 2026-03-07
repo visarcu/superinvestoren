@@ -16,6 +16,20 @@ export const fmtNum = (n?: number | null, decimals = 2) =>
 export const fmtPercent = (n?: number | null, decimals = 2) =>
   n != null ? `${n >= 0 ? '+' : ''}${n.toLocaleString('de-DE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals })}%` : '–'
 
+// Performance-Farben: Einheitlich grün/rot für positive/negative Werte
+// variant: 'primary' = volle Farbe, 'muted' = 70% Opacity, 'bg' = Hintergrund
+export const perfColor = (value: number, variant: 'primary' | 'muted' | 'bg' = 'primary') => {
+  const isPositive = value >= 0
+  switch (variant) {
+    case 'muted':
+      return isPositive ? 'text-emerald-400/70' : 'text-red-400/70'
+    case 'bg':
+      return isPositive ? 'bg-emerald-400/10 text-emerald-400' : 'bg-red-400/10 text-red-400'
+    default:
+      return isPositive ? 'text-emerald-400' : 'text-red-400'
+  }
+}
+
 // Format volume (K, M, B) with German locale
 export const fmtVolume = (vol?: number | null) => {
   if (vol == null) return '–'

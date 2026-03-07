@@ -2,6 +2,7 @@
 'use client'
 
 import React from 'react'
+import { perfColor } from '@/utils/formatters'
 
 interface QuickStatsProps {
   totalValue: number
@@ -26,9 +27,6 @@ export default function QuickStats({
   formatPercentage,
   onCashClick,
 }: QuickStatsProps) {
-  const isPositive = totalGainLoss >= 0
-  const xirrPositive = (xirrPercent ?? 0) >= 0
-
   return (
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
       {/* Gesamtwert */}
@@ -55,10 +53,10 @@ export default function QuickStats({
       {/* Gewinn / XIRR */}
       <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800/50">
         <p className="text-xs text-neutral-500 mb-1">Gewinn / Verlust</p>
-        <p className={`text-xl font-bold ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-          {isPositive ? '+' : ''}{formatCurrency(totalGainLoss)}
+        <p className={`text-xl font-bold ${perfColor(totalGainLoss)}`}>
+          {totalGainLoss >= 0 ? '+' : ''}{formatCurrency(totalGainLoss)}
         </p>
-        <p className={`text-xs mt-1 ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+        <p className={`text-xs mt-1 ${perfColor(totalGainLossPercent, 'muted')}`}>
           {formatPercentage(totalGainLossPercent)} gesamt
         </p>
       </div>
@@ -68,8 +66,8 @@ export default function QuickStats({
         <p className="text-xs text-neutral-500 mb-1">Interner Zinsfuß (XIRR)</p>
         {xirrPercent !== null ? (
           <>
-            <p className={`text-xl font-bold ${xirrPositive ? 'text-emerald-400' : 'text-red-400'}`}>
-              {xirrPositive ? '+' : ''}{xirrPercent.toFixed(2)}%
+            <p className={`text-xl font-bold ${perfColor(xirrPercent)}`}>
+              {xirrPercent >= 0 ? '+' : ''}{xirrPercent.toFixed(2)}%
             </p>
             <p className="text-xs text-neutral-500 mt-1">annualisiert (p.a.)</p>
           </>

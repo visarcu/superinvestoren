@@ -5,6 +5,7 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
+import { perfColor } from '@/utils/formatters'
 import {
   PlusIcon,
   PencilIcon,
@@ -27,6 +28,7 @@ interface PositionsTableProps {
   onTopUpPosition: (holding: Holding) => void
   onEditCash: () => void
   isAllDepotsView: boolean
+  portfolioId?: string
 }
 
 export default function PositionsTable({
@@ -41,13 +43,18 @@ export default function PositionsTable({
   onDeletePosition,
   onTopUpPosition,
   onEditCash,
-  isAllDepotsView
+  isAllDepotsView,
+  portfolioId
 }: PositionsTableProps) {
   const router = useRouter()
   const sortedHoldings = [...holdings].sort((a, b) => b.value - a.value)
 
   const handleViewStock = (symbol: string) => {
-    router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
+    if (portfolioId) {
+      router.push(`/analyse/portfolio/stocks/${symbol.toLowerCase()}?portfolioId=${portfolioId}`)
+    } else {
+      router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
+    }
   }
 
   if (holdings.length === 0 && cashPosition <= 0) {
@@ -131,10 +138,10 @@ export default function PositionsTable({
 
               {/* G/V */}
               <div className="col-span-2 text-right">
-                <p className={`text-sm font-medium ${holding.gain_loss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                <p className={`text-sm font-medium ${perfColor(holding.gain_loss)}`}>
                   {holding.gain_loss >= 0 ? '+' : ''}{formatCurrency(holding.gain_loss)}
                 </p>
-                <span className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+                <span className={`text-xs ${perfColor(holding.gain_loss_percent, 'muted')}`}>
                   {formatPercentage(holding.gain_loss_percent)}
                 </span>
               </div>
