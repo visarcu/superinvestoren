@@ -44,3 +44,5 @@ next-env.d.ts
 /dev.db-journal
 
 *.env*
+# Claude worktrees
+.claude/worktrees/
