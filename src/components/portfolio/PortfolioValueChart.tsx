@@ -14,6 +14,7 @@ import {
   ReferenceLine
 } from 'recharts'
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
+import { perfColor } from '@/utils/formatters'
 
 interface PortfolioValueChartProps {
   portfolioId: string
@@ -160,7 +161,7 @@ export default function PortfolioValueChart({
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-emerald-400 rounded-full" />
             <span className="text-xs text-neutral-400">Portfolio (TWR)</span>
-            <span className={`text-xs font-medium ${lastPerf.portfolioPerformance >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+            <span className={`text-xs font-medium ${perfColor(lastPerf.portfolioPerformance)}`}>
               {lastPerf.portfolioPerformance >= 0 ? '+' : ''}{lastPerf.portfolioPerformance.toFixed(2)}%
             </span>
           </div>

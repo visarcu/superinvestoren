@@ -10,6 +10,7 @@ import AddPositionModal from '@/components/portfolio/AddPositionModal'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import Logo from '@/components/Logo'
+import { perfColor } from '@/utils/formatters'
 import {
   BriefcaseIcon,
   PlusIcon,
@@ -344,14 +345,14 @@ export default function PortfolioDashboard() {
             <div>
               <p className="text-3xl font-bold text-white">{p.formatCurrency(p.totalValue)}</p>
               <div className="flex items-center gap-3 mt-1">
-                <span className={`text-sm font-medium ${p.totalGainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                <span className={`text-sm font-medium ${perfColor(p.totalGainLoss)}`}>
                   {p.totalGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.totalGainLoss)}
                 </span>
-                <span className={`text-sm ${p.totalGainLossPercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                <span className={`text-sm ${perfColor(p.totalGainLossPercent)}`}>
                   {p.formatPercentage(p.totalGainLossPercent)}
                 </span>
                 {p.xirrPercent !== null && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded ${p.xirrPercent >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'}`}>
+                  <span className={`text-xs px-1.5 py-0.5 rounded ${perfColor(p.xirrPercent, 'bg')}`}>
                     XIRR: {p.xirrPercent >= 0 ? '+' : ''}{p.xirrPercent.toFixed(1)}% p.a.
                   </span>
                 )}
@@ -438,7 +439,12 @@ export default function PortfolioDashboard() {
                   {[...p.holdings].sort((a, b) => b.value - a.value).slice(0, 5).map((holding) => (
                     <div key={holding.id}
                       className="flex items-center justify-between py-2.5 border-b border-neutral-800/30 cursor-pointer hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors"
-                      onClick={() => window.location.href = `/analyse/stocks/${holding.symbol.toLowerCase()}`}
+                      onClick={() => {
+                        const base = p.portfolio?.id
+                          ? `/analyse/portfolio/stocks/${holding.symbol.toLowerCase()}?portfolioId=${p.portfolio.id}`
+                          : `/analyse/stocks/${holding.symbol.toLowerCase()}`
+                        window.location.href = base
+                      }}
                     >
                       <div className="flex items-center gap-3">
                         <Logo ticker={holding.symbol} alt={holding.symbol} className="w-7 h-7" padding="none" />
@@ -449,7 +455,7 @@ export default function PortfolioDashboard() {
                       </div>
                       <div className="text-right">
                         <p className="text-sm font-medium text-white">{p.formatCurrency(holding.value)}</p>
-                        <span className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        <span className={`text-xs ${perfColor(holding.gain_loss_percent)}`}>
                           {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(1)}%
                         </span>
                       </div>
@@ -476,6 +482,7 @@ export default function PortfolioDashboard() {
             onTopUpPosition={(h) => { setTopUpTarget(h); setTopUpPrice('') }}
             onEditCash={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}
             isAllDepotsView={p.isAllDepotsView}
+            portfolioId={p.portfolio?.id}
           />
         )}
 

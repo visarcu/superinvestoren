@@ -8,7 +8,8 @@ import {
   XAxis,
   YAxis,
   Tooltip,
-  Line
+  Line,
+  ReferenceDot
 } from 'recharts'
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
@@ -19,9 +20,17 @@ interface StockData {
   close: number
 }
 
+export interface PurchaseMarker {
+  date: string      // YYYY-MM-DD
+  priceEUR: number  // Kaufpreis in EUR
+  quantity: number
+  label: string     // "K1", "K2", ...
+}
+
 interface Props {
   ticker: string
   data: StockData[]
+  purchaseMarkers?: PurchaseMarker[]
 }
 
 const TIME_RANGES = [
@@ -42,7 +51,7 @@ const CHART_MODES = [
   { id: 'total_return', label: 'Performance' },
 ]
 
-export default function WorkingStockChart({ ticker, data }: Props) {
+export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -209,6 +218,34 @@ export default function WorkingStockChart({ ticker, data }: Props) {
       </div>
     )
   }
+
+  // Resolve purchase markers to chart data points
+  const resolvedMarkers = useMemo(() => {
+    if (!purchaseMarkers?.length || !chartData.length || selectedMode !== 'price') return []
+
+    return purchaseMarkers.map(marker => {
+      // Exakten Match oder nächsten Datenpunkt finden
+      let bestMatch = chartData[0]
+      let bestDiff = Infinity
+
+      for (const point of chartData) {
+        const diff = Math.abs(new Date(point.date).getTime() - new Date(marker.date).getTime())
+        if (diff < bestDiff) {
+          bestDiff = diff
+          bestMatch = point
+        }
+      }
+
+      const yValue = bestMatch[ticker] as number
+      if (typeof yValue !== 'number') return null
+
+      return {
+        date: bestMatch.date,
+        value: yValue,
+        label: marker.label,
+      }
+    }).filter(Boolean) as { date: string; value: number; label: string }[]
+  }, [purchaseMarkers, chartData, selectedMode, ticker])
 
   const isPositive = performanceStats && performanceStats.changePercent >= 0
   const chartColor = isPositive ? '#10b981' : '#ef4444'
@@ -387,6 +424,26 @@ export default function WorkingStockChart({ ticker, data }: Props) {
                 connectNulls
               />
             )}
+
+            {/* Kaufmarker */}
+            {resolvedMarkers.map((marker) => (
+              <ReferenceDot
+                key={marker.label}
+                x={marker.date}
+                y={marker.value}
+                r={6}
+                fill="#3b82f6"
+                stroke="#1e3a5f"
+                strokeWidth={2}
+                isFront
+                label={{
+                  value: marker.label,
+                  position: 'top',
+                  offset: 12,
+                  style: { fontSize: 10, fontWeight: 700, fill: '#3b82f6' }
+                }}
+              />
+            ))}
           </ComposedChart>
         </ResponsiveContainer>
       </div>
