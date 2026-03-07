@@ -167,22 +167,18 @@ export default function ModernDashboard() {
     }
   }, [])
 
-  // Two-phase loading with parallel AI summary
+  // Load dashboard data (markets, quotes, sectors)
   useEffect(() => {
     async function loadDashboardData() {
       setLoading(true)
       setMarketLoading(true)
-      setAiSummaryLoading(true)
 
       try {
         // Load cached data and sector data in parallel
-        const [cachedResponse, sectorResponse] = await Promise.all([
+        const [cachedResponse] = await Promise.all([
           fetch('/api/dashboard-cached'),
-          fetch('/api/sector-performance')
+          fetch('/api/sector-performance') // Preload for sector component
         ])
-
-        let marketsForAI: Record<string, any> = {}
-        let sectorsForAI: any[] = []
 
         if (cachedResponse.ok) {
           const cachedData = await cachedResponse.json()
@@ -192,34 +188,8 @@ export default function ModernDashboard() {
           }
           if (cachedData.markets) {
             setMarketQuotes(cachedData.markets)
-            marketsForAI = cachedData.markets
           }
           setMarketLoading(false)
-        }
-
-        if (sectorResponse.ok) {
-          const sectorData = await sectorResponse.json()
-          sectorsForAI = sectorData.sectors || []
-        }
-
-        // Load AI summary in parallel (don't wait for it)
-        if (Object.keys(marketsForAI).length > 0 && !aiSummary) {
-          fetch('/api/market-summary', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              markets: marketsForAI,
-              sectors: sectorsForAI
-            })
-          })
-            .then(res => res.ok ? res.json() : null)
-            .then(data => {
-              if (data?.summary) setAiSummary(data.summary)
-            })
-            .catch(err => console.error('AI summary error:', err))
-            .finally(() => setAiSummaryLoading(false))
-        } else {
-          setAiSummaryLoading(false)
         }
 
         // Load additional watchlist tickers if needed
@@ -239,7 +209,6 @@ export default function ModernDashboard() {
 
       } catch (error: any) {
         console.error('Failed to load dashboard data:', error)
-        setAiSummaryLoading(false)
       } finally {
         setLoading(false)
         setMarketLoading(false)
@@ -247,7 +216,7 @@ export default function ModernDashboard() {
     }
 
     loadDashboardData()
-  }, [POPULAR_STOCKS, watchlistTickers, aiSummary])
+  }, [POPULAR_STOCKS, watchlistTickers])
 
   const handleTickerSelect = useCallback((ticker: string) => {
     if (typeof window !== 'undefined') {
@@ -305,19 +274,19 @@ export default function ModernDashboard() {
     }
   }, [marketQuotes])
 
-  // Load AI Market Summary when market data is available
+  // Load AI Market Summary once when market data becomes available
+  const aiSummaryLoadedRef = React.useRef(false)
   useEffect(() => {
-    async function loadAiSummary() {
-      // Only load if we have market data and no summary yet
-      if (Object.keys(marketQuotes).length === 0 || aiSummary) return
+    // Only load once, when market data is available and no summary yet
+    if (aiSummaryLoadedRef.current || Object.keys(marketQuotes).length === 0) return
+    aiSummaryLoadedRef.current = true
 
+    async function loadAiSummary() {
       setAiSummaryLoading(true)
       try {
-        // First get sector data
         const sectorRes = await fetch('/api/sector-performance')
         const sectorData = sectorRes.ok ? await sectorRes.json() : { sectors: [] }
 
-        // Call AI summary API
         const response = await fetch('/api/market-summary', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -339,7 +308,7 @@ export default function ModernDashboard() {
     }
 
     loadAiSummary()
-  }, [marketQuotes, aiSummary])
+  }, [marketQuotes])
 
   return (
     <div className="min-h-screen bg-theme-primary">
