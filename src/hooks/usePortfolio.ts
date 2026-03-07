@@ -395,13 +395,50 @@ export function usePortfolio() {
     purchase_price?: number
     purchase_date?: string
   }) => {
+    // 1. Hole die aktuelle Holding um Symbol + altes Datum zu kennen
+    const holding = holdings.find(h => h.id === holdingId)
+
+    // 2. Update die Holding
     const { error } = await supabase
       .from('portfolio_holdings')
       .update({ ...updates, purchase_currency: 'EUR' })
       .eq('id', holdingId)
     if (error) throw error
+
+    // 3. Synchronisiere die zugehörige Buy-Transaktion
+    if (holding && portfolio?.id) {
+      const txUpdates: Record<string, any> = {}
+      if (updates.purchase_date) txUpdates.date = updates.purchase_date
+      if (updates.quantity !== undefined) txUpdates.quantity = updates.quantity
+      if (updates.purchase_price !== undefined) txUpdates.price = updates.purchase_price
+      if (updates.quantity !== undefined || updates.purchase_price !== undefined) {
+        const qty = updates.quantity ?? holding.quantity
+        const price = updates.purchase_price ?? holding.purchase_price_display
+        txUpdates.total_value = qty * price
+      }
+
+      if (Object.keys(txUpdates).length > 0) {
+        // Finde die initiale Buy-Transaktion (älteste für dieses Symbol)
+        const { data: txs } = await supabase
+          .from('portfolio_transactions')
+          .select('id')
+          .eq('portfolio_id', portfolio.id)
+          .eq('symbol', holding.symbol)
+          .eq('type', 'buy')
+          .order('created_at', { ascending: true })
+          .limit(1)
+
+        if (txs && txs.length > 0) {
+          await supabase
+            .from('portfolio_transactions')
+            .update(txUpdates)
+            .eq('id', txs[0].id)
+        }
+      }
+    }
+
     await loadPortfolio(depotIdParam)
-  }, [loadPortfolio, depotIdParam])
+  }, [holdings, portfolio, loadPortfolio, depotIdParam])
 
   const deletePosition = useCallback(async (holdingId: string) => {
     const { error } = await supabase
