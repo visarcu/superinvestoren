@@ -18,12 +18,13 @@ export function calculateXIRR(cashflows: Cashflow[], guess: number = 0.1): numbe
   const hasPos = cashflows.some(cf => cf.amount > 0)
   if (!hasNeg || !hasPos) return null
 
-  // Minimale Haltedauer: 7 Tage (verhindert extreme annualisierte Werte)
+  // Minimale Haltedauer: 30 Tage (verhindert extreme annualisierte Werte)
+  // Unter 30 Tagen ist Annualisierung mathematisch korrekt aber irreführend
   const dates = cashflows.map(cf => cf.date.getTime())
   const minDate = Math.min(...dates)
   const maxDate = Math.max(...dates)
   const daysDiff = (maxDate - minDate) / (24 * 60 * 60 * 1000)
-  if (daysDiff < 7) return null
+  if (daysDiff < 30) return null
 
   const d0 = minDate
   const MS_PER_YEAR = 365.25 * 24 * 60 * 60 * 1000

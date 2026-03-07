@@ -367,13 +367,16 @@ export async function POST(request: NextRequest) {
       }
 
       const prevValue = chartData[i - 1].value
-      const prevDate = chartData[i - 1].date
+      const currentDate = chartData[i].date
       const currentValue = chartData[i].value
 
-      // Cashflow am vorherigen Tag (nach Bewertung eingegangen)
-      const cashflow = cashflowByDate.get(prevDate) || 0
+      // Cashflow am AKTUELLEN Tag: Wenn Aktien am heutigen Tag gekauft wurden,
+      // ist das ein externer Geldzufluss, der zum Startwert addiert werden muss.
+      // Ohne diese Korrektur würde der Kurssprung durch den Kauf fälschlicherweise
+      // als Performance gewertet werden.
+      const cashflow = cashflowByDate.get(currentDate) || 0
 
-      // Adjusted start value: Vorheriger Wert + Cashflow der danach eingegangen ist
+      // Adjusted start value: Vorheriger Wert + Cashflow der heute eingegangen ist
       const adjustedStartValue = prevValue + cashflow
 
       if (adjustedStartValue > 0) {

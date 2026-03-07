@@ -76,7 +76,7 @@ export default function QuickStats({
         ) : (
           <>
             <p className="text-xl font-bold text-neutral-600">–</p>
-            <p className="text-xs text-neutral-600 mt-1">min. 7 Tage Haltedauer</p>
+            <p className="text-xs text-neutral-600 mt-1">min. 30 Tage Haltedauer</p>
           </>
         )}
       </div>
