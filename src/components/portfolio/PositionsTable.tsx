@@ -102,43 +102,45 @@ export default function PositionsTable({
           return (
             <div
               key={holding.id}
-              className="group flex items-center justify-between py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+              className="group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
               onClick={() => handleViewStock(holding.symbol)}
             >
-              {/* Left: Logo + Info */}
-              <div className="flex items-center gap-3 min-w-0 flex-1">
-                <span className="w-5 text-xs text-neutral-600 font-medium hidden sm:block">{index + 1}</span>
-                <Logo ticker={holding.symbol} alt={holding.symbol} className="w-8 h-8" padding="none" />
+              {/* Aktie */}
+              <div className="col-span-5 flex items-center gap-3 min-w-0">
+                <span className="w-5 text-xs text-neutral-600 font-medium hidden sm:block flex-shrink-0">{index + 1}</span>
+                <Logo ticker={holding.symbol} alt={holding.symbol} className="w-8 h-8 flex-shrink-0" padding="none" />
                 <div className="min-w-0">
                   <span className="font-medium text-white text-sm">{holding.symbol}</span>
                   <p className="text-xs text-neutral-500 truncate">
-                    {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.current_price_display)}
+                    {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.purchase_price_display)}
                   </p>
                 </div>
               </div>
 
-              {/* Right: Values */}
-              <div className="flex items-center gap-4">
-                <div className="text-right hidden sm:block">
-                  <p className="text-sm text-neutral-300">{formatStockPrice(holding.current_price_display)}</p>
-                  <p className="text-xs text-neutral-600">EK: {formatStockPrice(holding.purchase_price_display)}</p>
-                </div>
+              {/* Kurs */}
+              <div className="col-span-2 text-right hidden sm:block">
+                <p className="text-sm text-neutral-300">{formatStockPrice(holding.current_price_display)}</p>
+                <p className="text-xs text-neutral-600">EK: {formatStockPrice(holding.purchase_price_display)}</p>
+              </div>
 
-                <div className="text-right">
-                  <p className="font-medium text-white text-sm">{formatCurrency(holding.value)}</p>
-                  <span className="text-xs text-neutral-600">{percentage.toFixed(1)}%</span>
-                </div>
+              {/* Wert */}
+              <div className="col-span-2 text-right">
+                <p className="font-medium text-white text-sm">{formatCurrency(holding.value)}</p>
+                <span className="text-xs text-neutral-600">{percentage.toFixed(1)}%</span>
+              </div>
 
-                <div className="text-right min-w-[80px]">
-                  <p className={`text-sm font-medium ${holding.gain_loss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {holding.gain_loss >= 0 ? '+' : ''}{formatCurrency(holding.gain_loss)}
-                  </p>
-                  <span className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
-                    {formatPercentage(holding.gain_loss_percent)}
-                  </span>
-                </div>
+              {/* G/V */}
+              <div className="col-span-2 text-right">
+                <p className={`text-sm font-medium ${holding.gain_loss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {holding.gain_loss >= 0 ? '+' : ''}{formatCurrency(holding.gain_loss)}
+                </p>
+                <span className={`text-xs ${holding.gain_loss_percent >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+                  {formatPercentage(holding.gain_loss_percent)}
+                </span>
+              </div>
 
-                {/* Actions */}
+              {/* Actions */}
+              <div className="col-span-1 flex items-center justify-end gap-0.5">
                 {!isAllDepotsView && (
                   <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button
@@ -172,12 +174,13 @@ export default function PositionsTable({
         {/* Cash Row */}
         {cashPosition > 0 && (
           <div
-            className="group flex items-center justify-between py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
+            className="group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
             onClick={onEditCash}
           >
-            <div className="flex items-center gap-3">
-              <span className="w-5 text-xs text-neutral-600 font-medium hidden sm:block">{holdings.length + 1}</span>
-              <div className="w-8 h-8 bg-neutral-800 rounded-full flex items-center justify-center">
+            {/* Aktie */}
+            <div className="col-span-5 flex items-center gap-3">
+              <span className="w-5 text-xs text-neutral-600 font-medium hidden sm:block flex-shrink-0">{holdings.length + 1}</span>
+              <div className="w-8 h-8 bg-neutral-800 rounded-full flex items-center justify-center flex-shrink-0">
                 <CurrencyDollarIcon className="w-4 h-4 text-neutral-400" />
               </div>
               <div>
@@ -185,14 +188,23 @@ export default function PositionsTable({
                 <p className="text-xs text-neutral-500">Verfügbar</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="font-medium text-white text-sm">{formatCurrency(cashPosition)}</p>
-                <span className="text-xs text-neutral-600">
-                  {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0.0'}%
-                </span>
-              </div>
+
+            {/* Kurs – leer */}
+            <div className="col-span-2 hidden sm:block" />
+
+            {/* Wert */}
+            <div className="col-span-2 text-right">
+              <p className="font-medium text-white text-sm">{formatCurrency(cashPosition)}</p>
+              <span className="text-xs text-neutral-600">
+                {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0.0'}%
+              </span>
             </div>
+
+            {/* G/V – leer */}
+            <div className="col-span-2" />
+
+            {/* Actions – leer */}
+            <div className="col-span-1" />
           </div>
         )}
       </div>
