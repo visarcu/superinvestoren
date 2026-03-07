@@ -216,6 +216,30 @@ export default function AddPositionModal({
             </>
           )}
 
+          {/* Zusammenfassung vor Bestätigung */}
+          {positionType === 'stock' && selectedStock && quantity && purchasePrice && (
+            <div className="bg-neutral-800/30 border border-neutral-700/50 rounded-lg p-3">
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-neutral-400">Investition</span>
+                <span className="text-white font-medium">
+                  {formatCurrency(parseFloat(quantity) * parseFloat(purchasePrice))}
+                </span>
+              </div>
+              {fees && parseFloat(fees) > 0 && (
+                <div className="flex items-center justify-between text-sm mt-1">
+                  <span className="text-neutral-400">Gebühren</span>
+                  <span className="text-neutral-300">{formatCurrency(parseFloat(fees))}</span>
+                </div>
+              )}
+              <div className="flex items-center justify-between text-sm mt-1 pt-1 border-t border-neutral-700/50">
+                <span className="text-neutral-400">Gesamt</span>
+                <span className="text-white font-semibold">
+                  {formatCurrency((parseFloat(quantity) * parseFloat(purchasePrice)) + (parseFloat(fees) || 0))}
+                </span>
+              </div>
+            </div>
+          )}
+
           <div className="flex gap-3 pt-2">
             <button
               onClick={handleSubmit}
