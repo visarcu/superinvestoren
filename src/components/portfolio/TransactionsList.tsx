@@ -62,6 +62,14 @@ export default function TransactionsList({
   const [txNotes, setTxNotes] = useState('')
   const [adding, setAdding] = useState(false)
 
+  // Edit Transaction State
+  const [editingTxId, setEditingTxId] = useState<string | null>(null)
+  const [editDate, setEditDate] = useState('')
+  const [editQuantity, setEditQuantity] = useState('')
+  const [editPrice, setEditPrice] = useState('')
+  const [editNotes, setEditNotes] = useState('')
+  const [editSaving, setEditSaving] = useState(false)
+
   useEffect(() => {
     loadTransactions()
   }, [portfolioId])
@@ -147,6 +155,49 @@ export default function TransactionsList({
     if (!error) {
       await loadTransactions()
       onTransactionChange?.()
+    }
+  }
+
+  const startEditTransaction = (tx: Transaction) => {
+    setEditingTxId(tx.id)
+    setEditDate(tx.date)
+    setEditQuantity(tx.quantity.toString())
+    setEditPrice(tx.price.toString())
+    setEditNotes(tx.notes || '')
+  }
+
+  const cancelEdit = () => {
+    setEditingTxId(null)
+  }
+
+  const handleSaveEdit = async () => {
+    if (!editingTxId) return
+    setEditSaving(true)
+
+    try {
+      const qty = parseFloat(editQuantity) || 0
+      const price = parseFloat(editPrice) || 0
+
+      const { error } = await supabase
+        .from('portfolio_transactions')
+        .update({
+          date: editDate,
+          quantity: qty,
+          price: price,
+          total_value: qty * price,
+          notes: editNotes || null
+        })
+        .eq('id', editingTxId)
+
+      if (error) throw error
+
+      setEditingTxId(null)
+      await loadTransactions()
+      onTransactionChange?.()
+    } catch (error: any) {
+      alert(`Fehler: ${error.message}`)
+    } finally {
+      setEditSaving(false)
     }
   }
 
@@ -294,6 +345,86 @@ export default function TransactionsList({
                 {txs.map(tx => {
                   const config = TYPE_CONFIG[tx.type]
                   const Icon = config.icon
+                  const isEditing = editingTxId === tx.id
+
+                  if (isEditing) {
+                    return (
+                      <div key={tx.id} className="py-3 border-b border-neutral-800/50 -mx-2 px-2 bg-neutral-800/30 rounded-lg">
+                        <div className="flex items-center gap-3 mb-3">
+                          <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.bg}`}>
+                            <Icon className={`w-4 h-4 ${config.color}`} />
+                          </div>
+                          <span className="font-medium text-white text-sm">{config.label}</span>
+                          {tx.symbol !== 'CASH' && (
+                            <span className="text-xs text-neutral-500">{tx.symbol}</span>
+                          )}
+                        </div>
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                          <div>
+                            <label className="block text-[10px] text-neutral-500 mb-1">Datum</label>
+                            <input
+                              type="date" value={editDate}
+                              onChange={(e) => setEditDate(e.target.value)}
+                              max={new Date().toISOString().split('T')[0]}
+                              className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                            />
+                          </div>
+                          {tx.symbol !== 'CASH' && (
+                            <>
+                              <div>
+                                <label className="block text-[10px] text-neutral-500 mb-1">Anzahl</label>
+                                <input
+                                  type="number" value={editQuantity}
+                                  onChange={(e) => setEditQuantity(e.target.value)}
+                                  className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                                />
+                              </div>
+                              <div>
+                                <label className="block text-[10px] text-neutral-500 mb-1">Preis (EUR)</label>
+                                <input
+                                  type="number" value={editPrice}
+                                  onChange={(e) => setEditPrice(e.target.value)}
+                                  className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                                />
+                              </div>
+                            </>
+                          )}
+                          <div>
+                            <label className="block text-[10px] text-neutral-500 mb-1">Notiz</label>
+                            <input
+                              type="text" value={editNotes}
+                              onChange={(e) => setEditNotes(e.target.value)}
+                              placeholder="optional"
+                              className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                            />
+                          </div>
+                        </div>
+                        {tx.symbol !== 'CASH' && editQuantity && editPrice && (
+                          <div className="text-xs text-neutral-500 mb-3">
+                            Gesamt: {formatCurrency(parseFloat(editQuantity) * parseFloat(editPrice))}
+                          </div>
+                        )}
+                        <div className="flex gap-2">
+                          <button
+                            onClick={handleSaveEdit}
+                            disabled={editSaving}
+                            className="px-3 py-1.5 bg-emerald-500 hover:bg-emerald-400 disabled:opacity-50 text-white text-xs rounded-lg transition-colors flex items-center gap-1.5"
+                          >
+                            {editSaving ? <ArrowPathIcon className="w-3 h-3 animate-spin" /> : null}
+                            Speichern
+                          </button>
+                          <button
+                            onClick={cancelEdit}
+                            disabled={editSaving}
+                            className="px-3 py-1.5 text-neutral-400 hover:text-white text-xs transition-colors"
+                          >
+                            Abbrechen
+                          </button>
+                        </div>
+                      </div>
+                    )
+                  }
+
                   return (
                     <div
                       key={tx.id}
@@ -324,6 +455,13 @@ export default function TransactionsList({
                             {tx.type === 'sell' || tx.type === 'cash_withdrawal' ? '-' : '+'}{formatCurrency(tx.total_value)}
                           </p>
                         </div>
+                        <button
+                          onClick={() => startEditTransaction(tx)}
+                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-neutral-800 rounded transition-all"
+                          title="Bearbeiten"
+                        >
+                          <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-emerald-400" />
+                        </button>
                         <button
                           onClick={() => handleDeleteTransaction(tx.id)}
                           className="p-1 opacity-0 group-hover:opacity-100 hover:bg-neutral-800 rounded transition-all"
