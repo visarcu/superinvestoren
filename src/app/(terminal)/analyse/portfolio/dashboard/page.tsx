@@ -408,6 +408,26 @@ export default function PortfolioDashboard() {
               onCashClick={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}
             />
 
+            {/* Empty State - wenn noch keine Positionen */}
+            {p.holdings.length === 0 && (
+              <div className="mt-6 bg-neutral-900/50 rounded-xl border border-neutral-800/50 border-dashed p-10 text-center">
+                <div className="w-14 h-14 mx-auto mb-4 bg-emerald-500/10 rounded-xl flex items-center justify-center">
+                  <BriefcaseIcon className="w-7 h-7 text-emerald-400" />
+                </div>
+                <h3 className="text-lg font-medium text-white mb-2">Depot ist noch leer</h3>
+                <p className="text-sm text-neutral-500 mb-6 max-w-sm mx-auto">
+                  Füge deine erste Position hinzu, um Wertentwicklung, Performance und XIRR zu tracken.
+                </p>
+                <button
+                  onClick={openAddPositionModal}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium rounded-xl transition-colors"
+                >
+                  <PlusIcon className="w-4 h-4" />
+                  Erste Position hinzufügen
+                </button>
+              </div>
+            )}
+
             {/* Chart */}
             {p.holdings.length > 0 && (
               <div className="mt-6 bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
