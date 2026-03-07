@@ -50,7 +50,7 @@ export default function PositionsTable({
     router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
   }
 
-  if (holdings.length === 0) {
+  if (holdings.length === 0 && cashPosition <= 0) {
     return (
       <div className="py-12 text-center">
         <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800/50 rounded-xl flex items-center justify-center">
