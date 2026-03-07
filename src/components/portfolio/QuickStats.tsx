@@ -12,6 +12,7 @@ interface QuickStatsProps {
   activeInvestments: number
   formatCurrency: (amount: number) => string
   formatPercentage: (value: number) => string
+  onCashClick?: () => void
 }
 
 export default function QuickStats({
@@ -23,6 +24,7 @@ export default function QuickStats({
   activeInvestments,
   formatCurrency,
   formatPercentage,
+  onCashClick,
 }: QuickStatsProps) {
   const isPositive = totalGainLoss >= 0
   const xirrPositive = (xirrPercent ?? 0) >= 0
@@ -39,8 +41,11 @@ export default function QuickStats({
       </div>
 
       {/* Cash */}
-      <div className="bg-neutral-900/50 rounded-xl p-4 border border-neutral-800/50">
-        <p className="text-xs text-neutral-500 mb-1">Cash</p>
+      <div
+        className={`bg-neutral-900/50 rounded-xl p-4 border border-neutral-800/50 ${onCashClick ? 'cursor-pointer hover:border-neutral-700 transition-colors' : ''}`}
+        onClick={onCashClick}
+      >
+        <p className="text-xs text-neutral-500 mb-1">Cash {onCashClick && <span className="text-neutral-600">✎</span>}</p>
         <p className="text-xl font-bold text-white">{formatCurrency(cashPosition)}</p>
         <p className="text-xs text-neutral-500 mt-1">
           {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% Cash-Quote
