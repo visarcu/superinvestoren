@@ -77,7 +77,7 @@ export default function CSVImportModal({
     onClose()
   }, [resetState, onClose])
 
-  // === STEP 1: Upload ===
+  // === STEP 1: Upload + Auto-Resolve ===
   const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
     if (!file) return
@@ -87,20 +87,62 @@ export default function CSVImportModal({
       const result = parseScalableCSV(text)
       setParseResult(result)
 
-      // ISINs direkt lokal auflösen
       if (result.uniqueISINs.length > 0) {
+        // Phase 1: Lokal auflösen (etfs.ts)
         const { resolved, unresolved } = resolveISINsLocally(result.uniqueISINs)
 
-        // Map aufbauen
         const newMap = new Map<string, { symbol: string; name: string; source: string }>()
         resolved.forEach((value, key) => {
           newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
         })
-        setIsinMap(newMap)
-        setUnresolvedISINs(unresolved)
-      }
 
-      setStep('resolve')
+        // Phase 2: Unaufgelöste ISINs automatisch via API auflösen
+        if (unresolved.length > 0) {
+          setIsinMap(newMap)
+          setUnresolvedISINs(unresolved)
+          setStep('resolve')
+          setResolving(true)
+
+          try {
+            const response = await fetch('/api/portfolio/resolve-isins', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ isins: unresolved }),
+            })
+
+            if (response.ok) {
+              const { results } = await response.json()
+              const stillUnresolved: string[] = []
+
+              for (const isin of unresolved) {
+                if (results[isin]) {
+                  newMap.set(isin, {
+                    symbol: results[isin].symbol,
+                    name: results[isin].name,
+                    source: results[isin].source || 'openfigi',
+                  })
+                } else {
+                  stillUnresolved.push(isin)
+                }
+              }
+
+              setIsinMap(new Map(newMap))
+              setUnresolvedISINs(stillUnresolved)
+            }
+          } catch (error: any) {
+            console.error('Auto ISIN resolution error:', error)
+          } finally {
+            setResolving(false)
+          }
+        } else {
+          // Alles lokal aufgelöst
+          setIsinMap(newMap)
+          setUnresolvedISINs([])
+          setStep('resolve')
+        }
+      } else {
+        setStep('resolve')
+      }
     } catch (error: any) {
       setImportError(`Fehler beim Lesen der Datei: ${error.message}`)
     }
@@ -109,7 +151,7 @@ export default function CSVImportModal({
     if (fileInputRef.current) fileInputRef.current.value = ''
   }, [])
 
-  // === STEP 2: ISIN Resolution ===
+  // === STEP 2: ISIN Resolution (manueller Retry-Button) ===
   const resolveViaAPI = useCallback(async () => {
     if (unresolvedISINs.length === 0) return
 
@@ -128,7 +170,11 @@ export default function CSVImportModal({
 
         for (const isin of unresolvedISINs) {
           if (results[isin]) {
-            newMap.set(isin, { ...results[isin], source: 'fmp_api' })
+            newMap.set(isin, {
+              symbol: results[isin].symbol,
+              name: results[isin].name,
+              source: results[isin].source || 'openfigi',
+            })
           } else {
             stillUnresolved.push(isin)
           }
@@ -465,7 +511,7 @@ export default function CSVImportModal({
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-white">{info.symbol}</span>
-                            <span className="text-[10px] text-neutral-600 px-1.5 py-0.5 bg-neutral-800 rounded">{info.source === 'etf_static' ? 'ETF' : info.source === 'fmp_api' ? 'FMP' : 'Manuell'}</span>
+                            <span className="text-[10px] text-neutral-600 px-1.5 py-0.5 bg-neutral-800 rounded">{info.source === 'etf_static' ? 'ETF' : info.source === 'openfigi' ? 'FIGI' : info.source === 'fmp_api' ? 'FMP' : 'Manuell'}</span>
                           </div>
                         </div>
                       ))}
@@ -513,7 +559,7 @@ export default function CSVImportModal({
                         ) : (
                           <MagnifyingGlassIcon className="w-3.5 h-3.5" />
                         )}
-                        {resolving ? 'Suche...' : 'Automatisch suchen'}
+                        {resolving ? 'Suche...' : 'Erneut suchen'}
                       </button>
 
                       {Object.keys(manualMappings).length > 0 && (
