@@ -22,6 +22,11 @@ interface Transaction {
   type: 'buy' | 'sell'
 }
 
+// Erkennt ob ein Ticker in EUR notiert ist (FMP liefert Preise in Börsenwährung)
+function isEURTicker(symbol: string): boolean {
+  return /\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i.test(symbol)
+}
+
 // In-memory cache für API-Responses (24h TTL)
 const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number }>()
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 Stunden
@@ -144,6 +149,40 @@ export async function POST(request: NextRequest) {
       })
     }
 
+    // 2b. Lade EUR/USD Wechselkurs-Historie (nur wenn USD-Aktien vorhanden)
+    const hasUSDStocks = uniqueSymbols.some(s => !isEURTicker(s))
+    const eurUsdRateByDate = new Map<string, number>() // date → USD-to-EUR rate
+
+    if (hasUSDStocks) {
+      try {
+        const eurUsdHistory = await fetchHistoricalPrices('EURUSD', fromDate, toDate)
+        eurUsdHistory.forEach(day => {
+          // EURUSD = wie viel 1 EUR in USD wert ist (z.B. 1.08)
+          // Wir brauchen USD→EUR: 1 / EURUSD
+          if (day.close > 0) {
+            eurUsdRateByDate.set(day.date, 1 / day.close)
+          }
+        })
+        console.log(`💱 EUR/USD history: ${eurUsdRateByDate.size} data points`)
+      } catch (e) {
+        console.error('Error loading EUR/USD history:', e)
+      }
+    }
+
+    // Hilfsfunktion: Nächsten verfügbaren EUR/USD-Kurs finden (für Tage ohne FX-Daten)
+    function getEURRateForDate(date: string): number {
+      const rate = eurUsdRateByDate.get(date)
+      if (rate) return rate
+
+      // Nächsten verfügbaren Kurs suchen (rückwärts)
+      const dates = Array.from(eurUsdRateByDate.keys()).sort()
+      for (let i = dates.length - 1; i >= 0; i--) {
+        if (dates[i] <= date) return eurUsdRateByDate.get(dates[i])!
+      }
+      // Fallback: Erster verfügbarer
+      return dates.length > 0 ? eurUsdRateByDate.get(dates[0])! : 0.92 // Sicherer Fallback
+    }
+
     // 3. Sammle alle Handelstage
     const allDates = new Set<string>()
     pricesBySymbol.forEach(priceMap => {
@@ -169,64 +208,12 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // 5. Hilfsfunktion: Berechne gewichteten Durchschnittskurs (USD) basierend auf allen Käufen bis zu einem Datum
-    // Dies ist die korrekte Methode für Performance-Berechnung bei mehreren Tranchen
-    function getWeightedAvgPurchasePriceUSD(
-      symbol: string,
-      asOfDate: string,
-      priceMap: Map<string, number>
-    ): number {
-      if (!useTransactions) {
-        // Fallback: Einzelkauf - nimm den Kurs am ersten Kaufdatum
-        const holding = holdings.find(h => h.symbol === symbol)
-        if (!holding?.purchase_date) return 0
+    // 5. (entfernt - alte getWeightedAvgPurchasePriceUSD Funktion nicht mehr nötig)
 
-        const sortedDates = Array.from(priceMap.keys()).sort()
-        for (const d of sortedDates) {
-          if (d >= holding.purchase_date) {
-            return priceMap.get(d) || 0
-          }
-        }
-        return 0
-      }
-
-      // Mit Transaktionen: Berechne gewichteten Durchschnitt aller Käufe
-      const txs = transactionsBySymbol.get(symbol) || []
-      let totalShares = 0
-      let weightedPriceSum = 0
-
-      for (const tx of txs) {
-        if (tx.date > asOfDate) continue
-
-        if (tx.type === 'buy') {
-          // Finde den USD-Kurs am Kaufdatum
-          const sortedDates = Array.from(priceMap.keys()).sort()
-          let priceAtBuy = 0
-          for (const d of sortedDates) {
-            if (d >= tx.date) {
-              priceAtBuy = priceMap.get(d) || 0
-              break
-            }
-          }
-          if (priceAtBuy > 0) {
-            weightedPriceSum += tx.quantity * priceAtBuy
-            totalShares += tx.quantity
-          }
-        } else if (tx.type === 'sell') {
-          // Bei Verkauf: Proportional reduzieren (Average Cost Method)
-          if (totalShares > 0) {
-            const avgBefore = weightedPriceSum / totalShares
-            totalShares -= tx.quantity
-            weightedPriceSum = totalShares > 0 ? avgBefore * totalShares : 0
-          }
-        }
-      }
-
-      return totalShares > 0 ? weightedPriceSum / totalShares : 0
-    }
-
-    // 6. Für jeden Tag: Berechne Wert und investiertes Kapital
-    // KORREKTE LOGIK: Gewichteter Durchschnittskurs für alle Käufe bis zu diesem Datum
+    // 6. Für jeden Tag: Berechne Portfolio-Wert in EUR
+    // KORREKTE LOGIK: Shares × aktueller_Kurs_in_EUR
+    // - EUR-Aktien (.DE, .PA etc.): Kurs ist bereits in EUR
+    // - USD-Aktien (AAPL, ADBE etc.): Kurs_USD × USD_to_EUR_Rate
     const chartData: Array<{ date: string; value: number; invested: number; performance: number }> = []
 
     sortedDates.forEach(date => {
@@ -235,13 +222,17 @@ export async function POST(request: NextRequest) {
 
       uniqueSymbols.forEach(symbol => {
         const priceMap = pricesBySymbol.get(symbol)
-        const currentPriceUSD = priceMap?.get(date)
+        const currentPrice = priceMap?.get(date) // In Börsenwährung (USD oder EUR)
         const firstPurchaseDate = firstPurchaseDateBySymbol.get(symbol)
 
-        if (!currentPriceUSD) return
+        if (!currentPrice) return
 
         // Position existiert erst ab Kaufdatum
         if (firstPurchaseDate && date < firstPurchaseDate) return
+
+        // Kurs in EUR umrechnen
+        const isEUR = isEURTicker(symbol)
+        const currentPriceEUR = isEUR ? currentPrice : currentPrice * getEURRateForDate(date)
 
         if (useTransactions) {
           const txs = transactionsBySymbol.get(symbol) || []
@@ -253,7 +244,7 @@ export async function POST(request: NextRequest) {
             if (tx.date <= date) {
               if (tx.type === 'buy') {
                 sharesOwned += tx.quantity
-                costBasis += tx.quantity * tx.price
+                costBasis += tx.quantity * tx.price // tx.price ist in EUR (purchase_price)
               } else if (tx.type === 'sell') {
                 const avgCost = sharesOwned > 0 ? costBasis / sharesOwned : 0
                 sharesOwned -= tx.quantity
@@ -262,21 +253,9 @@ export async function POST(request: NextRequest) {
             }
           })
 
-          if (sharesOwned > 0 && costBasis > 0) {
-            // KORRIGIERTE LOGIK: Gewichteter Durchschnittskurs basierend auf allen Käufen bis heute
-            // Dies berücksichtigt mehrere Tranchen korrekt
-            const weightedAvgPriceUSD = getWeightedAvgPurchasePriceUSD(symbol, date, priceMap!)
-
-            if (weightedAvgPriceUSD > 0) {
-              // Performance = (aktueller Kurs / gewichteter Durchschnittskurs) - 1
-              const priceChange = (currentPriceUSD - weightedAvgPriceUSD) / weightedAvgPriceUSD
-              const currentValue = costBasis * (1 + priceChange)
-              totalValue += currentValue
-            } else {
-              // Fallback: Wert = Cost Basis (keine Kursdaten)
-              totalValue += costBasis
-            }
-
+          if (sharesOwned > 0) {
+            // Aktueller Marktwert: Shares × aktueller EUR-Kurs
+            totalValue += sharesOwned * currentPriceEUR
             totalInvested += costBasis
           }
         } else {
@@ -285,24 +264,14 @@ export async function POST(request: NextRequest) {
           if (!holding) return
 
           const costBasis = (holding.purchase_price || 0) * holding.quantity
-          const startPriceUSD = getWeightedAvgPurchasePriceUSD(symbol, date, priceMap!)
-
-          if (startPriceUSD > 0) {
-            const priceChange = (currentPriceUSD - startPriceUSD) / startPriceUSD
-            const currentValue = costBasis * (1 + priceChange)
-            totalValue += currentValue
-          } else {
-            totalValue += costBasis
-          }
-
+          totalValue += holding.quantity * currentPriceEUR
           totalInvested += costBasis
         }
       })
 
       // Nur Tage mit Positionen hinzufügen
       if (totalInvested > 0) {
-        // KEIN Cash - nur Aktienwerte
-        const performance = totalInvested > 0 ? ((totalValue - totalInvested) / totalInvested) * 100 : 0
+        const performance = ((totalValue - totalInvested) / totalInvested) * 100
 
         chartData.push({
           date,
@@ -341,17 +310,29 @@ export async function POST(request: NextRequest) {
     //   - An Tagen MIT Transaktion:  return = (V_heute / (V_gestern + Cashflow)) - 1
     // TWR_kumulativ = (1+r₁) × (1+r₂) × ... × (1+rₙ) - 1
 
-    // Erstelle ein Set der Transaktionsdaten mit ihrem Cashflow-Betrag (in EUR)
-    const cashflowByDate = new Map<string, number>()
+    // Erstelle Cashflow-Map: Cashflows auf den nächsten Handelstag (chartData-Datum) zuordnen.
+    // Grund: Transaktionen können an Wochenenden/Feiertagen liegen, aber chartData hat nur Handelstage.
+    const chartDates = new Set(chartData.map(d => d.date))
+    const sortedChartDates = chartData.map(d => d.date)
+    const cashflowByChartDate = new Map<string, number>()
+
     if (useTransactions) {
       allTransactions.forEach(tx => {
-        const cf = cashflowByDate.get(tx.date) || 0
+        // Finde den nächsten Handelstag >= Transaktionsdatum
+        let targetDate = tx.date
+        if (!chartDates.has(targetDate)) {
+          const nextDate = sortedChartDates.find(d => d >= targetDate)
+          if (nextDate) targetDate = nextDate
+          else return // Kein passender Handelstag
+        }
+
+        const cf = cashflowByChartDate.get(targetDate) || 0
         if (tx.type === 'buy') {
-          // Kauf = Geldzufluss ins Portfolio
-          cashflowByDate.set(tx.date, cf + (tx.quantity * tx.price))
+          // Kauf = Geldzufluss ins Portfolio (externer Cashflow)
+          cashflowByChartDate.set(targetDate, cf + (tx.quantity * tx.price))
         } else if (tx.type === 'sell') {
           // Verkauf = Geldabfluss aus Portfolio
-          cashflowByDate.set(tx.date, cf - (tx.quantity * tx.price))
+          cashflowByChartDate.set(targetDate, cf - (tx.quantity * tx.price))
         }
       })
     }
@@ -374,7 +355,7 @@ export async function POST(request: NextRequest) {
       // ist das ein externer Geldzufluss, der zum Startwert addiert werden muss.
       // Ohne diese Korrektur würde der Kurssprung durch den Kauf fälschlicherweise
       // als Performance gewertet werden.
-      const cashflow = cashflowByDate.get(currentDate) || 0
+      const cashflow = cashflowByChartDate.get(currentDate) || 0
 
       // Adjusted start value: Vorheriger Wert + Cashflow der heute eingegangen ist
       const adjustedStartValue = prevValue + cashflow
