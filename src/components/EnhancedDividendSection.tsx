@@ -44,11 +44,13 @@ interface FinancialHealthMetrics {
 
 interface EnhancedDividendSectionProps {
   ticker: string
+  stockName?: string
   isPremium?: boolean
 }
 
 export default function EnhancedDividendSection({
   ticker,
+  stockName,
   isPremium = false
 }: EnhancedDividendSectionProps) {
   const [loading, setLoading] = useState(true)
@@ -428,6 +430,133 @@ export default function EnhancedDividendSection({
           )}
         </div>
       </div>
+
+      {/* Häufig gestellte Fragen */}
+      {(() => {
+        const name = stockName || ticker
+        const currentYear = new Date().getFullYear()
+        const lastYear = currentYear - 1
+        const yearBefore = currentYear - 2
+
+        const lastYearData = dividendData.find(d => d.year === lastYear)
+        const yearBeforeData = dividendData.find(d => d.year === yearBefore)
+        const lastQuarterly = quarterlyHistory.length > 0 ? quarterlyHistory[0] : null
+
+        // Determine frequency from quarterly data
+        const quartersPerYear = quarterlyHistory.filter(q => q.year === lastYear).length
+        const frequencyText = quartersPerYear === 4 ? 'quartalsweise' :
+          quartersPerYear === 12 ? 'monatlich' :
+          quartersPerYear === 2 ? 'halbjährlich' :
+          quartersPerYear === 1 ? 'jährlich' : 'regelmäßig'
+
+        const cagr5y = cagrAnalysis.find(c => c.period === '5Y')
+
+        const faqs: { question: string; answer: string }[] = []
+
+        // 1. Frequency
+        if (quartersPerYear > 0) {
+          faqs.push({
+            question: `Wie oft zahlt ${name} Dividenden?`,
+            answer: `${name} schüttet die Dividenden ${frequencyText} aus.`
+          })
+        }
+
+        // 2. Current yield
+        if (currentInfo?.currentYield) {
+          faqs.push({
+            question: `Wie hoch ist die Dividendenrendite von ${name}?`,
+            answer: `Die aktuelle Dividendenrendite liegt bei ${formatPercentDE(currentInfo.currentYield * 100)}.`
+          })
+        }
+
+        // 3. TTM dividend
+        if (currentInfo?.dividendPerShareTTM) {
+          faqs.push({
+            question: `Wie viel Dividende zahlt ${name} pro Aktie?`,
+            answer: `Die jährliche Dividende (TTM) beträgt ${formatCurrencyDE(currentInfo.dividendPerShareTTM)} pro Aktie.`
+          })
+        }
+
+        // 4. Last year dividend
+        if (lastYearData) {
+          faqs.push({
+            question: `Wie hoch war die Dividende von ${name} in ${lastYear}?`,
+            answer: `Im Jahr ${lastYear} wurden ${formatCurrencyDE(lastYearData.dividendPerShare)} pro Aktie als Dividende ausgeschüttet.`
+          })
+        }
+
+        // 5. Year before dividend
+        if (yearBeforeData) {
+          faqs.push({
+            question: `Wie hoch war die Dividende von ${name} in ${yearBefore}?`,
+            answer: `Im Jahr ${yearBefore} wurden ${formatCurrencyDE(yearBeforeData.dividendPerShare)} pro Aktie als Dividende ausgeschüttet.`
+          })
+        }
+
+        // 6. Last payment date
+        if (lastQuarterly) {
+          const lastDate = new Date(lastQuarterly.date).toLocaleDateString('de-DE', {
+            day: '2-digit', month: '2-digit', year: 'numeric'
+          })
+          faqs.push({
+            question: `Wann wurde die letzte Dividende von ${name} gezahlt?`,
+            answer: `Die letzte Dividendenzahlung erfolgte am ${lastDate} in Höhe von ${formatCurrencyDE(lastQuarterly.amount)}.`
+          })
+        }
+
+        // 7. History length
+        if (dividendData.length > 0) {
+          faqs.push({
+            question: `Wie lange zahlt ${name} schon Dividenden?`,
+            answer: `${name} hat eine Dividendenhistorie von ${dividendData.length} Jahren${dividendData.length > 0 ? ` (seit ${dividendData[0].year})` : ''}.`
+          })
+        }
+
+        // 8. Growth
+        if (cagr5y) {
+          faqs.push({
+            question: `Wie stark wächst die Dividende von ${name}?`,
+            answer: `Die Dividende ist in den letzten 5 Jahren um durchschnittlich ${formatPercentDE(cagr5y.cagr)} pro Jahr gewachsen (CAGR).`
+          })
+        }
+
+        // 9. FCF Coverage / Safety
+        if (financialHealth?.freeCashFlowCoverage) {
+          const coverage = financialHealth.freeCashFlowCoverage
+          const safetyText = coverage >= 2 ? 'gut abgesichert' :
+            coverage >= 1.5 ? 'solide gedeckt' :
+            coverage >= 1 ? 'knapp gedeckt' : 'nicht vollständig gedeckt'
+          faqs.push({
+            question: `Ist die Dividende von ${name} sicher?`,
+            answer: `Mit einer FCF-Coverage von ${formatRatioDE(coverage)} ist die Dividende ${safetyText} durch den freien Cashflow.`
+          })
+        }
+
+        if (faqs.length === 0) return null
+
+        return (
+          <div>
+            <h3 className="text-base font-semibold text-theme-primary mb-4">
+              Häufig gestellte Fragen
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {faqs.map((faq, index) => (
+                <div
+                  key={index}
+                  className="bg-theme-card rounded-xl border border-theme-light p-5 hover:border-emerald-500/30 transition-colors"
+                >
+                  <h4 className="text-sm font-semibold text-theme-primary mb-2 leading-snug">
+                    {faq.question}
+                  </h4>
+                  <p className="text-sm text-theme-muted leading-relaxed">
+                    {faq.answer}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()}
 
       {/* Disclaimer */}
       <p className="text-xs text-theme-muted text-center">

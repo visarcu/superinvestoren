@@ -101,6 +101,7 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
         {activeTab === 'dividends' ? (
           <EnhancedDividendSection
             ticker={ticker}
+            stockName={stock?.name}
             isPremium={user?.isPremium || false}
           />
         ) : (
