@@ -1,12 +1,14 @@
 // src/components/portfolio/TransactionsList.tsx
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
+import React, { useState, useMemo } from 'react'
 import { supabase } from '@/lib/supabaseClient'
+import { type Transaction, type RealizedGainInfo } from '@/hooks/usePortfolio'
+import { perfColor } from '@/utils/formatters'
+import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import {
   ArrowDownTrayIcon,
   ArrowUpTrayIcon,
-  CurrencyDollarIcon,
   PlusIcon,
   ArrowPathIcon,
   PencilIcon,
@@ -16,23 +18,13 @@ import {
   ClockIcon
 } from '@heroicons/react/24/outline'
 
-interface Transaction {
-  id: string
-  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal'
-  symbol: string
-  name: string
-  quantity: number
-  price: number
-  total_value: number
-  date: string
-  created_at: string
-  notes?: string
-}
-
 interface TransactionsListProps {
   portfolioId: string
+  transactions: Transaction[]
+  realizedGainByTxId: Map<string, RealizedGainInfo>
   onTransactionChange?: () => void
   formatCurrency: (amount: number) => string
+  isAllDepotsView?: boolean
 }
 
 const TYPE_CONFIG = {
@@ -45,22 +37,42 @@ const TYPE_CONFIG = {
 
 export default function TransactionsList({
   portfolioId,
+  transactions,
+  realizedGainByTxId,
   onTransactionChange,
-  formatCurrency
+  formatCurrency,
+  isAllDepotsView = false
 }: TransactionsListProps) {
-  const [transactions, setTransactions] = useState<Transaction[]>([])
-  const [loading, setLoading] = useState(true)
   const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'dividend' | 'cash'>('all')
+  const [symbolFilter, setSymbolFilter] = useState<string>('all')
+  const [depotFilter, setDepotFilter] = useState<string>('all')
 
-  // Add Transaction Form
-  const [showAdd, setShowAdd] = useState(false)
-  const [txType, setTxType] = useState<'buy' | 'sell' | 'dividend'>('buy')
-  const [txSymbol, setTxSymbol] = useState('')
-  const [txQuantity, setTxQuantity] = useState('')
-  const [txPrice, setTxPrice] = useState('')
-  const [txDate, setTxDate] = useState(new Date().toISOString().split('T')[0])
-  const [txNotes, setTxNotes] = useState('')
-  const [adding, setAdding] = useState(false)
+  // Eindeutige Symbole aus Transaktionen (ohne CASH)
+  const uniqueSymbols = useMemo(() => {
+    const symbols = new Set<string>()
+    transactions.forEach(t => {
+      if (t.symbol && t.symbol !== 'CASH') symbols.add(t.symbol)
+    })
+    return Array.from(symbols).sort()
+  }, [transactions])
+
+  // Eindeutige Depots aus Transaktionen (nur in Alle-Depots-Ansicht)
+  const uniqueDepots = useMemo(() => {
+    if (!isAllDepotsView) return []
+    const depots = new Map<string, { id: string; name: string; broker_type?: string | null; broker_name?: string | null; broker_color?: string | null }>()
+    transactions.forEach(t => {
+      if (t.portfolio_id && !depots.has(t.portfolio_id)) {
+        depots.set(t.portfolio_id, {
+          id: t.portfolio_id,
+          name: t.portfolio_name || 'Depot',
+          broker_type: t.broker_type,
+          broker_name: t.broker_name,
+          broker_color: t.broker_color,
+        })
+      }
+    })
+    return Array.from(depots.values())
+  }, [transactions, isAllDepotsView])
 
   // Edit Transaction State
   const [editingTxId, setEditingTxId] = useState<string | null>(null)
@@ -70,29 +82,23 @@ export default function TransactionsList({
   const [editNotes, setEditNotes] = useState('')
   const [editSaving, setEditSaving] = useState(false)
 
-  useEffect(() => {
-    loadTransactions()
-  }, [portfolioId])
-
-  const loadTransactions = async () => {
-    setLoading(true)
-    const { data, error } = await supabase
-      .from('portfolio_transactions')
-      .select('*')
-      .eq('portfolio_id', portfolioId)
-      .order('date', { ascending: false })
-
-    if (!error && data) setTransactions(data)
-    setLoading(false)
-  }
-
   const filtered = useMemo(() => {
     return transactions.filter(t => {
-      if (filter === 'all') return true
-      if (filter === 'cash') return t.type === 'cash_deposit' || t.type === 'cash_withdrawal'
-      return t.type === filter
+      // Typ-Filter
+      if (filter !== 'all') {
+        if (filter === 'cash') {
+          if (t.type !== 'cash_deposit' && t.type !== 'cash_withdrawal') return false
+        } else if (t.type !== filter) {
+          return false
+        }
+      }
+      // Symbol-Filter
+      if (symbolFilter !== 'all' && t.symbol !== symbolFilter) return false
+      // Depot-Filter
+      if (depotFilter !== 'all' && t.portfolio_id !== depotFilter) return false
+      return true
     })
-  }, [transactions, filter])
+  }, [transactions, filter, symbolFilter, depotFilter])
 
   // Group by month
   const grouped = useMemo(() => {
@@ -106,44 +112,6 @@ export default function TransactionsList({
     return Array.from(groups.entries()).sort((a, b) => b[0].localeCompare(a[0]))
   }, [filtered])
 
-  const handleAddTransaction = async () => {
-    if (!txSymbol || !txQuantity || !txPrice) return
-    setAdding(true)
-
-    try {
-      const qty = parseFloat(txQuantity)
-      const price = parseFloat(txPrice)
-      const { error } = await supabase
-        .from('portfolio_transactions')
-        .insert({
-          portfolio_id: portfolioId,
-          type: txType,
-          symbol: txSymbol.toUpperCase(),
-          name: txSymbol.toUpperCase(),
-          quantity: qty,
-          price: price,
-          total_value: qty * price,
-          date: txDate,
-          notes: txNotes || null
-        })
-
-      if (error) throw error
-
-      setShowAdd(false)
-      setTxSymbol('')
-      setTxQuantity('')
-      setTxPrice('')
-      setTxDate(new Date().toISOString().split('T')[0])
-      setTxNotes('')
-      await loadTransactions()
-      onTransactionChange?.()
-    } catch (error: any) {
-      alert(`Fehler: ${error.message}`)
-    } finally {
-      setAdding(false)
-    }
-  }
-
   const handleDeleteTransaction = async (id: string) => {
     if (!confirm('Transaktion wirklich löschen?')) return
 
@@ -153,7 +121,6 @@ export default function TransactionsList({
       .eq('id', id)
 
     if (!error) {
-      await loadTransactions()
       onTransactionChange?.()
     }
   }
@@ -192,7 +159,6 @@ export default function TransactionsList({
       if (error) throw error
 
       setEditingTxId(null)
-      await loadTransactions()
       onTransactionChange?.()
     } catch (error: any) {
       alert(`Fehler: ${error.message}`)
@@ -215,12 +181,15 @@ export default function TransactionsList({
     return `${months[parseInt(month) - 1]} ${year}`
   }
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <ArrowPathIcon className="w-6 h-6 text-emerald-400 animate-spin" />
-      </div>
-    )
+  const getDepotLabel = (tx: Transaction) => {
+    if (!isAllDepotsView || !tx.portfolio_id) return null
+    const name = getBrokerDisplayName(tx.broker_type, tx.broker_name)
+    return name
+  }
+
+  const getDepotColor = (tx: Transaction) => {
+    if (!tx.broker_type) return '#6B7280'
+    return getBrokerColor(tx.broker_type, tx.broker_color)
   }
 
   return (
@@ -228,17 +197,10 @@ export default function TransactionsList({
       {/* Header */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-sm font-medium text-neutral-400">Transaktionen</h2>
-        <button
-          onClick={() => setShowAdd(!showAdd)}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-emerald-400 hover:text-emerald-300 hover:bg-neutral-800 rounded-lg transition-colors"
-        >
-          <PlusIcon className="w-4 h-4" />
-          <span>Transaktion</span>
-        </button>
       </div>
 
-      {/* Filter */}
-      <div className="flex gap-2 mb-4">
+      {/* Typ-Filter */}
+      <div className="flex flex-wrap gap-2 mb-3">
         {[
           { key: 'all', label: 'Alle' },
           { key: 'buy', label: 'Käufe' },
@@ -251,8 +213,8 @@ export default function TransactionsList({
             onClick={() => setFilter(f.key as any)}
             className={`px-3 py-1 text-xs rounded-full transition-colors ${
               filter === f.key
-                ? 'bg-neutral-700 text-white'
-                : 'text-neutral-500 hover:text-neutral-300'
+                ? 'bg-neutral-200 dark:bg-neutral-700 text-neutral-900 dark:text-white'
+                : 'text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300'
             }`}
           >
             {f.label}
@@ -260,76 +222,74 @@ export default function TransactionsList({
         ))}
       </div>
 
-      {/* Add Transaction Form */}
-      {showAdd && (
-        <div className="bg-neutral-900 border border-neutral-800 rounded-xl p-4 mb-4">
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-3">
-            <select
-              value={txType}
-              onChange={(e) => setTxType(e.target.value as any)}
-              className="px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm"
-            >
-              <option value="buy">Kauf</option>
-              <option value="sell">Verkauf</option>
-              <option value="dividend">Dividende</option>
-            </select>
-            <input
-              type="text" value={txSymbol}
-              onChange={(e) => setTxSymbol(e.target.value)}
-              placeholder="Symbol"
-              className="px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm"
-            />
-            <input
-              type="number" value={txQuantity}
-              onChange={(e) => setTxQuantity(e.target.value)}
-              placeholder="Anzahl"
-              className="px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm"
-            />
-            <input
-              type="number" value={txPrice}
-              onChange={(e) => setTxPrice(e.target.value)}
-              placeholder="Preis (EUR)"
-              className="px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm"
-            />
-          </div>
-          <div className="grid grid-cols-2 gap-3 mb-3">
-            <input
-              type="date" value={txDate}
-              onChange={(e) => setTxDate(e.target.value)}
-              max={new Date().toISOString().split('T')[0]}
-              className="px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm"
-            />
-            <input
-              type="text" value={txNotes}
-              onChange={(e) => setTxNotes(e.target.value)}
-              placeholder="Notiz (optional)"
-              className="px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white text-sm"
-            />
-          </div>
-          <div className="flex gap-2">
+      {/* Depot-Filter (nur in Alle-Depots-Ansicht) */}
+      {isAllDepotsView && uniqueDepots.length > 1 && (
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          <button
+            onClick={() => setDepotFilter('all')}
+            className={`px-2.5 py-0.5 text-[11px] rounded-full transition-colors border ${
+              depotFilter === 'all'
+                ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                : 'border-neutral-200 dark:border-neutral-700/50 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-600'
+            }`}
+          >
+            Alle Depots
+          </button>
+          {uniqueDepots.map(depot => {
+            const name = getBrokerDisplayName(depot.broker_type, depot.broker_name)
+            const color = getBrokerColor(depot.broker_type, depot.broker_color)
+            return (
+              <button
+                key={depot.id}
+                onClick={() => setDepotFilter(depot.id === depotFilter ? 'all' : depot.id)}
+                className={`px-2.5 py-0.5 text-[11px] rounded-full transition-colors border flex items-center gap-1.5 ${
+                  depotFilter === depot.id
+                    ? 'border-blue-500/30 bg-blue-500/10 text-blue-400'
+                    : 'border-neutral-200 dark:border-neutral-700/50 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-600'
+                }`}
+              >
+                <span className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: color }} />
+                {name}
+              </button>
+            )
+          })}
+        </div>
+      )}
+
+      {/* Aktien-Filter */}
+      {uniqueSymbols.length > 1 && (
+        <div className="flex flex-wrap gap-1.5 mb-4">
+          <button
+            onClick={() => setSymbolFilter('all')}
+            className={`px-2.5 py-0.5 text-[11px] rounded-full transition-colors border ${
+              symbolFilter === 'all'
+                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500'
+                : 'border-neutral-200 dark:border-neutral-700/50 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-600'
+            }`}
+          >
+            Alle Aktien
+          </button>
+          {uniqueSymbols.map(symbol => (
             <button
-              onClick={handleAddTransaction}
-              disabled={adding || !txSymbol || !txQuantity || !txPrice}
-              className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-colors flex items-center gap-2"
+              key={symbol}
+              onClick={() => setSymbolFilter(symbol === symbolFilter ? 'all' : symbol)}
+              className={`px-2.5 py-0.5 text-[11px] rounded-full transition-colors border ${
+                symbolFilter === symbol
+                  ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-500'
+                  : 'border-neutral-200 dark:border-neutral-700/50 text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-300 hover:border-neutral-300 dark:hover:border-neutral-600'
+              }`}
             >
-              {adding ? <ArrowPathIcon className="w-4 h-4 animate-spin" /> : null}
-              Hinzufügen
+              {symbol}
             </button>
-            <button
-              onClick={() => setShowAdd(false)}
-              className="px-4 py-2 text-neutral-400 hover:text-white text-sm transition-colors"
-            >
-              Abbrechen
-            </button>
-          </div>
+          ))}
         </div>
       )}
 
       {/* Transactions grouped by month */}
       {grouped.length === 0 ? (
         <div className="py-12 text-center">
-          <ClockIcon className="w-12 h-12 text-neutral-600 mx-auto mb-3" />
-          <h3 className="text-base font-medium text-white mb-1">Keine Transaktionen</h3>
+          <ClockIcon className="w-12 h-12 text-neutral-400 dark:text-neutral-600 mx-auto mb-3" />
+          <h3 className="text-base font-medium text-neutral-900 dark:text-white mb-1">Keine Transaktionen</h3>
           <p className="text-neutral-500 text-sm">
             Transaktionen werden automatisch beim Hinzufügen von Positionen erstellt.
           </p>
@@ -346,15 +306,17 @@ export default function TransactionsList({
                   const config = TYPE_CONFIG[tx.type]
                   const Icon = config.icon
                   const isEditing = editingTxId === tx.id
+                  const rgInfo = tx.type === 'sell' ? realizedGainByTxId.get(tx.id) : undefined
+                  const depotLabel = getDepotLabel(tx)
 
                   if (isEditing) {
                     return (
-                      <div key={tx.id} className="py-3 border-b border-neutral-800/50 -mx-2 px-2 bg-neutral-800/30 rounded-lg">
+                      <div key={tx.id} className="py-3 border-b border-neutral-200 dark:border-neutral-800/50 -mx-2 px-2 bg-neutral-100 dark:bg-neutral-800/30 rounded-lg">
                         <div className="flex items-center gap-3 mb-3">
                           <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.bg}`}>
                             <Icon className={`w-4 h-4 ${config.color}`} />
                           </div>
-                          <span className="font-medium text-white text-sm">{config.label}</span>
+                          <span className="font-medium text-neutral-900 dark:text-white text-sm">{config.label}</span>
                           {tx.symbol !== 'CASH' && (
                             <span className="text-xs text-neutral-500">{tx.symbol}</span>
                           )}
@@ -366,7 +328,7 @@ export default function TransactionsList({
                               type="date" value={editDate}
                               onChange={(e) => setEditDate(e.target.value)}
                               max={new Date().toISOString().split('T')[0]}
-                              className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                              className="w-full px-2 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-900 dark:text-white text-sm"
                             />
                           </div>
                           {tx.symbol !== 'CASH' && (
@@ -376,7 +338,7 @@ export default function TransactionsList({
                                 <input
                                   type="number" value={editQuantity}
                                   onChange={(e) => setEditQuantity(e.target.value)}
-                                  className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                                  className="w-full px-2 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-900 dark:text-white text-sm"
                                 />
                               </div>
                               <div>
@@ -384,7 +346,7 @@ export default function TransactionsList({
                                 <input
                                   type="number" value={editPrice}
                                   onChange={(e) => setEditPrice(e.target.value)}
-                                  className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                                  className="w-full px-2 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-900 dark:text-white text-sm"
                                 />
                               </div>
                             </>
@@ -395,7 +357,7 @@ export default function TransactionsList({
                               type="text" value={editNotes}
                               onChange={(e) => setEditNotes(e.target.value)}
                               placeholder="optional"
-                              className="w-full px-2 py-1.5 bg-neutral-800 border border-neutral-700 rounded text-white text-sm"
+                              className="w-full px-2 py-1.5 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded text-neutral-900 dark:text-white text-sm"
                             />
                           </div>
                         </div>
@@ -416,7 +378,7 @@ export default function TransactionsList({
                           <button
                             onClick={cancelEdit}
                             disabled={editSaving}
-                            className="px-3 py-1.5 text-neutral-400 hover:text-white text-xs transition-colors"
+                            className="px-3 py-1.5 text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-xs transition-colors"
                           >
                             Abbrechen
                           </button>
@@ -428,7 +390,7 @@ export default function TransactionsList({
                   return (
                     <div
                       key={tx.id}
-                      className="group flex items-center justify-between py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors"
+                      className="group flex items-center justify-between py-3 border-b border-neutral-200 dark:border-neutral-800/50 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors"
                     >
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${config.bg}`}>
@@ -436,9 +398,16 @@ export default function TransactionsList({
                         </div>
                         <div>
                           <div className="flex items-center gap-2">
-                            <span className="font-medium text-white text-sm">{config.label}</span>
+                            <span className="font-medium text-neutral-900 dark:text-white text-sm">{config.label}</span>
                             {tx.symbol !== 'CASH' && (
                               <span className="text-xs text-neutral-500">{tx.symbol}</span>
+                            )}
+                            {/* Depot-Badge in Alle-Depots-Ansicht */}
+                            {depotLabel && (
+                              <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] text-neutral-500 bg-neutral-100 dark:bg-neutral-800/50">
+                                <span className="w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ backgroundColor: getDepotColor(tx) }} />
+                                {depotLabel}
+                              </span>
                             )}
                           </div>
                           <p className="text-xs text-neutral-500">
@@ -454,17 +423,24 @@ export default function TransactionsList({
                           }`}>
                             {tx.type === 'sell' || tx.type === 'cash_withdrawal' ? '-' : '+'}{formatCurrency(tx.total_value)}
                           </p>
+                          {/* Realisierter Gewinn/Verlust bei Sell-Transaktionen */}
+                          {rgInfo && (
+                            <p className={`text-[10px] ${perfColor(rgInfo.realizedGain)}`}>
+                              G/V: {rgInfo.realizedGain >= 0 ? '+' : ''}{formatCurrency(rgInfo.realizedGain)}
+                              {' '}({rgInfo.realizedGainPercent >= 0 ? '+' : ''}{rgInfo.realizedGainPercent.toFixed(1)}%)
+                            </p>
+                          )}
                         </div>
                         <button
                           onClick={() => startEditTransaction(tx)}
-                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-neutral-800 rounded transition-all"
+                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition-all"
                           title="Bearbeiten"
                         >
                           <PencilIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-emerald-400" />
                         </button>
                         <button
                           onClick={() => handleDeleteTransaction(tx.id)}
-                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-neutral-800 rounded transition-all"
+                          className="p-1 opacity-0 group-hover:opacity-100 hover:bg-neutral-200 dark:hover:bg-neutral-800 rounded transition-all"
                           title="Löschen"
                         >
                           <XMarkIcon className="w-3.5 h-3.5 text-neutral-500 hover:text-red-400" />

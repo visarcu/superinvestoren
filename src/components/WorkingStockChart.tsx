@@ -1,6 +1,6 @@
 // src/components/WorkingStockChart.tsx - FEY/QUARTR CLEAN STYLE
 'use client'
-import React, { useState, useMemo, useEffect, useRef } from 'react'
+import React, { useState, useMemo, useEffect, useRef, useCallback } from 'react'
 import {
   ResponsiveContainer,
   ComposedChart,
@@ -14,6 +14,7 @@ import {
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { useCurrency } from '@/lib/CurrencyContext'
+import { detectTickerCurrency } from '@/lib/fmp'
 
 interface StockData {
   date: string
@@ -24,7 +25,8 @@ export interface PurchaseMarker {
   date: string      // YYYY-MM-DD
   priceEUR: number  // Kaufpreis in EUR
   quantity: number
-  label: string     // "K1", "K2", ...
+  label: string     // "K1", "K2", "V1", "V2", ...
+  type?: 'buy' | 'sell'  // Default: 'buy'
 }
 
 interface Props {
@@ -59,9 +61,22 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
   const chartContainerRef = useRef<HTMLDivElement>(null)
 
   const { theme } = useTheme()
-  const { formatStockPrice, formatPercentage } = useCurrency()
+  const { formatPercentage } = useCurrency()
 
   const isDark = theme === 'dark'
+
+  // Währung basierend auf Ticker erkennen (z.B. G24.DE → EUR, AAPL → USD)
+  const tickerCurrency = useMemo(() => detectTickerCurrency(ticker), [ticker])
+  const currencySymbol = tickerCurrency === 'EUR' ? '€' : tickerCurrency === 'GBP' ? '£' : tickerCurrency === 'CHF' ? 'CHF' : '$'
+
+  const formatStockPrice = useCallback((price: number, showCurrency: boolean = true): string => {
+    if (!price && price !== 0) return '–'
+    const formatted = new Intl.NumberFormat('de-DE', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(price)
+    return showCurrency ? `${formatted} ${currencySymbol}` : formatted
+  }, [currencySymbol])
 
   // Filter data by time range
   const getFilteredData = (stockData: StockData[]) => {
@@ -243,8 +258,9 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
         date: bestMatch.date,
         value: yValue,
         label: marker.label,
+        type: marker.type || 'buy',
       }
-    }).filter(Boolean) as { date: string; value: number; label: string }[]
+    }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' }[]
   }, [purchaseMarkers, chartData, selectedMode, ticker])
 
   const isPositive = performanceStats && performanceStats.changePercent >= 0
@@ -425,25 +441,30 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
               />
             )}
 
-            {/* Kaufmarker */}
-            {resolvedMarkers.map((marker) => (
-              <ReferenceDot
-                key={marker.label}
-                x={marker.date}
-                y={marker.value}
-                r={6}
-                fill="#3b82f6"
-                stroke="#1e3a5f"
-                strokeWidth={2}
-                isFront
-                label={{
-                  value: marker.label,
-                  position: 'top',
-                  offset: 12,
-                  style: { fontSize: 10, fontWeight: 700, fill: '#3b82f6' }
-                }}
-              />
-            ))}
+            {/* Kauf- und Verkaufsmarker */}
+            {resolvedMarkers.map((marker) => {
+              const isSell = marker.type === 'sell'
+              const dotFill = isSell ? '#ef4444' : '#3b82f6'
+              const dotStroke = isSell ? '#5f1a1a' : '#1e3a5f'
+              return (
+                <ReferenceDot
+                  key={marker.label}
+                  x={marker.date}
+                  y={marker.value}
+                  r={6}
+                  fill={dotFill}
+                  stroke={dotStroke}
+                  strokeWidth={2}
+                  isFront
+                  label={{
+                    value: marker.label,
+                    position: 'top',
+                    offset: 12,
+                    style: { fontSize: 10, fontWeight: 700, fill: dotFill }
+                  }}
+                />
+              )
+            })}
           </ComposedChart>
         </ResponsiveContainer>
       </div>

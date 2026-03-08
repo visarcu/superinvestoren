@@ -1,14 +1,17 @@
 // src/app/analyse/portfolio/dashboard/page.tsx - NEUAUFBAU
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { usePortfolio, type Holding } from '@/hooks/usePortfolio'
 import QuickStats from '@/components/portfolio/QuickStats'
 import PositionsTable from '@/components/portfolio/PositionsTable'
-import AddPositionModal from '@/components/portfolio/AddPositionModal'
+import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
+import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
+import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
+import DividendsTab from '@/components/portfolio/DividendsTab'
 import Logo from '@/components/Logo'
 import { perfColor } from '@/utils/formatters'
 import {
@@ -23,6 +26,7 @@ import {
   LockClosedIcon,
   ChevronDownIcon,
   Squares2X2Icon,
+  UserGroupIcon,
 } from '@heroicons/react/24/outline'
 
 // Free User Limit
@@ -88,9 +92,35 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean; on
 export default function PortfolioDashboard() {
   const p = usePortfolio()
 
+  // Superinvestor Overlap
+  const [superInvestorCounts, setSuperInvestorCounts] = useState<Record<string, { count: number; investors: { name: string; slug: string }[] }>>({})
+
+  const fetchSuperInvestorOverlap = useCallback(async (holdings: { symbol: string }[]) => {
+    if (holdings.length === 0) return
+    try {
+      const tickers = holdings.map(h => h.symbol)
+      const res = await fetch('/api/portfolio/super-investor-overlap', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tickers })
+      })
+      if (res.ok) {
+        const data = await res.json()
+        setSuperInvestorCounts(data)
+      }
+    } catch (error) {
+      console.error('Error fetching super investor overlap:', error)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (p.holdings.length > 0) {
+      fetchSuperInvestorOverlap(p.holdings)
+    }
+  }, [p.holdings, fetchSuperInvestorOverlap])
+
   // UI State
-  const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'transactions'>('overview')
-  const [showAddPosition, setShowAddPosition] = useState(false)
+  const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'transactions' | 'ai-analyse' | 'dividends'>('overview')
   const [showDepotSwitcher, setShowDepotSwitcher] = useState(false)
   const [showPremiumModal, setShowPremiumModal] = useState(false)
   const [premiumFeatureMessage, setPremiumFeatureMessage] = useState('')
@@ -119,19 +149,24 @@ export default function PortfolioDashboard() {
   const [newPortfolioName, setNewPortfolioName] = useState('')
 
   // Handlers
-  const openAddPositionModal = () => {
-    if (p.isAllDepotsView) return
-    if (!p.isPremium && p.holdings.length >= FREE_USER_POSITION_LIMIT) {
-      setPremiumFeatureMessage('Mit Premium kannst du unbegrenzt Positionen zu deinem Portfolio hinzufügen.')
-      setShowPremiumModal(true)
-      return
-    }
-    setShowAddPosition(true)
+  const handlePremiumRequired = () => {
+    setPremiumFeatureMessage('Mit Premium kannst du unbegrenzt Positionen zu deinem Portfolio hinzufügen.')
+    setShowPremiumModal(true)
   }
 
   const handleTabChange = (tab: typeof activeTab) => {
     if (tab === 'transactions' && !p.isPremium) {
       setPremiumFeatureMessage('Portfolio-Historie ist ein Premium-Feature. Verfolge alle deine Transaktionen.')
+      setShowPremiumModal(true)
+      return
+    }
+    if (tab === 'ai-analyse' && !p.isPremium) {
+      setPremiumFeatureMessage('KI-Portfolio-Analyse ist ein Premium-Feature. Lass dein Portfolio von unserer KI analysieren.')
+      setShowPremiumModal(true)
+      return
+    }
+    if (tab === 'dividends' && !p.isPremium) {
+      setPremiumFeatureMessage('Dividenden-Übersicht ist ein Premium-Feature. Behalte alle Dividendenzahlungen im Blick.')
       setShowPremiumModal(true)
       return
     }
@@ -345,11 +380,11 @@ export default function PortfolioDashboard() {
             <div>
               <p className="text-3xl font-bold text-white">{p.formatCurrency(p.totalValue)}</p>
               <div className="flex items-center gap-3 mt-1">
-                <span className={`text-sm font-medium ${perfColor(p.totalGainLoss)}`}>
-                  {p.totalGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.totalGainLoss)}
+                <span className={`text-sm font-medium ${perfColor(p.totalReturn)}`}>
+                  {p.totalReturn >= 0 ? '+' : ''}{p.formatCurrency(p.totalReturn)}
                 </span>
-                <span className={`text-sm ${perfColor(p.totalGainLossPercent)}`}>
-                  {p.formatPercentage(p.totalGainLossPercent)}
+                <span className={`text-sm ${perfColor(p.totalReturnPercent)}`}>
+                  {p.formatPercentage(p.totalReturnPercent)}
                 </span>
                 {p.xirrPercent !== null && (
                   <span className={`text-xs px-1.5 py-0.5 rounded ${perfColor(p.xirrPercent, 'bg')}`}>
@@ -367,6 +402,8 @@ export default function PortfolioDashboard() {
         {[
           { key: 'overview' as const, label: 'Übersicht', premium: false },
           { key: 'positions' as const, label: 'Positionen', premium: false },
+          { key: 'ai-analyse' as const, label: 'KI-Analyse', premium: true },
+          { key: 'dividends' as const, label: 'Dividenden', premium: true },
           { key: 'transactions' as const, label: 'Transaktionen', premium: true },
         ].map(tab => (
           <button
@@ -385,7 +422,7 @@ export default function PortfolioDashboard() {
       </div>
 
       {/* Main Content */}
-      <main className="w-full px-6 py-6">
+      <main className="w-full px-6 py-6 pb-24">
         {/* Exchange Rate Info */}
         {p.exchangeRate && (
           <div className="mb-4 flex items-center gap-2 text-xs text-neutral-500">
@@ -402,6 +439,10 @@ export default function PortfolioDashboard() {
               cashPosition={p.cashPosition}
               totalGainLoss={p.totalGainLoss}
               totalGainLossPercent={p.totalGainLossPercent}
+              totalRealizedGain={p.totalRealizedGain}
+              totalDividends={p.totalDividends}
+              totalReturn={p.totalReturn}
+              totalReturnPercent={p.totalReturnPercent}
               xirrPercent={p.xirrPercent}
               activeInvestments={p.activeInvestments}
               formatCurrency={p.formatCurrency}
@@ -416,16 +457,9 @@ export default function PortfolioDashboard() {
                   <BriefcaseIcon className="w-7 h-7 text-emerald-400" />
                 </div>
                 <h3 className="text-lg font-medium text-white mb-2">Depot ist noch leer</h3>
-                <p className="text-sm text-neutral-500 mb-6 max-w-sm mx-auto">
-                  Füge deine erste Position hinzu, um Wertentwicklung, Performance und XIRR zu tracken.
+                <p className="text-sm text-neutral-500 max-w-sm mx-auto">
+                  Nutze den <span className="text-emerald-400 font-medium">+</span> Button unten rechts, um deine erste Aktivität hinzuzufügen.
                 </p>
-                <button
-                  onClick={openAddPositionModal}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium rounded-xl transition-colors"
-                >
-                  <PlusIcon className="w-4 h-4" />
-                  Erste Position hinzufügen
-                </button>
               </div>
             )}
 
@@ -447,41 +481,85 @@ export default function PortfolioDashboard() {
             )}
 
             {/* Top Positions Quick View */}
-            {p.holdings.length > 0 && (
-              <div className="mt-6">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-medium text-neutral-400">Top Positionen</h3>
-                  <button onClick={() => setActiveTab('positions')} className="text-xs text-emerald-400 hover:text-emerald-300">
-                    Alle anzeigen →
-                  </button>
-                </div>
-                <div className="space-y-0">
-                  {[...p.holdings].sort((a, b) => b.value - a.value).slice(0, 5).map((holding) => (
-                    <div key={holding.id}
-                      className="flex items-center justify-between py-2.5 border-b border-neutral-800/30 cursor-pointer hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors"
-                      onClick={() => {
-                        const base = p.portfolio?.id
-                          ? `/analyse/portfolio/stocks/${holding.symbol.toLowerCase()}?portfolioId=${p.portfolio.id}`
-                          : `/analyse/stocks/${holding.symbol.toLowerCase()}`
-                        window.location.href = base
-                      }}
-                    >
-                      <div className="flex items-center gap-3">
-                        <Logo ticker={holding.symbol} alt={holding.symbol} className="w-7 h-7" padding="none" />
-                        <div>
-                          <span className="font-medium text-white text-sm">{holding.symbol}</span>
-                          <p className="text-xs text-neutral-500">{holding.quantity} St.</p>
+            {p.holdings.length > 0 && (() => {
+              // In Alle-Depots: gleiche Aktien gruppieren
+              const topPositions = (() => {
+                if (!p.isAllDepotsView) {
+                  return [...p.holdings].sort((a, b) => b.value - a.value).slice(0, 5).map(h => ({
+                    symbol: h.symbol,
+                    quantity: h.quantity,
+                    value: h.value,
+                    gainLossPercent: h.gain_loss_percent,
+                  }))
+                }
+                const grouped = new Map<string, { symbol: string; quantity: number; value: number; totalCost: number }>()
+                p.holdings.forEach(h => {
+                  const existing = grouped.get(h.symbol)
+                  if (existing) {
+                    existing.quantity += h.quantity
+                    existing.value += h.value
+                    existing.totalCost += h.purchase_price_display * h.quantity
+                  } else {
+                    grouped.set(h.symbol, { symbol: h.symbol, quantity: h.quantity, value: h.value, totalCost: h.purchase_price_display * h.quantity })
+                  }
+                })
+                return Array.from(grouped.values())
+                  .map(g => ({ symbol: g.symbol, quantity: g.quantity, value: g.value, gainLossPercent: g.totalCost > 0 ? ((g.value - g.totalCost) / g.totalCost) * 100 : 0 }))
+                  .sort((a, b) => b.value - a.value)
+                  .slice(0, 5)
+              })()
+
+              return (
+                <div className="mt-6">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-medium text-neutral-400">Top Positionen</h3>
+                    <button onClick={() => setActiveTab('positions')} className="text-xs text-emerald-400 hover:text-emerald-300">
+                      Alle anzeigen →
+                    </button>
+                  </div>
+                  <div className="space-y-0">
+                    {topPositions.map((pos) => (
+                      <div key={pos.symbol}
+                        className="flex items-center justify-between py-2.5 border-b border-neutral-800/30 cursor-pointer hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors"
+                        onClick={() => {
+                          const base = p.portfolio?.id
+                            ? `/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${p.portfolio.id}&totalValue=${p.totalValue}`
+                            : `/analyse/stocks/${pos.symbol.toLowerCase()}`
+                          window.location.href = base
+                        }}
+                      >
+                        <div className="flex items-center gap-3">
+                          <Logo ticker={pos.symbol} alt={pos.symbol} className="w-7 h-7" padding="none" />
+                          <div>
+                            <div className="flex items-center gap-1.5">
+                              <span className="font-medium text-white text-sm">{pos.symbol}</span>
+                              {superInvestorCounts[pos.symbol]?.count > 0 && (
+                                <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">
+                                  <UserGroupIcon className="w-2.5 h-2.5" />
+                                  {superInvestorCounts[pos.symbol].count}
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-xs text-neutral-500">{pos.quantity.toLocaleString('de-DE')} St.</p>
+                          </div>
+                        </div>
+                        <div className="text-right">
+                          <p className="text-sm font-medium text-white">{p.formatCurrency(pos.value)}</p>
+                          <span className={`text-xs ${perfColor(pos.gainLossPercent)}`}>
+                            {pos.gainLossPercent >= 0 ? '+' : ''}{pos.gainLossPercent.toFixed(1)}%
+                          </span>
                         </div>
                       </div>
-                      <div className="text-right">
-                        <p className="text-sm font-medium text-white">{p.formatCurrency(holding.value)}</p>
-                        <span className={`text-xs ${perfColor(holding.gain_loss_percent)}`}>
-                          {holding.gain_loss_percent >= 0 ? '+' : ''}{holding.gain_loss_percent.toFixed(1)}%
-                        </span>
-                      </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
+              )
+            })()}
+
+            {/* Anstehende Earnings */}
+            {p.holdings.length > 0 && (
+              <div className="mt-6">
+                <PortfolioEarningsPreview symbols={p.holdings.map(h => h.symbol)} />
               </div>
             )}
           </>
@@ -496,13 +574,32 @@ export default function PortfolioDashboard() {
             formatCurrency={p.formatCurrency}
             formatStockPrice={p.formatStockPrice}
             formatPercentage={p.formatPercentage}
-            onAddPosition={openAddPositionModal}
             onEditPosition={openEditModal}
             onDeletePosition={handleDeletePosition}
             onTopUpPosition={(h) => { setTopUpTarget(h); setTopUpPrice('') }}
             onEditCash={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}
             isAllDepotsView={p.isAllDepotsView}
             portfolioId={p.portfolio?.id}
+            superInvestorCounts={superInvestorCounts}
+          />
+        )}
+
+        {/* AI Analyse Tab */}
+        {activeTab === 'ai-analyse' && (
+          <AIAnalyseTab
+            holdings={p.holdings}
+            portfolioId={p.portfolio?.id}
+          />
+        )}
+
+        {/* Dividends Tab */}
+        {activeTab === 'dividends' && (
+          <DividendsTab
+            transactions={p.transactions}
+            holdings={p.holdings}
+            totalPortfolioValue={p.totalValue}
+            formatCurrency={p.formatCurrency}
+            isAllDepotsView={p.isAllDepotsView}
           />
         )}
 
@@ -510,21 +607,15 @@ export default function PortfolioDashboard() {
         {activeTab === 'transactions' && (
           <TransactionsList
             portfolioId={p.portfolio?.id || ''}
+            transactions={p.transactions}
+            realizedGainByTxId={p.realizedGainByTxId}
             onTransactionChange={() => p.loadPortfolio(p.depotIdParam)}
             formatCurrency={p.formatCurrency}
+            isAllDepotsView={p.isAllDepotsView}
           />
         )}
 
         {/* ===== MODALS ===== */}
-
-        {/* Add Position Modal */}
-        <AddPositionModal
-          isOpen={showAddPosition}
-          onClose={() => setShowAddPosition(false)}
-          onAddStock={p.addPosition}
-          onAddCash={p.addCash}
-          formatCurrency={p.formatCurrency}
-        />
 
         {/* Edit Position Modal */}
         {editingPosition && (
@@ -752,6 +843,26 @@ export default function PortfolioDashboard() {
         {/* Premium Modal */}
         <PremiumUpgradeModal isOpen={showPremiumModal} onClose={() => setShowPremiumModal(false)} feature={premiumFeatureMessage} />
       </main>
+
+      {/* FAB - Aktivität hinzufügen */}
+      <AddActivityFAB
+        portfolioId={p.portfolio?.id || ''}
+        holdings={p.holdings}
+        isPremium={p.isPremium}
+        holdingsCount={p.holdings.length}
+        cashPosition={p.cashPosition}
+        formatCurrency={p.formatCurrency}
+        formatStockPrice={p.formatStockPrice}
+        isAllDepotsView={p.isAllDepotsView}
+        allPortfolios={p.allPortfolios}
+        onAddPosition={p.addPosition}
+        onTopUpPosition={p.topUpPosition}
+        onSellPosition={p.sellPosition}
+        onAddDividend={p.addDividend}
+        onAddCash={p.addCash}
+        onComplete={() => p.loadPortfolio(p.depotIdParam)}
+        onPremiumRequired={handlePremiumRequired}
+      />
     </div>
   )
 }

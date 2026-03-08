@@ -35,8 +35,17 @@ export default function PortfolioEarningsPreview({ symbols }: PortfolioEarningsP
         const response = await fetch(`/api/earnings-calendar?tickers=${symbols.join(',')}`)
         if (response.ok) {
           const data = await response.json()
-          // Only show next 5 upcoming earnings
-          setEarnings(data.slice(0, 5))
+          // Nur Earnings der nächsten 14 Tage anzeigen (weniger redundant zu Positionen)
+          const today = new Date()
+          today.setHours(0, 0, 0, 0)
+          const cutoff = new Date(today)
+          cutoff.setDate(cutoff.getDate() + 14)
+          const filtered = data.filter((e: EarningsEvent) => {
+            const d = new Date(e.date)
+            d.setHours(0, 0, 0, 0)
+            return d <= cutoff
+          })
+          setEarnings(filtered.slice(0, 5))
         }
       } catch (error) {
         console.error('Error loading earnings:', error)
@@ -88,52 +97,57 @@ export default function PortfolioEarningsPreview({ symbols }: PortfolioEarningsP
   if (earnings.length === 0) {
     return (
       <div className="py-6 text-center">
-        <CalendarDaysIcon className="w-8 h-8 text-neutral-700 mx-auto mb-2" />
-        <p className="text-neutral-500 text-sm">Keine anstehenden Earnings</p>
+        <CalendarDaysIcon className="w-8 h-8 text-neutral-300 dark:text-neutral-700 mx-auto mb-2" />
+        <p className="text-neutral-500 text-sm">Keine Earnings in den nächsten 2 Wochen</p>
       </div>
     )
   }
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-4">
-        <h3 className="text-sm font-medium text-neutral-400">Anstehende Earnings</h3>
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-neutral-600 dark:text-neutral-400">Anstehende Earnings</h3>
         <Link
           href="/analyse/earnings"
-          className="text-xs text-emerald-400 hover:text-emerald-300"
+          className="text-xs text-emerald-600 hover:text-emerald-500 dark:text-emerald-400 dark:hover:text-emerald-300"
         >
-          Alle anzeigen
+          Alle anzeigen →
         </Link>
       </div>
 
       <div className="space-y-0">
-        {earnings.map((event, index) => (
-          <Link
-            key={`${event.ticker}-${event.date}-${index}`}
-            href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
-            className="flex items-center justify-between py-3 border-b border-neutral-800 last:border-b-0 hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors group"
-          >
-            <div className="flex items-center gap-3">
-              <div className="w-1 h-8 bg-emerald-500 rounded-full" />
-              <div>
-                <span className="font-medium text-white group-hover:text-emerald-400 transition-colors">
-                  {event.ticker}
-                </span>
-                <p className="text-neutral-500 text-xs">
-                  {event.quarter}
-                </p>
+        {earnings.map((event, index) => {
+          const daysUntil = getDaysUntil(event.date)
+          const isImminent = daysUntil === 'Heute' || daysUntil === 'Morgen'
+
+          return (
+            <Link
+              key={`${event.ticker}-${event.date}-${index}`}
+              href={`/analyse/stocks/${event.ticker.toLowerCase()}`}
+              className="flex items-center justify-between py-2.5 border-b border-neutral-100 dark:border-neutral-800/30 last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors group"
+            >
+              <div className="flex items-center gap-3">
+                <Logo ticker={event.ticker} alt={event.ticker} className="w-7 h-7" padding="none" />
+                <div>
+                  <span className="font-medium text-neutral-900 dark:text-white text-sm group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                    {event.ticker}
+                  </span>
+                  <p className="text-neutral-500 text-xs">{event.quarter}</p>
+                </div>
               </div>
-            </div>
-            <div className="text-right">
-              <p className="text-white text-sm font-medium">
-                {formatDate(event.date)}
-              </p>
-              <p className="text-neutral-500 text-xs">
-                {getDaysUntil(event.date)}
-              </p>
-            </div>
-          </Link>
-        ))}
+              <div className="flex items-center gap-3">
+                <div className="text-right">
+                  <p className="text-neutral-900 dark:text-white text-sm font-medium">
+                    {formatDate(event.date)}
+                  </p>
+                  <p className={`text-xs ${isImminent ? 'text-amber-500 font-medium' : 'text-neutral-500'}`}>
+                    {daysUntil}
+                  </p>
+                </div>
+              </div>
+            </Link>
+          )
+        })}
       </div>
     </div>
   )

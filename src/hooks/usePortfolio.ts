@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
-import { getBulkQuotes } from '@/lib/fmp'
+import { getBulkQuotes, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { getEURRate, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
 import { calculateXIRR, type Cashflow } from '@/utils/xirr'
@@ -36,6 +36,12 @@ export interface Holding {
   gain_loss: number
   gain_loss_percent: number
   purchase_currency?: string
+  // Portfolio-Info (gesetzt in "Alle Depots" Ansicht)
+  portfolio_id?: string
+  portfolio_name?: string
+  broker_type?: string | null
+  broker_name?: string | null
+  broker_color?: string | null
 }
 
 export interface Transaction {
@@ -49,6 +55,80 @@ export interface Transaction {
   date: string
   created_at: string
   notes?: string
+  // Portfolio-Info (gesetzt in "Alle Depots" Ansicht)
+  portfolio_id?: string
+  portfolio_name?: string
+  broker_type?: string | null
+  broker_name?: string | null
+  broker_color?: string | null
+}
+
+// Realisierte Gewinne & Dividenden aus Transaktionshistorie berechnen
+// Verwendet die Durchschnittskostenmethode (Average Cost Method)
+export interface RealizedGainInfo {
+  realizedGain: number
+  avgCostBasis: number
+  realizedGainPercent: number
+}
+
+function calculateRealizedGains(transactions: Transaction[]): {
+  totalRealizedGain: number
+  totalDividends: number
+  realizedGainByTxId: Map<string, RealizedGainInfo>
+} {
+  if (transactions.length === 0) {
+    return { totalRealizedGain: 0, totalDividends: 0, realizedGainByTxId: new Map() }
+  }
+
+  // Chronologisch sortieren (älteste zuerst)
+  const sorted = [...transactions].sort(
+    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
+  )
+
+  // Kostenbasis pro Symbol tracken
+  const positions = new Map<string, { totalShares: number; totalCost: number }>()
+  let totalRealizedGain = 0
+  let totalDividends = 0
+  const realizedGainByTxId = new Map<string, RealizedGainInfo>()
+
+  for (const tx of sorted) {
+    if (tx.type === 'buy') {
+      const pos = positions.get(tx.symbol) || { totalShares: 0, totalCost: 0 }
+      pos.totalShares += tx.quantity
+      pos.totalCost += tx.quantity * tx.price
+      positions.set(tx.symbol, pos)
+    } else if (tx.type === 'sell') {
+      const pos = positions.get(tx.symbol)
+      if (!pos || pos.totalShares <= 0) continue
+
+      const avgCostPerShare = pos.totalCost / pos.totalShares
+      const realizedGain = (tx.price - avgCostPerShare) * tx.quantity
+      const realizedGainPercent = avgCostPerShare > 0
+        ? ((tx.price - avgCostPerShare) / avgCostPerShare) * 100
+        : 0
+
+      totalRealizedGain += realizedGain
+      realizedGainByTxId.set(tx.id, {
+        realizedGain,
+        avgCostBasis: avgCostPerShare,
+        realizedGainPercent,
+      })
+
+      // Kostenbasis reduzieren (Average Cost Method)
+      pos.totalShares -= tx.quantity
+      pos.totalCost -= tx.quantity * avgCostPerShare
+      // Floating-Point Guard
+      if (pos.totalShares <= 0.0001) {
+        pos.totalShares = 0
+        pos.totalCost = 0
+      }
+      positions.set(tx.symbol, pos)
+    } else if (tx.type === 'dividend') {
+      totalDividends += tx.total_value
+    }
+  }
+
+  return { totalRealizedGain, totalDividends, realizedGainByTxId }
 }
 
 export function usePortfolio() {
@@ -105,21 +185,59 @@ export function usePortfolio() {
     return totalInvested > 0 ? (totalGainLoss / totalInvested) * 100 : 0
   }, [totalGainLoss, totalInvested])
 
-  // XIRR Berechnung
+  // Realisierte Gewinne + Dividenden aus Transaktionshistorie
+  const { totalRealizedGain, totalDividends, realizedGainByTxId } = useMemo(
+    () => calculateRealizedGains(transactions),
+    [transactions]
+  )
+
+  // Gesamtrendite = Unrealisiert + Realisiert + Dividenden
+  const totalReturn = useMemo(
+    () => totalGainLoss + totalRealizedGain + totalDividends,
+    [totalGainLoss, totalRealizedGain, totalDividends]
+  )
+
+  const totalReturnPercent = useMemo(() => {
+    return totalInvested > 0 ? (totalReturn / totalInvested) * 100 : 0
+  }, [totalReturn, totalInvested])
+
+  // XIRR Berechnung — korrekt mit allen Transaktionen
   const xirrPercent = useMemo(() => {
     const cashflows: Cashflow[] = []
 
-    holdings.forEach(h => {
-      if (h.purchase_date && h.purchase_price_display > 0 && h.quantity > 0) {
-        cashflows.push({
-          amount: -(h.purchase_price_display * h.quantity),
-          date: new Date(h.purchase_date)
-        })
-      }
-    })
+    if (transactions.length > 0) {
+      // Alle Buy/Sell/Dividend-Transaktionen als Cashflows
+      transactions.forEach(tx => {
+        if (!tx.date) return
+        const txDate = new Date(tx.date)
 
-    if (stockValue > 0 && cashflows.length > 0) {
-      cashflows.push({ amount: stockValue, date: new Date() })
+        if (tx.type === 'buy') {
+          cashflows.push({ amount: -(tx.total_value), date: txDate })
+        } else if (tx.type === 'sell') {
+          cashflows.push({ amount: tx.total_value, date: txDate })
+        } else if (tx.type === 'dividend') {
+          cashflows.push({ amount: tx.total_value, date: txDate })
+        }
+        // cash_deposit/cash_withdrawal ignorieren (externe Geldbewegungen)
+      })
+
+      // Terminal: aktueller Aktienwert
+      if (stockValue > 0) {
+        cashflows.push({ amount: stockValue, date: new Date() })
+      }
+    } else if (holdings.length > 0) {
+      // Fallback für Legacy-Daten ohne Transaktionen
+      holdings.forEach(h => {
+        if (h.purchase_date && h.purchase_price_display > 0 && h.quantity > 0) {
+          cashflows.push({
+            amount: -(h.purchase_price_display * h.quantity),
+            date: new Date(h.purchase_date)
+          })
+        }
+      })
+      if (stockValue > 0) {
+        cashflows.push({ amount: stockValue, date: new Date() })
+      }
     }
 
     cashflows.sort((a, b) => a.date.getTime() - b.date.getTime())
@@ -127,7 +245,7 @@ export function usePortfolio() {
 
     const result = calculateXIRR(cashflows)
     return result !== null ? result * 100 : null
-  }, [holdings, stockValue])
+  }, [transactions, holdings, stockValue])
 
   // Load Exchange Rate
   const loadExchangeRate = useCallback(async () => {
@@ -155,11 +273,11 @@ export function usePortfolio() {
     if (!holdingsData || holdingsData.length === 0) return []
 
     const symbols = holdingsData.map(h => h.symbol)
-    let currentPricesUSD: Record<string, number> = {}
+    let currentPrices: Record<string, number> = {}
 
     try {
-      currentPricesUSD = await getBulkQuotes(symbols)
-      const missingPrices = symbols.filter(s => !currentPricesUSD[s] || currentPricesUSD[s] <= 0)
+      currentPrices = await getBulkQuotes(symbols)
+      const missingPrices = symbols.filter(s => !currentPrices[s] || currentPrices[s] <= 0)
       if (missingPrices.length > 0) {
         setPriceLoadError(`Kurse nicht verfügbar für: ${missingPrices.join(', ')}`)
       } else {
@@ -170,28 +288,39 @@ export function usePortfolio() {
       return []
     }
 
-    const holdingsWithPrices = holdingsData.map(h => ({
-      ...h,
-      current_price: currentPricesUSD[h.symbol] || 0
-    }))
+    // EUR-Rate nur einmal laden für USD-Aktien
+    let eurRate: number | null = null
+    const hasUSDStocks = symbols.some(s => detectTickerCurrency(s) === 'USD')
+    if (hasUSDStocks) {
+      try {
+        eurRate = await currencyManager.getCurrentUSDtoEURRate()
+      } catch {
+        // Fallback: ohne Konvertierung
+      }
+    }
 
-    const converted = await currencyManager.convertHoldingsForDisplay(
-      holdingsWithPrices,
-      currency as 'USD' | 'EUR',
-      true
-    )
+    return holdingsData.map((h: any) => {
+      const apiPrice = currentPrices[h.symbol] || 0
+      const tickerCurrency = detectTickerCurrency(h.symbol)
 
-    return converted.map((h: any) => {
-      const currentPrice = h.current_price_display || 0
-      const purchasePrice = h.purchase_price_display || 0
+      // EUR-Aktien (z.B. .DE, .PA): API liefert bereits EUR → keine Konvertierung
+      // USD-Aktien: API liefert USD → muss in EUR konvertiert werden
+      const currentPriceEUR = tickerCurrency === 'EUR' || !eurRate
+        ? apiPrice
+        : apiPrice * eurRate
+
+      const purchasePrice = h.purchase_price || 0
       const quantity = h.quantity || 0
-      const value = currentPrice * quantity
+      const value = currentPriceEUR * quantity
       const costBasis = purchasePrice * quantity
       const gainLoss = value - costBasis
       const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
 
       return {
         ...h,
+        current_price: apiPrice,
+        current_price_display: currentPriceEUR,
+        purchase_price_display: purchasePrice,
         value,
         gain_loss: gainLoss,
         gain_loss_percent: gainLossPercent
@@ -200,7 +329,34 @@ export function usePortfolio() {
   }, [currency])
 
   // Load Transactions
-  const loadTransactions = useCallback(async (portfolioId: string) => {
+  const loadTransactions = useCallback(async (portfolioId: string, allPortfolioIds?: string[], portfolios?: Portfolio[]) => {
+    if (portfolioId === 'all' && allPortfolioIds && allPortfolioIds.length > 0) {
+      // Alle Depots: Transaktionen für jedes Portfolio laden + Portfolio-Info anhängen
+      const allTx: Transaction[] = []
+      for (const pid of allPortfolioIds) {
+        const { data } = await supabase
+          .from('portfolio_transactions')
+          .select('*')
+          .eq('portfolio_id', pid)
+          .order('date', { ascending: false })
+        if (data) {
+          const pInfo = portfolios?.find(p => p.id === pid)
+          const enriched = data.map(tx => ({
+            ...tx,
+            portfolio_id: pid,
+            portfolio_name: pInfo?.name || 'Depot',
+            broker_type: pInfo?.broker_type,
+            broker_name: pInfo?.broker_name,
+            broker_color: pInfo?.broker_color,
+          }))
+          allTx.push(...enriched)
+        }
+      }
+      allTx.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+      setTransactions(allTx)
+      return
+    }
+
     if (portfolioId === 'all') return
 
     const { data, error: txError } = await supabase
@@ -255,11 +411,22 @@ export function usePortfolio() {
         })
 
         const allHoldings: Holding[] = []
-        for (const p of portfolios) {
-          const h = await loadHoldingsForPortfolio(p.id)
-          allHoldings.push(...h)
+        for (const pf of portfolios) {
+          const h = await loadHoldingsForPortfolio(pf.id)
+          // Portfolio-Info an jede Holding anhängen
+          const enriched = h.map(holding => ({
+            ...holding,
+            portfolio_id: pf.id,
+            portfolio_name: pf.name,
+            broker_type: pf.broker_type,
+            broker_name: pf.broker_name,
+            broker_color: pf.broker_color,
+          }))
+          allHoldings.push(...enriched)
         }
         setHoldings(allHoldings)
+        // Transaktionen für alle Depots laden
+        await loadTransactions('all', portfolios.map(pf => pf.id), portfolios)
         setLoading(false)
         return
       }
@@ -364,7 +531,7 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
 
-  const addCash = useCallback(async (amount: number) => {
+  const addCash = useCallback(async (amount: number, date?: string) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
     const newCash = (portfolio.cash_position || 0) + amount
@@ -384,7 +551,7 @@ export function usePortfolio() {
         quantity: 1,
         price: Math.abs(amount),
         total_value: Math.abs(amount),
-        date: new Date().toISOString().split('T')[0]
+        date: date || new Date().toISOString().split('T')[0]
       })
 
     await loadPortfolio(depotIdParam)
@@ -491,6 +658,79 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
 
+  const sellPosition = useCallback(async (holdingId: string, params: {
+    quantity: number
+    price: number
+    date: string
+  }) => {
+    if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+
+    const holding = holdings.find(h => h.id === holdingId)
+    if (!holding) throw new Error('Position nicht gefunden')
+
+    const { quantity, price, date } = params
+
+    if (quantity >= holding.quantity) {
+      // Vollverkauf — Holding löschen
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .delete()
+        .eq('id', holdingId)
+      if (error) throw error
+    } else {
+      // Teilverkauf — Menge reduzieren
+      const { error } = await supabase
+        .from('portfolio_holdings')
+        .update({ quantity: holding.quantity - quantity })
+        .eq('id', holdingId)
+      if (error) throw error
+    }
+
+    // Sell-Transaktion erstellen
+    await supabase
+      .from('portfolio_transactions')
+      .insert({
+        portfolio_id: portfolio.id,
+        type: 'sell',
+        symbol: holding.symbol,
+        name: holding.name,
+        quantity,
+        price,
+        total_value: quantity * price,
+        date
+      })
+
+    await loadPortfolio(depotIdParam)
+  }, [portfolio, holdings, loadPortfolio, depotIdParam])
+
+  const addDividend = useCallback(async (holdingId: string, params: {
+    amount: number
+    date: string
+  }) => {
+    if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+
+    const holding = holdings.find(h => h.id === holdingId)
+    if (!holding) throw new Error('Position nicht gefunden')
+
+    const { amount, date } = params
+
+    // Dividend-Transaktion erstellen (kein Holding-Update)
+    await supabase
+      .from('portfolio_transactions')
+      .insert({
+        portfolio_id: portfolio.id,
+        type: 'dividend',
+        symbol: holding.symbol,
+        name: holding.name,
+        quantity: holding.quantity,
+        price: amount / holding.quantity,
+        total_value: amount,
+        date
+      })
+
+    await loadPortfolio(depotIdParam)
+  }, [portfolio, holdings, loadPortfolio, depotIdParam])
+
   const updateCashPosition = useCallback(async (newAmount: number) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
@@ -565,6 +805,11 @@ export function usePortfolio() {
     cashPosition,
     totalGainLoss,
     totalGainLossPercent,
+    totalRealizedGain,
+    totalDividends,
+    totalReturn,
+    totalReturnPercent,
+    realizedGainByTxId,
     xirrPercent,
     activeInvestments: holdings.length,
 
@@ -590,6 +835,8 @@ export function usePortfolio() {
     updatePosition,
     deletePosition,
     topUpPosition,
+    sellPosition,
+    addDividend,
     updateCashPosition,
     updatePortfolioName,
     exportToCSV,

@@ -36,38 +36,43 @@ export interface StockQuote {
     }
   }
   
+  // Erkennt die Währung anhand des Ticker-Suffixes
+  export function detectTickerCurrency(ticker: string): 'EUR' | 'USD' | 'GBP' | 'JPY' | 'CHF' | 'CAD' | 'AUD' {
+    if (ticker.match(/\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i)) return 'EUR'
+    if (ticker.endsWith('.L')) return 'GBP'
+    if (ticker.endsWith('.TO') || ticker.endsWith('.V')) return 'CAD'
+    if (ticker.endsWith('.T')) return 'JPY'
+    if (ticker.endsWith('.SW') || ticker.endsWith('.S')) return 'CHF'
+    if (ticker.endsWith('.AX')) return 'AUD'
+    return 'USD'
+  }
+
   // Nutzt deine bestehende API Route für mehrere Symbole
   export async function getBulkQuotes(symbols: string[]): Promise<Record<string, number>> {
     try {
       if (symbols.length === 0) return {}
 
       const symbolsString = symbols.join(',')
-      console.log(`🔍 Fetching bulk quotes for: ${symbolsString}`)
       const response = await fetch(`/api/quotes?symbols=${symbolsString}`)
 
       if (!response.ok) {
-        console.error('Failed to fetch quotes:', response.status, response.statusText)
         return {}
       }
 
       const data = await response.json()
-      console.log('📊 Raw quotes response:', data)
 
       const prices: Record<string, number> = {}
       if (Array.isArray(data)) {
         data.forEach((quote: StockQuote) => {
           if (quote && quote.symbol) {
-            const price = quote.price || 0
-            prices[quote.symbol] = price
-            console.log(`📈 ${quote.symbol}: $${price}`)
+            prices[quote.symbol] = quote.price || 0
           }
         })
       }
 
-      console.log(`✅ Processed ${Object.keys(prices).length} quotes:`, prices)
       return prices
     } catch (error) {
-      console.error('❌ Error fetching bulk quotes:', error)
+      console.error('Error fetching bulk quotes:', error)
       return {}
     }
   }
