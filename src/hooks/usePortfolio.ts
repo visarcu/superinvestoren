@@ -46,7 +46,7 @@ export interface Holding {
 
 export interface Transaction {
   id: string
-  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal'
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
   symbol: string
   name: string
   quantity: number

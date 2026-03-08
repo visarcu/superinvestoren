@@ -31,7 +31,7 @@ export interface SymbolPerformance {
 
 interface TransactionInput {
   id: string
-  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal'
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
   quantity: number
   price: number
   total_value: number
@@ -63,7 +63,7 @@ export function calculateSymbolPerformance(
   const realizedGainByTxId = new Map<string, RealizedGainDetail>()
 
   for (const tx of sorted) {
-    if (tx.type === 'buy') {
+    if (tx.type === 'buy' || tx.type === 'transfer_in') {
       totalShares += tx.quantity
       totalCost += tx.quantity * tx.price
       totalInvested += tx.quantity * tx.price
@@ -84,6 +84,19 @@ export function calculateSymbolPerformance(
       })
 
       // Kostenbasis reduzieren
+      totalShares -= tx.quantity
+      totalCost -= tx.quantity * avgCostPerShare
+
+      // Floating-Point Guard
+      if (totalShares <= 0.0001) {
+        totalShares = 0
+        totalCost = 0
+      }
+    } else if (tx.type === 'transfer_out') {
+      // Depotübertrag: Bestand reduzieren, aber KEIN realisierter Gewinn/Verlust
+      if (totalShares <= 0) continue
+
+      const avgCostPerShare = totalCost / totalShares
       totalShares -= tx.quantity
       totalCost -= tx.quantity * avgCostPerShare
 

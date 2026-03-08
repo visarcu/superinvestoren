@@ -12,6 +12,7 @@ import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
+import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import Logo from '@/components/Logo'
 import { perfColor } from '@/utils/formatters'
 import {
@@ -23,6 +24,7 @@ import {
   CheckIcon,
   ExclamationTriangleIcon,
   ArrowDownTrayIcon,
+  ArrowUpTrayIcon,
   LockClosedIcon,
   ChevronDownIcon,
   Squares2X2Icon,
@@ -147,6 +149,9 @@ export default function PortfolioDashboard() {
   // Name Modal State
   const [showNameModal, setShowNameModal] = useState(false)
   const [newPortfolioName, setNewPortfolioName] = useState('')
+
+  // CSV Import State
+  const [showCSVImport, setShowCSVImport] = useState(false)
 
   // Handlers
   const handlePremiumRequired = () => {
@@ -366,6 +371,11 @@ export default function PortfolioDashboard() {
               <button onClick={p.refresh} disabled={p.refreshing} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50" title="Aktualisieren">
                 <ArrowPathIcon className={`w-4 h-4 text-neutral-400 ${p.refreshing ? 'animate-spin' : ''}`} />
               </button>
+              {!p.isAllDepotsView && (
+                <button onClick={() => setShowCSVImport(true)} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors" title="CSV Import">
+                  <ArrowUpTrayIcon className="w-4 h-4 text-neutral-400" />
+                </button>
+              )}
               <button onClick={p.exportToCSV} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors" title="Export">
                 <ArrowDownTrayIcon className="w-4 h-4 text-neutral-400" />
               </button>
@@ -838,6 +848,17 @@ export default function PortfolioDashboard() {
               </div>
             </div>
           </div>
+        )}
+
+        {/* CSV Import Modal */}
+        {p.portfolio?.id && p.portfolio.id !== 'all' && (
+          <CSVImportModal
+            isOpen={showCSVImport}
+            onClose={() => setShowCSVImport(false)}
+            portfolioId={p.portfolio.id}
+            portfolioName={p.portfolio.name}
+            onImportComplete={() => p.loadPortfolio(p.depotIdParam)}
+          />
         )}
 
         {/* Premium Modal */}

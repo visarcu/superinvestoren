@@ -18,7 +18,7 @@ import { getETFBySymbol, calculateTERSavings, calculateTERCost, formatTER } from
 
 interface FullTransaction {
   id: string
-  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal'
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
   symbol: string
   name: string
   quantity: number
@@ -130,7 +130,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
               .select('*')
               .eq('portfolio_id', p.id)
               .eq('symbol', ticker)
-              .in('type', ['buy', 'sell', 'dividend'])
+              .in('type', ['buy', 'sell', 'dividend', 'transfer_in', 'transfer_out'])
               .order('date', { ascending: true })
 
             if (!txs || txs.length === 0) continue
@@ -177,7 +177,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             .select('*')
             .eq('portfolio_id', portfolioId)
             .eq('symbol', ticker)
-            .in('type', ['buy', 'sell', 'dividend'])
+            .in('type', ['buy', 'sell', 'dividend', 'transfer_in', 'transfer_out'])
             .order('date', { ascending: true })
 
           if (cancelled) return
@@ -219,6 +219,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     )
 
+    let transferInCount = 0
+
     for (const tx of sorted) {
       if (tx.type === 'buy') {
         buyCount++
@@ -227,6 +229,15 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           priceEUR: tx.price,
           quantity: tx.quantity,
           label: `K${buyCount}`,
+          type: 'buy',
+        })
+      } else if (tx.type === 'transfer_in') {
+        transferInCount++
+        result.push({
+          date: tx.date,
+          priceEUR: tx.price,
+          quantity: tx.quantity,
+          label: `E${transferInCount}`,
           type: 'buy',
         })
       } else if (tx.type === 'sell') {
