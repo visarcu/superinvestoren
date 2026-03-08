@@ -41,6 +41,14 @@ interface AddActivityFABProps {
     date: string
   }) => Promise<void>
   onAddCash: (amount: number, date?: string) => Promise<void>
+  onAddTransfer: (params: {
+    direction: 'in' | 'out'
+    stock: { symbol: string; name: string }
+    quantity: number
+    price: number
+    date: string
+    notes?: string
+  }) => Promise<void>
   onComplete: () => void
   onPremiumRequired: () => void
 }
@@ -60,6 +68,7 @@ export default function AddActivityFAB({
   onSellPosition,
   onAddDividend,
   onAddCash,
+  onAddTransfer,
   onComplete,
   onPremiumRequired
 }: AddActivityFABProps) {
@@ -166,6 +175,7 @@ export default function AddActivityFAB({
         onSellPosition={onSellPosition}
         onAddDividend={onAddDividend}
         onAddCash={onAddCash}
+        onAddTransfer={onAddTransfer}
         onComplete={onComplete}
         onPremiumRequired={onPremiumRequired}
       />

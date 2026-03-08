@@ -7,6 +7,7 @@ import BuyForm from './activity-forms/BuyForm'
 import SellForm from './activity-forms/SellForm'
 import DividendForm from './activity-forms/DividendForm'
 import CashForm from './activity-forms/CashForm'
+import TransferForm from './activity-forms/TransferForm'
 import {
   XMarkIcon,
   ArrowLeftIcon,
@@ -15,9 +16,10 @@ import {
   BanknotesIcon,
   PlusIcon,
   MinusIcon,
+  ArrowsRightLeftIcon,
 } from '@heroicons/react/24/outline'
 
-type ActivityType = 'buy' | 'sell' | 'dividend' | 'deposit' | 'withdrawal'
+type ActivityType = 'buy' | 'sell' | 'dividend' | 'deposit' | 'withdrawal' | 'transfer_in' | 'transfer_out'
 
 interface AddActivityModalProps {
   isOpen: boolean
@@ -52,6 +54,14 @@ interface AddActivityModalProps {
     date: string
   }) => Promise<void>
   onAddCash: (amount: number, date?: string) => Promise<void>
+  onAddTransfer: (params: {
+    direction: 'in' | 'out'
+    stock: { symbol: string; name: string }
+    quantity: number
+    price: number
+    date: string
+    notes?: string
+  }) => Promise<void>
   onComplete: () => void
   onPremiumRequired: () => void
 }
@@ -109,6 +119,24 @@ const ACTIVITY_TYPES: {
     bg: 'bg-red-500/10 border-red-500/20 hover:border-red-500/40',
     description: 'Geld vom Depot auszahlen',
     needsHoldings: false
+  },
+  {
+    key: 'transfer_in',
+    label: 'Einbuchung',
+    icon: ArrowsRightLeftIcon,
+    color: 'text-violet-400',
+    bg: 'bg-violet-500/10 border-violet-500/20 hover:border-violet-500/40',
+    description: 'Depotübertrag: Aktie hierhin übertragen',
+    needsHoldings: false
+  },
+  {
+    key: 'transfer_out',
+    label: 'Ausbuchung',
+    icon: ArrowsRightLeftIcon,
+    color: 'text-orange-400',
+    bg: 'bg-orange-500/10 border-orange-500/20 hover:border-orange-500/40',
+    description: 'Depotübertrag: Aktie woanders hin',
+    needsHoldings: true
   }
 ]
 
@@ -128,6 +156,7 @@ export default function AddActivityModal({
   onSellPosition,
   onAddDividend,
   onAddCash,
+  onAddTransfer,
   onComplete,
   onPremiumRequired
 }: AddActivityModalProps) {
@@ -276,6 +305,28 @@ export default function AddActivityModal({
             cashPosition={cashPosition}
             onAddCash={onAddCash}
             formatCurrency={formatCurrency}
+            onSuccess={handleSuccess}
+          />
+        )}
+
+        {step === 'form' && selectedType === 'transfer_in' && (
+          <TransferForm
+            direction="in"
+            holdings={holdings}
+            onAddTransfer={onAddTransfer}
+            formatCurrency={formatCurrency}
+            formatStockPrice={formatStockPrice}
+            onSuccess={handleSuccess}
+          />
+        )}
+
+        {step === 'form' && selectedType === 'transfer_out' && (
+          <TransferForm
+            direction="out"
+            holdings={holdings}
+            onAddTransfer={onAddTransfer}
+            formatCurrency={formatCurrency}
+            formatStockPrice={formatStockPrice}
             onSuccess={handleSuccess}
           />
         )}

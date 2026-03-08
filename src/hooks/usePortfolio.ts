@@ -731,6 +731,81 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [portfolio, holdings, loadPortfolio, depotIdParam])
 
+  // Depotübertrag: transfer_in (Einbuchung) oder transfer_out (Ausbuchung)
+  const addTransfer = useCallback(async (params: {
+    direction: 'in' | 'out'
+    stock: { symbol: string; name: string }
+    quantity: number
+    price: number
+    date: string
+    notes?: string
+  }) => {
+    if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+
+    const { direction, stock, quantity, price, date, notes } = params
+    const type = direction === 'in' ? 'transfer_in' : 'transfer_out'
+
+    // Bestehende Holding suchen
+    const existingHolding = holdings.find(h => h.symbol === stock.symbol)
+
+    if (direction === 'in') {
+      // Einbuchung: Holding erstellen oder aufstocken
+      if (existingHolding) {
+        const totalQty = existingHolding.quantity + quantity
+        const avgPrice = ((existingHolding.quantity * existingHolding.purchase_price) + (quantity * price)) / totalQty
+        await supabase
+          .from('portfolio_holdings')
+          .update({
+            quantity: totalQty,
+            purchase_price: avgPrice,
+            purchase_date: existingHolding.purchase_date < date ? existingHolding.purchase_date : date
+          })
+          .eq('id', existingHolding.id)
+      } else {
+        await supabase
+          .from('portfolio_holdings')
+          .insert({
+            portfolio_id: portfolio.id,
+            symbol: stock.symbol,
+            name: stock.name,
+            quantity,
+            purchase_price: price,
+            purchase_date: date,
+            purchase_currency: 'EUR'
+          })
+      }
+    } else {
+      // Ausbuchung: Holding reduzieren oder löschen
+      if (existingHolding) {
+        if (quantity >= existingHolding.quantity) {
+          await supabase.from('portfolio_holdings').delete().eq('id', existingHolding.id)
+        } else {
+          await supabase
+            .from('portfolio_holdings')
+            .update({ quantity: existingHolding.quantity - quantity })
+            .eq('id', existingHolding.id)
+        }
+      }
+    }
+
+    // Transaktion loggen
+    await supabase
+      .from('portfolio_transactions')
+      .insert({
+        portfolio_id: portfolio.id,
+        type,
+        symbol: stock.symbol,
+        name: stock.name,
+        quantity,
+        price,
+        total_value: quantity * price,
+        date,
+        notes: notes || (direction === 'in' ? 'Einbuchung (Depotübertrag)' : 'Ausbuchung (Depotübertrag)')
+      })
+
+    await loadPortfolio(depotIdParam)
+  }, [portfolio, holdings, loadPortfolio, depotIdParam])
+
   const updateCashPosition = useCallback(async (newAmount: number) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
@@ -837,6 +912,7 @@ export function usePortfolio() {
     topUpPosition,
     sellPosition,
     addDividend,
+    addTransfer,
     updateCashPosition,
     updatePortfolioName,
     exportToCSV,
