@@ -806,6 +806,39 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [portfolio, holdings, loadPortfolio, depotIdParam])
 
+  // Duplikat-Prüfung: Prüft ob eine ähnliche Transaktion bereits existiert
+  const checkDuplicate = useCallback(async (params: {
+    type: string
+    symbol: string
+    date: string
+    quantity: number
+    price: number
+  }): Promise<Transaction | null> => {
+    if (!portfolio?.id) return null
+
+    const { type, symbol, date, quantity, price } = params
+
+    const { data } = await supabase
+      .from('portfolio_transactions')
+      .select('*')
+      .eq('portfolio_id', portfolio.id)
+      .eq('type', type)
+      .eq('symbol', symbol)
+      .eq('date', date)
+      .limit(20)
+
+    if (!data || data.length === 0) return null
+
+    // Menge und Preis mit Toleranz vergleichen
+    const match = data.find((tx: any) => {
+      const qtyMatch = Math.abs(tx.quantity - quantity) < 0.01
+      const priceMatch = Math.abs(tx.price - price) < 0.02
+      return qtyMatch && priceMatch
+    })
+
+    return match || null
+  }, [portfolio])
+
   const updateCashPosition = useCallback(async (newAmount: number) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 

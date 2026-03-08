@@ -4,9 +4,11 @@
 import React, { useState } from 'react'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
+import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import { ArrowPathIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 interface SellFormProps {
+  portfolioId: string
   holdings: Holding[]
   onSellPosition: (holdingId: string, params: {
     quantity: number
@@ -19,6 +21,7 @@ interface SellFormProps {
 }
 
 export default function SellForm({
+  portfolioId,
   holdings,
   onSellPosition,
   formatCurrency,
@@ -38,9 +41,33 @@ export default function SellForm({
 
     setSubmitting(true)
     try {
+      const qty = parseFloat(quantity)
+      const prc = parseFloat(sellPrice)
+
+      // Duplikat-Prüfung
+      const duplicate = await checkDuplicateTransaction({
+        portfolioId,
+        type: 'sell',
+        symbol: selectedHolding!.symbol,
+        date: sellDate,
+        quantity: qty,
+        price: prc,
+      })
+      if (duplicate) {
+        const confirmed = window.confirm(
+          `Eine ähnliche Transaktion existiert bereits:\n` +
+          `${selectedHolding!.symbol} Verkauf — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(sellDate).toLocaleDateString('de-DE')}\n\n` +
+          `Trotzdem hinzufügen?`
+        )
+        if (!confirmed) {
+          setSubmitting(false)
+          return
+        }
+      }
+
       await onSellPosition(selectedHoldingId, {
-        quantity: parseFloat(quantity),
-        price: parseFloat(sellPrice),
+        quantity: qty,
+        price: prc,
         date: sellDate
       })
       onSuccess()

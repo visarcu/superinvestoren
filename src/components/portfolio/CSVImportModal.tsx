@@ -6,6 +6,7 @@ import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
 import { parseScalableCSV, reconstructHoldings, type ParsedTransaction, type CSVParseResult } from '@/lib/scalableCSVParser'
 import { resolveISINsLocally } from '@/lib/isinResolver'
+import { checkBulkDuplicates } from '@/lib/duplicateCheck'
 import {
   XMarkIcon,
   ArrowUpTrayIcon,
@@ -56,6 +57,9 @@ export default function CSVImportModal({
   const [importError, setImportError] = useState<string | null>(null)
   const [importResult, setImportResult] = useState<{ transactions: number; holdings: number } | null>(null)
   const [manualMappings, setManualMappings] = useState<Record<string, string>>({})
+  const [duplicateIndices, setDuplicateIndices] = useState<Set<number>>(new Set())
+  const [duplicateCheckDone, setDuplicateCheckDone] = useState(false)
+  const [checkingDuplicates, setCheckingDuplicates] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Reset State
@@ -70,6 +74,9 @@ export default function CSVImportModal({
     setImportError(null)
     setImportResult(null)
     setManualMappings({})
+    setDuplicateIndices(new Set())
+    setDuplicateCheckDone(false)
+    setCheckingDuplicates(false)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -189,6 +196,33 @@ export default function CSVImportModal({
     return reconstructHoldings(txWithSymbols)
   }, [resolvedTransactions])
 
+  // Duplikat-Prüfung starten wenn Preview-Step erreicht wird
+  const runDuplicateCheck = useCallback(async () => {
+    const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
+    if (txWithSymbols.length === 0) return
+
+    setCheckingDuplicates(true)
+    try {
+      const dupes = await checkBulkDuplicates(
+        portfolioId,
+        txWithSymbols.map(tx => ({
+          type: tx.type,
+          symbol: tx.symbol!,
+          date: tx.date,
+          quantity: tx.quantity,
+          price: tx.price,
+        }))
+      )
+      setDuplicateIndices(dupes)
+      setDuplicateCheckDone(true)
+    } catch (error) {
+      console.error('Duplikat-Prüfung fehlgeschlagen:', error)
+      setDuplicateCheckDone(true)
+    } finally {
+      setCheckingDuplicates(false)
+    }
+  }, [resolvedTransactions, portfolioId])
+
   // Zusammenfassung für Preview
   const importSummary = useMemo(() => {
     if (!parseResult) return null
@@ -199,10 +233,12 @@ export default function CSVImportModal({
     return {
       totalTransactions: withSymbols.length,
       skippedNoSymbol: withoutSymbols.length,
+      duplicateCount: duplicateIndices.size,
+      newTransactions: withSymbols.length - duplicateIndices.size,
       holdings: previewHoldings.length,
       byType: parseResult.summary.byType,
     }
-  }, [parseResult, resolvedTransactions, previewHoldings])
+  }, [parseResult, resolvedTransactions, previewHoldings, duplicateIndices])
 
   // === STEP 4: Import ===
   const handleImport = useCallback(async () => {
@@ -213,8 +249,17 @@ export default function CSVImportModal({
     setImportError(null)
 
     try {
-      const txToImport = resolvedTransactions.filter(t => t.symbol)
+      const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
+      // Duplikate herausfiltern
+      const txToImport = txWithSymbols.filter((_, i) => !duplicateIndices.has(i))
       setImportProgress({ current: 0, total: txToImport.length })
+
+      if (txToImport.length === 0) {
+        setImportError('Keine neuen Transaktionen zum Importieren (alle sind Duplikate).')
+        setStep('preview')
+        setImporting(false)
+        return
+      }
 
       // Transaktionen in Batches von 50 einfügen
       const batchSize = 50
@@ -556,15 +601,42 @@ export default function CSVImportModal({
                     <p className="text-white font-medium text-lg">{importSummary.holdings}</p>
                   </div>
                   <div>
-                    <p className="text-neutral-500">Ohne Symbol</p>
-                    <p className="text-neutral-400 text-lg">{importSummary.skippedNoSymbol}</p>
+                    <p className="text-neutral-500">Duplikate</p>
+                    {checkingDuplicates ? (
+                      <div className="flex items-center gap-1.5">
+                        <ArrowPathIcon className="w-3.5 h-3.5 text-neutral-500 animate-spin" />
+                        <span className="text-neutral-500 text-sm">Prüfe...</span>
+                      </div>
+                    ) : (
+                      <p className={`font-medium text-lg ${importSummary.duplicateCount > 0 ? 'text-amber-400' : 'text-emerald-400'}`}>
+                        {importSummary.duplicateCount}
+                      </p>
+                    )}
                   </div>
                   <div>
-                    <p className="text-neutral-500">Depot</p>
-                    <p className="text-white font-medium truncate">{portfolioName}</p>
+                    <p className="text-neutral-500">Neu</p>
+                    <p className="text-emerald-400 font-medium text-lg">{importSummary.newTransactions}</p>
                   </div>
                 </div>
               </div>
+
+              {/* Duplikat-Warnung */}
+              {duplicateCheckDone && importSummary.duplicateCount > 0 && (
+                <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                  <div className="flex gap-2">
+                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
+                    <div className="text-xs text-neutral-400">
+                      <p className="font-medium text-amber-400 mb-1">
+                        {importSummary.duplicateCount} Duplikat{importSummary.duplicateCount !== 1 ? 'e' : ''} erkannt
+                      </p>
+                      <p>
+                        {importSummary.duplicateCount} Transaktion{importSummary.duplicateCount !== 1 ? 'en existieren' : ' existiert'} bereits im Depot und {importSummary.duplicateCount !== 1 ? 'werden' : 'wird'} übersprungen.
+                        Es werden nur {importSummary.newTransactions} neue Transaktionen importiert.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Typ-Verteilung */}
               <div className="mb-4">
@@ -690,7 +762,7 @@ export default function CSVImportModal({
 
             {step === 'resolve' && (
               <button
-                onClick={() => setStep('preview')}
+                onClick={() => { setStep('preview'); runDuplicateCheck() }}
                 disabled={isinMap.size === 0}
                 className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-colors"
               >

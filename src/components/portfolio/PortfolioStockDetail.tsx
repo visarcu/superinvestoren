@@ -220,6 +220,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     )
 
     let transferInCount = 0
+    let dividendCount = 0
 
     for (const tx of sorted) {
       if (tx.type === 'buy') {
@@ -248,6 +249,15 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           quantity: tx.quantity,
           label: `V${sellCount}`,
           type: 'sell',
+        })
+      } else if (tx.type === 'dividend') {
+        dividendCount++
+        result.push({
+          date: tx.date,
+          priceEUR: tx.price,
+          quantity: tx.quantity,
+          label: `D${dividendCount}`,
+          type: 'dividend',
         })
       }
     }

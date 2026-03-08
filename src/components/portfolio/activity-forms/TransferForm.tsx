@@ -6,6 +6,7 @@ import SearchTickerInput from '@/components/SearchTickerInput'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import { type Holding } from '@/hooks/usePortfolio'
+import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import {
   CheckIcon,
   ArrowPathIcon,
@@ -13,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 interface TransferFormProps {
+  portfolioId: string
   direction: 'in' | 'out'
   holdings: Holding[]
   onAddTransfer: (params: {
@@ -29,6 +31,7 @@ interface TransferFormProps {
 }
 
 export default function TransferForm({
+  portfolioId,
   direction,
   holdings,
   onAddTransfer,
@@ -62,11 +65,37 @@ export default function TransferForm({
 
     setSubmitting(true)
     try {
+      const qty = parseFloat(quantity)
+      const prc = parseFloat(price)
+      const txType = direction === 'in' ? 'transfer_in' : 'transfer_out'
+
+      // Duplikat-Prüfung
+      const duplicate = await checkDuplicateTransaction({
+        portfolioId,
+        type: txType,
+        symbol: selectedStock.symbol,
+        date,
+        quantity: qty,
+        price: prc,
+      })
+      if (duplicate) {
+        const label = direction === 'in' ? 'Einbuchung' : 'Ausbuchung'
+        const confirmed = window.confirm(
+          `Eine ähnliche ${label} existiert bereits:\n` +
+          `${selectedStock.symbol} — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(date).toLocaleDateString('de-DE')}\n\n` +
+          `Trotzdem hinzufügen?`
+        )
+        if (!confirmed) {
+          setSubmitting(false)
+          return
+        }
+      }
+
       await onAddTransfer({
         direction,
         stock: selectedStock,
-        quantity: parseFloat(quantity),
-        price: parseFloat(price),
+        quantity: qty,
+        price: prc,
         date,
         notes: notes || undefined
       })

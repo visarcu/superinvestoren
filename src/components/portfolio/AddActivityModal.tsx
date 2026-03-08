@@ -145,6 +145,7 @@ const FREE_USER_POSITION_LIMIT = 2
 export default function AddActivityModal({
   isOpen,
   onClose,
+  portfolioId,
   holdings,
   isPremium,
   holdingsCount,
@@ -257,6 +258,7 @@ export default function AddActivityModal({
         {/* Step 2: Form */}
         {step === 'form' && selectedType === 'buy' && (
           <BuyForm
+            portfolioId={portfolioId}
             holdings={holdings}
             isPremium={isPremium}
             holdingsCount={holdingsCount}
@@ -272,6 +274,7 @@ export default function AddActivityModal({
 
         {step === 'form' && selectedType === 'sell' && (
           <SellForm
+            portfolioId={portfolioId}
             holdings={holdings}
             onSellPosition={onSellPosition}
             formatCurrency={formatCurrency}
@@ -282,6 +285,7 @@ export default function AddActivityModal({
 
         {step === 'form' && selectedType === 'dividend' && (
           <DividendForm
+            portfolioId={portfolioId}
             holdings={holdings}
             onAddDividend={onAddDividend}
             formatCurrency={formatCurrency}
@@ -311,6 +315,7 @@ export default function AddActivityModal({
 
         {step === 'form' && selectedType === 'transfer_in' && (
           <TransferForm
+            portfolioId={portfolioId}
             direction="in"
             holdings={holdings}
             onAddTransfer={onAddTransfer}
@@ -322,6 +327,7 @@ export default function AddActivityModal({
 
         {step === 'form' && selectedType === 'transfer_out' && (
           <TransferForm
+            portfolioId={portfolioId}
             direction="out"
             holdings={holdings}
             onAddTransfer={onAddTransfer}

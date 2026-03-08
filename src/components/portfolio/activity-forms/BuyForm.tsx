@@ -6,6 +6,7 @@ import SearchTickerInput from '@/components/SearchTickerInput'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import { type Holding } from '@/hooks/usePortfolio'
+import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import {
   CheckIcon,
   ArrowPathIcon,
@@ -13,6 +14,7 @@ import {
 } from '@heroicons/react/24/outline'
 
 interface BuyFormProps {
+  portfolioId: string
   holdings: Holding[]
   isPremium: boolean
   holdingsCount: number
@@ -37,6 +39,7 @@ interface BuyFormProps {
 }
 
 export default function BuyForm({
+  portfolioId,
   holdings,
   isPremium,
   holdingsCount,
@@ -73,18 +76,41 @@ export default function BuyForm({
 
     setSubmitting(true)
     try {
+      // Duplikat-Prüfung
+      const qty = parseFloat(quantity)
+      const prc = parseFloat(purchasePrice)
+      const duplicate = await checkDuplicateTransaction({
+        portfolioId,
+        type: 'buy',
+        symbol: selectedStock.symbol,
+        date: purchaseDate,
+        quantity: qty,
+        price: prc + ((parseFloat(fees) || 0) / qty),
+      })
+      if (duplicate) {
+        const confirmed = window.confirm(
+          `Eine ähnliche Transaktion existiert bereits:\n` +
+          `${selectedStock.symbol} — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(purchaseDate).toLocaleDateString('de-DE')}\n\n` +
+          `Trotzdem hinzufügen?`
+        )
+        if (!confirmed) {
+          setSubmitting(false)
+          return
+        }
+      }
+
       if (isTopUp && existingHolding) {
         await onTopUpPosition(existingHolding, {
-          quantity: parseFloat(quantity),
-          price: parseFloat(purchasePrice),
+          quantity: qty,
+          price: prc,
           date: purchaseDate,
           fees: parseFloat(fees) || 0
         })
       } else {
         await onAddPosition({
           stock: selectedStock,
-          quantity: parseFloat(quantity),
-          purchasePrice: parseFloat(purchasePrice),
+          quantity: qty,
+          purchasePrice: prc,
           purchaseDate,
           fees: parseFloat(fees) || 0
         })

@@ -4,9 +4,11 @@
 import React, { useState } from 'react'
 import Logo from '@/components/Logo'
 import { type Holding } from '@/hooks/usePortfolio'
+import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import { ArrowPathIcon, CheckIcon } from '@heroicons/react/24/outline'
 
 interface DividendFormProps {
+  portfolioId: string
   holdings: Holding[]
   onAddDividend: (holdingId: string, params: {
     amount: number
@@ -17,6 +19,7 @@ interface DividendFormProps {
 }
 
 export default function DividendForm({
+  portfolioId,
   holdings,
   onAddDividend,
   formatCurrency,
@@ -34,8 +37,34 @@ export default function DividendForm({
 
     setSubmitting(true)
     try {
+      const amt = parseFloat(amount)
+
+      // Duplikat-Prüfung
+      if (selectedHolding) {
+        const perSharePrice = amt / selectedHolding.quantity
+        const duplicate = await checkDuplicateTransaction({
+          portfolioId,
+          type: 'dividend',
+          symbol: selectedHolding.symbol,
+          date: dividendDate,
+          quantity: selectedHolding.quantity,
+          price: perSharePrice,
+        })
+        if (duplicate) {
+          const confirmed = window.confirm(
+            `Eine ähnliche Dividende existiert bereits:\n` +
+            `${selectedHolding.symbol} — ${amt.toFixed(2)}€ am ${new Date(dividendDate).toLocaleDateString('de-DE')}\n\n` +
+            `Trotzdem hinzufügen?`
+          )
+          if (!confirmed) {
+            setSubmitting(false)
+            return
+          }
+        }
+      }
+
       await onAddDividend(selectedHoldingId, {
-        amount: parseFloat(amount),
+        amount: amt,
         date: dividendDate
       })
       onSuccess()

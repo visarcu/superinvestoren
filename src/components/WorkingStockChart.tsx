@@ -25,8 +25,8 @@ export interface PurchaseMarker {
   date: string      // YYYY-MM-DD
   priceEUR: number  // Kaufpreis in EUR
   quantity: number
-  label: string     // "K1", "K2", "V1", "V2", ...
-  type?: 'buy' | 'sell'  // Default: 'buy'
+  label: string     // "K1", "K2", "V1", "V2", "D1", ...
+  type?: 'buy' | 'sell' | 'dividend'  // Default: 'buy'
 }
 
 interface Props {
@@ -260,7 +260,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
         label: marker.label,
         type: marker.type || 'buy',
       }
-    }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' }[]
+    }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' | 'dividend' }[]
   }, [purchaseMarkers, chartData, selectedMode, ticker])
 
   const isPositive = performanceStats && performanceStats.changePercent >= 0
@@ -441,26 +441,27 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
               />
             )}
 
-            {/* Kauf- und Verkaufsmarker */}
+            {/* Kauf-, Verkaufs- und Dividendenmarker */}
             {resolvedMarkers.map((marker) => {
+              const isDividend = marker.type === 'dividend'
               const isSell = marker.type === 'sell'
-              const dotFill = isSell ? '#ef4444' : '#3b82f6'
-              const dotStroke = isSell ? '#5f1a1a' : '#1e3a5f'
+              const dotFill = isDividend ? '#10b981' : isSell ? '#ef4444' : '#3b82f6'
+              const dotStroke = isDividend ? '#064e3b' : isSell ? '#5f1a1a' : '#1e3a5f'
               return (
                 <ReferenceDot
                   key={marker.label}
                   x={marker.date}
                   y={marker.value}
-                  r={6}
+                  r={isDividend ? 5 : 6}
                   fill={dotFill}
                   stroke={dotStroke}
                   strokeWidth={2}
                   isFront
                   label={{
                     value: marker.label,
-                    position: 'top',
+                    position: isDividend ? 'bottom' : 'top',
                     offset: 12,
-                    style: { fontSize: 10, fontWeight: 700, fill: dotFill }
+                    style: { fontSize: isDividend ? 9 : 10, fontWeight: 700, fill: dotFill }
                   }}
                 />
               )
@@ -469,13 +470,33 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
         </ResponsiveContainer>
       </div>
 
-      {/* Footer */}
-      {showMA && selectedMode === 'price' && (
-        <div className="px-5 pb-4">
-          <div className="flex items-center gap-2 text-xs text-theme-muted">
-            <div className="w-4 h-0.5 bg-purple-400" style={{ backgroundImage: 'repeating-linear-gradient(to right, #a855f7, #a855f7 3px, transparent 3px, transparent 6px)' }} />
-            <span>MA50 (50-Tage Durchschnitt)</span>
-          </div>
+      {/* Footer / Legende */}
+      {(resolvedMarkers.length > 0 || (showMA && selectedMode === 'price')) && (
+        <div className="px-5 pb-4 flex flex-wrap items-center gap-x-4 gap-y-1">
+          {showMA && selectedMode === 'price' && (
+            <div className="flex items-center gap-2 text-xs text-theme-muted">
+              <div className="w-4 h-0.5 bg-purple-400" style={{ backgroundImage: 'repeating-linear-gradient(to right, #a855f7, #a855f7 3px, transparent 3px, transparent 6px)' }} />
+              <span>MA50</span>
+            </div>
+          )}
+          {resolvedMarkers.some(m => m.type !== 'sell' && m.type !== 'dividend') && (
+            <div className="flex items-center gap-1.5 text-xs text-theme-muted">
+              <div className="w-2.5 h-2.5 rounded-full bg-blue-500" />
+              <span>Kauf</span>
+            </div>
+          )}
+          {resolvedMarkers.some(m => m.type === 'sell') && (
+            <div className="flex items-center gap-1.5 text-xs text-theme-muted">
+              <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
+              <span>Verkauf</span>
+            </div>
+          )}
+          {resolvedMarkers.some(m => m.type === 'dividend') && (
+            <div className="flex items-center gap-1.5 text-xs text-theme-muted">
+              <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+              <span>Dividende</span>
+            </div>
+          )}
         </div>
       )}
     </div>
