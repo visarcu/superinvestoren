@@ -627,7 +627,8 @@ async function buildContextualPrompt(
   financialData?: any,
   portfolioData?: any,
   contextHints?: any,
-  assumptions?: any
+  assumptions?: any,
+  userPortfolioContext?: string
 ): Promise<{ prompt: string, ragSources: string[] }> {
   const currentDate = new Date().toLocaleDateString('de-DE')
 
@@ -640,8 +641,10 @@ async function buildContextualPrompt(
   const { context: ragContext, sources } = await getRagContext(ragQuery, ticker)
 
   // ✅ NEW: HYBRID CONTEXT HANDLING
+  let builtPrompt: string
+
   if (analysisType === 'hybrid') {
-    const hybridPrompt = buildHybridPrompt(
+    builtPrompt = buildHybridPrompt(
       ticker!,
       investor!,
       financialData,
@@ -652,43 +655,51 @@ async function buildContextualPrompt(
       primaryContext,
       contextHints
     )
-    console.log(`📝 DEBUG: Hybrid prompt built, length: ${hybridPrompt.length}`)
-    return { prompt: hybridPrompt, ragSources: sources }
+    console.log(`📝 DEBUG: Hybrid prompt built, length: ${builtPrompt.length}`)
+  } else {
+    // Existing single-context handling
+    switch (analysisType) {
+      case 'stock':
+        builtPrompt = buildStockAnalysisPrompt(ticker!, financialData, message, ragContext)
+        console.log(`📝 DEBUG: Stock prompt built, length: ${builtPrompt.length}`)
+        break
+
+      case 'superinvestor':
+        builtPrompt = buildSuperinvestorPrompt(investor!, portfolioData, message, currentDate, ragContext)
+        console.log(`📝 DEBUG: Superinvestor prompt built, length: ${builtPrompt.length}`)
+        break
+
+      case 'stock-pulse':
+        builtPrompt = buildStockPulsePrompt(ticker!, financialData, ragContext)
+        console.log(`📝 DEBUG: Stock pulse prompt built, length: ${builtPrompt.length}`)
+        break
+
+      case 'dcf-context':
+        builtPrompt = buildDCFPrompt(ticker!, message, currentDate, ragContext)
+        console.log(`📝 DEBUG: DCF context prompt built, length: ${builtPrompt.length}`)
+        break
+
+      case 'dcf-validation':
+        builtPrompt = buildDCFValidationPrompt(ticker!, assumptions, ragContext)
+        console.log(`📝 DEBUG: DCF validation prompt built, length: ${builtPrompt.length}`)
+        break
+
+      case 'general':
+      default:
+        builtPrompt = buildGeneralPrompt(message, currentDate, ragContext)
+        console.log(`📝 DEBUG: General prompt built, length: ${builtPrompt.length}`)
+        break
+    }
   }
 
-  // Existing single-context handling
-  switch (analysisType) {
-    case 'stock':
-      const stockPrompt = buildStockAnalysisPrompt(ticker!, financialData, message, ragContext)
-      console.log(`📝 DEBUG: Stock prompt built, length: ${stockPrompt.length}`)
-      return { prompt: stockPrompt, ragSources: sources }
-
-    case 'superinvestor':
-      const superinvestorPrompt = buildSuperinvestorPrompt(investor!, portfolioData, message, currentDate, ragContext)
-      console.log(`📝 DEBUG: Superinvestor prompt built, length: ${superinvestorPrompt.length}`)
-      return { prompt: superinvestorPrompt, ragSources: sources }
-
-    case 'stock-pulse':
-      const pulsePrompt = buildStockPulsePrompt(ticker!, financialData, ragContext)
-      console.log(`📝 DEBUG: Stock pulse prompt built, length: ${pulsePrompt.length}`)
-      return { prompt: pulsePrompt, ragSources: sources }
-
-    case 'dcf-context':
-      const dcfPrompt = buildDCFPrompt(ticker!, message, currentDate, ragContext)
-      console.log(`📝 DEBUG: DCF context prompt built, length: ${dcfPrompt.length}`)
-      return { prompt: dcfPrompt, ragSources: sources }
-
-    case 'dcf-validation':
-      const validationPrompt = buildDCFValidationPrompt(ticker!, assumptions, ragContext)
-      console.log(`📝 DEBUG: DCF validation prompt built, length: ${validationPrompt.length}`)
-      return { prompt: validationPrompt, ragSources: sources }
-
-    case 'general':
-    default:
-      const generalPrompt = buildGeneralPrompt(message, currentDate, ragContext)
-      console.log(`📝 DEBUG: General prompt built, length: ${generalPrompt.length}`)
-      return { prompt: generalPrompt, ragSources: sources }
+  // Append user portfolio context if available
+  if (userPortfolioContext) {
+    builtPrompt += userPortfolioContext
+    builtPrompt += '\n**WICHTIG:** Der Nutzer fragt nach seinem persönlichen Depot. Beantworte die Frage mit den konkreten Daten aus seinem Depot (Anzahl Aktien, Kaufdatum, erhaltene Dividenden). Rechne korrekt und nenne die genauen Beträge.'
+    console.log(`💼 DEBUG: User portfolio context appended to prompt`)
   }
+
+  return { prompt: builtPrompt, ragSources: sources }
 }
 
 function buildStockPulsePrompt(ticker: string, financialData: any, ragContext: string): string {
@@ -1060,6 +1071,164 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
+// Detect personal portfolio questions
+function isPersonalPortfolioQuestion(message: string): boolean {
+  const lowerMessage = message.toLowerCase()
+  const personalPatterns = [
+    'wie viel habe ich',
+    'was habe ich',
+    'meine dividende',
+    'mein depot',
+    'mein portfolio',
+    'meinem depot',
+    'meinem portfolio',
+    'meiner position',
+    'meine position',
+    'meine aktien',
+    'meine holdings',
+    'hab ich erhalten',
+    'habe ich erhalten',
+    'habe ich bekommen',
+    'hab ich bekommen',
+    'bekomme ich',
+    'erhalte ich',
+    'meine rendite',
+    'mein gewinn',
+    'mein verlust',
+    'meine performance',
+    'in meinem',
+    'aus meinem'
+  ]
+  return personalPatterns.some(p => lowerMessage.includes(p))
+}
+
+// Fetch user's portfolio holdings for AI context
+async function fetchUserPortfolioForAI(userId: string, ticker?: string): Promise<any | null> {
+  try {
+    // Get all user portfolios
+    const { data: portfolios, error: portfolioError } = await supabase
+      .from('portfolios')
+      .select('id, name, currency, cash_position')
+      .eq('user_id', userId)
+
+    if (portfolioError || !portfolios || portfolios.length === 0) return null
+
+    const portfolioIds = portfolios.map(p => p.id)
+
+    // Get holdings (optionally filtered by ticker)
+    let holdingsQuery = supabase
+      .from('portfolio_holdings')
+      .select('id, portfolio_id, symbol, name, quantity, purchase_price, purchase_date, purchase_currency')
+      .in('portfolio_id', portfolioIds)
+
+    if (ticker) {
+      holdingsQuery = holdingsQuery.eq('symbol', ticker.toUpperCase())
+    }
+
+    const { data: holdings, error: holdingsError } = await holdingsQuery
+
+    if (holdingsError) {
+      console.error('Error fetching user holdings:', holdingsError)
+      return null
+    }
+
+    // Get dividend transactions
+    let txQuery = supabase
+      .from('portfolio_transactions')
+      .select('id, portfolio_id, type, symbol, name, quantity, price, total_value, date')
+      .in('portfolio_id', portfolioIds)
+      .eq('type', 'dividend')
+
+    if (ticker) {
+      txQuery = txQuery.eq('symbol', ticker.toUpperCase())
+    }
+
+    const { data: dividendTransactions } = await txQuery
+
+    return {
+      portfolios,
+      holdings: holdings || [],
+      dividendTransactions: dividendTransactions || [],
+      hasHoldings: (holdings || []).length > 0,
+      holdsTicker: ticker ? (holdings || []).some(h => h.symbol.toUpperCase() === ticker.toUpperCase()) : false
+    }
+  } catch (error) {
+    console.error('Error fetching user portfolio for AI:', error)
+    return null
+  }
+}
+
+// Build user portfolio dividend context for the AI prompt
+function buildUserPortfolioDividendContext(
+  userPortfolio: any,
+  ticker: string | undefined,
+  dividendHistory: any[]
+): string {
+  if (!userPortfolio || !userPortfolio.hasHoldings) return ''
+
+  let context = '\n\n**PERSÖNLICHES DEPOT DES NUTZERS:**\n'
+
+  const relevantHoldings = ticker
+    ? userPortfolio.holdings.filter((h: any) => h.symbol.toUpperCase() === ticker.toUpperCase())
+    : userPortfolio.holdings
+
+  if (relevantHoldings.length === 0) {
+    if (ticker) {
+      context += `Der Nutzer hat ${ticker.toUpperCase()} NICHT in seinem Depot.\n`
+    }
+    return context
+  }
+
+  for (const holding of relevantHoldings) {
+    const purchaseDate = new Date(holding.purchase_date)
+    context += `- **${holding.symbol}** (${holding.name}): ${holding.quantity} Aktien, Kaufpreis: ${holding.purchase_price.toFixed(2)} ${holding.purchase_currency || 'EUR'}, Kaufdatum: ${purchaseDate.toLocaleDateString('de-DE')}\n`
+
+    // Calculate received dividends from FMP dividend history
+    if (dividendHistory && dividendHistory.length > 0) {
+      const receivedDividends = dividendHistory.filter((d: any) => {
+        const divDate = new Date(d.date)
+        return divDate >= purchaseDate
+      })
+
+      if (receivedDividends.length > 0) {
+        const totalPerShare = receivedDividends.reduce((sum: number, d: any) => sum + (d.dividend || d.adjDividend || 0), 0)
+        const totalReceived = totalPerShare * holding.quantity
+
+        // Group by year
+        const byYear: Record<number, number> = {}
+        for (const d of receivedDividends) {
+          const year = new Date(d.date).getFullYear()
+          byYear[year] = (byYear[year] || 0) + ((d.dividend || d.adjDividend || 0) * holding.quantity)
+        }
+
+        context += `  Erhaltene Dividenden seit Kauf: **$${totalReceived.toFixed(2)}** (${receivedDividends.length} Zahlungen)\n`
+        const yearEntries = Object.entries(byYear).sort(([a], [b]) => Number(b) - Number(a))
+        for (const [year, amount] of yearEntries) {
+          context += `  - ${year}: $${(amount as number).toFixed(2)}\n`
+        }
+      } else {
+        context += `  Keine Dividendenzahlungen seit Kaufdatum erhalten.\n`
+      }
+    }
+  }
+
+  // Show manually recorded dividend transactions if any
+  if (userPortfolio.dividendTransactions && userPortfolio.dividendTransactions.length > 0) {
+    const relevantTx = ticker
+      ? userPortfolio.dividendTransactions.filter((t: any) => t.symbol.toUpperCase() === ticker.toUpperCase())
+      : userPortfolio.dividendTransactions
+
+    if (relevantTx.length > 0) {
+      context += `\n**Manuell erfasste Dividenden-Transaktionen:**\n`
+      for (const tx of relevantTx.slice(0, 10)) {
+        context += `- ${new Date(tx.date).toLocaleDateString('de-DE')}: ${tx.symbol} - ${tx.total_value?.toFixed(2) || tx.price?.toFixed(2)} EUR\n`
+      }
+    }
+  }
+
+  return context
+}
+
 // Auth Verification
 async function verifyUserAndPremium(request: NextRequest) {
   try {
@@ -1216,6 +1385,9 @@ export async function POST(request: NextRequest) {
       assumptions
     } = body
 
+    // Track authenticated user for portfolio queries
+    let authenticatedUserId: string | null = null
+
     // ✅ NEW TRIAL LOGIC: Skip premium check for limited investor sneak peaks
     const isInvestorTrial = isTrial && analysisType === 'superinvestor' && !!investor
 
@@ -1235,6 +1407,7 @@ export async function POST(request: NextRequest) {
           { status: authResult.status }
         )
       }
+      authenticatedUserId = authResult.user.id
     }
 
     if (!message?.trim()) {
@@ -1281,6 +1454,18 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    // Fetch user portfolio if personal question detected
+    let userPortfolioContext = ''
+    if (authenticatedUserId && isPersonalPortfolioQuestion(message)) {
+      console.log('💼 DEBUG: Personal portfolio question detected, fetching user holdings')
+      const userPortfolio = await fetchUserPortfolioForAI(authenticatedUserId, ticker || undefined)
+      if (userPortfolio) {
+        const dividendHistory = enhancedStockData?.dividendHistory || []
+        userPortfolioContext = buildUserPortfolioDividendContext(userPortfolio, ticker || undefined, dividendHistory)
+        console.log('💼 DEBUG: User portfolio context built:', { contextLength: userPortfolioContext.length, holdsTicker: userPortfolio.holdsTicker })
+      }
+    }
+
     // ✅ ENHANCED: Build hybrid/contextual prompt
     const { prompt: enhancedMessage, ragSources } = await buildContextualPrompt(
       analysisType,
@@ -1291,7 +1476,8 @@ export async function POST(request: NextRequest) {
       enhancedStockData,
       enhancedPortfolioData,
       contextHints,
-      assumptions
+      assumptions,
+      userPortfolioContext
     )
 
     console.log('🎯 DEBUG: Enhanced prompt created:', {
@@ -1328,6 +1514,9 @@ export async function POST(request: NextRequest) {
     if (parsedResponse.metadata) {
       const finalSources = [...(ragSources || [])]
 
+      if (userPortfolioContext) {
+        finalSources.unshift('Persönliches Depot (Portfolio-Daten)')
+      }
       if (enhancedPortfolioData) {
         finalSources.unshift('SuperInvestor Database (Official 13F Filings)')
       }
