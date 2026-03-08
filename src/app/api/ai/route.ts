@@ -195,6 +195,7 @@ interface FinancialData {
   priceTargets?: any
   estimates?: any
   insiderTrading?: any[]
+  dividendHistory?: any[]
 }
 
 // Hole aktuelle Finanzdaten
@@ -216,7 +217,8 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       earningsResponse,
       targetsResponse,
       estimatesResponse,
-      insiderResponse
+      insiderResponse,
+      dividendResponse
     ] = await Promise.allSettled([
       fetch(`https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
       fetch(`https://financialmodelingprep.com/api/v3/profile/${ticker}?apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
@@ -226,7 +228,8 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=quarter&limit=4&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
       fetch(`https://financialmodelingprep.com/api/v4/price-target-summary?symbol=${ticker}&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
       fetch(`https://financialmodelingprep.com/api/v3/analyst-estimates/${ticker}?limit=1&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
-      fetch(`https://financialmodelingprep.com/api/v4/insider-trading?symbol=${ticker}&limit=5&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) })
+      fetch(`https://financialmodelingprep.com/api/v4/insider-trading?symbol=${ticker}&limit=5&apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) }),
+      fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${FMP_API_KEY}`, { signal: AbortSignal.timeout(8000) })
     ])
 
     const results = await Promise.allSettled([
@@ -238,10 +241,11 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       earningsResponse.status === 'fulfilled' && earningsResponse.value.ok ? earningsResponse.value.json() : null,
       targetsResponse.status === 'fulfilled' && targetsResponse.value.ok ? targetsResponse.value.json() : null,
       estimatesResponse.status === 'fulfilled' && estimatesResponse.value.ok ? estimatesResponse.value.json() : null,
-      insiderResponse.status === 'fulfilled' && insiderResponse.value.ok ? insiderResponse.value.json() : null
+      insiderResponse.status === 'fulfilled' && insiderResponse.value.ok ? insiderResponse.value.json() : null,
+      dividendResponse.status === 'fulfilled' && dividendResponse.value.ok ? dividendResponse.value.json() : null
     ])
 
-    const [quote, profile, income, ratios, news, earnings, targets, estimates, insider] = results.map(r =>
+    const [quote, profile, income, ratios, news, earnings, targets, estimates, insider, dividends] = results.map(r =>
       r.status === 'fulfilled' ? r.value : null
     )
 
@@ -257,7 +261,8 @@ async function fetchCurrentFinancialData(ticker: string, includeCharts: boolean 
       quarterlyEarnings: earnings || [],
       priceTargets: targets?.[0] || null,
       estimates: estimates?.[0] || null,
-      insiderTrading: insider || []
+      insiderTrading: insider || [],
+      dividendHistory: dividends?.historical?.slice(0, 20) || []
     }
 
     if (includeCharts) {
@@ -478,6 +483,19 @@ ${recentNews.slice(0, 2).map((news: any, i: number) => `${i + 1}. ${news.title} 
     if (financialData.insiderTrading && financialData.insiderTrading.length > 0) {
       const buys = financialData.insiderTrading.filter((t: any) => t.transactionType?.toLowerCase().includes('buy') || t.acquiredDisposedCode === 'A')
       prompt += `**Insider-Aktivität:** ${buys.length > 0 ? `Zuletzt ${buys.length} Käufe von Management/Insidern registriert.` : 'Keine signifikanten Käufe in den letzten Transaktionen.'}
+
+`
+    }
+
+    if (financialData.dividendHistory && financialData.dividendHistory.length > 0) {
+      const divs = financialData.dividendHistory
+      const lastYear = new Date().getFullYear() - 1
+      const lastYearDivs = divs.filter((d: any) => new Date(d.date).getFullYear() === lastYear)
+      const lastYearTotal = lastYearDivs.reduce((sum: number, d: any) => sum + (d.dividend || d.adjDividend || 0), 0)
+      const recent = divs[0]
+      const divYield = financialData.quote?.dividendYield
+
+      prompt += `**Dividenden:** Letzte Zahlung: $${(recent.dividend || recent.adjDividend || 0).toFixed(4)} (${new Date(recent.date).toLocaleDateString('de-DE')}) | Gesamt ${lastYear}: $${lastYearTotal.toFixed(2)}${divYield != null ? ` | Rendite: ${(divYield * 100).toFixed(2)}%` : ''}
 
 `
     }
@@ -802,6 +820,31 @@ Erwartetes EPS: $${est.estimatedEpsAvg?.toFixed(2) || 'N/A'} | Erwarteter Umsatz
 
 **Jüngste Insider-Aktivität:**
 ${sorted.slice(0, 3).map((t: any) => `- ${new Date(t.transactionDate).toLocaleDateString('de-DE')}: ${t.reportingName} (${t.typeOfOwner}) ${t.transactionType} ${t.securitiesTransacted.toLocaleString()} Aktien @ $${t.price}`).join('\n')}`
+  }
+
+  if (financialData.dividendHistory && financialData.dividendHistory.length > 0) {
+    const divs = financialData.dividendHistory
+    const currentYear = new Date().getFullYear()
+    const lastYear = currentYear - 1
+
+    // Letzte 4 Zahlungen
+    const recent4 = divs.slice(0, 4)
+
+    // Jährliche Gesamtdividende berechnen
+    const lastYearDivs = divs.filter((d: any) => new Date(d.date).getFullYear() === lastYear)
+    const yearBeforeDivs = divs.filter((d: any) => new Date(d.date).getFullYear() === lastYear - 1)
+    const lastYearTotal = lastYearDivs.reduce((sum: number, d: any) => sum + (d.dividend || d.adjDividend || 0), 0)
+    const yearBeforeTotal = yearBeforeDivs.reduce((sum: number, d: any) => sum + (d.dividend || d.adjDividend || 0), 0)
+
+    // Dividendenrendite aus Quote
+    const divYield = quote?.[0]?.dividendYield || financialData.quote?.dividendYield
+
+    prompt += `
+
+**Dividenden-Daten (FMP):**
+Letzte Zahlungen: ${recent4.map((d: any) => `$${(d.dividend || d.adjDividend || 0).toFixed(4)} (${new Date(d.date).toLocaleDateString('de-DE')})`).join(' | ')}
+Gesamtdividende ${lastYear}: $${lastYearTotal.toFixed(2)} pro Aktie${lastYearDivs.length > 0 ? ` (${lastYearDivs.length} Zahlungen)` : ''}${yearBeforeTotal > 0 ? ` | ${lastYear - 1}: $${yearBeforeTotal.toFixed(2)}` : ''}${divYield != null ? ` | Aktuelle Rendite: ${(divYield * 100).toFixed(2)}%` : ''}
+Ausschüttungsfrequenz: ${lastYearDivs.length === 4 ? 'quartalsweise' : lastYearDivs.length === 12 ? 'monatlich' : lastYearDivs.length === 2 ? 'halbjährlich' : lastYearDivs.length === 1 ? 'jährlich' : `${lastYearDivs.length}x pro Jahr`}`
   }
 
   prompt += `

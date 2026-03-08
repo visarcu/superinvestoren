@@ -25,7 +25,7 @@ export default function AIChatMessage({ message, onExecuteAction }: AIChatMessag
                             Finclue AI
                         </span>
                     ) : (
-                        <span className="text-gray-400">Du</span>
+                        <span className="text-theme-muted">Du</span>
                     )}
                     <span className="text-theme-muted">•</span>
                     <span className="text-theme-muted">{message.timestamp.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}</span>
@@ -35,24 +35,24 @@ export default function AIChatMessage({ message, onExecuteAction }: AIChatMessag
                     <ReactMarkdown
                         remarkPlugins={[remarkGfm]}
                         components={{
-                            p: ({ children }) => <p className="text-[15.5px] leading-relaxed text-gray-100 font-medium">{children}</p>,
-                            strong: ({ children }) => <strong className="text-white font-bold brightness-125 border-b border-brand-light/30">{children}</strong>,
+                            p: ({ children }) => <p className="text-[15.5px] leading-relaxed text-theme-primary font-medium">{children}</p>,
+                            strong: ({ children }) => <strong className="text-theme-primary font-bold border-b border-brand-light/30">{children}</strong>,
                             a: ({ children, href }) => (
                                 <a
                                     href={href}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="text-brand-light font-bold underline underline-offset-4 decoration-brand-light/50 hover:text-white transition-all"
+                                    className="text-brand-light font-bold underline underline-offset-4 decoration-brand-light/50 hover:text-theme-primary transition-all"
                                 >
                                     {children}
                                 </a>
                             ),
-                            ul: ({ children }) => <ul className="list-disc pl-4 space-y-1 text-gray-100">{children}</ul>,
-                            ol: ({ children }) => <ol className="list-decimal pl-4 space-y-1 text-gray-100">{children}</ol>,
+                            ul: ({ children }) => <ul className="list-disc pl-4 space-y-1 text-theme-primary">{children}</ul>,
+                            ol: ({ children }) => <ol className="list-decimal pl-4 space-y-1 text-theme-primary">{children}</ol>,
                             li: ({ children }) => <li className="text-[15px]">{children}</li>,
-                            h1: ({ children }) => <h1 className="text-xl font-bold text-white mt-4 mb-2">{children}</h1>,
-                            h2: ({ children }) => <h2 className="text-lg font-bold text-white mt-3 mb-1">{children}</h2>,
-                            h3: ({ children }) => <h3 className="text-base font-bold text-white mt-2 mb-1">{children}</h3>,
+                            h1: ({ children }) => <h1 className="text-xl font-bold text-theme-primary mt-4 mb-2">{children}</h1>,
+                            h2: ({ children }) => <h2 className="text-lg font-bold text-theme-primary mt-3 mb-1">{children}</h2>,
+                            h3: ({ children }) => <h3 className="text-base font-bold text-theme-primary mt-2 mb-1">{children}</h3>,
                             code: ({ children }) => <code className="bg-theme-tertiary px-1.5 py-0.5 rounded text-brand-light font-mono text-sm">{children}</code>
                         }}
                     >
