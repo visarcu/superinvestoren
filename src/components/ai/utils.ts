@@ -1,28 +1,51 @@
 import { ChartBarIcon, DocumentTextIcon, ArrowTrendingUpIcon, CurrencyDollarIcon, SparklesIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { QuickPrompt } from './types'
 import { investors as allInvestors } from '@/data/investors'
+import { stocks } from '@/data/stocks'
 
-export function extractTickerFromMessage(message: string): string | null {
-    const companyToTicker: Record<string, string> = {
-        'apple': 'AAPL', 'microsoft': 'MSFT', 'google': 'GOOGL', 'alphabet': 'GOOGL',
-        'amazon': 'AMZN', 'tesla': 'TSLA', 'nvidia': 'NVDA', 'meta': 'META',
-        'facebook': 'META', 'netflix': 'NFLX', 'adobe': 'ADBE', 'salesforce': 'CRM',
-        'oracle': 'ORCL', 'intel': 'INTC', 'aapl': 'AAPL', 'msft': 'MSFT',
-        'tsla': 'TSLA', 'nvda': 'NVDA', 'googl': 'GOOGL', 'amzn': 'AMZN', 'nflx': 'NFLX'
-    }
+// Build lookup maps from stocks database once
+const nameToTicker = new Map<string, string>()
+const tickerSet = new Set<string>()
 
-    const lowerMessage = message.toLowerCase()
-    for (const [company, ticker] of Object.entries(companyToTicker)) {
-        if (lowerMessage.includes(company)) return ticker
-    }
-
-    const tickerMatch = message.match(/\b([A-Z]{1,5})\b/g)
-    if (tickerMatch) {
-        const commonTickers = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'NFLX', 'ADBE', 'CRM', 'ORCL', 'INTC']
-        for (const ticker of tickerMatch) {
-            if (commonTickers.includes(ticker)) return ticker
+for (const stock of stocks) {
+    const ticker = stock.ticker.toUpperCase()
+    tickerSet.add(ticker)
+    // Map lowercase ticker to itself
+    nameToTicker.set(ticker.toLowerCase(), ticker)
+    // Map company name words (>3 chars) to ticker
+    const nameParts = stock.name.toLowerCase()
+        .replace(/[,.\-()]/g, ' ')
+        .split(/\s+/)
+        .filter(w => w.length > 3)
+    for (const part of nameParts) {
+        // Avoid generic words
+        if (!['inc', 'corp', 'ltd', 'class', 'group', 'holding', 'holdings', 'company', 'international', 'technologies', 'systems', 'services', 'capital'].includes(part)) {
+            nameToTicker.set(part, ticker)
         }
     }
+}
+// Manual overrides for common names
+nameToTicker.set('google', 'GOOGL')
+nameToTicker.set('facebook', 'META')
+
+export function extractTickerFromMessage(message: string): string | null {
+    const lowerMessage = message.toLowerCase()
+    const words = lowerMessage.replace(/[?!.,;:()]/g, ' ').split(/\s+/)
+
+    // 1. Check message words against the name-to-ticker map
+    for (const word of words) {
+        const match = nameToTicker.get(word)
+        if (match) return match
+    }
+
+    // 2. Check for uppercase ticker symbols in original message
+    const tickerMatch = message.match(/\b([A-Z]{1,5})\b/g)
+    if (tickerMatch) {
+        for (const t of tickerMatch) {
+            if (tickerSet.has(t)) return t
+        }
+    }
+
     return null
 }
 
