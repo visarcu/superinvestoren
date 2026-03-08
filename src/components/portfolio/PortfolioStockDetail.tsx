@@ -63,14 +63,14 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           setEurRate(eurRateResult)
         }
 
-        // Buy-Transaktionen laden (nur wenn portfolioId vorhanden)
+        // Buy- und Transfer-In-Transaktionen laden (nur wenn portfolioId vorhanden)
         if (portfolioId) {
           const { data: transactions } = await supabase
             .from('portfolio_transactions')
             .select('date, quantity, price, type')
             .eq('portfolio_id', portfolioId)
             .eq('symbol', ticker)
-            .eq('type', 'buy')
+            .in('type', ['buy', 'transfer_in'])
             .order('date', { ascending: true })
 
           if (!cancelled && transactions) {
@@ -78,7 +78,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
               date: tx.date,
               priceEUR: tx.price,
               quantity: tx.quantity,
-              label: `K${i + 1}`,
+              label: tx.type === 'transfer_in' ? `E${i + 1}` : `K${i + 1}`,
             }))
             setPurchaseMarkers(markers)
           }

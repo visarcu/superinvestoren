@@ -13,12 +13,13 @@ import {
   XMarkIcon,
   BanknotesIcon,
   MinusIcon,
-  ClockIcon
+  ClockIcon,
+  ArrowsRightLeftIcon,
 } from '@heroicons/react/24/outline'
 
 interface Transaction {
   id: string
-  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal'
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
   symbol: string
   name: string
   quantity: number
@@ -35,12 +36,14 @@ interface TransactionsListProps {
   formatCurrency: (amount: number) => string
 }
 
-const TYPE_CONFIG = {
+const TYPE_CONFIG: Record<string, { label: string; icon: any; color: string; bg: string }> = {
   buy: { label: 'Kauf', icon: ArrowDownTrayIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
   sell: { label: 'Verkauf', icon: ArrowUpTrayIcon, color: 'text-red-400', bg: 'bg-red-500/10' },
   dividend: { label: 'Dividende', icon: BanknotesIcon, color: 'text-blue-400', bg: 'bg-blue-500/10' },
   cash_deposit: { label: 'Einzahlung', icon: PlusIcon, color: 'text-emerald-400', bg: 'bg-emerald-500/10' },
-  cash_withdrawal: { label: 'Auszahlung', icon: MinusIcon, color: 'text-red-400', bg: 'bg-red-500/10' }
+  cash_withdrawal: { label: 'Auszahlung', icon: MinusIcon, color: 'text-red-400', bg: 'bg-red-500/10' },
+  transfer_in: { label: 'Einbuchung', icon: ArrowsRightLeftIcon, color: 'text-violet-400', bg: 'bg-violet-500/10' },
+  transfer_out: { label: 'Ausbuchung', icon: ArrowsRightLeftIcon, color: 'text-orange-400', bg: 'bg-orange-500/10' },
 }
 
 export default function TransactionsList({
@@ -50,7 +53,7 @@ export default function TransactionsList({
 }: TransactionsListProps) {
   const [transactions, setTransactions] = useState<Transaction[]>([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'dividend' | 'cash'>('all')
+  const [filter, setFilter] = useState<'all' | 'buy' | 'sell' | 'dividend' | 'cash' | 'transfer'>('all')
 
   // Add Transaction Form
   const [showAdd, setShowAdd] = useState(false)
@@ -82,6 +85,7 @@ export default function TransactionsList({
     return transactions.filter(t => {
       if (filter === 'all') return true
       if (filter === 'cash') return t.type === 'cash_deposit' || t.type === 'cash_withdrawal'
+      if (filter === 'transfer') return t.type === 'transfer_in' || t.type === 'transfer_out'
       return t.type === filter
     })
   }, [transactions, filter])
@@ -193,7 +197,8 @@ export default function TransactionsList({
           { key: 'buy', label: 'Käufe' },
           { key: 'sell', label: 'Verkäufe' },
           { key: 'dividend', label: 'Dividenden' },
-          { key: 'cash', label: 'Cash' }
+          { key: 'cash', label: 'Cash' },
+          { key: 'transfer', label: 'Umbuchungen' }
         ].map(f => (
           <button
             key={f.key}
@@ -319,9 +324,11 @@ export default function TransactionsList({
                       <div className="flex items-center gap-3">
                         <div className="text-right">
                           <p className={`text-sm font-medium ${
-                            tx.type === 'sell' || tx.type === 'cash_withdrawal' ? 'text-red-400' : 'text-emerald-400'
+                            tx.type === 'sell' || tx.type === 'cash_withdrawal' || tx.type === 'transfer_out'
+                              ? 'text-red-400'
+                              : tx.type === 'transfer_in' ? 'text-violet-400' : 'text-emerald-400'
                           }`}>
-                            {tx.type === 'sell' || tx.type === 'cash_withdrawal' ? '-' : '+'}{formatCurrency(tx.total_value)}
+                            {tx.type === 'sell' || tx.type === 'cash_withdrawal' || tx.type === 'transfer_out' ? '-' : '+'}{formatCurrency(tx.total_value)}
                           </p>
                         </div>
                         <button
