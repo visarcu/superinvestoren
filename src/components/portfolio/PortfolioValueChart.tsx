@@ -42,6 +42,8 @@ interface PerformanceDataPoint {
   date: string
   portfolioPerformance: number
   spyPerformance: number
+  msciWorldPerformance: number
+  ftseAllWorldPerformance: number
   label: string
 }
 
@@ -134,7 +136,7 @@ export default function PortfolioValueChart({
               chartView === 'performance' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
             }`}
           >
-            Performance vs. S&amp;P 500 (TWR)
+            Performance vs. Benchmarks (TWR)
           </button>
         </div>
 
@@ -157,7 +159,7 @@ export default function PortfolioValueChart({
 
       {/* Performance Labels */}
       {chartView === 'performance' && lastPerf && (
-        <div className="flex gap-6 mb-3">
+        <div className="flex flex-wrap gap-x-5 gap-y-1 mb-3">
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-emerald-400 rounded-full" />
             <span className="text-xs text-neutral-400">Portfolio (TWR)</span>
@@ -170,6 +172,20 @@ export default function PortfolioValueChart({
             <span className="text-xs text-neutral-400">S&P 500</span>
             <span className={`text-xs font-medium ${lastPerf.spyPerformance >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
               {lastPerf.spyPerformance >= 0 ? '+' : ''}{lastPerf.spyPerformance.toFixed(2)}%
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-0.5 bg-violet-400 rounded-full" />
+            <span className="text-xs text-neutral-400">MSCI World</span>
+            <span className={`text-xs font-medium ${lastPerf.msciWorldPerformance >= 0 ? 'text-violet-400' : 'text-red-400'}`}>
+              {lastPerf.msciWorldPerformance >= 0 ? '+' : ''}{lastPerf.msciWorldPerformance.toFixed(2)}%
+            </span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-0.5 bg-amber-400 rounded-full" />
+            <span className="text-xs text-neutral-400">FTSE All-World</span>
+            <span className={`text-xs font-medium ${lastPerf.ftseAllWorldPerformance >= 0 ? 'text-amber-400' : 'text-red-400'}`}>
+              {lastPerf.ftseAllWorldPerformance >= 0 ? '+' : ''}{lastPerf.ftseAllWorldPerformance.toFixed(2)}%
             </span>
           </div>
         </div>
@@ -269,8 +285,13 @@ export default function PortfolioValueChart({
                     fontSize: '12px'
                   }}
                   formatter={(value: number, name: string) => {
-                    const label = name === 'portfolioPerformance' ? 'Portfolio (TWR)' : 'S&P 500'
-                    return [`${value >= 0 ? '+' : ''}${value.toFixed(2)}%`, label]
+                    const labels: Record<string, string> = {
+                      portfolioPerformance: 'Portfolio (TWR)',
+                      spyPerformance: 'S&P 500',
+                      msciWorldPerformance: 'MSCI World',
+                      ftseAllWorldPerformance: 'FTSE All-World',
+                    }
+                    return [`${value >= 0 ? '+' : ''}${value.toFixed(2)}%`, labels[name] || name]
                   }}
                 />
                 <Line
@@ -285,6 +306,20 @@ export default function PortfolioValueChart({
                   dataKey="spyPerformance"
                   stroke="#60a5fa"
                   strokeWidth={2}
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="msciWorldPerformance"
+                  stroke="#a78bfa"
+                  strokeWidth={1.5}
+                  dot={false}
+                />
+                <Line
+                  type="monotone"
+                  dataKey="ftseAllWorldPerformance"
+                  stroke="#fbbf24"
+                  strokeWidth={1.5}
                   dot={false}
                 />
               </ComposedChart>

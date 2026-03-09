@@ -375,32 +375,54 @@ export async function POST(request: NextRequest) {
     const twrByDate = new Map<string, number>()
     twrData.forEach(d => twrByDate.set(d.date, d.twrCumulative))
 
-    // 8. Lade S&P 500 (SPY) Benchmark-Daten für Performance-Vergleich (in %)
-    let performanceData: Array<{ date: string; portfolioPerformance: number; spyPerformance: number }> = []
+    // 8. Lade Benchmark-Daten für Performance-Vergleich (in %)
+    // SPY = S&P 500, URTH = MSCI World, VT = FTSE All-World
+    let performanceData: Array<{
+      date: string
+      portfolioPerformance: number
+      spyPerformance: number
+      msciWorldPerformance: number
+      ftseAllWorldPerformance: number
+    }> = []
     try {
-      const spyHistory = await fetchHistoricalPrices('SPY', fromDate, toDate)
+      const [spyHistory, urthHistory, vtHistory] = await Promise.all([
+        fetchHistoricalPrices('SPY', fromDate, toDate),
+        fetchHistoricalPrices('URTH', fromDate, toDate),
+        fetchHistoricalPrices('VT', fromDate, toDate),
+      ])
+
       if (spyHistory.length > 0 && chartData.length > 0) {
         const firstPortfolioDate = chartData[0].date
-        const firstSPYDataPoint = spyHistory.find(d => d.date >= firstPortfolioDate)
-        const firstSPYPrice = firstSPYDataPoint?.close || spyHistory[0].close
+
+        // Startpreise für alle Benchmarks finden (ab erstem Portfolio-Datum)
+        const findFirstPrice = (history: HistoricalDataPoint[]) => {
+          const first = history.find(d => d.date >= firstPortfolioDate)
+          return first?.close || history[0]?.close || 0
+        }
+
+        const firstSPYPrice = findFirstPrice(spyHistory)
+        const firstURTHPrice = findFirstPrice(urthHistory)
+        const firstVTPrice = findFirstPrice(vtHistory)
 
         const spyPriceMap = new Map<string, number>()
+        const urthPriceMap = new Map<string, number>()
+        const vtPriceMap = new Map<string, number>()
+
         spyHistory.forEach(d => spyPriceMap.set(d.date, d.close))
+        urthHistory.forEach(d => urthPriceMap.set(d.date, d.close))
+        vtHistory.forEach(d => vtPriceMap.set(d.date, d.close))
 
-        // Performance-Daten: TWR für Portfolio, Price Return für SPY
-        // Beide starten bei 0% → fairer Vergleich
-        performanceData = chartData.map(point => {
-          const spyPrice = spyPriceMap.get(point.date)
-          const spyPerformance = spyPrice && firstSPYPrice
-            ? ((spyPrice / firstSPYPrice) - 1) * 100
-            : 0
+        const calcReturn = (price: number | undefined, firstPrice: number) =>
+          price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
 
-          return {
-            date: point.date,
-            portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100, // TWR in %
-            spyPerformance: Math.round(spyPerformance * 100) / 100
-          }
-        })
+        // Performance-Daten: TWR für Portfolio, Price Return für Benchmarks
+        performanceData = chartData.map(point => ({
+          date: point.date,
+          portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100,
+          spyPerformance: calcReturn(spyPriceMap.get(point.date), firstSPYPrice),
+          msciWorldPerformance: calcReturn(urthPriceMap.get(point.date), firstURTHPrice),
+          ftseAllWorldPerformance: calcReturn(vtPriceMap.get(point.date), firstVTPrice),
+        }))
       }
     } catch (benchmarkError) {
       console.error('Error fetching benchmark data:', benchmarkError)
