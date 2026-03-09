@@ -6,7 +6,6 @@ import { NextResponse } from 'next/server'
 const FMP_API_KEY = process.env.FMP_API_KEY
 
 // OpenFIGI exchCode → FMP-kompatibler Ticker-Suffix
-// Priorität für deutsche Broker: XETRA zuerst, dann US, dann andere
 const EXCHANGE_SUFFIX_MAP: Record<string, string> = {
   // Deutsche Börsen
   'GR': '.DE',   // XETRA / Frankfurt
@@ -46,17 +45,53 @@ const EXCHANGE_SUFFIX_MAP: Record<string, string> = {
   'CN': '.TO',  // Toronto (alternative)
 }
 
-// Priorität: Für deutsche Broker bevorzugen wir XETRA, dann US
-const EXCHANGE_PRIORITY: string[] = [
-  'GR', 'GY', 'GF',           // XETRA / Frankfurt zuerst
-  'US', 'UN', 'UQ', 'UW', 'UA', 'UP',  // US-Börsen
-  'LN', 'LS',                  // London
-  'FP', 'NA', 'BB',           // Euronext
-  'IM', 'SM', 'SE', 'DC', 'NO', 'FH', // Weitere EU
-  'SW', 'VX', 'AV',           // Schweiz / Österreich
-  'JT', 'HK', 'AU',           // Asien-Pazifik
-  'CT', 'CN',                  // Kanada
+// Exchange-Prioritäten je nach ISIN-Herkunftsland
+// US-Aktien → US-Ticker (TGT statt DYH.DE), EU-ETFs → XETRA-Ticker
+const US_EXCHANGE_PRIORITY: string[] = [
+  'US', 'UN', 'UQ', 'UW', 'UA', 'UP',  // US-Börsen zuerst
+  'GR', 'GY', 'GF',                      // XETRA / Frankfurt
+  'LN', 'LS',                             // London
+  'CT', 'CN',                             // Kanada
+  'FP', 'NA', 'BB',                       // Euronext
+  'IM', 'SM', 'SE', 'DC', 'NO', 'FH',   // Weitere EU
+  'SW', 'VX', 'AV',                       // Schweiz / Österreich
 ]
+
+const EU_EXCHANGE_PRIORITY: string[] = [
+  'GR', 'GY', 'GF',                      // XETRA / Frankfurt zuerst
+  'LN', 'LS',                             // London
+  'FP', 'NA', 'BB',                       // Euronext
+  'IM', 'SM', 'SE', 'DC', 'NO', 'FH',   // Weitere EU
+  'SW', 'VX', 'AV',                       // Schweiz / Österreich
+  'US', 'UN', 'UQ', 'UW', 'UA', 'UP',   // US-Börsen
+  'CT', 'CN',                             // Kanada
+]
+
+const GB_EXCHANGE_PRIORITY: string[] = [
+  'LN', 'LS',                             // London zuerst
+  'GR', 'GY', 'GF',                      // XETRA
+  'US', 'UN', 'UQ', 'UW', 'UA', 'UP',   // US
+  'FP', 'NA', 'BB',                       // Euronext
+]
+
+// ISIN-Länderpräfix → Exchange-Priorität
+// US/CA ISINs → US-Ticker, DE/IE/LU/FR/NL/AT ISINs → XETRA, GB ISINs → London
+function getExchangePriority(isin: string): string[] {
+  const country = isin.substring(0, 2).toUpperCase()
+
+  switch (country) {
+    case 'US':
+    case 'CA':
+      return US_EXCHANGE_PRIORITY
+    case 'GB':
+    case 'GG': // Guernsey
+    case 'JE': // Jersey
+      return GB_EXCHANGE_PRIORITY
+    default:
+      // DE, IE, LU, FR, NL, AT, CH, etc. → XETRA bevorzugen
+      return EU_EXCHANGE_PRIORITY
+  }
+}
 
 interface OpenFIGIResult {
   figi: string
@@ -99,7 +134,6 @@ async function resolveViaOpenFIGI(
       const headers: Record<string, string> = {
         'Content-Type': 'application/json',
       }
-      // Optional: API-Key für höhere Rate Limits
       const apiKey = process.env.OPENFIGI_API_KEY
       if (apiKey) {
         headers['X-OPENFIGI-APIKEY'] = apiKey
@@ -113,7 +147,6 @@ async function resolveViaOpenFIGI(
 
       if (!response.ok) {
         console.error(`OpenFIGI API error: ${response.status} ${response.statusText}`)
-        // Alle ISINs in diesem Batch als null markieren
         for (const isin of batch) {
           results[isin] = null
         }
@@ -122,18 +155,17 @@ async function resolveViaOpenFIGI(
 
       const data: OpenFIGIResponse[] = await response.json()
 
-      // Jedes Response-Element entspricht dem ISIN an derselben Position
       for (let j = 0; j < batch.length; j++) {
         const isin = batch[j]
-        const response = data[j]
+        const figiResponse = data[j]
 
-        if (response?.error || !response?.data || response.data.length === 0) {
+        if (figiResponse?.error || !figiResponse?.data || figiResponse.data.length === 0) {
           results[isin] = null
           continue
         }
 
-        // Bestes Match nach Exchange-Priorität wählen
-        const bestMatch = pickBestMatch(response.data)
+        // Exchange-Priorität basierend auf ISIN-Herkunftsland
+        const bestMatch = pickBestMatch(figiResponse.data, isin)
 
         if (bestMatch) {
           const suffix = EXCHANGE_SUFFIX_MAP[bestMatch.exchCode] ?? ''
@@ -165,26 +197,29 @@ async function resolveViaOpenFIGI(
 
 /**
  * Bestes Match aus OpenFIGI Ergebnissen wählen.
- * Bevorzugt XETRA > US > London nach Exchange-Priorität.
- * Filtert Market Sector "Equity" und "Govt" bevorzugt.
+ * Exchange-Priorität hängt vom ISIN-Herkunftsland ab:
+ * - US ISINs → US-Ticker bevorzugen (TGT statt DYH.DE)
+ * - DE/IE/LU ISINs → XETRA bevorzugen (VWCE.DE)
+ * - GB ISINs → London bevorzugen (RKT.L)
  */
-function pickBestMatch(matches: OpenFIGIResult[]): OpenFIGIResult | null {
+function pickBestMatch(matches: OpenFIGIResult[], isin: string): OpenFIGIResult | null {
   if (matches.length === 0) return null
 
-  // Nur Common Stock, ETF, und REIT bevorzugen, andere auch erlauben
+  // Relevante Security Types filtern
   const preferred = matches.filter(m =>
     !m.securityType2 ||
     ['Common Stock', 'ETP', 'ETF', 'REIT', 'Depositary Receipt', 'Open-End Fund', 'Closed-End Fund', 'Mutual Fund'].includes(m.securityType2)
   )
 
   const candidates = preferred.length > 0 ? preferred : matches
+  const exchangePriority = getExchangePriority(isin)
 
-  // Nach Exchange-Priorität sortieren
+  // Nach Exchange-Priorität das beste Match finden
   let bestMatch: OpenFIGIResult | null = null
   let bestPriority = Infinity
 
   for (const match of candidates) {
-    const priority = EXCHANGE_PRIORITY.indexOf(match.exchCode)
+    const priority = exchangePriority.indexOf(match.exchCode)
     if (priority !== -1 && priority < bestPriority) {
       bestPriority = priority
       bestMatch = match
@@ -194,11 +229,6 @@ function pickBestMatch(matches: OpenFIGIResult[]): OpenFIGIResult | null {
   // Falls kein bekannter Exchange gefunden, ersten nehmen
   if (!bestMatch) {
     bestMatch = candidates[0]
-    // Ticker-Suffix versuchen wenn Exchange nicht bekannt
-    if (bestMatch && !(bestMatch.exchCode in EXCHANGE_SUFFIX_MAP)) {
-      // Unbekannter Exchange — Ticker ohne Suffix zurückgeben
-      // (FMP wird evtl. nicht funktionieren, aber besser als nichts)
-    }
   }
 
   return bestMatch
@@ -223,7 +253,6 @@ async function resolveViaFMP(
         const data = await response.json()
 
         if (Array.isArray(data) && data.length > 0) {
-          // Bevorzuge Listings an XETRA, NYSE/NASDAQ, dann andere
           const preferredExchanges = ['XETRA', 'NASDAQ', 'NYSE', 'LSE', 'EURONEXT']
           let bestMatch = data[0]
 
@@ -246,7 +275,6 @@ async function resolveViaFMP(
         results[isin] = null
       }
 
-      // Rate Limiting: 200ms Pause
       await new Promise(resolve => setTimeout(resolve, 200))
     } catch {
       results[isin] = null
@@ -277,7 +305,6 @@ export async function POST(request: Request) {
 
     let fmpResults: Record<string, { symbol: string; name: string } | null> = {}
     if (unresolvedAfterFIGI.length > 0 && FMP_API_KEY) {
-      // FMP nur für maximal 20 ISINs um die Antwortzeit nicht zu sprengen
       const fmpBatch = unresolvedAfterFIGI.slice(0, 20)
       fmpResults = await resolveViaFMP(fmpBatch)
     }
@@ -295,7 +322,6 @@ export async function POST(request: Request) {
       }
     }
 
-    // Statistiken
     const resolvedCount = Object.values(results).filter(r => r !== null).length
     const openfigiCount = Object.values(results).filter(r => r?.source === 'openfigi').length
     const fmpCount = Object.values(results).filter(r => r?.source === 'fmp_api').length
