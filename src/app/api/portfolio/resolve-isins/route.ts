@@ -180,7 +180,9 @@ async function resolveViaOpenFIGI(
 
         if (bestMatch) {
           const suffix = EXCHANGE_SUFFIX_MAP[bestMatch.exchCode] ?? ''
-          const fmpSymbol = bestMatch.ticker + suffix
+          // FMP nutzt Bindestriche statt Schrägstriche (BRK-B statt BRK/B)
+          const cleanTicker = bestMatch.ticker.replace(/\//g, '-')
+          const fmpSymbol = cleanTicker + suffix
 
           results[isin] = {
             symbol: fmpSymbol,
@@ -216,11 +218,14 @@ async function resolveViaOpenFIGI(
 function pickBestMatch(matches: OpenFIGIResult[], isin: string): OpenFIGIResult | null {
   if (matches.length === 0) return null
 
-  // Relevante Security Types filtern
-  const preferred = matches.filter(m =>
-    !m.securityType2 ||
-    ['Common Stock', 'ETP', 'ETF', 'REIT', 'Depositary Receipt', 'Open-End Fund', 'Closed-End Fund', 'Mutual Fund'].includes(m.securityType2)
-  )
+  // Relevante Security Types und Exchanges filtern
+  // X1 = OTC/Composite (RB/EUR etc.), nicht nützlich für FMP
+  const preferred = matches.filter(m => {
+    const typeOk = !m.securityType2 ||
+      ['Common Stock', 'ETP', 'ETF', 'REIT', 'Depositary Receipt', 'Open-End Fund', 'Closed-End Fund', 'Mutual Fund'].includes(m.securityType2)
+    const exchangeOk = m.exchCode !== 'X1'
+    return typeOk && exchangeOk
+  })
 
   const candidates = preferred.length > 0 ? preferred : matches
   const exchangePriority = getExchangePriority(isin)
@@ -237,9 +242,9 @@ function pickBestMatch(matches: OpenFIGIResult[], isin: string): OpenFIGIResult 
     }
   }
 
-  // Falls kein bekannter Exchange gefunden, ersten nehmen
+  // Falls kein bekannter Exchange gefunden, ersten mit bekanntem Exchange nehmen
   if (!bestMatch) {
-    bestMatch = candidates[0]
+    bestMatch = candidates.find(m => m.exchCode in EXCHANGE_SUFFIX_MAP) || candidates[0]
   }
 
   return bestMatch
