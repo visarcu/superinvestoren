@@ -17,6 +17,7 @@ import {
   ArrowRightIcon,
   ArrowLeftIcon,
   MagnifyingGlassIcon,
+  ChevronDownIcon,
 } from '@heroicons/react/24/outline'
 
 interface CSVImportModalProps {
@@ -60,6 +61,8 @@ export default function CSVImportModal({
   const [duplicateIndices, setDuplicateIndices] = useState<Set<number>>(new Set())
   const [duplicateCheckDone, setDuplicateCheckDone] = useState(false)
   const [checkingDuplicates, setCheckingDuplicates] = useState(false)
+  const [showSkippedDetails, setShowSkippedDetails] = useState(false)
+  const [showDuplicateDetails, setShowDuplicateDetails] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   // Reset State
@@ -77,6 +80,8 @@ export default function CSVImportModal({
     setDuplicateIndices(new Set())
     setDuplicateCheckDone(false)
     setCheckingDuplicates(false)
+    setShowSkippedDetails(false)
+    setShowDuplicateDetails(false)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -268,6 +273,13 @@ export default function CSVImportModal({
       setCheckingDuplicates(false)
     }
   }, [resolvedTransactions, portfolioId])
+
+  // Duplikat-Transaktionen für die Detail-Anzeige
+  const duplicateTransactions = useMemo(() => {
+    if (duplicateIndices.size === 0) return []
+    const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
+    return Array.from(duplicateIndices).map(i => txWithSymbols[i]).filter(Boolean)
+  }, [resolvedTransactions, duplicateIndices])
 
   // Zusammenfassung für Preview
   const importSummary = useMemo(() => {
@@ -526,13 +538,39 @@ export default function CSVImportModal({
                   </div>
                   <div>
                     <p className="text-neutral-500">Übersprungen</p>
-                    <p className="text-neutral-400">{parseResult.summary.skipped}</p>
+                    {parseResult.summary.skipped > 0 ? (
+                      <button
+                        onClick={() => setShowSkippedDetails(!showSkippedDetails)}
+                        className="flex items-center gap-1 text-amber-400 font-medium hover:text-amber-300 transition-colors"
+                      >
+                        {parseResult.summary.skipped}
+                        <ChevronDownIcon className={`w-3 h-3 transition-transform ${showSkippedDetails ? 'rotate-180' : ''}`} />
+                      </button>
+                    ) : (
+                      <p className="text-neutral-400">{parseResult.summary.skipped}</p>
+                    )}
                   </div>
                   <div>
                     <p className="text-neutral-500">Wertpapiere</p>
                     <p className="text-white font-medium">{parseResult.uniqueISINs.length}</p>
                   </div>
                 </div>
+
+                {/* Übersprungene Zeilen Details */}
+                {showSkippedDetails && parseResult.skipped.length > 0 && (
+                  <div className="mt-3 pt-3 border-t border-neutral-700/50">
+                    <p className="text-xs font-medium text-neutral-500 mb-2">Übersprungene Zeilen:</p>
+                    <div className="max-h-32 overflow-y-auto space-y-1">
+                      {parseResult.skipped.map((s, i) => (
+                        <div key={i} className="flex items-start gap-2 text-xs py-1 px-2 bg-amber-500/5 rounded">
+                          <span className="text-neutral-600 font-mono shrink-0">Z.{s.row}</span>
+                          <span className="text-amber-400/80 shrink-0">{s.reason}</span>
+                          <span className="text-neutral-500 truncate">{s.data}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
               {/* ISIN Resolution Status */}
@@ -671,14 +709,43 @@ export default function CSVImportModal({
                 <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
                   <div className="flex gap-2">
                     <ExclamationTriangleIcon className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <div className="text-xs text-neutral-400">
-                      <p className="font-medium text-amber-400 mb-1">
+                    <div className="text-xs text-neutral-400 flex-1">
+                      <button
+                        onClick={() => setShowDuplicateDetails(!showDuplicateDetails)}
+                        className="flex items-center gap-1 font-medium text-amber-400 mb-1 hover:text-amber-300 transition-colors"
+                      >
                         {importSummary.duplicateCount} Duplikat{importSummary.duplicateCount !== 1 ? 'e' : ''} erkannt
-                      </p>
+                        <ChevronDownIcon className={`w-3 h-3 transition-transform ${showDuplicateDetails ? 'rotate-180' : ''}`} />
+                      </button>
                       <p>
                         {importSummary.duplicateCount} Transaktion{importSummary.duplicateCount !== 1 ? 'en existieren' : ' existiert'} bereits im Depot und {importSummary.duplicateCount !== 1 ? 'werden' : 'wird'} übersprungen.
                         Es werden nur {importSummary.newTransactions} neue Transaktionen importiert.
                       </p>
+
+                      {/* Duplikat-Details */}
+                      {showDuplicateDetails && duplicateTransactions.length > 0 && (
+                        <div className="mt-2 pt-2 border-t border-amber-500/10">
+                          <div className="max-h-40 overflow-y-auto space-y-1">
+                            {duplicateTransactions.map((tx, i) => {
+                              const typeConfig = TYPE_LABELS[tx.type]
+                              return (
+                                <div key={i} className="flex items-center justify-between py-1 px-2 bg-neutral-900/50 rounded text-xs">
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <span className="text-neutral-600 shrink-0">{tx.date}</span>
+                                    <span className={`shrink-0 ${typeConfig?.color || 'text-neutral-400'}`}>{typeConfig?.label || tx.type}</span>
+                                    <span className="text-white font-medium shrink-0">{tx.symbol}</span>
+                                    <span className="text-neutral-500 truncate">{tx.name}</span>
+                                  </div>
+                                  <span className="text-neutral-400 shrink-0 ml-2">
+                                    {tx.quantity > 0 ? `${tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.` : ''}
+                                    {tx.totalValue > 0 ? ` ${tx.totalValue.toLocaleString('de-DE', { style: 'currency', currency: 'EUR' })}` : ''}
+                                  </span>
+                                </div>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
