@@ -10,6 +10,7 @@ import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
 import TransactionsList from '@/components/portfolio/TransactionsList'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
+import SoldPositions from '@/components/portfolio/SoldPositions'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
@@ -573,6 +574,14 @@ export default function PortfolioDashboard() {
                 <PortfolioEarningsPreview symbols={p.holdings.map(h => h.symbol)} />
               </div>
             )}
+
+            {/* Verkaufte Wertpapiere */}
+            <SoldPositions
+              transactions={p.transactions}
+              formatCurrency={p.formatCurrency}
+              portfolioId={p.portfolio?.id}
+              totalValue={p.totalValue}
+            />
           </>
         )}
 
