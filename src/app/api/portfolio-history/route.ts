@@ -27,6 +27,11 @@ function isEURTicker(symbol: string): boolean {
   return /\.(DE|PA|AS|MI|MC|BR|LI|VI|AT|CP|HE|PR|ZU)$/i.test(symbol)
 }
 
+// Erkennt ob ein Ticker in GBX (Pence) notiert ist (London Stock Exchange)
+function isGBXTicker(symbol: string): boolean {
+  return /\.L$/i.test(symbol)
+}
+
 // In-memory cache für API-Responses (24h TTL)
 const historyCache = new Map<string, { data: HistoricalDataPoint[], timestamp: number }>()
 const CACHE_TTL = 24 * 60 * 60 * 1000 // 24 Stunden
@@ -149,38 +154,84 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // 2b. Lade EUR/USD Wechselkurs-Historie (nur wenn USD-Aktien vorhanden)
-    const hasUSDStocks = uniqueSymbols.some(s => !isEURTicker(s))
+    // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien
+    const hasUSDStocks = uniqueSymbols.some(s => !isEURTicker(s) && !isGBXTicker(s))
+    const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s))
     const eurUsdRateByDate = new Map<string, number>() // date → USD-to-EUR rate
+    const gbpEurRateByDate = new Map<string, number>() // date → GBP-to-EUR rate
+
+    // Parallel laden wenn beide benötigt
+    const fxPromises: Promise<void>[] = []
 
     if (hasUSDStocks) {
-      try {
-        const eurUsdHistory = await fetchHistoricalPrices('EURUSD', fromDate, toDate)
-        eurUsdHistory.forEach(day => {
-          // EURUSD = wie viel 1 EUR in USD wert ist (z.B. 1.08)
-          // Wir brauchen USD→EUR: 1 / EURUSD
-          if (day.close > 0) {
-            eurUsdRateByDate.set(day.date, 1 / day.close)
-          }
-        })
-        console.log(`💱 EUR/USD history: ${eurUsdRateByDate.size} data points`)
-      } catch (e) {
-        console.error('Error loading EUR/USD history:', e)
-      }
+      fxPromises.push((async () => {
+        try {
+          const eurUsdHistory = await fetchHistoricalPrices('EURUSD', fromDate, toDate)
+          eurUsdHistory.forEach(day => {
+            if (day.close > 0) {
+              eurUsdRateByDate.set(day.date, 1 / day.close)
+            }
+          })
+          console.log(`💱 EUR/USD history: ${eurUsdRateByDate.size} data points`)
+        } catch (e) {
+          console.error('Error loading EUR/USD history:', e)
+        }
+      })())
     }
 
-    // Hilfsfunktion: Nächsten verfügbaren EUR/USD-Kurs finden (für Tage ohne FX-Daten)
-    function getEURRateForDate(date: string): number {
-      const rate = eurUsdRateByDate.get(date)
+    if (hasGBXStocks) {
+      fxPromises.push((async () => {
+        try {
+          // GBPEUR direkt laden, oder über Kreuzrate GBPUSD / EURUSD
+          const gbpUsdHistory = await fetchHistoricalPrices('GBPUSD', fromDate, toDate)
+          const eurUsdHistoryForGbp = eurUsdRateByDate.size > 0 ? null : await fetchHistoricalPrices('EURUSD', fromDate, toDate)
+
+          // EURUSD-Map für Kreuzrate bauen falls nötig
+          const eurUsdMap = new Map<string, number>()
+          if (eurUsdHistoryForGbp) {
+            eurUsdHistoryForGbp.forEach(day => {
+              if (day.close > 0) eurUsdMap.set(day.date, day.close)
+            })
+          }
+
+          gbpUsdHistory.forEach(day => {
+            if (day.close > 0) {
+              // GBP→EUR = GBPUSD / EURUSD
+              const eurUsd = eurUsdRateByDate.size > 0
+                ? (1 / (eurUsdRateByDate.get(day.date) || 0.92)) // eurUsdRateByDate hat USD→EUR, invertieren
+                : (eurUsdMap.get(day.date) || 1.08)
+              if (eurUsd > 0) {
+                gbpEurRateByDate.set(day.date, day.close / eurUsd)
+              }
+            }
+          })
+          console.log(`💱 GBP/EUR history: ${gbpEurRateByDate.size} data points`)
+        } catch (e) {
+          console.error('Error loading GBP/EUR history:', e)
+        }
+      })())
+    }
+
+    await Promise.all(fxPromises)
+
+    // Hilfsfunktionen: Nächsten verfügbaren Kurs finden (für Tage ohne FX-Daten)
+    function getRateForDate(rateMap: Map<string, number>, date: string, fallback: number): number {
+      const rate = rateMap.get(date)
       if (rate) return rate
 
-      // Nächsten verfügbaren Kurs suchen (rückwärts)
-      const dates = Array.from(eurUsdRateByDate.keys()).sort()
+      const dates = Array.from(rateMap.keys()).sort()
       for (let i = dates.length - 1; i >= 0; i--) {
-        if (dates[i] <= date) return eurUsdRateByDate.get(dates[i])!
+        if (dates[i] <= date) return rateMap.get(dates[i])!
       }
-      // Fallback: Erster verfügbarer
-      return dates.length > 0 ? eurUsdRateByDate.get(dates[0])! : 0.92 // Sicherer Fallback
+      return dates.length > 0 ? rateMap.get(dates[0])! : fallback
+    }
+
+    function getEURRateForDate(date: string): number {
+      return getRateForDate(eurUsdRateByDate, date, 0.92)
+    }
+
+    function getGBPEURRateForDate(date: string): number {
+      return getRateForDate(gbpEurRateByDate, date, 1.16)
     }
 
     // 3. Sammle alle Handelstage
@@ -213,6 +264,7 @@ export async function POST(request: NextRequest) {
     // 6. Für jeden Tag: Berechne Portfolio-Wert in EUR
     // KORREKTE LOGIK: Shares × aktueller_Kurs_in_EUR
     // - EUR-Aktien (.DE, .PA etc.): Kurs ist bereits in EUR
+    // - GBX-Aktien (.L): Kurs in Pence → ÷100 für GBP → ×GBP_EUR_Rate
     // - USD-Aktien (AAPL, ADBE etc.): Kurs_USD × USD_to_EUR_Rate
     const chartData: Array<{ date: string; value: number; invested: number; performance: number }> = []
 
@@ -222,7 +274,7 @@ export async function POST(request: NextRequest) {
 
       uniqueSymbols.forEach(symbol => {
         const priceMap = pricesBySymbol.get(symbol)
-        const currentPrice = priceMap?.get(date) // In Börsenwährung (USD oder EUR)
+        const currentPrice = priceMap?.get(date) // In Börsenwährung (USD, EUR oder GBX)
         const firstPurchaseDate = firstPurchaseDateBySymbol.get(symbol)
 
         if (!currentPrice) return
@@ -231,8 +283,16 @@ export async function POST(request: NextRequest) {
         if (firstPurchaseDate && date < firstPurchaseDate) return
 
         // Kurs in EUR umrechnen
-        const isEUR = isEURTicker(symbol)
-        const currentPriceEUR = isEUR ? currentPrice : currentPrice * getEURRateForDate(date)
+        let currentPriceEUR: number
+        if (isEURTicker(symbol)) {
+          currentPriceEUR = currentPrice
+        } else if (isGBXTicker(symbol)) {
+          // .L Ticker: FMP liefert GBX (Pence) → ÷100 = GBP → ×Rate = EUR
+          currentPriceEUR = (currentPrice / 100) * getGBPEURRateForDate(date)
+        } else {
+          // USD und andere: über USD→EUR
+          currentPriceEUR = currentPrice * getEURRateForDate(date)
+        }
 
         if (useTransactions) {
           const txs = transactionsBySymbol.get(symbol) || []

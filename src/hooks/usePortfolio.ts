@@ -288,12 +288,28 @@ export function usePortfolio() {
       return []
     }
 
-    // EUR-Rate nur einmal laden für USD-Aktien
-    let eurRate: number | null = null
-    const hasUSDStocks = symbols.some(s => detectTickerCurrency(s) === 'USD')
-    if (hasUSDStocks) {
+    // Wechselkurse laden für nicht-EUR Aktien
+    let usdToEurRate: number | null = null
+    let gbpToEurRate: number | null = null
+    const currencies = new Set(symbols.map(s => detectTickerCurrency(s)))
+
+    if (currencies.has('USD')) {
       try {
-        eurRate = await currencyManager.getCurrentUSDtoEURRate()
+        usdToEurRate = await currencyManager.getCurrentUSDtoEURRate()
+      } catch {
+        // Fallback: ohne Konvertierung
+      }
+    }
+
+    if (currencies.has('GBP')) {
+      try {
+        const response = await fetch('/api/exchange-rate?from=GBP&to=EUR')
+        if (response.ok) {
+          const data = await response.json()
+          if (data.rate && !isNaN(data.rate) && data.rate > 0) {
+            gbpToEurRate = data.rate
+          }
+        }
       } catch {
         // Fallback: ohne Konvertierung
       }
@@ -305,9 +321,20 @@ export function usePortfolio() {
 
       // EUR-Aktien (z.B. .DE, .PA): API liefert bereits EUR → keine Konvertierung
       // USD-Aktien: API liefert USD → muss in EUR konvertiert werden
-      const currentPriceEUR = tickerCurrency === 'EUR' || !eurRate
-        ? apiPrice
-        : apiPrice * eurRate
+      // GBP-Aktien (.L): FMP liefert in GBX (Pence) → ÷100 für GBP → ×Rate für EUR
+      let currentPriceEUR: number
+      if (tickerCurrency === 'EUR') {
+        currentPriceEUR = apiPrice
+      } else if (tickerCurrency === 'GBP' && gbpToEurRate) {
+        // .L Ticker: FMP liefert GBX (Pence), nicht GBP!
+        // 1 GBP = 100 GBX → erst durch 100 teilen, dann in EUR konvertieren
+        currentPriceEUR = (apiPrice / 100) * gbpToEurRate
+      } else if (tickerCurrency === 'USD' && usdToEurRate) {
+        currentPriceEUR = apiPrice * usdToEurRate
+      } else {
+        // Fallback: Preis unkonvertiert verwenden
+        currentPriceEUR = apiPrice
+      }
 
       const purchasePrice = h.purchase_price || 0
       const quantity = h.quantity || 0

@@ -26,15 +26,27 @@ interface FXResponse {
 const exchangeRateCache = new Map<string, { rate: number; timestamp: number }>()
 const CACHE_DURATION = 10 * 60 * 1000 // 10 Minuten
 
+// Unterstützte Währungspaare und ihre FMP-Symbole
+const FX_PAIRS: Record<string, { fmpSymbol: string; invert: boolean }> = {
+  'USD_EUR': { fmpSymbol: 'EURUSD', invert: true },   // EURUSD = 1.08 → USD→EUR = 1/1.08
+  'EUR_USD': { fmpSymbol: 'EURUSD', invert: false },   // EURUSD = 1.08 → EUR→USD = 1.08
+  'GBP_EUR': { fmpSymbol: 'GBPEUR', invert: false },   // GBPEUR direkt
+  'EUR_GBP': { fmpSymbol: 'GBPEUR', invert: true },    // GBPEUR → EUR→GBP = 1/rate
+}
+
 export async function getExchangeRate(fromCurrency: string, toCurrency: string): Promise<number | null> {
-  // Only support USD<->EUR for now, as that's what's needed
-  if (!((fromCurrency === 'USD' && toCurrency === 'EUR') || (fromCurrency === 'EUR' && toCurrency === 'USD'))) {
+  if (fromCurrency === toCurrency) return 1
+
+  const pairKey = `${fromCurrency}_${toCurrency}`
+  const pairConfig = FX_PAIRS[pairKey]
+
+  if (!pairConfig) {
     console.warn(`Unsupported currency pair: ${fromCurrency}->${toCurrency}`)
     return null
   }
-  
-  const cacheKey = `${fromCurrency}${toCurrency}`
-  
+
+  const cacheKey = pairKey
+
   // Check cache first
   const cached = exchangeRateCache.get(cacheKey)
   if (cached && Date.now() - cached.timestamp < CACHE_DURATION) {
@@ -46,65 +58,72 @@ export async function getExchangeRate(fromCurrency: string, toCurrency: string):
       console.warn('FMP_API_KEY not available for exchange rate')
       return null
     }
-    
-    console.log(`Fetching exchange rate USD<->EUR`)
-    
-    // Try different FMP endpoints for exchange rate
+
+    // Try FMP quote endpoint
     let response = await fetch(
-      `https://financialmodelingprep.com/api/v3/quote/EURUSD?apikey=${FMP_API_KEY}`
+      `https://financialmodelingprep.com/api/v3/quote/${pairConfig.fmpSymbol}?apikey=${FMP_API_KEY}`
     )
-    
-    // If that fails, try the forex endpoint
+
+    // Fallback: fx endpoint
     if (!response.ok) {
       response = await fetch(
-        `https://financialmodelingprep.com/api/v3/fx/EURUSD?apikey=${FMP_API_KEY}`
+        `https://financialmodelingprep.com/api/v3/fx/${pairConfig.fmpSymbol}?apikey=${FMP_API_KEY}`
       )
     }
-    
+
     if (!response.ok) {
+      // Für GBP→EUR: Fallback über USD-Kreuzrate (GBPUSD / EURUSD)
+      if (fromCurrency === 'GBP' && toCurrency === 'EUR') {
+        const gbpUsd = await fetchFMPRate('GBPUSD')
+        const eurUsd = await fetchFMPRate('EURUSD')
+        if (gbpUsd && eurUsd) {
+          const rate = gbpUsd / eurUsd
+          exchangeRateCache.set(cacheKey, { rate, timestamp: Date.now() })
+          return rate
+        }
+      }
       console.warn(`FMP Exchange Rate API error: ${response.status}`)
       return null
     }
-    
+
     const data = await response.json()
-    console.log('FMP Exchange Rate API response:', JSON.stringify(data, null, 2))
-    
-    // Handle different response formats
-    let eurUsdRate: number
-    
-    if (Array.isArray(data) && data.length > 0) {
-      // Quote endpoint format: [{ symbol, price, ... }]
-      if (data[0].price) {
-        eurUsdRate = data[0].price
-        console.log(`✅ Got exchange rate from quote endpoint: ${eurUsdRate}`)
-      } else {
-        console.warn('No exchange rate data from quote endpoint')
-        return null
-      }
-    } else {
-      console.warn('No exchange rate data returned from FMP API, data structure:', JSON.stringify(data))
+
+    let fxRate: number | null = null
+    if (Array.isArray(data) && data.length > 0 && data[0].price) {
+      fxRate = data[0].price
+    }
+
+    if (!fxRate) {
+      console.warn('No exchange rate data from FMP')
       return null
     }
-    
-    let rate: number
-    if (fromCurrency === 'USD' && toCurrency === 'EUR') {
-      // USD->EUR: EURUSD gives us EUR/USD (e.g., 1.17), so we need to invert it to get USD/EUR
-      // If 1 EUR = 1.17 USD, then 1 USD = 1/1.17 = 0.855 EUR
-      rate = 1 / eurUsdRate
-    } else {
-      // EUR->USD: use EURUSD rate directly (1 EUR = eurUsdRate USD)
-      rate = eurUsdRate
-    }
-    
-    console.log(`Exchange rate ${fromCurrency}->${toCurrency}: ${rate}`)
-    
+
+    const rate = pairConfig.invert ? (1 / fxRate) : fxRate
+
     // Cache the result
     exchangeRateCache.set(cacheKey, { rate, timestamp: Date.now() })
-    
+
     return rate
-    
+
   } catch (error) {
     console.warn('Error fetching exchange rate:', error)
+    return null
+  }
+}
+
+// Helper: Einzelnen FMP FX-Kurs laden
+async function fetchFMPRate(symbol: string): Promise<number | null> {
+  try {
+    const response = await fetch(
+      `https://financialmodelingprep.com/api/v3/quote/${symbol}?apikey=${FMP_API_KEY}`
+    )
+    if (!response.ok) return null
+    const data = await response.json()
+    if (Array.isArray(data) && data.length > 0 && data[0].price) {
+      return data[0].price
+    }
+    return null
+  } catch {
     return null
   }
 }

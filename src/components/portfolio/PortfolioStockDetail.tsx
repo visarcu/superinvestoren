@@ -52,6 +52,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   const [history, setHistory] = useState<{ date: string; close: number }[]>([])
   const [markers, setMarkers] = useState<PurchaseMarker[]>([])
   const [eurRate, setEurRate] = useState<number | null>(null)
+  const [gbpEurRate, setGbpEurRate] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
   const [allTransactions, setAllTransactions] = useState<FullTransaction[]>([])
   const [performance, setPerformance] = useState<SymbolPerformance | null>(null)
@@ -61,6 +62,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
   const tickerCurrency = useMemo(() => detectTickerCurrency(ticker), [ticker])
   const isEURStock = tickerCurrency === 'EUR'
+  const isGBXStock = tickerCurrency === 'GBP' // .L Ticker → FMP liefert GBX (Pence)
 
   // Allokation berechnen
   const allocation = useMemo(() => {
@@ -79,10 +81,15 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
       setLoading(true)
 
       try {
-        // Historische Kurse + EUR-Rate parallel laden
-        const [histRes, eurRateResult] = await Promise.all([
+        // Historische Kurse + Wechselkurse parallel laden
+        const [histRes, eurRateResult, gbpEurRateResult] = await Promise.all([
           fetch(`/api/historical/${ticker}`),
           isEURStock ? Promise.resolve(null) : getEURRate().catch(() => null),
+          isGBXStock ? fetch('/api/exchange-rate?from=GBP&to=EUR')
+            .then(r => r.ok ? r.json() : null)
+            .then(d => d?.rate || null)
+            .catch(() => null)
+          : Promise.resolve(null),
         ])
 
         if (cancelled) return
@@ -101,10 +108,23 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
         if (eurRateResult) {
           setEurRate(eurRateResult)
         }
+        if (gbpEurRateResult) {
+          setGbpEurRate(gbpEurRateResult)
+        }
 
         // Aktuellen EUR-Preis berechnen
         const latestPrice = historyData.length > 0 ? historyData[historyData.length - 1].close : 0
-        const currentPriceEUR = isEURStock ? latestPrice : (eurRateResult ? latestPrice * eurRateResult : latestPrice)
+        let currentPriceEUR: number
+        if (isEURStock) {
+          currentPriceEUR = latestPrice
+        } else if (isGBXStock && gbpEurRateResult) {
+          // .L Ticker: FMP liefert GBX (Pence) → ÷100 = GBP → ×Rate = EUR
+          currentPriceEUR = (latestPrice / 100) * gbpEurRateResult
+        } else if (eurRateResult) {
+          currentPriceEUR = latestPrice * eurRateResult
+        } else {
+          currentPriceEUR = latestPrice
+        }
 
         // Transaktionen laden je nach Modus
         const isAll = portfolioId === 'all' || !portfolioId
@@ -270,9 +290,10 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     if (!history.length) return null
     const latestPrice = history[history.length - 1].close
     if (isEURStock) return latestPrice
+    if (isGBXStock && gbpEurRate) return (latestPrice / 100) * gbpEurRate
     if (!eurRate) return null
     return latestPrice * eurRate
-  }, [history, eurRate, isEURStock])
+  }, [history, eurRate, gbpEurRate, isEURStock, isGBXStock])
 
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 })

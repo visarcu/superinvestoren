@@ -25,8 +25,8 @@ async function getHistoricalExchangeRate(date: string): Promise<number | null> {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const from = searchParams.get('from') || 'USD'
-  const to = searchParams.get('to') || 'EUR'
+  const from = (searchParams.get('from') || 'USD').toUpperCase()
+  const to = (searchParams.get('to') || 'EUR').toUpperCase()
   const date = searchParams.get('date')
 
   try {
