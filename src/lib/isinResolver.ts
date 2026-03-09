@@ -1,5 +1,5 @@
-// src/lib/isinResolver.ts — ISIN → Ticker Symbol Auflösung
-// Nutzt statische Daten aus etfs.ts + OpenFIGI API + FMP API für unbekannte ISINs
+// src/lib/isinResolver.ts — ISIN → Ticker Symbol Auflösung (Client-seitig)
+// Nutzt nur leichtgewichtige ETF-Daten. CUSIP-Matching läuft server-seitig.
 
 import { etfs } from '@/data/etfs'
 
@@ -7,51 +7,37 @@ export interface ResolvedISIN {
   isin: string
   symbol: string
   name: string
-  source: 'etf_static' | 'openfigi' | 'fmp_api' | 'manual'
+  source: 'etf_static' | 'cusip_local' | 'openfigi' | 'fmp_api' | 'manual'
 }
 
-/**
- * Statische ISIN → Symbol Map aus etfs.ts aufbauen.
- * Wird beim ersten Aufruf einmalig erstellt.
- */
-let _staticMap: Map<string, { symbol: string; name: string }> | null = null
+let _etfMap: Map<string, { symbol: string; name: string }> | null = null
 
-function getStaticISINMap(): Map<string, { symbol: string; name: string }> {
-  if (_staticMap) return _staticMap
-
-  _staticMap = new Map()
+function getETFISINMap(): Map<string, { symbol: string; name: string }> {
+  if (_etfMap) return _etfMap
+  _etfMap = new Map()
   for (const etf of etfs) {
     if (etf.isin) {
-      _staticMap.set(etf.isin.toUpperCase(), {
-        symbol: etf.symbol,
-        name: etf.name,
-      })
+      _etfMap.set(etf.isin.toUpperCase(), { symbol: etf.symbol, name: etf.name })
     }
   }
-  return _staticMap
+  return _etfMap
 }
 
 /**
- * ISIN lokal auflösen (nur aus etfs.ts).
- * Schnell, kein API-Call nötig.
+ * ISIN lokal auflösen (nur ETFs aus etfs.ts).
+ * Leichtgewichtig, für Client-Side geeignet.
  */
 export function resolveISINLocally(isin: string): ResolvedISIN | null {
-  const map = getStaticISINMap()
-  const entry = map.get(isin.toUpperCase())
+  const etfMap = getETFISINMap()
+  const entry = etfMap.get(isin.toUpperCase())
   if (entry) {
-    return {
-      isin,
-      symbol: entry.symbol,
-      name: entry.name,
-      source: 'etf_static',
-    }
+    return { isin, symbol: entry.symbol, name: entry.name, source: 'etf_static' }
   }
   return null
 }
 
 /**
  * Mehrere ISINs lokal auflösen.
- * Gibt Map von aufgelösten und Liste von unaufgelösten ISINs zurück.
  */
 export function resolveISINsLocally(isins: string[]): {
   resolved: Map<string, ResolvedISIN>
