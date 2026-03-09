@@ -1,5 +1,5 @@
 // src/lib/isinResolver.ts — ISIN → Ticker Symbol Auflösung
-// Nutzt statische Daten aus etfs.ts + FMP API für unbekannte ISINs
+// Nutzt statische Daten aus etfs.ts + OpenFIGI API + FMP API für unbekannte ISINs
 
 import { etfs } from '@/data/etfs'
 
@@ -7,7 +7,7 @@ export interface ResolvedISIN {
   isin: string
   symbol: string
   name: string
-  source: 'etf_static' | 'fmp_api' | 'manual'
+  source: 'etf_static' | 'openfigi' | 'fmp_api' | 'manual'
 }
 
 /**
