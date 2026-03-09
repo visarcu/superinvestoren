@@ -1,9 +1,52 @@
 // /api/portfolio/resolve-isins/route.ts
-// ISIN → Ticker Symbol Auflösung über OpenFIGI API (primär) + FMP API (Fallback)
+// ISIN → Ticker: 1) CUSIP lokal, 2) OpenFIGI API, 3) FMP API Fallback
 
 import { NextResponse } from 'next/server'
+import { stocks } from '@/data/stocks'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
+
+// === CUSIP-Map aus stocks (server-seitig, wird nur einmal erstellt) ===
+let _cusipMap: Map<string, { ticker: string; name: string }> | null = null
+
+function getCUSIPMap(): Map<string, { ticker: string; name: string }> {
+  if (_cusipMap) return _cusipMap
+  _cusipMap = new Map()
+  for (const stock of stocks) {
+    if (stock.cusip) {
+      _cusipMap.set(stock.cusip.toUpperCase(), { ticker: stock.ticker, name: stock.name })
+    }
+  }
+  return _cusipMap
+}
+
+/**
+ * ISINs lokal via CUSIP auflösen (server-seitig).
+ * ISIN = Ländercode(2) + NSIN/CUSIP(9) + Prüfziffer(1)
+ */
+function resolveViaCUSIP(
+  isins: string[]
+): { resolved: Record<string, { symbol: string; name: string }>; unresolved: string[] } {
+  const cusipMap = getCUSIPMap()
+  const resolved: Record<string, { symbol: string; name: string }> = {}
+  const unresolved: string[] = []
+
+  for (const isin of isins) {
+    if (isin.length !== 12) {
+      unresolved.push(isin)
+      continue
+    }
+    const cusip = isin.substring(2, 11).toUpperCase()
+    const match = cusipMap.get(cusip)
+    if (match) {
+      resolved[isin] = { symbol: match.ticker, name: match.name }
+    } else {
+      unresolved.push(isin)
+    }
+  }
+
+  return { resolved, unresolved }
+}
 
 // OpenFIGI exchCode → FMP-kompatibler Ticker-Suffix
 const EXCHANGE_SUFFIX_MAP: Record<string, string> = {
@@ -308,17 +351,20 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'ISINs Array erforderlich' }, { status: 400 })
     }
 
-    // Maximal 200 ISINs pro Request (2x OpenFIGI Batch à 100)
+    // Maximal 200 ISINs pro Request
     const limitedISINs = isins.slice(0, 200)
 
-    // Phase 1: OpenFIGI als primärer Resolver (Batch-fähig, schnell)
-    const openFIGIResults = await resolveViaOpenFIGI(limitedISINs)
+    // Phase 1: CUSIP lokal (instant, ~9000 US-Aktien)
+    const { resolved: cusipResolved, unresolved: afterCUSIP } = resolveViaCUSIP(limitedISINs)
 
-    // Phase 2: Unaufgelöste ISINs via FMP versuchen
-    const unresolvedAfterFIGI = limitedISINs.filter(
-      isin => !openFIGIResults[isin]
-    )
+    // Phase 2: OpenFIGI für restliche ISINs (EU-ETFs, UK-Aktien etc.)
+    let openFIGIResults: Record<string, { symbol: string; name: string } | null> = {}
+    if (afterCUSIP.length > 0) {
+      openFIGIResults = await resolveViaOpenFIGI(afterCUSIP)
+    }
 
+    // Phase 3: FMP Fallback für Rest
+    const unresolvedAfterFIGI = afterCUSIP.filter(isin => !openFIGIResults[isin])
     let fmpResults: Record<string, { symbol: string; name: string } | null> = {}
     if (unresolvedAfterFIGI.length > 0 && FMP_API_KEY) {
       const fmpBatch = unresolvedAfterFIGI.slice(0, 20)
@@ -329,7 +375,9 @@ export async function POST(request: Request) {
     const results: Record<string, { symbol: string; name: string; source: string } | null> = {}
 
     for (const isin of limitedISINs) {
-      if (openFIGIResults[isin]) {
+      if (cusipResolved[isin]) {
+        results[isin] = { ...cusipResolved[isin], source: 'cusip_local' }
+      } else if (openFIGIResults[isin]) {
         results[isin] = { ...openFIGIResults[isin]!, source: 'openfigi' }
       } else if (fmpResults[isin]) {
         results[isin] = { ...fmpResults[isin]!, source: 'fmp_api' }
@@ -339,6 +387,7 @@ export async function POST(request: Request) {
     }
 
     const resolvedCount = Object.values(results).filter(r => r !== null).length
+    const cusipCount = Object.values(results).filter(r => r?.source === 'cusip_local').length
     const openfigiCount = Object.values(results).filter(r => r?.source === 'openfigi').length
     const fmpCount = Object.values(results).filter(r => r?.source === 'fmp_api').length
 
@@ -348,7 +397,7 @@ export async function POST(request: Request) {
         total: limitedISINs.length,
         resolved: resolvedCount,
         unresolved: limitedISINs.length - resolvedCount,
-        bySource: { openfigi: openfigiCount, fmp_api: fmpCount },
+        bySource: { cusip_local: cusipCount, openfigi: openfigiCount, fmp_api: fmpCount },
       },
     })
   } catch (error) {

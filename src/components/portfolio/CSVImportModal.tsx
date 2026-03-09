@@ -556,7 +556,7 @@ export default function CSVImportModal({
                           </div>
                           <div className="flex items-center gap-2">
                             <span className="font-medium text-white">{info.symbol}</span>
-                            <span className="text-[10px] text-neutral-600 px-1.5 py-0.5 bg-neutral-800 rounded">{info.source === 'etf_static' ? 'ETF' : info.source === 'openfigi' ? 'FIGI' : info.source === 'fmp_api' ? 'FMP' : 'Manuell'}</span>
+                            <span className="text-[10px] text-neutral-600 px-1.5 py-0.5 bg-neutral-800 rounded">{info.source === 'etf_static' ? 'ETF' : info.source === 'cusip_local' ? 'Lokal' : info.source === 'openfigi' ? 'FIGI' : info.source === 'fmp_api' ? 'FMP' : 'Manuell'}</span>
                           </div>
                         </div>
                       ))}
