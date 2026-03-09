@@ -21,6 +21,50 @@ export function isETF(symbol: string): boolean {
 }
 
 /**
+ * ETF anhand ISIN finden (z.B. für PDF-Import).
+ */
+export function getETFByISIN(isin: string): ETF | undefined {
+  const upper = isin.toUpperCase()
+  return etfs.find(e => e.isin?.toUpperCase() === upper)
+}
+
+/**
+ * Gibt den Display-Namen für ein Symbol zurück.
+ * Bei ETFs: vollständiger Name (z.B. "Vanguard FTSE All-World")
+ * Bei Aktien: null (dann FMP-Name verwenden)
+ */
+export function getETFDisplayName(symbol: string): string | null {
+  const etf = getETFBySymbol(symbol)
+  if (!etf) return null
+  return etf.name
+}
+
+/**
+ * ETFs durchsuchen — matcht Name, Symbol, Issuer, ISIN und Kategorie.
+ */
+export function searchETFs(query: string, limit: number = 8): ETF[] {
+  if (!query || query.length < 2) return []
+  const lower = query.toLowerCase()
+  const terms = lower.split(/\s+/)
+
+  return etfs
+    .filter(etf => {
+      const searchable = [
+        etf.symbol,
+        etf.symbol_de || '',
+        etf.name,
+        etf.issuer,
+        etf.isin || '',
+        etf.category,
+      ].join(' ').toLowerCase()
+
+      // Alle Suchbegriffe müssen matchen
+      return terms.every(term => searchable.includes(term))
+    })
+    .slice(0, limit)
+}
+
+/**
  * Jährliche TER-Kosten in EUR berechnen.
  * @param positionValue Aktueller Wert der Position in EUR
  * @param ter TER als Dezimalzahl (z.B. 0.22 für 0,22%)

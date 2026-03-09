@@ -201,6 +201,15 @@ export default function PositionsTable({
                     )
                   })()}
                 </div>
+                {(() => {
+                  const etfInfo = getETFBySymbol(holding.symbol)
+                  if (etfInfo) {
+                    return (
+                      <p className="text-xs text-violet-400/70 truncate">{etfInfo.name}</p>
+                    )
+                  }
+                  return null
+                })()}
                 <p className="text-xs text-neutral-500 truncate">
                   {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.purchase_price_display)}
                 </p>
@@ -319,6 +328,15 @@ export default function PositionsTable({
                   )
                 })()}
               </div>
+              {(() => {
+                const etfInfo = getETFBySymbol(group.symbol)
+                if (etfInfo) {
+                  return (
+                    <p className="text-xs text-violet-400/70 truncate">{etfInfo.name}</p>
+                  )
+                }
+                return null
+              })()}
               <p className="text-xs text-neutral-500 truncate">
                 {group.totalQuantity.toLocaleString('de-DE')} × {formatStockPrice(group.weightedPurchasePrice)}
                 {hasMultipleDepots && (

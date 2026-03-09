@@ -76,6 +76,15 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'VGWL.DE',
+    name: 'Vanguard FTSE All-World UCITS ETF (Dist)',
+    issuer: 'Vanguard',
+    assetClass: 'Equity',
+    category: 'Global All-World',
+    isin: 'IE00B3RBWM25',
+    ter: 0.22
+  },
+  {
+    symbol: 'V3AA.DE',
     name: 'Vanguard ESG Global All Cap UCITS ETF',
     issuer: 'Vanguard',
     assetClass: 'Equity',
@@ -121,11 +130,22 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'A1JX52',
-    name: 'Vanguard FTSE All-World UCITS ETF (Thesaurierend)',
+    symbol_de: 'VGWL.DE',
+    name: 'Vanguard FTSE All-World UCITS ETF (Dist)',
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global All-World',
     isin: 'IE00B3RBWM25',
+    ter: 0.22
+  },
+  {
+    symbol: 'A2PKXG',
+    symbol_de: 'VWCE.DE',
+    name: 'Vanguard FTSE All-World UCITS ETF (Acc)',
+    issuer: 'Vanguard',
+    assetClass: 'Equity',
+    category: 'Global All-World',
+    isin: 'IE00BK5BQT80',
     ter: 0.22
   },
   {
@@ -291,6 +311,98 @@ export const etfs: ETF[] = [
     ter: 0.65
   },
   
+  // === WEITERE BELIEBTE DEUTSCHE ETFs ===
+  {
+    symbol: 'FWRG.DE',
+    name: 'Invesco FTSE All-World UCITS ETF (Acc)',
+    issuer: 'Invesco',
+    assetClass: 'Equity',
+    category: 'Global All-World',
+    isin: 'IE000716YHJ7',
+    ter: 0.15
+  },
+  {
+    symbol: 'WEBG.DE',
+    name: 'Amundi Prime All Country World UCITS ETF (Acc)',
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Global All-World',
+    isin: 'IE0009HF1MK9',
+    ter: 0.07
+  },
+  {
+    symbol: 'XDWL.DE',
+    name: 'Xtrackers MSCI World UCITS ETF (Acc)',
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'Global Developed',
+    isin: 'IE00BJ0KDQ92',
+    ter: 0.19
+  },
+  {
+    symbol: 'SPPW.DE',
+    name: 'SPDR MSCI World UCITS ETF',
+    issuer: 'State Street',
+    assetClass: 'Equity',
+    category: 'Global Developed',
+    isin: 'IE00BFY0GT14',
+    ter: 0.12
+  },
+  {
+    symbol: 'HMWO.DE',
+    name: 'HSBC MSCI World UCITS ETF',
+    issuer: 'HSBC',
+    assetClass: 'Equity',
+    category: 'Global Developed',
+    isin: 'IE00B4X9L533',
+    ter: 0.15
+  },
+  {
+    symbol: 'VUSA.L',
+    name: 'Vanguard S&P 500 UCITS ETF (Dist)',
+    issuer: 'Vanguard',
+    assetClass: 'Equity',
+    category: 'US Large Cap',
+    isin: 'IE00B3XXRP09',
+    ter: 0.07
+  },
+  {
+    symbol: 'VWRL.L',
+    name: 'Vanguard FTSE All-World UCITS ETF (Dist)',
+    issuer: 'Vanguard',
+    assetClass: 'Equity',
+    category: 'Global All-World',
+    isin: 'IE00B3RBWM25',
+    ter: 0.22
+  },
+  {
+    symbol: 'VHYL.DE',
+    name: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF',
+    issuer: 'Vanguard',
+    assetClass: 'Equity',
+    category: 'Dividend',
+    isin: 'IE00B8GKDB10',
+    ter: 0.29
+  },
+  {
+    symbol: 'TDIV.DE',
+    name: 'iShares EURO STOXX Select Dividend 30 UCITS ETF',
+    issuer: 'iShares',
+    assetClass: 'Equity',
+    category: 'Dividend',
+    isin: 'DE0002635299',
+    ter: 0.31
+  },
+  {
+    symbol: 'XDWI.DE',
+    name: 'Xtrackers MSCI World Information Technology UCITS ETF',
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'Technology',
+    isin: 'IE00BM67HT60',
+    ter: 0.25
+  },
+
   // === TOP US ETFs ===
   {
     symbol: 'SPY',

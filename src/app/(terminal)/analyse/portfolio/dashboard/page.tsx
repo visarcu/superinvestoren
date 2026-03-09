@@ -11,6 +11,7 @@ import TransactionsList from '@/components/portfolio/TransactionsList'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
 import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
 import SoldPositions from '@/components/portfolio/SoldPositions'
+import { getETFBySymbol } from '@/lib/etfUtils'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
@@ -552,7 +553,12 @@ export default function PortfolioDashboard() {
                                 </span>
                               )}
                             </div>
-                            <p className="text-xs text-neutral-500">{pos.quantity.toLocaleString('de-DE')} St.</p>
+                            {(() => {
+                              const etfInfo = getETFBySymbol(pos.symbol)
+                              return etfInfo
+                                ? <p className="text-xs text-violet-400/70 truncate max-w-[160px]">{etfInfo.name}</p>
+                                : <p className="text-xs text-neutral-500">{pos.quantity.toLocaleString('de-DE')} St.</p>
+                            })()}
                           </div>
                         </div>
                         <div className="text-right">

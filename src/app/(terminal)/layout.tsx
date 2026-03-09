@@ -40,6 +40,7 @@ import { useExchangeRate } from '@/hooks/useExchangeRate'
 import LearnSidebar from '@/components/LearnSidebar'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
+import { searchETFs } from '@/lib/etfUtils'
 import ScoreBadge from '@/components/ScoreBadge'
 
 // ===== INTERFACES =====
@@ -597,11 +598,12 @@ const CommandPalette = React.memo(({
     
     const searchTerm = query.toUpperCase()
     if (searchTerm.length > 0) {
-      const matchingStocks = stocks.filter(stock => 
-        stock.ticker.includes(searchTerm) || 
+      // Aktien durchsuchen
+      const matchingStocks = stocks.filter(stock =>
+        stock.ticker.includes(searchTerm) ||
         stock.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 8)
-      
+      ).slice(0, 6)
+
       const stockCommands = matchingStocks.map(stock => ({
         id: `stock-${stock.ticker}`,
         title: `${stock.ticker} - ${stock.name}`,
@@ -610,8 +612,19 @@ const CommandPalette = React.memo(({
         href: `/analyse/stocks/${stock.ticker.toLowerCase()}`,
         category: 'navigation' as const
       }))
-      
-      return [...stockCommands, ...baseCommands]
+
+      // ETFs durchsuchen
+      const matchingETFs = searchETFs(query, 6)
+      const etfCommands = matchingETFs.map(etf => ({
+        id: `etf-${etf.symbol}`,
+        title: `${etf.symbol} - ${etf.name}`,
+        subtitle: `${etf.issuer} • ${etf.category}${etf.ter !== undefined ? ` • TER ${etf.ter.toFixed(2).replace('.', ',')}%` : ''}`,
+        icon: ChartBarIcon,
+        href: `/analyse/stocks/${etf.symbol.toLowerCase()}`,
+        category: 'navigation' as const
+      }))
+
+      return [...stockCommands, ...etfCommands, ...baseCommands]
     }
     
     return baseCommands
@@ -626,11 +639,12 @@ const CommandPalette = React.memo(({
 
   const groupedCommands = useMemo(() => {
     const stocks = filteredCommands.filter(cmd => cmd.id.startsWith('stock-'))
-    const navigation = filteredCommands.filter(cmd => cmd.category === 'navigation' && !cmd.id.startsWith('stock-'))
+    const etfs = filteredCommands.filter(cmd => cmd.id.startsWith('etf-'))
+    const navigation = filteredCommands.filter(cmd => cmd.category === 'navigation' && !cmd.id.startsWith('stock-') && !cmd.id.startsWith('etf-'))
     const actions = filteredCommands.filter(cmd => cmd.category === 'actions')
     const settings = filteredCommands.filter(cmd => cmd.category === 'settings')
-    
-    return { stocks, navigation, actions, settings }
+
+    return { stocks, etfs, navigation, actions, settings }
   }, [filteredCommands])
 
   useEffect(() => {
@@ -679,9 +693,10 @@ const CommandPalette = React.memo(({
             if (commands.length === 0) return null
             
             const categoryLabels = {
-              stocks: '🏢 AKTIEN',
+              stocks: 'AKTIEN',
+              etfs: 'ETFs',
               navigation: 'Navigation',
-              actions: 'Aktionen', 
+              actions: 'Aktionen',
               settings: 'Einstellungen'
             }
             
@@ -693,23 +708,29 @@ const CommandPalette = React.memo(({
                 {commands.map((command) => {
                   const Icon = command.icon
                   const isStock = command.id.startsWith('stock-')
+                  const isETF = command.id.startsWith('etf-')
+                  const isAsset = isStock || isETF
                   return (
                     <button
                       key={command.id}
                       onClick={() => handleSelect(command)}
                       className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left group ${
-                        isStock 
-                          ? 'bg-brand/5 hover:bg-brand/10' 
-                          : 'hover:bg-theme-secondary'
+                        isStock
+                          ? 'bg-brand/5 hover:bg-brand/10'
+                          : isETF
+                            ? 'bg-violet-500/5 hover:bg-violet-500/10'
+                            : 'hover:bg-theme-secondary'
                       }`}
                     >
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
                         isStock
                           ? 'bg-brand/20 group-hover:bg-brand/30'
-                          : 'bg-theme-secondary group-hover:bg-theme-tertiary'
+                          : isETF
+                            ? 'bg-violet-500/20 group-hover:bg-violet-500/30'
+                            : 'bg-theme-secondary group-hover:bg-theme-tertiary'
                       }`}>
                         <Icon className={`w-4 h-4 ${
-                          isStock ? 'text-brand-light' : 'text-theme-muted group-hover:text-brand-light'
+                          isAsset ? (isETF ? 'text-violet-400' : 'text-brand-light') : 'text-theme-muted group-hover:text-brand-light'
                         }`} />
                       </div>
                       <div className="flex-1">
