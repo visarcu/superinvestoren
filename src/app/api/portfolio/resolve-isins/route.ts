@@ -111,17 +111,21 @@ interface OpenFIGIResponse {
 }
 
 /**
- * OpenFIGI Batch-Anfrage (max 100 ISINs pro Request)
- * Kostenlos ohne API-Key: 25 Jobs / 6 Sek
- * Mit API-Key: 250 Jobs / 6 Sek
+ * OpenFIGI Batch-Anfrage
+ * Ohne API-Key: max 10 ISINs pro Request, max 5 Requests/Minute
+ * Mit API-Key: max 100 ISINs pro Request, 25 Requests/6 Sek
  */
 async function resolveViaOpenFIGI(
   isins: string[]
 ): Promise<Record<string, { symbol: string; name: string } | null>> {
   const results: Record<string, { symbol: string; name: string } | null> = {}
+  const hasApiKey = !!process.env.OPENFIGI_API_KEY
 
-  // OpenFIGI erlaubt max 100 ISINs pro Batch-Request
-  const batchSize = 100
+  // Batch-Größe je nach Auth: 10 ohne Key, 100 mit Key
+  const batchSize = hasApiKey ? 100 : 10
+  // Pause zwischen Batches: 1.5s ohne Key, 300ms mit Key
+  const batchDelay = hasApiKey ? 300 : 1500
+
   for (let i = 0; i < isins.length; i += batchSize) {
     const batch = isins.slice(i, i + batchSize)
 
@@ -146,6 +150,14 @@ async function resolveViaOpenFIGI(
       })
 
       if (!response.ok) {
+        // Bei 429 (Rate Limit): warten und retry
+        if (response.status === 429) {
+          console.error('OpenFIGI rate limit hit, waiting 15s...')
+          await new Promise(resolve => setTimeout(resolve, 15000))
+          // Retry diesen Batch
+          i -= batchSize
+          continue
+        }
         console.error(`OpenFIGI API error: ${response.status} ${response.statusText}`)
         for (const isin of batch) {
           results[isin] = null
@@ -164,7 +176,6 @@ async function resolveViaOpenFIGI(
           continue
         }
 
-        // Exchange-Priorität basierend auf ISIN-Herkunftsland
         const bestMatch = pickBestMatch(figiResponse.data, isin)
 
         if (bestMatch) {
@@ -180,9 +191,9 @@ async function resolveViaOpenFIGI(
         }
       }
 
-      // Rate Limiting: 6 Sekunden Pause nach jedem Batch (ohne API-Key)
-      if (!process.env.OPENFIGI_API_KEY && i + batchSize < isins.length) {
-        await new Promise(resolve => setTimeout(resolve, 6500))
+      // Rate Limiting zwischen Batches
+      if (i + batchSize < isins.length) {
+        await new Promise(resolve => setTimeout(resolve, batchDelay))
       }
     } catch (error) {
       console.error('OpenFIGI fetch error:', error)
