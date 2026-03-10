@@ -43,7 +43,7 @@ export async function POST(request: Request) {
     const results: FlatexParseResult[] = []
     const allErrors: string[] = []
 
-    // Dynamischer Import von pdf-parse (ES Module Kompatibilität)
+    // pdf-parse v1 ist CommonJS — require() verwenden
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     const pdfParse = require('pdf-parse')
 

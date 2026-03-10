@@ -366,15 +366,32 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
       {/* Performance Summary Cards */}
       {performance && currentPriceEUR !== null && (
         <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
-          {/* Kursgewinn (Unrealisiert) */}
+          {/* Kursgewinn — bei geschlossener Position den realisierten Kursgewinn zeigen */}
           <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-3 border border-neutral-200 dark:border-neutral-800/50">
-            <p className="text-xs text-neutral-500 mb-1">Kursgewinn</p>
-            <p className={`text-lg font-bold ${perfColor(performance.unrealizedGain)}`}>
-              {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
+            <p className="text-xs text-neutral-500 mb-1">
+              {performance.remainingQuantity === 0 ? 'Kursgewinn (realisiert)' : 'Kursgewinn'}
             </p>
-            <p className={`text-xs ${perfColor(performance.unrealizedGainPercent, 'muted')}`}>
-              {performance.unrealizedGainPercent >= 0 ? '+' : ''}{performance.unrealizedGainPercent.toFixed(1)}%
-            </p>
+            {performance.remainingQuantity === 0 ? (
+              <>
+                <p className={`text-lg font-bold ${perfColor(performance.totalRealizedGain)}`}>
+                  {performance.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.totalRealizedGain)}
+                </p>
+                {performance.totalInvested > 0 && (
+                  <p className={`text-xs ${perfColor(performance.totalRealizedGain, 'muted')}`}>
+                    {performance.totalRealizedGain >= 0 ? '+' : ''}{((performance.totalRealizedGain / performance.totalInvested) * 100).toFixed(1)}%
+                  </p>
+                )}
+              </>
+            ) : (
+              <>
+                <p className={`text-lg font-bold ${perfColor(performance.unrealizedGain)}`}>
+                  {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
+                </p>
+                <p className={`text-xs ${perfColor(performance.unrealizedGainPercent, 'muted')}`}>
+                  {performance.unrealizedGainPercent >= 0 ? '+' : ''}{performance.unrealizedGainPercent.toFixed(1)}%
+                </p>
+              </>
+            )}
           </div>
 
           {/* Realisierte Gewinne */}
@@ -405,13 +422,17 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             <p className={`text-lg font-bold ${perfColor(performance.totalReturn)}`}>
               {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
             </p>
-            {allocation !== null && (
-              <p className="text-xs text-neutral-500">{allocation.toFixed(1)}% Allokation</p>
-            )}
-            {performance.remainingQuantity > 0 && (
-              <p className="text-xs text-neutral-500">
-                {performance.remainingQuantity.toLocaleString('de-DE')} Stk. × {formatCurrency(currentPriceEUR)}
-              </p>
+            {performance.remainingQuantity === 0 ? (
+              <p className="text-xs text-neutral-500">Position geschlossen</p>
+            ) : (
+              <>
+                {allocation !== null && (
+                  <p className="text-xs text-neutral-500">{allocation.toFixed(1)}% Allokation</p>
+                )}
+                <p className="text-xs text-neutral-500">
+                  {performance.remainingQuantity.toLocaleString('de-DE')} Stk. × {formatCurrency(currentPriceEUR)}
+                </p>
+              </>
             )}
           </div>
         </div>
