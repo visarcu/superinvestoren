@@ -799,9 +799,9 @@ export default function PortfolioDashboard() {
                 <div>
                   <label className="block text-sm font-medium text-neutral-400 mb-2">Neuer Cash-Betrag (EUR)</label>
                   <div className="flex gap-2">
-                    <input type="number" min="0" step="0.01" value={newCashAmount} onChange={(e) => setNewCashAmount(e.target.value)} placeholder="0.00"
+                    <input type="number" step="0.01" value={newCashAmount} onChange={(e) => setNewCashAmount(e.target.value)} placeholder="0.00"
                       className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
-                    {p.cashPosition > 0 && (
+                    {p.cashPosition !== 0 && (
                       <button onClick={() => setNewCashAmount('0')}
                         className="px-3 py-2 text-xs text-red-400 border border-red-500/30 hover:bg-red-500/10 rounded-lg transition-colors whitespace-nowrap">
                         Auf 0

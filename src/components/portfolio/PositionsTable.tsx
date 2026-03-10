@@ -432,8 +432,8 @@ export default function PositionsTable({
           sortedHoldings.map((holding, index) => renderHoldingRow(holding, index))
         )}
 
-        {/* Cash Row */}
-        {cashPosition > 0 && (
+        {/* Cash Row — auch negative Werte anzeigen (Kredit/Margin) */}
+        {cashPosition !== 0 && (
           <div
             className="group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
             onClick={onEditCash}
@@ -445,12 +445,14 @@ export default function PositionsTable({
                   ? groupedPositions.length + 1
                   : holdings.length + 1}
               </span>
-              <div className="w-8 h-8 bg-neutral-800 rounded-full flex items-center justify-center flex-shrink-0">
-                <CurrencyDollarIcon className="w-4 h-4 text-neutral-400" />
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${cashPosition < 0 ? 'bg-red-900/30' : 'bg-neutral-800'}`}>
+                <CurrencyDollarIcon className={`w-4 h-4 ${cashPosition < 0 ? 'text-red-400' : 'text-neutral-400'}`} />
               </div>
               <div>
                 <span className="font-medium text-white text-sm">Cash</span>
-                <p className="text-xs text-neutral-500">Verfügbar</p>
+                <p className="text-xs text-neutral-500">
+                  {cashPosition < 0 ? 'Kredit/Margin' : 'Verfügbar'}
+                </p>
               </div>
             </div>
 
@@ -459,7 +461,9 @@ export default function PositionsTable({
 
             {/* Wert */}
             <div className="col-span-2 text-right">
-              <p className="font-medium text-white text-sm">{formatCurrency(cashPosition)}</p>
+              <p className={`font-medium text-sm ${cashPosition < 0 ? 'text-red-400' : 'text-white'}`}>
+                {formatCurrency(cashPosition)}
+              </p>
             </div>
 
             {/* Anteil */}
@@ -468,13 +472,15 @@ export default function PositionsTable({
                 const cashPercent = totalValue > 0 ? (cashPosition / totalValue) * 100 : 0
                 return (
                   <>
-                    <p className="text-xs text-neutral-400 font-medium">{cashPercent.toFixed(1)}%</p>
-                    <div className="mt-1 h-1 bg-neutral-800/50 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-blue-500/50 rounded-full"
-                        style={{ width: `${Math.min(cashPercent, 100)}%` }}
-                      />
-                    </div>
+                    <p className={`text-xs font-medium ${cashPercent < 0 ? 'text-red-400/70' : 'text-neutral-400'}`}>{cashPercent.toFixed(1)}%</p>
+                    {cashPercent > 0 && (
+                      <div className="mt-1 h-1 bg-neutral-800/50 rounded-full overflow-hidden">
+                        <div
+                          className="h-full bg-blue-500/50 rounded-full"
+                          style={{ width: `${Math.min(cashPercent, 100)}%` }}
+                        />
+                      </div>
+                    )}
                   </>
                 )
               })()}

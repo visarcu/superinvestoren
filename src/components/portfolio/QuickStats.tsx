@@ -95,10 +95,12 @@ export default function QuickStats({
         className={`bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50 ${onCashClick ? 'cursor-pointer hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors' : ''}`}
         onClick={onCashClick}
       >
-        <p className="text-xs text-neutral-500 mb-1">Cash {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}</p>
-        <p className="text-xl font-bold text-neutral-900 dark:text-white">{formatCurrency(cashPosition)}</p>
+        <p className="text-xs text-neutral-500 mb-1">
+          {cashPosition < 0 ? 'Kredit/Margin' : 'Cash'} {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
+        </p>
+        <p className={`text-xl font-bold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
         <p className="text-xs text-neutral-500 mt-1">
-          {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% Cash-Quote
+          {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% {cashPosition < 0 ? 'Margin-Quote' : 'Cash-Quote'}
         </p>
       </div>
 

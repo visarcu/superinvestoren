@@ -550,29 +550,31 @@ export default function CSVImportModal({
         }
       }
 
-      // Cash-Position aktualisieren
-      const cashTransactions = txToImport.filter(t =>
-        t.type === 'cash_deposit' || t.type === 'cash_withdrawal'
-      )
-      if (cashTransactions.length > 0) {
-        const netCash = cashTransactions.reduce((sum, tx) => {
-          return sum + (tx.type === 'cash_deposit' ? tx.totalValue : -tx.totalValue)
+      // Cash-Position aus ALLEN Portfolio-Transaktionen neu berechnen
+      // Berücksichtigt: Einzahlungen, Auszahlungen, Käufe, Verkäufe, Dividenden
+      // (Transfers haben keinen Cash-Impact — nur Wertpapierbewegung)
+      const { data: allPortfolioTx } = await supabase
+        .from('portfolio_transactions')
+        .select('type, total_value')
+        .eq('portfolio_id', portfolioId)
+
+      if (allPortfolioTx && allPortfolioTx.length > 0) {
+        const totalCash = allPortfolioTx.reduce((sum, tx) => {
+          const val = Number(tx.total_value) || 0
+          switch (tx.type) {
+            case 'cash_deposit':   return sum + val  // Einzahlung → Cash steigt
+            case 'cash_withdrawal': return sum - val // Auszahlung/Gebühren → Cash sinkt
+            case 'buy':            return sum - val  // Kauf → Cash sinkt (Geld in Wertpapiere)
+            case 'sell':           return sum + val  // Verkauf → Cash steigt (Geld aus Wertpapieren)
+            case 'dividend':       return sum + val  // Dividende → Cash steigt
+            default:               return sum        // transfer_in/out: kein Cash-Impact
+          }
         }, 0)
 
-        if (netCash !== 0) {
-          const { data: portfolio } = await supabase
-            .from('portfolios')
-            .select('cash_position')
-            .eq('id', portfolioId)
-            .single()
-
-          if (portfolio) {
-            await supabase
-              .from('portfolios')
-              .update({ cash_position: (portfolio.cash_position || 0) + netCash })
-              .eq('id', portfolioId)
-          }
-        }
+        await supabase
+          .from('portfolios')
+          .update({ cash_position: totalCash })
+          .eq('id', portfolioId)
       }
 
       setImportResult({
