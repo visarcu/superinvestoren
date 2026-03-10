@@ -58,12 +58,22 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'XEON.DE',
-    name: 'Xtrackers EURO STOXX 50 UCITS ETF',
+    name: 'Xtrackers II EUR Overnight Rate Swap UCITS ETF 1C',
     issuer: 'Xtrackers',
+    assetClass: 'Fixed Income',
+    category: 'Money Market',
+    isin: 'LU0290358497',
+    ter: 0.10
+  },
+  {
+    symbol: 'FWRG.DE',
+    symbol_de: 'FWIA.DE',
+    name: 'Invesco FTSE All-World UCITS ETF Acc',
+    issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe',
-    isin: 'LU0274211480',
-    ter: 0.09
+    category: 'Global',
+    isin: 'IE000716YHJ7',
+    ter: 0.15
   },
   {
     symbol: 'EQQQ.DE',
@@ -312,18 +322,10 @@ export const etfs: ETF[] = [
   },
   
   // === WEITERE BELIEBTE DEUTSCHE ETFs ===
-  {
-    symbol: 'FWRG.DE',
-    name: 'Invesco FTSE All-World UCITS ETF (Acc)',
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Global All-World',
-    isin: 'IE000716YHJ7',
-    ter: 0.15
-  },
+  // FWRG.DE / FWIA.DE (Invesco FTSE All-World) — bereits oben definiert
   {
     symbol: 'WEBG.DE',
-    name: 'Amundi Prime All Country World UCITS ETF (Acc)',
+    name: 'Amundi Prime All Country World UCITS ETF Acc',
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global All-World',
