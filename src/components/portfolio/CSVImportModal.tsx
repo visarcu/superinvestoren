@@ -1,5 +1,5 @@
 // src/components/portfolio/CSVImportModal.tsx
-// Multi-Step CSV Import Wizard für Scalable Capital Transaktionen
+// Multi-Step Import Wizard für Scalable Capital CSV & Flatex PDF
 'use client'
 
 import React, { useState, useCallback, useMemo, useRef } from 'react'
@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { parseScalableCSV, reconstructHoldings, type ParsedTransaction, type CSVParseResult } from '@/lib/scalableCSVParser'
 import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates } from '@/lib/duplicateCheck'
+import type { FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import {
   XMarkIcon,
   ArrowUpTrayIcon,
@@ -63,7 +64,11 @@ export default function CSVImportModal({
   const [checkingDuplicates, setCheckingDuplicates] = useState(false)
   const [showSkippedDetails, setShowSkippedDetails] = useState(false)
   const [showDuplicateDetails, setShowDuplicateDetails] = useState(false)
+  const [importSource, setImportSource] = useState<'csv' | 'pdf' | null>(null)
+  const [pdfParsing, setPdfParsing] = useState(false)
+  const [pdfErrors, setPdfErrors] = useState<string[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const pdfInputRef = useRef<HTMLInputElement>(null)
 
   // Reset State
   const resetState = useCallback(() => {
@@ -82,6 +87,9 @@ export default function CSVImportModal({
     setCheckingDuplicates(false)
     setShowSkippedDetails(false)
     setShowDuplicateDetails(false)
+    setImportSource(null)
+    setPdfParsing(false)
+    setPdfErrors([])
   }, [])
 
   const handleClose = useCallback(() => {
@@ -161,6 +169,159 @@ export default function CSVImportModal({
 
     // Reset file input
     if (fileInputRef.current) fileInputRef.current.value = ''
+  }, [])
+
+  // === STEP 1b: Flatex PDF Upload ===
+  const handlePDFUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
+    setImportSource('pdf')
+    setPdfParsing(true)
+    setPdfErrors([])
+    setImportError(null)
+
+    try {
+      // Auth Token holen
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) {
+        setImportError('Nicht angemeldet. Bitte neu einloggen.')
+        setPdfParsing(false)
+        return
+      }
+
+      // PDFs als FormData an API senden
+      const formData = new FormData()
+      for (let i = 0; i < files.length; i++) {
+        formData.append('files', files[i])
+      }
+
+      const response = await fetch('/api/portfolio/parse-flatex-pdf', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${session.access_token}`,
+        },
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
+        setImportError(errData.error || 'PDF-Parsing fehlgeschlagen')
+        setPdfParsing(false)
+        if (pdfInputRef.current) pdfInputRef.current.value = ''
+        return
+      }
+
+      const data = await response.json()
+
+      if (data.errors?.length > 0) {
+        setPdfErrors(data.errors)
+      }
+
+      if (data.transactions.length === 0) {
+        setImportError('Keine Transaktionen in den PDFs gefunden.')
+        setPdfParsing(false)
+        if (pdfInputRef.current) pdfInputRef.current.value = ''
+        return
+      }
+
+      // Flatex-Transaktionen in CSVParseResult konvertieren
+      const flatexTxs = data.transactions as FlatexParsedTransaction[]
+      const uniqueISINs = [...new Set(flatexTxs.map((t: FlatexParsedTransaction) => t.isin))]
+
+      const parsedTransactions: ParsedTransaction[] = flatexTxs.map((tx: FlatexParsedTransaction) => ({
+        date: tx.date,
+        type: tx.type,
+        isin: tx.isin,
+        name: tx.name,
+        quantity: tx.quantity,
+        price: tx.price,
+        totalValue: tx.totalValue,
+        fee: tx.fees || 0,
+        tax: 0,
+        notes: tx.notes,
+        originalType: `flatex_${tx.type}`,
+      }))
+
+      const byType: Record<string, number> = {}
+      parsedTransactions.forEach(t => {
+        byType[t.type] = (byType[t.type] || 0) + 1
+      })
+
+      const csvResult: CSVParseResult = {
+        transactions: parsedTransactions,
+        uniqueISINs,
+        skipped: [],
+        summary: {
+          total: files.length,
+          imported: parsedTransactions.length,
+          skipped: (data.totalFiles || files.length) - (data.parsedFiles || 0),
+          byType,
+        },
+      }
+
+      setParseResult(csvResult)
+
+      // ISIN-Auflösung starten (gleicher Flow wie CSV)
+      if (uniqueISINs.length > 0) {
+        const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
+        const newMap = new Map<string, { symbol: string; name: string; source: string }>()
+        resolved.forEach((value, key) => {
+          newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
+        })
+
+        if (unresolved.length > 0) {
+          setIsinMap(newMap)
+          setUnresolvedISINs(unresolved)
+          setStep('resolve')
+          setResolving(true)
+
+          try {
+            const resolveResp = await fetch('/api/portfolio/resolve-isins', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ isins: unresolved }),
+            })
+
+            if (resolveResp.ok) {
+              const { results } = await resolveResp.json()
+              const stillUnresolved: string[] = []
+
+              for (const isin of unresolved) {
+                if (results[isin]) {
+                  newMap.set(isin, {
+                    symbol: results[isin].symbol,
+                    name: results[isin].name,
+                    source: results[isin].source || 'openfigi',
+                  })
+                } else {
+                  stillUnresolved.push(isin)
+                }
+              }
+
+              setIsinMap(new Map(newMap))
+              setUnresolvedISINs(stillUnresolved)
+            }
+          } catch {
+            console.error('Auto ISIN resolution error for PDF import')
+          } finally {
+            setResolving(false)
+          }
+        } else {
+          setIsinMap(newMap)
+          setUnresolvedISINs([])
+          setStep('resolve')
+        }
+      } else {
+        setStep('resolve')
+      }
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      setImportError(`PDF-Upload fehlgeschlagen: ${msg}`)
+    } finally {
+      setPdfParsing(false)
+      if (pdfInputRef.current) pdfInputRef.current.value = ''
+    }
   }, [])
 
   // === STEP 2: ISIN Resolution (manueller Retry-Button) ===
@@ -440,7 +601,7 @@ export default function CSVImportModal({
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-neutral-800 flex-shrink-0">
           <div>
-            <h2 className="text-lg font-semibold text-white">CSV Import</h2>
+            <h2 className="text-lg font-semibold text-white">Transaktions-Import</h2>
             <p className="text-xs text-neutral-500 mt-0.5">
               Transaktionen in "{portfolioName}" importieren
             </p>
@@ -491,37 +652,81 @@ export default function CSVImportModal({
         <div className="flex-1 overflow-y-auto p-5">
           {/* === UPLOAD STEP === */}
           {step === 'upload' && (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 mx-auto mb-4 bg-neutral-800 rounded-2xl flex items-center justify-center">
-                <DocumentTextIcon className="w-8 h-8 text-neutral-400" />
+            <div className="py-4">
+              <h3 className="text-base font-medium text-white mb-1 text-center">Broker auswählen</h3>
+              <p className="text-sm text-neutral-500 mb-6 text-center">
+                Wähle deinen Broker und lade deine Transaktionsdaten hoch.
+              </p>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+                {/* Scalable Capital CSV */}
+                <label className="group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-emerald-500/30 rounded-xl cursor-pointer transition-all text-center">
+                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
+                    <DocumentTextIcon className="w-6 h-6 text-emerald-400" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Scalable Capital</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">CSV-Export hochladen</p>
+                  </div>
+                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.csv</span>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    accept=".csv"
+                    onChange={(e) => { setImportSource('csv'); handleFileUpload(e) }}
+                    className="hidden"
+                  />
+                </label>
+
+                {/* Flatex PDF */}
+                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-orange-500/30 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
+                  {pdfParsing && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
+                      <ArrowPathIcon className="w-6 h-6 text-orange-400 animate-spin" />
+                    </div>
+                  )}
+                  <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
+                    <svg className="w-6 h-6 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Flatex / DEGIRO</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">PDF-Abrechnungen hochladen</p>
+                  </div>
+                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.pdf · Mehrere möglich</span>
+                  <input
+                    ref={pdfInputRef}
+                    type="file"
+                    accept=".pdf"
+                    multiple
+                    onChange={handlePDFUpload}
+                    className="hidden"
+                  />
+                </label>
               </div>
-              <h3 className="text-base font-medium text-white mb-2">Scalable Capital CSV hochladen</h3>
-              <p className="text-sm text-neutral-500 mb-6 max-w-sm mx-auto">
-                Lade deinen Transaktions-Export von Scalable Capital hoch.
-                Das Format wird automatisch erkannt.
-              </p>
 
-              <label className="inline-flex items-center gap-2 px-5 py-3 bg-emerald-500 hover:bg-emerald-400 text-white rounded-xl cursor-pointer transition-colors font-medium text-sm">
-                <ArrowUpTrayIcon className="w-4 h-4" />
-                CSV-Datei auswählen
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  accept=".csv"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                />
-              </label>
-
-              <p className="text-xs text-neutral-600 mt-4">
-                Unterstützt: Scalable Capital Broker CSV-Export (Semikolon-getrennt)
-              </p>
+              {/* PDF Parse Errors */}
+              {pdfErrors.length > 0 && (
+                <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                  <p className="text-xs font-medium text-amber-400 mb-1">Hinweise beim PDF-Parsing:</p>
+                  <ul className="space-y-0.5">
+                    {pdfErrors.map((err, i) => (
+                      <li key={i} className="text-xs text-neutral-400">• {err}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
 
               {importError && (
-                <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                   <p className="text-sm text-red-400">{importError}</p>
                 </div>
               )}
+
+              <p className="text-xs text-neutral-600 mt-4 text-center">
+                Weitere Broker folgen bald. Feature-Wunsch? Schreib uns!
+              </p>
             </div>
           )}
 
@@ -530,7 +735,7 @@ export default function CSVImportModal({
             <div>
               {/* Parse Summary */}
               <div className="bg-neutral-800/30 rounded-xl p-4 mb-4">
-                <h4 className="text-sm font-medium text-white mb-2">CSV geparst</h4>
+                <h4 className="text-sm font-medium text-white mb-2">{importSource === 'pdf' ? 'PDFs geparst' : 'CSV geparst'}</h4>
                 <div className="grid grid-cols-3 gap-3 text-sm">
                   <div>
                     <p className="text-neutral-500">Transaktionen</p>

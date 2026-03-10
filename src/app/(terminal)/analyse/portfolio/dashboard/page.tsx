@@ -374,9 +374,9 @@ export default function PortfolioDashboard() {
                 <ArrowPathIcon className={`w-4 h-4 text-neutral-400 ${p.refreshing ? 'animate-spin' : ''}`} />
               </button>
               {!p.isAllDepotsView && (
-                <button onClick={() => setShowCSVImport(true)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 bg-neutral-800/60 hover:bg-neutral-700/60 border border-neutral-700/50 hover:border-neutral-600/50 rounded-lg transition-colors" title="CSV Import">
+                <button onClick={() => setShowCSVImport(true)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 bg-neutral-800/60 hover:bg-neutral-700/60 border border-neutral-700/50 hover:border-neutral-600/50 rounded-lg transition-colors" title="Import">
                   <ArrowUpTrayIcon className="w-3.5 h-3.5" />
-                  CSV Import
+                  Import
                 </button>
               )}
               <button onClick={p.exportToCSV} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors" title="Export">
