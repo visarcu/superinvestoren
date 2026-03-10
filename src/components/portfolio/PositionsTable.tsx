@@ -181,9 +181,13 @@ export default function PositionsTable({
               <Logo ticker={holding.symbol} alt={holding.symbol} className="w-8 h-8 flex-shrink-0" padding="none" />
               <div className="min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="font-medium text-white text-sm">{holding.symbol}</span>
+                  {(() => {
+                    const etfInfo = getETFBySymbol(holding.symbol)
+                    const displayName = etfInfo?.name || (holding.name && holding.name !== holding.symbol ? holding.name : holding.symbol)
+                    return <span className="font-medium text-white text-sm truncate">{displayName}</span>
+                  })()}
                   {(superInvestorCounts?.[holding.symbol]?.count ?? 0) > 0 && (
-                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full" title={`${superInvestorCounts?.[holding.symbol]?.count ?? 0} Superinvestoren halten diese Aktie`}>
+                    <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full flex-shrink-0" title={`${superInvestorCounts?.[holding.symbol]?.count ?? 0} Superinvestoren halten diese Aktie`}>
                       <UserGroupIcon className="w-2.5 h-2.5" />
                       {superInvestorCounts?.[holding.symbol]?.count}
                     </span>
@@ -193,7 +197,7 @@ export default function PositionsTable({
                     if (!etfInfo?.ter && etfInfo?.ter !== 0) return null
                     return (
                       <span
-                        className="inline-flex items-center px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] font-medium rounded-full"
+                        className="inline-flex items-center px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] font-medium rounded-full flex-shrink-0"
                         title={`TER: ${formatTER(etfInfo.ter)} — Jährl. Kosten: ${formatCurrency(calculateTERCost(holding.value, etfInfo.ter))}`}
                       >
                         TER {formatTER(etfInfo.ter)}
@@ -201,24 +205,7 @@ export default function PositionsTable({
                     )
                   })()}
                 </div>
-                {(() => {
-                  const etfInfo = getETFBySymbol(holding.symbol)
-                  if (etfInfo) {
-                    return (
-                      <p className="text-xs text-violet-400/70 truncate">{etfInfo.name}</p>
-                    )
-                  }
-                  // Für Aktien: Name aus Holding anzeigen
-                  if (holding.name && holding.name !== holding.symbol) {
-                    return (
-                      <p className="text-xs text-neutral-500 truncate">{holding.name}</p>
-                    )
-                  }
-                  return null
-                })()}
-                <p className="text-xs text-neutral-500 truncate">
-                  {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.purchase_price_display)}
-                </p>
+                <p className="text-xs text-neutral-500 truncate">{holding.symbol} · {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.purchase_price_display)}</p>
               </div>
             </>
           )}
@@ -314,9 +301,14 @@ export default function PositionsTable({
             <Logo ticker={group.symbol} alt={group.symbol} className="w-8 h-8 flex-shrink-0" padding="none" />
             <div className="min-w-0">
               <div className="flex items-center gap-2">
-                <span className="font-medium text-white text-sm">{group.symbol}</span>
+                {(() => {
+                  const etfInfo = getETFBySymbol(group.symbol)
+                  const firstName = group.holdings[0]?.name
+                  const displayName = etfInfo?.name || (firstName && firstName !== group.symbol ? firstName : group.symbol)
+                  return <span className="font-medium text-white text-sm truncate">{displayName}</span>
+                })()}
                 {(superInvestorCounts?.[group.symbol]?.count ?? 0) > 0 && (
-                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full" title={`${superInvestorCounts?.[group.symbol]?.count ?? 0} Superinvestoren halten diese Aktie`}>
+                  <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full flex-shrink-0" title={`${superInvestorCounts?.[group.symbol]?.count ?? 0} Superinvestoren halten diese Aktie`}>
                     <UserGroupIcon className="w-2.5 h-2.5" />
                     {superInvestorCounts?.[group.symbol]?.count}
                   </span>
@@ -326,7 +318,7 @@ export default function PositionsTable({
                   if (!etfInfo?.ter && etfInfo?.ter !== 0) return null
                   return (
                     <span
-                      className="inline-flex items-center px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] font-medium rounded-full"
+                      className="inline-flex items-center px-1.5 py-0.5 bg-violet-500/10 text-violet-400 text-[10px] font-medium rounded-full flex-shrink-0"
                       title={`TER: ${formatTER(etfInfo.ter)} — Jährl. Kosten: ${formatCurrency(calculateTERCost(group.totalValue, etfInfo.ter))}`}
                     >
                       TER {formatTER(etfInfo.ter)}
@@ -334,24 +326,8 @@ export default function PositionsTable({
                   )
                 })()}
               </div>
-              {(() => {
-                const etfInfo = getETFBySymbol(group.symbol)
-                if (etfInfo) {
-                  return (
-                    <p className="text-xs text-violet-400/70 truncate">{etfInfo.name}</p>
-                  )
-                }
-                // Für Aktien: Name aus erstem Holding nehmen
-                const firstName = group.holdings[0]?.name
-                if (firstName && firstName !== group.symbol) {
-                  return (
-                    <p className="text-xs text-neutral-500 truncate">{firstName}</p>
-                  )
-                }
-                return null
-              })()}
               <p className="text-xs text-neutral-500 truncate">
-                {group.totalQuantity.toLocaleString('de-DE')} × {formatStockPrice(group.weightedPurchasePrice)}
+                {group.symbol} · {group.totalQuantity.toLocaleString('de-DE')} × {formatStockPrice(group.weightedPurchasePrice)}
                 {hasMultipleDepots && (
                   <span className="text-neutral-600"> · {group.holdings.length} Depots</span>
                 )}
