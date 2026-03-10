@@ -4,6 +4,21 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { parseFlatexPDFText, type FlatexParseResult } from '@/lib/flatexPDFParser'
 
+/**
+ * pdf-parse lazy laden — umgeht Webpack's statische Analyse komplett.
+ * pdf-parse v1 hat einen Bug: wenn module.parent undefined ist (in Bundlern),
+ * versucht es eine Test-PDF zu lesen. Deshalb laden wir das interne Modul direkt.
+ */
+let _pdfParse: ((buf: Buffer) => Promise<{ text: string; numpages: number }>) | null = null
+function getPdfParse() {
+  if (!_pdfParse) {
+    // Lade pdf-parse/lib/pdf-parse.js direkt (umgeht den module.parent Bug in index.js)
+    // eslint-disable-next-line no-eval
+    _pdfParse = eval('require')('pdf-parse/lib/pdf-parse')
+  }
+  return _pdfParse!
+}
+
 // Auth check
 function getSupabaseClient() {
   return createClient(
@@ -43,10 +58,6 @@ export async function POST(request: Request) {
     const results: FlatexParseResult[] = []
     const allErrors: string[] = []
 
-    // pdf-parse v1 ist CommonJS — require() verwenden
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const pdfParse = require('pdf-parse')
-
     for (const file of files) {
       // Nur PDFs akzeptieren
       if (!file.name.toLowerCase().endsWith('.pdf') && file.type !== 'application/pdf') {
@@ -63,7 +74,7 @@ export async function POST(request: Request) {
       try {
         // PDF → Buffer → Text
         const buffer = Buffer.from(await file.arrayBuffer())
-        const pdfData = await pdfParse(buffer)
+        const pdfData = await getPdfParse()(buffer)
         const text = pdfData.text
 
         if (!text || text.trim().length < 50) {

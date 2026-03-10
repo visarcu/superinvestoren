@@ -7,7 +7,10 @@ const nextConfig = {
   reactStrictMode: true,
 
   // pdf-parse braucht native Node.js Module — nicht durch Webpack bundeln
-  serverExternalPackages: ['pdf-parse'],
+  // Next.js 13.x: experimental.serverComponentsExternalPackages (ab 14: serverExternalPackages)
+  experimental: {
+    serverComponentsExternalPackages: ['pdf-parse'],
+  },
 
   images: {
     domains: [
@@ -24,7 +27,7 @@ const nextConfig = {
     },
   ],
 
-  webpack(config) {
+  webpack(config, { isServer }) {
     // =====================================================
     // A) Alias: Verhindere, dass @supabase/realtime-js überhaupt gebündelt wird
     // =====================================================
@@ -38,6 +41,16 @@ const nextConfig = {
         resourceRegExp: /^@supabase\/realtime-js$/,
       })
     );
+
+    // =====================================================
+    // C) pdf-parse als External markieren (nicht bundeln)
+    //    pdf-parse verwendet dynamische require() für pdfjs-dist Versionen
+    //    und native Node.js Module (fs, path) die Webpack nicht verarbeiten kann
+    // =====================================================
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('pdf-parse');
+    }
 
     return config;
   },

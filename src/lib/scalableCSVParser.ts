@@ -299,6 +299,10 @@ export function reconstructHoldings(
     earliestDate: string
   }> = {}
 
+  // Gespeicherte Kostenbasis bei Depotüberträgen (Transfer-Out → Transfer-In)
+  // Damit wird der originale EK bei Depot-Umzügen beibehalten
+  const transferCostBasis: Record<string, number> = {} // symbol → avgPrice vor Transfer
+
   for (const tx of sorted) {
     const sym = tx.symbol!
     if (!positions[sym]) {
@@ -314,17 +318,36 @@ export function reconstructHoldings(
     const pos = positions[sym]
 
     switch (tx.type) {
-      case 'buy':
-      case 'transfer_in': {
+      case 'buy': {
         pos.totalCost += tx.quantity * tx.price
         pos.totalShares += tx.quantity
         if (tx.date < pos.earliestDate) pos.earliestDate = tx.date
         break
       }
-      case 'sell':
-      case 'transfer_out': {
+      case 'transfer_in': {
+        // Bei Depot-Umzügen: originale Kostenbasis beibehalten
+        // Wenn vorher ein transfer_out für das gleiche Symbol war,
+        // verwende den gespeicherten Durchschnittspreis statt dem Marktpreis
+        const costBasisPrice = transferCostBasis[sym] || tx.price
+        pos.totalCost += tx.quantity * costBasisPrice
+        pos.totalShares += tx.quantity
+        if (tx.date < pos.earliestDate) pos.earliestDate = tx.date
+        break
+      }
+      case 'sell': {
         if (pos.totalShares > 0) {
           const avgCost = pos.totalCost / pos.totalShares
+          const sellQty = Math.min(tx.quantity, pos.totalShares)
+          pos.totalCost -= sellQty * avgCost
+          pos.totalShares -= sellQty
+        }
+        break
+      }
+      case 'transfer_out': {
+        if (pos.totalShares > 0) {
+          // Durchschnittspreis VOR dem Transfer speichern
+          const avgCost = pos.totalCost / pos.totalShares
+          transferCostBasis[sym] = avgCost
           const sellQty = Math.min(tx.quantity, pos.totalShares)
           pos.totalCost -= sellQty * avgCost
           pos.totalShares -= sellQty
