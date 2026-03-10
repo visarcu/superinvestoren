@@ -99,9 +99,10 @@ export async function POST(request: Request) {
       errors: allErrors,
     })
   } catch (error) {
-    console.error('Parse Flatex PDF error:', error)
+    const msg = error instanceof Error ? error.message : String(error)
+    console.error('Parse Flatex PDF error:', msg, error)
     return NextResponse.json(
-      { error: 'Interner Fehler beim PDF-Parsing' },
+      { error: `Fehler beim PDF-Parsing: ${msg}` },
       { status: 500 }
     )
   }

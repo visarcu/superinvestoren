@@ -6,6 +6,9 @@ const webpack = require('webpack');
 const nextConfig = {
   reactStrictMode: true,
 
+  // pdf-parse braucht native Node.js Module — nicht durch Webpack bundeln
+  serverExternalPackages: ['pdf-parse'],
+
   images: {
     domains: [
       'financialmodelingprep.com',
