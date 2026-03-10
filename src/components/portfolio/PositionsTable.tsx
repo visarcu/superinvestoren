@@ -208,6 +208,12 @@ export default function PositionsTable({
                       <p className="text-xs text-violet-400/70 truncate">{etfInfo.name}</p>
                     )
                   }
+                  // Für Aktien: Name aus Holding anzeigen
+                  if (holding.name && holding.name !== holding.symbol) {
+                    return (
+                      <p className="text-xs text-neutral-500 truncate">{holding.name}</p>
+                    )
+                  }
                   return null
                 })()}
                 <p className="text-xs text-neutral-500 truncate">
@@ -333,6 +339,13 @@ export default function PositionsTable({
                 if (etfInfo) {
                   return (
                     <p className="text-xs text-violet-400/70 truncate">{etfInfo.name}</p>
+                  )
+                }
+                // Für Aktien: Name aus erstem Holding nehmen
+                const firstName = group.holdings[0]?.name
+                if (firstName && firstName !== group.symbol) {
+                  return (
+                    <p className="text-xs text-neutral-500 truncate">{firstName}</p>
                   )
                 }
                 return null
