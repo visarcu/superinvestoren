@@ -122,11 +122,11 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'XDWT.DE',
-    name: 'Xtrackers MSCI World Technology UCITS ETF',
+    name: 'Xtrackers MSCI World Information Technology UCITS ETF',
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Technology',
-    isin: 'IE00BM67HK77',
+    isin: 'IE00BM67HT60',
     ter: 0.25
   },
   {
@@ -397,11 +397,11 @@ export const etfs: ETF[] = [
   },
   {
     symbol: 'XDWI.DE',
-    name: 'Xtrackers MSCI World Information Technology UCITS ETF',
+    name: 'Xtrackers MSCI World Industrials UCITS ETF',
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology',
-    isin: 'IE00BM67HT60',
+    category: 'Industrials',
+    isin: 'IE00BM67HV82',
     ter: 0.25
   },
 
