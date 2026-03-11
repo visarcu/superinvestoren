@@ -58,27 +58,58 @@ export function getETFDisplayName(symbol: string): string | null {
 /**
  * ETFs durchsuchen — matcht Name, Symbol, Issuer, ISIN und Kategorie.
  * Durchsucht nur die statische Liste (schnell, für Autocomplete).
+ * Dedupliziert nach ISIN: XETRA-Ticker (.DE) werden bevorzugt,
+ * WKNs (A1JX52, A2PKXG) und London-Ticker (.L) sind suchbar aber
+ * erscheinen nicht als separate Ergebnisse wenn der XETRA-Ticker schon da ist.
  */
 export function searchETFs(query: string, limit: number = 8): ETF[] {
   if (!query || query.length < 2) return []
   const lower = query.toLowerCase()
   const terms = lower.split(/\s+/)
 
-  return etfs
-    .filter(etf => {
-      const searchable = [
-        etf.symbol,
-        etf.symbol_de || '',
-        etf.name,
-        etf.issuer,
-        etf.isin || '',
-        etf.category,
-      ].join(' ').toLowerCase()
+  const matches = etfs.filter(etf => {
+    const searchable = [
+      etf.symbol,
+      etf.symbol_de || '',
+      etf.name,
+      etf.issuer,
+      etf.isin || '',
+      etf.category,
+    ].join(' ').toLowerCase()
 
-      // Alle Suchbegriffe müssen matchen
-      return terms.every(term => searchable.includes(term))
-    })
-    .slice(0, limit)
+    // Alle Suchbegriffe müssen matchen
+    return terms.every(term => searchable.includes(term))
+  })
+
+  // Nach ISIN deduplizieren: .DE-Ticker bevorzugen
+  const seenISINs = new Map<string, ETF>()
+  const result: ETF[] = []
+
+  for (const etf of matches) {
+    if (!etf.isin) {
+      // Ohne ISIN: immer anzeigen
+      result.push(etf)
+      continue
+    }
+
+    const existing = seenISINs.get(etf.isin)
+    if (!existing) {
+      seenISINs.set(etf.isin, etf)
+      result.push(etf)
+    } else {
+      // Wenn der neue ein .DE-Ticker ist und der bisherige nicht → ersetzen
+      const newIsXetra = etf.symbol.endsWith('.DE')
+      const existingIsXetra = existing.symbol.endsWith('.DE')
+      if (newIsXetra && !existingIsXetra) {
+        const idx = result.indexOf(existing)
+        if (idx !== -1) result[idx] = etf
+        seenISINs.set(etf.isin, etf)
+      }
+      // Sonst: Duplikat überspringen
+    }
+  }
+
+  return result.slice(0, limit)
 }
 
 /**
