@@ -550,31 +550,43 @@ export default function CSVImportModal({
         }
       }
 
-      // Cash-Position aus ALLEN Portfolio-Transaktionen neu berechnen
-      // Berücksichtigt: Einzahlungen, Auszahlungen, Käufe, Verkäufe, Dividenden
-      // (Transfers haben keinen Cash-Impact — nur Wertpapierbewegung)
+      // Cash-Position aktualisieren
+      // Zwei Modi:
+      // A) Wenn das Portfolio Einzahlungen/Auszahlungen hat (z.B. Scalable CSV):
+      //    → Volle Neuberechnung aus ALLEN Transaktionen
+      // B) Wenn nur Trades vorliegen (z.B. Flatex PDFs ohne Deposit-Daten):
+      //    → Cash NICHT anfassen, da wir keine vollständige Transaktionshistorie haben
       const { data: allPortfolioTx } = await supabase
         .from('portfolio_transactions')
         .select('type, total_value')
         .eq('portfolio_id', portfolioId)
 
       if (allPortfolioTx && allPortfolioTx.length > 0) {
-        const totalCash = allPortfolioTx.reduce((sum, tx) => {
-          const val = Number(tx.total_value) || 0
-          switch (tx.type) {
-            case 'cash_deposit':   return sum + val  // Einzahlung → Cash steigt
-            case 'cash_withdrawal': return sum - val // Auszahlung/Gebühren → Cash sinkt
-            case 'buy':            return sum - val  // Kauf → Cash sinkt (Geld in Wertpapiere)
-            case 'sell':           return sum + val  // Verkauf → Cash steigt (Geld aus Wertpapieren)
-            case 'dividend':       return sum + val  // Dividende → Cash steigt
-            default:               return sum        // transfer_in/out: kein Cash-Impact
-          }
-        }, 0)
+        // Prüfe ob das Portfolio Einzahlungs-/Auszahlungsdaten hat
+        const hasCashFlowData = allPortfolioTx.some(
+          tx => tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
+        )
 
-        await supabase
-          .from('portfolios')
-          .update({ cash_position: totalCash })
-          .eq('id', portfolioId)
+        if (hasCashFlowData) {
+          // Vollständige Neuberechnung — Portfolio hat komplette Transaktionshistorie
+          const totalCash = allPortfolioTx.reduce((sum, tx) => {
+            const val = Number(tx.total_value) || 0
+            switch (tx.type) {
+              case 'cash_deposit':   return sum + val  // Einzahlung → Cash steigt
+              case 'cash_withdrawal': return sum - val // Auszahlung/Gebühren → Cash sinkt
+              case 'buy':            return sum - val  // Kauf → Cash sinkt
+              case 'sell':           return sum + val  // Verkauf → Cash steigt
+              case 'dividend':       return sum + val  // Dividende → Cash steigt
+              default:               return sum        // transfer_in/out: kein Cash-Impact
+            }
+          }, 0)
+
+          await supabase
+            .from('portfolios')
+            .update({ cash_position: totalCash })
+            .eq('id', portfolioId)
+        }
+        // Sonst: Cash-Position unverändert lassen (z.B. bei reinem PDF-Import)
       }
 
       setImportResult({

@@ -83,9 +83,10 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
       setLoading(true)
 
       try {
-        // Historische Kurse + Wechselkurse parallel laden
-        const [histRes, eurRateResult, gbpEurRateResult] = await Promise.all([
+        // Historische Kurse + Live-Quote + Wechselkurse parallel laden
+        const [histRes, quoteRes, eurRateResult, gbpEurRateResult] = await Promise.all([
           fetch(`/api/historical/${ticker}`),
+          fetch(`/api/quotes?symbols=${encodeURIComponent(ticker)}`).catch(() => null),
           isEURStock ? Promise.resolve(null) : getEURRate().catch(() => null),
           isGBXStock ? fetch('/api/exchange-rate?from=GBP&to=EUR')
             .then(r => r.ok ? r.json() : null)
@@ -96,6 +97,15 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
         if (cancelled) return
 
+        // Live-Quote parsen (FMP + Yahoo Fallback)
+        let livePrice: number | null = null
+        if (quoteRes && quoteRes.ok) {
+          const quotes = await quoteRes.json()
+          if (Array.isArray(quotes) && quotes.length > 0) {
+            livePrice = quotes[0].price || null
+          }
+        }
+
         // Historische Kurse
         let historyData: { date: string; close: number }[] = []
         if (histRes.ok) {
@@ -104,6 +114,20 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             .slice()
             .reverse()
             .map((h: any) => ({ date: h.date, close: h.close }))
+
+          // Wenn Live-Quote aktueller ist als der letzte historische Datenpunkt,
+          // füge ihn als heutigen Datenpunkt hinzu
+          if (livePrice && livePrice > 0 && historyData.length > 0) {
+            const today = new Date().toISOString().split('T')[0]
+            const lastDate = historyData[historyData.length - 1].date
+            if (lastDate < today) {
+              historyData.push({ date: today, close: livePrice })
+            } else if (lastDate === today) {
+              // Heutigen Datenpunkt mit Live-Preis aktualisieren
+              historyData[historyData.length - 1].close = livePrice
+            }
+          }
+
           setHistory(historyData)
         }
 
@@ -114,8 +138,10 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           setGbpEurRate(gbpEurRateResult)
         }
 
-        // Aktuellen EUR-Preis berechnen
-        const latestPrice = historyData.length > 0 ? historyData[historyData.length - 1].close : 0
+        // Aktuellen EUR-Preis berechnen — Live-Quote bevorzugen
+        const latestPrice = livePrice && livePrice > 0
+          ? livePrice
+          : (historyData.length > 0 ? historyData[historyData.length - 1].close : 0)
         let currentPriceEUR: number
         if (isEURStock) {
           currentPriceEUR = latestPrice
