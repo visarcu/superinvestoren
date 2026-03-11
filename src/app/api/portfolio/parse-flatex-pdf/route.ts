@@ -1,8 +1,10 @@
 // API Route: POST /api/portfolio/parse-flatex-pdf
-// Akzeptiert Flatex PDF-Dateien und gibt geparste Transaktionen zurück
+// Akzeptiert Broker PDF-Dateien (Flatex, Smartbroker+) und gibt geparste Transaktionen zurück
+// Auto-Erkennung des Brokers anhand des PDF-Inhalts
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { parseFlatexPDFText, type FlatexParseResult } from '@/lib/flatexPDFParser'
+import { parseFlatexPDFText, type FlatexParsedTransaction } from '@/lib/flatexPDFParser'
+import { parseSmartbrokerPDFText, type SmartbrokerParsedTransaction } from '@/lib/smartbrokerPDFParser'
 
 // Auth check
 function getSupabaseClient() {
@@ -10,6 +12,43 @@ function getSupabaseClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
+}
+
+/** Erkennt den Broker anhand des PDF-Textinhalts */
+function detectBroker(text: string): 'flatex' | 'smartbroker' | 'unknown' {
+  const lower = text.toLowerCase()
+  // Smartbroker+ / Baader Bank
+  if (lower.includes('smartbroker') || lower.includes('baader bank') || lower.includes('smartbrokerplus')) {
+    return 'smartbroker'
+  }
+  // Flatex / DEGIRO
+  if (lower.includes('flatex') || lower.includes('degiro')) {
+    return 'flatex'
+  }
+  // Fallback: Wenn es eine Wertpapierabrechnung ist, versuche es als Flatex
+  if (lower.includes('wertpapier') || lower.includes('sammelabrechnung')) {
+    return 'flatex'
+  }
+  return 'unknown'
+}
+
+/** Konvertiert SmartbrokerParsedTransaction zu FlatexParsedTransaction (gleiches Interface) */
+function smartbrokerToFlatexFormat(tx: SmartbrokerParsedTransaction): FlatexParsedTransaction {
+  return {
+    type: tx.type,
+    name: tx.name,
+    isin: tx.isin,
+    wkn: tx.wkn,
+    quantity: tx.quantity,
+    price: tx.price,
+    totalValue: tx.totalValue,
+    fees: tx.fees,
+    endAmount: tx.endAmount,
+    date: tx.date,
+    currency: tx.currency,
+    exchange: tx.exchange,
+    notes: tx.notes,
+  }
 }
 
 export async function POST(request: Request) {
@@ -40,8 +79,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Maximal 50 PDFs gleichzeitig' }, { status: 400 })
     }
 
-    const results: FlatexParseResult[] = []
+    const allTransactions: FlatexParsedTransaction[] = []
     const allErrors: string[] = []
+    let parsedCount = 0
 
     // pdf-parse v1 ist CommonJS — require() verwenden
     // eslint-disable-next-line @typescript-eslint/no-require-imports
@@ -71,35 +111,44 @@ export async function POST(request: Request) {
           continue
         }
 
-        // Prüfe ob es eine Flatex-Abrechnung ist
-        if (!text.includes('flatex') && !text.includes('DEGIRO') && !text.includes('Wertpapier')) {
-          allErrors.push(`"${file.name}" scheint keine Flatex-Abrechnung zu sein.`)
+        // Auto-Erkennung des Brokers
+        const broker = detectBroker(text)
+
+        if (broker === 'unknown') {
+          allErrors.push(`"${file.name}" konnte keinem Broker zugeordnet werden (Flatex, Smartbroker+ unterstützt).`)
           continue
         }
 
-        // Parsen
-        const result = parseFlatexPDFText(text, file.name)
-        results.push(result)
-
-        if (result.errors.length > 0) {
-          allErrors.push(...result.errors)
+        if (broker === 'smartbroker') {
+          const result = parseSmartbrokerPDFText(text, file.name)
+          if (result.errors.length > 0) {
+            allErrors.push(...result.errors)
+          }
+          // Smartbroker-Transaktionen ins gemeinsame Format konvertieren
+          allTransactions.push(...result.transactions.map(smartbrokerToFlatexFormat))
+          if (result.transactions.length > 0) parsedCount++
+        } else {
+          // Flatex
+          const result = parseFlatexPDFText(text, file.name)
+          if (result.errors.length > 0) {
+            allErrors.push(...result.errors)
+          }
+          allTransactions.push(...result.transactions)
+          if (result.transactions.length > 0) parsedCount++
         }
       } catch (err) {
         allErrors.push(`Fehler beim Lesen von "${file.name}": ${err instanceof Error ? err.message : 'Unbekannter Fehler'}`)
       }
     }
 
-    // Alle Transaktionen sammeln
-    const allTransactions = results.flatMap(r => r.transactions)
-
     return NextResponse.json({
       transactions: allTransactions,
       totalFiles: files.length,
-      parsedFiles: results.filter(r => r.transactions.length > 0).length,
+      parsedFiles: parsedCount,
       errors: allErrors,
     })
   } catch (error) {
-    console.error('Parse Flatex PDF error:', error)
+    console.error('Parse PDF error:', error)
     return NextResponse.json(
       { error: 'Interner Fehler beim PDF-Parsing' },
       { status: 500 }
