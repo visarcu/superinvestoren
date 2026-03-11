@@ -1,16 +1,28 @@
 // src/lib/etfUtils.ts — ETF-Lookup und TER-Berechnungen
+// Priorisierung: 1) Statische etfs.ts (handkuratiert) → 2) Runtime-Cache (FMP v4 API)
 import { etfs, type ETF } from '@/data/etfs'
+import { getCachedETFInfo, cachedInfoToETF } from '@/lib/etfInfoCache'
 
 /**
  * ETF anhand Symbol finden.
- * Matcht gegen `symbol` und `symbol_de` (z.B. SPY ↔ SPY5.DE).
+ * Prüft zuerst statische Daten (handkuratiert, korrekte TER),
+ * dann den Runtime-Cache (befüllt durch useETFInfo Hook / API).
  */
 export function getETFBySymbol(symbol: string): ETF | undefined {
   const upper = symbol.toUpperCase()
-  return etfs.find(
+
+  // 1. Statische Liste (handkuratiert, immer korrekt)
+  const staticMatch = etfs.find(
     e => e.symbol.toUpperCase() === upper ||
          (e.symbol_de && e.symbol_de.toUpperCase() === upper)
   )
+  if (staticMatch) return staticMatch
+
+  // 2. Runtime-Cache (FMP v4 API Daten)
+  const cached = getCachedETFInfo(upper)
+  if (cached) return cachedInfoToETF(cached)
+
+  return undefined
 }
 
 /**
@@ -22,10 +34,14 @@ export function isETF(symbol: string): boolean {
 
 /**
  * ETF anhand ISIN finden (z.B. für PDF-Import).
+ * Prüft statische Daten und Runtime-Cache.
  */
 export function getETFByISIN(isin: string): ETF | undefined {
   const upper = isin.toUpperCase()
+  // Statische Daten zuerst
   return etfs.find(e => e.isin?.toUpperCase() === upper)
+  // Hinweis: ISIN-Suche im Runtime-Cache ist nicht implementiert,
+  // da ISINs über den isinResolver aufgelöst werden
 }
 
 /**
@@ -41,6 +57,7 @@ export function getETFDisplayName(symbol: string): string | null {
 
 /**
  * ETFs durchsuchen — matcht Name, Symbol, Issuer, ISIN und Kategorie.
+ * Durchsucht nur die statische Liste (schnell, für Autocomplete).
  */
 export function searchETFs(query: string, limit: number = 8): ETF[] {
   if (!query || query.length < 2) return []

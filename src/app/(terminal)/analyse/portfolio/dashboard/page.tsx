@@ -500,12 +500,13 @@ export default function PortfolioDashboard() {
                 if (!p.isAllDepotsView) {
                   return [...p.holdings].sort((a, b) => b.value - a.value).slice(0, 5).map(h => ({
                     symbol: h.symbol,
+                    name: h.name || h.symbol,
                     quantity: h.quantity,
                     value: h.value,
                     gainLossPercent: h.gain_loss_percent,
                   }))
                 }
-                const grouped = new Map<string, { symbol: string; quantity: number; value: number; totalCost: number }>()
+                const grouped = new Map<string, { symbol: string; name: string; quantity: number; value: number; totalCost: number }>()
                 p.holdings.forEach(h => {
                   const existing = grouped.get(h.symbol)
                   if (existing) {
@@ -513,11 +514,11 @@ export default function PortfolioDashboard() {
                     existing.value += h.value
                     existing.totalCost += h.purchase_price_display * h.quantity
                   } else {
-                    grouped.set(h.symbol, { symbol: h.symbol, quantity: h.quantity, value: h.value, totalCost: h.purchase_price_display * h.quantity })
+                    grouped.set(h.symbol, { symbol: h.symbol, name: h.name || h.symbol, quantity: h.quantity, value: h.value, totalCost: h.purchase_price_display * h.quantity })
                   }
                 })
                 return Array.from(grouped.values())
-                  .map(g => ({ symbol: g.symbol, quantity: g.quantity, value: g.value, gainLossPercent: g.totalCost > 0 ? ((g.value - g.totalCost) / g.totalCost) * 100 : 0 }))
+                  .map(g => ({ symbol: g.symbol, name: g.name, quantity: g.quantity, value: g.value, gainLossPercent: g.totalCost > 0 ? ((g.value - g.totalCost) / g.totalCost) * 100 : 0 }))
                   .sort((a, b) => b.value - a.value)
                   .slice(0, 5)
               })()
@@ -543,22 +544,21 @@ export default function PortfolioDashboard() {
                       >
                         <div className="flex items-center gap-3">
                           <Logo ticker={pos.symbol} alt={pos.symbol} className="w-7 h-7" padding="none" />
-                          <div>
+                          <div className="min-w-0">
                             <div className="flex items-center gap-1.5">
-                              <span className="font-medium text-white text-sm">{pos.symbol}</span>
+                              {(() => {
+                                const etfInfo = getETFBySymbol(pos.symbol)
+                                const displayName = etfInfo?.name || (pos.name && pos.name !== pos.symbol ? pos.name : pos.symbol)
+                                return <span className="font-medium text-white text-sm truncate">{displayName}</span>
+                              })()}
                               {superInvestorCounts[pos.symbol]?.count > 0 && (
-                                <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full">
+                                <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full flex-shrink-0">
                                   <UserGroupIcon className="w-2.5 h-2.5" />
                                   {superInvestorCounts[pos.symbol].count}
                                 </span>
                               )}
                             </div>
-                            {(() => {
-                              const etfInfo = getETFBySymbol(pos.symbol)
-                              return etfInfo
-                                ? <p className="text-xs text-violet-400/70 truncate max-w-[160px]">{etfInfo.name}</p>
-                                : <p className="text-xs text-neutral-500">{pos.quantity.toLocaleString('de-DE')} St.</p>
-                            })()}
+                            <p className="text-xs text-neutral-500 truncate">{pos.symbol} · {pos.quantity.toLocaleString('de-DE')} St.</p>
                           </div>
                         </div>
                         <div className="text-right">

@@ -15,6 +15,7 @@ import type { PurchaseMarker } from '@/components/WorkingStockChart'
 import Logo from '@/components/Logo'
 import { ArrowLeftIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { getETFBySymbol, calculateTERSavings, calculateTERCost, formatTER } from '@/lib/etfUtils'
+import { useETFInfo } from '@/hooks/useETFInfo'
 
 interface FullTransaction {
   id: string
@@ -70,8 +71,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     return (performance.currentValue / totalValueParam) * 100
   }, [totalValueParam, performance])
 
-  // ETF-Erkennung + TER
-  const etfInfo = useMemo(() => getETFBySymbol(ticker), [ticker])
+  // ETF-Info: Hook lädt Daten für unbekannte ETFs, danach findet getETFBySymbol sie im Cache
+  const { loading: etfLoading, fetchedCount } = useETFInfo([ticker])
+  const etfInfo = useMemo(() => getETFBySymbol(ticker), [ticker, fetchedCount])
 
   // Daten laden
   useEffect(() => {
