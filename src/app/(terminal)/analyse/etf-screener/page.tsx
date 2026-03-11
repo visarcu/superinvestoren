@@ -34,7 +34,6 @@ interface FilterState {
   search: string
   priceRange: [number, number]
   category: string
-  exchange: string
 }
 
 interface AdvancedFilters {
@@ -59,7 +58,6 @@ export default function ETFScreenerPage() {
     search: '',
     priceRange: [0, 1000],
     category: '',
-    exchange: ''
   })
   const [advancedFilters, setAdvancedFilters] = useState<AdvancedFilters>({
     minVolume: 0,
@@ -123,8 +121,6 @@ export default function ETFScreenerPage() {
       const matchesAssetClass = !filters.assetClass || etf.assetClass === filters.assetClass
       const matchesIssuer = !filters.issuer || etf.issuer === filters.issuer
       const matchesCategory = !filters.category || etf.category === filters.category
-      const matchesExchange = !filters.exchange || etf.exchange === filters.exchange
-      
       // Use TER from static data
       const matchesTER = !etf.ter || (etf.ter >= filters.terRange[0] && etf.ter <= filters.terRange[1])
       
@@ -138,8 +134,8 @@ export default function ETFScreenerPage() {
       const matchesVolume = !quote?.volume || (quote.volume >= advancedFilters.minVolume && quote.volume <= advancedFilters.maxVolume)
       const matchesMarketCap = !quote?.marketCap || (quote.marketCap >= advancedFilters.minMarketCap && quote.marketCap <= advancedFilters.maxMarketCap)
       
-      return matchesSearch && matchesAssetClass && matchesIssuer && matchesCategory && 
-             matchesExchange && matchesTER && matchesPrice && matchesHasPrice && 
+      return matchesSearch && matchesAssetClass && matchesIssuer && matchesCategory &&
+             matchesTER && matchesPrice && matchesHasPrice &&
              matchesHasTER && matchesVolume && matchesMarketCap
     })
   }, [filters, advancedFilters, etfQuotes])
@@ -236,7 +232,7 @@ export default function ETFScreenerPage() {
   const uniqueAssetClasses = [...new Set(currentETFList.map(etf => etf.assetClass))].sort()
   const uniqueIssuers = [...new Set(currentETFList.map(etf => etf.issuer))].sort()
   const uniqueCategories = [...new Set(currentETFList.map(etf => etf.category))].sort()
-  const uniqueExchanges = [...new Set(currentETFList.map(etf => etf.exchange))].filter(Boolean).sort()
+
 
   return (
     <>
@@ -431,21 +427,6 @@ export default function ETFScreenerPage() {
                       className="w-full px-2 py-1 bg-black/20 dark:bg-white/5 border border-theme/30 rounded text-sm text-theme-primary focus:outline-none focus:ring-1 focus:ring-brand/30"
                     />
                   </div>
-                </div>
-
-                {/* Exchange Filter */}
-                <div>
-                  <label className="block text-sm font-medium text-theme-secondary mb-2">Börse</label>
-                  <select
-                    value={filters.exchange}
-                    onChange={(e) => setFilters(prev => ({ ...prev, exchange: e.target.value }))}
-                    className="w-full px-3 py-2 bg-black/20 dark:bg-white/5 border border-theme/30 rounded-lg text-theme-primary focus:outline-none focus:ring-2 focus:ring-brand/30"
-                  >
-                    <option value="">Alle</option>
-                    {uniqueExchanges.map(ex => (
-                      <option key={ex} value={ex}>{ex}</option>
-                    ))}
-                  </select>
                 </div>
 
                 {/* Data Quality Filters */}
@@ -644,7 +625,7 @@ export default function ETFScreenerPage() {
         </div>
 
         {/* Clear Filters */}
-        {(filters.search || filters.assetClass || filters.issuer || filters.category || filters.exchange || 
+        {(filters.search || filters.assetClass || filters.issuer || filters.category ||
           filters.terRange[1] !== 2 || filters.priceRange[0] !== 0 || filters.priceRange[1] !== 1000 ||
           advancedFilters.hasPrice || advancedFilters.hasTER) && (
           <div className="flex justify-center">
@@ -657,7 +638,6 @@ export default function ETFScreenerPage() {
                   search: '',
                   priceRange: [0, 1000],
                   category: '',
-                  exchange: ''
                 })
                 setAdvancedFilters({
                   minVolume: 0,

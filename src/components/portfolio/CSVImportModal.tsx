@@ -1,5 +1,5 @@
 // src/components/portfolio/CSVImportModal.tsx
-// Multi-Step Import Wizard für Scalable Capital CSV & Flatex PDF
+// Multi-Step Import Wizard für Scalable Capital CSV & Broker PDFs (Flatex, Smartbroker+)
 'use client'
 
 import React, { useState, useCallback, useMemo, useRef } from 'react'
@@ -680,7 +680,7 @@ export default function CSVImportModal({
                   />
                 </label>
 
-                {/* Flatex PDF */}
+                {/* PDF Import (Flatex, Smartbroker+) */}
                 <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-orange-500/30 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
                   {pdfParsing && (
                     <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
@@ -693,10 +693,10 @@ export default function CSVImportModal({
                     </svg>
                   </div>
                   <div>
-                    <p className="font-medium text-white text-sm">Flatex / DEGIRO</p>
+                    <p className="font-medium text-white text-sm">Flatex / Smartbroker+</p>
                     <p className="text-xs text-neutral-500 mt-0.5">PDF-Abrechnungen hochladen</p>
                   </div>
-                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.pdf · Mehrere möglich</span>
+                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.pdf · Mehrere möglich · Auto-Erkennung</span>
                   <input
                     ref={pdfInputRef}
                     type="file"

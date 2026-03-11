@@ -1,37 +1,50 @@
 // src/lib/isinResolver.ts — ISIN → Ticker Symbol Auflösung (Client-seitig)
-// Nutzt nur leichtgewichtige ETF-Daten. CUSIP-Matching läuft server-seitig.
+// Nutzt etfs.ts (200 handkuratierte) + xetraETFsComplete.ts (~1.600 mit ISIN).
 
 import { etfs } from '@/data/etfs'
+import { xetraETFs } from '@/data/xetraETFsComplete'
 
 export interface ResolvedISIN {
   isin: string
   symbol: string
   name: string
-  source: 'etf_static' | 'cusip_local' | 'openfigi' | 'fmp_api' | 'manual'
+  source: 'etf_static' | 'etf_xetra' | 'cusip_local' | 'openfigi' | 'fmp_api' | 'manual'
 }
 
-let _etfMap: Map<string, { symbol: string; name: string }> | null = null
+let _isinMap: Map<string, { symbol: string; name: string; source: ResolvedISIN['source'] }> | null = null
 
-function getETFISINMap(): Map<string, { symbol: string; name: string }> {
-  if (_etfMap) return _etfMap
-  _etfMap = new Map()
+function getISINMap(): Map<string, { symbol: string; name: string; source: ResolvedISIN['source'] }> {
+  if (_isinMap) return _isinMap
+  _isinMap = new Map()
+
+  // Priorität 1: Handkuratierte etfs.ts (korrektere Daten)
   for (const etf of etfs) {
     if (etf.isin) {
-      _etfMap.set(etf.isin.toUpperCase(), { symbol: etf.symbol, name: etf.name })
+      _isinMap.set(etf.isin.toUpperCase(), { symbol: etf.symbol, name: etf.name, source: 'etf_static' })
     }
   }
-  return _etfMap
+
+  // Priorität 2: xetraETFsComplete (mehr Coverage, überschreibt NICHT Prio 1)
+  for (const etf of xetraETFs) {
+    if (etf.isin) {
+      const key = etf.isin.toUpperCase()
+      if (!_isinMap.has(key)) {
+        _isinMap.set(key, { symbol: etf.symbol, name: etf.name, source: 'etf_xetra' })
+      }
+    }
+  }
+
+  return _isinMap
 }
 
 /**
- * ISIN lokal auflösen (nur ETFs aus etfs.ts).
- * Leichtgewichtig, für Client-Side geeignet.
+ * ISIN lokal auflösen (etfs.ts + xetraETFsComplete.ts).
  */
 export function resolveISINLocally(isin: string): ResolvedISIN | null {
-  const etfMap = getETFISINMap()
-  const entry = etfMap.get(isin.toUpperCase())
+  const map = getISINMap()
+  const entry = map.get(isin.toUpperCase())
   if (entry) {
-    return { isin, symbol: entry.symbol, name: entry.name, source: 'etf_static' }
+    return { isin, symbol: entry.symbol, name: entry.name, source: entry.source }
   }
   return null
 }

@@ -1,16 +1,28 @@
 // src/lib/etfUtils.ts — ETF-Lookup und TER-Berechnungen
+// Priorisierung: 1) Statische etfs.ts (handkuratiert) → 2) Runtime-Cache (FMP v4 API)
 import { etfs, type ETF } from '@/data/etfs'
+import { getCachedETFInfo, cachedInfoToETF } from '@/lib/etfInfoCache'
 
 /**
  * ETF anhand Symbol finden.
- * Matcht gegen `symbol` und `symbol_de` (z.B. SPY ↔ SPY5.DE).
+ * Prüft zuerst statische Daten (handkuratiert, korrekte TER),
+ * dann den Runtime-Cache (befüllt durch useETFInfo Hook / API).
  */
 export function getETFBySymbol(symbol: string): ETF | undefined {
   const upper = symbol.toUpperCase()
-  return etfs.find(
+
+  // 1. Statische Liste (handkuratiert, immer korrekt)
+  const staticMatch = etfs.find(
     e => e.symbol.toUpperCase() === upper ||
          (e.symbol_de && e.symbol_de.toUpperCase() === upper)
   )
+  if (staticMatch) return staticMatch
+
+  // 2. Runtime-Cache (FMP v4 API Daten)
+  const cached = getCachedETFInfo(upper)
+  if (cached) return cachedInfoToETF(cached)
+
+  return undefined
 }
 
 /**
@@ -22,10 +34,14 @@ export function isETF(symbol: string): boolean {
 
 /**
  * ETF anhand ISIN finden (z.B. für PDF-Import).
+ * Prüft statische Daten und Runtime-Cache.
  */
 export function getETFByISIN(isin: string): ETF | undefined {
   const upper = isin.toUpperCase()
+  // Statische Daten zuerst
   return etfs.find(e => e.isin?.toUpperCase() === upper)
+  // Hinweis: ISIN-Suche im Runtime-Cache ist nicht implementiert,
+  // da ISINs über den isinResolver aufgelöst werden
 }
 
 /**
@@ -41,27 +57,59 @@ export function getETFDisplayName(symbol: string): string | null {
 
 /**
  * ETFs durchsuchen — matcht Name, Symbol, Issuer, ISIN und Kategorie.
+ * Durchsucht nur die statische Liste (schnell, für Autocomplete).
+ * Dedupliziert nach ISIN: XETRA-Ticker (.DE) werden bevorzugt,
+ * WKNs (A1JX52, A2PKXG) und London-Ticker (.L) sind suchbar aber
+ * erscheinen nicht als separate Ergebnisse wenn der XETRA-Ticker schon da ist.
  */
 export function searchETFs(query: string, limit: number = 8): ETF[] {
   if (!query || query.length < 2) return []
   const lower = query.toLowerCase()
   const terms = lower.split(/\s+/)
 
-  return etfs
-    .filter(etf => {
-      const searchable = [
-        etf.symbol,
-        etf.symbol_de || '',
-        etf.name,
-        etf.issuer,
-        etf.isin || '',
-        etf.category,
-      ].join(' ').toLowerCase()
+  const matches = etfs.filter(etf => {
+    const searchable = [
+      etf.symbol,
+      etf.symbol_de || '',
+      etf.name,
+      etf.issuer,
+      etf.isin || '',
+      etf.category,
+    ].join(' ').toLowerCase()
 
-      // Alle Suchbegriffe müssen matchen
-      return terms.every(term => searchable.includes(term))
-    })
-    .slice(0, limit)
+    // Alle Suchbegriffe müssen matchen
+    return terms.every(term => searchable.includes(term))
+  })
+
+  // Nach ISIN deduplizieren: .DE-Ticker bevorzugen
+  const seenISINs = new Map<string, ETF>()
+  const result: ETF[] = []
+
+  for (const etf of matches) {
+    if (!etf.isin) {
+      // Ohne ISIN: immer anzeigen
+      result.push(etf)
+      continue
+    }
+
+    const existing = seenISINs.get(etf.isin)
+    if (!existing) {
+      seenISINs.set(etf.isin, etf)
+      result.push(etf)
+    } else {
+      // Wenn der neue ein .DE-Ticker ist und der bisherige nicht → ersetzen
+      const newIsXetra = etf.symbol.endsWith('.DE')
+      const existingIsXetra = existing.symbol.endsWith('.DE')
+      if (newIsXetra && !existingIsXetra) {
+        const idx = result.indexOf(existing)
+        if (idx !== -1) result[idx] = etf
+        seenISINs.set(etf.isin, etf)
+      }
+      // Sonst: Duplikat überspringen
+    }
+  }
+
+  return result.slice(0, limit)
 }
 
 /**

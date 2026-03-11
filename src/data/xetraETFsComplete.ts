@@ -1,6 +1,8 @@
-// XETRA ETFs extracted from FMP API
-// Total: 1852 ETFs trading on XETRA exchange
-// Generated on 2025-09-03
+// XETRA ETFs enriched with FMP v4 etf-info data
+// Total: 1601 ETFs trading on XETRA exchange
+// Generated on 2026-03-10
+// TER coverage: 899/1601 (56.2%)
+// ISIN coverage: 899/1601 (56.2%)
 
 export interface ETF {
   symbol: string;
@@ -11,127 +13,162 @@ export interface ETF {
   category: string;
   isin?: string;
   ter?: number;
-  exchange?: string;
+  aum?: number;
+  domicile?: string;
 }
 
 export const xetraETFs: ETF[] = [
   {
     symbol: '0GZA.DE',
-    name: 'RICI Enhanced Natural Gas Excess Return Index',
-    price: 11.17,
-    issuer: 'RICI',
+    name: 'BNPP RICI Enhanced Natural Gas (ER) Index EUR Hedge ETC',
+    price: 9.91,
+    issuer: 'BNPP',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other'
   },
   {
     symbol: '0GZB.DE',
-    name: 'BNPP RICI Enhanced Kupfer',
-    price: 96.17,
-    issuer: 'BNPP',
+    name: 'RICI Enhanced Copper(ER) Index EUR Hedge ETC',
+    price: 125.26,
+    issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'DE000PZ9REC4',
+    ter: 1.2,
+    aum: 4600000,
+    domicile: 'DE'
   },
   {
     symbol: '0GZC.DE',
-    name: 'RICI Enhanced Nickel',
-    price: 57.215,
+    name: 'BNPP RICI Enhanced Nickel (ER) Index EUR Hedge ETC',
+    price: 63.58,
     issuer: 'RICI',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'DE000PZ9REN1',
+    ter: 1.2,
+    aum: 90000,
+    domicile: 'DE'
+  },
+  {
+    symbol: '0GZD.DE',
+    name: 'RICI Enhanced Industrial Metals (ER) Index EUR Hedge ETC',
+    price: 54.52,
+    issuer: 'BNP Paribas',
+    assetClass: 'Equity',
+    category: 'Industrials',
+    isin: 'DE000PZ9REM3',
+    ter: 1.2,
+    aum: 9059100,
+    domicile: 'DE'
   },
   {
     symbol: '0GZE.DE',
-    name: 'RICI Enhanced Diesel',
-    price: 48.29,
+    name: 'BNPP RICI Enhanced Gas Oil (ER) Index EUR Hedge ETC',
+    price: 59.135,
     issuer: 'RICI',
-    assetClass: 'Equity',
-    category: 'Mixed'
+    assetClass: 'Commodity',
+    category: 'Energy',
+    isin: 'DE000PZ9RED2',
+    ter: 1.2,
+    aum: 240,
+    domicile: 'DE'
   },
   {
     symbol: '0GZF.DE',
-    name: 'RICI Enhanced Benzin',
-    price: 155.29,
+    name: 'BNPP RICI Enhanced Gasoline (ER) Index EUR Hedge ETC',
+    price: 196.96,
     issuer: 'RICI',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'DE000PZ9RE14',
+    ter: 1.2,
+    aum: 20000,
+    domicile: 'DE'
   },
   {
     symbol: '0GZG.DE',
-    name: 'RICI Enhanced Heating Oil',
-    price: 63.5,
+    name: 'BNPP RICI Enhanced Heating Oil (ER) Index EUR Hedge ETC',
+    price: 81.095,
     issuer: 'RICI',
     assetClass: 'Commodity',
-    category: 'Energy'
+    category: 'Energy',
+    isin: 'DE000PZ9REH3',
+    ter: 1.2,
+    aum: 30000,
+    domicile: 'DE'
   },
   {
     symbol: '0GZH.DE',
-    name: 'RICI Enhanced Aluminum Excess Return Index',
-    price: 12.925,
+    name: 'BNPP RICI Enhanced Aluminum (ER) Index EUR Hedge ETC',
+    price: 15.105,
     issuer: 'RICI',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'DE000PZ9REA8',
+    ter: 1.2,
+    aum: 190000,
+    domicile: 'DE'
   },
   {
     symbol: '0GZI.DE',
-    name: 'RICI Enhanced Zinc Excess Return Index',
-    price: 27.016,
-    issuer: 'RICI',
+    name: 'BNPP RICI Enhanced Zinc (ER) Index EUR Hedge ETC',
+    price: 31.556,
+    issuer: 'BNPP',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other'
   },
   {
     symbol: '0GZJ.DE',
-    name: 'RICI Enhanced Tin Excess Return Index',
-    price: 85.11,
+    name: 'BNPP RICI Enhanced Tin (ER) Index EUR Hedge ETC',
+    price: 125.38,
     issuer: 'RICI',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'DE000PZ9RET8',
+    ter: 1.2,
+    aum: 110000,
+    domicile: 'DE'
   },
   {
     symbol: '0GZK.DE',
-    name: 'RICI Enhanced Lead Excess Return Index',
-    price: 34.316,
+    name: 'BNPP RICI Enhanced Lead (ER) Index EUR Hedge ETC',
+    price: 32.956,
     issuer: 'RICI',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'DE000PZ9REL5',
+    ter: 1.2,
+    aum: 1,
+    domicile: 'DE'
   },
   {
     symbol: '0GZL.DE',
-    name: 'BNPP RICI Enhanced Metals (ER) Index EUR Hedge ETC',
-    price: 56.11,
-    issuer: 'BNPP',
+    name: 'RICI Enhanced Metals (ER) Index ETC',
+    price: 75.75,
+    issuer: 'RICI',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other'
+  },
+  {
+    symbol: '0LJI.DE',
+    name: 'WisdomTree EURO STOXX Banks 3x Daily Leveraged',
+    price: 50.9,
+    issuer: 'WisdomTree',
+    assetClass: 'Equity',
+    category: 'Europe'
   },
   {
     symbol: '0NS.DE',
-    name: 'Amundi Index Solutions - Amundi Prime US Treasury Bond 0-1 Y UCITS ETF',
-    price: 25.443,
+    name: 'Amundi US Treasury Bond 0-1Y UCITS ETF SGD Hedged Acc',
+    price: 25.963,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.08
-  },
-  {
-    symbol: '0P00006DAQ.F',
-    name: 'Fidelity Funds - US High Yield Fund A-Acc-EUR',
-    price: 29.88,
-    issuer: 'Fidelity',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.27
-  },
-  {
-    symbol: '0P00015OFP.F',
-    name: 'Fidelity Global Technology A-Acc-EUR',
-    price: 53.34,
-    issuer: 'Fidelity',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.27
+    category: 'Cash & Others',
+    isin: 'LU2451511526',
+    ter: 0.08,
+    aum: 1403589874,
+    domicile: 'LU'
   },
   {
     symbol: '10AH.DE',
@@ -139,67 +176,63 @@ export const xetraETFs: ETF[] = [
     price: 80.61,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    isin: 'LU1737652237',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: '10AI.DE',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Europe UCITS ETF DR EUR',
-    price: 70.23,
+    name: 'Amundi Core MSCI Europe UCITS ETF Dist',
+    price: 76.56,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe',
-    ter: 0.12
-
+    category: 'Europe'
   },
   {
     symbol: '10AJ.DE',
-    name: 'Amundi Index Solutions - Amundi Index FTSE EPRA NAREIT Global',
-    price: 51.2,
+    name: 'Amundi FTSE EPRA NAREIT Global UCITS ETF Dist',
+    price: 54.75,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.24
   },
   {
     symbol: '10AK.DE',
-    name: 'Amundi Index Solutions - Amundi Index J.P. Morgan GBI Global Govies',
-    price: 43.826,
+    name: 'Amundi Core Global Government Bond UCITS ETF Dist',
+    price: 43.207,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: '10AK.F',
-    name: 'Amundi Index Solutions - Amundi Index J.P. Morgan GBI Global Govies',
-    price: 46.346,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
+    assetClass: 'Fixed Income',
+    category: 'Global',
+    isin: 'LU1737653631',
+    ter: 0.2,
+    aum: 4170684118,
+    domicile: 'LU'
   },
   {
     symbol: '10AL.DE',
-    name: 'Amundi Index Solutions - Amundi Index JP Morgan EMU Govies',
-    price: 42.314,
+    name: 'Amundi Core Euro Government Bond UCITS ETF Dist',
+    price: 41.974,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.09
+    assetClass: 'Fixed Income',
+    category: 'Cash & Others',
+    isin: 'LU1737653714',
+    ter: 0.09,
+    aum: 1670646782,
+    domicile: 'LU'
   },
   {
     symbol: '10AM.DE',
-    name: 'Amundi Index Solutions - Amundi Index Barclays Global AGG 500M UCITS ETF DR EUR',
-    price: 45.211,
+    name: 'Amundi Core Global Aggregate Bond UCITS ETF Dist',
+    price: 44.805,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.1
+    assetClass: 'Fixed Income',
+    category: 'Global',
+    isin: 'LU1737654019',
+    ter: 0.1,
+    aum: 2868245828,
+    domicile: 'LU'
   },
   {
     symbol: '18M0.DE',
@@ -207,29 +240,31 @@ export const xetraETFs: ETF[] = [
     price: 238.47,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    category: 'Bonds'
   },
   {
     symbol: '18M1.DE',
-    name: 'Amundi ETF Govies 0-6 Months Euro Investment Grade UCITS ETF DR',
-    price: 124.72,
+    name: 'Amundi Euro Government Bond 0-6 M UCITS ETF Acc',
+    price: 125.91,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    assetClass: 'Fixed Income',
+    category: 'Government',
+    isin: 'FR0010754200',
+    ter: 0.14,
+    aum: 836641782,
+    domicile: 'FR'
   },
   {
     symbol: '18M2.DE',
-    name: 'Amundi ETF MSCI EMU High Dividend UCITS ETF',
-    price: 174.28,
+    name: 'Amundi MSCI EMU High Dividend UCITS ETF Acc',
+    price: 191.54,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Emerging Markets',
+    isin: 'FR0010717090',
+    ter: 0.3,
+    aum: 288498453,
+    domicile: 'FR'
   },
   {
     symbol: '18M3.DE',
@@ -245,7 +280,9 @@ export const xetraETFs: ETF[] = [
     price: 174.42,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: '18M6.DE',
@@ -254,18 +291,18 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.25
   },
   {
     symbol: '18MF.DE',
-    name: 'Amundi ETF Leveraged MSCI USA Daily UCITS ETF',
-    price: 22.59,
+    name: 'Amundi MSCI USA Daily (2x) Leveraged UCITS ETF Acc',
+    price: 24.775,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.5
+    category: 'US',
+    isin: 'FR0010755611',
+    ter: 0.5,
+    aum: 911149724,
+    domicile: 'FR'
   },
   {
     symbol: '18MG.DE',
@@ -273,27 +310,31 @@ export const xetraETFs: ETF[] = [
     price: 218.85,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'China'
+    category: 'Financials',
+    isin: 'LU1681043912',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: '18MK.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI India',
-    price: 857.9,
+    name: 'Amundi MSCI India Swap II UCITS ETF EUR Acc',
+    price: 813,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.8
+    category: 'India',
+    isin: 'LU1681043086',
+    ter: 0.8,
+    aum: 228887314,
+    domicile: 'LU'
   },
   {
     symbol: '18MM.DE',
-    name: 'Amundi Index MSCI Pacific ex Japan SRI - UCITS ETF DR - EUR (C)',
-    price: 618.6,
+    name: 'Amundi MSCI Pacific Ex Japan SRI Climate Paris Aligned UCITS ETF DR - EUR (C)',
+    price: 653.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.45
   },
   {
     symbol: '18MP.DE',
@@ -301,7 +342,9 @@ export const xetraETFs: ETF[] = [
     price: 385,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    ter: undefined,
+    aum: 437767008
   },
   {
     symbol: '18MS.DE',
@@ -309,9 +352,11 @@ export const xetraETFs: ETF[] = [
     price: 6.862,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'FR0010757781',
+    ter: 0.3,
+    aum: 159102000,
+    domicile: 'FR'
   },
   {
     symbol: '18MU.DE',
@@ -319,9 +364,11 @@ export const xetraETFs: ETF[] = [
     price: 236.3,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.27
+    category: 'Financials',
+    isin: 'FR0010754127',
+    ter: 0.27,
+    aum: 120302000,
+    domicile: 'FR'
   },
   {
     symbol: '18MW.DE',
@@ -329,7 +376,7 @@ export const xetraETFs: ETF[] = [
     price: 245.79,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Bonds'
   },
   {
     symbol: '18MX.DE',
@@ -337,7 +384,11 @@ export const xetraETFs: ETF[] = [
     price: 162.215,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Financials',
+    isin: 'FR0010754135',
+    ter: undefined,
+    aum: 339464000,
+    domicile: 'FR'
   },
   {
     symbol: '18MY.DE',
@@ -345,7 +396,7 @@ export const xetraETFs: ETF[] = [
     price: 188.53,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Bonds'
   },
   {
     symbol: '18MZ.DE',
@@ -353,268 +404,243 @@ export const xetraETFs: ETF[] = [
     price: 215.59,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Financials',
+    isin: 'FR0010754176',
+    ter: undefined,
+    aum: 209032784,
+    domicile: 'FR'
   },
   {
     symbol: '2B70.DE',
-    name: 'iShares Nasdaq US Biotechnology UCITS ETF USD (Acc)',
-    price: 5.96,
-    issuer: 'iShares',
+    name: 'iShares Nasdaq US Biotechnology UCITS ETF',
+    price: 7.484,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
+    category: 'Healthcare',
+    isin: 'IE00BYXG2H39',
+    ter: 0.35,
+    aum: 766797931,
+    domicile: 'IE'
   },
   {
     symbol: '2B76.DE',
     name: 'iShares Automation & Robotics UCITS ETF',
-    price: 12.944,
+    price: 14.11,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: '2B77.DE',
     name: 'iShares Ageing Population UCITS ETF',
-    price: 7.633,
+    price: 8.197,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: '2B78.DE',
     name: 'iShares Healthcare Innovation UCITS ETF',
-    price: 6.915,
-    issuer: 'iShares',
+    price: 7.678,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Healthcare',
+    isin: 'IE00BYZK4776',
+    ter: 0.4,
+    aum: 889570464,
+    domicile: 'IE'
   },
   {
     symbol: '2B79.DE',
     name: 'iShares Digitalisation UCITS ETF',
-    price: 9.755,
-    issuer: 'iShares',
+    price: 8.518,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other',
+    isin: 'IE00BYZK4883',
+    ter: 0.4,
+    aum: 598582230,
+    domicile: 'IE'
   },
   {
     symbol: '2B7A.DE',
-    name: 'iShares V PLC - iShares S&P 500 Utilities Sector UCITS ETF',
-    price: 8.74,
-    issuer: 'iShares',
+    name: 'iShares S&P 500 Utilities Sector UCITS ETF',
+    price: 9.897,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Utilities',
+    isin: 'IE00B4KBBD01',
+    ter: 0.15,
+    aum: 997608444,
+    domicile: 'IE'
   },
   {
     symbol: '2B7B.DE',
-    name: 'iShares V PLC - iShares S&P 500 Materials Sector UCITS ETF',
-    price: 8.723,
+    name: 'iShares S&P 500 Materials Sector UCITS ETF',
+    price: 9.561,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'US',
-    ter: 0.15
-
+    category: 'US'
   },
   {
     symbol: '2B7C.DE',
-    name: 'iShares V PLC - iShares S&P 500 Industrials Sector UCITS ETF',
-    price: 10.828,
+    name: 'iShares S&P 500 Industrials Sector UCITS ETF',
+    price: 12.41,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: '2B7D.DE',
-    name: 'iShares V PLC - iShares S&P 500 Consumer Staples Sector UCITS ETF',
-    price: 8.066,
+    name: 'iShares S&P 500 Consumer Staples Sector UCITS ETF',
+    price: 8.866,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: '2B7F.DE',
     name: 'iShares Automation & Robotics UCITS ETF',
-    price: 8.663,
+    price: 9.429,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: '2B7J.DE',
     name: 'iShares MSCI World SRI UCITS ETF',
-    price: 8.559,
-    issuer: 'iShares',
+    price: 9.181,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Global',
+    isin: 'IE00BDZZTM54',
+    ter: 0.2,
+    aum: 1442603909,
+    domicile: 'IE'
   },
   {
     symbol: '2B7K.DE',
-    name: 'iShares MSCI World SRI UCITS ETF EUR (Acc)',
-    price: 11.458,
-    issuer: 'iShares',
+    name: 'iShares MSCI World SRI UCITS ETF',
+    price: 12.374,
+    issuer: 'IShares',
     assetClass: 'Equity',
     category: 'Global',
-
-
-    ter: 0.2
+    isin: 'IE00BYX2JD69',
+    ter: 0.2,
+    aum: 6186649702,
+    domicile: 'IE'
   },
   {
     symbol: '2B7S.DE',
     name: 'iShares $ Treasury Bond 1-3yr UCITS ETF',
-    price: 5.0478,
-    issuer: 'iShares',
+    price: 5.0968,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'IE00BDFK1573',
+    ter: 0.1,
+    aum: 1053723700,
+    domicile: 'IE'
   },
   {
     symbol: '36B1.DE',
-    name: 'iShares J.P. Morgan ESG $ EM Bond UCITS ETF',
-    price: 3.756,
-    issuer: 'iShares',
+    name: 'iShares JP Morgan Advanced $ EM Bond UCITS ETF',
+    price: 3.8016,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.45
+    category: 'Government',
+    isin: 'IE00BDDRDW15',
+    ter: 0.45,
+    aum: 407932876,
+    domicile: 'IE'
   },
   {
     symbol: '36B3.DE',
     name: 'iShares MSCI Europe SRI UCITS ETF',
-    price: 7.119,
+    price: 7.467,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: '36B4.DE',
     name: 'iShares MSCI Japan SRI UCITS ETF',
-    price: 5.509,
+    price: 5.883,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.2
   },
   {
     symbol: '36B5.DE',
     name: 'iShares MSCI EM SRI UCITS ETF',
-    price: 5.065,
-    issuer: 'iShares',
+    price: 5.855,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets',
+    isin: 'IE00BGDQ0T50',
+    ter: 0.25,
+    aum: 429569085,
+    domicile: 'IE'
   },
   {
     symbol: '36B6.DE',
-    name: 'iShares MSCI USA SRI UCITS ETF USD (Dist)',
-    price: 9.776,
+    name: 'iShares MSCI USA SRI UCITS ETF',
+    price: 10.358,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.2
   },
   {
     symbol: '36B7.DE',
     name: 'iShares Global Corp Bond UCITS ETF',
-    price: 4.2937,
-    issuer: 'iShares',
+    price: 4.2975,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: '36B7.F',
-    name: 'iShares Global Corp Bond UCITS ETF',
-    price: 4.2345,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'IE00BJSFQW37',
+    ter: 0.25,
+    aum: 131448868,
+    domicile: 'IE'
   },
   {
     symbol: '36BA.DE',
-    name: 'iShares $ Corp Bond ESG UCITS ETF',
-    price: 4.01,
-    issuer: 'iShares',
+    name: 'iShares $ Corp Bond ESG SRI​ UCITS ETF',
+    price: 3.9981,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.17
-  },
-  {
-    symbol: '36BA.F',
-    name: 'iShares $ Corp Bond ESG UCITS ETF',
-    price: 4.082,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Cash & Others',
+    isin: 'IE00BH4G7D40',
+    ter: 0.17,
+    aum: 1179814182,
+    domicile: 'IE'
   },
   {
     symbol: '36BB.DE',
-    name: 'iShares MSCI World Consumer Discretionary Sector UCITS ETF',
-    price: 7.511,
+    name: 'iShares MSCI World Consumer Discretionary Sector Advanced UCITS ETF',
+    price: 7.325,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: '36BB.F',
-    name: 'iShares MSCI World Consumer Discretionary Sector UCITS ETF',
-    price: 6.474,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: '36BE.DE',
-    name: 'iShares $ Corp Bond ESG UCITS ETF',
-    price: 3.7078,
-    issuer: 'iShares',
+    name: 'iShares $ Corp Bond ESG SRI​ UCITS ETF',
+    price: 3.7348,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Corporate',
+    isin: 'IE00BK4W7N32',
+    ter: 0.15,
+    aum: 341606451,
+    domicile: 'IE'
   },
   {
     symbol: '36BZ.DE',
     name: 'iShares MSCI China A UCITS ETF',
-    price: 4.6525,
+    price: 5.152,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.4
   },
   {
     symbol: '3DEL.DE',
@@ -623,146 +649,90 @@ export const xetraETFs: ETF[] = [
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.75
   },
   {
     symbol: '3DIE.DE',
-    name: 'Leverage Shares PLC E',
-    price: 0.2388,
-    issuer: 'Leverage',
+    name: 'Leverage Shares - 3x Disney',
+    price: 0.1265,
+    issuer: 'LeverageShares',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.75
+    category: 'Other',
+    isin: 'XS2335553801',
+    ter: 0.75,
+    aum: 852421,
+    domicile: 'IE'
   },
   {
     symbol: '3LV.DE',
     name: 'WisdomTree CAC 40 3x Daily Leveraged',
-    price: 51.025,
+    price: 55.575,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.75
-  },
-  {
-    symbol: '3NFE.F',
-    name: 'Leverage Shares 3x Netflix ETC',
-    price: 0.134,
-    issuer: 'Leverage',
-    assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'XS2637077020',
+    ter: 0.75,
+    aum: 971000,
+    domicile: 'IE'
   },
   {
     symbol: '3SUD.DE',
     name: 'iShares J.P. Morgan $ EM Bond UCITS ETF',
-    price: 5.0354,
-    issuer: 'iShares',
+    price: 5.2722,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.5
-  },
-  {
-    symbol: '3SUD.F',
-    name: 'iShares J.P. Morgan $ EM Bond UCITS ETF',
-    price: 4.3144,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.5
+    category: 'Cash & Others',
+    isin: 'IE00BJ5JPH63',
+    ter: 0.5,
+    aum: 680404971,
+    domicile: 'IE'
   },
   {
     symbol: '3SUE.DE',
-    name: 'iShares MSCI World Consumer Staples Sector UCITS ETF',
-    price: 5.11,
-    issuer: 'iShares',
+    name: 'iShares MSCI World Consumer Staples Sector Advanced UCITS ETF',
+    price: 5.335,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: '3SUE.F',
-    name: 'iShares MSCI World Consumer Staples Sector UCITS ETF',
-    price: 5.238,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Consumer Defensive',
+    isin: 'IE00BJ5JP329',
+    ter: 0.18,
+    aum: 106729695,
+    domicile: 'IE'
   },
   {
     symbol: '3SUR.DE',
     name: 'iShares MSCI USA SRI UCITS ETF',
-    price: 1881.8,
-    issuer: 'iShares',
+    price: 1973,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.23
+    category: 'US',
+    isin: 'IE00BZ173V67',
+    ter: 0.23,
+    aum: 196973925,
+    domicile: 'IE'
   },
   {
     symbol: '4BRZ.DE',
     name: 'iShares MSCI Brazil UCITS ETF (DE)',
-    price: 39.285,
-    issuer: 'iShares',
+    price: 52.87,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.31
+    category: 'Other',
+    isin: 'DE000A0Q4R85',
+    ter: 0.27,
+    aum: 4647859226,
+    domicile: 'DE'
   },
   {
-    symbol: '4COP.F',
-    name: 'Global X Copper Miners UCITS ETF',
-    price: 29.55,
-    issuer: 'Global',
+    symbol: '4COP.DE',
+    name: 'Global X - Copper Miners UCITS ETF',
+    price: 56.41,
+    issuer: 'Global X',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.55
-  },
-  {
-    symbol: '4UB1.F',
-    name: 'UBS (Irl) ETF plc - MSCI World Socially Responsible UCITS ETF',
-    price: 12.26,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.22
-  },
-  {
-    symbol: '4UB9.F',
-    name: 'UBS (Irl) Fund Solutions plc - MSCI World Socially Responsible Ucits ETF',
-    price: 15.674,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: '4UBK.F',
-    name: 'UBS (Irl) ETF plc - MSCI USA Socially Responsible UCITS ETF',
-    price: 13.66,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: '4UBR.F',
-    name: 'Ubs Etf - Bloomberg Barclays Msci Global Liquid Corporates Sustainable Ucits ETF',
-    price: 10.909,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.16
+    category: 'Materials',
+    isin: 'IE0003Z9E2Y3',
+    ter: 0.55,
+    aum: 962365631,
+    domicile: 'IE'
   },
   {
     symbol: '540F.DE',
@@ -770,9 +740,7 @@ export const xetraETFs: ETF[] = [
     price: 41.585,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Other'
   },
   {
     symbol: '540G.DE',
@@ -784,33 +752,27 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: '540H.DE',
-    name: 'Amundi ETF MSCI Europe ex EMU UCITS ETF',
-    price: 372.95,
+    name: 'Amundi MSCI Europe Ex EMU ESG Selection UCITS ETF Acc',
+    price: 400.65,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'FR0010821819',
+    ter: 0.3,
+    aum: 218861558,
+    domicile: 'FR'
   },
   {
     symbol: '540J.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Switzerland',
-    price: 11.808,
+    name: 'Amundi MSCI Switzerland UCITS ETF - EUR (C)',
+    price: 13.108,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: '540J.F',
-    name: 'Amundi Index Solutions - Amundi MSCI Switzerland',
-    price: 10.218,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'LU1681044720',
+    ter: 0.25,
+    aum: 565598248,
+    domicile: 'LU'
   },
   {
     symbol: '540K.DE',
@@ -818,97 +780,83 @@ export const xetraETFs: ETF[] = [
     price: 235.3,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'UK',
+    isin: 'FR0010655761',
+    ter: undefined,
+    aum: 19787000,
+    domicile: 'FR'
   },
   {
     symbol: '5ESE.DE',
-    name: 'Invesco S&P 500 ESG UCITS ETF',
-    price: 74.5,
+    name: 'Invesco S&P 500 Scored & Screened UCITS ETF',
+    price: 79.42,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE000QF66PE6',
+    ter: 0.09,
+    aum: 3225877739,
+    domicile: 'IE'
   },
   {
     symbol: '5ESG.DE',
-    name: 'Invesco S&P 500 ESG UCITS ETF',
-    price: 75.7,
+    name: 'Invesco S&P 500 Scored & Screened UCITS ETF',
+    price: 81.66,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE00BKS7L097',
+    ter: 0.09,
+    aum: 3212918123,
+    domicile: 'DE'
   },
   {
     symbol: '5HED.DE',
     name: 'Ossiam ESG Low Carbon Shiller Barclays CAPE US Sector UCITS ETF',
-    price: 123.5,
+    price: 131.18,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.75
+    category: 'US'
   },
   {
     symbol: '5HEE.DE',
     name: 'Ossiam ESG Low Carbon Shiller Barclays CAPE US Sector UCITS ETF 1A (EUR)',
-    price: 105.92,
+    price: 112.42,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.75
-  },
-  {
-    symbol: '5HEU.F',
-    name: 'Ossiam ESG Shiller Barclays CAPE Europe Sector UCITS ETF',
-    price: 98.17,
-    issuer: 'Ossiam',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.75
+    category: 'US'
   },
   {
     symbol: '5MVL.DE',
     name: 'iShares Edge MSCI EM Value Factor UCITS ETF',
-    price: 52.62,
+    price: 70.27,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.4
   },
   {
     symbol: '5MVW.DE',
     name: 'iShares MSCI World Energy Sector UCITS ETF',
-    price: 6.228,
-    issuer: 'iShares',
+    price: 7.806,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: '5MVW.F',
-    name: 'iShares MSCI World Energy Sector UCITS ETF',
-    price: 5.838,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Energy',
+    isin: 'IE00BJ5JP105',
+    ter: 0.18,
+    aum: 899515099,
+    domicile: 'IE'
   },
   {
     symbol: '5UOA.DE',
-    name: 'iShares $ Corp Bond ESG UCITS ETF USD Acc',
-    price: 4.4093,
-    issuer: 'iShares',
+    name: 'iShares $ Corp Bond ESG SRI​ UCITS ETF',
+    price: 4.5495,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Corporate',
+    isin: 'IE00BKKKWJ26',
+    ter: 0.15,
+    aum: 551016489,
+    domicile: 'IE'
   },
   {
     symbol: '5X62.DE',
@@ -916,27 +864,31 @@ export const xetraETFs: ETF[] = [
     price: 63.1,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other'
   },
   {
     symbol: '5XYE.DE',
     name: 'HAN-GINS Cloud Technology Equal Weight UCITS ETF',
     price: 10.684,
-    issuer: 'HAN-GINS',
+    issuer: 'HANetf ICAV',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.59
+    category: 'Technology',
+    isin: 'IE00BDDRF924',
+    ter: 0.59,
+    aum: 15127372.825368863,
+    domicile: 'IE'
   },
   {
     symbol: '6AQQ.DE',
-    name: 'Amundi Index Solutions - Amundi Nasdaq-100',
-    price: 229.4,
+    name: 'Amundi Nasdaq-100 Swap UCITS ETF EUR Acc',
+    price: 246.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.23
+    category: 'Technology',
+    isin: 'LU1681038243',
+    ter: 0.23,
+    aum: 2358495502,
+    domicile: 'LU'
   },
   {
     symbol: '6FIN.DE',
@@ -945,172 +897,158 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: '6PSA.DE',
     name: 'Invesco FTSE RAFI US 1000 UCITS ETF',
-    price: 31.065,
+    price: 34.105,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'US',
+    isin: 'IE00B23D8S39',
+    ter: 0.39,
+    aum: 614288424,
+    domicile: 'IE'
   },
   {
     symbol: '6PSC.DE',
     name: 'Invesco FTSE RAFI Europe UCITS ETF',
-    price: 13.436,
+    price: 15.258,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.39
-  },
-  {
-    symbol: '6PSC.F',
-    name: 'Invesco FTSE RAFI Europe UCITS ETF',
-    price: 10.47,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.39
   },
   {
     symbol: '6PSK.DE',
     name: 'Invesco FTSE RAFI Emerging Markets UCITS ETF',
-    price: 9.049,
+    price: 10.228,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.49
+    category: 'Emerging Markets',
+    isin: 'IE00B23D9570',
+    ter: 0.49,
+    aum: 80573784,
+    domicile: 'IE'
   },
   {
     symbol: '6TVL.DE',
-    name: 'Amundi STOXX Europe 600 Consumer Discretionary UCITS ETF Distribution',
-    price: 38.28,
+    name: 'Amundi STOXX Europe 600 Consumer Discretionary UCITS ETF Dist',
+    price: 35.86,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU2082999132',
+    ter: 0.3,
+    aum: 102740023,
+    domicile: 'DE'
   },
   {
     symbol: '6TVM.DE',
-    name: 'Amundi S&P 500 UCITS ETF - D-USD',
-    price: 57.068,
+    name: 'Amundi Core S&P 500 Swap UCITS ETF USD Dist',
+    price: 60.132,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
+    category: 'US',
+    isin: 'LU0496786657',
+    ter: 0.05,
+    aum: 24018996843,
+    domicile: 'LU'
   },
   {
     symbol: '7USH.DE',
-    name: 'Amundi Index Solutions - Amundi US Treasury 7-10',
-    price: 42.715,
+    name: 'Amundi US Treasury Bond 7-10Y UCITS ETF EUR Hedged Acc',
+    price: 43.635,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Government Bonds'
-  ,
-    ter: 0.06
+    category: 'Cash & Others',
+    isin: 'LU1407888137',
+    ter: 0.1,
+    aum: 1449730383,
+    domicile: 'LU'
   },
   {
     symbol: '8522.DE',
     name: 'Lyxor iBOXX Euro Sovereigns Germany Capped 5-10 UCITS ETF',
     price: 145.98,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
+    category: 'Germany',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: '8523.DE',
     name: 'Lyxor iBOXX Euro Sovereigns Germany Capped 10+ UCITS ETF',
     price: 204.69,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
+    category: 'Germany',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: '8OUU.DE',
-    name: 'Amundi Index Solutions - Amundi Global AGG SRI',
-    price: 41.36,
+    name: 'Amundi Global Aggregate Bond ESG UCITS ETF DR (C)',
+    price: 41.92,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.14
+    assetClass: 'Fixed Income',
+    category: 'Cash & Others',
+    isin: 'LU2439734141',
+    ter: 0.14,
+    aum: 326865542,
+    domicile: 'LU'
   },
   {
     symbol: '9E0E.DE',
-    name: 'Amundi Index Solutions - Amundi Index Euro AGG SRI',
-    price: 45.376,
+    name: 'Amundi Euro Aggregate Bond ESG UCITS ETF DR - EUR (D)',
+    price: 44.982,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.16
+    assetClass: 'Fixed Income',
+    category: 'ESG'
   },
   {
     symbol: 'ABN3.DE',
-    name: 'Leverage Shares 3x Airbnb ETP',
-    price: 32.062,
-    issuer: 'Leverage',
+    name: 'Leverage Shares - 3x Airbnb',
+    price: 20.711,
+    issuer: 'LeverageShares',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.75
+    category: 'Other',
+    isin: 'XS3060315465',
+    ter: 0.75,
+    aum: 323606,
+    domicile: 'IE'
   },
   {
     symbol: 'ACU2.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI USA UCITS ETF-C EUR',
-    price: 667.68,
+    name: 'Amundi PEA MSCI USA ESG Selection UCITS ETF - EUR',
+    price: 705.4,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
+    category: 'US',
+    isin: 'LU1681042864',
+    ter: 0.35,
+    aum: 582184575,
+    domicile: 'LU'
   },
   {
     symbol: 'AE50.DE',
-    name: 'Amundi ETF Stoxx Europe 50 UCITS ETF',
-    price: 124.58,
+    name: 'Amundi Stoxx Europe 50 UCITS ETF Acc',
+    price: 140.02,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.15
+    category: 'Europe',
+    isin: 'FR0010790980',
+    ter: 0.15,
+    aum: 500880344,
+    domicile: 'FR'
   },
   {
     symbol: 'AEMD.DE',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Emerging Markets',
-    price: 55.132,
+    name: 'Amundi Core MSCI Emerging Markets UCITS ETF EUR Dist',
+    price: 65.312,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'AEMD.F',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Emerging Markets',
-    price: 45.925,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'AFI1.F',
-    name: 'Amundi Index Breakeven Inflation USD 10Y UCITS ETF',
-    price: 54.842,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
   },
   {
     symbol: 'AFIN.DE',
@@ -1118,47 +1056,41 @@ export const xetraETFs: ETF[] = [
     price: 124.46,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Financials'
+    category: 'Financials',
+    ter: undefined,
+    aum: 63983176
   },
   {
     symbol: 'AH50.DE',
-    name: 'Xtrackers Harvest FTSE China A-H 50 UCITS ETF',
-    price: 26.945,
+    name: 'Xtrackers Harvest CSI A500 UCITS ETF 1D',
+    price: 29.94,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.65
+    category: 'China',
+    isin: 'LU1310477036',
+    ter: 0.65,
+    aum: 13430744,
+    domicile: 'LU'
   },
   {
     symbol: 'AHYE.DE',
-    name: 'Amundi Index Solutions - Amundi EURO High Yield Bond ESG',
-    price: 260.65,
+    name: 'Amundi Euro High Yield Bond ESG UCITS ETF Acc',
+    price: 264.18,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Dividend'
-  ,
-    ter: 0.35
+    category: 'Corporate',
+    isin: 'LU1681040496',
+    ter: 0.35,
+    aum: 486219269,
+    domicile: 'LU'
   },
   {
     symbol: 'AHYQ.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI World III UCITS ETF USD',
-    price: 101.39,
+    name: 'Amundi Core MSCI World Swap UCITS ETF Dist',
+    price: 108.045,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'AKWA.F',
-    name: 'Global X Clean Water UCITS ETF',
-    price: 22.02,
-    issuer: 'Global',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.5
   },
   {
     symbol: 'ALQD.DE',
@@ -1166,425 +1098,392 @@ export const xetraETFs: ETF[] = [
     price: 107.61,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Asia'
+    category: 'Cash & Others',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'AME6.DE',
-    name: 'Amundi Index Solutions - Amundi STOXX Europe 600',
-    price: 135.8,
+    name: 'Amundi Stoxx Europe 600 ESG UCITS ETF Acc',
+    price: 149.96,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Europe',
+    isin: 'LU1681040223',
+    ter: 0.18,
+    aum: 1417904711,
+    domicile: 'LU'
   },
   {
     symbol: 'AMEA.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Em Asia',
-    price: 40.955,
+    name: 'Amundi MSCI Em Asia UCITS ETF - EUR (C)',
+    price: 49.37,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'AMEC.DE',
-    name: 'Amundi Index Solutions - Amundi Smart City ETF',
-    price: 63.21,
+    name: 'Amundi MSCI Smart Cities UCITS ETF ACC',
+    price: 70.33,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.44999999999999996
+    category: 'Other',
+    isin: 'LU2037748345',
+    ter: 0.44999999999999996,
+    aum: 73375724,
+    domicile: 'LU'
   },
   {
     symbol: 'AMED.DE',
-    name: 'Amundi Index Solutions-Amundi MSCI EMU ESG Leaders Select',
-    price: 322.25,
+    name: 'Amundi MSCI EMU ESG Selection UCITS ETF DR - EUR (C)',
+    price: 353.7,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'ESG'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets'
   },
   {
     symbol: 'AMEE.DE',
-    name: 'Amundi ETF MSCI Europe Energy UCITS ETF',
-    price: 502.2,
+    name: 'Amundi Global Hydrogen UCITS ETF Acc',
+    price: 703.6,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.45
+    category: 'Global',
+    isin: 'FR0010930644',
+    ter: 0.45,
+    aum: 309422622,
+    domicile: 'FR'
   },
   {
     symbol: 'AMEI.DE',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Emerging Markets SRI PAB',
-    price: 55.89,
+    name: 'Amundi MSCI Emerging Markets SRI Climate Paris Aligned UCITS ETF DR (C)',
+    price: 62.46,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets',
+    isin: 'LU1861138961',
+    ter: 0.25,
+    aum: 2305804293,
+    domicile: 'LU'
   },
   {
     symbol: 'AMEL.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Em Latin America',
-    price: 15.76,
+    name: 'Amundi MSCI EM Latin America UCITS ETF - EUR (C)',
+    price: 21.02,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'AMEM.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Emerging Markets',
-    price: 5.5592,
+    name: 'Amundi MSCI Emerging Markets Swap UCITS ETF EUR Acc',
+    price: 6.723,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'AMEQ.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe Quality Factor',
-    price: 108.42,
+    name: 'Amundi MSCI Europe Quality Factor UCITS ETF - EUR (C)',
+    price: 118.12,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.23
+    category: 'Europe',
+    isin: 'LU1681041890',
+    ter: 0.23,
+    aum: 253969861,
+    domicile: 'LU'
   },
   {
     symbol: 'AMES.DE',
-    name: 'Amundi ETF MSCI Spain UCITS ETF',
-    price: 369.3,
+    name: 'Amundi IBEX 35 UCITS ETF Acc',
+    price: 442.6,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other',
+    isin: 'FR0010655746',
+    ter: 0.3,
+    aum: 868096014,
+    domicile: 'FR'
   },
   {
     symbol: 'AMEW.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI World UCITS ETF',
-    price: 571.16,
+    name: 'Amundi MSCI World Swap UCITS ETF EUR Acc',
+    price: 615.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.38
   },
   {
     symbol: 'APXJ.DE',
-    name: 'Amundi Index MSCI Pacific Ex Japan SRI PAB - UCITS ETF DR - EUR (D)',
-    price: 9.294,
+    name: 'Amundi MSCI Pacific Ex Japan SRI Climate Paris Aligned UCITS ETF DR - EUR (D)',
+    price: 9.541,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.45
+    category: 'Japan',
+    isin: 'LU2402389261',
+    ter: 0.45,
+    aum: 464359342,
+    domicile: 'LU'
   },
   {
     symbol: 'ASR3.DE',
     name: 'BNP Paribas Easy Corp Bond SRI PAB 1-3Y',
-    price: 9.6882,
+    price: 9.7828,
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.46
+    category: 'ESG'
   },
   {
     symbol: 'ASR5.DE',
     name: 'BNP Paribas Easy € Corp Bond SRI PAB 3-5Y',
-    price: 9.263,
+    price: 9.376,
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.47000000000000003
+    category: 'ESG'
   },
   {
     symbol: 'ASRI.DE',
     name: 'BNP Paribas Easy € Corp Bond SRI Fossil Free',
-    price: 10.502,
+    price: 10.641,
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.2
+    category: 'ESG'
   },
   {
     symbol: 'ASRR.DE',
     name: 'BNP Paribas Easy MSCI Europe SRI S-Series PAB 5% Capped',
-    price: 33.95,
+    price: 37.115,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'ASRS.F',
-    name: 'BNP Paribas Easy ECPI Global ESG Hydrogen Economy',
-    price: 9.822,
-    issuer: 'BNP Paribas',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1753045332',
+    ter: 0.25,
+    aum: 110096916,
+    domicile: 'LU'
   },
   {
     symbol: 'ASWA.DE',
     name: 'HANetf ICAV - European Green Deal UCITS ETF',
-    price: 7.847,
-    issuer: 'HANetf',
+    price: 8.16,
+    issuer: 'HANetf ICAV',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.6
+    category: 'Industrials',
+    isin: 'IE0007WMHDE3',
+    ter: 0.6,
+    aum: 15633098,
+    domicile: 'IE'
   },
   {
     symbol: 'AUM5.DE',
-    name: 'Amundi Index Solutions - Amundi S&P 500 UCITS ETF',
-    price: 109.44,
+    name: 'Amundi S&P 500 Swap UCITS ETF EUR Acc',
+    price: 116.56,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
-    symbol: 'AW10.F',
-    name: 'UBS (Irl) ETF plc - MSCI World Climate Paris Aligned UCITS ETF',
-    price: 14.212,
-    issuer: 'UBS',
+    symbol: 'AVEM.DE',
+    name: 'Avantis Emerging Markets Equity UCITS ETF',
+    price: 24.68,
+    issuer: 'Avantis',
+    assetClass: 'Equity',
+    category: 'Emerging Markets',
+    isin: 'IE000K975W13',
+    ter: 0.35,
+    aum: 115497636,
+    domicile: 'IE'
+  },
+  {
+    symbol: 'AVWS.DE',
+    name: 'Avantis Global Small Cap Value UCITS ETF',
+    price: 22.18,
+    issuer: 'Avantis',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'AW1B.F',
-    name: 'UBS (Irl) ETF plc - S&P 500 ESG ELITE UCITS ETF',
-    price: 12.02,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'AW1Q.DE',
-    name: 'UBS (Irl) ETF plc MSCI Japan Climate Paris Aligned UCITS ETF',
-    price: 18.514,
+    name: 'UBS MSCI Japan Climate Paris Aligned UCITS ETF ir-hEUR acc',
+    price: 22.31,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'AW1R.DE',
-    name: 'UBS (Irl) ETF plc - MSCI ACWI Socially Responsible UCITS ETF Hedged EUR A Acc',
-    price: 17.982,
+    name: 'UBS MSCI ACWI Socially Responsible UCITS ETF hEUR acc',
+    price: 19.634,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.28
+    category: 'Global'
   },
   {
     symbol: 'AYE2.DE',
-    name: 'iShares € High Yield Corp Bond ESG UCITS ETF',
-    price: 5.7278,
+    name: 'iShares € High Yield Corp Bond ESG SRI UCITS ETF',
+    price: 5.8276,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Dividend'
   },
   {
     symbol: 'AYEM.DE',
-    name: 'iShares IV Public Limited Company - iShares MSCI EM IMI ESG Screened UCITS ETF',
-    price: 6.72,
+    name: 'iShares MSCI EM IMI Screened UCITS ETF',
+    price: 7.986,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'AYEP.DE',
     name: 'iShares Asia Property Yield UCITS ETF',
-    price: 4.6595,
-    issuer: 'iShares',
+    price: 4.967,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.59
-  },
-  {
-    symbol: 'AYEP.F',
-    name: 'iShares Asia Property Yield UCITS ETF',
-    price: 4.245,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.59
+    category: 'Real Estate',
+    isin: 'IE00BGDPWV87',
+    ter: 0.59,
+    aum: 23627317,
+    domicile: 'IE'
   },
   {
     symbol: 'AYEU.DE',
     name: 'iShares Smart City Infrastructure UCITS ETF',
-    price: 7.595,
-    issuer: 'iShares',
+    price: 8.363,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Industrials',
+    isin: 'IE00BKTLJC87',
+    ter: 0.4,
+    aum: 318387430,
+    domicile: 'IE'
   },
   {
     symbol: 'AYEW.DE',
-    name: 'iShares MSCI World Information Technology Sector ESG UCITS ETF',
-    price: 13.218,
-    issuer: 'iShares',
+    name: 'iShares MSCI World Information Technology Sector Advanced UCITS ETF',
+    price: 14.058,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
+    category: 'Technology',
+    isin: 'IE00BJ5JNY98',
+    ter: 0.18,
+    aum: 621503052,
+    domicile: 'IE'
   },
   {
     symbol: 'B500.DE',
-    name: 'Amundi Index Solutions - Amundi S&P 500 Buyback',
-    price: 301.55,
+    name: 'Amundi S&P 500 Buyback UCITS ETF - EUR (C)',
+    price: 315.2,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'B500.F',
-    name: 'Amundi Index Solutions - Amundi S&P 500 Buyback',
-    price: 229.7,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'US',
+    isin: 'LU1681048127',
+    ter: 0.15,
+    aum: 75424470,
+    domicile: 'LU'
   },
   {
     symbol: 'BATE.DE',
     name: 'L&G Battery Value-Chain UCITS ETF',
-    price: 18.508,
+    price: 27.61,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Value'
   },
   {
     symbol: 'BBCK.DE',
-    name: 'Invesco Global Buyback Achievers UCITS ETF',
-    price: 55.27,
+    name: 'Invesco Global Buyback Achievers UCITS ETF',
+    price: 60.34,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.39
+    category: 'Global',
+    isin: 'IE00BLSNMW37',
+    ter: 0.39,
+    aum: 135767718,
+    domicile: 'IE'
   },
   {
     symbol: 'BBEG.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV BetaBuilders EUR Govt Bond UCITS ETF',
-    price: 93.068,
+    name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders EUR Govt Bond UCITS ETF',
+    price: 94.78,
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Bonds'
   },
   {
     symbol: 'BBLL.DE',
-    name: 'JPM BetaBuilders US Treasury Bond 0-1 yr UCITS ETF',
-    price: 100.155,
-    issuer: 'JPM',
+    name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders US Treasury Bond 0-1 yr UCITS ETF',
+    price: 102.135,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Cash & Others',
+    isin: 'IE00BJK3WF00',
+    ter: 0.07,
+    aum: 3066610637,
+    domicile: 'IE'
   },
   {
     symbol: 'BBTR.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV BetaBuilders US Treasury Bond UCITS ETF',
-    price: 90.126,
+    name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders US Treasury Bond UCITS ETF',
+    price: 92.888,
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'US'
   },
   {
     symbol: 'BBUD.DE',
     name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders US Equity UCITS ETF',
     price: 35.32,
-    issuer: 'JPMorgan',
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'US',
+    ter: 0.04,
+    aum: 27717744,
+    domicile: 'DE'
   },
   {
     symbol: 'BBUS.DE',
     name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders US Equity UCITS ETF',
-    price: 52.46,
+    price: 55.52,
     issuer: 'JPMorgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'US'
   },
   {
     symbol: 'BCFE.DE',
-    name: 'UBS (Irl) Fund Solutions plc - Bloomberg Commodity CMCI SF UCITS ETF (hedged to EUR) A-acc',
-    price: 14.506,
+    name: 'UBS BBG Commodity CMCI SF UCITS ETF hEUR acc',
+    price: 17.602,
     issuer: 'UBS',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Commodities'
   },
   {
     symbol: 'BCFU.DE',
-    name: 'UBS (Irl) Fund Solutions plc - Bloomberg Commodity CMCI SF UCITS ETF',
-    price: 17.504,
+    name: 'UBS BBG Commodity CMCI SF UCITS ETF USD acc',
+    price: 21.555,
     issuer: 'UBS',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Communication',
+    isin: 'IE00BYYLVH00',
+    ter: 0.34,
+    aum: 1707660000,
+    domicile: 'IE'
   },
   {
     symbol: 'BGX.DE',
     name: 'Expat Bulgaria SOFIX UCITS ETF',
-    price: 0.7551,
+    price: 0.8799,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 2.18
+    category: 'Other'
   },
   {
-    symbol: 'BGX.F',
-    name: 'Expat Bulgaria SOFIX UCITS ETF',
-    price: 0.4979,
-    issuer: 'Expat',
+    symbol: 'BLCH.DE',
+    name: 'Global X - Blockchain UCITS ETF',
+    price: 12.08,
+    issuer: 'Global',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Global'
   },
   {
     symbol: 'BLUM.DE',
@@ -1592,19 +1491,15 @@ export const xetraETFs: ETF[] = [
     price: 1.8746,
     issuer: 'Rize',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other'
   },
   {
     symbol: 'BNXG.DE',
     name: 'Invesco CoinShares Global Blockchain UCITS ETF',
-    price: 123.7,
+    price: 131.82,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'BUNH.DE',
@@ -1613,144 +1508,133 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'C001.DE',
-    name: 'Amundi Index Solutions SICAV - Dax ETF',
-    price: 180.52,
+    name: 'Amundi Core DAX UCITS ETF Dist',
+    price: 179.06,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.08
+    category: 'Germany',
+    isin: 'LU2611732046',
+    ter: 0.08,
+    aum: 1537829013,
+    domicile: 'LU'
   },
   {
     symbol: 'C003.DE',
-    name: 'Amundi Index Solutions - Amundi DivDAX I UCITS ETF EUR Distributing',
-    price: 35.83,
+    name: 'Amundi DIVDAX UCITS ETF Dist',
+    price: 37.27,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.25
+    category: 'Germany',
+    isin: 'LU2611731741',
+    ter: 0.25,
+    aum: 79163275,
+    domicile: 'LU'
   },
   {
     symbol: 'C004.DE',
     name: 'Lyxor ShortDAX Daily (-1x) Inverse UCITS ETF',
     price: 13.93,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
+    category: 'Germany',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'DE'
   },
   {
     symbol: 'C005.DE',
-    name: 'Amundi Index Solutions - Amundi SDAX UCITS ETF EUR Distributing',
-    price: 129.98,
+    name: 'Amundi SDAX UCITS ETF Dist',
+    price: 133.68,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.7
   },
   {
     symbol: 'C006.DE',
-    name: 'Amundi Index Solutions - Amundi F.A.Z. 100 UCITS ETF EUR Distributing',
-    price: 36.195,
+    name: 'Amundi F.A.Z. 100 UCITS ETF Dist',
+    price: 36.21,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'C006.F',
-    name: 'Lyxor F.A.Z. 100 Index (DR) UCITS ETF',
-    price: 28.795,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'C007.DE',
-    name: 'Amundi Index Solutions - Amundi MDAX ESG UCITS ETF EUR Distributing',
-    price: 24.69,
+    name: 'Amundi MDAX ESG UCITS ETF Dist',
+    price: 24.835,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'C007.F',
-    name: 'Lyxor MDAX ESG UCITS ETF',
-    price: 24.48,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'C010.DE',
     name: 'Lyxor Dow Jones Industrial Average (LUX) UCITS ETF',
     price: 362.65,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'US',
+    isin: 'LU0378437502',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'C020.DE',
     name: 'Lyxor Nikkei 225 UCITS ETF',
     price: 21.335,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.25
+    category: 'Japan',
+    isin: 'LU0378453376',
+    ter: 0.25,
+    aum: 6482374656,
+    domicile: 'LU'
   },
   {
     symbol: 'C024.DE',
-    name: 'Amundi MSCI China A II UCITS ETF',
-    price: 147.72,
+    name: 'Amundi Core MSCI China A Swap UCITS ETF Dist',
+    price: 165.08,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.25
+    category: 'China',
+    isin: 'LU2572256746',
+    ter: 0.25,
+    aum: 549389385,
+    domicile: 'LU'
   },
   {
     symbol: 'C029.DE',
     name: 'Lyxor SPI UCITS ETF',
     price: 114.94,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other',
+    isin: 'LU0603946798',
+    ter: 0.4,
+    aum: 16596444,
+    domicile: 'LU'
   },
   {
     symbol: 'C030.DE',
-    name: 'Amundi Index Solutions - Amundi DJ Switzerland Titans 30 UCITS ETF CHF Distributing',
-    price: 171.36,
+    name: 'Amundi DJ Switzerland Titans 30 UCITS ETF Dist',
+    price: 184.9,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other'
   },
   {
     symbol: 'C051.DE',
-    name: 'Lyxor EURO STOXX Select Dividend 30 UCITS ETF',
-    price: 43.275,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Stoxx Select Dividend30 UCITS ETF Dist',
+    price: 44.805,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'LU2611732558',
+    ter: 0.25,
+    aum: 108185921,
+    domicile: 'LU'
   },
   {
     symbol: 'C060.DE',
@@ -1764,11 +1648,13 @@ export const xetraETFs: ETF[] = [
     symbol: 'C071.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Media UCITS ETF',
     price: 86.16,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Communication',
+    isin: 'LU2082995734',
+    ter: 0.3,
+    aum: 45829400,
+    domicile: 'LU'
   },
   {
     symbol: 'C090.DE',
@@ -1776,27 +1662,27 @@ export const xetraETFs: ETF[] = [
     price: 146.36,
     issuer: 'Lyxor',
     assetClass: 'Commodity',
-    category: 'Technology'
+    category: 'Commodities'
   },
   {
     symbol: 'C099.DE',
-    name: 'Lyxor Bloomberg Equal-weight Commodity ex-Agriculture EUR hedged UCITS ETF',
-    price: 28.09,
-    issuer: 'Lyxor',
+    name: 'Amundi Bloomberg Equal-weight Commodity ex-Agriculture UCITS ETF EUR Hedged Acc',
+    price: 39.375,
+    issuer: 'Amundi',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Commodities'
   },
   {
     symbol: 'C101.DE',
-    name: 'Amundi US Fed Funds Rate UCITS ETF Dist',
-    price: 91.2745,
+    name: 'Amundi USD Fed Funds Rate UCITS ETF Dist',
+    price: 89.033,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'LU2090062352',
+    ter: 0.1,
+    aum: 113142532,
+    domicile: 'LU'
   },
   {
     symbol: 'CAB3.DE',
@@ -1804,27 +1690,33 @@ export const xetraETFs: ETF[] = [
     price: 14.1,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'ESG'
+    category: 'ESG',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'CASH.DE',
-    name: 'L&GE Fund MSCI China A UCITS ETF',
+    name: 'L&G E Fund MSCI China A UCITS ETF',
     price: 15.852,
-    issuer: 'L&GE',
+    issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.88
+    category: 'Technology',
+    isin: 'IE00BHBFDF83',
+    ter: 0.88,
+    aum: 13671957,
+    domicile: 'DE'
   },
   {
     symbol: 'CB3G.DE',
-    name: 'Amundi Index Solutions - Amundi Govt Bond Euro Broad Investment Grade',
-    price: 218.48,
+    name: 'Amundi Euro Government Tilted Green Bond UCITS ETF Acc',
+    price: 222.37,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.14
+    category: 'Government',
+    isin: 'LU1681046261',
+    ter: 0.14,
+    aum: 3249979814,
+    domicile: 'LU'
   },
   {
     symbol: 'CBSX.DE',
@@ -1832,219 +1724,171 @@ export const xetraETFs: ETF[] = [
     price: 2.609,
     issuer: 'The',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.8
+    category: 'Other',
+    isin: 'IE00BG5J1M21',
+    ter: 0.8,
+    aum: 11255072,
+    domicile: 'IE'
   },
   {
     symbol: 'CBU0.DE',
-    name: 'iShares Core GBP Corp Bond UCITS ETF Hedged EUR',
-    price: 5.3148,
-    issuer: 'iShares',
+    name: 'iShares Core £ Corp Bond UCITS ETF',
+    price: 5.4782,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'IE000H22E3N8',
+    ter: 0.25,
+    aum: 33632685,
+    domicile: 'IE'
   },
   {
     symbol: 'CBU2.DE',
-    name: 'iShares € Aggregate Bond ESG UCITS ETF EUR (Dist)',
-    price: 5.3982,
-    issuer: 'iShares',
+    name: 'iShares € Aggregate Bond ESG SRI UCITS ETF',
+    price: 5.4898,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'Cash & Others',
+    isin: 'IE000CR3ZDF9',
+    ter: 0.16,
+    aum: 161811244,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUC.DE',
-    name: 'iShares MSCI USA ESG Enhanced UCITS ETF',
-    price: 6.652,
+    name: 'iShares MSCI USA CTB Enhanced ESG UCITS ETF',
+    price: 6.898,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'CBUC.F',
-    name: 'iShares MSCI USA ESG Enhanced UCITS ETF',
-    price: 4.7655,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'CBUD.DE',
     name: 'iShares MSCI Europe SRI UCITS ETF',
-    price: 5.02,
+    price: 5.221,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.23
   },
   {
     symbol: 'CBUE.DE',
-    name: 'iShares VII PLC - iShares VII PLC - iShares $ Treasury Bond 3-7yr UCITS ETF',
-    price: 4.2416,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 3-7yr UCITS ETF',
+    price: 4.2149,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'CBUE.F',
-    name: 'iShares $ Treasury Bond 3-7yr UCITS ETF EUR Hedged (Dist)',
-    price: 4.3554,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BGPP6473',
+    ter: 0.1,
+    aum: 1120106637,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUF.DE',
-    name: 'iShares MSCI World Health Care Sector UCITS ETF USD Inc',
-    price: 6.045,
-    issuer: 'iShares',
+    name: 'iShares MSCI World Health Care Sector Advanced UCITS ETF',
+    price: 6.639,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'CBUF.F',
-    name: 'iShares MSCI World Health Care Sector UCITS ETF USD Inc',
-    price: 6.422,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Healthcare',
+    isin: 'IE00BJ5JNZ06',
+    ter: 0.18,
+    aum: 515733374,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUG.DE',
-    name: 'iShares MSCI World Small Cap ESG Enhanced UCITS ETF',
-    price: 4.951,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.1
+    name: 'iShares $ Treasury Bond 3-7yr UCITS ETF',
+    price: 5.513,
+    issuer: 'IShares',
+    assetClass: 'Fixed Income',
+    category: 'Bonds',
+    isin: 'IE000T9EOCL3',
+    ter: 0.1,
+    aum: 356628970,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUH.DE',
-    name: 'iShares MSCI World Momentum Factor ESG UCITS ETF',
-    price: 5.396,
+    name: 'iShares MSCI World Momentum Factor Advanced UCITS ETF',
+    price: 6.076,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'CBUI.DE',
-    name: 'iShares MSCI World Value Factor ESG UCITS ETF',
-    price: 6.067,
+    name: 'iShares MSCI World Value Factor Advanced UCITS ETF',
+    price: 7.12,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'CBUJ.DE',
     name: 'iShares € Corp Bond ESG Paris-Aligned Climate UCITS ETF',
-    price: 4.9846,
-    issuer: 'iShares',
+    price: 4.9637,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'CBUJ.F',
-    name: 'iShares EUR Corp Bond ESG Paris-Aligned Climate UCITS ETF',
-    price: 4.8207,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'IE000ZX8CQG2',
+    ter: 0.15,
+    aum: 757865854,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUL.DE',
     name: 'iShares $ TIPS 0-5 UCITS ETF',
-    price: 4.553,
-    issuer: 'iShares',
+    price: 4.4428,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'CBUL.F',
-    name: 'iShares $ TIPS 0-5 UCITS ETF',
-    price: 4.7625,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Cash & Others',
+    isin: 'IE000WIQIPT2',
+    ter: 0.12,
+    aum: 91906353,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUM.DE',
-    name: 'Shares S&P 500 ESG UCITS ETF',
-    price: 7.499,
-    issuer: 'Shares',
+    name: 'iShares S&P 500 Scored and Screened UCITS ETF',
+    price: 8.001,
+    issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'CBUP.DE',
     name: 'iShares € Green Bond UCITS ETF',
-    price: 244,
-    issuer: 'iShares',
+    price: 248.2,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE000IZO7033',
+    ter: 0.2,
+    aum: 57068676,
+    domicile: 'IE'
   },
   {
     symbol: 'CBUS.DE',
-    name: 'iShares Core UK Gilts UCITS ETF GBP (Dist)',
-    price: 4.5341,
+    name: 'iShares Core UK Gilts UCITS ETF',
+    price: 4.598,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'UK'
   },
   {
     symbol: 'CBUX.DE',
-    name: 'iShares Global Infrastructure UCITS ETF Accum USD',
-    price: 5.26,
+    name: 'iShares Global Infrastructure UCITS ETF',
+    price: 6.038,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'CBUY.DE',
     name: 'iShares MSCI ACWI SRI UCITS ETF',
-    price: 6.117,
+    price: 6.708,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Global'
   },
   {
     symbol: 'CCNV.DE',
@@ -2052,27 +1896,29 @@ export const xetraETFs: ETF[] = [
     price: 107818,
     issuer: 'UC',
     assetClass: 'Fixed Income',
-    category: 'Global'
+    category: 'Global',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'CD91.DE',
-    name: 'Amundi Index Solutions - Amundi NYSE Arca Gold BUGS UCITS ETF USD Distributing',
-    price: 44.745,
+    name: 'Amundi NYSE Arca Gold Bugs UCITS ETF Dist',
+    price: 75.1,
     issuer: 'Amundi',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Commodities'
   },
   {
     symbol: 'CE8G.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI World Ex Europe',
-    price: 638.3,
+    name: 'Amundi MSCI World Ex Europe UCITS ETF - EUR (C)',
+    price: 682.6,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.35
+    category: 'Global',
+    isin: 'LU1681045537',
+    ter: 0.35,
+    aum: 716865792,
+    domicile: 'LU'
   },
   {
     symbol: 'CEBB.DE',
@@ -2080,199 +1926,199 @@ export const xetraETFs: ETF[] = [
     price: 28.4,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other'
   },
   {
     symbol: 'CEBD.DE',
-    name: 'iShares V PLC - iShares iBonds Dec 2027 Term € Corp UCITS ETF EUR Inc',
-    price: 5.2018,
-    issuer: 'iShares',
+    name: 'iShares iBonds Dec 2027 Term € Corp UCITS ETF',
+    price: 5.1788,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Cash & Others',
+    isin: 'IE000H5X52W8',
+    ter: 0.12,
+    aum: 379015901,
+    domicile: 'IE'
   },
   {
     symbol: 'CEBG.DE',
-    name: 'iShares VII PLC - iShares MSCI Mexico Capped UCITS ETF',
-    price: 150.24,
-    issuer: 'iShares',
+    name: 'iShares MSCI Mexico Capped UCITS ETF',
+    price: 187,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other',
+    isin: 'IE00B5WHFQ43',
+    ter: 0.65,
+    aum: 101830222,
+    domicile: 'IE'
   },
   {
     symbol: 'CEBL.DE',
-    name: 'iShares VII PLC - iShares MSCI EM Asia UCITS ETF USD (Acc)',
-    price: 184.04,
-    issuer: 'iShares',
+    name: 'iShares MSCI EM Asia UCITS ETF',
+    price: 222.25,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.2
+    category: 'Emerging Markets',
+    isin: 'IE00B5L8K969',
+    ter: 0.2,
+    aum: 5403825842,
+    domicile: 'IE'
   },
   {
     symbol: 'CEBP.DE',
-    name: 'iShares VII PLC - iShares MSCI EMU USD Hedged UCITS ETF (Acc)',
-    price: 10.3,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.38
-  },
-  {
-    symbol: 'CEBU.DE',
-    name: 'iShares USD Short Duration Corp Bond UCITS ETF Accum-Hedged- EUR',
-    price: 5.4768,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'CEMG.DE',
-    name: 'iShares V PLC - iShares MSCI EM Consumer Growth UCITS ETF USD (Acc)',
-    price: 32.605,
+    name: 'iShares MSCI EMU USD Hedged UCITS ETF (Acc)',
+    price: 11.488,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.6
+  },
+  {
+    symbol: 'CEBU.DE',
+    name: 'iShares $ Short Duration Corp Bond UCITS ETF',
+    price: 5.5458,
+    issuer: 'IShares',
+    assetClass: 'Fixed Income',
+    category: 'Cash & Others',
+    isin: 'IE000AWT6D61',
+    ter: 0.25,
+    aum: 73196107,
+    domicile: 'IE'
+  },
+  {
+    symbol: 'CEMG.DE',
+    name: 'iShares MSCI EM Consumer Growth UCITS ETF',
+    price: 31.09,
+    issuer: 'iShares',
+    assetClass: 'Equity',
+    category: 'Emerging Markets'
   },
   {
     symbol: 'CEMQ.DE',
     name: 'iShares Edge MSCI Europe Quality Factor UCITS ETF',
-    price: 10.402,
-    issuer: 'iShares',
+    price: 11.342,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'IE00BQN1K562',
+    ter: 0.25,
+    aum: 671731713,
+    domicile: 'IE'
   },
   {
     symbol: 'CEMR.DE',
     name: 'iShares Edge MSCI Europe Momentum Factor UCITS ETF',
-    price: 13.34,
+    price: 15.014,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'CEMS.DE',
     name: 'iShares Edge MSCI Europe Value Factor UCITS ETF',
-    price: 10.566,
-    issuer: 'iShares',
+    price: 12.382,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'IE00BQN1K901',
+    ter: 0.25,
+    aum: 2374463305,
+    domicile: 'IE'
   },
   {
     symbol: 'CEMT.DE',
-    name: 'iShares Edge MSCI Europe Size Factor UCITS ETF',
-    price: 9.718,
-    issuer: 'iShares',
+    name: 'iShares MSCI Europe Mid-Cap Equal Weight UCITS ETF',
+    price: 10.536,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'IE00BQN1KC32',
+    ter: 0.25,
+    aum: 30338585,
+    domicile: 'IE'
   },
   {
     symbol: 'CEUG.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe ESG Broad CTB',
-    price: 364.8,
+    name: 'Amundi MSCI Europe ESG Broad Transition UCITS ETF DR - EUR (C)',
+    price: 407.75,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'LU1681042609',
+    ter: 0.12,
+    aum: 2416935497,
+    domicile: 'LU'
   },
   {
     symbol: 'CG1G.DE',
     name: 'Amundi ETF DAX UCITS ETF DR',
-    price: 420.1,
+    price: 424.85,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'CGB.DE',
-    name: 'Xtrackers II Harvest China Government Bond UCITS ETF',
-    price: 18.4325,
+    name: 'Xtrackers II Harvest China Government Bond UCITS ETF 1D',
+    price: 19.2045,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'China'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'CMTX.F',
-    name: 'Lyxor Core Euro Government Bond',
-    price: 136.365,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Government Bonds'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'CN1G.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Nordic',
-    price: 609.1,
+    name: 'Amundi MSCI Nordic UCITS ETF - EUR (C)',
+    price: 669.5,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'LU1681044647',
+    ter: 0.25,
+    aum: 266955965,
+    domicile: 'IE'
   },
   {
     symbol: 'CNAA.DE',
-    name: 'Lyxor MSCI China A (DR) UCITS ETF',
-    price: 152.58,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI China A UCITS ETF Acc',
+    price: 169.54,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.35
+    category: 'China',
+    isin: 'FR0011720911',
+    ter: 0.35,
+    aum: 139810261,
+    domicile: 'FR'
   },
   {
     symbol: 'CNUA.DE',
-    name: 'UBS (Irl) Fund Solutions plc - MSCI China A SF UCITS ETF',
-    price: 130.32,
+    name: 'UBS MSCI China A SF UCITS ETF USD acc',
+    price: 147.68,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.24
   },
   {
     symbol: 'COVR.DE',
-    name: 'PIMCO ETFs plc PIMCO Covered Bond UCITS ETF',
-    price: 105.9,
+    name: 'PIMCO Covered Bond UCITS ETF',
+    price: 106.455,
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.43
+    category: 'Cash & Others',
+    isin: 'IE00BF8HV717',
+    ter: 0.43,
+    aum: 39926714,
+    domicile: 'IE'
   },
   {
     symbol: 'CSTA.DE',
-    name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Technology UCITS ETF',
-    price: 113.9,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Technology UCITS ETF Dist',
+    price: 125.78,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU2082998837',
+    ter: 0.3,
+    aum: 176274043,
+    domicile: 'LU'
   },
   {
     symbol: 'CSTD.DE',
@@ -2281,138 +2127,58 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'CSY1.DE',
-    name: 'UBS - CSIF (IE) MSCI USA Blue UCITS - ETF B USD',
-    price: 218.97,
+    name: 'UBS MSCI USA NSL UCITS ETF USD acc',
+    price: 231.53,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE000OULL4R4',
+    ter: 0.09,
+    aum: 2715590793,
+    domicile: 'IE'
   },
   {
     symbol: 'CSY2.DE',
-    name: 'UBS - CSIF (IE) MSCI USA ESG Leaders Blue UCITS - ETF B USD',
-    price: 217.25,
+    name: 'UBS MSCI USA Selection UCITS ETF USD acc',
+    price: 232.15,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'CSY5.DE',
-    name: 'UBS - MSCI World ESG Leaders UCITS USD A- Acc',
-    price: 201.65,
+    name: 'UBS MSCI World Selection UCITS ETF USD acc',
+    price: 218.3,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'CSY5.F',
-    name: 'MSCI World ESG Leaders UCITS USD A- Acc',
-    price: 150,
-    issuer: 'MSCI',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'CSY7.DE',
-    name: 'UBS - CSIF (IE) MSCI World ESG Leaders Blue UCITS - ETF',
-    price: 219.65,
+    name: 'UBS MSCI World Selection UCITS ETF hEUR acc',
+    price: 236.3,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'CSY7.F',
-    name: 'Credit Suisse Index Fund Ie ETF ICAV - CSIF Ie Msci World Esg Leaders Blue Ucits ETF',
-    price: 158.22,
-    issuer: 'Credit',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'CSY8.F',
-    name: 'Credit Suisse Index Fund (IE) ETF ICAV - CSIF (IE) MSCI USA Small Cap ESG Leaders Blue UCITS ETF',
-    price: 138.72,
-    issuer: 'Credit',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'CSY9.F',
-    name: 'Credit Suisse Index Fund (IE) ETF ICAV - CSIF (IE) MSCI World ESG Leaders Minimum Vol Bl UCITS ETF',
-    price: 104.62,
-    issuer: 'Credit',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'CSYU.F',
-    name: 'Credit Suisse Index Fund (IE) ETF ICAV - CSIF (IE) MSCI USA Tech 125 ESG Universal Blue UCITS ETF',
-    price: 9.598,
-    issuer: 'Credit',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'CSYZ.DE',
-    name: 'UBS - CSIF (IE) FTSE EPRA Nareit Developed Green Blue UCITS - ETF',
-    price: 99.45,
+    name: 'UBS FTSE EPRA Nareit Developed Green UCITS ETF USD dis',
+    price: 106.5,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'CUIK.F',
-    name: 'Amundi Index Solutions - Uk Imi SRI Ucits ETF',
-    price: 13.202,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Real Estate'
   },
   {
     symbol: 'CZX.DE',
     name: 'Expat Czech PX UCITS ETF',
-    price: 1.9392,
+    price: 2.2635,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 1.3800000000000001
-  },
-  {
-    symbol: 'D100.F',
-    name: 'Multi Units Luxembourg - Lyxor FTSE 100 UCITS Fund',
-    price: 133.78,
-    issuer: 'Lyxor',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    category: 'Other'
   },
   {
     symbol: 'D3V3.DE',
@@ -2420,187 +2186,191 @@ export const xetraETFs: ETF[] = [
     price: 236.97,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other',
+    isin: 'IE00B3Z66S39',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'DE'
   },
   {
     symbol: 'D500.DE',
     name: 'Invesco S&P 500 UCITS ETF',
-    price: 51.362,
+    price: 54.418,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
+    category: 'US',
+    isin: 'IE00BYML9W36',
+    ter: 0.05,
+    aum: 42919958722,
+    domicile: 'IE'
   },
   {
     symbol: 'D5BB.DE',
     name: 'Xtrackers II Germany Government Bond UCITS ETF 1D',
-    price: 167.045,
+    price: 166.455,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Germany'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0468896575',
+    ter: 0.15,
+    aum: 943954802,
+    domicile: 'LU'
   },
   {
     symbol: 'D5BC.DE',
-    name: 'Xtrackers II Germany Government Bond 1-3 UCITS ETF',
-    price: 138.755,
+    name: 'Xtrackers II Germany Government Bond 1-3 UCITS ETF 1D',
+    price: 138.465,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Germany'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0468897110',
+    ter: 0.15,
+    aum: 18042506,
+    domicile: 'LU'
   },
   {
     symbol: 'D5BE.DE',
-    name: 'Xtrackers II US Treasuries 1-3 UCITS ETF',
-    price: 143.43,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.06
-  },
-  {
-    symbol: 'D5BG.DE',
-    name: 'Xtrackers II EUR Corporate Bond UCITS ETF',
-    price: 160.865,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
-  },
-  {
-    symbol: 'D5BH.DE',
-    name: 'Xtrackers MSCI Canada ESG Screened UCITS ETF',
-    price: 90.32,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'D5BI.DE',
-    name: 'Xtrackers MSCI Mexico UCITS ETF',
-    price: 6.176,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
-  },
-  {
-    symbol: 'D5BK.DE',
-    name: 'Xtrackers FTSE Developed Europe Real Estate UCITS ETF',
-    price: 22.95,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.33
-  },
-  {
-    symbol: 'D5BL.DE',
-    name: 'Xtrackers MSCI Europe Value UCITS ETF',
-    price: 39.275,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'D5BM.DE',
-    name: 'Xtrackers S&P 500 Swap UCITS ETF',
-    price: 110.68,
+    name: 'Xtrackers II US Treasuries 1-3 UCITS ETF 1D',
+    price: 144.1,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
+  },
+  {
+    symbol: 'D5BG.DE',
+    name: 'Xtrackers II EUR Corporate Bond UCITS ETF 1C',
+    price: 162.99,
+    issuer: 'Xtrackers',
+    assetClass: 'Fixed Income',
+    category: 'Cash & Others',
+    isin: 'LU0478205379',
+    ter: 0.09,
+    aum: 4923835800,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'D5BH.DE',
+    name: 'Xtrackers MSCI Canada Screened UCITS ETF 1C',
+    price: 105.12,
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'Other',
+    isin: 'LU0476289540',
+    ter: 0.35,
+    aum: 1064970203,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'D5BI.DE',
+    name: 'Xtrackers MSCI Mexico UCITS ETF 1C',
+    price: 7.655,
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'Other',
+    isin: 'LU0476289466',
+    ter: 0.65,
+    aum: 455570394,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'D5BK.DE',
+    name: 'Xtrackers FTSE Developed Europe Real Estate UCITS ETF 1C',
+    price: 24.985,
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'Real Estate',
+    isin: 'LU0489337690',
+    ter: 0.33,
+    aum: 767921893,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'D5BL.DE',
+    name: 'Xtrackers MSCI Europe Value UCITS ETF 1C',
+    price: 46.06,
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'Europe',
+    isin: 'LU0486851024',
+    ter: 0.15,
+    aum: 212106363,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'D5BM.DE',
+    name: 'Xtrackers S&P 500 Swap UCITS ETF 1C',
+    price: 117.89,
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'US'
   },
   {
     symbol: 'D6RA.DE',
     name: 'Deka MSCI EUR Corporates Climate Change ESG UCITS ETF',
-    price: 88.93,
+    price: 88.27,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'D6RP.F',
-    name: 'Deka MSCI World Climate Change ESG UCITS ETF',
-    price: 26.01,
-    issuer: 'Deka',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'ESG'
   },
   {
     symbol: 'DBPD.DE',
-    name: 'Xtrackers ShortDAX x2 Daily Swap UCITS ETF',
-    price: 0.555,
+    name: 'Xtrackers ShortDAX x2 Daily Swap UCITS ETF 1C',
+    price: 0.5433,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.6
+    category: 'Germany',
+    isin: 'LU0411075020',
+    ter: 0.6,
+    aum: 83971049,
+    domicile: 'LU'
   },
   {
     symbol: 'DBPE.DE',
-    name: 'Xtrackers LevDAX Daily Swap UCITS ETF',
-    price: 266.9,
+    name: 'Xtrackers LevDAX Daily Swap UCITS ETF 1C',
+    price: 265.85,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.35
   },
   {
     symbol: 'DBPG.DE',
-    name: 'Xtrackers S&P 500 2x Leveraged Daily Swap UCITS ETF',
-    price: 228,
+    name: 'Xtrackers S&P 500 2x Leveraged Daily Swap UCITS ETF 1C',
+    price: 250.55,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'DBPK.DE',
-    name: 'Xtrackers S&P 500 2x Inverse Daily Swap UCITS ETF',
-    price: 0.1797,
+    name: 'Xtrackers S&P 500 2x Inverse Daily Swap UCITS ETF 1C',
+    price: 0.1656,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.7
+    category: 'US',
+    isin: 'LU0411078636',
+    ter: 0.7,
+    aum: 57456309,
+    domicile: 'LU'
   },
   {
     symbol: 'DBX0.DE',
-    name: 'Xtrackers Portfolio UCITS ETF',
-    price: 310,
+    name: 'Xtrackers Portfolio UCITS ETF 1C',
+    price: 329.5,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.7
+    category: 'Other',
+    isin: 'LU0397221945',
+    ter: 0.7,
+    aum: 686227829,
+    domicile: 'LU'
   },
   {
     symbol: 'DBX1.DE',
-    name: 'Xtrackers - MSCI Emerging Markets Swap UCITS ETF',
+    name: 'Xtrackers MSCI Emerging Markets Swap UCITS ETF',
     price: 50.988,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.49
   },
   {
     symbol: 'DBX2.DE',
@@ -2608,29 +2378,23 @@ export const xetraETFs: ETF[] = [
     price: 59.91,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.65
-  },
-  {
-    symbol: 'DBX2.F',
-    name: 'Xtrackers MSCI EM Asia Swap UCITS ETF 1C',
-    price: 46.955,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.65
+    category: 'Emerging Markets',
+    isin: 'LU0292107991',
+    ter: 0.65,
+    aum: 515980000,
+    domicile: 'DE'
   },
   {
     symbol: 'DBX3.DE',
-    name: 'Xtrackers MSCI EM Latin America ESG Swap UCITS ETF',
-    price: 39.225,
+    name: 'Xtrackers MSCI EM Latin America ESG Swap UCITS ETF 1C',
+    price: 50.32,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.4
+    category: 'Emerging Markets',
+    isin: 'LU0292108619',
+    ter: 0.4,
+    aum: 115282484,
+    domicile: 'LU'
   },
   {
     symbol: 'DBX4.DE',
@@ -2639,18 +2403,18 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'DBX5.DE',
-    name: 'Xtrackers MSCI Taiwan UCITS ETF',
-    price: 66.86,
+    name: 'Xtrackers MSCI Taiwan UCITS ETF 1C',
+    price: 87.76,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Technology',
+    isin: 'LU0292109187',
+    ter: 0.65,
+    aum: 212221946,
+    domicile: 'LU'
   },
   {
     symbol: 'DBX6.DE',
@@ -2658,37 +2422,41 @@ export const xetraETFs: ETF[] = [
     price: 39.69,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'DBX7.DE',
-    name: 'Xtrackers Nifty 50 Swap UCITS ETF',
-    price: 230.9,
+    name: 'Xtrackers Nifty 50 Swap UCITS ETF 1C',
+    price: 215.65,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.85
+    category: 'Other',
+    isin: 'LU0292109690',
+    ter: 0.85,
+    aum: 171259331,
+    domicile: 'LU'
   },
   {
     symbol: 'DBX8.DE',
-    name: 'Xtrackers MSCI Korea UCITS ETF',
-    price: 76.56,
+    name: 'Xtrackers MSCI Korea UCITS ETF 1C',
+    price: 148.8,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Technology',
+    isin: 'LU0292100046',
+    ter: 0.45,
+    aum: 178460152,
+    domicile: 'LU'
   },
   {
     symbol: 'DBX9.DE',
-    name: 'Xtrackers FTSE China 50 UCITS ETF',
-    price: 31.535,
+    name: 'Xtrackers MSCI China A UCITS ETF 1C',
+    price: 34.91,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.35
   },
   {
     symbol: 'DBXA.DE',
@@ -2696,9 +2464,11 @@ export const xetraETFs: ETF[] = [
     price: 97.95,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'LU0274209237',
+    ter: 0.12,
+    aum: 5050000000,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXB.DE',
@@ -2706,19 +2476,19 @@ export const xetraETFs: ETF[] = [
     price: 249.82,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290357259',
+    ter: 0.15,
+    aum: 1690000000,
+    domicile: 'DE'
   },
   {
     symbol: 'DBXD.DE',
-    name: 'Xtrackers DAX UCITS ETF',
-    price: 221.65,
+    name: 'Xtrackers DAX UCITS ETF 1C',
+    price: 224.35,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.09
   },
   {
     symbol: 'DBXE.DE',
@@ -2726,29 +2496,27 @@ export const xetraETFs: ETF[] = [
     price: 57.01,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Europe'
   },
   {
     symbol: 'DBXF.DE',
-    name: 'Xtrackers II Eurozone Government Bond 15-30 UCITS ETF',
-    price: 267.93,
+    name: 'Xtrackers II Eurozone Government Bond 15-30 UCITS ETF 1C',
+    price: 276.98,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'DBXG.DE',
-    name: 'Xtrackers II Eurozone Government Bond 25+ UCITS ETF',
-    price: 244.82,
+    name: 'Xtrackers II Eurozone Government Bond 25+ UCITS ETF 1C',
+    price: 255.47,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290357846',
+    ter: 0.15,
+    aum: 115941307,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXH.DE',
@@ -2756,29 +2524,31 @@ export const xetraETFs: ETF[] = [
     price: 215.4,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU0290357929',
+    ter: 0.25,
+    aum: 1010000000,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXI.DE',
-    name: 'Xtrackers FTSE MIB UCITS ETF',
-    price: 40.795,
+    name: 'Xtrackers FTSE MIB UCITS ETF 1D',
+    price: 44.14,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other'
   },
   {
     symbol: 'DBXJ.DE',
     name: 'Xtrackers MSCI Japan UCITS ETF 1C',
-    price: 80.048,
+    price: 93.588,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.12
+    category: 'Japan',
+    isin: 'LU0274209740',
+    ter: 0.12,
+    aum: 5582658900,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXK.DE',
@@ -2786,9 +2556,11 @@ export const xetraETFs: ETF[] = [
     price: 238.64,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290358224',
+    ter: 0.15,
+    aum: 502970000,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXM.DE',
@@ -2796,7 +2568,11 @@ export const xetraETFs: ETF[] = [
     price: 197.465,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other',
+    isin: 'LU0290359032',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXN.DE',
@@ -2804,29 +2580,35 @@ export const xetraETFs: ETF[] = [
     price: 221.58,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290355717',
+    ter: 0.15,
+    aum: 2920000000,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXP.DE',
     name: 'Xtrackers II Eurozone Government Bond 1-3 UCITS ETF 1C',
-    price: 172.78,
+    price: 173.87,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290356871',
+    ter: 0.1,
+    aum: 2970483100,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXQ.DE',
     name: 'Xtrackers II Eurozone Government Bond 3-5 UCITS ETF 1C',
-    price: 205.68,
+    price: 207.38,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290356954',
+    ter: 0.15,
+    aum: 482293184,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXR.DE',
@@ -2834,39 +2616,31 @@ export const xetraETFs: ETF[] = [
     price: 230.68,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'DBXR.F',
-    name: 'Xtrackers II Eurozone Government Bond 5-7 UCITS ETF',
-    price: 217.33,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290357176',
+    ter: 0.15,
+    aum: 1030000000,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXS.DE',
-    name: 'Xtrackers Switzerland UCITS ETF',
-    price: 133.02,
+    name: 'Xtrackers Switzerland UCITS ETF 1D',
+    price: 148.7,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other',
+    isin: 'LU0274221281',
+    ter: 0.3,
+    aum: 2404126400,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXT.DE',
-    name: 'Xtrackers II EUR Overnight Rate Swap UCITS ETF',
-    price: 147.114,
+    name: 'Xtrackers II EUR Overnight Rate Swap UCITS ETF 1C',
+    price: 148.611,
     issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    assetClass: 'Fixed Income',
+    category: 'Money Market'
   },
   {
     symbol: 'DBXU.DE',
@@ -2875,8 +2649,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'DBXV.DE',
@@ -2884,17 +2656,21 @@ export const xetraETFs: ETF[] = [
     price: 7.9,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'DBXW.DE',
-    name: 'Xtrackers MSCI World Swap UCITS ETF',
-    price: 112.23,
+    name: 'Xtrackers MSCI World Swap UCITS ETF 1C',
+    price: 121.195,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
+    category: 'Global',
+    isin: 'LU0274208692',
+    ter: 0.45,
+    aum: 9662738799,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXX.DE',
@@ -2902,9 +2678,7 @@ export const xetraETFs: ETF[] = [
     price: 10.19,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'UK'
   },
   {
     symbol: 'DBXY.DE',
@@ -2912,9 +2686,11 @@ export const xetraETFs: ETF[] = [
     price: 23.685,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other',
+    isin: 'LU0292097317',
+    ter: 0.15,
+    aum: 31160000,
+    domicile: 'LU'
   },
   {
     symbol: 'DBXZ.DE',
@@ -2922,19 +2698,19 @@ export const xetraETFs: ETF[] = [
     price: 5.244,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'UK'
   },
   {
     symbol: 'DBZB.DE',
-    name: 'Xtrackers II Global Government Bond UCITS ETF 1C - EUR Hedged',
-    price: 208.54,
+    name: 'Xtrackers II Global Government Bond UCITS ETF 1C EUR Hedged',
+    price: 211.89,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU0378818131',
+    ter: 0.25,
+    aum: 2230751900,
+    domicile: 'LU'
   },
   {
     symbol: 'DBZN.DE',
@@ -2942,169 +2718,175 @@ export const xetraETFs: ETF[] = [
     price: 21.59,
     issuer: 'Xtrackers',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.24
+    category: 'Commodities'
   },
   {
     symbol: 'DDOC.DE',
-    name: 'Global X Telemedicine & Digital Health UCITS ETF',
-    price: 7.801,
-    issuer: 'Global',
+    name: 'Global X - Telemedicine & Digital Health UCITS ETF',
+    price: 6.879,
+    issuer: 'Global X',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.68
+    category: 'Healthcare',
+    isin: 'IE00BLR6QB00',
+    ter: 0.68,
+    aum: 4480202,
+    domicile: 'IE'
   },
   {
     symbol: 'DE5A.DE',
-    name: 'Amundi Index Solutions - Amundi Govt Bond Highest Rated Euro Investment Grade',
-    price: 201.98,
+    name: 'Amundi Euro Government Bond Highest Rated Investment Grade UCITS ETF Acc',
+    price: 205.06,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.14
+    category: 'Bonds'
   },
   {
     symbol: 'DEAM.DE',
-    name: 'Invesco Markets II plc - Invesco MDAX UCITS ETF',
-    price: 49.345,
+    name: 'Invesco MDAX UCITS ETF',
+    price: 49.19,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'DECD.F',
-    name: 'Amundi DAX 50 ESG UCITS ETF',
-    price: 57.93,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.15
+    category: 'Germany',
+    isin: 'IE00BHJYDV33',
+    ter: 0.19,
+    aum: 1051550524,
+    domicile: 'IE'
   },
   {
     symbol: 'DECR.DE',
-    name: 'Amundi Index Solutions - Amundi Index Euro Corporate SRI',
-    price: 47.241,
+    name: 'Amundi EUR Corporate Bond ESG UCITS ETF DR (D)',
+    price: 46.615,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.14
-  },
-  {
-    symbol: 'DECR.F',
-    name: 'Amundi Index Solutions - Amundi Index Euro Corporate SRI',
-    price: 43.624,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.14
+    assetClass: 'Fixed Income',
+    category: 'Real Estate',
+    isin: 'LU1737653987',
+    ter: 0.14,
+    aum: 6565138930,
+    domicile: 'LU'
   },
   {
     symbol: 'DEL2.DE',
     name: 'L&G DAX Daily 2x Long UCITS ETF',
-    price: 662.2,
+    price: 654.6,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.4
+    category: 'Cash & Others',
+    isin: 'IE00B4QNHH68',
+    ter: 0.4,
+    aum: 32532714,
+    domicile: 'IE'
   },
   {
     symbol: 'DELF.DE',
-    name: 'L&G Europe Equity (Responsible Exclusions) UCITS ETF',
-    price: 16.888,
+    name: 'L&G MSCI Europe Climate Pathway UCITS ETF',
+    price: 18.568,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.1
+    category: 'Europe',
+    isin: 'IE00BKLTRN76',
+    ter: 0.1,
+    aum: 814577222,
+    domicile: 'IE'
   },
   {
     symbol: 'DELG.DE',
-    name: 'L&G US Equity (Responsible Exclusions) UCITS ETF',
-    price: 19.936,
+    name: 'L&G US ESG Paris Aligned UCITS ETF',
+    price: 21.075,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'US',
+    isin: 'IE00BKLWY790',
+    ter: 0.12,
+    aum: 164403186,
+    domicile: 'IE'
   },
   {
     symbol: 'DES2.DE',
     name: 'L&G DAX Daily 2x Short UCITS ETF',
-    price: 0.641,
+    price: 0.6214,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.6
+    category: 'Cash & Others',
+    isin: 'IE00B4QNHZ41',
+    ter: 0.6,
+    aum: 24479312,
+    domicile: 'IE'
   },
   {
     symbol: 'DFEN.DE',
-    name: 'VanEck Defense ETF',
-    price: 50.19,
+    name: 'VanEck Defense UCITS ETF',
+    price: 62.83,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.55
+    category: 'Industrials',
+    isin: 'IE000YYE6WK5',
+    ter: 0.55,
+    aum: 8146035859,
+    domicile: 'IE'
   },
   {
     symbol: 'DFOA.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Automobiles & Parts UCITS ETF',
+    name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Automobiles & Parts UCITS ETF',
     price: 106.64,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Consumer Cyclical',
+    isin: 'LU2082995908',
+    ter: 0.3,
+    aum: 8779389.7408,
+    domicile: 'LU'
   },
   {
     symbol: 'DFOB.DE',
-    name: 'Amundi Euro Government Bond 25+Y - UCITS ETF Dist',
-    price: 127.445,
+    name: 'Amundi Euro Government Bond 25+Y UCITS ETF Dist',
+    price: 128.685,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Cash & Others',
+    isin: 'LU1686832277',
+    ter: 0.07,
+    aum: 358884552,
+    domicile: 'DE'
   },
   {
     symbol: 'DFOP.DE',
     name: 'Amundi STOXX Europe 600 Consumer Staples UCITS ETF Dist',
-    price: 128.3,
+    price: 131.88,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU2082997359',
+    ter: 0.3,
+    aum: 101702845,
+    domicile: 'LU'
   },
   {
     symbol: 'DJAD.DE',
     name: 'Amundi US Treasury Bond Long Dated UCITS ETF Dist',
-    price: 87.008,
+    price: 88.824,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'Government',
+    isin: 'LU1407890620',
+    ter: 0.06,
+    aum: 472156860,
+    domicile: 'LU'
   },
   {
     symbol: 'DJAM.DE',
-    name: 'Lyxor Dow Jones Industrial Average UCITS ETF',
-    price: 393.95,
-    issuer: 'Lyxor',
+    name: 'Amundi Dow Jones Industrial Average UCITS ETF Dist',
+    price: 416.45,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'US'
+  },
+  {
+    symbol: 'DJGTEEX.DE',
+    name: 'iShares Dow Jones Global Titans 50 UCITS ETF DE',
+    price: undefined,
+    issuer: 'iShares',
+    assetClass: 'Equity',
+    category: 'Global'
   },
   {
     symbol: 'DNRA.DE',
@@ -3112,77 +2894,79 @@ export const xetraETFs: ETF[] = [
     price: 88.9,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  },
-  {
-    symbol: 'DRGE.F',
-    name: 'L&G ESG China CNY Bond UCITS ETF',
-    price: 9.9268,
-    issuer: 'L&G',
-    assetClass: 'Fixed Income',
-    category: 'China'
-  ,
-    ter: 0.3
+    category: 'Other',
+    isin: 'LU1737653045',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'US'
   },
   {
     symbol: 'DRUP.DE',
     name: 'Amundi MSCI Disruptive Technology UCITS ETF Acc',
-    price: 14.87,
+    price: 15.382,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Technology',
+    isin: 'LU2023678282',
+    ter: 0.45,
+    aum: 133928748,
+    domicile: 'LU'
   },
   {
     symbol: 'DX22.DE',
     name: 'Xtrackers II EUR Overnight Rate Swap UCITS ETF',
     price: 127.406,
     issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    assetClass: 'Fixed Income',
+    category: 'Money Market',
+    isin: 'LU0335044896',
+    ter: 0.1,
+    aum: 1103915577,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2D.DE',
-    name: 'Xtrackers LPX Private Equity Swap UCITS ETF',
-    price: 132.2,
+    name: 'Xtrackers LPX Private Equity Swap UCITS ETF 1C',
+    price: 105.92,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.7
+    category: 'Other',
+    isin: 'LU0322250712',
+    ter: 0.7,
+    aum: 286726748,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2E.DE',
-    name: 'Xtrackers S&P Global Infrastructure Swap UCITS ETF',
-    price: 60.93,
+    name: 'Xtrackers S&P Global Infrastructure Swap UCITS ETF 1C',
+    price: 69.79,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.6
+    category: 'Global',
+    isin: 'LU0322253229',
+    ter: 0.6,
+    aum: 474364190,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2G.DE',
-    name: 'Xtrackers CAC 40 UCITS ETF',
-    price: 78.33,
+    name: 'Xtrackers CAC 40 UCITS ETF 1D',
+    price: 81.73,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Other'
   },
   {
     symbol: 'DX2I.DE',
-    name: 'Xtrackers MSCI Europe ESG Screened UCITS ETF',
-    price: 173.66,
+    name: 'Xtrackers MSCI Europe Screened UCITS ETF 1C',
+    price: 192.5,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'LU0322253732',
+    ter: 0.12,
+    aum: 77613984,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2J.DE',
@@ -3190,9 +2974,11 @@ export const xetraETFs: ETF[] = [
     price: 61.67,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.33
+    category: 'Europe',
+    isin: 'LU0322253906',
+    ter: 0.33,
+    aum: 1999320319,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2K.DE',
@@ -3200,19 +2986,23 @@ export const xetraETFs: ETF[] = [
     price: 3.364,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'UK',
+    isin: 'LU0328473581',
+    ter: 0.5,
+    aum: 8792048.91,
+    domicile: 'DE'
   },
   {
     symbol: 'DX2S.DE',
-    name: 'Xtrackers S&P ASX 200 UCITS ETF',
-    price: 40.325,
+    name: 'Xtrackers S&P ASX 200 UCITS ETF 1D',
+    price: 44.1,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.5
+    category: 'US',
+    isin: 'LU0328474803',
+    ter: 0.5,
+    aum: 62565077,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2X.DE',
@@ -3220,19 +3010,23 @@ export const xetraETFs: ETF[] = [
     price: 137.1,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'LU0328475792',
+    ter: 0.2,
+    aum: 2890000000,
+    domicile: 'LU'
   },
   {
     symbol: 'DX2Z.DE',
-    name: 'Xtrackers S&P Select Frontier Swap UCITS ETF',
-    price: 21.69,
+    name: 'Xtrackers S&P Select Frontier Swap UCITS ETF 1C',
+    price: 22.815,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.95
+    category: 'US',
+    isin: 'LU0328476410',
+    ter: 0.95,
+    aum: 116565455,
+    domicile: 'LU'
   },
   {
     symbol: 'DXET.DE',
@@ -3240,37 +3034,39 @@ export const xetraETFs: ETF[] = [
     price: 62.96,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Europe'
   },
   {
     symbol: 'DXS0.DE',
-    name: 'Xtrackers SLI UCITS ETF',
-    price: 222.7,
+    name: 'Xtrackers SLI UCITS ETF 1D',
+    price: 240.45,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'LU0322248146',
+    ter: 0.25,
+    aum: 437285163,
+    domicile: 'LU'
   },
   {
     symbol: 'DXS1.DE',
-    name: 'Xtrackers II GBP Overnight Rate Swap UCITS ETF',
-    price: 207.4,
+    name: 'Xtrackers II GBP Overnight Rate Swap UCITS ETF 1D',
+    price: 208.152,
     issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    assetClass: 'Fixed Income',
+    category: 'Money Market'
   },
   {
     symbol: 'DXS3.DE',
-    name: 'Xtrackers S&P 500 Inverse Daily Swap UCITS ETF',
-    price: 5.379,
+    name: 'Xtrackers S&P 500 Inverse Daily Swap UCITS ETF 1C',
+    price: 5.242,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.5
+    category: 'US',
+    isin: 'LU0322251520',
+    ter: 0.5,
+    aum: 159169349,
+    domicile: 'LU'
   },
   {
     symbol: 'DXS5.DE',
@@ -3278,19 +3074,19 @@ export const xetraETFs: ETF[] = [
     price: 47.275,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.65
+    category: 'Japan',
+    isin: 'LU0322252171',
+    ter: 0.65,
+    aum: 345730000,
+    domicile: 'LU'
   },
   {
     symbol: 'DXS6.DE',
-    name: 'Xtrackers MSCI Pacific ex Japan ESG Screened UCITS ETF',
-    price: 74.69,
+    name: 'Xtrackers MSCI Pacific ex Japan Screened UCITS ETF 1C',
+    price: 82.43,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'DXS7.DE',
@@ -3298,19 +3094,19 @@ export const xetraETFs: ETF[] = [
     price: 23.04,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.85
+    category: 'Other'
   },
   {
     symbol: 'DXSA.DE',
-    name: 'Xtrackers Euro Stoxx Quality Dividend UCITS ETF',
-    price: 25.415,
+    name: 'Xtrackers Euro Stoxx Quality Dividend UCITS ETF 1D',
+    price: 28.08,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU0292095535',
+    ter: 0.3,
+    aum: 503086565,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSB.DE',
@@ -3318,19 +3114,19 @@ export const xetraETFs: ETF[] = [
     price: 29.91,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.5
+    category: 'Global',
+    isin: 'LU0292096186',
+    ter: 0.5,
+    aum: 670380000,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSC.DE',
-    name: 'XtrackersMSCI Europe Materials ESG Screened UCITS ETF',
-    price: 160.86,
+    name: 'Xtrackers MSCI Europe Materials Screened UCITS ETF 1C',
+    price: 163.76,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.17
   },
   {
     symbol: 'DXSD.DE',
@@ -3342,13 +3138,15 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'DXSE.DE',
-    name: 'Xtrackers MSCI Europe Health Care ESG Screened UCITS ETF',
-    price: 209.1,
+    name: 'Xtrackers MSCI Europe Health Care Screened UCITS ETF 1C',
+    price: 226.95,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.17
+    category: 'Healthcare',
+    isin: 'LU0292103222',
+    ter: 0.17,
+    aum: 276254928,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSF.DE',
@@ -3356,17 +3154,21 @@ export const xetraETFs: ETF[] = [
     price: 36.795,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Financials',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'DXSG.DE',
-    name: 'Xtrackers MSCI Europe Communication Services ESG Screened UCITS ETF',
-    price: 93.41,
+    name: 'Xtrackers MSCI Europe Communication Services Screened UCITS ETF 1C',
+    price: 95.83,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.17
+    category: 'Communication',
+    isin: 'LU0292104030',
+    ter: 0.17,
+    aum: 7547569,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSH.DE',
@@ -3378,33 +3180,31 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'DXSI.DE',
-    name: 'Xtrackers MSCI Europe Utilities ESG Screened UCITS ETF',
+    name: 'Xtrackers MSCI Europe Utilities Screened UCITS ETF 1C',
     price: 139.04,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'DXSK.DE',
-    name: 'Xtrackers MSCI Europe Consumer Staples ESG Screened UCITS ETF',
-    price: 140.08,
+    name: 'Xtrackers MSCI Europe Consumer Staples Screened UCITS ETF 1C',
+    price: 138.22,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.17
+    category: 'Consumer Defensive',
+    isin: 'LU0292105359',
+    ter: 0.17,
+    aum: 50371071,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSL.DE',
-    name: 'Xtrackers MSCI Europe Industrial ESG Screened UCITS ETF',
-    price: 183.3,
+    name: 'Xtrackers MSCI Europe Industrials Screened UCITS ETF 1C',
+    price: 201.55,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.17
   },
   {
     symbol: 'DXSM.DE',
@@ -3412,37 +3212,23 @@ export const xetraETFs: ETF[] = [
     price: 26.17,
     issuer: 'Xtrackers',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.39
-  },
-  {
-    symbol: 'DXSM.F',
-    name: 'Xtrackers Bloomberg Commodity ex-Agriculture & Livestock Swap UCITS ETF 1C EUR Hedged',
-    price: 26.25,
-    issuer: 'Xtrackers',
-    assetClass: 'Commodity',
-    category: 'Technology'
+    category: 'Commodities'
   },
   {
     symbol: 'DXSN.DE',
-    name: 'Xtrackers ShortDAX Daily Swap UCITS ETF',
-    price: 9.648,
+    name: 'Xtrackers ShortDAX Daily Swap UCITS ETF 1C',
+    price: 9.652,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'DXSP.DE',
-    name: 'Xtrackers Euro Stoxx 50 Short Daily Swap UCITS ETF',
-    price: 6.21,
+    name: 'Xtrackers Euro Stoxx 50 Short Daily Swap UCITS ETF 1C',
+    price: 5.705,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Europe'
   },
   {
     symbol: 'DXSQ.DE',
@@ -3450,7 +3236,11 @@ export const xetraETFs: ETF[] = [
     price: 119.705,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'LU0290358653',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'DXST.DE',
@@ -3458,9 +3248,11 @@ export const xetraETFs: ETF[] = [
     price: 30.664,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.24
+    category: 'Cash & Others',
+    isin: 'LU0321462870',
+    ter: 0.24,
+    aum: 33130000,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSU.DE',
@@ -3468,19 +3260,19 @@ export const xetraETFs: ETF[] = [
     price: 293.74,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.4
+    category: 'Cash & Others',
+    isin: 'LU0321462953',
+    ter: 0.4,
+    aum: 321120000,
+    domicile: 'LU'
   },
   {
     symbol: 'DXSV.DE',
-    name: 'Xtrackers II Eurozone Government Bond Short Daily Swap UCITS ETF',
-    price: 86.348,
+    name: 'Xtrackers II Eurozone Government Bond Short Daily Swap UCITS ETF 1C',
+    price: 86.374,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'DXSW.DE',
@@ -3489,18 +3281,14 @@ export const xetraETFs: ETF[] = [
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'DXSZ.DE',
     name: 'Xtrackers II USD Overnight Rate Swap UCITS ETF',
     price: 194.17,
     issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    assetClass: 'Fixed Income',
+    category: 'Money Market'
   },
   {
     symbol: 'E127.DE',
@@ -3512,73 +3300,39 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'E15G.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 15+Y (DR) UCITS ETF',
-    price: 144.6,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 15+Y UCITS ETF Dist',
+    price: 145.565,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'E15H.DE',
-    name: 'Lyxor Core Euro Government Inflation-Linked Bond (DR) UCITS ETF',
-    price: 140.7,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Inflation-Linked Bond UCITS ETF Dist',
+    price: 143.82,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Bonds'
   },
   {
     symbol: 'E500.DE',
-    name: 'Invesco S&P 500 UCITS ETF (EUR Hdg)',
-    price: 49.531,
+    name: 'Invesco S&P 500 UCITS ETF',
+    price: 51.848,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'E500.F',
-    name: 'Invesco S&P 500 UCITS ETF (EUR Hdg)',
-    price: 34.5,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'E6BR.F',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Basic Resources UCITS ETF',
-    price: 111.34,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00BRKWGL70',
+    ter: 0.05,
+    aum: 43093080531,
+    domicile: 'IE'
   },
   {
     symbol: 'E903.DE',
-    name: 'Lyxor 1 DivDAX (DR) UCITS ETF',
-    price: 196.54,
-    issuer: 'Lyxor',
+    name: 'Amundi DivDax II UCITS ETF Dist',
+    price: 211.9,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'E903.F',
-    name: 'Lyxor 1 DivDAX (DR) UCITS ETF',
-    price: 189.4,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'E905.DE',
@@ -3590,53 +3344,39 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'E907.DE',
-    name: 'Amundi MDAX ESG II UCITS ETF -I-',
-    price: 141.84,
+    name: 'Amundi MDAX ESG II UCITS ETF Dist',
+    price: 145.1,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'E907.F',
-    name: 'Lyxor 1 MDAX (DR) UCITS ETF',
-    price: 143.3,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.3
+    category: 'Germany',
+    isin: 'DE000ETF9074',
+    ter: 0.3,
+    aum: 98988413,
+    domicile: 'DE'
   },
   {
     symbol: 'E908.DE',
-    name: 'Lyxor 1 TecDAX (DR) UCITS ETF',
-    price: 26.375,
-    issuer: 'Lyxor',
+    name: 'Amundi TecDAX UCITS ETF Dist',
+    price: 26.02,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.4
+    category: 'Germany',
+    isin: 'DE000ETF9082',
+    ter: 0.4,
+    aum: 78815138,
+    domicile: 'DE'
   },
   {
     symbol: 'E909.DE',
-    name: 'Lyxor 1 DAX 50 ESG (DR) UCITS ETF',
-    price: 46.88,
-    issuer: 'Lyxor',
+    name: 'Amundi DAX 50 ESG II UCITS ETF Dist',
+    price: 48.34,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'E909.F',
-    name: 'Lyxor 1 DAX 50 ESG (DR) UCITS ETF',
-    price: 46.64,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.15
+    category: 'Germany',
+    isin: 'DE000ETF9090',
+    ter: 0.15,
+    aum: 279393369,
+    domicile: 'DE'
   },
   {
     symbol: 'E950.DE',
@@ -3644,25 +3384,19 @@ export const xetraETFs: ETF[] = [
     price: 35.39,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
-  },
-  {
-    symbol: 'E950.F',
-    name: 'Lyxor 1 EURO STOXX 50 (DR) UCITS ETF',
-    price: 34.995,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Europe'
   },
   {
     symbol: 'E960.DE',
-    name: 'Lyxor 1 STOXX Europe 600 ESG (DR) UCITS ETF',
-    price: 54.18,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 ESG II UCITS ETF Dist',
+    price: 59.86,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.19
+    category: 'Europe',
+    isin: 'DE000ETF9603',
+    ter: 0.19,
+    aum: 341422125,
+    domicile: 'DE'
   },
   {
     symbol: 'EB3M.DE',
@@ -3671,28 +3405,14 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.35000000000000003
-  },
-  {
-    symbol: 'EB3M.F',
-    name: 'iShares J.P. Morgan € EM Bond UCITS ETF',
-    price: 3.9397,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.35000000000000003
   },
   {
     symbol: 'EBUY.DE',
-    name: 'Amundi MSCI Digital Economy -UCITS ETF Acc- Capitalisation',
-    price: 16.61,
+    name: 'Amundi MSCI Digital Economy UCITS ETF Acc',
+    price: 16.176,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Other'
   },
   {
     symbol: 'ECBC.DE',
@@ -3700,9 +3420,11 @@ export const xetraETFs: ETF[] = [
     price: 88.49,
     issuer: 'SI',
     assetClass: 'Fixed Income',
-    category: 'Europe'
-  ,
-    ter: 0.75
+    category: 'Europe',
+    isin: 'LU1372156916',
+    ter: 0.75,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'ECBD.DE',
@@ -3711,8 +3433,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'SI',
     assetClass: 'Fixed Income',
     category: 'Europe'
-  ,
-    ter: 0.75
   },
   {
     symbol: 'ECBI.DE',
@@ -3721,128 +3441,106 @@ export const xetraETFs: ETF[] = [
     issuer: 'SI',
     assetClass: 'Fixed Income',
     category: 'Europe'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'ECBI.F',
-    name: 'SI UCITS ETF - UC MSCI European Green Bond EUR UCITS ETF Acc EUR',
-    price: 84.7,
-    issuer: 'SI',
-    assetClass: 'Fixed Income',
-    category: 'Europe'
-  ,
-    ter: 0.35
   },
   {
     symbol: 'ECDC.DE',
     name: 'Expat Croatia Crobex UCITS ETF',
-    price: 1.2358,
+    price: 1.2716,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 3.02
-  },
-  {
-    symbol: 'ECR1.F',
-    name: 'Amundi Index Solutions Amundi Euro Corp 0-1Y ESG',
-    price: 50.156,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'ESG'
-  ,
-    ter: 0.08
+    category: 'Other'
   },
   {
     symbol: 'ECR3.DE',
-    name: 'Amundi Index Solutions - Amundi Index Euro Corporate Sri 0-3 Y',
-    price: 53.556,
+    name: 'Amundi EUR Corporate Bond 0-3Y ESG UCITS ETF DR (C)',
+    price: 54.074,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.12
+    assetClass: 'Fixed Income',
+    category: 'Industrials',
+    isin: 'LU2037748774',
+    ter: 0.12,
+    aum: 3647202289,
+    domicile: 'LU'
   },
   {
     symbol: 'EDEU.DE',
     name: 'BNP Paribas Easy ESG Equity Dividend Europe',
-    price: 155.42,
+    price: 173.8,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EDM2.DE',
-    name: 'iShares MSCI EM ESG Enhanced UCITS ETF USD Acc',
-    price: 6.009,
-    issuer: 'iShares',
+    name: 'iShares MSCI EM CTB Enhanced ESG UCITS ETF',
+    price: 7.14,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'IE00BHZPJ239',
+    ter: 0.18,
+    aum: 7788798014,
+    domicile: 'IE'
   },
   {
     symbol: 'EDM4.DE',
-    name: 'iShares MSCI EMU ESG Enhanced UCITS ETF',
-    price: 8.625,
-    issuer: 'iShares',
+    name: 'iShares MSCI EMU CTB Enhanced ESG UCITS ETF',
+    price: 9.475,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets',
+    isin: 'IE00BHZPJ015',
+    ter: 0.12,
+    aum: 2820405361,
+    domicile: 'IE'
   },
   {
     symbol: 'EDM6.DE',
-    name: 'iShares MSCI Europe ESG Enhanced UCITS ETF',
-    price: 8.048,
-    issuer: 'iShares',
+    name: 'iShares MSCI Europe CTB Enhanced ESG UCITS ETF',
+    price: 9.03,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'IE00BHZPJ783',
+    ter: 0.12,
+    aum: 2143516191,
+    domicile: 'IE'
   },
   {
     symbol: 'EDMJ.DE',
-    name: 'iShares MSCI Japan ESG Enhanced UCITS ETF',
-    price: 6.756,
+    name: 'iShares MSCI Japan CTB Enhanced ESG UCITS ETF',
+    price: 7.924,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'EDMU.DE',
-    name: 'iShares MSCI USA ESG Enhanced UCITS ETF',
-    price: 9.97,
-    issuer: 'iShares',
+    name: 'iShares MSCI USA CTB Enhanced ESG UCITS ETF',
+    price: 10.458,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
+    category: 'US',
+    isin: 'IE00BHZPJ908',
+    ter: 0.07,
+    aum: 7037495799,
+    domicile: 'IE'
   },
   {
     symbol: 'EDMW.DE',
-    name: 'iShares MSCI World ESG Enhanced UCITS ETF',
-    price: 8.876,
+    name: 'iShares MSCI World CTB Enhanced ESG UCITS ETF',
+    price: 9.537,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'EEAA.DE',
     name: 'BNP Paribas Easy FTSE EPRA/NAREIT Eurozone Capped',
-    price: 8.992,
+    price: 9.23,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Real Estate'
   },
   {
     symbol: 'EEP.DE',
@@ -3851,38 +3549,42 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'EEPG.DE',
     name: 'BNP Paribas Easy FTSE EPRA Nareit Developed Europe ex UK Green CTB',
-    price: 6.504,
+    price: 6.984,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.4
+    category: 'Real Estate',
+    isin: 'LU2008763935',
+    ter: 0.4,
+    aum: 99821942,
+    domicile: 'LU'
   },
   {
     symbol: 'EESM.DE',
     name: 'BNP Paribas Easy MSCI Europe Small Caps SRI S-Series PAB 5% Capped',
-    price: 293.6,
+    price: 307.45,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'LU1291101555',
+    ter: 0.25,
+    aum: 137020299,
+    domicile: 'DE'
   },
   {
     symbol: 'EEUX.DE',
     name: 'BNPP E MSCI Europe ESG Filtered Min TE',
-    price: 17.046,
-    issuer: 'BNPP',
+    price: 18.954,
+    issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.15
+    category: 'Europe',
+    isin: 'LU1291099718',
+    ter: 0.15,
+    aum: 797661356,
+    domicile: 'LU'
   },
   {
     symbol: 'EEXU.DE',
@@ -3890,7 +3592,9 @@ export const xetraETFs: ETF[] = [
     price: 203.95,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'EFQ2.DE',
@@ -3898,479 +3602,411 @@ export const xetraETFs: ETF[] = [
     price: 80.616,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other',
+    isin: 'DE000ETFL425',
+    ter: 0.15,
+    aum: 984423,
+    domicile: 'DE'
   },
   {
     symbol: 'EFQ8.DE',
     name: 'Deka iBoxx EUR Liquid Non-Financials Diversified UCITS ETF',
-    price: 98.07,
-    issuer: 'Deka',
+    price: 98.134,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'DE000ETFL383',
+    ter: 0.2,
+    aum: 155578205,
+    domicile: 'DE'
   },
   {
     symbol: 'EFRN.DE',
     name: 'iShares € Floating Rate Bond ESG UCITS ETF',
-    price: 5.0694,
+    price: 5.0606,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'ESG'
   },
   {
     symbol: 'EGV1.DE',
-    name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Insurance UCITS ETF',
-    price: 98.2,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Insurance UCITS ETF Dist',
+    price: 95.95,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EGV2.DE',
-    name: 'Multi Units Luxembourg - Amundi Smart Overnight Return UCITS ETF Dist',
-    price: 102.364,
+    name: 'Amundi Smart Overnight Return UCITS ETF Dist',
+    price: 100.599,
     issuer: 'Amundi',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    assetClass: 'Fixed Income',
+    category: 'Money Market',
+    isin: 'LU2082999306',
+    ter: 0.1,
+    aum: 16003052184,
+    domicile: 'LU'
   },
   {
     symbol: 'EGV3.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 1-3Y (DR) UCITS ETF',
-    price: 123.02,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 1-3Y UCITS ETF Dist',
+    price: 121.925,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'EGV3.F',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 1-3Y (DR) UCITS ETF',
-    price: 117.125,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.165
+    category: 'Bonds'
   },
   {
     symbol: 'EGV5.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 3-5Y (DR) UCITS ETF',
-    price: 133.12,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 3-5Y UCITS ETF Dist',
+    price: 131.815,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'EGV5.F',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 3-5Y (DR) UCITS ETF',
-    price: 125.975,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.165
+    category: 'Cash & Others',
+    isin: 'LU1650488817',
+    ter: 0.15,
+    aum: 2366495253,
+    domicile: 'LU'
   },
   {
     symbol: 'EGV7.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 5-7Y (DR) UCITS ETF',
-    price: 151.14,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 5-7Y UCITS ETF Dist',
+    price: 151.305,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'EGV7.F',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 5-7Y (DR) UCITS ETF',
-    price: 143.255,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Cash & Others',
+    isin: 'LU2090062865',
+    ter: 0.15,
+    aum: 665606559,
+    domicile: 'LU'
   },
   {
     symbol: 'EH1Y.DE',
     name: 'iShares Broad € High Yield Corp Bond UCITS ETF',
-    price: 4.9338,
-    issuer: 'iShares',
+    price: 4.8575,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'EH1Y.F',
-    name: 'iShares Broad € High Yield Corp Bond UCITS ETF',
-    price: 4.7167,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Financials',
+    isin: 'IE00BG0J4B71',
+    ter: 0.2,
+    aum: 128573662,
+    domicile: 'IE'
   },
   {
     symbol: 'EHBA.DE',
     name: 'Invesco Euro Corporate Hybrid Bond UCITS ETF',
-    price: 44.709,
+    price: 45.328,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'Cash & Others',
+    isin: 'IE00BKWD3B81',
+    ter: 0.39,
+    aum: 356963780,
+    domicile: 'IE'
   },
   {
     symbol: 'EHDL.DE',
     name: 'Invesco FTSE Emerging Markets High Dividend Low Volatility UCITS ETF',
-    price: 22.27,
+    price: 25.67,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.49
+    category: 'Emerging Markets',
+    isin: 'IE00BYYXBF44',
+    ter: 0.49,
+    aum: 235456141,
+    domicile: 'IE'
   },
   {
     symbol: 'EHDV.DE',
     name: 'Invesco EURO STOXX High Dividend Low Volatility UCITS ETF',
-    price: 30.13,
+    price: 33.68,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'IE00BZ4BMM98',
+    ter: 0.3,
+    aum: 360424853,
+    domicile: 'IE'
   },
   {
     symbol: 'EHF1.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe High Dividend Factor',
-    price: 205,
+    name: 'Amundi MSCI Europe High Dividend Factor UCITS ETF - EUR (C)',
+    price: 227.9,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.23
+    category: 'Europe',
+    isin: 'LU1681041973',
+    ter: 0.23,
+    aum: 380248031,
+    domicile: 'LU'
   },
   {
     symbol: 'EHLT.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Healthcare UCITS ETF',
-    price: 179.8,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Healthcare UCITS ETF Dist',
+    price: 193.84,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EIB3.DE',
     name: 'Invesco Euro Government Bond 1-3 Year UCITS ETF',
-    price: 38.04,
+    price: 37.88,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'EIB3.F',
-    name: 'Invesco Euro Government Bond 1-3 Year UCITS ETF',
-    price: 37.231,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Bonds'
   },
   {
     symbol: 'EIB5.DE',
     name: 'Invesco Euro Government Bond 3-5 Year UCITS ETF',
-    price: 36.735,
+    price: 36.621,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'EIB5.F',
-    name: 'Invesco Euro Government Bond 3-5 Year UCITS ETF',
-    price: 35.599,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'IE00BGJWWV33',
+    ter: 0.1,
+    aum: 201074447,
+    domicile: 'IE'
   },
   {
     symbol: 'EIB7.DE',
     name: 'Invesco Euro Government Bond 5-7 Year UCITS ETF',
-    price: 34.984,
+    price: 35.057,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'EIB7.F',
-    name: 'Invesco Euro Government Bond 5-7 Year UCITS ETF',
-    price: 33.948,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'IE00BGJWWT11',
+    ter: 0.1,
+    aum: 9654569,
+    domicile: 'IE'
   },
   {
     symbol: 'EIBB.DE',
     name: 'Invesco Euro Government Bond UCITS ETF',
-    price: 32.446,
+    price: 32.579,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'EIBB.F',
-    name: 'Invesco Euro Government Bond UCITS ETF',
-    price: 32.403,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'IE00BGJWWX56',
+    ter: 0.07,
+    aum: 25341791,
+    domicile: 'IE'
   },
   {
     symbol: 'EIBX.DE',
     name: 'Invesco Euro Government Bond 7-10 Year UCITS ETF',
-    price: 32.314,
+    price: 32.516,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'EIBX.F',
-    name: 'Invesco Euro Government Bond 7-10 Year UCITS ETF',
-    price: 31.887,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Bonds'
   },
   {
     symbol: 'EJAH.DE',
     name: 'BNPP E MSCI Japan ESG Filtered Min TE',
-    price: 21.345,
-    issuer: 'BNPP',
+    price: 26.415,
+    issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'LU1481203070',
+    ter: 0.15,
+    aum: 194487816,
+    domicile: 'DE'
   },
   {
     symbol: 'EJAP.DE',
     name: 'BNP Paribas Easy MSCI Japan ex CW UCITS ETF Cap',
-    price: 15.932,
+    price: 18.508,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'LU1291102447',
+    ter: 0.15,
+    aum: 1188250919,
+    domicile: 'LU'
   },
   {
     symbol: 'EKLD.DE',
     name: 'BNP Paribas Easy MSCI USA SRI S-Series 5% Capped UCITS ETF Capitalisation',
-    price: 22.395,
+    price: 22.02,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.26
+    category: 'US',
+    isin: 'LU1291103338',
+    ter: 0.26,
+    aum: 285757649,
+    domicile: 'LU'
   },
   {
     symbol: 'EKUS.DE',
     name: 'BNP Paribas Easy MSCI USA SRI S-Series 5% Capped UCITS ETF EUR Distribution',
-    price: 19.958,
+    price: 19.616,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.26
   },
   {
     symbol: 'EL40.DE',
     name: 'Deka MSCI Emerging Markets UCITS ETF',
-    price: 50.558,
+    price: 60.872,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'EL41.DE',
     name: 'Deka MSCI USA MC UCITS ETF',
-    price: 28.705,
+    price: 29.225,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EL42.DE',
     name: 'Deka MSCI Europe UCITS ETF',
-    price: 18.564,
-    issuer: 'Deka',
+    price: 20.45,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'DE000ETFL284',
+    ter: 0.3,
+    aum: 1463003357,
+    domicile: 'DE'
   },
   {
     symbol: 'EL43.DE',
     name: 'Deka MSCI Europe MC UCITS ETF',
-    price: 14.486,
-    issuer: 'Deka',
+    price: 15.784,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.36
+    category: 'Europe',
+    isin: 'DE000ETFL292',
+    ter: 0.36,
+    aum: 44616732,
+    domicile: 'DE'
   },
   {
     symbol: 'EL44.DE',
     name: 'Deka MSCI Japan UCITS ETF',
-    price: 10.6705,
-    issuer: 'Deka',
+    price: 12.2795,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.52
+    category: 'Japan',
+    isin: 'DE000ETFL300',
+    ter: 0.52,
+    aum: 11474965219,
+    domicile: 'DE'
   },
   {
     symbol: 'EL45.DE',
     name: 'Deka MSCI Japan Climate Change ESG UCITS ETF',
-    price: 9.648,
+    price: 10.738,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.26
   },
   {
     symbol: 'EL46.DE',
     name: 'Deka MSCI China ex A Shares UCITS ETF',
-    price: 9.177,
+    price: 8.72,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'EL48.DE',
-    name: 'Deka iBoxx € Liquid Germany Covered Diversified UCITS ETF',
-    price: 100.57,
-    issuer: 'Deka',
+    name: 'Deka iBoxx EUR Liquid Germany Covered Diversified UCITS ETF',
+    price: 100.26,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.09
+    category: 'Cash & Others',
+    isin: 'DE000ETFL359',
+    ter: 0.09,
+    aum: 45891502,
+    domicile: 'DE'
   },
   {
     symbol: 'EL49.DE',
-    name: 'Deka iBoxx € Liquid Corporates Diversified UCITS ETF',
-    price: 100.945,
+    name: 'Deka iBoxx EUR Liquid Corporates Diversified UCITS ETF',
+    price: 100.76,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Other'
   },
   {
     symbol: 'EL4A.DE',
     name: 'Deka DAX UCITS ETF',
-    price: 207.8,
+    price: 210.15,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'EL4B.DE',
     name: 'Deka EURO STOXX 50 UCITS ETF',
-    price: 54.02,
-    issuer: 'Deka',
+    price: 58.8,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Europe',
+    isin: 'DE000ETFL029',
+    ter: 0.15,
+    aum: 1162945396,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4C.DE',
     name: 'Deka STOXX Europe Strong Growth 20 UCITS ETF',
-    price: 41.89,
-    issuer: 'Deka',
+    price: 45.585,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.65
+    category: 'Europe',
+    isin: 'DE000ETFL037',
+    ter: 0.65,
+    aum: 157177557,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4D.DE',
     name: 'Deka STOXX Europe Strong Value 20 UCITS ETF',
-    price: 32.66,
-    issuer: 'Deka',
+    price: 34.905,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.65
+    category: 'Europe',
+    isin: 'DE000ETFL045',
+    ter: 0.65,
+    aum: 52038334,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4E.DE',
     name: 'Deka STOXX Europe Strong Style Composite 40 UCITS ETF',
-    price: 40.24,
-    issuer: 'Deka',
+    price: 43.44,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.66
+    category: 'Europe',
+    isin: 'DE000ETFL052',
+    ter: 0.66,
+    aum: 39051264,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4F.DE',
     name: 'Deka DAX (ausschüttend) UCITS ETF',
-    price: 89.28,
+    price: 89.97,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'EL4G.DE',
     name: 'Deka EURO STOXX Select Dividend 30 UCITS ETF',
-    price: 20.91,
-    issuer: 'Deka',
+    price: 21.98,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.32
+    category: 'Europe',
+    isin: 'DE000ETFL078',
+    ter: 0.32,
+    aum: 225572537,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4H.DE',
@@ -4378,19 +4014,19 @@ export const xetraETFs: ETF[] = [
     price: 116.54,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.27
+    category: 'Europe',
+    isin: 'DE000ETFL086',
+    ter: 0.27,
+    aum: 10989111,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4I.DE',
     name: 'Deka MSCI USA LC UCITS ETF',
-    price: 376.5,
+    price: 396.95,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EL4J.DE',
@@ -4398,197 +4034,187 @@ export const xetraETFs: ETF[] = [
     price: 84.47,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.27
+    category: 'Japan',
+    isin: 'DE000ETFL102',
+    ter: 0.27,
+    aum: 638846464,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4K.DE',
     name: 'Deka iBoxx EUR Liquid Sovereign Diversified 1-10 UCITS ETF',
-    price: 101.985,
+    price: 102.415,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'EL4L.DE',
     name: 'Deka iBoxx EUR Liquid Sovereign Diversified 1-3 UCITS ETF',
-    price: 93.91,
-    issuer: 'Deka',
+    price: 93.728,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'DE000ETFL128',
+    ter: 0.15,
+    aum: 29378023,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4M.DE',
     name: 'Deka iBoxx EUR Liquid Sovereign Diversified 3-5 UCITS ETF',
-    price: 95.058,
-    issuer: 'Deka',
+    price: 95.06,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'DE000ETFL136',
+    ter: 0.15,
+    aum: 14047830,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4N.DE',
     name: 'Deka iBoxx EUR Liquid Sovereign Diversified 5-7 UCITS ETF',
-    price: 103.8,
+    price: 104.79,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'EL4P.DE',
     name: 'Deka iBoxx EUR Liquid Sovereign Diversified 7-10 UCITS ETF',
-    price: 109.85,
+    price: 110.44,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'EL4Q.DE',
     name: 'Deka iBoxx EUR Liquid Sovereign Diversified 10+ UCITS ETF',
-    price: 92.766,
-    issuer: 'Deka',
+    price: 94.524,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'DE000ETFL169',
+    ter: 0.15,
+    aum: 8372600,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4R.DE',
-    name: 'Deka Deutsche Börse EUROGOV Germany UCITS ETF',
-    price: 90.07,
-    issuer: 'Deka',
+    name: 'Deka Deutsche Boerse EUROGOV Germany UCITS ETF',
+    price: 90.11,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'DE000ETFL177',
+    ter: 0.15,
+    aum: 96418604,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4S.DE',
-    name: 'Deka Deutsche Börse EUROGOV Germany 1-3 UCITS ETF',
-    price: 76.674,
+    name: 'Deka Deutsche Boerse EUROGOV Germany 1-3 UCITS ETF',
+    price: 76.534,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'EL4T.DE',
-    name: 'Deka Deutsche Börse EUROGOV Germany 3-5 UCITS ETF',
-    price: 89.51,
-    issuer: 'Deka',
+    name: 'Deka Deutsche Boerse EUROGOV Germany 3-5 UCITS ETF',
+    price: 89.35,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'DE000ETFL193',
+    ter: 0.15,
+    aum: 66631317,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4U.DE',
-    name: 'Deka Deutsche Börse EUROGOV Germany 5-10 UCITS ETF',
-    price: 105.14,
+    name: 'Deka Deutsche Boerse EUROGOV Germany 5-10 UCITS ETF',
+    price: 104.95,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'EL4V.DE',
-    name: 'Deka Deutsche Börse EUROGOV Germany 10+ UCITS ETF',
-    price: 100.05,
+    name: 'Deka Deutsche Boerse EUROGOV Germany 10+ UCITS ETF',
+    price: 99.602,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'EL4W.DE',
-    name: 'Deka Deutsche Börse EUROGOV Germany Money Market UCITS ETF',
-    price: 69.3155,
-    issuer: 'Deka',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.12
+    name: 'Deka Deutsche Boerse EUROGOV Germany Money Market UCITS ETF',
+    price: 69.5045,
+    issuer: 'DEKA',
+    assetClass: 'Fixed Income',
+    category: 'Cash & Others',
+    isin: 'DE000ETFL227',
+    ter: 0.12,
+    aum: 388338022,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4X.DE',
     name: 'Deka DAXplus Maximum Dividend UCITS ETF',
-    price: 54.38,
+    price: 57.03,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.3
+    category: 'US'
   },
   {
     symbol: 'EL4Y.DE',
     name: 'Deka STOXX Europe 50 UCITS ETF',
-    price: 45.825,
-    issuer: 'Deka',
+    price: 50.97,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.19
+    category: 'Europe',
+    isin: 'DE000ETFL250',
+    ter: 0.19,
+    aum: 131389244,
+    domicile: 'DE'
   },
   {
     symbol: 'EL4Z.DE',
     name: 'Deka MSCI USA UCITS ETF',
-    price: 52.438,
-    issuer: 'Deka',
+    price: 55.136,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'DE000ETFL268',
+    ter: 0.3,
+    aum: 450859739,
+    domicile: 'DE'
   },
   {
     symbol: 'ELCR.DE',
-    name: 'Amundi MSCI Smart Mobility UCITS ETF Capitalisation',
-    price: 19.616,
+    name: 'Amundi MSCI Smart Mobility UCITS ETF Acc',
+    price: 22.475,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
-  },
-  {
-    symbol: 'ELEC.F',
-    name: 'Electric Vehicle Charging Infrastructure UCITS ETF',
-    price: 3.206,
-    issuer: 'Electric',
-    assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other'
   },
   {
     symbol: 'ELF0.DE',
     name: 'Deka DAX ex Financials 30 UCITS ETF',
-    price: 33.67,
+    price: 35.645,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.31
   },
   {
     symbol: 'ELF1.DE',
     name: 'Deka MDAX UCITS ETF',
-    price: 278.2,
+    price: 277.4,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'ELF5.DE',
@@ -4596,69 +4222,79 @@ export const xetraETFs: ETF[] = [
     price: 166.54,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.27
+    category: 'Europe',
+    isin: 'DE000ETFL458',
+    ter: 0.27,
+    aum: 2926808,
+    domicile: 'DE'
   },
   {
     symbol: 'ELFA.DE',
-    name: 'Deka EURO STOXX 50 ESG UCITS ETF',
-    price: 121.24,
-    issuer: 'Deka',
+    name: 'Deka EURO STOXX 50 ESG Filtered UCITS ETF',
+    price: 130.54,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Europe',
+    isin: 'DE000ETFL466',
+    ter: 0.15,
+    aum: 313177663,
+    domicile: 'DE'
   },
   {
     symbol: 'ELFB.DE',
-    name: 'Deka Oekom Euro Nachhaltigkeit UCITS ETF',
-    price: 26.32,
-    issuer: 'Deka',
+    name: 'Deka Euro Prime ESG UCITS ETF',
+    price: 29.835,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Financials',
+    isin: 'DE000ETFL474',
+    ter: 0.4,
+    aum: 487785721,
+    domicile: 'DE'
   },
   {
     symbol: 'ELFC.DE',
     name: 'Deka EURO iSTOXX ex Fin Dividend+ UCITS ETF',
-    price: 24.75,
-    issuer: 'Deka',
+    price: 27.05,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.31
+    category: 'Europe',
+    isin: 'DE000ETFL482',
+    ter: 0.31,
+    aum: 361470318,
+    domicile: 'DE'
   },
   {
     symbol: 'ELFD.DE',
     name: 'Deka Eurozone Rendite Plus 1-10 UCITS ETF',
-    price: 83.838,
+    price: 84.068,
     issuer: 'Deka',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'US'
   },
   {
     symbol: 'ELFE.DE',
     name: 'Deka US Treasury 7-10 UCITS ETF',
-    price: 783.88,
-    issuer: 'Deka',
+    price: 794.14,
+    issuer: 'DEKA',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'DE000ETFL524',
+    ter: 0.07,
+    aum: 251823729,
+    domicile: 'DE'
   },
   {
     symbol: 'ELFF.DE',
     name: 'Deka Euro Corporates 0-3 Liquid UCITS ETF',
-    price: 956.2,
-    issuer: 'Deka',
+    price: 957,
+    issuer: 'DEKA',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'DE000ETFL532',
+    ter: 0.15,
+    aum: 62169386,
+    domicile: 'DE'
   },
   {
     symbol: 'ELFG.DE',
@@ -4667,166 +4303,138 @@ export const xetraETFs: ETF[] = [
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.27
-  },
-  {
-    symbol: 'ELFG.F',
-    name: 'Deka Germany 30 UCITS ETF',
-    price: 1537.4,
-    issuer: 'Deka',
-    assetClass: 'Equity',
-    category: 'Germany'
   },
   {
     symbol: 'ELFW.DE',
     name: 'Deka MSCI World UCITS ETF',
-    price: 36.498,
+    price: 39.134,
     issuer: 'Deka',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EM1C.DE',
     name: 'VanEck J.P. Morgan EM Local Currency Bond UCITS ETF',
-    price: 56.124,
+    price: 59.45,
     issuer: 'VanEck',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'EMEC.DE',
     name: 'BNP Paribas Easy ECPI Circular Economy Leaders',
-    price: 19.114,
+    price: 20.835,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.3
+    category: 'Other'
   },
   {
     symbol: 'EMEH.DE',
     name: 'BNP Paribas Easy Energy & Metals Enhanced Roll',
-    price: 12.088,
+    price: 15.88,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Energy'
-  ,
-    ter: 0.38
-  },
-  {
-    symbol: 'EMEH.F',
-    name: 'BNP Paribas Easy Energy & Metals Enhanced Roll',
-    price: 10.34,
-    issuer: 'BNP Paribas',
-    assetClass: 'Equity',
-    category: 'Energy'
-  ,
-    ter: 0.38
+    category: 'Energy',
+    isin: 'LU1547516291',
+    ter: 0.38,
+    aum: 45901452,
+    domicile: 'LU'
   },
   {
     symbol: 'EMIE.DE',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan USD EM IG ESG Diversified Bond UCITS ETF',
-    price: 11.136,
+    name: 'UBS J.P. Morgan USD EM IG Screened Diversified Bond UCITS ETF hEUR acc',
+    price: 11.3585,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.43
-  },
-  {
-    symbol: 'EMIE.F',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan USD EM IG ESG Diversified Bond UCITS ETF',
-    price: 10.403,
-    issuer: 'UBS',
-    assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.43
   },
   {
     symbol: 'EMIG.DE',
-    name: 'UBS(Lux)Fund Solutions – J.P. Morgan USD EM IG ESG Diversified Bond UCITS ETF(USD)A-acc',
-    price: 11.8305,
+    name: 'UBS J.P. Morgan USD EM IG Screened Diversified Bond UCITS ETF USD acc',
+    price: 12.1925,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.4
+    category: 'Emerging Markets',
+    isin: 'LU1974695790',
+    ter: 0.4,
+    aum: 724701760,
+    domicile: 'LU'
   },
   {
     symbol: 'EMKX.DE',
     name: 'BNP Paribas Easy MSCI Emerging ESG Filtered Min TE',
-    price: 12.34,
+    price: 14.872,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.26
+    category: 'Emerging Markets',
+    isin: 'LU1291097779',
+    ter: 0.26,
+    aum: 398865441,
+    domicile: 'LU'
   },
   {
     symbol: 'EMND.DE',
-    name: 'iShares MSCI World ESG Enhanced UCITS ETF',
-    price: 8.38,
+    name: 'iShares MSCI World CTB Enhanced ESG UCITS ETF',
+    price: 8.969,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'EMNE.DE',
-    name: 'iShares MSCI EMU ESG Enhanced UCITS ETF',
-    price: 7.637,
+    name: 'iShares MSCI EMU CTB Enhanced ESG UCITS ETF',
+    price: 8.328,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets'
   },
   {
     symbol: 'EMNJ.DE',
-    name: 'iShares MSCI Japan ESG Enhanced UCITS ETF',
-    price: 6.102,
-    issuer: 'iShares',
+    name: 'iShares MSCI Japan CTB Enhanced ESG UCITS ETF',
+    price: 7.106,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'IE00BHZPJ346',
+    ter: 0.15,
+    aum: 630932186,
+    domicile: 'IE'
   },
   {
     symbol: 'EMNU.DE',
-    name: 'iShares MSCI Europe ESG Enhanced UCITS ETF',
-    price: 7,
-    issuer: 'iShares',
+    name: 'iShares MSCI Europe CTB Enhanced ESG UCITS ETF',
+    price: 7.806,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'IE00BHZPJ676',
+    ter: 0.12,
+    aum: 4265286773,
+    domicile: 'IE'
   },
   {
     symbol: 'EMQQ.DE',
-    name: 'EMQQ Emerging Markets Internet & Ecommerce UCITS ETF',
-    price: 10.634,
-    issuer: 'EMQQ',
+    name: 'EMQQ Emerging Markets Internet UCITS ETF – Acc',
+    price: 8.866,
+    issuer: 'HanETF',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.86
+    category: 'Consumer Cyclical',
+    isin: 'IE00BFYN8Y92',
+    ter: 0.86,
+    aum: 102314688,
+    domicile: 'IE'
   },
   {
     symbol: 'EMSM.DE',
     name: 'Invesco MSCI Emerging Markets UCITS ETF',
-    price: 53.278,
+    price: 64.26,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.19
+    category: 'Emerging Markets',
+    isin: 'IE00B3DWVS88',
+    ter: 0.19,
+    aum: 298400895,
+    domicile: 'IE'
   },
   {
     symbol: 'EMSV.DE',
@@ -4834,125 +4442,95 @@ export const xetraETFs: ETF[] = [
     price: 262.15,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  },
-  {
-    symbol: 'EMSV.F',
-    name: 'Invesco MSCI Europe Value UCITS ETF',
-    price: 261.5,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'IE00B3LK4Z20',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'IE'
   },
   {
     symbol: 'EMUS.DE',
     name: 'BNP Paribas Easy MSCI EMU SRI S-Series PAB 5% Capped',
-    price: 15.76,
+    price: 17.048,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets',
+    isin: 'LU1953137681',
+    ter: 0.25,
+    aum: 80253826,
+    domicile: 'DE'
   },
   {
     symbol: 'EMUX.DE',
     name: 'BNP Paribas Easy MSCI EMU ex CW',
-    price: 16.88,
+    price: 18.592,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.14550000000000002
+    category: 'Emerging Markets'
   },
   {
     symbol: 'EMWE.DE',
     name: 'BNP Paribas Easy MSCI World SRI S-Series PAB 5% Capped',
-    price: 20.615,
+    price: 21.265,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2425
   },
   {
     symbol: 'EMXC.DE',
-    name: 'Lyxor MSCI Emerging Markets Ex China UCITS ETF',
-    price: 25.75,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Emerging Ex China UCITS ETF Acc',
+    price: 33.815,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'EN4C.F',
-    name: 'L&G Multi-Strategy Enhanced Commodities UCITS ETF',
-    price: 11.958,
-    issuer: 'L&G',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'ENDH.F',
-    name: 'L&G ESG Emerging Markets Government Bond (USD) 0-5 Year UCITS ETF',
-    price: 9.91,
-    issuer: 'L&G',
-    assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.28
   },
   {
     symbol: 'ENOA.DE',
     name: 'BNP Paribas Easy MSCI North America ESG Filtered Min TE',
-    price: 25.255,
+    price: 26.66,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'ESG'
-  ,
-    ter: 0.159
+    category: 'ESG',
+    isin: 'LU1291104575',
+    ter: 0.159,
+    aum: 163468386,
+    domicile: 'LU'
   },
   {
     symbol: 'EQEU.DE',
     name: 'Invesco EQQQ NASDAQ-100 UCITS ETF (EUR Hdg)',
-    price: 410.65,
+    price: 436.8,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
+    category: 'Technology',
+    isin: 'IE00BYVTMS52',
+    ter: 0.35,
+    aum: 248324318,
+    domicile: 'IE'
   },
   {
     symbol: 'EQQQ.DE',
-    name: 'Invesco EQQQ NASDAQ-100 UCITS ETF',
-    price: 491.05,
+    name: 'Invesco EQQQ Nasdaq-100 UCITS ETF',
+    price: 527.4,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'EQQX.F',
-    name: 'Invesco NASDAQ-100 Swap UCITS ETF',
-    price: 42.49,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'Technology',
+    isin: 'IE0032077012',
+    ter: 0.3,
+    aum: 13546222150,
+    domicile: 'IE'
   },
   {
     symbol: 'ERNX.DE',
     name: 'iShares € Ultrashort Bond UCITS ETF',
-    price: 5.4874,
-    issuer: 'iShares',
+    price: 5.5454,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Cash & Others',
+    isin: 'IE000RHYOR04',
+    ter: 0.09,
+    aum: 2498954617,
+    domicile: 'IE'
   },
   {
     symbol: 'ES5R.DE',
@@ -4965,242 +4543,214 @@ export const xetraETFs: ETF[] = [
   {
     symbol: 'ESAP.DE',
     name: 'BNP Paribas Easy S&P 500 UCITS ETF USD C',
-    price: 25.906,
+    price: 27.539,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'US',
+    isin: 'FR0011550177',
+    ter: 0.15,
+    aum: 2915832572,
+    domicile: 'FR'
   },
   {
     symbol: 'ESEA.DE',
     name: 'BNP Paribas Easy S&P 500 UCITS ETF',
-    price: 23.467,
+    price: 24.921,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ESEE.DE',
     name: 'BNP Paribas Easy S&P 500 UCITS ETF',
-    price: 27.828,
+    price: 29.578,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ESEH.DE',
     name: 'BNP Paribas Easy S&P 500 UCITS ETF',
-    price: 20.9,
+    price: 21.959,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'US',
+    isin: 'FR0013041530',
+    ter: 0.15,
+    aum: 973668453,
+    domicile: 'FR'
   },
   {
     symbol: 'ESGE.DE',
-    name: 'Invesco MSCI Europe ESG Universal Screened UCITS ETF',
-    price: 67.42,
+    name: 'Invesco MSCI Europe Universal Screened UCITS ETF',
+    price: 75.28,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.16
   },
   {
     symbol: 'ESGU.DE',
-    name: 'Invesco MSCI USA ESG Universal Screened UCITS ETF',
-    price: 82.91,
+    name: 'Invesco MSCI USA Universal Screened UCITS ETF',
+    price: 87.23,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE00BJQRDM08',
+    ter: 0.09,
+    aum: 2774474518,
+    domicile: 'IE'
   },
   {
     symbol: 'ESGW.DE',
-    name: 'Invesco MSCI World ESG Universal Screened UCITS ETF',
-    price: 75.47,
+    name: 'Invesco MSCI World Universal Screened UCITS ETF',
+    price: 81.32,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'ESGX.DE',
-    name: 'Invesco Markets II plc - Invesco MSCI Europe Ex UK ESG Universal Screened UCITS ETF',
-    price: 61.68,
+    name: 'Invesco MSCI Europe Ex UK Universal Screened UCITS ETF',
+    price: 68.15,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.16
+    category: 'Europe',
+    isin: 'IE00BMDBMW94',
+    ter: 0.16,
+    aum: 9980269,
+    domicile: 'IE'
   },
   {
     symbol: 'ESIC.DE',
     name: 'iShares MSCI Europe Consumer Discretionary Sector UCITS ETF',
-    price: 6.151,
+    price: 5.872,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'ESIC.F',
-    name: 'iShares MSCI Europe Consumer Discretionary Sector UCITS ETF',
-    price: 6.698,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'ESIE.DE',
     name: 'iShares MSCI Europe Energy Sector UCITS ETF',
-    price: 10.97,
+    price: 14.1,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'ESIF.DE',
     name: 'iShares MSCI Europe Financials Sector UCITS ETF',
-    price: 12.758,
+    price: 14.066,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'ESIH.DE',
     name: 'iShares MSCI Europe Health Care Sector UCITS ETF',
-    price: 6.539,
+    price: 7.195,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'ESIN.DE',
     name: 'iShares MSCI Europe Industrials Sector UCITS ETF',
-    price: 8.227,
-    issuer: 'iShares',
+    price: 9.301,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Industrials',
+    isin: 'IE00BMW42520',
+    ter: 0.18,
+    aum: 1454667470,
+    domicile: 'IE'
   },
   {
     symbol: 'ESIS.DE',
     name: 'iShares MSCI Europe Consumer Staples Sector UCITS ETF',
-    price: 5.72,
-    issuer: 'iShares',
+    price: 5.936,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Consumer Defensive',
+    isin: 'IE00BMW42074',
+    ter: 0.18,
+    aum: 460189273,
+    domicile: 'IE'
   },
   {
     symbol: 'ESIT.DE',
     name: 'iShares MSCI Europe Information Technology Sector UCITS ETF',
-    price: 7.14,
-    issuer: 'iShares',
+    price: 9.24,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Technology',
+    isin: 'IE00BMW42413',
+    ter: 0.18,
+    aum: 352998705,
+    domicile: 'IE'
   },
   {
     symbol: 'ESNB.DE',
     name: 'Expat Serbia Belex15 UCITS ETF',
-    price: 0.9155,
+    price: 0.8901,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 3.0700000000000003
-  },
-  {
-    symbol: 'ESNB.F',
-    name: 'Expat Serbia Belex15 UCITS ETF',
-    price: 0.9037,
-    issuer: 'Expat',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 3.0700000000000003
+    category: 'Other'
   },
   {
     symbol: 'ESP0.DE',
     name: 'VanEck Video Gaming and eSports UCITS ETF',
-    price: 63.33,
+    price: 53.57,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Communication',
+    isin: 'IE00BYWQWR46',
+    ter: 0.55,
+    aum: 593080837,
+    domicile: 'IE'
   },
   {
     symbol: 'ESRI.DE',
     name: 'BNP Paribas Easy MSCI Emerging SRI S-Series 5% Capped UCITS ETF Capitalisation',
-    price: 163.24,
+    price: 177.5,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'ESTE.F',
-    name: 'Multi Units Luxembourg - Lyxor MSCI Eastern Europe Ex Russia UCITS ETF',
-    price: 29.69,
-    issuer: 'Lyxor',
-    assetClass: 'Mixed',
-    category: 'Europe'
-  ,
-    ter: 0.5
+    category: 'Emerging Markets',
+    isin: 'LU1291098314',
+    ter: 0.3,
+    aum: 18290.9,
+    domicile: 'LU'
   },
   {
     symbol: 'ETBB.DE',
     name: 'BNP Paribas Easy Euro Stoxx 50 UCITS ETF EUR C/D',
-    price: 13.208,
+    price: 14.532,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Europe',
+    isin: 'FR0012740983',
+    ter: 0.18,
+    aum: 114090521,
+    domicile: 'FR'
   },
   {
     symbol: 'ETDD.DE',
     name: 'BNP Paribas Easy Euro Stoxx 50 UCITS ETF',
-    price: 17.14,
+    price: 18.83,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Europe'
   },
   {
     symbol: 'ETL2.DE',
     name: 'L&G Longer Dated All Commodities UCITS ETF',
-    price: 21.18,
+    price: 26.025,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Materials',
+    isin: 'IE00B4WPHX27',
+    ter: 0.3,
+    aum: 576461076,
+    domicile: 'IE'
   },
   {
     symbol: 'ETLE.DE',
@@ -5208,1207 +4758,1121 @@ export const xetraETFs: ETF[] = [
     price: 13.78,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'ETLF.DE',
     name: 'L&G All Commodities UCITS ETF',
-    price: 12.864,
+    price: 16.41,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other',
+    isin: 'IE00BF0BCP69',
+    ter: 0.15,
+    aum: 118179450,
+    domicile: 'IE'
   },
   {
     symbol: 'ETLH.DE',
     name: 'L&G Ecommerce Logistics UCITS ETF',
-    price: 15.682,
+    price: 15.65,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Other'
   },
   {
     symbol: 'ETLI.DE',
     name: 'L&G Pharma Breakthrough UCITS ETF',
-    price: 10.65,
+    price: 11.694,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Healthcare'
   },
   {
     symbol: 'ETLK.DE',
     name: 'L&G Asia Pacific ex Japan Equity UCITS ETF',
-    price: 13.842,
+    price: 15.12,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.1
+    category: 'Japan'
   },
   {
     symbol: 'ETLN.DE',
     name: 'L&G Europe ex UK Equity UCITS ETF',
-    price: 18.356,
+    price: 20.28,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.1
+    category: 'Europe',
+    isin: 'IE00BFXR5V83',
+    ter: 0.1,
+    aum: 878040442,
+    domicile: 'IE'
   },
   {
     symbol: 'ETLQ.DE',
     name: 'L&G Global Equity UCITS ETF',
-    price: 19.84,
+    price: 21.4,
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'ETLR.DE',
     name: 'L&G Japan Equity UCITS ETF',
-    price: 14.208,
+    price: 16.396,
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'ETLS.DE',
     name: 'L&G US Equity UCITS ETF',
-    price: 22.27,
+    price: 23.55,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'US',
+    isin: 'IE00BFXR5Q31',
+    ter: 0.05,
+    aum: 1052871349,
+    domicile: 'IE'
   },
   {
     symbol: 'ETLX.DE',
     name: 'L&G Gold Mining UCITS ETF',
-    price: 69.15,
+    price: 111.9,
     issuer: 'L&G',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Materials',
+    isin: 'IE00B3CNHG25',
+    ter: 0.55,
+    aum: 527884306,
+    domicile: 'IE'
   },
   {
     symbol: 'ETLZ.DE',
-    name: 'L&G Russell 2000 US Small Cap UCITS ETF',
-    price: 96.4,
+    name: 'L&G Russell 2000 US Small Cap Quality UCITS ETF',
+    price: 105.16,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00B3CNHJ55',
+    ter: 0.3,
+    aum: 172469128,
+    domicile: 'IE'
   },
   {
     symbol: 'ETSA.DE',
     name: 'BNP Paribas Easy Stoxx Europe 600 UCITS ETF EUR C/D',
-    price: 15.816,
+    price: 17.652,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'FR0011550672',
+    ter: 0.2,
+    aum: 153393604,
+    domicile: 'DE'
   },
   {
     symbol: 'ETSZ.DE',
     name: 'BNP Paribas Easy Stoxx Europe 600 UCITS ETF',
-    price: 17.588,
+    price: 19.634,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'FR0011550193',
+    ter: 0.2,
+    aum: 675974563,
+    domicile: 'FR'
   },
   {
     symbol: 'EUED.DE',
-    name: 'iShares € Ultrashort Bond ESG UCITS ETF EUR Inc',
-    price: 5.0466,
+    name: 'iShares € UltraShort Bond ESG SRI ​UCITS ETF',
+    price: 5.0384,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'ESG'
   },
   {
     symbol: 'EUHA.DE',
-    name: 'PIMCO Euro Short-Term High Yield Corporate Bond UCITS ETF EUR Accumulation',
-    price: 12.049,
+    name: 'PIMCO Advantage Euro Short-Term High Yield Corporate Bond UCITS ETF',
+    price: 12.1825,
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
-  },
-  {
-    symbol: 'EUHA.F',
-    name: 'PIMCO Euro Short-Term High Yield Corporate Bond UCITS ETF EUR Accumulation',
-    price: 10.328,
-    issuer: 'PIMCO',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Cash & Others',
+    isin: 'IE00BD8D5G25',
+    ter: 0.45,
+    aum: 482957049,
+    domicile: 'IE'
   },
   {
     symbol: 'EUHI.DE',
-    name: 'PIMCO ETFs plc PIMCO Euro Short-Term High Yield Corporate Bond UCITS ETF',
-    price: 9.3702,
+    name: 'PIMCO Advantage Euro Short-Term High Yield Corporate Bond UCITS ETF',
+    price: 9.2882,
     issuer: 'PIMCO',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
-  },
-  {
-    symbol: 'EUHI.F',
-    name: 'PIMCO ETFs plc PIMCO Euro Short-Term High Yield Corporate Bond UCITS ETF',
-    price: 8.8736,
-    issuer: 'PIMCO',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Dividend'
   },
   {
     symbol: 'EUIN.DE',
-    name: 'Lyxor US$ 10Y Inflation Expectations UCITS ETF',
-    price: 116.6,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Inflation Expectations 2-10Y UCITS ETF Acc',
+    price: 118.325,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU1390062245',
+    ter: 0.25,
+    aum: 143914598,
+    domicile: 'LU'
   },
   {
     symbol: 'EUN0.DE',
     name: 'iShares Edge MSCI Europe Minimum Volatility UCITS ETF',
-    price: 66.11,
-    issuer: 'iShares',
+    price: 71.94,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'IE00B86MWN23',
+    ter: 0.25,
+    aum: 806012860,
+    domicile: 'IE'
   },
   {
     symbol: 'EUN1.DE',
     name: 'iShares STOXX Europe 50 UCITS ETF',
-    price: 46.26,
-    issuer: 'iShares',
+    price: 51.6,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.35
+    category: 'Europe',
+    isin: 'IE0008470928',
+    ter: 0.35,
+    aum: 573295286,
+    domicile: 'IE'
   },
   {
     symbol: 'EUN2.DE',
-    name: 'iShares EURO STOXX 50 UCITS ETF',
-    price: 54.17,
-    issuer: 'iShares',
+    name: 'iShares Core EURO STOXX 50 UCITS ETF EUR (Dist)',
+    price: 59.4,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Europe',
+    isin: 'IE0008471009',
+    ter: 0.1,
+    aum: 5163306307,
+    domicile: 'IE'
   },
   {
     symbol: 'EUN3.DE',
-    name: 'iShares Global Govt Bond UCITS ETF USD (Dist)',
-    price: 77.608,
-    issuer: 'iShares',
+    name: 'iShares Global Govt Bond UCITS ETF',
+    price: 77.716,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Government',
+    isin: 'IE00B3F81K65',
+    ter: 0.2,
+    aum: 964065293,
+    domicile: 'IE'
   },
   {
     symbol: 'EUN4.DE',
-    name: 'iShares € Aggregate Bond ESG UCITS ETF EUR (Dist)',
-    price: 107.785,
-    issuer: 'iShares',
+    name: 'iShares € Aggregate Bond ESG SRI UCITS ETF',
+    price: 108.03,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'Cash & Others',
+    isin: 'IE00B3DKXQ41',
+    ter: 0.16,
+    aum: 1660514218,
+    domicile: 'IE'
   },
   {
     symbol: 'EUN5.DE',
-    name: 'iShares Core € Corp Bond UCITS ETF EUR (Dist)',
-    price: 119.98,
+    name: 'iShares Core € Corp Bond UCITS ETF',
+    price: 119.51,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Bonds'
   },
   {
     symbol: 'EUN6.DE',
     name: 'iShares € Govt Bond 0-1yr UCITS ETF',
-    price: 98.76,
-    issuer: 'iShares',
+    price: 98.748,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Cash & Others',
+    isin: 'IE00B3FH7618',
+    ter: 0.07,
+    aum: 1113204666,
+    domicile: 'IE'
   },
   {
     symbol: 'EUN8.DE',
-    name: 'iShares € Govt Bond 10-15yr UCITS ETF EUR (Dist)',
-    price: 146.88,
+    name: 'iShares € Govt Bond 10-15yr UCITS ETF',
+    price: 148.73,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'EUN9.DE',
     name: 'iShares € Govt Bond 5-7yr UCITS ETF',
-    price: 144.38,
+    price: 144.635,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'EUNA.DE',
     name: 'iShares Core Global Aggregate Bond UCITS ETF',
-    price: 4.8814,
-    issuer: 'iShares',
+    price: 4.9606,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BDBRDM35',
+    ter: 0.1,
+    aum: 2371533648,
+    domicile: 'GB'
   },
   {
     symbol: 'EUNH.DE',
-    name: 'iShares Core € Govt Bond UCITS ETF EUR (Dist)',
-    price: 109.4,
+    name: 'iShares Core € Govt Bond UCITS ETF',
+    price: 110.035,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'EUNI.DE',
-    name: 'iShares MSCI EM Small Cap UCITS ETF USD (Dist)',
-    price: 84.58,
+    name: 'iShares MSCI EM Small Cap UCITS ETF',
+    price: 91.98,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.74
   },
   {
     symbol: 'EUNJ.DE',
-    name: 'iShares MSCI Pacific ex-Japan UCITS ETF USD (Dist)',
-    price: 43.865,
-    issuer: 'iShares',
+    name: 'iShares MSCI Pacific ex-Japan UCITS ETF',
+    price: 47.675,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.6
+    category: 'Japan',
+    isin: 'IE00B4WXJD03',
+    ter: 0.6,
+    aum: 181955412,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNK.DE',
     name: 'iShares Core MSCI Europe UCITS ETF EUR (Acc)',
-    price: 86.38,
-    issuer: 'iShares',
+    price: 96.42,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'IE00B4K48X80',
+    ter: 0.12,
+    aum: 14648513787,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNL.DE',
-    name: 'iShares Core MSCI World UCITS ETF USD (Acc)',
-    price: 104.62,
-    issuer: 'iShares',
+    name: 'iShares Core MSCI World UCITS ETF',
+    price: 113.035,
+    issuer: 'IShares',
     assetClass: 'Equity',
     category: 'Global',
-
-    ter: 0.2
+    isin: 'IE00B4L5Y983',
+    ter: 0.2,
+    aum: 110054902318,
+    domicile: 'DE'
   },
   {
     symbol: 'EUNM.DE',
     name: 'iShares MSCI EM UCITS ETF USD (Acc)',
-    price: 40.357,
-    issuer: 'iShares',
+    price: 48.794,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'IE00B4L5YC18',
+    ter: 0.18,
+    aum: 6966150009,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNN.DE',
-    name: 'iShares Core MSCI Japan IMI UCITS ETF USD (Acc)',
-    price: 55.408,
+    name: 'iShares Core MSCI Japan IMI UCITS ETF',
+    price: 64.41,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'EUNR.DE',
     name: 'iShares € Corp Bond ex-Financials UCITS ETF',
-    price: 109.14,
-    issuer: 'iShares',
+    price: 108.975,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE00B4L5ZG21',
+    ter: 0.2,
+    aum: 999595275,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNS.DE',
-    name: 'iShares € Corp Bond ex-Financials 1-5yr ESG UCITS ETF EUR (Dist)',
-    price: 106.77,
+    name: 'iShares € Corp Bond ex-Financials 1-5Yr ESG SRI UCITS ETF',
+    price: 106.25,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Financials'
   },
   {
     symbol: 'EUNT.DE',
-    name: 'iShares € Corp Bond 1-5yr UCITS ETF EUR (Dist)',
-    price: 107.615,
-    issuer: 'iShares',
+    name: 'iShares € Corp Bond 1-5yr UCITS ETF',
+    price: 107.035,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Corporate',
+    isin: 'IE00B4L60045',
+    ter: 0.2,
+    aum: 3951843816,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNU.DE',
     name: 'iShares Core Global Aggregate Bond UCITS ETF',
-    price: 3.7806,
+    price: 3.7951,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'EUNW.DE',
-    name: 'iShares € High Yield Corp Bond UCITS ETF EUR (Dist)',
-    price: 94.372,
-    issuer: 'iShares',
+    name: 'iShares € High Yield Corp Bond UCITS ETF',
+    price: 92.84,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Corporate',
+    isin: 'IE00B66F4759',
+    ter: 0.5,
+    aum: 5320076074,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNX.DE',
-    name: 'iShares US Aggregate Bond UCITS ETF USD (Dist)',
-    price: 80.89,
+    name: 'iShares US Aggregate Bond UCITS ETF',
+    price: 82.094,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'US'
   },
   {
     symbol: 'EUNY.DE',
-    name: 'iShares V PLC - iShares EM Dividend UCITS ETF USD (Dist)',
-    price: 14.242,
-    issuer: 'iShares',
+    name: 'iShares EM Dividend UCITS ETF',
+    price: 16.6,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.65
+    category: 'Emerging Markets',
+    isin: 'IE00B652H904',
+    ter: 0.65,
+    aum: 1085656587,
+    domicile: 'IE'
   },
   {
     symbol: 'EUNZ.DE',
-    name: 'iShares Edge MSCI EM Minimum Volatility UCITS ETF USD (Acc)',
-    price: 31.875,
+    name: 'iShares Edge MSCI EM Minimum Volatility UCITS ETF',
+    price: 34.44,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'EUPE.DE',
     name: 'Ossiam Shiller Barclays Cape Europe Sector Value TR',
-    price: 517,
+    price: 604.4,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.65
+    category: 'Europe',
+    isin: 'LU1079842321',
+    ter: 0.65,
+    aum: 161450174,
+    domicile: 'DE'
   },
   {
     symbol: 'EWRD.DE',
     name: 'BNP Paribas Easy MSCI World SRI S-Series PAB 5% Capped',
-    price: 19.696,
+    price: 20.33,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2425
   },
   {
     symbol: 'EXAG.DE',
-    name: 'WisdomTree Enhanced Commodity ex-Agriculture UCITS ETF',
-    price: 11.658,
+    name: 'WisdomTree Enhanced Commodity ex-Agriculture UCITS ETF - EUR Hedged Acc',
+    price: 15.876,
     issuer: 'WisdomTree',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.6
+    category: 'Cash & Others',
+    isin: 'IE00BDVPNV63',
+    ter: 0.6,
+    aum: 383276290,
+    domicile: 'IE'
   },
   {
     symbol: 'EXH1.DE',
     name: 'iShares STOXX Europe 600 Oil & Gas UCITS ETF (DE)',
-    price: 38.1,
+    price: 49.755,
     issuer: 'iShares',
     assetClass: 'Commodity',
     category: 'Europe'
-  ,
-    ter: 0.47
   },
   {
     symbol: 'EXH2.DE',
     name: 'iShares STOXX Europe 600 Financial Services UCITS ETF (DE)',
-    price: 85.94,
+    price: 85.76,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'EXH3.DE',
     name: 'iShares STOXX Europe 600 Food & Beverage UCITS ETF (DE)',
-    price: 62.42,
-    issuer: 'iShares',
+    price: 63.06,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Consumer Defensive',
+    isin: 'DE000A0H08H3',
+    ter: 0.46,
+    aum: 230228142,
+    domicile: 'DE'
   },
   {
     symbol: 'EXH4.DE',
     name: 'iShares STOXX Europe 600 Industrial Goods & Services UCITS ETF (DE)',
-    price: 102.9,
-    issuer: 'iShares',
+    price: 113.22,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Industrials',
+    isin: 'DE000A0H08J9',
+    ter: 0.46,
+    aum: 551869560,
+    domicile: 'DE'
   },
   {
     symbol: 'EXH5.DE',
     name: 'iShares STOXX Europe 600 Insurance UCITS ETF (DE)',
-    price: 47.125,
-    issuer: 'iShares',
+    price: 47.83,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Financials',
+    isin: 'DE000A0H08K7',
+    ter: 0.46,
+    aum: 448300395,
+    domicile: 'DE'
   },
   {
     symbol: 'EXH6.DE',
     name: 'iShares STOXX Europe 600 Media UCITS ETF (DE)',
-    price: 35.065,
-    issuer: 'iShares',
+    price: 29.425,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Communication',
+    isin: 'DE000A0H08L5',
+    ter: 0.46,
+    aum: 23760119,
+    domicile: 'DE'
   },
   {
     symbol: 'EXH7.DE',
     name: 'iShares STOXX Europe 600 Personal & Household Goods UCITS ETF (DE)',
-    price: 97.29,
+    price: 95.87,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'EXH8.DE',
     name: 'iShares STOXX Europe 600 Retail UCITS ETF (DE)',
-    price: 39.15,
+    price: 43.605,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'EXH9.DE',
     name: 'iShares STOXX Europe 600 Utilities UCITS ETF (DE)',
-    price: 43.77,
+    price: 57.11,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.47
   },
   {
     symbol: 'EXHA.DE',
     name: 'iShares eb.rexx Government Germany UCITS ETF (DE)',
-    price: 124.445,
+    price: 124.35,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.16
   },
   {
     symbol: 'EXHB.DE',
     name: 'iShares eb.rexx Government Germany 1.5-2.5yr UCITS ETF (DE)',
-    price: 80.55,
+    price: 80.336,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.16
   },
   {
     symbol: 'EXHC.DE',
     name: 'iShares eb.rexx Government Germany 2.5-5.5yr UCITS ETF (DE)',
-    price: 94.368,
+    price: 94.13,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.16
   },
   {
     symbol: 'EXHD.DE',
     name: 'iShares eb.rexx Government Germany 5.5-10.5yr UCITS ETF (DE)',
-    price: 117.335,
-    issuer: 'iShares',
+    price: 117.17,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.16
+    category: 'Cash & Others',
+    isin: 'DE0006289499',
+    ter: 0.16,
+    aum: 386221307,
+    domicile: 'DE'
   },
   {
     symbol: 'EXHE.DE',
     name: 'iShares Pfandbriefe UCITS ETF (DE)',
-    price: 97.27,
+    price: 97.274,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'EXHE.F',
-    name: 'iShares Pfandbriefe UCITS ETF (DE)',
-    price: 91.388,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other'
   },
   {
     symbol: 'EXHF.DE',
     name: 'iShares Euro Government Bond Capped 1.5-10.5yr UCITS ETF (DE)',
-    price: 110.155,
+    price: 110.565,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'EXI1.DE',
     name: 'iShares SLI UCITS ETF (DE)',
-    price: 147.82,
+    price: 159.8,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.51
+    category: 'Other'
   },
   {
     symbol: 'EXI2.DE',
     name: 'iShares Dow Jones Global Titans 50 UCITS ETF (DE)',
-    price: 90.61,
+    price: 100.06,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.51
   },
   {
     symbol: 'EXI3.DE',
     name: 'iShares Dow Jones Industrial Average UCITS ETF (DE)',
-    price: 386.9,
-    issuer: 'iShares',
+    price: 410.55,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.51
-  },
-  {
-    symbol: 'EXI3.F',
-    name: 'iShares Dow Jones Industrial Average UCITS ETF (DE)',
-    price: 312.7,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.51
+    category: 'US',
+    isin: 'DE0006289390',
+    ter: 0.51,
+    aum: 288912018,
+    domicile: 'DE'
   },
   {
     symbol: 'EXI5.DE',
     name: 'iShares STOXX Europe 600 Real Estate UCITS ETF (DE)',
-    price: 13.4,
+    price: 14.31,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
-  },
-  {
-    symbol: 'EXI5.F',
-    name: 'iShares STOXX Europe 600 Real Estate UCITS ETF (DE)',
-    price: 11.338,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.47
   },
   {
     symbol: 'EXIA.DE',
     name: 'iShares DAX ESG UCITS ETF (DE)',
-    price: 7.336,
-    issuer: 'iShares',
+    price: 7.398,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'EXIA.F',
-    name: 'iShares DAX ESG UCITS ETF (DE)',
-    price: 5.114,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.12
+    category: 'Germany',
+    isin: 'DE000A0Q4R69',
+    ter: 0.12,
+    aum: 112531477,
+    domicile: 'DE'
   },
   {
     symbol: 'EXIB.DE',
     name: 'iShares TecDAX UCITS ETF (DE)',
-    price: 5.011,
-    issuer: 'iShares',
+    price: 4.9295,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.51
+    category: 'Germany',
+    isin: 'DE000A2QP323',
+    ter: 0.51,
+    aum: 7404248,
+    domicile: 'DE'
   },
   {
     symbol: 'EXIC.DE',
     name: 'iShares Core DAX UCITS ETF (DE)',
-    price: 6.907,
-    issuer: 'iShares',
+    price: 6.888,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.16
-  },
-  {
-    symbol: 'EXIC.F',
-    name: 'iShares Core DAX UCITS ETF (DE)',
-    price: 4.978,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.16
+    category: 'Germany',
+    isin: 'DE000A2QP331',
+    ter: 0.16,
+    aum: 63858532,
+    domicile: 'DE'
   },
   {
     symbol: 'EXID.DE',
     name: 'iShares MDAX UCITS ETF (DE)',
-    price: 4.221,
+    price: 4.16,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.51
-  },
-  {
-    symbol: 'EXID.F',
-    name: 'iShares MDAX UCITS ETF (DE)',
-    price: 4.0305,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.51
   },
   {
     symbol: 'EXIE.DE',
-    name: 'iShares STOXX Europe 600 UCITS ETF (DE) EUR (Dist). Units',
-    price: 6.425,
-    issuer: 'iShares',
+    name: 'iShares STOXX Europe 600 UCITS ETF (DE)',
+    price: 7.167,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'DE000A2QP4B6',
+    ter: 0.2,
+    aum: 773691078,
+    domicile: 'DE'
   },
   {
     symbol: 'EXS1.DE',
     name: 'iShares Core DAX UCITS ETF (DE)',
-    price: 196,
-    issuer: 'iShares',
+    price: 198.28,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.16
+    category: 'Germany',
+    isin: 'DE0005933931',
+    ter: 0.16,
+    aum: 8197412882,
+    domicile: 'DE'
   },
   {
     symbol: 'EXS2.DE',
     name: 'iShares TecDAX UCITS ETF (DE)',
-    price: 32.265,
-    issuer: 'iShares',
+    price: 31.81,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.51
+    category: 'Germany',
+    isin: 'DE0005933972',
+    ter: 0.51,
+    aum: 608217209,
+    domicile: 'DE'
   },
   {
     symbol: 'EXS3.DE',
     name: 'iShares MDAX UCITS ETF (DE)',
-    price: 243.65,
-    issuer: 'iShares',
+    price: 242.4,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.51
+    category: 'Germany',
+    isin: 'DE0005933923',
+    ter: 0.51,
+    aum: 2078407724,
+    domicile: 'DE'
   },
   {
     symbol: 'EXSA.DE',
     name: 'iShares STOXX Europe 600 UCITS ETF (DE)',
-    price: 54.63,
-    issuer: 'iShares',
+    price: 60.15,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'DE0002635307',
+    ter: 0.2,
+    aum: 8759259359,
+    domicile: 'DE'
   },
   {
     symbol: 'EXSB.DE',
     name: 'iShares DivDAX UCITS ETF (DE)',
-    price: 21.19,
+    price: 22.815,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.31
   },
   {
     symbol: 'EXSC.DE',
     name: 'iShares STOXX Europe Large 200 UCITS ETF (DE)',
-    price: 56.7,
+    price: 62.72,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.21
-  },
-  {
-    symbol: 'EXSC.F',
-    name: 'iShares STOXX Europe Large 200 UCITS ETF (DE)',
-    price: 47.51,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'EXSD.DE',
     name: 'iShares STOXX Europe Mid 200 UCITS ETF (DE)',
-    price: 57.77,
+    price: 62.65,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.21
-  },
-  {
-    symbol: 'EXSD.F',
-    name: 'iShares STOXX Europe Mid 200 UCITS ETF (DE)',
-    price: 48.02,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'EXSE.DE',
     name: 'iShares STOXX Europe Small 200 UCITS ETF (DE)',
-    price: 34.615,
-    issuer: 'iShares',
+    price: 36.73,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'EXSE.F',
-    name: 'iShares STOXX Europe Small 200 UCITS ETF (DE)',
-    price: 30.01,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'DE000A0D8QZ7',
+    ter: 0.2,
+    aum: 591009291,
+    domicile: 'DE'
   },
   {
     symbol: 'EXSG.DE',
     name: 'iShares EURO STOXX Select Dividend 30 UCITS ETF (DE)',
-    price: 19.94,
-    issuer: 'iShares',
+    price: 21.27,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.32
+    category: 'Europe',
+    isin: 'DE0002635281',
+    ter: 0.31,
+    aum: 503800877,
+    domicile: 'DE'
   },
   {
     symbol: 'EXSH.DE',
     name: 'iShares STOXX Europe Select Dividend 30 UCITS ETF (DE)',
-    price: 20.675,
-    issuer: 'iShares',
+    price: 23.57,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.32
+    category: 'Europe',
+    isin: 'DE0002635299',
+    ter: 0.31,
+    aum: 857319135,
+    domicile: 'DE'
   },
   {
     symbol: 'EXSI.DE',
     name: 'iShares EURO STOXX UCITS ETF (DE)',
-    price: 57.15,
-    issuer: 'iShares',
+    price: 62.01,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'DE000A0D8Q07',
+    ter: 0.2,
+    aum: 2755734639,
+    domicile: 'DE'
   },
   {
-    symbol: 'EXSI.F',
-    name: 'iShares EURO STOXX UCITS ETF (DE)',
-    price: 46.545,
-    issuer: 'iShares',
+    symbol: 'EXUS.DE',
+    name: 'Xtrackers MSCI World ex USA UCITS ETF 1C',
+    price: 36.825,
+    issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Global',
+    isin: 'IE0006WW1TQ4',
+    ter: 0.15,
+    aum: 5212793300,
+    domicile: 'IE'
   },
   {
     symbol: 'EXV1.DE',
     name: 'iShares STOXX Europe 600 Banks UCITS ETF (DE)',
-    price: 29.265,
-    issuer: 'iShares',
+    price: 34.385,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.47
+    category: 'Financials',
+    isin: 'DE000A0F5UJ7',
+    ter: 0.46,
+    aum: 3572349488,
+    domicile: 'DE'
   },
   {
     symbol: 'EXV2.DE',
     name: 'iShares STOXX Europe 600 Telecommunications UCITS ETF (DE)',
-    price: 24.695,
-    issuer: 'iShares',
+    price: 28.775,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.47
+    category: 'Communication',
+    isin: 'DE000A0H08R2',
+    ter: 0.46,
+    aum: 182660043,
+    domicile: 'DE'
   },
   {
     symbol: 'EXV3.DE',
     name: 'iShares STOXX Europe 600 Technology UCITS ETF (DE)',
-    price: 74.55,
-    issuer: 'iShares',
+    price: 82.52,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Technology',
+    isin: 'DE000A0H08Q4',
+    ter: 0.46,
+    aum: 173444719,
+    domicile: 'DE'
   },
   {
     symbol: 'EXV4.DE',
     name: 'iShares STOXX Europe 600 Health Care UCITS ETF (DE)',
-    price: 105.64,
+    price: 114.74,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'EXV5.DE',
     name: 'iShares STOXX Europe 600 Automobiles & Parts UCITS ETF (DE)',
-    price: 48.365,
-    issuer: 'iShares',
+    price: 42.365,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Consumer Cyclical',
+    isin: 'DE000A0Q4R28',
+    ter: 0.46,
+    aum: 236774072,
+    domicile: 'DE'
   },
   {
     symbol: 'EXV6.DE',
     name: 'iShares STOXX Europe 600 Basic Resources UCITS ETF (DE)',
-    price: 52.18,
-    issuer: 'iShares',
+    price: 77.98,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Materials',
+    isin: 'DE000A0F5UK5',
+    ter: 0.46,
+    aum: 477570192,
+    domicile: 'DE'
   },
   {
     symbol: 'EXV7.DE',
     name: 'iShares STOXX Europe 600 Chemicals UCITS ETF (DE)',
-    price: 116.62,
+    price: 110.86,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'EXV8.DE',
     name: 'iShares STOXX Europe 600 Construction & Materials UCITS ETF (DE)',
-    price: 82.39,
-    issuer: 'iShares',
+    price: 87.01,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Industrials',
+    isin: 'DE000A0H08F7',
+    ter: 0.46,
+    aum: 932884292,
+    domicile: 'DE'
   },
   {
     symbol: 'EXV9.DE',
     name: 'iShares STOXX Europe 600 Travel & Leisure UCITS ETF (DE)',
-    price: 24.045,
+    price: 23.155,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'EXVM.DE',
-    name: 'iShares eb.rexxGovernment Germany 0-1yr UCITS ETF (DE)',
-    price: 76.1285,
-    issuer: 'iShares',
+    name: 'iShares eb.rexx Government Germany 0-1yr UCITS ETF (DE)',
+    price: 76.3425,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.13
+    category: 'Cash & Others',
+    isin: 'DE000A0Q4RZ9',
+    ter: 0.13,
+    aum: 1839102745,
+    domicile: 'DE'
   },
   {
     symbol: 'EXW1.DE',
     name: 'iShares Core EURO STOXX 50 UCITS ETF (DE)',
-    price: 54.4,
-    issuer: 'iShares',
+    price: 59,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Europe',
+    isin: 'DE0005933956',
+    ter: 0.1,
+    aum: 8950775408,
+    domicile: 'DE'
   },
   {
     symbol: 'EXW3.DE',
-    name: 'iShares STOXX Europe 50 UCITS ETF (DE)',
-    price: 45.515,
+    name: 'iShares STOXX Europe 600 Top 20 UCITS ETF (DE)',
+    price: 51.65,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.52
   },
   {
     symbol: 'EXX1.DE',
     name: 'iShares EURO STOXX Banks 30-15 UCITS ETF (DE)',
-    price: 21.49,
-    issuer: 'iShares',
+    price: 24.585,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.52
+    category: 'Financials',
+    isin: 'DE0006289309',
+    ter: 0.51,
+    aum: 2342364695,
+    domicile: 'DE'
   },
   {
     symbol: 'EXX5.DE',
     name: 'iShares Dow Jones U.S. Select Dividend UCITS ETF (DE)',
-    price: 85.84,
+    price: 93.31,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.31
+    category: 'US'
   },
   {
     symbol: 'EXX6.DE',
     name: 'iShares eb.rexx Government Germany 10.5+yr UCITS ETF (DE)',
-    price: 116.055,
+    price: 115.4,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.16
   },
   {
     symbol: 'EXX7.DE',
     name: 'iShares Nikkei 225 UCITS ETF (DE)',
-    price: 24.335,
+    price: 30.17,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.51
   },
   {
     symbol: 'EXXT.DE',
     name: 'iShares NASDAQ-100 UCITS ETF (DE)',
-    price: 195.14,
-    issuer: 'iShares',
+    price: 209.85,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'Technology',
+    isin: 'DE000A0F5UF5',
+    ter: 0.3,
+    aum: 4381649106,
+    domicile: 'DE'
   },
   {
     symbol: 'EXXU.DE',
     name: 'iShares Dow Jones China Offshore 50 UCITS ETF (DE)',
-    price: 43.715,
+    price: 40.05,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.61
+    category: 'US'
   },
   {
     symbol: 'EXXV.DE',
-    name: 'iShares Dow Jones Eurozone Sustainability Screened UCITS ETF (DE)',
-    price: 20.285,
+    name: 'iShares Dow Jones Eurozone Leaders Screened UCITS ETF (DE)',
+    price: 21.345,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.43
+    category: 'US'
   },
   {
     symbol: 'EXXW.DE',
     name: 'iShares Dow Jones Asia Pacific Select Dividend 50 UCITS ETF (DE)',
-    price: 26.315,
+    price: 31.245,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.31
+    category: 'US'
   },
   {
     symbol: 'EXXX.DE',
     name: 'iShares ATX UCITS ETF (DE)',
-    price: 50.51,
-    issuer: 'iShares',
+    price: 58.49,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.32
+    category: 'Other',
+    isin: 'DE000A0D8Q23',
+    ter: 0.33,
+    aum: 133345483,
+    domicile: 'DE'
   },
   {
     symbol: 'EXXY.DE',
     name: 'iShares Diversified Commodity Swap UCITS ETF (DE)',
-    price: 25.31,
+    price: 32.115,
     issuer: 'iShares',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.46
+    category: 'Commodities'
   },
   {
     symbol: 'F4DE.DE',
     name: 'Ossiam Food for Biodiversity UCITS ETF',
-    price: 110.24,
+    price: 105.5,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.75
+    category: 'Other'
   },
   {
     symbol: 'F500.DE',
-    name: 'Amundi Index Solutions - Amundi S&P 500 ESG UCITS ETF DR-C',
-    price: 158.72,
+    name: 'Amundi S&P 500 Screened UCITS ETF - Acc',
+    price: 171.1,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'US',
+    isin: 'IE000KXCEXR3',
+    ter: 0.12,
+    aum: 4915648871,
+    domicile: 'IE'
   },
   {
     symbol: 'F701.DE',
-    name: 'Amundi Multi-Asset Portfolio UCITS ETF Anteile -Dist-',
-    price: 163.62,
+    name: 'Amundi Multi-Asset Portfolio UCITS ETF Dist',
+    price: 180.08,
     issuer: 'Amundi',
     assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.42
+    category: 'Other',
+    isin: 'DE000ETF7011',
+    ter: 0.41,
+    aum: 239841382,
+    domicile: 'DE'
   },
   {
     symbol: 'F702.DE',
-    name: 'Amundi Multi-Asset Portfolio Defensive UCITS ETF Units -Dist-',
-    price: 134.16,
+    name: 'Amundi Multi-Asset Portfolio Defensive UCITS ETF Dist',
+    price: 145.06,
     issuer: 'Amundi',
     assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.38
+    category: 'Other'
   },
   {
     symbol: 'F703.DE',
-    name: 'Amundi Multi-Asset Portfolio Offensive UCITS ETF Units -Dist-',
-    price: 160.96,
+    name: 'Amundi Multi-Asset Portfolio Offensive UCITS ETF Dist',
+    price: 176.52,
     issuer: 'Amundi',
     assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Other',
+    isin: 'DE000ETF7037',
+    ter: 0.49,
+    aum: 40280746,
+    domicile: 'DE'
   },
   {
     symbol: 'FAEU.DE',
     name: 'Invesco US High Yield Fallen Angels UCITS ETF (EUR Hdg)',
-    price: 27.292,
+    price: 27.619,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'US'
   },
   {
     symbol: 'FAHY.DE',
     name: 'Invesco US High Yield Fallen Angels UCITS ETF',
-    price: 18.848,
+    price: 18.6695,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Corporate',
+    isin: 'IE00BD0Q9673',
+    ter: 0.45,
+    aum: 87505146,
+    domicile: 'IE'
   },
   {
     symbol: 'FEEM.DE',
@@ -6416,137 +5880,91 @@ export const xetraETFs: ETF[] = [
     price: 36.31,
     issuer: 'Invesco',
     assetClass: 'Commodity',
-    category: 'Emerging Markets'
-  },
-  {
-    symbol: 'FESD.F',
-    name: 'Fidelity Sustainable USD EM Bond UCITS ETF',
-    price: 3.583,
-    issuer: 'Fidelity',
-    assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.49
+    category: 'Emerging Markets',
+    isin: 'IE00BD5KGK77',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'IE'
   },
   {
     symbol: 'FEUI.DE',
-    name: 'Fidelity Europe Quality Income UCITS ETF EUR Inc',
-    price: 6.206,
+    name: 'Fidelity Europe Quality Income UCITS ETF INC-EUR',
+    price: 6.906,
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'FEUQ.DE',
-    name: 'Fidelity Europe Quality Income UCITS ETF',
-    price: 8.141,
+    name: 'Fidelity Europe Quality Income UCITS ETF ACC-EUR',
+    price: 9.117,
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'FGEQ.DE',
-    name: 'Fidelity Global Quality Income ETF',
-    price: 8.446,
+    name: 'Fidelity Global Quality Income UCITS ETF INC-USD',
+    price: 9.244,
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'FGEU.DE',
-    name: 'Fidelity Global Quality Income ETF',
-    price: 8.45,
+    name: 'Fidelity Global Quality Income UCITS ETF INC-EUR (hedged)',
+    price: 9.208,
     issuer: 'Fidelity',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
-  },
-  {
-    symbol: 'FGEU.F',
-    name: 'Fidelity Global Quality Income ETF',
-    price: 6.816,
-    issuer: 'Fidelity',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.47
+    category: 'Global',
+    isin: 'IE00BYV1YH46',
+    ter: 0.45,
+    aum: 992492831,
+    domicile: 'IE'
   },
   {
     symbol: 'FLRG.DE',
-    name: 'Franklin Liberty Euro Green Bond UCITS ETF',
-    price: 23.671,
+    name: 'Franklin Sustainable Euro Green Bond UCITS ETF',
+    price: 23.985,
     issuer: 'Franklin',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'ESG'
   },
   {
     symbol: 'FLXB.DE',
     name: 'Franklin FTSE Brazil UCITS ETF',
-    price: 22.77,
-    issuer: 'Franklin',
+    price: 31.235,
+    issuer: 'Franklin Templeton',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'FLXB.F',
-    name: 'Franklin FTSE Brazil UCITS ETF',
-    price: 23.22,
-    issuer: 'Franklin',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'Other',
+    isin: 'IE00BHZRQY00',
+    ter: 0.19,
+    aum: 100326761,
+    domicile: 'IE'
   },
   {
     symbol: 'FLXC.DE',
     name: 'Franklin FTSE China UCITS ETF',
-    price: 27.815,
+    price: 27.565,
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'FLXC.F',
-    name: 'Franklin FTSE China UCITS ETF',
-    price: 20.49,
-    issuer: 'Franklin',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'FLXD.DE',
-    name: 'Franklin LibertyQ European Dividend UCITS ETF',
-    price: 32.28,
+    name: 'Franklin European Quality Dividend UCITS ETF',
+    price: 35.945,
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'FLXE.DE',
-    name: 'Franklin LibertyQ Emerging Markets UCITS ETF',
-    price: 27.875,
+    name: 'Franklin EM Multi-Factor Equity UCITS ETF',
+    price: 32.265,
     issuer: 'Franklin',
-    assetClass: 'Equity',
+    assetClass: 'Mixed',
     category: 'Emerging Markets'
-  ,
-    ter: 0.45
   },
   {
     symbol: 'FLXG.DE',
@@ -6555,238 +5973,206 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'FLXI.DE',
     name: 'Franklin FTSE India UCITS ETF',
-    price: 37.645,
+    price: 35.94,
     issuer: 'Franklin',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'India'
   },
   {
     symbol: 'FLXK.DE',
     name: 'Franklin FTSE Korea UCITS ETF',
-    price: 32.86,
-    issuer: 'Franklin',
+    price: 62.66,
+    issuer: 'Franklin Templeton',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
-  },
-  {
-    symbol: 'FLXP.F',
-    name: 'Franklin STOXX Europe 600 Paris Aligned Climate UCITS ETF',
-    price: 33.585,
-    issuer: 'Franklin',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'FLXT.F',
-    name: 'Franklin FTSE Taiwan UCITS ETF',
-    price: 21.43,
-    issuer: 'Franklin',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'Technology',
+    isin: 'IE00BHZRR030',
+    ter: 0.09,
+    aum: 2548856000,
+    domicile: 'IE'
   },
   {
     symbol: 'FLXU.DE',
-    name: 'Franklin LibertyQ U.S. Equity UCITS ETF',
-    price: 55.32,
-    issuer: 'Franklin',
+    name: 'Franklin U.S. Equity UCITS ETF',
+    price: 59.43,
+    issuer: 'Franklin Templeton',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00BF2B0P08',
+    ter: 0.2,
+    aum: 56186775,
+    domicile: 'IE'
   },
   {
     symbol: 'FLXX.DE',
-    name: 'Franklin LibertyQ Global Dividend UCITS ETF',
-    price: 33.15,
-    issuer: 'Franklin',
+    name: 'Franklin Global Quality Dividend UCITS ETF',
+    price: 35.635,
+    issuer: 'Franklin Templeton',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00BF2B0M76',
+    ter: 0.3,
+    aum: 99060944,
+    domicile: 'IE'
   },
   {
     symbol: 'FRC3.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg Euro Inflation Linked 1-10 UCITS ETF',
-    price: 14.3855,
+    name: 'UBS BBG Euro Inflation Linked 10+ UCITS ETF EUR dis',
+    price: 14.5865,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'LU1645381689',
+    ter: 0.1,
+    aum: 18960000,
+    domicile: 'LU'
   },
   {
     symbol: 'FRC4.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg Euro Inflation Linked 10+ UCITS ETF',
-    price: 15.1735,
+    name: 'UBS Core BBG Euro Inflation Linked Bond 1-10 UCITS ETF EUR dis',
+    price: 15.76,
     issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.08
+    assetClass: 'Fixed Income',
+    category: 'Cash & Others',
+    isin: 'LU1645380368',
+    ter: 0.08,
+    aum: 281760000,
+    domicile: 'LU'
   },
   {
     symbol: 'FRCJ.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI Japan Socially Responsible UCITS ETF',
-    price: 23.575,
+    name: 'UBS MSCI Japan Socially Responsible UCITS ETF JPY dis',
+    price: 26.675,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'FRCK.DE',
-    name: 'UBS(Lux)Fund Solutions – Bloomberg Barclays USD Emerging Markets Sovereign UCITS ETF(hedgedEUR)A-acc',
-    price: 12.338,
+    name: 'UBS BBG USD EM Sovereign UCITS ETF hEUR acc',
+    price: 13.016,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.28
+    category: 'Government',
+    isin: 'LU1324516308',
+    ter: 0.28,
+    aum: 427234765,
+    domicile: 'LU'
   },
   {
     symbol: 'FRNE.DE',
-    name: 'Amundi Index Solutions - Amundi Floating Rate EURO Corporate ESG',
-    price: 110.38,
+    name: 'Amundi EUR Floating Rate Corporate Bond ESG UCITS ETF Acc',
+    price: 111.75,
     issuer: 'Amundi',
-    assetClass: 'Equity',
+    assetClass: 'Fixed Income',
     category: 'ESG'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'FRNH.DE',
-    name: 'Amundi Index Solutions - Amundi Floating Rate USD Corporate ESG',
-    price: 55.148,
+    name: 'Amundi USD Floating Rate Corporate Bond ESG UCITS ETF EUR Hedged Acc',
+    price: 55.938,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'ESG'
-  ,
-    ter: 0.2
+    assetClass: 'Fixed Income',
+    category: 'Corporate',
+    isin: 'LU1681041031',
+    ter: 0.2,
+    aum: 632852420,
+    domicile: 'LU'
   },
   {
     symbol: 'FRNU.DE',
-    name: 'Amundi Index Solutions - Amundi Floating Rate USD Corporate ESG',
-    price: 113.86,
+    name: 'Amundi USD Floating Rate Corporate Bond ESG UCITS ETF Acc',
+    price: 116.725,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'ESG'
-  ,
-    ter: 0.18
+    assetClass: 'Fixed Income',
+    category: 'Corporate',
+    isin: 'LU1681040900',
+    ter: 0.18,
+    aum: 632852420,
+    domicile: 'LU'
   },
   {
     symbol: 'FTGG.DE',
     name: 'First Trust Germany AlphaDEX UCITS ETF',
-    price: 31.725,
+    price: 35.61,
     issuer: 'First Trust',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.75
-  },
-  {
-    symbol: 'FTGG.F',
-    name: 'First Trust Germany AlphaDEX UCITS ETF',
-    price: 23.59,
-    issuer: 'First Trust',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.65
-  },
-  {
-    symbol: 'FTGT.F',
-    name: 'First Trust Global Funds PLC - First Trust Alerian Disruptive Technology Real Estate Ucits ETF',
-    price: 17.832,
-    issuer: 'First Trust',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.6
+    category: 'Germany',
+    isin: 'IE00BWTNM966',
+    ter: 0.75,
+    aum: 4574608,
+    domicile: 'IE'
   },
   {
     symbol: 'FTGU.DE',
     name: 'First Trust US Large Cap Core AlphaDEX UCITS ETF',
-    price: 80.98,
+    price: 88.5,
     issuer: 'First Trust',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.75
+    category: 'US',
+    isin: 'IE00B8X9NW27',
+    ter: 0.75,
+    aum: 90509279,
+    domicile: 'IE'
   },
   {
     symbol: 'FTWD.DE',
-    name: 'Invesco FTSE All-World UCITS ETF USD Distribution',
-    price: 6.475,
+    name: 'Invesco FTSE All-World UCITS ETF',
+    price: 7.045,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.15
+    category: 'Global',
+    isin: 'IE0000QLH0G6',
+    ter: 0.15,
+    aum: 2689943770,
+    domicile: 'IE'
   },
   {
     symbol: 'FUSA.DE',
-    name: 'Fidelity US Quality Income ETF Acc',
-    price: 12.066,
+    name: 'Fidelity US Quality Income UCITS ETF ACC-USD',
+    price: 12.976,
     issuer: 'Fidelity',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'US'
   },
   {
     symbol: 'FUSD.DE',
-    name: 'Fidelity US Quality Income ETF',
-    price: 10.028,
+    name: 'Fidelity US Quality Income UCITS ETF INC-USD',
+    price: 10.716,
     issuer: 'Fidelity',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'US',
+    isin: 'IE00BYXVGX24',
+    ter: 0.25,
+    aum: 1501413131,
+    domicile: 'IE'
   },
   {
     symbol: 'FUSU.DE',
-    name: 'Fidelity US Quality Income ETF',
-    price: 10.538,
+    name: 'Fidelity US Quality Income UCITS ETF ACC-EUR (hedged)',
+    price: 11.21,
     issuer: 'Fidelity',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'FUSU.F',
-    name: 'Fidelity US Quality Income ETF',
-    price: 7.961,
-    issuer: 'Fidelity',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00BYV1Y969',
+    ter: 0.3,
+    aum: 1743599038,
+    domicile: 'IE'
   },
   {
     symbol: 'FVSJ.DE',
-    name: 'Franklin LibertyQ AC Asia ex Japan UCITS ETF',
-    price: 23.52,
-    issuer: 'Franklin',
+    name: 'Franklin FTSE Asia ex China ex Japan UCITS ETF',
+    price: 30.695,
+    issuer: 'Franklin Templeton',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.14
+    category: 'Japan',
+    isin: 'IE00BFWXDV39',
+    ter: 0.14,
+    aum: 561454422,
+    domicile: 'IE'
   },
   {
     symbol: 'FVUE.DE',
@@ -6795,88 +6181,90 @@ export const xetraETFs: ETF[] = [
     issuer: 'Franklin',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'FYEM.DE',
-    name: 'Fidelity Emerging Markets Quality Income UCITS ETF USD Acc',
-    price: 6.234,
+    name: 'Fidelity Emerging Markets Quality Income UCITS ETF ACC-USD',
+    price: 7.06,
     issuer: 'Fidelity',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.5
+    category: 'Emerging Markets',
+    isin: 'IE00BYSX4846',
+    ter: 0.5,
+    aum: 170589203,
+    domicile: 'IE'
   },
   {
     symbol: 'FYEQ.DE',
-    name: 'Fidelity Emerging Markets Quality Income UCITS ETF',
-    price: 5.132,
+    name: 'Fidelity Emerging Markets Quality Income UCITS ETF INC-USD',
+    price: 5.786,
     issuer: 'Fidelity',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.5
   },
   {
     symbol: 'G1CE.DE',
-    name: 'Invesco Markets II plc - Invesco Global Clean Energy UCITS ETF',
-    price: 16.148,
+    name: 'Invesco Global Clean Energy UCITS ETF',
+    price: 20.885,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'G2X.DE',
     name: 'VanEck Gold Miners UCITS ETF',
-    price: 62.99,
+    price: 101.78,
     issuer: 'VanEck',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.53
+    category: 'Commodities'
   },
   {
     symbol: 'G2XJ.DE',
     name: 'VanEck Junior Gold Miners UCITS ETF',
-    price: 64.87,
+    price: 111.64,
     issuer: 'VanEck',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Materials',
+    isin: 'IE00BQQP9G91',
+    ter: 0.55,
+    aum: 1298210575,
+    domicile: 'IE'
   },
   {
     symbol: 'GACA.DE',
-    name: 'Goldman Sachs ActiveBeta US Large Cap Equity UCITS ETF',
-    price: 76.7,
+    name: 'Goldman Sachs ActiveBeta Paris-Aligned Sustainable US Large Cap Equity UCITS ETF',
+    price: 79.33,
     issuer: 'Goldman',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'US',
+    isin: 'IE00BJ5CNR11',
+    ter: 0.14,
+    aum: 131972186,
+    domicile: 'IE'
   },
   {
     symbol: 'GACB.DE',
-    name: 'Goldman Sachs ActiveBeta Emerging Market Equity UCITS ETF',
-    price: 28.88,
+    name: 'Goldman Sachs ActiveBeta Emerging Markets Equity UCITS ETF',
+    price: 34.345,
     issuer: 'Goldman',
     assetClass: 'Commodity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.49
+    category: 'Emerging Markets',
+    isin: 'IE00BJ5CMD00',
+    ter: 0.49,
+    aum: 11426797,
+    domicile: 'IE'
   },
   {
     symbol: 'GASF.DE',
     name: 'Goldman Sachs Access China Government Bond UCITS ETF',
-    price: 46.248,
+    price: 47.818,
     issuer: 'Goldman',
     assetClass: 'Fixed Income',
-    category: 'China'
-  ,
-    ter: 0.24
+    category: 'Government',
+    isin: 'IE00BJSBCS90',
+    ter: 0.24,
+    aum: 53052371,
+    domicile: 'IE'
   },
   {
     symbol: 'GC2U.DE',
@@ -6884,69 +6272,75 @@ export const xetraETFs: ETF[] = [
     price: 5.138,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35000000000000003
+    category: 'US',
+    isin: 'FR0010791194',
+    ter: 0.35000000000000003,
+    aum: 17819010.0903,
+    domicile: 'DE'
   },
   {
     symbol: 'GC40.DE',
-    name: 'Amundi Index Solutions - Amundi CAC 40',
-    price: 135.86,
+    name: 'Amundi CAC 40 ESG UCITS ETF Acc',
+    price: 138.92,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.25
+    category: 'ESG',
+    isin: 'LU1681046931',
+    ter: 0.25,
+    aum: 633685698,
+    domicile: 'LU'
   },
   {
     symbol: 'GENY.DE',
-    name: 'Amundi MSCI Millennials Capitalisation',
-    price: 15.682,
+    name: 'Amundi MSCI Millennials UCITS ETF Acc',
+    price: 14.916,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Other',
+    isin: 'LU2023678449',
+    ter: 0.45,
+    aum: 22384467,
+    domicile: 'LU'
   },
   {
     symbol: 'GFEA.DE',
     name: 'VanEck Global Fallen Angel High Yield Bond UCITS ETF',
-    price: 62.192,
+    price: 63.31,
     issuer: 'VanEck',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.4
+    category: 'Corporate',
+    isin: 'IE00BF540Z61',
+    ter: 0.4,
+    aum: 47292095,
+    domicile: 'IE'
   },
   {
     symbol: 'GGUE.DE',
-    name: 'UBS (Irl) ETF plc - Global Gender Equality UCITS ETF',
-    price: 24.705,
+    name: 'UBS Global Gender Equality UCITS ETF hEUR acc',
+    price: 26.375,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.23
+    category: 'Global',
+    isin: 'IE00BDR5H073',
+    ter: 0.23,
+    aum: 211563659,
+    domicile: 'IE'
   },
   {
     symbol: 'GLUX.DE',
-    name: 'Amundi Index Solutions - Amundi S&P Global Luxury',
-    price: 208.8,
+    name: 'Amundi Global Luxury UCITS ETF EUR Acc',
+    price: 201.15,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'GMVM.DE',
-    name: 'VanEck Morningstar US Sustainable Wide Moat UCITS ETF',
-    price: 52.31,
+    name: 'VanEck Morningstar US ESG Wide Moat UCITS ETF',
+    price: 53.59,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'US'
   },
   {
     symbol: 'GNAR.DE',
@@ -6958,133 +6352,83 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'GOAI.DE',
-    name: 'Amundi MSCI Robotics & AI ESG Screened UCITS ETF',
-    price: 106.22,
+    name: 'Amundi MSCI Robotics & AI UCITS ETF Acc',
+    price: 109.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
-  },
-  {
-    symbol: 'GRID.F',
-    name: 'First Trust Nasdaq Clean Edge Smart Grid Infrastructure UCITS ETF',
-    price: 32.275,
-    issuer: 'First Trust',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.7000000000000001
+    category: 'Other'
   },
   {
     symbol: 'GRX.DE',
     name: 'Expat Greece ASE UCITS ETF',
-    price: 1.6666,
+    price: 1.7992,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 2.04
+    category: 'Other'
   },
   {
     symbol: 'GSDE.DE',
     name: 'BNP Paribas Easy Energy & Metals Enhanced Roll',
-    price: 14.904,
+    price: 19.802,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Energy'
-  ,
-    ter: 0.38
-  },
-  {
-    symbol: 'GSDE.F',
-    name: 'BNP Paribas Easy Energy & Metals Enhanced Roll',
-    price: 13.034,
-    issuer: 'BNP Paribas',
-    assetClass: 'Equity',
-    category: 'Energy'
-  ,
-    ter: 0.38
   },
   {
     symbol: 'H1D5.DE',
-    name: 'Amundi Index Solutions - Amundi S&P 500 UCITS ETF',
-    price: 154.085,
+    name: 'Amundi S&P 500 Swap UCITS ETF EUR Hedged Acc',
+    price: 162.115,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.28
-  },
-  {
-    symbol: 'H1D5.F',
-    name: 'Amundi Index Solutions - Amundi S&P 500 UCITS ETF',
-    price: 108.25,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.28
+    category: 'US',
+    isin: 'LU1681049109',
+    ter: 0.28,
+    aum: 5736061945,
+    domicile: 'LU'
   },
   {
     symbol: 'H410.DE',
-    name: 'HSBC MSCI Emerging Markets UCITS ETF',
-    price: 10.8725,
+    name: 'HSBC MSCI EMERGING MARKETS UCITS ETF',
+    price: 12.984,
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'H411.DE',
     name: 'HSBC MSCI AC FAR EAST ex JAPAN UCITS ETF',
-    price: 53.88,
+    price: 67.1,
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.45
   },
   {
     symbol: 'H41J.DE',
-    name: 'HSBC Multi Factor Worldwide Equity UCITS ETF',
+    name: 'HSBC MULTI FACTOR WORLDWIDE EQUITY UCITS ETF',
     price: 22.525,
     issuer: 'HSBC',
     assetClass: 'Mixed',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'H41K.DE',
     name: 'HSBC MSCI CHINA A UCITS ETF',
-    price: 9.82,
+    price: 10.796,
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'H41K.F',
-    name: 'HSBC MSCI CHINA A UCITS ETF',
-    price: 9.083,
-    issuer: 'HSBC',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'H4ZA.DE',
     name: 'HSBC EURO STOXX 50 UCITS ETF',
-    price: 55.91,
+    price: 61.21,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'Europe',
+    isin: 'IE00B4K6B022',
+    ter: 0.05,
+    aum: 2251376449,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZB.DE',
@@ -7092,9 +6436,11 @@ export const xetraETFs: ETF[] = [
     price: 86.95,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'UK',
+    isin: 'IE00B42TW061',
+    ter: 0.07,
+    aum: 860127293,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZC.DE',
@@ -7103,48 +6449,50 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'H4ZD.DE',
-    name: 'HSBC MSCI USA UCITS ETF',
+    name: 'HSBC MSCI USA QUALITY UCITS ETF',
     price: 38.88,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00B5WFQ436',
+    ter: 0.15,
+    aum: 321064159,
+    domicile: 'LU'
   },
   {
     symbol: 'H4ZE.DE',
-    name: 'HSBC MSCI Europe UCITS ETF',
-    price: 18.6,
+    name: 'HSBC MSCI EUROPE UCITS ETF',
+    price: 20.65,
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'H4ZF.DE',
     name: 'HSBC S&P 500 UCITS ETF',
-    price: 55.8,
+    price: 59.102,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE00B5KQNG97',
+    ter: 0.09,
+    aum: 7721051563,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZH.DE',
-    name: 'HSBC MSCI Pacific ex Japan UCITS ETF',
+    name: 'HSBC MSCI PACIFIC ex JAPAN UCITS ETF',
     price: 12.012,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.4
+    category: 'Japan',
+    isin: 'IE00B5SG8Z57',
+    ter: 0.15,
+    aum: 1132304924,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZI.DE',
@@ -7153,48 +6501,62 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'H4ZJ.DE',
-    name: 'HSBC MSCI World UCITS ETF',
-    price: 35.801,
+    name: 'HSBC MSCI WORLD UCITS ETF',
+    price: 38.464,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.15
+    category: 'Global',
+    isin: 'IE00B4X9L533',
+    ter: 0.15,
+    aum: 14681482279,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZK.DE',
     name: 'HSBC Euro Lower Carbon Government 1-3 Year Bond UCITS ETF',
-    price: 10.179,
+    price: 10.243,
     issuer: 'HSBC',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Bonds',
+    isin: 'IE0009WMIIC0',
+    ter: 0.5,
+    aum: 12437399,
+    domicile: 'IE'
+  },
+  {
+    symbol: 'H4ZL.DE',
+    name: 'HSBC FTSE EPRA NAREIT DEVELOPED UCITS ETF',
+    price: 20.55,
+    issuer: 'HSBC',
+    assetClass: 'Equity',
+    category: 'Real Estate',
+    isin: 'IE00B5L01S80',
+    ter: 0.24,
+    aum: 2553509672,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZP.DE',
-    name: 'HSBC MSCI China UCITS ETF',
-    price: 7.154,
+    name: 'HSBC MSCI CHINA UCITS ETF',
+    price: 6.98,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.3
+    category: 'China',
+    isin: 'IE00B44T3H88',
+    ter: 0.28,
+    aum: 1117651976,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZR.DE',
-    name: 'HSBC MSCI Canada UCITS ETF',
+    name: 'HSBC MSCI CANADA UCITS ETF',
     price: 19.082,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Other'
   },
   {
     symbol: 'H4ZS.DE',
@@ -7202,29 +6564,31 @@ export const xetraETFs: ETF[] = [
     price: 42.88,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Other'
   },
   {
     symbol: 'H4ZT.DE',
-    name: 'HSBC MSCI Indonesia UCITS ETF',
-    price: 53,
+    name: 'HSBC MSCI INDONESIA UCITS ETF',
+    price: 45.765,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Other',
+    isin: 'IE00B46G8275',
+    ter: 0.5,
+    aum: 174227031,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZU.DE',
-    name: 'HSBC MSCI Taiwan Capped UCITS ETF',
+    name: 'HSBC MSCI TAIWAN CAPPED UCITS ETF',
     price: 76.48,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Technology',
+    isin: 'IE00B3S1J086',
+    ter: 0.5,
+    aum: 68132551,
+    domicile: 'IE'
   },
   {
     symbol: 'H4ZV.DE',
@@ -7232,9 +6596,11 @@ export const xetraETFs: ETF[] = [
     price: 25.655,
     issuer: 'HSBC',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.6
+    category: 'Other',
+    isin: 'IE00B3X3R831',
+    ter: 0.6,
+    aum: 4325444,
+    domicile: 'DE'
   },
   {
     symbol: 'H4ZW.DE',
@@ -7243,8 +6609,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'HSBC',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'HAB.DE',
@@ -7252,437 +6616,353 @@ export const xetraETFs: ETF[] = [
     price: 9.013,
     issuer: 'Hamborner',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Real Estate',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'HDLV.DE',
     name: 'Invesco S&P 500 High Dividend Low Volatility UCITS ETF',
-    price: 31.475,
+    price: 32.97,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'HJAP.F',
-    name: 'HSBC MSCI Japan Climate Paris Aligned UCITS ETF',
-    price: 12.818,
-    issuer: 'HSBC',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'HNDX.DE',
-    name: 'Amundi Index Solutions - Amundi Nasdaq-100',
-    price: 538.5,
+    name: 'Amundi Nasdaq-100 Swap UCITS ETF EUR Hedged Acc',
+    price: 573.2,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'HNDX.F',
-    name: 'Amundi Index Solutions - Amundi Nasdaq-100',
-    price: 505.2,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35000000000000003
   },
   {
     symbol: 'HTMW.DE',
     name: 'L&G Hydrogen Economy UCITS ETF',
-    price: 4.508,
+    price: 6.333,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Other',
+    isin: 'IE00BMYDM794',
+    ter: 0.49,
+    aum: 373589135,
+    domicile: 'IE'
   },
   {
     symbol: 'HUBE.DE',
     name: 'Expat Hungary BUX UCITS ETF',
-    price: 1.151,
+    price: 1.3982,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 1.56
-  },
-  {
-    symbol: 'HUBE.F',
-    name: 'Expat Hungary BUX UCITS ETF',
-    price: 0.6477,
-    issuer: 'Expat',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 1.56
-  },
-  {
-    symbol: 'HVJ9.F',
-    name: 'DWS Concept SICAV - DWS Concept Kaldemorgen',
-    price: 174.665,
-    issuer: 'DWS',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 1.55
+    category: 'Other'
   },
   {
     symbol: 'HY3M.DE',
     name: 'VanEck Emerging Markets High Yield Bond UCITS ETF',
-    price: 113.025,
+    price: 116.895,
     issuer: 'VanEck',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.4
+    category: 'Corporate',
+    isin: 'IE00BF541080',
+    ter: 0.4,
+    aum: 39544278,
+    domicile: 'IE'
   },
   {
     symbol: 'HYLE.DE',
     name: 'iShares Global High Yield Corp Bond UCITS ETF',
-    price: 4.4619,
+    price: 4.4247,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.55
-  },
-  {
-    symbol: 'HYLE.F',
-    name: 'iShares Global High Yield Corp Bond UCITS ETF',
-    price: 4.2568,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.55
   },
   {
     symbol: 'IBB1.DE',
-    name: 'iShares $ Treasury Bond 7-10yr UCITS ETF EUR Hedged (Dist)',
-    price: 4.032,
+    name: 'iShares $ Treasury Bond 7-10yr UCITS ETF',
+    price: 4.0304,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'IBB1.F',
-    name: 'iShares $ Treasury Bond 7-10yr UCITS ETF EUR Hedged (Dist)',
-    price: 4.2273,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Bonds'
   },
   {
     symbol: 'IBC0.DE',
-    name: 'iShares Edge MSCI Europe Multifactor UCITS ETF EUR (Acc)',
-    price: 10.544,
+    name: 'iShares STOXX Europe Equity Multifactor UCITS ETF',
+    price: 12.072,
     issuer: 'iShares',
     assetClass: 'Mixed',
     category: 'Europe'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'IBC2.DE',
     name: 'iShares $ High Yield Corp Bond UCITS ETF',
-    price: 4.0399,
+    price: 3.9358,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Dividend'
   },
   {
     symbol: 'IBC3.DE',
     name: 'iShares Core MSCI EM IMI UCITS ETF',
-    price: 4.8179,
+    price: 5.6472,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'IBC3.F',
-    name: 'iShares Core MSCI EM IMI UCITS ETF',
-    price: 4.009,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'IBC4.DE',
     name: 'iShares MSCI South Africa UCITS ETF',
-    price: 40.895,
+    price: 55.61,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other'
   },
   {
     symbol: 'IBC5.DE',
     name: 'iShares $ TIPS UCITS ETF',
-    price: 5.379,
+    price: 5.4452,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Other'
   },
   {
     symbol: 'IBC6.DE',
     name: 'iShares MSCI Australia UCITS ETF',
-    price: 48.025,
-    issuer: 'iShares',
+    price: 53.64,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Other',
+    isin: 'IE00B5377D42',
+    ter: 0.5,
+    aum: 466245493,
+    domicile: 'IE'
   },
   {
     symbol: 'IBC7.DE',
     name: 'iShares Fallen Angels High Yield Corp Bond UCITS ETF',
-    price: 4.6499,
-    issuer: 'iShares',
+    price: 4.6175,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Corporate',
+    isin: 'IE00BF3N7219',
+    ter: 0.55,
+    aum: 105685944,
+    domicile: 'IE'
   },
   {
     symbol: 'IBC9.DE',
-    name: 'iShares Global High Yield Corp Bond UCITS ETF USD (Dist)',
-    price: 79.24,
-    issuer: 'iShares',
+    name: 'iShares Global High Yield Corp Bond UCITS ETF',
+    price: 78.846,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.5
+    category: 'Corporate',
+    isin: 'IE00B74DQ490',
+    ter: 0.5,
+    aum: 853087948,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCA.DE',
-    name: 'iShares € Govt Bond 1-3yr UCITS ETF EUR (Dist)',
-    price: 142.825,
+    name: 'iShares € Govt Bond 1-3yr UCITS ETF',
+    price: 142.26,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'IBCC.DE',
-    name: 'iShares $ Treasury Bond 0-1yr UCITS ETF USD (Dist)',
-    price: 4.32,
+    name: 'iShares $ Treasury Bond 0-1yr UCITS ETF',
+    price: 4.3133,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'IBCD.DE',
-    name: 'iShares $ Corp Bond UCITS ETF USD (Dist)',
-    price: 88.248,
-    issuer: 'iShares',
+    name: 'iShares $ Corp Bond UCITS ETF',
+    price: 89.094,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Corporate',
+    isin: 'IE0032895942',
+    ter: 0.2,
+    aum: 3215148609,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCF.DE',
-    name: 'iShares V PLC - iShares S&P 500 EUR Hedged UCITS ETF (Acc)',
-    price: 134.07,
-    issuer: 'iShares',
+    name: 'iShares S&P 500 EUR Hedged UCITS ETF (Acc)',
+    price: 141.125,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00B3ZW0K18',
+    ter: 0.2,
+    aum: 7779584599,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCG.DE',
-    name: 'iShares V PLC - iShares MSCI Japan EUR Hedged UCITS ETF (Acc)',
-    price: 103.625,
-    issuer: 'iShares',
+    name: 'iShares MSCI Japan EUR Hedged UCITS ETF (Acc)',
+    price: 128.77,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.64
+    category: 'Japan',
+    isin: 'IE00B42Z5J44',
+    ter: 0.64,
+    aum: 1076595499,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCH.DE',
-    name: 'iShares V PLC - iShares MSCI World EUR Hedged UCITS ETF (Acc)',
-    price: 100.845,
-    issuer: 'iShares',
+    name: 'iShares MSCI World EUR Hedged UCITS ETF (Acc)',
+    price: 107.8,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.55
+    category: 'Global',
+    isin: 'IE00B441G979',
+    ter: 0.55,
+    aum: 4680596151,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCI.DE',
     name: 'iShares € Inflation Linked Govt Bond UCITS ETF',
-    price: 228.49,
+    price: 235.77,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Bonds'
   },
   {
     symbol: 'IBCJ.DE',
-    name: 'iShares V PLC - iShares MSCI Poland UCITS ETF',
-    price: 24.32,
-    issuer: 'iShares',
+    name: 'iShares MSCI Poland UCITS ETF',
+    price: 28.92,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.74
+    category: 'Other',
+    isin: 'IE00B4M7GH52',
+    ter: 0.74,
+    aum: 624754862,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCK.DE',
     name: 'iShares Edge S&P 500 Minimum Volatility UCITS ETF',
-    price: 89.68,
+    price: 93.45,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'IBCL.DE',
     name: 'iShares € Govt Bond 15-30yr UCITS ETF',
-    price: 164.44,
-    issuer: 'iShares',
+    price: 167.215,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00B1FZS913',
+    ter: 0.15,
+    aum: 711768871,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCM.DE',
     name: 'iShares € Govt Bond 7-10yr UCITS ETF',
-    price: 186.93,
+    price: 188.415,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'IBCN.DE',
     name: 'iShares € Govt Bond 3-5yr UCITS ETF',
-    price: 162.27,
-    issuer: 'iShares',
+    price: 161.67,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00B1FZS681',
+    ter: 0.15,
+    aum: 2234559877,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCQ.DE',
     name: 'iShares Global Corp Bond EUR Hedged UCITS ETF (Dist)',
-    price: 86.528,
-    issuer: 'iShares',
+    price: 86.61,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Financials',
+    isin: 'IE00B9M6SJ31',
+    ter: 0.25,
+    aum: 1111411978,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCS.DE',
     name: 'iShares € Corp Bond Large Cap UCITS ETF',
-    price: 125.575,
+    price: 125.315,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Bonds'
   },
   {
     symbol: 'IBCY.DE',
-    name: 'iShares Edge MSCI USA Multifactor UCITS ETF USD (Acc)',
-    price: 12.466,
-    issuer: 'iShares',
+    name: 'iShares STOXX USA Equity Multifactor UCITS ETF',
+    price: 13.084,
+    issuer: 'IShares',
     assetClass: 'Mixed',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'IE00BZ0PKS76',
+    ter: 0.2,
+    aum: 62360330,
+    domicile: 'IE'
   },
   {
     symbol: 'IBCZ.DE',
-    name: 'iShares Edge MSCI World Multifactor UCITS ETF USD (Acc)',
-    price: 11.284,
-    issuer: 'iShares',
+    name: 'iShares STOXX World Equity Multifactor UCITS ETF',
+    price: 12.212,
+    issuer: 'IShares',
     assetClass: 'Mixed',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00BZ0PKT83',
+    ter: 0.3,
+    aum: 654141907,
+    domicile: 'IE'
   },
   {
     symbol: 'ICFP.DE',
-    name: 'Invesco MSCI Europe ESG Leaders Catholic Principles UCITS ETF',
-    price: 58.46,
+    name: 'Invesco MSCI Europe Catholic Principles UCITS ETF',
+    price: 64.32,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'IE00BG0NY640',
+    ter: 0.3,
+    aum: 26904759,
+    domicile: 'IE'
   },
   {
     symbol: 'ICGA.DE',
     name: 'iShares MSCI China UCITS ETF',
-    price: 5.286,
-    issuer: 'iShares',
+    price: 5.185,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.28
-  },
-  {
-    symbol: 'ICGA.F',
-    name: 'iShares MSCI China UCITS ETF',
-    price: 3.872,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.4
+    category: 'China',
+    isin: 'IE00BJ5JPG56',
+    ter: 0.28,
+    aum: 3180116478,
+    domicile: 'IE'
   },
   {
     symbol: 'ICGB.DE',
     name: 'iShares China CNY Bond UCITS ETF',
-    price: 4.6002,
-    issuer: 'iShares',
+    price: 4.7583,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'China'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'ICNT.F',
-    name: 'Invesco MSCI China Technology All Shares Stock Connect UCITS ETF',
-    price: 21.57,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.49
+    category: 'Government',
+    isin: 'IE00BYPC1H27',
+    ter: 0.35,
+    aum: 508629853,
+    domicile: 'IE'
   },
   {
     symbol: 'ICW5.DE',
@@ -7690,127 +6970,101 @@ export const xetraETFs: ETF[] = [
     price: 10.054,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'US'
+    category: 'US',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'IE1A.DE',
-    name: 'iShares € Corp Bond 1-5yr UCITS ETF EUR (Dist)',
-    price: 5.4268,
-    issuer: 'iShares',
+    name: 'iShares € Corp Bond 1-5yr UCITS ETF',
+    price: 5.4886,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE000F6G1DE0',
+    ter: 0.2,
+    aum: 823201642,
+    domicile: 'IE'
   },
   {
     symbol: 'IE3E.DE',
-    name: 'iShares € Corp Bond 0-3yr ESG UCITS ETF',
-    price: 5.4632,
+    name: 'iShares € Corp Bond 0-3Yr ESG SRI UCITS ETF',
+    price: 5.5176,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'IE3E.F',
-    name: 'iShares € Corp Bond 0-3yr ESG UCITS ETF',
-    price: 4.9624,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'ESG'
   },
   {
     symbol: 'IEVD.DE',
     name: 'iShares Electric Vehicles and Driving Technology UCITS ETF',
-    price: 7.453,
-    issuer: 'iShares',
+    price: 8.382,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Technology',
+    isin: 'IE00BGL86Z12',
+    ter: 0.4,
+    aum: 383643735,
+    domicile: 'IE'
   },
   {
     symbol: 'IEXA.DE',
     name: 'iShares € Corp Bond ex-Financials UCITS ETF',
-    price: 5.3568,
+    price: 5.427,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Financials'
   },
   {
     symbol: 'IM2A.DE',
     name: 'BNP Paribas Easy FTSE EPRA/NAREIT Eurozone Capped',
-    price: 6.852,
+    price: 6.867,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Real Estate',
+    isin: 'LU0192223062',
+    ter: 0.4,
+    aum: 205443180,
+    domicile: 'LU'
   },
   {
     symbol: 'INDA.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Banks UCITS ETF',
-    price: 70.58,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'INDU.DE',
-    name: 'Amundi STOXX Europe 600 Industrials UCITS ETF Distribution',
-    price: 182.84,
+    name: 'Amundi STOXX Europe 600 Banks UCITS ETF Dist',
+    price: 79.5,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
+  },
+  {
+    symbol: 'INDU.DE',
+    name: 'Amundi STOXX Europe 600 Industrials UCITS ETF Dist',
+    price: 196.38,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Europe',
+    isin: 'LU2082997789',
+    ter: 0.3,
+    aum: 403292693,
+    domicile: 'IE'
   },
   {
     symbol: 'IPAB.DE',
     name: 'iShares € Corp Bond ESG Paris-Aligned Climate UCITS ETF',
-    price: 5.5282,
-    issuer: 'iShares',
+    price: 5.6016,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'IPAB.F',
-    name: 'iShares € Corp Bond ESG Paris-Aligned Climate UCITS ETF',
-    price: 4.898,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'IE000SE6KPV2',
+    ter: 0.15,
+    aum: 172616811,
+    domicile: 'IE'
   },
   {
     symbol: 'IPRE.DE',
     name: 'iShares European Property Yield UCITS ETF',
-    price: 4.66,
+    price: 5.038,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.4
-  },
-  {
-    symbol: 'IPRE.F',
-    name: 'iShares European Property Yield UCITS ETF',
-    price: 3.4325,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'IQCY.DE',
@@ -7818,229 +7072,231 @@ export const xetraETFs: ETF[] = [
     price: 13.664,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'ESG'
   },
   {
     symbol: 'IQQ0.DE',
-    name: 'iShares Edge MSCI World Minimum Volatility UCITS ETF USD (Acc)',
-    price: 62.88,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI World Minimum Volatility UCITS ETF',
+    price: 64.96,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00B8FHGS14',
+    ter: 0.3,
+    aum: 2265541142,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQ4.DE',
-    name: 'iShares Asia Property Yield UCITS ETF USD (Dist)',
-    price: 19.53,
+    name: 'iShares Asia Property Yield UCITS ETF',
+    price: 20.51,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.59
+    category: 'Asia Pacific'
   },
   {
     symbol: 'IQQ5.DE',
     name: 'iShares MSCI Turkey UCITS ETF',
-    price: 15.94,
-    issuer: 'iShares',
+    price: 19.11,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.74
+    category: 'Other',
+    isin: 'IE00B1FZS574',
+    ter: 0.74,
+    aum: 113347753,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQ6.DE',
-    name: 'iShares Developed Markets Property Yield UCITS ETF USD (Dist)',
-    price: 20.555,
-    issuer: 'iShares',
+    name: 'iShares Developed Markets Property Yield UCITS ETF',
+    price: 21.995,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.59
+    category: 'Real Estate',
+    isin: 'IE00B1FZS350',
+    ter: 0.59,
+    aum: 992285183,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQ7.DE',
     name: 'iShares US Property Yield UCITS ETF',
-    price: 25.22,
+    price: 27.065,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'US'
   },
   {
     symbol: 'IQQ9.DE',
-    name: 'iShares BRIC 50 UCITS ETF',
-    price: 22.24,
+    name: 'iShares BIC 50 UCITS ETF',
+    price: 21.46,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.74
+    category: 'Other'
   },
   {
     symbol: 'IQQA.DE',
     name: 'iShares Euro Dividend UCITS ETF',
-    price: 22.32,
-    issuer: 'iShares',
+    price: 23.775,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Dividend',
+    isin: 'IE00B0M62S72',
+    ter: 0.4,
+    aum: 1262226292,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQB.DE',
     name: 'iShares MSCI Brazil UCITS ETF USD (Dist)',
-    price: 20.165,
-    issuer: 'iShares',
+    price: 26.675,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.74
+    category: 'Other',
+    isin: 'IE00B0M63516',
+    ter: 0.74,
+    aum: 405770849,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQC.DE',
     name: 'iShares China Large Cap UCITS ETF',
-    price: 95.78,
+    price: 90.98,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.74
   },
   {
     symbol: 'IQQD.DE',
     name: 'iShares UK Dividend UCITS ETF',
-    price: 9.712,
-    issuer: 'iShares',
+    price: 11.324,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'UK',
+    isin: 'IE00B0M63060',
+    ter: 0.4,
+    aum: 1337615950,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQE.DE',
     name: 'iShares MSCI EM UCITS ETF USD (Dist)',
-    price: 42.76,
+    price: 51.11,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'IQQF.DE',
     name: 'iShares MSCI AC Far East ex-Japan UCITS ETF',
-    price: 56.58,
+    price: 70,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.74
   },
   {
     symbol: 'IQQG.DE',
     name: 'iShares Euro Total Market Growth Large UCITS ETF',
-    price: 60.6,
-    issuer: 'iShares',
+    price: 65.9,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Growth',
+    isin: 'IE00B0M62V02',
+    ter: 0.4,
+    aum: 296704996,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQH.DE',
-    name: 'iShares Global Clean Energy UCITS ETF USD (Dist)',
-    price: 7.036,
+    name: 'iShares Global Clean Energy Transition UCITS ETF',
+    price: 9.101,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'IQQI.DE',
     name: 'iShares Global Infrastructure UCITS ETF',
-    price: 29.665,
-    issuer: 'iShares',
+    price: 33.765,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.65
+    category: 'Utilities',
+    isin: 'IE00B1FZS467',
+    ter: 0.65,
+    aum: 1796943654,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQJ.DE',
     name: 'iShares MSCI Japan UCITS ETF USD (Dist)',
-    price: 16.986,
+    price: 19.7015,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'IQQK.DE',
-    name: 'iShares MSCI Korea UCITS ETF (Dist)',
-    price: 43.78,
-    issuer: 'iShares',
+    name: 'iShares MSCI Korea UCITS ETF USD (Dist)',
+    price: 84.4,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Technology',
+    isin: 'IE00B0M63391',
+    ter: 0.65,
+    aum: 696632017,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQL.DE',
     name: 'iShares Listed Private Equity UCITS ETF',
-    price: 32.425,
-    issuer: 'iShares',
+    price: 26.62,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.75
+    category: 'Financials',
+    isin: 'IE00B1TXHL60',
+    ter: 0.75,
+    aum: 710765354,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQM.DE',
     name: 'iShares EURO STOXX Mid UCITS ETF',
-    price: 75.58,
-    issuer: 'iShares',
+    price: 82.01,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Europe',
+    isin: 'IE00B02KXL92',
+    ter: 0.4,
+    aum: 578595026,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQN.DE',
     name: 'iShares MSCI North America UCITS ETF',
-    price: 102.86,
+    price: 108.98,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: 'IQQP.DE',
     name: 'iShares European Property Yield UCITS ETF',
-    price: 29.89,
+    price: 32.095,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'IQQQ.DE',
-    name: 'iShares Global Water UCITS ETF USD (Dist)',
-    price: 63.88,
-    issuer: 'iShares',
+    name: 'iShares Global Water UCITS ETF',
+    price: 66.14,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.65
+    category: 'Global',
+    isin: 'IE00B1TXK627',
+    ter: 0.65,
+    aum: 2014293457,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQR.DE',
@@ -8053,812 +7309,814 @@ export const xetraETFs: ETF[] = [
   {
     symbol: 'IQQS.DE',
     name: 'iShares EURO STOXX Small UCITS ETF',
-    price: 45.88,
+    price: 49.285,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Europe'
   },
   {
     symbol: 'IQQT.DE',
     name: 'iShares MSCI Taiwan UCITS ETF',
-    price: 89.97,
-    issuer: 'iShares',
+    price: 115.7,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.74
+    category: 'Technology',
+    isin: 'IE00B0M63623',
+    ter: 0.74,
+    aum: 899159186,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQU.DE',
     name: 'iShares MSCI Europe ex-UK UCITS ETF',
-    price: 46.9,
-    issuer: 'iShares',
+    price: 51.57,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.4
+    category: 'Europe',
+    isin: 'IE00B14X4N27',
+    ter: 0.4,
+    aum: 1244779652,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQW.DE',
     name: 'iShares MSCI World UCITS ETF',
-    price: 76.084,
-    issuer: 'iShares',
+    price: 81.684,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.5
+    category: 'Global',
+    isin: 'IE00B0M62Q58',
+    ter: 0.5,
+    aum: 7275974803,
+    domicile: 'IE'
   },
   {
     symbol: 'IQQX.DE',
     name: 'iShares Asia Pacific Dividend UCITS ETF',
-    price: 22.62,
+    price: 26.815,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.59
+    category: 'Asia Pacific'
   },
   {
     symbol: 'IQQY.DE',
-    name: 'iShares Core MSCI Europe UCITS ETF EUR (Dist)',
-    price: 33.95,
-    issuer: 'iShares',
+    name: 'iShares Core MSCI Europe UCITS ETF',
+    price: 37.62,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'IE00B1YZSC51',
+    ter: 0.12,
+    aum: 10441727229,
+    domicile: 'IE'
   },
   {
     symbol: 'IQSA.DE',
-    name: 'Invesco Quantitative Strategies ESG Global Equity Multi-Factor UCITS ETF',
-    price: 74.48,
+    name: 'Invesco Global Active ESG Equity UCITS ETF',
+    price: 83.7,
     issuer: 'Invesco',
-    assetClass: 'Mixed',
-    category: 'Global'
-  ,
-    ter: 0.3
+    assetClass: 'Equity',
+    category: 'Global',
+    isin: 'IE00BJQRDN15',
+    ter: 0.3,
+    aum: 1851148760,
+    domicile: 'IE'
   },
   {
     symbol: 'IQSE.DE',
-    name: 'Invesco Quantitative Strategies ESG Global Equity Multi-Factor UCITS ETF',
-    price: 80.64,
+    name: 'Invesco Global Active ESG Equity UCITS ETF',
+    price: 90.19,
     issuer: 'Invesco',
-    assetClass: 'Mixed',
-    category: 'Global'
-  ,
-    ter: 0.3
+    assetClass: 'Equity',
+    category: 'Global',
+    isin: 'IE00BJQRDP39',
+    ter: 0.3,
+    aum: 1858615618,
+    domicile: 'IE'
   },
   {
     symbol: 'IROB.DE',
     name: 'L&G ROBO Global Robotics and Automation UCITS ETF',
-    price: 21.7,
+    price: 25.55,
     issuer: 'L&G',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.8
   },
   {
     symbol: 'IS04.DE',
-    name: 'iShares $ Treasury Bond 20+yr UCITS ETF USD (Dist)',
-    price: 2.7369,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 20+yr UCITS ETF',
+    price: 2.8376,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'IE00BSKRJZ44',
+    ter: 0.07,
+    aum: 939955903,
+    domicile: 'IE'
   },
   {
     symbol: 'IS05.DE',
     name: 'iShares € Govt Bond 20yr Target Duration UCITS ETF',
-    price: 3.2484,
-    issuer: 'iShares',
+    price: 3.2661,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00BSKRJX20',
+    ter: 0.15,
+    aum: 193332507,
+    domicile: 'IE'
   },
   {
     symbol: 'IS06.DE',
-    name: 'iShares € Corp Bond BBB-BB UCITS ETF EUR (Dist)',
-    price: 4.8675,
-    issuer: 'iShares',
+    name: 'iShares € Corp Bond BBB-BB UCITS ETF',
+    price: 4.8527,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'IE00BSKRK281',
+    ter: 0.25,
+    aum: 404247372,
+    domicile: 'IE'
   },
   {
     symbol: 'IS07.DE',
-    name: 'iShares Edge MSCI World Multifactor UCITS ETF',
-    price: 9.879,
-    issuer: 'iShares',
+    name: 'iShares STOXX World Equity Multifactor UCITS ETF',
+    price: 10.654,
+    issuer: 'IShares',
     assetClass: 'Mixed',
-    category: 'Global'
-  ,
-    ter: 0.33
+    category: 'Global',
+    isin: 'IE00BYXPXK00',
+    ter: 0.33,
+    aum: 30072684,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0D.DE',
-    name: 'iShares V PLC - iShares Oil & Gas Exploration & Production UCITS ETF USD (Acc)',
-    price: 22.865,
-    issuer: 'iShares',
+    name: 'iShares Oil & Gas Exploration & Production UCITS ETF',
+    price: 28.685,
+    issuer: 'IShares',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Energy',
+    isin: 'IE00B6R51Z18',
+    ter: 0.55,
+    aum: 457366311,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0E.DE',
-    name: 'iShares V PLC - iShares Gold Producers UCITS ETF USD (Acc)',
-    price: 25.795,
-    issuer: 'iShares',
+    name: 'iShares Gold Producers UCITS ETF',
+    price: 41.215,
+    issuer: 'IShares',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Materials',
+    isin: 'IE00B6R52036',
+    ter: 0.55,
+    aum: 4454036698,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0L.DE',
-    name: 'iShares V PLC - iShares Germany Govt Bond UCITS ETF EUR (Dist)',
-    price: 119.705,
-    issuer: 'iShares',
+    name: 'iShares Germany Govt Bond UCITS ETF',
+    price: 119.1,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Germany'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE00B5V94313',
+    ter: 0.2,
+    aum: 161651060,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0M.DE',
-    name: 'iShares V PLC - iShares Italy Govt Bond UCITS ETF EUR (Dist)',
-    price: 151.195,
-    issuer: 'iShares',
+    name: 'iShares Italy Govt Bond UCITS ETF',
+    price: 152.43,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE00B7LW6Y90',
+    ter: 0.2,
+    aum: 536304053,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0P.DE',
-    name: 'iShares V PLC - iShares Spain Govt Bond UCITS ETF EUR (Dist)',
-    price: 150.8,
+    name: 'iShares Spain Govt Bond UCITS ETF',
+    price: 152.19,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Bonds'
   },
   {
     symbol: 'IS0Q.DE',
-    name: 'iShares V PLC - iShares J.P. Morgan $ EM Corp Bond UCITS ETF',
-    price: 78.342,
+    name: 'iShares J.P. Morgan $ EM Corp Bond UCITS ETF',
+    price: 78.478,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.5
   },
   {
     symbol: 'IS0R.DE',
-    name: 'iShares $ High Yield Corp Bond UCITS ETF USD (Dist)',
-    price: 82.858,
+    name: 'iShares $ High Yield Corp Bond UCITS ETF',
+    price: 81.516,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Dividend'
   },
   {
     symbol: 'IS0S.DE',
-    name: 'iShares Emerging Asia Local Govt Bond UCITS ETF USD (Dist)',
-    price: 76.268,
-    issuer: 'iShares',
+    name: 'iShares Emerging Asia Local Govt Bond UCITS ETF',
+    price: 73.926,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.5
+    category: 'Government',
+    isin: 'IE00B6QGFW01',
+    ter: 0.5,
+    aum: 40998836,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0X.DE',
-    name: 'iShares Global Corp Bond UCITS ETF USD (Dist)',
-    price: 78.27,
-    issuer: 'iShares',
+    name: 'iShares Global Corp Bond UCITS ETF',
+    price: 78.814,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Corporate',
+    isin: 'IE00B7J7TB45',
+    ter: 0.2,
+    aum: 1772058965,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0Y.DE',
-    name: 'iShares V PLC - iShares € Corp Bond Interest Rate Hedged ESG UCITS ETF',
-    price: 98.726,
-    issuer: 'iShares',
+    name: 'iShares € Corp Bond Interest Rate Hedged ESG SRI UCITS ETF',
+    price: 98.506,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Corporate',
+    isin: 'IE00B6X2VY59',
+    ter: 0.25,
+    aum: 217455212,
+    domicile: 'IE'
   },
   {
     symbol: 'IS0Z.DE',
-    name: 'iShares Global AAA-AA Govt Bond UCITS ETF USD (Dist)',
-    price: 69.032,
+    name: 'iShares Global AAA-AA Govt Bond UCITS ETF',
+    price: 70.068,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'IS31.DE',
     name: 'iShares Edge S&P 500 Minimum Volatility UCITS ETF',
-    price: 10.078,
-    issuer: 'iShares',
+    price: 10.396,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.25
+    category: 'US',
+    isin: 'IE00BYX8XD24',
+    ter: 0.25,
+    aum: 46064507,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3B.DE',
-    name: 'iShares € Corp Bond Financials UCITS ETF EUR (Dist)',
-    price: 102.53,
-    issuer: 'iShares',
+    name: 'iShares € Corp Bond Financials UCITS ETF',
+    price: 102.355,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE00B87RLX93',
+    ter: 0.2,
+    aum: 434831107,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3C.DE',
     name: 'iShares J.P. Morgan $ EM Bond EUR Hedged UCITS ETF (Dist)',
-    price: 67.924,
+    price: 69.072,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.5
   },
   {
     symbol: 'IS3F.DE',
-    name: 'iShares $ Corp Bond Interest Rate Hedged UCITS ETF USD (Dist)',
-    price: 90.274,
-    issuer: 'iShares',
+    name: 'iShares $ Corp Bond Interest Rate Hedged UCITS ETF',
+    price: 89.94,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Corporate',
+    isin: 'IE00BCLWRB83',
+    ter: 0.25,
+    aum: 71767976,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3G.DE',
     name: 'iShares MSCI EMU Large Cap UCITS ETF',
-    price: 63.81,
-    issuer: 'iShares',
+    price: 70.47,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Emerging Markets',
+    isin: 'IE00BCLWRF22',
+    ter: 0.49,
+    aum: 145215445,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3H.DE',
     name: 'iShares MSCI EMU Mid Cap UCITS ETF',
-    price: 65.98,
-    issuer: 'iShares',
+    price: 72.44,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Emerging Markets',
+    isin: 'IE00BCLWRD08',
+    ter: 0.49,
+    aum: 600166839,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3J.DE',
-    name: 'iShares $ Short Duration Corp Bond UCITS ETF USD (Dist)',
-    price: 87.114,
-    issuer: 'iShares',
+    name: 'iShares $ Short Duration Corp Bond UCITS ETF',
+    price: 87.154,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Corporate',
+    isin: 'IE00BCRY5Y77',
+    ter: 0.2,
+    aum: 1343499571,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3K.DE',
     name: 'iShares $ Short Duration High Yield Corp Bond UCITS ETF',
-    price: 76.178,
-    issuer: 'iShares',
+    price: 75.764,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Corporate',
+    isin: 'IE00BCRY6003',
+    ter: 0.45,
+    aum: 798563294,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3L.DE',
     name: 'iShares $ Ultrashort Bond UCITS ETF',
-    price: 86.38,
-    issuer: 'iShares',
+    price: 86.294,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Corporate',
+    isin: 'IE00BCRY6227',
+    ter: 0.09,
+    aum: 469282794,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3M.DE',
     name: 'iShares € Ultrashort Bond UCITS ETF',
-    price: 101.435,
+    price: 101.27,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Bonds'
   },
   {
     symbol: 'IS3N.DE',
     name: 'iShares Core MSCI EM IMI UCITS ETF',
-    price: 35.085,
-    issuer: 'iShares',
+    price: 41.729,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'IE00BKM4GZ66',
+    ter: 0.18,
+    aum: 30837632785,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3Q.DE',
     name: 'iShares Edge MSCI World Quality Factor UCITS ETF',
-    price: 64.12,
-    issuer: 'iShares',
+    price: 69.99,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Global',
+    isin: 'IE00BP3QZ601',
+    ter: 0.25,
+    aum: 3988501049,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3R.DE',
     name: 'iShares Edge MSCI World Momentum Factor UCITS ETF',
-    price: 78.17,
-    issuer: 'iShares',
+    price: 84.38,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Global',
+    isin: 'IE00BP3QZ825',
+    ter: 0.25,
+    aum: 3334536547,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3S.DE',
-    name: 'iShares Edge MSCI World Value Factor UCITS ETF USD (Acc)',
-    price: 45.04,
+    name: 'iShares Edge MSCI World Value Factor UCITS ETF',
+    price: 55.12,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'IS3T.DE',
-    name: 'iShares Edge MSCI World Size Factor UCITS ETF',
-    price: 45.3,
-    issuer: 'iShares',
+    name: 'iShares MSCI World Mid-Cap Equal Weight UCITS ETF',
+    price: 48.79,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00BP3QZD73',
+    ter: 0.3,
+    aum: 363132783,
+    domicile: 'IE'
   },
   {
     symbol: 'IS3U.DE',
     name: 'iShares MSCI France UCITS ETF',
-    price: 59.02,
+    price: 62.08,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other'
   },
   {
     symbol: 'IS3V.DE',
-    name: 'iShares Global Inflation Linked Govt Bond UCITS ETF EUR Hedged (Acc)',
-    price: 4.4774,
-    issuer: 'iShares',
+    name: 'iShares Global Inflation Linked Govt Bond UCITS ETF',
+    price: 4.6249,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'IE00BKPT2S34',
+    ter: 0.2,
+    aum: 482275864,
+    domicile: 'IE'
   },
   {
     symbol: 'IS4S.DE',
     name: 'iShares Digital Security UCITS ETF',
-    price: 9.343,
-    issuer: 'iShares',
+    price: 9.302,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Technology',
+    isin: 'IE00BG0J4C88',
+    ter: 0.4,
+    aum: 1300351610,
+    domicile: 'IE'
   },
   {
     symbol: 'ISPA.DE',
     name: 'iShares STOXX Global Select Dividend 100 UCITS ETF (DE)',
-    price: 31.745,
-    issuer: 'iShares',
+    price: 36.03,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.46
+    category: 'Global',
+    isin: 'DE000A0F5UH1',
+    ter: 0.46,
+    aum: 4109326683,
+    domicile: 'DE'
   },
   {
     symbol: 'IU0E.DE',
-    name: 'iShares $ Corp Bond 0-3yr ESG UCITS ETF',
-    price: 5.3562,
+    name: 'iShares $ Corp Bond 0-3Yr ESG SRI UCITS ETF',
+    price: 5.4138,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    category: 'ESG'
   },
   {
     symbol: 'IU5C.DE',
-    name: 'iShares V PLC - iShares S&P 500 Communication Sector UCITS ETF',
-    price: 11.462,
+    name: 'iShares S&P 500 Communication Sector UCITS ETF',
+    price: 12.326,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'IUS2.DE',
-    name: 'iShares V PLC - iShares S&P U.S. Banks UCITS ETF',
-    price: 6.156,
-    issuer: 'iShares',
+    name: 'iShares S&P U.S. Banks UCITS ETF',
+    price: 6.316,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
+    category: 'Financials',
+    isin: 'IE00BD3V0B10',
+    ter: 0.35,
+    aum: 1007986010,
+    domicile: 'IE'
   },
   {
     symbol: 'IUS3.DE',
-    name: 'iShares S&P Small Cap 600 UCITS ETF USD (Dist)',
-    price: 81.16,
-    issuer: 'iShares',
+    name: 'iShares S&P SmallCap 600 UCITS ETF',
+    price: 87.67,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00B2QWCY14',
+    ter: 0.3,
+    aum: 2274226803,
+    domicile: 'IE'
   },
   {
     symbol: 'IUS4.DE',
-    name: 'iShares MSCI Japan Small Cap UCITS ETF USD (Dist)',
-    price: 43.32,
+    name: 'iShares MSCI Japan Small Cap UCITS ETF',
+    price: 48.89,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.58
   },
   {
     symbol: 'IUS5.DE',
-    name: 'iShares Global Inflation Linked Govt Bond UCITS ETF USD (Acc)',
-    price: 138.33,
-    issuer: 'iShares',
+    name: 'iShares Global Inflation Linked Govt Bond UCITS ETF',
+    price: 143.65,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Government',
+    isin: 'IE00B3B8PX14',
+    ter: 0.2,
+    aum: 409997149,
+    domicile: 'IE'
   },
   {
     symbol: 'IUS6.DE',
     name: 'iShares € Covered Bond UCITS ETF',
-    price: 142.41,
+    price: 141.885,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Bonds'
   },
   {
     symbol: 'IUS7.DE',
-    name: 'iShares J.P. Morgan $ EM Bond UCITS ETF USD (Dist)',
-    price: 77.892,
-    issuer: 'iShares',
+    name: 'iShares J.P. Morgan $ EM Bond UCITS ETF',
+    price: 79.912,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.45
+    category: 'Government',
+    isin: 'IE00B2NPKV68',
+    ter: 0.45,
+    aum: 3555034676,
+    domicile: 'IE'
   },
   {
     symbol: 'IUS8.DE',
-    name: 'iShares Emerging Market Infrastructure UCITS ETF',
+    name: 'iShares EM Infrastructure UCITS ETF',
     price: 15.084,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.74
   },
   {
     symbol: 'IUSA.DE',
-    name: 'iShares Core S&P 500 UCITS ETF USD Dist',
-    price: 55.128,
-    issuer: 'iShares',
+    name: 'iShares Core S&P 500 UCITS ETF USD (Dist)',
+    price: 58.46,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
+    category: 'US',
+    isin: 'IE0031442068',
+    ter: 0.07,
+    aum: 16947509833,
+    domicile: 'IE'
   },
   {
     symbol: 'IUSC.DE',
     name: 'iShares MSCI EM Latin America UCITS ETF',
-    price: 14.212,
+    price: 18.554,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'IUSK.DE',
-    name: 'iShares MSCI Europe SRI UCITS ETF EUR (Acc)',
-    price: 67,
-    issuer: 'iShares',
+    name: 'iShares MSCI Europe SRI UCITS ETF',
+    price: 70.57,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'IE00B52VJ196',
+    ter: 0.2,
+    aum: 2923143762,
+    domicile: 'IE'
   },
   {
     symbol: 'IUSL.DE',
-    name: 'iShares Dow Jones Global Sustainability Screened UCITS ETF',
-    price: 71.54,
+    name: 'iShares Dow Jones Global Leaders Screened UCITS ETF',
+    price: 77.6,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'IUSM.DE',
-    name: 'iShares $ Treasury Bond 7-10yr UCITS ETF USD (Dist)',
-    price: 150.295,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 7-10yr UCITS ETF',
+    price: 151.845,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'IE00B1FZS798',
+    ter: 0.07,
+    aum: 2857808127,
+    domicile: 'IE'
   },
   {
     symbol: 'IUSN.DE',
     name: 'iShares MSCI World Small Cap UCITS ETF',
-    price: 7.344,
+    price: 8.203,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Global',
-
-    ter: 0.35
+    category: 'Global'
   },
   {
     symbol: 'IUSP.DE',
     name: 'iShares J.P. Morgan EM Local Govt Bond UCITS ETF',
-    price: 39.125,
-    issuer: 'iShares',
+    price: 40.27,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.5
+    category: 'Government',
+    isin: 'IE00B5M4WH52',
+    ter: 0.5,
+    aum: 4907933168,
+    domicile: 'IE'
   },
   {
     symbol: 'IUSQ.DE',
-    name: 'iShares V PLC - iShares MSCI ACWI UCITS ETF USD (Acc)',
-    price: 86.78,
+    name: 'iShares MSCI ACWI UCITS ETF',
+    price: 94.97,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Global'
   },
   {
     symbol: 'IUSS.DE',
     name: 'iShares MSCI Saudi Arabia Capped UCITS ETF',
-    price: 5.114,
+    price: 5.549,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.6
+    category: 'Other'
   },
   {
     symbol: 'IUST.DE',
-    name: 'iShares $ TIPS UCITS ETF USD (Acc)',
-    price: 217.2,
+    name: 'iShares $ TIPS UCITS ETF',
+    price: 221.87,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other'
   },
   {
     symbol: 'IUSU.DE',
-    name: 'iShares $ Treasury Bond 1-3yr UCITS ETF USD (Dist)',
-    price: 111.62,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 1-3yr UCITS ETF',
+    price: 111.515,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'IE00B14X4S71',
+    ter: 0.07,
+    aum: 2018393344,
+    domicile: 'IE'
   },
   {
     symbol: 'IUSW.DE',
     name: 'iShares MSCI Saudi Arabia Capped UCITS ETF',
-    price: 4.2725,
+    price: 4.571,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.6
+    category: 'Other'
   },
   {
     symbol: 'IUSZ.DE',
-    name: 'iShares Core FTSE 100 UCITS ETF GBP (Dist)',
-    price: 10.338,
+    name: 'iShares Core FTSE 100 UCITS ETF',
+    price: 11.774,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'UK'
   },
   {
     symbol: 'IWLE.DE',
     name: 'iShares Core MSCI World UCITS ETF',
-    price: 9.2346,
-    issuer: 'iShares',
+    price: 9.7662,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'IWLE.F',
-    name: 'iShares III Public Limited Company - iShares Core MSCI World UCITS ETF',
-    price: 6.847,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00BKBF6H24',
+    ter: 0.3,
+    aum: 1562596824,
+    domicile: 'IE'
   },
   {
     symbol: 'J1GR.DE',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Japan',
-    price: 278.12,
+    name: 'Amundi MSCI Japan ESG Broad Transition UCITS ETF EUR Acc',
+    price: 321.45,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'JA13.DE',
     name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders US Treasury Bond 1-3 yr UCITS ETF',
-    price: 98.938,
-    issuer: 'JPMorgan',
+    price: 100.84,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'JARH.F',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Japan SRI PAB',
-    price: 66.16,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'JARI.F',
-    name: 'Amundi Index Solutions - Amundi Index MSCI Japan SRI PAB',
-    price: 44.675,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.18
+    category: 'Government',
+    isin: 'IE00BD9MMD49',
+    ter: 0.07,
+    aum: 202642623,
+    domicile: 'IE'
   },
   {
     symbol: 'JBEM.DE',
     name: 'BNP Paribas Easy JPM ESG EMU Government Bond IG',
-    price: 9.3882,
+    price: 9.5464,
     issuer: 'BNP Paribas',
     assetClass: 'Fixed Income',
-    category: 'ESG'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'LU1481202692',
+    ter: 0.15,
+    aum: 1667632644,
+    domicile: 'LU'
   },
   {
     symbol: 'JC11.DE',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan CNY China Government 1-10 Year Bond UCITS ETF',
-    price: 11.0805,
+    name: 'UBS J.P. Morgan CNY China Gov 1-10 UCITS ETF USD acc',
+    price: 11.6315,
     issuer: 'UBS',
-    assetClass: 'Fixed Income',
+    assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.33
-  },
-  {
-    symbol: 'JCHE.F',
-    name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders China Aggregate Bond UCITS ETF',
-    price: 95.154,
-    issuer: 'JPMorgan',
-    assetClass: 'Fixed Income',
-    category: 'China'
-  ,
-    ter: 0.28
   },
   {
     symbol: 'JE13.DE',
     name: 'JPMorgan ETFs (Ireland) ICAV - BetaBuilders EUR Govt Bond 1-3 yr UCITS ETF',
-    price: 102.365,
-    issuer: 'JPMorgan',
+    price: 103.005,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'IE00BYVZV757',
+    ter: 0.1,
+    aum: 16840914,
+    domicile: 'IE'
   },
   {
     symbol: 'JER5.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - EUR Corporate Bond 1-5 yr Research Enhanced Index (ESG) UCITS ETF',
-    price: 107.985,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - EUR 1-5 yr IG Corporate Bond Active UCITS ETF',
+    price: 109.315,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'Corporate',
+    isin: 'IE00BF59RW70',
+    ter: 0.04,
+    aum: 141265674,
+    domicile: 'IE'
   },
   {
     symbol: 'JEST.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - EUR Ultra-Short Income UCITS ETF',
-    price: 108.15,
+    name: 'JPMorgan ETFs (Ireland) ICAV - EUR Ultra-Short Income Active UCITS ETF',
+    price: 109.24,
     issuer: 'JPMorgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Dividend'
   },
   {
     symbol: 'JGHY.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV Global High Yield Corporate Bond Multi-Factor UCITS ETF',
-    price: 106,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - Global High Yield Corporate Bond Multi-Factor Active UCITS ETF',
+    price: 109.495,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.35
+    category: 'Corporate',
+    isin: 'IE00BKKCKJ46',
+    ter: 0.35,
+    aum: 241327628,
+    domicile: 'IE'
   },
   {
     symbol: 'JGPI.DE',
-    name: 'JPM Global Equity Premium Income Active UCITS ETF - USD (dist)',
-    price: 23.04,
-    issuer: 'JPM',
+    name: 'JPMorgan ETFs (Ireland) ICAV - Global Equity Premium Income Active UCITS ETF',
+    price: 23.715,
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.35
+    category: 'Global',
+    isin: 'IE0003UVYC20',
+    ter: 0.35,
+    aum: 1298350920,
+    domicile: 'IE'
   },
   {
     symbol: 'JMBA.DE',
     name: 'JPMorgan ETFs (Ireland) ICAV - USD Emerging Markets Sovereign Bond UCITS ETF',
-    price: 96.152,
-    issuer: 'JPMorgan',
+    price: 100.905,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.39
+    category: 'Government',
+    isin: 'IE00BJ06C937',
+    ter: 0.39,
+    aum: 341437852,
+    domicile: 'IE'
   },
   {
     symbol: 'JMBE.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - USD Emerging Markets Sovereign Bond UCITS ETF EUR (acc) Hedged',
-    price: 93.226,
+    name: 'JPMorgan ETFs (Ireland) ICAV - USD Emerging Markets Sovereign Bond UCITS ETF',
+    price: 96.508,
     issuer: 'JPMorgan',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.39
   },
   {
     symbol: 'JNHA.DE',
@@ -8867,38 +8125,30 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'JNHD.DE',
-    name: 'Amundi MSCI Japan UCITS ETF - Daily Hedged to EUR - Dist',
-    price: 31.385,
+    name: 'Amundi Core MSCI Japan UCITS ETF EUR Hedged Dist',
+    price: 38.39,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'JNHD.F',
-    name: 'Amundi MSCI Japan UCITS ETF - Daily Hedged to EUR - Dist',
-    price: 22.41,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.2
+    category: 'Japan',
+    isin: 'LU2133056387',
+    ter: 0.2,
+    aum: 5423995354,
+    domicile: 'LU'
   },
   {
     symbol: 'JP40.DE',
-    name: 'Amundi Index Solutions - Amundi JPX-Nikkei 400 UCITS ETF-C EUR',
-    price: 195.92,
+    name: 'Amundi JPX-Nikkei 400 UCITS ETF - EUR (C)',
+    price: 229.1,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.18
+    category: 'Japan',
+    isin: 'LU1681038912',
+    ter: 0.18,
+    aum: 246867333,
+    domicile: 'LU'
   },
   {
     symbol: 'JP4H.DE',
@@ -8906,197 +8156,191 @@ export const xetraETFs: ETF[] = [
     price: 242.9,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
+    category: 'Japan',
+    isin: 'LU1681039134',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'JPBM.DE',
     name: 'JPMorgan ETFs (Ireland) ICAV - USD Emerging Markets Sovereign Bond UCITS ETF',
-    price: 71.286,
-    issuer: 'JPMorgan',
+    price: 72.804,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.39
+    category: 'Cash & Others',
+    isin: 'IE00BDFC6G93',
+    ter: 0.39,
+    aum: 341437852,
+    domicile: 'IE'
   },
   {
     symbol: 'JPGL.DE',
-    name: 'JPM Global Equity Multi-Factor UCITS ETF',
-    price: 37.59,
-    issuer: 'JPM',
+    name: 'JPMorgan ETFs (Ireland) ICAV - Global Equity Multi-Factor UCITS ETF',
+    price: 42.08,
+    issuer: 'JPMorgan',
     assetClass: 'Mixed',
     category: 'Global'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'JPNE.DE',
-    name: 'Lyxor MSCI Japan ESG Leaders Extra (DR) UCITS ETF',
-    price: 30.49,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Japan SRI Climate Paris Aligned UCITS ETF DR - Hedged EUR (D)',
+    price: 34.285,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'JPNE.F',
-    name: 'Lyxor MSCI Japan ESG Leaders Extra (DR) UCITS ETF',
-    price: 26.435,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.25
+    category: 'Japan',
+    isin: 'LU1646360542',
+    ter: 0.2,
+    aum: 513834586,
+    domicile: 'LU'
   },
   {
     symbol: 'JPNH.DE',
-    name: 'Amundi Japan TOPIX II UCITS ETF',
-    price: 249.45,
+    name: 'Amundi Japan TOPIX II UCITS ETF EUR Hedged Dist',
+    price: 304.51,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.45
+    category: 'Japan',
+    isin: 'FR0011475078',
+    ter: 0.45,
+    aum: 557084296,
+    domicile: 'FR'
   },
   {
     symbol: 'JPPA.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - USD Ultra-Short Income UCITS ETF',
-    price: 104.37,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - USD Ultra-Short Income Active UCITS ETF',
+    price: 106.585,
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Corporate',
+    isin: 'IE00BG8BCY43',
+    ter: 0.18,
+    aum: 854391536,
+    domicile: 'IE'
   },
   {
     symbol: 'JPPS.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - USD Ultra-Short Income UCITS ETF',
-    price: 87.322,
+    name: 'JPMorgan ETFs (Ireland) ICAV - USD Ultra-Short Income Active UCITS ETF',
+    price: 87.372,
     issuer: 'JPMorgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Dividend'
   },
   {
     symbol: 'JREB.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - EUR Corporate Bond Research Enhanced Index (ESG) UCITS ETF',
-    price: 107.16,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - EUR IG Corporate Bond Active UCITS ETF',
+    price: 108.75,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'Corporate',
+    isin: 'IE00BF59RX87',
+    ter: 0.04,
+    aum: 739740809,
+    domicile: 'IE'
   },
   {
     symbol: 'JREE.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - Europe Research Enhanced Index Equity (ESG) UCITS ETF',
-    price: 45.745,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - Europe Research Enhanced Index Equity Active UCITS ETF',
+    price: 51.66,
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.23
+    category: 'Europe',
+    isin: 'IE00BF4G7183',
+    ter: 0.25,
+    aum: 2899551766,
+    domicile: 'IE'
   },
   {
     symbol: 'JREG.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - Global Research Enhanced Index Equity UCITS ETF - USD (acc)',
-    price: 48.4,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - Global Research Enhanced Index Equity Active UCITS ETF',
+    price: 52.42,
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.23
+    category: 'Global',
+    isin: 'IE00BF4G6Y48',
+    ter: 0.25,
+    aum: 7946129793,
+    domicile: 'IE'
   },
   {
     symbol: 'JREM.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - Global Emerging Markets Research Enhanced Index Equity(ESG) UCITS ETF',
-    price: 31.615,
+    name: 'JPMorgan ETFs (Ireland) ICAV - Global Emerging Markets Research Enhanced Index Equity Active UCITS ETF',
+    price: 38.575,
     issuer: 'JPMorgan',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.39
   },
   {
     symbol: 'JREU.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - US Research Enhanced Index Equity (ESG) UCITS ETF',
-    price: 55,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - US Research Enhanced Index Equity Active UCITS ETF',
+    price: 58.58,
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BF4G7076',
+    ter: 0.2,
+    aum: 10994399197,
+    domicile: 'IE'
   },
   {
     symbol: 'JREZ.DE',
-    name: 'JPM Eurozone Research Enhanced Index Equity (ESG) UCITS ETF',
-    price: 36.865,
-    issuer: 'JPM',
+    name: 'JPMorgan ETFs (Ireland) ICAV - Eurozone Research Enhanced Index Equity Active UCITS ETF',
+    price: 41.345,
+    issuer: 'J.P. Morgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00004PGEY9',
+    ter: 0.25,
+    aum: 528294927,
+    domicile: 'IE'
   },
   {
     symbol: 'JRUB.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - USD Corporate Bond Research Enhanced Index (ESG) UCITS ETF',
-    price: 104.795,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - USD IG Corporate Bond Active UCITS ETF',
+    price: 108.71,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'Cash & Others',
+    isin: 'IE00BF59RV63',
+    ter: 0.04,
+    aum: 59702817,
+    domicile: 'IE'
   },
   {
     symbol: 'JRUD.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - US Research Enhanced Index Equity (ESG) UCITS ETF',
-    price: 51.41,
+    name: 'JPMorgan ETFs (Ireland) ICAV - US Research Enhanced Index Equity Active UCITS ETF',
+    price: 54.27,
     issuer: 'JPMorgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'US'
   },
   {
     symbol: 'JRUE.DE',
-    name: 'JPMorgan ETFs Ireland ICAV - USD Corporate Bond Research Enhanced Index ESG UCITS ETF EUR Hedged Acc',
-    price: 95.15,
-    issuer: 'JPMorgan',
+    name: 'JPMorgan ETFs (Ireland) ICAV - USD IG Corporate Bond Active UCITS ETF',
+    price: 97.678,
+    issuer: 'J.P. Morgan',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.04
-  },
-  {
-    symbol: 'JRZD.F',
-    name: 'JPM Eurozone Research Enhanced Index Equity (ESG) UCITS ETF',
-    price: 27.8,
-    issuer: 'JPM',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'IE0000J0F3C5',
+    ter: 0.04,
+    aum: 69333198,
+    domicile: 'IE'
   },
   {
     symbol: 'JSRI.DE',
     name: 'BNP Paribas Easy MSCI Japan SRI S-Series PAB 5% Capped',
-    price: 21.345,
+    price: 23.015,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'JUHE.DE',
-    name: 'JPMorgan ETFs (Ireland) ICAV - US Research Enhanced Index Equity UCITS ETF - EUR Hedged (acc)',
-    price: 51.4,
+    name: 'JPMorgan ETFs (Ireland) ICAV - US Research Enhanced Index Equity Active UCITS ETF',
+    price: 54.13,
     issuer: 'JPMorgan',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'US'
   },
   {
     symbol: 'JUMF.DE',
@@ -9104,229 +8348,183 @@ export const xetraETFs: ETF[] = [
     price: 32.63,
     issuer: 'JPM',
     assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'US'
   },
   {
     symbol: 'JUPI.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Japan ESG Broad CTB',
-    price: 53.02,
+    name: 'Amundi MSCI Japan ESG Broad Transition UCITS ETF DIST',
+    price: 60.35,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'KFTK.DE',
     name: 'Invesco KBW NASDAQ Fintech UCITS ETF',
-    price: 53.91,
+    price: 44.87,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.49
   },
   {
     symbol: 'KLMH.DE',
-    name: 'Amundi Global Aggregate Green Bond UCITS ETF',
-    price: 46.775,
+    name: 'Amundi Global Aggregate Green Bond UCITS ETF EUR Hedged Acc',
+    price: 47.643,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'KLMH.F',
-    name: 'Amundi Global Aggregate Green Bond UCITS ETF',
-    price: 43.581,
-    issuer: 'Amundi',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'KLMT.DE',
-    name: 'Amundi Global Aggregate Green Bond UCITS ETF',
-    price: 48.396,
+    name: 'Amundi Global Aggregate Green Bond UCITS ETF Acc',
+    price: 49.207,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'KROP.F',
-    name: 'Global X AgTech & Food Innovation UCITS ETF',
-    price: 9.269,
-    issuer: 'Global',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.5
+    category: 'Government',
+    isin: 'LU1563454310',
+    ter: 0.25,
+    aum: 395813006,
+    domicile: 'LU'
   },
   {
     symbol: 'KX1G.DE',
-    name: 'Amundi Index Solutions - Amundi Govt Bond Lowest Rated Euromts Investment Grade',
-    price: 229.47,
+    name: 'Amundi Euro Lowest Rated IG Government Bond UCITS ETF Acc',
+    price: 234.49,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.14
+    category: 'Bonds'
   },
   {
     symbol: 'L0CK.DE',
     name: 'iShares Digital Security UCITS ETF',
-    price: 8.482,
+    price: 8.434,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
-  },
-  {
-    symbol: 'L0CK.F',
-    name: 'iShares Digital Security UCITS ETF',
-    price: 6.221,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: 'L4K3.DE',
-    name: 'Lyxor MSCI China UCITS ETF',
-    price: 19.638,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI China UCITS ETF Acc',
+    price: 19.338,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.29
+    category: 'China',
+    isin: 'LU1841731745',
+    ter: 0.29,
+    aum: 563831311,
+    domicile: 'DE'
   },
   {
     symbol: 'L8I3.DE',
-    name: 'Lyxor Euro Overnight Return UCITS ETF',
-    price: 112.116,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    name: 'Amundi EUR Overnight Return UCITS ETF Acc',
+    price: 113.205,
+    issuer: 'Amundi',
+    assetClass: 'Fixed Income',
+    category: 'Money Market'
   },
   {
     symbol: 'LASI.DE',
-    name: 'Amundi MSCI AC Asia Ex Japan ETF Capitalisation',
-    price: 144.02,
+    name: 'Amundi MSCI AC Asia Ex Japan UCITS ETF Acc',
+    price: 172.04,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.5
+    category: 'Japan'
   },
   {
     symbol: 'LASP.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor MSCI AC Asia Pacific Ex Japan UCITS ETF',
-    price: 73.57,
-    issuer: 'Lyxor',
-    assetClass: 'Mixed',
-    category: 'Asia'
-  ,
-    ter: 0.6
+    name: 'Amundi MSCI AC Asia Pacific Ex Japan UCITS ETF Acc',
+    price: 87.06,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Japan'
   },
   {
     symbol: 'LAUT.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Automobiles & Parts UCITS ETF',
     price: 92.32,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Consumer Cyclical',
+    isin: 'LU1834983394',
+    ter: 0.3,
+    aum: 37747924,
+    domicile: 'DE'
   },
   {
     symbol: 'LBNK.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Banks UCITS ETF Acc',
-    price: 49.47,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Banks UCITS ETF Acc',
+    price: 58.98,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Financials',
+    isin: 'LU1834983477',
+    ter: 0.3,
+    aum: 2556842457,
+    domicile: 'LU'
   },
   {
     symbol: 'LBRA.DE',
-    name: 'Lyxor MSCI Brazil UCITS ETF',
-    price: 19.32,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Brazil UCITS ETF Acc',
+    price: 26.08,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other',
+    isin: 'LU1900066207',
+    ter: 0.65,
+    aum: 266672747,
+    domicile: 'LU'
   },
   {
     symbol: 'LBRE.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Basic Resources UCITS ETF Acc',
-    price: 85.13,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Basic Resources UCITS ETF Acc',
+    price: 128.18,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1834983550',
+    ter: 0.3,
+    aum: 588386498,
+    domicile: 'LU'
   },
   {
     symbol: 'LCEU.DE',
     name: 'BNP Paribas Easy Low Carbon 100 Europe PAB',
-    price: 259.25,
+    price: 275.6,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.31
   },
   {
     symbol: 'LCHI.DE',
-    name: 'Lyxor MSCI China ESG Leaders Extra (DR) UCITS ETF',
-    price: 108.22,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI China ESG Selection Extra UCITS ETF Acc',
+    price: 106.32,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.65
-  },
-  {
-    symbol: 'LCHI.F',
-    name: 'Lyxor MSCI China ESG Leaders Extra (DR) UCITS ETF',
-    price: 83.59,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'LCHM.DE',
-    name: 'Amundi STOXX Europe 600 Basic Materials UCITS ETF Unhedged Capitalisation',
-    price: 153.12,
+    name: 'Amundi STOXX Europe 600 Basic Materials UCITS ETF Acc',
+    price: 185.3,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1834983634',
+    ter: 0.3,
+    aum: 28232509,
+    domicile: 'LU'
   },
   {
     symbol: 'LCST.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Construction & Materials UCITS ETF',
     price: 93.42,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Industrials',
+    isin: 'LU1834983808',
+    ter: 0.3,
+    aum: 27387756,
+    domicile: 'LU'
   },
   {
     symbol: 'LCTR.DE',
@@ -9334,37 +8532,35 @@ export const xetraETFs: ETF[] = [
     price: 25.08,
     issuer: 'Lyxor',
     assetClass: 'Commodity',
-    category: 'Technology'
+    category: 'Energy'
   },
   {
     symbol: 'LCUA.DE',
-    name: 'Amundi MSCI EM Asia ESG Broad Transition UCITS ETF Acc Shs Capitalisation',
-    price: 11.892,
+    name: 'Amundi MSCI EM Asia ESG Broad Transition UCITS ETF Acc',
+    price: 14.26,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'LCUJ.DE',
-    name: 'Amundi MSCI Japan UCITS ETF',
-    price: 17.691,
+    name: 'Amundi Core MSCI Japan UCITS ETF Acc',
+    price: 20.721,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.12
+    category: 'Japan',
+    isin: 'LU1781541252',
+    ter: 0.12,
+    aum: 5423995354,
+    domicile: 'LU'
   },
   {
     symbol: 'LCUK.DE',
-    name: 'Amundi UK Equity All Cap UCITS ETF',
-    price: 15.092,
+    name: 'Amundi UK Equity All Cap UCITS ETF Dist',
+    price: 16.794,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'UK'
   },
   {
     symbol: 'LCUS.DE',
@@ -9372,9 +8568,7 @@ export const xetraETFs: ETF[] = [
     price: 21.115,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.04
+    category: 'US'
   },
   {
     symbol: 'LCUW.DE',
@@ -9383,68 +8577,58 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'LCVB.DE',
-    name: 'Lyxor Index Fund - Lyxor EuroMTS Covered Bond Aggregate UCITS ETF',
-    price: 127.33,
-    issuer: 'Lyxor',
+    name: 'Amundi EUR Corporate Bond 0-1Y ESG UCITS ETF DR (D)',
+    price: 127.04,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.08
-  },
-  {
-    symbol: 'LCVB.F',
-    name: 'Lyxor Index Fund - Lyxor EuroMTS Covered Bond Aggregate UCITS ETF',
-    price: 120.18,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 1.6500000000000001
+    category: 'ESG'
   },
   {
     symbol: 'LDCE.DE',
-    name: 'PIMCo Low Duration Euro Corporate Bond Source Ucits ETF',
-    price: 103.185,
-    issuer: 'PIMCo',
+    name: 'PIMCO Advantage Euro Low Duration Corporate Bond UCITS ETF',
+    price: 102.59,
+    issuer: 'PIMCO',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Bonds',
+    isin: 'IE00BP9F2J32',
+    ter: 0.25,
+    aum: 102030638,
+    domicile: 'IE'
   },
   {
     symbol: 'LEER.DE',
-    name: 'Lyxor MSCI Eastern Europe ex Russia UCITS ETF Acc',
-    price: 32.14,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Eastern Europe Ex Russia UCITS ETF Acc',
+    price: 38.265,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.5
+    category: 'Financials',
+    isin: 'LU1900066462',
+    ter: 0.5,
+    aum: 510579991,
+    domicile: 'LU'
   },
   {
     symbol: 'LEEU.DE',
-    name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Real Estate UCITS ETF',
-    price: 29.405,
-    issuer: 'Lyxor',
+    name: 'Amundi FTSE Epra Europe Real Estate UCITS ETF - EUR (D)',
+    price: 31.09,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LERN.DE',
     name: 'Rize Education Tech and Digital Learning UCITS ETF',
     price: 2.067,
-    issuer: 'Rize',
+    issuer: 'Rize ETFs',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Consumer Defensive',
+    isin: 'IE00BLRPQJ54',
+    ter: 0.45,
+    aum: 7905783,
+    domicile: 'DE'
   },
   {
     symbol: 'LESE.DE',
@@ -9452,185 +8636,193 @@ export const xetraETFs: ETF[] = [
     price: 23.865,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Emerging Markets'
   },
   {
     symbol: 'LESG.DE',
     name: 'Lyxor MSCI EM ESG Leaders Extra UCITS ETF',
     price: 16.214,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
+    category: 'Emerging Markets',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'LESU.DE',
-    name: 'Lyxor MSCI USA ESG Leaders Extra (DR) UCITS ETF',
-    price: 44.49,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI USA ESG Selection Extra UCITS ETF DR - USD (D)',
+    price: 46.205,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'US',
+    isin: 'IE0008TKP6O7',
+    ter: 0.15,
+    aum: 465022030,
+    domicile: 'IE'
   },
   {
     symbol: 'LESW.DE',
     name: 'Lyxor MSCI World ESG Leaders Extra (DR) UCITS ETF',
     price: 32.48,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    isin: 'LU1792117779',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'LFIN.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Financial Services UCITS ETF',
     price: 107.28,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Financials',
+    isin: 'LU1834984798',
+    ter: 0.3,
+    aum: 28061896,
+    domicile: 'LU'
   },
   {
     symbol: 'LFOD.DE',
     name: 'Amundi STOXX Europe 600 Consumer Staples UCITS ETF Acc',
-    price: 90.31,
+    price: 94.11,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1834985845',
+    ter: 0.3,
+    aum: 101702845,
+    domicile: 'LU'
   },
   {
     symbol: 'LGQG.DE',
-    name: 'Amundi MSCI EMU ESG Broad Transition -UCITS ETF Acc- Capitalisation',
-    price: 303.6,
+    name: 'Amundi MSCI EMU ESG Broad Transition UCITS ETF Acc',
+    price: 333.65,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets',
+    isin: 'LU0908501058',
+    ter: 0.12,
+    aum: 1300624013,
+    domicile: 'LU'
   },
   {
     symbol: 'LGQI.DE',
-    name: 'Lyxor SG Global Quality Income NTR UCITS ETF',
-    price: 142.44,
-    issuer: 'Lyxor',
+    name: 'Amundi Global Equity Quality Income UCITS ETF Dist',
+    price: 155.82,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
+    category: 'Global',
+    isin: 'LU0832436512',
+    ter: 0.45,
+    aum: 238642352,
+    domicile: 'LU'
   },
   {
     symbol: 'LGQK.DE',
-    name: 'Lyxor MSCI Pacific Ex Japan UCITS ETF',
-    price: 97.03,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Pacific Ex Japan UCITS ETF Dist',
+    price: 103.8,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'LGQM.DE',
-    name: 'Amundi Pan Africa ETF -Acc- Capitalisation',
-    price: 12.06,
+    name: 'Amundi Pan Africa UCITS ETF Acc',
+    price: 15.002,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.85
+    category: 'Other',
+    isin: 'LU1287022708',
+    ter: 0.85,
+    aum: 97087074,
+    domicile: 'LU'
   },
   {
     symbol: 'LGWS.DE',
-    name: 'Amundi MSCI EMU Value Factor - UCITS ETF Dist',
-    price: 157.9,
+    name: 'Amundi MSCI EMU Value Factor UCITS ETF Dist',
+    price: 169.64,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Emerging Markets',
+    isin: 'LU1598690169',
+    ter: 0.4,
+    aum: 227902888,
+    domicile: 'LU'
   },
   {
     symbol: 'LGWT.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe Growth UCITS ETF Dist',
-    price: 190.08,
+    name: 'Amundi MSCI Europe Growth UCITS ETF Dist',
+    price: 203.5,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.35
+    category: 'Europe',
+    isin: 'LU1598688189',
+    ter: 0.35,
+    aum: 252167382,
+    domicile: 'LU'
   },
   {
     symbol: 'LGWU.DE',
-    name: 'Lyxor Index Fund - Lyxor MSCI EMU Small Cap UCITS ETF',
-    price: 383.35,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI EMU Small Cap ESG Broad Transition UCITS ETF Dist',
+    price: 400,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Emerging Markets'
   },
   {
     symbol: 'LHKG.DE',
-    name: 'Amundi MSCI China ESG Selection Extra -Dist- Distribution',
-    price: 25.27,
+    name: 'Amundi MSCI China ESG Selection Extra UCITS ETF Dist',
+    price: 24.475,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'LHTC.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Healthcare UCITS ETF',
-    price: 139.94,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Healthcare UCITS ETF Acc',
+    price: 152.48,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'LI7U.F',
-    name: 'Global X Lithium & Battery Tech UCITS ETF',
-    price: 10.48,
-    issuer: 'Global',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.6
+    category: 'Europe',
+    isin: 'LU1834986900',
+    ter: 0.3,
+    aum: 926373970,
+    domicile: 'LU'
   },
   {
     symbol: 'LIGS.DE',
-    name: 'Amundi STOXX Europe 600 Industrials UCITS ETF Unhedged Capitalisation',
-    price: 133.28,
+    name: 'Amundi STOXX Europe 600 Industrials UCITS ETF Acc',
+    price: 145.56,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LIRU.DE',
-    name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Insurance UCITS ETF',
-    price: 81.55,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Insurance UCITS ETF Acc',
+    price: 82.99,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Financials',
+    isin: 'LU1834987973',
+    ter: 0.3,
+    aum: 157442075,
+    domicile: 'LU'
   },
   {
     symbol: 'LKOR.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor MSCI Korea UCITS ETF',
-    price: 66.97,
-    issuer: 'Lyxor',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    name: 'Amundi MSCI Korea UCITS ETF Acc',
+    price: 130.46,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Other',
+    isin: 'LU1900066975',
+    ter: 0.45,
+    aum: 434109739,
+    domicile: 'LU'
   },
   {
     symbol: 'LLAM.DE',
@@ -9639,48 +8831,54 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'LMDA.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Media UCITS ETF',
     price: 61.9,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Communication',
+    isin: 'LU1834988195',
+    ter: 0.3,
+    aum: 45829400,
+    domicile: 'LU'
   },
   {
     symbol: 'LMVF.DE',
-    name: 'Amundi MSCI EMU UCITS ETF',
-    price: 70.49,
+    name: 'Amundi Core MSCI EMU UCITS ETF Dist',
+    price: 75.48,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets',
+    isin: 'LU1646360971',
+    ter: 0.12,
+    aum: 965292094,
+    domicile: 'LU'
   },
   {
     symbol: 'LMWE.DE',
-    name: 'Lyxor FTSE Epra/Nareit Global Developed UCITS ETF D EUR Inc',
-    price: 38.765,
-    issuer: 'Lyxor',
+    name: 'Amundi FTSE EPRA NAREIT Global II UCITS ETF Dist',
+    price: 41.48,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
+    category: 'Technology',
+    isin: 'LU1832418773',
+    ter: 0.45,
+    aum: 70636894,
+    domicile: 'LU'
   },
   {
     symbol: 'LOGS.DE',
-    name: 'Amundi STOXX Europe 600 Energy Screened Acc Capitalization',
-    price: 71.2,
+    name: 'Amundi STOXX Europe 600 Energy Screened UCITS ETF Acc',
+    price: 98.15,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Energy',
+    isin: 'LU1834988278',
+    ter: 0.3,
+    aum: 241353406,
+    domicile: 'LU'
   },
   {
     symbol: 'LPHG.DE',
@@ -9689,18 +8887,18 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LRET.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Retail UCITS ETF',
     price: 50.7,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Consumer Cyclical',
+    isin: 'LU1834988435',
+    ter: 0.3,
+    aum: 9086587,
+    domicile: 'DE'
   },
   {
     symbol: 'LRUS.DE',
@@ -9708,229 +8906,235 @@ export const xetraETFs: ETF[] = [
     price: 7.4,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other'
   },
   {
     symbol: 'LSK7.DE',
-    name: 'Lyxor Euro Stoxx 50 Daily (-1x) Inverse UCITS ETF',
-    price: 7.955,
-    issuer: 'Lyxor',
+    name: 'Amundi EURO STOXX 50 Daily (-1x) Inverse UCITS ETF Acc',
+    price: 7.319,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Europe'
   },
   {
     symbol: 'LSK8.DE',
-    name: 'Lyxor Euro Stoxx 50 Daily (-2x) Inverse UCITS ETF',
-    price: 0.6116,
-    issuer: 'Lyxor',
+    name: 'Amundi EURO STOXX 50 Daily (-2x) Inverse UCITS ETF Acc',
+    price: 0.5077,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.6
+    category: 'Europe'
   },
   {
     symbol: 'LSMC.DE',
-    name: 'Amundi MSCI Semiconductors ESG Screened UCITS ETF',
-    price: 56.99,
+    name: 'Amundi MSCI Semiconductors UCITS ETF Acc',
+    price: 78.87,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Other'
   },
   {
     symbol: 'LTCM.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Telecommunications UCITS ETF',
-    price: 45.63,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Telecommunications UCITS ETF Acc',
+    price: 54.04,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LTUG.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Technology UCITS ETF',
-    price: 89.49,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Technology UCITS ETF Acc',
+    price: 99.47,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1834988518',
+    ter: 0.3,
+    aum: 176274043,
+    domicile: 'LU'
   },
   {
     symbol: 'LTUR.DE',
-    name: 'Lyxor MSCI Turkey UCITS ETF',
-    price: 39.67,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Turkey UCITS ETF Acc',
+    price: 48.545,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Other'
   },
   {
     symbol: 'LTVL.DE',
-    name: 'Amundi STOXX Europe 600 Consumer Discretionary UCITS ETF Unhedged- Capitalisation',
-    price: 26.61,
+    name: 'Amundi STOXX Europe 600 Consumer Discretionary UCITS ETF Acc',
+    price: 25.455,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1834988781',
+    ter: 0.3,
+    aum: 102740023,
+    domicile: 'LU'
   },
   {
     symbol: 'LTWN.DE',
-    name: 'Amundi MSCI Semiconductors ESG Screened UCITS ETF',
+    name: 'Lyxor MSCI Taiwan UCITS ETF - Acc-EUR',
     price: 54.52,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Technology',
+    isin: 'LU1900066033',
+    ter: 0.45,
+    aum: 355608155,
+    domicile: 'DE'
   },
   {
     symbol: 'LUTI.DE',
-    name: 'Lyxor Index Fund - Lyxor Stoxx Europe 600 Utilities UCITS ETF',
-    price: 77.11,
-    issuer: 'Lyxor',
+    name: 'Amundi STOXX Europe 600 Utilities UCITS ETF Acc',
+    price: 101.72,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LWCR.DE',
-    name: 'Amundi MSCI World Climate Transition CTB - UCITS ETF DR - EUR-C',
-    price: 519,
+    name: 'Amundi MSCI World ESG Broad Transition UCITS ETF Acc',
+    price: 556.7,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Global',
+    isin: 'IE0001GSQ2O9',
+    ter: 0.2,
+    aum: 1398464008,
+    domicile: 'IE'
   },
   {
     symbol: 'LYBF.DE',
     name: 'Lyxor ESG Euro Corporate Bond Ex Financials (DR) UCITS ETF',
     price: 126.03,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Financials',
+    isin: 'LU1829218822',
+    ter: 0.2,
+    aum: 54661896,
+    domicile: 'DE'
   },
   {
     symbol: 'LYBK.DE',
     name: 'Amundi Euro Stoxx Banks UCITS ETF Acc',
-    price: 268.4,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'LYEB.DE',
-    name: 'Lyxor ESG Euro Corporate Bond UCITS ETF - Acc',
-    price: 153.58,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.14
-  },
-  {
-    symbol: 'LYM7.DE',
-    name: 'Lyxor MSCI Emerging Markets UCITS ETF',
-    price: 13.679,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.55
-  },
-  {
-    symbol: 'LYM8.DE',
-    name: 'Amundi MSCI Water ESG Screened UCITS ETF Dist',
-    price: 68.7,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.6
-  },
-  {
-    symbol: 'LYM9.DE',
-    name: 'Amundi MSCI New Energy UCITS ETF Act Dist',
-    price: 28.27,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.6
-  },
-  {
-    symbol: 'LYMD.DE',
-    name: 'Lyxor MSCI India UCITS ETF Acc EUR',
-    price: 27.145,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.85
-  },
-  {
-    symbol: 'LYMH.DE',
-    name: 'Lyxor MSCI Greece UCITS ETF',
-    price: 2.2525,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
-  },
-  {
-    symbol: 'LYMS.DE',
-    name: 'Amundi Nasdaq-100 II UCITS ETF Acc',
-    price: 81.38,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.22
-  },
-  {
-    symbol: 'LYMZ.DE',
-    name: 'Lyxor Euro Stoxx 50 Daily (2x) Leveraged UCITS ETF',
-    price: 61.26,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
-  },
-  {
-    symbol: 'LYP2.DE',
-    name: 'Amundi S&P 500 II UCITS ETF EUR Hedged Dist',
-    price: 317.62,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'LYP6.DE',
-    name: 'Amundi STOXX Europe 600 ETF Acc- Capitalisation',
-    price: 262.1,
+    price: 310.45,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.07
+  },
+  {
+    symbol: 'LYEB.DE',
+    name: 'Amundi EUR Corporate Bond Climate Paris Aligned UCITS ETF Acc',
+    price: 155.495,
+    issuer: 'Amundi',
+    assetClass: 'Fixed Income',
+    category: 'Corporate',
+    isin: 'LU1829219127',
+    ter: 0.14,
+    aum: 1144633260,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'LYM7.DE',
+    name: 'Amundi MSCI Emerging Markets Swap II UCITS ETF EUR Acc',
+    price: 16.5435,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Emerging Markets',
+    isin: 'FR0010429068',
+    ter: 0.55,
+    aum: 1032800624,
+    domicile: 'FR'
+  },
+  {
+    symbol: 'LYM8.DE',
+    name: 'Amundi MSCI Water UCITS ETF Dist',
+    price: 70.09,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Other'
+  },
+  {
+    symbol: 'LYM9.DE',
+    name: 'Amundi MSCI New Energy UCITS ETF Dist',
+    price: 39.12,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Energy',
+    isin: 'FR0010524777',
+    ter: 0.6,
+    aum: 901865605,
+    domicile: 'FR'
+  },
+  {
+    symbol: 'LYMD.DE',
+    name: 'Amundi MSCI India Swap UCITS ETF EUR Acc',
+    price: 25.605,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'India'
+  },
+  {
+    symbol: 'LYMH.DE',
+    name: 'Amundi MSCI Greece UCITS ETF Dist',
+    price: 2.3995,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Other',
+    isin: 'FR0010405431',
+    ter: 0.45,
+    aum: 379908629,
+    domicile: 'FR'
+  },
+  {
+    symbol: 'LYMS.DE',
+    name: 'Amundi Core Nasdaq-100 Swap UCITS ETF Acc',
+    price: 87.65,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Technology',
+    isin: 'LU1829221024',
+    ter: 0.22,
+    aum: 5382754198,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'LYMZ.DE',
+    name: 'Amundi EURO STOXX 50 Daily (2x) Leveraged UCITS ETF Acc',
+    price: 72.39,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Europe',
+    isin: 'FR0010468983',
+    ter: 0.4,
+    aum: 196456415,
+    domicile: 'FR'
+  },
+  {
+    symbol: 'LYP2.DE',
+    name: 'Amundi Core S&P 500 Swap UCITS ETF EUR Hedged Dist',
+    price: 330.92,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'US',
+    isin: 'LU0959211243',
+    ter: 0.07,
+    aum: 24018996843,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'LYP6.DE',
+    name: 'Amundi Core Stoxx Europe 600 UCITS ETF Acc',
+    price: 292.8,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Europe',
+    isin: 'LU0908500753',
+    ter: 0.07,
+    aum: 16752475785,
+    domicile: 'LU'
   },
   {
     symbol: 'LYPA.DE',
@@ -9939,18 +9143,16 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LYPB.DE',
     name: 'Lyxor MSCI World Consumer Staples TR UCITS ETF - C-EUR',
     price: 396.7,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Consumer Defensive',
+    ter: 0.3,
+    aum: undefined
   },
   {
     symbol: 'LYPC.DE',
@@ -9959,58 +9161,60 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LYPD.DE',
-    name: 'Lyxor MSCI World Financials TR UCITS ETF',
-    price: 340.25,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI World Financials UCITS ETF EUR Acc',
+    price: 348.6,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Technology',
+    isin: 'LU0533032859',
+    ter: 0.3,
+    aum: 760879844,
+    domicile: 'LU'
   },
   {
     symbol: 'LYPE.DE',
-    name: 'Lyxor MSCI World Health Care TR UCITS ETF - C-EUR',
-    price: 434.8,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI World Health Care UCITS ETF EUR Acc',
+    price: 482.6,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LYPF.DE',
     name: 'Lyxor MSCI World Industrials TR UCITS ETF',
     price: 440.3,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Industrials',
+    ter: 0.3,
+    aum: undefined
   },
   {
     symbol: 'LYPG.DE',
-    name: 'Lyxor MSCI World Information Technology TR UCITS ETF',
-    price: 880.9,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI World Information Technology UCITS ETF EUR Acc',
+    price: 931.3,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Technology',
+    isin: 'LU0533033667',
+    ter: 0.3,
+    aum: 2414003117,
+    domicile: 'LU'
   },
   {
     symbol: 'LYPH.DE',
     name: 'Lyxor MSCI World Materials TR UCITS ETF - C-EUR',
     price: 472.8,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Materials',
+    isin: 'LU0533033824',
+    ter: 0.3,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'LYPI.DE',
@@ -10019,38 +9223,38 @@ export const xetraETFs: ETF[] = [
     issuer: 'Lyxor',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'LYPQ.DE',
     name: 'Lyxor MSCI World Utilities TR UCITS ETF',
     price: 272.65,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Utilities',
+    isin: 'LU0533034558',
+    ter: 0.3,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'LYPS.DE',
-    name: 'Amundi S&P 500 II ETF Dist (EUR)- Distribution',
-    price: 57.002,
+    name: 'Amundi Core S&P 500 Swap UCITS ETF EUR Dist',
+    price: 60.138,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.05
   },
   {
     symbol: 'LYPU.DE',
-    name: 'Lyxor Australia (S&P/ASX 200) UCITS ETF',
-    price: 51.02,
-    issuer: 'Lyxor',
+    name: 'Amundi Australia S&P/ASX 200 UCITS ETF Dist',
+    price: 54.94,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.4
+    category: 'Other',
+    isin: 'LU0496786905',
+    ter: 0.4,
+    aum: 126120131,
+    domicile: 'LU'
   },
   {
     symbol: 'LYQ1.DE',
@@ -10058,129 +9262,119 @@ export const xetraETFs: ETF[] = [
     price: 163.145,
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    category: 'Bonds'
   },
   {
     symbol: 'LYQ2.DE',
     name: 'Amundi Euro Government Bond 1-3Y UCITS ETF Acc',
-    price: 127.015,
+    price: 127.79,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'LYQ3.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 3-5Y (DR) UCITS ETF',
-    price: 151.385,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 3-5Y UCITS ETF Acc',
+    price: 152.775,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'LYQ6.DE',
     name: 'Amundi Euro Government Bond 10-15Y UCITS ETF Acc',
-    price: 197.005,
+    price: 202.84,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'LYQ7.DE',
-    name: 'Lyxor Core Euro Government Inflation-Linked Bond (DR) UCITS ETF',
-    price: 165.04,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Inflation-Linked Bond UCITS ETF Acc',
+    price: 170.475,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Bonds'
   },
   {
     symbol: 'LYQK.DE',
-    name: 'Lyxor Bund Daily (-2x) Inverse UCITS ETF',
-    price: 43.401,
-    issuer: 'Lyxor',
+    name: 'Amundi German Bund Daily (-2x) Inverse UCITS ETF Acc',
+    price: 43.729,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'FR0010869578',
+    ter: 0.2,
+    aum: 19761457,
+    domicile: 'FR'
   },
   {
     symbol: 'LYQL.DE',
-    name: 'Amundi ShortDAX Daily (-2x) Inverse UCITS ETF',
-    price: 0.5657,
+    name: 'Amundi ShortDAX Daily (-2x) Inverse UCITS ETF Acc',
+    price: 0.5548,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'LYQS.DE',
-    name: 'Amundi Index Solutions - Amundi J.P. Morgan USD Emerging Markets Bond UCITS ETF Dist',
-    price: 68.716,
+    name: 'Amundi USD Emerging Markets Government Bond UCITS ETF Dist',
+    price: 68.696,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Government',
+    isin: 'LU1686830909',
+    ter: 0.25,
+    aum: 251747665,
+    domicile: 'LU'
   },
   {
     symbol: 'LYQY.DE',
-    name: 'Amundi Index Solution - Amundi EUR High Yield Corporate Bond ESG UCITS ETF Dist',
-    price: 109.19,
+    name: 'Amundi EUR High Yield Corporate Bond ESG UCITS ETF Dist',
+    price: 106.58,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Corporate',
+    isin: 'LU1812090543',
+    ter: 0.25,
+    aum: 335985792,
+    domicile: 'LU'
   },
   {
     symbol: 'LYS4.DE',
-    name: 'Lyxor EuroMTS Highest Rated Macro-Weighted Govt Bond 1-3Y (DR) UCITS ETF',
-    price: 100.9,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Highest Rated Macro-Weighted Government Bond 1-3Y UCITS ETF Acc',
+    price: 101.565,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.165
+    category: 'Bonds'
   },
   {
     symbol: 'LYS5.DE',
-    name: 'Lyxor EuroMTS Highest Rated Macro-Weighted Govt Bond 3-5Y (DR) UCITS ETF',
-    price: 107.11,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Highest Rated Macro-Weighted Government Bond 3-5Y UCITS ETF Acc',
+    price: 107.855,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.165
+    category: 'Bonds'
   },
   {
     symbol: 'LYSX.DE',
-    name: 'Lyxor Euro Stoxx 50 (DR) UCITS ETF Acc',
-    price: 59.22,
-    issuer: 'Lyxor',
+    name: 'Amundi EURO STOXX 50 II UCITS ETF Acc',
+    price: 65.18,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Europe'
   },
   {
     symbol: 'LYTR.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Commodities Refinitiv/CoreCommodity CRB TR UCITS ETF',
-    price: 23.685,
-    issuer: 'Lyxor',
+    name: 'Amundi Bloomberg Equal-weight Commodity ex-Agriculture UCITS ETF Acc',
+    price: 33.51,
+    issuer: 'Amundi',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Commodities',
+    isin: 'LU1829218749',
+    ter: 0.3,
+    aum: 1662767769,
+    domicile: 'LU'
   },
   {
     symbol: 'LYX7.DE',
@@ -10188,299 +9382,287 @@ export const xetraETFs: ETF[] = [
     price: 77.044,
     issuer: 'Lyxor',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'US'
   },
   {
     symbol: 'LYXA.DE',
     name: 'Amundi Euro Highest Rated Macro-Weighted Government Bond UCITS ETF Acc',
-    price: 125.395,
+    price: 126.975,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.165
+    category: 'Bonds'
   },
   {
     symbol: 'LYXC.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 5-7Y (DR) UCITS ETF - Acc',
-    price: 159.015,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 5-7Y UCITS ETF Acc',
+    price: 161.375,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'LU1287023003',
+    ter: 0.15,
+    aum: 665618024,
+    domicile: 'LU'
   },
   {
     symbol: 'LYXD.DE',
     name: 'Amundi Euro Government Bond 7-10Y UCITS ETF Acc',
-    price: 167.495,
+    price: 170.93,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'LU1287023185',
+    ter: 0.15,
+    aum: 1535324834,
+    domicile: 'LU'
   },
   {
     symbol: 'LYXF.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 15+Y (DR) UCITS ETF - Acc',
-    price: 171.47,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 15+Y UCITS ETF Acc',
+    price: 177.81,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'LYXI.DE',
-    name: 'Lyxor MSCI Indonesia UCITS ETF',
-    price: 107.86,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Indonesia UCITS ETF Acc',
+    price: 93.4,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Other',
+    isin: 'LU1900065811',
+    ter: 0.45,
+    aum: 86080134,
+    domicile: 'LU'
   },
   {
     symbol: 'LYY0.DE',
-    name: 'Lyxor Msci All Country World Ucits ETF',
-    price: 494.4,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI All Country World UCITS ETF EUR Acc',
+    price: 540,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
+    category: 'Global',
+    isin: 'LU1829220216',
+    ter: 0.45,
+    aum: 2161694814,
+    domicile: 'LU'
   },
   {
     symbol: 'LYY4.DE',
-    name: 'Lyxor Japan (Topix) (DR) UCITS ETF Dist EUR',
-    price: 173.735,
-    issuer: 'Lyxor',
+    name: 'Amundi Japan TOPIX II UCITS ETF EUR Dist',
+    price: 199.47,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.45
   },
   {
     symbol: 'LYY5.DE',
-    name: 'Lyxor MSCI Europe (DR) UCITS ETF',
-    price: 203.85,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI Europe UCITS ETF Acc',
+    price: 227.4,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'FR0010261198',
+    ter: 0.25,
+    aum: 616045387,
+    domicile: 'FR'
   },
   {
     symbol: 'LYY7.DE',
-    name: 'Amundi DAX III UCITS ETF Acc',
-    price: 216.35,
+    name: 'Amundi DAX II UCITS ETF Acc',
+    price: 218.75,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'LYY8.DE',
     name: 'Amundi LevDax Daily (2x) leveraged UCITS ETF Acc',
-    price: 242.6,
+    price: 242.05,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'LYY8.F',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor DAILY LevDAX UCITS ETF',
-    price: 131.68,
-    issuer: 'Lyxor',
-    assetClass: 'Mixed',
-    category: 'Germany'
-  ,
-    ter: 0.35000000000000003
+    category: 'Germany',
+    isin: 'LU0252634307',
+    ter: 0.35,
+    aum: 184602046,
+    domicile: 'LU'
   },
   {
     symbol: 'LYYA.DE',
-    name: 'Lyxor MSCI World UCITS ETF Dist',
-    price: 357.02,
-    issuer: 'Lyxor',
+    name: 'Amundi MSCI World Swap II UCITS ETF Dist',
+    price: 380.55,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'FR0010315770',
+    ter: 0.3,
+    aum: 9362648052,
+    domicile: 'FR'
   },
   {
     symbol: 'LYYB.DE',
     name: 'Amundi MSCI USA ESG Broad Transition UCITS ETF Dist',
-    price: 515.2,
+    price: 535.3,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
+    category: 'US',
+    isin: 'IE000QQ8Z0D8',
+    ter: 0.07,
+    aum: 4801861311,
+    domicile: 'IE'
   },
   {
     symbol: 'M9SA.DE',
     name: 'Market Access Rogers International Commodity Index UCITS ETF',
-    price: 26.915,
-    issuer: 'Market',
+    price: 33.17,
+    issuer: 'Market Access',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.6
+    category: 'Commodities',
+    isin: 'LU0249326488',
+    ter: 0.6,
+    aum: 56940349,
+    domicile: 'DE'
   },
   {
     symbol: 'M9SD.DE',
     name: 'Market Access NYSE Arca Gold BUGS Index UCITS ETF',
-    price: 189.02,
-    issuer: 'Market',
+    price: 316.35,
+    issuer: 'Market Access',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Commodities',
+    isin: 'LU0259322260',
+    ter: 0.65,
+    aum: 60337400,
+    domicile: 'LU'
   },
   {
     symbol: 'M9SV.DE',
     name: 'Market Access Stoxx China A Minimum Variance Index UCITS ETF',
-    price: 135.02,
-    issuer: 'Market',
+    price: 141.84,
+    issuer: 'Market Access',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.45
+    category: 'Europe',
+    isin: 'LU1750178011',
+    ter: 0.45,
+    aum: 29715143,
+    domicile: 'LU'
   },
   {
     symbol: 'MACV.DE',
-    name: 'BlackRock ESG Multi-Asset Conservative Portfolio UCITS ETF',
-    price: 5.089,
-    issuer: 'BlackRock',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    name: 'iShares Conservative Portfolio UCITS ETF',
+    price: 5.265,
+    issuer: 'IShares',
+    assetClass: 'Equity',
+    category: 'Cash & Others',
+    isin: 'IE00BLP53M98',
+    ter: 0.25,
+    aum: 14687054,
+    domicile: 'IE'
   },
   {
     symbol: 'MAGR.DE',
-    name: 'BlackRock ESG Multi-Asset Growth Portfolio UCITS ETF',
-    price: 7.101,
-    issuer: 'BlackRock',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    name: 'iShares Growth Portfolio UCITS ETF',
+    price: 7.638,
+    issuer: 'IShares',
+    assetClass: 'Equity',
+    category: 'Growth',
+    isin: 'IE00BLLZQ805',
+    ter: 0.25,
+    aum: 77778027,
+    domicile: 'IE'
   },
   {
     symbol: 'MD4X.DE',
     name: 'Amundi MDAX UCITS ETF Dist',
-    price: 143.02,
+    price: 140.28,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.2
+    category: 'Germany',
+    isin: 'FR0011857234',
+    ter: 0.2,
+    aum: 287614540,
+    domicile: 'FR'
   },
   {
     symbol: 'MDBA.DE',
-    name: 'UBS (Lux) Fund Solutions – Sustainable Development Bank Bonds UCITS ETF',
-    price: 10.548,
+    name: 'UBS Sustainable Development Bank Bonds UCITS ETF USD acc',
+    price: 10.783,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Financials'
   },
   {
     symbol: 'MDBE.DE',
-    name: 'UBS (Lux) Fund Solutions – Sustainable Development Bank Bonds UCITS ETF',
-    price: 10.1215,
+    name: 'UBS Sustainable Development Bank Bonds UCITS ETF hEUR acc',
+    price: 10.2485,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Financials'
   },
   {
     symbol: 'MDBU.DE',
-    name: 'UBS(Lux)Fund Solutions – Sustainable Development Bank Bonds UCITS ETF(USD)A-dis',
-    price: 9.2774,
+    name: 'UBS Sustainable Development Bank Bonds UCITS ETF USD dis',
+    price: 9.3552,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Financials'
   },
   {
     symbol: 'MIVA.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe Minimum Volatility Factor',
-    price: 149.46,
+    name: 'Amundi MSCI Europe Minimum Volatility Factor UCITS ETF - EUR (C)',
+    price: 162.4,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.23
   },
   {
     symbol: 'MIVB.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe SRI UCITS ETF DR',
-    price: 81.3,
+    name: 'Amundi MSCI Europe SRI Climate Paris Aligned UCITS ETF DR (C)',
+    price: 84.59,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'MIVU.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI USA Minimum Volatility Factor',
-    price: 92.03,
+    name: 'Amundi MSCI USA Minimum Volatility Factor UCITS ETF (C)',
+    price: 95.09,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'MJMT.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe Momentum Factor',
-    price: 126.8,
+    name: 'Amundi MSCI Europe Momentum Factor UCITS ETF - EUR (C)',
+    price: 142.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.23
+    category: 'Europe',
+    isin: 'LU1681041460',
+    ter: 0.23,
+    aum: 123823839,
+    domicile: 'LU'
   },
   {
     symbol: 'MKK1.DE',
     name: 'Expat Macedonia Mbi10 Ucits Etf',
-    price: 2.5385,
+    price: 2.388,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 3.09
-  },
-  {
-    symbol: 'MKK1.F',
-    name: 'Expat Macedonia Mbi10 Ucits Etf',
-    price: 1.555,
-    issuer: 'Expat',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 3.09
+    category: 'Other'
   },
   {
     symbol: 'MODR.DE',
-    name: 'BlackRock ESG Multi-Asset Moderate Portfolio UCITS ETF',
-    price: 6.155,
-    issuer: 'BlackRock',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    name: 'iShares Moderate Portfolio UCITS ETF',
+    price: 6.487,
+    issuer: 'IShares',
+    assetClass: 'Equity',
+    category: 'Cash & Others',
+    isin: 'IE00BLLZQS08',
+    ter: 0.25,
+    aum: 38103375,
+    domicile: 'IE'
   },
   {
     symbol: 'MOED.DE',
@@ -10488,19 +9670,11 @@ export const xetraETFs: ETF[] = [
     price: 151.1,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'MOED.F',
-    name: 'BNP Paribas Easy ESG Equity Momentum Europe',
-    price: 115.66,
-    issuer: 'BNP Paribas',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1481201538',
+    ter: 0.3,
+    aum: 760716.02,
+    domicile: 'DE'
   },
   {
     symbol: 'MOEU.DE',
@@ -10508,29 +9682,33 @@ export const xetraETFs: ETF[] = [
     price: 192.7,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1377382012',
+    ter: 0.3,
+    aum: 3180421.22,
+    domicile: 'LU'
   },
   {
     symbol: 'MSED.DE',
     name: 'Lyxor EURO STOXX 50 (DR)',
     price: 226.85,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.07
+    category: 'Europe',
+    ter: 0.07,
+    aum: 361077088
   },
   {
     symbol: 'MTDA.DE',
     name: 'Lyxor Index Fund - Lyxor STOXX Europe 600 Personal & Household Goods UCITS ETF',
     price: 202.7,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Consumer Cyclical',
+    isin: 'LU2082998324',
+    ter: 0.3,
+    aum: 10331779.6963,
+    domicile: 'DE'
   },
   {
     symbol: 'MTDB.DE',
@@ -10538,129 +9716,107 @@ export const xetraETFs: ETF[] = [
     price: 87.49,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.07
+    category: 'Europe'
   },
   {
     symbol: 'MTDD.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 7-10Y (DR) UCITS ETF',
-    price: 155.325,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 7-10Y UCITS ETF Dist',
+    price: 154.375,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'LU2090062949',
+    ter: 0.15,
+    aum: 1535324834,
+    domicile: 'LU'
   },
   {
     symbol: 'MVEA.DE',
-    name: 'iShares Edge MSCI USA Minimum Volatility ESG UCITS ETF',
-    price: 7.231,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI USA Minimum Volatility Advanced UCITS ETF',
+    price: 7.369,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BKVL7331',
+    ter: 0.2,
+    aum: 92286544,
+    domicile: 'IE'
   },
   {
     symbol: 'MVEE.DE',
-    name: 'iShares Edge MSCI Europe Minimum Volatility ESG UCITS ETF EUR (Acc)',
-    price: 7.751,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI Europe Minimum Volatility Advanced UCITS ETF',
+    price: 8.35,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'MVEE.F',
-    name: 'iShares Edge MSCI Europe Minimum Volatility ESG UCITS ETF EUR (Acc)',
-    price: 6.661,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'IE00BKVL7D31',
+    ter: 0.25,
+    aum: 26636235,
+    domicile: 'IE'
   },
   {
     symbol: 'MVEW.DE',
-    name: 'iShares Edge MSCI World Minimum Volatility ESG UCITS ETF USD (Acc)',
-    price: 6.8,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI World Minimum Volatility Advanced UCITS ETF',
+    price: 7.067,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00BKVL7778',
+    ter: 0.3,
+    aum: 240897315,
+    domicile: 'IE'
   },
   {
     symbol: 'MWSH.DE',
-    name: 'Amundi MSCI World SRI Climate Net Zero Ambition PAB UCITS ETF EUR Acc',
-    price: 71.74,
+    name: 'Amundi MSCI World SRI Climate Paris Aligned UCITS ETF Acc EUR Hedged',
+    price: 77.54,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'MWSH.F',
-    name: 'Amundi MSCI World SRI Climate Net Zero Ambition PAB UCITS ETF EUR Acc',
-    price: 59.53,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'MXUK.DE',
     name: 'Invesco MSCI Europe ex-UK UCITS ETF',
-    price: 39.535,
+    price: 43.55,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'NADA.DE',
-    name: 'Amundi MSCI Japan UCITS ETF 2',
-    price: 70.57,
+    name: 'Amundi Core MSCI Japan UCITS ETF Dist',
+    price: 81.08,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.12
+    category: 'Japan',
+    isin: 'LU2090063673',
+    ter: 0.12,
+    aum: 5423995354,
+    domicile: 'LU'
   },
   {
     symbol: 'NADB.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 10-15Y (DR) UCITS ETF',
-    price: 139.105,
-    issuer: 'Lyxor',
+    name: 'Amundi Euro Government Bond 10-15Y UCITS ETF Dist',
+    price: 139.365,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'NADB.F',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Euro Government Bond 10-15Y (DR) UCITS ETF',
-    price: 137.41,
-    issuer: 'Lyxor',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.165
+    category: 'Government',
+    isin: 'LU1650489898',
+    ter: 0.15,
+    aum: 983440989,
+    domicile: 'LU'
   },
   {
     symbol: 'NADQ.DE',
-    name: 'Lyxor Nasdaq-100 Ucits ETF',
-    price: 212.4,
-    issuer: 'Lyxor',
+    name: 'Amundi Core Nasdaq-100 Swap UCITS ETF Dist',
+    price: 227.55,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.22
+    category: 'Technology',
+    isin: 'LU2197908721',
+    ter: 0.22,
+    aum: 5382754198,
+    domicile: 'LU'
   },
   {
     symbol: 'NK4L.DE',
@@ -10668,149 +9824,121 @@ export const xetraETFs: ETF[] = [
     price: 101.605,
     issuer: 'Lyxor',
     assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other',
+    ter: 0.15,
+    aum: 671233088
   },
   {
     symbol: 'NQSE.DE',
-    name: 'iShares VII PLC - iShares NASDAQ 100 UCITS ETF',
-    price: 13.844,
-    issuer: 'iShares',
+    name: 'iShares NASDAQ 100 UCITS ETF',
+    price: 14.732,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.33
-  },
-  {
-    symbol: 'NQSE.F',
-    name: 'iShares VII PLC - iShares NASDAQ 100 UCITS ETF',
-    price: 9.29,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.36
+    category: 'Technology',
+    isin: 'IE00BYVQ9F29',
+    ter: 0.33,
+    aum: 1584146645,
+    domicile: 'IE'
   },
   {
     symbol: 'NS4E.DE',
     name: 'Invesco JPX-Nikkei 400 UCITS ETF',
-    price: 33.86,
+    price: 42.1,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.19
+    category: 'Japan',
+    isin: 'IE00BVGC6645',
+    ter: 0.19,
+    aum: 168316241,
+    domicile: 'IE'
   },
   {
     symbol: 'OIGS.DE',
-    name: 'Amundi STOXX Europe 600 Energy Screened Distribution',
-    price: 98.05,
+    name: 'Amundi STOXX Europe 600 Energy Screened UCITS ETF Dist',
+    price: 130.08,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'OM3F.DE',
-    name: 'iShares € Corp Bond ESG UCITS ETF',
-    price: 4.7758,
+    name: 'iShares € Corp Bond ESG SRI UCITS ETF',
+    price: 4.7588,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    category: 'ESG'
   },
   {
     symbol: 'OM3L.DE',
-    name: 'iShares MSCI USA ESG Enhanced UCITS ETF',
-    price: 9.673,
+    name: 'iShares MSCI USA CTB Enhanced ESG UCITS ETF',
+    price: 10.094,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'OM3M.DE',
-    name: 'iShares VII PLC - iShares VII PLC - iShares $ Treasury Bond 3-7yr UCITS ETF',
-    price: 4.1724,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 3-7yr UCITS ETF',
+    price: 4.1848,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'OM3M.F',
-    name: 'iShares VII PLC - iShares VII PLC - iShares $ Treasury Bond 3-7yr UCITS ETF',
-    price: 4.3995,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'IE00BFXYHY63',
+    ter: 0.07,
+    aum: 163389947,
+    domicile: 'IE'
   },
   {
     symbol: 'OM3X.DE',
     name: 'iShares OMX Stockholm Capped UCITS ETF',
-    price: 88.38,
-    issuer: 'iShares',
+    price: 100.98,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other',
+    isin: 'IE00BD3RYZ16',
+    ter: 0.1,
+    aum: 1944329919,
+    domicile: 'IE'
   },
   {
     symbol: 'OM3Y.DE',
-    name: 'iShares MSCI EM IMI ESG Screened UCITS ETF',
-    price: 5.833,
+    name: 'iShares MSCI EM IMI Screened UCITS ETF',
+    price: 6.842,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'OPEN.DE',
-    name: 'iShares Refinitiv Inclusion and Diversity UCITS ETF',
-    price: 8.113,
+    name: 'iShares Inclusion and Diversity UCITS ETF',
+    price: 8.739,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other'
   },
   {
     symbol: 'OSX2.DE',
     name: 'Ossiam US Minimum Variance ESG NR UCITS ETF',
-    price: 287.55,
+    price: 291.3,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'US'
   },
   {
     symbol: 'OSX4.DE',
     name: 'Ossiam Europe ESG Machine Learning',
-    price: 273.7,
+    price: 293.15,
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.65
   },
   {
     symbol: 'OSX6.DE',
     name: 'Ossiam STOXX Europe 600 Equal Weight NR UCITS ETF',
-    price: 134.9,
+    price: 144.42,
     issuer: 'Ossiam',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.35000000000000003
   },
   {
     symbol: 'OSX9.DE',
@@ -10826,9 +9954,9 @@ export const xetraETFs: ETF[] = [
     price: 110.5,
     issuer: 'Ossiam',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.44999999999999996
+    category: 'Commodities',
+    ter: 0.44999999999999996,
+    aum: 2987237
   },
   {
     symbol: 'OSXF.DE',
@@ -10836,9 +9964,9 @@ export const xetraETFs: ETF[] = [
     price: 168.9,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Other',
+    ter: 0.35,
+    aum: 2122676
   },
   {
     symbol: 'OSXM.DE',
@@ -10846,39 +9974,33 @@ export const xetraETFs: ETF[] = [
     price: 253.7,
     issuer: 'Ossiam',
     assetClass: 'Mixed',
-    category: 'Global'
-  ,
-    ter: 0.55
+    category: 'Global',
+    ter: 0.55,
+    aum: 1120011
   },
   {
     symbol: 'OUFE.DE',
     name: 'Ossiam US ESG Low Carbon Equity Factors UCITS ETF',
-    price: 193.32,
+    price: 197.72,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
-  },
-  {
-    symbol: 'OUFE.F',
-    name: 'Ossiam US ESG Low Carbon Equity Factors UCITS ETF',
-    price: 155.08,
-    issuer: 'Ossiam',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'US',
+    isin: 'IE00BJBLDK52',
+    ter: 0.45,
+    aum: 4452705.15,
+    domicile: 'IE'
   },
   {
     symbol: 'OUFU.DE',
     name: 'Ossiam US ESG Low Carbon Equity Factors UCITS ETF',
-    price: 201.45,
+    price: 205.3,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'US',
+    isin: 'IE00BJBLDJ48',
+    ter: 0.45,
+    aum: 29089875,
+    domicile: 'IE'
   },
   {
     symbol: 'OWLE.DE',
@@ -10886,9 +10008,11 @@ export const xetraETFs: ETF[] = [
     price: 114.48,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.65
+    category: 'Global',
+    isin: 'IE00BF4Q4063',
+    ter: 0.65,
+    aum: undefined,
+    domicile: 'IE'
   },
   {
     symbol: 'OWLU.DE',
@@ -10896,275 +10020,177 @@ export const xetraETFs: ETF[] = [
     price: 111.66,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.65
+    category: 'Global',
+    ter: 0.65,
+    aum: undefined,
+    domicile: 'DE'
   },
   {
     symbol: 'P500.DE',
     name: 'Invesco S&P 500 UCITS ETF',
-    price: 1098.4,
+    price: 11.7085,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PABC.F',
-    name: 'Amundi Index Solutions - Amundi iCPR Euro Corp Climate Paris Aligned PAB',
-    price: 44.729,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  },
-  {
-    symbol: 'PABV.F',
-    name: 'Amundi MSCI World Climate Paris Aligned Pab Umwelt ETF',
-    price: 44.11,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'US',
+    isin: 'IE00B3YCGJ38',
+    ter: 0.05,
+    aum: 42919958722,
+    domicile: 'IE'
   },
   {
     symbol: 'PABW.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI World Climate Paris Aligned Pab',
-    price: 79.4,
+    name: 'Amundi MSCI World Climate Paris Aligned UCITS ETF - Acc',
+    price: 82.83,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'PAC.DE',
     name: 'BNP Paribas Easy MSCI Pacific ex Japan ESG Filtered Min TE',
-    price: 15.102,
+    price: 16.558,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'PAC5.F',
-    name: 'BNP Paribas Funds - Climate Impact',
-    price: 265.63,
-    issuer: 'BNP Paribas',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.27
-  },
-  {
-    symbol: 'PAUD.F',
-    name: 'Invesco MSCI World ESG Climate Paris Aligned UCITS ETF',
-    price: 3.9585,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'PAUE.F',
-    name: 'Invesco MSCI Europe ESG Climate Paris Aligned UCITS ETF',
-    price: 4.5055,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.16
-  },
-  {
-    symbol: 'PAUJ.F',
-    name: 'Invesco MSCI Japan ESG Climate Paris Aligned UCITS ETF',
-    price: 3.7685,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'PAUS.F',
-    name: 'Invesco MSCI USA ESG Climate Paris Aligned UCITS ETF',
-    price: 4.0485,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'Japan',
+    isin: 'LU1291106356',
+    ter: 0.15,
+    aum: 198647488,
+    domicile: 'DE'
   },
   {
     symbol: 'PDSE.DE',
-    name: 'Invesco Preferred Shares UCITS ETF',
-    price: 13.4645,
+    name: 'Invesco Preferred Shares UCITS ETF EUR Hedged Dist',
+    price: 13.151,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.55
-  },
-  {
-    symbol: 'PDSE.F',
-    name: 'Invesco Preferred Shares UCITS ETF',
-    price: 13.605,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.55
+    category: 'Financials',
+    isin: 'IE00BDT8V027',
+    ter: 0.55,
+    aum: 165312589,
+    domicile: 'IE'
   },
   {
     symbol: 'PJEU.DE',
-    name: 'Invesco EuroMTS Cash 3 Months UCITS ETF',
-    price: 107.225,
+    name: 'Invesco Euro Cash 3 Months UCITS ETF',
+    price: 108.29,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Government',
+    isin: 'IE00B3BPCH51',
+    ter: 0.09,
+    aum: 229717927,
+    domicile: 'IE'
   },
   {
     symbol: 'PJS1.DE',
-    name: 'PIMCO ETFs plc PIMCO Euro Short Maturity UCITS ETF',
-    price: 98.056,
+    name: 'PIMCO Euro Short Maturity UCITS ETF',
+    price: 97.75,
     issuer: 'PIMCO',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Cash & Others',
+    isin: 'IE00B5ZR2157',
+    ter: 0.35,
+    aum: 1530959161,
+    domicile: 'IE'
   },
   {
     symbol: 'PJSR.DE',
-    name: 'PIMCO ETFs plc PIMCO Euro Short Maturity UCITS ETF',
-    price: 105.435,
+    name: 'PIMCO Euro Short Maturity UCITS ETF',
+    price: 106.605,
     issuer: 'PIMCO',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35000000000000003
-  },
-  {
-    symbol: 'PJSR.F',
-    name: 'PIMCO ETFs plc PIMCO Euro Short Maturity UCITS ETF',
-    price: 96.6,
-    issuer: 'PIMCO',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35000000000000003
+    category: 'Cash & Others',
+    isin: 'IE00BVZ6SP04',
+    ter: 0.35,
+    aum: 1530959161,
+    domicile: 'IE'
   },
   {
     symbol: 'PLGS.DE',
     name: 'Leverage Shares -1x Short Plug Power ETC',
     price: 3.5608,
-    issuer: 'Leverage',
+    issuer: 'LeverageShares',
     assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'Other',
+    isin: 'XS2336362079',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'PLX.DE',
     name: 'Expat Poland WIG20 UCITS ETF',
-    price: 0.772,
+    price: 0.9099,
     issuer: 'Expat',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 2.84
+    category: 'Other'
   },
   {
     symbol: 'PR1C.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Euro Corporates',
-    price: 19.0935,
+    name: 'Amundi Core EUR Corporate Bond UCITS ETF Dist',
+    price: 18.87,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.07
+    assetClass: 'Fixed Income',
+    category: 'Bonds'
   },
   {
     symbol: 'PR1E.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Europe',
-    price: 31.21,
+    name: 'Amundi Prime Europe UCITS ETF DR (D)',
+    price: 34.075,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PR1E.F',
-    name: 'Amundi Index Solutions - Amundi Prime Europe',
-    price: 26.43,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.05
   },
   {
     symbol: 'PR1G.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Global Govies',
-    price: 16.6575,
+    name: 'Amundi Prime Global Government Bond UCITS ETF Dist',
+    price: 16.453,
     issuer: 'Amundi',
-    assetClass: 'Equity',
+    assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.05
   },
   {
     symbol: 'PR1H.DE',
-    name: 'Amundi Index Solutions - Amundi Prime US Treasury Bond 0-1 Y UCITS ETF',
-    price: 21.058,
+    name: 'Amundi US Treasury Bond 0-1Y UCITS ETF EUR Hedged Acc',
+    price: 21.252,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'US'
   },
   {
     symbol: 'PR1J.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Japan',
-    price: 29.74,
+    name: 'Amundi Prime Japan UCITS ETF DR (D)',
+    price: 33.905,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.05
   },
   {
     symbol: 'PR1P.DE',
-    name: 'Amundi Index Solutions - Amundi Prime US Corporates',
-    price: 15.4775,
+    name: 'Amundi Core USD Corporate Bond UCITS ETF Dist',
+    price: 15.297,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.07
+    assetClass: 'Fixed Income',
+    category: 'Bonds'
   },
   {
     symbol: 'PR1R.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Euro Govies UCITS ETF DR',
-    price: 17.211,
+    name: 'Amundi Prime Euro Government Bond UCITS ETF Dist',
+    price: 17.0525,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    assetClass: 'Fixed Income',
+    category: 'Bonds'
   },
   {
     symbol: 'PR1S.DE',
-    name: 'Amundi Index Solutions - Amundi Prime US Treasury UCITS ETF DR',
-    price: 16.361,
+    name: 'Amundi Core US Treasury Bond UCITS ETF Dist',
+    price: 16.3105,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'Government',
+    isin: 'LU1931975319',
+    ter: 0.05,
+    aum: 26600473,
+    domicile: 'LU'
   },
   {
     symbol: 'PR1U.DE',
@@ -11173,8 +10199,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.27
   },
   {
     symbol: 'PR1W.DE',
@@ -11182,129 +10206,99 @@ export const xetraETFs: ETF[] = [
     price: 36.17,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.05
+    category: 'Global',
+    isin: 'LU1931974692',
+    ter: 0.05,
+    aum: 743320009,
+    domicile: 'DE'
   },
   {
     symbol: 'PR1Z.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Eurozone',
-    price: 33.475,
+    name: 'Amundi Prime Eurozone UCITS ETF DR (D)',
+    price: 36.05,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PRAB.F',
-    name: 'Amundi Index Solutions - Amundi Prime Euro Govies Bonds 0-1Y',
-    price: 21.072,
-    issuer: 'Amundi',
-    assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.05
+    category: 'Other'
   },
   {
     symbol: 'PRAC.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Euro Corporates',
-    price: 19.9305,
+    name: 'Amundi Core EUR Corporate Bond UCITS ETF Acc',
+    price: 20.206,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.07
+    assetClass: 'Fixed Income',
+    category: 'Corporate',
+    isin: 'LU2089238625',
+    ter: 0.07,
+    aum: 2112457611,
+    domicile: 'LU'
   },
   {
     symbol: 'PRAE.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Europe',
-    price: 30.185,
+    name: 'Amundi Prime Europe UCITS ETF DR (C)',
+    price: 33.79,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.05
+    category: 'Europe',
+    isin: 'LU2089238039',
+    ter: 0.05,
+    aum: 427406648,
+    domicile: 'DE'
   },
   {
     symbol: 'PRAG.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Global Govies',
-    price: 17.093,
+    name: 'Amundi Prime Global Government Bond UCITS ETF Acc',
+    price: 17.41,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.05
+    assetClass: 'Fixed Income',
+    category: 'Technology',
+    isin: 'LU2089238971',
+    ter: 0.05,
+    aum: 180996996,
+    domicile: 'DE'
   },
   {
     symbol: 'PRAJ.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Japan',
-    price: 28.85,
+    name: 'Amundi Prime Japan UCITS ETF DR (C)',
+    price: 33.47,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PRAJ.F',
-    name: 'Amundi Index Solutions - Amundi Prime Japan',
-    price: 23.05,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.08
   },
   {
     symbol: 'PRAP.DE',
-    name: 'Amundi Index Solutions - Amundi Prime US Corporates',
-    price: 18.077,
+    name: 'Amundi Core USD Corporate Bond UCITS ETF Acc',
+    price: 18.735,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
-  ,
-    ter: 0.07
+    assetClass: 'Fixed Income',
+    category: 'Corporate',
+    isin: 'LU2089239276',
+    ter: 0.07,
+    aum: 145095954,
+    domicile: 'LU'
   },
   {
     symbol: 'PRAR.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Euro Govies',
-    price: 17.826,
+    name: 'Amundi Prime Euro Government Bond UCITS ETF Acc',
+    price: 18.1635,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PRAR.F',
-    name: 'Amundi Index Solutions - Amundi Prime Euro Govies',
-    price: 16.834,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.05
+    assetClass: 'Fixed Income',
+    category: 'Bonds',
+    isin: 'LU2089238898',
+    ter: 0.05,
+    aum: 1974428776,
+    domicile: 'IE'
   },
   {
     symbol: 'PRAS.DE',
-    name: 'Amundi Index Solutions - Amundi Prime US Treasury',
-    price: 17.1745,
+    name: 'Amundi Core US Treasury Bond UCITS ETF Acc',
+    price: 17.673,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Government Bonds'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PRAS.F',
-    name: 'Amundi Index Solutions - Amundi Prime US Treasury',
-    price: 17.048,
-    issuer: 'Amundi',
-    assetClass: 'Fixed Income',
-    category: 'Government Bonds'
-  ,
-    ter: 0.05
+    category: 'Government',
+    isin: 'LU2089239193',
+    ter: 0.05,
+    aum: 26600473,
+    domicile: 'LU'
   },
   {
     symbol: 'PRAU.DE',
@@ -11312,19 +10306,11 @@ export const xetraETFs: ETF[] = [
     price: 29.645,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'PRAU.F',
-    name: 'Amundi Index Solutions - Amundi Prime USA',
-    price: 25.39,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
+    category: 'US',
+    isin: 'LU2089238468',
+    ter: 0.05,
+    aum: 36501437.39284557,
+    domicile: 'DE'
   },
   {
     symbol: 'PRAW.DE',
@@ -11333,318 +10319,318 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.05
   },
   {
     symbol: 'PRAZ.DE',
-    name: 'Amundi Index Solutions - Amundi Prime Eurozone',
-    price: 31.58,
+    name: 'Amundi Prime Eurozone UCITS ETF DR (C)',
+    price: 34.945,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.05
+    category: 'Other',
+    isin: 'LU2089238112',
+    ter: 0.05,
+    aum: 597007124,
+    domicile: 'DE'
   },
   {
     symbol: 'PSFE.DE',
-    name: 'Invesco Euro IG Corporate Bond ESG UCITS ETF',
-    price: 18.617,
+    name: 'Invesco EUR IG Corporate Bond ESG Climate Transition UCITS ETF',
+    price: 18.5495,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BF51K249',
+    ter: 0.1,
+    aum: 364888825,
+    domicile: 'IE'
   },
   {
     symbol: 'PSWD.DE',
-    name: 'Invesco FTSE RAFI All World 3000 UCITS ETF',
-    price: 27.85,
+    name: 'Invesco FTSE RAFI All-World 3000 UCITS ETF',
+    price: 31.595,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.39
+    category: 'Global',
+    isin: 'IE00B23LNQ02',
+    ter: 0.39,
+    aum: 184004393,
+    domicile: 'IE'
   },
   {
     symbol: 'PUIG.DE',
-    name: 'Invesco USD Corporate Bond ESG UCITS ETF',
-    price: 15.9515,
+    name: 'Invesco USD IG Corporate Bond ESG Climate Transition UCITS ETF',
+    price: 16.066,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'ESG'
   },
   {
     symbol: 'QDV5.DE',
     name: 'iShares MSCI India UCITS ETF',
-    price: 8.128,
-    issuer: 'iShares',
+    price: 7.69,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'India',
+    isin: 'IE00BZCQB185',
+    ter: 0.65,
+    aum: 4563821721,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVA.DE',
-    name: 'iShares Edge MSCI USA Momentum Factor UCITS ETF USD (Acc)',
-    price: 14.24,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI USA Momentum Factor UCITS ETF',
+    price: 14.832,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BD1F4N50',
+    ter: 0.2,
+    aum: 412856827,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVB.DE',
-    name: 'iShares Edge MSCI USA Quality Factor UCITS ETF USD (Acc)',
-    price: 13.52,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI USA Quality Factor UCITS ETF',
+    price: 14.53,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BD1F4L37',
+    ter: 0.2,
+    aum: 1461278906,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVC.DE',
-    name: 'iShares Edge MSCI USA Size Factor UCITS ETF',
-    price: 10.34,
-    issuer: 'iShares',
+    name: 'iShares MSCI USA Mid-Cap Equal Weight UCITS ETF',
+    price: 10.608,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BD1F4K20',
+    ter: 0.2,
+    aum: 285705147,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVD.DE',
-    name: 'iShares MSCI USA Quality Dividend ESG UCITS ETF',
-    price: 47.025,
-    issuer: 'iShares',
+    name: 'iShares MSCI USA Quality Dividend Advanced UCITS ETF',
+    price: 51.06,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
+    category: 'US',
+    isin: 'IE00BKM4H312',
+    ter: 0.35,
+    aum: 543660052,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVE.DE',
-    name: 'iShares V PLC - iShares S&P 500 Information Technology Sector UCITS ETF USD (Acc)',
-    price: 32.83,
-    issuer: 'iShares',
+    name: 'iShares S&P 500 Information Technology Sector UCITS ETF',
+    price: 34.625,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Technology',
+    isin: 'IE00B3WJKG14',
+    ter: 0.15,
+    aum: 12198021432,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVF.DE',
-    name: 'iShares V PLC - iShares S&P 500 Energy Sector UCITS ETF USD (Acc)',
-    price: 7.901,
+    name: 'iShares S&P 500 Energy Sector UCITS ETF',
+    price: 10.046,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'QDVG.DE',
-    name: 'iShares V PLC - iShares S&P 500 Health Care Sector UCITS ETF USD (Acc)',
-    price: 9.382,
-    issuer: 'iShares',
+    name: 'iShares S&P 500 Health Care Sector UCITS ETF',
+    price: 10.588,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Healthcare',
+    isin: 'IE00B43HR379',
+    ter: 0.15,
+    aum: 2307072422,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVH.DE',
-    name: 'iShares V PLC - iShares S&P 500 Financials Sector UCITS ETF USD (Acc)',
-    price: 13.416,
-    issuer: 'iShares',
+    name: 'iShares S&P 500 Financials Sector UCITS ETF',
+    price: 12.698,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Financials',
+    isin: 'IE00B4JNQZ49',
+    ter: 0.15,
+    aum: 1978739338,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVI.DE',
-    name: 'iShares Edge MSCI USA Value Factor UCITS ETF USD (Acc)',
-    price: 9.587,
+    name: 'iShares Edge MSCI USA Value Factor UCITS ETF',
+    price: 11.98,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'QDVK.DE',
-    name: 'iShares V PLC - iShares S&P 500 Consumer Discretionary Sector UCITS ETF USD (Acc)',
-    price: 13.774,
+    name: 'iShares S&P 500 Consumer Discretionary Sector UCITS ETF',
+    price: 13.838,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'QDVL.DE',
-    name: 'iShares € Corp Bond 0-3yr ESG UCITS ETF',
-    price: 5.0056,
+    name: 'iShares € Corp Bond 0-3Yr ESG SRI UCITS ETF',
+    price: 4.982,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'ESG'
   },
   {
     symbol: 'QDVN.DE',
-    name: 'iShares MSCI Japan SRI EUR Hedged UCITS ETF',
+    name: 'iShares MSCI Japan SRI EUR Hedged UCITS ETF Acc',
     price: 13,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'QDVN.F',
-    name: 'iShares MSCI Japan SRI EUR Hedged UCITS ETF',
-    price: 9.135,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'QDVP.DE',
-    name: 'iShares US Mortgage Backed Securities UCITS ETF USD (Dist)',
-    price: 3.5727,
-    issuer: 'iShares',
+    name: 'iShares US Mortgage Backed Securities UCITS ETF',
+    price: 3.6651,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.28
+    category: 'Securitized',
+    isin: 'IE00BZ6V7883',
+    ter: 0.28,
+    aum: 763337880,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVQ.DE',
     name: 'iShares Fallen Angels High Yield Corp Bond UCITS ETF',
-    price: 4.7173,
-    issuer: 'iShares',
+    price: 4.73,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Corporate',
+    isin: 'IE00BYM31M36',
+    ter: 0.5,
+    aum: 373655669,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVR.DE',
-    name: 'iShares MSCI USA SRI UCITS ETF USD (Acc)',
-    price: 14.604,
+    name: 'iShares MSCI USA SRI UCITS ETF',
+    price: 15.568,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'QDVS.DE',
     name: 'iShares MSCI EM SRI UCITS ETF',
-    price: 7.368,
-    issuer: 'iShares',
+    price: 8.616,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets',
+    isin: 'IE00BYVJRP78',
+    ter: 0.25,
+    aum: 3211509572,
+    domicile: 'IE'
   },
   {
     symbol: 'QDVW.DE',
-    name: 'iShares MSCI World Quality Dividend ESG UCITS ETF',
-    price: 6.554,
+    name: 'iShares MSCI World Quality Dividend Advanced UCITS ETF',
+    price: 7.327,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.38
   },
   {
     symbol: 'QDVX.DE',
-    name: 'iShares MSCI Europe Quality Dividend ESG UCITS ETF',
-    price: 6.199,
+    name: 'iShares MSCI Europe Quality Dividend Advanced UCITS ETF',
+    price: 6.627,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.28
-  },
-  {
-    symbol: 'QDVX.F',
-    name: 'iShares MSCI Europe Quality Dividend ESG UCITS ETF',
-    price: 5.426,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.28
   },
   {
     symbol: 'QDVY.DE',
     name: 'iShares $ Floating Rate Bond UCITS ETF',
-    price: 4.3655,
+    price: 4.3547,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Bonds'
   },
   {
     symbol: 'QUED.DE',
     name: 'BNP Paribas Easy ESG Equity Quality Europe',
-    price: 133.94,
+    price: 149.72,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1481201611',
+    ter: 0.3,
+    aum: 3998160.3,
+    domicile: 'LU'
   },
   {
     symbol: 'QUEU.DE',
     name: 'BNP Paribas Easy ESG Equity Quality Europe',
-    price: 172.8,
+    price: 192.92,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1377382103',
+    ter: 0.3,
+    aum: 75255748,
+    domicile: 'LU'
+  },
+  {
+    symbol: 'QUTM.DE',
+    name: 'VanEck Quantum Computing UCITS ETF',
+    price: 20.93,
+    issuer: 'VanEck',
+    assetClass: 'Equity',
+    category: 'Other',
+    isin: 'IE0007Y8Y157',
+    ter: 0.55,
+    aum: 448430872,
+    domicile: 'IE'
   },
   {
     symbol: 'QVMP.DE',
     name: 'Invesco S&P 500 QVM UCITS ETF',
-    price: 57.33,
+    price: 61.74,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.35
   },
   {
-    symbol: 'RA7Z.F',
-    name: 'Global X Solar UCITS ETF',
-    price: 13.48,
-    issuer: 'Global',
+    symbol: 'RARE.DE',
+    name: 'WisdomTree Strategic Metals and Rare Earths Miners UCITS ETF - USD Acc',
+    price: 53.73,
+    issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.5
+    category: 'Materials',
+    isin: 'IE000KHX9DX6',
+    ter: 0.5,
+    aum: 849135812,
+    domicile: 'IE'
   },
   {
     symbol: 'RCRS.DE',
     name: 'Rize UCITS ICAV - Rize Cybersecurity Data Privacy UCITS ETF',
-    price: 7.604,
+    price: 6.39,
     issuer: 'Rize',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Other'
   },
   {
     symbol: 'REAL.DE',
@@ -11652,37 +10638,35 @@ export const xetraETFs: ETF[] = [
     price: 293.25,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Real Estate',
+    isin: 'LU1681039480',
+    ter: undefined,
+    aum: 80561728,
+    domicile: 'LU'
   },
   {
     symbol: 'RENW.DE',
     name: 'L&G Clean Energy UCITS ETF',
-    price: 10.156,
+    price: 13.748,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Energy'
   },
   {
     symbol: 'RIZF.DE',
     name: 'Rize Sustainable Future of Food UCITS ETF',
-    price: 3.3635,
+    price: 3.3085,
     issuer: 'Rize',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'ESG'
   },
   {
     symbol: 'RM8U.DE',
-    name: 'The Royal Mint Physical Gold ETC Securities',
+    name: 'The Royal Mint Responsibly Sourced Physical Gold ETC',
     price: 15.544,
     issuer: 'The',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.27
+    category: 'Commodities'
   },
   {
     symbol: 'ROAI.DE',
@@ -11690,39 +10674,47 @@ export const xetraETFs: ETF[] = [
     price: 28.835,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'ESG'
   },
   {
     symbol: 'ROX.DE',
     name: 'Expat Romania BET - BK UCITS ETF',
-    price: 2.493,
-    issuer: 'Expat',
+    price: 3.293,
+    issuer: 'Expat Asset Management',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 1.83
+    category: 'Other',
+    isin: 'BGROBET05176',
+    ter: 1.83,
+    aum: 726002,
+    domicile: 'BG'
   },
   {
     symbol: 'RQFI.DE',
-    name: 'Xtrackers Harvest CSI300 UCITS ETF',
-    price: 10.416,
+    name: 'Xtrackers Harvest CSI300 UCITS ETF 1D',
+    price: 11.35,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'China',
+    isin: 'LU0875160326',
+    ter: 0.65,
+    aum: 266118299,
+    domicile: 'LU'
   },
   {
     symbol: 'RS2K.DE',
-    name: 'Amundi Index Solutions - Amundi Russell 2000',
-    price: 301.2,
+    name: 'Amundi Russell 2000 UCITS ETF - EUR (C)',
+    price: 331.25,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.35
+    category: 'Other'
+  },
+  {
+    symbol: 'RXP2EX.DE',
+    name: 'iShares ebrexx Government Germany 25-55yr UCITS ETF DE',
+    price: undefined,
+    issuer: 'iShares',
+    assetClass: 'Equity',
+    category: 'Germany'
   },
   {
     symbol: 'RXRGEX.DE',
@@ -11731,76 +10723,70 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.16
   },
   {
-    symbol: 'S0LR.F',
+    symbol: 'S0LR.DE',
     name: 'Invesco Solar Energy UCITS ETF',
-    price: 33.205,
+    price: 24.56,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Energy',
+    isin: 'IE00BM8QRZ79',
+    ter: 0.69,
+    aum: 133032199,
+    domicile: 'IE'
   },
   {
     symbol: 'S5SD.DE',
-    name: 'UBS (Irl) ETF plc - S&P 500 ESG UCITS ETF',
-    price: 37.155,
+    name: 'UBS S&P 500 Scored & Screened UCITS ETF USD dis',
+    price: 39.91,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.1
+    category: 'US',
+    isin: 'IE00BHXMHK04',
+    ter: 0.1,
+    aum: 3591734210,
+    domicile: 'IE'
   },
   {
     symbol: 'S5SG.DE',
-    name: 'UBS (Irl) ETF plc - S&P 500 ESG UCITS ETF Hedged to EUR A Acc',
-    price: 35.795,
+    name: 'UBS S&P 500 Scored & Screened UCITS ETF hEUR acc',
+    price: 38.235,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.13
   },
   {
     symbol: 'S6DW.DE',
-    name: 'iShares MSCI World ESG Screened UCITS ETF',
-    price: 8.904,
+    name: 'iShares MSCI World Screened UCITS ETF',
+    price: 9.509,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'S6X0.DE',
     name: 'Invesco EURO STOXX 50 UCITS ETF',
-    price: 51.85,
+    price: 56.63,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'Europe',
+    isin: 'IE00B5B5TG76',
+    ter: 0.05,
+    aum: 1156234272,
+    domicile: 'IE'
   },
   {
     symbol: 'S7XE.DE',
     name: 'Invesco EURO STOXX Optimised Banks UCITS ETF',
-    price: 167.32,
+    price: 190.66,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'S7XE.F',
-    name: 'Invesco EURO STOXX Optimised Banks UCITS ETF',
-    price: 72.91,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Financials',
+    isin: 'IE00B3Q19T94',
+    ter: 0.3,
+    aum: 155819531,
+    domicile: 'IE'
   },
   {
     symbol: 'SADE.DE',
@@ -11809,48 +10795,18 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.27
-  },
-  {
-    symbol: 'SADH.F',
-    name: 'Amundi Index Solutions - Amundi MSCI USA ESG Leaders Select',
-    price: 61.48,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.17
   },
   {
     symbol: 'SADM.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI Emerging ESG Leaders',
-    price: 58.7,
+    name: 'Amundi MSCI Emerging Markets ESG Selection UCITS ETF DR (C)',
+    price: 65.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'SADU.F',
-    name: 'Amundi Index Solutions - Amundi MSCI USA ESG Leaders Select Ucits ETF DR Cap',
-    price: 72.65,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'SBIE.F',
-    name: 'Amundi Index Solutions - Amundi MSCI Europe ESG Universal Select',
-    price: 74.71,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.15
+    category: 'Emerging Markets',
+    isin: 'LU2109787551',
+    ter: 0.18,
+    aum: 1430316564,
+    domicile: 'LU'
   },
   {
     symbol: 'SBIU.DE',
@@ -11858,29 +10814,11 @@ export const xetraETFs: ETF[] = [
     price: 84.18,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'SBIU.F',
-    name: 'Amundi Index Solutions - Amundi MSCI USA ESG Universal Select',
-    price: 71.55,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'SBIW.F',
-    name: 'Amundi Index Solutions - Amundi MSCI World ESG Universal Select',
-    price: 69.51,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
+    category: 'US',
+    isin: 'LU2109786660',
+    ter: 0.15,
+    aum: 1660,
+    domicile: 'LU'
   },
   {
     symbol: 'SBU3.DE',
@@ -11888,189 +10826,103 @@ export const xetraETFs: ETF[] = [
     price: 35.488,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.3
+    category: 'Other'
   },
   {
     symbol: 'SC00.DE',
     name: 'Invesco STOXX Europe 600 Optimised Chemicals UCITS ETF',
-    price: 575.3,
+    price: 544.6,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC00.F',
-    name: 'Invesco STOXX Europe 600 Optimised Chemicals UCITS ETF',
-    price: 567.4,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Materials',
+    isin: 'IE00B5MTY077',
+    ter: 0.2,
+    aum: 23768067,
+    domicile: 'IE'
   },
   {
     symbol: 'SC01.DE',
     name: 'Invesco STOXX Europe 600 Optimised Construction & Materials UCITS ETF',
-    price: 683.5,
+    price: 718,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC01.F',
-    name: 'Invesco STOXX Europe 600 Optimised Construction & Materials UCITS ETF',
-    price: 484.65,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC02.DE',
     name: 'Invesco STOXX Europe 600 Optimised Financial Services UCITS ETF',
-    price: 463.65,
+    price: 464.9,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC02.F',
-    name: 'Invesco STOXX Europe 600 Optimised Financial Services UCITS ETF',
-    price: 305.45,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC03.DE',
     name: 'Invesco STOXX Europe 600 Optimised Food & Beverage UCITS ETF',
-    price: 390.15,
+    price: 389.2,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC03.F',
-    name: 'Invesco STOXX Europe 600 Optimised Food & Beverage UCITS ETF',
-    price: 446.7,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Consumer Defensive',
+    isin: 'IE00B5MTYL84',
+    ter: 0.2,
+    aum: 16748112,
+    domicile: 'IE'
   },
   {
     symbol: 'SC04.DE',
     name: 'Invesco STOXX Europe 600 Optimised Personal & Household Goods UCITS ETF',
-    price: 706.1,
+    price: 708.3,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC04.F',
-    name: 'Invesco STOXX Europe 600 Optimised Personal & Household Goods UCITS ETF',
-    price: 687.1,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC05.DE',
     name: 'Invesco STOXX Europe 600 Optimised Retail UCITS ETF',
-    price: 223.6,
+    price: 237.4,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC05.F',
-    name: 'Invesco STOXX Europe 600 Optimised Retail UCITS ETF',
-    price: 196.96,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC06.DE',
     name: 'Invesco STOXX Europe 600 Optimised Media UCITS ETF',
-    price: 170.4,
+    price: 148.86,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC06.F',
-    name: 'Invesco STOXX Europe 600 Optimised Media UCITS ETF',
-    price: 144.4,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0C.DE',
     name: 'Invesco STOXX Europe 600 UCITS ETF',
-    price: 136.56,
+    price: 151.98,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'SC0C.F',
-    name: 'Invesco STOXX Europe 600 UCITS ETF',
-    price: 107.88,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'SC0D.DE',
     name: 'Invesco EURO STOXX 50 UCITS ETF',
-    price: 135.86,
+    price: 149.4,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'Europe',
+    isin: 'IE00B60SWX25',
+    ter: 0.05,
+    aum: 1156234272,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0E.DE',
     name: 'Invesco MSCI Europe UCITS ETF',
-    price: 369.65,
+    price: 412.05,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.19
+    category: 'Europe',
+    isin: 'IE00B60SWY32',
+    ter: 0.19,
+    aum: 49117727,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0F.DE',
@@ -12078,7 +10930,11 @@ export const xetraETFs: ETF[] = [
     price: 63.43,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'IE00B60SWZ49',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0G.DE',
@@ -12086,487 +10942,335 @@ export const xetraETFs: ETF[] = [
     price: 102.58,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'IE00B60SX063',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0H.DE',
     name: 'Invesco MSCI USA UCITS ETF',
-    price: 161.53,
+    price: 171.365,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.05
+    category: 'US',
+    isin: 'IE00B60SX170',
+    ter: 0.05,
+    aum: 4589650316,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0I.DE',
     name: 'Invesco MSCI Japan UCITS ETF',
-    price: 80.284,
+    price: 93.856,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'SC0I.F',
-    name: 'Invesco MSCI Japan UCITS ETF',
-    price: 64.598,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'SC0J.DE',
     name: 'Invesco MSCI World UCITS ETF',
-    price: 112.355,
+    price: 121.31,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'SC0J.F',
-    name: 'Invesco MSCI World UCITS ETF',
-    price: 82.656,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.19
   },
   {
     symbol: 'SC0K.DE',
     name: 'Invesco Russell 2000 UCITS ETF',
-    price: 102.48,
+    price: 112.94,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Other',
+    isin: 'IE00B60SX402',
+    ter: 0.45,
+    aum: 189723724,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0P.DE',
     name: 'Invesco STOXX Europe 600 Optimised Automobiles & Parts UCITS ETF',
-    price: 462.25,
+    price: 414.8,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0P.F',
-    name: 'Invesco STOXX Europe 600 Optimised Automobiles & Parts UCITS ETF',
-    price: 518.8,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0Q.DE',
     name: 'Invesco STOXX Europe 600 Optimised Telecommunications UCITS ETF',
-    price: 119.6,
+    price: 143.52,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0Q.F',
-    name: 'Invesco STOXX Europe 600 Optimised Telecommunications UCITS ETF',
-    price: 87,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Communication',
+    isin: 'IE00B5MJYB88',
+    ter: 0.2,
+    aum: 9658888.42,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0R.DE',
     name: 'Invesco STOXX Europe 600 Optimised Travel & Leisure UCITS ETF',
-    price: 267.55,
+    price: 256,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0R.F',
-    name: 'Invesco STOXX Europe 600 Optimised Travel & Leisure UCITS ETF',
-    price: 229.1,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0S.DE',
     name: 'Invesco STOXX Europe 600 Optimised Industrial Goods & Services UCITS ETF',
-    price: 495.55,
+    price: 546.4,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0S.F',
-    name: 'Invesco STOXX Europe 600 Optimised Industrial Goods & Services UCITS ETF',
-    price: 337.1,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0T.DE',
     name: 'Invesco STOXX Europe 600 Optimised Health Care UCITS ETF',
-    price: 391.55,
+    price: 414.65,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0T.F',
-    name: 'Invesco STOXX Europe 600 Optimised Health Care UCITS ETF',
-    price: 362.35,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0U.DE',
     name: 'Invesco STOXX Europe 600 Optimised Banks UCITS ETF',
-    price: 169.54,
+    price: 199.46,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0U.F',
-    name: 'Invesco STOXX Europe 600 Optimised Banks UCITS ETF',
-    price: 77.19,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0V.DE',
     name: 'Invesco STOXX Europe 600 Optimised Oil & Gas UCITS ETF',
-    price: 289.2,
+    price: 392.9,
     issuer: 'Invesco',
     assetClass: 'Commodity',
     category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0V.F',
-    name: 'Invesco STOXX Europe 600 Optimised Oil & Gas UCITS ETF',
-    price: 234.85,
-    issuer: 'Invesco',
-    assetClass: 'Commodity',
-    category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SC0W.DE',
     name: 'Invesco STOXX Europe 600 Optimised Basic Resources UCITS ETF',
-    price: 528.8,
+    price: 811.5,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Materials',
+    isin: 'IE00B5MTWY73',
+    ter: 0.2,
+    aum: 35313951,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0X.DE',
     name: 'Invesco STOXX Europe 600 Optimised Technology UCITS ETF',
-    price: 131.82,
+    price: 136.62,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0X.F',
-    name: 'Invesco STOXX Europe 600 Optimised Technology UCITS ETF',
-    price: 117.6,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Technology',
+    isin: 'IE00B5MTWZ80',
+    ter: 0.2,
+    aum: 6176898,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0Y.DE',
     name: 'Invesco STOXX Europe 600 Optimised Insurance UCITS ETF',
-    price: 218.6,
+    price: 223.75,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'SC0Y.F',
-    name: 'Invesco STOXX Europe 600 Optimised Insurance UCITS ETF',
-    price: 138.06,
-    issuer: 'Invesco',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Financials',
+    isin: 'IE00B5MTXJ97',
+    ter: 0.2,
+    aum: 47329970,
+    domicile: 'IE'
   },
   {
     symbol: 'SC0Z.DE',
     name: 'Invesco STOXX Europe 600 Optimised Utilities UCITS ETF',
-    price: 306.75,
+    price: 408.7,
     issuer: 'Invesco',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SDIE.DE',
-    name: 'Leverage Shares PLC E',
-    price: 4.8152,
-    issuer: 'Leverage',
+    name: 'Leverage Shares - -1x Disney',
+    price: 5.427,
+    issuer: 'LeverageShares',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.75
+    category: 'Other',
+    isin: 'XS2337085422',
+    ter: 0.75,
+    aum: 204307,
+    domicile: 'IE'
   },
   {
     symbol: 'SEAA.DE',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF',
-    price: 9.3388,
+    name: 'UBS J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF USD dis',
+    price: 9.4786,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'SEAA.F',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF',
-    price: 9.5332,
-    issuer: 'UBS',
-    assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.35000000000000003
   },
   {
     symbol: 'SEAB.DE',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF',
-    price: 12.4035,
+    name: 'UBS J.P. Morgan USD EM Diversified Bond 1-5 UCITS ETF hEUR acc',
+    price: 12.809,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.38
+    category: 'Corporate',
+    isin: 'LU1645386480',
+    ter: 0.38,
+    aum: 421396507,
+    domicile: 'LU'
   },
   {
     symbol: 'SEAC.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI World Socially Responsible UCITS ETF',
-    price: 30.49,
+    name: 'UBS MSCI World Socially Responsible UCITS ETF USD acc',
+    price: 32.125,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.22
-  },
-  {
-    symbol: 'SEC0.F',
-    name: 'iShares MSCI Global Semiconductors UCITS ETF',
-    price: 5.051,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.35000000000000003
+    category: 'Global',
+    isin: 'LU0950674332',
+    ter: 0.22,
+    aum: 5323122147,
+    domicile: 'LU'
   },
   {
     symbol: 'SECA.DE',
     name: 'iShares € Govt Bond Climate UCITS ETF',
-    price: 4.331,
-    issuer: 'iShares',
+    price: 4.4115,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Cash & Others',
+    isin: 'IE00BLDGH553',
+    ter: 0.09,
+    aum: 2234953113,
+    domicile: 'IE'
   },
   {
     symbol: 'SECD.DE',
-    name: 'iShares € Govt Bond Climate UCITS ETF EUR (Dist)',
-    price: 4.0697,
+    name: 'iShares € Govt Bond Climate UCITS ETF',
+    price: 4.0944,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
-  },
-  {
-    symbol: 'SECD.F',
-    name: 'IShares III Public Limited Company - IShares Global Government Bond Climate UCITS ETF',
-    price: 4.1582,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.09
+    category: 'ESG'
   },
   {
     symbol: 'SELD.DE',
-    name: 'Lyxor Index Fund - Lyxor STOXX Europe Select Dividend 30 UCITS ETF',
-    price: 19.476,
-    issuer: 'Lyxor',
+    name: 'Amundi Stoxx Europe Select Dividend 30 - UCITS ETF Dist',
+    price: 21.2,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1812092168',
+    ter: 0.3,
+    aum: 391559454,
+    domicile: 'LU'
   },
   {
     symbol: 'SGAJ.DE',
-    name: 'iShares MSCI Japan ESG Screened UCITS ETF',
-    price: 6.609,
+    name: 'iShares MSCI Japan Screened UCITS ETF',
+    price: 7.662,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'SGAS.DE',
-    name: 'iShares MSCI USA ESG Screened UCITS ETF',
-    price: 11.418,
+    name: 'iShares MSCI USA Screened UCITS ETF',
+    price: 12.048,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'SJD.DE',
-    name: 'Leverage Shares PLC E',
-    price: 2.457,
-    issuer: 'Leverage',
+    name: 'Leverage Shares - -1x JD.Com',
+    price: 2.6397,
+    issuer: 'LeverageShares',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.75
+    category: 'Other',
+    isin: 'XS2337087980',
+    ter: 0.75,
+    aum: 392592,
+    domicile: 'IE'
   },
   {
     symbol: 'SK9A.DE',
     name: 'Expat Slovakia Sax UCITS ETF',
-    price: 0.4799,
-    issuer: 'Expat',
+    price: 0.4596,
+    issuer: 'Expat Asset Management',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 5.63
+    category: 'Other',
+    isin: 'BGSKSAX04187',
+    ter: 5.63,
+    aum: 48328.67,
+    domicile: 'BG'
   },
   {
     symbol: 'SLMA.DE',
-    name: 'iShares MSCI EMU ESG Screened UCITS ETF EUR (Acc)',
-    price: 9.274,
+    name: 'iShares MSCI EMU Screened UCITS ETF',
+    price: 10.168,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets'
   },
   {
     symbol: 'SLMB.DE',
-    name: 'iShares MSCI EMU ESG Screened UCITS ETF',
-    price: 7.768,
+    name: 'iShares MSCI EMU Screened UCITS ETF',
+    price: 8.459,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets'
   },
   {
     symbol: 'SLMC.DE',
-    name: 'iShares MSCI Europe ESG Screened UCITS ETF EUR (Acc)',
-    price: 9.149,
+    name: 'iShares MSCI Europe Screened UCITS ETF',
+    price: 10.128,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'SLMD.DE',
-    name: 'iShares MSCI Europe ESG Screened UCITS ETF',
-    price: 7.647,
+    name: 'iShares MSCI Europe Screened UCITS ETF',
+    price: 8.402,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'SLMG.DE',
-    name: 'iShares J.P. Morgan ESG $ EM Bond UCITS ETF',
-    price: 4.7414,
+    name: 'iShares JP Morgan Advanced $ EM Bond UCITS ETF',
+    price: 4.9616,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.5
   },
   {
     symbol: 'SLQX.DE',
     name: 'Expat Slovenia SBI Top UCITS ETF',
-    price: 2.709,
-    issuer: 'Expat',
+    price: 2.973,
+    issuer: 'Expat Asset Management',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 2.14
+    category: 'Other',
+    isin: 'BGSLOBI02187',
+    ter: 2.14,
+    aum: 4454652,
+    domicile: 'BG'
   },
   {
     symbol: 'SLUS.DE',
-    name: 'iShares MSCI USA ESG Screened UCITS ETF',
-    price: 10.574,
-    issuer: 'iShares',
+    name: 'iShares MSCI USA Screened UCITS ETF',
+    price: 11.092,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'SLVR.F',
-    name: 'Global X Silver Miners UCITS ETF',
-    price: 10.802,
-    issuer: 'Global',
-    assetClass: 'Commodity',
-    category: 'Global'
-  ,
-    ter: 0.65
+    category: 'US',
+    isin: 'IE00BFNM3H51',
+    ter: 0.07,
+    aum: 1242244994,
+    domicile: 'IE'
   },
   {
     symbol: 'SM8T.DE',
@@ -12575,38 +11279,38 @@ export const xetraETFs: ETF[] = [
     issuer: 'Amundi',
     assetClass: 'Mixed',
     category: 'Global'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'SMLD.DE',
     name: 'Invesco Morningstar US Energy Infrastructure MLP UCITS ETF',
-    price: 44.275,
+    price: 48.495,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'US'
   },
   {
     symbol: 'SMLN.DE',
     name: 'Invesco JPX-Nikkei 400 UCITS ETF',
-    price: 196.22,
+    price: 228.8,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.19
+    category: 'Japan',
+    isin: 'IE00BPRCH686',
+    ter: 0.19,
+    aum: 167392643,
+    domicile: 'IE'
   },
   {
     symbol: 'SMLP.DE',
     name: 'Invesco Morningstar US Energy Infrastructure MLP UCITS ETF',
-    price: 118.28,
+    price: 134.9,
     issuer: 'Invesco',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Energy',
+    isin: 'IE00B94ZB998',
+    ter: 0.5,
+    aum: 338295652,
+    domicile: 'IE'
   },
   {
     symbol: 'SMLU.DE',
@@ -12622,7 +11326,11 @@ export const xetraETFs: ETF[] = [
     price: 164.86,
     issuer: 'Invesco',
     assetClass: 'Commodity',
-    category: 'Global'
+    category: 'Global',
+    isin: 'IE00BFG1RG61',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'IE'
   },
   {
     symbol: 'SMRE.DE',
@@ -12630,7 +11338,11 @@ export const xetraETFs: ETF[] = [
     price: 48.905,
     issuer: 'Amundi',
     assetClass: 'Mixed',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'LU1681039563',
+    ter: undefined,
+    aum: 5068726,
+    domicile: 'LU'
   },
   {
     symbol: 'SMRN.DE',
@@ -12638,567 +11350,527 @@ export const xetraETFs: ETF[] = [
     price: 20.175,
     issuer: 'Amundi',
     assetClass: 'Mixed',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'FR0013284304',
+    ter: undefined,
+    aum: 9061230,
+    domicile: 'FR'
   },
   {
     symbol: 'SNA2.DE',
     name: 'iShares $ Treasury Bond UCITS ETF',
-    price: 3.7263,
+    price: 3.762,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'SNAV.DE',
-    name: 'iShares $ Corp Bond SRI 0-3yr UCITS ETF USD (Dist)',
-    price: 4.3402,
+    name: 'iShares $ Corp Bond 0-3Yr ESG SRI UCITS ETF',
+    price: 4.3367,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'ESG'
   },
   {
     symbol: 'SNAW.DE',
-    name: 'iShares MSCI World ESG Screened UCITS ETF USD (Acc)',
-    price: 9.837,
-    issuer: 'iShares',
+    name: 'iShares MSCI World Screened UCITS ETF',
+    price: 10.556,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Global',
+    isin: 'IE00BFNM3J75',
+    ter: 0.2,
+    aum: 4641125953,
+    domicile: 'IE'
   },
   {
     symbol: 'SNAZ.DE',
-    name: 'iShares V PLC - iShares J.P. Morgan $ EM Corp Bond UCITS ETF',
-    price: 5.021,
+    name: 'iShares J.P. Morgan $ EM Corp Bond UCITS ETF',
+    price: 5.113,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.53
   },
   {
     symbol: 'SODJ.DE',
-    name: 'iShares MSCI Japan ESG Screened UCITS ETF',
-    price: 5.859,
-    issuer: 'iShares',
+    name: 'iShares MSCI Japan Screened UCITS ETF',
+    price: 6.738,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'IE00BFNM3M05',
+    ter: 0.15,
+    aum: 376488746,
+    domicile: 'IE'
   },
   {
     symbol: 'SPF1.DE',
-    name: 'SPDR Refinitiv Global Convertible Bond UCITS ETF',
-    price: 43.772,
+    name: 'State Street SPDR FTSE Global Convertible Bond EUR Hdg UCITS ETF (Acc)',
+    price: 49.9,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.55
   },
   {
     symbol: 'SPF2.DE',
-    name: 'SPDR Refinitiv Global Convertible Bond UCITS ETF',
-    price: 36.846,
+    name: 'State Street SPDR FTSE Global Convertible Bond USD Hdg UCITS ETF (Dist)',
+    price: 42.295,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.55
-  },
-  {
-    symbol: 'SPF5.F',
-    name: 'SPDR MSCI Europe Climate Paris Aligned UCITS ETF',
-    price: 10.926,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'SPF6.F',
-    name: 'SPDR MSCI Japan Climate Paris Aligned UCITS ETF',
-    price: 7.605,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'SPFA.DE',
-    name: 'SPDR Bloomberg Emerging Markets Local Bond USD Base CCY Hdg to EUR UCITS ETF Acc',
-    price: 29.298,
+    name: 'State Street SPDR Bloomberg Emerging Markets Local Bond UCITS ETF (Acc)',
+    price: 30.336,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.55
+    category: 'Government',
+    isin: 'IE00BFWFPY67',
+    ter: 0.55,
+    aum: 1658728319,
+    domicile: 'IE'
   },
   {
     symbol: 'SPFB.DE',
-    name: 'SPDR Bloomberg Barclays Global Aggregate Bond UCITS ETF GBP Hedged',
-    price: 28.343,
+    name: 'State Street SPDR Bloomberg Global Aggregate Bond GBP Hdg UCITS ETF (Dist)',
+    price: 28.636,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'SPFD.DE',
-    name: 'SPDR Bloomberg Emerging Markets Local Bond USD Base CCY Hdg to EUR UCITS ETF Acc',
-    price: 27.614,
+    name: 'State Street SPDR Bloomberg Emerging Markets Local Bond USD Base CCY Hdg to EUR UCITS ETF (Acc)',
+    price: 28.286,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.6
+    category: 'Cash & Others',
+    isin: 'IE00BK8JH525',
+    ter: 0.6,
+    aum: 1658728319,
+    domicile: 'IE'
   },
   {
     symbol: 'SPFE.DE',
-    name: 'SPDR Bloomberg Barclays Global Aggregate Bond UCITS ETF EUR Hedged',
-    price: 26.052,
+    name: 'State Street SPDR Bloomberg Global Aggregate Bond EUR Hdg UCITS ETF (Dist)',
+    price: 25.989,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BF1QPL78',
+    ter: 0.1,
+    aum: 4384876198,
+    domicile: 'IE'
   },
   {
     symbol: 'SPFU.DE',
-    name: 'SPDR Bloomberg Global Aggregate Bond USD Hdg UCITS ETF Acc',
-    price: 30.247,
+    name: 'State Street SPDR Bloomberg Global Aggregate Bond USD Hdg UCITS ETF (Dist)',
+    price: 30.559,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BF1QPH33',
+    ter: 0.1,
+    aum: 5092180000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPFV.DE',
-    name: 'SPDR Bloomberg Global Aggregate Bond USD Hdg UCITS ETF Acc',
-    price: 31.061,
+    name: 'State Street SPDR Bloomberg Global Aggregate Bond USD Hdg UCITS ETF (Acc)',
+    price: 31.883,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'SPFW.F',
-    name: 'SPDR MSCI World Climate Paris Aligned UCITS ETF',
-    price: 9.331,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'SPP1.DE',
-    name: 'SPDR MSCI ACWI UCITS ETF',
-    price: 22.265,
+    name: 'State Street SPDR MSCI All Country World EUR Hdg UCITS ETF (Acc)',
+    price: 24.23,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Global',
+    isin: 'IE00BF1B7389',
+    ter: 0.17,
+    aum: 9415594618,
+    domicile: 'IE'
   },
   {
     symbol: 'SPP3.DE',
-    name: 'SPDR Bloomberg 3-7 Year U.S. Treasury Bond UCITS ETF',
-    price: 24.166,
+    name: 'State Street SPDR Bloomberg 3-7 Year U.S. Treasury Bond UCITS ETF (Dist)',
+    price: 24.248,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00BYSZ5R67',
+    ter: 0.05,
+    aum: 94858776,
+    domicile: 'IE'
   },
   {
     symbol: 'SPP7.DE',
-    name: 'SPDR Bloomberg 7-10 Year U.S. Treasury Bond UCITS ETF',
-    price: 22.187,
+    name: 'State Street SPDR Bloomberg 7-10 Year U.S. Treasury Bond UCITS ETF (Dist)',
+    price: 22.452,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'SPP8.F',
-    name: 'SSGA SPDR ETFs Europe I Plc - SPDR Bloomberg Barclays China Treasury Bond UCITS ETF',
-    price: 25.825,
-    issuer: 'SPDR',
-    assetClass: 'Fixed Income',
-    category: 'Europe'
-  ,
-    ter: 0.19
+    category: 'Government',
+    isin: 'IE00BYSZ5T81',
+    ter: 0.05,
+    aum: 14354537,
+    domicile: 'IE'
   },
   {
     symbol: 'SPPD.DE',
-    name: 'SPDR S&P US Dividend Aristocrats UCITS ETF',
-    price: 8.504,
+    name: 'State Street SPDR S&P U.S. Dividend Aristocrats EUR Hdg UCITS ETF (Dist)',
+    price: 9.065,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'SPPE.DE',
-    name: 'SPDR S&P 500 UCITS ETF',
-    price: 15.7955,
+    name: 'State Street SPDR S&P 500 EUR Hdg UCITS ETF (Acc)',
+    price: 16.643,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.05
-  },
-  {
-    symbol: 'SPPQ.F',
-    name: 'SPDR Bloomberg SASB U.S. High Yield Corporate ESG UCITS ETF',
-    price: 28.651,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35000000000000003
-  },
-  {
-    symbol: 'SPPR.F',
-    name: 'SPDR Bloomberg SASB Euro Corporate ESG UCITS ETF',
-    price: 26.443,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'SPPW.DE',
-    name: 'SPDR MSCI World UCITS ETF',
-    price: 38.222,
+    name: 'State Street SPDR MSCI World UCITS ETF',
+    price: 41.333,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.12
+    category: 'Global',
+    isin: 'IE00BFY0GT14',
+    ter: 0.12,
+    aum: 15572123789,
+    domicile: 'IE'
   },
   {
     symbol: 'SPPX.DE',
-    name: 'SPDR Bloomberg 10+ Year U.S. Treasury Bond UCITS ETF',
-    price: 17.747,
+    name: 'State Street SPDR Bloomberg 10+ Year U.S. Treasury Bond UCITS ETF (Dist)',
+    price: 18.395,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'SPPY.DE',
-    name: 'SPDR S&P 500 ESG Leaders UCITS ETF',
-    price: 39.48,
+    name: 'State Street SPDR S&P 500 Leaders UCITS ETF (Acc)',
+    price: 42.575,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.03
+    category: 'US',
+    isin: 'IE00BH4GPZ28',
+    ter: 0.03,
+    aum: 4091835257,
+    domicile: 'IE'
   },
   {
     symbol: 'SPY1.DE',
-    name: 'SPDR S&P 500 Low Volatility UCITS ETF',
-    price: 70.55,
+    name: 'State Street SPDR S&P 500 Low Volatility UCITS ETF (Acc)',
+    price: 73.87,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
+    category: 'US',
+    isin: 'IE00B802KR88',
+    ter: 0.35,
+    aum: 112855766,
+    domicile: 'IE'
   },
   {
     symbol: 'SPY2.DE',
-    name: 'SPDR Dow Jones Global Real Estate UCITS ETF',
-    price: 17.438,
+    name: 'State Street SPDR Dow Jones Global Real Estate UCITS ETF (Acc)',
+    price: 19.2,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.4
+    category: 'Real Estate',
+    isin: 'IE00BH4GR342',
+    ter: 0.4,
+    aum: 349227716,
+    domicile: 'IE'
   },
   {
     symbol: 'SPY4.DE',
-    name: 'SPDR S&P 400 US Mid Cap UCITS ETF',
-    price: 85.69,
+    name: 'State Street SPDR S&P 400 U.S. Mid Cap UCITS ETF (Acc)',
+    price: 92.2,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'SPY5.DE',
-    name: 'SPDR S&P 500 UCITS ETF',
-    price: 553.24,
+    name: 'State Street SPDR S&P 500 UCITS ETF (Dist)',
+    price: 586.24,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.03
   },
   {
     symbol: 'SPYA.DE',
-    name: 'SPDR MSCI EM Asia UCITS ETF',
-    price: 79.84,
+    name: 'State Street SPDR MSCI EM Asia UCITS ETF',
+    price: 95.65,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.55
+    category: 'Emerging Markets',
+    isin: 'IE00B466KX20',
+    ter: 0.55,
+    aum: 1187181348,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYC.DE',
-    name: 'SPDR MSCI Europe Consumer Staples UCITS ETF',
-    price: 225.75,
+    name: 'State Street SPDR MSCI Europe Consumer Staples UCITS ETF',
+    price: 234.6,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'SPYD.DE',
-    name: 'SPDR S&P US Dividend Aristocrats UCITS ETF',
-    price: 66.41,
+    name: 'State Street SPDR S&P U.S. Dividend Aristocrats UCITS ETF (Dist)',
+    price: 71.63,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.35
   },
   {
     symbol: 'SPYE.DE',
-    name: 'SPDR MSCI Europe UCITS ETF',
-    price: 338.9,
+    name: 'State Street SPDR MSCI Europe UCITS ETF',
+    price: 377.7,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'SPYF.DE',
-    name: 'SPDR FTSE UK All Share UCITS ETF Acc',
-    price: 89.04,
+    name: 'State Street SPDR FTSE UK All Share UCITS ETF (Acc)',
+    price: 102.34,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'UK',
+    isin: 'IE00B7452L46',
+    ter: 0.2,
+    aum: 737523564,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYG.DE',
-    name: 'SPDR S&P UK Dividend Aristocrats UCITS ETF',
-    price: 13.402,
+    name: 'State Street SPDR S&P UK Dividend Aristocrats UCITS ETF (Dist)',
+    price: 14.212,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'SPYH.DE',
-    name: 'SPDR MSCI Europe Health Care UCITS ETF',
-    price: 207.3,
+    name: 'State Street SPDR MSCI Europe Health Care UCITS ETF',
+    price: 228.45,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Healthcare',
+    isin: 'IE00BKWQ0H23',
+    ter: 0.18,
+    aum: 596620000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYI.DE',
-    name: 'SPDR MSCI ACWI IMI UCITS ETF',
-    price: 232.45,
+    name: 'State Street SPDR MSCI All Country World Investable Market UCITS ETF (Acc)',
+    price: 10.218,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Global',
+    isin: 'IE00B3YLTY66',
+    ter: 0.17,
+    aum: 4480354966,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYJ.DE',
-    name: 'SPDR Dow Jones Global Real Estate UCITS ETF',
-    price: 29.575,
+    name: 'State Street SPDR Dow Jones Global Real Estate UCITS ETF (Dist)',
+    price: 32.1,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.4
+    category: 'Real Estate',
+    isin: 'IE00B8GF1M35',
+    ter: 0.4,
+    aum: 349227716,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYK.DE',
-    name: 'SPDR MSCI Europe Technology UCITS ETF',
-    price: 124.94,
+    name: 'State Street SPDR MSCI Europe Technology UCITS ETF',
+    price: 161.6,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'SPYM.DE',
-    name: 'SPDR MSCI Emerging Markets UCITS ETF',
-    price: 65.604,
+    name: 'State Street SPDR MSCI Emerging Markets UCITS ETF',
+    price: 79.198,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'SPYN.DE',
-    name: 'SPDR MSCI Europe Energy UCITS ETF',
-    price: 205.3,
+    name: 'State Street SPDR MSCI Europe Energy UCITS ETF',
+    price: 261.9,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Energy',
+    isin: 'IE00BKWQ0F09',
+    ter: 0.18,
+    aum: 810690000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYP.DE',
-    name: 'SPDR MSCI Europe Materials UCITS ETF',
-    price: 300.35,
+    name: 'State Street SPDR MSCI Europe Materials UCITS ETF',
+    price: 342.3,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Materials',
+    isin: 'IE00BKWQ0L68',
+    ter: 0.18,
+    aum: 76750000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYQ.DE',
-    name: 'SPDR MSCI Europe Industrials UCITS ETF',
-    price: 379.05,
+    name: 'State Street SPDR MSCI Europe Industrials UCITS ETF',
+    price: 427.75,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Industrials',
+    isin: 'IE00BKWQ0J47',
+    ter: 0.18,
+    aum: 1362000000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYR.DE',
-    name: 'SPDR MSCI Europe Consumer Discretionary UCITS ETF',
-    price: 162.58,
+    name: 'State Street SPDR MSCI Europe Consumer Discretionary UCITS ETF',
+    price: 154.92,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'SPYT.DE',
-    name: 'SPDR MSCI Europe Communication Services UCITS ETF',
-    price: 78.69,
+    name: 'State Street SPDR MSCI Europe Communication Services UCITS ETF',
+    price: 78.31,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Communication',
+    isin: 'IE00BKWQ0N82',
+    ter: 0.18,
+    aum: 56540000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYU.DE',
-    name: 'SPDR MSCI Europe Utilities UCITS ETF',
-    price: 193.2,
+    name: 'State Street SPDR MSCI Europe Utilities UCITS ETF',
+    price: 254.85,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Utilities',
+    isin: 'IE00BKWQ0P07',
+    ter: 0.18,
+    aum: 776710000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYV.DE',
-    name: 'SPDR S&P Emerging Markets Dividend Aristocrats UCITS ETF',
-    price: 13.99,
+    name: 'State Street SPDR S&P Emerging Markets Dividend Aristocrats UCITS ETF (Dist)',
+    price: 14.476,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.55
+    category: 'US',
+    isin: 'IE00B6YX5B26',
+    ter: 0.55,
+    aum: 198087444,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYW.DE',
-    name: 'SPDR S&P Euro Dividend Aristocrats UCITS ETF',
-    price: 26.98,
+    name: 'State Street SPDR S&P Euro Dividend Aristocrats UCITS ETF (Dist)',
+    price: 28.12,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00B5M1WJ87',
+    ter: 0.3,
+    aum: 1486970000,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYX.DE',
-    name: 'SPDR MSCI Emerging Markets Small Cap UCITS ETF',
-    price: 114.8,
+    name: 'State Street SPDR MSCI Emerging Markets Small Cap UCITS ETF',
+    price: 125.48,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.55
+    category: 'Emerging Markets',
+    isin: 'IE00B48X4842',
+    ter: 0.55,
+    aum: 408884724,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYY.DE',
-    name: 'SPDR MSCI ACWI UCITS ETF',
-    price: 230.3,
+    name: 'State Street SPDR MSCI All Country World UCITS ETF (Acc)',
+    price: 252.35,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Global',
+    isin: 'IE00B44Z5B48',
+    ter: 0.12,
+    aum: 9415594618,
+    domicile: 'IE'
   },
   {
     symbol: 'SPYZ.DE',
-    name: 'SPDR MSCI Europe Financials UCITS ETF',
-    price: 119.74,
+    name: 'State Street SPDR MSCI Europe Financials UCITS ETF',
+    price: 132.08,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Financials',
+    isin: 'IE00BKWQ0G16',
+    ter: 0.18,
+    aum: 714080000,
+    domicile: 'IE'
   },
   {
     symbol: 'SRHE.DE',
-    name: 'Amundi Index Solutions - Amundi Index MSCI EMU SRI PAB',
-    price: 90.27,
+    name: 'Amundi MSCI EMU SRI Climate Paris Aligned UCITS ETF DR (C)',
+    price: 98.58,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'LU2109787635',
+    ter: 0.18,
+    aum: 103493446,
+    domicile: 'LU'
   },
   {
     symbol: 'STXH.DE',
-    name: 'Amundi Stoxx Europe 600 UCITS ETF Monthly Hedged to EUR D',
-    price: 142.42,
+    name: 'Amundi Core Stoxx Europe 600 UCITS ETF EUR Hedged Dist',
+    price: 153.56,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'SUA0.DE',
-    name: 'iShares € Corp Bond ESG UCITS ETF EUR (Acc)',
-    price: 5.3242,
+    name: 'iShares € Corp Bond ESG SRI UCITS ETF',
+    price: 5.3946,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.14
+    category: 'ESG'
   },
   {
     symbol: 'SX3PEX.DE',
@@ -13207,8 +11879,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SX4PEX.DE',
@@ -13217,8 +11887,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SX6PEX.DE',
@@ -13227,28 +11895,30 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.47
   },
   {
     symbol: 'SX7EEX.DE',
     name: 'iShares EURO STOXX Banks 30-15 UCITS ETF (DE)',
     price: 14.14,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.52
+    category: 'Financials',
+    isin: 'DE0006289309',
+    ter: 0.51,
+    aum: 2342364695,
+    domicile: 'DE'
   },
   {
     symbol: 'SX7PEX.DE',
-    name: 'iShares STOXX Europe 600 Banks UCITS ETF (DE)',
+    name: 'iShares STOXX Europe 600 Banks UCITS ETF DE',
     price: undefined,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.47
+    category: 'Financials',
+    isin: 'DE000A0F5UJ7',
+    ter: 0.47,
+    aum: 2792013778,
+    domicile: 'DE'
   },
   {
     symbol: 'SX8PEX.DE',
@@ -13257,8 +11927,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXAPEX.DE',
@@ -13267,28 +11935,30 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXDPEX.DE',
     name: 'iShares STOXX Europe 600 Health Care UCITS ETF (DE)',
     price: 113.78,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Healthcare',
+    isin: 'DE000A0Q4R36',
+    ter: 0.46,
+    aum: 712062447,
+    domicile: 'DE'
   },
   {
     symbol: 'SXEPEX.DE',
     name: 'iShares STOXX Europe 600 Oil & Gas UCITS ETF (DE)',
     price: 38.6,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Commodity',
-    category: 'Europe'
-  ,
-    ter: 0.47
+    category: 'Energy',
+    isin: 'DE000A0H08M3',
+    ter: 0.47,
+    aum: 727104931,
+    domicile: 'DE'
   },
   {
     symbol: 'SXFPEX.DE',
@@ -13297,8 +11967,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXIPEX.DE',
@@ -13307,18 +11975,18 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXKPEX.DE',
     name: 'iShares STOXX Europe 600 Telecommunications UCITS ETF (DE)',
     price: 18.86,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.47
+    category: 'Communication',
+    isin: 'DE000A0H08R2',
+    ter: 0.46,
+    aum: 182660043,
+    domicile: 'DE'
   },
   {
     symbol: 'SXMPEX.DE',
@@ -13327,8 +11995,6 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXNPEX.DE',
@@ -13337,18 +12003,18 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXOPEX.DE',
     name: 'iShares STOXX Europe 600 Construction & Materials UCITS ETF (DE)',
     price: 70.65,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Industrials',
+    isin: 'DE000A0H08F7',
+    ter: 0.46,
+    aum: 932884292,
+    domicile: 'DE'
   },
   {
     symbol: 'SXPPEX.DE',
@@ -13357,188 +12023,186 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXQPEX.DE',
     name: 'iShares STOXX Europe 600 Personal & Household Goods UCITS ETF (DE)',
     price: 101.42,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Europe',
+    isin: 'DE000A0H08N1',
+    ter: 0.46,
+    aum: 167550970,
+    domicile: 'DE'
   },
   {
     symbol: 'SXR0.DE',
     name: 'iShares Edge MSCI World Minimum Volatility UCITS ETF',
-    price: 8.349,
+    price: 8.607,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.35
   },
   {
     symbol: 'SXR1.DE',
-    name: 'iShares VII PLC - iShares Core MSCI Pacific ex-Japan UCITS ETF',
-    price: 184.78,
-    issuer: 'iShares',
+    name: 'iShares Core MSCI Pacific ex-Japan UCITS ETF',
+    price: 204.45,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.2
+    category: 'Japan',
+    isin: 'IE00B52MJY50',
+    ter: 0.2,
+    aum: 3115065843,
+    domicile: 'IE'
   },
   {
     symbol: 'SXR2.DE',
-    name: 'iShares VII PLC - iShares MSCI Canada UCITS ETF',
-    price: 214.15,
+    name: 'iShares MSCI Canada UCITS ETF',
+    price: 252.9,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.48
+    category: 'Other'
   },
   {
     symbol: 'SXR3.DE',
-    name: 'iShares VII PLC - iShares MSCI UK UCITS ETF GBP (Acc)',
-    price: 193.68,
+    name: 'iShares MSCI UK UCITS ETF',
+    price: 202.75,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.33
+    category: 'UK'
   },
   {
     symbol: 'SXR4.DE',
-    name: 'iShares VII PLC - iShares MSCI USA UCITS ETF USD (Acc)',
-    price: 569.8,
+    name: 'iShares MSCI USA UCITS ETF',
+    price: 604.22,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'SXR5.DE',
-    name: 'iShares VII PLC - iShares MSCI Japan UCITS ETF USD (Acc)',
-    price: 197.29,
-    issuer: 'iShares',
+    name: 'iShares MSCI Japan UCITS ETF',
+    price: 231.12,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.12
+    category: 'Japan',
+    isin: 'IE00B53QDK08',
+    ter: 0.12,
+    aum: 1106862970,
+    domicile: 'IE'
   },
   {
     symbol: 'SXR6.DE',
     name: 'iShares MSCI Japan SRI UCITS ETF',
-    price: 6.709,
+    price: 7.167,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'SXR7.DE',
-    name: 'iShares VII PLC -iShares Core MSCI EMU UCITS ETF EUR (Acc)',
-    price: 200.6,
-    issuer: 'iShares',
+    name: 'iShares Core MSCI EMU UCITS ETF',
+    price: 221.65,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets',
+    isin: 'IE00B53QG562',
+    ter: 0.12,
+    aum: 5904728652,
+    domicile: 'IE'
   },
   {
     symbol: 'SXR8.DE',
-    name: 'iShares Core S&P 500 UCITS ETF USD (Acc)',
-    price: 590.46,
+    name: 'iShares Core S&P 500 UCITS ETF',
+    price: 628.8,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'SXRD.DE',
-    name: 'iShares VII PLC - iShares MSCI UK Small Cap UCITS ETF GBP (Acc)',
-    price: 281.4,
+    name: 'iShares MSCI UK Small Cap UCITS ETF',
+    price: 306.5,
     issuer: 'iShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.58
+    category: 'UK'
   },
   {
     symbol: 'SXRF.DE',
     name: 'iShares $ Intermediate Credit Bond UCITS ETF',
-    price: 4.207,
+    price: 4.2267,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'SXRG.DE',
-    name: 'iShares VII PLC - iShares MSCI USA Small Cap ESG Enhanced UCITS ETF USD (Acc)',
-    price: 480.35,
-    issuer: 'iShares',
+    name: 'iShares MSCI USA Small Cap CTB Enhanced ESG UCITS ETF',
+    price: 530.1,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.43
+    category: 'US',
+    isin: 'IE00B3VWM098',
+    ter: 0.43,
+    aum: 2438281503,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRH.DE',
-    name: 'iShares $ TIPS 0-5 UCITS ETF USD (Dist)',
-    price: 4.3498,
-    issuer: 'iShares',
+    name: 'iShares $ TIPS 0-5 UCITS ETF',
+    price: 4.2993,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BDQYWQ65',
+    ter: 0.1,
+    aum: 658881364,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRJ.DE',
-    name: 'iShares VII PLC - iShares MSCI EMU Small Cap UCITS ETF EUR (Acc)',
-    price: 317.2,
-    issuer: 'iShares',
+    name: 'iShares MSCI EMU Small Cap UCITS ETF',
+    price: 340.3,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.58
+    category: 'Emerging Markets',
+    isin: 'IE00B3VWMM18',
+    ter: 0.58,
+    aum: 972312796,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRL.DE',
-    name: 'iShares $ Treasury Bond 3-7yr UCITS ETF USD (Acc)',
-    price: 141.05,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 3-7yr UCITS ETF',
+    price: 144.355,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'IE00B3VWN393',
+    ter: 0.07,
+    aum: 7717906855,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRM.DE',
-    name: 'iShares VII PLC - iShares $ Treasury Bond 7-10yr UCITS ETF USD (Acc)',
-    price: 151.45,
-    issuer: 'iShares',
+    name: 'iShares $ Treasury Bond 7-10yr UCITS ETF USD (Acc)',
+    price: 156.45,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Government',
+    isin: 'IE00B3VWN518',
+    ter: 0.07,
+    aum: 4821950092,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRP.DE',
-    name: 'iShares VII PLC - iShares € Govt Bond 3-7yr UCITS ETF EUR (Acc)',
-    price: 133.015,
+    name: 'iShares € Govt Bond 3-7yr UCITS ETF',
+    price: 134.54,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'SXRPEX.DE',
@@ -13547,218 +12211,202 @@ export const xetraETFs: ETF[] = [
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'SXRQ.DE',
-    name: 'iShares VII PLC - iShares € Govt Bond 7-10yr UCITS ETF EUR (Acc)',
-    price: 151.255,
-    issuer: 'iShares',
+    name: 'iShares € Govt Bond 7-10yr UCITS ETF EUR (Acc)',
+    price: 154.585,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'IE00B3VTN290',
+    ter: 0.15,
+    aum: 877430873,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRR.DE',
     name: 'iShares $ Floating Rate Bond UCITS ETF',
-    price: 4.3548,
+    price: 4.2969,
     issuer: 'iShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Bonds'
   },
   {
     symbol: 'SXRS.DE',
     name: 'iShares Diversified Commodity Swap UCITS ETF',
-    price: 6.37,
+    price: 8.136,
     issuer: 'iShares',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'Commodities'
   },
   {
     symbol: 'SXRT.DE',
-    name: 'iShares VII PLC - iShares Core EURO STOXX 50 UCITS ETF',
-    price: 202.55,
-    issuer: 'iShares',
+    name: 'iShares Core EURO STOXX 50 UCITS ETF',
+    price: 223.15,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Europe',
+    isin: 'IE00B53L3W79',
+    ter: 0.1,
+    aum: 6794569821,
+    domicile: 'DE'
   },
   {
     symbol: 'SXRU.DE',
-    name: 'iShares VII PLC - iShares Dow Jones Industrial Average UCITS ETF',
-    price: 468.5,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.33
-  },
-  {
-    symbol: 'SXRV.DE',
-    name: 'iShares NASDAQ 100 UCITS ETF USD (Acc)',
-    price: 1150.6,
+    name: 'iShares Dow Jones Industrial Average UCITS ETF',
+    price: 500.3,
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
+  },
+  {
+    symbol: 'SXRV.DE',
+    name: 'iShares NASDAQ 100 UCITS ETF',
+    price: 1237.8,
+    issuer: 'iShares',
+    assetClass: 'Equity',
+    category: 'US'
   },
   {
     symbol: 'SXRW.DE',
-    name: 'iShares VII PLC - iShares Core FTSE 100 UCITS ETF',
-    price: 209.95,
-    issuer: 'iShares',
+    name: 'iShares Core FTSE 100 UCITS ETF GBP (Acc)',
+    price: 242.9,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'UK',
+    isin: 'IE00B53HP851',
+    ter: 0.07,
+    aum: 3431253136,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRY.DE',
-    name: 'iShares VII PLC - iShares FTSE MIB UCITS ETF EUR (Acc)',
-    price: 199.68,
-    issuer: 'iShares',
+    name: 'iShares FTSE MIB UCITS ETF EUR (Acc)',
+    price: 219.45,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.33
+    category: 'Other',
+    isin: 'IE00B53L4X51',
+    ter: 0.33,
+    aum: 325648065,
+    domicile: 'IE'
   },
   {
     symbol: 'SXRZ.DE',
-    name: 'iShares VII PLC - iShares Nikkei 225 UCITS ETF JPY (Acc)',
-    price: 246.55,
-    issuer: 'iShares',
+    name: 'iShares Nikkei 225 UCITS ETF',
+    price: 306,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.48
+    category: 'Japan',
+    isin: 'IE00B52MJD48',
+    ter: 0.48,
+    aum: 430473482,
+    domicile: 'IE'
   },
   {
     symbol: 'SXTPEX.DE',
     name: 'iShares STOXX Europe 600 Travel & Leisure UCITS ETF (DE)',
     price: 23.05,
-    issuer: 'iShares',
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.46
+    category: 'Consumer Cyclical',
+    isin: 'DE000A0H08S0',
+    ter: 0.46,
+    aum: 54273249,
+    domicile: 'DE'
   },
   {
     symbol: 'SYB3.DE',
-    name: 'SPDR Bloomberg 1-3 Year Euro Government Bond UCITS ETF',
-    price: 52.412,
+    name: 'State Street SPDR Bloomberg 1-3 Year Euro Government Bond UCITS ETF (Dist)',
+    price: 52.182,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'SYB4.DE',
-    name: 'SPDR Bloomberg 3-5 Year Euro Government Bond UCITS ETF',
-    price: 29.248,
+    name: 'State Street SPDR Bloomberg 3-5 Year Euro Government Bond UCITS ETF (Dist)',
+    price: 29.157,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'SYB4.F',
-    name: 'SPDR Bloomberg 3-5 Year Euro Government Bond UCITS ETF',
-    price: 28.332,
-    issuer: 'SPDR',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'SYB5.DE',
-    name: 'SPDR Bloomberg 1-5 Year Gilt UCITS ETF',
-    price: 55.91,
+    name: 'State Street SPDR Bloomberg 1-5 Year Gilt UCITS ETF (Dist)',
+    price: 56.256,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'IE00B6YX5K17',
+    ter: 0.15,
+    aum: 301243972,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBA.DE',
-    name: 'SPDR Bloomberg Euro Aggregate Bond UCITS ETF',
-    price: 54.462,
+    name: 'State Street SPDR Bloomberg Euro Aggregate Bond UCITS ETF (Dist)',
+    price: 54.666,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Bonds'
   },
   {
     symbol: 'SYBB.DE',
-    name: 'SPDR Bloomberg Euro Government Bond UCITS ETF Acc',
-    price: 55.896,
+    name: 'State Street SPDR Bloomberg Euro Government Bond UCITS ETF (Dist)',
+    price: 56.324,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'SYBB.F',
-    name: 'SPDR Bloomberg Euro Government Bond UCITS ETF Acc',
-    price: 54.92,
-    issuer: 'SPDR',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00B3S5XW04',
+    ter: 0.07,
+    aum: 1220490000,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBC.DE',
-    name: 'SPDR Bloomberg Euro Corporate Bond UCITS ETF',
-    price: 53.342,
+    name: 'State Street SPDR Bloomberg Euro Corporate Bond UCITS ETF (Dist)',
+    price: 53.228,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Healthcare',
+    isin: 'IE00B3T9LM79',
+    ter: 0.12,
+    aum: 731820000,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBD.DE',
-    name: 'SPDR Bloomberg 0-3 Year Euro Corporate Bond UCITS ETF',
-    price: 30.017,
+    name: 'State Street SPDR Bloomberg 0-3 Year Euro Corporate Bond UCITS ETF (Dist)',
+    price: 29.99,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Bonds'
   },
   {
     symbol: 'SYBF.DE',
-    name: 'SPDR Bloomberg 0-3 Year U.S. Corporate Bond UCITS ETF',
-    price: 42.575,
+    name: 'State Street SPDR Bloomberg 0-3 Year U.S. Corporate Bond UCITS ETF (Dist)',
+    price: 42.589,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Corporate',
+    isin: 'IE00BC7GZX26',
+    ter: 0.12,
+    aum: 100275095,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBG.DE',
-    name: 'SPDR Bloomberg UK Gilt UCITS ETF',
-    price: 47.706,
+    name: 'State Street SPDR Bloomberg UK Gilt UCITS ETF (Dist)',
+    price: 49.284,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00B3W74078',
+    ter: 0.15,
+    aum: 1009871787,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBI.DE',
@@ -13767,188 +12415,170 @@ export const xetraETFs: ETF[] = [
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.5499999999999999
   },
   {
     symbol: 'SYBJ.DE',
-    name: 'SPDR Bloomberg Euro High Yield Bond UCITS ETF',
-    price: 51.59,
+    name: 'State Street SPDR Bloomberg Euro High Yield Bond UCITS ETF (Dist)',
+    price: 50.952,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Cash & Others',
+    isin: 'IE00B6YX5M31',
+    ter: 0.4,
+    aum: 582890000,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBK.DE',
-    name: 'SPDR Bloomberg SASB U.S. High Yield Corporate ESG UCITS ETF',
-    price: 35.272,
+    name: 'State Street SPDR Bloomberg U.S. High Yield Corporate Scored UCITS ETF (Dist)',
+    price: 34.657,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Corporate',
+    isin: 'IE00B99FL386',
+    ter: 0.3,
+    aum: 352844336,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBL.DE',
-    name: 'SPDR Bloomberg 15+ Year Gilt UCITS ETF',
-    price: 38.476,
+    name: 'State Street SPDR Bloomberg 15+ Year Gilt UCITS ETF (Dist)',
+    price: 40.859,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'SYBM.DE',
-    name: 'SPDR Bloomberg Barclays Emerging Markets Local Bond UCITS ETF (Dist)',
-    price: 49.778,
+    name: 'State Street SPDR Bloomberg Emerging Markets Local Bond UCITS ETF (Dist)',
+    price: 50.25,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.55
   },
   {
     symbol: 'SYBN.DE',
-    name: 'SPDR Bloomberg 10+ Year U.S. Corporate Bond UCITS ETF',
-    price: 22.526,
+    name: 'State Street SPDR Bloomberg 10+ Year U.S. Corporate Bond UCITS ETF (Dist)',
+    price: 22.977,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Bonds'
   },
   {
     symbol: 'SYBQ.DE',
-    name: 'SPDR Bloomberg 0-5 Year Sterling Corporate Bond UCITS ETF',
-    price: 33.414,
+    name: 'State Street SPDR Bloomberg 0-5 Year Sterling Corporate Bond UCITS ETF (Dist)',
+    price: 33.675,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Bonds'
   },
   {
     symbol: 'SYBR.DE',
-    name: 'SPDR Bloomberg 1-10 Year U.S. Corporate Bond UCITS ETF',
-    price: 25.713,
+    name: 'State Street SPDR Bloomberg 1-10 Year U.S. Corporate Bond UCITS ETF (Dist)',
+    price: 25.864,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Bonds'
   },
   {
     symbol: 'SYBS.DE',
-    name: 'SPDR Bloomberg Sterling Corporate Bond UCITS ETF',
-    price: 58.03,
+    name: 'State Street SPDR Bloomberg Sterling Corporate Bond UCITS ETF (Dist)',
+    price: 59.352,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Bonds'
   },
   {
     symbol: 'SYBT.DE',
-    name: 'SPDR Bloomberg U.S. Treasury Bond UCITS ETF',
-    price: 83.12,
+    name: 'State Street SPDR Bloomberg U.S. Treasury Bond UCITS ETF (Dist)',
+    price: 84.06,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00B44CND37',
+    ter: 0.05,
+    aum: 269420968,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBU.DE',
-    name: 'SPDR Bloomberg U.S. Aggregate Bond UCITS ETF',
-    price: 81.026,
+    name: 'State Street SPDR Bloomberg U.S. Aggregate Bond UCITS ETF (Dist)',
+    price: 82.316,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Government',
+    isin: 'IE00B459R192',
+    ter: 0.17,
+    aum: 153930236,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBV.DE',
-    name: 'SPDR Bloomberg 10+ Year Euro Government Bond UCITS ETF',
-    price: 22.666,
+    name: 'State Street SPDR Bloomberg 10+ Year Euro Government Bond UCITS ETF (Dist)',
+    price: 23.065,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'IE00BYSZ6062',
+    ter: 0.15,
+    aum: 135300000,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBW.DE',
-    name: 'SPDR Bloomberg 1-3 Year U.S. Treasury Bond UCITS ETF',
-    price: 41.41,
+    name: 'State Street SPDR Bloomberg 1-3 Year U.S. Treasury Bond UCITS ETF (Dist)',
+    price: 41.423,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Government',
+    isin: 'IE00BC7GZJ81',
+    ter: 0.05,
+    aum: 70558534,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBY.DE',
-    name: 'SPDR Bloomberg U.S. TIPS UCITS ETF',
-    price: 24.868,
+    name: 'State Street SPDR Bloomberg U.S. TIPS UCITS ETF (Dist)',
+    price: 24.863,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.17
+    category: 'Government',
+    isin: 'IE00BZ0G8977',
+    ter: 0.05,
+    aum: 227554286,
+    domicile: 'IE'
   },
   {
     symbol: 'SYBZ.DE',
-    name: 'SPDR Bloomberg Global Aggregate Bond USD Hdg UCITS ETF Acc',
-    price: 22.181,
+    name: 'State Street SPDR Bloomberg Global Aggregate Bond UCITS ETF (Dist)',
+    price: 22.307,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'T1EU.DE',
     name: 'Invesco US Treasury Bond 0-1 Year UCITS ETF',
-    price: 43.064,
+    price: 43.518,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'T1EU.F',
-    name: 'Invesco US Treasury Bond 0-1 Year UCITS ETF',
-    price: 40.244,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BLCH1X54',
+    ter: 0.1,
+    aum: 523860174,
+    domicile: 'IE'
   },
   {
     symbol: 'T3KE.DE',
-    name: 'HAN-GINS Tech Megatrend Equal Weight UCITS ETF',
-    price: 14.51,
-    issuer: 'HAN-GINS',
+    name: 'HAN-GINS Tech Megatrend Equal Weight UCITS ETF – Acc',
+    price: 14.506,
+    issuer: 'HanETF',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.59
-  },
-  {
-    symbol: 'T3RE.F',
-    name: 'Invesco US Treasury Bond 1-3 Year UCITS ETF',
-    price: 36.395,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Technology',
+    isin: 'IE00BDDRF700',
+    ter: 0.59,
+    aum: 88550496,
+    domicile: 'IE'
   },
   {
     symbol: 'T6ET.DE',
@@ -13956,231 +12586,195 @@ export const xetraETFs: ETF[] = [
     price: 26.37,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Global',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'T7EU.DE',
     name: 'Invesco US Treasury Bond 3-7 Year UCITS ETF',
-    price: 34.121,
+    price: 33.874,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BF2FPB31',
+    ter: 0.1,
+    aum: 195385621,
+    domicile: 'IE'
   },
   {
     symbol: 'TAB1.DE',
-    name: 'Tabula Us Enhanced Inflation UCITS ETF',
+    name: 'Tabula European iTraxx Crossover Credit Short UCITS ETF EUR',
     price: 111.3,
-    issuer: 'Tabula',
+    issuer: 'Tabula ICAV',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.29
-  },
-  {
-    symbol: 'TABC.F',
-    name: 'Tabula EUR IG Bond Paris-aligned Climate UCITS ETF (EUR)',
-    price: 8.7482,
-    issuer: 'Tabula',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'IE00BMDWWS85',
+    ter: 0.29,
+    aum: 4167800.49,
+    domicile: 'DE'
   },
   {
     symbol: 'TABD.DE',
     name: 'Tabula European Performance Credit UCITS ETF (EUR) Class G EUR Distributing',
     price: 99.298,
-    issuer: 'Tabula',
+    issuer: 'Tabula ICAV',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.5
+    category: 'Europe',
+    ter: 0.5,
+    aum: undefined,
+    domicile: 'DE'
   },
   {
     symbol: 'TABX.DE',
     name: 'Tabula iTraxx IG Bond Index UCITS ETF (EUR)',
     price: 88.45,
-    issuer: 'Tabula',
+    issuer: 'Tabula ICAV',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Bonds',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'DE'
   },
   {
     symbol: 'TCBT.DE',
     name: 'VanEck iBoxx EUR Corporates UCITS ETF',
-    price: 17.068,
+    price: 17.1805,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'TCC4.DE',
-    name: 'Amundi Index Solutions - Amundi EURO Corporates {d}',
-    price: 224.9,
+    name: 'Amundi EUR Corporate Bond ESG UCITS ETF 2 DR - EUR (C)',
+    price: 227.67,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Corporate Bonds'
+    assetClass: 'Fixed Income',
+    category: 'ESG'
   },
   {
     symbol: 'TCRS.DE',
     name: 'Tabula Global IG Credit Curve Steepener UCITS ETF (EUR)',
-    price: 110.32,
+    price: 112.465,
     issuer: 'Tabula',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'TGBT.DE',
     name: 'VanEck iBoxx EUR Sovereign Diversified 1-10 UCITS ETF',
-    price: 12.346,
+    price: 12.379,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'THEP.F',
-    name: 'Tabula EUR HY Bond Paris-Aligned Climate UCITS ETF (EUR)',
-    price: 9.1448,
-    issuer: 'Tabula',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Government',
+    isin: 'NL0009690254',
+    ter: 0.15,
+    aum: 29821614,
+    domicile: 'NL'
   },
   {
     symbol: 'TIUP.DE',
     name: 'Amundi US TIPS Government Inflation-Linked Bond UCITS ETF Dist',
-    price: 100.26,
+    price: 101.255,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Government',
+    isin: 'LU1452600270',
+    ter: 0.09,
+    aum: 1855443647,
+    domicile: 'LU'
   },
   {
     symbol: 'TRD1.DE',
-    name: 'Invesco US Treasury Bond 0-1 Year UCITS ETF USD Dist',
-    price: 35.092,
+    name: 'Invesco US Treasury Bond 0-1 Year UCITS ETF',
+    price: 35.081,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'US'
   },
   {
     symbol: 'TRD3.DE',
     name: 'Invesco US Treasury Bond 1-3 Year UCITS ETF',
-    price: 33.55,
+    price: 33.547,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'US'
   },
   {
     symbol: 'TRD7.DE',
     name: 'Invesco US Treasury Bond 3-7 Year UCITS ETF',
-    price: 33.052,
+    price: 33.136,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'US'
   },
   {
     symbol: 'TRDE.DE',
     name: 'Invesco US Treasury Bond 7-10 Year UCITS ETF',
-    price: 31.418,
+    price: 31.487,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'TRDE.F',
-    name: 'Invesco Markets II PLC - Invesco Us Treasury Bond 7-10 Year Ucits ETF',
-    price: 32.989,
-    issuer: 'Invesco',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'IE00BF2FN869',
+    ter: 0.1,
+    aum: 2237780838,
+    domicile: 'IE'
   },
   {
     symbol: 'TRDS.DE',
-    name: 'Invesco US Treasury Bond UCITS ETF USD Dist',
-    price: 31.267,
+    name: 'Invesco US Treasury Bond UCITS ETF',
+    price: 31.531,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'US'
   },
   {
     symbol: 'TRDX.DE',
     name: 'Invesco US Treasury Bond 7-10 Year UCITS ETF',
-    price: 30.919,
+    price: 31.287,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'Government',
+    isin: 'IE00BF2FN646',
+    ter: 0.06,
+    aum: 2228790710,
+    domicile: 'IE'
   },
   {
     symbol: 'TRET.DE',
     name: 'VanEck Global Real Estate UCITS ETF',
-    price: 37.08,
+    price: 40.525,
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'TRFE.DE',
     name: 'Invesco US Treasury Bond UCITS ETF',
-    price: 32.027,
+    price: 31.996,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'TS3S.F',
-    name: 'Leverage Shares -3x Short Tesla ETC',
-    price: 0.1768,
-    issuer: 'Leverage',
-    assetClass: 'Equity',
-    category: 'Mixed'
+    category: 'US'
   },
   {
     symbol: 'TSWE.DE',
-    name: 'VanEck Sustainable World Equal Weight UCITS ETF',
-    price: 34.185,
+    name: 'VanEck World Equal Weight Screened UCITS ETF',
+    price: 38.095,
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'TTPX.DE',
-    name: 'Amundi Index Solutions - Amundi Japan Topix UCITS ETF-C EUR Hedged',
-    price: 457.33,
+    name: 'Amundi Japan Topix UCITS ETF - DAILY HEDGED EUR (C)',
+    price: 562.8,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.48
+    category: 'Japan',
+    isin: 'LU1681037864',
+    ter: 0.48,
+    aum: 928175606,
+    domicile: 'LU'
   },
   {
     symbol: 'TY3S.DE',
@@ -14188,389 +12782,299 @@ export const xetraETFs: ETF[] = [
     price: 45.618,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00BKS8QT65',
+    ter: 0.3,
+    aum: 1254888,
+    domicile: 'IE'
   },
   {
     symbol: 'U1FB.DE',
-    name: 'UBS(Lux)Fund Solutions – MSCI Japan Socially Responsible UCITS ETF(hedged EUR)A-acc',
-    price: 25.185,
+    name: 'UBS MSCI Japan Socially Responsible UCITS ETF hEUR acc',
+    price: 30.42,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.22
-  },
-  {
-    symbol: 'U1FB.F',
-    name: 'UBS(Lux)Fund Solutions – MSCI Japan Socially Responsible UCITS ETF(hedged EUR)A-acc',
-    price: 18.016,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.22
-  },
-  {
-    symbol: 'UBF6.F',
-    name: 'UBS (Irl) Fund Solutions plc - CMCI Commodity Carry Ex-Agriculture SF UCITS ETF',
-    price: 117.88,
-    issuer: 'UBS',
-    assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.34
-  },
-  {
-    symbol: 'UBF7.F',
-    name: 'UBS (Irl) Fund Solutions plc – CMCI Commodity Carry Ex-Agriculture SF UCITS ETF(hedged to EUR) A-acc',
-    price: 122.46,
-    issuer: 'UBS',
-    assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.34
   },
   {
     symbol: 'UBU3.DE',
-    name: 'UBS (Irl) ETF plc - MSCI USA UCITS ETF (USD) A-dis',
-    price: 134.82,
+    name: 'UBS Core MSCI USA UCITS ETF USD dis',
+    price: 142.14,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.06
+    category: 'US',
+    isin: 'IE00B77D4428',
+    ter: 0.06,
+    aum: 3447560237,
+    domicile: 'IE'
   },
   {
     symbol: 'UBU5.DE',
-    name: 'UBS (Irl) ETF plc - MSCI USA Value UCITS ETF',
-    price: 101.88,
+    name: 'UBS MSCI USA Value UCITS ETF USD dis',
+    price: 108.84,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00B78JSG98',
+    ter: 0.2,
+    aum: 458079367,
+    domicile: 'IE'
   },
   {
     symbol: 'UBU7.DE',
-    name: 'UBS (Irl) ETF plc - MSCI World UCITS ETF',
-    price: 89.384,
+    name: 'UBS Core MSCI World UCITS ETF USD dis',
+    price: 95.89,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.06
+    category: 'Global',
+    isin: 'IE00B7KQ7B66',
+    ter: 0.06,
+    aum: 10032279994,
+    domicile: 'IE'
   },
   {
     symbol: 'UBU9.DE',
-    name: 'UBS (Irl) ETF plc - S&P 500 UCITS ETF',
-    price: 89.234,
+    name: 'UBS Core S&P 500 UCITS ETF USD dis',
+    price: 94.482,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.03
   },
   {
     symbol: 'UBUD.DE',
-    name: 'UBS (Irl) ETF plc - Solactive Global Pure Gold Miners UCITS ETF',
-    price: 33.55,
+    name: 'UBS Solactive Global Pure Gold Miners UCITS ETF USD dis',
+    price: 54.08,
     issuer: 'UBS',
     assetClass: 'Commodity',
-    category: 'Global'
-  ,
-    ter: 0.43
+    category: 'Materials',
+    isin: 'IE00B7KMNP07',
+    ter: 0.43,
+    aum: 665785298,
+    domicile: 'IE'
   },
   {
     symbol: 'UBUJ.DE',
-    name: 'UBS (Irl) ETF plc - MSCI USA hedged to EUR UCITS ETF',
-    price: 49.512,
+    name: 'UBS Core MSCI USA hEUR UCITS ETF EUR acc',
+    price: 51.948,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE00BD4TYG73',
+    ter: 0.09,
+    aum: 937190000,
+    domicile: 'IE'
   },
   {
     symbol: 'UBUM.DE',
-    name: 'UBS (Irl) ETF plc – S&P Dividend Aristocrats ESG Elite UCITS ETF',
-    price: 9.723,
+    name: 'UBS S&P Dividend Aristocrats ESG Elite UCITS ETF USD dis',
+    price: 10.618,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'UBUR.DE',
-    name: 'UBS (Irl) ETF plc - Factor MSCI USA Low Volatility UCITS ETF',
-    price: 29.145,
+    name: 'UBS Factor MSCI USA Low Volatility UCITS ETF USD dis',
+    price: 30.345,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'UBUS.DE',
-    name: 'UBS (Irl) ETF plc - Factor MSCI USA Prime Value UCITS ETF',
-    price: 31.615,
+    name: 'UBS Factor MSCI USA Prime Value Screened UCITS ETF USD dis',
+    price: 33.685,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.25
+    category: 'US',
+    isin: 'IE00BX7RR706',
+    ter: 0.25,
+    aum: 215774438,
+    domicile: 'IE'
   },
   {
     symbol: 'UBUT.DE',
-    name: 'UBS (Irl) ETF plc - Factor MSCI USA Quality UCITS ETF',
-    price: 48.61,
+    name: 'UBS Factor MSCI USA Quality Screened UCITS ETF USD dis',
+    price: 52.58,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.25
+    category: 'Technology',
+    isin: 'IE00BX7RRJ27',
+    ter: 0.25,
+    aum: 846633520,
+    domicile: 'IE'
   },
   {
     symbol: 'UBUV.DE',
-    name: 'UBS (Irl) ETF plc - Factor MSCI USA Low Volatility UCITS ETF',
-    price: 29.975,
+    name: 'UBS Factor MSCI USA Low Volatility UCITS ETF hEUR acc',
+    price: 31.155,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.21
   },
   {
     symbol: 'UBUW.DE',
-    name: 'UBS (Irl) ETF plc - Factor MSCI USA Prime Value UCITS ETF (hedged to EUR) A-acc',
-    price: 30.37,
+    name: 'UBS Factor MSCI USA Prime Value Screened UCITS ETF hEUR acc',
+    price: 32.23,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.28
+    category: 'US',
+    isin: 'IE00BWT3KL42',
+    ter: 0.28,
+    aum: 215774438,
+    domicile: 'IE'
   },
   {
     symbol: 'UBUX.DE',
-    name: 'UBS (Irl) ETF plc - Factor MSCI USA Quality UCITS ETF',
-    price: 44.25,
+    name: 'UBS Factor MSCI USA Quality Screened UCITS ETF hEUR acc',
+    price: 47.46,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.28
-  },
-  {
-    symbol: 'UCRH.F',
-    name: 'Amundi Index Solutions - Amundi Index US Corp SRI UCITS ETF DR Hedged EUR Inc',
-    price: 40.094,
-    issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'UCRP.DE',
-    name: 'Amundi Index Solutions - Amundi Index US Corp SRI',
-    price: 52.312,
+    name: 'Amundi USD Corporate Bond ESG UCITS ETF DR (C)',
+    price: 54.036,
     issuer: 'Amundi',
-    assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.14
+    assetClass: 'Fixed Income',
+    category: 'Corporate',
+    isin: 'LU1806495575',
+    ter: 0.14,
+    aum: 933085409,
+    domicile: 'LU'
   },
   {
     symbol: 'UCT2.DE',
-    name: 'Amundi US Curve steepening 2-10Y ETF -Acc- Capitalisation',
-    price: 85.574,
+    name: 'Amundi US Curve steepening 2-10Y UCITS ETF Acc',
+    price: 84.896,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'UDIV.F',
-    name: 'Global X SuperDividend UCITS ETF',
-    price: 8.271,
-    issuer: 'Global',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
+    category: 'US'
   },
   {
     symbol: 'UEEF.DE',
-    name: 'iShares $ High Yield Corp Bond ESG UCITS ETF EUR Hedged (Acc)',
-    price: 5.64,
-    issuer: 'iShares',
+    name: 'iShares $ High Yield Corp Bond ESG SRI UCITS ETF',
+    price: 5.7324,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.27
-  },
-  {
-    symbol: 'UEEF.F',
-    name: 'iShares $ High Yield Corp Bond ESG UCITS ETF EUR Hedged (Acc)',
-    price: 4.7765,
-    issuer: 'iShares',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.27
+    category: 'Energy',
+    isin: 'IE00BMDFDY08',
+    ter: 0.27,
+    aum: 522031710,
+    domicile: 'IE'
   },
   {
     symbol: 'UEEG.DE',
-    name: 'iShares $ Development Bank Bonds UCITS ETF (Acc)',
-    price: 4.6941,
-    issuer: 'iShares',
+    name: 'iShares $ Development Bank Bonds UCITS ETF',
+    price: 4.7514,
+    issuer: 'IShares',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Cash & Others',
+    isin: 'IE00BMCZLH06',
+    ter: 0.18,
+    aum: 124321719,
+    domicile: 'IE'
   },
   {
     symbol: 'UEEH.DE',
-    name: 'iShares Edge MSCI World Minimum Volatility UCITS ETF USD (Dist)',
-    price: 5.615,
-    issuer: 'iShares',
+    name: 'iShares Edge MSCI World Minimum Volatility UCITS ETF',
+    price: 5.752,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'UEEH.F',
-    name: 'iShares Edge MSCI World Minimum Volatility UCITS ETF USD (Dist)',
-    price: 4.8625,
-    issuer: 'iShares',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.3
+    category: 'Global',
+    isin: 'IE00BMCZLJ20',
+    ter: 0.3,
+    aum: 15214722,
+    domicile: 'IE'
   },
   {
     symbol: 'UEF0.DE',
-    name: 'UBS(Lux)Fund Solutions – Bloomberg Barclays US Liquid Corporates UCITS ETF(hedged EUR)A-acc',
-    price: 17.4435,
+    name: 'UBS Core BBG US Liquid Corp UCITS ETF hEUR acc',
+    price: 17.838,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
-  },
-  {
-    symbol: 'UEF0.F',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg US Liquid Corporates UCITS ETF',
-    price: 16.207,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.23
+    category: 'US'
   },
   {
     symbol: 'UEF5.DE',
-    name: 'UBS ETF SICAV - MSCI Emerging Markets Socially Responsible UCITS ETF',
-    price: 13.656,
+    name: 'UBS MSCI EM Socially Responsible UCITS ETF USD dis',
+    price: 16.49,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.24
   },
   {
     symbol: 'UEF6.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg Euro Area Liquid Corporates 1-5 Year UCITS ETF',
-    price: 13.218,
+    name: 'UBS BBG Euro Area Liquid Corp 1-5 UCITS ETF EUR dis',
+    price: 13.1505,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'Other'
   },
   {
     symbol: 'UEF7.DE',
-    name: 'UBS(Lux)Fund Solutions – Bloomberg Barclays US Liquid Corporates 1-5 Year UCITS ETF(USD)A-dis',
-    price: 11.9005,
+    name: 'UBS BBG US Liquid Corp 1-5 UCITS ETF USD dis',
+    price: 11.914,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.16
-  },
-  {
-    symbol: 'UEF7.F',
-    name: 'UBS(Lux)Fund Solutions – Bloomberg Barclays US Liquid Corporates 1-5 Year UCITS ETF(USD)A-dis',
-    price: 12.515,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'US'
   },
   {
     symbol: 'UEF8.DE',
-    name: 'UBS(Lux)Fund Solutions – Bloomberg Barclays US Liquid Corporates 1-5 Year UCITS ETF(hedged EUR)A-acc',
-    price: 15.174,
+    name: 'UBS BBG US Liquid Corp 1-5 UCITS ETF hEUR acc',
+    price: 15.378,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'US'
   },
   {
     symbol: 'UEF9.DE',
-    name: 'UBS(Lux)Fund Solutions – Bloomberg Barclays US Liquid Corporates UCITS ETF(USD)A-dis',
-    price: 12.7115,
+    name: 'UBS Core BBG US Liquid Corp UCITS ETF USD dis',
+    price: 12.741,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'Corporate',
+    isin: 'LU1048316647',
+    ter: 0.06,
+    aum: 456271057,
+    domicile: 'LU'
   },
   {
     symbol: 'UEFD.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI EMU Small Cap UCITS ETF',
-    price: 133.94,
+    name: 'UBS MSCI EMU Small Cap UCITS ETF EUR dis',
+    price: 144.24,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.33
+    category: 'Emerging Markets',
+    isin: 'LU0671493277',
+    ter: 0.33,
+    aum: 648110000,
+    domicile: 'LU'
   },
   {
     symbol: 'UEFE.DE',
-    name: 'UBS (Lux) Fund Solutions – J.P. Morgan EM Multi-Factor Enhanced Local Currency Bond UCITS ETF',
-    price: 10.9695,
+    name: 'UBS J.P. Morgan EM Multi-Factor Enhanced Local Currency Bond UCITS ETF USD dis',
+    price: 11.3905,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'UEFF.DE',
-    name: 'UBS (Lux) Fund Solutions - Bloomberg Barclays US 1-3 Year Treasury Bond UCITS ETF',
-    price: 20.862,
+    name: 'UBS Core BBG US Treasury 1-3 UCITS ETF USD dis',
+    price: 20.914,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'US'
   },
   {
     symbol: 'UEFI.DE',
-    name: 'UBS ETF - Bloomberg Barclays US 7-10 Year Treasury Bond UCITS ETF',
-    price: 32.884,
+    name: 'UBS Core BBG US Treasury 1-10 UCITS ETF USD dis',
+    price: 33.269,
     issuer: 'UBS',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'US'
   },
   {
     symbol: 'UEFR.DE',
@@ -14578,47 +13082,51 @@ export const xetraETFs: ETF[] = [
     price: 93.74,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other'
   },
   {
     symbol: 'UEFS.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg USD Emerging Markets Sovereign UCITS ETF',
-    price: 7.8942,
+    name: 'UBS BBG USD EM Sovereign UCITS ETF USD dis',
+    price: 8.1368,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU1324516050',
+    ter: 0.25,
+    aum: 427234765,
+    domicile: 'LU'
   },
   {
     symbol: 'UEFY.DE',
-    name: 'UBS (Lux) Fund Solutions – SBI Foreign AAA-BBB 1-5 ESG UCITS ETF',
-    price: 12.446,
+    name: 'UBS SBI Foreign AAA-BBB 1-5 ESG UCITS ETF CHF dis',
+    price: 12.813,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Corporate',
+    isin: 'LU0879397742',
+    ter: 0.2,
+    aum: 700584536,
+    domicile: 'LU'
   },
   {
     symbol: 'UEFZ.DE',
-    name: 'UBS (Lux) Fund Solutions – SBI Foreign AAA-BBB 5-10 ESG UCITS ETF',
-    price: 14.843,
+    name: 'UBS SBI Foreign AAA-BBB 5-10 ESG UCITS ETF CHF dis',
+    price: 15.367,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'ESG',
+    isin: 'LU0879399441',
+    ter: 0.2,
+    aum: 482395606,
+    domicile: 'LU'
   },
   {
     symbol: 'UEQ3.DE',
-    name: 'UBS (Irl) Fund Solutions plc - CMCI Composite SF UCITS ETF',
-    price: 142.36,
+    name: 'UBS CMCI Composite SF UCITS ETF hGBP acc',
+    price: 165.08,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Other'
   },
   {
     symbol: 'UEQ7.DE',
@@ -14630,783 +13138,643 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'UEQC.DE',
-    name: 'UBS (Irl) Fund Solutions plc - CMCI Commodity Carry SF UCITS ETF',
-    price: 140.86,
+    name: 'UBS CMCI Commodity Carry SF UCITS ETF USD acc',
+    price: 125.42,
     issuer: 'UBS',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Commodities'
   },
   {
     symbol: 'UEQD.DE',
-    name: 'UBS (Irl) ETF plc - S&P 500 UCITS ETF (hedged to EUR) A-acc',
-    price: 30.442,
+    name: 'UBS Core S&P 500 UCITS ETF hEUR acc',
+    price: 32.085,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.06
   },
   {
     symbol: 'UEQU.DE',
-    name: 'UBS (Irl) Fund Solutions plc - CMCI Ex-Agriculture SF UCITs ETF',
-    price: 192.54,
+    name: 'UBS CMCI ex-Agriculture SF UCITS ETF USD acc',
+    price: 242.95,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Other',
+    isin: 'IE00BZ2GV965',
+    ter: 0.34,
+    aum: 274415348,
+    domicile: 'IE'
   },
   {
     symbol: 'UET0.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg MSCI US Liquid Corporates Sustainable UCITS ETF',
-    price: 15.1065,
+    name: 'UBS BBG MSCI US Liquid Corp Sustainable UCITS ETF hEUR acc',
+    price: 15.3855,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'Corporate',
+    isin: 'LU1215461325',
+    ter: 0.16,
+    aum: 513715038,
+    domicile: 'LU'
   },
   {
     symbol: 'UET1.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI USA Socially Responsible UCITS ETF',
-    price: 28.7,
+    name: 'UBS MSCI USA Socially Responsible UCITS ETF hEUR dis',
+    price: 29.48,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'UET5.DE',
-    name: 'UBS (Lux) Fund Solutions – EURO STOXX 50 ESG UCITS ETF',
-    price: 19.022,
+    name: 'UBS EURO STOXX 50 ESG UCITS ETF EUR dis',
+    price: 21.135,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'UET5.F',
-    name: 'UBS (Lux) Fund Solutions – EURO STOXX 50 ESG UCITS ETF',
-    price: 15.202,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Europe'
   },
   {
     symbol: 'UETC.DE',
-    name: 'Ubs Etf - Msci China Esg Universal Ucits Etf',
-    price: 9.807,
+    name: 'UBS MSCI China Universal UCITS ETF USD dis',
+    price: 9.322,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.3
+    category: 'China',
+    isin: 'LU1953188833',
+    ter: 0.3,
+    aum: 250778153,
+    domicile: 'LU'
   },
   {
     symbol: 'UETE.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI Emerging Markets Socially Responsible UCITS ETF',
-    price: 17.754,
+    name: 'UBS MSCI EM Socially Responsible UCITS ETF USD dis',
+    price: 21.585,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.24
   },
   {
     symbol: 'UETW.DE',
-    name: 'UBS (Irl) ETF plc - MSCI World UCITS ETF',
-    price: 32.558,
+    name: 'UBS Core MSCI World UCITS ETF USD acc',
+    price: 35.195,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.06
-  },
-  {
-    symbol: 'UFMA.F',
-    name: 'UBS (Lux) Fund Solutions - MSCI Japan UCITS ETF',
-    price: 21.46,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'UFMB.F',
-    name: 'UBS ETF SICAV - MSCI United Kingdom UCITS ETF',
-    price: 14.794,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.23
+    category: 'Global',
+    isin: 'IE00BD4TXV59',
+    ter: 0.06,
+    aum: 10032279994,
+    domicile: 'IE'
   },
   {
     symbol: 'UIC2.DE',
-    name: 'UBS ETF - Solactive China Technology UCITS ETF',
-    price: 7.655,
+    name: 'UBS Solactive China Technology UCITS ETF USD acc',
+    price: 6.851,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.47
-  },
-  {
-    symbol: 'UIFH.F',
-    name: 'Amundi Index Solutions - Amundi Index US Gov Inflation-Linked Bond',
-    price: 44.597,
-    issuer: 'Amundi',
-    assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.11
+    category: 'China',
+    isin: 'LU2265794276',
+    ter: 0.47,
+    aum: 370694939,
+    domicile: 'LU'
   },
   {
     symbol: 'UIM1.DE',
-    name: 'UBS (Lux) Fund Solutions – EURO STOXX 50 UCITS ETF',
-    price: 53.58,
+    name: 'UBS EURO STOXX 50 UCITS ETF EUR dis',
+    price: 58.63,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Europe'
   },
   {
     symbol: 'UIM2.DE',
-    name: 'UBS (Lux) Fund Solutions – Factor MSCI EMU Quality UCITS ETF',
-    price: 24.955,
+    name: 'UBS Factor MSCI EMU Quality Screened UCITS ETF EUR dis',
+    price: 25.605,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets'
   },
   {
     symbol: 'UIM3.DE',
-    name: 'UBS (Lux) Fund Solutions – FTSE 100 UCITS ETF',
-    price: 97.03,
+    name: 'UBS FTSE 100 UCITS ETF GBP dis',
+    price: 110.42,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'UK'
   },
   {
     symbol: 'UIM4.DE',
     name: 'UBS(Lux)Fund Solutions – MSCI EMU UCITS ETF(EUR)A-dis',
-    price: 178.98,
+    price: 196.64,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets',
+    isin: 'LU0147308422',
+    ter: 0.12,
+    aum: 513278667,
+    domicile: 'LU'
   },
   {
     symbol: 'UIM5.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI Japan UCITS ETF',
-    price: 53.392,
+    name: 'UBS Core MSCI Japan UCITS ETF JPY dis',
+    price: 62.052,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'UIM6.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI USA UCITS ETF',
-    price: 536.06,
+    name: 'UBS MSCI USA UCITS ETF USD dis',
+    price: 565.02,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.14
   },
   {
     symbol: 'UIM7.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI World UCITS ETF',
-    price: 357.78,
+    name: 'UBS MSCI World UCITS ETF USD dis',
+    price: 384.18,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'UIM9.DE',
-    name: 'UBS ETF SICAV - MSCI Canada UCITS ETF',
-    price: 45.91,
+    name: 'UBS(Lux)Fund Solutions – MSCI Canada UCITS ETF(CAD)A-dis',
+    price: 53.92,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'Other'
   },
   {
     symbol: 'UIMA.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI Europe UCITS ETF',
-    price: 89.89,
+    name: 'UBS Core MSCI Europe UCITS ETF EUR dis',
+    price: 98.92,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'UIMA.F',
-    name: 'UBS (Lux) Fund Solutions – MSCI Europe UCITS ETF',
-    price: 76.67,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.1
+    category: 'Europe',
+    isin: 'LU0446734104',
+    ter: 0.1,
+    aum: 754700000,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMB.DE',
-    name: 'UBS (Lux) Fund Solutions - Bloomberg Barclays TIPS 10+ UCITS ETF',
-    price: 8.2592,
+    name: 'UBS BBG TIPS 10+ UCITS ETF USD dis',
+    price: 8.3608,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'LU1459802754',
+    ter: 0.1,
+    aum: 192430017,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMC.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg MSCI Euro Area Liquid Corporates Sustainable UCITS ETF',
-    price: 13.0375,
+    name: 'UBS BBG MSCI Euro Area Liquid Corp Sustainable UCITS ETF EUR dis',
+    price: 13.004,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.13
+    category: 'ESG'
   },
   {
     symbol: 'UIMD.DE',
-    name: 'UBS ETF SICAV - MSCI Pacific (ex Japan) UCITS ETF',
-    price: 42.57,
+    name: 'UBS MSCI Pacific ex Japan UCITS ETF USD dis',
+    price: 46.4,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.14
+    category: 'Japan',
+    isin: 'LU0446734526',
+    ter: 0.14,
+    aum: 81047175,
+    domicile: 'LU'
   },
   {
     symbol: 'UIME.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI EMU Value UCITS ETF',
-    price: 52.61,
+    name: 'UBS MSCI EMU Value UCITS ETF EUR dis',
+    price: 57.82,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'UIME.F',
-    name: 'UBS (Lux) Fund Solutions – MSCI EMU Value UCITS ETF',
-    price: 40.94,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets'
   },
   {
     symbol: 'UIMF.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI Europe UCITS ETF',
-    price: 17.284,
+    name: 'UBS Core MSCI Europe UCITS ETF hEUR acc',
+    price: 19.124,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.09
+    category: 'Europe',
+    isin: 'LU1600334798',
+    ter: 0.09,
+    aum: 1449210000,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMI.DE',
     name: 'UBS (Lux) Fund Solutions – MSCI Emerging Markets UCITS ETF',
-    price: 107.47,
+    price: 129.325,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'LU0480132876',
+    ter: 0.18,
+    aum: 1409011443,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMM.DE',
-    name: 'UBS (Lux) Fund Solutions - MSCI World Socially Responsible UCITS ETF',
-    price: 151.16,
+    name: 'UBS MSCI World Socially Responsible UCITS ETF USD dis',
+    price: 158.52,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.22
+    category: 'Global',
+    isin: 'LU0629459743',
+    ter: 0.22,
+    aum: 5533833250,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMP.DE',
-    name: 'UBS ETF - MSCI USA Socially Responsible UCITS ETF',
-    price: 209.2,
+    name: 'UBS MSCI USA Socially Responsible UCITS ETF USD dis',
+    price: 218.1,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.22
+    category: 'US',
+    isin: 'LU0629460089',
+    ter: 0.22,
+    aum: 1231674950,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMR.DE',
     name: 'UBS(Lux)Fund Solutions – MSCI EMU Socially Responsible UCITS ETF(EUR)A-dis',
-    price: 126.62,
+    price: 132.48,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Emerging Markets',
+    isin: 'LU0629460675',
+    ter: 0.2,
+    aum: 736634358,
+    domicile: 'LU'
   },
   {
     symbol: 'UIMT.DE',
-    name: 'UBS ETF SICAV - MSCI Pacific Socially Responsible UCITS ETF',
-    price: 71.38,
+    name: 'UBS (Lux) Fund Solutions – MSCI Pacific Socially Responsible UCITS ETF',
+    price: 78.11,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.28
+    category: 'Asia Pacific'
   },
   {
     symbol: 'UIMY.DE',
-    name: 'UBS (Lux) Fund Solutions – Factor MSCI EMU Low Volatility UCITS ETF',
-    price: 16.856,
+    name: 'UBS Factor MSCI EMU Low Volatility UCITS ETF EUR dis',
+    price: 18.332,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets'
   },
   {
     symbol: 'UIMZ.DE',
-    name: 'UBS (Lux) Fund Solutions – Factor MSCI EMU Prime Value UCITS ETF',
-    price: 20.615,
+    name: 'UBS Factor MSCI EMU Prime Value Screened UCITS ETF EUR dis',
+    price: 22.565,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets',
+    isin: 'LU1215452928',
+    ter: 0.25,
+    aum: 60850000,
+    domicile: 'LU'
   },
   {
     symbol: 'UINE.DE',
-    name: 'MULTI-UNITS LUXEMBOURG - Lyxor Inverse US$ 10Y Inflation Expectations UCITS ETF',
+    name: 'Amundi US Inverse Inflation Expectations 10Y UCITS ETF Acc',
     price: 86.446,
-    issuer: 'Lyxor',
-    assetClass: 'Mixed',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'Cash & Others',
+    isin: 'LU1879532940',
+    ter: 0.35,
+    aum: 1184598,
+    domicile: 'LU'
   },
   {
     symbol: 'UINF.DE',
-    name: 'Lyxor US$ 10Y Inflation Expectations UCITS ETF',
-    price: 117.105,
-    issuer: 'Lyxor',
+    name: 'Amundi US Inflation Expectations 10Y UCITS ETF Acc',
+    price: 117.84,
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU1390062831',
+    ter: 0.25,
+    aum: 171533301,
+    domicile: 'LU'
   },
   {
     symbol: 'UIQ1.DE',
     name: 'UBS (Irl) Fund Solutions plc - CMCI Ex-Agriculture SF UCITs ETF (hedged to EUR) A-acc',
-    price: 172.06,
+    price: 215.5,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Other',
+    isin: 'IE00BYT5CV85',
+    ter: 0.34,
+    aum: 8678913.73,
+    domicile: 'IE'
   },
   {
     symbol: 'UIQI.DE',
-    name: 'UBS (Irl) Fund Solutions plc - MSCI AC Asia Ex Japan SF UCITS ETF',
-    price: 177.46,
+    name: 'UBS MSCI AC Asia ex Japan SF UCITS ETF USD acc',
+    price: 211.7,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.23
+    category: 'Japan',
+    isin: 'IE00B7WK2W23',
+    ter: 0.23,
+    aum: 769832011,
+    domicile: 'IE'
   },
   {
     symbol: 'UIQK.DE',
-    name: 'UBS (Irl) Fund Solutions plc - CMCI Composite SF UCITS ETF',
-    price: 95.19,
+    name: 'UBS CMCI Composite SF UCITS ETF USD acc',
+    price: 110.8,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.34
+    category: 'Other'
   },
   {
     symbol: 'UIQL.DE',
-    name: 'UBS (Lux) Fund Solutions – Bloomberg MSCI Euro Area Liquid Corporates 1-5 Year Sustainable UCITS ETF',
-    price: 10.476,
+    name: 'UBS Core BBG Euro Area Liquid Corp UCITS ETF EUR dis',
+    price: 10.4535,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'Other',
+    isin: 'LU1805389258',
+    ter: 0.06,
+    aum: 44500000,
+    domicile: 'LU'
   },
   {
     symbol: 'UIQN.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI EMU Select Factor Mix UCITS ETF',
-    price: 15.726,
+    name: 'UBS MSCI EMU Select Factor Mix UCITS ETF EUR acc',
+    price: 17.064,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.34
-  },
-  {
-    symbol: 'UIW2.F',
-    name: 'UBS (Lux) Fund Solutions – MSCI Europe Socially Responsible UCITS ETF',
-    price: 12.934,
-    issuer: 'UBS',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'LU1804202403',
+    ter: 0.34,
+    aum: 14590000,
+    domicile: 'IE'
   },
   {
     symbol: 'UKPH.DE',
     name: 'iShares UK Property UCITS ETF',
-    price: 3.5115,
-    issuer: 'iShares',
+    price: 3.875,
+    issuer: 'IShares',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.42
-  },
-  {
-    symbol: 'URNU.F',
-    name: 'Global X Etfs Icav - Global X Uranium Ucits ETF',
-    price: 10.328,
-    issuer: 'Global',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.65
-  },
-  {
-    symbol: 'USAB.F',
-    name: 'L&G ESG USD Corporate Bond UCITS ETF',
-    price: 7.7502,
-    issuer: 'L&G',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Real Estate',
+    isin: 'IE000FI414K7',
+    ter: 0.42,
+    aum: 13005251,
+    domicile: 'IE'
   },
   {
     symbol: 'USCP.DE',
     name: 'Ossiam Shiller Barclays Cape US Sector Value TR',
-    price: 1377.6,
+    price: 1431.4,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Value'
-  ,
-    ter: 0.65
+    category: 'US'
   },
   {
     symbol: 'USPY.DE',
     name: 'L&G Cyber Security UCITS ETF',
-    price: 26.565,
+    price: 26.245,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.69
+    category: 'Technology',
+    isin: 'IE00BYPLS672',
+    ter: 0.69,
+    aum: 2458785533,
+    domicile: 'IE'
   },
   {
     symbol: 'USTP.DE',
     name: 'Ossiam US Steepener',
-    price: 115.81,
+    price: 115.09,
     issuer: 'Ossiam',
     assetClass: 'Equity',
-    category: 'Mixed'
-  ,
-    ter: 0.31
+    category: 'US',
+    isin: 'LU1965301184',
+    ter: 0.31,
+    aum: 88101561,
+    domicile: 'DE'
   },
   {
     symbol: 'USUE.DE',
-    name: 'UBS (Irl) ETF plc - MSCI USA Select Factor Mix UCITS ETF (USD) A-acc',
-    price: 35.2,
+    name: 'UBS MSCI USA Select Factor Mix UCITS ETF USD acc',
+    price: 37.875,
     issuer: 'UBS',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'USUP.DE',
-    name: 'UBS (Lux) Fund Solutions – MSCI Pacific Socially Responsible UCITS ETF',
-    price: 10.662,
+    name: 'UBS MSCI Pacific Socially Responsible UCITS ETF USD acc',
+    price: 11.612,
     issuer: 'UBS',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.28
+    category: 'Asia Pacific'
   },
   {
     symbol: 'V20A.DE',
-    name: 'Vanguard LifeStrategy 20% Equity UCITS ETF',
-    price: 24.895,
+    name: 'Vanguard LifeStrategy 20% Equity UCITS ETF (EUR) Accumulating',
+    price: 25.7,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'V20A.F',
-    name: 'Vanguard LifeStrategy 20% Equity UCITS ETF',
-    price: 22.36,
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00BMVB5K07',
+    ter: 0.25,
+    aum: 109125000,
+    domicile: 'IE'
   },
   {
     symbol: 'V20D.DE',
-    name: 'Vanguard LifeStrategy 20% Equity UCITS ETF',
-    price: 22.165,
+    name: 'Vanguard LifeStrategy 20% Equity UCITS ETF (EUR) Distributing',
+    price: 22.52,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'V3AL.F',
-    name: 'Vanguard ESG Global All Cap UCITS ETF',
-    price: 4.4935,
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.24
+    category: 'Other'
   },
   {
     symbol: 'V3ET.DE',
-    name: 'VanEck Sustainable European Equal Weight UCITS ETF',
-    price: 81.69,
+    name: 'VanEck European Equal Weight Screened UCITS ETF',
+    price: 89.98,
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'V3GE.DE',
-    name: 'Vanguard Funds PLC - Vanguard ESG Global Corporate Bond UCITS ETF',
-    price: 4.0922,
+    name: 'Vanguard ESG Global Corporate Bond UCITS ETF EUR Hedged Distributing',
+    price: 4.0768,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'V3GF.F',
-    name: 'Vanguard Funds PLC - Vanguard ESG Global Corporate Bond UCITS ETF EUR Hedged Acc',
-    price: 4.3152,
-    issuer: 'Vanguard',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'IE00BNDS1Q47',
+    ter: 0.15,
+    aum: 1393163879,
+    domicile: 'IE'
   },
   {
     symbol: 'V40A.DE',
-    name: 'Vanguard LifeStrategy 40% Equity UCITS ETF',
-    price: 28.56,
+    name: 'Vanguard LifeStrategy 40% Equity UCITS ETF (EUR) Accumulating',
+    price: 29.955,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00BMVB5M21',
+    ter: 0.25,
+    aum: 243394221,
+    domicile: 'DE'
   },
   {
     symbol: 'V40D.DE',
-    name: 'Vanguard LifeStrategy 40% Equity UCITS ETF',
-    price: 25.615,
+    name: 'Vanguard LifeStrategy 40% Equity UCITS ETF (EUR) Distributing',
+    price: 26.44,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other'
   },
   {
     symbol: 'V50A.DE',
-    name: 'Amundi Index Solutions - Amundi EURO STOXX 50 UCITS ETF-C EUR',
-    price: 139.44,
+    name: 'Amundi Core EURO STOXX 50 UCITS ETF EUR Acc',
+    price: 153.76,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Europe'
   },
   {
     symbol: 'V50D.DE',
-    name: 'Amundi Index Solutions - Amundi EURO STOXX 50 UCITS ETF-D EUR',
-    price: 86.16,
+    name: 'Amundi Core EURO STOXX 50 UCITS ETF EUR Dist',
+    price: 92.59,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Europe'
   },
   {
     symbol: 'V60A.DE',
     name: 'Vanguard LifeStrategy 60% Equity UCITS ETF (EUR) Accumulating',
-    price: 32.665,
+    price: 34.72,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'V60A.F',
-    name: 'Vanguard LifeStrategy 60% Equity UCITS ETF (EUR) Accumulating',
-    price: 26.585,
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00BMVB5P51',
+    ter: 0.25,
+    aum: 823966508,
+    domicile: 'IE'
   },
   {
     symbol: 'V60D.DE',
-    name: 'Vanguard LifeStrategy 60% Equity UCITS ETF',
-    price: 29.505,
+    name: 'Vanguard LifeStrategy 60% Equity UCITS ETF (EUR) Distributing',
+    price: 30.93,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00BMVB5Q68',
+    ter: 0.25,
+    aum: 823966508,
+    domicile: 'IE'
   },
   {
     symbol: 'V80A.DE',
-    name: 'Vanguard LifeStrategy 80% Equity UCITS ETF',
-    price: 37.205,
+    name: 'Vanguard LifeStrategy 80% Equity UCITS ETF (EUR) Accumulating',
+    price: 40.095,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'IE00BMVB5R75',
+    ter: 0.25,
+    aum: 1016603346,
+    domicile: 'IE'
   },
   {
     symbol: 'V80D.DE',
-    name: 'Vanguard LifeStrategy 80% Equity UCITS ETF',
-    price: 33.945,
+    name: 'Vanguard LifeStrategy 80% Equity UCITS ETF (EUR) Distributing',
+    price: 36.13,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other'
   },
   {
     symbol: 'VAGE.DE',
-    name: 'Vanguard Global Aggregate Bond UCITS ETF',
-    price: 20.864,
+    name: 'Vanguard Global Aggregate Bond UCITS ETF EUR Hedged Distributing',
+    price: 20.847,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.08
   },
   {
     symbol: 'VAGF.DE',
-    name: 'Vanguard Global Aggregate Bond UCITS ETF',
-    price: 23.517,
+    name: 'Vanguard Global Aggregate Bond UCITS ETF EUR Hedged Accumulating',
+    price: 23.944,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.08
-  },
-  {
-    symbol: 'VAGF.F',
-    name: 'Vanguard Global Aggregate Bond UCITS ETF',
-    price: 22.167,
-    issuer: 'Vanguard',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.1
+    category: 'Financials',
+    isin: 'IE00BG47KH54',
+    ter: 0.08,
+    aum: 4789611882,
+    domicile: 'IE'
   },
   {
     symbol: 'VALD.DE',
     name: 'BNP Paribas Easy ESG Equity Value Europe',
-    price: 110.76,
+    price: 122.82,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1481201702',
+    ter: 0.3,
+    aum: 2840806.94,
+    domicile: 'LU'
   },
   {
     symbol: 'VALU.DE',
     name: 'BNP Paribas Easy ESG Equity Value Europe',
-    price: 165.48,
+    price: 183.38,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'VCAV.F',
-    name: 'VanEck Smart Home Active UCITS ETF',
-    price: 10.874,
-    issuer: 'VanEck',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.85
+    category: 'Europe',
+    isin: 'LU1377382285',
+    ter: 0.3,
+    aum: 34770996,
+    domicile: 'LU'
   },
   {
     symbol: 'VDCE.DE',
-    name: 'Vanguard USD Corporate Bond UCITS ETF',
-    price: 54.896,
+    name: 'Vanguard USD Corporate Bond UCITS ETF EUR Hedged Accumulating',
+    price: 56.19,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Corporate',
+    isin: 'IE00BGYWFL94',
+    ter: 0.12,
+    aum: 3791703566,
+    domicile: 'DE'
   },
   {
     symbol: 'VDIV.DE',
     name: 'VanEck Morningstar Developed Markets Dividend Leaders UCITS ETF',
-    price: 43.655,
+    price: 51.53,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.38
+    category: 'Dividend'
   },
   {
     symbol: 'VDTE.DE',
-    name: 'Vanguard USD Treasury Bond UCITS ETF',
-    price: 25.261,
+    name: 'Vanguard USD Treasury Bond UCITS ETF EUR Hedged Accumulating',
+    price: 25.749,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Bonds'
   },
   {
     symbol: 'VDXX.DE',
@@ -15418,304 +13786,267 @@ export const xetraETFs: ETF[] = [
   },
   {
     symbol: 'VECA.DE',
-    name: 'Vanguard EUR Corporate Bond UCITS ETF',
-    price: 52.682,
+    name: 'Vanguard EUR Corporate Bond UCITS ETF (EUR) Accumulating',
+    price: 53.388,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'VECP.DE',
-    name: 'Vanguard EUR Corporate Bond UCITS ETF',
-    price: 48.677,
+    name: 'Vanguard EUR Corporate Bond UCITS ETF (EUR) Distributing',
+    price: 48.53,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Corporate',
+    isin: 'IE00BZ163G84',
+    ter: 0.07,
+    aum: 5414443639,
+    domicile: 'IE'
   },
   {
     symbol: 'VERE.DE',
-    name: 'Vanguard FTSE Developed Europe ex UK UCITS ETF',
-    price: 50.11,
+    name: 'Vanguard FTSE Developed Europe ex UK UCITS ETF (EUR) Accumulating',
+    price: 55.44,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'VERX.DE',
-    name: 'Vanguard FTSE Developed Europe ex UK UCITS ETF',
-    price: 42.38,
+    name: 'Vanguard FTSE Developed Europe ex UK UCITS ETF (EUR) Distributing',
+    price: 46.635,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'VFEA.DE',
-    name: 'Vanguard FTSE Emerging Markets UCITS ETF',
-    price: 63.27,
+    name: 'Vanguard FTSE Emerging Markets UCITS ETF (USD) Accumulating',
+    price: 70.44,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.22
+    category: 'Emerging Markets',
+    isin: 'IE00BK5BR733',
+    ter: 0.17,
+    aum: 4673360628,
+    domicile: 'IE'
   },
   {
     symbol: 'VFEM.DE',
-    name: 'Vanguard FTSE Emerging Markets UCITS ETF',
-    price: 60.69,
+    name: 'Vanguard FTSE Emerging Markets UCITS ETF (USD) Distributing',
+    price: 66.58,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.22
+    category: 'Emerging Markets',
+    isin: 'IE00B3VVMM84',
+    ter: 0.17,
+    aum: 4673360628,
+    domicile: 'IE'
   },
   {
     symbol: 'VGEA.DE',
-    name: 'Vanguard EUR Eurozone Government Bond UCITS ETF',
-    price: 23.705,
+    name: 'Vanguard EUR Eurozone Government Bond UCITS ETF (EUR) Accumulating',
+    price: 24.223,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Cash & Others',
+    isin: 'IE00BH04GL39',
+    ter: 0.07,
+    aum: 4527004338,
+    domicile: 'IE'
   },
   {
     symbol: 'VGEB.DE',
-    name: 'Vanguard EUR Eurozone Government Bond UCITS ETF',
-    price: 22.215,
+    name: 'Vanguard EUR Eurozone Government Bond UCITS ETF (EUR) Distributing',
+    price: 22.308,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'VGEJ.DE',
-    name: 'Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF',
-    price: 24.93,
+    name: 'Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF (USD) Distributing',
+    price: 33.58,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'IE00B9F5YL18',
+    ter: 0.15,
+    aum: 2772838357,
+    domicile: 'IE'
   },
   {
     symbol: 'VGEK.DE',
-    name: 'Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF',
-    price: 31.015,
+    name: 'Vanguard FTSE Developed Asia Pacific ex Japan UCITS ETF (USD) Accumulating',
+    price: 42.435,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Asia'
-  ,
-    ter: 0.15
+    category: 'Japan'
   },
   {
     symbol: 'VGEM.DE',
-    name: 'Vanguard USD Emerging Markets Government Bond UCITS ETF',
-    price: 37.189,
+    name: 'Vanguard USD Emerging Markets Government Bond UCITS ETF (USD) Distributing',
+    price: 38.014,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.23
+    category: 'Government',
+    isin: 'IE00BZ163L38',
+    ter: 0.23,
+    aum: 1240591178,
+    domicile: 'IE'
   },
   {
     symbol: 'VGER.DE',
-    name: 'Vanguard Germany All Cap UCITS ETF',
-    price: 33.78,
+    name: 'Vanguard Germany All Cap UCITS ETF (EUR) Distributing',
+    price: 34.03,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Germany'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'VGER.F',
-    name: 'Vanguard Germany All Cap UCITS ETF',
-    price: 25.07,
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'VGEU.DE',
-    name: 'Vanguard FTSE Developed Europe UCITS ETF',
-    price: 42.37,
+    name: 'Vanguard FTSE Developed Europe UCITS ETF (EUR) Distributing',
+    price: 46.975,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'VGOV.DE',
-    name: 'Vanguard U.K. Gilt UCITS ETF',
-    price: 18.0235,
+    name: 'Vanguard U.K. Gilt UCITS ETF (GBP) Distributing',
+    price: 18.5485,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'Government',
+    isin: 'IE00B42WWV65',
+    ter: 0.05,
+    aum: 757468729,
+    domicile: 'IE'
   },
   {
     symbol: 'VGTY.DE',
-    name: 'Vanguard USD Treasury Bond UCITS ETF',
-    price: 18.5315,
+    name: 'Vanguard USD Treasury Bond UCITS ETF (USD) Distributing',
+    price: 18.6965,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.05
+    category: 'Bonds'
   },
   {
     symbol: 'VGUE.DE',
-    name: 'Vanguard U.K. Gilt UCITS ETF',
-    price: 19.8085,
+    name: 'Vanguard U.K. Gilt UCITS ETF EUR Hedged Accumulating',
+    price: 20.551,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'VGUE.F',
-    name: 'Vanguard U.K. Gilt UCITS ETF',
-    price: 19.757,
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Other'
   },
   {
     symbol: 'VGVE.DE',
-    name: 'Vanguard FTSE Developed World UCITS ETF',
-    price: 103.12,
+    name: 'Vanguard FTSE Developed World UCITS ETF (USD) Distributing',
+    price: 112.02,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'VGVF.DE',
-    name: 'Vanguard FTSE Developed World UCITS ETF',
-    price: 107.36,
+    name: 'Vanguard FTSE Developed World UCITS ETF (USD) Accumulating',
+    price: 117.26,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.12
+    category: 'Global',
+    isin: 'IE00BK5BQV03',
+    ter: 0.12,
+    aum: 8658920220,
+    domicile: 'IE'
   },
   {
     symbol: 'VGWD.DE',
-    name: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF',
-    price: 65.93,
+    name: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF (USD) Distributing',
+    price: 74.63,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.29
   },
   {
     symbol: 'VGWE.DE',
-    name: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF USD Accumulation',
-    price: 73.76,
+    name: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF (USD) Accumulating',
+    price: 84.47,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global',
-    ter: 0.29
-
+    isin: 'IE00BK5BR626',
+    ter: 0.29,
+    aum: 9713001430,
+    domicile: 'IE'
   },
   {
     symbol: 'VGWL.DE',
-    name: 'Vanguard FTSE All-World UCITS ETF',
-    price: 133.2,
+    name: 'Vanguard FTSE All-World UCITS ETF (USD) Distributing',
+    price: 145,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global',
-    ter: 0.22
-  
-
-  },
-  {
-    symbol: 'VGWL.F',
-    name: 'Vanguard FTSE All-World UCITS ETF',
-    price: 102.7,
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.22
+    isin: 'IE00B3RBWM25',
+    ter: 0.19,
+    aum: 50382343626,
+    domicile: 'IE'
   },
   {
     symbol: 'VIGB.DE',
     name: 'VanEck iBoxx EUR Sovereign Capped AAA-AA 1-5 UCITS ETF',
-    price: 19.0665,
+    price: 19.282,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Other'
   },
   {
     symbol: 'VJPA.DE',
-    name: 'Vanguard FTSE Japan UCITS ETF',
-    price: 33.07,
+    name: 'Vanguard FTSE Japan UCITS ETF (USD) Accumulating',
+    price: 38.525,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'IE00BFMXYX26',
+    ter: 0.1,
+    aum: 4150452632,
+    domicile: 'IE'
   },
   {
     symbol: 'VJPE.DE',
-    name: 'Vanguard FTSE Japan UCITS ETF EUR Hedged Accumulation',
-    price: 53.24,
+    name: 'Vanguard FTSE Japan UCITS ETF EUR Hedged Accumulating',
+    price: 65.96,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'VJPN.DE',
-    name: 'Vanguard FTSE Japan UCITS ETF',
-    price: 35.73,
+    name: 'Vanguard FTSE Japan UCITS ETF (USD) Distributing',
+    price: 41.19,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'VLED.DE',
     name: 'BNP Paribas Easy ESG Equity Low Vol Europe',
-    price: 151.18,
+    price: 166.04,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'LU1481201025',
+    ter: 0.3,
+    aum: 4663300.8,
+    domicile: 'LU'
   },
   {
     symbol: 'VLEU.DE',
     name: 'BNP Paribas Easy ESG Equity Low Vol Europe',
-    price: 192.44,
+    price: 211.25,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'VLUD.DE',
@@ -15723,9 +14054,7 @@ export const xetraETFs: ETF[] = [
     price: 167.76,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'ESG'
   },
   {
     symbol: 'VLUS.DE',
@@ -15733,9 +14062,11 @@ export const xetraETFs: ETF[] = [
     price: 211.8,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'ESG',
+    isin: 'LU1377381980',
+    ter: 0.3,
+    aum: 9838628.51,
+    domicile: 'LU'
   },
   {
     symbol: 'VLUU.DE',
@@ -15743,19 +14074,19 @@ export const xetraETFs: ETF[] = [
     price: 201.75,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'ESG'
   },
   {
     symbol: 'VMID.DE',
-    name: 'Vanguard FTSE 250 UCITS ETF',
-    price: 37.525,
+    name: 'Vanguard FTSE 250 UCITS ETF (GBP) Distributing',
+    price: 39.65,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other',
+    isin: 'IE00BKX55Q28',
+    ter: 0.1,
+    aum: 2616591173,
+    domicile: 'IE'
   },
   {
     symbol: 'VMUS.DE',
@@ -15763,157 +14094,127 @@ export const xetraETFs: ETF[] = [
     price: 49.08,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other'
   },
   {
     symbol: 'VNRA.DE',
-    name: 'Vanguard FTSE North America UCITS ETF',
-    price: 138.36,
+    name: 'Vanguard FTSE North America UCITS ETF (USD) Accumulating',
+    price: 147.26,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other'
   },
   {
     symbol: 'VNRT.DE',
-    name: 'Vanguard FTSE North America UCITS ETF',
-    price: 135.3,
+    name: 'Vanguard FTSE North America UCITS ETF (USD) Distributing',
+    price: 143.32,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other'
   },
   {
     symbol: 'VOOL.DE',
-    name: 'Lyxor S&P 500 VIX Futures Enhanced Roll UCITS ETF',
-    price: 0.833,
-    issuer: 'Lyxor',
+    name: 'Amundi S&P 500 VIX Futures Enhanced Roll UCITS ETF Acc',
+    price: 0.773,
+    issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.6
   },
   {
     symbol: 'VOOM.DE',
-    name: 'Amundi Global Gender Equality UCITS ETF -Acc- Capitalisation',
-    price: 15.6,
+    name: 'Amundi Global Gender Equality UCITS ETF Acc',
+    price: 17.034,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'VUAA.DE',
-    name: 'Vanguard S&P 500 UCITS ETF',
-    price: 105.895,
+    name: 'Vanguard S&P 500 UCITS ETF (USD) Accumulating',
+    price: 112.775,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
+    category: 'US',
+    isin: 'IE00BFMXXD54',
+    ter: 0.07,
+    aum: 66734507040,
+    domicile: 'IE'
   },
   {
     symbol: 'VUCE.DE',
-    name: 'Vanguard USD Corporate Bond UCITS ETF',
-    price: 51.236,
+    name: 'Vanguard USD Corporate Bond UCITS ETF (USD) Accumulating',
+    price: 52.976,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'VUCP.DE',
-    name: 'Vanguard Funds Public Limited Company - Vanguard USD Corporate Bond UCITS ETF',
-    price: 40.845,
+    name: 'Vanguard USD Corporate Bond UCITS ETF (USD) Distributing',
+    price: 41.193,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'Bonds'
   },
   {
     symbol: 'VUKE.DE',
-    name: 'Vanguard FTSE 100 UCITS ETF',
-    price: 46.255,
+    name: 'Vanguard FTSE 100 UCITS ETF (GBP) Distributing',
+    price: 52.58,
     issuer: 'Vanguard',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'UK'
   },
   {
     symbol: 'VUSA.DE',
-    name: 'Vanguard S&P 500 UCITS ETF',
-    price: 104.905,
+    name: 'Vanguard S&P 500 UCITS ETF (USD) Distributing',
+    price: 111.21,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'VUSC.DE',
-    name: 'Vanguard USD Corporate 1-3 year Bond UCITS ETF',
-    price: 42.511,
+    name: 'Vanguard USD Corporate 1-3 Year Bond UCITS ETF (USD) Distributing',
+    price: 42.566,
     issuer: 'Vanguard',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
-  },
-  {
-    symbol: 'VVGM.F',
-    name: 'VanEck Morningstar Global Wide Moat UCITS ETF',
-    price: 23.235,
-    issuer: 'VanEck',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.52
+    category: 'Bonds'
   },
   {
     symbol: 'VVSM.DE',
     name: 'VanEck Semiconductor UCITS ETF',
-    price: 41.21,
+    price: 60.51,
     issuer: 'VanEck',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Other'
   },
   {
     symbol: 'VWCE.DE',
-    name: 'Vanguard FTSE All-World UCITS ETF',
-    price: 135.66,
+    name: 'Vanguard FTSE All-World UCITS ETF (USD) Accumulating',
+    price: 148.54,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Global',
-    ter: 0.22
-
+    isin: 'IE00BK5BQT80',
+    ter: 0.19,
+    aum: 50382343626,
+    domicile: 'IE'
   },
   {
     symbol: 'VWCG.DE',
-    name: 'Vanguard FTSE Developed Europe UCITS ETF',
-    price: 49.475,
+    name: 'Vanguard FTSE Developed Europe UCITS ETF (EUR) Accumulating',
+    price: 55.35,
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'W1TA.DE',
-    name: 'WisdomTree Battery Solutions UCITS ETF',
-    price: 32.175,
+    name: 'WisdomTree Battery Solutions UCITS ETF - USD Acc',
+    price: 42.94,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: 'W1TG.DE',
@@ -15921,29 +14222,17 @@ export const xetraETFs: ETF[] = [
     price: 71.176,
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
-    category: 'Europe'
-  ,
-    ter: 0.16
-  },
-  {
-    symbol: 'W1TG.F',
-    name: 'WisdomTree European Union Bond UCITS ETF',
-    price: 70.338,
-    issuer: 'WisdomTree',
-    assetClass: 'Fixed Income',
-    category: 'Europe'
-  ,
-    ter: 0.16
+    category: 'Europe',
+    ter: 0.16,
+    aum: 929575
   },
   {
     symbol: 'W311.DE',
-    name: 'Harbor Health Care UCITS ETF Accum Shs -A- USD',
-    price: 6.29,
+    name: 'Harbor Health Care UCITS ETF – Acc',
+    price: 6.627,
     issuer: 'Harbor',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.59
+    category: 'Healthcare'
   },
   {
     symbol: 'WDFI.DE',
@@ -15951,147 +14240,149 @@ export const xetraETFs: ETF[] = [
     price: 215.35,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
+    category: 'Financials',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'WDNR.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI World Energy',
-    price: 348.75,
+    name: 'Amundi Global Bioenergy UCITS ETF EUR Acc',
+    price: 424.9,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.35
+    category: 'Global',
+    isin: 'LU1681046006',
+    ter: 0.35,
+    aum: 40911110,
+    domicile: 'LU'
   },
   {
     symbol: 'WEBA.DE',
-    name: 'Amundi US Tech 100 Equal Weight UCITS ETF',
-    price: 12.848,
+    name: 'Amundi US Tech 100 Equal Weight UCITS ETF DR - USD',
+    price: 13.544,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.07
+    category: 'US',
+    isin: 'IE000Y9MG996',
+    ter: 0.07,
+    aum: 29093471,
+    domicile: 'IE'
+  },
+  {
+    symbol: 'WEBC.DE',
+    name: 'Amundi MSCI North America ESG Broad Transition UCITS ETF Dist',
+    price: 123.8,
+    issuer: 'Amundi',
+    assetClass: 'Equity',
+    category: 'ESG',
+    isin: 'IE000MJIXFE0',
+    ter: 0.15,
+    aum: 571783982,
+    domicile: 'LU'
   },
   {
     symbol: 'WELJ.DE',
-    name: 'Amundi S&P Global Consumer Discretionary ESG UCITS ETF DR EUR Acc',
-    price: 12.894,
+    name: 'Amundi S&P World Consumer Discretionary Screened UCITS ETF Acc',
+    price: 12.832,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'WELN.DE',
-    name: 'Amundi S&P Global Energy Carbon Reduced UCITS ETF',
-    price: 11.052,
+    name: 'Amundi S&P World Energy Screened UCITS ETF Acc',
+    price: 14.038,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'WGES.F',
-    name: 'Lyxor MSCI World ESG Leaders Extra (DR) UCITS ETF',
-    price: 17.194,
-    issuer: 'Lyxor',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
   },
   {
     symbol: 'WMIN.DE',
-    name: 'VanEck Global Mining UCITS ETF',
-    price: 37,
+    name: 'VanEck S&P Global Mining UCITS ETF',
+    price: 59.08,
     issuer: 'VanEck',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.5
   },
   {
-    symbol: 'WRNA.F',
-    name: 'Wisdomtree Issuer ICAV - Wisdomtree Biorevolution UCITS ETF',
-    price: 17.018,
+    symbol: 'WQTM.DE',
+    name: 'WisdomTree Quantum Computing UCITS ETF - USD Acc',
+    price: 26.495,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Technology',
+    isin: 'IE000W8WMSL2',
+    ter: 0.5,
+    aum: 164839828,
+    domicile: 'IE'
   },
   {
     symbol: 'WTD7.DE',
-    name: 'WisdomTree Europe SmallCap Dividend UCITS ETF',
-    price: 22.06,
+    name: 'WisdomTree Europe SmallCap Dividend UCITS ETF Acc',
+    price: 24.06,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.38
+    category: 'Europe',
+    isin: 'IE00BDF16114',
+    ter: 0.38,
+    aum: 89554285,
+    domicile: 'IE'
   },
   {
     symbol: 'WTD8.DE',
-    name: 'WisdomTree Emerging Markets Equity Income UCITS ETF',
-    price: 26.13,
+    name: 'WisdomTree Emerging Markets Equity Income UCITS ETF - Acc',
+    price: 28.735,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'WTD9.DE',
     name: 'WisdomTree US Equity Income UCITS ETF - Acc',
-    price: 28.005,
+    price: 30.785,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.29
+    category: 'US'
   },
   {
     symbol: 'WTDF.DE',
-    name: 'WisdomTree Europe Equity UCITS ETF',
-    price: 27.83,
+    name: 'WisdomTree Europe Equity UCITS ETF - EUR Acc',
+    price: 29.725,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.32
   },
   {
     symbol: 'WTDH.DE',
-    name: 'WisdomTree Europe Equity UCITS ETF',
-    price: 23.935,
+    name: 'WisdomTree Europe Equity UCITS ETF - USD Hedged',
+    price: 25.705,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.58
+    category: 'Europe',
+    isin: 'IE00BVXBH163',
+    ter: 0.58,
+    aum: 82919099,
+    domicile: 'IE'
   },
   {
     symbol: 'WTDI.DE',
-    name: 'WisdomTree AT1 CoCo Bond UCITS ETF',
-    price: 77.272,
+    name: 'WisdomTree AT1 CoCo Bond UCITS ETF - USD',
+    price: 78.012,
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'Corporate',
+    isin: 'IE00BZ0XVF52',
+    ter: 0.39,
+    aum: 369791986,
+    domicile: 'IE'
   },
   {
     symbol: 'WTDM.DE',
-    name: 'WisdomTree US Quality Dividend Growth UCITS ETF',
-    price: 44.18,
+    name: 'WisdomTree US Quality Dividend Growth UCITS ETF - USD Acc',
+    price: 46.615,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.33
+    category: 'US'
   },
   {
     symbol: 'WTDP.DE',
@@ -16099,7 +14390,9 @@ export const xetraETFs: ETF[] = [
     price: 43.827,
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Dividend',
+    ter: undefined,
+    aum: 6741181
   },
   {
     symbol: 'WTDQ.DE',
@@ -16107,7 +14400,9 @@ export const xetraETFs: ETF[] = [
     price: 45.727,
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Dividend',
+    ter: undefined,
+    aum: 6741181
   },
   {
     symbol: 'WTDR.DE',
@@ -16115,195 +14410,159 @@ export const xetraETFs: ETF[] = [
     price: 43.556,
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Dividend',
+    isin: 'IE00BD49RK20',
+    ter: undefined,
+    aum: 1104939,
+    domicile: 'IE'
   },
   {
     symbol: 'WTDX.DE',
-    name: 'WisdomTree Japan Equity UCITS ETF',
-    price: 33.8,
+    name: 'WisdomTree Japan Equity UCITS ETF - USD Hedged',
+    price: 43.29,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.48
   },
   {
     symbol: 'WTDY.DE',
-    name: 'WisdomTree US Equity Income UCITS ETF',
-    price: 24.415,
+    name: 'WisdomTree US Equity Income UCITS ETF - EUR Hedged Acc',
+    price: 26.535,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'US',
+    isin: 'IE00BD6RZW23',
+    ter: 0.35,
+    aum: 165016827,
+    domicile: 'IE'
   },
   {
     symbol: 'WTEB.DE',
     name: 'WisdomTree AT1 CoCo Bond UCITS ETF - EUR Hedged',
-    price: 84.99,
+    price: 85.194,
     issuer: 'WisdomTree',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'Bonds'
   },
   {
     symbol: 'WTED.DE',
     name: 'WisdomTree Emerging Markets SmallCap Dividend UCITS ETF',
-    price: 18.742,
+    price: 20.195,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.54
   },
   {
     symbol: 'WTEE.DE',
     name: 'WisdomTree Europe Equity Income UCITS ETF',
-    price: 13.374,
+    price: 15.366,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.29
+    category: 'Europe',
+    isin: 'IE00BQZJBX31',
+    ter: 0.29,
+    aum: 186263159,
+    domicile: 'IE'
   },
   {
     symbol: 'WTEH.DE',
     name: 'WisdomTree Enhanced Commodity UCITS ETF - EUR Hedged Acc',
-    price: 12.856,
+    price: 16.338,
     issuer: 'WisdomTree',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Commodities'
   },
   {
     symbol: 'WTEI.DE',
     name: 'WisdomTree Emerging Markets Equity Income UCITS ETF',
-    price: 14.062,
+    price: 15.028,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Emerging Markets'
-  ,
-    ter: 0.46
   },
   {
     symbol: 'WTEJ.DE',
-    name: 'WisdomTree Cloud Computing UCITS ETF',
-    price: 29.675,
+    name: 'WisdomTree Cloud Computing UCITS ETF - USD Acc',
+    price: 24.54,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: 'WTEM.DE',
-    name: 'WisdomTree Global Quality Dividend Growth UCITS ETF',
-    price: 37.38,
+    name: 'WisdomTree Global Quality Dividend Growth UCITS ETF - USD Acc',
+    price: 39.845,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.38
-  },
-  {
-    symbol: 'WTER.F',
-    name: 'Wisdomtree Issuer ICAV - Wisdomtree New Economy Real Estate Ucits ETF',
-    price: 19.366,
-    issuer: 'WisdomTree',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
   },
   {
     symbol: 'WTES.DE',
     name: 'WisdomTree Europe SmallCap Dividend UCITS ETF',
-    price: 19.66,
+    price: 21.135,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.38
   },
   {
     symbol: 'WTEU.DE',
     name: 'WisdomTree US Equity Income UCITS ETF',
-    price: 22.715,
+    price: 24.62,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.29
+    category: 'US'
   },
   {
     symbol: 'WTI2.DE',
-    name: 'WisdomTree Artificial Intelligence UCITS ETF',
-    price: 65.03,
+    name: 'WisdomTree Artificial Intelligence UCITS ETF - USD Acc',
+    price: 75.45,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.4
+    category: 'Other'
   },
   {
     symbol: 'WTIC.DE',
-    name: 'WisdomTree Enhanced Commodity UCITS ETF - USD Acc',
-    price: 13.684,
+    name: 'WisdomTree Enhanced Commodity UCITS ETF USD Acc',
+    price: 17.556,
     issuer: 'WisdomTree',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Cash & Others',
+    isin: 'IE00BYMLZY74',
+    ter: 0.35,
+    aum: 518252478,
+    domicile: 'IE'
   },
   {
     symbol: 'WTIF.DE',
     name: 'WisdomTree Japan Equity UCITS ETF - EUR Hedged Acc',
-    price: 39.515,
+    price: 50.34,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.45
+    category: 'Japan',
+    isin: 'IE00BYQCZJ13',
+    ter: 0.45,
+    aum: 614987080,
+    domicile: 'IE'
   },
   {
     symbol: 'WTIM.DE',
-    name: 'WisdomTree Eurozone Quality Dividend Growth UCITS ETF',
-    price: 24.51,
+    name: 'WisdomTree Eurozone Quality Dividend Growth UCITS ETF - EUR Acc',
+    price: 26.71,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.29
+    category: 'Dividend',
+    isin: 'IE00BZ56TQ67',
+    ter: 0.29,
+    aum: 44513950,
+    domicile: 'IE'
   },
   {
     symbol: 'WTIZ.DE',
-    name: 'WisdomTree Japan Equity UCITS ETF',
-    price: 29.61,
+    name: 'WisdomTree Japan Equity UCITS ETF - USD Acc',
+    price: 35.51,
     issuer: 'WisdomTree',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.4
-  },
-  {
-    symbol: 'WTRD.F',
-    name: 'WisdomTree Recycling Decarbonisation UCITS ETF',
-    price: 19.292,
-    issuer: 'WisdomTree',
-    assetClass: 'Equity',
-    category: 'Technology'
-  },
-  {
-    symbol: 'WYZ1.F',
-    name: 'Comgest Growth plc - Comgest Growth China',
-    price: 63.885,
-    issuer: 'Comgest',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.27
   },
   {
     symbol: 'X010.DE',
@@ -16317,9 +14576,11 @@ export const xetraETFs: ETF[] = [
     symbol: 'X011.DE',
     name: 'Lyxor MSCI Europe UCITS ETF',
     price: 68.16,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'X013.DE',
@@ -16327,111 +14588,115 @@ export const xetraETFs: ETF[] = [
     price: 107.14,
     issuer: 'Lyxor',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'Other'
   },
   {
     symbol: 'X014.DE',
     name: 'Amundi MSCI Pacific ESG Broad Transition UCITS ETF Dist',
-    price: 65.85,
+    price: 73.37,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.45
+    category: 'Asia Pacific'
   },
   {
     symbol: 'X020.DE',
     name: 'Lyxor MSCI USA (LUX) UCITS ETF',
     price: 97.674,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
+    category: 'US',
+    isin: 'LU0392495700',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'X022.DE',
     name: 'Lyxor S&P MidCap 400 UCITS ETF',
     price: 252.9,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.34999999
+    category: 'US',
+    isin: 'LU0392495965',
+    ter: 0.34999999,
+    aum: 21446276,
+    domicile: 'LU'
   },
   {
     symbol: 'X023.DE',
     name: 'Lyxor S&P SmallCap 600 UCITS ETF',
     price: 55.33,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
+    category: 'US',
+    isin: 'LU0392496005',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'X025.DE',
     name: 'Lyxor MSCI Europe Mid Cap UCITS ETF',
     price: 112.54,
-    issuer: 'Lyxor',
+    issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Europe'
+    category: 'Europe',
+    isin: 'LU0392496260',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'X026.DE',
     name: 'Amundi MSCI Europe Small Cap ESG Broad Transition UCITS ETF Dist',
-    price: 54.92,
+    price: 57.33,
     issuer: 'Amundi',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.23
   },
   {
     symbol: 'X03B.DE',
-    name: 'Xtrackers II Eurozone Government Bond 1-3 UCITS ETF',
-    price: 158.75,
+    name: 'Xtrackers II Eurozone Government Bond 1-3 UCITS ETF 1D',
+    price: 158.575,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0614173549',
+    ter: 0.1,
+    aum: 2970483100,
+    domicile: 'LU'
   },
   {
     symbol: 'X03C.DE',
-    name: 'Xtrackers II Eurozone Government Bond 3-5 UCITS ETF',
-    price: 186.03,
+    name: 'Xtrackers II Eurozone Government Bond 3-5 UCITS ETF 1D',
+    price: 185.485,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0614173895',
+    ter: 0.15,
+    aum: 482293184,
+    domicile: 'LU'
   },
   {
     symbol: 'X03F.DE',
-    name: 'Xtrackers II Eurozone Government Bond UCITS ETF 1D EUR',
-    price: 170.14,
+    name: 'Xtrackers II Eurozone Government Bond UCITS ETF 1D',
+    price: 171.275,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'Cash & Others',
+    isin: 'LU0643975591',
+    ter: 0.09,
+    aum: 2878016700,
+    domicile: 'DE'
   },
   {
     symbol: 'X03G.DE',
-    name: 'Xtrackers II Germany Government Bond UCITS ETF',
-    price: 175.095,
+    name: 'Xtrackers II Germany Government Bond UCITS ETF 1C',
+    price: 176.03,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Germany'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'X03G.F',
-    name: 'Xtrackers II Germany Government Bond UCITS ETF',
-    price: 170.31,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Germany'
-  ,
-    ter: 0.16
   },
   {
     symbol: 'X13G.DE',
@@ -16439,117 +14704,107 @@ export const xetraETFs: ETF[] = [
     price: 111.33,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
+    category: 'Bonds',
+    isin: 'LU1681046345',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'LU'
   },
   {
     symbol: 'X1GD.DE',
-    name: 'Amundi Index Solutions - Amundi Govt Bond Lowest Rated Euro Investment Grade',
-    price: 196.05,
+    name: 'Amundi Euro Lowest Rated IG Government Bond UCITS ETF Dist',
+    price: 195.26,
     issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Mixed'
-  ,
-    ter: 0.14
+    category: 'Bonds'
   },
   {
     symbol: 'XAAG.DE',
     name: 'Invesco Bloomberg Commodity ex-Agriculture UCITS ETF',
-    price: 28.035,
+    price: 38.99,
     issuer: 'Invesco',
     assetClass: 'Commodity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'Commodities'
   },
   {
     symbol: 'XAIN.DE',
-    name: 'Xtrackers MSCI Indonesia Swap UCITS ETF',
-    price: 11.566,
+    name: 'Xtrackers MSCI Indonesia Swap UCITS ETF 1C',
+    price: 10.044,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other'
   },
   {
     symbol: 'XAIX.DE',
-    name: 'Xtrackers Artificial Intelligence & Big Data UCITS ETF',
-    price: 139.6,
+    name: 'Xtrackers Artificial Intelligence & Big Data UCITS ETF 1C',
+    price: 154.36,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'XAIX.F',
-    name: 'Xtrackers Artificial Intelligence & Big Data UCITS ETF',
-    price: 86.12,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35000000000000003
+    category: 'Technology',
+    isin: 'IE00BGV5VN51',
+    ter: 0.35,
+    aum: 5594217200,
+    domicile: 'IE'
   },
   {
     symbol: 'XAMB.DE',
-    name: 'Amundi Index Solutions - Amundi MSCI World SRI UCITS ETF DR',
-    price: 97.21,
+    name: 'Amundi MSCI World SRI Climate Paris Aligned UCITS ETF Acc',
+    price: 105.72,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.18
+    category: 'Global',
+    isin: 'IE000Y77LGG9',
+    ter: 0.18,
+    aum: 3400054880,
+    domicile: 'IE'
   },
   {
     symbol: 'XAT1.DE',
-    name: 'Invesco AT1 Capital Bond ETF',
-    price: 16.55,
+    name: 'Invesco USD AT1 CoCo Bond UCITS ETF',
+    price: 16.595,
     issuer: 'Invesco',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'Bonds'
   },
   {
     symbol: 'XB4A.DE',
-    name: 'Xtrackers ATX UCITS ETF',
-    price: 94.1,
+    name: 'Xtrackers ATX UCITS ETF 1C',
+    price: 111.36,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Other',
+    isin: 'LU0659579063',
+    ter: 0.25,
+    aum: 106371034,
+    domicile: 'LU'
   },
   {
     symbol: 'XB4F.DE',
-    name: 'Xtrackers II ESG EUR Corporate Bond UCITS ETF',
-    price: 142.995,
+    name: 'Xtrackers II EUR Corporate Bond SRI PAB UCITS ETF 1D',
+    price: 142.86,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'ESG'
   },
   {
     symbol: 'XBAE.DE',
-    name: 'Xtrackers II ESG Global Aggregate Bond ETF',
-    price: 20.694,
+    name: 'Xtrackers II ESG Global Aggregate Bond UCITS ETF 5C EUR Hedged',
+    price: 20.993,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.1
+    category: 'Government',
+    isin: 'LU0942970798',
+    ter: 0.1,
+    aum: 692989434,
+    domicile: 'LU'
   },
   {
     symbol: 'XBAG.DE',
-    name: 'Xtrackers II ESG Global Aggregate Bond ETF',
-    price: 33.969,
+    name: 'Xtrackers II ESG Global Aggregate Bond UCITS ETF 1D',
+    price: 34.12,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.1
   },
   {
     symbol: 'XBAI.DE',
@@ -16557,47 +14812,41 @@ export const xetraETFs: ETF[] = [
     price: 228.27,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'Bonds',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'XBAK.DE',
-    name: 'Xtrackers MSCI Pakistan Swap UCITS ETF',
-    price: 1.3976,
+    name: 'Xtrackers MSCI Pakistan Swap UCITS ETF 1C',
+    price: 1.3658,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.85
-  },
-  {
-    symbol: 'XBAK.F',
-    name: 'Xtrackers MSCI Pakistan Swap UCITS ETF',
-    price: 0.522,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.8500000000000001
+    category: 'Other',
+    isin: 'LU0659579147',
+    ter: 0.85,
+    aum: 17880690,
+    domicile: 'LU'
   },
   {
     symbol: 'XBAS.DE',
-    name: 'Xtrackers MSCI Singapore UCITS ETF',
-    price: 1.9444,
+    name: 'Xtrackers MSCI Singapore UCITS ETF 1C',
+    price: 1.9992,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Other'
   },
   {
     symbol: 'XBAT.DE',
-    name: 'Xtrackers II Eurozone AAA Government Bond Swap UCITS ETF',
-    price: 204.32,
+    name: 'Xtrackers II Target Maturity Sept 2029 Italy and Spain Government Bond UCITS ETF 1C',
+    price: 206.44,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Cash & Others',
+    isin: 'LU0484969463',
+    ter: 0.12,
+    aum: 9038590,
+    domicile: 'LU'
   },
   {
     symbol: 'XBCD.DE',
@@ -16605,527 +14854,501 @@ export const xetraETFs: ETF[] = [
     price: 191.38,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Germany'
+    category: 'Germany',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'XBO2.DE',
-    name: 'Xtrackers II Italy Government Bond 0-1 Swap UCITS ETF',
-    price: 33.601,
+    name: 'Xtrackers II Italy Government Bond 0-1 Swap UCITS ETF 1C',
+    price: 34.104,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Bonds'
   },
   {
     symbol: 'XCHA.DE',
-    name: 'Xtrackers CSI300 Swap UCITS ETF',
-    price: 15.57,
+    name: 'Xtrackers CSI300 Swap UCITS ETF 1C',
+    price: 17.384,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'China',
+    isin: 'LU0779800910',
+    ter: 0.5,
+    aum: 1421670900,
+    domicile: 'LU'
   },
   {
     symbol: 'XCO2.DE',
-    name: 'Lyxor Global Green Bond 1-10Y (DR) UCITS ETF - Acc',
-    price: 18.8845,
-    issuer: 'Lyxor',
+    name: 'Amundi Global Aggregate Proceeds Bond 1-10Y UCITS ETF Acc',
+    price: 19.1725,
+    issuer: 'Amundi',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.15
+    category: 'Global',
+    isin: 'LU1981859819',
+    ter: 0.15,
+    aum: 24002141,
+    domicile: 'LU'
   },
   {
     symbol: 'XCS2.DE',
-    name: 'Xtrackers II Australia Government Bond UCITS ETF',
-    price: 135.61,
+    name: 'Xtrackers II Australia Government Bond UCITS ETF 1C',
+    price: 147.7,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Government',
+    isin: 'LU0494592974',
+    ter: 0.25,
+    aum: 35957871,
+    domicile: 'LU'
   },
   {
     symbol: 'XCS3.DE',
-    name: 'Xtrackers MSCI Malaysia UCITS ETF',
-    price: 10.726,
+    name: 'Xtrackers MSCI Malaysia UCITS ETF 1C',
+    price: 12.674,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Other',
+    isin: 'LU0514694370',
+    ter: 0.5,
+    aum: 47724220,
+    domicile: 'LU'
   },
   {
     symbol: 'XCS4.DE',
-    name: 'Xtrackers MSCI Thailand UCITS ETF',
-    price: 18.802,
+    name: 'Xtrackers MSCI Thailand UCITS ETF 1C',
+    price: 23.46,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.5
+    category: 'Other'
   },
   {
     symbol: 'XCS5.DE',
-    name: 'Xtrackers MSCI India Swap UCITS ETF',
-    price: 17.412,
+    name: 'Xtrackers MSCI India Swap UCITS ETF 1C',
+    price: 16.548,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.19
+    category: 'India'
   },
   {
     symbol: 'XCS6.DE',
-    name: 'Xtrackers MSCI China UCITS ETF',
-    price: 17.276,
+    name: 'Xtrackers MSCI China UCITS ETF 1C',
+    price: 16.902,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'China'
-  ,
-    ter: 0.65
-  },
-  {
-    symbol: 'XCTE.F',
-    name: 'Xtrackers Harvest MSCI China Tech 100 UCITS ETF',
-    price: 24.325,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'China'
-  ,
-    ter: 0.44
   },
   {
     symbol: 'XD5E.DE',
-    name: 'Xtrackers MSCI EMU UCITS ETF',
-    price: 57.06,
+    name: 'Xtrackers MSCI EMU UCITS ETF 1D',
+    price: 62.69,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Emerging Markets',
+    isin: 'LU0846194776',
+    ter: 0.09,
+    aum: 2230751900,
+    domicile: 'LU'
   },
   {
     symbol: 'XD9D.DE',
-    name: 'Xtrackers MSCI USA UCITS ETF',
-    price: 21.458,
+    name: 'Xtrackers MSCI USA UCITS ETF 1D',
+    price: 22.614,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.07
   },
   {
     symbol: 'XD9E.DE',
-    name: 'Xtrackers MSCI USA UCITS ETF',
-    price: 130.235,
+    name: 'Xtrackers MSCI USA UCITS ETF 2C - EUR Hedged',
+    price: 136.545,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'XD9U.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers MSCI USA UCITS ETF 1C',
-    price: 162.545,
+    name: 'Xtrackers MSCI USA UCITS ETF 1C',
+    price: 172.285,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'XDDA.F',
-    name: 'Xtrackers DAX UCITS ETF',
-    price: 7.799,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.09
+    category: 'US',
+    isin: 'IE00BJ0KDR00',
+    ter: 0.03,
+    aum: 10367795100,
+    domicile: 'IE'
   },
   {
     symbol: 'XDDX.DE',
-    name: 'Xtrackers DAX Income UCITS ETF',
-    price: 146.46,
+    name: 'Xtrackers DAX ESG Screened UCITS ETF 1D',
+    price: 149.44,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.09
+    category: 'Germany',
+    isin: 'LU0838782315',
+    ter: 0.09,
+    aum: 453767299,
+    domicile: 'LU'
   },
   {
     symbol: 'XDEB.DE',
-    name: 'Xtrackers MSCI World Minimum Volatility UCITS ETF',
-    price: 42.11,
+    name: 'Xtrackers MSCI World Minimum Volatility UCITS ETF 1C',
+    price: 43.59,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Global',
+    isin: 'IE00BL25JN58',
+    ter: 0.25,
+    aum: 668659213,
+    domicile: 'IE'
   },
   {
     symbol: 'XDEE.DE',
     name: 'Xtrackers S&P 500 Equal Weight UCITS ETF 2C EUR Hedged',
-    price: 10.668,
+    price: 11.296,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'XDEM.DE',
-    name: 'Xtrackers MSCI World Momentum UCITS ETF',
-    price: 65.86,
+    name: 'Xtrackers MSCI World Momentum UCITS ETF 1C',
+    price: 71.07,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Global',
+    isin: 'IE00BL25JP72',
+    ter: 0.25,
+    aum: 1548812200,
+    domicile: 'IE'
   },
   {
     symbol: 'XDEP.DE',
-    name: 'Xtrackers iBoxx EUR Corporate Bond Yield Plus UCITS ETF',
-    price: 15.2125,
+    name: 'Xtrackers iBoxx EUR Corporate Bond Yield Plus UCITS ETF 1D',
+    price: 15.1975,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Corporate',
+    isin: 'IE00BYPHT736',
+    ter: 0.25,
+    aum: 595136867,
+    domicile: 'IE'
   },
   {
     symbol: 'XDEQ.DE',
-    name: 'Xtrackers MSCI World Quality UCITS ETF',
-    price: 65.33,
+    name: 'Xtrackers MSCI World Quality UCITS ETF 1C',
+    price: 71.27,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Global',
+    isin: 'IE00BL25JL35',
+    ter: 0.25,
+    aum: 2357893200,
+    domicile: 'IE'
   },
   {
     symbol: 'XDEV.DE',
-    name: 'Xtrackers MSCI World Value UCITS ETF',
-    price: 46.32,
+    name: 'Xtrackers MSCI World Value UCITS ETF 1C',
+    price: 56.75,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDEW.DE',
-    name: 'Xtrackers S&P 500 Equal Weight UCITS ETF',
-    price: 88.01,
+    name: 'Xtrackers S&P 500 Equal Weight UCITS ETF 1C',
+    price: 94.3,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BLNMYC90',
+    ter: 0.15,
+    aum: 11512066800,
+    domicile: 'IE'
   },
   {
     symbol: 'XDGE.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers USD Corporate Bond UCITS ETF 2D - EUR Hedged',
-    price: 10.423,
+    name: 'Xtrackers USD Corporate Bond UCITS ETF 2D EUR Hedged',
+    price: 10.4455,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.21
+    category: 'Bonds'
   },
   {
     symbol: 'XDGM.DE',
-    name: 'Xtrackers MDAX ESG Screened UCITS ETF',
-    price: 22.275,
+    name: 'Xtrackers MDAX ESG Screened UCITS ETF 1D',
+    price: 22.13,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Germany'
-  ,
-    ter: 0.4
+    category: 'Germany',
+    isin: 'IE00B9MRJJ36',
+    ter: 0.4,
+    aum: 86536992,
+    domicile: 'IE'
   },
   {
     symbol: 'XDGU.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers USD Corporate Bond UCITS ETF 1D',
-    price: 10.9635,
+    name: 'Xtrackers USD Corporate Bond UCITS ETF 1D',
+    price: 11.103,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Corporate',
+    isin: 'IE00BZ036H21',
+    ter: 0.12,
+    aum: 1306087900,
+    domicile: 'IE'
   },
   {
     symbol: 'XDJE.DE',
-    name: 'Xtrackers Nikkei 225 UCITS ETF',
-    price: 62.85,
+    name: 'Xtrackers Nikkei 225 UCITS ETF 2D EUR Hedged',
+    price: 82.96,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.19
+    category: 'Japan',
+    isin: 'LU1875395870',
+    ter: 0.19,
+    aum: 2219193600,
+    domicile: 'LU'
   },
   {
     symbol: 'XDJP.DE',
     name: 'Xtrackers Nikkei 225 UCITS ETF 1D',
-    price: 25.085,
+    price: 31.05,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.09
+    category: 'Japan',
+    isin: 'LU0839027447',
+    ter: 0.09,
+    aum: 2219193600,
+    domicile: 'LU'
   },
   {
     symbol: 'XDN0.DE',
-    name: 'Xtrackers MSCI Nordic UCITS ETF',
-    price: 46.77,
+    name: 'Xtrackers MSCI Nordic UCITS ETF 1D',
+    price: 51.22,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other',
+    isin: 'IE00B9MRHC27',
+    ter: 0.3,
+    aum: 1035981987,
+    domicile: 'IE'
   },
   {
     symbol: 'XDND.DE',
-    name: 'Xtrackers MSCI North America High Dividend Yield UCITS ETF',
-    price: 51.1,
+    name: 'Xtrackers MSCI North America High Dividend Yield UCITS ETF 1C',
+    price: 56.73,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.39
+    category: 'Dividend',
+    isin: 'IE00BH361H73',
+    ter: 0.39,
+    aum: 118784649,
+    domicile: 'IE'
   },
   {
     symbol: 'XDNE.DE',
-    name: 'Xtrackers MSCI Japan ESG Screened UCITS ETF',
-    price: 32.235,
+    name: 'Xtrackers MSCI Japan Screened UCITS ETF 3C EUR Hedged',
+    price: 39.705,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDNY.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers JPX-Nikkei 400 UCITS ETF 1D',
-    price: 15.912,
+    name: 'Xtrackers MSCI Japan Screened UCITS ETF 1D',
+    price: 18.296,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'XDNY.F',
-    name: 'Xtrackers (IE) Plc - Xtrackers JPX-Nikkei 400 UCITS ETF 1D',
-    price: 13.592,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.15
+    category: 'Japan',
+    isin: 'IE00BPVLQD13',
+    ter: 0.15,
+    aum: 432812101,
+    domicile: 'IE'
   },
   {
     symbol: 'XDPD.DE',
-    name: 'Xtrackers S&P 500 UCITS ETF',
-    price: 84.372,
+    name: 'Xtrackers S&P 500 UCITS ETF 1D EUR Hedged',
+    price: 88.314,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'XDPD.F',
-    name: 'Xtrackers S&P 500 UCITS ETF',
-    price: 60.73,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BGJWX091',
+    ter: 0.05,
+    aum: 2103610599,
+    domicile: 'IE'
   },
   {
     symbol: 'XDPE.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers S&P 500 UCITS ETF 1C - EUR Hedged',
-    price: 91.116,
+    name: 'Xtrackers S&P 500 UCITS ETF 1C EUR Hedged',
+    price: 95.774,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'US',
+    isin: 'IE00BM67HW99',
+    ter: 0.05,
+    aum: 2103610599,
+    domicile: 'IE'
   },
   {
     symbol: 'XDUK.DE',
-    name: 'Xtrackers FTSE 100 UCITS ETF',
-    price: 16.55,
+    name: 'Xtrackers FTSE 100 UCITS ETF 1C',
+    price: 19.09,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.09
+    category: 'UK',
+    isin: 'LU0838780707',
+    ter: 0.09,
+    aum: 97482702,
+    domicile: 'LU'
   },
   {
     symbol: 'XDW0.DE',
-    name: 'Xtrackers MSCI World Energy UCITS ETF',
-    price: 45.85,
+    name: 'Xtrackers MSCI World Energy UCITS ETF 1C',
+    price: 58.43,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Energy',
+    isin: 'IE00BM67HM91',
+    ter: 0.25,
+    aum: 1618161999,
+    domicile: 'IE'
   },
   {
     symbol: 'XDWC.DE',
-    name: 'Xtrackers MSCI World Consumer Discretionary UCITS ETF',
-    price: 57.16,
+    name: 'Xtrackers MSCI World Consumer Discretionary UCITS ETF 1C',
+    price: 56.62,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDWD.DE',
-    name: 'Xtrackers MSCI World UCITS ETF',
-    price: 114.385,
+    name: 'Xtrackers MSCI World UCITS ETF 1C',
+    price: 123.615,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.12
+    category: 'Global',
+    isin: 'IE00BJ0KDQ92',
+    ter: 0.12,
+    aum: 21671812500,
+    domicile: 'IE'
   },
   {
     symbol: 'XDWF.DE',
-    name: 'Xtrackers MSCI World Financials UCITS ETF',
-    price: 35.04,
+    name: 'Xtrackers MSCI World Financials UCITS ETF 1C',
+    price: 35.845,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDWH.DE',
-    name: 'Xtrackers MSCI World Health Care UCITS ETF',
-    price: 45.1,
+    name: 'Xtrackers MSCI World Health Care UCITS ETF 1C',
+    price: 50.01,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Healthcare',
+    isin: 'IE00BM67HK77',
+    ter: 0.25,
+    aum: 2947366500,
+    domicile: 'IE'
   },
   {
     symbol: 'XDWI.DE',
-    name: 'Xtrackers MSCI World Industrials UCITS ETF',
-    price: 62.59,
+    name: 'Xtrackers MSCI World Industrials UCITS ETF 1C',
+    price: 72.29,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDWL.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers MSCI World UCITS ETF 1D',
-    price: 95.514,
+    name: 'Xtrackers MSCI World UCITS ETF 1D',
+    price: 102.6,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'XDWM.DE',
-    name: 'Xtrackers MSCI World Materials UCITS ETF',
-    price: 55.17,
+    name: 'Xtrackers MSCI World Materials UCITS ETF 1C',
+    price: 66.84,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDWS.DE',
-    name: 'Xtrackers MSCI World Consumer Staples UCITS ETF',
-    price: 44.205,
+    name: 'Xtrackers MSCI World Consumer Staples UCITS ETF 1C',
+    price: 47.8,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDWT.DE',
-    name: 'Xtrackers MSCI World Information Technology UCITS ETF',
-    price: 92.07,
+    name: 'Xtrackers MSCI World Information Technology UCITS ETF 1C',
+    price: 97.56,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Technology',
+    isin: 'IE00BM67HT60',
+    ter: 0.25,
+    aum: 4184104599,
+    domicile: 'IE'
   },
   {
     symbol: 'XDWU.DE',
-    name: 'Xtrackers MSCI World Utilities UCITS ETF',
-    price: 36.05,
+    name: 'Xtrackers MSCI World Utilities UCITS ETF 1C',
+    price: 42.58,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XDWY.DE',
-    name: 'Xtrackers MSCI World ESG Screened UCITS ETF',
-    price: 23.255,
+    name: 'Xtrackers MSCI World Screened UCITS ETF 1D',
+    price: 24.82,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.19
-  },
-  {
-    symbol: 'XEC1.F',
-    name: 'Xtrackers II EUR Corporate Bond UCITS ETF',
-    price: 7.6052,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.12
+    category: 'Global',
+    isin: 'IE00BCHWNQ94',
+    ter: 0.19,
+    aum: 191497914,
+    domicile: 'IE'
   },
   {
     symbol: 'XEIN.DE',
-    name: 'Xtrackers II Eurozone Inflation-Linked Bond UCITS ETF',
-    price: 237.32,
+    name: 'Xtrackers II Eurozone Inflation-Linked Bond UCITS ETF 1C',
+    price: 245.44,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0290358224',
+    ter: 0.15,
+    aum: 402263514,
+    domicile: 'LU'
   },
   {
     symbol: 'XESD.DE',
-    name: 'Xtrackers Spain UCITS ETF',
-    price: 33.54,
+    name: 'Xtrackers Spain UCITS ETF 1D',
+    price: 40.14,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other'
   },
   {
     symbol: 'XESP.DE',
-    name: 'Xtrackers Spain UCITS ETF',
-    price: 45.71,
+    name: 'Xtrackers Spain UCITS ETF 1C',
+    price: 55.52,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other',
+    isin: 'LU0592216393',
+    ter: 0.3,
+    aum: 478582969,
+    domicile: 'LU'
   },
   {
     symbol: 'XETC.DE',
@@ -17133,227 +15356,213 @@ export const xetraETFs: ETF[] = [
     price: 109.55,
     issuer: 'Xtrackers',
     assetClass: 'Commodity',
-    category: 'Energy'
+    category: 'Energy',
+    ter: undefined,
+    aum: undefined
   },
   {
     symbol: 'XG7S.DE',
-    name: 'Xtrackers II Global Government Bond UCITS ETF',
-    price: 216.46,
+    name: 'Xtrackers II Global Government Bond UCITS ETF 5C',
+    price: 220.09,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'XGBE.DE',
-    name: 'Xtrackers EUR Corporate Green Bond UCITS ETF',
-    price: 27.577,
+    name: 'Xtrackers EUR Corporate Green Bond UCITS ETF 1C',
+    price: 27.94,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Corporate',
+    isin: 'IE000MCVFK47',
+    ter: 0.25,
+    aum: 150234783,
+    domicile: 'IE'
+  },
+  {
+    symbol: 'XGDU.DE',
+    name: 'Xtrackers IE Physical Gold ETC Securities',
+    price: 69.105,
+    issuer: 'Xtrackers',
+    assetClass: 'Commodity',
+    category: 'Commodities',
+    isin: 'DE000A2T0VU5',
+    ter: 0.11,
+    aum: 6657580799,
+    domicile: 'DE'
   },
   {
     symbol: 'XGII.DE',
-    name: 'Xtrackers II Global Inflation-Linked Bond UCITS ETF 1D - EUR Hedged',
-    price: 189.17,
+    name: 'Xtrackers II Global Inflation-Linked Bond UCITS ETF 1D EUR Hedged',
+    price: 193.16,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'LU0962078753',
+    ter: 0.2,
+    aum: 847824421,
+    domicile: 'LU'
   },
   {
     symbol: 'XGIU.DE',
-    name: 'Xtrackers II Global Inflation-Linked Bond UCITS ETF',
-    price: 21.71,
+    name: 'Xtrackers II Global Inflation-Linked Bond UCITS ETF 5C',
+    price: 22.57,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Global'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'XGIU.F',
-    name: 'Xtrackers II Global Inflation-Linked Bond UCITS ETF',
-    price: 21.813,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'XGLF.DE',
-    name: 'Xtrackers MSCI GCC Select Swap UCITS ETF',
-    price: 22.94,
+    name: 'Xtrackers MSCI GCC Select Swap UCITS ETF 1C',
+    price: 24.005,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other',
+    isin: 'IE00BQXKVQ19',
+    ter: 0.65,
+    aum: 21983886,
+    domicile: 'IE'
   },
   {
     symbol: 'XGVD.DE',
-    name: 'Xtrackers II Global Government Bond UCITS ETF 1D - EUR Hedged',
-    price: 173.945,
+    name: 'Xtrackers II Global Government Bond UCITS ETF 1D EUR Hedged',
+    price: 174.005,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU0690964092',
+    ter: 0.25,
+    aum: 2230751900,
+    domicile: 'LU'
   },
   {
     symbol: 'XHY1.DE',
-    name: 'Xtrackers II EUR High Yield Corporate Bond 1-3 Swap UCITS ETF',
-    price: 8.5592,
+    name: 'Xtrackers II Rolling Target Maturity Sept 2027 EUR High Yield UCITS ETF 1D',
+    price: 8.5148,
     issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    assetClass: 'Mixed',
+    category: 'Dividend'
   },
   {
     symbol: 'XHYA.DE',
-    name: 'Xtrackers II EUR High Yield Corporate Bond UCITS ETF',
-    price: 23.661,
+    name: 'Xtrackers II EUR High Yield Corporate Bond UCITS ETF 1C',
+    price: 23.889,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'LU1109943388',
+    ter: 0.2,
+    aum: 2970483100,
+    domicile: 'LU'
   },
   {
     symbol: 'XHYG.DE',
-    name: 'Xtrackers II EUR High Yield Corporate Bond UCITS ETF',
-    price: 15.9745,
+    name: 'Xtrackers II EUR High Yield Corporate Bond UCITS ETF 1D',
+    price: 15.7535,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'Cash & Others',
+    isin: 'LU1109942653',
+    ter: 0.2,
+    aum: 2970483100,
+    domicile: 'LU'
   },
   {
     symbol: 'XIEE.DE',
-    name: 'Xtrackers MSCI Europe UCITS ETF',
-    price: 77.4,
+    name: 'Xtrackers MSCI Europe UCITS ETF 1D',
+    price: 85.68,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'XIEE.F',
-    name: 'Xtrackers MSCI Europe UCITS ETF',
-    price: 66.55,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'LU1242369327',
+    ter: 0.12,
+    aum: 7478220099,
+    domicile: 'LU'
   },
   {
     symbol: 'XJSE.DE',
-    name: 'Xtrackers II Japan Government Bond UCITS ETF',
-    price: 6.695,
+    name: 'Xtrackers II Japan Government Bond UCITS ETF 1C',
+    price: 6.1332,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
     category: 'Japan'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'XLIQ.DE',
-    name: 'Xtrackers II EUR Covered Bond Swap UCITS ETF',
-    price: 147.615,
+    name: 'Xtrackers II EUR Covered Bond Swap UCITS ETF 1C',
+    price: 148.565,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'XMA1.F',
-    name: 'Xtrackers MSCI EM Asia ESG Screened Swap UCITS ETF',
-    price: 18.546,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.35000000000000003
-  },
-  {
-    symbol: 'XMAE.F',
-    name: 'Xtrackers MSCI AC World ESG Screened UCITS ETF',
-    price: 32.25,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.37
+    category: 'Bonds'
   },
   {
     symbol: 'XMAW.DE',
-    name: 'Xtrackers MSCI AC World ESG Screened UCITS ETF',
-    price: 40.875,
+    name: 'Xtrackers MSCI AC World Screened UCITS ETF 1C',
+    price: 44.435,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XMK9.DE',
-    name: 'Xtrackers MSCI Japan UCITS ETF',
-    price: 43.853,
+    name: 'Xtrackers MSCI Japan UCITS ETF 4C EUR Hedged',
+    price: 54.542,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.4
+    category: 'Japan',
+    isin: 'LU0659580079',
+    ter: 0.4,
+    aum: 5582658900,
+    domicile: 'LU'
   },
   {
     symbol: 'XMKA.DE',
-    name: 'Xtrackers MSCI Africa Top 50 Swap UCITS ETF',
-    price: 8.469,
+    name: 'Xtrackers MSCI Africa Top 50 Swap UCITS ETF 1C',
+    price: 9.217,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other',
+    isin: 'LU0592217524',
+    ter: 0.65,
+    aum: 70979520,
+    domicile: 'LU'
   },
   {
     symbol: 'XMLC.DE',
     name: 'L&G Clean Water UCITS ETF',
-    price: 17.564,
+    price: 18.286,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Industrials',
+    isin: 'IE00BK5BC891',
+    ter: 0.49,
+    aum: 521030009,
+    domicile: 'IE'
   },
   {
     symbol: 'XMLD.DE',
     name: 'L&G Artificial Intelligence UCITS ETF',
-    price: 22.175,
+    price: 23.615,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Technology',
+    isin: 'IE00BK5BCD43',
+    ter: 0.49,
+    aum: 1156232528,
+    domicile: 'IE'
   },
   {
     symbol: 'XMLH.DE',
-    name: 'L&G Healthcare Breakthrough UCITS ETF',
-    price: 10.848,
+    name: 'L&G Healthcare Technology & Innovation UCITS ETF',
+    price: 12.212,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.49
+    category: 'Healthcare',
+    isin: 'IE00BK5BC677',
+    ter: 0.49,
+    aum: 153606774,
+    domicile: 'IE'
   },
   {
     symbol: 'XMLP.DE',
@@ -17361,407 +15570,311 @@ export const xetraETFs: ETF[] = [
     price: 5.176,
     issuer: 'L&G',
     assetClass: 'Equity',
-    category: 'Technology'
+    category: 'US'
   },
   {
     symbol: 'XMME.DE',
-    name: 'Xtrackers MSCI Emerging Markets UCITS ETF',
-    price: 58.418,
+    name: 'Xtrackers MSCI Emerging Markets UCITS ETF 1C',
+    price: 70.564,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'XMME.F',
-    name: 'Xtrackers MSCI Emerging Markets UCITS ETF',
-    price: 46.257,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets',
+    isin: 'IE00BTJRMP35',
+    ter: 0.18,
+    aum: 9963254600,
+    domicile: 'IE'
   },
   {
     symbol: 'XMOV.DE',
-    name: 'Xtrackers Future Mobility UCITS ETF',
-    price: 91.9,
+    name: 'Xtrackers Future Mobility UCITS ETF 1C',
+    price: 106.64,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.35
+    category: 'Other',
+    isin: 'IE00BGV5VR99',
+    ter: 0.35,
+    aum: 144848615,
+    domicile: 'IE'
   },
   {
     symbol: 'XMVE.DE',
-    name: 'Xtrackers MSCI EMU ESG Screened UCITS ETF 1D',
-    price: 33.595,
+    name: 'Xtrackers MSCI EMU Screened UCITS ETF 1D',
+    price: 36.685,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'XNAS.F',
-    name: 'Xtrackers NASDAQ 100 UCITS ETF',
-    price: 48.25,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'XNKY.F',
-    name: 'Xtrackers Nikkei 225 UCITS ETF',
-    price: 67.02,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.09
-  },
-  {
-    symbol: 'XNZW.F',
-    name: 'Xtrackers World Net Zero Pathway Paris Aligned UCITS ETF',
-    price: 37.745,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.19
+    category: 'Emerging Markets'
   },
   {
     symbol: 'XPQP.DE',
-    name: 'Xtrackers MSCI Philippines UCITS ETF',
-    price: 1.3314,
+    name: 'Xtrackers MSCI Philippines UCITS ETF 1C',
+    price: 1.3272,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Other',
+    isin: 'LU0592215403',
+    ter: 0.65,
+    aum: 38257973,
+    domicile: 'LU'
   },
   {
     symbol: 'XQUA.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers ESG USD Emerging Markets Bond Quality Weighted UCITS ETF 1D',
-    price: 8.9204,
+    name: 'Xtrackers ESG USD Emerging Markets Bond Quality Weighted UCITS ETF 1D',
+    price: 9.0826,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.45
+    category: 'Government',
+    isin: 'IE00BD4DX952',
+    ter: 0.45,
+    aum: 236806450,
+    domicile: 'IE'
   },
   {
     symbol: 'XQUE.DE',
-    name: 'Xtrackers ESG USD Emerging Markets Bond Quality Weighted UCITS ETF',
-    price: 8.3078,
+    name: 'Xtrackers ESG USD Emerging Markets Bond Quality Weighted UCITS ETF 2D EUR Hedged',
+    price: 8.384,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.5
+    category: 'Government',
+    isin: 'IE00BD4DXB77',
+    ter: 0.5,
+    aum: 236806450,
+    domicile: 'IE'
   },
   {
     symbol: 'XREA.DE',
-    name: 'Xtrackers FTSE Developed Europe ex UK Real Estate UCITS ETF',
-    price: 55.52,
+    name: 'Xtrackers FTSE Developed Europe ex UK Real Estate UCITS ETF 1C',
+    price: 59.87,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.33
-  },
-  {
-    symbol: 'XRME.F',
-    name: 'Xtrackers MSCI USA ESG Screened UCITS ETF',
-    price: 7.823,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'Real Estate',
+    isin: 'IE00BP8FKB21',
+    ter: 0.33,
+    aum: 20250141,
+    domicile: 'IE'
   },
   {
     symbol: 'XRS2.DE',
-    name: 'Xtrackers Russell 2000 UCITS ETF',
-    price: 297.25,
+    name: 'Xtrackers Russell 2000 UCITS ETF 1C',
+    price: 324.85,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'XRS2.F',
-    name: 'Xtrackers Russell 2000 UCITS ETF',
-    price: 318.35,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Other',
+    isin: 'IE00BJZ2DD79',
+    ter: 0.3,
+    aum: 2149843800,
+    domicile: 'IE'
   },
   {
     symbol: 'XRSM.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers Russell Midcap UCITS ETF 1C',
-    price: 47.835,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.07
-  },
-  {
-    symbol: 'XS5E.DE',
-    name: 'Xtrackers S&P 500 Swap UCITS ETF',
-    price: 9.5666,
+    name: 'Xtrackers MSCI USA Screened UCITS ETF 1C',
+    price: 50.41,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.2
+  },
+  {
+    symbol: 'XS5E.DE',
+    name: 'Xtrackers S&P 500 Swap UCITS ETF 5C EUR Hedged',
+    price: 10.0585,
+    issuer: 'Xtrackers',
+    assetClass: 'Equity',
+    category: 'US'
   },
   {
     symbol: 'XS7W.DE',
-    name: 'Xtrackers Portfolio Income UCITS ETF',
-    price: 12.97,
+    name: 'Xtrackers Portfolio Income UCITS ETF 1D',
+    price: 13.392,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.65
+    category: 'Dividend',
+    isin: 'IE00B3Y8D011',
+    ter: 0.65,
+    aum: 59351870,
+    domicile: 'IE'
   },
   {
     symbol: 'XSXE.DE',
-    name: 'Xtrackers Stoxx Europe 600 UCITS ETF',
-    price: 132.94,
+    name: 'Xtrackers Stoxx Europe 600 UCITS ETF 2C - EUR Hedged',
+    price: 147.08,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
-  },
-  {
-    symbol: 'XSXE.F',
-    name: 'Xtrackers Stoxx Europe 600 UCITS ETF',
-    price: 106.72,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'LU1772333404',
+    ter: 0.25,
+    aum: 4496178700,
+    domicile: 'LU'
   },
   {
     symbol: 'XU61.DE',
     name: 'BNP Paribas Easy ECPI Global ESG Infrastructure',
-    price: 82.63,
+    price: 98.19,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'XU6C.DE',
     name: 'BNP Paribas Easy MSCI Emerging SRI S-Series 5% Capped UCITS ETF EUR Distribution',
-    price: 106.32,
+    price: 115.56,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.3
+    category: 'Emerging Markets',
+    isin: 'LU1659681313',
+    ter: 0.3,
+    aum: 51314188,
+    domicile: 'LU'
   },
   {
     symbol: 'XUCD.DE',
-    name: 'Xtrackers MSCI USA Consumer Discretionary UCITS ETF',
-    price: 79.7,
+    name: 'Xtrackers MSCI USA Consumer Discretionary UCITS ETF 1D',
+    price: 79.84,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'Consumer Cyclical',
+    isin: 'IE00BGQYRR35',
+    ter: 0.12,
+    aum: 160949327,
+    domicile: 'IE'
   },
   {
     symbol: 'XUCM.DE',
-    name: 'Xtrackers MSCI USA Communication Services UCITS ETF',
-    price: 72.12,
+    name: 'Xtrackers MSCI USA Communication Services UCITS ETF 1D',
+    price: 75.78,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'XUCM.F',
-    name: 'Xtrackers MSCI USA Communication Services UCITS ETF',
-    price: 42.125,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'Communication',
+    isin: 'IE00BNC1G707',
+    ter: 0.12,
+    aum: 900195078,
+    domicile: 'IE'
   },
   {
     symbol: 'XUCS.DE',
-    name: 'Xtrackers MSCI USA Consumer Staples UCITS ETF',
-    price: 40.3,
+    name: 'Xtrackers MSCI USA Consumer Staples UCITS ETF 1D',
+    price: 43.88,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'XUEK.DE',
-    name: 'Xtrackers S&P Europe ex UK UCITS ETF',
-    price: 75.83,
+    name: 'Xtrackers S&P Europe ex UK UCITS ETF 1D',
+    price: 83.28,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.09
   },
   {
     symbol: 'XUEM.DE',
-    name: 'Xtrackers II USD Emerging Markets Bond UCITS ETF',
-    price: 9.965,
+    name: 'Xtrackers II J.P. Morgan USD Emerging Markets Bond UCITS ETF 2D',
+    price: 10.3335,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Cash & Others',
+    isin: 'LU0677077884',
+    ter: 0.25,
+    aum: 400911193,
+    domicile: 'LU'
   },
   {
     symbol: 'XUEN.DE',
-    name: 'Xtrackers MSCI USA Energy UCITS ETF',
-    price: 40.03,
+    name: 'Xtrackers MSCI USA Energy UCITS ETF 1D',
+    price: 49.84,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'Energy',
+    isin: 'IE00BCHWNS19',
+    ter: 0.12,
+    aum: 93344830,
+    domicile: 'IE'
   },
   {
     symbol: 'XUFN.DE',
-    name: 'Xtrackers MSCI USA Financials UCITS ETF',
-    price: 33.815,
+    name: 'Xtrackers MSCI USA Financials UCITS ETF 1D',
+    price: 31.745,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'XUHC.DE',
-    name: 'Xtrackers MSCI USA Health Care UCITS ETF',
-    price: 47.725,
+    name: 'Xtrackers MSCI USA Health Care UCITS ETF 1D',
+    price: 53.04,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'XUHE.DE',
-    name: 'Xtrackers USD High Yield Corporate Bond UCITS ETF',
-    price: 16.217,
+    name: 'Xtrackers USD High Yield Corporate Bond UCITS ETF 2C EUR Hedged',
+    price: 16.5535,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.25
+    category: 'Corporate',
+    isin: 'IE00BG04LT92',
+    ter: 0.25,
+    aum: 677894295,
+    domicile: 'IE'
   },
   {
     symbol: 'XUHY.DE',
-    name: 'Xtrackers (IE) Plc - Xtrackers USD High Yield Corporate Bond UCITS ETF 1D',
-    price: 11.1325,
+    name: 'Xtrackers USD High Yield Corporate Bond UCITS ETF 1D',
+    price: 11.1045,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'XUIN.F',
-    name: 'Xtrackers MSCI USA Industrials UCITS ETF',
-    price: 62.91,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'Dividend'
   },
   {
     symbol: 'XUTC.DE',
-    name: 'Xtrackers MSCI USA Information Technology UCITS ETF',
-    price: 110.48,
+    name: 'Xtrackers MSCI USA Information Technology UCITS ETF 1D',
+    price: 115.7,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.12
+    category: 'Technology',
+    isin: 'IE00BGQYRS42',
+    ter: 0.12,
+    aum: 1491020700,
+    domicile: 'IE'
   },
   {
     symbol: 'XUTD.DE',
     name: 'Xtrackers II US Treasuries UCITS ETF 1D',
-    price: 166.06,
+    price: 168.275,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.06
+    category: 'Government',
+    isin: 'LU0429459356',
+    ter: 0.06,
+    aum: 2184518700,
+    domicile: 'LU'
   },
   {
     symbol: 'XUTE.DE',
-    name: 'Xtrackers II US Treasuries UCITS ETF',
-    price: 91.466,
+    name: 'Xtrackers II US Treasuries UCITS ETF 2D EUR Hedged',
+    price: 91.708,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
-  },
-  {
-    symbol: 'XWD1.F',
-    name: 'Xtrackers MSCI World Swap UCITS ETF',
-    price: 16.5615,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.19
+    category: 'Cash & Others',
+    isin: 'LU1399300455',
+    ter: 0.1,
+    aum: 2184518700,
+    domicile: 'LU'
   },
   {
     symbol: 'XWEH.DE',
-    name: 'Xtrackers MSCI World Swap UCITS ETF',
-    price: 44.762,
+    name: 'Xtrackers MSCI World Swap UCITS ETF 4C EUR Hedged',
+    price: 47.911,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.39
-  },
-  {
-    symbol: 'XWEH.F',
-    name: 'Xtrackers MSCI World Swap UCITS ETF',
-    price: 32.014,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.39
   },
   {
     symbol: 'XWTS.DE',
-    name: 'Xtrackers MSCI World Communication Services UCITS ETF',
-    price: 26.665,
+    name: 'Xtrackers MSCI World Communication Services UCITS ETF 1C',
+    price: 28.4,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.25
   },
   {
     symbol: 'XY1D.DE',
@@ -17769,547 +15882,466 @@ export const xetraETFs: ETF[] = [
     price: 135.665,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
+    category: 'US',
+    ter: undefined,
+    aum: undefined,
+    domicile: 'DE'
   },
   {
     symbol: 'XY4P.DE',
-    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus UCITS ETF',
-    price: 178.34,
+    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus UCITS ETF 1C',
+    price: 182.115,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0524480265',
+    ter: 0.15,
+    aum: 1225179800,
+    domicile: 'LU'
   },
   {
     symbol: 'XYLD.DE',
-    name: 'Xtrackers ESG USD Corporate Bond Short Duration UCITS ETF',
-    price: 15.7025,
+    name: 'Xtrackers USD Corporate Bond Short Duration SRI PAB UCITS ETF 1D',
+    price: 15.7335,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'ESG'
   },
   {
     symbol: 'XYLE.DE',
-    name: 'Xtrackers ESG USD Corporate Bond Short Duration UCITS ETF',
-    price: 19.4685,
+    name: 'Xtrackers USD Corporate Bond Short Duration SRI PAB UCITS ETF 2C EUR Hedged',
+    price: 19.703,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.21
+    category: 'Corporate',
+    isin: 'IE00BFMKQ930',
+    ter: 0.21,
+    aum: 100141111,
+    domicile: 'IE'
   },
   {
     symbol: 'XYP1.DE',
-    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus 1-3 UCITS ETF',
-    price: 149.475,
+    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus 1-3 UCITS ETF 1C',
+    price: 150.53,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'XYP1.F',
-    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus 1-3 UCITS ETF',
-    price: 137.635,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
+    category: 'Cash & Others',
+    isin: 'LU0925589839',
+    ter: 0.15,
+    aum: 273712102,
+    domicile: 'LU'
   },
   {
     symbol: 'XYPD.DE',
-    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus UCITS ETF',
-    price: 144.3,
+    name: 'Xtrackers II iBoxx Eurozone Government Bond Yield Plus UCITS ETF 1D',
+    price: 145.65,
     issuer: 'Xtrackers',
     assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.15
-  },
-  {
-    symbol: 'XZBE.F',
-    name: 'Xtrackers ESG USD Corporate Bond UCITS ETF',
-    price: 31.025,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.21
-  },
-  {
-    symbol: 'XZBU.F',
-    name: 'Xtrackers ESG USD Corporate Bond UCITS ETF',
-    price: 35.577,
-    issuer: 'Xtrackers',
-    assetClass: 'Fixed Income',
-    category: 'Technology'
-  ,
-    ter: 0.16
+    category: 'Government',
+    isin: 'LU0962071741',
+    ter: 0.15,
+    aum: 1225179800,
+    domicile: 'LU'
   },
   {
     symbol: 'XZEC.DE',
-    name: 'Xtrackers MSCI Europe Consumer Discretionary ESG Screened UCITS ETF',
-    price: 57.55,
+    name: 'Xtrackers Stoxx European Market Leaders UCITS ETF 1C',
+    price: 63.83,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.17
+    category: 'Europe',
+    isin: 'IE00BNKF6C99',
+    ter: 0.25,
+    aum: 6900305,
+    domicile: 'IE'
   },
   {
     symbol: 'XZEM.DE',
-    name: 'Xtrackers MSCI Emerging Markets ESG UCITS ETF',
-    price: 49.68,
+    name: 'Xtrackers MSCI Emerging Markets ESG UCITS ETF 1C',
+    price: 57.02,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.25
+    category: 'Emerging Markets',
+    isin: 'IE00BG370F43',
+    ter: 0.25,
+    aum: 1421670900,
+    domicile: 'IE'
   },
   {
     symbol: 'XZEU.DE',
-    name: 'Xtrackers MSCI Europe ESG UCITS ETF',
-    price: 32.16,
+    name: 'Xtrackers MSCI Europe ESG UCITS ETF 1C',
+    price: 33.39,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'XZME.F',
-    name: 'Xtrackers MSCI USA ESG UCITS ETF 2C EUR Hedged',
-    price: 6.798,
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'IE00BFMNHK08',
+    ter: 0.2,
+    aum: 1115410624,
+    domicile: 'IE'
   },
   {
     symbol: 'XZMJ.DE',
-    name: 'Xtrackers MSCI Japan ESG UCITS ETF',
-    price: 22.6,
+    name: 'Xtrackers MSCI Japan ESG UCITS ETF 1C',
+    price: 25.775,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.2
+    category: 'Japan',
+    isin: 'IE00BG36TC12',
+    ter: 0.2,
+    aum: 3155415900,
+    domicile: 'IE'
   },
   {
     symbol: 'XZMU.DE',
-    name: 'Xtrackers MSCI USA ESG UCITS ETF',
-    price: 60.09,
+    name: 'Xtrackers MSCI USA ESG UCITS ETF 1C',
+    price: 63.04,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'US',
+    isin: 'IE00BFMNPS42',
+    ter: 0.15,
+    aum: 8125484899,
+    domicile: 'IE'
   },
   {
     symbol: 'XZW0.DE',
-    name: 'Xtrackers MSCI World ESG UCITS ETF',
-    price: 41.415,
+    name: 'Xtrackers MSCI World ESG UCITS ETF 1C',
+    price: 43.41,
     issuer: 'Xtrackers',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.2
+    category: 'Global',
+    isin: 'IE00BZ02LR44',
+    ter: 0.2,
+    aum: 6495764599,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPAB.DE',
-    name: 'Amundi S&P Eurozone Climate Paris Aligned UCITS ETF Capitalisation',
-    price: 35.7,
+    name: 'Amundi S&P Eurozone Climate Paris Aligned UCITS ETF Acc',
+    price: 38.47,
     issuer: 'Amundi',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.2
-  },
-  {
-    symbol: 'ZPD6.F',
-    name: 'SPDR S&P U.S. Dividend Aristocrats ESG UCITS ETF',
-    price: 18.416,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.35
-  },
-  {
-    symbol: 'ZPD9.F',
-    name: 'SPDR S&P Euro Dividend Aristocrats ESG UCITS ETF',
-    price: 19.476,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'LU2195226068',
+    ter: 0.2,
+    aum: 2538854057,
+    domicile: 'LU'
   },
   {
     symbol: 'ZPDD.DE',
-    name: 'SPDR S&P U.S. Consumer Discretionary Select Sector UCITS ETF',
-    price: 59.47,
+    name: 'State Street SPDR S&P U.S. Consumer Discretionary Select Sector UCITS ETF (Acc)',
+    price: 60.08,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Consumer Cyclical',
+    isin: 'IE00BWBXM278',
+    ter: 0.15,
+    aum: 113871864,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPDE.DE',
-    name: 'SPDR S&P U.S. Energy Select Sector UCITS ETF',
-    price: 30.25,
+    name: 'State Street SPDR S&P U.S. Energy Select Sector UCITS ETF (Acc)',
+    price: 38.37,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ZPDF.DE',
-    name: 'SPDR S&P U.S. Financials Select Sector UCITS ETF',
-    price: 53.84,
+    name: 'State Street SPDR S&P U.S. Financials Select Sector UCITS ETF (Acc)',
+    price: 51.03,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ZPDH.DE',
-    name: 'SPDR S&P U.S. Health Care Select Sector UCITS ETF',
-    price: 36.235,
+    name: 'State Street SPDR S&P U.S. Health Care Select Sector UCITS ETF (Acc)',
+    price: 40.83,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Healthcare',
+    isin: 'IE00BWBXM617',
+    ter: 0.15,
+    aum: 502572404,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPDI.DE',
-    name: 'SPDR S&P U.S. Industrials Select Sector UCITS ETF',
-    price: 55.63,
+    name: 'State Street SPDR S&P U.S. Industrials Select Sector UCITS ETF (Acc)',
+    price: 63.74,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Industrials',
+    isin: 'IE00BWBXM724',
+    ter: 0.15,
+    aum: 465226497,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPDJ.DE',
-    name: 'SPDR MSCI Japan UCITS ETF',
-    price: 59.298,
+    name: 'State Street SPDR MSCI Japan UCITS ETF',
+    price: 69.432,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.12
-  },
-  {
-    symbol: 'ZPDJ.F',
-    name: 'SPDR MSCI Japan UCITS ETF',
-    price: 47.736,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.12
   },
   {
     symbol: 'ZPDK.DE',
-    name: 'SPDR S&P U.S. Communication Services Select Sector UCITS ETF',
-    price: 43.66,
+    name: 'State Street SPDR S&P U.S. Communication Services Select Sector UCITS ETF (Acc)',
+    price: 46.665,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ZPDM.DE',
-    name: 'SPDR S&P U.S. Materials Select Sector UCITS ETF',
-    price: 39.215,
+    name: 'State Street SPDR S&P U.S. Materials Select Sector UCITS ETF (Acc)',
+    price: 42.985,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ZPDS.DE',
-    name: 'SPDR S&P U.S. Consumer Staples Select Sector UCITS ETF',
-    price: 36.57,
+    name: 'State Street SPDR S&P U.S. Consumer Staples Select Sector UCITS ETF (Acc)',
+    price: 40.115,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.15
+    category: 'Consumer Defensive',
+    isin: 'IE00BWBXM385',
+    ter: 0.15,
+    aum: 226641520,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPDT.DE',
-    name: 'SPDR S&P U.S. Technology Select Sector UCITS ETF',
-    price: 120.2,
+    name: 'State Street SPDR S&P U.S. Technology Select Sector UCITS ETF (Acc)',
+    price: 126.8,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ZPDU.DE',
-    name: 'SPDR S&P U.S. Utilities Select Sector UCITS ETF',
-    price: 44.54,
+    name: 'State Street SPDR S&P U.S. Utilities Select Sector UCITS ETF (Acc)',
+    price: 50.3,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.15
   },
   {
     symbol: 'ZPDW.DE',
-    name: 'SPDR MSCI Japan UCITS ETF',
-    price: 79.22,
+    name: 'State Street SPDR MSCI Japan EUR Hdg UCITS ETF',
+    price: 98.726,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Japan'
-  ,
-    ter: 0.17
-  },
-  {
-    symbol: 'ZPDW.F',
-    name: 'SPDR MSCI Japan UCITS ETF',
-    price: 54.716,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Japan'
-  ,
-    ter: 0.17
   },
   {
     symbol: 'ZPDX.DE',
-    name: 'SPDR STOXX Europe 600 SRI UCITS ETF',
-    price: 32.245,
+    name: 'State Street SPDR STOXX Europe 600 SRI UCITS ETF (Acc)',
+    price: 35.68,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.12
+    category: 'Europe',
+    isin: 'IE00BK5H8015',
+    ter: 0.12,
+    aum: 519430000,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPR1.DE',
-    name: 'SPDR Bloomberg 1-3 Month T-Bill UCITS ETF Acc',
-    price: 116.605,
+    name: 'State Street SPDR Bloomberg 1-3 Month T-Bill UCITS ETF (Acc)',
+    price: 118.905,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Cash & Others',
+    isin: 'IE00BJXRT698',
+    ter: 0.05,
+    aum: 850190000,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPR5.DE',
-    name: 'SPDR ICE BofA 0-5 Year EM USD Government Bond UCITS ETF',
-    price: 23.468,
+    name: 'State Street SPDR ICE BofA 0-5 Year EM USD Government Bond UCITS ETF (Dist)',
+    price: 23.552,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Emerging Markets'
-  ,
-    ter: 0.42
+    category: 'Government',
+    isin: 'IE00BP46NG52',
+    ter: 0.42,
+    aum: 49263531,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPR6.DE',
-    name: 'SPDR ICE BofA 0-5 Year EM USD Government Bond UCITS ETF',
-    price: 30.179,
+    name: 'State Street SPDR ICE BofA 0-5 Year EM USD Government Bond EUR Hdg UCITS ETF (Acc)',
+    price: 30.696,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
     category: 'Emerging Markets'
-  ,
-    ter: 0.47
   },
   {
     symbol: 'ZPRA.DE',
-    name: 'SPDR S&P Pan Asia Dividend Aristocrats UCITS ETF',
-    price: 45.485,
+    name: 'State Street SPDR S&P Pan Asia Dividend Aristocrats UCITS ETF (Dist)',
+    price: 47.425,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.55
   },
   {
     symbol: 'ZPRC.DE',
-    name: 'SPDR Refinitiv Global Convertible Bond UCITS ETF',
-    price: 48.189,
+    name: 'State Street SPDR FTSE Global Convertible Bond UCITS ETF (Dist)',
+    price: 54.944,
     issuer: 'SPDR',
     assetClass: 'Fixed Income',
-    category: 'Global'
-  ,
-    ter: 0.5
+    category: 'Cash & Others',
+    isin: 'IE00BNH72088',
+    ter: 0.5,
+    aum: 2246067407,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRD.DE',
-    name: 'SPDR FTSE UK All Share UCITS ETF',
-    price: 6.029,
+    name: 'State Street SPDR FTSE UK All Share UCITS ETF (Dist)',
+    price: 6.773,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.2
+    category: 'UK',
+    isin: 'IE00BD5FCF91',
+    ter: 0.2,
+    aum: 638090000,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRE.DE',
-    name: 'SPDR MSCI EMU UCITS ETF',
-    price: 85.93,
+    name: 'State Street SPDR MSCI EMU UCITS ETF',
+    price: 94.92,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
-  },
-  {
-    symbol: 'ZPRE.F',
-    name: 'SPDR MSCI EMU UCITS ETF',
-    price: 66.72,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.18
+    category: 'Emerging Markets'
   },
   {
     symbol: 'ZPRG.DE',
-    name: 'SPDR S&P Global Dividend Aristocrats UCITS ETF',
-    price: 30.63,
+    name: 'State Street SPDR S&P Global Dividend Aristocrats UCITS ETF (Dist)',
+    price: 32.715,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Global'
-  ,
-    ter: 0.45
+    category: 'Global',
+    isin: 'IE00B9CQXS71',
+    ter: 0.45,
+    aum: 1300924047,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRI.DE',
-    name: 'SPDR Morningstar Multi-Asset Global Infrastructure UCITS ETF',
-    price: 31.005,
+    name: 'State Street SPDR Morningstar Multi-Asset Global Infrastructure UCITS ETF (Dist)',
+    price: 33.405,
     issuer: 'SPDR',
     assetClass: 'Mixed',
     category: 'Global'
-  ,
-    ter: 0.4
   },
   {
     symbol: 'ZPRL.DE',
-    name: 'SPDR EURO STOXX Low Volatility UCITS ETF',
-    price: 55.46,
+    name: 'State Street SPDR EURO STOXX Low Volatility UCITS ETF (Acc)',
+    price: 59.83,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
-  },
-  {
-    symbol: 'ZPRL.F',
-    name: 'SPDR EURO STOXX Low Volatility UCITS ETF',
-    price: 44.345,
-    issuer: 'SPDR',
-    assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Europe',
+    isin: 'IE00BFTWP510',
+    ter: 0.3,
+    aum: 31890000,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRM.DE',
-    name: 'SPDR Bloomberg 1-3 Month T-Bill UCITS ETF Acc',
-    price: 167.11,
+    name: 'State Street SPDR Bloomberg 1-3 Month T-Bill MXN Hdg UCITS ETF (Acc)',
+    price: 185.645,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.1
+    category: 'Other'
   },
   {
     symbol: 'ZPRP.DE',
-    name: 'SPDR FTSE EPRA Europe ex UK Real Estate UCITS ETF',
-    price: 28.395,
+    name: 'State Street SPDR FTSE EPRA Europe ex UK Real Estate UCITS ETF (Acc)',
+    price: 30.5,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'ZPRR.DE',
-    name: 'SPDR Russell 2000 US Small Cap UCITS ETF',
-    price: 58.45,
+    name: 'State Street SPDR Russell 2000 U.S. Small Cap UCITS ETF (Acc)',
+    price: 64.44,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Technology'
-  ,
-    ter: 0.3
+    category: 'Small Cap',
+    isin: 'IE00BJ38QD84',
+    ter: 0.3,
+    aum: 4480027748,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRS.DE',
-    name: 'SPDR MSCI World Small Cap UCITS ETF',
-    price: 103.78,
+    name: 'State Street SPDR MSCI World Small Cap UCITS ETF (Acc)',
+    price: 116.06,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Global'
-  ,
-    ter: 0.45
   },
   {
     symbol: 'ZPRU.DE',
-    name: 'SPDR MSCI USA Value UCITS ETF',
-    price: 57.53,
+    name: 'State Street SPDR MSCI USA Value UCITS ETF',
+    price: 68.99,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'US'
-  ,
-    ter: 0.2
   },
   {
     symbol: 'ZPRV.DE',
-    name: 'SPDR MSCI USA Small Cap Value Weighted UCITS ETF',
-    price: 63.41,
+    name: 'State Street SPDR MSCI USA Small Cap Value Weighted UCITS ETF',
+    price: 70.47,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'US'
-  ,
-    ter: 0.3
+    category: 'US',
+    isin: 'IE00BSPLC413',
+    ter: 0.3,
+    aum: 767042047,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRW.DE',
-    name: 'SPDR MSCI Europe Value UCITS ETF',
-    price: 58.95,
+    name: 'State Street SPDR MSCI Europe Value UCITS ETF',
+    price: 69.38,
     issuer: 'SPDR',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.2
+    category: 'Europe',
+    isin: 'IE00BSPLC306',
+    ter: 0.2,
+    aum: 71190000,
+    domicile: 'IE'
   },
   {
     symbol: 'ZPRX.DE',
-    name: 'SPDR MSCI Europe Small Cap Value Weighted UCITS ETF',
-    price: 57.66,
+    name: 'State Street SPDR MSCI Europe Small Cap Value Weighted UCITS ETF',
+    price: 63.01,
     issuer: 'SPDR',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.3
   },
   {
     symbol: 'ZSRI.DE',
     name: 'BNP Paribas Easy MSCI Europe SRI S-Series PAB 5% Capped',
-    price: 28.74,
+    price: 31.45,
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
-    category: 'Europe'
-  ,
-    ter: 0.25
+    category: 'Europe',
+    isin: 'LU1753045415',
+    ter: 0.25,
+    aum: 187689077,
+    domicile: 'LU'
   },
   {
     symbol: 'ZSRL.DE',
@@ -18318,79 +16350,5 @@ export const xetraETFs: ETF[] = [
     issuer: 'BNP Paribas',
     assetClass: 'Equity',
     category: 'Europe'
-  ,
-    ter: 0.4
-  },
-  {
-    symbol: 'ZZRG.F',
-    name: 'Allianz Global Investors Fund - Allianz Global Artificial Intelligence Fund',
-    price: 26.224,
-    issuer: 'Allianz',
-    assetClass: 'Equity',
-    category: 'Global'
   }
 ];
-
-export const xetraETFStats = {
-  totalETFs: 1852,
-  extractionDate: '2025-09-03',
-  
-  byIssuer: {
-    "RICI": 9,
-    "BNPP": 4,
-    "Amundi": 233,
-    "Fidelity": 14,
-    "iShares": 426,
-    "WisdomTree": 38,
-    "Leverage": 7,
-    "Global": 9,
-    "UBS": 113,
-    "Invesco": 129,
-    "Ossiam": 19,
-    "Lyxor": 149,
-    "HAN-GINS": 2,
-    "Xtrackers": 236,
-    "BNP Paribas": 56,
-    "HANetf": 1,
-    "L&G": 29,
-    "JPMorgan": 24,
-    "JPM": 6,
-    "Expat": 15,
-    "Rize": 4,
-    "L&GE": 1,
-    "The": 2,
-    "Shares": 1,
-    "UC": 1,
-    "PIMCO": 8,
-    "MSCI": 1,
-    "Credit": 4,
-    "Deka": 50,
-    "VanEck": 21,
-    "SI": 4,
-    "Electric": 1,
-    "EMQQ": 1,
-    "Europe": 1,
-    "Franklin": 16,
-    "First Trust": 5,
-    "Goldman": 3,
-    "HSBC": 23,
-    "Hamborner": 1,
-    "DWS": 1,
-    "PIMCo": 1,
-    "Market": 3,
-    "BlackRock": 3,
-    "SPDR": 111,
-    "Tabula": 6,
-    "Vanguard": 57,
-    "Harbor": 1,
-    "Comgest": 1,
-    "Allianz": 1
-},
-  
-  byAssetClass: {
-    "Equity": 1408,
-    "Commodity": 41,
-    "Fixed Income": 374,
-    "Mixed": 29
-}
-};
