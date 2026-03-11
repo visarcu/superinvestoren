@@ -90,6 +90,9 @@ function tradeRepublicToFlatexFormat(tx: TradeRepublicParsedTransaction): Flatex
   }
 }
 
+// Max 60s für viele PDFs
+export const maxDuration = 60
+
 export async function POST(request: Request) {
   try {
     // Auth prüfen
@@ -113,9 +116,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Keine PDF-Dateien empfangen' }, { status: 400 })
     }
 
-    // Max 50 PDFs gleichzeitig
-    if (files.length > 50) {
-      return NextResponse.json({ error: 'Maximal 50 PDFs gleichzeitig' }, { status: 400 })
+    // Max 200 PDFs gleichzeitig
+    if (files.length > 200) {
+      return NextResponse.json({ error: 'Maximal 200 PDFs gleichzeitig' }, { status: 400 })
     }
 
     const allTransactions: FlatexParsedTransaction[] = []
