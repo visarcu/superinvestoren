@@ -490,9 +490,9 @@ export default function CSVImportModal({
           type: tx.type,
           symbol: tx.symbol!,
           name: tx.name,
-          quantity: tx.quantity,
-          price: tx.price,
-          total_value: tx.totalValue,
+          quantity: parseFloat(tx.quantity.toFixed(8)),
+          price: parseFloat(tx.price.toFixed(4)),
+          total_value: parseFloat(tx.totalValue.toFixed(2)),
           date: tx.date,
           notes: tx.notes,
         }))
@@ -520,11 +520,12 @@ export default function CSVImportModal({
 
         if (existing) {
           // Bestehende Position aufstocken (Durchschnittskostenmethode)
-          const newTotalQty = existing.quantity + holding.quantity
-          const newAvgPrice = (
-            (existing.quantity * existing.purchase_price) +
-            (holding.quantity * holding.avgPrice)
-          ) / newTotalQty
+          const existQty = Number(existing.quantity) || 0
+          const existPrice = Number(existing.purchase_price) || 0
+          const newTotalQty = parseFloat((existQty + holding.quantity).toFixed(8))
+          const newAvgPrice = newTotalQty > 0
+            ? parseFloat(((existQty * existPrice + holding.quantity * holding.avgPrice) / newTotalQty).toFixed(4))
+            : 0
 
           await supabase
             .from('portfolio_holdings')
@@ -542,8 +543,8 @@ export default function CSVImportModal({
               portfolio_id: portfolioId,
               symbol: holding.symbol,
               name: holding.name,
-              quantity: holding.quantity,
-              purchase_price: holding.avgPrice,
+              quantity: parseFloat(holding.quantity.toFixed(8)),
+              purchase_price: parseFloat(holding.avgPrice.toFixed(4)),
               purchase_date: holding.earliestDate,
               purchase_currency: 'EUR',
             })
