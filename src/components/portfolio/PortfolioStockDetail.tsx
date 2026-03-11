@@ -115,7 +115,19 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             .reverse()
             .map((h: any) => ({ date: h.date, close: h.close }))
 
-          // Wenn Live-Quote aktueller ist als der letzte historische Datenpunkt,
+          // Cross-Validierung: Prüfe ob Live-Quote plausibel ist
+          // FMP liefert für EU-ETFs oft veraltete Kurse → nur verwenden wenn
+          // die Abweichung zum letzten historischen Close < 10% ist
+          if (livePrice && livePrice > 0 && historyData.length > 0) {
+            const lastHistClose = historyData[historyData.length - 1].close
+            const deviation = Math.abs(livePrice - lastHistClose) / lastHistClose
+            if (deviation > 0.10) {
+              // Live-Quote weicht > 10% ab → wahrscheinlich veraltet, ignorieren
+              livePrice = null
+            }
+          }
+
+          // Wenn Live-Quote plausibel und aktueller als der letzte Datenpunkt,
           // füge ihn als heutigen Datenpunkt hinzu
           if (livePrice && livePrice > 0 && historyData.length > 0) {
             const today = new Date().toISOString().split('T')[0]
@@ -138,10 +150,12 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           setGbpEurRate(gbpEurRateResult)
         }
 
-        // Aktuellen EUR-Preis berechnen — Live-Quote bevorzugen
-        const latestPrice = livePrice && livePrice > 0
-          ? livePrice
-          : (historyData.length > 0 ? historyData[historyData.length - 1].close : 0)
+        // Aktuellen EUR-Preis: Historische Daten bevorzugen (Yahoo Fallback = aktuell),
+        // Live-Quote nur wenn plausibel (nach Cross-Validierung oben)
+        const histLatestPrice = historyData.length > 0 ? historyData[historyData.length - 1].close : 0
+        const latestPrice = histLatestPrice > 0
+          ? histLatestPrice
+          : (livePrice && livePrice > 0 ? livePrice : 0)
         let currentPriceEUR: number
         if (isEURStock) {
           currentPriceEUR = latestPrice
