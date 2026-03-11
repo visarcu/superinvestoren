@@ -1,10 +1,11 @@
 // API Route: POST /api/portfolio/parse-flatex-pdf
-// Akzeptiert Broker PDF-Dateien (Flatex, Smartbroker+) und gibt geparste Transaktionen zurück
+// Akzeptiert Broker PDF-Dateien (Flatex, Smartbroker+, Trade Republic) und gibt geparste Transaktionen zurück
 // Auto-Erkennung des Brokers anhand des PDF-Inhalts
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { parseFlatexPDFText, type FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import { parseSmartbrokerPDFText, type SmartbrokerParsedTransaction } from '@/lib/smartbrokerPDFParser'
+import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '@/lib/tradeRepublicPDFParser'
 
 /**
  * pdf-parse lazy laden — umgeht Webpack's statische Analyse komplett.
@@ -30,8 +31,12 @@ function getSupabaseClient() {
 }
 
 /** Erkennt den Broker anhand des PDF-Textinhalts */
-function detectBroker(text: string): 'flatex' | 'smartbroker' | 'unknown' {
+function detectBroker(text: string): 'flatex' | 'smartbroker' | 'traderepublic' | 'unknown' {
   const lower = text.toLowerCase()
+  // Trade Republic
+  if (lower.includes('trade republic') || lower.includes('traderepublic')) {
+    return 'traderepublic'
+  }
   // Smartbroker+ / Baader Bank
   if (lower.includes('smartbroker') || lower.includes('baader bank') || lower.includes('smartbrokerplus')) {
     return 'smartbroker'
@@ -54,6 +59,25 @@ function smartbrokerToFlatexFormat(tx: SmartbrokerParsedTransaction): FlatexPars
     name: tx.name,
     isin: tx.isin,
     wkn: tx.wkn,
+    quantity: tx.quantity,
+    price: tx.price,
+    totalValue: tx.totalValue,
+    fees: tx.fees,
+    endAmount: tx.endAmount,
+    date: tx.date,
+    currency: tx.currency,
+    exchange: tx.exchange,
+    notes: tx.notes,
+  }
+}
+
+/** Konvertiert TradeRepublicParsedTransaction zu FlatexParsedTransaction (gleiches Interface) */
+function tradeRepublicToFlatexFormat(tx: TradeRepublicParsedTransaction): FlatexParsedTransaction {
+  return {
+    type: tx.type,
+    name: tx.name,
+    isin: tx.isin,
+    wkn: '',
     quantity: tx.quantity,
     price: tx.price,
     totalValue: tx.totalValue,
@@ -126,11 +150,18 @@ export async function POST(request: Request) {
         const broker = detectBroker(text)
 
         if (broker === 'unknown') {
-          allErrors.push(`"${file.name}" konnte keinem Broker zugeordnet werden (Flatex, Smartbroker+ unterstützt).`)
+          allErrors.push(`"${file.name}" konnte keinem Broker zugeordnet werden (Flatex, Smartbroker+, Trade Republic unterstützt).`)
           continue
         }
 
-        if (broker === 'smartbroker') {
+        if (broker === 'traderepublic') {
+          const result = parseTradeRepublicPDFText(text, file.name)
+          if (result.errors.length > 0) {
+            allErrors.push(...result.errors)
+          }
+          allTransactions.push(...result.transactions.map(tradeRepublicToFlatexFormat))
+          if (result.transactions.length > 0) parsedCount++
+        } else if (broker === 'smartbroker') {
           const result = parseSmartbrokerPDFText(text, file.name)
           if (result.errors.length > 0) {
             allErrors.push(...result.errors)
