@@ -108,6 +108,15 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
                   </li>
                   <li>
                     <Link
+                      href="/politiker"
+                      className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
+                      onClick={() => setIsNavigating(true)}
+                    >
+                      Politiker-Trades
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
                       href="/pricing"
                       className={`text-sm transition-colors ${isLightTheme ? 'text-gray-500 hover:text-gray-900' : 'text-gray-400 hover:text-brand-light'}`}
                       onClick={() => setIsNavigating(true)}
