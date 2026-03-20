@@ -94,16 +94,10 @@ export default function PolitikerPage() {
     async function load() {
       setLoading(true)
       try {
-        const [p0, p1, p2] = await Promise.all([
-          fetch('/api/politicians?page=0').then(r => r.json()),
-          fetch('/api/politicians?page=1').then(r => r.json()),
-          fetch('/api/politicians?page=2').then(r => r.json()),
-        ])
-        const all = [
-          ...(p0.trades || []),
-          ...(p1.trades || []),
-          ...(p2.trades || []),
-        ]
+        const pages = await Promise.all(
+          [0, 1, 2, 3, 4, 5].map(p => fetch(`/api/politicians?page=${p}`).then(r => r.json()))
+        )
+        const all = pages.flatMap(p => p.trades || [])
         setTrades(all)
       } catch (err) {
         console.error('Fehler beim Laden der Politiker-Trades:', err)
