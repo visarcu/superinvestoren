@@ -8,9 +8,8 @@ import {
   ArrowUpRightIcon,
   ArrowDownRightIcon,
   BuildingLibraryIcon,
-  ChartBarIcon,
-  CalendarIcon,
   ArrowTopRightOnSquareIcon,
+  CalendarIcon,
 } from '@heroicons/react/24/outline'
 
 interface PoliticianTrade {
@@ -33,7 +32,7 @@ const KNOWN_POLITICIANS: Record<string, { party: 'D' | 'R' | 'I'; fullState: str
   'nancy-pelosi': {
     party: 'D',
     fullState: 'California',
-    bio: 'Ehemalige Sprecherin des Repräsentantenhauses, CA-11. Bekannt für aggressive Tech-Optionen-Strategien.',
+    bio: 'Ehemalige Sprecherin des Repräsentantenhauses. Bekannt für aggressive Tech-Optionen-Strategien.',
   },
   'dan-crenshaw': {
     party: 'R',
@@ -87,21 +86,9 @@ function formatDate(dateStr: string): string {
   }
 }
 
-function parseAmountMin(amount: string): number {
-  const match = amount?.replace(/[$,]/g, '').match(/[\d]+/)
-  return match ? parseInt(match[0]) : 0
-}
-
 function formatAmount(amount: string): string {
   if (!amount) return '–'
   return amount.replace('$', '').trim()
-}
-
-function getAmountColor(amount: string): string {
-  const num = parseAmountMin(amount)
-  if (num >= 1_000_000) return 'text-yellow-400'
-  if (num >= 100_000) return 'text-brand'
-  return 'text-neutral-300'
 }
 
 function slugToName(slug: string): string {
@@ -140,9 +127,7 @@ export default function PolitikerDetailPage() {
   }, [slug])
 
   const filteredTrades = useMemo(() => {
-    return trades.filter(t =>
-      typeFilter === 'all' || t.type === typeFilter
-    )
+    return trades.filter(t => typeFilter === 'all' || t.type === typeFilter)
   }, [trades, typeFilter])
 
   const stats = useMemo(() => {
@@ -150,14 +135,12 @@ export default function PolitikerDetailPage() {
     const sales = trades.filter(t => t.type === 'Sale').length
     const uniqueStocks = new Set(trades.map(t => t.ticker).filter(Boolean)).size
 
-    // Meistgehandelte Aktie
     const tickerCount: Record<string, number> = {}
     trades.forEach(t => {
       if (t.ticker) tickerCount[t.ticker] = (tickerCount[t.ticker] || 0) + 1
     })
     const topTicker = Object.entries(tickerCount).sort((a, b) => b[1] - a[1])[0]
 
-    // Letzter Trade
     const lastTrade = trades.length > 0
       ? trades.reduce((a, b) => a.transactionDate > b.transactionDate ? a : b)
       : null
@@ -166,37 +149,31 @@ export default function PolitikerDetailPage() {
   }, [trades])
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a]">
+    <div className="min-h-screen bg-dark">
+
       {/* Header */}
-      <section className="pt-10 pb-8 border-b border-white/5">
-        <div className="max-w-5xl mx-auto px-6">
-          {/* Back */}
+      <section className="bg-dark pt-8 pb-8">
+        <div className="max-w-5xl mx-auto px-6 lg:px-8">
+
+          {/* Breadcrumb */}
           <Link
             href="/politiker"
-            className="inline-flex items-center gap-2 text-sm text-neutral-500 hover:text-white transition-colors mb-6"
+            className="inline-flex items-center gap-1.5 text-sm text-neutral-500 hover:text-neutral-300 transition-colors mb-6"
           >
-            <ArrowLeftIcon className="w-4 h-4" />
-            Alle Politiker
+            <ArrowLeftIcon className="w-3.5 h-3.5" />
+            Politiker-Trades
           </Link>
 
-          <div className="flex items-start gap-5">
-            {/* Avatar */}
-            <div className="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
-              {name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-            </div>
-
-            <div className="flex-1">
+          {/* Name + Party */}
+          <div className="flex items-start gap-4 mb-3">
+            <div>
               <div className="flex items-center gap-3 mb-1">
-                <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
+                <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">
                   {name}
                 </h1>
                 {knownInfo && (
-                  <span className={`text-sm px-2 py-0.5 rounded font-semibold ${
-                    knownInfo.party === 'D'
-                      ? 'bg-blue-500/15 text-blue-400'
-                      : knownInfo.party === 'R'
-                      ? 'bg-red-500/15 text-red-400'
-                      : 'bg-neutral-500/15 text-neutral-400'
+                  <span className={`text-sm font-medium ${
+                    knownInfo.party === 'D' ? 'text-blue-400' : 'text-red-400'
                   }`}>
                     {knownInfo.party === 'D' ? 'Demokrat' : knownInfo.party === 'R' ? 'Republikaner' : 'Unabhängig'}
                   </span>
@@ -204,9 +181,9 @@ export default function PolitikerDetailPage() {
               </div>
 
               {knownInfo && (
-                <div className="flex items-center gap-2 text-sm text-neutral-400 mb-2">
+                <div className="flex items-center gap-2 text-sm text-neutral-500 mb-2">
                   <BuildingLibraryIcon className="w-4 h-4" />
-                  {knownInfo.fullState}
+                  <span>{knownInfo.fullState}</span>
                   {trades[0]?.district && (
                     <span className="text-neutral-600">· {trades[0].district}</span>
                   )}
@@ -214,51 +191,21 @@ export default function PolitikerDetailPage() {
               )}
 
               {knownInfo?.bio && (
-                <p className="text-sm text-neutral-500 leading-relaxed max-w-xl">
-                  {knownInfo.bio}
-                </p>
+                <p className="text-sm text-neutral-500 max-w-xl">{knownInfo.bio}</p>
               )}
             </div>
           </div>
 
-          {/* Stats */}
+          {/* Meta */}
           {!loading && trades.length > 0 && (
-            <div className="flex flex-wrap gap-6 mt-6">
-              <div>
-                <div className="text-2xl font-bold text-white">{trades.length}</div>
-                <div className="text-xs text-neutral-500 mt-0.5">Trades gesamt</div>
-              </div>
-              <div className="w-px bg-white/10"></div>
-              <div>
-                <div className="text-2xl font-bold text-brand">{stats.purchases}</div>
-                <div className="text-xs text-neutral-500 mt-0.5">Käufe</div>
-              </div>
-              <div className="w-px bg-white/10"></div>
-              <div>
-                <div className="text-2xl font-bold text-red-400">{stats.sales}</div>
-                <div className="text-xs text-neutral-500 mt-0.5">Verkäufe</div>
-              </div>
-              <div className="w-px bg-white/10"></div>
-              <div>
-                <div className="text-2xl font-bold text-white">{stats.uniqueStocks}</div>
-                <div className="text-xs text-neutral-500 mt-0.5">verschiedene Aktien</div>
-              </div>
-              {stats.topTicker && (
-                <>
-                  <div className="w-px bg-white/10"></div>
-                  <div>
-                    <div className="text-2xl font-bold text-brand font-mono">{stats.topTicker[0]}</div>
-                    <div className="text-xs text-neutral-500 mt-0.5">Am meisten gehandelt</div>
-                  </div>
-                </>
-              )}
+            <div className="flex flex-wrap items-center gap-4 text-xs text-neutral-500 mt-3">
+              <span>{trades.length} Transaktionen</span>
+              <span className="text-neutral-600">•</span>
+              <span>{stats.uniqueStocks} verschiedene Aktien</span>
               {stats.lastTrade && (
                 <>
-                  <div className="w-px bg-white/10"></div>
-                  <div>
-                    <div className="text-lg font-bold text-white">{formatDate(stats.lastTrade.transactionDate)}</div>
-                    <div className="text-xs text-neutral-500 mt-0.5">Letzter Trade</div>
-                  </div>
+                  <span className="text-neutral-600">•</span>
+                  <span>Letzter Trade: {formatDate(stats.lastTrade.transactionDate)}</span>
                 </>
               )}
             </div>
@@ -266,142 +213,164 @@ export default function PolitikerDetailPage() {
         </div>
       </section>
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
+
+        {/* Stats */}
+        {!loading && trades.length > 0 && (
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 pb-8 border-b border-neutral-800">
+            <div className="p-4">
+              <p className="text-2xl font-semibold text-white">{trades.length}</p>
+              <p className="text-sm text-neutral-500">Trades gesamt</p>
+            </div>
+            <div className="p-4">
+              <p className="text-2xl font-semibold text-white">{stats.purchases}</p>
+              <p className="text-sm text-neutral-500">Käufe</p>
+            </div>
+            <div className="p-4">
+              <p className="text-2xl font-semibold text-white">{stats.sales}</p>
+              <p className="text-sm text-neutral-500">Verkäufe</p>
+            </div>
+            <div className="p-4">
+              <p className="text-2xl font-semibold text-white font-mono">
+                {stats.topTicker?.[0] ?? '–'}
+              </p>
+              <p className="text-sm text-neutral-500">Meistgehandelt</p>
+            </div>
+          </div>
+        )}
+
         {/* Filter */}
-        <div className="flex items-center gap-3 mb-6">
-          <span className="text-sm text-neutral-500">Filter:</span>
-          {(['all', 'Purchase', 'Sale'] as const).map(f => (
-            <button
-              key={f}
-              onClick={() => setTypeFilter(f)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                typeFilter === f
-                  ? f === 'Purchase'
-                    ? 'bg-brand text-black'
-                    : f === 'Sale'
-                    ? 'bg-red-500 text-white'
-                    : 'bg-white/15 text-white'
-                  : 'bg-white/5 text-neutral-400 hover:text-white'
-              }`}
-            >
-              {f === 'all' ? 'Alle' : f === 'Purchase' ? 'Käufe' : 'Verkäufe'}
-            </button>
-          ))}
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-neutral-800">
+          <div className="flex items-center gap-2">
+            <CalendarIcon className="w-5 h-5 text-neutral-500" />
+            <h3 className="text-white font-medium">Transaktionshistorie</h3>
+          </div>
+          <select
+            value={typeFilter}
+            onChange={e => setTypeFilter(e.target.value as 'all' | 'Purchase' | 'Sale')}
+            className="appearance-none px-3 py-2 rounded-lg text-sm cursor-pointer bg-neutral-900 border border-neutral-800 text-neutral-300 hover:border-neutral-700 focus:outline-none"
+          >
+            <option value="all">Alle Typen</option>
+            <option value="Purchase">Nur Käufe</option>
+            <option value="Sale">Nur Verkäufe</option>
+          </select>
         </div>
 
         {loading ? (
-          <div className="space-y-2">
-            {[...Array(10)].map((_, i) => (
-              <div key={i} className="h-16 bg-white/5 rounded-xl animate-pulse" />
+          <div className="space-y-0">
+            {[...Array(12)].map((_, i) => (
+              <div key={i} className="flex items-center justify-between py-3 px-2 border-b border-neutral-800/50 animate-pulse">
+                <div className="flex items-center gap-4">
+                  <div className="h-3 bg-neutral-800 rounded w-20"></div>
+                  <div className="h-3 bg-neutral-800 rounded w-16"></div>
+                </div>
+                <div className="h-3 bg-neutral-800 rounded w-24"></div>
+              </div>
             ))}
           </div>
         ) : trades.length === 0 ? (
           <div className="text-center py-20">
-            <BuildingLibraryIcon className="w-12 h-12 mx-auto text-neutral-700 mb-4" />
+            <BuildingLibraryIcon className="w-10 h-10 mx-auto text-neutral-700 mb-4" />
             <h3 className="text-neutral-400 font-medium mb-2">Keine Trades gefunden</h3>
-            <p className="text-sm text-neutral-600">
+            <p className="text-sm text-neutral-600 mb-6">
               Für {name} wurden keine Pflichtmeldungen in den letzten Monaten gefunden.
             </p>
             <Link
               href="/politiker"
-              className="inline-flex items-center gap-2 mt-6 text-sm text-brand hover:underline"
+              className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition-colors"
             >
               <ArrowLeftIcon className="w-4 h-4" />
               Zurück zur Übersicht
             </Link>
           </div>
         ) : (
-          <div className="overflow-hidden rounded-xl border border-white/10">
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-white/10">
-                  <th className="text-left px-4 py-3 text-xs text-neutral-500 font-medium">Datum</th>
-                  <th className="text-left px-4 py-3 text-xs text-neutral-500 font-medium">Aktie</th>
-                  <th className="text-left px-4 py-3 text-xs text-neutral-500 font-medium">Art</th>
-                  <th className="text-left px-4 py-3 text-xs text-neutral-500 font-medium">Betrag</th>
-                  <th className="text-left px-4 py-3 text-xs text-neutral-500 font-medium hidden md:table-cell">Eigentümer</th>
-                  <th className="text-left px-4 py-3 text-xs text-neutral-500 font-medium hidden lg:table-cell">Gemeldet am</th>
-                  <th className="px-4 py-3"></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredTrades.map((trade, i) => (
-                  <tr
-                    key={`${trade.transactionDate}-${trade.ticker}-${i}`}
-                    className="border-b border-white/5 hover:bg-white/3 transition-colors"
-                  >
-                    <td className="px-4 py-3 text-sm text-neutral-400 whitespace-nowrap">
-                      {formatDate(trade.transactionDate)}
-                    </td>
-                    <td className="px-4 py-3">
-                      {trade.ticker ? (
-                        <Link href={`/analyse/stocks/${trade.ticker}`} className="group">
-                          <div className="text-sm font-mono font-semibold text-brand group-hover:text-brand/80">
-                            {trade.ticker}
-                          </div>
-                          <div className="text-xs text-neutral-500 truncate max-w-[160px]">
-                            {trade.assetDescription}
-                          </div>
-                        </Link>
-                      ) : (
-                        <div>
-                          <div className="text-sm text-neutral-500">–</div>
-                          <div className="text-xs text-neutral-600 truncate max-w-[160px]">
-                            {trade.assetDescription}
-                          </div>
-                        </div>
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <span className={`flex items-center gap-1.5 text-sm font-medium ${
-                        trade.type === 'Purchase' ? 'text-brand' : 'text-red-400'
-                      }`}>
-                        {trade.type === 'Purchase'
-                          ? <ArrowUpRightIcon className="w-3.5 h-3.5" />
-                          : <ArrowDownRightIcon className="w-3.5 h-3.5" />
-                        }
-                        {trade.type === 'Purchase' ? 'Kauf' : 'Verkauf'}
-                      </span>
-                    </td>
-                    <td className={`px-4 py-3 text-sm font-medium whitespace-nowrap ${getAmountColor(trade.amount)}`}>
-                      {formatAmount(trade.amount)}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-neutral-500 hidden md:table-cell">
-                      {trade.owner || 'Direkt'}
-                    </td>
-                    <td className="px-4 py-3 text-xs text-neutral-500 hidden lg:table-cell whitespace-nowrap">
-                      {formatDate(trade.disclosureDate)}
-                    </td>
-                    <td className="px-4 py-3">
-                      {trade.link && (
-                        <a
-                          href={trade.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-neutral-600 hover:text-neutral-300 transition-colors"
-                          title="Originaldokument (PDF)"
-                        >
-                          <ArrowTopRightOnSquareIcon className="w-4 h-4" />
-                        </a>
-                      )}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          <div className="space-y-0">
+            {/* Column headers */}
+            <div className="flex items-center gap-4 py-2 px-2 mb-1">
+              <span className="text-xs text-neutral-600 w-24 flex-shrink-0">Datum</span>
+              <span className="text-xs text-neutral-600 w-28">Aktie</span>
+              <span className="text-xs text-neutral-600 w-20 hidden sm:block">Typ</span>
+              <span className="text-xs text-neutral-600 flex-1 text-right">Betrag</span>
+              <span className="text-xs text-neutral-600 w-24 hidden md:block">Eigentümer</span>
+              <span className="text-xs text-neutral-600 w-24 hidden lg:block">Gemeldet</span>
+              <span className="w-4"></span>
+            </div>
+
+            {filteredTrades.map((trade, i) => (
+              <div
+                key={`${trade.transactionDate}-${trade.ticker}-${i}`}
+                className="flex items-center gap-4 py-3 px-2 border-b border-neutral-800/50 last:border-b-0 hover:bg-neutral-800/30 transition-colors group"
+              >
+                <span className="text-xs text-neutral-500 w-24 flex-shrink-0 tabular-nums">
+                  {formatDate(trade.transactionDate)}
+                </span>
+
+                <div className="w-28 min-w-0">
+                  {trade.ticker ? (
+                    <Link href={`/analyse/stocks/${trade.ticker}`} className="group/t">
+                      <p className="text-sm font-medium text-white group-hover/t:text-neutral-300 transition-colors">
+                        {trade.ticker}
+                      </p>
+                      <p className="text-xs text-neutral-500 truncate max-w-[100px]">
+                        {trade.assetDescription?.slice(0, 20)}
+                      </p>
+                    </Link>
+                  ) : (
+                    <div>
+                      <p className="text-sm text-neutral-500">–</p>
+                      <p className="text-xs text-neutral-600 truncate max-w-[100px]">
+                        {trade.assetDescription?.slice(0, 20)}
+                      </p>
+                    </div>
+                  )}
+                </div>
+
+                <div className="w-20 hidden sm:flex items-center gap-1.5">
+                  {trade.type === 'Purchase'
+                    ? <ArrowUpRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    : <ArrowDownRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                  }
+                  <span className="text-sm text-neutral-300">
+                    {trade.type === 'Purchase' ? 'Kauf' : 'Verkauf'}
+                  </span>
+                </div>
+
+                <span className="text-sm text-neutral-300 flex-1 text-right tabular-nums">
+                  {formatAmount(trade.amount)}
+                </span>
+
+                <span className="text-xs text-neutral-500 w-24 hidden md:block truncate">
+                  {trade.owner || 'Direkt'}
+                </span>
+
+                <span className="text-xs text-neutral-600 w-24 hidden lg:block tabular-nums">
+                  {formatDate(trade.disclosureDate)}
+                </span>
+
+                <div className="w-4">
+                  {trade.link && (
+                    <a
+                      href={trade.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      title="Originaldokument"
+                      className="text-neutral-700 hover:text-neutral-400 transition-colors"
+                    >
+                      <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                    </a>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
         {/* Disclaimer */}
-        {!loading && trades.length > 0 && (
-          <div className="mt-6 p-4 bg-white/3 border border-white/8 rounded-xl">
-            <p className="text-xs text-neutral-500 leading-relaxed">
-              <strong className="text-neutral-400">Hinweis:</strong> Alle Daten basieren auf Pflichtmeldungen
-              nach dem US STOCK Act (2012). Betragsangaben sind Wertbereiche, keine exakten Beträge.
-              Keine Anlageberatung.
-            </p>
-          </div>
-        )}
+        <div className="mt-12 pt-6 border-t border-neutral-800">
+          <p className="text-xs text-neutral-600 leading-relaxed">
+            Daten basieren auf Pflichtmeldungen nach dem US STOCK Act (2012). Betragsangaben sind Wertbereiche, keine exakten Beträge. Keine Anlageberatung.
+          </p>
+        </div>
       </div>
     </div>
   )
