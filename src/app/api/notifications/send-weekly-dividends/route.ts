@@ -238,13 +238,19 @@ async function handleWeeklyDividends() {
     const toDate = endOfWeek.toISOString().split('T')[0]
     const weekRange = formatWeekRange(startOfWeek, endOfWeek)
 
-    console.log(`[Weekly Dividends] Week: ${fromDate} to ${toDate}`)
+    console.log(`[Weekly Dividends] Payment week: ${fromDate} to ${toDate}`)
 
-    // 2. Fetch dividend calendar from FMP for this week
+    // 2. Fetch dividend calendar from FMP — query a wider window (6 weeks back)
+    // because ex-dates typically precede payment dates by 2–4 weeks.
+    // We then filter server-side by paymentDate falling in the current week.
+    const fmpFrom = new Date(startOfWeek)
+    fmpFrom.setUTCDate(fmpFrom.getUTCDate() - 42) // 6 weeks back
+    const fmpFromDate = fmpFrom.toISOString().split('T')[0]
+
     const fmpRes = await fetch(
-      `https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
+      `https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from=${fmpFromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
     )
-    const dividendCalendar: Array<{
+    const rawCalendar: Array<{
       symbol: string
       date: string          // ex-dividend date
       dividend: number
@@ -253,24 +259,30 @@ async function handleWeeklyDividends() {
       declarationDate: string
     }> = await fmpRes.json()
 
-    if (!Array.isArray(dividendCalendar)) {
-      console.error('[Weekly Dividends] Invalid FMP response:', dividendCalendar)
+    if (!Array.isArray(rawCalendar)) {
+      console.error('[Weekly Dividends] Invalid FMP response:', rawCalendar)
       return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
     }
 
-    console.log(`[Weekly Dividends] FMP returned ${dividendCalendar.length} dividend events this week`)
+    // Filter: only events whose paymentDate falls in the current week
+    const dividendCalendar = rawCalendar.filter(event => {
+      if (!event.paymentDate) return false
+      return event.paymentDate >= fromDate && event.paymentDate <= toDate
+    })
+
+    console.log(`[Weekly Dividends] FMP raw: ${rawCalendar.length} events, filtered by paymentDate this week: ${dividendCalendar.length}`)
 
     if (dividendCalendar.length === 0) {
       return NextResponse.json({
         success: true,
         testMode: !!TEST_USER_ID,
         weekRange,
-        message: 'No dividend events this week',
+        message: 'No dividend payment events this week',
         emailsSent: 0
       })
     }
 
-    // Build a quick lookup: symbol → dividend event
+    // Build a quick lookup: symbol → dividend event (latest paymentDate wins if duplicates)
     const dividendBySymbol = new Map<string, typeof dividendCalendar[0]>()
     for (const event of dividendCalendar) {
       if (event.dividend > 0) {
