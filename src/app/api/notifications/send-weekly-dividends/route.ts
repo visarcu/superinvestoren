@@ -16,9 +16,10 @@ const supabase = createClient(
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
-// TEST MODE: Set TEST_USER_ID env var to a valid UUID to only send to yourself
+// TEST MODE: Set TEST_USER_ID_DIVIDENDS env var to a valid UUID to only send to yourself
+// Deliberately separate from TEST_USER_ID so other notification crons are unaffected
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-const envTestUserId = process.env.TEST_USER_ID || null
+const envTestUserId = process.env.TEST_USER_ID_DIVIDENDS || null
 const TEST_USER_ID = envTestUserId && UUID_REGEX.test(envTestUserId) ? envTestUserId : null
 
 const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
