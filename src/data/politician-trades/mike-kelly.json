@@ -1,0 +1,62 @@
+{
+  "slug": "mike-kelly",
+  "name": "Mike Kelly",
+  "chamber": "senate",
+  "state": "PA",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-11",
+      "transactionDate": "2025-10-21",
+      "owner": "Spouse",
+      "ticker": "",
+      "assetDescription": "Maryland St Dept of Transport Ser B Rev 5% due 10/1/32",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$50,001 - $100,000",
+      "representative": "Mike Kelly",
+      "district": "PA16",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033447.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mike-kelly",
+      "state": "PA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-11",
+      "transactionDate": "2025-10-17",
+      "owner": "Spouse",
+      "ticker": "",
+      "assetDescription": "Seattle WA Muni Light & Pw Ser C Rev 5% due 9/1/26",
+      "type": "sale",
+      "typeRaw": "Sale (Partial)",
+      "amount": "$15,001 - $50,000",
+      "representative": "Mike Kelly",
+      "district": "PA16",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033447.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mike-kelly",
+      "state": "PA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-09",
+      "transactionDate": "2025-09-30",
+      "owner": "Spouse",
+      "ticker": "",
+      "assetDescription": "Illinois St Toll Highway Auth Senior- Ser Rev 5% due 1/1/27",
+      "type": "sale",
+      "typeRaw": "Sale (Partial)",
+      "amount": "$15,001 - $50,000",
+      "representative": "Mike Kelly",
+      "district": "PA16",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032254.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mike-kelly",
+      "state": "PA",
+      "chamber": "senate"
+    }
+  ]
+}

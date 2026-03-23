@@ -1,0 +1,44 @@
+{
+  "slug": "robert-e-latta",
+  "name": "Robert E. Latta",
+  "chamber": "senate",
+  "state": "OH",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-26",
+      "transactionDate": "2026-01-20",
+      "owner": "Spouse",
+      "ticker": "FMAO",
+      "assetDescription": "Farmers & Merchants Bancorp Inc",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Robert E. Latta",
+      "district": "OH05",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033857.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "robert-e-latta",
+      "state": "OH",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-28",
+      "transactionDate": "2025-10-20",
+      "owner": "Spouse",
+      "ticker": "FMAO",
+      "assetDescription": "Farmers & Merchants Bancorp Inc",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Robert E. Latta",
+      "district": "OH05",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033346.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "robert-e-latta",
+      "state": "OH",
+      "chamber": "senate"
+    }
+  ]
+}

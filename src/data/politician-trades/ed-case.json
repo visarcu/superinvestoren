@@ -1,0 +1,44 @@
+{
+  "slug": "ed-case",
+  "name": "Ed Case",
+  "chamber": "senate",
+  "state": "HI",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-16",
+      "transactionDate": "2026-02-12",
+      "owner": "Spouse",
+      "ticker": "AAPL",
+      "assetDescription": "Apple Inc",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Ed Case",
+      "district": "HI01",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034176.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "ed-case",
+      "state": "HI",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-12-25",
+      "transactionDate": "2025-12-01",
+      "owner": "Spouse",
+      "ticker": "PG",
+      "assetDescription": "The Procter & Gamble Co",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Ed Case",
+      "district": "HI01",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033691.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "ed-case",
+      "state": "HI",
+      "chamber": "senate"
+    }
+  ]
+}

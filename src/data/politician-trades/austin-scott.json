@@ -1,0 +1,44 @@
+{
+  "slug": "austin-scott",
+  "name": "Austin Scott",
+  "chamber": "senate",
+  "state": "GA",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-13",
+      "transactionDate": "2026-02-17",
+      "owner": "Spouse",
+      "ticker": "GEV",
+      "assetDescription": "GE VERNOVA INC",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Austin Scott",
+      "district": "GA08",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20032279.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "austin-scott",
+      "state": "GA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-13",
+      "transactionDate": "2026-02-17",
+      "owner": "Spouse",
+      "ticker": "GE",
+      "assetDescription": "General Electric Co",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Austin Scott",
+      "district": "GA08",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20032279.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "austin-scott",
+      "state": "GA",
+      "chamber": "senate"
+    }
+  ]
+}

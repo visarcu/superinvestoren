@@ -1,0 +1,26 @@
+{
+  "slug": "pramila-jayapal",
+  "name": "Pramila Jayapal",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-16",
+      "transactionDate": "2023-10-31",
+      "owner": "self",
+      "ticker": "NWL",
+      "assetDescription": "Newell Brands Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Pramila Jayapal",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034160.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "pramila-jayapal",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

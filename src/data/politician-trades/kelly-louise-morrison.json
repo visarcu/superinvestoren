@@ -1,0 +1,62 @@
+{
+  "slug": "kelly-louise-morrison",
+  "name": "Kelly Louise Morrison",
+  "chamber": "senate",
+  "state": "MN",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-11",
+      "transactionDate": "2026-03-08",
+      "owner": "self",
+      "ticker": "AJG",
+      "assetDescription": "Arthur J. Gallagher & Co (2)",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Kelly Louise Morrison",
+      "district": "MN03",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034156.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "kelly-louise-morrison",
+      "state": "MN",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-21",
+      "transactionDate": "2025-12-10",
+      "owner": "self",
+      "ticker": "ASHGY",
+      "assetDescription": "Ashtead Group PLC (2)",
+      "type": "exchange",
+      "typeRaw": "Exchange",
+      "amount": "$1,001 - $15,000",
+      "representative": "Kelly Louise Morrison",
+      "district": "MN03",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033830.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "kelly-louise-morrison",
+      "state": "MN",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-06",
+      "transactionDate": "2025-10-24",
+      "owner": "self",
+      "ticker": "",
+      "assetDescription": "Lazurite Holdings LLC",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$15,001 - $50,000",
+      "representative": "Kelly Louise Morrison",
+      "district": "MN03",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033425.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "kelly-louise-morrison",
+      "state": "MN",
+      "chamber": "senate"
+    }
+  ]
+}

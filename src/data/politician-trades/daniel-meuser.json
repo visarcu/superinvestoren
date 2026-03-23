@@ -1,0 +1,44 @@
+{
+  "slug": "daniel-meuser",
+  "name": "Daniel Meuser",
+  "chamber": "senate",
+  "state": "PA",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-02-18",
+      "transactionDate": "2026-01-30",
+      "owner": "Spouse",
+      "ticker": "NVDA",
+      "assetDescription": "NVIDIA Corporation",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Daniel Meuser",
+      "district": "PA09",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034016.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "daniel-meuser",
+      "state": "PA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-02-18",
+      "transactionDate": "2026-01-14",
+      "owner": "Spouse",
+      "ticker": "NVDA",
+      "assetDescription": "NVIDIA Corporation",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Daniel Meuser",
+      "district": "PA09",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034016.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "daniel-meuser",
+      "state": "PA",
+      "chamber": "senate"
+    }
+  ]
+}

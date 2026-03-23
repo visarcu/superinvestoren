@@ -1,0 +1,26 @@
+{
+  "slug": "dale-strong",
+  "name": "Dale Strong",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-29",
+      "transactionDate": "2026-01-28",
+      "owner": "Joint",
+      "ticker": "IREN",
+      "assetDescription": "IREN LIMITED",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Dale Strong",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033877.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "dale-strong",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

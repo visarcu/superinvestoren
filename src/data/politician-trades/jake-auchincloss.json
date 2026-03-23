@@ -1,0 +1,44 @@
+{
+  "slug": "jake-auchincloss",
+  "name": "Jake Auchincloss",
+  "chamber": "senate",
+  "state": "MA",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-02-20",
+      "transactionDate": "2026-02-17",
+      "owner": "self",
+      "ticker": "STT",
+      "assetDescription": "State Street Corporation",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Jake Auchincloss",
+      "district": "MA04",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034024.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "jake-auchincloss",
+      "state": "MA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-19",
+      "transactionDate": "2025-11-17",
+      "owner": "Spouse",
+      "ticker": "STT",
+      "assetDescription": "State Street Corporation",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Jake Auchincloss",
+      "district": "MA04",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033492.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "jake-auchincloss",
+      "state": "MA",
+      "chamber": "senate"
+    }
+  ]
+}

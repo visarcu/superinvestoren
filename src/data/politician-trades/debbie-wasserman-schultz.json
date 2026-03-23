@@ -1,0 +1,62 @@
+{
+  "slug": "debbie-wasserman-schultz",
+  "name": "Debbie Wasserman Schultz",
+  "chamber": "senate",
+  "state": "FL",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-12-09",
+      "transactionDate": "2025-11-25",
+      "owner": "self",
+      "ticker": "DRQ",
+      "assetDescription": "Dril-Quip Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Debbie Wasserman Schultz",
+      "district": "FL25",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033581.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "debbie-wasserman-schultz",
+      "state": "FL",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-27",
+      "transactionDate": "2025-10-20",
+      "owner": "self",
+      "ticker": "ANGO",
+      "assetDescription": "AngioDynamics Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Debbie Wasserman Schultz",
+      "district": "FL25",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033320.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "debbie-wasserman-schultz",
+      "state": "FL",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-07",
+      "transactionDate": "2025-09-15",
+      "owner": "self",
+      "ticker": "BRY.1",
+      "assetDescription": "Berry Corp",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Debbie Wasserman Schultz",
+      "district": "FL25",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032087.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "debbie-wasserman-schultz",
+      "state": "FL",
+      "chamber": "senate"
+    }
+  ]
+}

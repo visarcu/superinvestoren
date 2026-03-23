@@ -1,0 +1,26 @@
+{
+  "slug": "adrian-smith",
+  "name": "Adrian Smith",
+  "chamber": "senate",
+  "state": "NE",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-20",
+      "transactionDate": "2025-10-17",
+      "owner": "self",
+      "ticker": "BTCUSD",
+      "assetDescription": "BITCOIN",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Adrian Smith",
+      "district": "NE03",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/8221238.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "adrian-smith",
+      "state": "NE",
+      "chamber": "senate"
+    }
+  ]
+}

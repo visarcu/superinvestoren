@@ -1,0 +1,44 @@
+{
+  "slug": "brandon-gill",
+  "name": "Brandon Gill",
+  "chamber": "senate",
+  "state": "TX",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-18",
+      "transactionDate": "2025-10-29",
+      "owner": "self",
+      "ticker": "IBIT",
+      "assetDescription": "ISHARES BITCOIN TRUST ETF",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$15,001 - $50,000",
+      "representative": "Brandon Gill",
+      "district": "TX26",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033476.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "brandon-gill",
+      "state": "TX",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-18",
+      "transactionDate": "2025-10-20",
+      "owner": "self",
+      "ticker": "BTCUSD",
+      "assetDescription": "BITCOIN",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$100,001 - $250,000",
+      "representative": "Brandon Gill",
+      "district": "TX26",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033476.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "brandon-gill",
+      "state": "TX",
+      "chamber": "senate"
+    }
+  ]
+}

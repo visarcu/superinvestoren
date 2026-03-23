@@ -1,0 +1,26 @@
+{
+  "slug": "laura-friedman",
+  "name": "Laura Friedman",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-09",
+      "transactionDate": "2025-09-10",
+      "owner": "self",
+      "ticker": "PSKY",
+      "assetDescription": "Paramount Global Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Laura Friedman",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032250.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "laura-friedman",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

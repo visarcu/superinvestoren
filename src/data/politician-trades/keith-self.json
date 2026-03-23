@@ -1,0 +1,26 @@
+{
+  "slug": "keith-self",
+  "name": "Keith Self",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-16",
+      "transactionDate": "2025-10-07",
+      "owner": "self",
+      "ticker": "LDOS",
+      "assetDescription": "Leidos Holdings Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Keith Self",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/9115686.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "keith-self",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

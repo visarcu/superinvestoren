@@ -1,0 +1,62 @@
+{
+  "slug": "scott-mr-franklin",
+  "name": "Scott Mr Franklin",
+  "chamber": "senate",
+  "state": "FL",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-02-24",
+      "transactionDate": "2026-02-10",
+      "owner": "self",
+      "ticker": "HSY",
+      "assetDescription": "The Hershey Co",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Scott Mr Franklin",
+      "district": "FL18",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034050.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "scott-mr-franklin",
+      "state": "FL",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-22",
+      "transactionDate": "2025-10-14",
+      "owner": "self",
+      "ticker": "IVV",
+      "assetDescription": "iShares Core S&P 500 ETF",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Scott Mr Franklin",
+      "district": "FL18",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033327.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "scott-mr-franklin",
+      "state": "FL",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-22",
+      "transactionDate": "2025-10-14",
+      "owner": "self",
+      "ticker": "UNP",
+      "assetDescription": "Union Pacific Corporation Common Stock",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$50,001 - $100,000",
+      "representative": "Scott Mr Franklin",
+      "district": "FL18",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033327.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "scott-mr-franklin",
+      "state": "FL",
+      "chamber": "senate"
+    }
+  ]
+}

@@ -36,6 +36,10 @@ interface PoliticianSummary {
   tradeCount: number
   lastTrade: string
   recentTrades: PoliticianTrade[]
+  // From API index (when local data available)
+  lastTradeDate?: string
+  recentTickers?: string[]
+  chamber?: string
 }
 
 function formatDate(dateStr: string): string {
@@ -85,20 +89,35 @@ function PartyBadge({ slug }: { slug: string }) {
 
 export default function PolitikerPage() {
   const [trades, setTrades] = useState<PoliticianTrade[]>([])
+  const [politicianIndex, setPoliticianIndex] = useState<PoliticianSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
-  const [typeFilter, setTypeFilter] = useState<'all' | 'Purchase' | 'Sale'>('all')
+  const [typeFilter, setTypeFilter] = useState<'all' | 'purchase' | 'sale'>('all')
   const [activeTab, setActiveTab] = useState<'feed' | 'politiker'>('feed')
 
   useEffect(() => {
     async function load() {
       setLoading(true)
       try {
-        const pages = await Promise.all(
-          [0, 1, 2, 3, 4, 5].map(p => fetch(`/api/politicians?page=${p}`).then(r => r.json()))
-        )
-        const all = pages.flatMap(p => p.trades || [])
-        setTrades(all)
+        const data = await fetch('/api/politicians?page=0').then(r => r.json())
+        setTrades(data.trades || [])
+        // Wenn lokale Daten → API liefert den Index direkt mit
+        if (data.index && Array.isArray(data.index)) {
+          setPoliticianIndex(
+            data.index.map((p: any) => ({
+              name: p.name,
+              slug: p.slug,
+              state: p.state,
+              district: p.district || '',
+              tradeCount: p.tradeCount,
+              lastTrade: p.lastTradeDate || '',
+              lastTradeDate: p.lastTradeDate || '',
+              recentTrades: [],
+              recentTickers: p.recentTickers || [],
+              chamber: p.chamber || '',
+            }))
+          )
+        }
       } catch (err) {
         console.error('Fehler beim Laden der Politiker-Trades:', err)
       } finally {
@@ -108,7 +127,10 @@ export default function PolitikerPage() {
     load()
   }, [])
 
+  // Wenn API Index liefert → diesen direkt nutzen (vollständige Daten über alle Politiker)
+  // Fallback: aus dem geladenen Feed berechnen
   const politicians = useMemo<PoliticianSummary[]>(() => {
+    if (politicianIndex.length > 0) return politicianIndex
     const map: Record<string, PoliticianSummary> = {}
     trades.forEach(t => {
       if (!t.representative) return
@@ -132,7 +154,7 @@ export default function PolitikerPage() {
       }
     })
     return Object.values(map).sort((a, b) => b.tradeCount - a.tradeCount)
-  }, [trades])
+  }, [trades, politicianIndex])
 
   const filteredTrades = useMemo(() => {
     return trades.filter(t => {
@@ -141,7 +163,10 @@ export default function PolitikerPage() {
         t.representative?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.ticker?.toLowerCase().includes(searchQuery.toLowerCase()) ||
         t.assetDescription?.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesType = typeFilter === 'all' || t.type === typeFilter
+      // Typ-Vergleich case-insensitiv (FMP: 'Purchase'/'Sale', lokal: 'purchase'/'sale')
+      const matchesType =
+        typeFilter === 'all' ||
+        t.type?.toLowerCase() === typeFilter.toLowerCase()
       return matchesSearch && matchesType
     })
   }, [trades, searchQuery, typeFilter])
@@ -155,12 +180,18 @@ export default function PolitikerPage() {
   }, [politicians, searchQuery])
 
   const stats = useMemo(() => {
-    const purchases = trades.filter(t => t.type === 'Purchase').length
-    const sales = trades.filter(t => t.type === 'Sale').length
-    const uniquePoliticians = new Set(trades.map(t => t.slug)).size
+    const purchases = trades.filter(t => t.type?.toLowerCase() === 'purchase').length
+    const sales = trades.filter(t => t.type?.toLowerCase() === 'sale').length
+    // Wenn Index vorhanden: Gesamtzahlen aus Index nutzen (vollständiger)
+    const uniquePoliticians = politicianIndex.length > 0
+      ? politicianIndex.length
+      : new Set(trades.map(t => t.slug)).size
     const uniqueStocks = new Set(trades.map(t => t.ticker).filter(Boolean)).size
-    return { purchases, sales, uniquePoliticians, uniqueStocks, total: trades.length }
-  }, [trades])
+    const totalTrades = politicianIndex.length > 0
+      ? politicianIndex.reduce((sum, p) => sum + p.tradeCount, 0)
+      : trades.length
+    return { purchases, sales, uniquePoliticians, uniqueStocks, total: totalTrades }
+  }, [trades, politicianIndex])
 
   return (
     <div className="min-h-screen bg-dark">
@@ -264,12 +295,12 @@ export default function PolitikerPage() {
             {activeTab === 'feed' && (
               <select
                 value={typeFilter}
-                onChange={e => setTypeFilter(e.target.value as 'all' | 'Purchase' | 'Sale')}
+                onChange={e => setTypeFilter(e.target.value as 'all' | 'purchase' | 'sale')}
                 className="appearance-none px-3 py-2 rounded-lg text-sm cursor-pointer bg-neutral-900 border border-neutral-800 text-neutral-300 hover:border-neutral-700 focus:outline-none"
               >
                 <option value="all">Alle Typen</option>
-                <option value="Purchase">Nur Käufe</option>
-                <option value="Sale">Nur Verkäufe</option>
+                <option value="purchase">Nur Käufe</option>
+                <option value="sale">Nur Verkäufe</option>
               </select>
             )}
           </div>
@@ -335,13 +366,13 @@ export default function PolitikerPage() {
                 </div>
 
                 <div className="w-20 hidden sm:flex items-center gap-1">
-                  {trade.type === 'Purchase' ? (
+                  {trade.type?.toLowerCase() === 'purchase' ? (
                     <ArrowUpRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
                   ) : (
                     <ArrowDownRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
                   )}
                   <span className="text-sm text-neutral-300">
-                    {trade.type === 'Purchase' ? 'Kauf' : 'Verkauf'}
+                    {trade.type?.toLowerCase() === 'purchase' ? 'Kauf' : 'Verkauf'}
                   </span>
                 </div>
 
@@ -407,10 +438,13 @@ export default function PolitikerPage() {
                     <p className="text-sm text-neutral-400 tabular-nums">{formatDate(p.lastTrade)}</p>
                   </div>
 
-                  <div className="w-40 hidden md:flex items-center gap-1.5">
-                    {p.recentTrades.slice(0, 3).map((t, i) => t.ticker && (
+                  <div className="w-40 hidden md:flex items-center gap-1.5 flex-wrap">
+                    {(p.recentTickers && p.recentTickers.length > 0
+                      ? p.recentTickers
+                      : p.recentTrades.slice(0, 3).map(t => t.ticker).filter(Boolean)
+                    ).slice(0, 4).map((ticker, i) => (
                       <span key={i} className="text-xs text-neutral-500 font-mono">
-                        {t.ticker}
+                        {ticker}
                       </span>
                     ))}
                   </div>
