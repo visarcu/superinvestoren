@@ -1,0 +1,44 @@
+{
+  "slug": "katherine-m-clark",
+  "name": "Katherine M. Clark",
+  "chamber": "senate",
+  "state": "MA",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-06",
+      "transactionDate": "2025-10-27",
+      "owner": "self",
+      "ticker": "",
+      "assetDescription": "UNITED STATES TREAS SER AU- 2026%3B 4.625%%3B 11/15/2026%3B NTS NOTE",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$250,001 - $500,000",
+      "representative": "Katherine M. Clark",
+      "district": "MA05",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033393.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "katherine-m-clark",
+      "state": "MA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-06",
+      "transactionDate": "2025-09-17",
+      "owner": "self",
+      "ticker": "PG",
+      "assetDescription": "The Procter & Gamble Co (1)",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Katherine M. Clark",
+      "district": "MA05",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032205.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "katherine-m-clark",
+      "state": "MA",
+      "chamber": "senate"
+    }
+  ]
+}

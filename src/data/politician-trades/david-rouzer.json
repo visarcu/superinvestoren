@@ -1,0 +1,26 @@
+{
+  "slug": "david-rouzer",
+  "name": "David Rouzer",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-08",
+      "transactionDate": "2025-12-09",
+      "owner": "self",
+      "ticker": "BA",
+      "assetDescription": "Boeing Co",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "David Rouzer",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033758.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "david-rouzer",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

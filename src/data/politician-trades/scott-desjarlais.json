@@ -1,0 +1,44 @@
+{
+  "slug": "scott-desjarlais",
+  "name": "Scott DesJarlais",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-19",
+      "transactionDate": "2025-10-28",
+      "owner": "self",
+      "ticker": "UPS",
+      "assetDescription": "United Parcel Service Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Scott DesJarlais",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033490.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "scott-desjarlais",
+      "state": "",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-19",
+      "transactionDate": "2025-10-28",
+      "owner": "self",
+      "ticker": "PEP",
+      "assetDescription": "PepsiCo Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Scott DesJarlais",
+      "district": "",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033490.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "scott-desjarlais",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

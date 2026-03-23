@@ -1,0 +1,26 @@
+{
+  "slug": "chellie-pingree",
+  "name": "Chellie Pingree",
+  "chamber": "senate",
+  "state": "ME",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-04",
+      "transactionDate": "2025-10-20",
+      "owner": "self",
+      "ticker": "",
+      "assetDescription": "United States Treasury Notes%3B 3.875%%3B Due 1-15-26",
+      "type": "sale",
+      "typeRaw": "Sale (Full)",
+      "amount": "$15,001 - $50,000",
+      "representative": "Chellie Pingree",
+      "district": "ME01",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033402.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "chellie-pingree",
+      "state": "ME",
+      "chamber": "senate"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "slug": "william-r-keating",
+  "name": "William R. Keating",
+  "chamber": "senate",
+  "state": "MA",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-17",
+      "transactionDate": "2026-02-20",
+      "owner": "self",
+      "ticker": "GOOGL",
+      "assetDescription": "Alphabet Inc",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "William R. Keating",
+      "district": "MA09",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034177.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "william-r-keating",
+      "state": "MA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-17",
+      "transactionDate": "2026-02-20",
+      "owner": "self",
+      "ticker": "CB",
+      "assetDescription": "Chubb Ltd",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "William R. Keating",
+      "district": "MA09",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034177.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "william-r-keating",
+      "state": "MA",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-12-17",
+      "transactionDate": "2025-12-05",
+      "owner": "self",
+      "ticker": "CMCSA",
+      "assetDescription": "Comcast Corp",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "William R. Keating",
+      "district": "MA09",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033628.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "william-r-keating",
+      "state": "MA",
+      "chamber": "senate"
+    }
+  ]
+}

@@ -38,7 +38,9 @@
     "update-sectors:prod": "NODE_ENV=production tsx scripts/updateSectors.ts",
     "update-ter": "node scripts/update-ter-data.js",
     "update-screener": "tsx scripts/update-stocks-screener.ts",
-    "sync-earnings": "tsx scripts/sync-earnings.ts"
+    "sync-earnings": "tsx scripts/sync-earnings.ts",
+    "fetch:politician-trades": "node scripts/fetchPoliticianTrades.js",
+    "update-politician-trades": "node scripts/fetchPoliticianTrades.js"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.3",

@@ -1,0 +1,926 @@
+[
+  {
+    "slug": "david-taylor",
+    "name": "David Taylor",
+    "chamber": "senate",
+    "state": "OH",
+    "tradeCount": 98,
+    "lastTradeDate": "2026-03-12",
+    "recentTickers": [
+      "RPM",
+      "CVX",
+      "PH",
+      "HD",
+      "LRCX"
+    ]
+  },
+  {
+    "slug": "cleo-fields",
+    "name": "Cleo Fields",
+    "chamber": "senate",
+    "state": "LA",
+    "tradeCount": 67,
+    "lastTradeDate": "2026-03-12",
+    "recentTickers": [
+      "MSFT",
+      "AAPL",
+      "MU",
+      "GOOGL",
+      "META"
+    ]
+  },
+  {
+    "slug": "pete-sessions",
+    "name": "Pete Sessions",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-03-09",
+    "recentTickers": [
+      "VZ"
+    ]
+  },
+  {
+    "slug": "kelly-louise-morrison",
+    "name": "Kelly Louise Morrison",
+    "chamber": "senate",
+    "state": "MN",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-03-08",
+    "recentTickers": [
+      "AJG",
+      "ASHGY"
+    ]
+  },
+  {
+    "slug": "gilbert-cisneros",
+    "name": "Gilbert Cisneros",
+    "chamber": "senate",
+    "state": "CA",
+    "tradeCount": 354,
+    "lastTradeDate": "2026-03-02",
+    "recentTickers": [
+      "THR",
+      "FSS",
+      "TSM",
+      "HOOD",
+      "MU"
+    ]
+  },
+  {
+    "slug": "josh-gottheimer",
+    "name": "Josh Gottheimer",
+    "chamber": "senate",
+    "state": "NJ",
+    "tradeCount": 52,
+    "lastTradeDate": "2026-02-27",
+    "recentTickers": [
+      "IFNNY",
+      "PANW",
+      "FSS",
+      "INTU",
+      "CVNA"
+    ]
+  },
+  {
+    "slug": "april-delaney",
+    "name": "April Delaney",
+    "chamber": "senate",
+    "state": "MD",
+    "tradeCount": 103,
+    "lastTradeDate": "2026-02-27",
+    "recentTickers": [
+      "NDAQ",
+      "EME",
+      "JLL",
+      "MORN",
+      "PAYX"
+    ]
+  },
+  {
+    "slug": "charles-j-chuck-fleischmann",
+    "name": "Charles J. \"Chuck\" Fleischmann",
+    "chamber": "senate",
+    "state": "TN",
+    "tradeCount": 23,
+    "lastTradeDate": "2026-02-23",
+    "recentTickers": [
+      "ACN",
+      "EEFT",
+      "NOW",
+      "PYPL",
+      "UNH"
+    ]
+  },
+  {
+    "slug": "william-r-keating",
+    "name": "William R. Keating",
+    "chamber": "senate",
+    "state": "MA",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-02-20",
+    "recentTickers": [
+      "GOOGL",
+      "CB",
+      "CMCSA"
+    ]
+  },
+  {
+    "slug": "julia-letlow",
+    "name": "Julia Letlow",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 100,
+    "lastTradeDate": "2026-02-20",
+    "recentTickers": [
+      "BXP",
+      "DINO",
+      "TRV",
+      "EXE",
+      "PEG"
+    ]
+  },
+  {
+    "slug": "sheri-biggs",
+    "name": "Sheri Biggs",
+    "chamber": "senate",
+    "state": "SC",
+    "tradeCount": 92,
+    "lastTradeDate": "2026-02-19",
+    "recentTickers": [
+      "8376923Z",
+      "BNS",
+      "BNPQY",
+      "UBS",
+      "IBIT"
+    ]
+  },
+  {
+    "slug": "tony-wied",
+    "name": "Tony Wied",
+    "chamber": "senate",
+    "state": "WI",
+    "tradeCount": 27,
+    "lastTradeDate": "2026-02-19",
+    "recentTickers": [
+      "MU",
+      "V",
+      "WAL",
+      "LH",
+      "AVGO"
+    ]
+  },
+  {
+    "slug": "richard-w-allen",
+    "name": "Richard W. Allen",
+    "chamber": "senate",
+    "state": "GA",
+    "tradeCount": 11,
+    "lastTradeDate": "2026-02-19",
+    "recentTickers": [
+      "TSM",
+      "INTU",
+      "KMI",
+      "AWK",
+      "SPGI"
+    ]
+  },
+  {
+    "slug": "thomas-suozzi",
+    "name": "Thomas Suozzi",
+    "chamber": "senate",
+    "state": "NY",
+    "tradeCount": 9,
+    "lastTradeDate": "2026-02-18",
+    "recentTickers": [
+      "AMD",
+      "AAPL",
+      "URI",
+      "PLTR",
+      "NEE"
+    ]
+  },
+  {
+    "slug": "thomas-h-kean",
+    "name": "Thomas H. Kean",
+    "chamber": "senate",
+    "state": "NJ",
+    "tradeCount": 29,
+    "lastTradeDate": "2026-02-18",
+    "recentTickers": [
+      "LIN",
+      "WAT",
+      "FCNCA",
+      "GOOGL",
+      "ABT"
+    ]
+  },
+  {
+    "slug": "tim-moore",
+    "name": "Tim Moore",
+    "chamber": "senate",
+    "state": "NC",
+    "tradeCount": 49,
+    "lastTradeDate": "2026-02-18",
+    "recentTickers": [
+      "COIN",
+      "DNUT",
+      "GNPX",
+      "T",
+      "VZ"
+    ]
+  },
+  {
+    "slug": "jonathan-jackson",
+    "name": "Jonathan Jackson",
+    "chamber": "senate",
+    "state": "IL",
+    "tradeCount": 43,
+    "lastTradeDate": "2026-02-17",
+    "recentTickers": [
+      "IBM",
+      "BK",
+      "C",
+      "THC",
+      "WELL"
+    ]
+  },
+  {
+    "slug": "austin-scott",
+    "name": "Austin Scott",
+    "chamber": "senate",
+    "state": "GA",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-02-17",
+    "recentTickers": [
+      "GEV",
+      "GE"
+    ]
+  },
+  {
+    "slug": "lloyd-doggett",
+    "name": "Lloyd Doggett",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 6,
+    "lastTradeDate": "2026-02-17",
+    "recentTickers": [
+      "PG",
+      "HD",
+      "KO",
+      "PPG",
+      "IBM"
+    ]
+  },
+  {
+    "slug": "jake-auchincloss",
+    "name": "Jake Auchincloss",
+    "chamber": "senate",
+    "state": "MA",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-02-17",
+    "recentTickers": [
+      "STT"
+    ]
+  },
+  {
+    "slug": "virginia-foxx",
+    "name": "Virginia Foxx",
+    "chamber": "senate",
+    "state": "NC",
+    "tradeCount": 10,
+    "lastTradeDate": "2026-02-13",
+    "recentTickers": [
+      "ARLP",
+      "HTGC",
+      "PSA",
+      "EFC"
+    ]
+  },
+  {
+    "slug": "ed-case",
+    "name": "Ed Case",
+    "chamber": "senate",
+    "state": "HI",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-02-12",
+    "recentTickers": [
+      "AAPL",
+      "PG"
+    ]
+  },
+  {
+    "slug": "august-lee-pfluger",
+    "name": "August Lee Pfluger",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 5,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "WBD",
+      "SIRI",
+      "FNF",
+      "FWONK",
+      "LLYVK"
+    ]
+  },
+  {
+    "slug": "byron-donalds",
+    "name": "Byron Donalds",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 29,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "TTD",
+      "NOW",
+      "BRO",
+      "PYPL",
+      "HWM"
+    ]
+  },
+  {
+    "slug": "debbie-dingell",
+    "name": "Debbie Dingell",
+    "chamber": "senate",
+    "state": "MI",
+    "tradeCount": 4,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "WAT",
+      "HON",
+      "AAPL",
+      "GOOGL"
+    ]
+  },
+  {
+    "slug": "scott-mr-franklin",
+    "name": "Scott Mr Franklin",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "HSY",
+      "IVV",
+      "UNP"
+    ]
+  },
+  {
+    "slug": "kevin-hern",
+    "name": "Kevin Hern",
+    "chamber": "senate",
+    "state": "OK",
+    "tradeCount": 17,
+    "lastTradeDate": "2026-02-09",
+    "recentTickers": [
+      "WAT",
+      "RY",
+      "HD",
+      "CSX",
+      "BSX"
+    ]
+  },
+  {
+    "slug": "lisa-mcclain",
+    "name": "Lisa McClain",
+    "chamber": "senate",
+    "state": "MI",
+    "tradeCount": 204,
+    "lastTradeDate": "2026-02-06",
+    "recentTickers": [
+      "BBAI",
+      "AAPL",
+      "APPF",
+      "ALLE",
+      "GOOGL"
+    ]
+  },
+  {
+    "slug": "rob-bresnahan",
+    "name": "Rob Bresnahan",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 10,
+    "lastTradeDate": "2026-02-03",
+    "recentTickers": [
+      "K",
+      "SPY",
+      "BRK/B",
+      "QQQ",
+      "IWM"
+    ]
+  },
+  {
+    "slug": "neal-p-dunn",
+    "name": "Neal P. Dunn",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-02-02",
+    "recentTickers": [
+      "CADE",
+      "HBAN",
+      "JPM"
+    ]
+  },
+  {
+    "slug": "daniel-meuser",
+    "name": "Daniel Meuser",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-01-30",
+    "recentTickers": [
+      "NVDA"
+    ]
+  },
+  {
+    "slug": "michael-mccaul",
+    "name": "Michael McCaul",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 182,
+    "lastTradeDate": "2026-01-30",
+    "recentTickers": [
+      "MSFT",
+      "WDAY",
+      "MELI",
+      "INTU",
+      "SAP"
+    ]
+  },
+  {
+    "slug": "john-mcguire",
+    "name": "John McGuire",
+    "chamber": "senate",
+    "state": "VA",
+    "tradeCount": 4,
+    "lastTradeDate": "2026-01-30",
+    "recentTickers": [
+      "NVDA",
+      "MSFT",
+      "WMT"
+    ]
+  },
+  {
+    "slug": "dale-strong",
+    "name": "Dale Strong",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2026-01-28",
+    "recentTickers": [
+      "IREN"
+    ]
+  },
+  {
+    "slug": "scott-h-peters",
+    "name": "Scott H. Peters",
+    "chamber": "senate",
+    "state": "CA",
+    "tradeCount": 16,
+    "lastTradeDate": "2026-01-21",
+    "recentTickers": []
+  },
+  {
+    "slug": "robert-e-latta",
+    "name": "Robert E. Latta",
+    "chamber": "senate",
+    "state": "OH",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-01-20",
+    "recentTickers": [
+      "FMAO"
+    ]
+  },
+  {
+    "slug": "nancy-pelosi",
+    "name": "Nancy Pelosi",
+    "chamber": "senate",
+    "state": "CA",
+    "tradeCount": 19,
+    "lastTradeDate": "2026-01-16",
+    "recentTickers": [
+      "AMZN",
+      "VST",
+      "TEM",
+      "AB",
+      "NVDA"
+    ]
+  },
+  {
+    "slug": "michael-patrick-guest",
+    "name": "Michael Patrick Guest",
+    "chamber": "senate",
+    "state": "MS",
+    "tradeCount": 5,
+    "lastTradeDate": "2026-01-09",
+    "recentTickers": [
+      "EVVTY",
+      "DT",
+      "CHRD",
+      "MPWR"
+    ]
+  },
+  {
+    "slug": "rick-larsen",
+    "name": "Rick Larsen",
+    "chamber": "senate",
+    "state": "WA",
+    "tradeCount": 6,
+    "lastTradeDate": "2026-01-07",
+    "recentTickers": [
+      "META",
+      "MDLZ",
+      "VRSK",
+      "DRI",
+      "WM"
+    ]
+  },
+  {
+    "slug": "james-french-hill",
+    "name": "James French Hill",
+    "chamber": "senate",
+    "state": "AR",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-12-31",
+    "recentTickers": [
+      "PFE",
+      "KD",
+      "SOLV"
+    ]
+  },
+  {
+    "slug": "dan-newhouse",
+    "name": "Dan Newhouse",
+    "chamber": "senate",
+    "state": "WA",
+    "tradeCount": 31,
+    "lastTradeDate": "2025-12-31",
+    "recentTickers": [
+      "RCL",
+      "BR",
+      "SNPS",
+      "TMUS",
+      "GOOGL"
+    ]
+  },
+  {
+    "slug": "jefferson-shreve",
+    "name": "Jefferson Shreve",
+    "chamber": "senate",
+    "state": "IN",
+    "tradeCount": 4,
+    "lastTradeDate": "2025-12-30",
+    "recentTickers": [
+      "JPM",
+      "PRU",
+      "PUK",
+      "BMO"
+    ]
+  },
+  {
+    "slug": "steve-cohen",
+    "name": "Steve Cohen",
+    "chamber": "senate",
+    "state": "TN",
+    "tradeCount": 6,
+    "lastTradeDate": "2025-12-29",
+    "recentTickers": [
+      "NOC",
+      "FLR",
+      "SONY",
+      "MS",
+      "OZK"
+    ]
+  },
+  {
+    "slug": "roger-williams",
+    "name": "Roger Williams",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 4,
+    "lastTradeDate": "2025-12-22",
+    "recentTickers": [
+      "JPM",
+      "CVX",
+      "RTX",
+      "FANG"
+    ]
+  },
+  {
+    "slug": "nicole-malliotakis",
+    "name": "Nicole Malliotakis",
+    "chamber": "senate",
+    "state": "NY",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-12-19",
+    "recentTickers": [
+      "IEP",
+      "FBC",
+      "CMG"
+    ]
+  },
+  {
+    "slug": "julie-johnson",
+    "name": "Julie Johnson",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 143,
+    "lastTradeDate": "2025-12-18",
+    "recentTickers": [
+      "WFC",
+      "XEL",
+      "BMY",
+      "ABBV",
+      "IBM"
+    ]
+  },
+  {
+    "slug": "david-rouzer",
+    "name": "David Rouzer",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-12-09",
+    "recentTickers": [
+      "BA"
+    ]
+  },
+  {
+    "slug": "jared-moskowitz",
+    "name": "Jared Moskowitz",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 16,
+    "lastTradeDate": "2025-12-02",
+    "recentTickers": [
+      "ATO",
+      "PEP",
+      "PEG",
+      "SO",
+      "MCK"
+    ]
+  },
+  {
+    "slug": "debbie-wasserman-schultz",
+    "name": "Debbie Wasserman Schultz",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-11-25",
+    "recentTickers": [
+      "DRQ",
+      "ANGO",
+      "BRY.1"
+    ]
+  },
+  {
+    "slug": "harold-dallas-rogers",
+    "name": "Harold Dallas Rogers",
+    "chamber": "senate",
+    "state": "KY",
+    "tradeCount": 10,
+    "lastTradeDate": "2025-11-24",
+    "recentTickers": [
+      "T",
+      "BBVLX",
+      "VEA",
+      "VUG",
+      "BBTBX"
+    ]
+  },
+  {
+    "slug": "dwight-evans",
+    "name": "Dwight Evans",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 8,
+    "lastTradeDate": "2025-11-21",
+    "recentTickers": [
+      "MSFT",
+      "BABA",
+      "NVDA",
+      "CVS",
+      "AWK"
+    ]
+  },
+  {
+    "slug": "marjorie-taylor-greene",
+    "name": "Marjorie Taylor Greene",
+    "chamber": "senate",
+    "state": "GA",
+    "tradeCount": 32,
+    "lastTradeDate": "2025-11-21",
+    "recentTickers": [
+      "IBIT",
+      "PG",
+      "MELI",
+      "PANW",
+      "KMI"
+    ]
+  },
+  {
+    "slug": "rich-mccormick",
+    "name": "Rich McCormick",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 45,
+    "lastTradeDate": "2025-11-05",
+    "recentTickers": [
+      "CSCO",
+      "V",
+      "PG",
+      "WMT",
+      "NEE"
+    ]
+  },
+  {
+    "slug": "donald-sternoff-beyer",
+    "name": "Donald Sternoff Beyer",
+    "chamber": "senate",
+    "state": "VA",
+    "tradeCount": 5,
+    "lastTradeDate": "2025-10-31",
+    "recentTickers": []
+  },
+  {
+    "slug": "ro-khanna",
+    "name": "Ro Khanna",
+    "chamber": "senate",
+    "state": "CA",
+    "tradeCount": 295,
+    "lastTradeDate": "2025-10-30",
+    "recentTickers": [
+      "MDLZ",
+      "LIN",
+      "WM",
+      "DOV",
+      "PM"
+    ]
+  },
+  {
+    "slug": "suzan-k-delbene",
+    "name": "Suzan K. DelBene",
+    "chamber": "senate",
+    "state": "WA",
+    "tradeCount": 7,
+    "lastTradeDate": "2025-10-30",
+    "recentTickers": []
+  },
+  {
+    "slug": "brandon-gill",
+    "name": "Brandon Gill",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-10-29",
+    "recentTickers": [
+      "IBIT",
+      "BTCUSD"
+    ]
+  },
+  {
+    "slug": "scott-desjarlais",
+    "name": "Scott DesJarlais",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-10-28",
+    "recentTickers": [
+      "UPS",
+      "PEP"
+    ]
+  },
+  {
+    "slug": "pete-stauber",
+    "name": "Pete Stauber",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-27",
+    "recentTickers": [
+      "NWL"
+    ]
+  },
+  {
+    "slug": "katherine-m-clark",
+    "name": "Katherine M. Clark",
+    "chamber": "senate",
+    "state": "MA",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-10-27",
+    "recentTickers": [
+      "PG"
+    ]
+  },
+  {
+    "slug": "max-miller",
+    "name": "Max Miller",
+    "chamber": "senate",
+    "state": "OH",
+    "tradeCount": 4,
+    "lastTradeDate": "2025-10-27",
+    "recentTickers": [
+      "GLAS"
+    ]
+  },
+  {
+    "slug": "mike-kelly",
+    "name": "Mike Kelly",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-10-21",
+    "recentTickers": []
+  },
+  {
+    "slug": "ann-wagner",
+    "name": "Ann Wagner",
+    "chamber": "senate",
+    "state": "MO",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-21",
+    "recentTickers": []
+  },
+  {
+    "slug": "chellie-pingree",
+    "name": "Chellie Pingree",
+    "chamber": "senate",
+    "state": "ME",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-20",
+    "recentTickers": []
+  },
+  {
+    "slug": "adrian-smith",
+    "name": "Adrian Smith",
+    "chamber": "senate",
+    "state": "NE",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-17",
+    "recentTickers": [
+      "BTCUSD"
+    ]
+  },
+  {
+    "slug": "eleanor-holmes-norton",
+    "name": "Eleanor Holmes Norton",
+    "chamber": "senate",
+    "state": "DC",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-14",
+    "recentTickers": [
+      "BRK/B"
+    ]
+  },
+  {
+    "slug": "keith-self",
+    "name": "Keith Self",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-07",
+    "recentTickers": [
+      "LDOS"
+    ]
+  },
+  {
+    "slug": "val-hoyle",
+    "name": "Val Hoyle",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 84,
+    "lastTradeDate": "2025-09-23",
+    "recentTickers": [
+      "COST",
+      "COP",
+      "CTSH",
+      "CDNS",
+      "CHRW"
+    ]
+  },
+  {
+    "slug": "laura-friedman",
+    "name": "Laura Friedman",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-09-10",
+    "recentTickers": [
+      "PSKY"
+    ]
+  },
+  {
+    "slug": "pramila-jayapal",
+    "name": "Pramila Jayapal",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2023-10-31",
+    "recentTickers": [
+      "NWL"
+    ]
+  }
+]

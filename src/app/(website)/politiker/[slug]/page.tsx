@@ -142,7 +142,7 @@ export default function PolitikerDetailPage() {
 
   const [trades, setTrades] = useState<PoliticianTrade[]>([])
   const [loading, setLoading] = useState(true)
-  const [typeFilter, setTypeFilter] = useState<'all' | 'Purchase' | 'Sale'>('all')
+  const [typeFilter, setTypeFilter] = useState<'all' | 'purchase' | 'sale'>('all')
 
   const name = slugToName(slug)
   const knownInfo = KNOWN_POLITICIANS[slug]
@@ -158,14 +158,16 @@ export default function PolitikerDetailPage() {
   }, [slug])
 
   const filteredTrades = useMemo(() =>
-    trades.filter(t => typeFilter === 'all' || t.type === typeFilter),
+    trades.filter(t =>
+      typeFilter === 'all' || t.type?.toLowerCase() === typeFilter.toLowerCase()
+    ),
     [trades, typeFilter]
   )
 
   // Statistiken
   const stats = useMemo(() => {
-    const purchases = trades.filter(t => t.type === 'Purchase').length
-    const sales = trades.filter(t => t.type === 'Sale').length
+    const purchases = trades.filter(t => t.type?.toLowerCase() === 'purchase').length
+    const sales = trades.filter(t => t.type?.toLowerCase() === 'sale').length
     const uniqueStocks = new Set(trades.map(t => t.ticker).filter(Boolean)).size
     const totalVolume = trades.reduce((s, t) => s + parseAmountMid(t.amount), 0)
 
@@ -174,7 +176,7 @@ export default function PolitikerDetailPage() {
       if (!t.ticker) return
       if (!tickerCount[t.ticker]) tickerCount[t.ticker] = { count: 0, name: t.assetDescription || t.ticker, buys: 0, sells: 0 }
       tickerCount[t.ticker].count++
-      if (t.type === 'Purchase') tickerCount[t.ticker].buys++
+      if (t.type?.toLowerCase() === 'purchase') tickerCount[t.ticker].buys++
       else tickerCount[t.ticker].sells++
     })
     const topTickers = Object.entries(tickerCount)
@@ -191,7 +193,7 @@ export default function PolitikerDetailPage() {
       const year = t.transactionDate?.split('-')[0]
       if (!year) return
       if (!byYear[year]) byYear[year] = { buys: 0, sells: 0 }
-      if (t.type === 'Purchase') byYear[year].buys++
+      if (t.type?.toLowerCase() === 'purchase') byYear[year].buys++
       else byYear[year].sells++
     })
     const yearData = Object.entries(byYear)
@@ -376,12 +378,12 @@ export default function PolitikerDetailPage() {
                 </div>
                 <select
                   value={typeFilter}
-                  onChange={e => setTypeFilter(e.target.value as 'all' | 'Purchase' | 'Sale')}
+                  onChange={e => setTypeFilter(e.target.value as 'all' | 'purchase' | 'sale')}
                   className="appearance-none px-3 py-2 rounded-lg text-sm cursor-pointer bg-neutral-900 border border-neutral-800 text-neutral-300 hover:border-neutral-700 focus:outline-none"
                 >
                   <option value="all">Alle Typen</option>
-                  <option value="Purchase">Nur Käufe</option>
-                  <option value="Sale">Nur Verkäufe</option>
+                  <option value="purchase">Nur Käufe</option>
+                  <option value="sale">Nur Verkäufe</option>
                 </select>
               </div>
 
@@ -425,12 +427,12 @@ export default function PolitikerDetailPage() {
                     </div>
 
                     <div className="w-20 hidden sm:flex items-center gap-1.5">
-                      {trade.type === 'Purchase'
+                      {trade.type?.toLowerCase() === 'purchase'
                         ? <ArrowUpRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
                         : <ArrowDownRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
                       }
                       <span className="text-sm text-neutral-300">
-                        {trade.type === 'Purchase' ? 'Kauf' : 'Verkauf'}
+                        {trade.type?.toLowerCase() === 'purchase' ? 'Kauf' : 'Verkauf'}
                       </span>
                     </div>
 

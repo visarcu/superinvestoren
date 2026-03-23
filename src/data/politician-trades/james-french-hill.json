@@ -1,0 +1,62 @@
+{
+  "slug": "james-french-hill",
+  "name": "James French Hill",
+  "chamber": "senate",
+  "state": "AR",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-26",
+      "transactionDate": "2025-12-31",
+      "owner": "self",
+      "ticker": "PFE",
+      "assetDescription": "Pfizer Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$100,001 - $250,000",
+      "representative": "James French Hill",
+      "district": "AR02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033661.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-french-hill",
+      "state": "AR",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-26",
+      "transactionDate": "2025-12-31",
+      "owner": "self",
+      "ticker": "KD",
+      "assetDescription": "Kyndryl Holdings Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "James French Hill",
+      "district": "AR02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033661.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-french-hill",
+      "state": "AR",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-26",
+      "transactionDate": "2025-12-31",
+      "owner": "self",
+      "ticker": "SOLV",
+      "assetDescription": "SOLVENTUM CORP",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "James French Hill",
+      "district": "AR02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033661.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-french-hill",
+      "state": "AR",
+      "chamber": "senate"
+    }
+  ]
+}

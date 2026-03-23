@@ -1,0 +1,26 @@
+{
+  "slug": "eleanor-holmes-norton",
+  "name": "Eleanor Holmes Norton",
+  "chamber": "senate",
+  "state": "DC",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-21",
+      "transactionDate": "2025-10-14",
+      "owner": "self",
+      "ticker": "BRK/B",
+      "assetDescription": "Berkshire Hathaway Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Eleanor Holmes Norton",
+      "district": "DC00",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033318.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "eleanor-holmes-norton",
+      "state": "DC",
+      "chamber": "senate"
+    }
+  ]
+}

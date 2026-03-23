@@ -1,0 +1,62 @@
+{
+  "slug": "neal-p-dunn",
+  "name": "Neal P. Dunn",
+  "chamber": "senate",
+  "state": "FL",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-18",
+      "transactionDate": "2026-02-02",
+      "owner": "self",
+      "ticker": "CADE",
+      "assetDescription": "Cadence Bank",
+      "type": "exchange",
+      "typeRaw": "Exchange",
+      "amount": "$1,001 - $15,000",
+      "representative": "Neal P. Dunn",
+      "district": "FL02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034114.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "neal-p-dunn",
+      "state": "FL",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-18",
+      "transactionDate": "2026-02-02",
+      "owner": "self",
+      "ticker": "HBAN",
+      "assetDescription": "Huntington Bancshares Inc",
+      "type": "exchange",
+      "typeRaw": "Exchange",
+      "amount": "$1,001 - $15,000",
+      "representative": "Neal P. Dunn",
+      "district": "FL02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034114.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "neal-p-dunn",
+      "state": "FL",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-02",
+      "transactionDate": "2025-09-04",
+      "owner": "self",
+      "ticker": "JPM",
+      "assetDescription": "JPMorgan Chase & Co",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Neal P. Dunn",
+      "district": "FL02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032191.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "neal-p-dunn",
+      "state": "FL",
+      "chamber": "senate"
+    }
+  ]
+}

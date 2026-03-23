@@ -1,0 +1,26 @@
+{
+  "slug": "ann-wagner",
+  "name": "Ann Wagner",
+  "chamber": "senate",
+  "state": "MO",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-04",
+      "transactionDate": "2025-10-21",
+      "owner": "Joint",
+      "ticker": "",
+      "assetDescription": "CENTRE CNTY PA HOSP AUTH REV HOSP REV 5% 11/15/2046 BDS MT NITTANYMED",
+      "type": "sale",
+      "typeRaw": "Sale (Full)",
+      "amount": "$250,001 - $500,000",
+      "representative": "Ann Wagner",
+      "district": "MO02",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033403.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "ann-wagner",
+      "state": "MO",
+      "chamber": "senate"
+    }
+  ]
+}
