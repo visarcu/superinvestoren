@@ -127,8 +127,10 @@ function CustomTooltip({ active, payload, label }: any) {
       <p className="text-neutral-400 mb-1">{label}</p>
       {payload.map((p: any) => (
         <div key={p.dataKey} className="flex items-center gap-2">
-          <div className={`w-2 h-2 rounded-full ${p.dataKey === 'buys' ? 'bg-neutral-300' : 'bg-neutral-600'}`}></div>
-          <span className="text-neutral-300">{p.dataKey === 'buys' ? 'Käufe' : 'Verkäufe'}:</span>
+          <div className={`w-2 h-2 rounded-full ${p.dataKey === 'buys' ? 'bg-emerald-400' : 'bg-red-400'}`}></div>
+          <span className={p.dataKey === 'buys' ? 'text-emerald-400' : 'text-red-400'}>
+            {p.dataKey === 'buys' ? 'Käufe' : 'Verkäufe'}:
+          </span>
           <span className="text-white font-medium">{p.value}</span>
         </div>
       ))}
@@ -255,15 +257,15 @@ export default function PolitikerDetailPage() {
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 pb-8 border-b border-neutral-800">
           <div className="p-4">
-            <p className="text-2xl font-semibold text-white">{loading ? '–' : trades.length}</p>
+            <p className="text-2xl font-semibold text-brand">{loading ? '–' : trades.length}</p>
             <p className="text-sm text-neutral-500">Trades gesamt</p>
           </div>
           <div className="p-4">
-            <p className="text-2xl font-semibold text-white">{loading ? '–' : stats.purchases}</p>
+            <p className="text-2xl font-semibold text-emerald-400">{loading ? '–' : stats.purchases}</p>
             <p className="text-sm text-neutral-500">Käufe</p>
           </div>
           <div className="p-4">
-            <p className="text-2xl font-semibold text-white">{loading ? '–' : stats.sales}</p>
+            <p className="text-2xl font-semibold text-red-400">{loading ? '–' : stats.sales}</p>
             <p className="text-sm text-neutral-500">Verkäufe</p>
           </div>
           <div className="p-4">
@@ -300,10 +302,10 @@ export default function PolitikerDetailPage() {
                     <h3 className="text-base font-medium text-white">Trade-Volumen nach Jahr</h3>
                     <div className="ml-auto flex items-center gap-4 text-xs text-neutral-500">
                       <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-sm bg-neutral-300 inline-block"></span>Käufe
+                        <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500 inline-block opacity-80"></span>Käufe
                       </span>
                       <span className="flex items-center gap-1.5">
-                        <span className="w-2.5 h-2.5 rounded-sm bg-neutral-700 inline-block"></span>Verkäufe
+                        <span className="w-2.5 h-2.5 rounded-sm bg-red-500 inline-block opacity-60"></span>Verkäufe
                       </span>
                     </div>
                   </div>
@@ -323,8 +325,8 @@ export default function PolitikerDetailPage() {
                         allowDecimals={false}
                       />
                       <Tooltip content={<CustomTooltip />} cursor={{ fill: 'rgba(255,255,255,0.03)' }} />
-                      <Bar dataKey="buys" fill="#d4d4d4" radius={[2, 2, 0, 0]} />
-                      <Bar dataKey="sells" fill="#404040" radius={[2, 2, 0, 0]} />
+                      <Bar dataKey="buys" fill="#10b981" radius={[2, 2, 0, 0]} opacity={0.85} />
+                      <Bar dataKey="sells" fill="#ef4444" radius={[2, 2, 0, 0]} opacity={0.6} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -350,10 +352,12 @@ export default function PolitikerDetailPage() {
                             <div className="flex-1 min-w-0">
                               <div className="flex items-center gap-2 mb-0.5">
                                 <span className="text-sm font-medium text-white group-hover:text-neutral-300 transition-colors">{ticker}</span>
-                                <span className="text-xs text-neutral-500">{data.buys}K / {data.sells}V</span>
+                                <span className="text-xs text-emerald-500 opacity-80">{data.buys}K</span>
+                                <span className="text-xs text-neutral-600">/</span>
+                                <span className="text-xs text-red-400 opacity-80">{data.sells}V</span>
                               </div>
                               <div className="w-full bg-neutral-800 rounded-full h-0.5">
-                                <div className="bg-neutral-400 h-0.5 rounded-full" style={{ width: `${pct}%` }}></div>
+                                <div className="bg-brand h-0.5 rounded-full" style={{ width: `${pct}%` }}></div>
                               </div>
                             </div>
                           </div>
@@ -428,10 +432,10 @@ export default function PolitikerDetailPage() {
 
                     <div className="w-20 hidden sm:flex items-center gap-1.5">
                       {trade.type?.toLowerCase() === 'purchase'
-                        ? <ArrowUpRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
-                        : <ArrowDownRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                        ? <ArrowUpRightIcon className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                        : <ArrowDownRightIcon className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
                       }
-                      <span className="text-sm text-neutral-300">
+                      <span className={`text-sm ${trade.type?.toLowerCase() === 'purchase' ? 'text-emerald-400' : 'text-red-400'}`}>
                         {trade.type?.toLowerCase() === 'purchase' ? 'Kauf' : 'Verkauf'}
                       </span>
                     </div>

@@ -234,15 +234,15 @@ export default function PolitikerPage() {
         {!loading && (
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12 pb-8 border-b border-neutral-800">
             <div className="p-4">
-              <p className="text-2xl font-semibold text-white">{stats.uniquePoliticians}</p>
+              <p className="text-2xl font-semibold text-brand">{stats.uniquePoliticians}</p>
               <p className="text-sm text-neutral-500">Aktive Politiker</p>
             </div>
             <div className="p-4">
-              <p className="text-2xl font-semibold text-white">{stats.purchases}</p>
+              <p className="text-2xl font-semibold text-emerald-400">{stats.purchases}</p>
               <p className="text-sm text-neutral-500">Käufe</p>
             </div>
             <div className="p-4">
-              <p className="text-2xl font-semibold text-white">{stats.sales}</p>
+              <p className="text-2xl font-semibold text-red-400">{stats.sales}</p>
               <p className="text-sm text-neutral-500">Verkäufe</p>
             </div>
             <div className="p-4">
@@ -260,7 +260,7 @@ export default function PolitikerPage() {
               onClick={() => setActiveTab('feed')}
               className={`flex items-center gap-2 text-sm pb-1 transition-colors border-b ${
                 activeTab === 'feed'
-                  ? 'text-white border-white'
+                  ? 'text-brand border-brand'
                   : 'text-neutral-500 border-transparent hover:text-neutral-300'
               }`}
             >
@@ -271,7 +271,7 @@ export default function PolitikerPage() {
               onClick={() => setActiveTab('politiker')}
               className={`flex items-center gap-2 text-sm pb-1 transition-colors border-b ${
                 activeTab === 'politiker'
-                  ? 'text-white border-white'
+                  ? 'text-brand border-brand'
                   : 'text-neutral-500 border-transparent hover:text-neutral-300'
               }`}
             >
@@ -367,11 +367,11 @@ export default function PolitikerPage() {
 
                 <div className="w-20 hidden sm:flex items-center gap-1">
                   {trade.type?.toLowerCase() === 'purchase' ? (
-                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
                   ) : (
-                    <ArrowDownRightIcon className="w-3.5 h-3.5 text-neutral-400 flex-shrink-0" />
+                    <ArrowDownRightIcon className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
                   )}
-                  <span className="text-sm text-neutral-300">
+                  <span className={`text-sm ${trade.type?.toLowerCase() === 'purchase' ? 'text-emerald-400' : 'text-red-400'}`}>
                     {trade.type?.toLowerCase() === 'purchase' ? 'Kauf' : 'Verkauf'}
                   </span>
                 </div>
