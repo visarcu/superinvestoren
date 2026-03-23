@@ -43,6 +43,15 @@
     "update-politician-trades": "node scripts/fetchPoliticianTrades.js"
   },
   "dependencies": {
+    "@capacitor/android": "^8.2.0",
+    "@capacitor/app": "^8.0.1",
+    "@capacitor/core": "^8.2.0",
+    "@capacitor/haptics": "^8.0.1",
+    "@capacitor/ios": "^8.2.0",
+    "@capacitor/keyboard": "^8.0.1",
+    "@capacitor/push-notifications": "^8.0.2",
+    "@capacitor/splash-screen": "^8.0.1",
+    "@capacitor/status-bar": "^8.0.1",
     "@headlessui/react": "^2.2.3",
     "@heroicons/react": "^2.2.0",
     "@langchain/core": "^0.3.58",
@@ -100,6 +109,7 @@
     "zod": "^3.24.4"
   },
   "devDependencies": {
+    "@capacitor/cli": "^8.2.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/crypto-js": "^4.2.2",
     "@types/node": "^18.19.119",
