@@ -38,6 +38,7 @@ import { LearnModeProvider, useLearnMode } from '@/lib/LearnModeContext'
 import { useExchangeRate } from '@/hooks/useExchangeRate'
 
 import LearnSidebar from '@/components/LearnSidebar'
+import MobileNav from '@/components/MobileNav'
 import Logo from '@/components/Logo'
 import { stocks } from '@/data/stocks'
 import { searchETFs } from '@/lib/etfUtils'
@@ -323,7 +324,7 @@ const CollapsedSidebar = React.memo(({
   }
 
   return (
-    <div className="w-[72px] bg-theme-primary flex flex-col items-center py-3 relative z-20 border-r border-theme">
+    <div className="hidden sm:flex w-[72px] bg-theme-primary flex-col items-center py-3 relative z-20 border-r border-theme">
 
       {/* Logo */}
       <Link href="/" className="mb-3 group">
@@ -1170,12 +1171,15 @@ function LayoutContent({ children }: LayoutProps) {
         )}
       
         {/* CONTENT */}
-        <div className="flex-1 bg-theme-primary overflow-x-hidden">
+        <div className="flex-1 bg-theme-primary overflow-x-hidden has-mobile-nav">
           {children}
         </div>
 
+        {/* MOBILE BOTTOM NAVIGATION */}
+        <MobileNav />
+
         {/* FOOTER */}
-        <div className="h-5 bg-theme-secondary/50 border-t border-white/[0.04] flex items-center justify-between px-3 text-xs text-theme-muted">
+        <div className="hidden sm:flex h-5 bg-theme-secondary/50 border-t border-white/[0.04] items-center justify-between px-3 text-xs text-theme-muted">
           <div className="flex items-center gap-2">
             <span>Market: {marketStatus.status}</span>
             <span>•</span>
