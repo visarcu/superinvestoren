@@ -17,21 +17,27 @@ const supabase = createClient(
 const resend = new Resend(process.env.RESEND_API_KEY)
 
 // TEST MODE: Set TEST_USER_ID_DIVIDENDS env var to a valid UUID to only send to yourself
-// Deliberately separate from TEST_USER_ID so other notification crons are unaffected
 const UUID_REGEX = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 const envTestUserId = process.env.TEST_USER_ID_DIVIDENDS || null
 const TEST_USER_ID = envTestUserId && UUID_REGEX.test(envTestUserId) ? envTestUserId : null
 
 const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
 
+interface FmpDividendEntry {
+  date: string          // ex-dividend date
+  dividend: number
+  recordDate: string
+  paymentDate: string
+  declarationDate: string
+}
+
 interface DividendEvent {
   symbol: string
-  name?: string
   exDividendDate: string
   paymentDate: string
-  dividend: number // per share
-  quantity: number // user's shares
-  totalPayout: number // dividend * quantity
+  dividend: number
+  quantity: number
+  totalPayout: number
   currency: string
 }
 
@@ -90,7 +96,7 @@ function generateEmailHtml(
         <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 13px; white-space: nowrap;">
           ${formatGermanDate(div.exDividendDate)}
         </td>
-        <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 13px; white-space: nowrap;">
+        <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; color: #111827; font-size: 13px; font-weight: 600; white-space: nowrap;">
           ${formatGermanDate(div.paymentDate)}
         </td>
         <td style="padding: 14px 12px; border-bottom: 1px solid #e5e7eb; color: #6b7280; font-size: 13px; text-align: right;">
@@ -201,6 +207,24 @@ function generateEmailHtml(
   `
 }
 
+// Fetch dividend history for a single symbol from FMP
+async function fetchDividendForSymbol(symbol: string): Promise<{ symbol: string; entry: FmpDividendEntry | null }> {
+  try {
+    const res = await fetch(
+      `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${symbol}?apikey=${process.env.FMP_API_KEY}`
+    )
+    if (!res.ok) return { symbol, entry: null }
+    const data = await res.json()
+    if (!data.historical || !Array.isArray(data.historical) || data.historical.length === 0) {
+      return { symbol, entry: null }
+    }
+    // Most recent dividend is first in the array
+    return { symbol, entry: data.historical[0] as FmpDividendEntry }
+  } catch {
+    return { symbol, entry: null }
+  }
+}
+
 export async function GET(request: Request) {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -240,91 +264,10 @@ async function handleWeeklyDividends() {
 
     console.log(`[Weekly Dividends] Payment week: ${fromDate} to ${toDate}`)
 
-    // 2. Fetch dividend calendar from FMP — query a wider window (6 weeks back)
-    // because ex-dates typically precede payment dates by 2–4 weeks.
-    // We then filter server-side by paymentDate falling in the current week.
-    const fmpFrom = new Date(startOfWeek)
-    fmpFrom.setUTCDate(fmpFrom.getUTCDate() - 42) // 6 weeks back
-    const fmpFromDate = fmpFrom.toISOString().split('T')[0]
-
-    const fmpRes = await fetch(
-      `https://financialmodelingprep.com/api/v3/stock_dividend_calendar?from=${fmpFromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
-    )
-    const rawCalendar: Array<{
-      symbol: string
-      date: string          // ex-dividend date
-      dividend: number
-      recordDate: string
-      paymentDate: string
-      declarationDate: string
-    }> = await fmpRes.json()
-
-    if (!Array.isArray(rawCalendar)) {
-      console.error('[Weekly Dividends] Invalid FMP response:', rawCalendar)
-      return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
-    }
-
-    // Filter: only events whose paymentDate falls in the current week
-    const dividendCalendar = rawCalendar.filter(event => {
-      if (!event.paymentDate) return false
-      return event.paymentDate >= fromDate && event.paymentDate <= toDate
-    })
-
-    console.log(`[Weekly Dividends] FMP raw: ${rawCalendar.length} events, filtered by paymentDate this week: ${dividendCalendar.length}`)
-
-    if (dividendCalendar.length === 0) {
-      return NextResponse.json({
-        success: true,
-        testMode: !!TEST_USER_ID,
-        weekRange,
-        message: 'No dividend payment events this week',
-        emailsSent: 0
-      })
-    }
-
-    // Build a quick lookup: symbol → dividend event (latest paymentDate wins if duplicates)
-    const dividendBySymbol = new Map<string, typeof dividendCalendar[0]>()
-    for (const event of dividendCalendar) {
-      if (event.dividend > 0) {
-        dividendBySymbol.set(event.symbol, event)
-      }
-    }
-
-    // 3. Get all users who have portfolios with holdings that match this week's dividend symbols
-    // First: get all relevant portfolio holdings
-    const dividendSymbols = Array.from(dividendBySymbol.keys())
-
-    let holdingsQuery = supabase
-      .from('portfolio_holdings')
-      .select('portfolio_id, symbol, quantity')
-      .in('symbol', dividendSymbols)
-      .gt('quantity', 0)
-
-    const { data: allMatchingHoldings, error: holdingsError } = await holdingsQuery
-
-    if (holdingsError) {
-      console.error('[Weekly Dividends] Holdings error:', holdingsError)
-      return NextResponse.json({ error: 'Database error', message: holdingsError.message }, { status: 500 })
-    }
-
-    if (!allMatchingHoldings || allMatchingHoldings.length === 0) {
-      return NextResponse.json({
-        success: true,
-        testMode: !!TEST_USER_ID,
-        weekRange,
-        message: 'No portfolio holdings match this week\'s dividends',
-        emailsSent: 0
-      })
-    }
-
-    // Get unique portfolio IDs
-    const portfolioIds = [...new Set(allMatchingHoldings.map(h => h.portfolio_id))]
-
-    // 4. Get portfolios with user_id
+    // 2. Get all portfolios (filtered to test user if TEST_USER_ID is set)
     let portfoliosQuery = supabase
       .from('portfolios')
       .select('id, user_id')
-      .in('id', portfolioIds)
 
     if (TEST_USER_ID) {
       portfoliosQuery = portfoliosQuery.eq('user_id', TEST_USER_ID)
@@ -332,34 +275,53 @@ async function handleWeeklyDividends() {
 
     const { data: portfolios, error: portfoliosError } = await portfoliosQuery
 
-    if (portfoliosError) {
-      console.error('[Weekly Dividends] Portfolios error:', portfoliosError)
-      return NextResponse.json({ error: 'Database error', message: portfoliosError.message }, { status: 500 })
+    if (portfoliosError || !portfolios || portfolios.length === 0) {
+      return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekRange, message: 'No portfolios found', emailsSent: 0 })
     }
 
-    if (!portfolios || portfolios.length === 0) {
-      return NextResponse.json({
-        success: true,
-        testMode: !!TEST_USER_ID,
-        weekRange,
-        message: TEST_USER_ID ? 'Test user has no matching portfolio holdings' : 'No users found',
-        emailsSent: 0
-      })
-    }
-
-    // Map portfolio_id → user_id
+    const portfolioIds = portfolios.map(p => p.id)
     const portfolioUserMap = new Map<string, string>()
     for (const p of portfolios) {
       portfolioUserMap.set(p.id, p.user_id)
     }
 
-    // 5. Group holdings by user_id, aggregate quantities across portfolios
+    // 3. Get all holdings across those portfolios
+    const { data: allHoldings, error: holdingsError } = await supabase
+      .from('portfolio_holdings')
+      .select('portfolio_id, symbol, quantity')
+      .in('portfolio_id', portfolioIds)
+      .gt('quantity', 0)
+
+    if (holdingsError || !allHoldings || allHoldings.length === 0) {
+      return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekRange, message: 'No holdings found', emailsSent: 0 })
+    }
+
+    // 4. Check premium status for each user and group holdings by user
     const userHoldings = new Map<string, Map<string, number>>() // userId → symbol → totalQuantity
 
-    for (const holding of allMatchingHoldings) {
+    // Get unique user IDs
+    const uniqueUserIds = [...new Set(portfolios.map(p => p.user_id))]
+
+    // Check premium for all users
+    const { data: profiles } = await supabase
+      .from('profiles')
+      .select('user_id, is_premium')
+      .in('user_id', uniqueUserIds)
+
+    const premiumUserIds = new Set<string>()
+    for (const profile of profiles || []) {
+      if (profile.is_premium) premiumUserIds.add(profile.user_id)
+    }
+
+    // Group holdings by user, only for premium users (or test user)
+    for (const holding of allHoldings) {
       const userId = portfolioUserMap.get(holding.portfolio_id)
       if (!userId) continue
-      if (TEST_USER_ID && userId !== TEST_USER_ID) continue
+
+      const isTestUser = TEST_USER_ID && userId === TEST_USER_ID
+      const isPremium = premiumUserIds.has(userId)
+
+      if (!isPremium && !isTestUser) continue
 
       if (!userHoldings.has(userId)) {
         userHoldings.set(userId, new Map())
@@ -369,13 +331,33 @@ async function handleWeeklyDividends() {
     }
 
     if (userHoldings.size === 0) {
-      return NextResponse.json({
-        success: true,
-        testMode: !!TEST_USER_ID,
-        weekRange,
-        message: 'No matching user holdings after filtering',
-        emailsSent: 0
-      })
+      return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekRange, message: 'No eligible users', emailsSent: 0 })
+    }
+
+    // 5. Get unique symbols across all eligible users and fetch FMP dividend data per symbol
+    const allSymbols = [...new Set([...userHoldings.values()].flatMap(m => [...m.keys()]))]
+    console.log(`[Weekly Dividends] Fetching dividend data for ${allSymbols.length} unique symbols...`)
+
+    const dividendBySymbol = new Map<string, FmpDividendEntry>()
+    const BATCH_SIZE = 10
+
+    for (let i = 0; i < allSymbols.length; i += BATCH_SIZE) {
+      const batch = allSymbols.slice(i, i + BATCH_SIZE)
+      const results = await Promise.all(batch.map(fetchDividendForSymbol))
+
+      for (const { symbol, entry } of results) {
+        if (!entry || !entry.paymentDate || entry.dividend <= 0) continue
+        // Only include if paymentDate falls in this week
+        if (entry.paymentDate >= fromDate && entry.paymentDate <= toDate) {
+          dividendBySymbol.set(symbol, entry)
+        }
+      }
+    }
+
+    console.log(`[Weekly Dividends] ${dividendBySymbol.size} symbols have a payment this week`)
+
+    if (dividendBySymbol.size === 0) {
+      return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekRange, message: 'No dividend payments this week for any held symbol', emailsSent: 0 })
     }
 
     // 6. Send emails per user
@@ -383,40 +365,21 @@ async function handleWeeklyDividends() {
     const userResults: Array<{ userId: string; email: string; dividendCount: number; totalPayout: number }> = []
 
     for (const [userId, symbolMap] of userHoldings) {
-      // Check Premium status (bypass for test user)
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('user_id, is_premium')
-        .eq('user_id', userId)
-        .maybeSingle()
-
-      const isPremiumUser = profile?.is_premium || false
-      const bypassPremiumCheck = !!TEST_USER_ID && userId === TEST_USER_ID
-
-      if (!isPremiumUser && !bypassPremiumCheck) {
-        console.log(`[Weekly Dividends] Skipping non-Premium user ${userId}`)
-        continue
-      }
-
-      if (bypassPremiumCheck && !isPremiumUser) {
-        console.log(`[Weekly Dividends] Test mode: Bypassing premium check for user ${userId}`)
-      }
-
-      // Build dividend events for this user
+      // Build dividend events for this user — only symbols paying this week
       const userDividends: DividendEvent[] = []
 
       for (const [symbol, quantity] of symbolMap) {
-        const event = dividendBySymbol.get(symbol)
-        if (!event) continue
+        const entry = dividendBySymbol.get(symbol)
+        if (!entry) continue
 
         userDividends.push({
           symbol,
-          exDividendDate: event.date,
-          paymentDate: event.paymentDate || event.date,
-          dividend: event.dividend,
+          exDividendDate: entry.date,
+          paymentDate: entry.paymentDate,
+          dividend: entry.dividend,
           quantity,
-          totalPayout: event.dividend * quantity,
-          currency: 'USD' // FMP returns USD for US stocks; we show as-is
+          totalPayout: entry.dividend * quantity,
+          currency: 'USD'
         })
       }
 
@@ -426,7 +389,6 @@ async function handleWeeklyDividends() {
 
       // Get user email
       const { data: { user } } = await supabase.auth.admin.getUserById(userId)
-
       if (!user?.email) {
         console.log(`[Weekly Dividends] No email for user ${userId}`)
         continue
@@ -462,7 +424,6 @@ async function handleWeeklyDividends() {
 
         console.log(`[Weekly Dividends] 📧 Email sent to ${user.email} — ${userDividends.length} dividends, ${formatCurrency(totalBrutto)}`)
 
-        // Log to notification_log
         await supabase.from('notification_log').insert({
           user_id: userId,
           notification_type: 'weekly_dividend_digest',
@@ -487,7 +448,8 @@ async function handleWeeklyDividends() {
       success: true,
       testMode: !!TEST_USER_ID,
       weekRange,
-      dividendEventsThisWeek: dividendCalendar.length,
+      symbolsChecked: allSymbols.length,
+      symbolsPayingThisWeek: dividendBySymbol.size,
       emailsSent,
       userResults
     })
