@@ -138,6 +138,13 @@ function CustomTooltip({ active, payload, label }: any) {
   )
 }
 
+interface SectorInfo {
+  sector: string
+  color: string
+  name: string
+  logo: string
+}
+
 export default function PolitikerDetailPage() {
   const params = useParams()
   const slug = params?.slug as string
@@ -145,6 +152,7 @@ export default function PolitikerDetailPage() {
   const [trades, setTrades] = useState<PoliticianTrade[]>([])
   const [loading, setLoading] = useState(true)
   const [typeFilter, setTypeFilter] = useState<'all' | 'purchase' | 'sale'>('all')
+  const [sectorData, setSectorData] = useState<Record<string, SectorInfo>>({})
 
   const name = slugToName(slug)
   const knownInfo = KNOWN_POLITICIANS[slug]
@@ -154,7 +162,18 @@ export default function PolitikerDetailPage() {
     setLoading(true)
     fetch(`/api/politicians?politician=${slug}&pages=10`)
       .then(r => r.json())
-      .then(data => setTrades(data.trades || []))
+      .then(data => {
+        const tradeList: PoliticianTrade[] = data.trades || []
+        setTrades(tradeList)
+        // Sektor-Daten für die Top-Ticker laden
+        const uniqueTickers = [...new Set(tradeList.map(t => t.ticker).filter(Boolean))].slice(0, 20)
+        if (uniqueTickers.length > 0) {
+          fetch(`/api/politicians/sectors?tickers=${uniqueTickers.join(',')}`)
+            .then(r => r.json())
+            .then(setSectorData)
+            .catch(() => {})
+        }
+      })
       .catch(err => console.error('Fehler:', err))
       .finally(() => setLoading(false))
   }, [slug])
@@ -204,6 +223,28 @@ export default function PolitikerDetailPage() {
 
     return { purchases, sales, uniqueStocks, totalVolume, topTickers, lastTrade, yearData }
   }, [trades])
+
+  // Sektor-Aggregation aus Trades + sectorData
+  const sectorBreakdown = useMemo(() => {
+    if (Object.keys(sectorData).length === 0) return []
+    const counts: Record<string, { count: number; color: string; buys: number; sells: number }> = {}
+    trades.forEach(t => {
+      if (!t.ticker || !sectorData[t.ticker]) return
+      const { sector, color } = sectorData[t.ticker]
+      if (!counts[sector]) counts[sector] = { count: 0, color, buys: 0, sells: 0 }
+      counts[sector].count++
+      if (t.type?.toLowerCase() === 'purchase') counts[sector].buys++
+      else counts[sector].sells++
+    })
+    const total = Object.values(counts).reduce((s, c) => s + c.count, 0)
+    return Object.entries(counts)
+      .sort((a, b) => b[1].count - a[1].count)
+      .map(([sector, data]) => ({
+        sector,
+        ...data,
+        pct: Math.round((data.count / total) * 100),
+      }))
+  }, [trades, sectorData])
 
   const partyColor = knownInfo?.party === 'D' ? 'text-blue-400' : knownInfo?.party === 'R' ? 'text-red-400' : 'text-neutral-400'
   const partyLabel = knownInfo?.party === 'D' ? 'Demokrat' : knownInfo?.party === 'R' ? 'Republikaner' : 'Unabhängig'
@@ -255,7 +296,7 @@ export default function PolitikerDetailPage() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-16">
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10 pb-8 border-b border-neutral-800">
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10 pb-8 border-b border-neutral-800">
           <div className="p-4">
             <p className="text-2xl font-semibold text-brand">{loading ? '–' : trades.length}</p>
             <p className="text-sm text-neutral-500">Trades gesamt</p>
@@ -267,6 +308,16 @@ export default function PolitikerDetailPage() {
           <div className="p-4">
             <p className="text-2xl font-semibold text-red-400">{loading ? '–' : stats.sales}</p>
             <p className="text-sm text-neutral-500">Verkäufe</p>
+          </div>
+          <div className="p-4">
+            <p className="text-2xl font-semibold text-white">
+              {loading ? '–' : stats.totalVolume > 1_000_000
+                ? `~$${(stats.totalVolume / 1_000_000).toFixed(1)}M`
+                : stats.totalVolume > 1_000
+                  ? `~$${(stats.totalVolume / 1_000).toFixed(0)}K`
+                  : `~$${stats.totalVolume.toFixed(0)}`}
+            </p>
+            <p className="text-sm text-neutral-500">Handelsvolumen est.</p>
           </div>
           <div className="p-4">
             <p className="text-2xl font-semibold text-white">{loading ? '–' : stats.lastTrade ? formatDate(stats.lastTrade.transactionDate) : '–'}</p>
@@ -366,6 +417,45 @@ export default function PolitikerDetailPage() {
                       )
                     })}
                   </div>
+                </div>
+              </div>
+            )}
+
+            {/* Sektor-Breakdown */}
+            {sectorBreakdown.length > 0 && (
+              <div className="mb-12">
+                <div className="flex items-center gap-2 mb-4 pb-3 border-b border-neutral-800">
+                  <ChartBarIcon className="w-5 h-5 text-neutral-500" />
+                  <h3 className="text-base font-medium text-white">Branchenverteilung</h3>
+                  <span className="text-xs text-neutral-600 ml-1">nach Anzahl Trades</span>
+                </div>
+
+                {/* Stacked progress bar */}
+                <div className="flex h-2 rounded-full overflow-hidden mb-5 gap-px">
+                  {sectorBreakdown.map(s => (
+                    <div
+                      key={s.sector}
+                      style={{ width: `${s.pct}%`, backgroundColor: s.color }}
+                      title={`${s.sector}: ${s.pct}%`}
+                    />
+                  ))}
+                </div>
+
+                {/* Sektor-Liste */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-0">
+                  {sectorBreakdown.map(s => (
+                    <div key={s.sector} className="flex items-center justify-between py-2 border-b border-neutral-800/50">
+                      <div className="flex items-center gap-2.5">
+                        <div className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ backgroundColor: s.color }} />
+                        <span className="text-sm text-neutral-300">{s.sector}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-xs">
+                        <span className="text-emerald-500">{s.buys}K</span>
+                        <span className="text-red-400">{s.sells}V</span>
+                        <span className="text-neutral-400 w-8 text-right font-medium">{s.pct}%</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             )}
