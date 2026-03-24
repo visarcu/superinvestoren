@@ -62,18 +62,25 @@ function formatAmount(amount: string): string {
   return amount.replace('$', '').trim()
 }
 
-const KNOWN_POLITICIANS: Record<string, { party: 'D' | 'R' | 'I'; fullState: string }> = {
-  'nancy-pelosi': { party: 'D', fullState: 'California' },
-  'dan-crenshaw': { party: 'R', fullState: 'Texas' },
-  'tommy-tuberville': { party: 'R', fullState: 'Alabama' },
-  'josh-gottheimer': { party: 'D', fullState: 'New Jersey' },
-  'marjorie-taylor-greene': { party: 'R', fullState: 'Georgia' },
-  'ro-khanna': { party: 'D', fullState: 'California' },
-  'michael-mccaul': { party: 'R', fullState: 'Texas' },
-  'thomas-suozzi': { party: 'D', fullState: 'New York' },
-  'august-lee-pfluger': { party: 'R', fullState: 'Texas' },
-  'mark-green': { party: 'R', fullState: 'Tennessee' },
+const KNOWN_POLITICIANS: Record<string, { party: 'D' | 'R' | 'I'; fullState: string; role?: string }> = {
+  'nancy-pelosi': { party: 'D', fullState: 'California', role: 'Ehem. Sprecherin des Repräsentantenhauses' },
+  'dan-crenshaw': { party: 'R', fullState: 'Texas', role: 'Repräsentantenhaus, TX-02' },
+  'tommy-tuberville': { party: 'R', fullState: 'Alabama', role: 'US-Senator' },
+  'josh-gottheimer': { party: 'D', fullState: 'New Jersey', role: 'Repräsentantenhaus, NJ-05' },
+  'marjorie-taylor-greene': { party: 'R', fullState: 'Georgia', role: 'Repräsentantenhaus, GA-14' },
+  'ro-khanna': { party: 'D', fullState: 'California', role: 'Repräsentantenhaus, CA-17' },
+  'michael-mccaul': { party: 'R', fullState: 'Texas', role: 'Vorsitzender Außenausschuss' },
+  'thomas-suozzi': { party: 'D', fullState: 'New York', role: 'Repräsentantenhaus, NY-03' },
+  'august-lee-pfluger': { party: 'R', fullState: 'Texas', role: 'Repräsentantenhaus, TX-11' },
+  'mark-green': { party: 'R', fullState: 'Tennessee', role: 'Repräsentantenhaus' },
+  'gilbert-cisneros': { party: 'D', fullState: 'California', role: 'Repräsentantenhaus' },
+  'lisa-mcclain': { party: 'R', fullState: 'Michigan', role: 'Repräsentantenhaus, MI-09' },
+  'julie-johnson': { party: 'D', fullState: 'Texas', role: 'Repräsentantenhaus, TX-32' },
+  'david-taylor': { party: 'R', fullState: 'Ohio', role: 'Repräsentantenhaus, OH-15' },
 }
+
+// Die 4 Politiker die im "Im Fokus" Block erscheinen
+const FEATURED_SLUGS = ['nancy-pelosi', 'ro-khanna', 'josh-gottheimer', 'marjorie-taylor-greene']
 
 function PartyBadge({ slug }: { slug: string }) {
   const info = KNOWN_POLITICIANS[slug]
@@ -248,6 +255,79 @@ export default function PolitikerPage() {
             <div className="p-4">
               <p className="text-2xl font-semibold text-white">{stats.uniqueStocks}</p>
               <p className="text-sm text-neutral-500">verschiedene Aktien</p>
+            </div>
+          </div>
+        )}
+
+        {/* Im Fokus – Notable Politicians */}
+        {!loading && (
+          <div className="mb-10">
+            <p className="text-xs font-medium text-neutral-600 uppercase tracking-widest mb-4">Im Fokus</p>
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {FEATURED_SLUGS.map(slug => {
+                const pol = politicianIndex.find(p => p.slug === slug) || politicians.find(p => p.slug === slug)
+                const known = KNOWN_POLITICIANS[slug]
+                if (!known) return null
+                const tradeCount = pol?.tradeCount ?? 0
+                const lastDate = pol?.lastTradeDate || pol?.lastTrade || ''
+                const tickers = pol?.recentTickers ?? (pol as any)?.recentTrades?.slice(0,3).map((t: any) => t.ticker).filter(Boolean) ?? []
+                const isD = known.party === 'D'
+                return (
+                  <Link
+                    key={slug}
+                    href={`/politiker/${slug}`}
+                    className="group relative flex flex-col gap-3 p-4 rounded-xl bg-neutral-900 border border-neutral-800 hover:border-neutral-700 transition-all hover:bg-neutral-800/60"
+                  >
+                    {/* Party accent line */}
+                    <div className={`absolute top-0 left-0 right-0 h-0.5 rounded-t-xl ${isD ? 'bg-blue-500/50' : 'bg-red-500/50'}`} />
+
+                    {/* Avatar + Name */}
+                    <div className="flex items-center gap-3">
+                      <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
+                        isD ? 'bg-blue-500/10 text-blue-400' : 'bg-red-500/10 text-red-400'
+                      }`}>
+                        {slug.split('-').map(n => n[0].toUpperCase()).slice(0, 2).join('')}
+                      </div>
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <p className="text-sm font-semibold text-white truncate leading-tight group-hover:text-neutral-200">
+                            {slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+                          </p>
+                          <span className={`text-xs font-bold flex-shrink-0 ${isD ? 'text-blue-400' : 'text-red-400'}`}>
+                            {known.party}
+                          </span>
+                        </div>
+                        <p className="text-xs text-neutral-500 truncate">{known.fullState}</p>
+                      </div>
+                    </div>
+
+                    {/* Stats */}
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <p className="text-lg font-semibold text-white">{tradeCount}</p>
+                        <p className="text-xs text-neutral-600">Trades</p>
+                      </div>
+                      {lastDate && (
+                        <div className="text-right">
+                          <p className="text-xs text-neutral-400">{lastDate.slice(0,7)}</p>
+                          <p className="text-xs text-neutral-600">Letzter Trade</p>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Recent tickers */}
+                    {tickers.length > 0 && (
+                      <div className="flex items-center gap-1.5 flex-wrap">
+                        {tickers.slice(0, 4).map((t: string) => (
+                          <span key={t} className="text-xs font-mono text-neutral-500 bg-neutral-800 px-1.5 py-0.5 rounded">
+                            {t}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                  </Link>
+                )
+              })}
             </div>
           </div>
         )}
