@@ -144,22 +144,54 @@ export default function StockScreen() {
     finally { setWatchlistLoading(false); }
   }
 
-  const chartData = useCallback(() => {
+  const chartResult = useCallback(() => {
     const selectedRange = RANGES.find(r => r.label === range)!;
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - selectedRange.days);
     const filtered = historical.filter(p => new Date(p.date) >= cutoff);
-    if (filtered.length === 0) return [];
-    const maxPoints = 180;
+    if (filtered.length < 2) return null;
+
+    // Downsample for performance
+    const maxPoints = 200;
     const step = Math.ceil(filtered.length / maxPoints);
     const sampled = filtered.filter((_, i) => i % step === 0 || i === filtered.length - 1);
-    return sampled.map(p => ({ value: p.close }));
+
+    const values = sampled.map(p => p.close);
+    const minVal = Math.min(...values);
+    const maxVal = Math.max(...values);
+    // Add 2% padding so line doesn't touch edges
+    const pad = (maxVal - minVal) * 0.06;
+
+    // Performance for this period
+    const firstClose = sampled[0].close;
+    const lastClose = sampled[sampled.length - 1].close;
+    const periodChange = lastClose - firstClose;
+    const periodChangePct = firstClose > 0 ? (periodChange / firstClose) * 100 : 0;
+
+    // X-axis labels: 4 evenly spread date labels
+    const xLabelCount = 4;
+    const xLabels: string[] = sampled.map(() => '');
+    const interval = Math.floor((sampled.length - 1) / (xLabelCount - 1));
+    for (let i = 0; i < xLabelCount; i++) {
+      const idx = Math.min(i * interval, sampled.length - 1);
+      xLabels[idx] = formatDateLabel(sampled[idx].date, range);
+    }
+
+    return {
+      points: sampled.map(p => ({ value: p.close })),
+      xLabels,
+      minVal: minVal - pad,
+      maxVal: maxVal + pad,
+      periodChange,
+      periodChangePct,
+      yMin: formatPrice(minVal),
+      yMax: formatPrice(maxVal),
+    };
   }, [historical, range]);
 
-  const chartPoints = chartData();
-  const firstVal = chartPoints[0]?.value ?? 0;
-  const lastVal = chartPoints[chartPoints.length - 1]?.value ?? 0;
-  const isPositive = lastVal >= firstVal;
+  const chart = chartResult();
+  const chartPoints = chart?.points ?? [];
+  const isPositive = (chart?.periodChange ?? 0) >= 0;
   const chartColor = isPositive ? '#22C55E' : '#EF4444';
 
   if (loading) {
@@ -240,33 +272,72 @@ export default function StockScreen() {
             <View style={s.chartLoading}>
               <ActivityIndicator color="#22C55E" size="small" />
             </View>
-          ) : chartPoints.length > 1 ? (
+          ) : chart && chartPoints.length > 1 ? (
             <>
-              <LineChart
-                data={chartPoints}
-                width={SCREEN_WIDTH - 32}
-                height={180}
-                hideDataPoints
-                color={chartColor}
-                thickness={2}
-                startFillColor={chartColor}
-                endFillColor="transparent"
-                startOpacity={0.18}
-                endOpacity={0}
-                areaChart
-                curved
-                initialSpacing={0}
-                endSpacing={0}
-                noOfSections={4}
-                yAxisColor="transparent"
-                xAxisColor="transparent"
-                rulesColor="rgba(255,255,255,0.05)"
-                rulesType="solid"
-                yAxisTextStyle={{ color: '#475569', fontSize: 10 }}
-                hideYAxisText
-                backgroundColor="transparent"
-                adjustToWidth
-              />
+              {/* Performance Header */}
+              <View style={s.chartPerfRow}>
+                <Text style={[s.chartPerfChange, { color: chartColor }]}>
+                  {isPositive ? '+' : ''}{chart.periodChange.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {' '}({isPositive ? '+' : ''}{chart.periodChangePct.toFixed(2)} %)
+                </Text>
+                <Text style={s.chartPerfLabel}>{RANGE_LABELS[range]}</Text>
+              </View>
+
+              {/* Chart + Y-axis */}
+              <View style={s.chartArea}>
+                <LineChart
+                  data={chartPoints}
+                  width={SCREEN_WIDTH - 32 - 52}
+                  height={160}
+                  hideDataPoints
+                  color={chartColor}
+                  thickness={1.5}
+                  startFillColor={chartColor}
+                  endFillColor="transparent"
+                  startOpacity={0.2}
+                  endOpacity={0}
+                  areaChart
+                  curved
+                  initialSpacing={0}
+                  endSpacing={0}
+                  maxValue={chart.maxVal}
+                  minValue={chart.minVal}
+                  noOfSections={3}
+                  yAxisColor="transparent"
+                  xAxisColor="rgba(255,255,255,0.08)"
+                  rulesColor="rgba(255,255,255,0.06)"
+                  rulesType="solid"
+                  hideYAxisText
+                  xAxisLabelTextStyle={{ color: 'transparent', fontSize: 0 }}
+                  backgroundColor="transparent"
+                  adjustToWidth
+                />
+                {/* Y-axis labels on the right */}
+                <View style={s.yAxis}>
+                  <Text style={s.yLabel}>{chart.yMax}</Text>
+                  <Text style={s.yLabel}>{formatPrice((chart.maxVal + chart.minVal) / 2)}</Text>
+                  <Text style={s.yLabel}>{chart.yMin}</Text>
+                </View>
+              </View>
+
+              {/* X-axis date labels */}
+              <View style={s.xAxis}>
+                {chart.xLabels.map((label, i) =>
+                  label ? (
+                    <Text
+                      key={i}
+                      style={[
+                        s.xLabel,
+                        { left: `${(i / (chart.xLabels.length - 1)) * 88}%` as any },
+                      ]}
+                    >
+                      {label}
+                    </Text>
+                  ) : null
+                )}
+              </View>
+
+              {/* Range selector */}
               <View style={s.rangePicker}>
                 {RANGES.map(r => (
                   <TouchableOpacity
@@ -401,6 +472,30 @@ export default function StockScreen() {
   );
 }
 
+const RANGE_LABELS: Record<RangeKey, string> = {
+  '1M': 'im letzten Monat',
+  '3M': 'in den letzten 3 Monaten',
+  '6M': 'in den letzten 6 Monaten',
+  '1J': 'im letzten Jahr',
+  '5J': 'in den letzten 5 Jahren',
+};
+
+function formatPrice(val: number): string {
+  if (val >= 1000) return val.toLocaleString('de-DE', { maximumFractionDigits: 0 });
+  if (val >= 100) return val.toFixed(1);
+  return val.toFixed(2);
+}
+
+const MONTHS_DE = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
+
+function formatDateLabel(dateStr: string, range: RangeKey): string {
+  const d = new Date(dateStr);
+  const mon = MONTHS_DE[d.getMonth()];
+  if (range === '1M') return `${d.getDate()}. ${mon}`;
+  if (range === '5J') return `${mon} ${d.getFullYear()}`;
+  return `${mon} ${String(d.getFullYear()).slice(2)}`;
+}
+
 function formatMarketCap(val?: number) {
   if (!val) return '—';
   if (val >= 1e12) return `$${(val / 1e12).toFixed(1)}T`;
@@ -448,14 +543,59 @@ const s = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#1E293B',
     overflow: 'hidden',
-    paddingTop: 16,
   },
   chartLoading: { height: 200, alignItems: 'center', justifyContent: 'center' },
   noData: { color: '#475569', fontSize: 13 },
+
+  // Performance header
+  chartPerfRow: {
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 6,
+    gap: 2,
+  },
+  chartPerfChange: { fontSize: 16, fontWeight: '700', letterSpacing: -0.3 },
+  chartPerfLabel: { color: '#475569', fontSize: 12 },
+
+  // Chart + Y-axis side by side
+  chartArea: {
+    flexDirection: 'row',
+    alignItems: 'stretch',
+    paddingLeft: 8,
+  },
+  yAxis: {
+    width: 44,
+    justifyContent: 'space-between',
+    alignItems: 'flex-end',
+    paddingRight: 8,
+    paddingVertical: 2,
+  },
+  yLabel: {
+    color: '#475569',
+    fontSize: 10,
+    fontVariant: ['tabular-nums'],
+  },
+
+  // X-axis
+  xAxis: {
+    height: 22,
+    position: 'relative',
+    marginLeft: 8,
+    marginRight: 52,
+    marginBottom: 2,
+  },
+  xLabel: {
+    position: 'absolute',
+    color: '#475569',
+    fontSize: 10,
+    top: 2,
+  },
+
   rangePicker: {
     flexDirection: 'row', justifyContent: 'space-around',
     paddingHorizontal: 16, paddingVertical: 12,
     borderTopWidth: 1, borderTopColor: '#1E293B',
+    marginTop: 4,
   },
   rangeBtn: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8 },
   rangeBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)' },
