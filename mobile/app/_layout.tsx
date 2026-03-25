@@ -20,6 +20,15 @@ export default function RootLayout() {
             headerBackTitle: '',
           }}
         />
+        <Stack.Screen
+          name="investor/[slug]"
+          options={{
+            headerShown: true,
+            headerStyle: { backgroundColor: '#0F172A' },
+            headerTintColor: '#F8FAFC',
+            headerBackTitle: '',
+          }}
+        />
       </Stack>
     </>
   );

@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
 interface Props {
   label: string;
@@ -7,9 +7,15 @@ interface Props {
 
 export default function MetricCard({ label, value }: Props) {
   return (
-    <View className="bg-bg-card rounded-xl p-3" style={{ width: '48%' }}>
-      <Text className="text-text-muted text-xs mb-1">{label}</Text>
-      <Text className="text-text-primary font-semibold text-sm">{value}</Text>
+    <View style={s.card}>
+      <Text style={s.label}>{label}</Text>
+      <Text style={s.value}>{value}</Text>
     </View>
   );
 }
+
+const s = StyleSheet.create({
+  card: { backgroundColor: '#0F172A', borderRadius: 12, padding: 12, width: '48%', borderWidth: 1, borderColor: '#1E293B' },
+  label: { color: '#475569', fontSize: 11, marginBottom: 4 },
+  value: { color: '#F8FAFC', fontWeight: '600', fontSize: 14 },
+});

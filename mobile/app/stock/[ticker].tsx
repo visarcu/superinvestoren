@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, Linking } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { getQuote, getCompanyProfile } from '../../lib/api';
 import { supabase } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
+
+const BASE_URL = 'https://finclue.de';
 
 export default function StockScreen() {
   const { ticker } = useLocalSearchParams<{ ticker: string }>();
@@ -14,20 +15,27 @@ export default function StockScreen() {
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [inWatchlist, setInWatchlist] = useState(false);
-  const [activeTab, setActiveTab] = useState<'overview' | 'financials'>('overview');
+  const [watchlistLoading, setWatchlistLoading] = useState(false);
 
   useEffect(() => {
     loadData();
+    checkWatchlist();
   }, [ticker]);
 
   async function loadData() {
     try {
-      const [qData, pData] = await Promise.all([
-        getQuote(ticker!),
-        getCompanyProfile(ticker!),
+      const [qRes, pRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/quotes?symbols=${ticker}`),
+        fetch(`${BASE_URL}/api/company-profile/${ticker}`),
       ]);
-      setQuote(Array.isArray(qData) ? qData[0] : qData);
-      setProfile(Array.isArray(pData) ? pData[0] : pData);
+      if (qRes.ok) {
+        const qData = await qRes.json();
+        setQuote(Array.isArray(qData) ? qData[0] : qData);
+      }
+      if (pRes.ok) {
+        const pData = await pRes.json();
+        setProfile(Array.isArray(pData) ? pData[0] : pData);
+      }
     } catch (e) {
       console.error(e);
     } finally {
@@ -35,96 +43,116 @@ export default function StockScreen() {
     }
   }
 
+  async function checkWatchlist() {
+    try {
+      const { data: session } = await supabase.auth.getSession();
+      if (!session.session) return;
+      const { data } = await supabase
+        .from('watchlists')
+        .select('id')
+        .eq('user_id', session.session.user.id)
+        .eq('ticker', ticker)
+        .single();
+      setInWatchlist(!!data);
+    } catch { /* not in watchlist */ }
+  }
+
   async function toggleWatchlist() {
     const { data: session } = await supabase.auth.getSession();
     if (!session.session) return;
-    const token = session.session.access_token;
+    setWatchlistLoading(true);
     try {
       if (inWatchlist) {
-        await fetch(`https://finclue.de/api/watchlist/${ticker}`, {
-          method: 'DELETE',
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        await supabase
+          .from('watchlists')
+          .delete()
+          .eq('user_id', session.session.user.id)
+          .eq('ticker', ticker);
+        setInWatchlist(false);
       } else {
-        await fetch('https://finclue.de/api/watchlist', {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ticker }),
-        });
+        await supabase
+          .from('watchlists')
+          .insert({ user_id: session.session.user.id, ticker });
+        setInWatchlist(true);
       }
-      setInWatchlist(!inWatchlist);
     } catch (e) { console.error(e); }
+    finally { setWatchlistLoading(false); }
   }
 
   if (loading) {
     return (
-      <SafeAreaView className="flex-1 bg-bg-primary items-center justify-center">
-        <ActivityIndicator color="#22C55E" size="large" />
+      <SafeAreaView style={s.container}>
+        <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 32 }} />
       </SafeAreaView>
     );
   }
 
   const price = quote?.price ?? 0;
   const change = quote?.changesPercentage ?? 0;
-  const isPositive = change >= 0;
 
   return (
     <>
-      <Stack.Screen options={{ title: ticker || '', headerRight: () => (
-        <TouchableOpacity onPress={toggleWatchlist} className="mr-2">
-          <Ionicons name={inWatchlist ? 'bookmark' : 'bookmark-outline'} size={22} color={inWatchlist ? '#22C55E' : '#F8FAFC'} />
-        </TouchableOpacity>
-      )}} />
+      <Stack.Screen
+        options={{
+          title: ticker || '',
+          headerStyle: { backgroundColor: '#0F172A' },
+          headerTintColor: '#F8FAFC',
+          headerRight: () => (
+            <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading} style={{ marginRight: 4 }}>
+              <Ionicons
+                name={inWatchlist ? 'bookmark' : 'bookmark-outline'}
+                size={22}
+                color={inWatchlist ? '#22C55E' : '#94A3B8'}
+              />
+            </TouchableOpacity>
+          ),
+        }}
+      />
 
-      <ScrollView className="flex-1 bg-bg-primary">
+      <ScrollView style={s.scroll}>
         {/* Price Header */}
-        <View className="px-4 py-5 bg-bg-card border-b border-bg-elevated">
-          <View className="flex-row items-start justify-between">
+        <View style={s.priceHeader}>
+          <View style={s.priceRow}>
             <View>
-              <Text className="text-text-primary text-3xl font-bold">
+              <Text style={s.price}>
                 ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
               </Text>
-              <View className="flex-row items-center gap-2 mt-1">
-                <PriceChange value={quote?.change} isAbsolute />
+              <View style={s.changeRow}>
+                <PriceChange value={quote?.change ?? 0} isAbsolute />
                 <PriceChange value={change} />
               </View>
             </View>
-            <View className="items-end">
-              <Text className="text-text-secondary text-xs">{profile?.exchange}</Text>
-              <Text className="text-text-muted text-xs mt-0.5">{profile?.sector}</Text>
+            <View style={s.exchangeInfo}>
+              {profile?.exchange ? <Text style={s.exchange}>{profile.exchange}</Text> : null}
+              {profile?.sector ? <Text style={s.sector}>{profile.sector}</Text> : null}
             </View>
           </View>
+          {profile?.companyName ? (
+            <Text style={s.companyName}>{profile.companyName}</Text>
+          ) : null}
 
-          {/* Company Name */}
-          {profile?.companyName && (
-            <Text className="text-text-secondary text-sm mt-2">{profile.companyName}</Text>
-          )}
-
-          {/* Quick Actions */}
-          <View className="flex-row gap-2 mt-4">
-            <TouchableOpacity
-              onPress={() => Linking.openURL(`https://finclue.de/analyse/stocks/${ticker}`)}
-              className="flex-1 bg-brand/10 border border-brand/30 rounded-xl py-2.5 items-center"
-              activeOpacity={0.7}
-            >
-              <Text className="text-brand text-sm font-semibold">Vollanalyse</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={toggleWatchlist}
-              className={`flex-1 rounded-xl py-2.5 items-center ${inWatchlist ? 'bg-brand' : 'bg-bg-elevated'}`}
-              activeOpacity={0.7}
-            >
-              <Text className={`text-sm font-semibold ${inWatchlist ? 'text-bg-primary' : 'text-text-primary'}`}>
-                {inWatchlist ? '✓ Watchlist' : '+ Watchlist'}
-              </Text>
-            </TouchableOpacity>
-          </View>
+          {/* Watchlist Button */}
+          <TouchableOpacity
+            onPress={toggleWatchlist}
+            disabled={watchlistLoading}
+            style={[s.watchlistBtn, inWatchlist && s.watchlistBtnActive]}
+            activeOpacity={0.7}
+          >
+            <Ionicons
+              name={inWatchlist ? 'bookmark' : 'bookmark-outline'}
+              size={16}
+              color={inWatchlist ? '#020617' : '#22C55E'}
+            />
+            <Text style={[s.watchlistBtnText, inWatchlist && s.watchlistBtnTextActive]}>
+              {inWatchlist ? 'In Watchlist' : '+ Watchlist'}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         {/* Key Metrics */}
-        <View className="px-4 py-4">
-          <Text className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-3">Kennzahlen</Text>
-          <View className="flex-row flex-wrap gap-2">
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>KENNZAHLEN</Text>
+          <View style={s.metricsGrid}>
             <MetricCard label="Marktkapital." value={formatMarketCap(quote?.marketCap)} />
             <MetricCard label="KGV" value={quote?.pe ? quote.pe.toFixed(1) : '—'} />
             <MetricCard label="52W Hoch" value={quote?.yearHigh ? `$${quote.yearHigh.toFixed(2)}` : '—'} />
@@ -137,28 +165,16 @@ export default function StockScreen() {
         </View>
 
         {/* Description */}
-        {profile?.description && (
-          <View className="px-4 pb-4">
-            <Text className="text-text-secondary text-xs font-semibold uppercase tracking-wider mb-2">Über das Unternehmen</Text>
-            <View className="bg-bg-card rounded-xl p-4">
-              <Text className="text-text-secondary text-sm leading-5" numberOfLines={6}>
-                {profile.description}
-              </Text>
+        {profile?.description ? (
+          <View style={s.section}>
+            <Text style={s.sectionTitle}>ÜBER DAS UNTERNEHMEN</Text>
+            <View style={s.descCard}>
+              <Text style={s.descText} numberOfLines={8}>{profile.description}</Text>
             </View>
           </View>
-        )}
+        ) : null}
 
-        {/* Deep Analysis Button */}
-        <View className="px-4 pb-8">
-          <TouchableOpacity
-            onPress={() => Linking.openURL(`https://finclue.de/analyse/stocks/${ticker}`)}
-            className="bg-brand rounded-xl py-4 items-center flex-row justify-center gap-2"
-            activeOpacity={0.85}
-          >
-            <Text className="text-bg-primary font-bold text-base">Detaillierte Analyse öffnen</Text>
-            <Ionicons name="open-outline" size={18} color="#020617" />
-          </TouchableOpacity>
-        </View>
+        <View style={{ height: 40 }} />
       </ScrollView>
     </>
   );
@@ -178,3 +194,31 @@ function formatVolume(val?: number) {
   if (val >= 1e3) return `${(val / 1e3).toFixed(0)}K`;
   return `${val}`;
 }
+
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: '#020617' },
+  scroll: { flex: 1, backgroundColor: '#020617' },
+  priceHeader: { backgroundColor: '#0F172A', padding: 20, borderBottomWidth: 1, borderBottomColor: '#1E293B' },
+  priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
+  price: { color: '#F8FAFC', fontSize: 34, fontWeight: '700', letterSpacing: -1 },
+  changeRow: { flexDirection: 'row', gap: 8, marginTop: 6 },
+  exchangeInfo: { alignItems: 'flex-end' },
+  exchange: { color: '#94A3B8', fontSize: 12 },
+  sector: { color: '#64748B', fontSize: 12, marginTop: 2 },
+  companyName: { color: '#94A3B8', fontSize: 13, marginTop: 8 },
+  watchlistBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 6,
+    marginTop: 14, backgroundColor: 'rgba(34,197,94,0.12)',
+    borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)',
+    borderRadius: 10, paddingHorizontal: 16, paddingVertical: 10,
+    alignSelf: 'flex-start',
+  },
+  watchlistBtnActive: { backgroundColor: '#22C55E', borderColor: '#22C55E' },
+  watchlistBtnText: { color: '#22C55E', fontWeight: '600', fontSize: 14 },
+  watchlistBtnTextActive: { color: '#020617' },
+  section: { padding: 16 },
+  sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
+  metricsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
+  descCard: { backgroundColor: '#0F172A', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1E293B' },
+  descText: { color: '#94A3B8', fontSize: 14, lineHeight: 22 },
+});
