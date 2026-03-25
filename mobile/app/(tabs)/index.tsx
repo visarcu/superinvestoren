@@ -15,12 +15,22 @@ const BASE = 'https://finclue.de';
 const MARKET_SYMBOLS = ['SPY', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'GOOGL', 'AMZN', 'META'];
 
 interface Sector { sector: string; sectorDE: string; change: number; changeFormatted: string; }
-interface TopBuy { ticker: string; count: number; name: string; }
+interface GuruTrade {
+  investor: string; investorName: string;
+  type: 'NEW' | 'ADD' | 'REDUCE' | 'SOLD';
+  ticker: string; name: string;
+  dollarChangeFormatted: string;
+  percentChangeFormatted: string | null;
+  quarterKey: string;
+}
+
+const TRADE_LABEL: Record<string, string> = { NEW: 'Neu', ADD: 'Aufgestockt', REDUCE: 'Reduziert', SOLD: 'Verkauft' };
+const TRADE_COLOR: Record<string, string> = { NEW: '#22C55E', ADD: '#22C55E', REDUCE: '#EF4444', SOLD: '#EF4444' };
 
 export default function DashboardScreen() {
   const [quotes, setQuotes] = useState<any[]>([]);
   const [sectors, setSectors] = useState<Sector[]>([]);
-  const [topBuys, setTopBuys] = useState<TopBuy[]>([]);
+  const [guruTrades, setGuruTrades] = useState<GuruTrade[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [userName, setUserName] = useState('');
@@ -36,10 +46,10 @@ export default function DashboardScreen() {
 
   async function loadAll() {
     try {
-      const [quotesRes, sectorRes, insightsRes] = await Promise.allSettled([
+      const [quotesRes, sectorRes, guruRes] = await Promise.allSettled([
         fetch(`${BASE}/api/quotes?symbols=${MARKET_SYMBOLS.join(',')}`),
         fetch(`${BASE}/api/sector-performance`),
-        fetch(`${BASE}/api/insights`),
+        fetch(`${BASE}/api/guru-trades`),
       ]);
 
       if (quotesRes.status === 'fulfilled' && quotesRes.value.ok) {
@@ -50,9 +60,9 @@ export default function DashboardScreen() {
         const d = await sectorRes.value.json();
         setSectors(d.sectors || []);
       }
-      if (insightsRes.status === 'fulfilled' && insightsRes.value.ok) {
-        const d = await insightsRes.value.json();
-        setTopBuys((d.topBuys || []).slice(0, 8));
+      if (guruRes.status === 'fulfilled' && guruRes.value.ok) {
+        const d = await guruRes.value.json();
+        setGuruTrades((d.trades || []).slice(0, 5));
       }
     } catch (e) { console.error(e); }
     finally { setLoading(false); setRefreshing(false); }
@@ -166,34 +176,49 @@ export default function DashboardScreen() {
               </View>
             </View>
 
-            {/* ── Guru-Trades (Top Käufe) ───────────── */}
-            {topBuys.length > 0 && (
+            {/* ── Guru-Trades ──────────────────────── */}
+            {guruTrades.length > 0 && (
               <View style={s.section}>
                 <View style={s.sectionRow}>
-                  <Text style={s.sectionTitle}>AKTUELLE GURU-KÄUFE</Text>
+                  <Text style={s.sectionTitle}>SUPER-INVESTOR TRADES</Text>
                   <TouchableOpacity onPress={() => router.push('/(tabs)/investors')}>
                     <Text style={s.sectionLink}>Alle →</Text>
                   </TouchableOpacity>
                 </View>
                 <View style={s.listCard}>
-                  {topBuys.map((item, i) => (
-                    <TouchableOpacity
-                      key={item.ticker}
-                      style={[s.guruRow, i > 0 && s.rowBorder]}
-                      onPress={() => router.push(`/stock/${item.ticker}`)}
-                      activeOpacity={0.7}
-                    >
-                      <StockLogo ticker={item.ticker} size={40} borderRadius={10} />
-                      <View style={s.guruInfo}>
-                        <Text style={s.guruTicker}>{item.ticker}</Text>
-                        <Text style={s.guruName} numberOfLines={1}>{item.name}</Text>
-                      </View>
-                      <View style={s.guruBadge}>
-                        <Ionicons name="trending-up" size={11} color="#22C55E" />
-                        <Text style={s.guruCount}>{item.count}×</Text>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
+                  {guruTrades.map((trade, i) => {
+                    const color = TRADE_COLOR[trade.type];
+                    const label = TRADE_LABEL[trade.type];
+                    const initials = trade.investorName.split(' ').map((w: string) => w[0]).join('').slice(0, 2);
+                    return (
+                      <TouchableOpacity
+                        key={`${trade.investor}-${trade.ticker}`}
+                        style={[s.guruRow, i > 0 && s.rowBorder]}
+                        onPress={() => router.push(`/stock/${trade.ticker}`)}
+                        activeOpacity={0.7}
+                      >
+                        {/* Investor avatar */}
+                        <View style={s.guruAvatar}>
+                          <Text style={s.guruAvatarText}>{initials}</Text>
+                        </View>
+                        {/* Investor + stock info */}
+                        <View style={s.guruInfo}>
+                          <View style={s.guruTopRow}>
+                            <Text style={s.guruInvestorName} numberOfLines={1}>{trade.investorName}</Text>
+                            <View style={[s.tradeBadge, { borderColor: color + '40', backgroundColor: color + '15' }]}>
+                              <Text style={[s.tradeBadgeText, { color }]}>{label}</Text>
+                            </View>
+                          </View>
+                          <Text style={s.guruTicker}>
+                            {trade.ticker}
+                            {trade.percentChangeFormatted ? ` · ${trade.percentChangeFormatted}` : ''}
+                          </Text>
+                        </View>
+                        {/* Value */}
+                        <Text style={[s.guruValue, { color }]}>{trade.dollarChangeFormatted}</Text>
+                      </TouchableOpacity>
+                    );
+                  })}
                 </View>
               </View>
             )}
@@ -257,15 +282,21 @@ const s = StyleSheet.create({
   rowBorder: { borderTopWidth: 1, borderTopColor: '#1E293B' },
 
   // Guru trades
-  guruRow: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingHorizontal: 14, paddingVertical: 12 },
-  guruInfo: { flex: 1 },
-  guruTicker: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
-  guruName: { color: '#475569', fontSize: 12, marginTop: 1 },
-  guruBadge: {
-    flexDirection: 'row', alignItems: 'center', gap: 4,
-    backgroundColor: 'rgba(34,197,94,0.1)', borderRadius: 8,
-    paddingHorizontal: 8, paddingVertical: 4,
-    borderWidth: 1, borderColor: 'rgba(34,197,94,0.2)',
+  guruRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
+  guruAvatar: {
+    width: 36, height: 36, borderRadius: 18,
+    backgroundColor: '#1E293B', alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1, borderColor: '#334155',
   },
-  guruCount: { color: '#22C55E', fontSize: 12, fontWeight: '700' },
+  guruAvatarText: { color: '#94A3B8', fontSize: 12, fontWeight: '700' },
+  guruInfo: { flex: 1, gap: 2 },
+  guruTopRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  guruInvestorName: { color: '#F8FAFC', fontSize: 13, fontWeight: '600', flex: 1 },
+  guruTicker: { color: '#475569', fontSize: 12 },
+  tradeBadge: {
+    borderRadius: 5, borderWidth: 1,
+    paddingHorizontal: 6, paddingVertical: 2,
+  },
+  tradeBadgeText: { fontSize: 10, fontWeight: '700' },
+  guruValue: { fontSize: 13, fontWeight: '700', textAlign: 'right' },
 });
