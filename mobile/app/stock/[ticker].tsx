@@ -3,7 +3,7 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { LineChart } from 'react-native-gifted-charts';
+import { LineChart, BarChart } from 'react-native-gifted-charts';
 import { supabase, checkIsPremium } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
@@ -24,6 +24,7 @@ type RangeKey = typeof RANGES[number]['label'];
 
 interface HistoricalPoint { date: string; close: number; }
 interface BullBear { id: string; text: string; category: string; }
+type FinTab = 'revenue' | 'netIncome' | 'fcf';
 
 export default function StockScreen() {
   const { ticker } = useLocalSearchParams<{ ticker: string }>();
@@ -38,6 +39,13 @@ export default function StockScreen() {
   const [chartLoading, setChartLoading] = useState(true);
   const [range, setRange] = useState<RangeKey>('1J');
 
+  // Financials state
+  const [incomeData, setIncomeData] = useState<any[]>([]);
+  const [cashFlowData, setCashFlowData] = useState<any[]>([]);
+  const [keyMetrics, setKeyMetrics] = useState<any>(null);
+  const [finLoading, setFinLoading] = useState(true);
+  const [finTab, setFinTab] = useState<FinTab>('revenue');
+
   // AI Bulls/Bears state
   const [isPremium, setIsPremium] = useState(false);
   const [bulls, setBulls] = useState<BullBear[]>([]);
@@ -49,6 +57,7 @@ export default function StockScreen() {
     checkWatchlist();
     loadHistorical();
     loadPremiumAndAI();
+    loadFinancials();
   }, [ticker]);
 
   async function loadData() {
@@ -105,6 +114,32 @@ export default function StockScreen() {
       } finally {
         setAiLoading(false);
       }
+    }
+  }
+
+  async function loadFinancials() {
+    setFinLoading(true);
+    try {
+      const [fdRes, kmRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/financial-data/${ticker}?years=6&period=annual`),
+        fetch(`${BASE_URL}/api/key-metrics/${ticker}?period=annual&limit=1`),
+      ]);
+      if (fdRes.ok) {
+        const fd = await fdRes.json();
+        // Sort oldest → newest
+        const income = [...(fd.incomeStatements || [])].reverse().slice(-6);
+        const cf = [...(fd.cashFlows || [])].reverse().slice(-6);
+        setIncomeData(income);
+        setCashFlowData(cf);
+      }
+      if (kmRes.ok) {
+        const km = await kmRes.json();
+        setKeyMetrics(Array.isArray(km) ? km[0] : km);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setFinLoading(false);
     }
   }
 
@@ -374,6 +409,108 @@ export default function StockScreen() {
           </View>
         </View>
 
+        {/* Finanzkennzahlen */}
+        <View style={s.section}>
+          <Text style={s.sectionTitle}>FINANZKENNZAHLEN</Text>
+          {/* Tab selector */}
+          <View style={s.finTabs}>
+            {([
+              { key: 'revenue', label: 'Umsatz' },
+              { key: 'netIncome', label: 'Gewinn' },
+              { key: 'fcf', label: 'Free Cashflow' },
+            ] as { key: FinTab; label: string }[]).map(t => (
+              <TouchableOpacity
+                key={t.key}
+                onPress={() => setFinTab(t.key)}
+                style={[s.finTab, finTab === t.key && s.finTabActive]}
+              >
+                <Text style={[s.finTabText, finTab === t.key && s.finTabTextActive]}>{t.label}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {finLoading ? (
+            <View style={s.finLoading}><ActivityIndicator color="#22C55E" size="small" /></View>
+          ) : (() => {
+            const rows = finTab === 'fcf' ? cashFlowData : incomeData;
+            const field = finTab === 'revenue' ? 'revenue' : finTab === 'netIncome' ? 'netIncome' : 'freeCashFlow';
+            if (!rows.length) return <View style={s.finLoading}><Text style={s.noData}>Keine Daten</Text></View>;
+
+            const barData = rows.map(row => {
+              const val = (row[field] || 0) / 1e9;
+              const isNeg = val < 0;
+              return {
+                value: Math.abs(val),
+                label: row.calendarYear || row.date?.slice(0, 4) || '',
+                frontColor: isNeg ? '#EF4444' : '#22C55E',
+                topLabelComponent: () => (
+                  <Text style={s.barTopLabel}>{isNeg ? '-' : ''}{Math.abs(val) >= 100 ? val.toFixed(0) : val.toFixed(1)}</Text>
+                ),
+              };
+            });
+
+            const latestRow = rows[rows.length - 1];
+            const prevRow = rows[rows.length - 2];
+            const latestVal = (latestRow?.[field] || 0) / 1e9;
+            const prevVal = (prevRow?.[field] || 0) / 1e9;
+            const yoyPct = prevVal !== 0 ? ((latestVal - prevVal) / Math.abs(prevVal)) * 100 : null;
+
+            return (
+              <>
+                <BarChart
+                  data={barData}
+                  barWidth={Math.min(36, (SCREEN_WIDTH - 80) / barData.length - 8)}
+                  spacing={Math.min(16, (SCREEN_WIDTH - 80) / barData.length - 20)}
+                  roundedTop
+                  hideRules
+                  xAxisColor="rgba(255,255,255,0.08)"
+                  yAxisColor="transparent"
+                  hideYAxisText
+                  noOfSections={3}
+                  barBorderRadius={4}
+                  xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
+                  backgroundColor="transparent"
+                  width={SCREEN_WIDTH - 56}
+                  height={130}
+                  initialSpacing={12}
+                />
+                <View style={s.finSummaryRow}>
+                  <Text style={s.finSummaryLabel}>
+                    {latestRow?.calendarYear || latestRow?.date?.slice(0, 4)}: {' '}
+                    <Text style={s.finSummaryValue}>{latestVal < 0 ? '-' : ''}{formatBigNumber(Math.abs(latestVal * 1e9))}</Text>
+                  </Text>
+                  {yoyPct !== null && (
+                    <Text style={[s.finSummaryPct, { color: yoyPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                      {yoyPct >= 0 ? '▲' : '▼'} {Math.abs(yoyPct).toFixed(1)} % YoY
+                    </Text>
+                  )}
+                </View>
+              </>
+            );
+          })()}
+        </View>
+
+        {/* Bewertung */}
+        {keyMetrics && (
+          <View style={s.section}>
+            <Text style={s.sectionTitle}>BEWERTUNG</Text>
+            <View style={s.metricsGrid}>
+              <MetricCard label="KGV" value={keyMetrics.peRatio ? keyMetrics.peRatio.toFixed(1) : '—'} />
+              <MetricCard label="KUV" value={keyMetrics.priceToSalesRatio ? keyMetrics.priceToSalesRatio.toFixed(1) : '—'} />
+              <MetricCard label="KBV" value={keyMetrics.pbRatio ? keyMetrics.pbRatio.toFixed(1) : '—'} />
+              <MetricCard label="EV/EBITDA" value={keyMetrics.enterpriseValueOverEBITDA ? keyMetrics.enterpriseValueOverEBITDA.toFixed(1) : '—'} />
+              <MetricCard
+                label="FCF-Rendite"
+                value={keyMetrics.fcfYield ? `${(keyMetrics.fcfYield * 100).toFixed(1)}%` : '—'}
+              />
+              <MetricCard
+                label="Div.-Rendite"
+                value={keyMetrics.dividendYield ? `${(keyMetrics.dividendYield * 100).toFixed(2)}%` : '—'}
+              />
+            </View>
+          </View>
+        )}
+
         {/* AI Bulls & Bears */}
         <View style={s.section}>
           <View style={s.aiHeader}>
@@ -496,6 +633,14 @@ function formatDateLabel(dateStr: string, range: RangeKey): string {
   return `${mon} ${String(d.getFullYear()).slice(2)}`;
 }
 
+function formatBigNumber(val?: number) {
+  if (!val) return '—';
+  if (val >= 1e12) return `$${(val / 1e12).toFixed(2)} Bio.`;
+  if (val >= 1e9) return `$${(val / 1e9).toFixed(1)} Mrd.`;
+  if (val >= 1e6) return `$${(val / 1e6).toFixed(0)} Mio.`;
+  return `$${val.toFixed(0)}`;
+}
+
 function formatMarketCap(val?: number) {
   if (!val) return '—';
   if (val >= 1e12) return `$${(val / 1e12).toFixed(1)}T`;
@@ -607,6 +752,25 @@ const s = StyleSheet.create({
   metricsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   descCard: { backgroundColor: '#0F172A', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1E293B' },
   descText: { color: '#94A3B8', fontSize: 14, lineHeight: 22 },
+
+  // Finanzen section
+  finTabs: { flexDirection: 'row', gap: 8, marginBottom: 14 },
+  finTab: {
+    paddingHorizontal: 12, paddingVertical: 6,
+    borderRadius: 8, borderWidth: 1, borderColor: '#1E293B',
+  },
+  finTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
+  finTabText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
+  finTabTextActive: { color: '#22C55E' },
+  finLoading: { height: 100, alignItems: 'center', justifyContent: 'center' },
+  barTopLabel: { color: '#94A3B8', fontSize: 9, textAlign: 'center', marginBottom: 2 },
+  finSummaryRow: {
+    flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center',
+    paddingTop: 10, paddingHorizontal: 4,
+  },
+  finSummaryLabel: { color: '#94A3B8', fontSize: 13 },
+  finSummaryValue: { color: '#F8FAFC', fontWeight: '700' },
+  finSummaryPct: { fontSize: 13, fontWeight: '600' },
 
   // AI section
   aiHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
