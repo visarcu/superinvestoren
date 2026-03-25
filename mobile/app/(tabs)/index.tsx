@@ -27,6 +27,25 @@ interface GuruTrade {
 const TRADE_LABEL: Record<string, string> = { NEW: 'Neu', ADD: 'Aufgestockt', REDUCE: 'Reduziert', SOLD: 'Verkauft' };
 const TRADE_COLOR: Record<string, string> = { NEW: '#22C55E', ADD: '#22C55E', REDUCE: '#EF4444', SOLD: '#EF4444' };
 
+const INVESTOR_NAMES: Record<string, string> = {
+  buffett: 'Warren Buffett', ackman: 'Bill Ackman', gates: 'Bill Gates',
+  burry: 'Michael Burry', klarman: 'Seth Klarman', akre: 'Chuck Akre',
+  greenblatt: 'Joel Greenblatt', fisher: 'Ken Fisher', soros: 'George Soros',
+  gayner: 'Thomas Gayner', tangen: 'Nicolai Tangen', pabrai: 'Mohnish Pabrai',
+  peltz: 'Nelson Peltz', miller: 'Bill Miller', davis: 'Christopher Davis',
+};
+
+function formatInvestorName(slug: string): string {
+  return INVESTOR_NAMES[slug] || slug.charAt(0).toUpperCase() + slug.slice(1);
+}
+
+function formatBigValue(v: number): string {
+  if (!v) return '–';
+  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toFixed(1)} Mrd. $`;
+  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(0)} Mio. $`;
+  return `${(v / 1000).toFixed(0)}K $`;
+}
+
 export default function DashboardScreen() {
   const [quotes, setQuotes] = useState<any[]>([]);
   const [sectors, setSectors] = useState<Sector[]>([]);
@@ -64,30 +83,23 @@ export default function DashboardScreen() {
         const d = await guruRes.value.json();
         if (d.trades?.length) {
           setGuruTrades(d.trades.slice(0, 5));
-        } else {
-          // Fallback: insights topBuys until guru-trades is deployed
-          const fb = await fetch(`${BASE}/api/insights`).catch(() => null);
-          if (fb?.ok) {
-            const ins = await fb.json();
-            const mapped: GuruTrade[] = (ins.topBuys || []).slice(0, 5).map((b: any) => ({
-              investor: 'insights', investorName: 'Superinvestoren',
-              type: 'ADD' as const, ticker: b.ticker, name: b.name,
-              dollarChangeFormatted: `${b.count}× gekauft`,
-              percentChangeFormatted: null, quarterKey: '',
-            }));
-            setGuruTrades(mapped);
-          }
+          return;
         }
-      } else {
-        // guru-trades not yet deployed → fall back to insights
+      }
+      // guru-trades not yet deployed or empty → fall back to insights biggestInvestments
+      {
         const fb = await fetch(`${BASE}/api/insights`).catch(() => null);
         if (fb?.ok) {
           const ins = await fb.json();
-          const mapped: GuruTrade[] = (ins.topBuys || []).slice(0, 5).map((b: any) => ({
-            investor: 'insights', investorName: 'Superinvestoren',
-            type: 'ADD' as const, ticker: b.ticker, name: b.name,
-            dollarChangeFormatted: `${b.count}× gekauft`,
-            percentChangeFormatted: null, quarterKey: '',
+          const mapped: GuruTrade[] = (ins.biggestInvestments || []).slice(0, 5).map((b: any) => ({
+            investor: b.investor || 'insights',
+            investorName: formatInvestorName(b.investor),
+            type: 'ADD' as const,
+            ticker: b.ticker,
+            name: b.name,
+            dollarChangeFormatted: formatBigValue(b.value),
+            percentChangeFormatted: null,
+            quarterKey: '',
           }));
           setGuruTrades(mapped);
         }
