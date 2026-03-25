@@ -83,25 +83,6 @@ export default function DashboardScreen() {
         const d = await guruRes.value.json();
         if (d.trades?.length) {
           setGuruTrades(d.trades.slice(0, 5));
-          return;
-        }
-      }
-      // guru-trades not yet deployed or empty → fall back to insights biggestInvestments
-      {
-        const fb = await fetch(`${BASE}/api/insights`).catch(() => null);
-        if (fb?.ok) {
-          const ins = await fb.json();
-          const mapped: GuruTrade[] = (ins.biggestInvestments || []).slice(0, 5).map((b: any) => ({
-            investor: b.investor || 'insights',
-            investorName: formatInvestorName(b.investor),
-            type: 'ADD' as const,
-            ticker: b.ticker,
-            name: b.name,
-            dollarChangeFormatted: formatBigValue(b.value),
-            percentChangeFormatted: null,
-            quarterKey: '',
-          }));
-          setGuruTrades(mapped);
         }
       }
     } catch (e) { console.error(e); }

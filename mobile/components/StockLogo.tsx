@@ -4,9 +4,8 @@ import { Image, View, Text, StyleSheet } from 'react-native';
 const LOGO_DEV_TOKEN = 'pk_GAfJgFASR7C4-2XKGx2izg';
 
 const COLORS = [
-  '#22C55E', '#334155', '#475569', '#64748B',
-  '#EF4444', '#06B6D4', '#EC4899', '#14B8A6',
-  '#F97316', '#A855F7', '#84CC16', '#0EA5E9',
+  '#334155', '#475569', '#64748B', '#94A3B8',
+  '#1E293B', '#0F172A', '#374151', '#4B5563',
 ];
 
 function getColor(ticker: string): string {
