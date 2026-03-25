@@ -155,7 +155,7 @@ export default function NotificationSettingsScreen() {
           <View style={s.card}>
             <View style={s.row}>
               <View style={s.rowLeft}>
-                <Ionicons name="calendar" size={18} color="#3B82F6" style={s.rowIcon} />
+                <Ionicons name="calendar" size={18} color="#64748B" style={s.rowIcon} />
                 <View>
                   <Text style={s.rowLabel}>Earnings-Erinnerung</Text>
                   <Text style={s.rowSub}>Vor anstehenden Quartalszahlen</Text>
@@ -199,7 +199,7 @@ export default function NotificationSettingsScreen() {
           <View style={s.card}>
             <View style={s.row}>
               <View style={s.rowLeft}>
-                <Ionicons name="mail" size={18} color="#F59E0B" style={s.rowIcon} />
+                <Ionicons name="mail" size={18} color="#64748B" style={s.rowIcon} />
                 <View>
                   <Text style={s.rowLabel}>Earnings per E-Mail</Text>
                   <Text style={s.rowSub}>Zusammenfassung nach Quartalszahlen</Text>

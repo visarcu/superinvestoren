@@ -584,7 +584,7 @@ export default function StockScreen() {
                 </View>
                 {!isPremium && (
                   <View style={s.premiumBadge}>
-                    <Ionicons name="star" size={10} color="#F59E0B" />
+                    <Ionicons name="star" size={10} color="#22C55E" />
                     <Text style={s.premiumBadgeText}>Premium</Text>
                   </View>
                 )}
@@ -625,7 +625,7 @@ export default function StockScreen() {
                 )
               ) : (
                 <View style={s.lockedCard}>
-                  <View style={s.lockedIconWrap}><Ionicons name="lock-closed" size={28} color="#F59E0B" /></View>
+                  <View style={s.lockedIconWrap}><Ionicons name="lock-closed" size={28} color="#22C55E" /></View>
                   <Text style={s.lockedTitle}>Premium erforderlich</Text>
                   <Text style={s.lockedDesc}>Hole dir Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.</Text>
                   <View style={s.blurPreview} pointerEvents="none">
@@ -721,7 +721,7 @@ export default function StockScreen() {
                           <Text style={s.aiSummaryTitle}>Zusammenfassung</Text>
                           {!isPremium && (
                             <View style={[s.premiumBadge, { marginLeft: 'auto' as any }]}>
-                              <Ionicons name="star" size={10} color="#F59E0B" />
+                              <Ionicons name="star" size={10} color="#22C55E" />
                               <Text style={s.premiumBadgeText}>Premium</Text>
                             </View>
                           )}
@@ -809,7 +809,7 @@ export default function StockScreen() {
                 {siPositions.map((pos: any, i: number) => {
                   const trend = pos.position?.trend;
                   const isNew = pos.position?.isNewPosition;
-                  const trendColor = isNew ? '#3B82F6' : trend === 'increasing' ? '#22C55E' : trend === 'decreasing' ? '#EF4444' : '#94A3B8';
+                  const trendColor = isNew ? '#94A3B8' : trend === 'increasing' ? '#22C55E' : trend === 'decreasing' ? '#EF4444' : '#94A3B8';
                   const trendLabel = isNew ? 'Neu' : trend === 'increasing' ? '▲' : trend === 'decreasing' ? '▼' : '—';
                   return (
                     <TouchableOpacity key={i} style={s.siRow}
@@ -1127,7 +1127,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 8, paddingVertical: 3,
     borderWidth: 1, borderColor: 'rgba(245,158,11,0.25)',
   },
-  premiumBadgeText: { color: '#F59E0B', fontSize: 10, fontWeight: '700' },
+  premiumBadgeText: { color: '#22C55E', fontSize: 10, fontWeight: '700' },
   aiLoadingWrap: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 24, justifyContent: 'center' },
   aiLoadingText: { color: '#64748B', fontSize: 13 },
   aiBullsBears: { gap: 12 },
@@ -1159,7 +1159,7 @@ const s = StyleSheet.create({
   previewLine: { height: 10, backgroundColor: '#334155', borderRadius: 5 },
   upgradeBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
-    backgroundColor: '#F59E0B', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 13,
+    backgroundColor: '#22C55E', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 13,
   },
   upgradeBtnText: { color: '#020617', fontSize: 15, fontWeight: '700' },
 

@@ -62,7 +62,35 @@ export default function DashboardScreen() {
       }
       if (guruRes.status === 'fulfilled' && guruRes.value.ok) {
         const d = await guruRes.value.json();
-        setGuruTrades((d.trades || []).slice(0, 5));
+        if (d.trades?.length) {
+          setGuruTrades(d.trades.slice(0, 5));
+        } else {
+          // Fallback: insights topBuys until guru-trades is deployed
+          const fb = await fetch(`${BASE}/api/insights`).catch(() => null);
+          if (fb?.ok) {
+            const ins = await fb.json();
+            const mapped: GuruTrade[] = (ins.topBuys || []).slice(0, 5).map((b: any) => ({
+              investor: 'insights', investorName: 'Superinvestoren',
+              type: 'ADD' as const, ticker: b.ticker, name: b.name,
+              dollarChangeFormatted: `${b.count}× gekauft`,
+              percentChangeFormatted: null, quarterKey: '',
+            }));
+            setGuruTrades(mapped);
+          }
+        }
+      } else {
+        // guru-trades not yet deployed → fall back to insights
+        const fb = await fetch(`${BASE}/api/insights`).catch(() => null);
+        if (fb?.ok) {
+          const ins = await fb.json();
+          const mapped: GuruTrade[] = (ins.topBuys || []).slice(0, 5).map((b: any) => ({
+            investor: 'insights', investorName: 'Superinvestoren',
+            type: 'ADD' as const, ticker: b.ticker, name: b.name,
+            dollarChangeFormatted: `${b.count}× gekauft`,
+            percentChangeFormatted: null, quarterKey: '',
+          }));
+          setGuruTrades(mapped);
+        }
       }
     } catch (e) { console.error(e); }
     finally { setLoading(false); setRefreshing(false); }
@@ -151,10 +179,10 @@ export default function DashboardScreen() {
                         <View style={s.sectorBarWrap}>
                           <View style={[
                             s.sectorBar,
-                            { width: `${barWidth}%` as any, backgroundColor: isPos ? '#22C55E' : '#EF4444' },
+                            { width: `${barWidth}%` as any, backgroundColor: isPos ? '#22C55E' : '#475569' },
                           ]} />
                         </View>
-                        <Text style={[s.sectorChange, { color: isPos ? '#22C55E' : '#EF4444' }]}>
+                        <Text style={[s.sectorChange, { color: isPos ? '#22C55E' : '#94A3B8' }]}>
                           {sec.changeFormatted}
                         </Text>
                       </View>

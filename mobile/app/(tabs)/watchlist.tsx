@@ -142,14 +142,14 @@ export default function WatchlistScreen() {
                       activeOpacity={0.7}
                     >
                       <View style={s.earningsLeft}>
-                        <View style={[s.earningsDot, { backgroundColor: isToday ? '#22C55E' : isSoon ? '#F59E0B' : '#3B82F6' }]} />
+                        <View style={[s.earningsDot, { backgroundColor: isToday ? '#22C55E' : isSoon ? '#F8FAFC' : '#475569' }]} />
                         <View>
                           <Text style={s.earningsTicker}>{ev.ticker}</Text>
                           <Text style={s.earningsQuarter}>{ev.quarter}</Text>
                         </View>
                       </View>
                       <View style={s.earningsRight}>
-                        <Text style={[s.earningsDate, isSoon && { color: '#F59E0B' }]}>
+                        <Text style={[s.earningsDate, isSoon && { color: '#F8FAFC' }]}>
                           {isToday ? 'Heute' : formatEarningsDate(ev.date)}
                         </Text>
                         {formatTime(ev.time) ? (

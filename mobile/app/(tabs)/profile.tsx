@@ -116,7 +116,7 @@ export default function ProfileScreen() {
             <Text style={s.emailText}>{email}</Text>
             {isPremium ? (
               <View style={s.premiumBadge}>
-                <Ionicons name="star" size={10} color="#F59E0B" />
+                <Ionicons name="star" size={10} color="#22C55E" />
                 <Text style={s.premiumBadgeText}>Premium</Text>
               </View>
             ) : (
@@ -167,7 +167,7 @@ export default function ProfileScreen() {
               <>
                 <Row
                   icon="star"
-                  iconColor="#F59E0B"
+                  iconColor="#22C55E"
                   label="Premium aktiv"
                   value={subEnd ? `bis ${subEnd}` : 'Aktiv'}
                   valueColor="#22C55E"
@@ -184,7 +184,7 @@ export default function ProfileScreen() {
             ) : (
               <>
                 <View style={s.upgradeCard}>
-                  <Ionicons name="star" size={20} color="#F59E0B" />
+                  <Ionicons name="star" size={20} color="#22C55E" />
                   <View style={{ flex: 1, marginLeft: 12 }}>
                     <Text style={s.upgradeTitle}>Werde Premium</Text>
                     <Text style={s.upgradeDesc}>Voller Zugang zu AI-Analysen, Earnings-Zusammenfassungen und mehr.</Text>
@@ -224,10 +224,10 @@ export default function ProfileScreen() {
             <Divider />
             <Row
               icon="shield-checkmark"
-              iconColor={profile?.email_verified ? '#22C55E' : '#F59E0B'}
+              iconColor={profile?.email_verified ? '#22C55E' : '#22C55E'}
               label="E-Mail verifiziert"
               value={profile?.email_verified ? 'Ja' : 'Ausstehend'}
-              valueColor={profile?.email_verified ? '#22C55E' : '#F59E0B'}
+              valueColor={profile?.email_verified ? '#22C55E' : '#22C55E'}
             />
           </View>
         </View>
@@ -341,7 +341,7 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(245,158,11,0.3)',
     marginTop: 2,
   },
-  premiumBadgeText: { color: '#F59E0B', fontSize: 11, fontWeight: '700' },
+  premiumBadgeText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
   freeBadge: {
     alignSelf: 'flex-start',
     backgroundColor: '#1E293B', borderRadius: 6,
@@ -402,7 +402,7 @@ const s = StyleSheet.create({
   upgradBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
     margin: 16, marginTop: 4,
-    backgroundColor: '#F59E0B', borderRadius: 12,
+    backgroundColor: '#22C55E', borderRadius: 12,
     paddingVertical: 12,
   },
   upgradBtnText: { color: '#020617', fontSize: 14, fontWeight: '700' },

@@ -24,7 +24,7 @@ const TOP_INVESTORS = [
   { slug: 'pabrai', name: 'Mohnish Pabrai', fund: 'Pabrai Funds', aum: '$500M+' },
 ];
 
-const COLORS = ['#22C55E', '#3B82F6', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4', '#EC4899', '#14B8A6'];
+const COLORS = ['#22C55E', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#334155', '#1E293B'];
 
 function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).slice(0, 2).join('');
