@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { View, Text, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -9,7 +9,19 @@ import { tickerFromCusip } from '../../lib/cusipMap';
 const BASE_URL = 'https://finclue.de';
 const PAGE_SIZE = 10;
 
-const COLORS = ['#22C55E', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#334155', '#1E293B'];
+const COLORS = ['#22C55E', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#2c2c2e', '#1e1e20'];
+
+const INVESTOR_PHOTOS: Record<string, string> = {
+  buffett: 'https://finclue.de/images/buffett-cartoon.png',
+  ackman: 'https://finclue.de/images/ackman-cartoon.png',
+  burry: 'https://finclue.de/images/burry-cartoon.png',
+  marks: 'https://finclue.de/images/marks-cartoon.png',
+  pabrai: 'https://finclue.de/images/pabrai-cartoon.png',
+  druckenmiller: 'https://finclue.de/images/druckenmiller-cartoon.png',
+  tepper: 'https://finclue.de/images/tepper.png',
+  gates: 'https://finclue.de/images/gates.png',
+  einhorn: 'https://finclue.de/images/einhorn.png',
+};
 
 interface Position {
   name: string;
@@ -163,7 +175,7 @@ export default function InvestorDetailScreen() {
     <>
       <Stack.Screen options={{
         title: displayName,
-        headerStyle: { backgroundColor: '#0F172A' },
+        headerStyle: { backgroundColor: '#111113' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: 'Investoren',
       }} />
@@ -182,6 +194,13 @@ export default function InvestorDetailScreen() {
           </View>
         ) : (
           <ScrollView contentContainerStyle={s.list}>
+            {/* Investor Photo Header */}
+            {INVESTOR_PHOTOS[slug!] && (
+              <View style={s.photoHeader}>
+                <Image source={{ uri: INVESTOR_PHOTOS[slug!] }} style={s.photo} />
+              </View>
+            )}
+
             {/* Summary */}
             <View style={s.summary}>
               <View style={s.summaryItem}>
@@ -354,12 +373,14 @@ function formatValue(val: number) {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 32 },
   centerTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
   centerText: { color: '#64748B', fontSize: 14, textAlign: 'center' },
   list: { paddingHorizontal: 16, paddingBottom: 32, paddingTop: 8 },
-  summary: { flexDirection: 'row', backgroundColor: '#0F172A', borderRadius: 14, padding: 16, marginBottom: 12, borderWidth: 1, borderColor: '#1E293B', gap: 8 },
+  photoHeader: { alignItems: 'center', paddingVertical: 16 },
+  photo: { width: 88, height: 88, borderRadius: 44, backgroundColor: '#111113' },
+  summary: { flexDirection: 'row', backgroundColor: '#111113', borderRadius: 14, padding: 16, marginBottom: 12, borderWidth: 1, borderColor: '#1e1e20', gap: 8 },
   summaryItem: { flex: 1 },
   summaryLabel: { color: '#64748B', fontSize: 10, marginBottom: 4, fontWeight: '600', letterSpacing: 0.5 },
   summaryValue: { color: '#F8FAFC', fontSize: 18, fontWeight: '700', letterSpacing: -0.5 },
@@ -369,12 +390,12 @@ const s = StyleSheet.create({
   quarterText: { color: '#22C55E', fontSize: 12, fontWeight: '700' },
   txnHint: { color: '#475569', fontSize: 11 },
   tabs: { flexDirection: 'row', gap: 8, marginBottom: 12 },
-  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 10, borderRadius: 12, backgroundColor: '#0F172A', borderWidth: 1, borderColor: '#1E293B' },
+  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 10, borderRadius: 12, backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20' },
   tabActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
   tabText: { color: '#475569', fontSize: 12, fontWeight: '600' },
   tabTextActive: { color: '#22C55E' },
   sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
-  row: { backgroundColor: '#0F172A', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', marginBottom: 4, borderWidth: 1, borderColor: '#1E293B' },
+  row: { backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', marginBottom: 4, borderWidth: 1, borderColor: '#1e1e20' },
   logoWrap: { marginRight: 12, flexShrink: 0 },
   badge: { width: 44, height: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 12, flexShrink: 0 },
   badgeText: { fontWeight: '700', fontSize: 13 },

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, TextInput,
-  RefreshControl, ActivityIndicator, StyleSheet,
+  RefreshControl, ActivityIndicator, StyleSheet, Image,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -25,6 +25,18 @@ interface GuruTrade {
 }
 
 const TRADE_LABEL: Record<string, string> = { NEW: 'Neu', ADD: 'Aufgestockt', REDUCE: 'Reduziert', SOLD: 'Verkauft' };
+
+const INVESTOR_PHOTOS: Record<string, string> = {
+  buffett: 'https://finclue.de/images/buffett-cartoon.png',
+  ackman: 'https://finclue.de/images/ackman-cartoon.png',
+  burry: 'https://finclue.de/images/burry-cartoon.png',
+  marks: 'https://finclue.de/images/marks-cartoon.png',
+  pabrai: 'https://finclue.de/images/pabrai-cartoon.png',
+  druckenmiller: 'https://finclue.de/images/druckenmiller-cartoon.png',
+  tepper: 'https://finclue.de/images/tepper.png',
+  gates: 'https://finclue.de/images/gates.png',
+  einhorn: 'https://finclue.de/images/einhorn.png',
+};
 const TRADE_COLOR: Record<string, string> = { NEW: '#22C55E', ADD: '#22C55E', REDUCE: '#EF4444', SOLD: '#EF4444' };
 
 const INVESTOR_NAMES: Record<string, string> = {
@@ -211,6 +223,7 @@ export default function DashboardScreen() {
                     const color = TRADE_COLOR[trade.type];
                     const label = TRADE_LABEL[trade.type];
                     const initials = trade.investorName.split(' ').map((w: string) => w[0]).join('').slice(0, 2);
+                    const photoUrl = INVESTOR_PHOTOS[trade.investor];
                     return (
                       <TouchableOpacity
                         key={`${trade.investor}-${trade.ticker}`}
@@ -220,7 +233,9 @@ export default function DashboardScreen() {
                       >
                         {/* Investor avatar */}
                         <View style={s.guruAvatar}>
-                          <Text style={s.guruAvatarText}>{initials}</Text>
+                          {photoUrl
+                            ? <Image source={{ uri: photoUrl }} style={s.guruAvatarImg} />
+                            : <Text style={s.guruAvatarText}>{initials}</Text>}
                         </View>
                         {/* Investor + stock info */}
                         <View style={s.guruInfo}>
@@ -253,7 +268,7 @@ export default function DashboardScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
 
   // Header
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 16 },
@@ -264,16 +279,16 @@ const s = StyleSheet.create({
   searchWrap: { paddingHorizontal: 16, marginBottom: 16 },
   searchBox: {
     flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#0F172A', borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
     borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10,
   },
   searchInput: { flex: 1, color: '#F8FAFC', fontSize: 14 },
   searchDropdown: {
-    backgroundColor: '#0F172A', borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
     borderRadius: 12, marginTop: 4, overflow: 'hidden',
   },
   searchItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
-  searchItemBorder: { borderTopWidth: 1, borderTopColor: '#1E293B' },
+  searchItemBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
   searchSymbol: { color: '#F8FAFC', fontSize: 14, fontWeight: '600', width: 60 },
   searchName: { color: '#64748B', fontSize: 13, flex: 1 },
   searchEx: { color: '#475569', fontSize: 11, marginLeft: 8 },
@@ -285,30 +300,31 @@ const s = StyleSheet.create({
   sectionLink: { color: '#22C55E', fontSize: 13, fontWeight: '600', marginBottom: 10 },
   // Sector
   sectorCard: {
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B', overflow: 'hidden',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
   },
   sectorRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, gap: 8 },
-  sectorRowBorder: { borderTopWidth: 1, borderTopColor: '#1E293B' },
+  sectorRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
   sectorName: { color: '#94A3B8', fontSize: 12, width: 120 },
-  sectorBarWrap: { flex: 1, height: 4, backgroundColor: '#1E293B', borderRadius: 2, overflow: 'hidden' },
+  sectorBarWrap: { flex: 1, height: 4, backgroundColor: '#1e1e20', borderRadius: 2, overflow: 'hidden' },
   sectorBar: { height: 4, borderRadius: 2, minWidth: 2 },
   sectorChange: { fontSize: 12, fontWeight: '700', width: 54, textAlign: 'right' },
 
   // List card (markets + guru)
   listCard: {
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B', overflow: 'hidden',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
   },
-  rowBorder: { borderTopWidth: 1, borderTopColor: '#1E293B' },
+  rowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
 
   // Guru trades
   guruRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
   guruAvatar: {
     width: 36, height: 36, borderRadius: 18,
-    backgroundColor: '#1E293B', alignItems: 'center', justifyContent: 'center',
-    borderWidth: 1, borderColor: '#334155',
+    backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1, borderColor: '#2c2c2e', overflow: 'hidden',
   },
+  guruAvatarImg: { width: 36, height: 36, borderRadius: 18 },
   guruAvatarText: { color: '#94A3B8', fontSize: 12, fontWeight: '700' },
   guruInfo: { flex: 1, gap: 2 },
   guruTopRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
