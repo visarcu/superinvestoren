@@ -133,9 +133,24 @@ export default function StockScreen() {
   async function loadSimilarStocks(sector: string) {
     try {
       const res = await fetch(`${BASE_URL}/api/screener?sector=${encodeURIComponent(sector)}&limit=12`);
-      if (res.ok) {
-        const d = await res.json();
-        const stocks = (d.data || d || []).filter((s: any) => s.symbol !== ticker).slice(0, 8);
+      if (!res.ok) return;
+      const d = await res.json();
+      const stocks = (d.data || d || []).filter((s: any) => s.symbol !== ticker).slice(0, 8);
+      if (stocks.length === 0) return;
+
+      // Fetch live quotes for real changesPercentage
+      const symbols = stocks.map((s: any) => s.symbol || s.ticker).join(',');
+      const qRes = await fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`);
+      if (qRes.ok) {
+        const quotes: any[] = await qRes.json();
+        const quoteMap = new Map(quotes.map((q: any) => [q.symbol, q]));
+        const enriched = stocks.map((s: any) => {
+          const sym = s.symbol || s.ticker;
+          const q = quoteMap.get(sym);
+          return q ? { ...s, changesPercentage: q.changesPercentage, price: q.price } : s;
+        });
+        setSimilarStocks(enriched);
+      } else {
         setSimilarStocks(stocks);
       }
     } catch (e) { console.error(e); }

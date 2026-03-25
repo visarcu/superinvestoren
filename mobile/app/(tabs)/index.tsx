@@ -67,18 +67,6 @@ export default function DashboardScreen() {
     } catch { setSearchResults([]); }
   }
 
-  // ─── Derived market sentiment ────────────────────────────
-  const posCount = quotes.filter(q => (q.changesPercentage ?? 0) >= 0).length;
-  const totalCount = quotes.length;
-  const sentimentRatio = totalCount > 0 ? posCount / totalCount : 0.5;
-  const isBullish = sentimentRatio >= 0.6;
-  const isNeutral = sentimentRatio > 0.4 && sentimentRatio < 0.6;
-  const sentimentColor = isBullish ? '#22C55E' : isNeutral ? '#F59E0B' : '#EF4444';
-  const sentimentLabel = isBullish ? 'Bullish' : isNeutral ? 'Neutral' : 'Bearish';
-  const sentimentEmoji = isBullish ? '🐂' : isNeutral ? '⚖️' : '🐻';
-
-  const topSector = sectors[0];
-  const bottomSector = sectors[sectors.length - 1];
   const maxSectorAbs = sectors.length > 0 ? Math.max(...sectors.map(s => Math.abs(s.change))) : 1;
 
   const hour = new Date().getHours();
@@ -139,60 +127,6 @@ export default function DashboardScreen() {
           <ActivityIndicator color="#22C55E" style={{ marginTop: 40 }} />
         ) : (
           <>
-            {/* ── KI Markteinschätzung ──────────────── */}
-            {quotes.length > 0 && (
-              <View style={s.section}>
-                <View style={s.sectionRow}>
-                  <Text style={s.sectionTitle}>KI MARKTEINSCHÄTZUNG</Text>
-                  <View style={s.aiBadge}><Text style={s.aiBadgeText}>AI</Text></View>
-                </View>
-
-                <View style={[s.sentimentCard, { borderColor: sentimentColor + '40' }]}>
-                  {/* Sentiment header */}
-                  <View style={s.sentimentHeader}>
-                    <Text style={s.sentimentEmoji}>{sentimentEmoji}</Text>
-                    <View style={{ flex: 1 }}>
-                      <Text style={[s.sentimentLabel, { color: sentimentColor }]}>{sentimentLabel}</Text>
-                      <Text style={s.sentimentSub}>
-                        {posCount} von {totalCount} Märkten im Plus
-                      </Text>
-                    </View>
-                    {/* Gauge bar */}
-                    <View style={s.gaugeWrap}>
-                      <View style={s.gaugeTrack}>
-                        <View style={[s.gaugeFill, {
-                          width: `${sentimentRatio * 100}%` as any,
-                          backgroundColor: sentimentColor,
-                        }]} />
-                      </View>
-                      <Text style={[s.gaugePct, { color: sentimentColor }]}>{Math.round(sentimentRatio * 100)}%</Text>
-                    </View>
-                  </View>
-
-                  {/* Top & Bottom sector */}
-                  {topSector && bottomSector && (
-                    <View style={s.sentimentSectors}>
-                      <View style={s.sentimentSectorItem}>
-                        <Text style={s.sentimentSectorIcon}>📈</Text>
-                        <View>
-                          <Text style={s.sentimentSectorName}>{topSector.sectorDE}</Text>
-                          <Text style={[s.sentimentSectorChange, { color: '#22C55E' }]}>{topSector.changeFormatted}</Text>
-                        </View>
-                      </View>
-                      <View style={s.sentimentDivider} />
-                      <View style={s.sentimentSectorItem}>
-                        <Text style={s.sentimentSectorIcon}>📉</Text>
-                        <View>
-                          <Text style={s.sentimentSectorName}>{bottomSector.sectorDE}</Text>
-                          <Text style={[s.sentimentSectorChange, { color: '#EF4444' }]}>{bottomSector.changeFormatted}</Text>
-                        </View>
-                      </View>
-                    </View>
-                  )}
-                </View>
-              </View>
-            )}
-
             {/* ── Sektor Performance ───────────────── */}
             {sectors.length > 0 && (
               <View style={s.section}>
@@ -303,39 +237,6 @@ const s = StyleSheet.create({
   sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
   sectionLink: { color: '#22C55E', fontSize: 13, fontWeight: '600', marginBottom: 10 },
-  aiBadge: {
-    backgroundColor: 'rgba(34,197,94,0.15)', borderRadius: 5,
-    paddingHorizontal: 6, paddingVertical: 2,
-    borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)', marginBottom: 10,
-  },
-  aiBadgeText: { color: '#22C55E', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
-
-  // Sentiment card
-  sentimentCard: {
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, padding: 16, gap: 14,
-  },
-  sentimentHeader: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  sentimentEmoji: { fontSize: 28 },
-  sentimentLabel: { fontSize: 18, fontWeight: '700', letterSpacing: -0.3 },
-  sentimentSub: { color: '#475569', fontSize: 12, marginTop: 2 },
-  gaugeWrap: { alignItems: 'flex-end', gap: 4 },
-  gaugeTrack: {
-    width: 72, height: 6, backgroundColor: '#1E293B',
-    borderRadius: 3, overflow: 'hidden',
-  },
-  gaugeFill: { height: 6, borderRadius: 3 },
-  gaugePct: { fontSize: 11, fontWeight: '700' },
-  sentimentSectors: {
-    flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#020617', borderRadius: 12, padding: 12,
-  },
-  sentimentSectorItem: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 8 },
-  sentimentSectorIcon: { fontSize: 16 },
-  sentimentSectorName: { color: '#94A3B8', fontSize: 12, fontWeight: '600' },
-  sentimentSectorChange: { fontSize: 13, fontWeight: '700', marginTop: 1 },
-  sentimentDivider: { width: 1, height: 32, backgroundColor: '#1E293B', marginHorizontal: 12 },
-
   // Sector
   sectorCard: {
     backgroundColor: '#0F172A', borderRadius: 16,
