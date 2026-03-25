@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, Dimensions, Linking } from 'react-native';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LineChart } from 'react-native-gifted-charts';
-import { supabase } from '../../lib/auth';
+import { supabase, checkIsPremium } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
 import StockLogo from '../../components/StockLogo';
@@ -23,6 +23,7 @@ const RANGES = [
 type RangeKey = typeof RANGES[number]['label'];
 
 interface HistoricalPoint { date: string; close: number; }
+interface BullBear { id: string; text: string; category: string; }
 
 export default function StockScreen() {
   const { ticker } = useLocalSearchParams<{ ticker: string }>();
@@ -37,10 +38,17 @@ export default function StockScreen() {
   const [chartLoading, setChartLoading] = useState(true);
   const [range, setRange] = useState<RangeKey>('1J');
 
+  // AI Bulls/Bears state
+  const [isPremium, setIsPremium] = useState(false);
+  const [bulls, setBulls] = useState<BullBear[]>([]);
+  const [bears, setBears] = useState<BullBear[]>([]);
+  const [aiLoading, setAiLoading] = useState(false);
+
   useEffect(() => {
     loadData();
     checkWatchlist();
     loadHistorical();
+    loadPremiumAndAI();
   }, [ticker]);
 
   async function loadData() {
@@ -70,7 +78,6 @@ export default function StockScreen() {
       const res = await fetch(`${BASE_URL}/api/historical/${ticker}`);
       if (res.ok) {
         const data = await res.json();
-        // API returns DESC (newest first) → reverse to ASC for chart
         const points: HistoricalPoint[] = (data.historical || []).reverse();
         setHistorical(points);
       }
@@ -78,6 +85,26 @@ export default function StockScreen() {
       console.error(e);
     } finally {
       setChartLoading(false);
+    }
+  }
+
+  async function loadPremiumAndAI() {
+    const premium = await checkIsPremium();
+    setIsPremium(premium);
+    if (premium) {
+      setAiLoading(true);
+      try {
+        const res = await fetch(`${BASE_URL}/api/bulls-bears/${ticker}`);
+        if (res.ok) {
+          const data = await res.json();
+          setBulls(data.bulls || []);
+          setBears(data.bears || []);
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setAiLoading(false);
+      }
     }
   }
 
@@ -117,15 +144,12 @@ export default function StockScreen() {
     finally { setWatchlistLoading(false); }
   }
 
-  // Filter historical data by selected range
   const chartData = useCallback(() => {
     const selectedRange = RANGES.find(r => r.label === range)!;
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - selectedRange.days);
     const filtered = historical.filter(p => new Date(p.date) >= cutoff);
     if (filtered.length === 0) return [];
-
-    // Downsample for performance if too many points
     const maxPoints = 180;
     const step = Math.ceil(filtered.length / maxPoints);
     const sampled = filtered.filter((_, i) => i % step === 0 || i === filtered.length - 1);
@@ -133,8 +157,6 @@ export default function StockScreen() {
   }, [historical, range]);
 
   const chartPoints = chartData();
-
-  // Determine if chart is up or down (green/red)
   const firstVal = chartPoints[0]?.value ?? 0;
   const lastVal = chartPoints[chartPoints.length - 1]?.value ?? 0;
   const isPositive = lastVal >= firstVal;
@@ -195,7 +217,6 @@ export default function StockScreen() {
             <Text style={s.companyName}>{profile.companyName}</Text>
           ) : null}
 
-          {/* Watchlist Button */}
           <TouchableOpacity
             onPress={toggleWatchlist}
             disabled={watchlistLoading}
@@ -246,7 +267,6 @@ export default function StockScreen() {
                 backgroundColor="transparent"
                 adjustToWidth
               />
-              {/* Range selector */}
               <View style={s.rangePicker}>
                 {RANGES.map(r => (
                   <TouchableOpacity
@@ -281,6 +301,88 @@ export default function StockScreen() {
             <MetricCard label="EPS" value={quote?.eps ? `$${quote.eps.toFixed(2)}` : '—'} />
             <MetricCard label="Ø 50 Tage" value={quote?.priceAvg50 ? `$${quote.priceAvg50.toFixed(2)}` : '—'} />
           </View>
+        </View>
+
+        {/* AI Bulls & Bears */}
+        <View style={s.section}>
+          <View style={s.aiHeader}>
+            <View style={s.aiTitleRow}>
+              <View style={s.aiBadge}>
+                <Text style={s.aiBadgeText}>AI</Text>
+              </View>
+              <Text style={s.sectionTitle}>60-SEKUNDEN CHECK</Text>
+            </View>
+            {!isPremium && (
+              <View style={s.premiumBadge}>
+                <Ionicons name="star" size={10} color="#F59E0B" />
+                <Text style={s.premiumBadgeText}>Premium</Text>
+              </View>
+            )}
+          </View>
+
+          {isPremium ? (
+            aiLoading ? (
+              <View style={s.aiLoadingWrap}>
+                <ActivityIndicator color="#22C55E" size="small" />
+                <Text style={s.aiLoadingText}>Analyse wird geladen…</Text>
+              </View>
+            ) : (
+              <View style={s.aiBullsBears}>
+                {/* Bulls */}
+                <View style={[s.aiCol, s.bullsCol]}>
+                  <View style={s.aiColHeader}>
+                    <Text style={s.bullEmoji}>🐂</Text>
+                    <Text style={s.bullLabel}>Bull-Argumente</Text>
+                  </View>
+                  {bulls.map(b => (
+                    <View key={b.id} style={s.argRow}>
+                      <View style={s.bullDot} />
+                      <Text style={s.argText}>{b.text}</Text>
+                    </View>
+                  ))}
+                </View>
+
+                {/* Bears */}
+                <View style={[s.aiCol, s.bearsCol]}>
+                  <View style={s.aiColHeader}>
+                    <Text style={s.bearEmoji}>🐻</Text>
+                    <Text style={s.bearLabel}>Bear-Argumente</Text>
+                  </View>
+                  {bears.map(b => (
+                    <View key={b.id} style={s.argRow}>
+                      <View style={s.bearDot} />
+                      <Text style={s.argText}>{b.text}</Text>
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )
+          ) : (
+            /* Locked state for non-premium */
+            <View style={s.lockedCard}>
+              <View style={s.lockedIconWrap}>
+                <Ionicons name="lock-closed" size={28} color="#F59E0B" />
+              </View>
+              <Text style={s.lockedTitle}>Premium erforderlich</Text>
+              <Text style={s.lockedDesc}>
+                Hole dir Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.
+              </Text>
+              {/* Blurred preview rows */}
+              <View style={s.blurPreview} pointerEvents="none">
+                <View style={s.previewRow}><View style={[s.previewLine, { width: '90%' }]} /></View>
+                <View style={s.previewRow}><View style={[s.previewLine, { width: '75%' }]} /></View>
+                <View style={s.previewRow}><View style={[s.previewLine, { width: '85%' }]} /></View>
+              </View>
+              <TouchableOpacity
+                style={s.upgradeBtn}
+                onPress={() => Linking.openURL('https://finclue.de/preise')}
+                activeOpacity={0.8}
+              >
+                <Ionicons name="star" size={15} color="#020617" />
+                <Text style={s.upgradeBtnText}>Jetzt Premium werden</Text>
+              </TouchableOpacity>
+            </View>
+          )}
         </View>
 
         {/* Description */}
@@ -348,28 +450,15 @@ const s = StyleSheet.create({
     overflow: 'hidden',
     paddingTop: 16,
   },
-  chartLoading: {
-    height: 200,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+  chartLoading: { height: 200, alignItems: 'center', justifyContent: 'center' },
   noData: { color: '#475569', fontSize: 13 },
   rangePicker: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    borderTopWidth: 1,
-    borderTopColor: '#1E293B',
+    flexDirection: 'row', justifyContent: 'space-around',
+    paddingHorizontal: 16, paddingVertical: 12,
+    borderTopWidth: 1, borderTopColor: '#1E293B',
   },
-  rangeBtn: {
-    paddingHorizontal: 14,
-    paddingVertical: 6,
-    borderRadius: 8,
-  },
-  rangeBtnActive: {
-    backgroundColor: 'rgba(34,197,94,0.15)',
-  },
+  rangeBtn: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8 },
+  rangeBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)' },
   rangeBtnText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
   rangeBtnTextActive: { color: '#22C55E' },
 
@@ -378,4 +467,63 @@ const s = StyleSheet.create({
   metricsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   descCard: { backgroundColor: '#0F172A', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1E293B' },
   descText: { color: '#94A3B8', fontSize: 14, lineHeight: 22 },
+
+  // AI section
+  aiHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
+  aiTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  aiBadge: {
+    backgroundColor: 'rgba(34,197,94,0.15)', borderRadius: 5,
+    paddingHorizontal: 6, paddingVertical: 2,
+    borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)',
+  },
+  aiBadgeText: { color: '#22C55E', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
+  premiumBadge: {
+    flexDirection: 'row', alignItems: 'center', gap: 4,
+    backgroundColor: 'rgba(245,158,11,0.12)', borderRadius: 6,
+    paddingHorizontal: 8, paddingVertical: 3,
+    borderWidth: 1, borderColor: 'rgba(245,158,11,0.25)',
+  },
+  premiumBadgeText: { color: '#F59E0B', fontSize: 10, fontWeight: '700' },
+
+  aiLoadingWrap: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 24, justifyContent: 'center' },
+  aiLoadingText: { color: '#64748B', fontSize: 13 },
+
+  aiBullsBears: { gap: 12 },
+  aiCol: { borderRadius: 14, padding: 16, borderWidth: 1 },
+  bullsCol: { backgroundColor: 'rgba(34,197,94,0.06)', borderColor: 'rgba(34,197,94,0.2)' },
+  bearsCol: { backgroundColor: 'rgba(239,68,68,0.06)', borderColor: 'rgba(239,68,68,0.2)' },
+  aiColHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
+  bullEmoji: { fontSize: 18 },
+  bearEmoji: { fontSize: 18 },
+  bullLabel: { color: '#22C55E', fontSize: 13, fontWeight: '700' },
+  bearLabel: { color: '#EF4444', fontSize: 13, fontWeight: '700' },
+  argRow: { flexDirection: 'row', gap: 10, marginBottom: 10, alignItems: 'flex-start' },
+  bullDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#22C55E', marginTop: 6, flexShrink: 0 },
+  bearDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#EF4444', marginTop: 6, flexShrink: 0 },
+  argText: { color: '#CBD5E1', fontSize: 13, lineHeight: 20, flex: 1 },
+
+  // Locked state
+  lockedCard: {
+    backgroundColor: '#0F172A', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1E293B',
+    padding: 24, alignItems: 'center',
+  },
+  lockedIconWrap: {
+    width: 52, height: 52, borderRadius: 16,
+    backgroundColor: 'rgba(245,158,11,0.12)',
+    borderWidth: 1, borderColor: 'rgba(245,158,11,0.2)',
+    alignItems: 'center', justifyContent: 'center',
+    marginBottom: 14,
+  },
+  lockedTitle: { color: '#F8FAFC', fontSize: 16, fontWeight: '700', marginBottom: 8 },
+  lockedDesc: { color: '#64748B', fontSize: 13, lineHeight: 20, textAlign: 'center', marginBottom: 20 },
+  blurPreview: { width: '100%', marginBottom: 20, gap: 8, opacity: 0.15 },
+  previewRow: { backgroundColor: '#1E293B', borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 },
+  previewLine: { height: 10, backgroundColor: '#334155', borderRadius: 5 },
+  upgradeBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 8,
+    backgroundColor: '#F59E0B', borderRadius: 12,
+    paddingHorizontal: 24, paddingVertical: 13,
+  },
+  upgradeBtnText: { color: '#020617', fontSize: 15, fontWeight: '700' },
 });

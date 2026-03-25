@@ -39,3 +39,30 @@ export async function getUser() {
   const { data } = await supabase.auth.getUser();
   return data.user;
 }
+
+export async function checkIsPremium(): Promise<boolean> {
+  try {
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) return false;
+
+    // Primary: profiles.is_premium
+    const { data: profile, error } = await supabase
+      .from('profiles')
+      .select('is_premium')
+      .eq('user_id', user.id)
+      .maybeSingle();
+
+    if (!error && profile) return !!profile.is_premium;
+
+    // Fallback: User.isPremium
+    const { data: userData } = await supabase
+      .from('User')
+      .select('isPremium')
+      .eq('id', user.id)
+      .single();
+
+    return !!userData?.isPremium;
+  } catch {
+    return false;
+  }
+}
