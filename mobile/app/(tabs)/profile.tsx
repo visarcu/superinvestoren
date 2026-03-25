@@ -237,6 +237,14 @@ export default function ProfileScreen() {
           <Text style={s.sectionTitle}>APP</Text>
           <View style={s.card}>
             <Row
+              icon="notifications"
+              iconColor="#22C55E"
+              label="Benachrichtigungen"
+              onPress={() => router.push('/notification-settings')}
+              arrow
+            />
+            <Divider />
+            <Row
               icon="globe"
               iconColor="#64748B"
               label="finclue.de öffnen"

@@ -125,7 +125,7 @@ export default function PortfolioScreen() {
             </View>
             <Text style={styles.emptyTitle}>Portfolio ist leer</Text>
             <Text style={styles.emptyText}>Importiere dein Portfolio auf finclue.de</Text>
-            <TouchableOpacity style={styles.linkBtn} onPress={() => router.push('/stock/AAPL')}>
+            <TouchableOpacity style={styles.linkBtn} onPress={() => router.push('/(tabs)/')}>
               <Text style={styles.linkBtnText}>Aktien entdecken</Text>
             </TouchableOpacity>
           </View>
