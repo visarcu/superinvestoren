@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity,
   KeyboardAvoidingView, Platform, ActivityIndicator,
-  Alert, StyleSheet, ScrollView,
+  Alert, StyleSheet, ScrollView, Image,
 } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -38,9 +38,11 @@ export default function LoginScreen() {
         <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
           {/* Logo */}
           <View style={s.logoWrap}>
-            <View style={s.logoBadge}>
-              <Text style={s.logoLetter}>f</Text>
-            </View>
+            <Image
+              source={require('../../assets/logo.png')}
+              style={s.logoImage}
+              resizeMode="contain"
+            />
             <Text style={s.logoTitle}>finclue</Text>
             <Text style={s.logoSub}>Professionelle Aktienanalyse</Text>
           </View>
@@ -98,13 +100,7 @@ const s = StyleSheet.create({
   flex: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24, paddingVertical: 40 },
   logoWrap: { alignItems: 'center', marginBottom: 48 },
-  logoBadge: {
-    width: 64, height: 64, borderRadius: 18,
-    backgroundColor: 'rgba(34,197,94,0.15)',
-    borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)',
-    alignItems: 'center', justifyContent: 'center', marginBottom: 12,
-  },
-  logoLetter: { color: '#22C55E', fontSize: 32, fontWeight: '700' },
+  logoImage: { width: 72, height: 72, borderRadius: 18, marginBottom: 14 },
   logoTitle: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
   logoSub: { color: '#94A3B8', fontSize: 14, marginTop: 4 },
   form: { gap: 6 },
