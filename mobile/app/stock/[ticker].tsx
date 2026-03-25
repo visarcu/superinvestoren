@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
+import StockLogo from '../../components/StockLogo';
 
 const BASE_URL = 'https://finclue.de';
 
@@ -113,13 +114,16 @@ export default function StockScreen() {
         {/* Price Header */}
         <View style={s.priceHeader}>
           <View style={s.priceRow}>
-            <View>
-              <Text style={s.price}>
-                ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </Text>
-              <View style={s.changeRow}>
-                <PriceChange value={quote?.change ?? 0} isAbsolute />
-                <PriceChange value={change} />
+            <View style={s.priceLeft}>
+              <StockLogo ticker={ticker!} size={48} borderRadius={12} />
+              <View style={{ marginLeft: 14 }}>
+                <Text style={s.price}>
+                  ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                </Text>
+                <View style={s.changeRow}>
+                  <PriceChange value={quote?.change ?? 0} isAbsolute />
+                  <PriceChange value={change} />
+                </View>
               </View>
             </View>
             <View style={s.exchangeInfo}>
@@ -200,7 +204,8 @@ const s = StyleSheet.create({
   scroll: { flex: 1, backgroundColor: '#020617' },
   priceHeader: { backgroundColor: '#0F172A', padding: 20, borderBottomWidth: 1, borderBottomColor: '#1E293B' },
   priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
-  price: { color: '#F8FAFC', fontSize: 34, fontWeight: '700', letterSpacing: -1 },
+  priceLeft: { flexDirection: 'row', alignItems: 'center' },
+  price: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
   changeRow: { flexDirection: 'row', gap: 8, marginTop: 6 },
   exchangeInfo: { alignItems: 'flex-end' },
   exchange: { color: '#94A3B8', fontSize: 12 },

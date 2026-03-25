@@ -1,5 +1,6 @@
 import { TouchableOpacity, View, Text, StyleSheet } from 'react-native';
 import PriceChange from './PriceChange';
+import StockLogo from './StockLogo';
 
 interface Props { quote: any; onPress: () => void; }
 
@@ -8,8 +9,8 @@ export default function StockRow({ quote, onPress }: Props) {
   const change = quote?.changesPercentage ?? 0;
   return (
     <TouchableOpacity onPress={onPress} style={s.row} activeOpacity={0.7}>
-      <View style={s.badge}>
-        <Text style={s.badgeText} numberOfLines={1}>{quote.symbol?.slice(0, 4)}</Text>
+      <View style={s.logoWrap}>
+        <StockLogo ticker={quote.symbol || ''} size={42} borderRadius={10} />
       </View>
       <View style={s.info}>
         <Text style={s.symbol}>{quote.symbol}</Text>
@@ -25,8 +26,7 @@ export default function StockRow({ quote, onPress }: Props) {
 
 const s = StyleSheet.create({
   row: { backgroundColor: '#0F172A', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
-  badge: { width: 42, height: 42, borderRadius: 10, backgroundColor: '#1E293B', alignItems: 'center', justifyContent: 'center', marginRight: 12 },
-  badgeText: { color: '#F8FAFC', fontWeight: '700', fontSize: 11 },
+  logoWrap: { marginRight: 12 },
   info: { flex: 1 },
   symbol: { color: '#F8FAFC', fontWeight: '600', fontSize: 14 },
   name: { color: '#64748B', fontSize: 12, marginTop: 2 },
