@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { View, Text, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
-import { useLocalSearchParams, Stack } from 'expo-router';
+import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import StockLogo from '../../components/StockLogo';
 
 const BASE_URL = 'https://finclue.de';
 const PAGE_SIZE = 10;
@@ -12,8 +13,12 @@ const COLORS = ['#22C55E', '#3B82F6', '#8B5CF6', '#F59E0B', '#EF4444', '#06B6D4'
 interface Position {
   name: string;
   cusip?: string;
+  ticker?: string | null;
   shares: number;
   value: number;
+  deltaShares?: number;
+  pctDelta?: number;
+  optionType?: string;
 }
 
 const INVESTOR_NAMES: Record<string, string> = {
@@ -62,22 +67,30 @@ export default function InvestorDetailScreen() {
       if (!hRes.ok) throw new Error(`HTTP ${hRes.status}`);
       const hData = await hRes.json();
 
-      // Deduplizieren: gleicher CUSIP → Werte summieren (z.B. Berkshire hat Apple mehrfach)
+      // Deduplizieren nach CUSIP (gleiche Aktie, verschiedene optionTypes summieren)
       const merged = new Map<string, Position>();
       for (const pos of (hData.positions || [])) {
         const key = pos.cusip || pos.name;
         if (merged.has(key)) {
-          const existing = merged.get(key)!;
-          existing.shares += pos.shares || 0;
-          existing.value += pos.value || 0;
+          const ex = merged.get(key)!;
+          ex.shares += pos.shares || 0;
+          ex.value += pos.value || 0;
         } else {
-          merged.set(key, { name: pos.name, cusip: pos.cusip, shares: pos.shares || 0, value: pos.value || 0 });
+          merged.set(key, {
+            name: pos.name,
+            cusip: pos.cusip,
+            ticker: pos.ticker || null,
+            shares: pos.shares || 0,
+            value: pos.value || 0,
+            deltaShares: pos.deltaShares,
+            pctDelta: pos.pctDelta,
+            optionType: pos.optionType,
+          });
         }
       }
 
       const deduped = Array.from(merged.values()).sort((a, b) => b.value - a.value);
-      const tv = deduped.reduce((sum, p) => sum + p.value, 0);
-      setTotalValue(tv);
+      setTotalValue(deduped.reduce((sum, p) => sum + p.value, 0));
       setPositions(deduped);
     } catch (e: any) {
       setError(e.message || 'Fehler beim Laden');
@@ -107,8 +120,8 @@ export default function InvestorDetailScreen() {
         ) : error ? (
           <View style={s.center}>
             <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
-            <Text style={s.errorTitle}>Fehler beim Laden</Text>
-            <Text style={s.errorText}>{error}</Text>
+            <Text style={s.centerTitle}>Fehler beim Laden</Text>
+            <Text style={s.centerText}>{error}</Text>
             <TouchableOpacity style={s.actionBtn} onPress={loadHoldings}>
               <Text style={s.actionBtnText}>Erneut versuchen</Text>
             </TouchableOpacity>
@@ -116,11 +129,11 @@ export default function InvestorDetailScreen() {
         ) : positions.length === 0 ? (
           <View style={s.center}>
             <Ionicons name="briefcase-outline" size={40} color="#475569" />
-            <Text style={s.errorTitle}>Keine Daten verfügbar</Text>
+            <Text style={s.centerTitle}>Keine Daten verfügbar</Text>
           </View>
         ) : (
           <ScrollView contentContainerStyle={s.list}>
-            {/* Summary */}
+            {/* Summary Card */}
             <View style={s.summary}>
               <View>
                 <Text style={s.summaryLabel}>Portfolio-Wert</Text>
@@ -129,29 +142,76 @@ export default function InvestorDetailScreen() {
               <View style={s.summaryRight}>
                 <Text style={s.summaryLabel}>Quartal</Text>
                 <Text style={s.summaryQuarter}>{quarter}</Text>
+                <Text style={s.summaryCount}>{positions.length} Positionen</Text>
               </View>
             </View>
 
-            <Text style={s.countLabel}>{positions.length} POSITIONEN</Text>
+            <Text style={s.sectionLabel}>TOP HOLDINGS</Text>
 
             {visible.map((pos, index) => {
               const color = COLORS[index % COLORS.length];
               const weight = totalValue > 0 ? (pos.value / totalValue) * 100 : 0;
-              const initials = pos.name.split(' ').map((w: string) => w[0]).slice(0, 2).join('');
+              const hasTicker = !!pos.ticker;
+              const deltaShares = pos.deltaShares ?? 0;
+              const isNew = pos.pctDelta === null || pos.pctDelta === undefined ? false : pos.pctDelta >= 999;
+              const isSold = pos.value === 0;
+
               return (
-                <View key={`${pos.cusip || pos.name}-${index}`} style={s.row}>
-                  <View style={[s.badge, { backgroundColor: color + '20' }]}>
-                    <Text style={[s.badgeText, { color }]} numberOfLines={1}>{initials}</Text>
-                  </View>
+                <TouchableOpacity
+                  key={`${pos.cusip || pos.name}-${index}`}
+                  style={s.row}
+                  onPress={() => hasTicker ? router.push(`/stock/${pos.ticker}`) : undefined}
+                  activeOpacity={hasTicker ? 0.7 : 1}
+                >
+                  {/* Logo oder Initialen */}
+                  {hasTicker ? (
+                    <View style={s.logoWrap}>
+                      <StockLogo ticker={pos.ticker!} size={44} borderRadius={10} />
+                    </View>
+                  ) : (
+                    <View style={[s.badge, { backgroundColor: color + '20' }]}>
+                      <Text style={[s.badgeText, { color }]} numberOfLines={1}>
+                        {pos.name.split(' ').map((w: string) => w[0]).slice(0, 2).join('')}
+                      </Text>
+                    </View>
+                  )}
+
+                  {/* Name + Ticker + Shares */}
                   <View style={s.info}>
-                    <Text style={s.posName} numberOfLines={2}>{pos.name}</Text>
+                    <View style={s.nameRow}>
+                      {hasTicker && (
+                        <Text style={s.ticker}>{pos.ticker} </Text>
+                      )}
+                      <Text style={s.posName} numberOfLines={1}>
+                        {cleanName(pos.name, pos.ticker)}
+                      </Text>
+                    </View>
                     <Text style={s.shares}>{pos.shares.toLocaleString('de-DE')} Aktien</Text>
+                    {/* Veränderung zur Vorperiode */}
+                    {deltaShares !== 0 && (
+                      <View style={s.deltaRow}>
+                        <Ionicons
+                          name={deltaShares > 0 ? 'trending-up' : 'trending-down'}
+                          size={11}
+                          color={deltaShares > 0 ? '#22C55E' : '#EF4444'}
+                        />
+                        <Text style={[s.deltaText, { color: deltaShares > 0 ? '#22C55E' : '#EF4444' }]}>
+                          {deltaShares > 0 ? '+' : ''}{deltaShares.toLocaleString('de-DE')}
+                          {isNew ? ' NEU' : ''}
+                        </Text>
+                      </View>
+                    )}
                   </View>
+
+                  {/* Wert + Gewichtung */}
                   <View style={s.right}>
                     <Text style={s.value}>{formatValue(pos.value)}</Text>
                     <Text style={s.weight}>{weight.toFixed(1)}%</Text>
+                    {hasTicker && (
+                      <Ionicons name="chevron-forward" size={12} color="#475569" style={{ marginTop: 2 }} />
+                    )}
                   </View>
-                </View>
+                </TouchableOpacity>
               );
             })}
 
@@ -162,7 +222,7 @@ export default function InvestorDetailScreen() {
                 activeOpacity={0.7}
               >
                 <Text style={s.actionBtnText}>
-                  {positions.length - visibleCount} weitere Positionen anzeigen
+                  {positions.length - visibleCount} weitere Positionen
                 </Text>
                 <Ionicons name="chevron-down" size={14} color="#22C55E" style={{ marginLeft: 4 }} />
               </TouchableOpacity>
@@ -172,6 +232,14 @@ export default function InvestorDetailScreen() {
       </SafeAreaView>
     </>
   );
+}
+
+function cleanName(name: string, ticker?: string | null): string {
+  if (!name) return '';
+  // Entferne "INC", "CORP", "CO", "LTD" am Ende für kompaktere Anzeige
+  return name
+    .replace(/\b(INC\.?|CORP\.?|CO\.?|LTD\.?|LLC\.?|PLC\.?)$/i, '')
+    .trim();
 }
 
 function formatValue(val: number) {
@@ -186,22 +254,28 @@ function formatValue(val: number) {
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#020617' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 32 },
-  errorTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
-  errorText: { color: '#64748B', fontSize: 14, textAlign: 'center' },
+  centerTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
+  centerText: { color: '#64748B', fontSize: 14, textAlign: 'center' },
   list: { paddingHorizontal: 16, paddingBottom: 32, paddingTop: 8 },
   summary: { backgroundColor: '#0F172A', borderRadius: 14, padding: 16, marginBottom: 16, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', borderWidth: 1, borderColor: '#1E293B' },
   summaryLabel: { color: '#64748B', fontSize: 11, marginBottom: 4 },
   summaryValue: { color: '#F8FAFC', fontSize: 22, fontWeight: '700', letterSpacing: -0.5 },
   summaryRight: { alignItems: 'flex-end' },
   summaryQuarter: { color: '#22C55E', fontSize: 14, fontWeight: '600' },
-  countLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
+  summaryCount: { color: '#475569', fontSize: 11, marginTop: 2 },
+  sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
   row: { backgroundColor: '#0F172A', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', marginBottom: 4, borderWidth: 1, borderColor: '#1E293B' },
+  logoWrap: { marginRight: 12, flexShrink: 0 },
   badge: { width: 44, height: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 12, flexShrink: 0 },
   badgeText: { fontWeight: '700', fontSize: 13 },
-  info: { flex: 1 },
-  posName: { color: '#F8FAFC', fontWeight: '600', fontSize: 13, lineHeight: 18 },
+  info: { flex: 1, minWidth: 0 },
+  nameRow: { flexDirection: 'row', alignItems: 'center' },
+  ticker: { color: '#F8FAFC', fontWeight: '700', fontSize: 13 },
+  posName: { color: '#94A3B8', fontSize: 12, flex: 1 },
   shares: { color: '#64748B', fontSize: 11, marginTop: 3 },
-  right: { alignItems: 'flex-end', minWidth: 60 },
+  deltaRow: { flexDirection: 'row', alignItems: 'center', gap: 3, marginTop: 3 },
+  deltaText: { fontSize: 10, fontWeight: '600' },
+  right: { alignItems: 'flex-end', minWidth: 58 },
   value: { color: '#F8FAFC', fontWeight: '600', fontSize: 13 },
   weight: { color: '#22C55E', fontSize: 11, fontWeight: '600', marginTop: 2 },
   actionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(34,197,94,0.1)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.25)', borderRadius: 12, paddingVertical: 14, marginTop: 8 },
