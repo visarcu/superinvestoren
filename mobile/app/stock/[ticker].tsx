@@ -1,14 +1,28 @@
-import { useEffect, useState } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet } from 'react-native';
+import { useEffect, useState, useCallback } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, StyleSheet, Dimensions } from 'react-native';
 import { useLocalSearchParams, router, Stack } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import { LineChart } from 'react-native-gifted-charts';
 import { supabase } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
 import StockLogo from '../../components/StockLogo';
 
 const BASE_URL = 'https://finclue.de';
+const SCREEN_WIDTH = Dimensions.get('window').width;
+
+const RANGES = [
+  { label: '1M', days: 30 },
+  { label: '3M', days: 90 },
+  { label: '6M', days: 180 },
+  { label: '1J', days: 365 },
+  { label: '5J', days: 1825 },
+] as const;
+
+type RangeKey = typeof RANGES[number]['label'];
+
+interface HistoricalPoint { date: string; close: number; }
 
 export default function StockScreen() {
   const { ticker } = useLocalSearchParams<{ ticker: string }>();
@@ -18,9 +32,15 @@ export default function StockScreen() {
   const [inWatchlist, setInWatchlist] = useState(false);
   const [watchlistLoading, setWatchlistLoading] = useState(false);
 
+  // Chart state
+  const [historical, setHistorical] = useState<HistoricalPoint[]>([]);
+  const [chartLoading, setChartLoading] = useState(true);
+  const [range, setRange] = useState<RangeKey>('1J');
+
   useEffect(() => {
     loadData();
     checkWatchlist();
+    loadHistorical();
   }, [ticker]);
 
   async function loadData() {
@@ -41,6 +61,23 @@ export default function StockScreen() {
       console.error(e);
     } finally {
       setLoading(false);
+    }
+  }
+
+  async function loadHistorical() {
+    setChartLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/historical/${ticker}`);
+      if (res.ok) {
+        const data = await res.json();
+        // API returns DESC (newest first) → reverse to ASC for chart
+        const points: HistoricalPoint[] = (data.historical || []).reverse();
+        setHistorical(points);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setChartLoading(false);
     }
   }
 
@@ -79,6 +116,29 @@ export default function StockScreen() {
     } catch (e) { console.error(e); }
     finally { setWatchlistLoading(false); }
   }
+
+  // Filter historical data by selected range
+  const chartData = useCallback(() => {
+    const selectedRange = RANGES.find(r => r.label === range)!;
+    const cutoff = new Date();
+    cutoff.setDate(cutoff.getDate() - selectedRange.days);
+    const filtered = historical.filter(p => new Date(p.date) >= cutoff);
+    if (filtered.length === 0) return [];
+
+    // Downsample for performance if too many points
+    const maxPoints = 180;
+    const step = Math.ceil(filtered.length / maxPoints);
+    const sampled = filtered.filter((_, i) => i % step === 0 || i === filtered.length - 1);
+    return sampled.map(p => ({ value: p.close }));
+  }, [historical, range]);
+
+  const chartPoints = chartData();
+
+  // Determine if chart is up or down (green/red)
+  const firstVal = chartPoints[0]?.value ?? 0;
+  const lastVal = chartPoints[chartPoints.length - 1]?.value ?? 0;
+  const isPositive = lastVal >= firstVal;
+  const chartColor = isPositive ? '#22C55E' : '#EF4444';
 
   if (loading) {
     return (
@@ -153,6 +213,61 @@ export default function StockScreen() {
           </TouchableOpacity>
         </View>
 
+        {/* Chart */}
+        <View style={s.chartCard}>
+          {chartLoading ? (
+            <View style={s.chartLoading}>
+              <ActivityIndicator color="#22C55E" size="small" />
+            </View>
+          ) : chartPoints.length > 1 ? (
+            <>
+              <LineChart
+                data={chartPoints}
+                width={SCREEN_WIDTH - 32}
+                height={180}
+                hideDataPoints
+                color={chartColor}
+                thickness={2}
+                startFillColor={chartColor}
+                endFillColor="transparent"
+                startOpacity={0.18}
+                endOpacity={0}
+                areaChart
+                curved
+                initialSpacing={0}
+                endSpacing={0}
+                noOfSections={4}
+                yAxisColor="transparent"
+                xAxisColor="transparent"
+                rulesColor="rgba(255,255,255,0.05)"
+                rulesType="solid"
+                yAxisTextStyle={{ color: '#475569', fontSize: 10 }}
+                hideYAxisText
+                backgroundColor="transparent"
+                adjustToWidth
+              />
+              {/* Range selector */}
+              <View style={s.rangePicker}>
+                {RANGES.map(r => (
+                  <TouchableOpacity
+                    key={r.label}
+                    onPress={() => setRange(r.label)}
+                    style={[s.rangeBtn, range === r.label && s.rangeBtnActive]}
+                  >
+                    <Text style={[s.rangeBtnText, range === r.label && s.rangeBtnTextActive]}>
+                      {r.label}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          ) : (
+            <View style={s.chartLoading}>
+              <Text style={s.noData}>Keine Chartdaten verfügbar</Text>
+            </View>
+          )}
+        </View>
+
         {/* Key Metrics */}
         <View style={s.section}>
           <Text style={s.sectionTitle}>KENNZAHLEN</Text>
@@ -221,6 +336,43 @@ const s = StyleSheet.create({
   watchlistBtnActive: { backgroundColor: '#22C55E', borderColor: '#22C55E' },
   watchlistBtnText: { color: '#22C55E', fontWeight: '600', fontSize: 14 },
   watchlistBtnTextActive: { color: '#020617' },
+
+  // Chart
+  chartCard: {
+    backgroundColor: '#0F172A',
+    marginHorizontal: 16,
+    marginTop: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#1E293B',
+    overflow: 'hidden',
+    paddingTop: 16,
+  },
+  chartLoading: {
+    height: 200,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  noData: { color: '#475569', fontSize: 13 },
+  rangePicker: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderTopWidth: 1,
+    borderTopColor: '#1E293B',
+  },
+  rangeBtn: {
+    paddingHorizontal: 14,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  rangeBtnActive: {
+    backgroundColor: 'rgba(34,197,94,0.15)',
+  },
+  rangeBtnText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
+  rangeBtnTextActive: { color: '#22C55E' },
+
   section: { padding: 16 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
   metricsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
