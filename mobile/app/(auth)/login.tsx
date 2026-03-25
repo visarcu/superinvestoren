@@ -2,8 +2,9 @@ import { useState } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity,
   KeyboardAvoidingView, Platform, ActivityIndicator,
-  Alert, StyleSheet, ScrollView, Image,
+  Alert, StyleSheet, ScrollView,
 } from 'react-native';
+import FinclueIcon from '../../components/FinclueIcon';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { signIn } from '../../lib/auth';
@@ -38,11 +39,7 @@ export default function LoginScreen() {
         <ScrollView contentContainerStyle={s.scroll} keyboardShouldPersistTaps="handled">
           {/* Logo */}
           <View style={s.logoWrap}>
-            <Image
-              source={require('../../assets/logo.png')}
-              style={s.logoImage}
-              resizeMode="contain"
-            />
+            <FinclueIcon size={72} variant="dark" />
             <Text style={s.logoTitle}>finclue</Text>
             <Text style={s.logoSub}>Professionelle Aktienanalyse</Text>
           </View>
@@ -99,8 +96,7 @@ const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#020617' },
   flex: { flex: 1 },
   scroll: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: 24, paddingVertical: 40 },
-  logoWrap: { alignItems: 'center', marginBottom: 48 },
-  logoImage: { width: 72, height: 72, borderRadius: 18, marginBottom: 14 },
+  logoWrap: { alignItems: 'center', marginBottom: 48, gap: 14 },
   logoTitle: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
   logoSub: { color: '#94A3B8', fontSize: 14, marginTop: 4 },
   form: { gap: 6 },
