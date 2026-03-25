@@ -21,13 +21,33 @@ const supabaseService = createClient(
 )
 
 // Hilfsfunktion: In-App Notification erstellen
+async function sendPushNotification(userId: string, title: string, body: string, data?: any) {
+  try {
+    const secret = process.env.INTERNAL_API_SECRET
+    if (!secret) return
+
+    const baseUrl = process.env.NEXTAUTH_URL || process.env.NEXT_PUBLIC_SITE_URL || 'https://finclue.de'
+    await fetch(`${baseUrl}/api/notifications/push`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-internal-secret': secret,
+      },
+      body: JSON.stringify({ userIds: [userId], title, body, data }),
+    })
+  } catch (e) {
+    console.error('[Push] Failed to send push notification:', e)
+  }
+}
+
 async function createInAppNotification({
   userId,
   type,
   title,
   message,
   data,
-  href
+  href,
+  sendPush = true,
 }: {
   userId: string
   type: string
@@ -35,6 +55,7 @@ async function createInAppNotification({
   message: string
   data?: any
   href?: string
+  sendPush?: boolean
 }) {
   try {
     const { error } = await supabaseService
@@ -47,11 +68,15 @@ async function createInAppNotification({
         data: data || {},
         href
       })
-    
+
     if (error) {
       console.error('Error creating in-app notification:', error)
     } else {
       console.log(`✅ In-app notification created for user ${userId}: ${title}`)
+      // Also send Expo push notification to mobile app
+      if (sendPush) {
+        await sendPushNotification(userId, title, message, data)
+      }
     }
   } catch (error) {
     console.error('Failed to create in-app notification:', error)

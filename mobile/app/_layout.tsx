@@ -1,10 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { supabase } from '../lib/auth';
+import { registerForPushNotifications } from '../lib/pushNotifications';
 import '../global.css';
 
 export default function RootLayout() {
+  useEffect(() => {
+    // Register for push notifications once user is authenticated
+    supabase.auth.getSession().then(({ data }) => {
+      if (data.session) {
+        registerForPushNotifications();
+      }
+    });
+
+    // Re-register after login
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'SIGNED_IN') {
+        registerForPushNotifications();
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
   return (
     <>
       <StatusBar style="light" backgroundColor="#020617" />
