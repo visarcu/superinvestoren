@@ -74,6 +74,10 @@ export default function StockScreen() {
   // ─── Similar stocks ─────────────────────────────────────
   const [similarStocks, setSimilarStocks] = useState<any[]>([]);
 
+  // ─── News ────────────────────────────────────────────────
+  const [newsArticles, setNewsArticles] = useState<any[]>([]);
+  const [newsLoading, setNewsLoading] = useState(true);
+
   // ─── AI Bulls/Bears ──────────────────────────────────────
   const [isPremium, setIsPremium] = useState(false);
   const [bulls, setBulls] = useState<BullBear[]>([]);
@@ -116,6 +120,7 @@ export default function StockScreen() {
     loadHistorical();
     loadFinancials();
     loadPremiumAndAI();
+    loadNews();
   }, [ticker]);
 
   // ─── Lazy load on tab switch ─────────────────────────────
@@ -217,6 +222,18 @@ export default function StockScreen() {
       if (res.ok) { const d = await res.json(); setBulls(d.bulls || []); setBears(d.bears || []); }
     } catch (e) { console.error(e); }
     finally { setAiLoading(false); }
+  }
+
+  async function loadNews() {
+    setNewsLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/stock-news/${ticker}?limit=8`);
+      if (res.ok) {
+        const d = await res.json();
+        setNewsArticles(d.articles || []);
+      }
+    } catch (e) { console.error(e); }
+    finally { setNewsLoading(false); }
   }
 
   async function loadEarnings() {
@@ -713,6 +730,48 @@ export default function StockScreen() {
               </View>
             ) : null}
 
+            {/* News */}
+            <View style={s.section}>
+              <Text style={s.sectionTitle}>NACHRICHTEN</Text>
+              {newsLoading ? (
+                <ActivityIndicator color="#22C55E" size="small" style={{ marginVertical: 12 }} />
+              ) : newsArticles.length === 0 ? (
+                <Text style={s.noData}>Keine Nachrichten verfügbar</Text>
+              ) : (
+                <View style={s.newsCard}>
+                  {newsArticles.map((article: any, i: number) => {
+                    const age = article.publishedDate
+                      ? (() => {
+                          const diff = Date.now() - new Date(article.publishedDate).getTime();
+                          const h = Math.floor(diff / 3600000);
+                          if (h < 1) return 'Gerade eben';
+                          if (h < 24) return `vor ${h}h`;
+                          const d = Math.floor(h / 24);
+                          return `vor ${d}T`;
+                        })()
+                      : '';
+                    return (
+                      <TouchableOpacity
+                        key={i}
+                        style={[s.newsRow, i > 0 && s.newsRowBorder]}
+                        onPress={() => Linking.openURL(article.url)}
+                        activeOpacity={0.7}
+                      >
+                        <View style={{ flex: 1 }}>
+                          <Text style={s.newsTitle} numberOfLines={2}>{article.title}</Text>
+                          <View style={s.newsMeta}>
+                            <Text style={s.newsSource}>{article.site}</Text>
+                            {age ? <Text style={s.newsAge}>{age}</Text> : null}
+                          </View>
+                        </View>
+                        <Ionicons name="chevron-forward" size={14} color="#2c2c2e" style={{ marginLeft: 8 }} />
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+            </View>
+
             {/* Ähnliche Aktien */}
             {similarStocks.length > 0 && (
               <View style={s.section}>
@@ -1107,10 +1166,7 @@ export default function StockScreen() {
               const analystCount = estimatesData[0]?.numberAnalystsEstimatedEps;
 
               function fwdPeColor(pe: number | null) {
-                if (!pe) return '#94A3B8';
-                if (pe < 15) return '#22C55E';
-                if (pe < 25) return '#F59E0B';
-                return '#EF4444';
+                return pe != null ? '#F8FAFC' : '#475569';
               }
 
               return (
@@ -1151,12 +1207,9 @@ export default function StockScreen() {
                     ))}
                   </View>
 
-                  {/* Legend */}
-                  <View style={{ flexDirection: 'row', gap: 12, marginTop: 8, paddingHorizontal: 2 }}>
-                    <Text style={{ color: '#22C55E', fontSize: 10 }}>{'< 15x günstig'}</Text>
-                    <Text style={{ color: '#F59E0B', fontSize: 10 }}>{'15–25x fair'}</Text>
-                    <Text style={{ color: '#EF4444', fontSize: 10 }}>{'>25x teuer'}</Text>
-                  </View>
+                  <Text style={{ color: '#475569', fontSize: 10, marginTop: 6, paddingHorizontal: 2 }}>
+                    Forward-KGV = Aktueller Kurs ÷ Konsensus-EPS
+                  </Text>
                 </View>
               );
             })()}
@@ -1585,6 +1638,15 @@ const s = StyleSheet.create({
   divHistoryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
   divHistoryDate: { color: '#94A3B8', fontSize: 13 },
   divHistoryAmount: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
+
+  // News
+  newsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  newsRow: { paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center' },
+  newsRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  newsTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '500', lineHeight: 20, marginBottom: 6 },
+  newsMeta: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  newsSource: { color: '#475569', fontSize: 12, fontWeight: '600' },
+  newsAge: { color: '#2c2c2e', fontSize: 12 },
 
   // Forward KGV
   fwdPeCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },

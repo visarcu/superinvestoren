@@ -95,15 +95,9 @@ export default function ForwardPETable({ ticker }: Props) {
     }
   }
 
-  // Farbklasse je nach KGV-Wert
   function peColor(pe: number | null, isActual: boolean): string {
     if (pe == null) return 'text-theme-muted'
-    if (!isActual) {
-      if (pe < 15) return 'text-green-400'
-      if (pe < 25) return 'text-yellow-400'
-      return 'text-red-400'
-    }
-    return 'text-theme-primary'
+    return isActual ? 'text-theme-primary' : 'text-theme-secondary'
   }
 
   if (loading) {
@@ -169,10 +163,7 @@ export default function ForwardPETable({ ticker }: Props) {
       {/* Footer */}
       <div className="px-6 py-3 border-t border-theme-border bg-theme-secondary/20">
         <p className="text-xs text-theme-muted">
-          Forward-KGV = Aktueller Kurs ÷ Geschätzter EPS &nbsp;·&nbsp;
-          <span className="text-green-400">&lt;15x günstig</span> &nbsp;
-          <span className="text-yellow-400">15–25x fair</span> &nbsp;
-          <span className="text-red-400">&gt;25x teuer</span>
+          Forward-KGV = Aktueller Kurs ÷ Geschätzter EPS (Analysten-Konsensus)
         </p>
       </div>
     </div>
