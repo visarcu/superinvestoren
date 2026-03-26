@@ -92,12 +92,17 @@ export default function PortfolioScreen() {
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor="#22C55E" />}
       >
         <View style={styles.header}>
-          <Text style={styles.title}>Portfolio</Text>
-          {portfolioName ? <Text style={styles.subtitle}>{portfolioName}</Text> : null}
+          <View>
+            <Text style={styles.title}>Portfolio</Text>
+            {portfolioName ? <Text style={styles.subtitle}>{portfolioName}</Text> : null}
+          </View>
+          <TouchableOpacity style={styles.addBtn} onPress={() => router.push('/add-transaction')}>
+            <Ionicons name="add" size={22} color="#F8FAFC" />
+          </TouchableOpacity>
         </View>
 
         {/* Summary Card */}
-        <LinearGradient colors={['#0F172A', '#1a2744']} style={styles.summaryCard}>
+        <LinearGradient colors={['#111113', '#1a2744']} style={styles.summaryCard}>
           <Text style={styles.summaryLabel}>Gesamtwert</Text>
           <Text style={styles.summaryValue}>{fmtCurrency(totalValue)}</Text>
           <View style={styles.gainRow}>
@@ -124,9 +129,10 @@ export default function PortfolioScreen() {
               <Ionicons name="briefcase-outline" size={28} color="#475569" />
             </View>
             <Text style={styles.emptyTitle}>Portfolio ist leer</Text>
-            <Text style={styles.emptyText}>Importiere dein Portfolio auf finclue.de</Text>
-            <TouchableOpacity style={styles.linkBtn} onPress={() => router.push('/(tabs)/')}>
-              <Text style={styles.linkBtnText}>Aktien entdecken</Text>
+            <Text style={styles.emptyText}>Füge deine erste Transaktion hinzu oder importiere dein Portfolio auf finclue.de</Text>
+            <TouchableOpacity style={styles.linkBtn} onPress={() => router.push('/add-transaction')}>
+              <Ionicons name="add-circle-outline" size={18} color="#F8FAFC" style={{ marginRight: 6 }} />
+              <Text style={styles.linkBtnText}>Transaktion hinzufügen</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -162,10 +168,11 @@ export default function PortfolioScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
-  header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
   title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
   subtitle: { color: '#64748B', fontSize: 13, marginTop: 2 },
+  addBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e', alignItems: 'center', justifyContent: 'center' },
   summaryCard: { marginHorizontal: 16, marginBottom: 16, borderRadius: 16, padding: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)' },
   summaryLabel: { color: '#64748B', fontSize: 13, marginBottom: 4 },
   summaryValue: { color: '#F8FAFC', fontSize: 32, fontWeight: '700', letterSpacing: -1 },
@@ -173,14 +180,14 @@ const styles = StyleSheet.create({
   gainText: { fontSize: 15, fontWeight: '600' },
   gainPct: { fontSize: 14, fontWeight: '500' },
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 48, gap: 12 },
-  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#0F172A', alignItems: 'center', justifyContent: 'center' },
+  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#111113', alignItems: 'center', justifyContent: 'center' },
   emptyTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
   emptyText: { color: '#64748B', fontSize: 14, textAlign: 'center', paddingHorizontal: 32 },
-  linkBtn: { backgroundColor: 'rgba(34,197,94,0.15)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 8 },
-  linkBtnText: { color: '#22C55E', fontWeight: '600' },
+  linkBtn: { backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center' },
+  linkBtnText: { color: '#F8FAFC', fontWeight: '600' },
   holdingsList: { paddingHorizontal: 16, paddingBottom: 20 },
   sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
-  holdingRow: { backgroundColor: '#0F172A', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
+  holdingRow: { backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
   holdingLeft: { flex: 1 },
   holdingSymbol: { color: '#F8FAFC', fontSize: 15, fontWeight: '700' },
   holdingShares: { color: '#64748B', fontSize: 12, marginTop: 2 },
