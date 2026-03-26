@@ -276,10 +276,18 @@ export default function StockScreen() {
   async function loadValuation() {
     setValuationLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/api/key-metrics/${ticker}?period=annual&limit=5`);
-      if (res.ok) {
-        const d = await res.json();
+      const [kmRes, estRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/key-metrics/${ticker}?period=annual&limit=5`),
+        fetch(`${BASE_URL}/api/analyst-estimates/${ticker}`),
+      ]);
+      if (kmRes.ok) {
+        const d = await kmRes.json();
         setValuationData(Array.isArray(d) ? [...d].reverse() : []);
+      }
+      // Also pre-load estimates for forward PE calculation (shared with estimates tab)
+      if (estRes.ok && estimatesData.length === 0) {
+        const d = await estRes.json();
+        setEstimatesData(Array.isArray(d) ? d.slice(0, 6) : []);
       }
     } catch(e) { console.error(e); }
     finally { setValuationLoading(false); }
@@ -1076,6 +1084,82 @@ export default function StockScreen() {
                 </ScrollView>
               );
             })()}
+
+            {/* ── Forward KGV ──────────────────────────── */}
+            {!valuationLoading && estimatesData.length > 0 && (() => {
+              const currentYear = new Date().getFullYear();
+              const currentPE = quote?.pe && quote.pe > 0 ? quote.pe : null;
+              const currentEPS = quote?.eps && quote.eps > 0 ? quote.eps : null;
+              const currentPrice2 = quote?.price ?? 0;
+
+              const futureRows = estimatesData
+                .filter((e: any) => parseInt(e.date?.slice(0, 4), 10) > currentYear)
+                .sort((a: any, b: any) => a.date.localeCompare(b.date))
+                .slice(0, 4)
+                .map((e: any) => ({
+                  year: e.date?.slice(0, 4),
+                  eps: e.estimatedEpsAvg,
+                  pe: e.estimatedEpsAvg > 0 && currentPrice2 > 0 ? currentPrice2 / e.estimatedEpsAvg : null,
+                }));
+
+              if (futureRows.length === 0) return null;
+
+              const analystCount = estimatesData[0]?.numberAnalystsEstimatedEps;
+
+              function fwdPeColor(pe: number | null) {
+                if (!pe) return '#94A3B8';
+                if (pe < 15) return '#22C55E';
+                if (pe < 25) return '#F59E0B';
+                return '#EF4444';
+              }
+
+              return (
+                <View style={[s.section, { marginTop: 20 }]}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 }}>
+                    <Text style={s.sectionTitle}>FORWARD KGV</Text>
+                    {analystCount ? (
+                      <Text style={{ color: '#475569', fontSize: 11 }}>{analystCount} Analysten</Text>
+                    ) : null}
+                  </View>
+
+                  <View style={s.fwdPeCard}>
+                    {/* Header row */}
+                    <View style={[s.fwdPeRow, { backgroundColor: '#0a0a0b' }]}>
+                      <Text style={s.fwdPeHeaderLabel}>Jahr</Text>
+                      <Text style={s.fwdPeHeaderLabel}>EPS</Text>
+                      <Text style={s.fwdPeHeaderLabel}>KGV</Text>
+                    </View>
+
+                    {/* Actual current */}
+                    <View style={[s.fwdPeRow, { backgroundColor: '#111113' }]}>
+                      <Text style={s.fwdPeYear}>{currentYear} (TTM)</Text>
+                      <Text style={s.fwdPeEPS}>{currentEPS ? `$${currentEPS.toFixed(2)}` : '—'}</Text>
+                      <Text style={[s.fwdPeValue, { color: '#F8FAFC' }]}>
+                        {currentPE ? `${currentPE.toFixed(1)}x` : '—'}
+                      </Text>
+                    </View>
+
+                    {/* Future estimates */}
+                    {futureRows.map((row, i) => (
+                      <View key={i} style={[s.fwdPeRow, i % 2 === 0 && s.fwdPeRowAlt]}>
+                        <Text style={s.fwdPeYear}>{row.year}</Text>
+                        <Text style={s.fwdPeEPS}>{row.eps != null ? `$${row.eps.toFixed(2)}` : '—'}</Text>
+                        <Text style={[s.fwdPeValue, { color: fwdPeColor(row.pe) }]}>
+                          {row.pe != null ? `${row.pe.toFixed(1)}x` : '—'}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+
+                  {/* Legend */}
+                  <View style={{ flexDirection: 'row', gap: 12, marginTop: 8, paddingHorizontal: 2 }}>
+                    <Text style={{ color: '#22C55E', fontSize: 10 }}>{'< 15x günstig'}</Text>
+                    <Text style={{ color: '#F59E0B', fontSize: 10 }}>{'15–25x fair'}</Text>
+                    <Text style={{ color: '#EF4444', fontSize: 10 }}>{'>25x teuer'}</Text>
+                  </View>
+                </View>
+              );
+            })()}
           </View>
         )}
 
@@ -1501,4 +1585,13 @@ const s = StyleSheet.create({
   divHistoryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
   divHistoryDate: { color: '#94A3B8', fontSize: 13 },
   divHistoryAmount: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
+
+  // Forward KGV
+  fwdPeCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  fwdPeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  fwdPeRowAlt: { backgroundColor: 'rgba(255,255,255,0.02)' },
+  fwdPeHeaderLabel: { color: '#475569', fontSize: 11, fontWeight: '700', flex: 1, letterSpacing: 0.5 },
+  fwdPeYear: { color: '#94A3B8', fontSize: 13, flex: 1 },
+  fwdPeEPS: { color: '#64748B', fontSize: 13, flex: 1 },
+  fwdPeValue: { fontSize: 15, fontWeight: '700', flex: 1, textAlign: 'right' as const },
 });
