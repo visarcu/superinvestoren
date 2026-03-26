@@ -24,7 +24,7 @@ const RANGES = [
 ] as const;
 type RangeKey = typeof RANGES[number]['label'];
 
-type MainTab = 'overview' | 'earnings' | 'investors' | 'insider' | 'financials';
+type MainTab = 'overview' | 'earnings' | 'investors' | 'insider' | 'financials' | 'valuation' | 'estimates' | 'dividends';
 type FinBarTab = 'revenue' | 'netIncome' | 'fcf';
 type FinDetailTab = 'income' | 'balance' | 'cashflow';
 
@@ -38,6 +38,9 @@ const MAIN_TABS: { key: MainTab; label: string }[] = [
   { key: 'investors', label: 'Investoren' },
   { key: 'insider', label: 'Insider' },
   { key: 'financials', label: 'Finanzen' },
+  { key: 'valuation', label: 'Bewertung' },
+  { key: 'estimates', label: 'Schätzungen' },
+  { key: 'dividends', label: 'Dividende' },
 ];
 
 export default function StockScreen() {
@@ -94,6 +97,18 @@ export default function StockScreen() {
   const [insiderData, setInsiderData] = useState<any[]>([]);
   const [insiderLoading, setInsiderLoading] = useState(false);
 
+  // ─── Valuation tab ───────────────────────────────────────
+  const [valuationData, setValuationData] = useState<any[]>([]);
+  const [valuationLoading, setValuationLoading] = useState(false);
+
+  // ─── Estimates tab ───────────────────────────────────────
+  const [estimatesData, setEstimatesData] = useState<any[]>([]);
+  const [estimatesLoading, setEstimatesLoading] = useState(false);
+
+  // ─── Dividends tab ───────────────────────────────────────
+  const [dividendData, setDividendData] = useState<any>(null);
+  const [dividendLoading, setDividendLoading] = useState(false);
+
   // ─── Load on mount ───────────────────────────────────────
   useEffect(() => {
     loadData();
@@ -110,6 +125,9 @@ export default function StockScreen() {
     if (activeTab === 'earnings') loadEarnings();
     if (activeTab === 'investors') loadInvestors();
     if (activeTab === 'insider') loadInsider();
+    if (activeTab === 'valuation') loadValuation();
+    if (activeTab === 'estimates') loadEstimates();
+    if (activeTab === 'dividends') loadDividends();
   }, [activeTab]);
 
   // ─── Data loaders ────────────────────────────────────────
@@ -255,6 +273,42 @@ export default function StockScreen() {
     finally { setInsiderLoading(false); }
   }
 
+  async function loadValuation() {
+    setValuationLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/key-metrics/${ticker}?period=annual&limit=5`);
+      if (res.ok) {
+        const d = await res.json();
+        setValuationData(Array.isArray(d) ? [...d].reverse() : []);
+      }
+    } catch(e) { console.error(e); }
+    finally { setValuationLoading(false); }
+  }
+
+  async function loadEstimates() {
+    setEstimatesLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/analyst-estimates/${ticker}`);
+      if (res.ok) {
+        const d = await res.json();
+        setEstimatesData(Array.isArray(d) ? d.slice(0, 6) : []);
+      }
+    } catch(e) { console.error(e); }
+    finally { setEstimatesLoading(false); }
+  }
+
+  async function loadDividends() {
+    setDividendLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/dividends/${ticker}`);
+      if (res.ok) {
+        const d = await res.json();
+        setDividendData(d);
+      }
+    } catch(e) { console.error(e); }
+    finally { setDividendLoading(false); }
+  }
+
   async function checkWatchlistState() {
     try {
       const { data: session } = await supabase.auth.getSession();
@@ -340,7 +394,7 @@ export default function StockScreen() {
       <Stack.Screen
         options={{
           title: ticker || '',
-          headerStyle: { backgroundColor: '#0F172A' },
+          headerStyle: { backgroundColor: '#111113' },
           headerTintColor: '#F8FAFC',
           headerRight: () => (
             <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading} style={{ marginRight: 4 }}>
@@ -377,7 +431,7 @@ export default function StockScreen() {
           <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading}
             style={[s.watchlistBtn, inWatchlist && s.watchlistBtnActive]} activeOpacity={0.7}>
             <Ionicons name={inWatchlist ? 'bookmark' : 'bookmark-outline'} size={16}
-              color={inWatchlist ? '#020617' : '#22C55E'} />
+              color={inWatchlist ? '#0a0a0b' : '#22C55E'} />
             <Text style={[s.watchlistBtnText, inWatchlist && s.watchlistBtnTextActive]}>
               {inWatchlist ? 'In Watchlist' : '+ Watchlist'}
             </Text>
@@ -976,6 +1030,183 @@ export default function StockScreen() {
           </View>
         )}
 
+        {/* ════════════════════════════════════════════════
+            TAB: BEWERTUNG
+        ════════════════════════════════════════════════ */}
+        {activeTab === 'valuation' && (
+          <View style={s.tabContent}>
+            {valuationLoading ? (
+              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+            ) : valuationData.length === 0 ? (
+              <View style={s.tabLoading}><Text style={s.noData}>Keine Bewertungsdaten</Text></View>
+            ) : (() => {
+              const years = valuationData.map(r => r.calendarYear || r.date?.slice(0,4) || '');
+              const fields = [
+                { label: 'KGV', key: 'peRatio', isPercent: false },
+                { label: 'KUV', key: 'priceToSalesRatio', isPercent: false },
+                { label: 'KBV', key: 'pbRatio', isPercent: false },
+                { label: 'EV/EBITDA', key: 'enterpriseValueOverEBITDA', isPercent: false },
+                { label: 'EV/Umsatz', key: 'evToSales', isPercent: false },
+                { label: 'FCF-Rendite', key: 'fcfYield', isPercent: true },
+                { label: 'Div.-Rendite', key: 'dividendYield', isPercent: true },
+                { label: 'ROE', key: 'roe', isPercent: true },
+                { label: 'ROIC', key: 'roic', isPercent: true },
+              ];
+              return (
+                <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                  <View>
+                    <View style={s.finTableHeader}>
+                      <Text style={[s.finTableCell, s.finTableLabelCell, s.finTableHeaderText]}>Kennzahl</Text>
+                      {years.map(y => <Text key={y} style={[s.finTableCell, s.finTableHeaderText]}>{y}</Text>)}
+                    </View>
+                    {fields.map((f, fi) => (
+                      <View key={f.key} style={[s.finTableRow, fi % 2 === 0 && s.finTableRowAlt]}>
+                        <Text style={[s.finTableCell, s.finTableLabelCell, s.finTableLabel]}>{f.label}</Text>
+                        {valuationData.map((row, ri) => {
+                          const val = row[f.key];
+                          let display = '—';
+                          if (val !== null && val !== undefined && !isNaN(val)) {
+                            display = f.isPercent ? `${(val * 100).toFixed(1)}%` : val.toFixed(1);
+                          }
+                          return <Text key={ri} style={[s.finTableCell, s.finTableValue]}>{display}</Text>;
+                        })}
+                      </View>
+                    ))}
+                  </View>
+                </ScrollView>
+              );
+            })()}
+          </View>
+        )}
+
+        {/* ════════════════════════════════════════════════
+            TAB: SCHÄTZUNGEN
+        ════════════════════════════════════════════════ */}
+        {activeTab === 'estimates' && (
+          <View style={s.tabContent}>
+            {estimatesLoading ? (
+              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+            ) : estimatesData.length === 0 ? (
+              <View style={s.tabLoading}><Text style={s.noData}>Keine Schätzungen verfügbar</Text></View>
+            ) : (
+              <>
+                <Text style={[s.sectionTitle, { paddingHorizontal: 16, marginBottom: 12 }]}>ANALYSTEN-KONSENSUS</Text>
+                {estimatesData.map((est: any, i: number) => {
+                  const year = est.date?.slice(0, 4) || '—';
+                  const epsAvg = est.estimatedEpsAvg;
+                  const epsLow = est.estimatedEpsLow;
+                  const epsHigh = est.estimatedEpsHigh;
+                  const revAvg = est.estimatedRevenueAvg;
+                  const revLow = est.estimatedRevenueLow;
+                  const revHigh = est.estimatedRevenueHigh;
+                  const analysts = est.numberAnalystsEstimatedEps || est.numberAnalystEstimatedRevenue || '—';
+                  return (
+                    <View key={i} style={s.estimateCard}>
+                      <View style={s.estimateHeader}>
+                        <Text style={s.estimateYear}>{year}</Text>
+                        <Text style={s.estimateAnalysts}>{analysts} Analysten</Text>
+                      </View>
+                      <View style={s.estimateRow}>
+                        <View style={s.estimateItem}>
+                          <Text style={s.estimateLabel}>EPS (erwartet)</Text>
+                          <Text style={s.estimateValue}>{epsAvg != null ? `$${epsAvg.toFixed(2)}` : '—'}</Text>
+                          {epsLow != null && epsHigh != null && (
+                            <Text style={s.estimateRange}>${epsLow.toFixed(2)} – ${epsHigh.toFixed(2)}</Text>
+                          )}
+                        </View>
+                        <View style={s.estimateDivider} />
+                        <View style={s.estimateItem}>
+                          <Text style={s.estimateLabel}>Umsatz (erwartet)</Text>
+                          <Text style={s.estimateValue}>{revAvg != null ? formatBigNumber(revAvg) : '—'}</Text>
+                          {revLow != null && revHigh != null && (
+                            <Text style={s.estimateRange}>{formatBigNumber(revLow)} – {formatBigNumber(revHigh)}</Text>
+                          )}
+                        </View>
+                      </View>
+                    </View>
+                  );
+                })}
+              </>
+            )}
+          </View>
+        )}
+
+        {/* ════════════════════════════════════════════════
+            TAB: DIVIDENDE
+        ════════════════════════════════════════════════ */}
+        {activeTab === 'dividends' && (
+          <View style={s.tabContent}>
+            {dividendLoading ? (
+              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+            ) : !dividendData ? (
+              <View style={s.tabLoading}><Text style={s.noData}>Keine Dividenden-Daten</Text></View>
+            ) : (
+              <>
+                {/* Key metrics */}
+                <View style={s.section}>
+                  <Text style={s.sectionTitle}>DIVIDENDEN-ÜBERSICHT</Text>
+                  <View style={s.metricsGrid}>
+                    <MetricCard label="Dividendenrendite" value={dividendData.currentYield != null ? `${dividendData.currentYield.toFixed(2)}%` : '—'} />
+                    <MetricCard label="TTM je Aktie" value={dividendData.ttmDividendPerShare != null ? `$${dividendData.ttmDividendPerShare.toFixed(2)}` : '—'} />
+                    <MetricCard label="Ausschüttungsquote" value={dividendData.payoutRatio != null ? `${(dividendData.payoutRatio * 100).toFixed(1)}%` : '—'} />
+                    <MetricCard label="Wachstum (5J)" value={dividendData.dividendGrowthRate != null ? `${dividendData.dividendGrowthRate.toFixed(1)}%` : '—'} />
+                    <MetricCard label="Jahre in Folge" value={dividendData.consecutiveYears != null ? `${dividendData.consecutiveYears}` : '—'} />
+                  </View>
+                </View>
+
+                {/* Yearly bar chart */}
+                {dividendData.yearlyDividends && Object.keys(dividendData.yearlyDividends).length > 0 && (() => {
+                  const entries = Object.entries(dividendData.yearlyDividends as Record<string, number>)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .slice(-7);
+                  const barData = entries.map(([year, val]) => ({
+                    value: val || 0.001,
+                    label: year,
+                    frontColor: '#22C55E',
+                    topLabelComponent: () => (
+                      <Text style={s.barTopLabel}>${val.toFixed(2)}</Text>
+                    ),
+                  }));
+                  return (
+                    <View style={s.section}>
+                      <Text style={s.sectionTitle}>JAHRES-DIVIDENDE</Text>
+                      <View style={s.chartCard}>
+                        <BarChart
+                          data={barData}
+                          barWidth={Math.min(36, (SCREEN_WIDTH - 80) / barData.length - 8)}
+                          spacing={Math.min(16, (SCREEN_WIDTH - 80) / barData.length - 20)}
+                          roundedTop hideRules
+                          xAxisColor="rgba(255,255,255,0.08)" yAxisColor="transparent" hideYAxisText
+                          noOfSections={3} barBorderRadius={4}
+                          xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
+                          backgroundColor="transparent" width={SCREEN_WIDTH - 56} height={130} initialSpacing={12}
+                        />
+                      </View>
+                    </View>
+                  );
+                })()}
+
+                {/* Recent history */}
+                {dividendData.history && dividendData.history.length > 0 && (
+                  <View style={s.section}>
+                    <Text style={s.sectionTitle}>VERLAUF</Text>
+                    <View style={s.divHistoryCard}>
+                      {dividendData.history.slice(0, 10).map((d: any, i: number) => (
+                        <View key={i} style={[s.divHistoryRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                          <Text style={s.divHistoryDate}>
+                            {d.date ? new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                          </Text>
+                          <Text style={s.divHistoryAmount}>${Number(d.dividend || d.adjDividend || 0).toFixed(4)}</Text>
+                        </View>
+                      ))}
+                    </View>
+                  </View>
+                )}
+              </>
+            )}
+          </View>
+        )}
+
         <View style={{ height: 40 }} />
       </ScrollView>
     </>
@@ -1032,11 +1263,11 @@ function formatVolume(val?: number): string {
 
 // ─── Styles ──────────────────────────────────────────────────
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
-  scroll: { flex: 1, backgroundColor: '#020617' },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  scroll: { flex: 1, backgroundColor: '#0a0a0b' },
 
   // Price Header
-  priceHeader: { backgroundColor: '#0F172A', padding: 20, borderBottomWidth: 1, borderBottomColor: '#1E293B' },
+  priceHeader: { backgroundColor: '#111113', padding: 20, borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
   priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   priceLeft: { flexDirection: 'row', alignItems: 'center' },
   price: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
@@ -1053,10 +1284,10 @@ const s = StyleSheet.create({
   },
   watchlistBtnActive: { backgroundColor: '#22C55E', borderColor: '#22C55E' },
   watchlistBtnText: { color: '#22C55E', fontWeight: '600', fontSize: 14 },
-  watchlistBtnTextActive: { color: '#020617' },
+  watchlistBtnTextActive: { color: '#0a0a0b' },
 
   // Main Tab Bar
-  mainTabBar: { backgroundColor: '#0F172A', borderBottomWidth: 1, borderBottomColor: '#1E293B' },
+  mainTabBar: { backgroundColor: '#111113', borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
   mainTabBarContent: { paddingHorizontal: 16, paddingVertical: 0, gap: 4 },
   mainTab: { paddingHorizontal: 16, paddingVertical: 13 },
   mainTabActive: { borderBottomWidth: 2, borderBottomColor: '#22C55E' },
@@ -1069,8 +1300,8 @@ const s = StyleSheet.create({
 
   // Chart
   chartCard: {
-    backgroundColor: '#0F172A', marginHorizontal: 16, marginTop: 16,
-    borderRadius: 16, borderWidth: 1, borderColor: '#1E293B', overflow: 'hidden',
+    backgroundColor: '#111113', marginHorizontal: 16, marginTop: 16,
+    borderRadius: 16, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
   },
   chartLoading: { height: 200, alignItems: 'center', justifyContent: 'center' },
   noData: { color: '#475569', fontSize: 13 },
@@ -1085,7 +1316,7 @@ const s = StyleSheet.create({
   rangePicker: {
     flexDirection: 'row', justifyContent: 'space-around',
     paddingHorizontal: 16, paddingVertical: 12,
-    borderTopWidth: 1, borderTopColor: '#1E293B', marginTop: 4,
+    borderTopWidth: 1, borderTopColor: '#1e1e20', marginTop: 4,
   },
   rangeBtn: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8 },
   rangeBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)' },
@@ -1096,12 +1327,12 @@ const s = StyleSheet.create({
   section: { padding: 16 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
   metricsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  descCard: { backgroundColor: '#0F172A', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1E293B' },
+  descCard: { backgroundColor: '#111113', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1e1e20' },
   descText: { color: '#94A3B8', fontSize: 14, lineHeight: 22 },
 
   // Finanzen bar chart
   finTabs: { flexDirection: 'row', gap: 8, marginBottom: 14 },
-  finTab: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#1E293B' },
+  finTab: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#1e1e20' },
   finTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
   finTabText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
   finTabTextActive: { color: '#22C55E' },
@@ -1144,8 +1375,8 @@ const s = StyleSheet.create({
   bearDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#EF4444', marginTop: 6, flexShrink: 0 },
   argText: { color: '#CBD5E1', fontSize: 13, lineHeight: 20, flex: 1 },
   lockedCard: {
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B', padding: 24, alignItems: 'center',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20', padding: 24, alignItems: 'center',
   },
   lockedIconWrap: {
     width: 52, height: 52, borderRadius: 16,
@@ -1155,17 +1386,17 @@ const s = StyleSheet.create({
   lockedTitle: { color: '#F8FAFC', fontSize: 16, fontWeight: '700', marginBottom: 8 },
   lockedDesc: { color: '#64748B', fontSize: 13, lineHeight: 20, textAlign: 'center', marginBottom: 20 },
   blurPreview: { width: '100%', marginBottom: 20, gap: 8, opacity: 0.15 },
-  previewRow: { backgroundColor: '#1E293B', borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 },
-  previewLine: { height: 10, backgroundColor: '#334155', borderRadius: 5 },
+  previewRow: { backgroundColor: '#1e1e20', borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 },
+  previewLine: { height: 10, backgroundColor: '#2c2c2e', borderRadius: 5 },
   upgradeBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
     backgroundColor: '#22C55E', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 13,
   },
-  upgradeBtnText: { color: '#020617', fontSize: 15, fontWeight: '700' },
+  upgradeBtnText: { color: '#0a0a0b', fontSize: 15, fontWeight: '700' },
 
   // Similar stocks
   similarCard: {
-    backgroundColor: '#0F172A', borderRadius: 14, borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20',
     padding: 12, alignItems: 'center', gap: 6, minWidth: 80,
   },
   similarTicker: { color: '#F8FAFC', fontSize: 12, fontWeight: '700' },
@@ -1174,23 +1405,23 @@ const s = StyleSheet.create({
   // Earnings tab
   quarterChip: {
     paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10,
-    borderWidth: 1, borderColor: '#1E293B', backgroundColor: '#0F172A',
+    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
   },
   quarterChipActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
   quarterChipText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
   quarterChipTextActive: { color: '#22C55E' },
   earningsDate: { color: '#475569', fontSize: 12, marginTop: 4 },
   aiSummaryCard: {
-    backgroundColor: '#0F172A', borderRadius: 14, padding: 16,
+    backgroundColor: '#111113', borderRadius: 14, padding: 16,
     borderWidth: 1, borderColor: 'rgba(34,197,94,0.2)',
   },
-  aiSummaryCardLocked: { borderColor: '#1E293B' },
+  aiSummaryCardLocked: { borderColor: '#1e1e20' },
   aiSummaryHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
   aiSummaryTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
   aiSummaryText: { color: '#CBD5E1', fontSize: 13, lineHeight: 21, marginBottom: 8 },
   transcriptCard: {
-    backgroundColor: '#0F172A', borderRadius: 14, padding: 16,
-    borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderRadius: 14, padding: 16,
+    borderWidth: 1, borderColor: '#1e1e20',
   },
   transcriptTitle: { color: '#64748B', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 12 },
   transcriptText: { color: '#94A3B8', fontSize: 13, lineHeight: 20 },
@@ -1199,20 +1430,20 @@ const s = StyleSheet.create({
 
   // Investors tab
   siSummaryRow: {
-    flexDirection: 'row', backgroundColor: '#0F172A', borderRadius: 14,
-    borderWidth: 1, borderColor: '#1E293B', padding: 16,
+    flexDirection: 'row', backgroundColor: '#111113', borderRadius: 14,
+    borderWidth: 1, borderColor: '#1e1e20', padding: 16,
   },
   siSummaryItem: { flex: 1, alignItems: 'center' },
   siSummaryVal: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
   siSummaryLabel: { color: '#475569', fontSize: 11, marginTop: 2 },
   siRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#0F172A', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#1e1e20',
   },
   siAvatar: {
     width: 40, height: 40, borderRadius: 20,
-    backgroundColor: '#1E293B', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center',
   },
   siAvatarText: { color: '#94A3B8', fontSize: 16, fontWeight: '700' },
   siInfo: { flex: 1 },
@@ -1225,8 +1456,8 @@ const s = StyleSheet.create({
   // Insider tab
   insiderRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#0F172A', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#1e1e20',
   },
   insiderBadge: { borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, minWidth: 66, alignItems: 'center' },
   insiderBadgeText: { fontSize: 11, fontWeight: '700', letterSpacing: 0.5 },
@@ -1239,12 +1470,12 @@ const s = StyleSheet.create({
   finDetailTabs: { flexDirection: 'row', gap: 8, marginBottom: 16 },
   finDetailTab: {
     flex: 1, paddingVertical: 10, borderRadius: 10,
-    backgroundColor: '#0F172A', borderWidth: 1, borderColor: '#1E293B', alignItems: 'center',
+    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20', alignItems: 'center',
   },
   finDetailTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
   finDetailTabText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
   finDetailTabTextActive: { color: '#22C55E' },
-  finTableHeader: { flexDirection: 'row', paddingBottom: 8, borderBottomWidth: 1, borderBottomColor: '#1E293B' },
+  finTableHeader: { flexDirection: 'row', paddingBottom: 8, borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
   finTableHeaderText: { color: '#475569', fontSize: 11, fontWeight: '700' },
   finTableRow: { flexDirection: 'row', paddingVertical: 10 },
   finTableRowAlt: { backgroundColor: 'rgba(30,41,59,0.4)' },
@@ -1252,4 +1483,22 @@ const s = StyleSheet.create({
   finTableLabelCell: { width: 130, textAlign: 'left' },
   finTableLabel: { color: '#94A3B8', fontSize: 12 },
   finTableValue: { color: '#F8FAFC', fontSize: 12, fontWeight: '500' },
+
+  // Estimates tab
+  estimateCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', marginHorizontal: 16, marginBottom: 10, padding: 16 },
+  estimateHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
+  estimateYear: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
+  estimateAnalysts: { color: '#64748B', fontSize: 12 },
+  estimateRow: { flexDirection: 'row', alignItems: 'flex-start' },
+  estimateItem: { flex: 1, paddingHorizontal: 4 },
+  estimateDivider: { width: 1, backgroundColor: '#1e1e20', marginHorizontal: 8, alignSelf: 'stretch' },
+  estimateLabel: { color: '#64748B', fontSize: 11, fontWeight: '600', marginBottom: 4 },
+  estimateValue: { color: '#F8FAFC', fontSize: 16, fontWeight: '700', marginBottom: 2 },
+  estimateRange: { color: '#475569', fontSize: 11 },
+
+  // Dividends tab
+  divHistoryCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  divHistoryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
+  divHistoryDate: { color: '#94A3B8', fontSize: 13 },
+  divHistoryAmount: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
 });
