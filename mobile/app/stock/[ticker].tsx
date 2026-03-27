@@ -1081,7 +1081,8 @@ export default function StockScreen() {
             {finLoading ? (
               <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
             ) : (() => {
-              const rows = finDetailTab === 'balance' ? balanceData : finDetailTab === 'cashflow' ? cashFlowData : incomeData;
+              const rawRows = finDetailTab === 'balance' ? balanceData : finDetailTab === 'cashflow' ? cashFlowData : incomeData;
+              const rows = [...rawRows].reverse();
               if (!rows.length) return <View style={s.tabLoading}><Text style={s.noData}>Keine Daten</Text></View>;
 
               const years = rows.map(r => r.calendarYear || r.date?.slice(0, 4) || '');
@@ -1167,7 +1168,8 @@ export default function StockScreen() {
             ) : valuationData.length === 0 ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Bewertungsdaten</Text></View>
             ) : (() => {
-              const years = valuationData.map(r => r.calendarYear || r.date?.slice(0,4) || '');
+              const valuationRows = [...valuationData].reverse();
+              const years = valuationRows.map(r => r.calendarYear || r.date?.slice(0,4) || '');
               const fields = [
                 { label: 'KGV', key: 'peRatio', isPercent: false },
                 { label: 'KUV', key: 'priceToSalesRatio', isPercent: false },
@@ -1189,7 +1191,7 @@ export default function StockScreen() {
                     {fields.map((f, fi) => (
                       <View key={f.key} style={[s.finTableRow, fi % 2 === 0 && s.finTableRowAlt]}>
                         <Text style={[s.finTableCell, s.finTableLabelCell, s.finTableLabel]}>{f.label}</Text>
-                        {valuationData.map((row, ri) => {
+                        {valuationRows.map((row, ri) => {
                           const val = row[f.key];
                           let display = '—';
                           if (val !== null && val !== undefined && !isNaN(val)) {
