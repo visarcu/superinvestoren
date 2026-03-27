@@ -423,6 +423,7 @@ export default function StockScreen() {
       <Stack.Screen
         options={{
           title: ticker || '',
+          headerBackTitle: 'Zurück',
           headerStyle: { backgroundColor: '#111113' },
           headerTintColor: '#F8FAFC',
           headerRight: () => (
@@ -579,32 +580,14 @@ export default function StockScreen() {
               <View style={s.metricsGrid}>
                 <MetricCard label="Marktkapital." value={formatMarketCap(quote?.marketCap)} />
                 <MetricCard label="KGV" value={quote?.pe ? quote.pe.toFixed(1) : '—'} />
-                <MetricCard label="EPS" value={quote?.eps ? `$${quote.eps.toFixed(2)}` : '—'} />
                 <MetricCard label="52W Hoch" value={quote?.yearHigh ? `$${quote.yearHigh.toFixed(2)}` : '—'} />
                 <MetricCard label="52W Tief" value={quote?.yearLow ? `$${quote.yearLow.toFixed(2)}` : '—'} />
                 <MetricCard label="Volumen" value={formatVolume(quote?.volume)} />
                 <MetricCard label="Ø Volumen" value={formatVolume(quote?.avgVolume)} />
                 <MetricCard label="Ø 50 Tage" value={quote?.priceAvg50 ? `$${quote.priceAvg50.toFixed(2)}` : '—'} />
-                {/* Extra metrics from financials */}
                 <MetricCard
                   label="Gewinnmarge"
                   value={latestIncome?.netIncomeRatio ? `${(latestIncome.netIncomeRatio * 100).toFixed(1)}%` : '—'}
-                />
-                <MetricCard
-                  label="EBITDA"
-                  value={latestIncome?.ebitda ? formatBigNumber(latestIncome.ebitda) : '—'}
-                />
-                <MetricCard
-                  label="CapEx"
-                  value={latestCF?.capitalExpenditure ? formatBigNumber(Math.abs(latestCF.capitalExpenditure)) : '—'}
-                />
-                <MetricCard
-                  label="Div. je Aktie"
-                  value={profile?.lastDiv ? `$${Number(profile.lastDiv).toFixed(2)}` : '—'}
-                />
-                <MetricCard
-                  label="Aktien im Umlauf"
-                  value={profile?.sharesOutstanding ? formatBigNumber(profile.sharesOutstanding) : '—'}
                 />
               </View>
             </View>
