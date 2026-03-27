@@ -12,7 +12,11 @@ import StockRow from '../../components/StockRow';
 import StockLogo from '../../components/StockLogo';
 
 const BASE = 'https://finclue.de';
-const MARKET_SYMBOLS = ['SPY', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'GOOGL', 'AMZN', 'META'];
+const MARKET_SYMBOLS = ['SPY', 'QQQ', 'DIA', 'IWM'];
+const POPULAR_SYMBOLS = ['AAPL', 'MSFT', 'NVDA', 'GOOGL', 'AMZN', 'META'];
+const MARKET_NAMES: Record<string, string> = {
+  SPY: 'S&P 500', QQQ: 'Nasdaq 100', DIA: 'Dow Jones', IWM: 'Russell 2000',
+};
 
 interface Sector { sector: string; sectorDE: string; change: number; changeFormatted: string; }
 interface GuruTrade {
@@ -60,6 +64,7 @@ function formatBigValue(v: number): string {
 
 export default function DashboardScreen() {
   const [quotes, setQuotes] = useState<any[]>([]);
+  const [popularQuotes, setPopularQuotes] = useState<any[]>([]);
   const [sectors, setSectors] = useState<Sector[]>([]);
   const [guruTrades, setGuruTrades] = useState<GuruTrade[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,8 +82,9 @@ export default function DashboardScreen() {
 
   async function loadAll() {
     try {
-      const [quotesRes, sectorRes, guruRes] = await Promise.allSettled([
+      const [quotesRes, popularRes, sectorRes, guruRes] = await Promise.allSettled([
         fetch(`${BASE}/api/quotes?symbols=${MARKET_SYMBOLS.join(',')}`),
+        fetch(`${BASE}/api/quotes?symbols=${POPULAR_SYMBOLS.join(',')}`),
         fetch(`${BASE}/api/sector-performance`),
         fetch(`${BASE}/api/guru-trades`),
       ]);
@@ -86,6 +92,10 @@ export default function DashboardScreen() {
       if (quotesRes.status === 'fulfilled' && quotesRes.value.ok) {
         const d = await quotesRes.value.json();
         setQuotes(Array.isArray(d) ? d : []);
+      }
+      if (popularRes.status === 'fulfilled' && popularRes.value.ok) {
+        const d = await popularRes.value.json();
+        setPopularQuotes(Array.isArray(d) ? d : []);
       }
       if (sectorRes.status === 'fulfilled' && sectorRes.value.ok) {
         const d = await sectorRes.value.json();
@@ -198,16 +208,35 @@ export default function DashboardScreen() {
             )}
 
             {/* ── Märkte ───────────────────────────── */}
-            <View style={s.section}>
-              <Text style={s.sectionTitle}>MÄRKTE</Text>
-              <View style={s.listCard}>
-                {quotes.map((q, i) => (
-                  <View key={q.symbol} style={i > 0 ? s.rowBorder : undefined}>
-                    <StockRow quote={q} onPress={() => router.push(`/stock/${q.symbol}`)} />
-                  </View>
-                ))}
+            {quotes.length > 0 && (
+              <View style={s.section}>
+                <Text style={s.sectionTitle}>MÄRKTE</Text>
+                <View style={s.listCard}>
+                  {quotes.map((q, i) => (
+                    <View key={q.symbol} style={i > 0 ? s.rowBorder : undefined}>
+                      <StockRow
+                        quote={{ ...q, name: MARKET_NAMES[q.symbol] || q.name }}
+                        onPress={() => router.push(`/stock/${q.symbol}`)}
+                      />
+                    </View>
+                  ))}
+                </View>
               </View>
-            </View>
+            )}
+
+            {/* ── Beliebte Aktien ───────────────────── */}
+            {popularQuotes.length > 0 && (
+              <View style={s.section}>
+                <Text style={s.sectionTitle}>BELIEBTE AKTIEN</Text>
+                <View style={s.listCard}>
+                  {popularQuotes.map((q, i) => (
+                    <View key={q.symbol} style={i > 0 ? s.rowBorder : undefined}>
+                      <StockRow quote={q} onPress={() => router.push(`/stock/${q.symbol}`)} />
+                    </View>
+                  ))}
+                </View>
+              </View>
+            )}
 
             {/* ── Guru-Trades ──────────────────────── */}
             {guruTrades.length > 0 && (

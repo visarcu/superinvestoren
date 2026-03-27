@@ -28,7 +28,7 @@ export async function getCompanyProfile(ticker: string) {
 
 // Search
 export async function searchStocks(query: string) {
-  return apiFetch(`/api/search?q=${encodeURIComponent(query)}`);
+  return apiFetch(`/api/search?query=${encodeURIComponent(query)}`);
 }
 
 // Watchlist (authenticated)
