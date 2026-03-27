@@ -385,6 +385,26 @@ async function handleWeeklyEarnings() {
 
         console.log(`[Weekly Earnings] 📧 Email sent to ${user.email} with ${userEarnings.length} earnings`)
 
+        // Send push notification
+        try {
+          const secret = process.env.INTERNAL_API_SECRET
+          if (secret) {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
+            const symbols = userEarnings.slice(0, 3).map((e: any) => e.symbol).join(', ')
+            const more = userEarnings.length > 3 ? ` +${userEarnings.length - 3} weitere` : ''
+            await fetch(`${baseUrl}/api/notifications/push`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
+              body: JSON.stringify({
+                userIds: [userId],
+                title: '📅 Earnings diese Woche',
+                body: `${symbols}${more} veröffentlichen Quartalszahlen`,
+                data: { screen: 'watchlist' }
+              }),
+            })
+          }
+        } catch (e) { console.error('[Weekly Earnings] Push error:', e) }
+
         // Log to notification_log
         await supabase.from('notification_log').insert({
           user_id: userId,

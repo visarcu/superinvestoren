@@ -157,18 +157,35 @@ async function handleEarningsCheck() {
           .maybeSingle()
 
         if (!existing) {
+          const title = `${earning.symbol} Earnings in ${daysUntil} Tag${daysUntil !== 1 ? 'en' : ''}`
+          const message = `${earning.symbol} veröffentlicht am ${earningsDate.toLocaleDateString('de-DE')} Quartalszahlen`
+
           // Create in-app notification
           await supabase.from('notifications').insert({
             user_id: userId,
             type: 'earnings_alert',
-            title: `${earning.symbol} Earnings in ${daysUntil} Tag${daysUntil !== 1 ? 'en' : ''}`,
-            message: `${earning.symbol} veröffentlicht am ${earningsDate.toLocaleDateString('de-DE')} Quartalszahlen`,
+            title,
+            message,
             data: { symbol: earning.symbol, date: earning.date, daysUntil },
             href: `/analyse/stocks/${earning.symbol.toLowerCase()}/earnings`,
             read: false
           })
+
+          // Send push notification
+          try {
+            const secret = process.env.INTERNAL_API_SECRET
+            if (secret) {
+              const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
+              await fetch(`${baseUrl}/api/notifications/push`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
+                body: JSON.stringify({ userIds: [userId], title, body: message, data: { ticker: earning.symbol } }),
+              })
+            }
+          } catch (e) { console.error('[Earnings Cron] Push error:', e) }
+
           notificationsCreated++
-          console.log(`[Earnings Cron] ✅ Created in-app notification for ${earning.symbol} (${daysUntil} days) - User ${userId}`)
+          console.log(`[Earnings Cron] ✅ Created in-app + push notification for ${earning.symbol} (${daysUntil} days) - User ${userId}`)
         }
       }
     }

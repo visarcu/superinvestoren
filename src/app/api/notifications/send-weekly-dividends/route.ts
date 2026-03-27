@@ -424,6 +424,28 @@ async function handleWeeklyDividends() {
 
         console.log(`[Weekly Dividends] 📧 Email sent to ${user.email} — ${userDividends.length} dividends, ${formatCurrency(totalBrutto)}`)
 
+        // Send push notification
+        try {
+          const secret = process.env.INTERNAL_API_SECRET
+          if (secret) {
+            const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
+            const symbols = userDividends.map(d => d.symbol).join(', ')
+            const pushBody = userDividends.length === 1
+              ? `${symbols} zahlt ${formatCurrency(totalBrutto)} diese Woche`
+              : `${userDividends.length} Dividenden diese Woche · ${formatCurrency(totalBrutto)} gesamt`
+            await fetch(`${baseUrl}/api/notifications/push`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
+              body: JSON.stringify({
+                userIds: [userId],
+                title: '💰 Dividenden diese Woche',
+                body: pushBody,
+                data: { screen: 'portfolio' }
+              }),
+            })
+          }
+        } catch (e) { console.error('[Weekly Dividends] Push error:', e) }
+
         await supabase.from('notification_log').insert({
           user_id: userId,
           notification_type: 'weekly_dividend_digest',
