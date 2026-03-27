@@ -22,6 +22,7 @@ const RANGES = [
   { label: '6M', days: 180 },
   { label: '1J', days: 365 },
   { label: '5J', days: 1825 },
+  { label: 'Max', days: 36500 },
 ] as const;
 type RangeKey = typeof RANGES[number]['label'];
 
@@ -1441,6 +1442,7 @@ const RANGE_LABELS: Record<RangeKey, string> = {
   '6M': 'in den letzten 6 Monaten',
   '1J': 'im letzten Jahr',
   '5J': 'in den letzten 5 Jahren',
+  'Max': 'seit Beginn',
 };
 
 function formatPrice(val: number): string {
