@@ -7,6 +7,7 @@ import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { LineChart, BarChart } from 'react-native-gifted-charts';
+import { WebView } from 'react-native-webview';
 import { supabase, checkIsPremium } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
@@ -70,6 +71,9 @@ export default function StockScreen() {
   const [finLoading, setFinLoading] = useState(true);
   const [finBarTab, setFinBarTab] = useState<FinBarTab>('revenue');
   const [finDetailTab, setFinDetailTab] = useState<FinDetailTab>('income');
+
+  // ─── Chart mode ──────────────────────────────────────────
+  const [chartMode, setChartMode] = useState<'simple' | 'tradingview'>('simple');
 
   // ─── Similar stocks ─────────────────────────────────────
   const [similarStocks, setSimilarStocks] = useState<any[]>([]);
@@ -480,7 +484,39 @@ export default function StockScreen() {
           <>
             {/* Chart */}
             <View style={s.chartCard}>
-              {chartLoading ? (
+              {/* Chart mode toggle */}
+              <View style={s.chartModeToggle}>
+                <TouchableOpacity
+                  style={[s.chartModeBtn, chartMode === 'simple' && s.chartModeBtnActive]}
+                  onPress={() => setChartMode('simple')}
+                >
+                  <Text style={[s.chartModeBtnText, chartMode === 'simple' && s.chartModeBtnTextActive]}>Einfach</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[s.chartModeBtn, chartMode === 'tradingview' && s.chartModeBtnActive]}
+                  onPress={() => setChartMode('tradingview')}
+                >
+                  <Text style={[s.chartModeBtnText, chartMode === 'tradingview' && s.chartModeBtnTextActive]}>TradingView</Text>
+                </TouchableOpacity>
+              </View>
+
+              {chartMode === 'tradingview' ? (
+                <View style={s.tvContainer}>
+                  <WebView
+                    source={{ html: `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"><style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#0a0a0b;overflow:hidden;}</style></head><body><div id="tv" style="width:100%;height:100vh;"></div><script src="https://s3.tradingview.com/tv.js"></script><script>new TradingView.widget({autosize:true,symbol:"${ticker}",interval:"D",timezone:"Europe/Berlin",theme:"dark",style:"1",locale:"de",toolbar_bg:"#111113",enable_publishing:false,hide_side_toolbar:true,allow_symbol_change:false,save_image:false,container_id:"tv"});</script></body></html>` }}
+                    style={s.tvWebView}
+                    javaScriptEnabled
+                    domStorageEnabled
+                    startInLoadingState
+                    renderLoading={() => (
+                      <View style={s.tvLoading}>
+                        <ActivityIndicator color="#22C55E" size="small" />
+                        <Text style={{ color: '#475569', fontSize: 12, marginTop: 8 }}>TradingView lädt...</Text>
+                      </View>
+                    )}
+                  />
+                </View>
+              ) : chartLoading ? (
                 <View style={s.chartLoading}><ActivityIndicator color="#22C55E" size="small" /></View>
               ) : chart && chartPoints.length > 1 ? (
                 <>
@@ -1436,6 +1472,16 @@ const s = StyleSheet.create({
   tabLoading: { height: 200, alignItems: 'center', justifyContent: 'center' },
 
   // Chart
+  // Chart mode toggle
+  chartModeToggle: { flexDirection: 'row', backgroundColor: '#111113', borderRadius: 10, padding: 3, marginHorizontal: 16, marginBottom: 12, marginTop: 4 },
+  chartModeBtn: { flex: 1, paddingVertical: 7, alignItems: 'center', borderRadius: 8 },
+  chartModeBtnActive: { backgroundColor: '#1e1e20' },
+  chartModeBtnText: { color: '#475569', fontSize: 13, fontWeight: '500' },
+  chartModeBtnTextActive: { color: '#F8FAFC', fontWeight: '600' },
+  tvContainer: { height: 380, marginHorizontal: 0, borderRadius: 0, overflow: 'hidden' },
+  tvWebView: { flex: 1, backgroundColor: '#0a0a0b' },
+  tvLoading: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0a0a0b' },
+
   chartCard: {
     backgroundColor: '#111113', marginHorizontal: 16, marginTop: 16,
     borderRadius: 16, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
