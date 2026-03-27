@@ -40,12 +40,15 @@ export async function registerForPushNotifications(): Promise<string | null> {
     });
   }
 
-  const tokenData = await Notifications.getExpoPushTokenAsync();
-  const token = tokenData.data;
-  console.log('[Push] Token:', token);
-
-  await saveDeviceToken(token);
-  return token;
+  try {
+    const tokenData = await Notifications.getExpoPushTokenAsync();
+    const token = tokenData.data;
+    await saveDeviceToken(token);
+    return token;
+  } catch (e) {
+    // Expo Go doesn't support push tokens without a projectId — skip silently
+    return null;
+  }
 }
 
 async function saveDeviceToken(token: string) {
