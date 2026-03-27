@@ -1339,70 +1339,77 @@ export default function StockScreen() {
               <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
             ) : !dividendData ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Dividenden-Daten</Text></View>
-            ) : (
-              <>
-                {/* Key metrics */}
-                <View style={s.section}>
-                  <Text style={s.sectionTitle}>DIVIDENDEN-ÜBERSICHT</Text>
-                  <View style={s.metricsGrid}>
-                    <MetricCard label="Dividendenrendite" value={dividendData.currentYield != null ? `${dividendData.currentYield.toFixed(2)}%` : '—'} />
-                    <MetricCard label="TTM je Aktie" value={dividendData.ttmDividendPerShare != null ? `$${dividendData.ttmDividendPerShare.toFixed(2)}` : '—'} />
-                    <MetricCard label="Ausschüttungsquote" value={dividendData.payoutRatio != null ? `${(dividendData.payoutRatio * 100).toFixed(1)}%` : '—'} />
-                    <MetricCard label="Wachstum (5J)" value={dividendData.dividendGrowthRate != null ? `${dividendData.dividendGrowthRate.toFixed(1)}%` : '—'} />
-                    <MetricCard label="Jahre in Folge" value={dividendData.consecutiveYears != null ? `${dividendData.consecutiveYears}` : '—'} />
+            ) : (() => {
+              const ci = dividendData.currentInfo;
+              const yearlyData = dividendData.historical as Record<string, number> | null;
+              const quarterly = dividendData.quarterlyHistory as any[] | null;
+              const growthRate = ci?.dividendGrowthRate;
+              return (
+                <>
+                  {/* Key metrics */}
+                  <View style={s.section}>
+                    <Text style={s.sectionTitle}>DIVIDENDEN-ÜBERSICHT</Text>
+                    <View style={s.metricsGrid}>
+                      <MetricCard label="Dividendenrendite" value={ci?.currentYield ? `${(ci.currentYield * 100).toFixed(2)}%` : '—'} />
+                      <MetricCard label="TTM je Aktie" value={ci?.dividendPerShareTTM ? `$${ci.dividendPerShareTTM.toFixed(2)}` : '—'} />
+                      <MetricCard label="Ausschüttungsquote" value={ci?.payoutRatio ? `${(ci.payoutRatio * 100).toFixed(1)}%` : '—'} />
+                      <MetricCard label="Wachstum (Ø)" value={growthRate != null ? `${growthRate.toFixed(1)}%` : '—'} />
+                      <MetricCard label="Qualität" value={ci?.dividendQuality?.category ?? '—'} />
+                    </View>
                   </View>
-                </View>
 
-                {/* Yearly bar chart */}
-                {dividendData.yearlyDividends && Object.keys(dividendData.yearlyDividends).length > 0 && (() => {
-                  const entries = Object.entries(dividendData.yearlyDividends as Record<string, number>)
-                    .sort(([a], [b]) => a.localeCompare(b))
-                    .slice(-7);
-                  const barData = entries.map(([year, val]) => ({
-                    value: val || 0.001,
-                    label: year,
-                    frontColor: '#22C55E',
-                    topLabelComponent: () => (
-                      <Text style={s.barTopLabel}>${val.toFixed(2)}</Text>
-                    ),
-                  }));
-                  return (
+                  {/* Yearly bar chart */}
+                  {yearlyData && Object.keys(yearlyData).length > 0 && (() => {
+                    const entries = Object.entries(yearlyData)
+                      .filter(([, v]) => v > 0)
+                      .sort(([a], [b]) => a.localeCompare(b))
+                      .slice(-10);
+                    const barData = entries.map(([year, val]) => ({
+                      value: val || 0.001,
+                      label: year.slice(2),
+                      frontColor: '#22C55E',
+                      topLabelComponent: () => (
+                        <Text style={s.barTopLabel}>${val.toFixed(2)}</Text>
+                      ),
+                    }));
+                    return (
+                      <View style={s.section}>
+                        <Text style={s.sectionTitle}>JAHRES-DIVIDENDE JE AKTIE</Text>
+                        <View style={s.chartCard}>
+                          <BarChart
+                            data={barData}
+                            barWidth={Math.min(32, (SCREEN_WIDTH - 80) / barData.length - 6)}
+                            spacing={Math.min(12, (SCREEN_WIDTH - 80) / barData.length - 18)}
+                            roundedTop hideRules
+                            xAxisColor="rgba(255,255,255,0.08)" yAxisColor="transparent" hideYAxisText
+                            noOfSections={3} barBorderRadius={4}
+                            xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
+                            backgroundColor="transparent" width={SCREEN_WIDTH - 56} height={130} initialSpacing={12}
+                          />
+                        </View>
+                      </View>
+                    );
+                  })()}
+
+                  {/* Quarterly history */}
+                  {quarterly && quarterly.length > 0 && (
                     <View style={s.section}>
-                      <Text style={s.sectionTitle}>JAHRES-DIVIDENDE</Text>
-                      <View style={s.chartCard}>
-                        <BarChart
-                          data={barData}
-                          barWidth={Math.min(36, (SCREEN_WIDTH - 80) / barData.length - 8)}
-                          spacing={Math.min(16, (SCREEN_WIDTH - 80) / barData.length - 20)}
-                          roundedTop hideRules
-                          xAxisColor="rgba(255,255,255,0.08)" yAxisColor="transparent" hideYAxisText
-                          noOfSections={3} barBorderRadius={4}
-                          xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
-                          backgroundColor="transparent" width={SCREEN_WIDTH - 56} height={130} initialSpacing={12}
-                        />
+                      <Text style={s.sectionTitle}>QUARTALSVERLAUF</Text>
+                      <View style={s.divHistoryCard}>
+                        {quarterly.slice(0, 12).map((d: any, i: number) => (
+                          <View key={i} style={[s.divHistoryRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                            <Text style={s.divHistoryDate}>
+                              {d.date ? new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
+                            </Text>
+                            <Text style={s.divHistoryAmount}>${Number(d.amount || d.dividend || d.adjDividend || 0).toFixed(4)}</Text>
+                          </View>
+                        ))}
                       </View>
                     </View>
-                  );
-                })()}
-
-                {/* Recent history */}
-                {dividendData.history && dividendData.history.length > 0 && (
-                  <View style={s.section}>
-                    <Text style={s.sectionTitle}>VERLAUF</Text>
-                    <View style={s.divHistoryCard}>
-                      {dividendData.history.slice(0, 10).map((d: any, i: number) => (
-                        <View key={i} style={[s.divHistoryRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
-                          <Text style={s.divHistoryDate}>
-                            {d.date ? new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
-                          </Text>
-                          <Text style={s.divHistoryAmount}>${Number(d.dividend || d.adjDividend || 0).toFixed(4)}</Text>
-                        </View>
-                      ))}
-                    </View>
-                  </View>
-                )}
-              </>
-            )}
+                  )}
+                </>
+              );
+            })()}
           </View>
         )}
 
