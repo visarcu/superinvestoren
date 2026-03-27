@@ -26,7 +26,7 @@ const RANGES = [
 type RangeKey = typeof RANGES[number]['label'];
 
 type MainTab = 'overview' | 'earnings' | 'investors' | 'insider' | 'financials' | 'valuation' | 'estimates' | 'dividends';
-type FinBarTab = 'revenue' | 'netIncome' | 'fcf';
+type FinBarTab = 'revenue' | 'netIncome' | 'fcf' | 'ebitda' | 'eps' | 'capex' | 'dividends' | 'shares';
 type FinDetailTab = 'income' | 'balance' | 'cashflow';
 
 interface HistoricalPoint { date: string; close: number; }
@@ -612,41 +612,82 @@ export default function StockScreen() {
             {/* Finanzkennzahlen (Bar chart) */}
             <View style={s.section}>
               <Text style={s.sectionTitle}>FINANZKENNZAHLEN</Text>
-              <View style={s.finTabs}>
-                {([
-                  { key: 'revenue', label: 'Umsatz' },
-                  { key: 'netIncome', label: 'Gewinn' },
-                  { key: 'fcf', label: 'Free Cashflow' },
-                ] as { key: FinBarTab; label: string }[]).map(t => (
-                  <TouchableOpacity key={t.key} onPress={() => setFinBarTab(t.key)}
-                    style={[s.finTab, finBarTab === t.key && s.finTabActive]}>
-                    <Text style={[s.finTabText, finBarTab === t.key && s.finTabTextActive]}>{t.label}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
+              <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+                <View style={s.finTabs}>
+                  {([
+                    { key: 'revenue',   label: 'Umsatz' },
+                    { key: 'ebitda',    label: 'EBITDA' },
+                    { key: 'netIncome', label: 'Gewinn' },
+                    { key: 'eps',       label: 'EPS' },
+                    { key: 'fcf',       label: 'Free Cashflow' },
+                    { key: 'capex',     label: 'CapEx' },
+                    { key: 'dividends', label: 'Dividenden' },
+                    { key: 'shares',    label: 'Aktien im Umlauf' },
+                  ] as { key: FinBarTab; label: string }[]).map(t => (
+                    <TouchableOpacity key={t.key} onPress={() => setFinBarTab(t.key)}
+                      style={[s.finTab, finBarTab === t.key && s.finTabActive]}>
+                      <Text style={[s.finTabText, finBarTab === t.key && s.finTabTextActive]}>{t.label}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </ScrollView>
               {finLoading ? (
                 <View style={s.finLoading}><ActivityIndicator color="#22C55E" size="small" /></View>
               ) : (() => {
-                const rows = finBarTab === 'fcf' ? cashFlowData : incomeData;
-                const field = finBarTab === 'revenue' ? 'revenue' : finBarTab === 'netIncome' ? 'netIncome' : 'freeCashFlow';
+                // Determine data source and field
+                const isCashflowTab = finBarTab === 'fcf' || finBarTab === 'capex' || finBarTab === 'dividends';
+                const rows = isCashflowTab ? cashFlowData : incomeData;
+                const fieldMap: Record<FinBarTab, string> = {
+                  revenue: 'revenue',
+                  netIncome: 'netIncome',
+                  fcf: 'freeCashFlow',
+                  ebitda: 'ebitda',
+                  eps: 'eps',
+                  capex: 'capitalExpenditure',
+                  dividends: 'dividendsPaid',
+                  shares: 'weightedAverageShsOut',
+                };
+                const field = fieldMap[finBarTab];
+                const isEps = finBarTab === 'eps';
+                const isShares = finBarTab === 'shares';
+                // EPS and shares use different scale
+                const scale = isEps || isShares ? 1 : 1e9;
+                const useAbsValue = finBarTab === 'capex' || finBarTab === 'dividends';
+
                 if (!rows.length) return <View style={s.finLoading}><Text style={s.noData}>Keine Daten</Text></View>;
+
                 const barData = rows.map(row => {
-                  const val = (row[field] || 0) / 1e9;
-                  const isNeg = val < 0;
+                  const rawVal = row[field] ?? 0;
+                  const val = useAbsValue ? Math.abs(rawVal) / scale : rawVal / scale;
+                  const isNeg = !useAbsValue && val < 0;
+                  const displayVal = Math.abs(val);
                   return {
-                    value: Math.abs(val) || 0.01,
+                    value: displayVal || 0.001,
                     label: row.calendarYear || row.date?.slice(0, 4) || '',
                     frontColor: isNeg ? '#EF4444' : '#22C55E',
                     topLabelComponent: () => (
-                      <Text style={s.barTopLabel}>{isNeg ? '-' : ''}{Math.abs(val) >= 100 ? val.toFixed(0) : val.toFixed(1)}</Text>
+                      <Text style={s.barTopLabel}>
+                        {isNeg ? '-' : ''}
+                        {isEps ? `$${displayVal.toFixed(2)}` : isShares ? formatBigNumber(displayVal * 1e9) : (displayVal >= 100 ? displayVal.toFixed(0) : displayVal.toFixed(1))}
+                      </Text>
                     ),
                   };
                 });
+
                 const latestRow = rows[rows.length - 1];
                 const prevRow = rows[rows.length - 2];
-                const latestVal = (latestRow?.[field] || 0) / 1e9;
-                const prevVal = (prevRow?.[field] || 0) / 1e9;
+                const latestRaw = latestRow?.[field] ?? 0;
+                const prevRaw = prevRow?.[field] ?? 0;
+                const latestVal = useAbsValue ? Math.abs(latestRaw) / scale : latestRaw / scale;
+                const prevVal = useAbsValue ? Math.abs(prevRaw) / scale : prevRaw / scale;
                 const yoyPct = prevVal !== 0 ? ((latestVal - prevVal) / Math.abs(prevVal)) * 100 : null;
+
+                const latestDisplay = isEps
+                  ? `$${latestVal.toFixed(2)}`
+                  : isShares
+                    ? formatBigNumber(latestVal * 1e9)
+                    : `${latestVal < 0 ? '-' : ''}${formatBigNumber(Math.abs(latestVal * 1e9))}`;
+
                 return (
                   <>
                     <BarChart
@@ -662,7 +703,7 @@ export default function StockScreen() {
                     <View style={s.finSummaryRow}>
                       <Text style={s.finSummaryLabel}>
                         {latestRow?.calendarYear || latestRow?.date?.slice(0, 4)}: {' '}
-                        <Text style={s.finSummaryValue}>{latestVal < 0 ? '-' : ''}{formatBigNumber(Math.abs(latestVal * 1e9))}</Text>
+                        <Text style={s.finSummaryValue}>{latestDisplay}</Text>
                       </Text>
                       {yoyPct !== null && (
                         <Text style={[s.finSummaryPct, { color: yoyPct >= 0 ? '#22C55E' : '#EF4444' }]}>
