@@ -33,15 +33,15 @@ interface HistoricalPoint { date: string; close: number; }
 interface BullBear { id: string; text: string; category: string; }
 interface Transcript { symbol: string; quarter: number; year: number; date: string; content: string; }
 
-const MAIN_TABS: { key: MainTab; label: string }[] = [
-  { key: 'overview', label: 'Übersicht' },
-  { key: 'earnings', label: 'Quartal' },
-  { key: 'investors', label: 'Investoren' },
-  { key: 'insider', label: 'Insider' },
+const ALL_TABS: { key: MainTab; label: string; etfOnly?: boolean; hideForEtf?: boolean }[] = [
+  { key: 'overview',   label: 'Übersicht' },
+  { key: 'earnings',   label: 'Quartal',     hideForEtf: true },
+  { key: 'investors',  label: 'Investoren' },
+  { key: 'insider',    label: 'Insider',     hideForEtf: true },
   { key: 'financials', label: 'Finanzen' },
-  { key: 'valuation', label: 'Bewertung' },
-  { key: 'estimates', label: 'Schätzungen' },
-  { key: 'dividends', label: 'Dividende' },
+  { key: 'valuation',  label: 'Bewertung' },
+  { key: 'estimates',  label: 'Schätzungen', hideForEtf: true },
+  { key: 'dividends',  label: 'Dividende' },
 ];
 
 export default function StockScreen() {
@@ -418,6 +418,9 @@ export default function StockScreen() {
   const latestIncome = incomeData[incomeData.length - 1];
   const latestCF = cashFlowData[cashFlowData.length - 1];
 
+  const isEtf = !!profile?.isEtf;
+  const MAIN_TABS = ALL_TABS.filter(t => !(isEtf && t.hideForEtf));
+
   return (
     <>
       <Stack.Screen
@@ -714,8 +717,8 @@ export default function StockScreen() {
               </View>
             )}
 
-            {/* AI Bulls & Bears */}
-            <View style={s.section}>
+            {/* AI Bulls & Bears — nicht für ETFs */}
+            {!isEtf && <View style={s.section}>
               <View style={s.aiHeader}>
                 <View style={s.aiTitleRow}>
                   <View style={s.aiBadge}><Text style={s.aiBadgeText}>AI</Text></View>
@@ -778,12 +781,24 @@ export default function StockScreen() {
                   </TouchableOpacity>
                 </View>
               )}
-            </View>
+            </View>}
+
+            {/* ETF Infos */}
+            {isEtf && profile?.expenseRatio != null && (
+              <View style={s.section}>
+                <Text style={s.sectionTitle}>ETF-DETAILS</Text>
+                <View style={s.metricsGrid}>
+                  <MetricCard label="TER" value={`${(profile.expenseRatio * 100).toFixed(2)}%`} />
+                  {profile?.etfProvider ? <MetricCard label="Anbieter" value={profile.etfProvider} /> : null}
+                  {profile?.aum ? <MetricCard label="Volumen (AUM)" value={`$${(profile.aum / 1e9).toFixed(1)} Mrd.`} /> : null}
+                </View>
+              </View>
+            )}
 
             {/* Beschreibung */}
             {profile?.description ? (
               <View style={s.section}>
-                <Text style={s.sectionTitle}>ÜBER DAS UNTERNEHMEN</Text>
+                <Text style={s.sectionTitle}>{isEtf ? 'ÜBER DEN ETF' : 'ÜBER DAS UNTERNEHMEN'}</Text>
                 <View style={s.descCard}>
                   <Text style={s.descText} numberOfLines={6}>{profile.description}</Text>
                 </View>
