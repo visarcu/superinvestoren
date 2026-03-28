@@ -25,7 +25,7 @@ export default function StockRow({ quote, onPress }: Props) {
 }
 
 const s = StyleSheet.create({
-  row: { backgroundColor: '#0F172A', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
+  row: { backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
   logoWrap: { marginRight: 12 },
   info: { flex: 1 },
   symbol: { color: '#F8FAFC', fontWeight: '600', fontSize: 14 },

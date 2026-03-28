@@ -15,7 +15,7 @@ export default function MetricCard({ label, value }: Props) {
 }
 
 const s = StyleSheet.create({
-  card: { backgroundColor: '#0F172A', borderRadius: 12, padding: 12, width: '48%', borderWidth: 1, borderColor: '#1E293B' },
+  card: { backgroundColor: '#111113', borderRadius: 12, padding: 12, width: '48%', borderWidth: 1, borderColor: '#1e1e20' },
   label: { color: '#475569', fontSize: 11, marginBottom: 4 },
   value: { color: '#F8FAFC', fontWeight: '600', fontSize: 14 },
 });

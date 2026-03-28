@@ -43,10 +43,18 @@
           "image": "./assets/splash.png",
           "imageWidth": 200
         }
-      ]
+      ],
+      "expo-asset",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ce42e19f-edb6-4f85-a93b-87a1ec42d03c"
+      }
+    },
+    "owner": "visarcus-organization"
   }
 }

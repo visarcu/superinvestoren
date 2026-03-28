@@ -8,9 +8,9 @@ interface Props {
 }
 
 export default function FinclueIcon({ size = 64, variant = 'dark' }: Props) {
-  const bg = variant === 'dark' ? '#0F172A' : '#ffffff';
+  const bg = variant === 'dark' ? '#111113' : '#ffffff';
   const sq = variant === 'dark' ? '#ffffff' : '#1a1a1a';
-  const border = variant === 'dark' ? '#1E293B' : 'transparent';
+  const border = variant === 'dark' ? '#1e1e20' : 'transparent';
 
   return (
     <Svg width={size} height={size} viewBox="0 0 100 100">

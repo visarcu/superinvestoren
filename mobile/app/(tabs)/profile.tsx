@@ -311,7 +311,7 @@ function Divider() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
 
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 },
   pageTitle: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
@@ -320,8 +320,8 @@ const s = StyleSheet.create({
   avatarSection: {
     flexDirection: 'row', alignItems: 'center',
     marginHorizontal: 16, marginVertical: 16,
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20',
     padding: 16, gap: 14,
   },
   avatar: {
@@ -329,7 +329,7 @@ const s = StyleSheet.create({
     backgroundColor: '#22C55E',
     alignItems: 'center', justifyContent: 'center',
   },
-  avatarLetter: { color: '#020617', fontSize: 24, fontWeight: '700' },
+  avatarLetter: { color: '#0a0a0b', fontSize: 24, fontWeight: '700' },
   avatarInfo: { flex: 1, gap: 3 },
   displayName: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
   emailText: { color: '#64748B', fontSize: 13 },
@@ -344,7 +344,7 @@ const s = StyleSheet.create({
   premiumBadgeText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
   freeBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#1E293B', borderRadius: 6,
+    backgroundColor: '#1e1e20', borderRadius: 6,
     paddingHorizontal: 7, paddingVertical: 3, marginTop: 2,
   },
   freeBadgeText: { color: '#64748B', fontSize: 11, fontWeight: '600' },
@@ -358,14 +358,14 @@ const s = StyleSheet.create({
   // Edit form
   editCard: {
     marginHorizontal: 16, marginBottom: 8,
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20',
     padding: 16, gap: 8,
   },
   editLabel: { color: '#64748B', fontSize: 12, fontWeight: '600', marginBottom: 2 },
   editInput: {
-    backgroundColor: '#020617', borderRadius: 10,
-    borderWidth: 1, borderColor: '#1E293B',
+    backgroundColor: '#0a0a0b', borderRadius: 10,
+    borderWidth: 1, borderColor: '#1e1e20',
     paddingHorizontal: 14, paddingVertical: 10,
     color: '#F8FAFC', fontSize: 14, marginBottom: 4,
   },
@@ -374,14 +374,14 @@ const s = StyleSheet.create({
     paddingVertical: 12, alignItems: 'center',
     marginTop: 4,
   },
-  saveBtnText: { color: '#020617', fontSize: 14, fontWeight: '700' },
+  saveBtnText: { color: '#0a0a0b', fontSize: 14, fontWeight: '700' },
 
   // Sections
   section: { paddingHorizontal: 16, marginBottom: 8 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
   card: {
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B', overflow: 'hidden',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
   },
 
   // Rows
@@ -390,7 +390,7 @@ const s = StyleSheet.create({
   rowLabel: { color: '#F8FAFC', fontSize: 14, flex: 1 },
   rowRight: { flexDirection: 'row', alignItems: 'center' },
   rowValue: { color: '#64748B', fontSize: 13, maxWidth: 160 },
-  divider: { height: 1, backgroundColor: '#1E293B', marginLeft: 46 },
+  divider: { height: 1, backgroundColor: '#1e1e20', marginLeft: 46 },
 
   // Premium upgrade
   upgradeCard: {
@@ -405,7 +405,7 @@ const s = StyleSheet.create({
     backgroundColor: '#22C55E', borderRadius: 12,
     paddingVertical: 12,
   },
-  upgradBtnText: { color: '#020617', fontSize: 14, fontWeight: '700' },
+  upgradBtnText: { color: '#0a0a0b', fontSize: 14, fontWeight: '700' },
 
   // Sign out
   signOutBtn: {

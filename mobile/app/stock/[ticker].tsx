@@ -26,7 +26,7 @@ const RANGES = [
 ] as const;
 type RangeKey = typeof RANGES[number]['label'];
 
-type MainTab = 'overview' | 'earnings' | 'investors' | 'insider' | 'financials' | 'valuation' | 'estimates' | 'dividends';
+type MainTab = 'overview' | 'earnings' | 'investors' | 'insider' | 'financials' | 'holdings' | 'valuation' | 'estimates' | 'dividends';
 type FinBarTab = 'revenue' | 'netIncome' | 'fcf' | 'ebitda' | 'eps' | 'capex' | 'dividends' | 'shares';
 type FinDetailTab = 'income' | 'balance' | 'cashflow';
 
@@ -39,8 +39,9 @@ const ALL_TABS: { key: MainTab; label: string; etfOnly?: boolean; hideForEtf?: b
   { key: 'earnings',   label: 'Quartal',     hideForEtf: true },
   { key: 'investors',  label: 'Investoren' },
   { key: 'insider',    label: 'Insider',     hideForEtf: true },
-  { key: 'financials', label: 'Finanzen' },
-  { key: 'valuation',  label: 'Bewertung' },
+  { key: 'financials', label: 'Finanzen',    hideForEtf: true },
+  { key: 'holdings',   label: 'Holdings',    etfOnly: true },
+  { key: 'valuation',  label: 'Bewertung',   hideForEtf: true },
   { key: 'estimates',  label: 'Schätzungen', hideForEtf: true },
   { key: 'dividends',  label: 'Dividende' },
 ];
@@ -113,10 +114,16 @@ export default function StockScreen() {
   // ─── Estimates tab ───────────────────────────────────────
   const [estimatesData, setEstimatesData] = useState<any[]>([]);
   const [estimatesLoading, setEstimatesLoading] = useState(false);
+  const [priceTargets, setPriceTargets] = useState<any[]>([]);
+  const [ratings, setRatings] = useState<any | null>(null);
 
   // ─── Dividends tab ───────────────────────────────────────
   const [dividendData, setDividendData] = useState<any>(null);
   const [dividendLoading, setDividendLoading] = useState(false);
+
+  // ─── ETF Holdings tab ────────────────────────────────────
+  const [etfHoldings, setEtfHoldings] = useState<any[]>([]);
+  const [etfHoldingsLoading, setEtfHoldingsLoading] = useState(false);
 
   // ─── Load on mount ───────────────────────────────────────
   useEffect(() => {
@@ -135,6 +142,7 @@ export default function StockScreen() {
     if (activeTab === 'earnings') loadEarnings();
     if (activeTab === 'investors') loadInvestors();
     if (activeTab === 'insider') loadInsider();
+    if (activeTab === 'holdings') loadEtfHoldings();
     if (activeTab === 'valuation') loadValuation();
     if (activeTab === 'estimates') loadEstimates();
     if (activeTab === 'dividends') loadDividends();
@@ -318,10 +326,22 @@ export default function StockScreen() {
   async function loadEstimates() {
     setEstimatesLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/api/analyst-estimates/${ticker}`);
-      if (res.ok) {
-        const d = await res.json();
+      const [estRes, ptRes, ratRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/analyst-estimates/${ticker}`),
+        fetch(`${BASE_URL}/api/price-targets/${ticker}`),
+        fetch(`${BASE_URL}/api/recommendations/${ticker}`),
+      ]);
+      if (estRes.ok) {
+        const d = await estRes.json();
         setEstimatesData(Array.isArray(d) ? d.slice(0, 6) : []);
+      }
+      if (ptRes.ok) {
+        const d = await ptRes.json();
+        setPriceTargets(Array.isArray(d.targets) ? d.targets.slice(0, 15) : []);
+      }
+      if (ratRes.ok) {
+        const d = await ratRes.json();
+        setRatings(d);
       }
     } catch(e) { console.error(e); }
     finally { setEstimatesLoading(false); }
@@ -337,6 +357,25 @@ export default function StockScreen() {
       }
     } catch(e) { console.error(e); }
     finally { setDividendLoading(false); }
+  }
+
+  async function loadEtfHoldings() {
+    setEtfHoldingsLoading(true);
+    try {
+      // Get latest available date first
+      const datesRes = await fetch(`${BASE_URL}/api/etf-holdings-dates/${ticker}`);
+      if (!datesRes.ok) return;
+      const datesData = await datesRes.json();
+      if (!Array.isArray(datesData) || datesData.length === 0) return;
+      const latestDate = datesData[0].date;
+
+      const res = await fetch(`${BASE_URL}/api/etf-holdings/${ticker}?date=${latestDate}`);
+      if (res.ok) {
+        const d = await res.json();
+        setEtfHoldings(Array.isArray(d) ? d.slice(0, 25) : []);
+      }
+    } catch (e) { console.error(e); }
+    finally { setEtfHoldingsLoading(false); }
   }
 
   async function checkWatchlistState() {
@@ -420,7 +459,11 @@ export default function StockScreen() {
   const latestCF = cashFlowData[cashFlowData.length - 1];
 
   const isEtf = !!profile?.isEtf;
-  const MAIN_TABS = ALL_TABS.filter(t => !(isEtf && t.hideForEtf));
+  const MAIN_TABS = ALL_TABS.filter(t => {
+    if (isEtf && t.hideForEtf) return false;
+    if (!isEtf && t.etfOnly) return false;
+    return true;
+  });
 
   return (
     <>
@@ -448,7 +491,7 @@ export default function StockScreen() {
               <StockLogo ticker={ticker!} size={48} borderRadius={12} />
               <View style={{ marginLeft: 14 }}>
                 <Text style={s.price}>
-                  ${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {fmtDE(price)} $
                 </Text>
                 <View style={s.changeRow}>
                   <PriceChange value={quote?.change ?? 0} isAbsolute />
@@ -528,8 +571,8 @@ export default function StockScreen() {
                   <View style={s.chartPerfRow}>
                     <Text style={[s.chartPerfChange, { color: chartColor }]}>
                       {isPositive ? '+' : ''}
-                      {chart.periodChange.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-                      {' '}({isPositive ? '+' : ''}{chart.periodChangePct.toFixed(2)} %)
+                      {fmtDE(chart.periodChange)}
+                      {' '}({isPositive ? '+' : ''}{fmtDE(chart.periodChangePct)} %)
                     </Text>
                     <Text style={s.chartPerfLabel}>{RANGE_LABELS[range]}</Text>
                   </View>
@@ -578,26 +621,28 @@ export default function StockScreen() {
               )}
             </View>
 
-            {/* Kennzahlen */}
+            {/* Kennzahlen — nur für Aktien */}
+            {!isEtf && (
             <View style={s.section}>
               <Text style={s.sectionTitle}>KENNZAHLEN</Text>
               <View style={s.metricsGrid}>
                 <MetricCard label="Marktkapital." value={formatMarketCap(quote?.marketCap)} />
-                <MetricCard label="KGV" value={quote?.pe ? quote.pe.toFixed(1) : '—'} />
-                <MetricCard label="52W Hoch" value={quote?.yearHigh ? `$${quote.yearHigh.toFixed(2)}` : '—'} />
-                <MetricCard label="52W Tief" value={quote?.yearLow ? `$${quote.yearLow.toFixed(2)}` : '—'} />
+                <MetricCard label="KGV" value={quote?.pe ? fmtDE(quote.pe, 1) : '—'} />
+                <MetricCard label="52W Hoch" value={quote?.yearHigh ? `${fmtDE(quote.yearHigh)} $` : '—'} />
+                <MetricCard label="52W Tief" value={quote?.yearLow ? `${fmtDE(quote.yearLow)} $` : '—'} />
                 <MetricCard label="Volumen" value={formatVolume(quote?.volume)} />
                 <MetricCard label="Ø Volumen" value={formatVolume(quote?.avgVolume)} />
-                <MetricCard label="Ø 50 Tage" value={quote?.priceAvg50 ? `$${quote.priceAvg50.toFixed(2)}` : '—'} />
+                <MetricCard label="Ø 50 Tage" value={quote?.priceAvg50 ? `${fmtDE(quote.priceAvg50)} $` : '—'} />
                 <MetricCard
                   label="Gewinnmarge"
-                  value={latestIncome?.netIncomeRatio ? `${(latestIncome.netIncomeRatio * 100).toFixed(1)}%` : '—'}
+                  value={latestIncome?.netIncomeRatio ? `${fmtDE(latestIncome.netIncomeRatio * 100, 1)} %` : '—'}
                 />
               </View>
             </View>
+            )}
 
-            {/* Finanzkennzahlen (Bar chart) */}
-            <View style={s.section}>
+            {/* Finanzkennzahlen (Bar chart) — nur für Aktien */}
+            {!isEtf && <View style={s.section}>
               <Text style={s.sectionTitle}>FINANZKENNZAHLEN</Text>
               <ScrollView horizontal showsHorizontalScrollIndicator={false}>
                 <View style={s.finTabs}>
@@ -655,7 +700,7 @@ export default function StockScreen() {
                     topLabelComponent: () => (
                       <Text style={s.barTopLabel}>
                         {isNeg ? '-' : ''}
-                        {isEps ? `$${displayVal.toFixed(2)}` : isShares ? formatBigNumber(displayVal * 1e9) : (displayVal >= 100 ? displayVal.toFixed(0) : displayVal.toFixed(1))}
+                        {isEps ? `${fmtDE(displayVal)} $` : isShares ? formatBigNumber(displayVal * 1e9) : (displayVal >= 100 ? fmtDE(displayVal, 0) : fmtDE(displayVal, 1))}
                       </Text>
                     ),
                   };
@@ -670,7 +715,7 @@ export default function StockScreen() {
                 const yoyPct = prevVal !== 0 ? ((latestVal - prevVal) / Math.abs(prevVal)) * 100 : null;
 
                 const latestDisplay = isEps
-                  ? `$${latestVal.toFixed(2)}`
+                  ? `${fmtDE(latestVal)} $`
                   : isShares
                     ? formatBigNumber(latestVal * 1e9)
                     : `${latestVal < 0 ? '-' : ''}${formatBigNumber(Math.abs(latestVal * 1e9))}`;
@@ -694,26 +739,26 @@ export default function StockScreen() {
                       </Text>
                       {yoyPct !== null && (
                         <Text style={[s.finSummaryPct, { color: yoyPct >= 0 ? '#22C55E' : '#EF4444' }]}>
-                          {yoyPct >= 0 ? '▲' : '▼'} {Math.abs(yoyPct).toFixed(1)} % YoY
+                          {yoyPct >= 0 ? '▲' : '▼'} {fmtDE(Math.abs(yoyPct), 1)} % YoY
                         </Text>
                       )}
                     </View>
                   </>
                 );
               })()}
-            </View>
+            </View>}
 
-            {/* Bewertung */}
-            {keyMetrics && (
+            {/* Bewertung — nur für Aktien */}
+            {!isEtf && keyMetrics && (
               <View style={s.section}>
                 <Text style={s.sectionTitle}>BEWERTUNG</Text>
                 <View style={s.metricsGrid}>
-                  <MetricCard label="KGV" value={keyMetrics.peRatio ? keyMetrics.peRatio.toFixed(1) : '—'} />
-                  <MetricCard label="KUV" value={keyMetrics.priceToSalesRatio ? keyMetrics.priceToSalesRatio.toFixed(1) : '—'} />
-                  <MetricCard label="KBV" value={keyMetrics.pbRatio ? keyMetrics.pbRatio.toFixed(1) : '—'} />
-                  <MetricCard label="EV/EBITDA" value={keyMetrics.enterpriseValueOverEBITDA ? keyMetrics.enterpriseValueOverEBITDA.toFixed(1) : '—'} />
-                  <MetricCard label="FCF-Rendite" value={keyMetrics.fcfYield ? `${(keyMetrics.fcfYield * 100).toFixed(1)}%` : '—'} />
-                  <MetricCard label="Div.-Rendite" value={keyMetrics.dividendYield ? `${(keyMetrics.dividendYield * 100).toFixed(2)}%` : '—'} />
+                  <MetricCard label="KGV" value={keyMetrics.peRatio ? fmtDE(keyMetrics.peRatio, 1) : '—'} />
+                  <MetricCard label="KUV" value={keyMetrics.priceToSalesRatio ? fmtDE(keyMetrics.priceToSalesRatio, 1) : '—'} />
+                  <MetricCard label="KBV" value={keyMetrics.pbRatio ? fmtDE(keyMetrics.pbRatio, 1) : '—'} />
+                  <MetricCard label="EV/EBITDA" value={keyMetrics.enterpriseValueOverEBITDA ? fmtDE(keyMetrics.enterpriseValueOverEBITDA, 1) : '—'} />
+                  <MetricCard label="FCF-Rendite" value={keyMetrics.fcfYield ? `${fmtDE(keyMetrics.fcfYield * 100, 1)} %` : '—'} />
+                  <MetricCard label="Div.-Rendite" value={keyMetrics.dividendYield ? `${fmtDE(keyMetrics.dividendYield * 100, 2)} %` : '—'} />
                 </View>
               </View>
             )}
@@ -789,9 +834,9 @@ export default function StockScreen() {
               <View style={s.section}>
                 <Text style={s.sectionTitle}>ETF-DETAILS</Text>
                 <View style={s.metricsGrid}>
-                  <MetricCard label="TER" value={`${(profile.expenseRatio * 100).toFixed(2)}%`} />
+                  <MetricCard label="TER" value={`${fmtDE(profile.expenseRatio * 100, 2)} %`} />
                   {profile?.etfProvider ? <MetricCard label="Anbieter" value={profile.etfProvider} /> : null}
-                  {profile?.aum ? <MetricCard label="Volumen (AUM)" value={`$${(profile.aum / 1e9).toFixed(1)} Mrd.`} /> : null}
+                  {profile?.aum ? <MetricCard label="Volumen (AUM)" value={`${fmtDE(profile.aum / 1e9, 1)} Mrd. $`} /> : null}
                 </View>
               </View>
             )}
@@ -805,6 +850,23 @@ export default function StockScreen() {
                 </View>
               </View>
             ) : null}
+
+            {/* AI Analyse Button */}
+            <View style={s.section}>
+              <TouchableOpacity
+                style={s.aiAnalyseBtn}
+                onPress={() => router.push({ pathname: '/(tabs)/ai', params: { ticker: ticker! } })}
+              >
+                <View style={s.aiAnalyseBadge}>
+                  <Text style={s.aiAnalyseBadgeText}>AI</Text>
+                </View>
+                <View style={{ flex: 1 }}>
+                  <Text style={s.aiAnalyseTitle}>60-Sekunden Check</Text>
+                  <Text style={s.aiAnalyseSub}>KI-Analyse für {ticker}</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={16} color="#22C55E" />
+              </TouchableOpacity>
+            </View>
 
             {/* News */}
             <View style={s.section}>
@@ -863,7 +925,7 @@ export default function StockScreen() {
                         <StockLogo ticker={sym} size={36} borderRadius={8} />
                         <Text style={s.similarTicker}>{sym}</Text>
                         <Text style={[s.similarChange, { color: pos ? '#22C55E' : '#EF4444' }]}>
-                          {pos ? '+' : ''}{chg.toFixed(1)}%
+                          {pos ? '+' : ''}{fmtDE(chg, 1)} %
                         </Text>
                       </TouchableOpacity>
                     );
@@ -1024,7 +1086,7 @@ export default function StockScreen() {
                         <Text style={[s.siTrendText, { color: trendColor }]}>{trendLabel}</Text>
                         {pos.position?.changeSharePercentage !== 0 && !isNew && (
                           <Text style={[s.siChangeText, { color: trendColor }]}>
-                            {pos.position?.changeSharePercentage > 0 ? '+' : ''}{pos.position?.changeSharePercentage?.toFixed(1)}%
+                            {pos.position?.changeSharePercentage > 0 ? '+' : ''}{fmtDE(pos.position?.changeSharePercentage, 1)} %
                           </Text>
                         )}
                       </View>
@@ -1152,7 +1214,7 @@ export default function StockScreen() {
                           let display = '—';
                           if (val !== null && val !== undefined) {
                             if (isRatio(f.key)) {
-                              display = `${(val * (f.key === 'eps' ? 1 : 100)).toFixed(f.key === 'eps' ? 2 : 1)}${f.key === 'eps' ? '' : '%'}`;
+                              display = `${fmtDE(val * (f.key === 'eps' ? 1 : 100), f.key === 'eps' ? 2 : 1)}${f.key === 'eps' ? ' $' : ' %'}`;
                             } else {
                               display = formatBigNumber(Math.abs(val));
                               if (val < 0) display = '-' + display;
@@ -1211,7 +1273,7 @@ export default function StockScreen() {
                           const val = row[f.key];
                           let display = '—';
                           if (val !== null && val !== undefined && !isNaN(val)) {
-                            display = f.isPercent ? `${(val * 100).toFixed(1)}%` : val.toFixed(1);
+                            display = f.isPercent ? `${fmtDE(val * 100, 1)} %` : fmtDE(val, 1);
                           }
                           return <Text key={ri} style={[s.finTableCell, s.finTableValue]}>{display}</Text>;
                         })}
@@ -1267,9 +1329,9 @@ export default function StockScreen() {
                     {/* Actual current */}
                     <View style={[s.fwdPeRow, { backgroundColor: '#111113' }]}>
                       <Text style={s.fwdPeYear}>{currentYear} (TTM)</Text>
-                      <Text style={s.fwdPeEPS}>{currentEPS ? `$${currentEPS.toFixed(2)}` : '—'}</Text>
+                      <Text style={s.fwdPeEPS}>{currentEPS ? `${fmtDE(currentEPS)} $` : '—'}</Text>
                       <Text style={[s.fwdPeValue, { color: '#F8FAFC' }]}>
-                        {currentPE ? `${currentPE.toFixed(1)}x` : '—'}
+                        {currentPE ? `${fmtDE(currentPE, 1)}x` : '—'}
                       </Text>
                     </View>
 
@@ -1277,9 +1339,9 @@ export default function StockScreen() {
                     {futureRows.map((row, i) => (
                       <View key={i} style={[s.fwdPeRow, i % 2 === 0 && s.fwdPeRowAlt]}>
                         <Text style={s.fwdPeYear}>{row.year}</Text>
-                        <Text style={s.fwdPeEPS}>{row.eps != null ? `$${row.eps.toFixed(2)}` : '—'}</Text>
+                        <Text style={s.fwdPeEPS}>{row.eps != null ? `${fmtDE(row.eps)} $` : '—'}</Text>
                         <Text style={[s.fwdPeValue, { color: fwdPeColor(row.pe) }]}>
-                          {row.pe != null ? `${row.pe.toFixed(1)}x` : '—'}
+                          {row.pe != null ? `${fmtDE(row.pe, 1)}x` : '—'}
                         </Text>
                       </View>
                     ))}
@@ -1295,52 +1357,218 @@ export default function StockScreen() {
         )}
 
         {/* ════════════════════════════════════════════════
+            TAB: HOLDINGS (ETF)
+        ════════════════════════════════════════════════ */}
+        {activeTab === 'holdings' && (
+          <View style={s.tabContent}>
+            {etfHoldingsLoading ? (
+              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+            ) : etfHoldings.length === 0 ? (
+              <View style={s.tabLoading}><Text style={s.noData}>Keine Holdings-Daten verfügbar</Text></View>
+            ) : (
+              <View>
+                <Text style={[s.sectionTitle, { paddingHorizontal: 16, marginBottom: 12 }]}>TOP HOLDINGS</Text>
+                <View style={s.holdingsCard}>
+                  {etfHoldings.map((h: any, i: number) => (
+                    <TouchableOpacity
+                      key={i}
+                      style={[s.holdingRow, i > 0 && s.holdingRowBorder]}
+                      onPress={() => h.symbol && router.push(`/stock/${h.symbol}`)}
+                      activeOpacity={h.symbol ? 0.7 : 1}
+                    >
+                      <View style={s.holdingRank}>
+                        <Text style={s.holdingRankText}>{i + 1}</Text>
+                      </View>
+                      <View style={{ flex: 1 }}>
+                        <Text style={s.holdingSymbol}>{h.symbol || 'N/A'}</Text>
+                        <Text style={s.holdingName} numberOfLines={1}>{h.name}</Text>
+                      </View>
+                      <View style={{ alignItems: 'flex-end' }}>
+                        <Text style={s.holdingPct}>{h.pctVal != null ? `${fmtDE(h.pctVal, 2)} %` : '—'}</Text>
+                        {h.valUsd > 0 && (
+                          <Text style={s.holdingVal}>{formatMarketCap(h.valUsd)}</Text>
+                        )}
+                      </View>
+                      {h.symbol && <Ionicons name="chevron-forward" size={14} color="#2c2c2e" style={{ marginLeft: 6 }} />}
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            )}
+          </View>
+        )}
+
+        {/* ════════════════════════════════════════════════
             TAB: SCHÄTZUNGEN
         ════════════════════════════════════════════════ */}
         {activeTab === 'estimates' && (
           <View style={s.tabContent}>
             {estimatesLoading ? (
               <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
-            ) : estimatesData.length === 0 ? (
-              <View style={s.tabLoading}><Text style={s.noData}>Keine Schätzungen verfügbar</Text></View>
             ) : (
               <>
-                <Text style={[s.sectionTitle, { paddingHorizontal: 16, marginBottom: 12 }]}>ANALYSTEN-KONSENSUS</Text>
-                {estimatesData.map((est: any, i: number) => {
-                  const year = est.date?.slice(0, 4) || '—';
-                  const epsAvg = est.estimatedEpsAvg;
-                  const epsLow = est.estimatedEpsLow;
-                  const epsHigh = est.estimatedEpsHigh;
-                  const revAvg = est.estimatedRevenueAvg;
-                  const revLow = est.estimatedRevenueLow;
-                  const revHigh = est.estimatedRevenueHigh;
-                  const analysts = est.numberAnalystsEstimatedEps || est.numberAnalystEstimatedRevenue || '—';
+                {/* ── Analyst Rating Consensus ── */}
+                {ratings && (() => {
+                  const buy = (ratings.analystRatingsbuy || 0) + (ratings.analystRatingsStrongBuy || 0);
+                  const hold = ratings.analystRatingsHold || 0;
+                  const sell = (ratings.analystRatingsSell || 0) + (ratings.analystRatingsStrongSell || 0);
+                  const total = buy + hold + sell;
+                  if (total === 0) return null;
+                  const buyPct = (buy / total) * 100;
+                  const holdPct = (hold / total) * 100;
+                  const sellPct = (sell / total) * 100;
+                  const consensus = buyPct >= 60 ? 'Kaufen' : buyPct >= 40 ? 'Halten' : 'Verkaufen';
+                  const consensusColor = buyPct >= 60 ? '#22C55E' : buyPct >= 40 ? '#F59E0B' : '#EF4444';
                   return (
-                    <View key={i} style={s.estimateCard}>
-                      <View style={s.estimateHeader}>
-                        <Text style={s.estimateYear}>{year}</Text>
-                        <Text style={s.estimateAnalysts}>{analysts} Analysten</Text>
-                      </View>
-                      <View style={s.estimateRow}>
-                        <View style={s.estimateItem}>
-                          <Text style={s.estimateLabel}>EPS (erwartet)</Text>
-                          <Text style={s.estimateValue}>{epsAvg != null ? `$${epsAvg.toFixed(2)}` : '—'}</Text>
-                          {epsLow != null && epsHigh != null && (
-                            <Text style={s.estimateRange}>${epsLow.toFixed(2)} – ${epsHigh.toFixed(2)}</Text>
-                          )}
+                    <View style={s.section}>
+                      <Text style={s.sectionTitle}>ANALYSTEN-RATING</Text>
+                      <View style={s.ratingCard}>
+                        <View style={s.ratingConsensus}>
+                          <Text style={[s.ratingConsensusLabel, { color: consensusColor }]}>{consensus}</Text>
+                          <Text style={s.ratingTotal}>{total} Analysten</Text>
                         </View>
-                        <View style={s.estimateDivider} />
-                        <View style={s.estimateItem}>
-                          <Text style={s.estimateLabel}>Umsatz (erwartet)</Text>
-                          <Text style={s.estimateValue}>{revAvg != null ? formatBigNumber(revAvg) : '—'}</Text>
-                          {revLow != null && revHigh != null && (
-                            <Text style={s.estimateRange}>{formatBigNumber(revLow)} – {formatBigNumber(revHigh)}</Text>
-                          )}
+                        {/* Bar */}
+                        <View style={s.ratingBarContainer}>
+                          {buyPct > 0 && <View style={[s.ratingBarSegment, { flex: buyPct, backgroundColor: '#22C55E' }]} />}
+                          {holdPct > 0 && <View style={[s.ratingBarSegment, { flex: holdPct, backgroundColor: '#F59E0B' }]} />}
+                          {sellPct > 0 && <View style={[s.ratingBarSegment, { flex: sellPct, backgroundColor: '#EF4444' }]} />}
+                        </View>
+                        <View style={s.ratingLegend}>
+                          <View style={s.ratingLegendItem}>
+                            <View style={[s.ratingDot, { backgroundColor: '#22C55E' }]} />
+                            <Text style={s.ratingLegendText}>Kaufen ({buy})</Text>
+                          </View>
+                          <View style={s.ratingLegendItem}>
+                            <View style={[s.ratingDot, { backgroundColor: '#F59E0B' }]} />
+                            <Text style={s.ratingLegendText}>Halten ({hold})</Text>
+                          </View>
+                          <View style={s.ratingLegendItem}>
+                            <View style={[s.ratingDot, { backgroundColor: '#EF4444' }]} />
+                            <Text style={s.ratingLegendText}>Verkaufen ({sell})</Text>
+                          </View>
                         </View>
                       </View>
                     </View>
                   );
-                })}
+                })()}
+
+                {/* ── Price Targets ── */}
+                {priceTargets.length > 0 && (() => {
+                  const currentPrice = quote?.price;
+                  const targets = priceTargets.map(t => t.priceTarget).filter(Boolean);
+                  const avgTarget = targets.length > 0 ? targets.reduce((a, b) => a + b, 0) / targets.length : null;
+                  const highTarget = targets.length > 0 ? Math.max(...targets) : null;
+                  const lowTarget = targets.length > 0 ? Math.min(...targets) : null;
+                  const upside = avgTarget && currentPrice ? ((avgTarget - currentPrice) / currentPrice) * 100 : null;
+                  return (
+                    <View style={s.section}>
+                      <Text style={s.sectionTitle}>KURSZIELE</Text>
+                      <View style={s.ptCard}>
+                        <View style={s.ptMainRow}>
+                          <View style={s.ptMainItem}>
+                            <Text style={s.ptMainLabel}>Ø Kursziel</Text>
+                            <Text style={s.ptMainValue}>{avgTarget != null ? `${fmtDE(avgTarget, 2)} $` : '—'}</Text>
+                          </View>
+                          {upside != null && (
+                            <View style={[s.ptUpsideBadge, { backgroundColor: upside >= 0 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)' }]}>
+                              <Text style={[s.ptUpsideText, { color: upside >= 0 ? '#22C55E' : '#EF4444' }]}>
+                                {upside >= 0 ? '+' : ''}{fmtDE(upside, 1)} %
+                              </Text>
+                              <Text style={s.ptUpsideLabel}>Potenzial</Text>
+                            </View>
+                          )}
+                        </View>
+                        <View style={s.ptRangeRow}>
+                          <View style={s.ptRangeItem}>
+                            <Text style={s.ptRangeLabel}>Hoch</Text>
+                            <Text style={[s.ptRangeValue, { color: '#22C55E' }]}>{highTarget != null ? `${fmtDE(highTarget, 2)} $` : '—'}</Text>
+                          </View>
+                          <View style={s.ptRangeDivider} />
+                          <View style={s.ptRangeItem}>
+                            <Text style={s.ptRangeLabel}>Tief</Text>
+                            <Text style={[s.ptRangeValue, { color: '#EF4444' }]}>{lowTarget != null ? `${fmtDE(lowTarget, 2)} $` : '—'}</Text>
+                          </View>
+                          <View style={s.ptRangeDivider} />
+                          <View style={s.ptRangeItem}>
+                            <Text style={s.ptRangeLabel}>Aktuell</Text>
+                            <Text style={s.ptRangeValue}>{currentPrice != null ? `${fmtDE(currentPrice, 2)} $` : '—'}</Text>
+                          </View>
+                        </View>
+                      </View>
+
+                      {/* Recent analyst calls */}
+                      <Text style={[s.sectionTitle, { marginTop: 16 }]}>ANALYSTEN-CALLS</Text>
+                      <View style={s.ptCallsList}>
+                        {priceTargets.slice(0, 10).map((pt: any, i: number) => {
+                          const date = pt.publishedDate ? new Date(pt.publishedDate).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: '2-digit' }) : '—';
+                          const upPct = currentPrice && pt.priceTarget ? ((pt.priceTarget - currentPrice) / currentPrice) * 100 : null;
+                          return (
+                            <View key={i} style={[s.ptCallRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                              <View style={{ flex: 1 }}>
+                                <Text style={s.ptCallCompany} numberOfLines={1}>{pt.analystCompany || '—'}</Text>
+                                <Text style={s.ptCallDate}>{date}</Text>
+                              </View>
+                              <View style={{ alignItems: 'flex-end' }}>
+                                <Text style={s.ptCallTarget}>{pt.priceTarget != null ? `${fmtDE(pt.priceTarget, 2)} $` : '—'}</Text>
+                                {upPct != null && (
+                                  <Text style={[s.ptCallUpside, { color: upPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                                    {upPct >= 0 ? '+' : ''}{fmtDE(upPct, 1)} %
+                                  </Text>
+                                )}
+                              </View>
+                            </View>
+                          );
+                        })}
+                      </View>
+                    </View>
+                  );
+                })()}
+
+                {/* ── EPS & Revenue Estimates ── */}
+                {estimatesData.length === 0 ? (
+                  !ratings && priceTargets.length === 0 && (
+                    <View style={s.tabLoading}><Text style={s.noData}>Keine Schätzungen verfügbar</Text></View>
+                  )
+                ) : (
+                  <View style={s.section}>
+                    <Text style={s.sectionTitle}>EPS & UMSATZ-SCHÄTZUNGEN</Text>
+                    {estimatesData.map((est: any, i: number) => {
+                      const year = est.date?.slice(0, 4) || '—';
+                      const epsAvg = est.estimatedEpsAvg;
+                      const epsLow = est.estimatedEpsLow;
+                      const epsHigh = est.estimatedEpsHigh;
+                      const revAvg = est.estimatedRevenueAvg;
+                      const revLow = est.estimatedRevenueLow;
+                      const revHigh = est.estimatedRevenueHigh;
+                      const analysts = est.numberAnalystsEstimatedEps || est.numberAnalystEstimatedRevenue || '—';
+                      return (
+                        <View key={i} style={s.estimateCard}>
+                          <View style={s.estimateHeader}>
+                            <Text style={s.estimateYear}>{year}</Text>
+                            <Text style={s.estimateAnalysts}>{analysts} Analysten</Text>
+                          </View>
+                          <View style={s.estimateRow}>
+                            <View style={s.estimateItem}>
+                              <Text style={s.estimateLabel}>EPS (erwartet)</Text>
+                              <Text style={s.estimateValue}>{epsAvg != null ? `${fmtDE(epsAvg)} $` : '—'}</Text>
+                              {epsLow != null && epsHigh != null && (
+                                <Text style={s.estimateRange}>{fmtDE(epsLow)} $ – {fmtDE(epsHigh)} $</Text>
+                              )}
+                            </View>
+                            <View style={s.estimateDivider} />
+                            <View style={s.estimateItem}>
+                              <Text style={s.estimateLabel}>Umsatz (erwartet)</Text>
+                              <Text style={s.estimateValue}>{revAvg != null ? formatBigNumber(revAvg) : '—'}</Text>
+                              {revLow != null && revHigh != null && (
+                                <Text style={s.estimateRange}>{formatBigNumber(revLow)} – {formatBigNumber(revHigh)}</Text>
+                              )}
+                            </View>
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
               </>
             )}
           </View>
@@ -1366,10 +1594,10 @@ export default function StockScreen() {
                   <View style={s.section}>
                     <Text style={s.sectionTitle}>DIVIDENDEN-ÜBERSICHT</Text>
                     <View style={s.metricsGrid}>
-                      <MetricCard label="Dividendenrendite" value={ci?.currentYield ? `${(ci.currentYield * 100).toFixed(2)}%` : '—'} />
-                      <MetricCard label="TTM je Aktie" value={ci?.dividendPerShareTTM ? `$${ci.dividendPerShareTTM.toFixed(2)}` : '—'} />
-                      <MetricCard label="Ausschüttungsquote" value={ci?.payoutRatio ? `${(ci.payoutRatio * 100).toFixed(1)}%` : '—'} />
-                      <MetricCard label="Wachstum (Ø)" value={growthRate != null ? `${growthRate.toFixed(1)}%` : '—'} />
+                      <MetricCard label="Dividendenrendite" value={ci?.currentYield ? `${fmtDE(ci.currentYield * 100, 2)} %` : '—'} />
+                      <MetricCard label="TTM je Aktie" value={ci?.dividendPerShareTTM ? `${fmtDE(ci.dividendPerShareTTM)} $` : '—'} />
+                      <MetricCard label="Ausschüttungsquote" value={ci?.payoutRatio ? `${fmtDE(ci.payoutRatio * 100, 1)} %` : '—'} />
+                      <MetricCard label="Wachstum (Ø)" value={growthRate != null ? `${fmtDE(growthRate, 1)} %` : '—'} />
                       <MetricCard label="Qualität" value={ci?.dividendQuality?.category ?? '—'} />
                     </View>
                   </View>
@@ -1385,7 +1613,7 @@ export default function StockScreen() {
                       label: year.slice(2),
                       frontColor: '#22C55E',
                       topLabelComponent: () => (
-                        <Text style={s.barTopLabel}>${val.toFixed(2)}</Text>
+                        <Text style={s.barTopLabel}>{fmtDE(val)} $</Text>
                       ),
                     }));
                     return (
@@ -1417,7 +1645,7 @@ export default function StockScreen() {
                             <Text style={s.divHistoryDate}>
                               {d.date ? new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
                             </Text>
-                            <Text style={s.divHistoryAmount}>${Number(d.amount || d.dividend || d.adjDividend || 0).toFixed(4)}</Text>
+                            <Text style={s.divHistoryAmount}>{fmtDE(Number(d.amount || d.dividend || d.adjDividend || 0), 4)} $</Text>
                           </View>
                         ))}
                       </View>
@@ -1447,8 +1675,8 @@ const RANGE_LABELS: Record<RangeKey, string> = {
 
 function formatPrice(val: number): string {
   if (val >= 1000) return val.toLocaleString('de-DE', { maximumFractionDigits: 0 });
-  if (val >= 100) return val.toFixed(1);
-  return val.toFixed(2);
+  if (val >= 100) return fmtDE(val, 1);
+  return fmtDE(val, 2);
 }
 
 const MONTHS_DE = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'];
@@ -1461,27 +1689,31 @@ function formatDateLabel(dateStr: string, range: RangeKey): string {
   return `${mon} ${String(d.getFullYear()).slice(2)}`;
 }
 
+function fmtDE(val: number, decimals = 2): string {
+  return val.toLocaleString('de-DE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+}
+
 function formatBigNumber(val?: number): string {
   if (!val && val !== 0) return '—';
-  if (Math.abs(val) >= 1e12) return `$${(val / 1e12).toFixed(2)} Bio.`;
-  if (Math.abs(val) >= 1e9) return `$${(val / 1e9).toFixed(1)} Mrd.`;
-  if (Math.abs(val) >= 1e6) return `$${(val / 1e6).toFixed(0)} Mio.`;
-  return `$${val.toFixed(0)}`;
+  if (Math.abs(val) >= 1e12) return `${fmtDE(val / 1e12, 2)} Bio. $`;
+  if (Math.abs(val) >= 1e9) return `${fmtDE(val / 1e9, 1)} Mrd. $`;
+  if (Math.abs(val) >= 1e6) return `${fmtDE(val / 1e6, 0)} Mio. $`;
+  return `${fmtDE(val, 0)} $`;
 }
 
 function formatMarketCap(val?: number): string {
   if (!val) return '—';
-  if (val >= 1e12) return `$${(val / 1e12).toFixed(1)}T`;
-  if (val >= 1e9) return `$${(val / 1e9).toFixed(1)}B`;
-  if (val >= 1e6) return `$${(val / 1e6).toFixed(0)}M`;
-  return `$${val}`;
+  if (val >= 1e12) return `${fmtDE(val / 1e12, 1)} Bio. $`;
+  if (val >= 1e9) return `${fmtDE(val / 1e9, 1)} Mrd. $`;
+  if (val >= 1e6) return `${fmtDE(val / 1e6, 0)} Mio. $`;
+  return `${fmtDE(val, 0)} $`;
 }
 
 function formatVolume(val?: number): string {
   if (!val) return '—';
-  if (val >= 1e6) return `${(val / 1e6).toFixed(1)}M`;
-  if (val >= 1e3) return `${(val / 1e3).toFixed(0)}K`;
-  return `${val}`;
+  if (val >= 1e6) return `${fmtDE(val / 1e6, 1)} Mio.`;
+  if (val >= 1e3) return `${fmtDE(val / 1e3, 0)} Tsd.`;
+  return fmtDE(val, 0);
 }
 
 // ─── Styles ──────────────────────────────────────────────────
@@ -1729,6 +1961,39 @@ const s = StyleSheet.create({
   estimateValue: { color: '#F8FAFC', fontSize: 16, fontWeight: '700', marginBottom: 2 },
   estimateRange: { color: '#475569', fontSize: 11 },
 
+  // Rating card
+  ratingCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', padding: 16 },
+  ratingConsensus: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
+  ratingConsensusLabel: { fontSize: 22, fontWeight: '800' },
+  ratingTotal: { color: '#64748B', fontSize: 12 },
+  ratingBarContainer: { flexDirection: 'row', height: 10, borderRadius: 6, overflow: 'hidden', marginBottom: 14, gap: 2 },
+  ratingBarSegment: { borderRadius: 3 },
+  ratingLegend: { flexDirection: 'row', gap: 16 },
+  ratingLegendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  ratingDot: { width: 8, height: 8, borderRadius: 4 },
+  ratingLegendText: { color: '#94A3B8', fontSize: 12 },
+
+  // Price target card
+  ptCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', padding: 16, marginBottom: 4 },
+  ptMainRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
+  ptMainItem: {},
+  ptMainLabel: { color: '#64748B', fontSize: 11, fontWeight: '600', marginBottom: 4 },
+  ptMainValue: { color: '#F8FAFC', fontSize: 24, fontWeight: '800' },
+  ptUpsideBadge: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, alignItems: 'center' },
+  ptUpsideText: { fontSize: 18, fontWeight: '800' },
+  ptUpsideLabel: { color: '#64748B', fontSize: 11, marginTop: 2 },
+  ptRangeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  ptRangeItem: { flex: 1, alignItems: 'center' },
+  ptRangeDivider: { width: 1, height: 28, backgroundColor: '#1e1e20' },
+  ptRangeLabel: { color: '#64748B', fontSize: 11, marginBottom: 4 },
+  ptRangeValue: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
+  ptCallsList: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  ptCallRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
+  ptCallCompany: { color: '#F8FAFC', fontSize: 13, fontWeight: '600' },
+  ptCallDate: { color: '#475569', fontSize: 11, marginTop: 2 },
+  ptCallTarget: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
+  ptCallUpside: { fontSize: 11, fontWeight: '600', marginTop: 2, textAlign: 'right' },
+
   // Dividends tab
   divHistoryCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
   divHistoryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
@@ -1737,6 +2002,19 @@ const s = StyleSheet.create({
 
   // News
   newsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  aiAnalyseBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 12,
+    backgroundColor: '#111113', borderRadius: 14, padding: 14,
+    borderWidth: 1, borderColor: '#22C55E30',
+  },
+  aiAnalyseBadge: {
+    width: 38, height: 38, borderRadius: 10,
+    backgroundColor: '#22C55E20', borderWidth: 1, borderColor: '#22C55E40',
+    alignItems: 'center', justifyContent: 'center',
+  },
+  aiAnalyseBadgeText: { fontSize: 11, fontWeight: '800', color: '#22C55E' },
+  aiAnalyseTitle: { fontSize: 14, fontWeight: '700', color: '#F8FAFC' },
+  aiAnalyseSub: { fontSize: 12, color: '#64748B', marginTop: 2 },
   newsRow: { paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center' },
   newsRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
   newsTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '500', lineHeight: 20, marginBottom: 6 },
@@ -1752,4 +2030,15 @@ const s = StyleSheet.create({
   fwdPeYear: { color: '#94A3B8', fontSize: 13, flex: 1 },
   fwdPeEPS: { color: '#64748B', fontSize: 13, flex: 1 },
   fwdPeValue: { fontSize: 15, fontWeight: '700', flex: 1, textAlign: 'right' as const },
+
+  // ETF Holdings
+  holdingsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden', marginHorizontal: 16 },
+  holdingRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, gap: 10 },
+  holdingRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  holdingRank: { width: 24, height: 24, borderRadius: 12, backgroundColor: 'rgba(34,197,94,0.15)', alignItems: 'center', justifyContent: 'center' },
+  holdingRankText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
+  holdingSymbol: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
+  holdingName: { color: '#475569', fontSize: 12, marginTop: 1 },
+  holdingPct: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
+  holdingVal: { color: '#475569', fontSize: 11, marginTop: 1 },
 });

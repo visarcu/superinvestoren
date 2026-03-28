@@ -181,16 +181,16 @@ export default function WatchlistScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
   header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
   title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
   subtitle: { color: '#64748B', fontSize: 14, marginTop: 2 },
   scroll: { paddingBottom: 24 },
   section: { paddingHorizontal: 16, marginBottom: 16 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
-  earningsCard: { backgroundColor: '#0F172A', borderRadius: 14, borderWidth: 1, borderColor: '#1E293B', overflow: 'hidden' },
+  earningsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
   earningsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 14 },
-  earningsRowBorder: { borderTopWidth: 1, borderTopColor: '#1E293B' },
+  earningsRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
   earningsLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   earningsDot: { width: 8, height: 8, borderRadius: 4 },
   earningsTicker: { color: '#F8FAFC', fontWeight: '700', fontSize: 14 },
@@ -199,7 +199,7 @@ const s = StyleSheet.create({
   earningsDate: { color: '#F8FAFC', fontWeight: '600', fontSize: 13 },
   earningsTime: { color: '#64748B', fontSize: 11, marginTop: 2 },
   emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 80, gap: 12 },
-  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#0F172A', alignItems: 'center', justifyContent: 'center' },
+  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#111113', alignItems: 'center', justifyContent: 'center' },
   emptyTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
   emptyText: { color: '#64748B', fontSize: 14, textAlign: 'center', paddingHorizontal: 32 },
   actionBtn: { backgroundColor: 'rgba(34,197,94,0.15)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 8 },

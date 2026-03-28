@@ -85,7 +85,45 @@ export default function InvestorDetailScreen() {
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
   const [activeTab, setActiveTab] = useState<'holdings' | 'activity'>('holdings');
 
+  // Activity tab: separate quarter selection + loading
+  const [activityQ, setActivityQ] = useState('');
+  const [activityLoading, setActivityLoading] = useState(false);
+
   useEffect(() => { loadData(); }, [slug]);
+
+  function computeTransactions(latest: Position[], prevData: any): Transaction[] {
+    if (!prevData) return [];
+    const prev = dedup(prevData.positions || []);
+    const prevMap = new Map(prev.map(p => [p.cusip || p.name, p]));
+    const latestMap = new Map(latest.map(p => [p.cusip || p.name, p]));
+    const txns: Transaction[] = [];
+    for (const pos of latest) {
+      const key = pos.cusip || pos.name;
+      const prevPos = prevMap.get(key);
+      const delta = pos.shares - (prevPos?.shares || 0);
+      if (delta === 0) continue;
+      const isNew = !prevPos;
+      const pctChange = prevPos ? Math.abs(delta / prevPos.shares * 100) : 100;
+      txns.push({
+        ticker: pos.ticker, name: pos.name, cusip: pos.cusip,
+        deltaShares: delta,
+        value: Math.abs(delta * (pos.value / pos.shares)),
+        type: isNew ? 'Neu' : delta > 0 ? 'Kauf' : 'Verkauf',
+        pctChange,
+      });
+    }
+    for (const pos of prev) {
+      const key = pos.cusip || pos.name;
+      if (!latestMap.has(key)) {
+        txns.push({
+          ticker: pos.ticker, name: pos.name, cusip: pos.cusip,
+          deltaShares: -pos.shares, value: pos.value,
+          type: 'Verkauft', pctChange: 100,
+        });
+      }
+    }
+    return txns.sort((a, b) => b.value - a.value);
+  }
 
   async function loadData() {
     try {
@@ -101,8 +139,8 @@ export default function InvestorDetailScreen() {
 
       const latestQ = qs[qs.length - 1];
       setQuarter(latestQ);
+      setActivityQ(latestQ);
 
-      // Fetch latest + previous quarter in parallel
       const fetchQ = (q: string) =>
         fetch(`${BASE_URL}/api/investor/${slug}/holdings?quarter=${q}`).then(r => r.ok ? r.json() : null);
 
@@ -112,58 +150,31 @@ export default function InvestorDetailScreen() {
       ]);
 
       const latest = dedup(latestData?.positions || []);
-      const tv = latest.reduce((s, p) => s + p.value, 0);
-      setTotalValue(tv);
+      setTotalValue(latest.reduce((s, p) => s + p.value, 0));
       setPositions(latest);
-
-      // Compute transactions vs previous quarter
-      if (prevData) {
-        const prev = dedup(prevData.positions || []);
-        const prevMap = new Map(prev.map(p => [p.cusip || p.name, p]));
-        const latestMap = new Map(latest.map(p => [p.cusip || p.name, p]));
-        const txns: Transaction[] = [];
-
-        // New or increased positions
-        for (const pos of latest) {
-          const key = pos.cusip || pos.name;
-          const prevPos = prevMap.get(key);
-          const delta = pos.shares - (prevPos?.shares || 0);
-          if (delta === 0) continue;
-          const isNew = !prevPos;
-          const pctChange = prevPos ? Math.abs(delta / prevPos.shares * 100) : 100;
-          txns.push({
-            ticker: pos.ticker,
-            name: pos.name,
-            cusip: pos.cusip,
-            deltaShares: delta,
-            value: Math.abs(delta * (pos.value / pos.shares)),
-            type: isNew ? 'Neu' : delta > 0 ? 'Kauf' : 'Verkauf',
-            pctChange,
-          });
-        }
-        // Fully sold positions
-        for (const pos of prev) {
-          const key = pos.cusip || pos.name;
-          if (!latestMap.has(key)) {
-            txns.push({
-              ticker: pos.ticker,
-              name: pos.name,
-              cusip: pos.cusip,
-              deltaShares: -pos.shares,
-              value: pos.value,
-              type: 'Verkauft',
-              pctChange: 100,
-            });
-          }
-        }
-        txns.sort((a, b) => b.value - a.value);
-        setTransactions(txns);
-      }
+      setTransactions(computeTransactions(latest, prevData));
     } catch (e: any) {
       setError(e.message || 'Fehler beim Laden');
     } finally {
       setLoading(false);
     }
+  }
+
+  async function loadActivityForQuarter(q: string, allQuarters: string[]) {
+    setActivityLoading(true);
+    setActivityQ(q);
+    try {
+      const idx = allQuarters.indexOf(q);
+      const fetchQ = (qStr: string) =>
+        fetch(`${BASE_URL}/api/investor/${slug}/holdings?quarter=${qStr}`).then(r => r.ok ? r.json() : null);
+      const [curData, prevData] = await Promise.all([
+        fetchQ(q),
+        idx > 0 ? fetchQ(allQuarters[idx - 1]) : Promise.resolve(null),
+      ]);
+      const cur = dedup(curData?.positions || []);
+      setTransactions(computeTransactions(cur, prevData));
+    } catch (e) { console.error(e); }
+    finally { setActivityLoading(false); }
   }
 
   const displayName = INVESTOR_NAMES[slug || ''] || (slug || '');
@@ -302,7 +313,28 @@ export default function InvestorDetailScreen() {
             {/* ACTIVITY TAB */}
             {activeTab === 'activity' && (
               <>
-                <Text style={s.sectionLabel}>TRANSAKTIONEN · {quarter}</Text>
+                {/* Quarter selector */}
+                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={s.quarterPicker}>
+                  {[...quarters].reverse().map(q => (
+                    <TouchableOpacity
+                      key={q}
+                      style={[s.qChip, activityQ === q && s.qChipActive]}
+                      onPress={() => activityQ !== q && loadActivityForQuarter(q, quarters)}
+                    >
+                      <Text style={[s.qChipText, activityQ === q && s.qChipTextActive]}>{q}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+
+                {activityLoading ? (
+                  <ActivityIndicator color="#22C55E" size="small" style={{ marginVertical: 24 }} />
+                ) : transactions.length === 0 ? (
+                  <View style={s.center}>
+                    <Text style={s.centerText}>Keine Transaktionen für {activityQ}</Text>
+                  </View>
+                ) : (
+                <>
+                <Text style={s.sectionLabel}>TRANSAKTIONEN · {activityQ}</Text>
                 {transactions.map((txn, i) => {
                   const ticker = txn.ticker || (txn.cusip ? tickerFromCusip(txn.cusip) : null);
                   const isBuy = txn.type === 'Kauf' || txn.type === 'Neu';
@@ -350,6 +382,8 @@ export default function InvestorDetailScreen() {
                     </TouchableOpacity>
                   );
                 })}
+                </>
+                )}
               </>
             )}
           </ScrollView>
@@ -413,4 +447,11 @@ const s = StyleSheet.create({
   pctChange: { fontSize: 10, marginTop: 2 },
   actionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(34,197,94,0.1)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.25)', borderRadius: 12, paddingVertical: 14, marginTop: 8 },
   actionBtnText: { color: '#22C55E', fontWeight: '600', fontSize: 14 },
+
+  // Quarter picker in Aktivität tab
+  quarterPicker: { flexDirection: 'row', gap: 8, paddingBottom: 12 },
+  qChip: { paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20, backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20' },
+  qChipActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: 'rgba(34,197,94,0.4)' },
+  qChipText: { color: '#475569', fontSize: 12, fontWeight: '600' },
+  qChipTextActive: { color: '#22C55E' },
 });

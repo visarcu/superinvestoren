@@ -36,25 +36,53 @@ const TOP_INVESTORS = [
   { slug: 'pabrai', name: 'Mohnish Pabrai', fund: 'Pabrai Funds', aum: '$500M+' },
 ];
 
+const INVESTOR_LABELS: Record<string, string> = {
+  buffett: 'Buffett', ackman: 'Ackman', burry: 'Burry', tepper: 'Tepper',
+  dalio: 'Dalio', soros: 'Soros', icahn: 'Icahn', coleman: 'Coleman',
+  druckenmiller: 'Druckenmiller', einhorn: 'Einhorn', klarman: 'Klarman',
+  marks: 'Marks', greenblatt: 'Greenblatt', pabrai: 'Pabrai',
+  gates: 'Gates', fisher: 'Fisher', gayner: 'Gayner', miller: 'Miller',
+  tangen: 'Tangen', peltz: 'Peltz', yacktman: 'Yacktman',
+};
+
 const COLORS = ['#22C55E', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#2c2c2e', '#1e1e20'];
 
 function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).slice(0, 2).join('');
 }
 
-function formatValue(val: number) {
-  if (!val) return '—';
-  if (val >= 1e9) return `$${(val / 1e9).toFixed(1)}B`;
-  if (val >= 1e6) return `$${(val / 1e6).toFixed(0)}M`;
-  return `$${val}`;
+function fmtDE(val: number, decimals = 1): string {
+  return val.toLocaleString('de-DE', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
 }
 
-const INVESTOR_LABELS: Record<string, string> = {
-  buffett: 'Buffett', ackman: 'Ackman', burry: 'Burry', tepper: 'Tepper',
-  dalio: 'Dalio', soros: 'Soros', icahn: 'Icahn', coleman: 'Coleman',
-  druckenmiller: 'Druckenmiller', einhorn: 'Einhorn', klarman: 'Klarman',
-  marks: 'Marks', greenblatt: 'Greenblatt', pabrai: 'Pabrai',
+function formatValue(val: number) {
+  if (!val) return '—';
+  if (val >= 1e9) return `${fmtDE(val / 1e9, 1)} Mrd. $`;
+  if (val >= 1e6) return `${fmtDE(val / 1e6, 0)} Mio. $`;
+  return `${fmtDE(val, 0)} $`;
+}
+
+const TRADE_TYPE_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
+  ADD:    { label: 'Aufgestockt', color: '#22C55E', bg: 'rgba(34,197,94,0.12)' },
+  NEW:    { label: 'Neu',         color: '#3B82F6', bg: 'rgba(59,130,246,0.12)' },
+  REDUCE: { label: 'Reduziert',  color: '#F59E0B', bg: 'rgba(245,158,11,0.12)' },
+  SOLD:   { label: 'Verkauft',   color: '#EF4444', bg: 'rgba(239,68,68,0.12)' },
 };
+
+interface Trade {
+  investor: string;
+  investorName: string;
+  type: 'ADD' | 'NEW' | 'REDUCE' | 'SOLD';
+  ticker: string;
+  name: string;
+  value: number;
+  dollarChange: number;
+  percentChange: number;
+  quarterKey: string;
+  dollarChangeFormatted: string;
+  valueFormatted: string;
+  percentChangeFormatted: string;
+}
 
 interface InsightItem { ticker: string; name: string; count?: number; value?: number; investor?: string; }
 interface Insights {
@@ -68,10 +96,15 @@ export default function InvestorsScreen() {
   const [search, setSearch] = useState('');
   const [insights, setInsights] = useState<Insights | null>(null);
   const [insightsLoading, setInsightsLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'buys' | 'owned' | 'biggest'>('buys');
+  const [activeInsightTab, setActiveInsightTab] = useState<'buys' | 'owned' | 'biggest'>('buys');
+
+  const [trades, setTrades] = useState<Trade[]>([]);
+  const [tradesLoading, setTradesLoading] = useState(true);
+  const [activeTradeFilter, setActiveTradeFilter] = useState<'all' | 'buy' | 'sell'>('all');
 
   useFocusEffect(useCallback(() => {
     if (!insights) loadInsights();
+    if (trades.length === 0) loadTrades();
   }, []));
 
   async function loadInsights() {
@@ -82,18 +115,36 @@ export default function InvestorsScreen() {
     finally { setInsightsLoading(false); }
   }
 
+  async function loadTrades() {
+    setTradesLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/guru-trades`);
+      if (res.ok) {
+        const data = await res.json();
+        setTrades(data.trades || []);
+      }
+    } catch { /* silent */ }
+    finally { setTradesLoading(false); }
+  }
+
   const filtered = TOP_INVESTORS.filter(i =>
     i.name.toLowerCase().includes(search.toLowerCase()) ||
     i.fund.toLowerCase().includes(search.toLowerCase())
   );
 
   const insightItems: InsightItem[] = insights
-    ? activeTab === 'buys' ? insights.topBuys.slice(0, 6)
-    : activeTab === 'owned' ? insights.topOwned.slice(0, 6)
+    ? activeInsightTab === 'buys' ? insights.topBuys.slice(0, 6)
+    : activeInsightTab === 'owned' ? insights.topOwned.slice(0, 6)
     : insights.biggestInvestments.slice(0, 6)
     : [];
 
   const quarter = insights?.quartersAnalyzed?.[0] || '';
+
+  const filteredTrades = trades.filter(t => {
+    if (activeTradeFilter === 'buy') return t.type === 'ADD' || t.type === 'NEW';
+    if (activeTradeFilter === 'sell') return t.type === 'REDUCE' || t.type === 'SOLD';
+    return true;
+  }).slice(0, 20);
 
   return (
     <SafeAreaView style={s.container}>
@@ -104,11 +155,88 @@ export default function InvestorsScreen() {
           <Text style={s.subtitle}>13F Portfolio-Tracker</Text>
         </View>
 
+        {/* ── AKTIVITÄT SEKTION ── */}
+        <View style={s.section}>
+          <View style={s.sectionHeader}>
+            <Text style={s.sectionLabel}>AKTIVITÄT</Text>
+            {quarter ? <Text style={s.quarterBadge}>{quarter}</Text> : null}
+          </View>
+
+          {/* Filter Tabs */}
+          <View style={s.tabs}>
+            {([
+              { id: 'all', label: 'Alle' },
+              { id: 'buy', label: '↑ Käufe' },
+              { id: 'sell', label: '↓ Verkäufe' },
+            ] as const).map(tab => (
+              <TouchableOpacity
+                key={tab.id}
+                style={[s.tab, activeTradeFilter === tab.id && s.tabActive]}
+                onPress={() => setActiveTradeFilter(tab.id)}
+                activeOpacity={0.7}
+              >
+                <Text style={[s.tabText, activeTradeFilter === tab.id && s.tabTextActive]}>
+                  {tab.label}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+          {tradesLoading ? (
+            <ActivityIndicator color="#22C55E" style={{ marginVertical: 24 }} />
+          ) : (
+            <View style={s.tradesList}>
+              {filteredTrades.map((trade, i) => {
+                const cfg = TRADE_TYPE_CONFIG[trade.type] || TRADE_TYPE_CONFIG.ADD;
+                const investorLabel = INVESTOR_LABELS[trade.investor] || trade.investorName;
+                const photo = INVESTOR_PHOTOS[trade.investor];
+                return (
+                  <TouchableOpacity
+                    key={`${trade.investor}-${trade.ticker}-${i}`}
+                    style={[s.tradeRow, i > 0 && s.tradeRowBorder]}
+                    onPress={() => router.push(`/stock/${trade.ticker}`)}
+                    activeOpacity={0.7}
+                  >
+                    {/* Investor Avatar */}
+                    <View style={s.tradeAvatar}>
+                      {photo
+                        ? <Image source={{ uri: photo }} style={s.tradeAvatarImg} />
+                        : <Text style={s.tradeAvatarText}>{getInitials(investorLabel)}</Text>}
+                    </View>
+
+                    {/* Info */}
+                    <View style={s.tradeInfo}>
+                      <View style={s.tradeTop}>
+                        <Text style={s.tradeTicker}>{trade.ticker}</Text>
+                        <View style={[s.typeBadge, { backgroundColor: cfg.bg }]}>
+                          <Text style={[s.typeBadgeText, { color: cfg.color }]}>{cfg.label}</Text>
+                        </View>
+                      </View>
+                      <Text style={s.tradeInvestor}>{investorLabel}</Text>
+                      <Text style={s.tradeName} numberOfLines={1}>
+                        {trade.name?.replace(/\b(INC\.?|CORP\.?|CO\.?|LTD\.?)$/i, '').trim()}
+                      </Text>
+                    </View>
+
+                    {/* Value */}
+                    <View style={s.tradeRight}>
+                      <Text style={s.tradeValue}>{trade.valueFormatted}</Text>
+                      <Text style={[s.tradeChange, { color: cfg.color }]}>
+                        {(trade.type === 'ADD' || trade.type === 'NEW') ? '+' : '-'}
+                        {fmtDE(Math.abs(trade.percentChange), 0)} %
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
+          )}
+        </View>
+
         {/* ── INSIGHTS SEKTION ── */}
         <View style={s.section}>
           <View style={s.sectionHeader}>
             <Text style={s.sectionLabel}>INSIGHTS</Text>
-            {quarter ? <Text style={s.quarterBadge}>{quarter}</Text> : null}
           </View>
 
           {/* Tab-Switcher */}
@@ -120,23 +248,22 @@ export default function InvestorsScreen() {
             ] as const).map(tab => (
               <TouchableOpacity
                 key={tab.id}
-                style={[s.tab, activeTab === tab.id && s.tabActive]}
-                onPress={() => setActiveTab(tab.id)}
+                style={[s.tab, activeInsightTab === tab.id && s.tabActive]}
+                onPress={() => setActiveInsightTab(tab.id)}
                 activeOpacity={0.7}
               >
                 <Ionicons
                   name={tab.icon as any}
                   size={12}
-                  color={activeTab === tab.id ? '#22C55E' : '#475569'}
+                  color={activeInsightTab === tab.id ? '#22C55E' : '#475569'}
                 />
-                <Text style={[s.tabText, activeTab === tab.id && s.tabTextActive]}>
+                <Text style={[s.tabText, activeInsightTab === tab.id && s.tabTextActive]}>
                   {tab.label}
                 </Text>
               </TouchableOpacity>
             ))}
           </View>
 
-          {/* Insights Liste */}
           {insightsLoading ? (
             <ActivityIndicator color="#22C55E" style={{ marginVertical: 24 }} />
           ) : (
@@ -159,17 +286,17 @@ export default function InvestorsScreen() {
                     </Text>
                   </View>
                   <View style={s.insightRight}>
-                    {activeTab === 'buys' && item.count != null && (
+                    {activeInsightTab === 'buys' && item.count != null && (
                       <View style={s.countBadge}>
                         <Text style={s.countText}>{item.count}×</Text>
                       </View>
                     )}
-                    {activeTab === 'owned' && item.count != null && (
+                    {activeInsightTab === 'owned' && item.count != null && (
                       <View style={s.countBadge}>
                         <Text style={s.countText}>{item.count} Inv.</Text>
                       </View>
                     )}
-                    {activeTab === 'biggest' && item.value != null && (
+                    {activeInsightTab === 'biggest' && item.value != null && (
                       <View>
                         <Text style={s.insightValue}>{formatValue(item.value)}</Text>
                         {item.investor && (
@@ -189,7 +316,6 @@ export default function InvestorsScreen() {
         <View style={s.section}>
           <Text style={s.sectionLabel}>INVESTOREN</Text>
 
-          {/* Suche */}
           <View style={s.searchBox}>
             <Ionicons name="search" size={16} color="#475569" />
             <TextInput
@@ -249,6 +375,26 @@ const s = StyleSheet.create({
   tabActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
   tabText: { color: '#475569', fontSize: 11, fontWeight: '600' },
   tabTextActive: { color: '#22C55E' },
+
+  // Trades
+  tradesList: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  tradeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, gap: 10 },
+  tradeRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  tradeAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 },
+  tradeAvatarImg: { width: 38, height: 38, borderRadius: 19 },
+  tradeAvatarText: { fontSize: 12, fontWeight: '700', color: '#64748B' },
+  tradeInfo: { flex: 1, minWidth: 0 },
+  tradeTop: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 },
+  tradeTicker: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
+  typeBadge: { borderRadius: 5, paddingHorizontal: 6, paddingVertical: 2 },
+  typeBadgeText: { fontSize: 10, fontWeight: '700' },
+  tradeInvestor: { color: '#64748B', fontSize: 11, marginBottom: 1 },
+  tradeName: { color: '#475569', fontSize: 11 },
+  tradeRight: { alignItems: 'flex-end', flexShrink: 0 },
+  tradeValue: { color: '#F8FAFC', fontSize: 12, fontWeight: '600' },
+  tradeChange: { fontSize: 12, fontWeight: '700', marginTop: 2 },
+
+  // Insights
   insightsList: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
   insightRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
   insightRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
@@ -262,6 +408,8 @@ const s = StyleSheet.create({
   countText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
   insightValue: { color: '#F8FAFC', fontWeight: '600', fontSize: 12, textAlign: 'right' },
   insightInvestor: { color: '#475569', fontSize: 10, textAlign: 'right', marginTop: 1 },
+
+  // Investors list
   searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10, gap: 8, borderWidth: 1, borderColor: '#1e1e20', marginBottom: 10 },
   searchInput: { flex: 1, color: '#F8FAFC', fontSize: 14 },
   investorList: { gap: 6 },

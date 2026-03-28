@@ -41,8 +41,11 @@ export async function registerForPushNotifications(): Promise<string | null> {
   }
 
   try {
-    const tokenData = await Notifications.getExpoPushTokenAsync();
+    const tokenData = await Notifications.getExpoPushTokenAsync({
+      projectId: 'ce42e19f-edb6-4f85-a93b-87a1ec42d03c',
+    });
     const token = tokenData.data;
+    console.log('📱 Push Token:', token);
     await saveDeviceToken(token);
     return token;
   } catch (e) {

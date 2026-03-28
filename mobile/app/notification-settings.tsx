@@ -85,7 +85,7 @@ export default function NotificationSettingsScreen() {
   if (loading) {
     return (
       <SafeAreaView style={s.container}>
-        <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#0F172A' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
+        <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#111113' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
         <ActivityIndicator color="#22C55E" style={{ marginTop: 40 }} />
       </SafeAreaView>
     );
@@ -93,7 +93,7 @@ export default function NotificationSettingsScreen() {
 
   return (
     <SafeAreaView style={s.container}>
-      <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#0F172A' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
+      <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#111113' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Info banner */}
@@ -120,7 +120,7 @@ export default function NotificationSettingsScreen() {
               <Switch
                 value={settings.watchlist_enabled}
                 onValueChange={v => update('watchlist_enabled', v)}
-                trackColor={{ false: '#1E293B', true: '#166534' }}
+                trackColor={{ false: '#1e1e20', true: '#166534' }}
                 thumbColor={settings.watchlist_enabled ? '#22C55E' : '#475569'}
               />
             </View>
@@ -164,7 +164,7 @@ export default function NotificationSettingsScreen() {
               <Switch
                 value={settings.earnings_enabled}
                 onValueChange={v => update('earnings_enabled', v)}
-                trackColor={{ false: '#1E293B', true: '#166534' }}
+                trackColor={{ false: '#1e1e20', true: '#166534' }}
                 thumbColor={settings.earnings_enabled ? '#22C55E' : '#475569'}
               />
             </View>
@@ -208,7 +208,7 @@ export default function NotificationSettingsScreen() {
               <Switch
                 value={settings.earnings_email_enabled}
                 onValueChange={v => update('earnings_email_enabled', v)}
-                trackColor={{ false: '#1E293B', true: '#166534' }}
+                trackColor={{ false: '#1e1e20', true: '#166534' }}
                 thumbColor={settings.earnings_email_enabled ? '#22C55E' : '#475569'}
               />
             </View>
@@ -245,7 +245,7 @@ export default function NotificationSettingsScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#020617' },
+  container: { flex: 1, backgroundColor: '#0a0a0b' },
 
   infoBanner: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
@@ -258,10 +258,10 @@ const s = StyleSheet.create({
   section: { paddingHorizontal: 16, marginBottom: 8 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
   card: {
-    backgroundColor: '#0F172A', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1E293B', overflow: 'hidden',
+    backgroundColor: '#111113', borderRadius: 16,
+    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
   },
-  divider: { height: 1, backgroundColor: '#1E293B', marginLeft: 46 },
+  divider: { height: 1, backgroundColor: '#1e1e20', marginLeft: 46 },
 
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16 },
   rowLeft: { flexDirection: 'row', alignItems: 'center', flex: 1, gap: 12 },
@@ -274,7 +274,7 @@ const s = StyleSheet.create({
   thresholdBtns: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: 8 },
   thresholdBtn: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 8,
-    backgroundColor: '#1E293B', borderWidth: 1, borderColor: '#334155',
+    backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e',
   },
   thresholdBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)', borderColor: '#22C55E' },
   thresholdBtnText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
@@ -285,7 +285,7 @@ const s = StyleSheet.create({
   freqBtns: { flexDirection: 'row', gap: 8, marginTop: 8 },
   freqBtn: {
     flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 8,
-    backgroundColor: '#1E293B', borderWidth: 1, borderColor: '#334155',
+    backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e',
   },
   freqBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)', borderColor: '#22C55E' },
   freqBtnText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
