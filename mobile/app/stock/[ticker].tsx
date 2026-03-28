@@ -868,6 +868,13 @@ export default function StockScreen() {
               </TouchableOpacity>
             </View>
 
+            {/* Kursalarm Button */}
+            <TouchableOpacity style={s.alertBtn} onPress={() => router.push('/alerts' as any)}>
+              <Ionicons name="notifications-outline" size={18} color="#EF4444" />
+              <Text style={s.alertBtnText}>Kursalarm setzen</Text>
+              <Ionicons name="chevron-forward" size={16} color="#EF4444" />
+            </TouchableOpacity>
+
             {/* News */}
             <View style={s.section}>
               <Text style={s.sectionTitle}>NACHRICHTEN</Text>
@@ -2015,6 +2022,16 @@ const s = StyleSheet.create({
   aiAnalyseBadgeText: { fontSize: 11, fontWeight: '800', color: '#22C55E' },
   aiAnalyseTitle: { fontSize: 14, fontWeight: '700', color: '#F8FAFC' },
   aiAnalyseSub: { fontSize: 12, color: '#64748B', marginTop: 2 },
+
+  // Kursalarm Button
+  alertBtn: {
+    flexDirection: 'row', alignItems: 'center', gap: 10,
+    backgroundColor: 'rgba(239,68,68,0.08)', borderRadius: 12,
+    padding: 14, marginHorizontal: 16, marginBottom: 8,
+    borderWidth: 1, borderColor: 'rgba(239,68,68,0.2)',
+  },
+  alertBtnText: { flex: 1, color: '#EF4444', fontSize: 14, fontWeight: '600' },
+
   newsRow: { paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center' },
   newsRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
   newsTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '500', lineHeight: 20, marginBottom: 6 },

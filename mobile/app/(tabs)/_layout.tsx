@@ -16,6 +16,7 @@ const MEHR_ITEMS = [
   { label: 'Superinvestoren', icon: 'people' as const, route: '/(tabs)/investors', color: '#6366F1' },
   { label: 'Finclue AI', icon: 'sparkles' as const, route: '/(tabs)/ai', color: '#F59E0B' },
   { label: 'Dividenden-Kalender', icon: 'calendar' as const, route: '/(tabs)/calendar', color: '#22C55E' },
+  { label: 'Kursalarme', icon: 'notifications' as const, route: '/alerts', color: '#EF4444' },
   { label: 'Profil & Einstellungen', icon: 'person-circle' as const, route: '/(tabs)/profile', color: '#94a3b8' },
 ];
 
