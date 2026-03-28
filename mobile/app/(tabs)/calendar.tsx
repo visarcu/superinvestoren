@@ -9,6 +9,11 @@ import { supabase } from '../../lib/auth';
 
 const BASE_URL = 'https://finclue.de';
 
+const FREQ_DE: Record<string, string> = {
+  Monthly: 'Monatlich', Quarterly: 'Quartalsweise',
+  'Semi-Annual': 'Halbjährlich', Annual: 'Jährlich',
+};
+
 const MONTHS_DE = ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'];
 const DAYS_DE = ['Mo','Di','Mi','Do','Fr','Sa','So'];
 
@@ -21,7 +26,7 @@ interface DividendEvent {
   adjDividend?: number;
   totalPayout?: number;
   currency?: string;
-  logo?: string;
+  frequency?: string;
 }
 
 function fmtDE(val: number, dec = 2) {
@@ -92,26 +97,19 @@ export default function CalendarScreen() {
       if (!res.ok) { setLoading(false); setRefreshing(false); return; }
       const data = await res.json();
 
-      // data is array of { symbol, historical: [...] }
-      const allEvents: DividendEvent[] = [];
-      for (const item of (Array.isArray(data) ? data : [])) {
-        const hist = item.historical || item.dividends || [];
-        for (const d of hist.slice(0, 8)) {
-          if (d.paymentDate || d.date) {
-            allEvents.push({
-              symbol: item.symbol,
-              paymentDate: d.paymentDate || d.date,
-              exDividendDate: d.date || d.exDividendDate || '',
-              dividend: d.dividend || d.adjDividend || 0,
-              adjDividend: d.adjDividend,
-              currency: 'USD',
-            });
-          }
-        }
-      }
+      // API returns flat array: [{ ticker, date, paymentDate, exDate, dividend, yield, frequency, ... }]
+      const allEvents: DividendEvent[] = (Array.isArray(data) ? data : [])
+        .map((item: any) => ({
+          symbol: item.ticker || item.symbol || '',
+          paymentDate: item.paymentDate || item.date || '',
+          exDividendDate: item.exDate || item.date || '',
+          dividend: item.dividend || 0,
+          currency: 'USD',
+          frequency: item.frequency,
+        }))
+        .filter((e: DividendEvent) => !!e.paymentDate && !!e.symbol)
+        .sort((a: DividendEvent, b: DividendEvent) => a.paymentDate.localeCompare(b.paymentDate));
 
-      // Sort by payment date
-      allEvents.sort((a, b) => a.paymentDate.localeCompare(b.paymentDate));
       setEvents(allEvents);
 
       // Calculate month total
@@ -340,12 +338,12 @@ function DividendRow({ event }: { event: DividendEvent }) {
         <Text style={s.divExDate}>Ex-Tag: {event.exDividendDate ? new Date(event.exDividendDate + 'T12:00:00').toLocaleDateString('de-DE') : '—'}</Text>
       </View>
       <View style={{ alignItems: 'flex-end' }}>
-        {event.totalPayout != null && event.totalPayout > 0 ? (
-          <Text style={s.divPayout}>{event.totalPayout.toLocaleString('de-DE', { style: 'currency', currency: event.currency || 'USD', minimumFractionDigits: 2 })}</Text>
+        <Text style={s.divDividend}>{(event.dividend || 0).toLocaleString('de-DE', { minimumFractionDigits: 4 })} $</Text>
+        {event.frequency ? (
+          <Text style={s.divFreq}>{FREQ_DE[event.frequency] || event.frequency}</Text>
         ) : (
-          <Text style={s.divDividend}>{(event.dividend || 0).toLocaleString('de-DE', { minimumFractionDigits: 4 })} $</Text>
+          <Ionicons name="chevron-forward" size={14} color="#475569" />
         )}
-        <Ionicons name="chevron-forward" size={14} color="#475569" />
       </View>
     </TouchableOpacity>
   );
@@ -415,7 +413,7 @@ const s = StyleSheet.create({
   divLogoText: { color: '#fff', fontSize: 14, fontWeight: '700' },
   divSymbol: { color: '#fff', fontSize: 14, fontWeight: '700' },
   divExDate: { color: '#475569', fontSize: 12, marginTop: 2 },
-  divPayout: { color: '#22C55E', fontSize: 14, fontWeight: '700' },
-  divDividend: { color: '#94a3b8', fontSize: 13, fontWeight: '600' },
+  divDividend: { color: '#22C55E', fontSize: 14, fontWeight: '700' },
+  divFreq: { color: '#475569', fontSize: 11, marginTop: 2 },
   noData: { color: '#475569', fontSize: 14, textAlign: 'center', paddingVertical: 12 },
 });

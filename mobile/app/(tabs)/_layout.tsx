@@ -222,9 +222,10 @@ const mehr = StyleSheet.create({
   closeBtnText: { color: '#94a3b8', fontSize: 15, fontWeight: '600' },
   tabBtn: {
     flex: 1, alignItems: 'center', justifyContent: 'center',
-    paddingTop: 10, paddingBottom: 28,
+    paddingTop: 10, paddingBottom: 28, minWidth: 60,
   },
   tabBtnLabel: {
     color: '#475569', fontSize: 10, fontWeight: '600', marginTop: 4,
+    textAlign: 'center',
   },
 });
