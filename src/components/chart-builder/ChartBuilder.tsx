@@ -24,25 +24,17 @@ export default function ChartBuilder() {
   // Auth check
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user || null)
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.user) return
+      setUser(session.user)
 
-      if (user) {
-        try {
-          const { data: { session } } = await supabase.auth.getSession()
-          if (session?.access_token) {
-            const response = await fetch('/api/user/premium-status', {
-              headers: { Authorization: `Bearer ${session.access_token}` },
-            })
-            if (response.ok) {
-              const data = await response.json()
-              setIsPremium(data.isPremium || false)
-            }
-          }
-        } catch {
-          // Ignore premium check failures
-        }
-      }
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_premium')
+        .eq('user_id', session.user.id)
+        .maybeSingle()
+
+      setIsPremium(profile?.is_premium || false)
     }
     checkAuth()
   }, [])
