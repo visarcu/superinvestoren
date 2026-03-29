@@ -63,6 +63,9 @@ export function extractMetricTimeSeries(
     })
     .map(r => {
       let val = r[metricDef.field]
+      if (metricDef.absValue) {
+        val = Math.abs(val)
+      }
       // Cap extreme multiples to keep the chart readable
       if (metricDef.unit === 'multiple') {
         val = Math.max(-200, Math.min(500, val))

@@ -23,10 +23,28 @@ function chartBuilderReducer(state: ChartBuilderState, action: ChartBuilderActio
   switch (action.type) {
     case 'ADD_STOCK': {
       if (state.stocks.includes(action.ticker)) return state
+      // Auto-apply all currently active metric keys to the new stock
+      const existingMetricKeys = [...new Set(state.activeMetrics.map(m => m.metricKey))]
+      const usedColors = state.activeMetrics.map(m => m.color)
+      const newMetrics: ActiveMetric[] = []
+      for (const metricKey of existingMetricKeys) {
+        const def = getMetricDefinition(metricKey)
+        if (!def) continue
+        const color = getNextColor([...usedColors, ...newMetrics.map(m => m.color)])
+        newMetrics.push({
+          id: `${action.ticker}_${metricKey}_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
+          metricKey,
+          stockTicker: action.ticker,
+          color,
+          visible: true,
+          yAxisSide: determineYAxisSide(def.unit, [...state.activeMetrics, ...newMetrics]),
+        })
+      }
       return {
         ...state,
         stocks: [...state.stocks, action.ticker],
         stockNames: { ...state.stockNames, [action.ticker]: action.name },
+        activeMetrics: [...state.activeMetrics, ...newMetrics],
       }
     }
 

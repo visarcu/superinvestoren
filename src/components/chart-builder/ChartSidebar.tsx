@@ -43,11 +43,17 @@ export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSideba
   const filteredStocks = useMemo(() => {
     if (!stockSearch.trim()) return []
     const q = stockSearch.toLowerCase()
+    const qUpper = stockSearch.toUpperCase()
     return stocks
       .filter(s =>
         (s.ticker.toLowerCase().includes(q) || s.name.toLowerCase().includes(q)) &&
         !state.stocks.includes(s.ticker)
       )
+      .sort((a, b) => {
+        const aScore = a.ticker === qUpper ? 0 : a.ticker.startsWith(qUpper) ? 1 : a.name.toLowerCase().startsWith(q) ? 2 : 3
+        const bScore = b.ticker === qUpper ? 0 : b.ticker.startsWith(qUpper) ? 1 : b.name.toLowerCase().startsWith(q) ? 2 : 3
+        return aScore - bScore
+      })
       .slice(0, 8)
   }, [stockSearch, state.stocks])
 

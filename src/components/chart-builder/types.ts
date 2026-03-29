@@ -19,6 +19,8 @@ export interface MetricDefinition {
   calculatedFrom?: { numerator: { source: MetricSource; field: string }; denominator: { source: MetricSource; field: string } }
   /** Whether this metric is a flow metric (can be summed for TTM) vs. a point-in-time metric */
   isFlowMetric?: boolean
+  /** Take absolute value of the raw field (e.g. capitalExpenditure is negative in FMP) */
+  absValue?: boolean
 }
 
 export interface ActiveMetric {

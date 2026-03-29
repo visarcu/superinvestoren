@@ -26,15 +26,25 @@ export async function GET(request: Request) {
     }
     
     // Transform data to match expected format and filter for relevant exchanges
-    const transformedData = data
-      .filter(item => 
-        item.symbol && 
-        item.name &&
-        // Focus on major US exchanges
-        (item.exchangeShortName === 'NASDAQ' || 
-         item.exchangeShortName === 'NYSE' || 
-         item.exchangeShortName === 'AMEX')
-      )
+    const filtered = data.filter(item =>
+      item.symbol &&
+      item.name &&
+      // Focus on major US exchanges
+      (item.exchangeShortName === 'NASDAQ' ||
+       item.exchangeShortName === 'NYSE' ||
+       item.exchangeShortName === 'AMEX')
+    )
+
+    const q = query.toUpperCase()
+
+    // Sort: exact ticker match first, then ticker starts-with, then name starts-with, then rest
+    filtered.sort((a, b) => {
+      const aExact = a.symbol.toUpperCase() === q ? 0 : a.symbol.toUpperCase().startsWith(q) ? 1 : a.name.toUpperCase().startsWith(q) ? 2 : 3
+      const bExact = b.symbol.toUpperCase() === q ? 0 : b.symbol.toUpperCase().startsWith(q) ? 1 : b.name.toUpperCase().startsWith(q) ? 2 : 3
+      return aExact - bExact
+    })
+
+    const transformedData = filtered
       .slice(0, 10)
       .map(item => ({
         symbol: item.symbol,

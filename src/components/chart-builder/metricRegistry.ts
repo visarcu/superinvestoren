@@ -67,15 +67,6 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'key-metrics',
     field: 'evToSales',
   },
-  {
-    key: 'pegRatio',
-    label: 'PEG',
-    category: 'valuation',
-    unit: 'multiple',
-    description: 'Price/Earnings to Growth Ratio',
-    source: 'key-metrics',
-    field: 'pegRatio',
-  },
 
   // === PROFITABILITÄT (Profitability) ===
   {
@@ -196,6 +187,17 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'cash-flow-statement',
     field: 'operatingCashFlow',
     isFlowMetric: true,
+  },
+  {
+    key: 'capex',
+    label: 'CapEx',
+    category: 'financial',
+    unit: 'currency',
+    description: 'Investitionsausgaben (Capital Expenditures)',
+    source: 'cash-flow-statement',
+    field: 'capitalExpenditure',
+    isFlowMetric: true,
+    absValue: true,
   },
   {
     key: 'eps',
