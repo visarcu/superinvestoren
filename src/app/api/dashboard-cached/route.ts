@@ -82,9 +82,12 @@ const getCachedMarkets = unstable_cache(
             changePct: parseFloat(quote.changesPercentage) || 0,
             change: quote.change,
             positive: (quote.change || 0) >= 0,
-            volume: quote.volume > 1000000000 
+            dayLow: quote.dayLow,
+            dayHigh: quote.dayHigh,
+            timestamp: quote.timestamp,
+            volume: quote.volume > 1000000000
               ? `${(quote.volume / 1000000000).toFixed(1)}B`
-              : quote.volume > 1000000 
+              : quote.volume > 1000000
                 ? `${(quote.volume / 1000000).toFixed(1)}M`
                 : 'N/A'
           }

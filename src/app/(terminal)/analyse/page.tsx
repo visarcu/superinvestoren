@@ -49,6 +49,9 @@ type MarketQuote = {
   change: number
   positive: boolean
   volume: string
+  dayLow?: number
+  dayHigh?: number
+  timestamp?: number
   perf1M?: number | null
   perfYTD?: number | null
 }
@@ -104,6 +107,7 @@ export default function ModernDashboard() {
   const [userName, setUserName] = useState<string | null>(null)
   const [aiSummary, setAiSummary] = useState<string | null>(null)
   const [aiSummaryLoading, setAiSummaryLoading] = useState(false)
+  const [lastMarketUpdate, setLastMarketUpdate] = useState<Date | null>(null)
   const { formatStockPrice, formatPercentage } = useCurrency()
 
   const POPULAR_STOCKS = useMemo(() => [
@@ -188,6 +192,7 @@ export default function ModernDashboard() {
           }
           if (cachedData.markets) {
             setMarketQuotes(cachedData.markets)
+            setLastMarketUpdate(new Date())
           }
           setMarketLoading(false)
         }
@@ -217,6 +222,27 @@ export default function ModernDashboard() {
 
     loadDashboardData()
   }, [POPULAR_STOCKS, watchlistTickers])
+
+  // Auto-refresh markets every 60 seconds
+  useEffect(() => {
+    const refreshMarkets = async () => {
+      try {
+        const res = await fetch('/api/dashboard-cached')
+        if (res.ok) {
+          const data = await res.json()
+          if (data.markets) {
+            setMarketQuotes(data.markets)
+            setLastMarketUpdate(new Date())
+          }
+        }
+      } catch {
+        // Silent fail – kein UI-Fehler bei Netzwerkproblem
+      }
+    }
+
+    const interval = setInterval(refreshMarkets, 60_000)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleTickerSelect = useCallback((ticker: string) => {
     if (typeof window !== 'undefined') {
@@ -403,7 +429,14 @@ export default function ModernDashboard() {
 
         {/* Markets Section */}
         <section>
-          <h2 className="text-lg font-semibold text-theme-primary mb-4">Märkte</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg font-semibold text-theme-primary">Märkte</h2>
+            {lastMarketUpdate && (
+              <span className="text-xs text-theme-muted">
+                Stand: {lastMarketUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
+              </span>
+            )}
+          </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
@@ -438,6 +471,24 @@ export default function ModernDashboard() {
                               {formatPercentage(quote.changePct)}
                             </span>
                           ) : '--'}
+                        </td>
+                        <td className="px-4 py-3 hidden md:table-cell">
+                          {quote?.dayLow && quote?.dayHigh && quote?.price ? (() => {
+                            const range = quote.dayHigh - quote.dayLow
+                            const pos = range > 0 ? ((quote.price - quote.dayLow) / range) * 100 : 50
+                            return (
+                              <div className="flex items-center gap-1.5 min-w-[100px]">
+                                <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayLow, false)}</span>
+                                <div className="flex-1 h-1 bg-theme-secondary rounded-full overflow-hidden">
+                                  <div
+                                    className={`h-full w-1.5 rounded-full ${quote.positive ? 'bg-green-400' : 'bg-red-400'}`}
+                                    style={{ marginLeft: `calc(${Math.min(Math.max(pos, 0), 96)}% - 2px)` }}
+                                  />
+                                </div>
+                                <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayHigh, false)}</span>
+                              </div>
+                            )
+                          })() : null}
                         </td>
                         <td className="px-4 py-3 text-right">
                           <span className={`text-xs px-2 py-0.5 rounded ${

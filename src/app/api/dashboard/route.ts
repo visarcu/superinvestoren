@@ -95,6 +95,9 @@ export async function GET(req: Request) {
         price: quoteData.price,
         changePct: parseFloat(quoteData.changesPercentage) || 0,
         change: quoteData.change,
+        dayLow: quoteData.dayLow,
+        dayHigh: quoteData.dayHigh,
+        timestamp: quoteData.timestamp,
         perf1M,
         perfYTD,
         volume,
@@ -142,6 +145,9 @@ export async function GET(req: Request) {
           change: result.change,
           positive: result.positive,
           volume: result.volume,
+          dayLow: result.dayLow,
+          dayHigh: result.dayHigh,
+          timestamp: result.timestamp,
           perf1M: result.perf1M,
           perfYTD: result.perfYTD
         }
