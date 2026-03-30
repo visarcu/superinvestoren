@@ -66,7 +66,7 @@ export default function PricingPage() {
 
   async function handleStripeCheckout() {
     if (!user) {
-      router.push('/auth/signin');
+      router.replace('/auth/signin');
       return;
     }
 

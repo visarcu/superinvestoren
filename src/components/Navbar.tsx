@@ -214,7 +214,7 @@ function UserDropdown({ user, profile, isLightTheme = false }: { user: any; prof
   const handleLogout = async () => {
     setIsOpen(false);
     await supabase.auth.signOut();
-    router.push('/auth/signin');
+    router.replace('/auth/signin');
   };
 
   const handleNavigation = (path: string) => {

@@ -160,7 +160,7 @@ export default function ResetPasswordPage() {
         await supabase.auth.signOut();
 
         setTimeout(() => {
-          router.push('/auth/signin?message=password_reset_success');
+          router.replace('/auth/signin?message=password_reset_success');
         }, 2000);
       }
     } catch (err) {

@@ -886,7 +886,7 @@ function LayoutContent({ children }: LayoutProps) {
         const { data: { session }, error } = await supabase.auth.getSession()
         
         if (error || !session?.user) {
-          if (mounted) router.push('/auth/signin')
+          if (mounted) router.replace('/auth/signin')
           return
         }
 
@@ -916,7 +916,7 @@ function LayoutContent({ children }: LayoutProps) {
           }
         }
       } catch {
-        if (mounted) router.push('/auth/signin')
+        if (mounted) router.replace('/auth/signin')
       }
     }
 
@@ -925,7 +925,7 @@ function LayoutContent({ children }: LayoutProps) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (!mounted) return
       if (event === 'SIGNED_OUT' || !session) {
-        router.push('/auth/signin')
+        router.replace('/auth/signin')
         return
       }
       if (event === 'SIGNED_IN' && session) {

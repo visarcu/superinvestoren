@@ -77,7 +77,7 @@ function UserDropdown({ user, profile }: { user: any; profile: any }) {
   const handleLogout = async () => {
     setIsOpen(false)
     await supabase.auth.signOut()
-    router.push('/auth/signin')
+    router.replace('/auth/signin')
   }
 
   const handleNavigation = (path: string) => {

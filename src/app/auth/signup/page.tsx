@@ -132,7 +132,7 @@ export default function SignUpPage() {
       } else {
         setSuccess('Account erstellt! Bitte überprüfe deine E-Mails.')
         setTimeout(() => {
-          router.push('/auth/signin?registered=1')
+          router.replace('/auth/signin?registered=1')
         }, 2000)
       }
     } catch (err) {

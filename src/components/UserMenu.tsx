@@ -87,7 +87,7 @@ export default function UserMenu() {
       console.error("[UserMenu] Fehler beim Abmelden:", error.message);
     } else {
       // Nach Logout auf Login-Seite oder Home weiterleiten
-      router.push("/auth/signin");
+      router.replace("/auth/signin");
     }
   };
 

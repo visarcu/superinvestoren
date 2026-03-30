@@ -82,12 +82,12 @@ export default function WatchlistPage() {
 
         if (sessionErr) {
           console.error('[Watchlist] Session Error:', sessionErr.message);
-          router.push('/auth/signin');
+          router.replace('/auth/signin');
           return;
         }
 
         if (!session?.user) {
-          router.push('/auth/signin');
+          router.replace('/auth/signin');
           return;
         }
 

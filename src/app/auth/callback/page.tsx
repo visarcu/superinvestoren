@@ -24,7 +24,7 @@ export default function AuthCallback() {
           
           // Redirect to sign-in after 3 seconds
           setTimeout(() => {
-            router.push('/auth/signin')
+            router.replace('/auth/signin')
           }, 3000)
           return
         }
@@ -43,7 +43,7 @@ export default function AuthCallback() {
           setMessage('Keine gültige Session gefunden')
           
           setTimeout(() => {
-            router.push('/auth/signin')
+            router.replace('/auth/signin')
           }, 3000)
         }
       } catch (error) {
@@ -52,7 +52,7 @@ export default function AuthCallback() {
         setMessage('Ein unerwarteter Fehler ist aufgetreten')
         
         setTimeout(() => {
-          router.push('/auth/signin')
+          router.replace('/auth/signin')
         }, 3000)
       }
     }
@@ -99,7 +99,7 @@ export default function AuthCallback() {
         {status === 'error' && (
           <div className="space-y-2">
             <button
-              onClick={() => router.push('/auth/signin')}
+              onClick={() => router.replace('/auth/signin')}
               className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               Zur Anmeldung

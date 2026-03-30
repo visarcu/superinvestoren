@@ -57,7 +57,7 @@ export default function UserDropdown({ user, profile }: Props) {
   // Handle logout
   const handleLogout = async () => {
     await supabase.auth.signOut();
-    router.push('/auth/signin');
+    router.replace('/auth/signin');
   };
 
   const menuItems = [

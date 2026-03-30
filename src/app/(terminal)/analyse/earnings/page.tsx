@@ -49,12 +49,12 @@ export default function EarningsCalendarPage() {
 
         if (sessionErr) {
           console.error('Session Error:', sessionErr.message)
-          router.push('/auth/signin')
+          router.replace('/auth/signin')
           return
         }
 
         if (!session?.user) {
-          router.push('/auth/signin')
+          router.replace('/auth/signin')
           return
         }
 

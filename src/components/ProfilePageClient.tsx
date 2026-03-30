@@ -60,7 +60,7 @@ export default function ProfilePageClient() {
 
       if (!session?.user) {
         console.log('❌ No session, redirecting...');
-        router.push('/auth/signin');
+        router.replace('/auth/signin');
         return;
       }
 
@@ -159,7 +159,7 @@ export default function ProfilePageClient() {
 
   const handleSignOut = async () => {
     await supabase.auth.signOut();
-    router.push('/auth/signin');
+    router.replace('/auth/signin');
   };
 
   const getInitials = () => {
@@ -251,7 +251,7 @@ export default function ProfilePageClient() {
                 <h2 className="text-base font-medium text-theme-primary mb-1">Nicht eingeloggt</h2>
                 <p className="text-theme-muted text-sm mb-4">Bitte melden Sie sich an, um Ihr Profil zu verwalten.</p>
                 <button
-                  onClick={() => router.push('/auth/signin')}
+                  onClick={() => router.replace('/auth/signin')}
                   className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors"
                 >
                   Zur Anmeldung

@@ -57,7 +57,7 @@ export function useWatchlist(ticker: string) {
 
   async function toggle() {
     if (!user) {
-      router.push('/auth/signin');
+      router.replace('/auth/signin');
       return;
     }
 
