@@ -483,9 +483,9 @@ export default function ModernDashboard() {
         <section>
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-semibold text-theme-primary">Märkte</h2>
-            {lastMarketUpdate && (
+            {Object.keys(marketQuotes).length > 0 && (
               <span className="text-xs text-theme-muted">
-                Stand: {lastMarketUpdate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
+                Stand: {(lastMarketUpdate ?? new Date()).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
               </span>
             )}
           </div>

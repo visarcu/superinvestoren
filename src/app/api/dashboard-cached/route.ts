@@ -104,8 +104,8 @@ const getCachedMarkets = unstable_cache(
       return {}
     }
   },
-  ['market-indices'],
-  { 
+  ['market-indices-v2'],
+  {
     revalidate: 180, // 3 minutes
     tags: ['dashboard', 'markets']
   }
