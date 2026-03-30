@@ -67,11 +67,11 @@ const SCREEN_W = Dimensions.get('window').width;
 const DRAWER_W = Math.min(SCREEN_W * 0.78, 320);
 
 const MEHR_ITEMS = [
-  { label: 'Superinvestoren', icon: 'people' as const, route: '/(tabs)/investors', color: '#6366F1' },
-  { label: 'Finclue AI', icon: 'sparkles' as const, route: '/(tabs)/ai', color: '#F59E0B' },
-  { label: 'Dividenden-Kalender', icon: 'calendar' as const, route: '/(tabs)/calendar', color: '#22C55E' },
-  { label: 'Kursalarme', icon: 'notifications' as const, route: '/alerts', color: '#EF4444' },
-  { label: 'Profil & Einstellungen', icon: 'person-circle' as const, route: '/(tabs)/profile', color: '#94a3b8' },
+  { label: 'Superinvestoren', icon: 'people-outline' as const, route: '/(tabs)/investors' },
+  { label: 'Finclue AI', icon: 'sparkles-outline' as const, route: '/(tabs)/ai' },
+  { label: 'Dividenden-Kalender', icon: 'calendar-outline' as const, route: '/(tabs)/calendar' },
+  { label: 'Kursalarme', icon: 'notifications-outline' as const, route: '/alerts' },
+  { label: 'Profil & Einstellungen', icon: 'person-outline' as const, route: '/(tabs)/profile' },
 ];
 
 function SideDrawer({ visible, onClose, userName }: { visible: boolean; onClose: () => void; userName: string }) {
@@ -95,33 +95,31 @@ function SideDrawer({ visible, onClose, userName }: { visible: boolean; onClose:
     <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
       <Pressable style={d.backdrop} onPress={onClose} />
       <Animated.View style={[d.drawer, { transform: [{ translateX: slideAnim }] }]}>
-        <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
-          {/* User Header */}
-          <View style={d.userRow}>
-            <View style={d.avatar}>
-              <Text style={d.avatarText}>{userName.charAt(0).toUpperCase()}</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={d.userName}>{userName}</Text>
-              <Text style={d.userSub}>Finclue</Text>
-            </View>
+        {/* User Header — manual top padding for status bar */}
+        <View style={d.userRow}>
+          <View style={d.avatar}>
+            <Text style={d.avatarText}>{userName.charAt(0).toUpperCase()}</Text>
           </View>
+          <View style={{ flex: 1 }}>
+            <Text style={d.userName}>{userName}</Text>
+            <Text style={d.userSub}>Finclue</Text>
+          </View>
+        </View>
 
-          <View style={d.divider} />
+        <View style={d.divider} />
 
-          {/* Nav Items */}
-          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
-            {MEHR_ITEMS.map((item) => (
-              <TouchableOpacity key={item.route} style={d.item} onPress={() => navigate(item.route)} activeOpacity={0.7}>
-                <View style={[d.iconBox, { backgroundColor: `${item.color}18` }]}>
-                  <Ionicons name={item.icon} size={20} color={item.color} />
-                </View>
-                <Text style={d.itemLabel}>{item.label}</Text>
-                <Ionicons name="chevron-forward" size={15} color="#48484A" />
-              </TouchableOpacity>
-            ))}
-          </ScrollView>
-        </SafeAreaView>
+        {/* Nav Items */}
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {MEHR_ITEMS.map((item) => (
+            <TouchableOpacity key={item.route} style={d.item} onPress={() => navigate(item.route)} activeOpacity={0.7}>
+              <View style={d.iconBox}>
+                <Ionicons name={item.icon} size={20} color="#8E8E93" />
+              </View>
+              <Text style={d.itemLabel}>{item.label}</Text>
+              <Ionicons name="chevron-forward" size={15} color="#48484A" />
+            </TouchableOpacity>
+          ))}
+        </ScrollView>
       </Animated.View>
     </Modal>
   );
@@ -375,14 +373,14 @@ const d = StyleSheet.create({
     width: DRAWER_W, backgroundColor: '#111111',
     borderRightWidth: 1, borderRightColor: '#1C1C1E',
   },
-  userRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingTop: 20, paddingBottom: 20 },
-  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
+  userRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingTop: 64, paddingBottom: 20 },
+  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center' },
   avatarText: { color: '#FFFFFF', fontSize: 19, fontWeight: '700' },
   userName: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
   userSub: { color: '#8E8E93', fontSize: 12, marginTop: 1 },
-  divider: { height: 1, backgroundColor: '#1C1C1E', marginHorizontal: 0 },
+  divider: { height: 1, backgroundColor: '#1C1C1E' },
   item: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#1A1A1A' },
-  iconBox: { width: 38, height: 38, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  iconBox: { width: 36, height: 36, borderRadius: 9, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
   itemLabel: { flex: 1, color: '#FFFFFF', fontSize: 15, fontWeight: '500' },
 });
 

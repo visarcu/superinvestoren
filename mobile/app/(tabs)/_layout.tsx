@@ -94,6 +94,7 @@ export default function TabsLayout() {
           }}
         />
         {/* Hidden tabs — accessible via Drawer menu */}
+        <Tabs.Screen name="mehr" options={{ href: null }} />
         <Tabs.Screen name="investors" options={{ href: null }} />
         <Tabs.Screen name="ai" options={{ href: null }} />
         <Tabs.Screen name="profile" options={{ href: null }} />
