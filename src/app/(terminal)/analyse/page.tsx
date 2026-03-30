@@ -93,6 +93,65 @@ const getMarketStatus = (() => {
   }
 })()
 
+// ===== MARKET ROW COMPONENT =====
+function MarketRow({ market, quote, isLoading, formatStockPrice, formatPercentage }: {
+  market: { name: string; flag: string; key: string; status: string }
+  quote: { price: number; changePct: number; positive: boolean; dayLow?: number; dayHigh?: number } | undefined
+  isLoading: boolean
+  formatStockPrice: (price: number, showCurrency: boolean) => string
+  formatPercentage: (pct: number) => string
+}) {
+  return (
+    <tr className="hover:bg-theme-hover transition-colors">
+      <td className="px-4 py-2.5">
+        <div className="flex items-center gap-2">
+          <span>{market.flag}</span>
+          <span className="font-medium text-theme-primary text-sm">{market.name}</span>
+        </div>
+      </td>
+      <td className="px-4 py-2.5 text-right font-mono text-theme-primary text-sm">
+        {isLoading ? (
+          <div className="h-4 w-16 bg-theme-secondary rounded animate-pulse ml-auto" />
+        ) : quote ? formatStockPrice(quote.price, false) : '--'}
+      </td>
+      <td className="px-4 py-2.5 text-right">
+        {isLoading ? (
+          <div className="h-4 w-12 bg-theme-secondary rounded animate-pulse ml-auto" />
+        ) : quote ? (
+          <span className={`font-medium text-sm ${quote.positive ? 'text-green-400' : 'text-red-400'}`}>
+            {formatPercentage(quote.changePct)}
+          </span>
+        ) : '--'}
+      </td>
+      <td className="px-4 py-2.5 hidden md:table-cell">
+        {quote?.dayLow && quote?.dayHigh && quote?.price ? (() => {
+          const range = quote.dayHigh - quote.dayLow
+          const pos = range > 0 ? ((quote.price - quote.dayLow) / range) * 100 : 50
+          return (
+            <div className="flex items-center gap-1.5 min-w-[100px]">
+              <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayLow, false)}</span>
+              <div className="flex-1 h-1 bg-theme-secondary rounded-full relative">
+                <div
+                  className={`absolute top-0 h-full w-1.5 rounded-full ${quote.positive ? 'bg-green-400' : 'bg-red-400'}`}
+                  style={{ left: `calc(${Math.min(Math.max(pos, 0), 96)}% - 2px)` }}
+                />
+              </div>
+              <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayHigh, false)}</span>
+            </div>
+          )
+        })() : null}
+      </td>
+      <td className="px-4 py-2.5 text-right">
+        <span className={`text-xs px-2 py-0.5 rounded ${
+          market.status === 'OPEN' ? 'bg-green-500/10 text-green-400' : 'bg-theme-secondary text-theme-muted'
+        }`}>
+          {market.status === 'OPEN' ? 'Open' : 'Closed'}
+        </span>
+      </td>
+    </tr>
+  )
+}
+
 // ===== MAIN DASHBOARD COMPONENT =====
 export default function ModernDashboard() {
   const router = useRouter()
@@ -261,32 +320,22 @@ export default function ModernDashboard() {
     }
   }, [router, loading, marketLoading])
 
-  const marketData = useMemo(() => [
-    {
-      name: 'S&P 500',
-      flag: '🇺🇸',
-      key: 'spx',
-      ...getMarketStatus("America/New_York", 9.5, 16)
-    },
-    {
-      name: 'NASDAQ',
-      flag: '🇺🇸',
-      key: 'ixic',
-      ...getMarketStatus("America/New_York", 9.5, 16)
-    },
-    {
-      name: 'DAX',
-      flag: '🇩🇪',
-      key: 'dax',
-      ...getMarketStatus("Europe/Berlin", 9, 17.5)
-    },
-    {
-      name: 'Dow Jones',
-      flag: '🇺🇸',
-      key: 'dji',
-      ...getMarketStatus("America/New_York", 9.5, 16)
-    }
+  const indicesData = useMemo(() => [
+    { name: 'S&P 500',   flag: '🇺🇸', key: 'spx',  ...getMarketStatus("America/New_York", 9.5, 16) },
+    { name: 'NASDAQ',    flag: '🇺🇸', key: 'ixic', ...getMarketStatus("America/New_York", 9.5, 16) },
+    { name: 'DAX',       flag: '🇩🇪', key: 'dax',  ...getMarketStatus("Europe/Berlin", 9, 17.5) },
+    { name: 'Dow Jones', flag: '🇺🇸', key: 'dji',  ...getMarketStatus("America/New_York", 9.5, 16) },
   ], [currentTime])
+
+  const commoditiesData = useMemo(() => [
+    { name: 'Bitcoin', flag: '₿',  key: 'btc',    status: 'OPEN' as const },
+    { name: 'Gold',    flag: '🥇', key: 'gold',   status: 'OPEN' as const },
+    { name: 'Silber',  flag: '🥈', key: 'silver', status: 'OPEN' as const },
+    { name: 'Öl (Brent)', flag: '🛢️', key: 'oil', status: 'OPEN' as const },
+  ], [])
+
+  // Legacy alias für market sentiment
+  const marketData = useMemo(() => [...indicesData, ...commoditiesData], [indicesData, commoditiesData])
 
   // Calculate market sentiment
   const marketSentiment = useMemo(() => {
@@ -446,65 +495,35 @@ export default function ModernDashboard() {
             {/* Markets Table */}
             <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
               <table className="w-full">
-                <tbody className="divide-y divide-white/[0.04]">
-                  {marketData.map((market) => {
+                <tbody>
+                  {/* Indizes */}
+                  <tr>
+                    <td colSpan={5} className="px-4 pt-3 pb-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-widest text-theme-muted">Indizes</span>
+                    </td>
+                  </tr>
+                  {indicesData.map((market) => {
                     const quote = marketQuotes[market.key]
                     const isLoading = marketLoading && !quote
-
                     return (
-                      <tr key={market.key} className="hover:bg-theme-hover transition-colors">
-                        <td className="px-4 py-3">
-                          <div className="flex items-center gap-2">
-                            <span>{market.flag}</span>
-                            <span className="font-medium text-theme-primary">{market.name}</span>
-                          </div>
-                        </td>
-                        <td className="px-4 py-3 text-right font-mono text-theme-primary">
-                          {isLoading ? (
-                            <div className="h-4 w-16 bg-theme-secondary rounded animate-pulse ml-auto"></div>
-                          ) : quote ? (
-                            formatStockPrice(quote.price, false)
-                          ) : '--'}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          {isLoading ? (
-                            <div className="h-4 w-12 bg-theme-secondary rounded animate-pulse ml-auto"></div>
-                          ) : quote ? (
-                            <span className={`font-medium ${quote.positive ? 'text-green-400' : 'text-red-400'}`}>
-                              {formatPercentage(quote.changePct)}
-                            </span>
-                          ) : '--'}
-                        </td>
-                        <td className="px-4 py-3 hidden md:table-cell">
-                          {quote?.dayLow && quote?.dayHigh && quote?.price ? (() => {
-                            const range = quote.dayHigh - quote.dayLow
-                            const pos = range > 0 ? ((quote.price - quote.dayLow) / range) * 100 : 50
-                            return (
-                              <div className="flex items-center gap-1.5 min-w-[100px]">
-                                <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayLow, false)}</span>
-                                <div className="flex-1 h-1 bg-theme-secondary rounded-full overflow-hidden">
-                                  <div
-                                    className={`h-full w-1.5 rounded-full ${quote.positive ? 'bg-green-400' : 'bg-red-400'}`}
-                                    style={{ marginLeft: `calc(${Math.min(Math.max(pos, 0), 96)}% - 2px)` }}
-                                  />
-                                </div>
-                                <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayHigh, false)}</span>
-                              </div>
-                            )
-                          })() : null}
-                        </td>
-                        <td className="px-4 py-3 text-right">
-                          <span className={`text-xs px-2 py-0.5 rounded ${
-                            market.status === 'OPEN'
-                              ? 'bg-green-500/10 text-green-400'
-                              : 'bg-theme-secondary text-theme-muted'
-                          }`}>
-                            {market.status === 'OPEN' ? 'Open' : 'Closed'}
-                          </span>
-                        </td>
-                      </tr>
+                      <MarketRow key={market.key} market={market} quote={quote} isLoading={isLoading} formatStockPrice={formatStockPrice} formatPercentage={formatPercentage} />
                     )
                   })}
+
+                  {/* Rohstoffe & Crypto */}
+                  <tr>
+                    <td colSpan={5} className="px-4 pt-4 pb-1 border-t border-white/[0.04]">
+                      <span className="text-[10px] font-semibold uppercase tracking-widest text-theme-muted">Rohstoffe & Crypto</span>
+                    </td>
+                  </tr>
+                  {commoditiesData.map((market) => {
+                    const quote = marketQuotes[market.key]
+                    const isLoading = marketLoading && !quote
+                    return (
+                      <MarketRow key={market.key} market={market} quote={quote} isLoading={isLoading} formatStockPrice={formatStockPrice} formatPercentage={formatPercentage} />
+                    )
+                  })}
+                  <tr><td colSpan={5} className="pb-1" /></tr>
                 </tbody>
               </table>
             </div>

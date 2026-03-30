@@ -13,7 +13,11 @@ const MARKET_INDICES: Record<string, string> = {
   'SPX': 'ESUSD',    // S&P 500 E-Mini Futures (live 23h/day)
   'IXIC': 'NQUSD',   // NASDAQ 100 Futures (live 23h/day)
   'DAX': '^GDAXI',   // DAX spot index (live during EU hours)
-  'DJI': 'YMUSD'     // Dow Jones Mini Futures (live 23h/day)
+  'DJI': 'YMUSD',    // Dow Jones Mini Futures (live 23h/day)
+  'BTC': 'BTCUSD',   // Bitcoin (live 24/7)
+  'GOLD': 'GCUSD',   // Gold Futures
+  'SILVER': 'SIUSD', // Silver Futures
+  'OIL': 'BZUSD',    // Brent Crude Oil Futures
 }
 
 // Cached function for popular stocks only (fastest load)
