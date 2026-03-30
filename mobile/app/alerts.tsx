@@ -60,11 +60,11 @@ export default function AlertsScreen() {
       const res = await fetch(`${BASE_URL}/api/alerts`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      if (!res.ok) throw new Error('Failed to load alerts');
+      if (!res.ok) { setAlerts([]); return; }
       const data = await res.json();
       setAlerts(data.alerts || []);
-    } catch (e) {
-      console.error('[Alerts] Load error:', e);
+    } catch {
+      // silent
     } finally {
       setLoading(false);
     }
