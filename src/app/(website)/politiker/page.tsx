@@ -122,6 +122,7 @@ export default function PolitikerPage() {
   const [activeTab, setActiveTab] = useState<'feed' | 'politiker'>('feed')
   const [topBuys, setTopBuys] = useState<TopPoliticianBuy[]>([])
   const [topBuysLoading, setTopBuysLoading] = useState(true)
+  const [selectedTicker, setSelectedTicker] = useState<string | null>(null)
 
   useEffect(() => {
     async function load() {
@@ -388,38 +389,99 @@ export default function PolitikerPage() {
                   <div className="col-span-2 text-right">Käufe</div>
                   <div className="col-span-2 text-right">Volumen</div>
                 </div>
-                {topBuys.map((item, idx) => (
-                  <Link
-                    key={item.ticker}
-                    href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
-                    className="grid grid-cols-12 gap-4 px-4 py-3 border-b border-neutral-800/50 last:border-b-0 hover:bg-neutral-800/30 transition-colors group"
-                  >
-                    <div className="col-span-1 flex items-center">
-                      <span className="text-neutral-600 text-sm">{idx + 1}</span>
-                    </div>
-                    <div className="col-span-5 flex items-center gap-3">
-                      <div className="w-7 h-7 flex-shrink-0">
-                        <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-full h-full" padding="none" />
+                {topBuys.map((item, idx) => {
+                  const isExpanded = selectedTicker === item.ticker
+                  const tickerTrades = trades.filter(
+                    t => t.ticker?.toUpperCase() === item.ticker.toUpperCase() && t.type?.toLowerCase() === 'purchase'
+                  ).sort((a, b) => b.transactionDate.localeCompare(a.transactionDate))
+                  return (
+                    <div key={item.ticker} className="border-b border-neutral-800/50 last:border-b-0">
+                      {/* Main row */}
+                      <div
+                        onClick={() => setSelectedTicker(isExpanded ? null : item.ticker)}
+                        className="grid grid-cols-12 gap-4 px-4 py-3 hover:bg-neutral-800/30 transition-colors cursor-pointer group"
+                      >
+                        <div className="col-span-1 flex items-center">
+                          <span className="text-neutral-600 text-sm">{idx + 1}</span>
+                        </div>
+                        <div className="col-span-5 flex items-center gap-3">
+                          <div className="w-7 h-7 flex-shrink-0">
+                            <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-full h-full" padding="none" />
+                          </div>
+                          <div>
+                            <p className="text-white text-sm font-medium">{item.ticker}</p>
+                            <p className="text-neutral-500 text-xs truncate max-w-[140px]">{item.companyName}</p>
+                          </div>
+                        </div>
+                        <div className="col-span-2 flex flex-col items-end justify-center">
+                          <span className="text-white text-sm font-medium">{item.politicianCount}</span>
+                          <span className="text-neutral-600 text-xs">Politiker</span>
+                        </div>
+                        <div className="col-span-2 flex flex-col items-end justify-center">
+                          <span className="text-white text-sm font-medium">{item.transactionCount}</span>
+                          <span className="text-neutral-600 text-xs">Käufe</span>
+                        </div>
+                        <div className="col-span-2 flex flex-col items-end justify-center">
+                          <span className="text-white text-sm font-medium">{formatValueRange(item.totalValueMin, item.totalValueMax)}</span>
+                          <span className={`text-xs transition-colors ${isExpanded ? 'text-brand' : 'text-neutral-600'}`}>
+                            {isExpanded ? 'schließen ▲' : 'Details ▼'}
+                          </span>
+                        </div>
                       </div>
-                      <div>
-                        <p className="text-white text-sm font-medium">{item.ticker}</p>
-                        <p className="text-neutral-500 text-xs truncate max-w-[160px]">{item.companyName}</p>
-                      </div>
+
+                      {/* Expanded trades */}
+                      {isExpanded && (
+                        <div className="bg-neutral-900/60 border-t border-neutral-800/50 px-4 py-3">
+                          <div className="flex items-center justify-between mb-3">
+                            <p className="text-xs font-medium text-neutral-500 uppercase tracking-widest">
+                              Politiker-Käufe für {item.ticker}
+                            </p>
+                            <Link
+                              href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                              onClick={e => e.stopPropagation()}
+                              className="text-xs text-neutral-500 hover:text-white transition-colors"
+                            >
+                              Aktie ansehen →
+                            </Link>
+                          </div>
+                          {tickerTrades.length === 0 ? (
+                            <p className="text-sm text-neutral-600 py-2">
+                              Keine Einzeltrades im aktuellen Feed — Käufe wurden aggregiert aus Quartalsdaten.
+                            </p>
+                          ) : (
+                            <div className="space-y-0">
+                              <div className="grid grid-cols-12 gap-3 py-1 text-xs text-neutral-600 uppercase tracking-wider">
+                                <div className="col-span-3">Datum</div>
+                                <div className="col-span-5">Politiker</div>
+                                <div className="col-span-4 text-right">Betrag</div>
+                              </div>
+                              {tickerTrades.map((t, i) => (
+                                <div key={i} className="grid grid-cols-12 gap-3 py-2 border-t border-neutral-800/40">
+                                  <div className="col-span-3 flex items-center">
+                                    <span className="text-xs text-neutral-500 tabular-nums">{formatDate(t.transactionDate)}</span>
+                                  </div>
+                                  <div className="col-span-5 flex items-center gap-1.5">
+                                    <Link
+                                      href={`/politiker/${t.slug}`}
+                                      onClick={e => e.stopPropagation()}
+                                      className="text-sm text-white hover:text-neutral-300 transition-colors truncate"
+                                    >
+                                      {t.representative}
+                                    </Link>
+                                    <PartyBadge slug={t.slug} />
+                                  </div>
+                                  <div className="col-span-4 flex items-center justify-end">
+                                    <span className="text-sm text-emerald-400">{formatAmount(t.amount)}</span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                    <div className="col-span-2 flex flex-col items-end justify-center">
-                      <span className="text-white text-sm font-medium">{item.politicianCount}</span>
-                      <span className="text-neutral-600 text-xs">Politiker</span>
-                    </div>
-                    <div className="col-span-2 flex flex-col items-end justify-center">
-                      <span className="text-white text-sm font-medium">{item.transactionCount}</span>
-                      <span className="text-neutral-600 text-xs">Käufe</span>
-                    </div>
-                    <div className="col-span-2 flex flex-col items-end justify-center">
-                      <span className="text-white text-sm font-medium">{formatValueRange(item.totalValueMin, item.totalValueMax)}</span>
-                      <span className="text-neutral-600 text-xs">Wert</span>
-                    </div>
-                  </Link>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>
