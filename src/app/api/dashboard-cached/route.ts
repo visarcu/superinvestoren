@@ -66,7 +66,8 @@ const getCachedMarkets = unstable_cache(
     if (!apiKey) throw new Error('Missing FMP_API_KEY')
 
     try {
-      const indexSymbols = Object.values(MARKET_INDICES).join(',')
+      const fmpSymbols = Object.values(MARKET_INDICES)
+      const indexSymbols = fmpSymbols.map(s => encodeURIComponent(s)).join(',')
       const sevenDaysAgo = new Date()
       sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
       const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0]
@@ -74,8 +75,8 @@ const getCachedMarkets = unstable_cache(
       // Fetch quotes + historical for all symbols in parallel
       const [quoteRes, ...histResults] = await Promise.all([
         fetch(`https://financialmodelingprep.com/api/v3/quote/${indexSymbols}?apikey=${apiKey}`),
-        ...Object.values(MARKET_INDICES).map(sym =>
-          fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${sym}?from=${sevenDaysAgoStr}&apikey=${apiKey}`)
+        ...fmpSymbols.map(sym =>
+          fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(sym)}?from=${sevenDaysAgoStr}&apikey=${apiKey}`)
             .then(r => r.ok ? r.json() : null)
             .catch(() => null)
         )
@@ -87,7 +88,6 @@ const getCachedMarkets = unstable_cache(
 
       // Build perf7d map: fmpSymbol -> perf7d
       const perf7dMap: Record<string, number | null> = {}
-      const fmpSymbols = Object.values(MARKET_INDICES)
       histResults.forEach((histData, i) => {
         const sym = fmpSymbols[i]
         if (histData?.historical?.length >= 2) {
@@ -130,7 +130,7 @@ const getCachedMarkets = unstable_cache(
       return {}
     }
   },
-  ['market-indices-v3'],
+  ['market-indices-v4'],
   {
     revalidate: 180, // 3 minutes
     tags: ['dashboard', 'markets']
