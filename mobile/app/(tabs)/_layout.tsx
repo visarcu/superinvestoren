@@ -87,15 +87,15 @@ export default function TabsLayout() {
           }}
         />
         <Tabs.Screen
-          name="screener"
+          name="investors"
           options={{
-            title: 'Screener',
-            tabBarIcon: ({ color, size }) => <Ionicons name="funnel" size={size} color={color} />,
+            title: 'Superinv.',
+            tabBarIcon: ({ color, size }) => <Ionicons name="people" size={size} color={color} />,
           }}
         />
         {/* Hidden tabs — accessible via Drawer menu */}
         <Tabs.Screen name="mehr" options={{ href: null }} />
-        <Tabs.Screen name="investors" options={{ href: null }} />
+        <Tabs.Screen name="screener" options={{ href: null }} />
         <Tabs.Screen name="ai" options={{ href: null }} />
         <Tabs.Screen name="profile" options={{ href: null }} />
         <Tabs.Screen name="calendar" options={{ href: null }} />
