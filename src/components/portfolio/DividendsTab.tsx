@@ -1,11 +1,12 @@
 // src/components/portfolio/DividendsTab.tsx
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useMemo, useState, useEffect } from 'react'
 import { type Transaction, type Holding } from '@/hooks/usePortfolio'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import Logo from '@/components/Logo'
-import { BanknotesIcon } from '@heroicons/react/24/outline'
+import { BanknotesIcon, CalendarDaysIcon } from '@heroicons/react/24/outline'
+import Link from 'next/link'
 import {
   ResponsiveContainer,
   BarChart,
@@ -16,6 +17,14 @@ import {
   Tooltip,
   type TooltipProps,
 } from 'recharts'
+
+interface UpcomingDividend {
+  ticker: string
+  date: string
+  paymentDate: string
+  dividend: number
+  frequency: string
+}
 
 interface DividendsTabProps {
   transactions: Transaction[]
@@ -46,6 +55,26 @@ export default function DividendsTab({
   isAllDepotsView,
 }: DividendsTabProps) {
   const [showAllPayments, setShowAllPayments] = useState(false)
+  const [upcomingDividends, setUpcomingDividends] = useState<UpcomingDividend[]>([])
+  const [upcomingLoading, setUpcomingLoading] = useState(false)
+
+  useEffect(() => {
+    const tickers = [...new Set(holdings.map(h => h.symbol))].filter(Boolean)
+    if (tickers.length === 0) return
+
+    setUpcomingLoading(true)
+    fetch(`/api/dividends-calendar?tickers=${tickers.join(',')}`)
+      .then(r => r.ok ? r.json() : [])
+      .then((data: any[]) => {
+        const today = new Date().toISOString().split('T')[0]
+        const upcoming = data
+          .filter((d: any) => d.date >= today && d.dividend > 0)
+          .slice(0, 5)
+        setUpcomingDividends(upcoming)
+      })
+      .catch(() => {})
+      .finally(() => setUpcomingLoading(false))
+  }, [holdings])
 
   // Alle Dividenden-Transaktionen (neueste zuerst)
   const dividendTransactions = useMemo(() => {
@@ -156,17 +185,79 @@ export default function DividendsTab({
     return `${sign}${change.toFixed(0)}% vs. Vorjahr`
   }, [stats])
 
-  // Empty State
+  // Empty State (no dividend transactions yet) — still show upcoming
   if (dividendTransactions.length === 0) {
     return (
-      <div className="mt-6 bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 border-dashed p-10 text-center">
-        <div className="w-14 h-14 mx-auto mb-4 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-          <BanknotesIcon className="w-7 h-7 text-emerald-400" />
+      <div className="space-y-6">
+        {/* Anstehende Dividenden */}
+        <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-5">
+          <h3 className="text-sm font-medium text-neutral-900 dark:text-white mb-4">Anstehende Dividenden</h3>
+          {upcomingLoading ? (
+            <div className="space-y-3">
+              {[1, 2, 3].map(i => (
+                <div key={i} className="flex items-center justify-between py-2 animate-pulse">
+                  <div className="flex items-center gap-3">
+                    <div className="w-1 h-8 bg-neutral-700 rounded-full" />
+                    <div>
+                      <div className="h-4 bg-neutral-800 rounded w-12 mb-1" />
+                      <div className="h-3 bg-neutral-800 rounded w-20" />
+                    </div>
+                  </div>
+                  <div className="h-4 bg-neutral-800 rounded w-24" />
+                </div>
+              ))}
+            </div>
+          ) : upcomingDividends.length === 0 ? (
+            <div className="text-center py-6">
+              <CalendarDaysIcon className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
+              <p className="text-neutral-500 text-sm">Keine anstehenden Dividenden gefunden</p>
+            </div>
+          ) : (
+            <div className="space-y-0">
+              {upcomingDividends.map((div, idx) => {
+                const exDate = new Date(div.date)
+                const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
+                const holding = holdings.find(h => h.symbol === div.ticker)
+                return (
+                  <Link
+                    key={idx}
+                    href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
+                    className="flex items-center justify-between py-3 border-b border-neutral-100 dark:border-neutral-800/30 last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-1 h-8 bg-emerald-500 rounded-full flex-shrink-0" />
+                      <Logo ticker={div.ticker} alt={div.ticker} className="w-7 h-7 flex-shrink-0" padding="none" />
+                      <div>
+                        <span className="text-sm font-medium text-neutral-900 dark:text-white">{div.ticker}</span>
+                        {holding?.name && (
+                          <span className="text-xs text-neutral-500 ml-2 hidden sm:inline">{holding.name}</span>
+                        )}
+                        <p className="text-xs text-neutral-500 mt-0.5">Ex-Datum: {formattedDate}</p>
+                      </div>
+                    </div>
+                    <div className="text-right flex-shrink-0">
+                      <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                        ${div.dividend.toFixed(2)}/Aktie
+                      </p>
+                      <p className="text-[10px] text-neutral-500 mt-0.5">{div.frequency}</p>
+                    </div>
+                  </Link>
+                )
+              })}
+            </div>
+          )}
         </div>
-        <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-2">Noch keine Dividenden erhalten</h3>
-        <p className="text-sm text-neutral-500 max-w-sm mx-auto">
-          Dividenden werden automatisch hier angezeigt, sobald du sie über den <span className="text-emerald-400 font-medium">+</span> Button erfasst.
-        </p>
+
+        {/* No transactions yet */}
+        <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 border-dashed p-10 text-center">
+          <div className="w-14 h-14 mx-auto mb-4 bg-emerald-500/10 rounded-xl flex items-center justify-center">
+            <BanknotesIcon className="w-7 h-7 text-emerald-400" />
+          </div>
+          <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-2">Noch keine Dividenden erhalten</h3>
+          <p className="text-sm text-neutral-500 max-w-sm mx-auto">
+            Dividenden werden automatisch hier angezeigt, sobald du sie über den <span className="text-emerald-400 font-medium">+</span> Button erfasst.
+          </p>
+        </div>
       </div>
     )
   }
@@ -176,6 +267,65 @@ export default function DividendsTab({
 
   return (
     <div className="space-y-6">
+      {/* Anstehende Dividenden */}
+      <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-5">
+        <h3 className="text-sm font-medium text-neutral-900 dark:text-white mb-4">Anstehende Dividenden</h3>
+        {upcomingLoading ? (
+          <div className="space-y-3">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="flex items-center justify-between py-2 animate-pulse">
+                <div className="flex items-center gap-3">
+                  <div className="w-1 h-8 bg-neutral-700 rounded-full" />
+                  <div>
+                    <div className="h-4 bg-neutral-800 rounded w-12 mb-1" />
+                    <div className="h-3 bg-neutral-800 rounded w-20" />
+                  </div>
+                </div>
+                <div className="h-4 bg-neutral-800 rounded w-24" />
+              </div>
+            ))}
+          </div>
+        ) : upcomingDividends.length === 0 ? (
+          <div className="text-center py-6">
+            <CalendarDaysIcon className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
+            <p className="text-neutral-500 text-sm">Keine anstehenden Dividenden gefunden</p>
+          </div>
+        ) : (
+          <div className="space-y-0">
+            {upcomingDividends.map((div, idx) => {
+              const exDate = new Date(div.date)
+              const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
+              const holding = holdings.find(h => h.symbol === div.ticker)
+              return (
+                <Link
+                  key={idx}
+                  href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
+                  className="flex items-center justify-between py-3 border-b border-neutral-100 dark:border-neutral-800/30 last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="w-1 h-8 bg-emerald-500 rounded-full flex-shrink-0" />
+                    <Logo ticker={div.ticker} alt={div.ticker} className="w-7 h-7 flex-shrink-0" padding="none" />
+                    <div>
+                      <span className="text-sm font-medium text-neutral-900 dark:text-white">{div.ticker}</span>
+                      {holding?.name && (
+                        <span className="text-xs text-neutral-500 ml-2 hidden sm:inline">{holding.name}</span>
+                      )}
+                      <p className="text-xs text-neutral-500 mt-0.5">Ex-Datum: {formattedDate}</p>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
+                      ${div.dividend.toFixed(2)}/Aktie
+                    </p>
+                    <p className="text-[10px] text-neutral-500 mt-0.5">{div.frequency}</p>
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
       {/* Summary Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Gesamt erhalten */}
