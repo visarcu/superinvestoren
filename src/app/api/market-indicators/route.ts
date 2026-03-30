@@ -156,7 +156,7 @@ export async function GET() {
           status: change === null ? 'neutral' : change > 0 ? 'up' : 'down',
           description: '10-jährige US-Staatsanleihen Rendite',
           category: 'treasury',
-          lastUpdated: latestTreasury.date as string,
+          lastUpdated: String(latestTreasury.date),
           source: 'FMP',
         })
       }
@@ -171,7 +171,7 @@ export async function GET() {
           status: change === null ? 'neutral' : change > 0 ? 'up' : 'down',
           description: '2-jährige US-Staatsanleihen Rendite',
           category: 'treasury',
-          lastUpdated: latestTreasury.date as string,
+          lastUpdated: String(latestTreasury.date),
           source: 'FMP',
         })
       }
@@ -188,7 +188,7 @@ export async function GET() {
           status: spread > 0 ? 'up' : spread < 0 ? 'down' : 'neutral',
           description: 'Spread 10J–2J: negativ = invertierte Kurve (Rezessionssignal)',
           category: 'treasury',
-          lastUpdated: latestTreasury.date as string,
+          lastUpdated: String(latestTreasury.date),
           source: 'FMP',
         })
       }
