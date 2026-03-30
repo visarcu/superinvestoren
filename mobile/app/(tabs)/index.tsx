@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, TextInput,
   RefreshControl, ActivityIndicator, StyleSheet, Image,
+  Modal, Animated, Pressable, Dimensions,
 } from 'react-native';
 import { router } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
@@ -62,6 +63,70 @@ function formatBigValue(v: number): string {
   return `${(v / 1000).toFixed(0)}K $`;
 }
 
+const SCREEN_W = Dimensions.get('window').width;
+const DRAWER_W = Math.min(SCREEN_W * 0.78, 320);
+
+const MEHR_ITEMS = [
+  { label: 'Superinvestoren', icon: 'people' as const, route: '/(tabs)/investors', color: '#6366F1' },
+  { label: 'Finclue AI', icon: 'sparkles' as const, route: '/(tabs)/ai', color: '#F59E0B' },
+  { label: 'Dividenden-Kalender', icon: 'calendar' as const, route: '/(tabs)/calendar', color: '#22C55E' },
+  { label: 'Kursalarme', icon: 'notifications' as const, route: '/alerts', color: '#EF4444' },
+  { label: 'Profil & Einstellungen', icon: 'person-circle' as const, route: '/(tabs)/profile', color: '#94a3b8' },
+];
+
+function SideDrawer({ visible, onClose, userName }: { visible: boolean; onClose: () => void; userName: string }) {
+  const slideAnim = useRef(new Animated.Value(-DRAWER_W)).current;
+
+  useEffect(() => {
+    Animated.spring(slideAnim, {
+      toValue: visible ? 0 : -DRAWER_W,
+      useNativeDriver: true,
+      damping: 22,
+      stiffness: 220,
+    }).start();
+  }, [visible]);
+
+  function navigate(route: string) {
+    onClose();
+    setTimeout(() => router.push(route as any), 180);
+  }
+
+  return (
+    <Modal visible={visible} transparent animationType="none" onRequestClose={onClose}>
+      <Pressable style={d.backdrop} onPress={onClose} />
+      <Animated.View style={[d.drawer, { transform: [{ translateX: slideAnim }] }]}>
+        <SafeAreaView style={{ flex: 1 }} edges={['top', 'bottom']}>
+          {/* User Header */}
+          <View style={d.userRow}>
+            <View style={d.avatar}>
+              <Text style={d.avatarText}>{userName.charAt(0).toUpperCase()}</Text>
+            </View>
+            <View style={{ flex: 1 }}>
+              <Text style={d.userName}>{userName}</Text>
+              <Text style={d.userSub}>Finclue</Text>
+            </View>
+          </View>
+
+          <View style={d.divider} />
+
+          {/* Nav Items */}
+          <ScrollView style={{ flex: 1 }} showsVerticalScrollIndicator={false}>
+            {MEHR_ITEMS.map((item) => (
+              <TouchableOpacity key={item.route} style={d.item} onPress={() => navigate(item.route)} activeOpacity={0.7}>
+                <View style={[d.iconBox, { backgroundColor: `${item.color}18` }]}>
+                  <Ionicons name={item.icon} size={20} color={item.color} />
+                </View>
+                <Text style={d.itemLabel}>{item.label}</Text>
+                <Ionicons name="chevron-forward" size={15} color="#48484A" />
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        </SafeAreaView>
+      </Animated.View>
+    </Modal>
+  );
+}
+
 export default function DashboardScreen() {
   const [quotes, setQuotes] = useState<any[]>([]);
   const [popularQuotes, setPopularQuotes] = useState<any[]>([]);
@@ -72,6 +137,7 @@ export default function DashboardScreen() {
   const [userName, setUserName] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showDrawer, setShowDrawer] = useState(false);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -127,6 +193,7 @@ export default function DashboardScreen() {
 
   return (
     <SafeAreaView style={s.container}>
+      <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} userName={userName} />
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
@@ -136,8 +203,13 @@ export default function DashboardScreen() {
       >
         {/* ── Header ──────────────────────────────────── */}
         <View style={s.header}>
-          <Text style={s.greeting}>{greeting}</Text>
-          <Text style={s.name}>{userName}</Text>
+          <TouchableOpacity style={s.avatarBtn} onPress={() => setShowDrawer(true)} activeOpacity={0.8}>
+            <Text style={s.avatarText}>{userName.charAt(0).toUpperCase()}</Text>
+          </TouchableOpacity>
+          <View style={{ flex: 1 }}>
+            <Text style={s.greeting}>{greeting}</Text>
+            <Text style={s.name}>{userName}</Text>
+          </View>
         </View>
 
         {/* ── Search ──────────────────────────────────── */}
@@ -296,13 +368,33 @@ export default function DashboardScreen() {
   );
 }
 
+const d = StyleSheet.create({
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.55)' },
+  drawer: {
+    position: 'absolute', top: 0, left: 0, bottom: 0,
+    width: DRAWER_W, backgroundColor: '#111111',
+    borderRightWidth: 1, borderRightColor: '#1C1C1E',
+  },
+  userRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingTop: 20, paddingBottom: 20 },
+  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
+  avatarText: { color: '#FFFFFF', fontSize: 19, fontWeight: '700' },
+  userName: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
+  userSub: { color: '#8E8E93', fontSize: 12, marginTop: 1 },
+  divider: { height: 1, backgroundColor: '#1C1C1E', marginHorizontal: 0 },
+  item: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#1A1A1A' },
+  iconBox: { width: 38, height: 38, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
+  itemLabel: { flex: 1, color: '#FFFFFF', fontSize: 15, fontWeight: '500' },
+});
+
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#0a0a0a' },
 
   // Header
-  header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 16 },
-  greeting: { color: '#64748B', fontSize: 13 },
-  name: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
+  header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
+  avatarBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  avatarText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
+  greeting: { color: '#8E8E93', fontSize: 12 },
+  name: { color: '#FFFFFF', fontSize: 20, fontWeight: '700', letterSpacing: -0.4 },
 
   // Search
   searchWrap: { paddingHorizontal: 16, marginBottom: 16 },
