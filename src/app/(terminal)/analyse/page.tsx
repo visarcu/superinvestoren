@@ -190,10 +190,10 @@ export default function ModernDashboard() {
             setQuotes(cachedData.quotes)
             setStocksInteractive(true)
           }
-          if (cachedData.markets) {
+          if (cachedData.markets && Object.keys(cachedData.markets).length > 0) {
             setMarketQuotes(cachedData.markets)
-            setLastMarketUpdate(new Date())
           }
+          setLastMarketUpdate(new Date())
           setMarketLoading(false)
         }
 
@@ -208,7 +208,10 @@ export default function ModernDashboard() {
           if (fullResponse.ok) {
             const fullData = await fullResponse.json()
             if (fullData.quotes) setQuotes(fullData.quotes)
-            if (fullData.markets) setMarketQuotes(fullData.markets)
+            if (fullData.markets && Object.keys(fullData.markets).length > 0) {
+              setMarketQuotes(fullData.markets)
+              setLastMarketUpdate(new Date())
+            }
           }
         }
 
