@@ -10,14 +10,15 @@ const POPULAR_STOCKS = [
 // US indices use futures (ESUSD, NQUSD, YMUSD) for near-realtime data outside market hours
 // DAX uses spot index since it's live during European trading hours
 const MARKET_INDICES: Record<string, string> = {
-  'SPX': 'ESUSD',    // S&P 500 E-Mini Futures (live 23h/day)
-  'IXIC': 'NQUSD',   // NASDAQ 100 Futures (live 23h/day)
-  'DAX': '^GDAXI',   // DAX spot index (live during EU hours)
-  'DJI': 'YMUSD',    // Dow Jones Mini Futures (live 23h/day)
-  'BTC': 'BTCUSD',   // Bitcoin (live 24/7)
-  'GOLD': 'GCUSD',   // Gold Futures
-  'SILVER': 'SIUSD', // Silver Futures
-  'OIL': 'BZUSD',    // Brent Crude Oil Futures
+  'SPX': 'ESUSD',      // S&P 500 E-Mini Futures (live 23h/day)
+  'IXIC': 'NQUSD',     // NASDAQ 100 Futures (live 23h/day)
+  'DAX': '^GDAXI',     // DAX spot index (live during EU hours)
+  'STOXX': '^STOXX',   // STOXX Europe 600 (live during EU hours)
+  'DJI': 'YMUSD',      // Dow Jones Mini Futures (live 23h/day)
+  'BTC': 'BTCUSD',     // Bitcoin (live 24/7)
+  'GOLD': 'GCUSD',     // Gold Futures
+  'SILVER': 'SIUSD',   // Silver Futures
+  'OIL': 'BZUSD',      // Brent Crude Oil Futures
 }
 
 // Cached function for popular stocks only (fastest load)
@@ -129,7 +130,7 @@ const getCachedMarkets = unstable_cache(
       return {}
     }
   },
-  ['market-indices-v2'],
+  ['market-indices-v3'],
   {
     revalidate: 180, // 3 minutes
     tags: ['dashboard', 'markets']

@@ -333,10 +333,11 @@ export default function ModernDashboard() {
   }, [router, loading, marketLoading])
 
   const indicesData = useMemo(() => [
-    { name: 'S&P 500',   flag: '🇺🇸', key: 'spx',  ...getMarketStatus("America/New_York", 9.5, 16) },
-    { name: 'NASDAQ',    flag: '🇺🇸', key: 'ixic', ...getMarketStatus("America/New_York", 9.5, 16) },
-    { name: 'DAX',       flag: '🇩🇪', key: 'dax',  ...getMarketStatus("Europe/Berlin", 9, 17.5) },
-    { name: 'Dow Jones', flag: '🇺🇸', key: 'dji',  ...getMarketStatus("America/New_York", 9.5, 16) },
+    { name: 'S&P 500',           flag: '🇺🇸', key: 'spx',   ...getMarketStatus("America/New_York", 9.5, 16) },
+    { name: 'NASDAQ 100',        flag: '🇺🇸', key: 'ixic',  ...getMarketStatus("America/New_York", 9.5, 16) },
+    { name: 'Dow Jones',         flag: '🇺🇸', key: 'dji',   ...getMarketStatus("America/New_York", 9.5, 16) },
+    { name: 'DAX',               flag: '🇩🇪', key: 'dax',   ...getMarketStatus("Europe/Berlin", 9, 17.5) },
+    { name: 'STOXX Europe 600',  flag: '🇪🇺', key: 'stoxx', ...getMarketStatus("Europe/Berlin", 9, 17.5) },
   ], [currentTime])
 
   const commoditiesData = useMemo(() => [
