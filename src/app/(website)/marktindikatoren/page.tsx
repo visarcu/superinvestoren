@@ -2,7 +2,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
 import {
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
@@ -10,9 +9,7 @@ import {
   BanknotesIcon,
   GlobeAltIcon,
   InformationCircleIcon,
-  BuildingLibraryIcon,
 } from '@heroicons/react/24/outline'
-import Logo from '@/components/Logo'
 
 interface MarketIndicator {
   id: string
@@ -25,16 +22,6 @@ interface MarketIndicator {
   category: 'market' | 'treasury' | 'economy' | 'valuation'
   lastUpdated: string
   source?: string
-}
-
-interface TopPoliticianBuy {
-  ticker: string
-  companyName: string
-  politicianCount: number
-  politicians: string[]
-  totalValueMin: number
-  totalValueMax: number
-  transactionCount: number
 }
 
 // Mock data - wird später durch echte API-Calls ersetzt
@@ -145,20 +132,10 @@ const categories = [
   { id: 'economy', name: 'Wirtschaft' }
 ]
 
-function formatValueRange(min: number, max: number): string {
-  if (min === 0 && max === 0) return '–'
-  const avg = (min + max) / 2
-  if (avg >= 1_000_000) return `~$${(avg / 1_000_000).toFixed(1)}M`
-  if (avg >= 1_000) return `~$${Math.round(avg / 1_000)}K`
-  return `~$${avg.toLocaleString('de-DE')}`
-}
-
 export default function MarktindikatoreNPage() {
   const [indicators, setIndicators] = useState<MarketIndicator[]>(mockIndicators)
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [loading, setLoading] = useState(true)
-  const [politicianBuys, setPoliticianBuys] = useState<TopPoliticianBuy[]>([])
-  const [politicianBuysLoading, setPoliticianBuysLoading] = useState(true)
 
   useEffect(() => {
     async function fetchIndicators() {
@@ -182,24 +159,7 @@ export default function MarktindikatoreNPage() {
       }
     }
 
-    async function fetchPoliticianBuys() {
-      try {
-        const res = await fetch('/api/politicians/top-buys')
-        if (res.ok) {
-          const data = await res.json()
-          if (Array.isArray(data.topBuys)) {
-            setPoliticianBuys(data.topBuys)
-          }
-        }
-      } catch (err) {
-        console.error('Error fetching politician buys:', err)
-      } finally {
-        setPoliticianBuysLoading(false)
-      }
-    }
-
     fetchIndicators()
-    fetchPoliticianBuys()
   }, [])
 
   const filteredIndicators = selectedCategory === 'all' 
@@ -367,106 +327,6 @@ export default function MarktindikatoreNPage() {
                     )}
                   </div>
                 </div>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Top Politiker Käufe Section */}
-      <div className="bg-black py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between mb-10">
-            <div className="flex items-center gap-4">
-              <BuildingLibraryIcon className="w-6 h-6 text-white" />
-              <div>
-                <h2 className="text-2xl font-medium text-white">
-                  Top gekaufte Aktien der Politiker
-                </h2>
-                <p className="text-gray-500 text-sm mt-1">
-                  Meistgekaufte Aktien von US-Kongressmitgliedern im letzten Quartal
-                </p>
-              </div>
-            </div>
-            <Link
-              href="/politiker"
-              className="text-sm text-gray-400 hover:text-white transition-colors border border-white/10 hover:border-white/30 px-4 py-2 rounded-xl"
-            >
-              Alle Trades →
-            </Link>
-          </div>
-
-          {politicianBuysLoading ? (
-            <div className="flex items-center justify-center py-16">
-              <div className="w-6 h-6 border-2 border-white border-t-transparent rounded-full animate-spin" />
-            </div>
-          ) : politicianBuys.length === 0 ? (
-            <div className="text-center py-16 text-gray-500">
-              <p>Keine Daten verfügbar</p>
-            </div>
-          ) : (
-            <div className="bg-white/[0.02] border border-white/10 rounded-2xl overflow-hidden">
-              {/* Table Header */}
-              <div className="grid grid-cols-12 gap-4 px-6 py-3 border-b border-white/5 text-xs text-gray-500 uppercase tracking-wider">
-                <div className="col-span-1">#</div>
-                <div className="col-span-5">Aktie</div>
-                <div className="col-span-2 text-right">Politiker</div>
-                <div className="col-span-2 text-right">Transaktionen</div>
-                <div className="col-span-2 text-right">Volumen (ca.)</div>
-              </div>
-
-              {/* Rows */}
-              {politicianBuys.map((item, idx) => (
-                <Link
-                  key={item.ticker}
-                  href={`/analyse/stocks/${item.ticker.toLowerCase()}/super-investors`}
-                  className="grid grid-cols-12 gap-4 px-6 py-4 border-b border-white/5 last:border-b-0 hover:bg-white/[0.03] transition-colors group"
-                >
-                  {/* Rank */}
-                  <div className="col-span-1 flex items-center">
-                    <span className="text-gray-600 text-sm">{idx + 1}</span>
-                  </div>
-
-                  {/* Stock */}
-                  <div className="col-span-5 flex items-center gap-3">
-                    <div className="w-7 h-7 flex-shrink-0">
-                      <Logo
-                        ticker={item.ticker}
-                        alt={`${item.ticker} Logo`}
-                        className="w-full h-full"
-                        padding="none"
-                      />
-                    </div>
-                    <div>
-                      <p className="text-white text-sm font-medium group-hover:text-gray-300 transition-colors">
-                        {item.ticker}
-                      </p>
-                      <p className="text-gray-500 text-xs truncate max-w-[160px]">
-                        {item.companyName}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Politician count */}
-                  <div className="col-span-2 flex flex-col items-end justify-center">
-                    <span className="text-white text-sm font-medium">{item.politicianCount}</span>
-                    <span className="text-gray-500 text-xs">Politiker</span>
-                  </div>
-
-                  {/* Transaction count */}
-                  <div className="col-span-2 flex flex-col items-end justify-center">
-                    <span className="text-white text-sm font-medium">{item.transactionCount}</span>
-                    <span className="text-gray-500 text-xs">Käufe</span>
-                  </div>
-
-                  {/* Value */}
-                  <div className="col-span-2 flex flex-col items-end justify-center">
-                    <span className="text-white text-sm font-medium">
-                      {formatValueRange(item.totalValueMin, item.totalValueMax)}
-                    </span>
-                    <span className="text-gray-500 text-xs">Wert</span>
-                  </div>
-                </Link>
               ))}
             </div>
           )}

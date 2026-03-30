@@ -11,6 +11,25 @@ import {
   FireIcon,
   ArrowTrendingUpIcon,
 } from '@heroicons/react/24/outline'
+import Logo from '@/components/Logo'
+
+interface TopPoliticianBuy {
+  ticker: string
+  companyName: string
+  politicianCount: number
+  politicians: string[]
+  totalValueMin: number
+  totalValueMax: number
+  transactionCount: number
+}
+
+function formatValueRange(min: number, max: number): string {
+  if (min === 0 && max === 0) return '–'
+  const avg = (min + max) / 2
+  if (avg >= 1_000_000) return `~$${(avg / 1_000_000).toFixed(1)}M`
+  if (avg >= 1_000) return `~$${Math.round(avg / 1_000)}K`
+  return `~$${avg.toLocaleString('de-DE')}`
+}
 
 interface PoliticianTrade {
   disclosureYear: string
@@ -101,6 +120,8 @@ export default function PolitikerPage() {
   const [searchQuery, setSearchQuery] = useState('')
   const [typeFilter, setTypeFilter] = useState<'all' | 'purchase' | 'sale'>('all')
   const [activeTab, setActiveTab] = useState<'feed' | 'politiker'>('feed')
+  const [topBuys, setTopBuys] = useState<TopPoliticianBuy[]>([])
+  const [topBuysLoading, setTopBuysLoading] = useState(true)
 
   useEffect(() => {
     async function load() {
@@ -131,7 +152,23 @@ export default function PolitikerPage() {
         setLoading(false)
       }
     }
+
+    async function loadTopBuys() {
+      try {
+        const res = await fetch('/api/politicians/top-buys')
+        if (res.ok) {
+          const data = await res.json()
+          if (Array.isArray(data.topBuys)) setTopBuys(data.topBuys)
+        }
+      } catch (err) {
+        console.error('Error fetching top politician buys:', err)
+      } finally {
+        setTopBuysLoading(false)
+      }
+    }
+
     load()
+    loadTopBuys()
   }, [])
 
   // Wenn API Index liefert → diesen direkt nutzen (vollständige Daten über alle Politiker)
@@ -329,6 +366,62 @@ export default function PolitikerPage() {
                 )
               })}
             </div>
+          </div>
+        )}
+
+        {/* Top Käufe */}
+        {!loading && (
+          <div className="mb-10">
+            <p className="text-xs font-medium text-neutral-600 uppercase tracking-widest mb-4">Top Käufe dieses Quartal</p>
+            {topBuysLoading ? (
+              <div className="flex items-center justify-center py-10">
+                <div className="w-5 h-5 border-2 border-neutral-600 border-t-transparent rounded-full animate-spin" />
+              </div>
+            ) : topBuys.length === 0 ? (
+              <p className="text-sm text-neutral-600 py-4">Keine Daten verfügbar</p>
+            ) : (
+              <div className="rounded-xl border border-neutral-800 overflow-hidden">
+                <div className="grid grid-cols-12 gap-4 px-4 py-2 border-b border-neutral-800 text-xs text-neutral-600 uppercase tracking-wider">
+                  <div className="col-span-1">#</div>
+                  <div className="col-span-5">Aktie</div>
+                  <div className="col-span-2 text-right">Politiker</div>
+                  <div className="col-span-2 text-right">Käufe</div>
+                  <div className="col-span-2 text-right">Volumen</div>
+                </div>
+                {topBuys.map((item, idx) => (
+                  <Link
+                    key={item.ticker}
+                    href={`/analyse/stocks/${item.ticker.toLowerCase()}`}
+                    className="grid grid-cols-12 gap-4 px-4 py-3 border-b border-neutral-800/50 last:border-b-0 hover:bg-neutral-800/30 transition-colors group"
+                  >
+                    <div className="col-span-1 flex items-center">
+                      <span className="text-neutral-600 text-sm">{idx + 1}</span>
+                    </div>
+                    <div className="col-span-5 flex items-center gap-3">
+                      <div className="w-7 h-7 flex-shrink-0">
+                        <Logo ticker={item.ticker} alt={`${item.ticker} Logo`} className="w-full h-full" padding="none" />
+                      </div>
+                      <div>
+                        <p className="text-white text-sm font-medium">{item.ticker}</p>
+                        <p className="text-neutral-500 text-xs truncate max-w-[160px]">{item.companyName}</p>
+                      </div>
+                    </div>
+                    <div className="col-span-2 flex flex-col items-end justify-center">
+                      <span className="text-white text-sm font-medium">{item.politicianCount}</span>
+                      <span className="text-neutral-600 text-xs">Politiker</span>
+                    </div>
+                    <div className="col-span-2 flex flex-col items-end justify-center">
+                      <span className="text-white text-sm font-medium">{item.transactionCount}</span>
+                      <span className="text-neutral-600 text-xs">Käufe</span>
+                    </div>
+                    <div className="col-span-2 flex flex-col items-end justify-center">
+                      <span className="text-white text-sm font-medium">{formatValueRange(item.totalValueMin, item.totalValueMax)}</span>
+                      <span className="text-neutral-600 text-xs">Wert</span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         )}
 
