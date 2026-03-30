@@ -493,14 +493,14 @@ export default function ModernDashboard() {
 
         {/* Markets Section */}
         <section>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-theme-primary">Märkte</h2>
+          <h2 className="text-lg font-semibold text-theme-primary mb-4">
+            Märkte
             {Object.keys(marketQuotes).length > 0 && (
-              <span className="text-xs text-theme-muted">
+              <span className="text-xs font-normal text-theme-muted ml-2">
                 Stand: {currentTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
               </span>
             )}
-          </div>
+          </h2>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
