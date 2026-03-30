@@ -66,38 +66,63 @@ const getCachedMarkets = unstable_cache(
 
     try {
       const indexSymbols = Object.values(MARKET_INDICES).join(',')
-      const response = await fetch(
-        `https://financialmodelingprep.com/api/v3/quote/${indexSymbols}?apikey=${apiKey}`
-      )
-      
-      if (!response.ok) throw new Error('FMP API error')
-      
-      const quotes = await response.json()
-      const formattedMarkets: Record<string, any> = {}
-      
-      quotes.forEach((quote: any) => {
-        // Map back to our key
-        const indexKey = Object.entries(MARKET_INDICES)
-          .find(([, symbol]) => symbol === quote.symbol)?.[0]?.toLowerCase()
-        
-        if (indexKey) {
-          formattedMarkets[indexKey] = {
-            price: quote.price,
-            changePct: parseFloat(quote.changesPercentage) || 0,
-            change: quote.change,
-            positive: (quote.change || 0) >= 0,
-            dayLow: quote.dayLow,
-            dayHigh: quote.dayHigh,
-            timestamp: quote.timestamp,
-            volume: quote.volume > 1000000000
-              ? `${(quote.volume / 1000000000).toFixed(1)}B`
-              : quote.volume > 1000000
-                ? `${(quote.volume / 1000000).toFixed(1)}M`
-                : 'N/A'
-          }
+      const sevenDaysAgo = new Date()
+      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+      const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0]
+
+      // Fetch quotes + historical for all symbols in parallel
+      const [quoteRes, ...histResults] = await Promise.all([
+        fetch(`https://financialmodelingprep.com/api/v3/quote/${indexSymbols}?apikey=${apiKey}`),
+        ...Object.values(MARKET_INDICES).map(sym =>
+          fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/${sym}?from=${sevenDaysAgoStr}&apikey=${apiKey}`)
+            .then(r => r.ok ? r.json() : null)
+            .catch(() => null)
+        )
+      ])
+
+      if (!quoteRes.ok) throw new Error('FMP API error')
+
+      const quotes = await quoteRes.json()
+
+      // Build perf7d map: fmpSymbol -> perf7d
+      const perf7dMap: Record<string, number | null> = {}
+      const fmpSymbols = Object.values(MARKET_INDICES)
+      histResults.forEach((histData, i) => {
+        const sym = fmpSymbols[i]
+        if (histData?.historical?.length >= 2) {
+          const latest = histData.historical[0]?.close
+          const weekAgo = histData.historical[histData.historical.length - 1]?.close
+          perf7dMap[sym] = latest && weekAgo ? ((latest - weekAgo) / weekAgo) * 100 : null
+        } else {
+          perf7dMap[sym] = null
         }
       })
-      
+
+      const formattedMarkets: Record<string, any> = {}
+
+      quotes.forEach((quote: any) => {
+        const entry = Object.entries(MARKET_INDICES).find(([, symbol]) => symbol === quote.symbol)
+        if (!entry) return
+        const [key, fmpSym] = entry
+        const indexKey = key.toLowerCase()
+
+        formattedMarkets[indexKey] = {
+          price: quote.price,
+          changePct: parseFloat(quote.changesPercentage) || 0,
+          change: quote.change,
+          positive: (quote.change || 0) >= 0,
+          dayLow: quote.dayLow,
+          dayHigh: quote.dayHigh,
+          timestamp: quote.timestamp,
+          perf7d: perf7dMap[fmpSym] ?? null,
+          volume: quote.volume > 1000000000
+            ? `${(quote.volume / 1000000000).toFixed(1)}B`
+            : quote.volume > 1000000
+              ? `${(quote.volume / 1000000).toFixed(1)}M`
+              : 'N/A'
+        }
+      })
+
       return formattedMarkets
     } catch (error) {
       console.error('Cached markets error:', error)

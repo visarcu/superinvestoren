@@ -52,6 +52,7 @@ type MarketQuote = {
   dayLow?: number
   dayHigh?: number
   timestamp?: number
+  perf7d?: number | null
   perf1M?: number | null
   perfYTD?: number | null
 }
@@ -96,11 +97,22 @@ const getMarketStatus = (() => {
 // ===== MARKET ROW COMPONENT =====
 function MarketRow({ market, quote, isLoading, formatStockPrice, formatPercentage }: {
   market: { name: string; flag: string; key: string; status: string }
-  quote: { price: number; changePct: number; positive: boolean; dayLow?: number; dayHigh?: number } | undefined
+  quote: MarketQuote | undefined
   isLoading: boolean
   formatStockPrice: (price: number, showCurrency: boolean) => string
   formatPercentage: (pct: number) => string
 }) {
+  const pctCell = (val: number | null | undefined, loading: boolean) => {
+    if (loading) return <div className="h-4 w-10 bg-theme-secondary rounded animate-pulse ml-auto" />
+    if (val == null) return <span className="text-theme-muted text-xs">—</span>
+    const pos = val >= 0
+    return (
+      <span className={`font-medium text-sm ${pos ? 'text-green-400' : 'text-red-400'}`}>
+        {formatPercentage(val)}
+      </span>
+    )
+  }
+
   return (
     <tr className="hover:bg-theme-hover transition-colors">
       <td className="px-4 py-2.5">
@@ -114,21 +126,21 @@ function MarketRow({ market, quote, isLoading, formatStockPrice, formatPercentag
           <div className="h-4 w-16 bg-theme-secondary rounded animate-pulse ml-auto" />
         ) : quote ? formatStockPrice(quote.price, false) : '--'}
       </td>
+      {/* 24h% */}
       <td className="px-4 py-2.5 text-right">
-        {isLoading ? (
-          <div className="h-4 w-12 bg-theme-secondary rounded animate-pulse ml-auto" />
-        ) : quote ? (
-          <span className={`font-medium text-sm ${quote.positive ? 'text-green-400' : 'text-red-400'}`}>
-            {formatPercentage(quote.changePct)}
-          </span>
-        ) : '--'}
+        {pctCell(quote?.changePct, isLoading)}
       </td>
-      <td className="px-4 py-2.5 hidden md:table-cell">
+      {/* 7d% */}
+      <td className="px-4 py-2.5 text-right hidden sm:table-cell">
+        {pctCell(quote?.perf7d, isLoading)}
+      </td>
+      {/* Tagesrange */}
+      <td className="px-4 py-2.5 hidden lg:table-cell">
         {quote?.dayLow && quote?.dayHigh && quote?.price ? (() => {
           const range = quote.dayHigh - quote.dayLow
           const pos = range > 0 ? ((quote.price - quote.dayLow) / range) * 100 : 50
           return (
-            <div className="flex items-center gap-1.5 min-w-[100px]">
+            <div className="flex items-center gap-1.5 min-w-[110px]">
               <span className="text-[10px] text-theme-muted font-mono">{formatStockPrice(quote.dayLow, false)}</span>
               <div className="flex-1 h-1 bg-theme-secondary rounded-full relative">
                 <div
@@ -485,7 +497,7 @@ export default function ModernDashboard() {
             <h2 className="text-lg font-semibold text-theme-primary">Märkte</h2>
             {Object.keys(marketQuotes).length > 0 && (
               <span className="text-xs text-theme-muted">
-                Stand: {(lastMarketUpdate ?? new Date()).toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
+                Stand: {currentTime.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr
               </span>
             )}
           </div>
@@ -495,10 +507,20 @@ export default function ModernDashboard() {
             {/* Markets Table */}
             <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
               <table className="w-full">
+                <thead>
+                  <tr className="border-b border-white/[0.04]">
+                    <th className="px-4 py-2 text-left text-[10px] font-semibold uppercase tracking-widest text-theme-muted">Name</th>
+                    <th className="px-4 py-2 text-right text-[10px] font-semibold uppercase tracking-widest text-theme-muted">Kurs</th>
+                    <th className="px-4 py-2 text-right text-[10px] font-semibold uppercase tracking-widest text-theme-muted">24h %</th>
+                    <th className="px-4 py-2 text-right text-[10px] font-semibold uppercase tracking-widest text-theme-muted hidden sm:table-cell">7d %</th>
+                    <th className="px-4 py-2 text-[10px] font-semibold uppercase tracking-widest text-theme-muted hidden lg:table-cell">Tagesrange</th>
+                    <th className="px-4 py-2 text-right text-[10px] font-semibold uppercase tracking-widest text-theme-muted">Status</th>
+                  </tr>
+                </thead>
                 <tbody>
                   {/* Indizes */}
                   <tr>
-                    <td colSpan={5} className="px-4 pt-3 pb-1">
+                    <td colSpan={6} className="px-4 pt-3 pb-1">
                       <span className="text-[10px] font-semibold uppercase tracking-widest text-theme-muted">Indizes</span>
                     </td>
                   </tr>
@@ -523,7 +545,7 @@ export default function ModernDashboard() {
                       <MarketRow key={market.key} market={market} quote={quote} isLoading={isLoading} formatStockPrice={formatStockPrice} formatPercentage={formatPercentage} />
                     )
                   })}
-                  <tr><td colSpan={5} className="pb-1" /></tr>
+                  <tr><td colSpan={6} className="pb-1" /></tr>
                 </tbody>
               </table>
             </div>

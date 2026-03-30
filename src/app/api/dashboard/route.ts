@@ -49,6 +49,7 @@ export async function GET(req: Request) {
       if (!quoteData?.price) throw new Error('No quote data')
       
       let perf1M = null
+      let perf7d = null
       let perfYTD = null
       let volume = 'N/A'
       let avgVolume = null
@@ -82,11 +83,20 @@ export async function GET(req: Request) {
             perfYTD = ((currentPrice - ytdDataPoint.close) / ytdDataPoint.close) * 100
           }
           
+          // 7D Performance
+          const sevenDaysAgo = new Date()
+          sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7)
+          const sevenDaysAgoStr = sevenDaysAgo.toISOString().split('T')[0]
+          const sevenDayDataPoint = historical.find((day: any) => day.date <= sevenDaysAgoStr)
+          if (sevenDayDataPoint) {
+            perf7d = ((currentPrice - sevenDayDataPoint.close) / sevenDayDataPoint.close) * 100
+          }
+
           // 1M Performance
           const oneMonthAgo = new Date()
           oneMonthAgo.setDate(oneMonthAgo.getDate() - 30)
           const oneMonthAgoStr = oneMonthAgo.toISOString().split('T')[0]
-          
+
           const oneMonthDataPoint = historical.find((day: any) => day.date <= oneMonthAgoStr)
           if (oneMonthDataPoint) {
             perf1M = ((currentPrice - oneMonthDataPoint.close) / oneMonthDataPoint.close) * 100
@@ -102,6 +112,7 @@ export async function GET(req: Request) {
         dayLow: quoteData.dayLow,
         dayHigh: quoteData.dayHigh,
         timestamp: quoteData.timestamp,
+        perf7d,
         perf1M,
         perfYTD,
         volume,
@@ -152,6 +163,7 @@ export async function GET(req: Request) {
           dayLow: result.dayLow,
           dayHigh: result.dayHigh,
           timestamp: result.timestamp,
+          perf7d: result.perf7d,
           perf1M: result.perf1M,
           perfYTD: result.perfYTD
         }
