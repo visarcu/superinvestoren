@@ -76,6 +76,15 @@ function parseAmountMin(amount: string): number {
   return match ? parseInt(match[0]) : 0
 }
 
+function parseAmountMidpoint(amount: string): number {
+  if (!amount) return 0
+  const clean = amount.replace(/[$,]/g, '')
+  const matches = clean.match(/\d+/g)
+  if (!matches || matches.length === 0) return 0
+  if (matches.length === 1) return parseInt(matches[0])
+  return (parseInt(matches[0]) + parseInt(matches[matches.length - 1])) / 2
+}
+
 function formatAmount(amount: string): string {
   if (!amount) return '–'
   return amount.replace('$', '').trim()
@@ -119,7 +128,7 @@ export default function PolitikerPage() {
   const [loading, setLoading] = useState(true)
   const [searchQuery, setSearchQuery] = useState('')
   const [typeFilter, setTypeFilter] = useState<'all' | 'purchase' | 'sale'>('all')
-  const [activeTab, setActiveTab] = useState<'feed' | 'politiker'>('feed')
+  const [activeTab, setActiveTab] = useState<'feed' | 'biggest' | 'politiker'>('feed')
   const [topBuys, setTopBuys] = useState<TopPoliticianBuy[]>([])
   const [topBuysLoading, setTopBuysLoading] = useState(true)
   const [selectedTicker, setSelectedTicker] = useState<string | null>(null)
@@ -223,6 +232,13 @@ export default function PolitikerPage() {
       p.state.toLowerCase().includes(searchQuery.toLowerCase())
     )
   }, [politicians, searchQuery])
+
+  const biggestTrades = useMemo(() => {
+    return [...trades]
+      .filter(t => t.amount)
+      .sort((a, b) => parseAmountMidpoint(b.amount) - parseAmountMidpoint(a.amount))
+      .slice(0, 100)
+  }, [trades])
 
   const stats = useMemo(() => {
     const purchases = trades.filter(t => t.type?.toLowerCase() === 'purchase').length
@@ -503,6 +519,17 @@ export default function PolitikerPage() {
               Neueste Trades
             </button>
             <button
+              onClick={() => setActiveTab('biggest')}
+              className={`flex items-center gap-2 text-sm pb-1 transition-colors border-b ${
+                activeTab === 'biggest'
+                  ? 'text-brand border-brand'
+                  : 'text-neutral-500 border-transparent hover:text-neutral-300'
+              }`}
+            >
+              <ArrowTrendingUpIcon className="w-4 h-4" />
+              Größte Trades
+            </button>
+            <button
               onClick={() => setActiveTab('politiker')}
               className={`flex items-center gap-2 text-sm pb-1 transition-colors border-b ${
                 activeTab === 'politiker'
@@ -527,7 +554,7 @@ export default function PolitikerPage() {
                 className="w-full pl-9 pr-4 py-2 text-sm bg-neutral-900 border border-neutral-800 rounded-lg text-white placeholder-neutral-500 focus:outline-none focus:border-neutral-700"
               />
             </div>
-            {activeTab === 'feed' && (
+            {(activeTab === 'feed' || activeTab === 'biggest') && (
               <select
                 value={typeFilter}
                 onChange={e => setTypeFilter(e.target.value as 'all' | 'purchase' | 'sale')}
@@ -622,6 +649,73 @@ export default function PolitikerPage() {
                 <p className="text-sm">Keine Trades für &quot;{searchQuery}&quot;</p>
               </div>
             )}
+          </div>
+        ) : activeTab === 'biggest' ? (
+          /* GRÖSSTE TRADES */
+          <div className="space-y-0">
+            <div className="flex items-center gap-4 py-2 px-2 mb-1">
+              <span className="text-xs text-neutral-600 w-6 flex-shrink-0">#</span>
+              <span className="text-xs text-neutral-600 flex-1">Politiker</span>
+              <span className="text-xs text-neutral-600 w-28">Aktie</span>
+              <span className="text-xs text-neutral-600 w-20 hidden sm:block">Typ</span>
+              <span className="text-xs text-neutral-600 w-32 text-right">Betrag</span>
+            </div>
+            {biggestTrades
+              .filter(t => {
+                const matchesSearch = !searchQuery ||
+                  t.representative?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                  t.ticker?.toLowerCase().includes(searchQuery.toLowerCase())
+                const matchesType = typeFilter === 'all' || t.type?.toLowerCase() === typeFilter
+                return matchesSearch && matchesType
+              })
+              .map((trade, i) => (
+              <div
+                key={`biggest-${trade.representative}-${trade.transactionDate}-${trade.ticker}-${i}`}
+                className="flex items-center gap-4 py-3 px-2 border-b border-neutral-800/50 last:border-b-0 hover:bg-neutral-800/30 transition-colors group"
+              >
+                <span className="text-xs text-neutral-600 w-6 flex-shrink-0 tabular-nums">{i + 1}</span>
+
+                <div className="flex-1 min-w-0">
+                  <Link href={`/politiker/${trade.slug}`} className="flex items-center gap-1.5">
+                    <span className="text-sm font-medium text-white group-hover:text-neutral-300 transition-colors truncate">
+                      {trade.representative}
+                    </span>
+                    <PartyBadge slug={trade.slug} />
+                  </Link>
+                  <span className="text-xs text-neutral-500 tabular-nums">{formatDate(trade.transactionDate)}</span>
+                </div>
+
+                <div className="w-28 min-w-0">
+                  {trade.ticker ? (
+                    <Link href={`/analyse/stocks/${trade.ticker}`} className="group/ticker">
+                      <p className="text-sm font-medium text-white group-hover/ticker:text-neutral-300 transition-colors">
+                        {trade.ticker}
+                      </p>
+                      <p className="text-xs text-neutral-500 truncate">{trade.assetDescription?.slice(0, 18)}</p>
+                    </Link>
+                  ) : (
+                    <p className="text-sm text-neutral-500">–</p>
+                  )}
+                </div>
+
+                <div className="w-20 hidden sm:flex items-center gap-1">
+                  {trade.type?.toLowerCase() === 'purchase' ? (
+                    <ArrowUpRightIcon className="w-3.5 h-3.5 text-emerald-500 flex-shrink-0" />
+                  ) : (
+                    <ArrowDownRightIcon className="w-3.5 h-3.5 text-red-400 flex-shrink-0" />
+                  )}
+                  <span className={`text-sm ${trade.type?.toLowerCase() === 'purchase' ? 'text-emerald-400' : 'text-red-400'}`}>
+                    {trade.type?.toLowerCase() === 'purchase' ? 'Kauf' : 'Verkauf'}
+                  </span>
+                </div>
+
+                <span className={`text-sm font-medium w-32 text-right tabular-nums ${
+                  trade.type?.toLowerCase() === 'purchase' ? 'text-emerald-400' : 'text-red-400'
+                }`}>
+                  {formatAmount(trade.amount)}
+                </span>
+              </div>
+            ))}
           </div>
         ) : (
           /* POLITIKER LISTE */

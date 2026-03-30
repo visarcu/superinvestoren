@@ -1,201 +1,207 @@
 // src/app/api/market-indicators/route.ts
 import { NextResponse } from 'next/server'
 
-interface MarketIndicator {
-  id: string
-  name: string
-  value: string
-  change?: string
-  changePercent?: string
-  status: 'up' | 'down' | 'neutral'
-  description: string
-  category: 'market' | 'treasury' | 'economy' | 'valuation'
-  lastUpdated: string
-  source?: string
+const BASE = 'https://financialmodelingprep.com/stable'
+
+async function fetchEconomicIndicator(name: string, apiKey: string) {
+  const res = await fetch(`${BASE}/economic-indicators?name=${name}&apikey=${apiKey}`)
+  if (!res.ok) return null
+  const data = await res.json()
+  return Array.isArray(data) && data.length > 0 ? data : null
+}
+
+function yoyChange(data: { value: number; date: string }[], monthsBack = 12) {
+  if (data.length < 2) return null
+  const latest = data[0]
+  // Find entry ~12 months ago
+  const targetDate = new Date(latest.date)
+  targetDate.setFullYear(targetDate.getFullYear() - 1)
+  const yearAgo = data.find(d => new Date(d.date) <= targetDate)
+  if (!yearAgo) return null
+  return ((latest.value - yearAgo.value) / Math.abs(yearAgo.value)) * 100
 }
 
 export async function GET() {
   const apiKey = process.env.FMP_API_KEY
-  
-  if (!apiKey) {
-    return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
-  }
+  if (!apiKey) return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
 
   try {
-    const indicators: MarketIndicator[] = []
-
-    // Parallel API calls für bessere Performance - mit aktuellen Endpoints
-    const [
-      treasuryRes,
-      vixRes,
-      sp500RatiosRes,
-      dxyRes,
-      treasury10yRes,
-      treasury2yRes
-    ] = await Promise.allSettled([
-      // Aktuelle Treasury Rates - verschiedene Endpoints versuchen
-      fetch(`https://financialmodelingprep.com/api/v4/treasury?apikey=${apiKey}`),
-      // VIX
-      fetch(`https://financialmodelingprep.com/api/v3/quote/%5EVIX?apikey=${apiKey}`),
-      // S&P 500 Ratios (für PE)
-      fetch(`https://financialmodelingprep.com/api/v3/ratios/SPY?period=annual&limit=1&apikey=${apiKey}`),
-      // DXY Dollar Index
-      fetch(`https://financialmodelingprep.com/api/v3/quote/DX-Y.NYB?apikey=${apiKey}`),
-      // 10Y Treasury Rate (besser: Economic Calendar API oder Treasury API)
-      fetch(`https://financialmodelingprep.com/api/v4/treasury?apikey=${apiKey}`),
-      // 2Y Treasury aus demselben API call
-      fetch(`https://financialmodelingprep.com/api/v4/treasury?apikey=${apiKey}`)
+    const [treasuryData, cpiData, fedData, gdpData, unemploymentData] = await Promise.all([
+      fetch(`${BASE}/treasury-rates?apikey=${apiKey}`).then(r => r.ok ? r.json() : null),
+      fetchEconomicIndicator('CPI', apiKey),
+      fetchEconomicIndicator('federalFunds', apiKey),
+      fetchEconomicIndicator('GDP', apiKey),
+      fetchEconomicIndicator('unemploymentRate', apiKey),
     ])
 
-    // Treasury Rates aus Treasury API
-    if (treasury10yRes.status === 'fulfilled' && treasury10yRes.value.ok) {
-      const treasuryData = await treasury10yRes.value.json()
-      if (Array.isArray(treasuryData) && treasuryData.length > 0) {
-        // Neueste Daten zuerst
-        const latest = treasuryData[treasuryData.length - 1]
-        const previous = treasuryData.length > 1 ? treasuryData[treasuryData.length - 2] : null
-        
-        // 10Y Treasury
-        if (latest.year10) {
-          const change = previous && previous.year10 ? (latest.year10 - previous.year10) : null
-          const changePercent = previous && previous.year10 > 0 
-            ? (((latest.year10 - previous.year10) / previous.year10) * 100) 
-            : null
+    // --- Yield Curve (full) ---
+    const yieldCurve: { maturity: string; rate: number }[] = []
+    let latestTreasury: Record<string, number> | null = null
+    let prevTreasury: Record<string, number> | null = null
 
-          indicators.push({
-            id: '10y-treasury',
-            name: '10Y US Treasury',
-            value: `${latest.year10.toFixed(2)}%`,
-            change: change ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : undefined,
-            changePercent: changePercent ? changePercent.toFixed(1) : undefined,
-            status: change ? (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral') : 'neutral',
-            description: '10-jährige US-Staatsanleihen Rendite',
-            category: 'treasury',
-            lastUpdated: latest.date || new Date().toISOString().split('T')[0],
-            source: 'FMP'
-          })
-        }
+    if (Array.isArray(treasuryData) && treasuryData.length > 0) {
+      latestTreasury = treasuryData[0]
+      prevTreasury = treasuryData[1] ?? null
 
-        // 2Y Treasury
-        if (latest.year2) {
-          const change = previous && previous.year2 ? (latest.year2 - previous.year2) : null
-          const changePercent = previous && previous.year2 > 0 
-            ? (((latest.year2 - previous.year2) / previous.year2) * 100) 
-            : null
-
-          indicators.push({
-            id: '2y-treasury',
-            name: '2Y US Treasury',
-            value: `${latest.year2.toFixed(2)}%`,
-            change: change ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : undefined,
-            changePercent: changePercent ? changePercent.toFixed(1) : undefined,
-            status: change ? (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral') : 'neutral',
-            description: '2-jährige US-Staatsanleihen Rendite',
-            category: 'treasury',
-            lastUpdated: latest.date || new Date().toISOString().split('T')[0],
-            source: 'FMP'
-          })
-        }
-
-        // Yield Curve Spread
-        if (latest.year10 && latest.year2) {
-          const spread = latest.year10 - latest.year2
-          const prevSpread = previous && previous.year10 && previous.year2 
-            ? (previous.year10 - previous.year2) 
-            : null
-          const change = prevSpread ? (spread - prevSpread) : null
-
-          indicators.push({
-            id: 'yield-curve',
-            name: 'Yield Curve (10Y-2Y)',
-            value: `${spread > 0 ? '+' : ''}${spread.toFixed(2)}%`,
-            change: change ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : undefined,
-            changePercent: undefined,
-            status: change ? (change > 0 ? 'up' : change < 0 ? 'down' : 'neutral') : 'neutral',
-            description: 'Zinsstrukturkurve - Spread zwischen 10Y und 2Y Treasuries',
-            category: 'treasury',
-            lastUpdated: latest.date || new Date().toISOString().split('T')[0],
-            source: 'FMP'
-          })
-        }
+      const maturities = [
+        { key: 'month1', label: '1M' },
+        { key: 'month2', label: '2M' },
+        { key: 'month3', label: '3M' },
+        { key: 'month6', label: '6M' },
+        { key: 'year1',  label: '1J' },
+        { key: 'year2',  label: '2J' },
+        { key: 'year3',  label: '3J' },
+        { key: 'year5',  label: '5J' },
+        { key: 'year7',  label: '7J' },
+        { key: 'year10', label: '10J' },
+        { key: 'year20', label: '20J' },
+        { key: 'year30', label: '30J' },
+      ]
+      for (const { key, label } of maturities) {
+        const rate = latestTreasury?.[key]
+        if (rate != null) yieldCurve.push({ maturity: label, rate })
       }
     }
 
-    // VIX verarbeiten
-    if (vixRes.status === 'fulfilled' && vixRes.value.ok) {
-      const vixData = await vixRes.value.json()
-      if (Array.isArray(vixData) && vixData.length > 0) {
-        const vix = vixData[0]
+    // --- Economic indicators cards ---
+    const indicators = []
+
+    // Fed Funds Rate
+    if (fedData) {
+      const latest = fedData[0]
+      const prev = fedData[1]
+      const change = prev ? latest.value - prev.value : null
+      indicators.push({
+        id: 'fed-funds',
+        name: 'Fed Funds Rate',
+        value: `${latest.value.toFixed(2)}%`,
+        change: change ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : null,
+        status: change === null ? 'neutral' : change > 0 ? 'up' : change < 0 ? 'down' : 'neutral',
+        description: 'Leitzins der US-Notenbank Federal Reserve',
+        category: 'economy',
+        lastUpdated: latest.date,
+        source: 'FED',
+      })
+    }
+
+    // CPI + YoY Inflation
+    if (cpiData) {
+      const latest = cpiData[0]
+      const prev = cpiData[1]
+      const yoy = yoyChange(cpiData)
+      const mom = prev ? ((latest.value - prev.value) / prev.value) * 100 : null
+      indicators.push({
+        id: 'cpi',
+        name: 'Inflation (CPI)',
+        value: yoy != null ? `${yoy.toFixed(1)}%` : `${latest.value.toFixed(1)}`,
+        change: mom != null ? `${mom > 0 ? '+' : ''}${mom.toFixed(2)}% MoM` : null,
+        status: yoy == null ? 'neutral' : yoy > 4 ? 'up' : yoy > 2 ? 'neutral' : 'down',
+        description: 'US Consumer Price Index — jährliche Inflationsrate',
+        category: 'economy',
+        lastUpdated: latest.date,
+        source: 'BLS',
+      })
+    }
+
+    // Unemployment
+    if (unemploymentData) {
+      const latest = unemploymentData[0]
+      const prev = unemploymentData[1]
+      const change = prev ? latest.value - prev.value : null
+      indicators.push({
+        id: 'unemployment',
+        name: 'Arbeitslosenquote',
+        value: `${latest.value.toFixed(1)}%`,
+        change: change != null ? `${change > 0 ? '+' : ''}${change.toFixed(1)}%` : null,
+        status: change === null ? 'neutral' : change > 0 ? 'up' : change < 0 ? 'down' : 'neutral',
+        description: 'US Arbeitslosenquote',
+        category: 'economy',
+        lastUpdated: latest.date,
+        source: 'BLS',
+      })
+    }
+
+    // GDP (QoQ growth)
+    if (gdpData) {
+      const latest = gdpData[0]
+      const prev = gdpData[1]
+      const qoq = prev ? ((latest.value - prev.value) / prev.value) * 100 : null
+      indicators.push({
+        id: 'gdp',
+        name: 'US BIP',
+        value: `$${(latest.value / 1000).toFixed(1)}T`,
+        change: qoq != null ? `${qoq > 0 ? '+' : ''}${qoq.toFixed(1)}% QoQ` : null,
+        status: qoq === null ? 'neutral' : qoq > 0 ? 'up' : 'down',
+        description: 'US Bruttoinlandsprodukt (nominell, annualisiert)',
+        category: 'economy',
+        lastUpdated: latest.date,
+        source: 'BEA',
+      })
+    }
+
+    // Treasury key rates as indicators
+    if (latestTreasury) {
+      const t10 = latestTreasury.year10
+      const t2  = latestTreasury.year2
+      const p10 = prevTreasury?.year10
+      const p2  = prevTreasury?.year2
+
+      if (t10 != null) {
+        const change = p10 != null ? t10 - p10 : null
         indicators.push({
-          id: 'vix',
-          name: 'VIX (Fear Index)',
-          value: vix.price.toFixed(1),
-          change: vix.change ? vix.change.toFixed(1) : undefined,
-          changePercent: vix.changesPercentage ? vix.changesPercentage.toFixed(1) : undefined,
-          status: vix.change > 0 ? 'up' : vix.change < 0 ? 'down' : 'neutral',
-          description: 'Volatilitätsindex - Misst die erwartete Marktvolatilität',
-          category: 'market',
-          lastUpdated: new Date().toISOString().split('T')[0],
-          source: 'CBOE'
+          id: '10y-treasury',
+          name: '10J US Treasury',
+          value: `${t10.toFixed(2)}%`,
+          change: change != null ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : null,
+          status: change === null ? 'neutral' : change > 0 ? 'up' : 'down',
+          description: '10-jährige US-Staatsanleihen Rendite',
+          category: 'treasury',
+          lastUpdated: latestTreasury.date as string,
+          source: 'FMP',
+        })
+      }
+
+      if (t2 != null) {
+        const change = p2 != null ? t2 - p2 : null
+        indicators.push({
+          id: '2y-treasury',
+          name: '2J US Treasury',
+          value: `${t2.toFixed(2)}%`,
+          change: change != null ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : null,
+          status: change === null ? 'neutral' : change > 0 ? 'up' : 'down',
+          description: '2-jährige US-Staatsanleihen Rendite',
+          category: 'treasury',
+          lastUpdated: latestTreasury.date as string,
+          source: 'FMP',
+        })
+      }
+
+      if (t10 != null && t2 != null) {
+        const spread = t10 - t2
+        const prevSpread = p10 != null && p2 != null ? p10 - p2 : null
+        const change = prevSpread != null ? spread - prevSpread : null
+        indicators.push({
+          id: 'yield-spread',
+          name: 'Yield Spread (10J-2J)',
+          value: `${spread > 0 ? '+' : ''}${spread.toFixed(2)}%`,
+          change: change != null ? `${change > 0 ? '+' : ''}${change.toFixed(2)}%` : null,
+          status: spread > 0 ? 'up' : spread < 0 ? 'down' : 'neutral',
+          description: 'Spread 10J–2J: negativ = invertierte Kurve (Rezessionssignal)',
+          category: 'treasury',
+          lastUpdated: latestTreasury.date as string,
+          source: 'FMP',
         })
       }
     }
 
-    // S&P 500 P/E Ratio
-    if (sp500RatiosRes.status === 'fulfilled' && sp500RatiosRes.value.ok) {
-      const ratioData = await sp500RatiosRes.value.json()
-      if (Array.isArray(ratioData) && ratioData.length > 0) {
-        const latest = ratioData[0]
-        if (latest.priceEarningsRatio) {
-          indicators.push({
-            id: 'sp500-pe',
-            name: 'S&P 500 KGV',
-            value: latest.priceEarningsRatio.toFixed(1),
-            change: undefined,
-            changePercent: undefined,
-            status: 'neutral',
-            description: 'Kurs-Gewinn-Verhältnis des S&P 500 Index',
-            category: 'valuation',
-            lastUpdated: latest.date,
-            source: 'FMP'
-          })
-        }
-      }
-    }
-
-    // Dollar Index (DXY) verarbeiten
-    if (dxyRes.status === 'fulfilled' && dxyRes.value.ok) {
-      const dxyData = await dxyRes.value.json()
-      if (Array.isArray(dxyData) && dxyData.length > 0) {
-        const dxy = dxyData[0]
-        indicators.push({
-          id: 'dollar-index',
-          name: 'Dollar Index (DXY)',
-          value: dxy.price.toFixed(1),
-          change: dxy.change ? dxy.change.toFixed(1) : undefined,
-          changePercent: dxy.changesPercentage ? dxy.changesPercentage.toFixed(1) : undefined,
-          status: dxy.change > 0 ? 'up' : dxy.change < 0 ? 'down' : 'neutral',
-          description: 'US Dollar Index - Stärke des Dollars gegenüber anderen Währungen',
-          category: 'market',
-          lastUpdated: new Date().toISOString().split('T')[0],
-          source: 'FMP'
-        })
-      }
-    }
-
-    // Buffett Indikator würde echte Market Cap und GDP Daten benötigen - später implementieren
-    // TODO: Implement real Buffett Indicator calculation with Market Cap API + GDP data
-
-    // Nur echte API-Daten zurückgeben
-    console.log(`✅ Loaded ${indicators.length} real market indicators from APIs`)
-
-    return NextResponse.json({ indicators })
+    return NextResponse.json({
+      indicators,
+      yieldCurve,
+      lastUpdated: latestTreasury?.date ?? new Date().toISOString().split('T')[0],
+    })
 
   } catch (error) {
     console.error('Error fetching market indicators:', error)
-    return NextResponse.json(
-      { error: 'Failed to fetch market indicators' }, 
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Failed to fetch market indicators' }, { status: 500 })
   }
 }
