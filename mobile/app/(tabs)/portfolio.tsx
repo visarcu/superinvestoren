@@ -36,6 +36,10 @@ interface DivInfo {
   annualIncome: number; nextDate: string | null; quarterlyAmount: number;
 }
 
+interface UpcomingDivEvent {
+  ticker: string; date: string; paymentDate: string; dividend: number; frequency: string;
+}
+
 export default function PortfolioScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('positionen');
   const [holdings, setHoldings] = useState<Holding[]>([]);
@@ -48,6 +52,7 @@ export default function PortfolioScreen() {
   const [siCounts, setSiCounts] = useState<Record<string, { count: number; investors: { name: string; slug: string }[] }>>({});
   const [divData, setDivData] = useState<DivInfo[]>([]);
   const [divLoading, setDivLoading] = useState(false);
+  const [upcomingDivEvents, setUpcomingDivEvents] = useState<UpcomingDivEvent[]>([]);
 
   useFocusEffect(useCallback(() => { loadPortfolio(); }, []));
 
@@ -109,6 +114,19 @@ export default function PortfolioScreen() {
 
       // Load dividends in background
       loadDividends(enriched);
+
+      // Load upcoming dividend events
+      const symbolList = rawHoldings.map((h: any) => h.symbol).join(',');
+      fetch(`${BASE_URL}/api/dividends-calendar?tickers=${symbolList}`)
+        .then(r => r.ok ? r.json() : [])
+        .then((data: any[]) => {
+          const today = new Date().toISOString().split('T')[0];
+          const upcoming = data
+            .filter((d: any) => d.date >= today && d.dividend > 0)
+            .slice(0, 5);
+          setUpcomingDivEvents(upcoming);
+        })
+        .catch(() => {});
     } catch (e: any) {
       setError(e.message || 'Fehler');
     } finally {
@@ -352,6 +370,38 @@ export default function PortfolioScreen() {
               </View>
             ) : (
               <>
+                {/* Anstehende Dividenden */}
+                {upcomingDivEvents.length > 0 && (
+                  <>
+                    <Text style={s.sectionLabel}>ANSTEHENDE DIVIDENDEN</Text>
+                    <View style={[s.card, { marginBottom: 16 }]}>
+                      {upcomingDivEvents.map((ev, i) => {
+                        const exDate = new Date(ev.date).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' });
+                        const holding = holdings.find(h => h.symbol === ev.ticker);
+                        return (
+                          <TouchableOpacity
+                            key={`${ev.ticker}-${ev.date}-${i}`}
+                            style={[s.upcomingDivRow, i > 0 && s.allocBorder]}
+                            onPress={() => router.push(`/stock/${ev.ticker}`)}
+                            activeOpacity={0.7}
+                          >
+                            <View style={s.upcomingDivAccent} />
+                            <StockLogo ticker={ev.ticker} size={32} borderRadius={7} />
+                            <View style={{ flex: 1, marginLeft: 10 }}>
+                              <Text style={s.divTicker}>{ev.ticker}</Text>
+                              <Text style={s.divNext}>Ex-Datum: {exDate}</Text>
+                            </View>
+                            <View style={{ alignItems: 'flex-end' }}>
+                              <Text style={s.divIncome}>${ev.dividend.toFixed(2)}/Aktie</Text>
+                              <Text style={s.divIncomeLabel}>{ev.frequency}</Text>
+                            </View>
+                          </TouchableOpacity>
+                        );
+                      })}
+                    </View>
+                  </>
+                )}
+
                 {/* Annual Summary */}
                 <View style={s.divSummaryCard}>
                   <View style={s.divSummaryItem}>
@@ -489,6 +539,8 @@ const s = StyleSheet.create({
   divSummaryLabel: { color: '#64748B', fontSize: 10, marginBottom: 4 },
   divSummaryBig: { color: '#F8FAFC', fontSize: 15, fontWeight: '700' },
   divDivider: { width: 1, height: 36, backgroundColor: '#1e1e20' },
+  upcomingDivRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
+  upcomingDivAccent: { width: 3, height: 32, backgroundColor: '#22C55E', borderRadius: 2, marginRight: 10 },
   divRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
   divTicker: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
   divSub: { color: '#64748B', fontSize: 11, marginTop: 2 },
