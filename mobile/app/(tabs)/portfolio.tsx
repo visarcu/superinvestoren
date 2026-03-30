@@ -3,7 +3,6 @@ import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, RefreshCon
 import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
 import { supabase } from '../../lib/auth';
 import StockLogo from '../../components/StockLogo';
 
@@ -186,7 +185,7 @@ export default function PortfolioScreen() {
         </View>
 
         {/* Summary Card */}
-        <LinearGradient colors={['#111113', '#1a2744']} style={s.summaryCard}>
+        <View style={s.summaryCard}>
           <Text style={s.summaryLabel}>Gesamtwert</Text>
           <Text style={s.summaryValue}>{fmtCurrency(totalValue)}</Text>
           <View style={s.gainRow}>
@@ -205,7 +204,7 @@ export default function PortfolioScreen() {
               </Text>
             </View>
           )}
-        </LinearGradient>
+        </View>
 
         {/* Scrollable Tab Bar */}
         <ScrollView horizontal showsHorizontalScrollIndicator={false}
@@ -469,87 +468,93 @@ export default function PortfolioScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
-  header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
-  subtitle: { color: '#64748B', fontSize: 13, marginTop: 2 },
-  addBtn: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e', alignItems: 'center', justifyContent: 'center' },
+  container: { flex: 1, backgroundColor: '#0a0a0a' },
 
-  summaryCard: { marginHorizontal: 16, marginBottom: 16, borderRadius: 16, padding: 20, borderWidth: 1, borderColor: 'rgba(255,255,255,0.06)' },
-  summaryLabel: { color: '#64748B', fontSize: 13, marginBottom: 4 },
-  summaryValue: { color: '#F8FAFC', fontSize: 32, fontWeight: '700', letterSpacing: -1 },
+  // Header
+  header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  title: { color: '#FFFFFF', fontSize: 26, fontWeight: '700', letterSpacing: -0.8 },
+  subtitle: { color: '#8E8E93', fontSize: 13, marginTop: 1 },
+  addBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
+
+  // Summary Card — flat, no gradient
+  summaryCard: { marginHorizontal: 16, marginBottom: 20, borderRadius: 18, padding: 22, backgroundColor: '#141414', borderWidth: 1, borderColor: '#222222' },
+  summaryLabel: { color: '#8E8E93', fontSize: 12, fontWeight: '500', letterSpacing: 0.2, marginBottom: 6 },
+  summaryValue: { color: '#FFFFFF', fontSize: 34, fontWeight: '700', letterSpacing: -1.2 },
   gainRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 },
-  gainText: { fontSize: 15, fontWeight: '600' },
-  gainPct: { fontSize: 14, fontWeight: '500' },
-  divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 8 },
+  gainText: { fontSize: 14, fontWeight: '600' },
+  gainPct: { fontSize: 14, fontWeight: '500', color: '#8E8E93' },
+  divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#222222' },
   divSummaryText: { color: '#22C55E', fontSize: 12, fontWeight: '500' },
 
-  tabBar: { paddingHorizontal: 16, gap: 6, paddingBottom: 4 },
-  tabItem: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 14, paddingVertical: 9, borderRadius: 10, backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20' },
-  tabItemActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
-  tabLabel: { color: '#475569', fontSize: 12, fontWeight: '600' },
-  tabLabelActive: { color: '#22C55E' },
+  // Inner Tab Bar — underline style
+  tabBar: { paddingHorizontal: 20, gap: 0, paddingBottom: 0, borderBottomWidth: 1, borderBottomColor: '#1C1C1E', marginBottom: 20 },
+  tabItem: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 12, paddingVertical: 11, borderBottomWidth: 2, borderBottomColor: 'transparent', marginBottom: -1 },
+  tabItemActive: { borderBottomColor: '#FFFFFF' },
+  tabLabel: { color: '#8E8E93', fontSize: 13, fontWeight: '600' },
+  tabLabelActive: { color: '#FFFFFF' },
 
-  list: { paddingHorizontal: 16, paddingBottom: 32 },
-  sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
-  card: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  // Content
+  list: { paddingHorizontal: 16, paddingBottom: 40 },
+  sectionLabel: { color: '#48484A', fontSize: 11, fontWeight: '600', letterSpacing: 0.8, marginBottom: 10, marginTop: 4 },
+  card: { backgroundColor: '#141414', borderRadius: 16, borderWidth: 1, borderColor: '#222222', overflow: 'hidden' },
 
-  row: { backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, flexDirection: 'row', alignItems: 'center', marginBottom: 4, gap: 12 },
+  // Position rows
+  row: { backgroundColor: '#141414', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
   rowMid: { flex: 1 },
-  symbol: { color: '#F8FAFC', fontSize: 15, fontWeight: '700' },
-  shares: { color: '#64748B', fontSize: 12, marginTop: 2 },
+  symbol: { color: '#FFFFFF', fontSize: 15, fontWeight: '700', letterSpacing: -0.2 },
+  shares: { color: '#8E8E93', fontSize: 12, marginTop: 2 },
   rowRight: { alignItems: 'flex-end' },
-  value: { color: '#F8FAFC', fontSize: 15, fontWeight: '600' },
-  gain: { fontSize: 13, marginTop: 2 },
-  siBadge: { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: 'rgba(245,158,11,0.12)', borderRadius: 20, paddingHorizontal: 6, paddingVertical: 2 },
-  siBadgeText: { color: '#F59E0B', fontSize: 10, fontWeight: '700' },
-  transactionBtn: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 12, padding: 14, backgroundColor: '#111113', borderRadius: 12, borderWidth: 1, borderColor: '#1e1e20' },
-  transactionBtnText: { color: '#22C55E', fontSize: 14, fontWeight: '600' },
+  value: { color: '#FFFFFF', fontSize: 15, fontWeight: '600' },
+  gain: { fontSize: 13, marginTop: 2, fontWeight: '500' },
+  siBadge: { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 20, paddingHorizontal: 6, paddingVertical: 2 },
+  siBadgeText: { color: '#8E8E93', fontSize: 10, fontWeight: '600' },
+  transactionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 14, padding: 14, backgroundColor: '#141414', borderRadius: 14, borderWidth: 1, borderColor: '#222222' },
+  transactionBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
 
   // Performance
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  statCard: { flex: 1, minWidth: '45%', backgroundColor: '#111113', borderRadius: 12, borderWidth: 1, borderColor: '#1e1e20', padding: 14 },
-  statLabel: { color: '#64748B', fontSize: 11, marginBottom: 6 },
-  statValue: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
-  allocRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
-  allocBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
-  allocTicker: { color: '#F8FAFC', fontSize: 13, fontWeight: '600' },
-  allocPct: { color: '#94A3B8', fontSize: 12, fontWeight: '600' },
-  allocBar: { height: 4, backgroundColor: '#1e1e20', borderRadius: 2, overflow: 'hidden' },
-  allocBarFill: { height: 4, backgroundColor: '#22C55E', borderRadius: 2 },
-  plRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, gap: 8 },
-  plTicker: { color: '#F8FAFC', fontSize: 13, fontWeight: '700', width: 56 },
-  plAbs: { color: '#94A3B8', fontSize: 12, marginRight: 8 },
+  statCard: { flex: 1, minWidth: '45%', backgroundColor: '#141414', borderRadius: 14, borderWidth: 1, borderColor: '#222222', padding: 16 },
+  statLabel: { color: '#8E8E93', fontSize: 11, marginBottom: 8, fontWeight: '500' },
+  statValue: { color: '#FFFFFF', fontSize: 17, fontWeight: '700', letterSpacing: -0.4 },
+  allocRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
+  allocBorder: { borderTopWidth: 1, borderTopColor: '#1C1C1E' },
+  allocTicker: { color: '#FFFFFF', fontSize: 13, fontWeight: '600' },
+  allocPct: { color: '#8E8E93', fontSize: 12, fontWeight: '600' },
+  allocBar: { height: 3, backgroundColor: '#222222', borderRadius: 2, overflow: 'hidden', marginTop: 6 },
+  allocBarFill: { height: 3, backgroundColor: 'rgba(255,255,255,0.5)', borderRadius: 2 },
+  plRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13, gap: 8 },
+  plTicker: { color: '#FFFFFF', fontSize: 13, fontWeight: '700', width: 60 },
+  plAbs: { color: '#8E8E93', fontSize: 12, marginRight: 8 },
   plPct: { fontSize: 13, fontWeight: '700', width: 72, textAlign: 'right' },
 
   // Dividenden
-  divSummaryCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#22C55E30', padding: 16, flexDirection: 'row', alignItems: 'center', marginBottom: 4 },
+  divSummaryCard: { backgroundColor: '#141414', borderRadius: 16, borderWidth: 1, borderColor: '#222222', padding: 18, flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   divSummaryItem: { flex: 1, alignItems: 'center' },
-  divSummaryLabel: { color: '#64748B', fontSize: 10, marginBottom: 4 },
-  divSummaryBig: { color: '#F8FAFC', fontSize: 15, fontWeight: '700' },
-  divDivider: { width: 1, height: 36, backgroundColor: '#1e1e20' },
-  upcomingDivRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
-  upcomingDivAccent: { width: 3, height: 32, backgroundColor: '#22C55E', borderRadius: 2, marginRight: 10 },
-  divRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
-  divTicker: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
-  divSub: { color: '#64748B', fontSize: 11, marginTop: 2 },
+  divSummaryLabel: { color: '#8E8E93', fontSize: 10, fontWeight: '500', marginBottom: 6 },
+  divSummaryBig: { color: '#FFFFFF', fontSize: 15, fontWeight: '700', letterSpacing: -0.3 },
+  divDivider: { width: 1, height: 32, backgroundColor: '#222222' },
+  upcomingDivRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
+  upcomingDivAccent: { width: 3, height: 28, backgroundColor: '#22C55E', borderRadius: 2, marginRight: 12 },
+  divRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
+  divTicker: { color: '#FFFFFF', fontSize: 14, fontWeight: '700', letterSpacing: -0.2 },
+  divSub: { color: '#8E8E93', fontSize: 11, marginTop: 2 },
   divNext: { color: '#22C55E', fontSize: 10, marginTop: 3 },
-  divIncome: { color: '#F8FAFC', fontSize: 13, fontWeight: '700' },
-  divIncomeLabel: { color: '#64748B', fontSize: 10, marginTop: 1 },
+  divIncome: { color: '#FFFFFF', fontSize: 14, fontWeight: '700', letterSpacing: -0.3 },
+  divIncomeLabel: { color: '#8E8E93', fontSize: 10, marginTop: 2 },
 
   // Superinvestoren
-  siRow: { backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 13, flexDirection: 'row', alignItems: 'center', marginBottom: 4, gap: 12 },
-  siAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center' },
-  siAvatarText: { color: '#94A3B8', fontSize: 16, fontWeight: '700' },
-  siName: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
-  siTickers: { color: '#64748B', fontSize: 12, marginTop: 2 },
-  siCountBadge: { backgroundColor: '#1e1e20', borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4 },
-  siCountText: { color: '#22C55E', fontSize: 12, fontWeight: '600' },
+  siRow: { backgroundColor: '#141414', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
+  siAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
+  siAvatarText: { color: '#8E8E93', fontSize: 16, fontWeight: '700' },
+  siName: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
+  siTickers: { color: '#8E8E93', fontSize: 12, marginTop: 2 },
+  siCountBadge: { backgroundColor: '#1C1C1E', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 },
+  siCountText: { color: '#8E8E93', fontSize: 12, fontWeight: '600' },
 
-  emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 48, gap: 12 },
-  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#111113', alignItems: 'center', justifyContent: 'center' },
-  emptyTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
-  emptyText: { color: '#64748B', fontSize: 14, textAlign: 'center', paddingHorizontal: 32 },
-  linkBtn: { backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 8, flexDirection: 'row', alignItems: 'center' },
-  linkBtnText: { color: '#F8FAFC', fontWeight: '600' },
+  emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 56, gap: 10 },
+  emptyIcon: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#141414', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  emptyTitle: { color: '#FFFFFF', fontSize: 17, fontWeight: '600' },
+  emptyText: { color: '#8E8E93', fontSize: 14, textAlign: 'center', paddingHorizontal: 32, lineHeight: 20 },
+  linkBtn: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 24, paddingVertical: 13, marginTop: 10, flexDirection: 'row', alignItems: 'center' },
+  linkBtnText: { color: '#FFFFFF', fontWeight: '600', fontSize: 14 },
 });
