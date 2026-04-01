@@ -279,7 +279,7 @@ const GrowthIndicator = ({ current, previous }: {
 export default function FinancialsPage({ ticker, isPremium = false }: Props) {
   const [activeStatement, setActiveStatement] = useState<'income' | 'balance' | 'cashflow'>('income')
   const [period, setPeriod] = useState<'annual' | 'quarterly'>('annual')
-  const [yearsToShow, setYearsToShow] = useState<number>(10)
+  const [yearsToShow, setYearsToShow] = useState<number>(isPremium ? 10 : 5)
   const [isYearsDropdownOpen, setIsYearsDropdownOpen] = useState(false)
   const [rawStatements, setRawStatements] = useState<RawStatements | null>(null)
   const [loading, setLoading] = useState(true)
@@ -1433,19 +1433,27 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
           <div className="flex items-center gap-4">
             <span className="text-sm text-theme-muted">Periode:</span>
             <div className="flex bg-theme-secondary rounded-lg p-0.5">
-              {(['annual', 'quarterly'] as const).map((p) => (
-                <button
-                  key={p}
-                  onClick={() => setPeriod(p)}
-                  className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
-                    period === p
-                      ? 'bg-white text-black'
-                      : 'text-theme-secondary hover:text-theme-primary'
-                  }`}
-                >
-                  {p === 'annual' ? GERMAN_LABELS.annual : GERMAN_LABELS.quarterly}
-                </button>
-              ))}
+              {(['annual', 'quarterly'] as const).map((p) => {
+                const isLocked = !isPremium && p === 'quarterly'
+                return (
+                  <button
+                    key={p}
+                    onClick={() => isLocked ? (window.location.href = '/pricing') : setPeriod(p)}
+                    className={`px-3 py-1 text-xs font-medium rounded-md transition-all flex items-center gap-1 ${
+                      period === p
+                        ? 'bg-white text-black'
+                        : 'text-theme-secondary hover:text-theme-primary'
+                    }`}
+                  >
+                    {p === 'annual' ? GERMAN_LABELS.annual : GERMAN_LABELS.quarterly}
+                    {isLocked && (
+                      <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
@@ -1468,22 +1476,33 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
                 className="absolute top-10 right-0 w-36 bg-theme-card border border-theme rounded-lg shadow-lg py-1 z-50"
                 onClick={(e) => e.stopPropagation()}
               >
-                {[3, 5, 10].map((years) => (
-                  <button
-                    key={years}
-                    onClick={() => {
-                      setYearsToShow(years)
-                      setIsYearsDropdownOpen(false)
-                    }}
-                    className={`w-full px-3 py-2 text-left text-sm transition-colors ${
-                      yearsToShow === years
-                        ? 'bg-theme-hover text-theme-primary'
-                        : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
-                    }`}
-                  >
-                    {years} Jahre
-                  </button>
-                ))}
+                {[3, 5, 10].map((y) => {
+                  const isLocked = !isPremium && y > 5
+                  return (
+                    <button
+                      key={y}
+                      onClick={() => {
+                        if (isLocked) { window.location.href = '/pricing'; return }
+                        setYearsToShow(y)
+                        setIsYearsDropdownOpen(false)
+                      }}
+                      className={`w-full px-3 py-2 text-left text-sm transition-colors flex items-center justify-between ${
+                        yearsToShow === y
+                          ? 'bg-theme-hover text-theme-primary'
+                          : isLocked
+                          ? 'text-theme-muted opacity-60'
+                          : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
+                      }`}
+                    >
+                      {y} Jahre
+                      {isLocked && (
+                        <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </button>
+                  )
+                })}
               </div>
             )}
           </div>
@@ -1512,7 +1531,7 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
         </div>
 
         {/* Content */}
-        <PremiumBlur>
+        <>
           {!rawStatements ? (
             <div className="text-center py-16">
               <InformationCircleIcon className="w-12 h-12 text-red-400 mx-auto mb-4" />
@@ -1528,7 +1547,26 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
               {activeStatement === 'cashflow' && renderCashFlow()}
             </>
           )}
-        </PremiumBlur>
+        </>
+
+        {/* Upgrade banner for free users */}
+        {!isPremium && (
+          <Link
+            href="/pricing"
+            className="flex items-center justify-between gap-4 px-4 py-3 mt-4 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <LockClosedIcon className="w-4 h-4 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-amber-300">Du siehst die letzten 5 Jahre</p>
+                <p className="text-xs text-amber-400/70">Mit Premium erhältst du die vollständige Historie (10+ Jahre) und Quartalsansicht</p>
+              </div>
+            </div>
+            <span className="text-xs font-medium text-amber-400 whitespace-nowrap">Premium freischalten →</span>
+          </Link>
+        )}
       </main>
 
       <LearnSidebar />
