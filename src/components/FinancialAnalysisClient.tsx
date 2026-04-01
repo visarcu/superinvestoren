@@ -28,9 +28,9 @@ class FinancialDataService {
   }
 
   // ✅ HAUPTMETHODE: FMP Financial Data Service (UPDATED: period-based data points)
-  async getFinancialData(ticker: string, period: 'annual' | 'quarterly') {
+  async getFinancialData(ticker: string, period: 'annual' | 'quarterly', years: number = OVERVIEW_YEARS_ANNUAL) {
     // ✅ Automatische Bestimmung der Datenpunkte basierend auf period
-    const dataPoints = period === 'quarterly' ? OVERVIEW_QUARTERS : OVERVIEW_YEARS_ANNUAL
+    const dataPoints = period === 'quarterly' ? years * 4 : years
     console.log(`🔍 [FinancialDataService] Loading for ${ticker} (${dataPoints} ${period === 'quarterly' ? 'quarters' : 'years'})`)
 
     // Nur FMP Daten laden
@@ -932,14 +932,16 @@ function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[],
   )
 }
 // KORRIGIERTE RevenueSegmentsChart Funktion für FinancialAnalysisClient.tsx
-function RevenueSegmentsChart({ 
-  ticker, 
-  onExpand, 
-  isPremium 
-}: { 
-  ticker: string, 
-  onExpand: () => void, 
-  isPremium: boolean 
+function RevenueSegmentsChart({
+  ticker,
+  onExpand,
+  isPremium,
+  maxYears = 10
+}: {
+  ticker: string,
+  onExpand: () => void,
+  isPremium: boolean,
+  maxYears?: number
 }) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
   const [segmentData, setSegmentData] = useState<any[]>([])
@@ -1030,10 +1032,10 @@ function RevenueSegmentsChart({
           .reverse() // Sort chronologically (oldest first)
    
         
-        setSegmentData(transformed)
-        
+        setSegmentData(transformed.slice(-maxYears))
+
       } catch (error) {
-   
+
         setSegmentData([])
       } finally {
         setLoading(false)
@@ -1269,14 +1271,16 @@ function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onE
 
 // VOLLSTÄNDIGE GeographicSegmentsChart Komponente
 
-function GeographicSegmentsChart({ 
-  ticker, 
-  onExpand, 
-  isPremium 
-}: { 
-  ticker: string, 
-  onExpand: () => void, 
-  isPremium: boolean 
+function GeographicSegmentsChart({
+  ticker,
+  onExpand,
+  isPremium,
+  maxYears = 10
+}: {
+  ticker: string,
+  onExpand: () => void,
+  isPremium: boolean,
+  maxYears?: number
 }) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
   const [segmentData, setSegmentData] = useState<any[]>([])
@@ -1328,8 +1332,8 @@ function GeographicSegmentsChart({
             })
             .filter(Boolean)
             .reverse()
-            .slice(-10)
-            
+            .slice(-maxYears)
+
             console.log('✅ Transformed geographic segments:', transformed)
             setSegmentData(transformed)
           }
@@ -1670,15 +1674,17 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
     refreshPresets
   } = useChartPresets(userId || null, isPremium)
   
+  const [years, setYears] = useState<5 | 10 | 20>(5)
+
+  // Cap years at 5 when user is not premium
+  useEffect(() => {
+    if (!isPremium && years > 5) setYears(5)
+  }, [isPremium])
+
   const { currency } = useCurrency()
 
   // ✅ APPLY PRESET
   const applyPreset = async (presetKey: string) => {
-    if (!isPremium) {
-      window.location.href = '/pricing'
-      return
-    }
- 
     setSelectedPreset(presetKey)
     
     // ✅ SIMPLE: Save last selected preset to localStorage
@@ -1769,7 +1775,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       setDataQuality('loading')
       
       try {
-        const realData = await financialDataService.getFinancialData(ticker, period)
+        const realData = await financialDataService.getFinancialData(ticker, period, isPremium ? years : 5)
         const limitedData = !isPremium ? realData.slice(-5) : realData
         setData(limitedData)
         
@@ -1808,7 +1814,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
     if (ticker) {
       loadRealData()
     }
-  }, [ticker, period])
+  }, [ticker, period, years])
 
   // ✅ SIMPLE AUTO-LOAD LAST PRESET FROM LOCALSTORAGE
   useEffect(() => {
@@ -1925,8 +1931,38 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 })}
               </div>
             </div>
+
+            {/* JAHRE TOGGLE */}
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-theme-secondary font-medium">Jahre:</span>
+              <div className="flex bg-white/[0.06] border border-white/[0.08] rounded-lg p-1">
+                {([5, 10, 20] as const).map((y) => {
+                  const isLocked = !isPremium && y > 5
+                  return (
+                    <button
+                      key={y}
+                      onClick={() => isLocked ? (window.location.href = '/pricing') : setYears(y)}
+                      className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 font-medium flex items-center gap-1 ${
+                        years === y
+                          ? 'bg-theme-primary text-theme-bg shadow-sm'
+                          : isLocked
+                          ? 'text-theme-muted opacity-50'
+                          : 'text-theme-muted hover:text-theme-primary'
+                      }`}
+                    >
+                      {y}J
+                      {isLocked && (
+                        <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
           </div>
-          
+
           {/* STATUS INDIKATOREN */}
     
         </div>
@@ -2124,7 +2160,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             return (
               <button
                 key={chartKey}
-                onClick={() => handlePremiumAction(() => toggleChartVisibility(chartKey))}
+                onClick={() => toggleChartVisibility(chartKey)}
                 className={`px-3 py-1.5 text-xs rounded-md transition-all ${
                   isSelected
                     ? 'bg-theme-primary text-theme-bg font-medium'
@@ -2141,20 +2177,20 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
 
           {/* Quick Actions */}
           <button
-            onClick={() => handlePremiumAction(() => {
+            onClick={() => {
               setVisibleCharts(ALL_METRICS)
               setSelectedPreset('')
-            })}
+            }}
             className="px-2 py-1.5 text-xs text-theme-muted hover:text-theme-primary transition-colors"
           >
             Alle
           </button>
           <span className="text-white/[0.15]">|</span>
           <button
-            onClick={() => handlePremiumAction(() => {
+            onClick={() => {
               setVisibleCharts([])
               setSelectedPreset('')
-            })}
+            }}
             className="px-2 py-1.5 text-xs text-theme-muted hover:text-theme-primary transition-colors"
           >
             Keine
@@ -2190,11 +2226,12 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
           switch(metricKey) {
             case 'revenueSegments':
               return (
-                <RevenueSegmentsChart 
+                <RevenueSegmentsChart
                   key={metricKey}
                   ticker={ticker}
                   onExpand={() => setFullscreen('revenueSegments')}
                   isPremium={isPremium}
+                  maxYears={isPremium ? years : 5}
                 />
               )
             case 'cashDebt':
@@ -2236,11 +2273,12 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
               )
             case 'geographicSegments':
               return (
-                <GeographicSegmentsChart 
+                <GeographicSegmentsChart
                   key={metricKey}
                   ticker={ticker}
                   onExpand={() => setFullscreen('geographicSegments')}
                   isPremium={isPremium}
+                  maxYears={isPremium ? years : 5}
                 />
               )
             default:
