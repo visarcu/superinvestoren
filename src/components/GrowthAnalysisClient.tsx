@@ -609,34 +609,31 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       </div>
 
       {/* ===== WACHSTUMS-CHARTS - CLEAN ===== */}
-      {user?.isPremium ? (
-        <div className="mb-8">
-          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
-            Wachstums-Charts
-          </h3>
-          <GrowthCharts ticker={ticker} />
-        </div>
-      ) : (
-        <div className="mb-8 pb-8 border-b border-neutral-800">
-          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
-            Wachstums-Charts
-          </h3>
-          <div className="text-center py-12">
-            <LockClosedIcon className="w-8 h-8 text-neutral-600 mx-auto mb-4" />
-            <p className="text-white font-medium mb-2">Premium Charts</p>
-            <p className="text-neutral-500 text-sm mb-6 max-w-sm mx-auto">
-              Visualisiere Wachstumstrends über Zeit mit interaktiven Charts und CAGR-Vergleichen.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              <LockClosedIcon className="w-4 h-4" />
-              Premium freischalten
-            </Link>
-          </div>
-        </div>
-      )}
+      <div className="mb-8">
+        <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
+          Wachstums-Charts
+        </h3>
+        <GrowthCharts ticker={ticker} />
+
+        {/* Upgrade Banner für Free User */}
+        {!user?.isPremium && (
+          <Link
+            href="/pricing"
+            className="flex items-center justify-between gap-4 px-4 py-3 mt-4 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-7 h-7 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <LockClosedIcon className="w-4 h-4 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-amber-300">Vollständige Wachstumshistorie freischalten</p>
+                <p className="text-xs text-amber-400/70">Mit Premium siehst du 10+ Jahre Wachstumsdaten und exklusive CAGR-Vergleiche</p>
+              </div>
+            </div>
+            <span className="text-xs font-medium text-amber-400 whitespace-nowrap">Premium freischalten →</span>
+          </Link>
+        )}
+      </div>
 
       {/* ===== FOOTER - MINIMAL ===== */}
       <p className="text-xs text-neutral-600 text-center pt-4 border-t border-neutral-800">
