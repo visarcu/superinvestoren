@@ -947,7 +947,7 @@ function RevenueSegmentsChart({
 
   useEffect(() => {
     async function loadSegments() {
-      if (!ticker || !isPremium) {
+      if (!ticker) {
         setLoading(false)
         return
       }
@@ -1042,34 +1042,6 @@ function RevenueSegmentsChart({
 
     loadSegments()
   }, [ticker, isPremium])
-
-  // Premium Check
-  if (!isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p className="text-xs text-theme-secondary font-medium">Premium</p>
-          </div>
-        </div>
-        
-        <div className="opacity-30">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Produkten</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
-        </div>
-      </div>
-    )
-  }
 
   // Loading State
   if (loading) {
@@ -1369,40 +1341,12 @@ function GeographicSegmentsChart({
       }
     }
 
-    if (ticker && isPremium) {
+    if (ticker) {
       loadSegments()
     } else {
       setLoading(false)
     }
   }, [ticker, isPremium])
-
-  // Premium Check
-  if (!isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p className="text-xs text-theme-secondary font-medium">Premium</p>
-          </div>
-        </div>
-        
-        <div className="opacity-30">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">Umsatz nach Regionen</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
-        </div>
-      </div>
-    )
-  }
 
   // Loading State
   if (loading) {
@@ -1958,19 +1902,27 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             <div className="flex items-center gap-3">
               <span className="text-sm text-theme-secondary font-medium">Periode:</span>
               <div className="flex bg-white/[0.06] dark:bg-white/[0.06] border border-white/[0.08] rounded-lg p-1">
-                {(['annual', 'quarterly'] as const).map((p) => (
-                  <button
-                    key={p}
-                    onClick={() => handlePremiumAction(() => setPeriod(p))}
-                    className={`px-4 py-1.5 text-sm rounded-md transition-all duration-200 font-medium ${
-                      period === p
-                        ? 'bg-theme-primary text-theme-bg shadow-sm'
-                        : 'text-theme-muted hover:text-theme-primary'
-                    }`}
-                  >
-                    {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
-                  </button>
-                ))}
+                {(['annual', 'quarterly'] as const).map((p) => {
+                  const isLocked = !isPremium && p === 'quarterly'
+                  return (
+                    <button
+                      key={p}
+                      onClick={() => isLocked ? (window.location.href = '/pricing') : setPeriod(p)}
+                      className={`px-4 py-1.5 text-sm rounded-md transition-all duration-200 font-medium flex items-center gap-1.5 ${
+                        period === p
+                          ? 'bg-theme-primary text-theme-bg shadow-sm'
+                          : 'text-theme-muted hover:text-theme-primary'
+                      }`}
+                    >
+                      {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
+                      {isLocked && (
+                        <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                        </svg>
+                      )}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           </div>
@@ -2325,6 +2277,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         ticker={ticker}
         metricKey={fullscreen}
         period={period}
+        isPremium={isPremium}
       />
     </div>
   )

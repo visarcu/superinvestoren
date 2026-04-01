@@ -45,6 +45,7 @@ interface FinancialChartModalProps {
   ticker: string
   metricKey: MetricKey | null
   period: 'annual' | 'quarterly'
+  isPremium?: boolean
 }
 
 // CAGR Calculator
@@ -377,14 +378,15 @@ const METRICS = [
 
 const SEGMENT_COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#8B5CF6', '#EF4444', '#06B6D4', '#84CC16', '#EC4899', '#F97316', '#14B8A6']
 
-export default function FinancialChartModal({ 
-  isOpen, 
-  onClose, 
-  ticker, 
-  metricKey, 
-  period 
+export default function FinancialChartModal({
+  isOpen,
+  onClose,
+  ticker,
+  metricKey,
+  period,
+  isPremium = false
 }: FinancialChartModalProps) {
-  const [years, setYears] = useState(10)
+  const [years, setYears] = useState(isPremium ? 10 : 5)
   const [data, setData] = useState<any[]>([])
   const [segmentData, setSegmentData] = useState<any[]>([])
   const [loading, setLoading] = useState(false)
@@ -423,6 +425,11 @@ export default function FinancialChartModal({
 
     loadData()
   }, [isOpen, metricKey, ticker, years, period])
+
+  // Cap years at 5 for free users
+  useEffect(() => {
+    if (!isPremium && years > 5) setYears(5)
+  }, [isPremium])
 
   // Handle escape key
   useEffect(() => {
@@ -538,16 +545,28 @@ export default function FinancialChartModal({
             )}
 
             {/* Years Selector - QUALTRIM STYLE DROPDOWN */}
-            <select
-              value={years}
-              onChange={(e) => setYears(Number(e.target.value))}
-              className="px-4 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-green-500/50 transition-all text-sm font-medium cursor-pointer hover:bg-theme-hover"
-            >
-              <option value={3}>3 Jahre</option>
-              <option value={5}>5 Jahre</option>
-              <option value={10}>10 Jahre</option>
-              <option value={20}>20 Jahre</option>
-            </select>
+            {isPremium ? (
+              <select
+                value={years}
+                onChange={(e) => setYears(Number(e.target.value))}
+                className="px-4 py-2 bg-theme-tertiary text-theme-primary border border-theme rounded-lg focus:outline-none focus:ring-2 focus:ring-brand/30 focus:border-green-500/50 transition-all text-sm font-medium cursor-pointer hover:bg-theme-hover"
+              >
+                <option value={3}>3 Jahre</option>
+                <option value={5}>5 Jahre</option>
+                <option value={10}>10 Jahre</option>
+                <option value={20}>20 Jahre</option>
+              </select>
+            ) : (
+              <a
+                href="/pricing"
+                className="flex items-center gap-2 px-4 py-2 bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-lg text-sm font-medium hover:bg-amber-500/20 transition-colors"
+              >
+                <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                </svg>
+                5 Jahre (Free)
+              </a>
+            )}
             
             <button
               onClick={onClose}
