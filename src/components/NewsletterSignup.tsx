@@ -56,13 +56,13 @@ export default function NewsletterSignup({ variant = 'dark' }: NewsletterSignupP
   if (status === 'success') {
     return (
       <div className="text-center max-w-md mx-auto">
-        <div className={`p-6 border rounded-xl ${
+        <div className={`p-6 rounded-xl ${
           isLight
-            ? 'bg-white border-gray-200'
-            : 'bg-[var(--bg-card)] border-[var(--border-color)]'
+            ? 'bg-emerald-50 border border-emerald-100'
+            : 'bg-emerald-500/10 border border-emerald-500/20'
         }`}>
-          <div className={`w-12 h-12 rounded-xl flex items-center justify-center mx-auto mb-4 ${
-            isLight ? 'bg-emerald-100' : 'bg-theme-secondary/20'
+          <div className={`w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4 ${
+            isLight ? 'bg-emerald-100' : 'bg-emerald-500/20'
           }`}>
             <span className="text-2xl">✅</span>
           </div>
