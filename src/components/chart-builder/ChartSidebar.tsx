@@ -7,6 +7,7 @@ import {
   PlusIcon,
   XMarkIcon,
   ChevronRightIcon,
+  LockClosedIcon,
 } from '@heroicons/react/24/outline'
 import { stocks } from '@/data/stocks'
 import { ActiveMetric, ChartBuilderState, ChartBuilderAction } from './types'
@@ -19,9 +20,11 @@ interface ChartSidebarProps {
   state: ChartBuilderState
   dispatch: React.Dispatch<ChartBuilderAction>
   maxStocks: number
+  maxMetrics: number
+  isPremium: boolean
 }
 
-export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSidebarProps) {
+export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, isPremium }: ChartSidebarProps) {
   const [stockSearch, setStockSearch] = useState('')
   const [metricSearch, setMetricSearch] = useState('')
   const [activeCategory, setActiveCategory] = useState<string>('valuation')
@@ -110,6 +113,12 @@ export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSideba
     }
   }
 
+  const uniqueMetricCount = useMemo(
+    () => new Set(state.activeMetrics.map(m => m.metricKey)).size,
+    [state.activeMetrics]
+  )
+  const metricLimitReached = !isPremium && uniqueMetricCount >= maxMetrics
+
   const isMetricActive = (metricKey: string): boolean => {
     return state.activeMetrics.some(m => m.metricKey === metricKey)
   }
@@ -132,6 +141,18 @@ export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSideba
           <h3 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider">Aktien</h3>
           <span className="text-[10px] text-theme-muted">{state.stocks.length}/{maxStocks}</span>
         </div>
+
+        {/* Upgrade Banner wenn Aktien-Limit erreicht */}
+        {state.stocks.length >= maxStocks && !isPremium && (
+          <a
+            href="/pricing"
+            className="flex items-center gap-2 px-3 py-2 mb-3 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+          >
+            <LockClosedIcon className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+            <span className="text-[11px] text-amber-300 flex-1">Max. 2 Aktien im Free-Plan</span>
+            <span className="text-[10px] text-amber-400 font-medium">Upgrade →</span>
+          </a>
+        )}
 
         {/* Stock Search */}
         <div className="relative" ref={dropdownRef}>
@@ -190,9 +211,24 @@ export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSideba
 
       {/* Metric Section */}
       <div className="p-4 border-b border-white/[0.06] flex-shrink-0">
-        <h3 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider mb-3">
-          + Metrik
-        </h3>
+        <div className="flex items-center justify-between mb-3">
+          <h3 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider">+ Metrik</h3>
+          {!isPremium && (
+            <span className="text-[10px] text-theme-muted">{uniqueMetricCount}/{maxMetrics}</span>
+          )}
+        </div>
+
+        {/* Upgrade Banner wenn Limit erreicht */}
+        {metricLimitReached && (
+          <a
+            href="/pricing"
+            className="flex items-center gap-2 px-3 py-2 mb-3 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+          >
+            <LockClosedIcon className="w-3.5 h-3.5 text-amber-400 flex-shrink-0" />
+            <span className="text-[11px] text-amber-300 flex-1">Max. 2 Metriken im Free-Plan</span>
+            <span className="text-[10px] text-amber-400 font-medium">Upgrade →</span>
+          </a>
+        )}
 
         {/* Metric Search */}
         <div className="relative mb-3">
@@ -229,14 +265,17 @@ export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSideba
         <div className="space-y-0.5 max-h-44 overflow-y-auto">
           {filteredMetrics.map(metric => {
             const active = isMetricActive(metric.key)
+            const locked = !active && metricLimitReached
             return (
               <button
                 key={metric.key}
-                onClick={() => addMetricForAllStocks(metric.key)}
-                disabled={state.stocks.length === 0}
+                onClick={() => !locked && addMetricForAllStocks(metric.key)}
+                disabled={state.stocks.length === 0 || locked}
                 className={`w-full flex items-center gap-2 px-2.5 py-2 rounded-lg text-left transition-all ${
                   active
                     ? 'bg-brand/10 border border-brand/20'
+                    : locked
+                    ? 'opacity-40 cursor-not-allowed border border-transparent'
                     : 'hover:bg-white/[0.04] border border-transparent'
                 } ${state.stocks.length === 0 ? 'opacity-40 cursor-not-allowed' : ''}`}
               >
@@ -254,7 +293,9 @@ export default function ChartSidebar({ state, dispatch, maxStocks }: ChartSideba
                   </span>
                 </div>
                 {!active && state.stocks.length > 0 && (
-                  <PlusIcon className="w-4 h-4 text-theme-muted flex-shrink-0" />
+                  locked
+                    ? <LockClosedIcon className="w-3.5 h-3.5 text-theme-muted flex-shrink-0" />
+                    : <PlusIcon className="w-4 h-4 text-theme-muted flex-shrink-0" />
                 )}
               </button>
             )

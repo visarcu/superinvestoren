@@ -42,7 +42,8 @@ export default function ChartBuilder() {
   // Data fetching
   useChartBuilderData(state, dispatch)
 
-  const maxStocks = isPremium ? 8 : 4
+  const maxStocks = isPremium ? 4 : 2
+  const maxMetrics = isPremium ? Infinity : 2
 
   // Check if any metric is a price metric
   const hasPriceMetric = useMemo(
@@ -106,6 +107,8 @@ export default function ChartBuilder() {
           state={state}
           dispatch={dispatch}
           maxStocks={maxStocks}
+          maxMetrics={maxMetrics}
+          isPremium={isPremium}
         />
 
         {/* Chart + Footer column */}
@@ -116,6 +119,7 @@ export default function ChartBuilder() {
             timeRange={state.timeRange}
             viewMode={state.viewMode}
             hasPriceMetric={hasPriceMetric}
+            isPremium={isPremium}
             onGranularityChange={g => dispatch({ type: 'SET_GRANULARITY', granularity: g })}
             onTimeRangeChange={r => dispatch({ type: 'SET_TIME_RANGE', timeRange: r })}
             onViewModeChange={m => dispatch({ type: 'SET_VIEW_MODE', viewMode: m })}
