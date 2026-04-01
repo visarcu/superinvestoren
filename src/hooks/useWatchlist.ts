@@ -4,10 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabaseClient';
 
+const FREE_WATCHLIST_LIMIT = 5;
+
 export function useWatchlist(ticker: string) {
   const [inWatchlist, setInWatchlist] = useState(false);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<any>(null);
+  const [isPremium, setIsPremium] = useState(false);
+  const [watchlistCount, setWatchlistCount] = useState(0);
   const router = useRouter();
 
   useEffect(() => {
@@ -32,19 +36,15 @@ export function useWatchlist(ticker: string) {
 
         setUser(session.user);
 
-        // Watchlist-Status prüfen
-        const { data, error } = await supabase
-          .from('watchlists')
-          .select('id')
-          .eq('user_id', session.user.id)
-          .eq('ticker', ticker.toUpperCase())
-          .maybeSingle();
+        const [tickerRes, countRes, profileRes] = await Promise.all([
+          supabase.from('watchlists').select('id').eq('user_id', session.user.id).eq('ticker', ticker.toUpperCase()).maybeSingle(),
+          supabase.from('watchlists').select('id', { count: 'exact', head: true }).eq('user_id', session.user.id),
+          supabase.from('profiles').select('is_premium').eq('user_id', session.user.id).maybeSingle(),
+        ]);
 
-        if (error && error.code !== 'PGRST116') {
-          console.error('[useWatchlist] DB Error:', error.message);
-        }
-
-        setInWatchlist(!!data);
+        setInWatchlist(!!tickerRes.data);
+        setWatchlistCount(countRes.count ?? 0);
+        setIsPremium(profileRes.data?.is_premium ?? false);
       } catch (error) {
         console.error('[useWatchlist] Unexpected error:', error);
       } finally {
@@ -78,6 +78,12 @@ export function useWatchlist(ticker: string) {
           setInWatchlist(false);
         }
       } else {
+        // Limit-Check für Free User
+        if (!isPremium && watchlistCount >= FREE_WATCHLIST_LIMIT) {
+          router.push('/pricing');
+          return;
+        }
+
         // Hinzufügen
         const { error } = await supabase
           .from('watchlists')
@@ -91,6 +97,7 @@ export function useWatchlist(ticker: string) {
           console.error('[useWatchlist] Add Error:', error.message);
         } else {
           setInWatchlist(true);
+          setWatchlistCount(c => c + 1);
         }
       }
     } catch (error) {
@@ -100,5 +107,6 @@ export function useWatchlist(ticker: string) {
     }
   }
 
-  return { inWatchlist, toggle, loading, user };
+  const limitReached = !isPremium && !inWatchlist && watchlistCount >= FREE_WATCHLIST_LIMIT;
+  return { inWatchlist, toggle, loading, user, limitReached, watchlistCount, isPremium };
 }
