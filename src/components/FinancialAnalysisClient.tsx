@@ -646,33 +646,6 @@ interface ChartCardProps {
 function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium, period }: ChartCardProps) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
 
-  if (!isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p className="text-xs text-theme-secondary font-medium">Premium</p>
-          </div>
-        </div>
-        
-        <div className="opacity-30">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">{title}</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
-        </div>
-      </div>
-    )
-  }
-
   // ✅ DATEN VALIDIERUNG - Prüfe ob Daten für diese Metrik verfügbar sind
   const validData = data.filter(d => {
     const value = d[metricKey]
@@ -860,10 +833,6 @@ function PremiumLockedChart({ title, onExpand }: { title: string, onExpand: () =
 }
 
 function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[], onExpand: () => void, isPremium: boolean, period?: 'annual' | 'quarterly' }) {
-  if (!isPremium) {
-    return <PremiumLockedChart title="Gewinnmarge" onExpand={onExpand} />
-  }
-
   // ✅ DATEN VALIDIERUNG
   const validData = data.filter(d => d.profitMargin !== undefined && d.profitMargin !== null)
   
@@ -1272,10 +1241,6 @@ function RevenueSegmentsChart({
 
 // ✅ VALUATION METRICS CHART COMPONENT (KGV, KUV, KBV)
 function ValuationMetricsChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
-  if (!isPremium) {
-    return <PremiumLockedChart title="Bewertung" onExpand={onExpand} />
-  }
-
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
@@ -1568,33 +1533,6 @@ function GeographicSegmentsChart({
 function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
   const { formatAxisValueDE } = useCurrency()
 
-  if (!isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p className="text-xs text-theme-secondary font-medium">Premium</p>
-          </div>
-        </div>
-        
-        <div className="opacity-30">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="text-sm font-medium text-theme-primary">Cash & Schulden</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-4 h-4 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
-        </div>
-      </div>
-    )
-  }
- 
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
       <div className="flex items-center justify-between mb-3">
@@ -1672,32 +1610,6 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
  }
  
  function PERatioChart({ data, onExpand, isPremium }: { data: any[], onExpand: () => void, isPremium: boolean }) {
-  if (!isPremium) {
-    return (
-      <div className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-        <div className="absolute inset-0 bg-theme-card/70 backdrop-blur-sm z-10 flex items-center justify-center">
-          <div className="text-center">
-            <div className="w-8 h-8 mx-auto mb-2 bg-brand/20 rounded-lg flex items-center justify-center">
-              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 616 0z" clipRule="evenodd" />
-              </svg>
-            </div>
-            <p className="text-xs text-theme-secondary font-medium">Premium</p>
-          </div>
-        </div>
-        
-        <div className="opacity-30">
-          <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-medium text-theme-primary">KGV TTM</h3>
-            <button className="p-1 hover:bg-theme-tertiary rounded transition-colors">
-              <ArrowsPointingOutIcon className="w-3 h-3 text-theme-secondary" />
-            </button>
-          </div>
-          <div className="aspect-square bg-theme-tertiary rounded animate-pulse"></div>
-        </div>
-      </div>
-    )
-  }
   
   return (
     <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
@@ -1914,7 +1826,8 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       
       try {
         const realData = await financialDataService.getFinancialData(ticker, period)
-        setData(realData)
+        const limitedData = !isPremium ? realData.slice(-5) : realData
+        setData(limitedData)
         
         const hasValidatedData = realData.some(d => d.dataQuality === 'validated')
         const hasModernData = realData.some(d => d.modernDataUsed)
@@ -2384,6 +2297,27 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
         })}
       </div>
  
+      {/* Upgrade Banner für Free User */}
+      {!isPremium && (
+        <a
+          href="/pricing"
+          className="flex items-center justify-between gap-4 px-4 py-3 mt-2 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-amber-300">Du siehst die letzten 5 Jahre</p>
+              <p className="text-xs text-amber-400/70">Mit Premium erhältst du die vollständige Historien sowie weitere exklusive Charts</p>
+            </div>
+          </div>
+          <span className="text-xs font-medium text-amber-400 whitespace-nowrap">Premium freischalten →</span>
+        </a>
+      )}
+
       {/* ✅ HINWEIS: Modal braucht noch Update für 3/5/10/20 Jahre Optionen */}
       <FinancialChartModal
         isOpen={!!fullscreen}
