@@ -1,13 +1,17 @@
 // src/components/chart-builder/TimeControls.tsx
 'use client'
 
+import { LockClosedIcon } from '@heroicons/react/24/outline'
 import { Granularity, TimeRange, ViewMode } from './types'
+
+const PREMIUM_TIMERANGES = new Set<TimeRange>(['10Y', 'MAX'])
 
 interface TimeControlsProps {
   granularity: Granularity
   timeRange: TimeRange
   viewMode: ViewMode
   hasPriceMetric: boolean
+  isPremium: boolean
   onGranularityChange: (g: Granularity) => void
   onTimeRangeChange: (r: TimeRange) => void
   onViewModeChange: (m: ViewMode) => void
@@ -39,6 +43,7 @@ export default function TimeControls({
   timeRange,
   viewMode,
   hasPriceMetric,
+  isPremium,
   onGranularityChange,
   onTimeRangeChange,
   onViewModeChange,
@@ -66,19 +71,26 @@ export default function TimeControls({
 
       {/* Time Range */}
       <div className="flex items-center bg-white/[0.03] rounded-lg p-0.5">
-        {TIME_RANGE_OPTIONS.map(opt => (
-          <button
-            key={opt.value}
-            onClick={() => onTimeRangeChange(opt.value)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
-              timeRange === opt.value
-                ? 'bg-white/[0.1] text-theme-primary'
-                : 'text-theme-muted hover:text-theme-secondary'
-            }`}
-          >
-            {opt.label}
-          </button>
-        ))}
+        {TIME_RANGE_OPTIONS.map(opt => {
+          const locked = !isPremium && PREMIUM_TIMERANGES.has(opt.value)
+          return (
+            <a
+              key={opt.value}
+              href={locked ? '/pricing' : undefined}
+              onClick={locked ? undefined : () => onTimeRangeChange(opt.value)}
+              className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all cursor-pointer ${
+                timeRange === opt.value
+                  ? 'bg-white/[0.1] text-theme-primary'
+                  : locked
+                  ? 'text-theme-muted opacity-50'
+                  : 'text-theme-muted hover:text-theme-secondary'
+              }`}
+            >
+              {opt.label}
+              {locked && <LockClosedIcon className="w-2.5 h-2.5" />}
+            </a>
+          )
+        })}
       </div>
 
       <div className="flex-1" />
