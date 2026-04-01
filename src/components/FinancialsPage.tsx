@@ -342,21 +342,22 @@ export default function FinancialsPage({ ticker, isPremium = false }: Props) {
 
     return (
       <div className="relative">
-        <div className="filter blur-sm opacity-60 pointer-events-none">
+        <div className="filter blur-sm opacity-50 pointer-events-none select-none">
           {children}
         </div>
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="bg-theme-card/90 backdrop-blur-sm rounded-lg p-4 text-center border border-theme">
-            <LockClosedIcon className="w-6 h-6 text-theme-muted mx-auto mb-2" />
-            <p className="text-theme-primary font-medium">Financial Statements</p>
-            <p className="text-theme-muted text-sm">Premium erforderlich</p>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-1 text-theme-secondary hover:text-theme-primary text-xs font-medium mt-2 transition-colors"
-            >
-              Upgrade <ArrowRightIcon className="w-3 h-3" />
-            </Link>
-          </div>
+          <Link
+            href="/pricing"
+            className="flex items-center gap-3 px-5 py-3 bg-theme-card/95 backdrop-blur-sm border border-amber-500/30 rounded-xl shadow-xl hover:border-amber-500/50 hover:bg-theme-card transition-all hover:scale-105"
+          >
+            <div className="w-9 h-9 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <LockClosedIcon className="w-5 h-5 text-amber-400" />
+            </div>
+            <div className="text-left">
+              <p className="text-theme-primary font-semibold text-sm">Financial Statements</p>
+              <p className="text-amber-400 text-xs font-medium">Premium freischalten →</p>
+            </div>
+          </Link>
         </div>
       </div>
     )
