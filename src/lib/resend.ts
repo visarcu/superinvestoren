@@ -32,7 +32,7 @@ export async function sendWelcomeEmail(email: string) {
     const { data, error } = await resend.emails.send({
       from: 'Finclue <team@finclue.de>',
       to: [email],
-      subject: '🎉 Willkommen bei Finclue! Nie wieder ein Update verpassen',
+      subject: 'Du bist dabei – der Finclue Newsletter',
       html: `
         <!DOCTYPE html>
         <html lang="de">
