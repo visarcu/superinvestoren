@@ -1,6 +1,6 @@
 // src/app/api/newsletter/unsubscribe/route.ts - FINALE PRODUKTIONS-VERSION
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabaseClient'
+import { supabaseAdmin as supabase } from '@/lib/supabaseAdmin'
 
 export async function POST(request: NextRequest) {
   try {

@@ -1,6 +1,6 @@
 // src/app/api/newsletter/subscribe/route.ts - MIT WILLKOMMENS-EMAIL
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabaseClient'
+import { supabaseAdmin as supabase } from '@/lib/supabaseAdmin'
 import { sendWelcomeEmail } from '@/lib/resend'
 
 export async function POST(request: NextRequest) {
