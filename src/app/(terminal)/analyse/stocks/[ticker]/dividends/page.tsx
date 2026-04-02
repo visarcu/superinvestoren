@@ -2,12 +2,10 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
 import {
   BanknotesIcon,
-  LockClosedIcon,
   ArrowPathRoundedSquareIcon
 } from '@heroicons/react/24/outline'
 import EnhancedDividendSection from '@/components/EnhancedDividendSection'
@@ -109,27 +107,6 @@ export default function DividendsPage({ params }: { params: { ticker: string } }
             ticker={ticker}
             isPremium={user?.isPremium || false}
           />
-        )}
-
-        {/* Premium CTA - Clean Style */}
-        {!user?.isPremium && (
-          <div className="bg-theme-card rounded-xl border border-theme-light p-8 text-center">
-            <div className="w-12 h-12 bg-emerald-500/10 rounded-full flex items-center justify-center mx-auto mb-4">
-              <LockClosedIcon className="w-6 h-6 text-emerald-500" />
-            </div>
-            <h3 className="text-lg font-semibold text-theme-primary mb-2">
-              Premium Dividenden-Analyse
-            </h3>
-            <p className="text-theme-muted text-sm mb-6 max-w-md mx-auto">
-              Detaillierte Finanzgesundheits-Metriken, quartalsweise Historien und erweiterte Analysefunktionen.
-            </p>
-            <Link
-              href="/pricing"
-              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-500 hover:bg-emerald-400 text-white rounded-lg text-sm font-medium transition-colors"
-            >
-              14 Tage kostenlos testen
-            </Link>
-          </div>
         )}
       </main>
     </div>
