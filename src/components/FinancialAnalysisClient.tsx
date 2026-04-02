@@ -1675,11 +1675,24 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   } = useChartPresets(userId || null, isPremium)
   
   const [years, setYears] = useState<5 | 10 | 20>(5)
+  const [showMetricDropdown, setShowMetricDropdown] = useState(false)
+  const metricDropdownRef = useRef<HTMLDivElement>(null)
 
   // Cap years at 5 when user is not premium
   useEffect(() => {
     if (!isPremium && years > 5) setYears(5)
   }, [isPremium])
+
+  // Close metric dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (metricDropdownRef.current && !metricDropdownRef.current.contains(e.target as Node)) {
+        setShowMetricDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const { currency } = useCurrency()
 
@@ -2144,49 +2157,64 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   </>
 )}
 
-        {/* KENNZAHLEN AUSWAHL - Fey Style: Clean Pill Toggles */}
-        <div className="flex flex-wrap items-center gap-1.5">
-          {ALL_METRICS.map((chartKey) => {
-            const isSelected = visibleCharts.includes(chartKey)
+        {/* KENNZAHLEN AUSWAHL - Compact Dropdown */}
+        <div className="flex items-center gap-2" ref={metricDropdownRef}>
+          <span className="text-xs text-theme-muted font-medium flex-shrink-0">Kennzahlen</span>
 
-            return (
-              <button
-                key={chartKey}
-                onClick={() => toggleChartVisibility(chartKey)}
-                className={`px-3 py-1.5 text-xs rounded-md transition-all ${
-                  isSelected
-                    ? 'bg-theme-primary text-theme-bg font-medium'
-                    : 'text-theme-muted hover:text-theme-primary hover:bg-white/[0.04]'
-                }`}
-              >
-                {getChartName(chartKey)}
-              </button>
-            )
-          })}
+          {/* Dropdown trigger */}
+          <div className="relative">
+            <button
+              onClick={() => setShowMetricDropdown(!showMetricDropdown)}
+              className="flex items-center gap-2 px-3 py-1.5 text-xs bg-white/[0.05] border border-white/[0.08] rounded-md hover:border-white/[0.15] text-theme-primary transition-all"
+            >
+              <span className="text-theme-secondary">
+                {visibleCharts.length === 0
+                  ? 'Keine ausgewählt'
+                  : visibleCharts.length === ALL_METRICS.length
+                  ? 'Alle'
+                  : visibleCharts.slice(0, 3).map(k => getChartName(k)).join(', ') + (visibleCharts.length > 3 ? ` +${visibleCharts.length - 3}` : '')}
+              </span>
+              <svg className={`w-3.5 h-3.5 text-theme-muted transition-transform ${showMetricDropdown ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
 
-          {/* Divider */}
-          <div className="w-px h-5 bg-white/[0.08] mx-2" />
-
-          {/* Quick Actions */}
-          <button
-            onClick={() => {
-              setVisibleCharts(ALL_METRICS)
-              setSelectedPreset('')
-            }}
-            className="px-2 py-1.5 text-xs text-theme-muted hover:text-theme-primary transition-colors"
-          >
-            Alle
-          </button>
-          <span className="text-white/[0.15]">|</span>
-          <button
-            onClick={() => {
-              setVisibleCharts([])
-              setSelectedPreset('')
-            }}
-            className="px-2 py-1.5 text-xs text-theme-muted hover:text-theme-primary transition-colors"
-          >
-            Keine
-          </button>
+            {showMetricDropdown && (
+              <div className="absolute top-full left-0 mt-1 z-30 bg-theme-card border border-white/[0.10] rounded-lg shadow-xl py-1.5 min-w-[220px] max-h-80 overflow-y-auto">
+                {/* Alle / Keine */}
+                <div className="flex items-center gap-1 px-3 py-1.5 border-b border-white/[0.06] mb-1">
+                  <button
+                    onClick={() => { setVisibleCharts(ALL_METRICS); setSelectedPreset('') }}
+                    className="text-xs text-theme-muted hover:text-theme-primary transition-colors"
+                  >Alle</button>
+                  <span className="text-white/20 mx-1">|</span>
+                  <button
+                    onClick={() => { setVisibleCharts([]); setSelectedPreset('') }}
+                    className="text-xs text-theme-muted hover:text-theme-primary transition-colors"
+                  >Keine</button>
+                </div>
+                {ALL_METRICS.map((chartKey) => {
+                  const isSelected = visibleCharts.includes(chartKey)
+                  return (
+                    <button
+                      key={chartKey}
+                      onClick={() => toggleChartVisibility(chartKey)}
+                      className={`w-full flex items-center gap-2.5 px-3 py-2 text-xs text-left transition-colors hover:bg-white/[0.05] ${isSelected ? 'text-theme-primary' : 'text-theme-muted'}`}
+                    >
+                      <div className={`w-3.5 h-3.5 rounded border flex items-center justify-center flex-shrink-0 ${isSelected ? 'bg-theme-primary border-theme-primary' : 'border-white/[0.2]'}`}>
+                        {isSelected && (
+                          <svg className="w-2.5 h-2.5 text-theme-bg" fill="currentColor" viewBox="0 0 20 20">
+                            <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                          </svg>
+                        )}
+                      </div>
+                      {getChartName(chartKey)}
+                    </button>
+                  )
+                })}
+              </div>
+            )}
+          </div>
         </div>
       </div>
  

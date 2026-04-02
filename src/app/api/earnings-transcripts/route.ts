@@ -53,19 +53,41 @@ export async function GET(request: NextRequest) {
       fmpTranscripts = cached.data
     } else {
       try {
-        const fmpResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?limit=20&apikey=${FMP_API_KEY}`
+        // Fetch last 5 years of transcripts using FMP batch endpoint
+        const currentYear = new Date().getFullYear()
+        const years = [currentYear, currentYear - 1, currentYear - 2, currentYear - 3, currentYear - 4]
+
+        const batchResults = await Promise.all(
+          years.map(year =>
+            fetch(`https://financialmodelingprep.com/api/v4/batch_earning_call_transcript/${ticker}?year=${year}&apikey=${FMP_API_KEY}`)
+              .then(r => r.ok ? r.json() : [])
+              .catch(() => [])
+          )
         )
 
-        if (fmpResponse.ok) {
-          const fmpData = await fmpResponse.json()
-          fmpTranscripts = Array.isArray(fmpData) ? fmpData : [fmpData]
+        fmpTranscripts = batchResults.flat().filter((t: any) => t && t.content)
+
+        if (fmpTranscripts.length > 0) {
           memoryCache.set(memoryCacheKey, { data: fmpTranscripts, timestamp: Date.now() })
 
           // 3. Speichere neue Transcripts in Supabase
           for (const transcript of fmpTranscripts) {
-            if (transcript && transcript.content) {
-              await saveTranscriptToSupabase(transcript)
+            await saveTranscriptToSupabase(transcript)
+          }
+        } else {
+          // Fallback: try legacy single endpoint
+          const fallbackRes = await fetch(
+            `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?apikey=${FMP_API_KEY}`
+          )
+          if (fallbackRes.ok) {
+            const fallbackData = await fallbackRes.json()
+            fmpTranscripts = Array.isArray(fallbackData) ? fallbackData : [fallbackData]
+            fmpTranscripts = fmpTranscripts.filter((t: any) => t && t.content)
+            if (fmpTranscripts.length > 0) {
+              memoryCache.set(memoryCacheKey, { data: fmpTranscripts, timestamp: Date.now() })
+              for (const transcript of fmpTranscripts) {
+                await saveTranscriptToSupabase(transcript)
+              }
             }
           }
         }
