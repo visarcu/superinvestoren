@@ -314,9 +314,9 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
 
                     const isEstimate = parseInt(est.date?.substring(0, 4) || '0') >= currentYear
 
-                    // Premium gating: free users see only 2 future estimate rows; historical rows are locked
+                    // Premium gating: historical rows are always visible; only future estimates beyond the nearest 2 are locked
                     if (isEstimate) futureShown++
-                    const isLocked = !user?.isPremium && (!isEstimate || futureShown > 2)
+                    const isLocked = !user?.isPremium && (isEstimate && futureShown > 2)
 
                     if (isLocked) {
                       return (
