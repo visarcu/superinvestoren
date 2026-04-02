@@ -1,4 +1,4 @@
-// src/app/pricing/page.tsx - CLEAN MINIMAL DESIGN
+// src/app/pricing/page.tsx - WITH YEARLY PLAN
 "use client";
 
 import React, { useEffect, useState } from "react";
@@ -17,6 +17,7 @@ export default function PricingPage() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
   const router = useRouter();
 
   const { premiumStatus, loading: premiumLoading } = usePremiumStatus(user?.id || null);
@@ -33,11 +34,7 @@ export default function PricingPage() {
       }
 
       if (session?.user) {
-        const userData = {
-          id: session.user.id,
-          email: session.user.email || "",
-        };
-        setUser(userData);
+        setUser({ id: session.user.id, email: session.user.email || "" });
       } else {
         setUser(null);
       }
@@ -49,19 +46,13 @@ export default function PricingPage() {
 
     const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
       if (session?.user) {
-        const userData = {
-          id: session.user.id,
-          email: session.user.email || "",
-        };
-        setUser(userData);
+        setUser({ id: session.user.id, email: session.user.email || "" });
       } else {
         setUser(null);
       }
     });
 
-    return () => {
-      listener.subscription.unsubscribe();
-    };
+    return () => { listener.subscription.unsubscribe(); };
   }, []);
 
   async function handleStripeCheckout() {
@@ -71,22 +62,21 @@ export default function PricingPage() {
     }
 
     setCheckoutLoading(true);
-    
+
     try {
       const { data: { session } } = await supabase.auth.getSession();
-      
-      if (!session) {
-        throw new Error('Keine gültige Session');
-      }
+
+      if (!session) throw new Error('Keine gültige Session');
 
       const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           userId: user.id,
           sessionToken: session.access_token,
+          plan: selectedPlan,
+          // Trial only for monthly plan
+          withTrial: selectedPlan === 'monthly',
         }),
       });
 
@@ -96,7 +86,7 @@ export default function PricingPage() {
       }
 
       const { url } = await response.json();
-      
+
       if (url) {
         window.location.href = url;
       } else {
@@ -145,13 +135,23 @@ export default function PricingPage() {
 
   const isPremium = premiumStatus.isPremium;
 
+  // Price display
+  const monthlyPrice = 9;
+  const yearlyPrice = 79;
+  const yearlyMonthly = (yearlyPrice / 12).toFixed(2); // 6.58
+  const savingsPercent = Math.round((1 - yearlyPrice / (monthlyPrice * 12)) * 100); // 34%
+
+  const ctaLabel = selectedPlan === 'yearly'
+    ? `Jetzt für ${yearlyPrice}€/Jahr starten`
+    : '14 Tage kostenlos testen';
+
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
-      
-      {/* Hero Section - Clean & Minimal */}
+
+      {/* Hero */}
       <div className="pt-32 pb-12">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          
+
           {isPremium ? (
             <div className="space-y-4 mb-8">
               <h1 className="text-4xl md:text-5xl font-semibold text-white tracking-tight">
@@ -167,22 +167,22 @@ export default function PricingPage() {
                 Einfache, transparente Preise
               </h1>
               <p className="text-lg text-neutral-400 max-w-xl mx-auto">
-                14 Tage kostenlos testen. Jederzeit kündbar. Keine versteckten Kosten.
+                Voller Zugang zu allen Features. Jederzeit kündbar.
               </p>
             </div>
           )}
 
-          {/* Stats - Subtle */}
+          {/* Stats */}
           {!isPremium && (
             <div className="flex items-center justify-center gap-12 mb-12">
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">14</div>
-                <div className="text-sm text-neutral-500">Tage gratis</div>
+                <div className="text-2xl font-semibold text-white">9€</div>
+                <div className="text-sm text-neutral-500">pro Monat</div>
               </div>
               <div className="w-px h-8 bg-neutral-800"></div>
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">9€</div>
-                <div className="text-sm text-neutral-500">pro Monat</div>
+                <div className="text-2xl font-semibold text-white">79€</div>
+                <div className="text-sm text-neutral-500">pro Jahr</div>
               </div>
               <div className="w-px h-8 bg-neutral-800"></div>
               <div className="text-center">
@@ -196,8 +196,40 @@ export default function PricingPage() {
 
       {/* Pricing Cards */}
       <div className="max-w-4xl mx-auto px-6 pb-20">
+
+        {/* Billing Toggle */}
+        {!isPremium && (
+          <div className="flex items-center justify-center mb-8">
+            <div className="flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-xl">
+              <button
+                onClick={() => setSelectedPlan('monthly')}
+                className={`px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+                  selectedPlan === 'monthly'
+                    ? 'bg-neutral-700 text-white'
+                    : 'text-neutral-500 hover:text-neutral-300'
+                }`}
+              >
+                Monatlich
+              </button>
+              <button
+                onClick={() => setSelectedPlan('yearly')}
+                className={`relative flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all ${
+                  selectedPlan === 'yearly'
+                    ? 'bg-neutral-700 text-white'
+                    : 'text-neutral-500 hover:text-neutral-300'
+                }`}
+              >
+                Jährlich
+                <span className="bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-2 py-0.5 rounded-full">
+                  -{savingsPercent}%
+                </span>
+              </button>
+            </div>
+          </div>
+        )}
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          
+
           {/* Free Plan */}
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8">
             <div className="mb-6">
@@ -220,16 +252,14 @@ export default function PricingPage() {
                   ) : (
                     <X className="w-4 h-4 text-neutral-600 flex-shrink-0" />
                   )}
-                  <span className={`text-sm ${
-                    feature.included ? 'text-neutral-300' : 'text-neutral-600'
-                  }`}>
+                  <span className={`text-sm ${feature.included ? 'text-neutral-300' : 'text-neutral-600'}`}>
                     {feature.name}
                   </span>
                 </li>
               ))}
             </ul>
 
-            <button 
+            <button
               className="w-full py-3 bg-neutral-800 text-neutral-400 font-medium rounded-xl cursor-default"
               disabled
             >
@@ -239,12 +269,12 @@ export default function PricingPage() {
 
           {/* Premium Plan */}
           <div className="relative bg-neutral-900/50 border border-neutral-700 rounded-2xl p-8">
-            
-            {/* Recommended Badge */}
+
+            {/* Badge */}
             {!isPremium && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                 <div className="bg-white text-black px-4 py-1 rounded-full text-xs font-semibold">
-                  Empfohlen
+                  {selectedPlan === 'yearly' ? `Spare ${savingsPercent}%` : 'Empfohlen'}
                 </div>
               </div>
             )}
@@ -261,25 +291,39 @@ export default function PricingPage() {
               <p className="text-sm text-neutral-500">Alle Features freischalten</p>
             </div>
 
+            {/* Price display */}
             <div className="mb-8">
-              <div className="flex items-baseline gap-1">
-                <span className="text-4xl font-semibold text-white">9€</span>
-                <span className="text-neutral-500">/Monat</span>
-              </div>
-              <p className="text-xs text-neutral-500 mt-2">
-                14 Tage kostenlos • Jederzeit kündbar
-              </p>
+              {selectedPlan === 'yearly' ? (
+                <>
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-4xl font-semibold text-white">{yearlyPrice}€</span>
+                    <span className="text-neutral-500">/Jahr</span>
+                  </div>
+                  <p className="text-sm text-emerald-400 mt-1">
+                    Entspricht {yearlyMonthly}€/Monat
+                  </p>
+                  <p className="text-xs text-neutral-500 mt-1">
+                    Einmalzahlung • Jederzeit kündbar
+                  </p>
+                </>
+              ) : (
+                <>
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-semibold text-white">{monthlyPrice}€</span>
+                    <span className="text-neutral-500">/Monat</span>
+                  </div>
+                  <p className="text-xs text-neutral-500 mt-2">
+                    14 Tage kostenlos • Jederzeit kündbar
+                  </p>
+                </>
+              )}
             </div>
 
             <ul className="space-y-3 mb-8">
               {features.premium.map((feature, index) => (
                 <li key={index} className="flex items-center gap-3">
-                  <Check className={`w-4 h-4 flex-shrink-0 ${
-                    feature.highlight ? 'text-emerald-400' : 'text-neutral-400'
-                  }`} />
-                  <span className={`text-sm ${
-                    feature.highlight ? 'text-emerald-400' : 'text-neutral-300'
-                  }`}>
+                  <Check className={`w-4 h-4 flex-shrink-0 ${feature.highlight ? 'text-emerald-400' : 'text-neutral-400'}`} />
+                  <span className={`text-sm ${feature.highlight ? 'text-emerald-400' : 'text-neutral-300'}`}>
                     {feature.name}
                   </span>
                 </li>
@@ -305,7 +349,7 @@ export default function PricingPage() {
                     Wird geladen...
                   </span>
                 ) : (
-                  '14 Tage kostenlos testen'
+                  ctaLabel
                 )}
               </button>
             ) : (
@@ -313,39 +357,48 @@ export default function PricingPage() {
                 href="/auth/signin"
                 className="block w-full py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors text-center"
               >
-                Kostenlos testen
+                {selectedPlan === 'yearly' ? `Für ${yearlyPrice}€/Jahr starten` : 'Kostenlos testen'}
               </Link>
             )}
           </div>
         </div>
       </div>
 
-      {/* FAQ Section - Minimal */}
+      {/* FAQ */}
       <div className="border-t border-neutral-800/50">
         <div className="max-w-3xl mx-auto px-6 py-20">
           <h2 className="text-2xl font-semibold text-white text-center mb-12">
             Häufige Fragen
           </h2>
-          
+
           <div className="space-y-8">
             <div>
               <h3 className="font-medium text-white mb-2">
                 Kann ich jederzeit kündigen?
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
-                Ja, absolut. Du kannst jederzeit ohne Kündigungsfrist kündigen und behältst Zugang bis zum Ende der Abrechnungsperiode.
+                Ja. Beim Monatsabo jederzeit ohne Kündigungsfrist. Beim Jahresabo kannst du jederzeit kündigen und behältst Zugang bis zum Ende des bezahlten Jahres.
               </p>
             </div>
-            
+
             <div className="border-t border-neutral-800/50 pt-8">
               <h3 className="font-medium text-white mb-2">
-                Was passiert nach der Testphase?
+                Was ist der Unterschied zwischen Monats- und Jahresabo?
+              </h3>
+              <p className="text-neutral-400 text-sm leading-relaxed">
+                Beide Pläne geben dir vollen Zugang zu allen Features. Mit dem Jahresabo sparst du {savingsPercent}% (79€/Jahr statt 108€/Jahr). Das Monatsabo beinhaltet 14 Tage kostenlose Testphase.
+              </p>
+            </div>
+
+            <div className="border-t border-neutral-800/50 pt-8">
+              <h3 className="font-medium text-white mb-2">
+                Was passiert nach der Testphase (Monatsabo)?
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
                 Nach 14 Tagen wird automatisch das Abo für 9€/Monat aktiviert. Du kannst vorher jederzeit kündigen – ohne Kosten.
               </p>
             </div>
-            
+
             <div className="border-t border-neutral-800/50 pt-8">
               <h3 className="font-medium text-white mb-2">
                 Sind meine Daten sicher?
@@ -354,7 +407,7 @@ export default function PricingPage() {
                 Ja. Alle Zahlungen werden über Stripe verarbeitet. Wir speichern keine Kreditkartendaten und sind DSGVO-konform.
               </p>
             </div>
-            
+
             <div className="border-t border-neutral-800/50 pt-8">
               <h3 className="font-medium text-white mb-2">
                 Welche Zahlungsmethoden gibt es?
@@ -367,7 +420,7 @@ export default function PricingPage() {
         </div>
       </div>
 
-      {/* Bottom CTA - Only for non-premium */}
+      {/* Bottom CTA */}
       {!isPremium && (
         <div className="border-t border-neutral-800/50">
           <div className="max-w-2xl mx-auto px-6 py-20 text-center">
@@ -375,9 +428,11 @@ export default function PricingPage() {
               Bereit für bessere Entscheidungen?
             </h2>
             <p className="text-neutral-400 mb-8">
-              Starte jetzt mit der 14-tägigen kostenlosen Testphase.
+              {selectedPlan === 'yearly'
+                ? `Voller Zugang für nur ${yearlyMonthly}€/Monat – im Jahresabo.`
+                : 'Starte jetzt mit der 14-tägigen kostenlosen Testphase.'}
             </p>
-            
+
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               {user ? (
                 <button
@@ -385,14 +440,14 @@ export default function PricingPage() {
                   disabled={checkoutLoading}
                   className="px-8 py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors disabled:opacity-50"
                 >
-                  {checkoutLoading ? 'Wird geladen...' : 'Kostenlos testen'}
+                  {checkoutLoading ? 'Wird geladen...' : ctaLabel}
                 </button>
               ) : (
                 <Link
                   href="/auth/signin"
                   className="px-8 py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors"
                 >
-                  Kostenlos testen
+                  {selectedPlan === 'yearly' ? `Für ${yearlyPrice}€/Jahr starten` : 'Kostenlos testen'}
                 </Link>
               )}
               <Link
@@ -406,7 +461,7 @@ export default function PricingPage() {
         </div>
       )}
 
-      {/* Premium Management - Only for premium users */}
+      {/* Premium Management */}
       {isPremium && (
         <div className="border-t border-neutral-800/50">
           <div className="max-w-md mx-auto px-6 py-20 text-center">
