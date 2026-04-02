@@ -1899,106 +1899,95 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   return (
     <div className="space-y-6">
       
-      {/* ✅ PROFESSIONELLE CONTROLS BOX */}
-      <div className="bg-theme-card rounded-lg p-6">
-        <div className="flex flex-wrap items-center gap-6 justify-between mb-6">
-          
-          <div className="flex items-center gap-8">
-            {/* PERIODE TOGGLE - Fey Style */}
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-theme-secondary font-medium">Periode:</span>
-              <div className="flex bg-white/[0.06] dark:bg-white/[0.06] border border-white/[0.08] rounded-lg p-1">
-                {(['annual', 'quarterly'] as const).map((p) => {
-                  const isLocked = !isPremium && p === 'quarterly'
-                  return (
-                    <button
-                      key={p}
-                      onClick={() => isLocked ? (window.location.href = '/pricing') : setPeriod(p)}
-                      className={`px-4 py-1.5 text-sm rounded-md transition-all duration-200 font-medium flex items-center gap-1.5 ${
-                        period === p
-                          ? 'bg-theme-primary text-theme-bg shadow-sm'
-                          : 'text-theme-muted hover:text-theme-primary'
-                      }`}
-                    >
-                      {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
-                      {isLocked && (
-                        <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* JAHRE TOGGLE */}
-            <div className="flex items-center gap-3">
-              <span className="text-sm text-theme-secondary font-medium">Jahre:</span>
-              <div className="flex bg-white/[0.06] border border-white/[0.08] rounded-lg p-1">
-                {([5, 10, 20] as const).map((y) => {
-                  const isLocked = !isPremium && y > 5
-                  return (
-                    <button
-                      key={y}
-                      onClick={() => isLocked ? (window.location.href = '/pricing') : setYears(y)}
-                      className={`px-3 py-1.5 text-sm rounded-md transition-all duration-200 font-medium flex items-center gap-1 ${
-                        years === y
-                          ? 'bg-theme-primary text-theme-bg shadow-sm'
-                          : isLocked
-                          ? 'text-theme-muted opacity-50'
-                          : 'text-theme-muted hover:text-theme-primary'
-                      }`}
-                    >
-                      {y}J
-                      {isLocked && (
-                        <svg className="w-3 h-3 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
-                        </svg>
-                      )}
-                    </button>
-                  )
-                })}
-              </div>
+      {/* CONTROLS BOX */}
+      <div className="bg-theme-card rounded-lg px-4 py-3">
+        {/* Row 1: Periode + Jahre + Presets all in one line */}
+        <div className="flex flex-wrap items-center gap-2 mb-3">
+          {/* PERIODE */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-theme-muted font-medium">Periode</span>
+            <div className="flex bg-white/[0.05] border border-white/[0.08] rounded-md p-0.5">
+              {(['annual', 'quarterly'] as const).map((p) => {
+                const isLocked = !isPremium && p === 'quarterly'
+                return (
+                  <button
+                    key={p}
+                    onClick={() => isLocked ? (window.location.href = '/pricing') : setPeriod(p)}
+                    className={`px-2.5 py-1 text-xs rounded transition-all font-medium flex items-center gap-1 ${
+                      period === p
+                        ? 'bg-theme-primary text-theme-bg'
+                        : 'text-theme-muted hover:text-theme-primary'
+                    }`}
+                  >
+                    {p === 'annual' ? 'Jährlich' : 'Quartalsweise'}
+                    {isLocked && (
+                      <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </button>
+                )
+              })}
             </div>
           </div>
 
-          {/* STATUS INDIKATOREN */}
-    
-        </div>
-        
-        {/* ✅ NEUE PRESET CONTROLS */}
-        <div className="mb-6 pb-6 border-b border-white/[0.04]">
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Preset Quick Buttons - Fey Style */}
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-theme-secondary font-medium">Presets:</span>
-              <div className="flex gap-2">
-                {Object.entries(CHART_PRESETS).slice(0, 5).map(([key, preset]) => (
-                  <button
-                    key={key}
-                    onClick={() => applyPreset(key)}
-                    className={`px-3 py-1.5 text-xs rounded-lg border transition-all ${
-                      selectedPreset === key
-                        ? 'bg-theme-primary text-theme-bg border-theme-primary'
-                        : 'bg-transparent text-theme-muted border-white/[0.08] hover:border-white/[0.15] hover:text-theme-primary'
-                    }`}
-                    title={(preset as LocalChartPreset).description}
-                  >
-                    <span className="mr-1">{(preset as LocalChartPreset).icon}</span>
-                    {preset.name}
-                  </button>
-                ))}
-              </div>
-            </div>
+          <div className="w-px h-4 bg-white/[0.08]" />
 
-            {/* More Presets Dropdown - Fey Style */}
+          {/* JAHRE */}
+          <div className="flex items-center gap-1.5">
+            <span className="text-xs text-theme-muted font-medium">Jahre</span>
+            <div className="flex bg-white/[0.05] border border-white/[0.08] rounded-md p-0.5">
+              {([5, 10, 20] as const).map((y) => {
+                const isLocked = !isPremium && y > 5
+                return (
+                  <button
+                    key={y}
+                    onClick={() => isLocked ? (window.location.href = '/pricing') : setYears(y)}
+                    className={`px-2.5 py-1 text-xs rounded transition-all font-medium flex items-center gap-1 ${
+                      years === y
+                        ? 'bg-theme-primary text-theme-bg'
+                        : isLocked
+                        ? 'text-theme-muted opacity-50'
+                        : 'text-theme-muted hover:text-theme-primary'
+                    }`}
+                  >
+                    {y}J
+                    {isLocked && (
+                      <svg className="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="w-px h-4 bg-white/[0.08]" />
+
+          {/* PRESETS */}
+          <div className="flex items-center gap-1">
+            {Object.entries(CHART_PRESETS).slice(0, 5).map(([key, preset]) => (
+              <button
+                key={key}
+                onClick={() => applyPreset(key)}
+                className={`px-2.5 py-1 text-xs rounded border transition-all ${
+                  selectedPreset === key
+                    ? 'bg-theme-primary text-theme-bg border-theme-primary'
+                    : 'bg-transparent text-theme-muted border-white/[0.08] hover:border-white/[0.15] hover:text-theme-primary'
+                }`}
+                title={(preset as LocalChartPreset).description}
+              >
+                <span className="mr-0.5">{(preset as LocalChartPreset).icon}</span>
+                {preset.name}
+              </button>
+            ))}
             <select
               value={selectedPreset}
               onChange={(e) => applyPreset(e.target.value)}
-              className="px-3 py-1.5 text-xs bg-transparent text-theme-muted border border-white/[0.08] rounded-lg hover:border-white/[0.15] hover:text-theme-primary transition-colors cursor-pointer"
+              className="px-2 py-1 text-xs bg-transparent text-theme-muted border border-white/[0.08] rounded hover:border-white/[0.15] transition-colors cursor-pointer"
             >
-              <option value="">Weitere Presets...</option>
+              <option value="">Mehr...</option>
               <optgroup label="Standard Presets">
                 {Object.entries(CHART_PRESETS).slice(5).map(([key, preset]) => (
                   <option key={key} value={key}>
@@ -2016,26 +2005,30 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 </optgroup>
               )}
             </select>
+          </div>
 
-            {/* Save Current Button - Fey Style */}
+          <div className="flex-1" />
+
+          {/* SAVE + DELETE */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => handlePremiumAction(() => setShowSavePresetDialog(true))}
-              className="px-3 py-1.5 text-xs bg-transparent text-theme-muted border border-white/[0.08] rounded-lg hover:border-white/[0.15] hover:text-theme-primary transition-colors"
+              className="px-2.5 py-1 text-xs bg-transparent text-theme-muted border border-white/[0.08] rounded hover:border-white/[0.15] hover:text-theme-primary transition-colors"
+              title="Aktuelle Auswahl als Preset speichern"
             >
-              💾 Aktuelle Auswahl speichern
+              💾 Speichern
             </button>
- 
-            {/* Delete Custom Preset Button (if custom preset selected) */}
             {customPresets.some(preset => preset.id === selectedPreset) && (
               <button
                 onClick={() => deleteCustomPreset(selectedPreset)}
-                className="px-3 py-1.5 text-xs bg-red-500/10 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors"
+                className="px-2.5 py-1 text-xs bg-red-500/10 text-red-400 rounded hover:bg-red-500/20 transition-colors"
               >
-                🗑️ Löschen
+                🗑️
               </button>
             )}
           </div>
- 
+        </div>
+
        {/* Save Preset Dialog - ALS MODAL */}
 {showSavePresetDialog && (
   <>
@@ -2150,8 +2143,7 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
     </div>
   </>
 )}
-        </div>
-        
+
         {/* KENNZAHLEN AUSWAHL - Fey Style: Clean Pill Toggles */}
         <div className="flex flex-wrap items-center gap-1.5">
           {ALL_METRICS.map((chartKey) => {

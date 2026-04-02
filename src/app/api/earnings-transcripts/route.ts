@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
     } else {
       try {
         const fmpResponse = await fetch(
-          `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?apikey=${FMP_API_KEY}`
+          `https://financialmodelingprep.com/api/v3/earning_call_transcript/${ticker}?limit=20&apikey=${FMP_API_KEY}`
         )
 
         if (fmpResponse.ok) {
