@@ -300,76 +300,130 @@ export default function EstimatesPageClient({ ticker }: EstimatesPageClientProps
                 </tr>
               </thead>
               <tbody>
-                {estimates.map((est, index) => {
-                  const prevEst = estimates[index + 1]
-                  const revenueGrowth = prevEst && prevEst.estimatedRevenueAvg
-                    ? ((est.estimatedRevenueAvg - prevEst.estimatedRevenueAvg) / prevEst.estimatedRevenueAvg) * 100
-                    : null
-                  const epsGrowth = prevEst && prevEst.estimatedEpsAvg
-                    ? ((est.estimatedEpsAvg - prevEst.estimatedEpsAvg) / Math.abs(prevEst.estimatedEpsAvg)) * 100
-                    : null
-
+                {(() => {
                   const currentYear = new Date().getFullYear()
-                  const isEstimate = parseInt(est.date?.substring(0, 4) || '0') >= currentYear
+                  let futureShown = 0
+                  return estimates.map((est, index) => {
+                    const prevEst = estimates[index + 1]
+                    const revenueGrowth = prevEst && prevEst.estimatedRevenueAvg
+                      ? ((est.estimatedRevenueAvg - prevEst.estimatedRevenueAvg) / prevEst.estimatedRevenueAvg) * 100
+                      : null
+                    const epsGrowth = prevEst && prevEst.estimatedEpsAvg
+                      ? ((est.estimatedEpsAvg - prevEst.estimatedEpsAvg) / Math.abs(prevEst.estimatedEpsAvg)) * 100
+                      : null
 
-                  return (
-                    <tr
-                      key={est.date || index}
-                      className={`border-b border-neutral-800/50 transition-colors ${
-                        isEstimate
-                          ? 'hover:bg-neutral-800/20'
-                          : 'opacity-50 hover:opacity-70'
-                      }`}
-                    >
-                      <td className={`py-3 text-sm font-medium ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
-                        {est.date?.substring(0, 4) || `FY${index}`}
-                      </td>
-                      <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
-                        {est.estimatedRevenueAvg
-                          ? `${(est.estimatedRevenueAvg / 1e9).toFixed(1)} Mrd.`
-                          : '–'}
-                      </td>
-                      <td className={`py-3 text-sm text-right font-mono ${
-                        revenueGrowth !== null
-                          ? isEstimate
-                            ? (revenueGrowth >= 0 ? 'text-emerald-400' : 'text-red-400')
-                            : (revenueGrowth >= 0 ? 'text-emerald-400/60' : 'text-red-400/60')
-                          : 'text-neutral-500'
-                      }`}>
-                        {revenueGrowth !== null
-                          ? `${revenueGrowth >= 0 ? '+' : ''}${revenueGrowth.toFixed(1)}%`
-                          : '–'}
-                      </td>
-                      <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
-                        {est.estimatedEpsAvg
-                          ? `$${est.estimatedEpsAvg.toFixed(2)}`
-                          : '–'}
-                      </td>
-                      <td className={`py-3 text-sm text-right font-mono ${
-                        epsGrowth !== null
-                          ? isEstimate
-                            ? (epsGrowth >= 0 ? 'text-emerald-400' : 'text-red-400')
-                            : (epsGrowth >= 0 ? 'text-emerald-400/60' : 'text-red-400/60')
-                          : 'text-neutral-500'
-                      }`}>
-                        {epsGrowth !== null
-                          ? `${epsGrowth >= 0 ? '+' : ''}${epsGrowth.toFixed(1)}%`
-                          : '–'}
-                      </td>
-                      <td className="py-3 text-sm text-right">
-                        {isEstimate ? (
-                          <span className="text-amber-400 font-medium">Prognose</span>
-                        ) : (
-                          <span className="text-neutral-500 text-xs">Historisch</span>
-                        )}
-                      </td>
-                    </tr>
-                  )
-                })}
+                    const isEstimate = parseInt(est.date?.substring(0, 4) || '0') >= currentYear
+
+                    // Premium gating: free users see only 2 future estimate rows; historical rows are locked
+                    if (isEstimate) futureShown++
+                    const isLocked = !user?.isPremium && (!isEstimate || futureShown > 2)
+
+                    if (isLocked) {
+                      return (
+                        <tr key={est.date || index} className="border-b border-neutral-800/50">
+                          <td className="py-3 text-sm font-medium text-neutral-600">
+                            {est.date?.substring(0, 4) || `FY${index}`}
+                          </td>
+                          {[0,1,2,3].map(col => (
+                            <td key={col} className="py-3 text-sm text-right">
+                              <a href="/pricing" className="flex items-center justify-end">
+                                <svg className="w-3.5 h-3.5 text-amber-400/50 hover:text-amber-400 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                                </svg>
+                              </a>
+                            </td>
+                          ))}
+                          <td className="py-3 text-right">
+                            {isEstimate ? (
+                              <span className="text-amber-400/50 font-medium text-sm">Prognose</span>
+                            ) : (
+                              <span className="text-neutral-600 text-xs">Historisch</span>
+                            )}
+                          </td>
+                        </tr>
+                      )
+                    }
+
+                    return (
+                      <tr
+                        key={est.date || index}
+                        className={`border-b border-neutral-800/50 transition-colors ${
+                          isEstimate
+                            ? 'hover:bg-neutral-800/20'
+                            : 'opacity-50 hover:opacity-70'
+                        }`}
+                      >
+                        <td className={`py-3 text-sm font-medium ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
+                          {est.date?.substring(0, 4) || `FY${index}`}
+                        </td>
+                        <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
+                          {est.estimatedRevenueAvg
+                            ? `${(est.estimatedRevenueAvg / 1e9).toFixed(1)} Mrd.`
+                            : '–'}
+                        </td>
+                        <td className={`py-3 text-sm text-right font-mono ${
+                          revenueGrowth !== null
+                            ? isEstimate
+                              ? (revenueGrowth >= 0 ? 'text-emerald-400' : 'text-red-400')
+                              : (revenueGrowth >= 0 ? 'text-emerald-400/60' : 'text-red-400/60')
+                            : 'text-neutral-500'
+                        }`}>
+                          {revenueGrowth !== null
+                            ? `${revenueGrowth >= 0 ? '+' : ''}${revenueGrowth.toFixed(1)}%`
+                            : '–'}
+                        </td>
+                        <td className={`py-3 text-sm text-right font-mono ${isEstimate ? 'text-white' : 'text-neutral-400'}`}>
+                          {est.estimatedEpsAvg
+                            ? `$${est.estimatedEpsAvg.toFixed(2)}`
+                            : '–'}
+                        </td>
+                        <td className={`py-3 text-sm text-right font-mono ${
+                          epsGrowth !== null
+                            ? isEstimate
+                              ? (epsGrowth >= 0 ? 'text-emerald-400' : 'text-red-400')
+                              : (epsGrowth >= 0 ? 'text-emerald-400/60' : 'text-red-400/60')
+                            : 'text-neutral-500'
+                        }`}>
+                          {epsGrowth !== null
+                            ? `${epsGrowth >= 0 ? '+' : ''}${epsGrowth.toFixed(1)}%`
+                            : '–'}
+                        </td>
+                        <td className="py-3 text-sm text-right">
+                          {isEstimate ? (
+                            <span className="text-amber-400 font-medium">Prognose</span>
+                          ) : (
+                            <span className="text-neutral-500 text-xs">Historisch</span>
+                          )}
+                        </td>
+                      </tr>
+                    )
+                  })
+                })()}
               </tbody>
             </table>
           </div>
         </div>
+      )}
+
+      {/* Premium upgrade banner */}
+      {!user?.isPremium && estimates.length > 0 && (
+        <a
+          href="/pricing"
+          className="flex items-center justify-between gap-4 px-4 py-3 mb-8 -mt-8 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+        >
+          <div className="flex items-center gap-3">
+            <div className="w-7 h-7 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <div>
+              <p className="text-sm font-medium text-amber-300">Vollständige Prognosehistorie freischalten</p>
+              <p className="text-xs text-amber-400/70">Mit Premium siehst du alle Jahre inkl. historischer Schätzungen</p>
+            </div>
+          </div>
+          <span className="text-xs font-medium text-amber-400 whitespace-nowrap">Premium freischalten →</span>
+        </a>
       )}
 
       {/* ===== UMSATZENTWICKLUNG BAR CHART ===== */}

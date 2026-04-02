@@ -389,8 +389,18 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <th className="text-left py-3 text-sm font-medium text-neutral-400">Metrik</th>
                 <th className="text-right py-3 text-sm font-medium text-neutral-400">1Y (YoY)</th>
                 <th className="text-right py-3 text-sm font-medium text-neutral-400">3Y CAGR</th>
-                <th className="text-right py-3 text-sm font-medium text-neutral-400">5Y CAGR</th>
-                <th className="text-right py-3 text-sm font-medium text-neutral-400">10Y CAGR</th>
+                <th className="text-right py-3 text-sm font-medium text-neutral-400">
+                  <span className="flex items-center justify-end gap-1">
+                    5Y CAGR
+                    {!user?.isPremium && <LockClosedIcon className="w-3 h-3 text-amber-400" />}
+                  </span>
+                </th>
+                <th className="text-right py-3 text-sm font-medium text-neutral-400">
+                  <span className="flex items-center justify-end gap-1">
+                    10Y CAGR
+                    {!user?.isPremium && <LockClosedIcon className="w-3 h-3 text-amber-400" />}
+                  </span>
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -406,11 +416,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.revenueGrowth3Y)}`}>
                   {formatGrowth(growth.revenueGrowth3Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.revenueGrowth5Y)}`}>
-                  {formatGrowth(growth.revenueGrowth5Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.revenueGrowth5Y)}>{formatGrowth(growth.revenueGrowth5Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.revenueGrowth10Y)}`}>
-                  {formatGrowth(growth.revenueGrowth10Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.revenueGrowth10Y)}>{formatGrowth(growth.revenueGrowth10Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
               </tr>
 
@@ -425,11 +443,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.epsGrowth3Y)}`}>
                   {formatGrowth(growth.epsGrowth3Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.epsGrowth5Y)}`}>
-                  {formatGrowth(growth.epsGrowth5Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.epsGrowth5Y)}>{formatGrowth(growth.epsGrowth5Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.epsGrowth10Y)}`}>
-                  {formatGrowth(growth.epsGrowth10Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.epsGrowth10Y)}>{formatGrowth(growth.epsGrowth10Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
               </tr>
 
@@ -444,11 +470,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
                   {formatGrowth(growth.ebitdaGrowth3Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth5Y)}`}>
-                  {formatGrowth(growth.ebitdaGrowth5Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.ebitdaGrowth5Y)}>{formatGrowth(growth.ebitdaGrowth5Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth10Y)}`}>
-                  {formatGrowth(growth.ebitdaGrowth10Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.ebitdaGrowth10Y)}>{formatGrowth(growth.ebitdaGrowth10Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
               </tr>
 
@@ -463,11 +497,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.fcfGrowth3Y)}`}>
                   {formatGrowth(growth.fcfGrowth3Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.fcfGrowth5Y)}`}>
-                  {formatGrowth(growth.fcfGrowth5Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.fcfGrowth5Y)}>{formatGrowth(growth.fcfGrowth5Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.fcfGrowth10Y)}`}>
-                  {formatGrowth(growth.fcfGrowth10Y)}
+                <td className="text-right py-3 text-sm font-mono">
+                  {user?.isPremium ? (
+                    <span className={getGrowthColor(growth.fcfGrowth10Y)}>{formatGrowth(growth.fcfGrowth10Y)}</span>
+                  ) : (
+                    <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                  )}
                 </td>
               </tr>
 
@@ -482,11 +524,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth3Y)}`}>
                       {formatGrowth(growth.operatingIncomeGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth5Y)}`}>
-                      {formatGrowth(growth.operatingIncomeGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.operatingIncomeGrowth5Y)}>{formatGrowth(growth.operatingIncomeGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth10Y)}`}>
-                      {formatGrowth(growth.operatingIncomeGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.operatingIncomeGrowth10Y)}>{formatGrowth(growth.operatingIncomeGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -498,11 +548,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth3Y)}`}>
                       {formatGrowth(growth.netIncomeGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth5Y)}`}>
-                      {formatGrowth(growth.netIncomeGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.netIncomeGrowth5Y)}>{formatGrowth(growth.netIncomeGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth10Y)}`}>
-                      {formatGrowth(growth.netIncomeGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.netIncomeGrowth10Y)}>{formatGrowth(growth.netIncomeGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -514,11 +572,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.capexGrowth3Y)}`}>
                       {formatGrowth(growth.capexGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.capexGrowth5Y)}`}>
-                      {formatGrowth(growth.capexGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.capexGrowth5Y)}>{formatGrowth(growth.capexGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.capexGrowth10Y)}`}>
-                      {formatGrowth(growth.capexGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.capexGrowth10Y)}>{formatGrowth(growth.capexGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -530,11 +596,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.dividendGrowth3Y)}`}>
                       {formatGrowth(growth.dividendGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.dividendGrowth5Y)}`}>
-                      {formatGrowth(growth.dividendGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.dividendGrowth5Y)}>{formatGrowth(growth.dividendGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.dividendGrowth10Y)}`}>
-                      {formatGrowth(growth.dividendGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.dividendGrowth10Y)}>{formatGrowth(growth.dividendGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -546,11 +620,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.roeGrowth3Y)}`}>
                       {formatGrowth(growth.roeGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.roeGrowth5Y)}`}>
-                      {formatGrowth(growth.roeGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.roeGrowth5Y)}>{formatGrowth(growth.roeGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.roeGrowth10Y)}`}>
-                      {formatGrowth(growth.roeGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.roeGrowth10Y)}>{formatGrowth(growth.roeGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -562,11 +644,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth3Y)}`}>
                       {formatGrowth(growth.workingCapitalGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth5Y)}`}>
-                      {formatGrowth(growth.workingCapitalGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.workingCapitalGrowth5Y)}>{formatGrowth(growth.workingCapitalGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth10Y)}`}>
-                      {formatGrowth(growth.workingCapitalGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.workingCapitalGrowth10Y)}>{formatGrowth(growth.workingCapitalGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -578,11 +668,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth3Y)}`}>
                       {formatGrowth(growth.totalAssetsGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth5Y)}`}>
-                      {formatGrowth(growth.totalAssetsGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.totalAssetsGrowth5Y)}>{formatGrowth(growth.totalAssetsGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth10Y)}`}>
-                      {formatGrowth(growth.totalAssetsGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.totalAssetsGrowth10Y)}>{formatGrowth(growth.totalAssetsGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
 
@@ -594,11 +692,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth3Y)}`}>
                       {formatGrowth(growth.leveredFcfGrowth3Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth5Y)}`}>
-                      {formatGrowth(growth.leveredFcfGrowth5Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.leveredFcfGrowth5Y)}>{formatGrowth(growth.leveredFcfGrowth5Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth10Y)}`}>
-                      {formatGrowth(growth.leveredFcfGrowth10Y)}
+                    <td className="text-right py-3 text-sm font-mono">
+                      {user?.isPremium ? (
+                        <span className={getGrowthColor(growth.leveredFcfGrowth10Y)}>{formatGrowth(growth.leveredFcfGrowth10Y)}</span>
+                      ) : (
+                        <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
+                      )}
                     </td>
                   </tr>
                 </>
