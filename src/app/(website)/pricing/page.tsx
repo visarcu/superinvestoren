@@ -13,12 +13,35 @@ interface SupabaseUser {
   email: string;
 }
 
+// Easter promo: active until April 13, 2026 23:59 (Ostersonntag)
+const EASTER_PROMO_END = new Date('2026-04-13T23:59:59+02:00');
+
+function useCountdown(target: Date) {
+  const [timeLeft, setTimeLeft] = useState(() => Math.max(0, target.getTime() - Date.now()));
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimeLeft(Math.max(0, target.getTime() - Date.now()));
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [target]);
+
+  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+  const isActive = timeLeft > 0;
+
+  return { days, hours, minutes, seconds, isActive };
+}
+
 export default function PricingPage() {
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
   const router = useRouter();
+  const countdown = useCountdown(EASTER_PROMO_END);
 
   const { premiumStatus, loading: premiumLoading } = usePremiumStatus(user?.id || null);
 
@@ -200,6 +223,39 @@ export default function PricingPage() {
       {/* Pricing Cards */}
       <div className="max-w-4xl mx-auto px-6 pb-20">
 
+        {/* Easter Promo Banner */}
+        {countdown.isActive && !isPremium && (
+          <div className="mb-8 rounded-2xl border border-emerald-500/30 bg-emerald-500/5 px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-3">
+              <span className="text-xl">🐣</span>
+              <div>
+                <p className="text-sm font-semibold text-white">Osterangebot — Jahresabo für nur 79€</p>
+                <p className="text-xs text-neutral-400">Danach 99€/Jahr. Angebot endet am 13. April.</p>
+              </div>
+            </div>
+            <div className="flex items-center gap-2 flex-shrink-0">
+              {[
+                { value: countdown.days, label: 'Tage' },
+                { value: countdown.hours, label: 'Std' },
+                { value: countdown.minutes, label: 'Min' },
+                { value: countdown.seconds, label: 'Sek' },
+              ].map(({ value, label }, i, arr) => (
+                <React.Fragment key={label}>
+                  <div className="text-center min-w-[40px]">
+                    <div className="text-lg font-bold text-white tabular-nums">
+                      {String(value).padStart(2, '0')}
+                    </div>
+                    <div className="text-xs text-neutral-500">{label}</div>
+                  </div>
+                  {i < arr.length - 1 && (
+                    <span className="text-neutral-600 font-bold mb-3">:</span>
+                  )}
+                </React.Fragment>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* Billing Toggle */}
         <div className="flex items-center justify-center mb-8">
             <div className="flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-xl">
@@ -223,7 +279,7 @@ export default function PricingPage() {
               >
                 Jährlich
                 <span className="bg-emerald-500/20 text-emerald-400 text-xs font-semibold px-2 py-0.5 rounded-full">
-                  -{savingsPercent}%
+                  {countdown.isActive ? '🐣 Osterangebot' : `-${savingsPercent}%`}
                 </span>
               </button>
             </div>
@@ -274,8 +330,10 @@ export default function PricingPage() {
             {/* Badge */}
             {!isPremium && (
               <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                <div className="bg-white text-black px-4 py-1 rounded-full text-xs font-semibold">
-                  {selectedPlan === 'yearly' ? `Spare ${savingsPercent}%` : 'Empfohlen'}
+                <div className="bg-white text-black px-4 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
+                  {selectedPlan === 'yearly'
+                    ? countdown.isActive ? '🐣 Osterangebot – endet 13. April' : `Spare ${savingsPercent}%`
+                    : 'Empfohlen'}
                 </div>
               </div>
             )}
