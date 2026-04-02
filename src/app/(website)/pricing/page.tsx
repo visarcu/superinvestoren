@@ -141,7 +141,7 @@ export default function PricingPage() {
   // Price display
   const monthlyPrice = 9;
   const yearlyPrice = 79;
-  const yearlyMonthly = (yearlyPrice / 12).toFixed(2); // 6.58
+  const yearlyMonthly = (yearlyPrice / 12).toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }); // 6,58
   const savingsPercent = Math.round((1 - yearlyPrice / (monthlyPrice * 12)) * 100); // 34%
 
   const ctaLabel = selectedPlan === 'yearly'
@@ -294,7 +294,11 @@ export default function PricingPage() {
 
             {/* Price display */}
             <div className="mb-8">
-              {selectedPlan === 'yearly' ? (
+              {isPremium ? (
+                <p className="text-sm text-neutral-500">
+                  Verwalte dein Abo über das Kundenportal.
+                </p>
+              ) : selectedPlan === 'yearly' ? (
                 <>
                   <div className="flex items-baseline gap-2">
                     <span className="text-4xl font-semibold text-white">{yearlyPrice}€</span>
