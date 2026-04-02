@@ -1,9 +1,9 @@
 // src/app/pricing/page.tsx - WITH YEARLY PLAN
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { supabase } from "@/lib/supabaseClient";
 import { usePremiumStatus } from "@/lib/premiumUtils";
 import { Check, X, Sparkles } from "lucide-react";
@@ -41,7 +41,9 @@ export default function PricingPage() {
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'yearly'>('yearly');
   const router = useRouter();
+  const searchParams = useSearchParams();
   const countdown = useCountdown(EASTER_PROMO_END);
+  const autoCheckoutTriggered = useRef(false);
 
   const { premiumStatus, loading: premiumLoading } = usePremiumStatus(user?.id || null);
 
@@ -78,9 +80,26 @@ export default function PricingPage() {
     return () => { listener.subscription.unsubscribe(); };
   }, []);
 
-  async function handleStripeCheckout() {
+  // Auto-trigger checkout after returning from login
+  useEffect(() => {
+    const shouldCheckout = searchParams.get('checkout') === 'true';
+    const planParam = searchParams.get('plan') as 'monthly' | 'yearly' | null;
+
+    if (shouldCheckout && !loading && !premiumLoading && user && !autoCheckoutTriggered.current) {
+      autoCheckoutTriggered.current = true;
+      if (planParam === 'monthly' || planParam === 'yearly') {
+        setSelectedPlan(planParam);
+      }
+      // Small delay so selectedPlan state settles
+      setTimeout(() => handleStripeCheckout(planParam ?? selectedPlan), 100);
+    }
+  }, [searchParams, loading, premiumLoading, user]);
+
+  async function handleStripeCheckout(planOverride?: 'monthly' | 'yearly') {
+    const plan = planOverride ?? selectedPlan;
+
     if (!user) {
-      router.replace('/auth/signin');
+      router.replace(`/auth/signin?redirect=checkout&plan=${plan}`);
       return;
     }
 
@@ -97,9 +116,9 @@ export default function PricingPage() {
         body: JSON.stringify({
           userId: user.id,
           sessionToken: session.access_token,
-          plan: selectedPlan,
+          plan,
           // Trial only for monthly plan
-          withTrial: selectedPlan === 'monthly',
+          withTrial: plan === 'monthly',
         }),
       });
 
@@ -402,7 +421,7 @@ export default function PricingPage() {
               </Link>
             ) : user ? (
               <button
-                onClick={handleStripeCheckout}
+                onClick={() => handleStripeCheckout()}
                 disabled={checkoutLoading}
                 className="w-full py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
@@ -508,7 +527,7 @@ export default function PricingPage() {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               {user ? (
                 <button
-                  onClick={handleStripeCheckout}
+                  onClick={() => handleStripeCheckout()}
                   disabled={checkoutLoading}
                   className="px-8 py-3 bg-white hover:bg-neutral-100 text-black font-semibold rounded-xl transition-colors disabled:opacity-50"
                 >

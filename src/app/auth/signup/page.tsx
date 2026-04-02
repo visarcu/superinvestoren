@@ -3,7 +3,7 @@
 
 import { useState } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { EyeIcon, EyeSlashIcon, CheckIcon } from '@heroicons/react/24/outline'
 
@@ -71,14 +71,32 @@ export default function SignUpPage() {
   const [success, setSuccess] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
+
+  function getRedirectParams() {
+    const redirect = searchParams.get('redirect')
+    const plan = searchParams.get('plan')
+    if (redirect === 'checkout' && plan) return { redirect, plan }
+    return null
+  }
+
+  function signinHref(extra?: string) {
+    const rp = getRedirectParams()
+    const base = `/auth/signin${extra ? `?${extra}` : ''}`
+    if (!rp) return base
+    const sep = extra ? '&' : '?'
+    return `${base}${sep}redirect=${rp.redirect}&plan=${rp.plan}`
+  }
 
   const handleGoogleSignUp = async () => {
     setLoading(true)
+    const rp = getRedirectParams()
+    const postLoginPath = rp ? `/pricing?checkout=true&plan=${rp.plan}` : '/analyse'
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/analyse`
+          redirectTo: `${window.location.origin}${postLoginPath}`
         }
       })
       if (error) {
@@ -132,7 +150,7 @@ export default function SignUpPage() {
       } else {
         setSuccess('Account erstellt! Bitte überprüfe deine E-Mails.')
         setTimeout(() => {
-          router.replace('/auth/signin?registered=1')
+          router.replace(signinHref('registered=1'))
         }, 2000)
       }
     } catch (err) {
@@ -366,7 +384,7 @@ export default function SignUpPage() {
       <p className="text-center mt-8 text-sm text-neutral-500">
         Bereits einen Account?{' '}
         <Link
-          href="/auth/signin"
+          href={signinHref()}
           className="text-white hover:text-neutral-300 transition-colors font-medium"
         >
           Anmelden
