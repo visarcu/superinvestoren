@@ -101,27 +101,30 @@ export default function PricingPage() {
 
   const features = {
     free: [
-      { name: 'Basis-Aktieninformationen', included: true },
-      { name: 'Einfache Charts (1 Jahr)', included: true },
-      { name: 'Bis zu 5 Watchlist-Einträge', included: true },
-      { name: 'Super-Investor Portfolios', included: true },
-      { name: 'Erweiterte Kennzahlen', included: false },
-      { name: 'Interaktive Charts', included: false },
-      { name: 'Historische Daten (154 Jahre)', included: false },
-      { name: 'Unbegrenzte Watchlist', included: false },
-      { name: 'Unbegrenzte Analysen', included: false },
-      { name: 'Priority Support', included: false }
+      { name: 'Kennzahlen & Charts (5 Jahre Historie)', included: true },
+      { name: 'Bilanz, Cashflow & GuV bis 5 Jahre', included: true },
+      { name: 'Superinvestor-Portfolios aller Investoren', included: true },
+      { name: 'Kongress-Aktien (Politiker-Trades)', included: true },
+      { name: 'Neueste Quartalszahlen', included: true },
+      { name: 'Watchlist (bis zu 5 Aktien)', included: true },
+      { name: 'Basic Portfolio-Tracking', included: true },
+      { name: 'KI-Zusammenfassung Quartalszahlen', included: false },
+      { name: 'Vollständige Historie 20+ Jahre', included: false },
+      { name: 'Alerts & E-Mail-Benachrichtigungen', included: false },
+      { name: 'Dividenden-Kalender & -Übersicht', included: false },
+      { name: 'Anpassbare Charts & Presets', included: false },
     ],
     premium: [
       { name: 'Alle Free Features', included: true },
-      { name: 'Erweiterte Kennzahlen & Ratios', included: true },
-      { name: 'Interaktive & anpassbare Charts', included: true },
-      { name: 'Historische Daten (154 Jahre)', included: true },
-      { name: 'Super-Investor Portfolios & Trades', included: true, highlight: true },
-      { name: 'Unbegrenzte Watchlist-Einträge', included: true },
-      { name: 'Unbegrenzte Analysen', included: true },
-      { name: 'Finclue AI (Rate-Limited)', included: true },
-      { name: 'Priority Email Support', included: true }
+      { name: 'KI-Zusammenfassung der Quartalszahlen', included: true, highlight: true },
+      { name: 'Vollständige Historie 20+ Jahre', included: true },
+      { name: 'Alle Portfolio-Features', included: true },
+      { name: 'Anpassbare Charts & Presets speichern', included: true },
+      { name: 'Alerts bei Kursrückgängen & neuen Filings', included: true, highlight: true },
+      { name: 'Wöchentliche Dividenden-Übersicht per Mail', included: true },
+      { name: 'Dividenden-Kalender', included: true },
+      { name: 'Unbegrenzte Watchlist', included: true },
+      { name: 'Priority E-Mail Support', included: true },
     ]
   };
 
@@ -186,7 +189,7 @@ export default function PricingPage() {
               </div>
               <div className="w-px h-8 bg-neutral-800"></div>
               <div className="text-center">
-                <div className="text-2xl font-semibold text-white">154</div>
+                <div className="text-2xl font-semibold text-white">20+</div>
                 <div className="text-sm text-neutral-500">Jahre Daten</div>
               </div>
             </div>
@@ -198,8 +201,7 @@ export default function PricingPage() {
       <div className="max-w-4xl mx-auto px-6 pb-20">
 
         {/* Billing Toggle */}
-        {!isPremium && (
-          <div className="flex items-center justify-center mb-8">
+        <div className="flex items-center justify-center mb-8">
             <div className="flex items-center gap-1 p-1 bg-neutral-900 border border-neutral-800 rounded-xl">
               <button
                 onClick={() => setSelectedPlan('monthly')}
@@ -226,9 +228,8 @@ export default function PricingPage() {
               </button>
             </div>
           </div>
-        )}
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
           {/* Free Plan */}
           <div className="bg-neutral-900/50 border border-neutral-800 rounded-2xl p-8">
@@ -361,7 +362,7 @@ export default function PricingPage() {
               </Link>
             )}
           </div>
-        </div>
+          </div>
       </div>
 
       {/* FAQ */}
@@ -374,19 +375,19 @@ export default function PricingPage() {
           <div className="space-y-8">
             <div>
               <h3 className="font-medium text-white mb-2">
-                Kann ich jederzeit kündigen?
+                Was ist der Unterschied zwischen Monats- und Jahresabo?
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
-                Ja. Beim Monatsabo jederzeit ohne Kündigungsfrist. Beim Jahresabo kannst du jederzeit kündigen und behältst Zugang bis zum Ende des bezahlten Jahres.
+                Beide Pläne geben dir vollen Zugang zu allen Features. Mit dem Jahresabo sparst du {savingsPercent}% — 79€/Jahr statt 108€/Jahr. Das Monatsabo beinhaltet 14 Tage kostenlose Testphase.
               </p>
             </div>
 
             <div className="border-t border-neutral-800/50 pt-8">
               <h3 className="font-medium text-white mb-2">
-                Was ist der Unterschied zwischen Monats- und Jahresabo?
+                Kann ich jederzeit kündigen?
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
-                Beide Pläne geben dir vollen Zugang zu allen Features. Mit dem Jahresabo sparst du {savingsPercent}% (79€/Jahr statt 108€/Jahr). Das Monatsabo beinhaltet 14 Tage kostenlose Testphase.
+                Ja. Beim Monatsabo jederzeit ohne Kündigungsfrist. Beim Jahresabo kannst du kündigen und behältst Zugang bis zum Ende des bezahlten Jahres.
               </p>
             </div>
 
@@ -396,6 +397,15 @@ export default function PricingPage() {
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
                 Nach 14 Tagen wird automatisch das Abo für 9€/Monat aktiviert. Du kannst vorher jederzeit kündigen – ohne Kosten.
+              </p>
+            </div>
+
+            <div className="border-t border-neutral-800/50 pt-8">
+              <h3 className="font-medium text-white mb-2">
+                Welche Alerts bekomme ich als Premium-Nutzer?
+              </h3>
+              <p className="text-neutral-400 text-sm leading-relaxed">
+                Du erhältst E-Mail-Benachrichtigungen bei Kursrückgängen deiner Watchlist-Aktien und sobald ein Superinvestor ein neues 13F-Filing einreicht. Zusätzlich bekommst du wöchentlich eine Übersicht der anstehenden Dividendenzahlungen.
               </p>
             </div>
 
