@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     });
     
     // 2. Parse request body
-    const { userId, sessionToken, withTrial = true } = await request.json();
+    const { userId, sessionToken, withTrial = true, plan = 'monthly' } = await request.json();
 
     if (!userId || !sessionToken) {
       return NextResponse.json(
@@ -27,7 +27,23 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log('🎯 Trial requested:', withTrial);
+    // Select price ID based on plan
+    const priceId = plan === 'yearly'
+      ? process.env.STRIPE_PRICE_ID_YEARLY!
+      : process.env.STRIPE_PRICE_ID!;
+
+    if (!priceId) {
+      console.error(`❌ Missing price ID for plan: ${plan}`);
+      return NextResponse.json(
+        { error: `Price ID not configured for plan: ${plan}` },
+        { status: 500 }
+      );
+    }
+
+    // No trial for yearly plan – user commits to a full year already
+    const effectiveWithTrial = plan === 'yearly' ? false : withTrial;
+
+    console.log('🎯 Plan:', plan, '| Price ID:', priceId, '| Trial:', effectiveWithTrial);
 
     // 3. Validiere Session-Token
     const { data: { user }, error: authError } = await supabase.auth.getUser(sessionToken);
@@ -45,7 +61,7 @@ export async function POST(request: NextRequest) {
     // 4. Test Stripe Connection
     console.log('🧪 Testing Stripe connection...');
     try {
-      await stripe.prices.retrieve(process.env.STRIPE_PRICE_ID!);
+      await stripe.prices.retrieve(priceId);
       console.log('✅ Stripe connection and Price ID valid');
     } catch (stripeTestError) {
       console.error('❌ Stripe test failed:', stripeTestError);
@@ -135,9 +151,9 @@ export async function POST(request: NextRequest) {
 
     // 6. FIX 2: Trial-Check Logic - Prüfe ob Customer schon mal Trial hatte
     let trialDays = 14; // Standard Trial für alle
-    let allowTrial = withTrial; // Respektiere den withTrial Parameter
-    
-    if (withTrial) {
+    let allowTrial = effectiveWithTrial; // Respektiere den effectiveWithTrial Parameter
+
+    if (effectiveWithTrial) {
       // Check ob dieser Customer schon mal eine Trial hatte
       try {
         const subscriptions = await stripe.subscriptions.list({
@@ -183,7 +199,7 @@ export async function POST(request: NextRequest) {
       allow_promotion_codes: true,
       line_items: [
         {
-          price: process.env.STRIPE_PRICE_ID!,
+          price: priceId,
           quantity: 1,
         },
       ],
