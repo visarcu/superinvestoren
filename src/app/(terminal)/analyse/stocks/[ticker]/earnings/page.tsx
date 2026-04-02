@@ -9,6 +9,7 @@ import {
   LockClosedIcon,
   SparklesIcon
 } from '@heroicons/react/24/outline'
+import { supabase } from '@/lib/supabaseClient'
 
 interface Transcript {
   symbol: string
@@ -28,6 +29,27 @@ export default function QuartalszahlenPage() {
   const [error, setError] = useState<string | null>(null)
   const [activeTab, setActiveTab] = useState<'transcript' | 'slides' | 'report'>('transcript')
   const [showSummary, setShowSummary] = useState(true)
+  const [isPremium, setIsPremium] = useState(false)
+
+  // Premium Status laden
+  useEffect(() => {
+    async function loadPremium() {
+      try {
+        const { data: { session } } = await supabase.auth.getSession()
+        if (session?.user) {
+          const { data: profile } = await supabase
+            .from('profiles')
+            .select('is_premium')
+            .eq('user_id', session.user.id)
+            .maybeSingle()
+          setIsPremium(profile?.is_premium || false)
+        }
+      } catch (e) {
+        console.error('[earnings] premium check failed:', e)
+      }
+    }
+    loadPremium()
+  }, [])
 
   // Lade Transcripts
   useEffect(() => {
@@ -160,19 +182,17 @@ export default function QuartalszahlenPage() {
             {transcripts.map((transcript, index) => {
               const isSelected = selectedTranscript?.quarter === transcript.quarter &&
                                selectedTranscript?.year === transcript.year
-              const isPremium = false // Alle Quartale verfügbar
+              const isLocked = false // Alle Quartale für alle User verfügbar
 
               return (
                 <button
                   key={`${transcript.year}-Q${transcript.quarter}`}
-                  onClick={() => !isPremium && setSelectedTranscript(transcript)}
-                  disabled={isPremium}
+                  onClick={() => setSelectedTranscript(transcript)}
+                  disabled={false}
                   className={`w-full text-left px-4 py-2.5 transition-colors ${
                     isSelected
                       ? 'bg-neutral-800 border-l-2 border-emerald-500'
-                      : isPremium
-                        ? 'opacity-40 cursor-not-allowed border-l-2 border-transparent'
-                        : 'hover:bg-neutral-800/50 border-l-2 border-transparent'
+                      : 'hover:bg-neutral-800/50 border-l-2 border-transparent'
                   }`}
                 >
                   <div className="flex items-center justify-between">
@@ -188,7 +208,7 @@ export default function QuartalszahlenPage() {
                       </p>
                     </div>
 
-                    {isPremium && (
+                    {isLocked && (
                       <LockClosedIcon className="w-3.5 h-3.5 text-neutral-600 flex-shrink-0" />
                     )}
                   </div>
@@ -214,17 +234,27 @@ export default function QuartalszahlenPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowSummary(!showSummary)}
-                  className={`px-3 py-1.5 text-xs rounded-md transition-colors ${
-                    showSummary
-                      ? 'bg-emerald-500/20 text-emerald-400'
-                      : 'bg-neutral-800 text-neutral-400 hover:text-white'
-                  }`}
-                >
-                  <SparklesIcon className="w-3.5 h-3.5 inline mr-1.5" />
-                  AI Summary
-                </button>
+                {isPremium ? (
+                  <button
+                    onClick={() => setShowSummary(!showSummary)}
+                    className={`px-3 py-1.5 text-xs rounded-md transition-colors flex items-center gap-1.5 ${
+                      showSummary
+                        ? 'bg-emerald-500/20 text-emerald-400'
+                        : 'bg-neutral-800 text-neutral-400 hover:text-white'
+                    }`}
+                  >
+                    <SparklesIcon className="w-3.5 h-3.5" />
+                    AI Summary
+                  </button>
+                ) : (
+                  <a
+                    href="/pricing"
+                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-md hover:bg-amber-500/20 transition-colors"
+                  >
+                    <LockClosedIcon className="w-3.5 h-3.5" />
+                    AI Summary
+                  </a>
+                )}
 
                 <button
                   onClick={() => {
@@ -312,7 +342,7 @@ export default function QuartalszahlenPage() {
         </div>
 
         {/* Right Sidebar - AI Summary */}
-        {showSummary && selectedTranscript && (
+        {isPremium && showSummary && selectedTranscript && (
           <div className="w-[400px] border-l border-neutral-800 overflow-y-auto flex-shrink-0">
             <div className="p-6">
               <div className="flex items-center gap-2 mb-2">
