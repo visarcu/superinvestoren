@@ -73,28 +73,37 @@ function ctaButton(text: string, href: string): string {
 }
 
 function step0Html(email: string): string {
+  // SCREENSHOT: Ersetze die URL unten mit einem echten Screenshot des Chart-Builders
+  // z.B. nach Finclue hochladen und URL hier eintragen: https://finclue.de/images/chart-builder-preview.png
+  const CHART_SCREENSHOT_URL = 'https://finclue.de/images/chart-builder-preview.png'
+  const hasScreenshot = false // auf true setzen sobald Screenshot hochgeladen ist
+
   return emailWrapper(`
-    <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">So analysierst du eine Aktie in 5 Minuten</h2>
+    <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">So nutzt du den Chart-Builder — dein stärkstes Analyse-Tool</h2>
     <p style="margin:0 0 20px;color:#6b7280;font-size:15px;line-height:1.6;">
-      Willkommen bei Finclue! Damit du sofort loslegen kannst, zeige ich dir den schnellsten Weg zu einer fundierten Aktienanalyse.
+      Willkommen bei Finclue! Eines der mächtigsten Features ist der Chart-Builder: Vergleiche beliebige Aktien und Kennzahlen über Zeit — visuell, schnell, auf einen Blick.
     </p>
+    ${hasScreenshot ? `
+    <a href="https://finclue.de/analyse/chart-builder" style="display:block;margin-bottom:20px;">
+      <img src="${CHART_SCREENSHOT_URL}" alt="Finclue Chart-Builder" style="width:100%;border-radius:8px;border:1px solid #e5e7eb;" />
+    </a>` : ''}
     <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:20px;">
-      <p style="margin:0 0 12px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">In 3 Schritten</p>
+      <p style="margin:0 0 12px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Was du damit machen kannst</p>
       <div style="margin-bottom:12px;display:flex;gap:12px;">
         <span style="background:#f3f4f6;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">1</span>
-        <div><strong style="font-size:14px;">Ticker eingeben</strong><br><span style="color:#6b7280;font-size:13px;">Suche nach einer Aktie — z.B. AAPL, NVDA oder SAP</span></div>
+        <div><strong style="font-size:14px;">Mehrere Aktien gleichzeitig</strong><br><span style="color:#6b7280;font-size:13px;">GOOGL vs. MSFT vs. META — KGV-Entwicklung der letzten 5 Jahre auf einem Chart</span></div>
       </div>
       <div style="margin-bottom:12px;display:flex;gap:12px;">
         <span style="background:#f3f4f6;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">2</span>
-        <div><strong style="font-size:14px;">Kennzahlen lesen</strong><br><span style="color:#6b7280;font-size:13px;">KGV, Marge, Cashflow — alles auf einem Blick, 5 Jahre zurück</span></div>
+        <div><strong style="font-size:14px;">Jede Kennzahl kombinierbar</strong><br><span style="color:#6b7280;font-size:13px;">KGV, P/FCF, Marge, Umsatz — frei wählbar und kombinierbar</span></div>
       </div>
       <div style="display:flex;gap:12px;">
         <span style="background:#f3f4f6;border-radius:50%;width:24px;height:24px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;">3</span>
-        <div><strong style="font-size:14px;">Schätzungen prüfen</strong><br><span style="color:#6b7280;font-size:13px;">Was erwartet der Markt für die nächsten 2 Jahre?</span></div>
+        <div><strong style="font-size:14px;">Vorlagen speichern</strong><br><span style="color:#6b7280;font-size:13px;">Einmal einrichten, jederzeit wieder aufrufen</span></div>
       </div>
     </div>
-    <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">Tipp: Fang mit einer Aktie an, die du schon kennst.</p>
-    ${ctaButton('Jetzt eine Aktie analysieren', 'https://finclue.de/analyse')}
+    <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">Tipp: Vergleiche zwei Aktien aus derselben Branche — z.B. GOOGL und META.</p>
+    ${ctaButton('Chart-Builder öffnen', 'https://finclue.de/analyse/chart-builder')}
   `, email)
 }
 
@@ -102,8 +111,14 @@ function step1Html(email: string): string {
   return emailWrapper(`
     <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">Was kaufen Superinvestoren gerade?</h2>
     <p style="margin:0 0 20px;color:#6b7280;font-size:15px;line-height:1.6;">
-      Warren Buffett, Bill Ackman, Michael Burry — sie alle müssen ihre Positionen quartalsweise offenlegen. Bei Finclue siehst du genau, was sie kaufen, verkaufen und halten.
+      Warren Buffett, Bill Ackman, Michael Burry — sie alle müssen ihre Positionen quartalsweise offenlegen. Gesetzlich vorgeschrieben. Bei Finclue siehst du genau, was sie kaufen, verkaufen und halten.
     </p>
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 20px;margin-bottom:20px;">
+      <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">Woher kommen die Daten?</p>
+      <p style="margin:0;font-size:13px;color:#6b7280;line-height:1.6;">
+        Jeder Fonds mit mehr als 100 Mio. $ verwaltetem Vermögen muss seine Positionen über sogenannte <strong>13F-Filings</strong> bei der US-Börsenaufsicht SEC offenlegen — quartalsweise, öffentlich zugänglich. Finclue liest diese Daten direkt aus und bereitet sie übersichtlich auf.
+      </p>
+    </div>
     <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:20px;">
       <p style="margin:0 0 14px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Das siehst du je Investor</p>
       <div style="display:flex;flex-direction:column;gap:10px;">
@@ -121,7 +136,7 @@ function step1Html(email: string): string {
         </div>
       </div>
     </div>
-    <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">40+ der bekanntesten Investoren weltweit — kostenlos einsehbar.</p>
+    <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">90+ der bekanntesten Investoren weltweit — kostenlos einsehbar.</p>
     ${ctaButton('Superinvestor-Portfolios ansehen', 'https://finclue.de/analyse/superinvestors')}
   `, email)
 }
@@ -194,7 +209,7 @@ function step3Html(email: string): string {
 }
 
 const STEP_SUBJECTS: Record<number, string> = {
-  0: '📈 So analysierst du eine Aktie in 5 Minuten',
+  0: '📊 So nutzt du den Finclue Chart-Builder',
   1: '🏦 Was kaufen Superinvestoren gerade?',
   2: '🔍 Insider Trading + fairer Wert erklärt',
   3: '⭐ Ein Schritt fehlt noch — Finclue Premium',
