@@ -76,7 +76,7 @@ function step0Html(email: string): string {
   // SCREENSHOT: Ersetze die URL unten mit einem echten Screenshot des Chart-Builders
   // z.B. nach Finclue hochladen und URL hier eintragen: https://finclue.de/images/chart-builder-preview.png
   const CHART_SCREENSHOT_URL = 'https://finclue.de/chart-preview.png'
-  const hasScreenshot = true
+  const hasScreenshot = false // Screenshot-Datei ersetzen, dann auf true setzen
 
   return emailWrapper(`
     <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">So nutzt du den Chart-Builder — dein stärkstes Analyse-Tool</h2>
@@ -84,7 +84,7 @@ function step0Html(email: string): string {
       Willkommen bei Finclue! Eines der mächtigsten Features ist der Chart-Builder: Vergleiche beliebige Aktien und Kennzahlen über Zeit — visuell, schnell, auf einen Blick.
     </p>
     ${hasScreenshot ? `
-    <a href="https://finclue.de/analyse/chart-builder" style="display:block;margin-bottom:20px;">
+    <a href="https://finclue.de/analyse/compare" style="display:block;margin-bottom:20px;">
       <img src="${CHART_SCREENSHOT_URL}" alt="Finclue Chart-Builder" style="width:100%;border-radius:8px;border:1px solid #e5e7eb;" />
     </a>` : ''}
     <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:20px;">
@@ -103,7 +103,7 @@ function step0Html(email: string): string {
       </div>
     </div>
     <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">Tipp: Vergleiche zwei Aktien aus derselben Branche — z.B. GOOGL und META.</p>
-    ${ctaButton('Chart-Builder öffnen', 'https://finclue.de/analyse/chart-builder')}
+    ${ctaButton('Chart-Builder öffnen', 'https://finclue.de/analyse/compare')}
   `, email)
 }
 
@@ -299,10 +299,14 @@ export async function GET(request: Request) {
           }
 
           // Log eintragen
-          await supabase.from('onboarding_email_log').insert({
+          const { error: insertError } = await supabase.from('onboarding_email_log').insert({
             user_id: user.id,
             step,
           })
+
+          if (insertError) {
+            console.error(`[Onboarding Emails] Insert-Fehler Step ${step} → ${user.email}:`, JSON.stringify(insertError))
+          }
 
           console.log(`✅ Onboarding Step ${step} → ${user.email} (Tag ${days})`)
           totalSent++
