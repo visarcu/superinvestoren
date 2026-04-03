@@ -11,3 +11,7 @@ CREATE TABLE IF NOT EXISTS onboarding_email_log (
 
 -- Index for fast lookups by user
 CREATE INDEX IF NOT EXISTS idx_onboarding_email_log_user_id ON onboarding_email_log (user_id);
+
+-- Explicit permissions needed for service_role (not granted automatically for raw SQL tables)
+GRANT ALL ON TABLE onboarding_email_log TO service_role;
+GRANT ALL ON TABLE onboarding_email_log TO authenticated;
