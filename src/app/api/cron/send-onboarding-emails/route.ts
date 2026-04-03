@@ -75,8 +75,8 @@ function ctaButton(text: string, href: string): string {
 function step0Html(email: string): string {
   // SCREENSHOT: Ersetze die URL unten mit einem echten Screenshot des Chart-Builders
   // z.B. nach Finclue hochladen und URL hier eintragen: https://finclue.de/images/chart-builder-preview.png
-  const CHART_SCREENSHOT_URL = 'https://finclue.de/chart-preview.png'
-  const hasScreenshot = false // Screenshot-Datei ersetzen, dann auf true setzen
+  const CHART_SCREENSHOT_URL = 'https://finclue.de/images/chart-preview.png'
+  const hasScreenshot = true
 
   return emailWrapper(`
     <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">So nutzt du den Chart-Builder — dein stärkstes Analyse-Tool</h2>
