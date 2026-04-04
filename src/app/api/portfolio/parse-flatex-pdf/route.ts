@@ -11,13 +11,17 @@ import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '
  * pdf-parse lazy laden — umgeht Webpack's statische Analyse komplett.
  * pdf-parse v1 hat einen Bug: wenn module.parent undefined ist (in Bundlern),
  * versucht es eine Test-PDF zu lesen. Deshalb laden wir das interne Modul direkt.
+ *
+ * WICHTIG: /* webpackIgnore: true *\/ statt eval('require'), damit Vercels
+ * File Tracer den Import erkennt und pdf-parse ins Deployment einschließt.
  */
 let _pdfParse: ((buf: Buffer) => Promise<{ text: string; numpages: number }>) | null = null
 function getPdfParse() {
   if (!_pdfParse) {
     // Lade pdf-parse/lib/pdf-parse.js direkt (umgeht den module.parent Bug in index.js)
-    // eslint-disable-next-line no-eval
-    _pdfParse = eval('require')('pdf-parse/lib/pdf-parse')
+    // webpackIgnore verhindert Bundling, aber Vercels Tracer erkennt den Import
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    _pdfParse = require(/* webpackIgnore: true */ 'pdf-parse/lib/pdf-parse')
   }
   return _pdfParse!
 }
