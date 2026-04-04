@@ -29,7 +29,7 @@ interface CSVImportModalProps {
   onImportComplete: () => void
 }
 
-type ImportStep = 'upload' | 'resolve' | 'preview' | 'importing' | 'done'
+type ImportStep = 'upload' | 'processing' | 'resolve' | 'preview' | 'importing' | 'done'
 
 // Typen für die Anzeige
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
@@ -65,6 +65,8 @@ export default function CSVImportModal({
   const [showSkippedDetails, setShowSkippedDetails] = useState(false)
   const [showDuplicateDetails, setShowDuplicateDetails] = useState(false)
   const [importSource, setImportSource] = useState<'csv' | 'pdf' | null>(null)
+  const [skippedResolve, setSkippedResolve] = useState(false)
+  const [pendingDuplicateCheck, setPendingDuplicateCheck] = useState(false)
   const [pdfParsing, setPdfParsing] = useState(false)
   const [pdfErrors, setPdfErrors] = useState<string[]>([])
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -90,6 +92,8 @@ export default function CSVImportModal({
     setImportSource(null)
     setPdfParsing(false)
     setPdfErrors([])
+    setSkippedResolve(false)
+    setPendingDuplicateCheck(false)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -107,6 +111,9 @@ export default function CSVImportModal({
       const result = parseScalableCSV(text)
       setParseResult(result)
 
+      // Sofort in den Lade-Screen wechseln
+      setStep('processing')
+
       if (result.uniqueISINs.length > 0) {
         // Phase 1: Lokal auflösen (etfs.ts)
         const { resolved, unresolved } = resolveISINsLocally(result.uniqueISINs)
@@ -119,8 +126,6 @@ export default function CSVImportModal({
         // Phase 2: Unaufgelöste ISINs automatisch via API auflösen
         if (unresolved.length > 0) {
           setIsinMap(newMap)
-          setUnresolvedISINs(unresolved)
-          setStep('resolve')
           setResolving(true)
 
           try {
@@ -148,17 +153,30 @@ export default function CSVImportModal({
 
               setIsinMap(new Map(newMap))
               setUnresolvedISINs(stillUnresolved)
+
+              if (stillUnresolved.length === 0) {
+                setSkippedResolve(true)
+                setStep('preview')
+                setPendingDuplicateCheck(true)
+              } else {
+                // Nur bei echten Auflösungsproblemen den Resolve-Step zeigen
+                setStep('resolve')
+              }
             }
           } catch (error: any) {
             console.error('Auto ISIN resolution error:', error)
+            setUnresolvedISINs(unresolved)
+            setStep('resolve')
           } finally {
             setResolving(false)
           }
         } else {
-          // Alles lokal aufgelöst
+          // Alles lokal aufgelöst → direkt zu Preview
           setIsinMap(newMap)
           setUnresolvedISINs([])
-          setStep('resolve')
+          setSkippedResolve(true)
+          setStep('preview')
+          setPendingDuplicateCheck(true)
         }
       } else {
         setStep('resolve')
@@ -261,6 +279,7 @@ export default function CSVImportModal({
       }
 
       setParseResult(csvResult)
+      setStep('processing')
 
       // ISIN-Auflösung starten (gleicher Flow wie CSV)
       if (uniqueISINs.length > 0) {
@@ -272,8 +291,6 @@ export default function CSVImportModal({
 
         if (unresolved.length > 0) {
           setIsinMap(newMap)
-          setUnresolvedISINs(unresolved)
-          setStep('resolve')
           setResolving(true)
 
           try {
@@ -301,19 +318,35 @@ export default function CSVImportModal({
 
               setIsinMap(new Map(newMap))
               setUnresolvedISINs(stillUnresolved)
+
+              if (stillUnresolved.length === 0) {
+                setSkippedResolve(true)
+                setStep('preview')
+                setPendingDuplicateCheck(true)
+              } else {
+                setStep('resolve')
+              }
             }
           } catch {
             console.error('Auto ISIN resolution error for PDF import')
+            setUnresolvedISINs(unresolved)
+            setStep('resolve')
           } finally {
             setResolving(false)
           }
         } else {
+          // Alles lokal aufgelöst → direkt zu Preview
           setIsinMap(newMap)
           setUnresolvedISINs([])
-          setStep('resolve')
+          setSkippedResolve(true)
+          setStep('preview')
+          setPendingDuplicateCheck(true)
         }
       } else {
-        setStep('resolve')
+        // Keine ISINs → direkt zu Preview
+        setSkippedResolve(true)
+        setStep('preview')
+        setPendingDuplicateCheck(true)
       }
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
@@ -434,6 +467,14 @@ export default function CSVImportModal({
       setCheckingDuplicates(false)
     }
   }, [resolvedTransactions, portfolioId])
+
+  // Auto-Duplikat-Prüfung wenn resolve-Step übersprungen wurde
+  React.useEffect(() => {
+    if (pendingDuplicateCheck && step === 'preview') {
+      setPendingDuplicateCheck(false)
+      runDuplicateCheck()
+    }
+  }, [pendingDuplicateCheck, step, runDuplicateCheck])
 
   // Duplikat-Transaktionen für die Detail-Anzeige
   const duplicateTransactions = useMemo(() => {
@@ -631,14 +672,13 @@ export default function CSVImportModal({
 
         {/* Step Indicator */}
         <div className="flex items-center gap-2 px-5 py-3 border-b border-neutral-800/50 flex-shrink-0">
-          {[
-            { key: 'upload', label: '1. Upload' },
-            { key: 'resolve', label: '2. Symbole' },
-            { key: 'preview', label: '3. Vorschau' },
-          ].map((s, i) => {
-            const isActive = s.key === step || (step === 'importing' && s.key === 'preview') || (step === 'done' && s.key === 'preview')
+          {(skippedResolve
+            ? [{ key: 'upload', label: '1. Upload' }, { key: 'preview', label: '2. Vorschau' }]
+            : [{ key: 'upload', label: '1. Upload' }, { key: 'resolve', label: '2. Symbole' }, { key: 'preview', label: '3. Vorschau' }]
+          ).map((s, i) => {
+            const isActive = s.key === step || (['processing', 'importing'].includes(step) && s.key === 'preview') || (step === 'done' && s.key === 'preview')
             const isDone =
-              (s.key === 'upload' && step !== 'upload') ||
+              (s.key === 'upload' && !['upload'].includes(step)) ||
               (s.key === 'resolve' && ['preview', 'importing', 'done'].includes(step))
 
             return (
@@ -745,85 +785,30 @@ export default function CSVImportModal({
             </div>
           )}
 
+          {/* === PROCESSING STEP === */}
+          {step === 'processing' && (
+            <div className="text-center py-12">
+              <ArrowPathIcon className="w-10 h-10 text-emerald-400 animate-spin mx-auto mb-4" />
+              <h3 className="text-base font-medium text-white mb-2">Transaktionen werden verarbeitet…</h3>
+              <p className="text-sm text-neutral-500">Wertpapiere werden aufgelöst</p>
+            </div>
+          )}
+
           {/* === RESOLVE STEP === */}
           {step === 'resolve' && parseResult && (
             <div>
-              {/* Parse Summary */}
-              <div className="bg-neutral-800/30 rounded-xl p-4 mb-4">
-                <h4 className="text-sm font-medium text-white mb-2">{importSource === 'pdf' ? 'PDFs geparst' : 'CSV geparst'}</h4>
-                <div className="grid grid-cols-3 gap-3 text-sm">
+              {resolving && (
+                <div className="flex items-center gap-3 p-4 bg-neutral-800/30 rounded-xl mb-4">
+                  <ArrowPathIcon className="w-4 h-4 text-emerald-400 animate-spin flex-shrink-0" />
                   <div>
-                    <p className="text-neutral-500">Transaktionen</p>
-                    <p className="text-white font-medium">{parseResult.summary.imported}</p>
-                  </div>
-                  <div>
-                    <p className="text-neutral-500">Übersprungen</p>
-                    {parseResult.summary.skipped > 0 ? (
-                      <button
-                        onClick={() => setShowSkippedDetails(!showSkippedDetails)}
-                        className="flex items-center gap-1 text-amber-400 font-medium hover:text-amber-300 transition-colors"
-                      >
-                        {parseResult.summary.skipped}
-                        <ChevronDownIcon className={`w-3 h-3 transition-transform ${showSkippedDetails ? 'rotate-180' : ''}`} />
-                      </button>
-                    ) : (
-                      <p className="text-neutral-400">{parseResult.summary.skipped}</p>
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-neutral-500">Wertpapiere</p>
-                    <p className="text-white font-medium">{parseResult.uniqueISINs.length}</p>
+                    <p className="text-sm text-white">Symbole werden aufgelöst...</p>
+                    <p className="text-xs text-neutral-500">{isinMap.size}/{parseResult.uniqueISINs.length} gefunden</p>
                   </div>
                 </div>
+              )}
 
-                {/* Übersprungene Zeilen Details */}
-                {showSkippedDetails && parseResult.skipped.length > 0 && (
-                  <div className="mt-3 pt-3 border-t border-neutral-700/50">
-                    <p className="text-xs font-medium text-neutral-500 mb-2">Übersprungene Zeilen:</p>
-                    <div className="max-h-32 overflow-y-auto space-y-1">
-                      {parseResult.skipped.map((s, i) => (
-                        <div key={i} className="flex items-start gap-2 text-xs py-1 px-2 bg-amber-500/5 rounded">
-                          <span className="text-neutral-600 font-mono shrink-0">Z.{s.row}</span>
-                          <span className="text-amber-400/80 shrink-0">{s.reason}</span>
-                          <span className="text-neutral-500 truncate">{s.data}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* ISIN Resolution Status */}
-              <div className="mb-4">
-                <h4 className="text-sm font-medium text-white mb-2">
-                  ISIN → Symbol Zuordnung
-                  <span className="ml-2 text-xs text-neutral-500">
-                    {isinMap.size}/{parseResult.uniqueISINs.length} aufgelöst
-                  </span>
-                </h4>
-
-                {/* Aufgelöste ISINs */}
-                {isinMap.size > 0 && (
-                  <div className="mb-3">
-                    <div className="max-h-40 overflow-y-auto space-y-1">
-                      {Array.from(isinMap.entries()).map(([isin, info]) => (
-                        <div key={isin} className="flex items-center justify-between py-1.5 px-3 bg-emerald-500/5 rounded-lg text-sm">
-                          <div className="flex items-center gap-2">
-                            <CheckIcon className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
-                            <span className="text-neutral-400 font-mono text-xs">{isin}</span>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            <span className="font-medium text-white">{info.symbol}</span>
-                            <span className="text-[10px] text-neutral-600 px-1.5 py-0.5 bg-neutral-800 rounded">{info.source === 'etf_static' ? 'ETF' : info.source === 'cusip_local' ? 'Lokal' : info.source === 'openfigi' ? 'FIGI' : info.source === 'fmp_api' ? 'FMP' : 'Manuell'}</span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Unaufgelöste ISINs */}
-                {unresolvedISINs.length > 0 && (
+              {/* Nur unaufgelöste ISINs anzeigen */}
+              {unresolvedISINs.length > 0 && (
                   <div>
                     <div className="flex items-center gap-2 mb-2">
                       <ExclamationTriangleIcon className="w-4 h-4 text-amber-400" />
@@ -877,23 +862,57 @@ export default function CSVImportModal({
                     </div>
                   </div>
                 )}
-
-                {unresolvedISINs.length === 0 && isinMap.size > 0 && (
-                  <div className="flex items-center gap-2 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-                    <CheckIcon className="w-4 h-4 text-emerald-400" />
-                    <span className="text-sm text-emerald-400">Alle ISINs erfolgreich aufgelöst!</span>
-                  </div>
-                )}
-              </div>
             </div>
           )}
 
           {/* === PREVIEW STEP === */}
           {step === 'preview' && importSummary && (
             <div>
-              <h4 className="text-sm font-medium text-white mb-3">Import-Vorschau</h4>
+              {/* Parse-Zusammenfassung */}
+              {parseResult && (
+                <div className="bg-neutral-800/30 rounded-xl p-4 mb-4">
+                  <div className="grid grid-cols-3 gap-3 text-sm">
+                    <div>
+                      <p className="text-neutral-500">Eingelesen</p>
+                      <p className="text-white font-medium">{parseResult.summary.imported}</p>
+                    </div>
+                    <div>
+                      <p className="text-neutral-500">Übersprungen</p>
+                      {parseResult.summary.skipped > 0 ? (
+                        <button
+                          onClick={() => setShowSkippedDetails(!showSkippedDetails)}
+                          className="flex items-center gap-1 text-amber-400 font-medium hover:text-amber-300 transition-colors"
+                        >
+                          {parseResult.summary.skipped}
+                          <ChevronDownIcon className={`w-3 h-3 transition-transform ${showSkippedDetails ? 'rotate-180' : ''}`} />
+                        </button>
+                      ) : (
+                        <p className="text-neutral-400">{parseResult.summary.skipped}</p>
+                      )}
+                    </div>
+                    <div>
+                      <p className="text-neutral-500">Wertpapiere</p>
+                      <p className="text-white font-medium">{parseResult.uniqueISINs.length}</p>
+                    </div>
+                  </div>
+                  {showSkippedDetails && parseResult.skipped.length > 0 && (
+                    <div className="mt-3 pt-3 border-t border-neutral-700/50">
+                      <p className="text-xs font-medium text-neutral-500 mb-2">Übersprungene Zeilen:</p>
+                      <div className="max-h-32 overflow-y-auto space-y-1">
+                        {parseResult.skipped.map((s, i) => (
+                          <div key={i} className="flex items-start gap-2 text-xs py-1 px-2 bg-amber-500/5 rounded">
+                            <span className="text-neutral-600 font-mono shrink-0">Z.{s.row}</span>
+                            <span className="text-amber-400/80 shrink-0">{s.reason}</span>
+                            <span className="text-neutral-500 truncate">{s.data}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
 
-              {/* Zusammenfassung */}
+              {/* Import-Zusammenfassung */}
               <div className="bg-neutral-800/30 rounded-xl p-4 mb-4">
                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
                   <div>
@@ -1074,7 +1093,7 @@ export default function CSVImportModal({
             )}
             {step === 'preview' && (
               <button
-                onClick={() => setStep('resolve')}
+                onClick={() => setStep(skippedResolve ? 'upload' : 'resolve')}
                 className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-3.5 h-3.5" />
@@ -1096,7 +1115,7 @@ export default function CSVImportModal({
             {step === 'resolve' && (
               <button
                 onClick={() => { setStep('preview'); runDuplicateCheck() }}
-                disabled={isinMap.size === 0}
+                disabled={resolving}
                 className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-colors"
               >
                 Weiter
