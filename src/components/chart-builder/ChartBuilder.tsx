@@ -42,7 +42,7 @@ export default function ChartBuilder() {
   // Data fetching
   useChartBuilderData(state, dispatch)
 
-  const maxStocks = isPremium ? 4 : 2
+  const maxStocks = isPremium ? 10 : 2
   const maxMetrics = isPremium ? Infinity : 2
 
   // Check if any metric is a price metric
