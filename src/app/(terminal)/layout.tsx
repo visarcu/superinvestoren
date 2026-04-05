@@ -40,6 +40,7 @@ import { useExchangeRate } from '@/hooks/useExchangeRate'
 import LearnSidebar from '@/components/LearnSidebar'
 import MobileNav from '@/components/MobileNav'
 import Logo from '@/components/Logo'
+import { ProductTour } from '@/components/tour/ProductTour'
 import { stocks } from '@/data/stocks'
 import { searchETFs } from '@/lib/etfUtils'
 import ScoreBadge from '@/components/ScoreBadge'
@@ -355,6 +356,7 @@ const CollapsedSidebar = React.memo(({
             <Link
               key={item.id}
               href={item.href}
+              data-tour={`nav-${item.id}`}
               className={`
                 w-full flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-150 relative group
                 ${isActive
@@ -1123,18 +1125,19 @@ function LayoutContent({ children }: LayoutProps) {
               </div>
               
               {/* Tabs */}
-              <div className="bg-theme-secondary/5 border-t border-white/[0.04]">
+              <div className="bg-theme-secondary/5 border-t border-white/[0.04]" data-tour="stock-tabs">
                 <div className="px-6">
                   <nav className="flex items-center gap-1">
                     {STOCK_TABS.map((tab) => {
                       const tabPath = `/analyse/stocks/${currentTicker.toLowerCase()}${tab.href}`
                       const isActive = pathname === tabPath
                       const isPremiumTab = tab.premium && !user.isPremium
-                      
+
                       return (
                         <Link
                           key={tab.id}
                           href={tabPath}
+                          data-tour={`stock-tab-${tab.id}`}
                           className={`
                             relative px-4 py-4 text-sm font-medium transition-all
                             ${isActive
@@ -1177,6 +1180,9 @@ function LayoutContent({ children }: LayoutProps) {
 
         {/* MOBILE BOTTOM NAVIGATION */}
         <MobileNav />
+
+        {/* ONBOARDING TOUR — nur für neue User, wird nach Abschluss nicht mehr gezeigt */}
+        <ProductTour />
 
         {/* FOOTER */}
         <div className="hidden sm:flex h-5 bg-theme-secondary/50 border-t border-white/[0.04] items-center justify-between px-3 text-xs text-theme-muted">
