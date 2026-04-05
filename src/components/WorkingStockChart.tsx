@@ -9,7 +9,8 @@ import {
   YAxis,
   Tooltip,
   Line,
-  ReferenceDot
+  ReferenceDot,
+  ReferenceLine
 } from 'recharts'
 import { ArrowsPointingOutIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
@@ -33,6 +34,8 @@ interface Props {
   ticker: string
   data: StockData[]
   purchaseMarkers?: PurchaseMarker[]
+  week52High?: number | null
+  week52Low?: number | null
 }
 
 const TIME_RANGES = [
@@ -53,11 +56,12 @@ const CHART_MODES = [
   { id: 'total_return', label: 'Performance' },
 ]
 
-export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Props) {
+export default function WorkingStockChart({ ticker, data, purchaseMarkers, week52High, week52Low }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showMA, setShowMA] = useState(false)
+  const [show52W, setShow52W] = useState(false)
   const chartContainerRef = useRef<HTMLDivElement>(null)
 
   const { theme } = useTheme()
@@ -358,6 +362,20 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
               MA
             </button>
           )}
+
+          {/* 52W Toggle */}
+          {selectedMode === 'price' && (week52High || week52Low) && (
+            <button
+              onClick={() => setShow52W(!show52W)}
+              className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                show52W
+                  ? 'bg-amber-500/20 text-amber-400'
+                  : 'bg-theme-secondary/30 text-theme-muted hover:text-theme-secondary'
+              }`}
+            >
+              52W
+            </button>
+          )}
         </div>
 
       </div>
@@ -441,6 +459,36 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
               />
             )}
 
+            {/* 52W High/Low Lines */}
+            {show52W && selectedMode === 'price' && week52High && (
+              <ReferenceLine
+                y={week52High}
+                stroke="#f59e0b"
+                strokeWidth={1.5}
+                strokeDasharray="6 3"
+                label={{
+                  value: `52W H: ${formatStockPrice(week52High, false)}`,
+                  position: 'insideTopRight',
+                  offset: 6,
+                  style: { fontSize: 10, fontWeight: 600, fill: '#f59e0b' }
+                }}
+              />
+            )}
+            {show52W && selectedMode === 'price' && week52Low && (
+              <ReferenceLine
+                y={week52Low}
+                stroke="#fb923c"
+                strokeWidth={1.5}
+                strokeDasharray="6 3"
+                label={{
+                  value: `52W L: ${formatStockPrice(week52Low, false)}`,
+                  position: 'insideBottomRight',
+                  offset: 6,
+                  style: { fontSize: 10, fontWeight: 600, fill: '#fb923c' }
+                }}
+              />
+            )}
+
             {/* Kauf-, Verkaufs- und Dividendenmarker */}
             {resolvedMarkers.map((marker) => {
               const isDividend = marker.type === 'dividend'
@@ -471,12 +519,24 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers }: Pro
       </div>
 
       {/* Footer / Legende */}
-      {(resolvedMarkers.length > 0 || (showMA && selectedMode === 'price')) && (
+      {(resolvedMarkers.length > 0 || (showMA && selectedMode === 'price') || (show52W && selectedMode === 'price')) && (
         <div className="px-5 pb-4 flex flex-wrap items-center gap-x-4 gap-y-1">
           {showMA && selectedMode === 'price' && (
             <div className="flex items-center gap-2 text-xs text-theme-muted">
               <div className="w-4 h-0.5 bg-purple-400" style={{ backgroundImage: 'repeating-linear-gradient(to right, #a855f7, #a855f7 3px, transparent 3px, transparent 6px)' }} />
               <span>MA50</span>
+            </div>
+          )}
+          {show52W && selectedMode === 'price' && week52High && (
+            <div className="flex items-center gap-2 text-xs text-theme-muted">
+              <div className="w-4 h-0.5" style={{ backgroundImage: 'repeating-linear-gradient(to right, #f59e0b, #f59e0b 4px, transparent 4px, transparent 7px)' }} />
+              <span>52W Hoch</span>
+            </div>
+          )}
+          {show52W && selectedMode === 'price' && week52Low && (
+            <div className="flex items-center gap-2 text-xs text-theme-muted">
+              <div className="w-4 h-0.5" style={{ backgroundImage: 'repeating-linear-gradient(to right, #fb923c, #fb923c 4px, transparent 4px, transparent 7px)' }} />
+              <span>52W Tief</span>
             </div>
           )}
           {resolvedMarkers.some(m => m.type !== 'sell' && m.type !== 'dividend') && (

@@ -905,6 +905,8 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
               <WorkingStockChart
                 ticker={ticker}
                 data={history}
+                week52High={week52High}
+                week52Low={week52Low}
               />
             ) : (
               <div className="bg-theme-card rounded-xl border border-theme-light p-6 flex items-center justify-center min-h-[450px]">
