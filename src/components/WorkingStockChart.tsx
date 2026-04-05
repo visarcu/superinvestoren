@@ -46,7 +46,7 @@ const TIME_RANGES = [
   { label: '6M', days: 180 },
   { label: 'YTD', days: 'ytd' as const },
   { label: '1Y', days: 365 },
-  { label: '3Y', days: 1095 },
+  { label: '10Y', days: 3650 },
   { label: '5Y', days: 1825 },
   { label: 'MAX', days: 'max' as const },
 ]
@@ -463,32 +463,30 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
             {show52W && selectedMode === 'price' && week52High && (
               <ReferenceLine
                 y={week52High}
-                stroke="#fdba74"
-                strokeWidth={1.5}
-                strokeOpacity={0.6}
-                strokeDasharray="8 4"
+                stroke="#f97316"
+                strokeWidth={2}
+                strokeDasharray="6 3"
                 ifOverflow="extendDomain"
                 label={{
                   value: `52W H  ${formatStockPrice(week52High, false)}`,
                   position: 'insideTopLeft',
                   offset: 8,
-                  style: { fontSize: 10, fontWeight: 600, fill: '#fdba74' }
+                  style: { fontSize: 10, fontWeight: 600, fill: '#f97316' }
                 }}
               />
             )}
             {show52W && selectedMode === 'price' && week52Low && (
               <ReferenceLine
                 y={week52Low}
-                stroke="#fdba74"
-                strokeWidth={1.5}
-                strokeOpacity={0.6}
-                strokeDasharray="8 4"
+                stroke="#f97316"
+                strokeWidth={2}
+                strokeDasharray="6 3"
                 ifOverflow="extendDomain"
                 label={{
                   value: `52W L  ${formatStockPrice(week52Low, false)}`,
                   position: 'insideBottomLeft',
                   offset: 8,
-                  style: { fontSize: 10, fontWeight: 600, fill: '#fdba74' }
+                  style: { fontSize: 10, fontWeight: 600, fill: '#f97316' }
                 }}
               />
             )}
@@ -533,7 +531,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
           )}
           {show52W && selectedMode === 'price' && week52High && (
             <div className="flex items-center gap-2 text-xs text-theme-muted">
-              <div className="w-4 h-0.5" style={{ backgroundImage: 'repeating-linear-gradient(to right, #fdba74, #fdba74 5px, transparent 5px, transparent 9px)' }} />
+              <div className="w-4 h-0.5" style={{ backgroundImage: 'repeating-linear-gradient(to right, #f97316, #f97316 4px, transparent 4px, transparent 7px)' }} />
               <span>52W Hoch / Tief</span>
             </div>
           )}
