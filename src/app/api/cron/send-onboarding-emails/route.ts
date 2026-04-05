@@ -28,6 +28,10 @@ const STEPS: Record<number, number> = {
   3: 10,  // Tag 10
 }
 
+// Nur User die NACH diesem Datum registriert haben bekommen Onboarding-Mails.
+// Verhindert, dass alte Bestandskunden beim Go-Live sofort alle 4 Mails auf einmal kriegen.
+const ONBOARDING_START_DATE = new Date('2026-04-05T00:00:00Z')
+
 function daysSince(date: Date): number {
   return Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24))
 }
@@ -243,9 +247,10 @@ export async function GET(request: Request) {
     if (usersError) throw usersError
 
     // Im Test-Modus: nur der eigene Account
+    // Im normalen Betrieb: nur User die nach ONBOARDING_START_DATE registriert haben
     const filtered = isTestMode
       ? users.filter(u => u.email === TEST_EMAIL)
-      : users
+      : users.filter(u => new Date(u.created_at) >= ONBOARDING_START_DATE)
 
     if (isTestMode && filtered.length === 0) {
       console.warn(`[Onboarding Emails] TEST_EMAIL ${TEST_EMAIL} nicht in Auth-Users gefunden`)
