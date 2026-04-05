@@ -464,13 +464,14 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
               <ReferenceLine
                 y={week52High}
                 stroke="#f59e0b"
-                strokeWidth={1.5}
-                strokeDasharray="6 3"
+                strokeWidth={2}
+                strokeDasharray="8 4"
+                ifOverflow="extendDomain"
                 label={{
-                  value: `52W H: ${formatStockPrice(week52High, false)}`,
+                  value: `52W H  ${formatStockPrice(week52High, false)}`,
                   position: 'insideTopRight',
-                  offset: 6,
-                  style: { fontSize: 10, fontWeight: 600, fill: '#f59e0b' }
+                  offset: 8,
+                  style: { fontSize: 11, fontWeight: 700, fill: '#f59e0b', background: 'transparent' }
                 }}
               />
             )}
@@ -478,13 +479,14 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
               <ReferenceLine
                 y={week52Low}
                 stroke="#fb923c"
-                strokeWidth={1.5}
-                strokeDasharray="6 3"
+                strokeWidth={2}
+                strokeDasharray="8 4"
+                ifOverflow="extendDomain"
                 label={{
-                  value: `52W L: ${formatStockPrice(week52Low, false)}`,
+                  value: `52W L  ${formatStockPrice(week52Low, false)}`,
                   position: 'insideBottomRight',
-                  offset: 6,
-                  style: { fontSize: 10, fontWeight: 600, fill: '#fb923c' }
+                  offset: 8,
+                  style: { fontSize: 11, fontWeight: 700, fill: '#fb923c', background: 'transparent' }
                 }}
               />
             )}
