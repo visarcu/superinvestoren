@@ -30,7 +30,7 @@ const STEPS: Record<number, number> = {
 
 // Nur User die NACH diesem Datum registriert haben bekommen Onboarding-Mails.
 // Verhindert, dass alte Bestandskunden beim Go-Live sofort alle 4 Mails auf einmal kriegen.
-const ONBOARDING_START_DATE = new Date('2026-04-05T00:00:00Z')
+const ONBOARDING_START_DATE = new Date('2026-04-01T00:00:00Z')
 
 function daysSince(date: Date): number {
   return Math.floor((Date.now() - date.getTime()) / (1000 * 60 * 60 * 24))
@@ -57,11 +57,17 @@ function emailWrapper(content: string, unsubscribeEmail: string): string {
         ${content}
       </div>
       <div style="background:#f9fafb;padding:18px 32px;border-top:1px solid #e5e7eb;text-align:center;">
-        <p style="margin:0;font-size:12px;color:#9ca3af;">
+        <p style="margin:0 0 6px;font-size:12px;color:#9ca3af;">
           Viele Grüße, dein Finclue Team &nbsp;·&nbsp;
           <a href="https://finclue.de" style="color:#6b7280;text-decoration:none;">finclue.de</a>
           &nbsp;·&nbsp;
           <a href="https://finclue.de/api/newsletter/unsubscribe?email=${encodeURIComponent(unsubscribeEmail)}" style="color:#9ca3af;text-decoration:none;">Abmelden</a>
+        </p>
+        <p style="margin:0 0 4px;font-size:11px;color:#d1d5db;">
+          Finclue · Anbieter: Visar Curraj · Deutschland
+        </p>
+        <p style="margin:0;font-size:11px;color:#d1d5db;">
+          Diese E-Mail stellt keine Anlageberatung dar. Alle Inhalte dienen ausschließlich zu Informationszwecken.
         </p>
       </div>
     </div>
@@ -115,7 +121,7 @@ function step1Html(email: string): string {
   return emailWrapper(`
     <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">Was kaufen Superinvestoren gerade?</h2>
     <p style="margin:0 0 20px;color:#6b7280;font-size:15px;line-height:1.6;">
-      Warren Buffett, Bill Ackman, Michael Burry — sie alle müssen ihre Positionen quartalsweise offenlegen. Gesetzlich vorgeschrieben. Bei Finclue siehst du genau, was sie kaufen, verkaufen und halten.
+      Warren Buffett, Bill Ackman, Cathie Wood — sie alle müssen ihre Positionen quartalsweise offenlegen. Gesetzlich vorgeschrieben. Bei Finclue siehst du genau, was sie kaufen, verkaufen und halten.
     </p>
     <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 20px;margin-bottom:20px;">
       <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">Woher kommen die Daten?</p>
@@ -141,40 +147,49 @@ function step1Html(email: string): string {
       </div>
     </div>
     <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">90+ der bekanntesten Investoren weltweit — kostenlos einsehbar.</p>
-    ${ctaButton('Superinvestor-Portfolios ansehen', 'https://finclue.de/analyse/superinvestors')}
+    ${ctaButton('Superinvestor-Portfolios ansehen', 'https://finclue.de/superinvestor')}
   `, email)
 }
 
 function step2Html(email: string): string {
   return emailWrapper(`
-    <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">Wer kauft die eigene Aktie — und was ist sie wirklich wert?</h2>
+    <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">Wenn der CEO kauft — solltest du zuhören</h2>
     <p style="margin:0 0 20px;color:#6b7280;font-size:15px;line-height:1.6;">
-      Zwei der stärksten Signale beim Investieren: Insider-Käufe und der faire Wert einer Aktie. Beide findest du bei Finclue.
+      Niemand kennt ein Unternehmen besser als die eigene Führung. Wenn ein CEO, CFO oder Vorstand mit eigenem Geld Aktien kauft, ist das eines der stärksten Signale, die es gibt.
     </p>
-    <div style="border:1px solid #e5e7eb;border-radius:8px;overflow:hidden;margin-bottom:20px;">
-      <div style="padding:16px 20px;border-bottom:1px solid #e5e7eb;">
-        <p style="margin:0 0 4px;font-size:15px;font-weight:600;">📊 Insider Trading</p>
-        <p style="margin:0;font-size:13px;color:#6b7280;line-height:1.5;">
-          Wenn CEOs und CFOs die eigene Aktie kaufen, ist das oft ein bullisches Signal. Du siehst wer kauft, wann und wie viel.
-        </p>
-      </div>
-      <div style="padding:16px 20px;">
-        <p style="margin:0 0 4px;font-size:15px;font-weight:600;">🧮 Fairer Wert (DCF)</p>
-        <p style="margin:0;font-size:13px;color:#6b7280;line-height:1.5;">
-          Basierend auf dem freien Cashflow und Wachstumserwartungen berechnet Finclue, ob eine Aktie über- oder unterbewertet ist.
-        </p>
+    <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 20px;margin-bottom:20px;">
+      <p style="margin:0 0 6px;font-size:13px;font-weight:600;color:#374151;">Warum Insider-Käufe so wichtig sind</p>
+      <p style="margin:0;font-size:13px;color:#6b7280;line-height:1.6;">
+        Insider müssen ihre Transaktionen gesetzlich melden — innerhalb von 2 Tagen. Das bedeutet: du siehst in Echtzeit, wenn jemand mit echtem Insiderwissen eine große Position aufbaut. Verkäufe können viele Gründe haben. Käufe haben meistens nur einen.
+      </p>
+    </div>
+    <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:20px;">
+      <p style="margin:0 0 14px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Was du bei jeder Aktie siehst</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f3f4f6;">
+          <span style="font-size:14px;font-weight:500;">Wer hat gekauft oder verkauft?</span>
+          <span style="font-size:13px;color:#6b7280;">CEO, CFO, Board...</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding-bottom:10px;border-bottom:1px solid #f3f4f6;">
+          <span style="font-size:14px;font-weight:500;">Wie viel in Euro/Dollar?</span>
+          <span style="font-size:13px;color:#6b7280;">Transaktionswert</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <span style="font-size:14px;font-weight:500;">Zu welchem Kurs?</span>
+          <span style="font-size:13px;color:#6b7280;">Kaufpreis vs. aktueller Kurs</span>
+        </div>
       </div>
     </div>
-    <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">Probier es mit einer Aktie aus deiner Watchlist.</p>
-    ${ctaButton('Aktie analysieren', 'https://finclue.de/analyse')}
+    <p style="margin:0 0 4px;color:#6b7280;font-size:14px;">Schau dir die Insider-Aktivität einer Aktie aus deiner Watchlist an.</p>
+    ${ctaButton('Insider Trading ansehen', 'https://finclue.de/analyse/insider')}
   `, email)
 }
 
 function step3Html(email: string): string {
   return emailWrapper(`
-    <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">Du analysierst bereits wie ein Profi — ein Schritt fehlt noch</h2>
+    <h2 style="margin:0 0 8px;font-size:22px;font-weight:700;line-height:1.3;">Finclue Premium — das steckt dahinter</h2>
     <p style="margin:0 0 20px;color:#6b7280;font-size:15px;line-height:1.6;">
-      In den letzten Tagen hast du Aktien analysiert, Superinvestoren beobachtet und Insider-Bewegungen verfolgt. Mit Premium holst du das Letzte raus.
+      Die kostenlose Version gibt dir schon viel. Mit Premium bekommst du mehr Daten, mehr Historie und Features die echten Unterschied machen — für 6,58 € im Monat.
     </p>
     <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px 24px;margin-bottom:20px;">
       <p style="margin:0 0 14px;font-size:13px;font-weight:600;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;">Was Premium dazubringt</p>
@@ -215,7 +230,7 @@ function step3Html(email: string): string {
 const STEP_SUBJECTS: Record<number, string> = {
   0: '📊 So nutzt du den Finclue Chart-Builder',
   1: '🏦 Was kaufen Superinvestoren gerade?',
-  2: '🔍 Insider Trading + fairer Wert erklärt',
+  2: '👀 Wenn der CEO kauft — was das bedeutet',
   3: '⭐ Ein Schritt fehlt noch — Finclue Premium',
 }
 
