@@ -8,6 +8,7 @@ import { InformationCircleIcon } from '@heroicons/react/24/outline'
 interface QuickStatsProps {
   totalValue: number
   cashPosition: number
+  brokerCredit?: number
   totalGainLoss: number
   totalGainLossPercent: number
   totalRealizedGain: number
@@ -19,6 +20,7 @@ interface QuickStatsProps {
   formatCurrency: (amount: number) => string
   formatPercentage: (value: number) => string
   onCashClick?: () => void
+  onCreditClick?: () => void
 }
 
 // Dezentes Info-Tooltip für Kennzahlen-Erklärungen
@@ -65,6 +67,7 @@ function InfoTooltip({ title, children }: { title: string; children: React.React
 export default function QuickStats({
   totalValue,
   cashPosition,
+  brokerCredit = 0,
   totalGainLoss,
   totalGainLossPercent,
   totalRealizedGain,
@@ -76,11 +79,15 @@ export default function QuickStats({
   formatCurrency,
   formatPercentage,
   onCashClick,
+  onCreditClick,
 }: QuickStatsProps) {
   const hasBreakdown = totalRealizedGain !== 0 || totalDividends > 0
+  const hasCredit = brokerCredit < 0
+  // Eigenkapital = Gesamtwert + Kredit (Kredit ist negativ)
+  const equity = totalValue + brokerCredit
 
   return (
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className={`grid gap-4 ${hasCredit ? 'grid-cols-2 lg:grid-cols-5' : 'grid-cols-2 lg:grid-cols-4'}`}>
       {/* Gesamtwert */}
       <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
         <p className="text-xs text-neutral-500 mb-1">Gesamtwert</p>
@@ -88,6 +95,11 @@ export default function QuickStats({
         <p className="text-xs text-neutral-500 mt-1">
           {activeInvestments} Position{activeInvestments !== 1 ? 'en' : ''} + Cash
         </p>
+        {hasCredit && (
+          <p className="text-xs text-amber-500/80 mt-0.5">
+            Eigenkapital: {formatCurrency(equity)}
+          </p>
+        )}
       </div>
 
       {/* Cash */}
@@ -96,13 +108,29 @@ export default function QuickStats({
         onClick={onCashClick}
       >
         <p className="text-xs text-neutral-500 mb-1">
-          {cashPosition < 0 ? 'Kredit/Margin' : 'Cash'} {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
+          Cash {onCashClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
         </p>
         <p className={`text-xl font-bold ${cashPosition < 0 ? 'text-red-500 dark:text-red-400' : 'text-neutral-900 dark:text-white'}`}>{formatCurrency(cashPosition)}</p>
         <p className="text-xs text-neutral-500 mt-1">
-          {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% {cashPosition < 0 ? 'Margin-Quote' : 'Cash-Quote'}
+          {totalValue > 0 ? ((cashPosition / totalValue) * 100).toFixed(1) : '0,0'}% Cash-Quote
         </p>
       </div>
+
+      {/* Wertpapierkredit — nur anzeigen wenn vorhanden */}
+      {hasCredit && (
+        <div
+          className={`bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-red-200/30 dark:border-red-900/30 ${onCreditClick ? 'cursor-pointer hover:border-red-300/50 dark:hover:border-red-800/50 transition-colors' : ''}`}
+          onClick={onCreditClick}
+        >
+          <p className="text-xs text-neutral-500 mb-1">
+            Wertpapierkredit {onCreditClick && <span className="text-neutral-400 dark:text-neutral-600">✎</span>}
+          </p>
+          <p className="text-xl font-bold text-red-500 dark:text-red-400">{formatCurrency(brokerCredit)}</p>
+          <p className="text-xs text-neutral-500 mt-1">
+            {totalValue > 0 ? Math.abs((brokerCredit / totalValue) * 100).toFixed(1) : '0,0'}% Leverage-Quote
+          </p>
+        </div>
+      )}
 
       {/* Gesamtrendite (Unrealisiert + Realisiert + Dividenden) */}
       <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">

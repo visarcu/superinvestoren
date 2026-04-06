@@ -15,6 +15,7 @@ export interface Portfolio {
   name: string
   currency: string
   cash_position: number
+  broker_credit: number  // Wertpapierkredit — manuell eingetragen, nicht aus Transaktionen
   created_at: string
   is_default?: boolean
   broker_type?: string | null
@@ -434,6 +435,7 @@ export function usePortfolio() {
           name: 'Alle Depots',
           currency: 'EUR',
           cash_position: portfolios.reduce((sum, p) => sum + (p.cash_position || 0), 0),
+          broker_credit: portfolios.reduce((sum, p) => sum + (p.broker_credit || 0), 0),
           created_at: new Date().toISOString()
         })
 
@@ -895,6 +897,16 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [portfolio, loadPortfolio, depotIdParam])
 
+  const updateBrokerCredit = useCallback(async (amount: number) => {
+    if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
+    const { error } = await supabase
+      .from('portfolios')
+      .update({ broker_credit: amount })
+      .eq('id', portfolio.id)
+    if (error) throw error
+    setPortfolio(prev => prev ? { ...prev, broker_credit: amount } : null)
+  }, [portfolio])
+
   const updatePortfolioName = useCallback(async (name: string) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
@@ -974,6 +986,7 @@ export function usePortfolio() {
     addDividend,
     addTransfer,
     updateCashPosition,
+    updateBrokerCredit,
     updatePortfolioName,
     exportToCSV,
   }

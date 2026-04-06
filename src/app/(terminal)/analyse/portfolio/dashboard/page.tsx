@@ -148,6 +148,10 @@ export default function PortfolioDashboard() {
   const [showCashModal, setShowCashModal] = useState(false)
   const [newCashAmount, setNewCashAmount] = useState('')
 
+  // Broker Credit Modal State
+  const [showCreditModal, setShowCreditModal] = useState(false)
+  const [newCreditAmount, setNewCreditAmount] = useState('')
+
   // Name Modal State
   const [showNameModal, setShowNameModal] = useState(false)
   const [newPortfolioName, setNewPortfolioName] = useState('')
@@ -450,6 +454,7 @@ export default function PortfolioDashboard() {
             <QuickStats
               totalValue={p.totalValue}
               cashPosition={p.cashPosition}
+              brokerCredit={p.portfolio?.broker_credit || 0}
               totalGainLoss={p.totalGainLoss}
               totalGainLossPercent={p.totalGainLossPercent}
               totalRealizedGain={p.totalRealizedGain}
@@ -461,6 +466,7 @@ export default function PortfolioDashboard() {
               formatCurrency={p.formatCurrency}
               formatPercentage={p.formatPercentage}
               onCashClick={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}
+              onCreditClick={() => { setNewCreditAmount((p.portfolio?.broker_credit || 0).toString()); setShowCreditModal(true) }}
             />
 
             {/* Empty State - wenn noch keine Positionen */}
@@ -826,6 +832,61 @@ export default function PortfolioDashboard() {
                   </button>
                   <button onClick={() => setShowCashModal(false)}
                     className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors">
+                    Abbrechen
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Wertpapierkredit Modal */}
+        {showCreditModal && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div className="bg-neutral-900 rounded-xl p-6 max-w-sm w-full">
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-lg font-bold text-white">Wertpapierkredit</h2>
+                <button onClick={() => setShowCreditModal(false)} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
+                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
+                </button>
+              </div>
+              <div className="space-y-4">
+                <div className="p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                  <p className="text-xs text-amber-400/90">
+                    Trage hier deinen aktuellen Wertpapierkredit (WPK) von Scalable ein — als negativen Betrag, z.B. <span className="font-mono">-12502</span>. Dieser Wert erscheint separat und beeinflusst nicht die Cash-Position.
+                  </p>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Aktueller Kredit</label>
+                  <div className="p-3 bg-neutral-800/20 rounded-lg">
+                    <span className="text-lg font-bold text-red-400">{p.formatCurrency(p.portfolio?.broker_credit || 0)}</span>
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-sm font-medium text-neutral-400 mb-2">Kreditbetrag (EUR, negativ)</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    value={newCreditAmount}
+                    onChange={(e) => setNewCreditAmount(e.target.value)}
+                    placeholder="-12502.00"
+                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-red-400/50 focus:border-transparent"
+                  />
+                  <p className="text-xs text-neutral-600 mt-1.5">0 eingeben um den Kredit zu entfernen</p>
+                </div>
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={async () => {
+                      const val = parseFloat(newCreditAmount) || 0
+                      await p.updateBrokerCredit(val)
+                      setShowCreditModal(false)
+                    }}
+                    disabled={newCreditAmount === '' || parseFloat(newCreditAmount) === (p.portfolio?.broker_credit || 0)}
+                    className="flex-1 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors"
+                  >
+                    Speichern
+                  </button>
+                  <button onClick={() => setShowCreditModal(false)} className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors">
                     Abbrechen
                   </button>
                 </div>
