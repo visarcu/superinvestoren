@@ -64,7 +64,8 @@ function emailWrapper(content: string, unsubscribeEmail: string): string {
           <a href="https://finclue.de/api/newsletter/unsubscribe?email=${encodeURIComponent(unsubscribeEmail)}" style="color:#9ca3af;text-decoration:none;">Abmelden</a>
         </p>
         <p style="margin:0 0 4px;font-size:11px;color:#d1d5db;">
-          Finclue · Anbieter: Visar Curraj · Deutschland
+          Visar Curraj · c/o Postflex #9551 · Emsdettener Str. 10 · 48268 Greven · Deutschland &nbsp;·&nbsp;
+          <a href="https://finclue.de/impressum" style="color:#d1d5db;text-decoration:none;">Impressum</a>
         </p>
         <p style="margin:0;font-size:11px;color:#d1d5db;">
           Diese E-Mail stellt keine Anlageberatung dar. Alle Inhalte dienen ausschließlich zu Informationszwecken.
