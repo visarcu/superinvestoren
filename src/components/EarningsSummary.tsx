@@ -16,13 +16,25 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
   const [summary, setSummary] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [hasRequested, setHasRequested] = useState(false)
   const abortControllerRef = useRef<AbortController | null>(null)
   const isLoadingRef = useRef(false)
 
+  // Check cache on mount — show cached summary immediately without needing button click
   useEffect(() => {
-    loadSummary()
-
-    // Cleanup: Cancel pending request on unmount or when deps change
+    const cacheKey = `summary-${ticker}-${year}-Q${quarter}`
+    const cached = localStorage.getItem(cacheKey)
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached)
+        if (Date.now() - parsed.timestamp < 30 * 24 * 60 * 60 * 1000) {
+          setSummary(parsed.summary)
+          setHasRequested(true)
+        }
+      } catch {
+        localStorage.removeItem(cacheKey)
+      }
+    }
     return () => {
       if (abortControllerRef.current) {
         abortControllerRef.current.abort()
@@ -34,18 +46,7 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
     // Prevent duplicate requests
     if (isLoadingRef.current) return
 
-    // Check localStorage cache first
-    const cacheKey = `summary-${ticker}-${year}-Q${quarter}`
-    const cached = localStorage.getItem(cacheKey)
-
-    if (cached) {
-      const parsed = JSON.parse(cached)
-      // Cache für 30 Tage
-      if (Date.now() - parsed.timestamp < 30 * 24 * 60 * 60 * 1000) {
-        setSummary(parsed.summary)
-        return
-      }
-    }
+    setHasRequested(true)
 
     // Cancel any pending request
     if (abortControllerRef.current) {
@@ -94,6 +95,28 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
 
   // Minimal version for sidebar
   if (minimal) {
+    // Not yet requested — show generate button
+    if (!hasRequested && !loading) {
+      return (
+        <div className="flex flex-col items-center justify-center py-10 text-center">
+          <div className="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-4">
+            <SparklesIcon className="w-6 h-6 text-emerald-400" />
+          </div>
+          <p className="text-sm font-medium text-white mb-1">KI-Zusammenfassung</p>
+          <p className="text-xs text-neutral-500 mb-5 max-w-[220px]">
+            Lass Finclue AI den Earnings Call für dich analysieren und zusammenfassen.
+          </p>
+          <button
+            onClick={() => loadSummary()}
+            className="flex items-center gap-2 px-4 py-2 bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/30 text-emerald-400 text-sm font-medium rounded-lg transition-colors"
+          >
+            <SparklesIcon className="w-4 h-4" />
+            Zusammenfassung generieren
+          </button>
+        </div>
+      )
+    }
+
     if (loading) {
       return (
         <div className="text-center py-8">

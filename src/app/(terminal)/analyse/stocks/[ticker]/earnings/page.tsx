@@ -234,27 +234,21 @@ export default function QuartalszahlenPage() {
               </div>
 
               <div className="flex items-center gap-2">
-                {isPremium ? (
-                  <button
-                    onClick={() => setShowSummary(!showSummary)}
-                    className={`px-3 py-1.5 text-xs rounded-md transition-colors flex items-center gap-1.5 ${
-                      showSummary
-                        ? 'bg-emerald-500/20 text-emerald-400'
-                        : 'bg-neutral-800 text-neutral-400 hover:text-white'
-                    }`}
-                  >
+                <button
+                  onClick={() => setShowSummary(!showSummary)}
+                  className={`px-3 py-1.5 text-xs rounded-md transition-colors flex items-center gap-1.5 ${
+                    showSummary
+                      ? isPremium ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
+                      : 'bg-neutral-800 text-neutral-400 hover:text-white'
+                  }`}
+                >
+                  {isPremium ? (
                     <SparklesIcon className="w-3.5 h-3.5" />
-                    AI Summary
-                  </button>
-                ) : (
-                  <a
-                    href="/pricing"
-                    className="flex items-center gap-1.5 px-3 py-1.5 text-xs bg-amber-500/10 border border-amber-500/20 text-amber-400 rounded-md hover:bg-amber-500/20 transition-colors"
-                  >
+                  ) : (
                     <LockClosedIcon className="w-3.5 h-3.5" />
-                    AI Summary
-                  </a>
-                )}
+                  )}
+                  AI Summary
+                </button>
 
                 <button
                   onClick={() => {
@@ -342,25 +336,45 @@ export default function QuartalszahlenPage() {
         </div>
 
         {/* Right Sidebar - AI Summary */}
-        {isPremium && showSummary && selectedTranscript && (
+        {showSummary && selectedTranscript && (
           <div className="w-[400px] border-l border-neutral-800 overflow-y-auto flex-shrink-0">
             <div className="p-6">
-              <div className="flex items-center gap-2 mb-2">
-                <SparklesIcon className="w-4 h-4 text-emerald-400" />
-                <h3 className="text-sm font-medium text-white">AI Zusammenfassung</h3>
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-2">
+                  <SparklesIcon className="w-4 h-4 text-emerald-400" />
+                  <h3 className="text-sm font-medium text-white">AI Zusammenfassung</h3>
+                </div>
+                <span className="text-xs text-neutral-600">
+                  Q{selectedTranscript.quarter} {selectedTranscript.year}
+                </span>
               </div>
-              <p className="text-xs text-neutral-500 mb-4">
-                GPT-4 • Aktualisiert vor 3 Min.
-              </p>
 
-              {/* Summary Component */}
-              <EarningsSummary
-                ticker={ticker}
-                year={selectedTranscript.year}
-                quarter={selectedTranscript.quarter}
-                content={selectedTranscript.content}
-                minimal={true}
-              />
+              {isPremium ? (
+                <EarningsSummary
+                  ticker={ticker}
+                  year={selectedTranscript.year}
+                  quarter={selectedTranscript.quarter}
+                  content={selectedTranscript.content}
+                  minimal={true}
+                />
+              ) : (
+                <div className="flex flex-col items-center justify-center py-10 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-neutral-800 border border-neutral-700 flex items-center justify-center mb-4">
+                    <LockClosedIcon className="w-5 h-5 text-neutral-500" />
+                  </div>
+                  <p className="text-sm font-medium text-white mb-1">Premium Feature</p>
+                  <p className="text-xs text-neutral-500 mb-5 max-w-[220px]">
+                    KI-Zusammenfassungen von Earnings Calls sind nur für Premium-Mitglieder verfügbar.
+                  </p>
+                  <a
+                    href="/pricing"
+                    className="flex items-center gap-2 px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 text-amber-400 text-sm font-medium rounded-lg transition-colors"
+                  >
+                    <SparklesIcon className="w-4 h-4" />
+                    Premium werden
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         )}
