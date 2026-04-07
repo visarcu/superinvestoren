@@ -108,24 +108,49 @@ export function parseFreedom24PDFText(text: string, fileName: string): Freedom24
 
       const txType: 'buy' | 'sell' = transaktionRaw.toLowerCase() === 'verkauf' ? 'sell' : 'buy'
 
-      // Zahlenblock1 zerlegen: Preis hat immer viele Nachkommastellen (4-8),
-      // Betrag immer 2 Nachkommastellen → Preis mit \d+\.\d{4,} finden
-      const preisMatch = zahlenblock1.match(/(\d+\.\d{4,})/)
-      const price = preisMatch ? parseFloat(preisMatch[1]) : 0
+      // Zahlenblock1 zerlegen: Anzahl + Preis + Betrag ohne Trennzeichen zusammengeklebt.
+      // Struktur (genau 2 Punkte):
+      //   {Anzahl_int}{Preis_int}.{Preis_6dec}{Betrag_int}.{Betrag_2dec}
+      // Beispiel: "17.1600007.16"
+      //   dotParts = ["17", "1600007", "16"]
+      //   Preis_6dec = "160000", Betrag_int = "7", Betrag_2dec = "16"
+      //   → totalValue = 7.16, partA = "17"
+      //   → Preis_int = "7" (letzte 1 Stelle von "17"), Anzahl = 1
+      //   → Preis = 7.160000 ✓, Qty = 1 ✓
+      const dotParts = zahlenblock1.split('.')
+      let price = 0
+      let quantity = 0
+      let totalValue = 0
 
-      // Betrag = letztes \d+\.\d{2} in zahlenblock1
-      const betragMatches = [...zahlenblock1.matchAll(/(\d+\.\d{2})/g)]
-      const totalValue = betragMatches.length > 0
-        ? parseFloat(betragMatches[betragMatches.length - 1][1])
-        : 0
+      if (dotParts.length === 3) {
+        const partA = dotParts[0]  // {Anzahl_int}{Preis_int}
+        const partB = dotParts[1]  // {Preis_6dec}{Betrag_int}
+        const partC = dotParts[2]  // {Betrag_2dec}
 
-      // Anzahl = Ziffern vor dem Preis (Rest nach Entfernen von Preis und Betrag)
-      const beforePrice = preisMatch ? zahlenblock1.slice(0, zahlenblock1.indexOf(preisMatch[1])) : ''
-      const quantityRaw = parseFloat(beforePrice) || (price > 0 && totalValue > 0 ? Math.round((totalValue / price) * 10000) / 10000 : 0)
-      // Plausibilitäts-Check: qty * price ≈ totalValue → sonst aus totalValue/price berechnen
-      const quantity = price > 0 && Math.abs(quantityRaw * price - totalValue) > 0.05
-        ? Math.round((totalValue / price) * 10000) / 10000
-        : quantityRaw
+        const preis6dec = partB.slice(0, 6)       // erste 6 Stellen = Preis-Nachkomma
+        const betragInt = partB.slice(6) || '0'   // Rest = Betrag-Vorkomma
+        totalValue = parseFloat(betragInt + '.' + partC)
+
+        // Anzahl/Preis-Split in partA suchen: Preis-Vorkomma von hinten abschneiden
+        for (let preisLen = 1; preisLen <= partA.length; preisLen++) {
+          const preisInt = partA.slice(-preisLen)
+          const anzahlStr = partA.slice(0, partA.length - preisLen)
+          const candidatePrice = parseFloat(preisInt + '.' + preis6dec)
+          const candidateQty = anzahlStr ? parseInt(anzahlStr, 10) : 0
+          if (candidateQty > 0 && Math.abs(candidateQty * candidatePrice - totalValue) < 0.02) {
+            price = candidatePrice
+            quantity = candidateQty
+            break
+          }
+        }
+      }
+
+      // Fallback falls Parsing fehlschlug
+      if (price <= 0 || quantity <= 0) {
+        totalValue = totalValue || parseFloat(zahlenblock1) || 0
+        price = parseFloat(zahlenblock1) || 0
+        quantity = price > 0 ? Math.round((totalValue / price) * 10000) / 10000 : 0
+      }
 
       // Zahlenblock2 zerlegen: PNL + Gebühren (jeweils 2 Nachkommastellen)
       const block2Numbers = [...zahlenblock2.matchAll(/(-?\d+\.\d{2})/g)].map(m => parseFloat(m[1]))
