@@ -68,7 +68,9 @@ export function parseFreedom24PDFText(text: string, fileName: string): Freedom24
     }
 
     // === 4. "Wertpapiergeschäfte"-Sektion parsen ===
-    const sectionMatch = normalized.match(/Wertpapiergeschäfte\n([\s\S]*?)(?:\nGesamter Cashflow|\nGewinn- und Verlust|$)/)
+    // WICHTIG: "Gewinn- und Verlustrechnung" steht bereits in der Tabellenüberschrift,
+    // deshalb nur "Gesamter Cashflow" als Sektionsende verwenden.
+    const sectionMatch = normalized.match(/Wertpapiergeschäfte([\s\S]*?)Gesamter Cashflow/)
     if (!sectionMatch) {
       errors.push(`Abschnitt "Wertpapiergeschäfte" in "${fileName}" nicht gefunden. Ist dies ein Handelsbericht?`)
       return { transactions, errors, fileName }
