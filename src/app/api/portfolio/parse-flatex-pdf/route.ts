@@ -1,11 +1,12 @@
 // API Route: POST /api/portfolio/parse-flatex-pdf
-// Akzeptiert Broker PDF-Dateien (Flatex, Smartbroker+, Trade Republic) und gibt geparste Transaktionen zurück
+// Akzeptiert Broker PDF-Dateien (Flatex, Smartbroker+, Trade Republic, Freedom24) und gibt geparste Transaktionen zurück
 // Auto-Erkennung des Brokers anhand des PDF-Inhalts
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { parseFlatexPDFText, type FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import { parseSmartbrokerPDFText, type SmartbrokerParsedTransaction } from '@/lib/smartbrokerPDFParser'
 import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '@/lib/tradeRepublicPDFParser'
+import { parseFreedom24PDFText } from '@/lib/freedom24PDFParser'
 
 /**
  * pdf-parse lazy laden — umgeht Webpack's statische Analyse komplett.
@@ -35,8 +36,12 @@ function getSupabaseClient() {
 }
 
 /** Erkennt den Broker anhand des PDF-Textinhalts */
-function detectBroker(text: string): 'flatex' | 'smartbroker' | 'traderepublic' | 'unknown' {
+function detectBroker(text: string): 'flatex' | 'smartbroker' | 'traderepublic' | 'freedom24' | 'unknown' {
   const lower = text.toLowerCase()
+  // Freedom24 — vor Flatex prüfen, da beide "Wertpapier" enthalten können
+  if (lower.includes('freedom24') || lower.includes('freedom 24') || lower.includes('freedom tower') || lower.includes('handelsbericht für den zeitraum')) {
+    return 'freedom24'
+  }
   // Trade Republic
   if (lower.includes('trade republic') || lower.includes('traderepublic')) {
     return 'traderepublic'
@@ -157,11 +162,18 @@ export async function POST(request: Request) {
         const broker = detectBroker(text)
 
         if (broker === 'unknown') {
-          allErrors.push(`"${file.name}" konnte keinem Broker zugeordnet werden (Flatex, Smartbroker+, Trade Republic unterstützt).`)
+          allErrors.push(`"${file.name}" konnte keinem Broker zugeordnet werden (Flatex, Smartbroker+, Trade Republic, Freedom24 unterstützt).`)
           continue
         }
 
-        if (broker === 'traderepublic') {
+        if (broker === 'freedom24') {
+          const result = parseFreedom24PDFText(text, file.name)
+          if (result.errors.length > 0) {
+            allErrors.push(...result.errors)
+          }
+          allTransactions.push(...result.transactions)
+          if (result.transactions.length > 0) parsedCount++
+        } else if (broker === 'traderepublic') {
           const result = parseTradeRepublicPDFText(text, file.name)
           if (result.errors.length > 0) {
             allErrors.push(...result.errors)

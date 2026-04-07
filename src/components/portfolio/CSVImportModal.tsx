@@ -759,6 +759,32 @@ export default function CSVImportModal({
                     className="hidden"
                   />
                 </label>
+
+                {/* PDF Import — Freedom24 */}
+                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-green-500/30 rounded-xl cursor-pointer transition-all text-center sm:col-span-2 ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
+                  {pdfParsing && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
+                      <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
+                    </div>
+                  )}
+                  <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
+                    <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Freedom24</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">Handelsbericht PDF hochladen</p>
+                  </div>
+                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.pdf · Berichte → Handelsbericht → PDF</span>
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    multiple
+                    onChange={handlePDFUpload}
+                    className="hidden"
+                  />
+                </label>
               </div>
 
               {/* PDF Parse Errors */}
