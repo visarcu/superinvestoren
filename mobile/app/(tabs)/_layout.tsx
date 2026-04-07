@@ -1,4 +1,4 @@
-import { Tabs } from 'expo-router';
+import { Tabs, router } from 'expo-router';
 import { useEffect, useState, useRef } from 'react';
 import { View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';

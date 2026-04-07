@@ -399,10 +399,12 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
               tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
               tickFormatter={(value) => {
                 const date = new Date(value)
-                if (['3Y', '5Y', 'MAX'].includes(selectedRange)) {
+                if (['1Y', '3Y', '5Y', 'MAX'].includes(selectedRange)) {
+                  // Jahres-/Mehrjahres-Ranges: "Jan. 25" — immer mit Jahr
                   return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
                 }
-                return date.toLocaleDateString('de-DE', { month: 'short', day: 'numeric' })
+                // Kurzfristige Ranges (1M, 3M, 6M, YTD): Tag + Monat reicht
+                return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })
               }}
               interval="preserveStartEnd"
               minTickGap={80}

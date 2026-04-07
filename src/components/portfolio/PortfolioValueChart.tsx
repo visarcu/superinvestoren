@@ -91,17 +91,28 @@ export default function PortfolioValueChart({
       if (!response.ok) throw new Error('API Error')
       const result = await response.json()
 
+      // Jahresübergreifende Ranges: Jahr im Label zeigen
+      const spansMultipleYears = ['1Y', 'MAX'].includes(selectedRange)
+      const formatLabel = (dateStr: string) => {
+        const d = new Date(dateStr)
+        if (spansMultipleYears) {
+          // "Jan. 25" statt "07. Jan." — kompakt mit Jahr
+          return d.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
+        }
+        return d.toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
+      }
+
       if (result.data) {
         setValueData(result.data.map((d: any) => ({
           ...d,
-          label: new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
+          label: formatLabel(d.date)
         })))
       }
 
       if (result.performanceData) {
         setPerformanceData(result.performanceData.map((d: any) => ({
           ...d,
-          label: new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
+          label: formatLabel(d.date)
         })))
       }
     } catch (error) {
@@ -219,8 +230,12 @@ export default function PortfolioValueChart({
                   tick={{ fill: '#737373', fontSize: 11 }}
                   tickLine={false}
                   axisLine={false}
-                  tickFormatter={(v) => `${(v / 1000).toFixed(0)}k`}
-                  width={45}
+                  tickFormatter={(v) => {
+                    if (Math.abs(v) >= 1000000) return `${(v / 1000000).toFixed(1)}M`
+                    if (Math.abs(v) >= 1000) return `${(v / 1000).toFixed(0)}k`
+                    return `${v.toFixed(0)}`
+                  }}
+                  width={50}
                 />
                 <Tooltip
                   contentStyle={{
