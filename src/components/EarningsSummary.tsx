@@ -48,6 +48,8 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
 
     setHasRequested(true)
 
+    const cacheKey = `summary-${ticker}-${year}-Q${quarter}`
+
     // Cancel any pending request
     if (abortControllerRef.current) {
       abortControllerRef.current.abort()
