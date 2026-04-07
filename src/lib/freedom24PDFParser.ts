@@ -78,73 +78,87 @@ export function parseFreedom24PDFText(text: string, fileName: string): Freedom24
 
     const section = sectionMatch[1]
 
-    // Jede Transaktion steht auf einer Zeile:
-    // TICKER  ISIN  MARKT  (Kauf|Verkauf)  ANZAHL  PREIS  BETRAGEUR  P&L  GEBUEHRENEUR  DATUM  ...
+    // pdf-parse entfernt alle Leerzeichen zwischen PDF-Spalten → alles ist zusammengeklebt:
+    // "FWIA.EUIE000716YHJ7EuropeKauf17.1600007.16EUR0.001.25EURGruppiertGruppiertGruppiert"
     //
-    // Varianten:
-    //   - Datum: "2026-04-07" oder "Gruppiert"
-    //   - Betrag/Gebühren: "7.16EUR" oder "7.16 EUR"
-    //   - Markt: "Europe", "US", "XETRA", etc.
+    // Strategie:
+    //  1. ISIN als Anker (immer 12 alphanumerische Zeichen: 2 Buchstaben + 10 Zeichen)
+    //  2. Danach: Markt (nur Buchstaben) + Kauf|Verkauf
+    //  3. Danach: alles bis zur ersten Währung = Anzahl+Preis+Betrag (zusammengeklebt)
+    //  4. Danach: PNL+Gebühren + zweite Währung
+    //  5. Danach: Datum (ISO oder "Gruppiert")
+    //
+    // Regex zerlegt: ISIN | Markt | Typ | [Zahlenblock1] | Währung | [Zahlenblock2] | Währung | Datum
     const txRegex =
-      /([A-Z0-9.\-]+)\s+([A-Z]{2}[A-Z0-9]{10})\s+(\S+)\s+(Kauf|Verkauf)\s+([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*(EUR|USD|GBP|CHF|PLN)\s+([\d.-]+)\s+([\d.]+)\s*(EUR|USD|GBP|CHF|PLN)\s+(\S+)/gi
+      /([A-Z]{2}[A-Z0-9]{10})([A-Za-z]+)(Kauf|Verkauf)([\d.]+)(EUR|USD|GBP|CHF|PLN)([\d.-]+)(EUR|USD|GBP|CHF|PLN)(Gruppiert|\d{4}-\d{2}-\d{2}|\d{2}\.\d{2}\.\d{4})/g
 
     let match: RegExpExecArray | null
     while ((match = txRegex.exec(section)) !== null) {
       const [
         ,
-        ticker,
         isin,
         market,
         transaktionRaw,
-        anzahlRaw,
-        preisRaw,
-        betragRaw,
+        zahlenblock1,   // z.B. "17.1600007.16" = Anzahl+Preis+Betrag zusammengeklebt
         waehrung,
-        , // P&L — ignorieren
-        gebuehrenRaw,
-        gebuehrenWaehrung,
+        zahlenblock2,   // z.B. "0.001.25" = PNL+Gebühren zusammengeklebt
+        ,               // Gebührenwährung — gleiche Währung, ignorieren
         datumRaw,
       ] = match
 
       const txType: 'buy' | 'sell' = transaktionRaw.toLowerCase() === 'verkauf' ? 'sell' : 'buy'
-      const quantity = parseFloat(anzahlRaw)
-      const price = parseFloat(preisRaw)
-      const totalValue = parseFloat(betragRaw)
-      const fees = parseFloat(gebuehrenRaw)
-      const endAmount = txType === 'buy'
-        ? totalValue + fees
-        : totalValue - fees
 
-      // Datum: echtes Datum oder Fallback
+      // Zahlenblock1 zerlegen: Preis hat immer viele Nachkommastellen (4-8),
+      // Betrag immer 2 Nachkommastellen → Preis mit \d+\.\d{4,} finden
+      const preisMatch = zahlenblock1.match(/(\d+\.\d{4,})/)
+      const price = preisMatch ? parseFloat(preisMatch[1]) : 0
+
+      // Betrag = letztes \d+\.\d{2} in zahlenblock1
+      const betragMatches = [...zahlenblock1.matchAll(/(\d+\.\d{2})/g)]
+      const totalValue = betragMatches.length > 0
+        ? parseFloat(betragMatches[betragMatches.length - 1][1])
+        : 0
+
+      // Anzahl = Ziffern vor dem Preis (Rest nach Entfernen von Preis und Betrag)
+      const beforePrice = preisMatch ? zahlenblock1.slice(0, zahlenblock1.indexOf(preisMatch[1])) : ''
+      const quantityRaw = parseFloat(beforePrice) || (price > 0 && totalValue > 0 ? Math.round((totalValue / price) * 10000) / 10000 : 0)
+      // Plausibilitäts-Check: qty * price ≈ totalValue → sonst aus totalValue/price berechnen
+      const quantity = price > 0 && Math.abs(quantityRaw * price - totalValue) > 0.05
+        ? Math.round((totalValue / price) * 10000) / 10000
+        : quantityRaw
+
+      // Zahlenblock2 zerlegen: PNL + Gebühren (jeweils 2 Nachkommastellen)
+      const block2Numbers = [...zahlenblock2.matchAll(/(-?\d+\.\d{2})/g)].map(m => parseFloat(m[1]))
+      const fees = block2Numbers.length >= 2
+        ? block2Numbers[block2Numbers.length - 1]  // Gebühren = letzter Wert
+        : block2Numbers[0] ?? 0
+
+      const endAmount = txType === 'buy' ? totalValue + fees : totalValue - fees
+
+      // Datum parsen
       let date = ''
-      if (datumRaw && datumRaw !== 'Gruppiert') {
-        // Freedom24 liefert ISO-Datum: "2026-04-07"
-        if (/^\d{4}-\d{2}-\d{2}$/.test(datumRaw)) {
-          date = datumRaw
-        } else if (/^\d{2}\.\d{2}\.\d{4}$/.test(datumRaw)) {
-          // Deutsches Format: "07.04.2026" → "2026-04-07"
-          const parts = datumRaw.split('.')
-          date = `${parts[2]}-${parts[1]}-${parts[0]}`
-        }
+      let isGroupedDate = false
+      if (datumRaw === 'Gruppiert') {
+        isGroupedDate = true
+        date = fallbackDate
+      } else if (/^\d{4}-\d{2}-\d{2}$/.test(datumRaw)) {
+        date = datumRaw
+      } else if (/^\d{2}\.\d{2}\.\d{4}$/.test(datumRaw)) {
+        const p = datumRaw.split('.')
+        date = `${p[2]}-${p[1]}-${p[0]}`
       }
 
       if (!date) {
-        if (fallbackDate) {
-          date = fallbackDate
-          // Kein Fehler — nur eine Note, wird im notes-Feld vermerkt
-        } else {
-          errors.push(`Kein Datum für Transaktion ${ticker} (${isin}) in "${fileName}" gefunden. Bitte längeren Zeitraum im Export wählen.`)
-          continue
-        }
-      }
-
-      if (!quantity || quantity <= 0) {
-        errors.push(`Ungültige Stückzahl für ${ticker} in "${fileName}".`)
+        errors.push(`Kein Datum für ${isin} in "${fileName}" gefunden. Bitte längeren Zeitraum im Export wählen.`)
         continue
       }
 
-      const isGroupedDate = datumRaw === 'Gruppiert'
-      const name = tickerNameMap[isin] || ticker
+      if (!quantity || quantity <= 0) {
+        errors.push(`Ungültige Stückzahl für ${isin} in "${fileName}".`)
+        continue
+      }
+
+      const name = tickerNameMap[isin] || isin
 
       transactions.push({
         type: txType,
@@ -157,7 +171,7 @@ export function parseFreedom24PDFText(text: string, fileName: string): Freedom24
         fees,
         endAmount,
         date,
-        currency: waehrung || gebuehrenWaehrung || 'EUR',
+        currency: waehrung || 'EUR',
         exchange: market,
         notes: `Freedom24 Import${isGroupedDate ? ' — Datum geschätzt (Bericht gruppiert)' : ''}`,
       })
