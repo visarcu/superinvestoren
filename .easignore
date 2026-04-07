@@ -1,0 +1,7 @@
+# Website assets not needed for mobile build
+public/logos/
+public/data/
+.claude/
+prisma/node_modules/
+node_modules/
+.next/
