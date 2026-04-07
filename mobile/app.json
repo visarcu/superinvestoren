@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "de.finclue.app",
-      "buildNumber": "2",
+      "buildNumber": "11",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -29,6 +29,7 @@
       "versionCode": 1
     },
     "plugins": [
+      "./plugins/withReanimatedFix",
       "expo-router",
       "expo-secure-store",
       [
