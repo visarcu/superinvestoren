@@ -2,9 +2,10 @@ const { withDangerousMod } = require('@expo/config-plugins');
 const fs = require('fs');
 const path = require('path');
 
-// Fix: react-native-reanimated activates FOLLY_HAS_COROUTINES via compiler detection,
-// but folly/coro/Coroutine.h is not shipped in the ReactNativeDependencies pod.
-// Injects -DFOLLY_HAS_COROUTINES=0 into the existing post_install block.
+// Fix: folly/coro/Coroutine.h is not shipped in ReactNativeDependencies pod.
+// folly/Expected.h includes it unconditionally when FOLLY_HAS_COROUTINES=1
+// (set via compiler feature detection, can't be overridden with preprocessor flags).
+// Patch the header after pod install to guard the include with __has_include.
 module.exports = function withReanimatedFix(config) {
   return withDangerousMod(config, [
     'ios',
@@ -12,33 +13,30 @@ module.exports = function withReanimatedFix(config) {
       const podfilePath = path.join(config.modRequest.platformProjectRoot, 'Podfile');
       let contents = fs.readFileSync(podfilePath, 'utf-8');
 
-      if (contents.includes('FOLLY_HAS_COROUTINES')) {
+      if (contents.includes('patch_folly_coroutine')) {
         return config;
       }
 
+      // Ruby code to insert inside the existing post_install block
       const fixCode = `
-    # Fix: folly/coro/Coroutine.h not available in ReactNativeDependencies pod
-    installer.pods_project.targets.each do |target|
-      if target.name == 'RNReanimated'
-        target.build_configurations.each do |bc|
-          existing = bc.build_settings['OTHER_CPLUSPLUSFLAGS'] || '$(inherited)'
-          bc.build_settings['OTHER_CPLUSPLUSFLAGS'] = existing + ' -DFOLLY_HAS_COROUTINES=0'
-        end
+    # patch_folly_coroutine: guard folly/coro/Coroutine.h include
+    expected_h = File.join(installer.sandbox.root, 'Headers/Public/ReactNativeDependencies/folly/Expected.h')
+    if File.exist?(expected_h)
+      src = File.read(expected_h)
+      unless src.include?('__has_include(<folly/coro/Coroutine.h>)')
+        src.gsub!('#if FOLLY_HAS_COROUTINES', '#if FOLLY_HAS_COROUTINES && __has_include(<folly/coro/Coroutine.h>)')
+        File.write(expected_h, src)
       end
     end
 `;
 
-      // Insert inside existing post_install block
       if (contents.includes('post_install do |installer|')) {
         contents = contents.replace(
           'post_install do |installer|',
           'post_install do |installer|' + fixCode
         );
       } else {
-        // No existing post_install — add one
-        contents =
-          contents +
-          `\npost_install do |installer|\n${fixCode}end\n`;
+        contents = contents + `\npost_install do |installer|\n${fixCode}end\n`;
       }
 
       fs.writeFileSync(podfilePath, contents);
