@@ -3,13 +3,14 @@
 
 import { useState, useEffect } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { 
-  BellIcon, 
-  EnvelopeIcon, 
+import {
+  BellIcon,
+  EnvelopeIcon,
   ChartBarIcon,
   UserIcon,
   CheckIcon,
-  XMarkIcon
+  XMarkIcon,
+  ArrowTrendingUpIcon,
 } from '@heroicons/react/24/outline'
 
 interface NotificationSettings {
@@ -18,6 +19,7 @@ interface NotificationSettings {
   filings_enabled: boolean
   preferred_investors: string[]
   email_frequency: 'immediate' | 'daily' | 'weekly'
+  analyst_ratings_enabled: boolean
 }
 
 const INVESTOR_OPTIONS = [
@@ -35,7 +37,8 @@ export default function NotificationSettings() {
     watchlist_threshold_percent: 10,
     filings_enabled: false,
     preferred_investors: [''],
-    email_frequency: 'immediate'
+    email_frequency: 'immediate',
+    analyst_ratings_enabled: true,
   })
   
   const [loading, setLoading] = useState(true)
@@ -77,7 +80,8 @@ export default function NotificationSettings() {
           watchlist_threshold_percent: data.watchlist_threshold_percent,
           filings_enabled: data.filings_enabled,
           preferred_investors: data.preferred_investors || [],
-          email_frequency: data.email_frequency
+          email_frequency: data.email_frequency,
+          analyst_ratings_enabled: data.analyst_ratings_enabled ?? true,
         })
       }
     } catch (error) {
@@ -234,6 +238,36 @@ export default function NotificationSettings() {
               </div>
             </div>
           )}
+        </div>
+      </div>
+
+      {/* Analyst Ratings */}
+      <div className="bg-gray-900/60 border border-gray-800 rounded-xl p-6">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 bg-orange-500/20 rounded-lg flex items-center justify-center">
+            <ArrowTrendingUpIcon className="w-5 h-5 text-orange-400" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-white">Analysten-Ratings</h3>
+            <p className="text-sm text-gray-400">Upgrades & Downgrades für deine Watchlist-Aktien</p>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between">
+          <div>
+            <label className="text-white font-medium">Rating-Benachrichtigungen</label>
+            <p className="text-sm text-gray-400">Sofort wenn ein Analyst eine Watchlist-Aktie hoch- oder herabstuft</p>
+          </div>
+          <button
+            onClick={() => updateSetting('analyst_ratings_enabled', !settings.analyst_ratings_enabled)}
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+              settings.analyst_ratings_enabled ? 'bg-brand' : 'bg-gray-600'
+            }`}
+          >
+            <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+              settings.analyst_ratings_enabled ? 'translate-x-6' : 'translate-x-1'
+            }`} />
+          </button>
         </div>
       </div>
 

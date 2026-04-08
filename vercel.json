@@ -43,6 +43,10 @@
     {
       "path": "/api/cron/send-onboarding-emails",
       "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/check-analyst-ratings",
+      "schedule": "0 8 * * 1-5"
     }
   ]
 }

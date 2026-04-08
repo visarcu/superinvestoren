@@ -18,14 +18,19 @@ module.exports = function withReanimatedFix(config) {
       }
 
       // Ruby code to insert inside the existing post_install block
+      // Patches all folly headers that unconditionally include folly/coro/Coroutine.h
+      // which is not shipped in the ReactNativeDependencies pod.
       const fixCode = `
-    # patch_folly_coroutine: guard folly/coro/Coroutine.h include
-    expected_h = File.join(installer.sandbox.root, 'Headers/Public/ReactNativeDependencies/folly/Expected.h')
-    if File.exist?(expected_h)
-      src = File.read(expected_h)
-      unless src.include?('__has_include(<folly/coro/Coroutine.h>)')
-        src.gsub!('#if FOLLY_HAS_COROUTINES', '#if FOLLY_HAS_COROUTINES && __has_include(<folly/coro/Coroutine.h>)')
-        File.write(expected_h, src)
+    # patch_folly_coroutine: guard folly/coro/Coroutine.h include in all affected headers
+    folly_headers_to_patch = %w[Expected.h Optional.h]
+    folly_headers_to_patch.each do |header_name|
+      header_path = File.join(installer.sandbox.root, "Headers/Public/ReactNativeDependencies/folly/#{header_name}")
+      if File.exist?(header_path)
+        src = File.read(header_path)
+        unless src.include?('__has_include(<folly/coro/Coroutine.h>)')
+          src.gsub!('#if FOLLY_HAS_COROUTINES', '#if FOLLY_HAS_COROUTINES && __has_include(<folly/coro/Coroutine.h>)')
+          File.write(header_path, src)
+        end
       end
     end
 `;
