@@ -7,11 +7,12 @@ import { NextResponse } from 'next/server'
 // Bekannte Xetra-Ticker die FMP nicht unterstützt → auf andere Börsen mappen
 // .AS = Euronext Amsterdam (EUR, keine Konvertierung nötig)
 // .L  = London Stock Exchange (GBp, durch 100 teilen → GBP, dann × GBP/EUR)
-const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' | 'GBp' }> = {
+// .L  = London Stock Exchange (GBP, direkt × GBP/EUR — manche ETFs handeln in GBP nicht GBp)
+const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' | 'GBp' | 'GBP' }> = {
   'VHYL.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },
   'FWRG.DE': { symbol: 'FWRG.L',  exchange: 'GBp' },
-  'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBp' },
-  'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBp' }, // Freedom24 Ticker für Invesco FTSE All-World
+  'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBP' }, // FWRA.L handelt in GBP (nicht GBp)
+  'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBP' }, // Freedom24 Ticker für Invesco FTSE All-World
   'VWRL.DE': { symbol: 'VWRL.L',  exchange: 'GBp' },
   'VWCE.DE': { symbol: 'VWCE.L',  exchange: 'GBp' },
   'EQQQ.DE': { symbol: 'EQQQ.L',  exchange: 'GBp' },
@@ -113,8 +114,8 @@ export async function GET(request: Request) {
   const xetraFallbackNeeded = missingSymbols.filter(s => XETRA_EXCHANGE_FALLBACK[s])
 
   if (xetraFallbackNeeded.length > 0) {
-    // GBP/EUR Rate laden falls .L Ticker vorhanden
-    const needsGbp = xetraFallbackNeeded.some(s => XETRA_EXCHANGE_FALLBACK[s]?.exchange === 'GBp')
+    // GBP/EUR Rate laden falls .L Ticker vorhanden (GBp oder GBP)
+    const needsGbp = xetraFallbackNeeded.some(s => XETRA_EXCHANGE_FALLBACK[s]?.exchange === 'GBp' || XETRA_EXCHANGE_FALLBACK[s]?.exchange === 'GBP')
     let gbpToEurRate = 1.18 // Fallback-Rate
 
     if (needsGbp) {
@@ -153,9 +154,12 @@ export async function GET(request: Request) {
             const { exchange } = XETRA_EXCHANGE_FALLBACK[originalTicker]
             let eurPrice = altQuote.price
 
-            // GBp → EUR Konvertierung: FMP liefert GBp (Pence), nicht GBP
             if (exchange === 'GBp') {
+              // GBp (Pence) → EUR: durch 100 teilen → GBP, dann × GBP/EUR
               eurPrice = (altQuote.price / 100) * gbpToEurRate
+            } else if (exchange === 'GBP') {
+              // GBP (bereits Pfund) → EUR: direkt × GBP/EUR
+              eurPrice = altQuote.price * gbpToEurRate
             }
 
             // Als original .DE Symbol zurückgeben
@@ -165,7 +169,9 @@ export async function GET(request: Request) {
               price: eurPrice,
               change: exchange === 'GBp'
                 ? ((altQuote.change || 0) / 100) * gbpToEurRate
-                : (altQuote.change || 0),
+                : exchange === 'GBP'
+                  ? (altQuote.change || 0) * gbpToEurRate
+                  : (altQuote.change || 0),
               _source: `fmp_alt:${altQuote.symbol}`,
             })
           }
