@@ -41,15 +41,11 @@ interface BuyFormProps {
 export default function BuyForm({
   portfolioId,
   holdings,
-  isPremium,
-  holdingsCount,
-  maxFreePositions,
   onAddPosition,
   onTopUpPosition,
   formatCurrency,
   formatStockPrice,
   onSuccess,
-  onPremiumRequired
 }: BuyFormProps) {
   const [selectedStock, setSelectedStock] = useState<{ symbol: string; name: string } | null>(null)
   const [quantity, setQuantity] = useState('')
@@ -67,12 +63,6 @@ export default function BuyForm({
 
   const handleSubmit = async () => {
     if (!selectedStock || !quantity || !purchasePrice) return
-
-    // Premium-Check nur bei neuen Positionen
-    if (!isTopUp && !isPremium && holdingsCount >= maxFreePositions) {
-      onPremiumRequired()
-      return
-    }
 
     setSubmitting(true)
     try {

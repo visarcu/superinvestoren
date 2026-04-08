@@ -33,9 +33,6 @@ import {
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
 
-// Free User Limit
-const FREE_USER_POSITION_LIMIT = 2
-
 // Skeleton for loading
 const SkeletonRow = () => (
   <div className="flex items-center justify-between py-3 border-b border-neutral-800/50 animate-pulse">
@@ -67,7 +64,7 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean; on
           <p className="text-neutral-400 text-sm">{feature}</p>
         </div>
         <div className="space-y-3 mb-6">
-          {['Unbegrenzte Portfolio-Positionen', 'Dividenden-Tracking & Prognosen', 'Performance-Insights & Analysen', 'Portfolio-Historie & Transaktionen'].map(t => (
+          {['Dividenden-Tracking & Prognosen', 'KI-Portfolio-Analyse', 'Performance-Insights & Analysen', 'Superinvestor-Overlap'].map(t => (
             <div key={t} className="flex items-center gap-3 text-sm">
               <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
                 <CheckIcon className="w-3 h-3 text-emerald-400" />
