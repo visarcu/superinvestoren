@@ -3,9 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 // Fix: folly/coro/Coroutine.h is not shipped in ReactNativeDependencies pod.
-// folly/Expected.h includes it unconditionally when FOLLY_HAS_COROUTINES=1
-// (set via compiler feature detection, can't be overridden with preprocessor flags).
-// Patch the header after pod install to guard the include with __has_include.
+// Multiple folly headers include it when FOLLY_HAS_COROUTINES=1.
+// Patch all affected headers after pod install.
 module.exports = function withReanimatedFix(config) {
   return withDangerousMod(config, [
     'ios',
@@ -17,15 +16,17 @@ module.exports = function withReanimatedFix(config) {
         return config;
       }
 
-      // Ruby code to insert inside the existing post_install block
       const fixCode = `
-    # patch_folly_coroutine: guard folly/coro/Coroutine.h include
-    expected_h = File.join(installer.sandbox.root, 'Headers/Public/ReactNativeDependencies/folly/Expected.h')
-    if File.exist?(expected_h)
-      src = File.read(expected_h)
-      unless src.include?('__has_include(<folly/coro/Coroutine.h>)')
+    # patch_folly_coroutine: guard all folly/coro/Coroutine.h includes
+    folly_dir = File.join(installer.sandbox.root, 'Headers/Public/ReactNativeDependencies/folly')
+    if File.directory?(folly_dir)
+      Dir.glob(File.join(folly_dir, '*.h')).each do |f|
+        src = File.read(f)
+        next unless src.include?('#include <folly/coro/Coroutine.h>')
+        next if src.include?('__has_include(<folly/coro/Coroutine.h>)')
         src.gsub!('#if FOLLY_HAS_COROUTINES', '#if FOLLY_HAS_COROUTINES && __has_include(<folly/coro/Coroutine.h>)')
-        File.write(expected_h, src)
+        File.write(f, src)
+        puts "Patched folly header: #{File.basename(f)}"
       end
     end
 `;
