@@ -38,11 +38,27 @@ export function parseFreedom24XLSXRows(
       continue
     }
 
+    // Währungsumtausch-Zeilen überspringen (z.B. USD/EUR, GBP/EUR)
+    if (ticker.includes('/')) {
+      continue
+    }
+
     // Transaktionstyp
     const lower = transaktionRaw.toLowerCase()
     if (lower !== 'kauf' && lower !== 'verkauf') {
       // Dividenden, Gebühren etc. überspringen
       continue
+    }
+
+    // Ticker normalisieren: Freedom24 verwendet .US/.EU Suffixe, FMP nicht
+    // .US Ticker: AMZN.US → AMZN, BTI.US → BTI
+    // .EU Ticker: SAP.EU → SAP (europäische Aktien ohne Suffix in FMP)
+    // Ausnahme: .DE/.AS/.L Ticker bleiben unverändert (europäische Börsen)
+    let normalizedTicker = ticker
+    if (ticker.endsWith('.US')) {
+      normalizedTicker = ticker.slice(0, -3)
+    } else if (ticker.endsWith('.EU')) {
+      normalizedTicker = ticker.slice(0, -3)
     }
     const txType: 'buy' | 'sell' = lower === 'verkauf' ? 'sell' : 'buy'
 
@@ -76,7 +92,7 @@ export function parseFreedom24XLSXRows(
 
     transactions.push({
       type: txType,
-      name: ticker,
+      name: normalizedTicker,
       isin: '',       // Wird über ISIN-Resolver per Ticker nachgeschlagen
       wkn: '',
       quantity,
