@@ -11,6 +11,7 @@ const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' 
   'VHYL.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },
   'FWRG.DE': { symbol: 'FWRG.L',  exchange: 'GBp' },
   'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBp' },
+  'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBp' }, // Freedom24 Ticker für Invesco FTSE All-World
   'VWRL.DE': { symbol: 'VWRL.L',  exchange: 'GBp' },
   'VWCE.DE': { symbol: 'VWCE.L',  exchange: 'GBp' },
   'EQQQ.DE': { symbol: 'EQQQ.L',  exchange: 'GBp' },
