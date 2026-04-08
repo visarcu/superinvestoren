@@ -357,6 +357,95 @@ export default function CSVImportModal({
     }
   }, [])
 
+  // === STEP 1c: Freedom24 XLSX Upload ===
+  const handleFreedom24XLSXUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
+    setImportSource('pdf')
+    setPdfParsing(true)
+    setPdfErrors([])
+    setImportError(null)
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) {
+        setImportError('Nicht angemeldet. Bitte neu einloggen.')
+        setPdfParsing(false)
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('file', files[0])
+
+      const response = await fetch('/api/portfolio/parse-freedom24-xlsx', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` },
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
+        setImportError(errData.error || 'XLSX-Parsing fehlgeschlagen')
+        setPdfParsing(false)
+        return
+      }
+
+      const data = await response.json()
+
+      if (data.errors?.length > 0) setPdfErrors(data.errors)
+
+      if (!data.transactions || data.transactions.length === 0) {
+        setImportError('Keine Transaktionen in der XLSX-Datei gefunden.')
+        setPdfParsing(false)
+        return
+      }
+
+      // Ticker direkt als Symbol verwenden (keine ISIN-Auflösung nötig)
+      const txs = data.transactions as FlatexParsedTransaction[]
+      const parsedTransactions: ParsedTransaction[] = txs.map((tx) => ({
+        date: tx.date,
+        type: tx.type,
+        isin: tx.isin || tx.name, // Ticker als Fallback-Key
+        symbol: tx.name,          // Ticker direkt als Symbol
+        name: tx.name,
+        quantity: tx.quantity,
+        price: tx.price,
+        totalValue: tx.totalValue,
+        fee: tx.fees || 0,
+        tax: 0,
+        notes: tx.notes,
+        originalType: `freedom24_${tx.type}`,
+      }))
+
+      const byType: Record<string, number> = {}
+      parsedTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
+
+      setParseResult({
+        transactions: parsedTransactions,
+        uniqueISINs: [],
+        skipped: [],
+        summary: {
+          total: data.totalRows || parsedTransactions.length,
+          imported: parsedTransactions.length,
+          skipped: 0,
+          byType,
+        },
+      })
+
+      setIsinMap(new Map())
+      setUnresolvedISINs([])
+      setSkippedResolve(true)
+      setStep('preview')
+      setPendingDuplicateCheck(true)
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      setImportError(`XLSX-Upload fehlgeschlagen: ${msg}`)
+    } finally {
+      setPdfParsing(false)
+    }
+  }, [])
+
   // === STEP 2: ISIN Resolution (manueller Retry-Button) ===
   const resolveViaAPI = useCallback(async () => {
     if (unresolvedISINs.length === 0) return
@@ -760,7 +849,7 @@ export default function CSVImportModal({
                   />
                 </label>
 
-                {/* PDF Import — Freedom24 */}
+                {/* XLSX Import — Freedom24 */}
                 <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-green-500/30 rounded-xl cursor-pointer transition-all text-center sm:col-span-2 ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
                   {pdfParsing && (
                     <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
@@ -768,20 +857,17 @@ export default function CSVImportModal({
                     </div>
                   )}
                   <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-                    <svg className="w-6 h-6 text-green-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                    </svg>
+                    <DocumentTextIcon className="w-6 h-6 text-green-400" />
                   </div>
                   <div>
                     <p className="font-medium text-white text-sm">Freedom24</p>
-                    <p className="text-xs text-neutral-500 mt-0.5">Handelsbericht PDF hochladen</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">Trades XLSX hochladen</p>
                   </div>
-                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.pdf · Berichte → Handelsbericht → PDF</span>
+                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.xlsx · Auftragshistorie → Export</span>
                   <input
                     type="file"
-                    accept=".pdf"
-                    multiple
-                    onChange={handlePDFUpload}
+                    accept=".xlsx,.xls"
+                    onChange={handleFreedom24XLSXUpload}
                     className="hidden"
                   />
                 </label>
