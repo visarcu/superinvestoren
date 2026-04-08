@@ -163,6 +163,7 @@ const STOCK_TABS: StockTab[] = [
   { id: 'valuation', label: 'Bewertung', href: '/valuation' },
   { id: 'dividends', label: 'Dividende', href: '/dividends' },
   { id: 'insider', label: 'Insider Trading', href: '/insider' },
+  { id: 'politiker', label: 'Politiker', href: '/politiker' },
   { id: 'news', label: 'News', href: '/news' }
 ]
 
