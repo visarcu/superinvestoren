@@ -120,10 +120,18 @@ async function handleCheck() {
     return NextResponse.json({ error: 'FMP_API_KEY not set' }, { status: 500 })
   }
 
+  // TEST MODE: wenn gesetzt, gehen Notifications nur an diesen einen User
+  const testUserId = process.env.ANALYST_RATINGS_TEST_USER_ID || null
+  if (testUserId) {
+    console.log(`[AnalystRatings] TEST MODE — only notifying user ${testUserId}`)
+  }
+
   // ── 1. All watchlist items grouped by symbol ──────────────────────────────
-  const { data: watchlistRows, error: wlError } = await supabaseService
-    .from('watchlist_items')
-    .select('user_id, ticker')
+  let watchlistQuery = supabaseService.from('watchlist_items').select('user_id, ticker')
+  if (testUserId) {
+    watchlistQuery = watchlistQuery.eq('user_id', testUserId)
+  }
+  const { data: watchlistRows, error: wlError } = await watchlistQuery
 
   if (wlError) {
     console.error('[AnalystRatings] Watchlist fetch error:', wlError)
@@ -159,8 +167,10 @@ async function handleCheck() {
   }
 
   // ── 3. Determine lookback window ──────────────────────────────────────────
-  // 48h to handle weekends / holidays without missing anything
-  const since = new Date(Date.now() - 48 * 60 * 60 * 1000)
+  // Test mode: 30 Tage, damit garantiert was gefunden wird
+  // Production: 48h um Wochenenden/Feiertage abzudecken ohne Duplikate zu erzeugen
+  const lookbackHours = testUserId ? 30 * 24 : 48
+  const since = new Date(Date.now() - lookbackHours * 60 * 60 * 1000)
 
   const symbols = [...symbolToUsers.keys()]
   console.log(`[AnalystRatings] Checking ${symbols.length} symbols since ${since.toISOString()}`)
