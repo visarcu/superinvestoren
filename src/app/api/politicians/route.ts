@@ -116,14 +116,64 @@ async function fetchFmpTrades(page: number): Promise<PoliticianTrade[]> {
   }
 }
 
-// GET /api/politicians?page=0&politician=nancy-pelosi&limit=100
+// GET /api/politicians?page=0&politician=nancy-pelosi&limit=100&ticker=MSFT
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url)
   const page = parseInt(searchParams.get('page') || '0')
   const politicianSlug = searchParams.get('politician') || ''
+  const tickerFilter = (searchParams.get('ticker') || '').toUpperCase()
   const limit = Math.min(parseInt(searchParams.get('limit') || '200'), 500)
 
   const useLocal = hasLocalData()
+
+  // ── Trades für bestimmten Ticker (alle Politiker) ─────────────────────────
+  if (tickerFilter && !politicianSlug) {
+    if (useLocal) {
+      const index = loadLocalIndex()
+      const matchingTrades: (PoliticianTrade & { politicianName: string })[] = []
+
+      for (const pol of index) {
+        const data = loadLocalPolitician(pol.slug)
+        if (!data) continue
+        const filtered = data.trades.filter(
+          t => (t.ticker || '').toUpperCase() === tickerFilter
+        )
+        for (const trade of filtered) {
+          matchingTrades.push({ ...trade, politicianName: data.name })
+        }
+      }
+
+      matchingTrades.sort((a, b) =>
+        (b.transactionDate || b.disclosureDate).localeCompare(
+          a.transactionDate || a.disclosureDate
+        )
+      )
+
+      return NextResponse.json({
+        trades: matchingTrades,
+        ticker: tickerFilter,
+        total: matchingTrades.length,
+        source: 'local',
+      })
+    }
+
+    // Fallback: FMP-Feed durchsuchen
+    if (!FMP_API_KEY) {
+      return NextResponse.json({ trades: [], ticker: tickerFilter, total: 0, source: 'fmp' })
+    }
+    const allFmpTrades: PoliticianTrade[] = []
+    for (let p = 0; p < 10; p++) {
+      const trades = await fetchFmpTrades(p)
+      if (trades.length === 0) break
+      allFmpTrades.push(...trades.filter(t => (t.ticker || '').toUpperCase() === tickerFilter))
+    }
+    return NextResponse.json({
+      trades: allFmpTrades,
+      ticker: tickerFilter,
+      total: allFmpTrades.length,
+      source: 'fmp',
+    })
+  }
 
   // ── Einzelner Politiker ───────────────────────────────────────────────────
   if (politicianSlug) {
