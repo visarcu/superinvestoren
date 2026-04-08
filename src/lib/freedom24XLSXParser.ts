@@ -21,6 +21,27 @@ export function parseFreedom24XLSXRows(
   const transactions: FlatexParsedTransaction[] = []
   const errors: string[] = []
 
+  // FX-Raten aus den Währungsumtausch-Zeilen extrahieren (EUR pro Fremdwährung)
+  // z.B. USD/EUR: Preis=0.865 → 1 USD = 0.865 EUR
+  // z.B. GBP/EUR: Preis=1.161 → 1 GBP = 1.161 EUR
+  const fxRates: Record<string, number[]> = {}
+  for (const row of rows) {
+    const ticker = String(row['Ticker'] ?? '').trim()
+    if (ticker.includes('/')) {
+      const foreignCurrency = ticker.split('/')[0] // z.B. "USD" aus "USD/EUR"
+      const rate = parseFloat(String(row['Preis'] ?? '0'))
+      if (rate > 0) {
+        if (!fxRates[foreignCurrency]) fxRates[foreignCurrency] = []
+        fxRates[foreignCurrency].push(rate)
+      }
+    }
+  }
+  // Durchschnittskurs pro Währung
+  const avgFxRate: Record<string, number> = {}
+  for (const [currency, rates] of Object.entries(fxRates)) {
+    avgFxRate[currency] = rates.reduce((a, b) => a + b, 0) / rates.length
+  }
+
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]
 
@@ -79,9 +100,21 @@ export function parseFreedom24XLSXRows(
     }
 
     const quantity = parseFloat(String(anzahlRaw)) || 0
-    const price = parseFloat(String(preisRaw)) || 0
-    const totalValue = parseFloat(String(mengeRaw)) || 0
-    const fees = parseFloat(String(gebuehrRaw)) || 0
+    let price = parseFloat(String(preisRaw)) || 0
+    let totalValue = parseFloat(String(mengeRaw)) || 0
+    let fees = parseFloat(String(gebuehrRaw)) || 0
+
+    // USD/GBP-Preise in EUR umrechnen anhand der FX-Raten aus der Datei
+    // .US → USD, .GB/.L → GBP (für Freedom24 nicht relevant, aber sicher)
+    if (ticker.endsWith('.US') && avgFxRate['USD']) {
+      price = price * avgFxRate['USD']
+      totalValue = totalValue * avgFxRate['USD']
+      fees = fees * avgFxRate['USD']
+    } else if ((ticker.endsWith('.GB') || ticker.endsWith('.L')) && avgFxRate['GBP']) {
+      price = price * avgFxRate['GBP']
+      totalValue = totalValue * avgFxRate['GBP']
+      fees = fees * avgFxRate['GBP']
+    }
 
     if (quantity <= 0) {
       errors.push(`Zeile ${i + 2}: Ungültige Anzahl für ${ticker}.`)
