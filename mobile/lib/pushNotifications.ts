@@ -56,11 +56,8 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
 async function saveDeviceToken(token: string) {
   try {
-    const { data: { user }, error: userError } = await supabase.auth.getUser();
-    if (userError) {
-      console.error('[Push] getUser error:', userError.message);
-      return;
-    }
+    const { data: { session } } = await supabase.auth.getSession();
+    const user = session?.user;
     if (!user) {
       console.log('[Push] No user session — token not saved');
       return;

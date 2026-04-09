@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "de.finclue.app",
-      "buildNumber": "11",
+      "buildNumber": "18",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }
@@ -59,6 +59,12 @@
         "projectId": "ce42e19f-edb6-4f85-a93b-87a1ec42d03c"
       }
     },
-    "owner": "visarcus-organization"
+    "owner": "visarcus-organization",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/ce42e19f-edb6-4f85-a93b-87a1ec42d03c"
+    }
   }
 }
