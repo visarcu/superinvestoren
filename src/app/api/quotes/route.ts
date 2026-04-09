@@ -20,6 +20,10 @@ const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' 
   'CSPX.DE': { symbol: 'CSPX.L',  exchange: 'GBp' },
   'SWDA.DE': { symbol: 'SWDA.L',  exchange: 'GBp' },
   'HMWO.DE': { symbol: 'HMWO.L',  exchange: 'GBp' },
+  // Freedom24 .EU-Ticker (nach .DE-Konvertierung) — FMP-Fallbacks
+  'IEMA.DE': { symbol: 'IEMA.L',  exchange: 'GBp' }, // iShares MSCI EM IMI UCITS ETF
+  'NUKL.DE': { symbol: 'NUKL.L',  exchange: 'GBp' }, // WisdomTree Nuclear Energy ETF
+  'SPGP.DE': { symbol: 'SPGP.L',  exchange: 'GBp' }, // Invesco S&P 500 GARP ETF
 }
 
 // Ticker-Aliases für Yahoo Finance Fallback (FMP kennt sie nicht)

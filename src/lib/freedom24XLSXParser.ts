@@ -71,15 +71,22 @@ export function parseFreedom24XLSXRows(
       continue
     }
 
-    // Ticker normalisieren: Freedom24 verwendet .US/.EU Suffixe, FMP nicht
-    // .US Ticker: AMZN.US → AMZN, BTI.US → BTI
-    // .EU Ticker: SAP.EU → SAP (europäische Aktien ohne Suffix in FMP)
-    // Ausnahme: .DE/.AS/.L Ticker bleiben unverändert (europäische Börsen)
+    // Ticker normalisieren für FMP-Kompatibilität
+    // .US  → Suffix entfernen:        AMZN.US  → AMZN, BTI.US  → BTI
+    // .EU  → durch .DE ersetzen:      DTE.EU   → DTE.DE, MUV2.EU → MUV2.DE
+    //         (Freedom24 fasst alle EU-Aktien zusammen, XETRA ist der Hauptmarkt)
+    // Klassen-Aktien: Punkt → Bindestrich: BRK.B → BRK-B, BF.B → BF-B
+    //         (nur bei einstelligem Buchstaben-Suffix, kein Börsensuffix)
     let normalizedTicker = ticker
     if (ticker.endsWith('.US')) {
       normalizedTicker = ticker.slice(0, -3)
     } else if (ticker.endsWith('.EU')) {
-      normalizedTicker = ticker.slice(0, -3)
+      normalizedTicker = ticker.slice(0, -3) + '.DE'
+    }
+    // Klassen-Aktien: XYZ.B → XYZ-B (einstelliger Buchstabe nach Punkt, kein bekanntes Börsensuffix)
+    const classShareMatch = normalizedTicker.match(/^(.+)\.([A-Z])$/)
+    if (classShareMatch) {
+      normalizedTicker = classShareMatch[1] + '-' + classShareMatch[2]
     }
     const txType: 'buy' | 'sell' = lower === 'verkauf' ? 'sell' : 'buy'
 
