@@ -58,9 +58,9 @@ function formatInvestorName(slug: string): string {
 
 function formatBigValue(v: number): string {
   if (!v) return '–';
-  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toFixed(1)} Mrd. $`;
-  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(0)} Mio. $`;
-  return `${(v / 1000).toFixed(0)}K $`;
+  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd. $`;
+  if (v >= 1_000_000) return `${(v / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`;
+  return `${(v / 1000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}K $`;
 }
 
 const SCREEN_W = Dimensions.get('window').width;

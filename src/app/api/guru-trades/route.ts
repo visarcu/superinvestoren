@@ -76,8 +76,8 @@ function getStockName(pos: any): string {
 }
 
 function formatValue(v: number): string {
-  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toFixed(1)} Mrd. $`
-  if (v >= 1_000_000) return `${(v / 1_000_000).toFixed(0)} Mio. $`
+  if (v >= 1_000_000_000) return `${(v / 1_000_000_000).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} Mrd. $`
+  if (v >= 1_000_000) return `${(v / 1_000_000).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`
   return `${v.toLocaleString('de-DE')} $`
 }
 
@@ -179,7 +179,7 @@ export async function GET() {
         ...t,
         dollarChangeFormatted: formatValue(t.dollarChange),
         valueFormatted: formatValue(t.value),
-        percentChangeFormatted: t.percentChange ? `${t.percentChange.toFixed(0)}%` : null,
+        percentChangeFormatted: t.percentChange ? `${t.percentChange.toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}%` : null,
       }))
 
     return NextResponse.json({ trades: result }, {

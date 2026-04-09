@@ -17,7 +17,7 @@ export default function StockRow({ quote, onPress }: Props) {
         <Text style={s.name} numberOfLines={1}>{quote.name || ''}</Text>
       </View>
       <View style={s.right}>
-        <Text style={s.price}>${price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Text>
+        <Text style={s.price}>${price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</Text>
         <PriceChange value={change} small />
       </View>
     </TouchableOpacity>

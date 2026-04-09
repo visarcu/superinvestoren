@@ -40,7 +40,7 @@ export async function GET() {
           sector: item.sector,
           sectorDE: sectorTranslations[item.sector] || item.sector,
           change: change,
-          changeFormatted: `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`
+          changeFormatted: `${change >= 0 ? '+' : ''}${change.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`
         }
       })
       .sort((a: any, b: any) => b.change - a.change) // Beste Performance zuerst
