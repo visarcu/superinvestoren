@@ -190,6 +190,38 @@ export async function GET(request: Request) {
   const resolvedNow = new Set(quotes.map((q: any) => q.symbol))
   missingSymbols = symbolList.filter(s => !resolvedNow.has(s))
 
+  // === Fallback 1b: .DE-Ticker ohne Suffix nochmal via FMP probieren ===
+  // Hintergrund: Freedom24 .EU → .DE Konvertierung erzeugt z.B. QYLD.DE oder RACE.DE,
+  // aber FMP kennt diese nur als QYLD bzw. RACE (US-Listing).
+  const deMissingWithBase = missingSymbols
+    .filter(s => s.endsWith('.DE'))
+    .map(s => ({ original: s, base: s.slice(0, -3) }))
+
+  if (deMissingWithBase.length > 0) {
+    try {
+      const baseEncoded = deMissingWithBase.map(({ base }) => encodeURIComponent(base)).join(',')
+      const baseRes = await fetch(
+        `https://financialmodelingprep.com/api/v3/quote/${baseEncoded}?apikey=${process.env.FMP_API_KEY}`
+      )
+      if (baseRes.ok) {
+        const baseData = await baseRes.json()
+        if (Array.isArray(baseData)) {
+          for (const q of baseData) {
+            const entry = deMissingWithBase.find(e => e.base === q.symbol)
+            if (!entry || !q.price) continue
+            quotes.push({ ...q, symbol: entry.original, _source: `fmp_base:${q.symbol}` })
+          }
+        }
+      }
+    } catch (err) {
+      console.error('FMP base-ticker fallback failed:', err)
+    }
+  }
+
+  // Nach Fallback 1b aktualisieren
+  const resolvedAfter1b = new Set(quotes.map((q: any) => q.symbol))
+  missingSymbols = symbolList.filter(s => !resolvedAfter1b.has(s))
+
   // === Fallback 2: Yahoo Finance für alle restlichen fehlenden Symbole ===
   if (missingSymbols.length > 0) {
     const yahooPromises = missingSymbols.map(s => {
