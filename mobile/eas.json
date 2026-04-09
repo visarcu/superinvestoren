@@ -23,6 +23,10 @@
       "ios": {
         "resourceClass": "m-medium",
         "image": "macos-sequoia-15.6-xcode-16.4"
+      },
+      "env": {
+        "EXPO_PUBLIC_SUPABASE_URL": "https://tsyguxnioxnycdekujou.supabase.co",
+        "EXPO_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRzeWd1eG5pb3hueWNkZWt1am91Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg3NzM3ODMsImV4cCI6MjA2NDM0OTc4M30.i08TeQMPkSwqGPMe1kt89uUS6ggTIocD1PXA-tr_6PM"
       }
     }
   },
