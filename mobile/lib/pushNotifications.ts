@@ -56,11 +56,17 @@ export async function registerForPushNotifications(): Promise<string | null> {
 
 async function saveDeviceToken(token: string) {
   try {
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return;
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError) {
+      console.error('[Push] getUser error:', userError.message);
+      return;
+    }
+    if (!user) {
+      console.log('[Push] No user session — token not saved');
+      return;
+    }
 
-    // Upsert into device_tokens table (unique per token)
-    await supabase.from('device_tokens').upsert(
+    const { error } = await supabase.from('device_tokens').upsert(
       {
         user_id: user.id,
         token,
@@ -69,7 +75,11 @@ async function saveDeviceToken(token: string) {
       { onConflict: 'token' }
     );
 
-    console.log('[Push] Token saved');
+    if (error) {
+      console.error('[Push] Upsert error:', error.message, error.details, error.hint);
+    } else {
+      console.log('[Push] Token saved for user:', user.id);
+    }
   } catch (e) {
     console.error('[Push] Failed to save token:', e);
   }
