@@ -33,6 +33,7 @@ type MetricKey =
   | 'profitMargin'
   | 'valuationMetrics' 
   | 'returnOnEquity'
+  | 'returnOnInvestedCapital'
   | 'stockAward'
   | 'capEx'
   | 'researchAndDevelopment'
@@ -68,7 +69,7 @@ const calculateCAGR = (data: any[], key: string, periods: number): number | null
 // YoY Calculator: Veränderung zum Vorjahr
 // Annual: vorheriger Datenpunkt (index - 1)
 // Quarterly: Vorjahresquartal (index - 4), z.B. Q4'25 vs Q4'24
-const PERCENT_METRICS = ['returnOnEquity', 'profitMargin']
+const PERCENT_METRICS = ['returnOnEquity', 'returnOnInvestedCapital', 'profitMargin']
 
 const calculateYoY = (data: any[], key: string, index: number, isQuarterly: boolean = false): number | null => {
   const offset = isQuarterly ? 4 : 1
@@ -222,6 +223,7 @@ async function fetchFinancialData(ticker: string, years: number, period: 'annual
         capEx: Math.abs(cashFlow.capitalExpenditure) || 0,
         pe: metrics.peRatio || 0,
         returnOnEquity: metrics.roe || 0,
+        returnOnInvestedCapital: metrics.roic || metrics.returnOnInvestedCapital || 0,
         researchAndDevelopment: income.researchAndDevelopmentExpenses || 0,
         stockAward: income.stockBasedCompensation || 0,
         profitMargin: (income.revenue && income.revenue > 0) 
@@ -368,6 +370,7 @@ const METRICS = [
   { key: 'sharesOutstanding' as const, name: 'Aktien im Umlauf', shortName: 'Aktien', fill: 'rgba(234,179,8,0.8)', stroke: '#eab308' },
   { key: 'netIncome' as const, name: 'Nettogewinn', shortName: 'Nettogewinn', fill: 'rgba(239,179,0,0.8)', stroke: '#efb300' },
   { key: 'returnOnEquity' as const, name: 'Eigenkapitalrendite', shortName: 'EKR', fill: 'rgba(244,114,182,0.8)', stroke: '#f472b6' },
+  { key: 'returnOnInvestedCapital' as const, name: 'Kapitalrendite (ROIC)', shortName: 'ROIC', fill: 'rgba(245,158,11,0.8)', stroke: '#f59e0b' },
   { key: 'capEx' as const, name: 'Investitionsausgaben', shortName: 'CapEx', fill: 'rgba(6,182,212,0.8)', stroke: '#06b6d4' },
   { key: 'researchAndDevelopment' as const, name: 'F&E Ausgaben', shortName: 'F&E', fill: 'rgba(132,204,22,0.8)', stroke: '#84cc16' },
   { key: 'operatingIncome' as const, name: 'Betriebsergebnis', shortName: 'Betriebsergebnis', fill: 'rgba(249,115,22,0.8)', stroke: '#f97316' },
@@ -1106,7 +1109,7 @@ export default function FinancialChartModal({
                       />
                       <YAxis
                         tickFormatter={(v: number) => {
-                          if (metricKey === 'returnOnEquity') return `${(v * 100).toFixed(0)}%`
+                          if (metricKey === 'returnOnEquity' || metricKey === 'returnOnInvestedCapital') return `${(v * 100).toFixed(0)}%`
                           if (metricKey === 'eps' || metricKey === 'dividendPS') return `${v.toFixed(v < 1 ? 2 : 1)} ${currency === 'USD' ? '$' : '€'}`
                           if (metricKey === 'sharesOutstanding') return `${(v / 1e9).toFixed(1)}B`
                           return formatAxisValueDE(v)
@@ -1123,7 +1126,7 @@ export default function FinancialChartModal({
                           strokeDasharray="6 4"
                           strokeWidth={1.5}
                           label={{
-                            value: metricKey === 'returnOnEquity'
+                            value: metricKey === 'returnOnEquity' || metricKey === 'returnOnInvestedCapital'
                               ? `Median ${(historicalMedian * 100).toFixed(1)}%`
                               : metricKey === 'eps' || metricKey === 'dividendPS'
                                 ? `Median ${historicalMedian.toFixed(2)}`
@@ -1146,7 +1149,7 @@ export default function FinancialChartModal({
                           const isPercentMetric = PERCENT_METRICS.includes(metricKey)
 
                           let formattedValue = ''
-                          if (metricKey === 'returnOnEquity') formattedValue = `${(value * 100).toFixed(1)}%`
+                          if (metricKey === 'returnOnEquity' || metricKey === 'returnOnInvestedCapital') formattedValue = `${(value * 100).toFixed(1)}%`
                           else if (metricKey === 'eps' || metricKey === 'dividendPS') formattedValue = formatStockPrice(value)
                           else if (metricKey === 'sharesOutstanding') formattedValue = `${(value / 1e9).toFixed(2)} Mrd. Aktien`
                           else formattedValue = formatCurrency(value)

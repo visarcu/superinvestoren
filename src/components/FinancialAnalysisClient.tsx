@@ -142,6 +142,7 @@ class FinancialDataService {
           capEx: Math.abs(cashFlow.capitalExpenditure) || 0,
           pe: metrics.peRatio || 0,
           returnOnEquity: metrics.roe || 0,
+          returnOnInvestedCapital: metrics.roic || metrics.returnOnInvestedCapital || 0,
           researchAndDevelopment: income.researchAndDevelopmentExpenses || 0,
           source: 'fmp',
           confidence: 85,
@@ -235,7 +236,7 @@ function getXAxisInterval(dataLength: number): number {
 }
 
 // ✅ YoY Calculator: Veränderung zum Vorjahr (gleiche Logik wie im Modal)
-const PERCENT_METRICS_OVERVIEW = ['returnOnEquity', 'profitMargin']
+const PERCENT_METRICS_OVERVIEW = ['returnOnEquity', 'returnOnInvestedCapital', 'profitMargin']
 
 const calculateYoYOverview = (data: any[], key: string, index: number, isQuarterly: boolean = false): number | null => {
   const offset = isQuarterly ? 4 : 1
@@ -274,6 +275,7 @@ type MetricKey =
   | 'pe'
   | 'profitMargin'          // ✅ NEU - Ersetzt PE Ratio
   | 'returnOnEquity'
+  | 'returnOnInvestedCapital'
   | 'capEx'
   | 'researchAndDevelopment'
   | 'operatingIncome'
@@ -330,6 +332,10 @@ const METRIC_DEFINITIONS = {
   returnOnEquity: {
     description: "Eigenkapitalrendite - Gewinn im Verhältnis zum Eigenkapital",
     calculation: "ROE = Nettogewinn / Eigenkapital × 100%"
+  },
+  returnOnInvestedCapital: {
+    description: "Kapitalrendite - Gewinn im Verhältnis zum eingesetzten Kapital (Eigen- + Fremdkapital)",
+    calculation: "ROIC = NOPAT / Investiertes Kapital × 100%"
   },
   capEx: {
     description: "Investitionen in Sachanlagen wie Maschinen, Gebäude und Ausrüstung",
@@ -427,15 +433,22 @@ const METRICS = [
     color: '#84CC16',
     gradient: 'from-lime-500 to-lime-600'
   },
-  { 
-    key: 'returnOnEquity' as const, 
-    name: 'Eigenkapitalrendite', 
-    shortName: 'Eigenkapitalrendite', 
+  {
+    key: 'returnOnEquity' as const,
+    name: 'Eigenkapitalrendite',
+    shortName: 'Eigenkapitalrendite',
     color: '#EC4899',
     gradient: 'from-pink-500 to-pink-600'
   },
-  { 
-    key: 'capEx' as const, 
+  {
+    key: 'returnOnInvestedCapital' as const,
+    name: 'Kapitalrendite (ROIC)',
+    shortName: 'ROIC',
+    color: '#F59E0B',
+    gradient: 'from-amber-500 to-amber-600'
+  },
+  {
+    key: 'capEx' as const,
     name: 'Investitionsausgaben', 
     shortName: 'CapEx (Investitionsausgaben)', 
     color: '#06B6D4',
@@ -503,7 +516,8 @@ const ALL_METRICS: MetricKey[] = [
   'dividendPS',
   'sharesOutstanding',
   'netIncome',
-  'returnOnEquity', 
+  'returnOnEquity',
+  'returnOnInvestedCapital',
   'capEx',
   'researchAndDevelopment',
   'operatingIncome', 
@@ -521,7 +535,7 @@ const CHART_PRESETS: Record<string, LocalChartPreset> = {
   'profitability': {
     name: 'Profitabilität',
     description: 'Margen & Rentabilität',
-    charts: ['profitMargin', 'returnOnEquity', 'ebitda', 'operatingIncome', 'netIncome'],
+    charts: ['profitMargin', 'returnOnEquity', 'returnOnInvestedCapital', 'ebitda', 'operatingIncome', 'netIncome'],
     icon: '💰'
   },
   'growth': {
@@ -726,7 +740,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                     minimumFractionDigits: value < 1 ? 2 : 1,
                     maximumFractionDigits: value < 1 ? 2 : 1
                   }).format(value)} $`
-                } else if (metricKey === 'returnOnEquity') {
+                } else if (metricKey === 'returnOnEquity' || metricKey === 'returnOnInvestedCapital') {
                   return `${new Intl.NumberFormat('de-DE', {
                     minimumFractionDigits: 0,
                     maximumFractionDigits: 0
@@ -756,7 +770,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                 const isPercentMetric = PERCENT_METRICS_OVERVIEW.includes(metricKey)
 
                 let formattedValue = ''
-                if (metricKey === 'returnOnEquity') {
+                if (metricKey === 'returnOnEquity' || metricKey === 'returnOnInvestedCapital') {
                   formattedValue = `${new Intl.NumberFormat('de-DE', {
                     minimumFractionDigits: 1,
                     maximumFractionDigits: 1
