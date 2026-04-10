@@ -180,26 +180,20 @@ async function handleDailyEarningsReminder() {
           return ''
         }
 
-        // Format date for notification: "heute, 10. April" or "morgen, 11. April"
-        const eventDate = matchedEvents[0]?.date
-        const dateLabel = eventDate
-          ? new Date(eventDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'long' })
-          : ''
-        const whenWithDate = dateLabel ? `${when}, ${dateLabel}` : when
-
-        // Notification text: company name + date + optional time
+        // Notification text: company name + when + time hint
         let title: string
         let body: string
 
         if (matchedEvents.length === 1) {
           const e = matchedEvents[0]
-          title = `Quartalszahlen ${whenWithDate}`
-          body = `${getName(e)} berichtet ${when}${timeHint(e)}`
+          const hint = e.time === 'bmo' ? ' · vor Börseneröffnung' : e.time === 'amc' ? ' · nach Börsenschluss' : ''
+          title = `Quartalszahlen ${when}${hint}`
+          body = `${getName(e)} berichtet ${when}`
         } else if (matchedEvents.length === 2) {
-          title = `Quartalszahlen ${whenWithDate}`
+          title = `Quartalszahlen ${when}`
           body = `${getName(matchedEvents[0])} & ${getName(matchedEvents[1])} berichten ${when}`
         } else {
-          title = `Quartalszahlen ${whenWithDate}`
+          title = `Quartalszahlen ${when}`
           body = `${getName(matchedEvents[0])}, ${getName(matchedEvents[1])} & ${matchedEvents.length - 2} weitere berichten ${when}`
         }
 
