@@ -3,10 +3,8 @@
 // src/components/CompanyKPICharts.tsx
 // Company-specific operating KPIs from SEC EDGAR 8-K filings
 
-import React, { useState, useEffect } from 'react'
-import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-} from 'recharts'
+import React, { useEffect, useState } from 'react'
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 import LoadingSpinner from '@/components/LoadingSpinner'
 import Link from 'next/link'
 
@@ -15,21 +13,37 @@ interface KPIMetric { label: string; unit: string; data: KPIDataPoint[] }
 interface KPIResponse { ticker: string; metrics: Record<string, KPIMetric> }
 interface CompanyKPIChartsProps { ticker: string; isPremium: boolean }
 
+// ─── German number formatting ─────────────────────────────────────────────────
+
 function formatValue(value: number, unit: string): string {
-  if (unit === 'percent') return `${value.toFixed(1)}%`
-  if (unit === 'dollars') return `$${value.toFixed(2)}`
-  if (unit === 'millions') return value >= 1000 ? `$${(value / 1000).toFixed(2)}B` : `${value.toFixed(1)}M`
-  if (unit === 'billions') return `$${value.toFixed(2)}B`
-  if (unit === 'thousands') return `${(value / 1000).toFixed(1)}M`
+  if (unit === 'percent') return `${value.toFixed(1).replace('.', ',')} %`
+  if (unit === 'dollars') return `$${value.toFixed(2).replace('.', ',')}`
+  if (unit === 'GWh') return `${value.toFixed(1).replace('.', ',')} GWh`
+  if (unit === 'thousands') {
+    // Vehicle counts: show as actual number (e.g. 418,2 Tsd.)
+    return `${value.toFixed(1).replace('.', ',')} Tsd.`
+  }
+  if (unit === 'millions') {
+    if (value >= 1000) return `${(value / 1000).toFixed(2).replace('.', ',')} Mrd.`
+    return `${value.toFixed(1).replace('.', ',')} Mio.`
+  }
+  if (unit === 'billions') {
+    return `${value.toFixed(2).replace('.', ',')} Mrd.`
+  }
   return value.toLocaleString('de-DE')
 }
 
 function formatYAxis(value: number, unit: string): string {
-  if (unit === 'percent') return `${value}%`
+  if (unit === 'percent') return `${value} %`
   if (unit === 'dollars') return `$${value}`
-  if (unit === 'millions') return value >= 1000 ? `$${(value / 1000).toFixed(1)}B` : `${value}M`
-  if (unit === 'billions') return `$${value}B`
-  return value.toLocaleString()
+  if (unit === 'GWh') return `${value} GWh`
+  if (unit === 'thousands') return `${value} Tsd.`
+  if (unit === 'millions') {
+    if (value >= 1000) return `${(value / 1000).toFixed(1).replace('.', ',')} Mrd.`
+    return `${value} Mio.`
+  }
+  if (unit === 'billions') return `${value} Mrd.`
+  return value.toLocaleString('de-DE')
 }
 
 function CustomTooltip({ active, payload, label, unit, metricLabel }: {
@@ -37,68 +51,119 @@ function CustomTooltip({ active, payload, label, unit, metricLabel }: {
 }) {
   if (!active || !payload?.length) return null
   return (
-    <div className="bg-theme-secondary border border-theme rounded-lg p-3 shadow-lg text-sm">
+    <div className="bg-theme-card border border-theme-light rounded-lg p-3 shadow-lg text-sm">
       <p className="text-theme-secondary mb-1">{label}</p>
       <p className="font-semibold text-theme-primary">{metricLabel}: {formatValue(payload[0].value, unit)}</p>
     </div>
   )
 }
 
-function PremiumGate() {
+// ─── Single KPI Card ──────────────────────────────────────────────────────────
+
+function KPICard({ metricKey, metric }: { metricKey: string; metric: KPIMetric }) {
+  const latest = metric.data[metric.data.length - 1]
+  const yearAgo = metric.data[metric.data.length - 5]
+  const yoy = yearAgo ? ((latest.value - yearAgo.value) / Math.abs(yearAgo.value)) * 100 : null
+
   return (
-    <div className="relative">
-      <div className="h-48 rounded-xl bg-theme-secondary border border-theme overflow-hidden">
-        <div className="w-full h-full blur-sm opacity-40 pointer-events-none select-none p-4">
-          <svg viewBox="0 0 400 160" className="w-full h-full">
-            <polyline points="20,130 80,100 140,80 200,95 260,55 320,65 380,42"
-              fill="none" stroke="#22c55e" strokeWidth="2.5" />
-          </svg>
-        </div>
-      </div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-        <div className="text-center">
-          <p className="text-sm font-semibold text-theme-primary">Operating KPIs · Nur für Premium</p>
-          <p className="text-xs text-theme-secondary mt-1">
-            Subscriber-Zahlen, MAUs & mehr direkt aus SEC EDGAR 8-K Filings
+    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex-1 min-w-0">
+          <p className="text-xs text-theme-secondary truncate">{metric.label}</p>
+          <p className="text-lg font-bold text-theme-primary mt-0.5">
+            {latest ? formatValue(latest.value, metric.unit) : '–'}
           </p>
         </div>
-        <Link href="/pricing"
-          className="px-4 py-2 bg-brand hover:bg-green-600 text-white text-xs font-semibold rounded-lg transition-colors">
-          Premium freischalten
-        </Link>
+        <div className="text-right ml-2 flex-shrink-0">
+          {yoy !== null && (
+            <span className={`text-xs font-semibold ${yoy >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+              {yoy >= 0 ? '+' : ''}{yoy.toFixed(1).replace('.', ',')} %
+            </span>
+          )}
+          {latest && (
+            <p className="text-xs text-theme-secondary mt-0.5">{latest.period}</p>
+          )}
+        </div>
       </div>
+
+      <ResponsiveContainer width="100%" height={80}>
+        <LineChart data={metric.data} margin={{ top: 2, right: 2, left: 0, bottom: 2 }}>
+          <Line
+            type="monotone"
+            dataKey="value"
+            stroke="#22c55e"
+            strokeWidth={1.5}
+            dot={false}
+            activeDot={{ r: 3, strokeWidth: 0, fill: '#22c55e' }}
+          />
+          <Tooltip content={<CustomTooltip unit={metric.unit} metricLabel={metric.label} />} />
+        </LineChart>
+      </ResponsiveContainer>
+
+      {latest?.filingUrl && (
+        <a
+          href={latest.filingUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-theme-muted hover:text-brand transition-colors mt-2 block"
+          onClick={(e) => e.stopPropagation()}
+        >
+          Quelle: SEC EDGAR 8-K ↗
+        </a>
+      )}
     </div>
   )
 }
 
+// ─── Premium Gate ─────────────────────────────────────────────────────────────
+
+function PremiumGate() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+      {[1, 2, 3].map((i) => (
+        <div key={i} className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
+          <div className="blur-sm opacity-30 pointer-events-none select-none">
+            <p className="text-xs text-theme-secondary">KPI Metrik</p>
+            <p className="text-lg font-bold text-theme-primary mt-0.5">12,3 Mrd.</p>
+            <div className="mt-3 h-20 bg-theme-secondary rounded" />
+          </div>
+          {i === 2 && (
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4">
+              <p className="text-xs font-semibold text-theme-primary text-center">
+                Operating KPIs · Nur für Premium
+              </p>
+              <Link
+                href="/pricing"
+                className="px-3 py-1.5 bg-brand hover:bg-green-600 text-white text-xs font-semibold rounded-lg transition-colors"
+              >
+                Premium freischalten
+              </Link>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
+
 export default function CompanyKPICharts({ ticker, isPremium }: CompanyKPIChartsProps) {
   const [data, setData] = useState<KPIResponse | null>(null)
   const [loading, setLoading] = useState(true)
-  const [activeMetric, setActiveMetric] = useState<string | null>(null)
 
   useEffect(() => {
     fetch(`/api/company-kpis/${ticker}`)
       .then((r) => r.json())
-      .then((json: KPIResponse) => {
-        setData(json)
-        const keys = Object.keys(json.metrics || {})
-        if (keys.length > 0) setActiveMetric(keys[0])
-      })
+      .then((json: KPIResponse) => setData(json))
       .catch(() => setData(null))
       .finally(() => setLoading(false))
   }, [ticker])
 
   if (loading) return null
 
-  // No data → hide entire section (unsupported stocks show nothing)
+  // No data → hide for unsupported stocks
   if (!data || Object.keys(data.metrics || {}).length === 0) return null
-
-  const metricKeys = Object.keys(data.metrics)
-  const currentKey = activeMetric || metricKeys[0]
-  const current = data.metrics[currentKey]
-  const latest = current.data[current.data.length - 1]
-  const yearAgo = current.data[current.data.length - 5]
-  const yoy = yearAgo ? ((latest.value - yearAgo.value) / Math.abs(yearAgo.value)) * 100 : null
 
   return (
     <section className="space-y-4">
@@ -107,68 +172,14 @@ export default function CompanyKPICharts({ ticker, isPremium }: CompanyKPICharts
         <span className="text-xs px-2 py-0.5 rounded-full bg-brand/10 text-brand font-medium">SEC EDGAR</span>
       </div>
 
-      {!isPremium ? <PremiumGate /> : (
-        <>
-          {metricKeys.length > 1 && (
-            <div className="flex flex-wrap gap-2">
-              {metricKeys.map((key) => (
-                <button key={key} onClick={() => setActiveMetric(key)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors ${
-                    key === currentKey
-                      ? 'bg-brand text-white'
-                      : 'bg-theme-secondary text-theme-secondary hover:text-theme-primary'
-                  }`}>
-                  {data.metrics[key].label}
-                </button>
-              ))}
-            </div>
-          )}
-
-          <div className="bg-theme-secondary rounded-xl p-4 border border-theme">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h4 className="text-sm font-semibold text-theme-primary">{current.label}</h4>
-                <p className="text-xs text-theme-secondary mt-0.5">
-                  Quarterly · Quelle:{' '}
-                  {latest?.filingUrl ? (
-                    <a href={latest.filingUrl} target="_blank" rel="noopener noreferrer"
-                      className="text-brand hover:underline">
-                      SEC EDGAR 8-K
-                    </a>
-                  ) : (
-                    'SEC EDGAR 8-K'
-                  )}
-                </p>
-              </div>
-              {latest && (
-                <div className="text-right">
-                  <p className="text-lg font-bold text-theme-primary">{formatValue(latest.value, current.unit)}</p>
-                  <p className="text-xs text-theme-secondary">{latest.period}</p>
-                </div>
-              )}
-            </div>
-
-            <ResponsiveContainer width="100%" height={240}>
-              <LineChart data={current.data} margin={{ top: 4, right: 8, left: 0, bottom: 4 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(128,128,128,0.15)" />
-                <XAxis dataKey="period" tick={{ fontSize: 11, fill: 'currentColor', opacity: 0.6 }} tickLine={false} axisLine={false} />
-                <YAxis tickFormatter={(v) => formatYAxis(v, current.unit)} tick={{ fontSize: 11, fill: 'currentColor', opacity: 0.6 }} tickLine={false} axisLine={false} width={56} />
-                <Tooltip content={<CustomTooltip unit={current.unit} metricLabel={current.label} />} />
-                <Line type="monotone" dataKey="value" stroke="#22c55e" strokeWidth={2}
-                  dot={{ fill: '#22c55e', r: 3, strokeWidth: 0 }} activeDot={{ r: 5, strokeWidth: 0 }} />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-
-          {yoy !== null && (
-            <p className="text-xs text-theme-secondary flex items-center gap-1">
-              <span className={`font-semibold ${yoy >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-                {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)}% YoY
-              </span>
-              im Vergleich zum Vorjahresquartal
-            </p>
-          )}
-        </>
+      {!isPremium ? (
+        <PremiumGate />
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+          {Object.entries(data.metrics).map(([key, metric]) => (
+            <KPICard key={key} metricKey={key} metric={metric} />
+          ))}
+        </div>
       )}
     </section>
   )
