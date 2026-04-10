@@ -127,7 +127,7 @@ async function handleCheck() {
   }
 
   // ── 1. All watchlist items grouped by symbol ──────────────────────────────
-  let watchlistQuery = supabaseService.from('watchlist_items').select('user_id, ticker')
+  let watchlistQuery = supabaseService.from('watchlists').select('user_id, ticker')
   if (testUserId) {
     watchlistQuery = watchlistQuery.eq('user_id', testUserId)
   }
