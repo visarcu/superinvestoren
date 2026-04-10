@@ -117,44 +117,39 @@ async function handleDailyPortfolioMover() {
     const secret = process.env.INTERNAL_API_SECRET
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
     let notificationsSent = 0
-    const results: Array<{ userId: string; symbol: string; changePercent: number }> = []
+    const results: Array<{ userId: string; movers: string[] }> = []
+
+    const fmtChange = (pct: number) => {
+      const sign = pct >= 0 ? '+' : ''
+      return sign + pct.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'
+    }
 
     for (const userId of userIds) {
       try {
         const symbols = userSymbols.get(userId)
         if (!symbols || symbols.size === 0) continue
 
-        // Find the stock with the biggest absolute % change
-        let biggestMover: FmpQuote | null = null
-        let maxAbsChange = 0
+        // Get all quotes for user's symbols, sorted by absolute % change descending
+        const userQuotes = [...symbols]
+          .map(sym => quoteMap.get(sym))
+          .filter((q): q is FmpQuote => !!q && q.changesPercentage != null)
+          .sort((a, b) => Math.abs(b.changesPercentage) - Math.abs(a.changesPercentage))
 
-        for (const symbol of symbols) {
-          const quote = quoteMap.get(symbol)
-          if (!quote) continue
-          const absChange = Math.abs(quote.changesPercentage)
-          if (absChange > maxAbsChange) {
-            maxAbsChange = absChange
-            biggestMover = quote
-          }
-        }
-
-        // Skip if no mover exceeds the threshold
-        if (!biggestMover || maxAbsChange < MOVE_THRESHOLD_PERCENT) {
-          console.log(`[Daily Portfolio Mover] No significant mover for user ${userId} (max: ${maxAbsChange.toFixed(2)}%)`)
+        // Skip if biggest mover doesn't exceed threshold
+        if (userQuotes.length === 0 || Math.abs(userQuotes[0].changesPercentage) < MOVE_THRESHOLD_PERCENT) {
+          console.log(`[Daily Portfolio Mover] No significant movers for user ${userId}`)
           continue
         }
 
-        const changePercent = biggestMover.changesPercentage
-        const sign = changePercent >= 0 ? '+' : ''
+        // Take top 5 movers (only those above threshold)
+        const topMovers = userQuotes
+          .filter(q => Math.abs(q.changesPercentage) >= MOVE_THRESHOLD_PERCENT)
+          .slice(0, 5)
 
-        // Format number in de-DE locale (comma as decimal separator)
-        const formattedChange = sign + changePercent.toLocaleString('de-DE', {
-          minimumFractionDigits: 1,
-          maximumFractionDigits: 1,
-        }) + '%'
-
-        const title = '📈 Depot-Mover'
-        const body = `${biggestMover.symbol} ${formattedChange} heute — größte Bewegung in deinem Depot`
+        // Format: "AMZN +5,4% · PDD -3,0% · AMD +2,0%"
+        const moverParts = topMovers.map(q => `${q.symbol} ${fmtChange(q.changesPercentage)}`)
+        const title = 'Top Mover in deinem Depot'
+        const body = moverParts.join(' · ')
 
         if (!secret) {
           console.warn('[Daily Portfolio Mover] INTERNAL_API_SECRET not set, skipping push')
@@ -163,15 +158,14 @@ async function handleDailyPortfolioMover() {
 
         const pushResponse = await fetch(`${baseUrl}/api/notifications/push`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-internal-secret': secret,
-          },
+          headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
           body: JSON.stringify({
             userIds: [userId],
             title,
             body,
-            data: { screen: 'portfolio', symbol: biggestMover.symbol },
+            data: topMovers.length === 1
+              ? { screen: 'stock', ticker: topMovers[0].symbol }
+              : { screen: 'portfolio' },
           }),
         })
 
@@ -182,8 +176,8 @@ async function handleDailyPortfolioMover() {
         }
 
         notificationsSent++
-        results.push({ userId, symbol: biggestMover.symbol, changePercent })
-        console.log(`[Daily Portfolio Mover] Sent push to ${userId}: ${biggestMover.symbol} ${formattedChange}`)
+        results.push({ userId, movers: moverParts })
+        console.log(`[Daily Portfolio Mover] Sent to ${userId}: ${body}`)
       } catch (userError) {
         console.error(`[Daily Portfolio Mover] Error processing user ${userId}:`, userError)
       }
@@ -196,7 +190,7 @@ async function handleDailyPortfolioMover() {
       symbolsChecked: allSymbols.length,
       usersChecked: userIds.length,
       notificationsSent,
-      results,
+      results: results.map(r => ({ userId: r.userId, movers: r.movers })),
     })
   } catch (error) {
     console.error('[Daily Portfolio Mover] Fatal error:', error)

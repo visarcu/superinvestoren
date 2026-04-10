@@ -41,13 +41,6 @@ function actionLabel(raw: string): string {
   return raw
 }
 
-function gradeEmoji(raw: string): string {
-  const a = normalizeAction(raw)
-  if (a === 'upgrade') return '⬆️'
-  if (a === 'downgrade') return '⬇️'
-  return '🆕'
-}
-
 async function sendPushNotification(userId: string, title: string, body: string, data?: object) {
   try {
     const secret = process.env.INTERNAL_API_SECRET
@@ -126,31 +119,49 @@ async function handleCheck() {
     console.log(`[AnalystRatings] TEST MODE — only notifying user ${testUserId}`)
   }
 
-  // ── 1. All watchlist items grouped by symbol ──────────────────────────────
+  // ── 1. Watchlist + Portfolio symbols grouped by user ─────────────────────
   let watchlistQuery = supabaseService.from('watchlists').select('user_id, ticker')
-  if (testUserId) {
-    watchlistQuery = watchlistQuery.eq('user_id', testUserId)
-  }
+  if (testUserId) watchlistQuery = watchlistQuery.eq('user_id', testUserId)
   const { data: watchlistRows, error: wlError } = await watchlistQuery
-
   if (wlError) {
     console.error('[AnalystRatings] Watchlist fetch error:', wlError)
     return NextResponse.json({ error: 'DB error' }, { status: 500 })
   }
 
-  if (!watchlistRows || watchlistRows.length === 0) {
-    return NextResponse.json({ success: true, checked: 0, notified: 0 })
-  }
-
   // symbol → Set<user_id>
   const symbolToUsers = new Map<string, Set<string>>()
-  for (const row of watchlistRows) {
+
+  // Add watchlist
+  for (const row of (watchlistRows || [])) {
     const sym = (row.ticker as string).toUpperCase()
     if (!symbolToUsers.has(sym)) symbolToUsers.set(sym, new Set())
     symbolToUsers.get(sym)!.add(row.user_id as string)
   }
 
-  const allUserIds = [...new Set(watchlistRows.map((r) => r.user_id as string))]
+  // Add portfolio holdings
+  let portfolioQuery = supabaseService.from('portfolios').select('id, user_id')
+  if (testUserId) portfolioQuery = portfolioQuery.eq('user_id', testUserId)
+  const { data: portfolios } = await portfolioQuery
+  if (portfolios && portfolios.length > 0) {
+    const portfolioIds = portfolios.map((p: any) => p.id)
+    const portfolioMap = new Map(portfolios.map((p: any) => [p.id, p.user_id]))
+    const { data: holdings } = await supabaseService
+      .from('portfolio_holdings').select('portfolio_id, symbol').in('portfolio_id', portfolioIds)
+    for (const h of (holdings || [])) {
+      const sym = (h.symbol as string).toUpperCase()
+      const userId = portfolioMap.get(h.portfolio_id) as string
+      if (!userId) continue
+      if (!symbolToUsers.has(sym)) symbolToUsers.set(sym, new Set())
+      symbolToUsers.get(sym)!.add(userId)
+    }
+  }
+
+  if (symbolToUsers.size === 0) {
+    return NextResponse.json({ success: true, checked: 0, notified: 0 })
+  }
+
+  const allUserIds = [...new Set([...(watchlistRows || []).map((r) => r.user_id as string),
+    ...(portfolios || []).map((p: any) => p.user_id as string)])]
 
   // ── 2. Load notification settings (analyst_ratings_enabled per user) ──────
   const { data: settingsRows } = await supabaseService
@@ -218,10 +229,8 @@ async function handleCheck() {
       })
 
       // Build notification texts (German)
-      const emoji = gradeEmoji(grading.action)
       const label = actionLabel(grading.action)
-
-      const title = `${emoji} ${symbol}: ${label} von ${grading.gradingCompany}`
+      const title = `${symbol}: ${label} von ${grading.gradingCompany}`
 
       const gradeChange =
         grading.previousGrade && grading.newGrade && grading.previousGrade !== grading.newGrade
