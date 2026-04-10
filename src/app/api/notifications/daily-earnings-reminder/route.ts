@@ -193,7 +193,7 @@ async function handleDailyEarningsReminder() {
 
         notificationsSent++
         results.push({ userId, symbols: matchedSymbols, when })
-        console.log(`[Daily Earnings Reminder] Sent push to ${userId}: ${symbolLabel} (${when})`)
+        console.log(`[Daily Earnings Reminder] Sent push to ${userId}: ${matchedSymbols.join(', ')} (${when})`)
       } catch (userError) {
         console.error(`[Daily Earnings Reminder] Error processing user ${userId}:`, userError)
       }
