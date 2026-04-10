@@ -17,6 +17,7 @@
     "update-stocks": "ts-node scripts/update-stocks.ts",
     "prisma:migrate": "prisma migrate dev",
     "prisma:generate": "prisma generate",
+    "edgar:kpis": "npx tsx scripts/fetchEdgarKPIs.ts",
     "fetch:nportp": "node scripts/fetchNportP.js",
     "fetch:holdings": "node scripts/fetchHoldings.js",
     "delete:testusers": "node scripts/delete-test-users.js",

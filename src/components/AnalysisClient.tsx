@@ -47,6 +47,12 @@ const GrowthSection = dynamic(
   { ssr: false, loading: () => <LoadingSpinner /> }
 )
 
+// ✨ Company-specific KPIs from SEC EDGAR
+const CompanyKPICharts = dynamic(
+  () => import('@/components/CompanyKPICharts'),
+  { ssr: false, loading: () => <LoadingSpinner /> }
+)
+
 const CompanyEfficiencyMetrics = dynamic(
   () => import('@/components/CompanyEfficiencyMetrics'),
   { ssr: false, loading: () => <LoadingSpinner /> }
@@ -946,6 +952,9 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             </LazyWrapper>
           </div>
         </div>
+
+        {/* ✅ OPERATING KPIs - SEC EDGAR (section header managed inside component) */}
+        <CompanyKPICharts ticker={ticker} isPremium={user?.isPremium ?? false} />
 
         {/* ✅ KENNZAHLEN-CHARTS - ULTRA CLEAN (KEINE ÄUSSERE BOX!) */}
         <div className="space-y-6">

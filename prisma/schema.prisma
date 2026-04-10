@@ -105,6 +105,28 @@ model EarningsCalendar {
   @@index([symbol])
 }
 
+// Company-specific KPIs extracted from SEC EDGAR 8-K filings
+// e.g. Netflix subscribers, Spotify MAUs, Uber trips, etc.
+model CompanyKPI {
+  id          String   @id @default(cuid())
+  ticker      String
+  metric      String
+  label       String
+  value       Float
+  unit        String
+  period      String
+  periodDate  DateTime
+  source      String   @default("SEC EDGAR 8-K")
+  filingUrl   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([ticker, metric, period])
+  @@index([ticker])
+  @@index([ticker, metric])
+  @@index([periodDate])
+}
+
 // AI Report Downloads - tracks who downloads DCF reports
 model AIReportDownload {
   id          String   @id @default(cuid())
