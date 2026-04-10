@@ -88,9 +88,9 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ sent: totalSent, total: tokens.length })
 
-  } catch (error) {
-    console.error('Push notification error:', error)
-    return NextResponse.json({ error: 'Failed to send push notifications' }, { status: 500 })
+  } catch (error: any) {
+    console.error('Push notification error:', error?.message || error)
+    return NextResponse.json({ error: 'Failed to send push notifications', detail: error?.message }, { status: 500 })
   }
 }
 
