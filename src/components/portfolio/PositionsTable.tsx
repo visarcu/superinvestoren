@@ -66,6 +66,13 @@ export default function PositionsTable({
 }: PositionsTableProps) {
   const router = useRouter()
   const [expandedSymbols, setExpandedSymbols] = useState<Set<string>>(new Set())
+  const [sortBy, setSortBy] = useState<'value' | 'gainLossPercent' | 'gainLoss'>('value')
+  const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc')
+
+  const handleSort = (col: typeof sortBy) => {
+    if (sortBy === col) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
+    else { setSortBy(col); setSortDir('desc') }
+  }
 
   // Gruppierte Positionen für Alle-Depots-Ansicht
   const groupedPositions = useMemo(() => {
@@ -107,8 +114,18 @@ export default function PositionsTable({
   }, [holdings, isAllDepotsView])
 
   const sortedHoldings = useMemo(() => {
-    return [...holdings].sort((a, b) => b.value - a.value)
-  }, [holdings])
+    return [...holdings].sort((a, b) => {
+      let diff = 0
+      if (sortBy === 'value') diff = b.value - a.value
+      else if (sortBy === 'gainLoss') diff = (b.value - b.purchase_price_display * b.quantity) - (a.value - a.purchase_price_display * a.quantity)
+      else if (sortBy === 'gainLossPercent') {
+        const pctA = a.purchase_price_display > 0 ? (a.current_price - a.purchase_price_display) / a.purchase_price_display : 0
+        const pctB = b.purchase_price_display > 0 ? (b.current_price - b.purchase_price_display) / b.purchase_price_display : 0
+        diff = pctB - pctA
+      }
+      return sortDir === 'desc' ? diff : -diff
+    })
+  }, [holdings, sortBy, sortDir])
 
   const toggleExpand = (symbol: string) => {
     setExpandedSymbols(prev => {
@@ -405,9 +422,13 @@ export default function PositionsTable({
       <div className="hidden sm:grid grid-cols-12 gap-4 px-2 mb-2 text-xs text-neutral-500 font-medium">
         <div className="col-span-4">Aktie</div>
         <div className="col-span-2 text-right">Kurs</div>
-        <div className="col-span-2 text-right">Wert</div>
+        <button onClick={() => handleSort('value')} className={`col-span-2 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'value' ? 'text-neutral-300' : ''}`}>
+          Wert {sortBy === 'value' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
+        </button>
         <div className="col-span-1 text-right">Anteil</div>
-        <div className="col-span-2 text-right">G/V</div>
+        <button onClick={() => handleSort('gainLossPercent')} className={`col-span-2 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'gainLossPercent' || sortBy === 'gainLoss' ? 'text-neutral-300' : ''}`}>
+          G/V {sortBy === 'gainLossPercent' ? (sortDir === 'desc' ? '↓' : '↑') : sortBy === 'gainLoss' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
+        </button>
         <div className="col-span-1"></div>
       </div>
 

@@ -28,7 +28,9 @@ const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' 
 
 // Ticker-Aliases für Yahoo Finance Fallback (FMP kennt sie nicht)
 const YAHOO_TICKER_ALIASES: Record<string, string> = {
-  'NLM.DE': 'NLM.F', // FRoSTA AG — nur im Freiverkehr, Yahoo kennt Frankfurt-Ticker
+  'NLM.DE':  'NLM.F',    // FRoSTA AG — nur im Freiverkehr
+  'IEMA.DE': 'IEMA.L',   // iShares MSCI EM IMI UCITS ETF — nur auf LSE
+  'NUKL.DE': 'NUKL.L',   // iShares Nuclear Energy UCITS ETF — nur auf LSE
 }
 
 /**
@@ -42,14 +44,13 @@ async function fetchYahooQuote(symbol: string): Promise<{
   changesPercentage: number
   change: number
   previousClose: number
+  currency: string
 } | null> {
   try {
     const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=2d&interval=1d&region=DE`
     const res = await fetch(url, {
-      headers: {
-        'User-Agent': 'Mozilla/5.0',
-      },
-      signal: AbortSignal.timeout(5000), // 5s Timeout
+      headers: { 'User-Agent': 'Mozilla/5.0' },
+      signal: AbortSignal.timeout(5000),
     })
 
     if (!res.ok) return null
@@ -61,6 +62,7 @@ async function fetchYahooQuote(symbol: string): Promise<{
     const meta = result.meta
     const price = meta?.regularMarketPrice
     const previousClose = meta?.chartPreviousClose || meta?.previousClose || 0
+    const currency: string = meta?.currency || 'USD'
 
     if (!price || price <= 0) return null
 
@@ -74,9 +76,9 @@ async function fetchYahooQuote(symbol: string): Promise<{
       changesPercentage,
       change,
       previousClose,
+      currency,
     }
   } catch {
-    // Yahoo fallback fehlgeschlagen — still ignorieren
     return null
   }
 }
@@ -198,6 +200,16 @@ export async function GET(request: Request) {
     .map(s => ({ original: s, base: s.slice(0, -3) }))
 
   if (deMissingWithBase.length > 0) {
+    // USD/EUR Rate für Konvertierung holen
+    let usdToEurRate = 0.92 // Fallback
+    try {
+      const fxRes = await fetch(`https://financialmodelingprep.com/api/v3/fx/USDEUR?apikey=${process.env.FMP_API_KEY}`)
+      if (fxRes.ok) {
+        const fxData = await fxRes.json()
+        if (Array.isArray(fxData) && fxData[0]?.ask) usdToEurRate = fxData[0].ask
+      }
+    } catch { /* Fallback-Rate verwenden */ }
+
     try {
       const baseEncoded = deMissingWithBase.map(({ base }) => encodeURIComponent(base)).join(',')
       const baseRes = await fetch(
@@ -209,7 +221,15 @@ export async function GET(request: Request) {
           for (const q of baseData) {
             const entry = deMissingWithBase.find(e => e.base === q.symbol)
             if (!entry || !q.price) continue
-            quotes.push({ ...q, symbol: entry.original, _source: `fmp_base:${q.symbol}` })
+            // USD-Kurs in EUR umrechnen (US-Listings werden in USD geliefert)
+            const isUsd = q.currency === 'USD'
+            quotes.push({
+              ...q,
+              symbol: entry.original,
+              price: isUsd ? q.price * usdToEurRate : q.price,
+              change: isUsd ? (q.change || 0) * usdToEurRate : (q.change || 0),
+              _source: `fmp_base:${q.symbol}`,
+            })
           }
         }
       }
@@ -224,21 +244,56 @@ export async function GET(request: Request) {
 
   // === Fallback 2: Yahoo Finance für alle restlichen fehlenden Symbole ===
   if (missingSymbols.length > 0) {
+    // FX-Raten für Yahoo-Konvertierung (USD→EUR, GBp→EUR)
+    let yahooUsdToEur = 0.92
+    let yahooGbpToEur = 1.18
+    try {
+      const [usdRes, gbpRes] = await Promise.allSettled([
+        fetch(`https://financialmodelingprep.com/api/v3/fx/USDEUR?apikey=${process.env.FMP_API_KEY}`),
+        fetch(`https://financialmodelingprep.com/api/v3/fx/GBPEUR?apikey=${process.env.FMP_API_KEY}`),
+      ])
+      if (usdRes.status === 'fulfilled' && usdRes.value.ok) {
+        const d = await usdRes.value.json()
+        if (Array.isArray(d) && d[0]?.ask) yahooUsdToEur = d[0].ask
+      }
+      if (gbpRes.status === 'fulfilled' && gbpRes.value.ok) {
+        const d = await gbpRes.value.json()
+        if (Array.isArray(d) && d[0]?.ask) yahooGbpToEur = d[0].ask
+      }
+    } catch { /* Fallback-Raten verwenden */ }
+
     const yahooPromises = missingSymbols.map(s => {
       const yahooSymbol = YAHOO_TICKER_ALIASES[s] || s
       return fetchYahooQuote(yahooSymbol).then(result =>
-        result ? { ...result, symbol: s } : null // Alias zurück auf Original-Symbol mappen
+        result ? { ...result, symbol: s } : null
       )
     })
     const yahooResults = await Promise.allSettled(yahooPromises)
 
     for (const result of yahooResults) {
       if (result.status === 'fulfilled' && result.value) {
-        // Yahoo-Quote als FMP-kompatibles Objekt hinzufügen
+        const q = result.value
+        // Währungskonvertierung: USD und GBp → EUR
+        let price = q.price
+        let change = q.change
+        if (q.currency === 'USD') {
+          price = price * yahooUsdToEur
+          change = change * yahooUsdToEur
+        } else if (q.currency === 'GBp') {
+          // GBp (Pence) → EUR: /100 für GBP, dann × GBP/EUR
+          price = (price / 100) * yahooGbpToEur
+          change = (change / 100) * yahooGbpToEur
+        } else if (q.currency === 'GBP') {
+          price = price * yahooGbpToEur
+          change = change * yahooGbpToEur
+        }
         quotes.push({
-          ...result.value,
-          dayLow: result.value.price,
-          dayHigh: result.value.price,
+          ...q,
+          price,
+          change,
+          changesPercentage: q.previousClose > 0 ? (change / (q.previousClose * (q.currency === 'GBp' ? yahooGbpToEur / 100 : q.currency === 'USD' ? yahooUsdToEur : 1))) * 100 : 0,
+          dayLow: price,
+          dayHigh: price,
           yearHigh: 0,
           yearLow: 0,
           marketCap: 0,
@@ -247,7 +302,7 @@ export async function GET(request: Request) {
           exchange: 'XETRA',
           volume: 0,
           avgVolume: 0,
-          open: result.value.previousClose,
+          open: price - change,
           eps: 0,
           pe: 0,
           earningsAnnouncement: '',
