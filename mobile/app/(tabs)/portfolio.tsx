@@ -37,6 +37,8 @@ interface DivInfo {
 
 export default function PortfolioScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('positionen');
+  const [portfolioList, setPortfolioList] = useState<{ id: string; name: string }[]>([]);
+  const [selectedPortfolioId, setSelectedPortfolioId] = useState<string | null>(null);
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [portfolioName, setPortfolioName] = useState('');
   const [totalValue, setTotalValue] = useState(0);
@@ -50,6 +52,15 @@ export default function PortfolioScreen() {
 
   useFocusEffect(useCallback(() => { loadPortfolio(); }, []));
 
+  async function switchPortfolio(id: string, name: string) {
+    setSelectedPortfolioId(id);
+    setPortfolioName(name);
+    setHoldings([]);
+    setDivData([]);
+    setLoading(true);
+    await loadHoldings(id);
+  }
+
   async function loadPortfolio() {
     try {
       setError(null);
@@ -59,16 +70,34 @@ export default function PortfolioScreen() {
 
       const { data: portfolios } = await supabase
         .from('portfolios').select('id, name').eq('user_id', userId)
-        .order('created_at', { ascending: true }).limit(1);
+        .order('created_at', { ascending: true });
 
       if (!portfolios?.length) { setLoading(false); setRefreshing(false); return; }
-      const portfolio = portfolios[0];
+      setPortfolioList(portfolios);
+
+      // Use already selected portfolio if still valid, else default to first
+      const currentId = selectedPortfolioId && portfolios.find(p => p.id === selectedPortfolioId)
+        ? selectedPortfolioId
+        : portfolios[0].id;
+      const portfolio = portfolios.find(p => p.id === currentId) || portfolios[0];
+
+      if (!selectedPortfolioId) setSelectedPortfolioId(portfolio.id);
       setPortfolioName(portfolio.name);
 
+      await loadHoldings(portfolio.id);
+    } catch (e: any) {
+      setError(e.message || 'Fehler');
+    } finally {
+      setLoading(false); setRefreshing(false);
+    }
+  }
+
+  async function loadHoldings(portfolioId: string) {
+    try {
       const { data: rawHoldings, error: hErr } = await supabase
         .from('portfolio_holdings')
         .select('symbol, name, quantity, purchase_price, current_price')
-        .eq('portfolio_id', portfolio.id);
+        .eq('portfolio_id', portfolioId);
 
       if (hErr) throw hErr;
       if (!rawHoldings?.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
@@ -100,13 +129,10 @@ export default function PortfolioScreen() {
           displayName: q.name || h.name || h.symbol };
       });
 
-      // Add weights
       enriched.forEach(h => { h.weight = tv > 0 ? (h.currentValue / tv) * 100 : 0; });
       setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
       setTotalValue(tv);
       setTotalCost(tc);
-
-      // Load dividends in background
       loadDividends(enriched);
     } catch (e: any) {
       setError(e.message || 'Fehler');
@@ -175,14 +201,27 @@ export default function PortfolioScreen() {
       >
         {/* Header */}
         <View style={s.header}>
-          <View>
-            <Text style={s.title}>Portfolio</Text>
-            {portfolioName ? <Text style={s.subtitle}>{portfolioName}</Text> : null}
-          </View>
+          <Text style={s.title}>Portfolio</Text>
           <TouchableOpacity style={s.addBtn} onPress={() => router.push('/add-transaction')}>
             <Ionicons name="add" size={22} color="#F8FAFC" />
           </TouchableOpacity>
         </View>
+
+        {/* Portfolio Switcher */}
+        {portfolioList.length > 1 && (
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}
+            contentContainerStyle={s.portfolioSwitcher}>
+            {portfolioList.map(p => (
+              <TouchableOpacity key={p.id}
+                style={[s.portfolioChip, selectedPortfolioId === p.id && s.portfolioChipActive]}
+                onPress={() => { if (selectedPortfolioId !== p.id) switchPortfolio(p.id, p.name); }}>
+                <Text style={[s.portfolioChipText, selectedPortfolioId === p.id && s.portfolioChipTextActive]}>
+                  {p.name}
+                </Text>
+              </TouchableOpacity>
+            ))}
+          </ScrollView>
+        )}
 
         {/* Summary Card */}
         <View style={s.summaryCard}>
@@ -472,6 +511,14 @@ const s = StyleSheet.create({
 
   // Header
   header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+  portfolioSwitcher: { paddingHorizontal: 16, paddingBottom: 12, gap: 8 },
+  portfolioChip: {
+    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
+    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
+  },
+  portfolioChipActive: { borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.1)' },
+  portfolioChipText: { color: '#64748b', fontSize: 13, fontWeight: '600' },
+  portfolioChipTextActive: { color: '#22C55E' },
   title: { color: '#FFFFFF', fontSize: 26, fontWeight: '700', letterSpacing: -0.8 },
   subtitle: { color: '#8E8E93', fontSize: 13, marginTop: 1 },
   addBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
