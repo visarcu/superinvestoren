@@ -5,8 +5,9 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 interface EarningsEvent {
   symbol: string
+  name?: string
   date: string
-  time?: string
+  time?: string // 'bmo' = before market open, 'amc' = after market close
 }
 
 export async function GET(request: Request) {
@@ -80,11 +81,13 @@ async function handleDailyEarningsReminder() {
     }
 
     const userSymbols = new Map<string, Set<string>>() // user_id → Set<symbol>
+    const symbolNames = new Map<string, string>()      // symbol → company name from holdings
     for (const holding of holdings) {
       const userId = portfolioMap.get(holding.portfolio_id)
       if (!userId) continue
       if (!userSymbols.has(userId)) userSymbols.set(userId, new Set())
       userSymbols.get(userId)!.add(holding.symbol)
+      if (holding.name) symbolNames.set(holding.symbol, holding.name)
     }
 
     // 3. Fetch earnings calendar for today and tomorrow from FMP
@@ -123,29 +126,42 @@ async function handleDailyEarningsReminder() {
         if (!symbols || symbols.size === 0) continue
 
         // Find which portfolio stocks report earnings today or tomorrow
-        const todayMatches = todayEvents
-          .filter(e => symbols.has(e.symbol))
-          .map(e => e.symbol)
-
-        const tomorrowMatches = tomorrowEvents
-          .filter(e => symbols.has(e.symbol))
-          .map(e => e.symbol)
+        const todayMatches = todayEvents.filter(e => symbols.has(e.symbol))
+        const tomorrowMatches = tomorrowEvents.filter(e => symbols.has(e.symbol))
 
         // Prefer today's matches, fall back to tomorrow's
-        const matchedSymbols = todayMatches.length > 0 ? todayMatches : tomorrowMatches
+        const matchedEvents = todayMatches.length > 0 ? todayMatches : tomorrowMatches
         const when = todayMatches.length > 0 ? 'heute' : 'morgen'
+        const matchedSymbols = matchedEvents.map(e => e.symbol)
 
         if (matchedSymbols.length === 0) continue
 
-        // Build German notification text
-        const symbolLabel = matchedSymbols.length === 1
-          ? matchedSymbols[0]
-          : matchedSymbols.length === 2
-            ? `${matchedSymbols[0]} & ${matchedSymbols[1]}`
-            : `${matchedSymbols.slice(0, 2).join(', ')} & ${matchedSymbols.length - 2} weitere`
+        // Use company name from FMP response or fallback to holdings name or ticker
+        const getName = (e: EarningsEvent) =>
+          e.name || symbolNames.get(e.symbol) || e.symbol
 
-        const title = '📊 Earnings heute'
-        const body = `${symbolLabel} berichtet ${when} Quartalszahlen`
+        // Build time hint (bmo = vor Marktöffnung, amc = nach Börsenschluss)
+        const timeHint = (e: EarningsEvent) => {
+          if (e.time === 'bmo') return ' (vor Börseneröffnung)'
+          if (e.time === 'amc') return ' (nach Börsenschluss)'
+          return ''
+        }
+
+        // Notification text: company name + optional time
+        let title: string
+        let body: string
+
+        if (matchedEvents.length === 1) {
+          const e = matchedEvents[0]
+          title = `Quartalszahlen ${when}`
+          body = `${getName(e)} berichtet ${when}${timeHint(e)}`
+        } else if (matchedEvents.length === 2) {
+          title = `Quartalszahlen ${when}`
+          body = `${getName(matchedEvents[0])} & ${getName(matchedEvents[1])} berichten ${when}`
+        } else {
+          title = `Quartalszahlen ${when}`
+          body = `${getName(matchedEvents[0])}, ${getName(matchedEvents[1])} & ${matchedEvents.length - 2} weitere berichten ${when}`
+        }
 
         if (!secret) {
           console.warn('[Daily Earnings Reminder] INTERNAL_API_SECRET not set, skipping push')
@@ -162,7 +178,10 @@ async function handleDailyEarningsReminder() {
             userIds: [userId],
             title,
             body,
-            data: { screen: 'portfolio', symbols: matchedSymbols },
+            // Deep link: single stock → stock detail, multiple → portfolio tab
+            data: matchedSymbols.length === 1
+              ? { screen: 'stock', ticker: matchedSymbols[0] }
+              : { screen: 'portfolio', symbols: matchedSymbols },
           }),
         })
 

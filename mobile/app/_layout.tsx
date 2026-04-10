@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
-import { Stack } from 'expo-router';
+import { Stack, router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import * as Notifications from 'expo-notifications';
 import { supabase } from '../lib/auth';
 import { registerForPushNotifications } from '../lib/pushNotifications';
 import '../global.css';
@@ -21,7 +22,20 @@ export default function RootLayout() {
       }
     });
 
-    return () => subscription.unsubscribe();
+    // Deep link: navigate when user taps a notification
+    const notifSub = Notifications.addNotificationResponseReceivedListener((response) => {
+      const data = response.notification.request.content.data as any;
+      if (data?.screen === 'stock' && data?.ticker) {
+        router.push(`/stock/${data.ticker}`);
+      } else if (data?.screen === 'portfolio') {
+        router.push('/(tabs)/portfolio');
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+      notifSub.remove();
+    };
   }, []);
 
   return (
