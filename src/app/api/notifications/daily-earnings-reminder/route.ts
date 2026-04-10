@@ -136,9 +136,42 @@ async function handleDailyEarningsReminder() {
 
         if (matchedSymbols.length === 0) continue
 
+        // Clean up company name — remove common ADS/ETF suffixes
+        const NOISE_SUFFIXES = [
+          ' American Depositary Shares',
+          ' American Depositary Share',
+          ' Ordinary Shares',
+          ' Common Stock',
+          ' Class A',
+          ' Class B',
+          ' Inc.',
+          ' Inc',
+          ' Corp.',
+          ' Corp',
+          ' Ltd.',
+          ' Ltd',
+          ' plc',
+          ' PLC',
+          ' SE',
+          ' AG',
+          ' NV',
+        ]
+        const cleanName = (raw: string): string => {
+          let name = raw.trim()
+          // Remove suffixes iteratively (order matters — longer first)
+          for (const suffix of NOISE_SUFFIXES) {
+            if (name.endsWith(suffix)) {
+              name = name.slice(0, -suffix.length).trim()
+            }
+          }
+          return name
+        }
+
         // Use company name from FMP response or fallback to holdings name or ticker
-        const getName = (e: EarningsEvent) =>
-          e.name || symbolNames.get(e.symbol) || e.symbol
+        const getName = (e: EarningsEvent) => {
+          const raw = e.name || symbolNames.get(e.symbol) || e.symbol
+          return cleanName(raw)
+        }
 
         // Build time hint (bmo = vor Marktöffnung, amc = nach Börsenschluss)
         const timeHint = (e: EarningsEvent) => {
@@ -147,19 +180,26 @@ async function handleDailyEarningsReminder() {
           return ''
         }
 
-        // Notification text: company name + optional time
+        // Format date for notification: "heute, 10. April" or "morgen, 11. April"
+        const eventDate = matchedEvents[0]?.date
+        const dateLabel = eventDate
+          ? new Date(eventDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'long' })
+          : ''
+        const whenWithDate = dateLabel ? `${when}, ${dateLabel}` : when
+
+        // Notification text: company name + date + optional time
         let title: string
         let body: string
 
         if (matchedEvents.length === 1) {
           const e = matchedEvents[0]
-          title = `Quartalszahlen ${when}`
+          title = `Quartalszahlen ${whenWithDate}`
           body = `${getName(e)} berichtet ${when}${timeHint(e)}`
         } else if (matchedEvents.length === 2) {
-          title = `Quartalszahlen ${when}`
+          title = `Quartalszahlen ${whenWithDate}`
           body = `${getName(matchedEvents[0])} & ${getName(matchedEvents[1])} berichten ${when}`
         } else {
-          title = `Quartalszahlen ${when}`
+          title = `Quartalszahlen ${whenWithDate}`
           body = `${getName(matchedEvents[0])}, ${getName(matchedEvents[1])} & ${matchedEvents.length - 2} weitere berichten ${when}`
         }
 
