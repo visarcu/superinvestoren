@@ -55,6 +55,10 @@
     {
       "path": "/api/notifications/daily-portfolio-mover",
       "schedule": "0 18 * * *"
+    },
+    {
+      "path": "/api/notifications/daily-dividend-reminder",
+      "schedule": "30 7 * * *"
     }
   ]
 }
