@@ -47,6 +47,14 @@
     {
       "path": "/api/cron/check-analyst-ratings",
       "schedule": "0 8 * * 1-5"
+    },
+    {
+      "path": "/api/notifications/daily-earnings-reminder",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/notifications/daily-portfolio-mover",
+      "schedule": "0 18 * * *"
     }
   ]
 }
