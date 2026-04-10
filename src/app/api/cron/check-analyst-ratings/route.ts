@@ -90,7 +90,7 @@ interface FMPGrading {
 }
 
 async function fetchRecentGradings(symbol: string, since: Date): Promise<FMPGrading[]> {
-  const url = `https://financialmodelingprep.com/api/v4/upgrades-downgrades-grading-company?company=${symbol}&apikey=${FMP_API_KEY}`
+  const url = `https://financialmodelingprep.com/api/v4/upgrades-downgrades?symbol=${symbol}&apikey=${FMP_API_KEY}`
   const res = await fetch(url, { next: { revalidate: 0 } })
   if (!res.ok) {
     console.warn(`[AnalystRatings] FMP error for ${symbol}: ${res.status}`)
