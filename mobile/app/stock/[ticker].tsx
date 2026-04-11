@@ -97,6 +97,9 @@ export default function StockScreen() {
   const [aiSummary, setAiSummary] = useState<string | null>(null);
   const [summaryLoading, setSummaryLoading] = useState(false);
   const [showFullTranscript, setShowFullTranscript] = useState(false);
+  const [earningsSubTab, setEarningsSubTab] = useState<'transcript' | 'surprises'>('transcript');
+  const [earningSurprises, setEarningSurprises] = useState<any[]>([]);
+  const [surprisesLoading, setSurprisesLoading] = useState(false);
 
   // ─── Investors tab ───────────────────────────────────────
   const [siPositions, setSiPositions] = useState<any[]>([]);
@@ -116,6 +119,7 @@ export default function StockScreen() {
   const [estimatesLoading, setEstimatesLoading] = useState(false);
   const [priceTargets, setPriceTargets] = useState<any[]>([]);
   const [ratings, setRatings] = useState<any | null>(null);
+  const [gradings, setGradings] = useState<any[]>([]);
 
   // ─── Dividends tab ───────────────────────────────────────
   const [dividendData, setDividendData] = useState<any>(null);
@@ -257,7 +261,6 @@ export default function StockScreen() {
         const d = await res.json();
         if (Array.isArray(d) && d.length > 0) {
           setTranscripts(d);
-          if (isPremium) loadAiSummary(d[0]);
         }
       }
     } catch (e) { console.error(e); }
@@ -276,6 +279,19 @@ export default function StockScreen() {
       if (res.ok) { const d = await res.json(); setAiSummary(d.summary || null); }
     } catch (e) { console.error(e); }
     finally { setSummaryLoading(false); }
+  }
+
+  async function loadEarningSurprises() {
+    if (earningSurprises.length > 0) return;
+    setSurprisesLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/earnings-surprises/${ticker}`);
+      if (res.ok) {
+        const d = await res.json();
+        if (Array.isArray(d)) setEarningSurprises(d.slice(0, 16));
+      }
+    } catch (e) { console.error(e); }
+    finally { setSurprisesLoading(false); }
   }
 
   async function loadInvestors() {
@@ -326,10 +342,11 @@ export default function StockScreen() {
   async function loadEstimates() {
     setEstimatesLoading(true);
     try {
-      const [estRes, ptRes, ratRes] = await Promise.all([
+      const [estRes, ptRes, ratRes, gradRes] = await Promise.all([
         fetch(`${BASE_URL}/api/analyst-estimates/${ticker}`),
         fetch(`${BASE_URL}/api/price-targets/${ticker}`),
         fetch(`${BASE_URL}/api/recommendations/${ticker}`),
+        fetch(`${BASE_URL}/api/analyst-gradings/${ticker}`),
       ]);
       if (estRes.ok) {
         const d = await estRes.json();
@@ -342,6 +359,10 @@ export default function StockScreen() {
       if (ratRes.ok) {
         const d = await ratRes.json();
         setRatings(d);
+      }
+      if (gradRes.ok) {
+        const d = await gradRes.json();
+        setGradings(Array.isArray(d) ? d : []);
       }
     } catch(e) { console.error(e); }
     finally { setEstimatesLoading(false); }
@@ -948,95 +969,173 @@ export default function StockScreen() {
         ════════════════════════════════════════════════ */}
         {activeTab === 'earnings' && (
           <View style={s.tabContent}>
-            {transcriptLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
-            ) : transcripts.length === 0 ? (
-              <View style={s.tabLoading}><Text style={s.noData}>Keine Earnings-Daten verfügbar</Text></View>
-            ) : (
-              <>
-                {/* Quarter selector */}
-                <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: 4 }}>
-                  {transcripts.map((t, i) => (
-                    <TouchableOpacity key={i}
-                      onPress={() => {
-                        setSelectedTIdx(i);
-                        setShowFullTranscript(false);
-                        if (isPremium) loadAiSummary(t);
-                      }}
-                      style={[s.quarterChip, selectedTIdx === i && s.quarterChipActive]}>
-                      <Text style={[s.quarterChipText, selectedTIdx === i && s.quarterChipTextActive]}>
-                        Q{t.quarter} {t.year}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </ScrollView>
+            {/* Sub-tab bar */}
+            <View style={s.subTabBar}>
+              <TouchableOpacity
+                style={[s.subTabBtn, earningsSubTab === 'transcript' && s.subTabBtnActive]}
+                onPress={() => setEarningsSubTab('transcript')}
+              >
+                <Text style={[s.subTabText, earningsSubTab === 'transcript' && s.subTabTextActive]}>Transkript</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[s.subTabBtn, earningsSubTab === 'surprises' && s.subTabBtnActive]}
+                onPress={() => {
+                  setEarningsSubTab('surprises');
+                  loadEarningSurprises();
+                }}
+              >
+                <Text style={[s.subTabText, earningsSubTab === 'surprises' && s.subTabTextActive]}>Earnings Surprises</Text>
+              </TouchableOpacity>
+            </View>
 
-                {(() => {
-                  const t = transcripts[selectedTIdx];
-                  if (!t) return null;
-                  return (
-                    <>
-                      <Text style={s.earningsDate}>
-                        {new Date(t.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
-                      </Text>
+            {/* ── SUB-TAB: TRANSKRIPT ── */}
+            {earningsSubTab === 'transcript' && (
+              transcriptLoading ? (
+                <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              ) : transcripts.length === 0 ? (
+                <View style={s.tabLoading}><Text style={s.noData}>Keine Earnings-Daten verfügbar</Text></View>
+              ) : (
+                <>
+                  {/* Quarter selector */}
+                  <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={{ gap: 8, paddingBottom: 4 }}>
+                    {transcripts.map((t, i) => (
+                      <TouchableOpacity key={i}
+                        onPress={() => {
+                          setSelectedTIdx(i);
+                          setShowFullTranscript(false);
+                          setAiSummary(null);
+                        }}
+                        style={[s.quarterChip, selectedTIdx === i && s.quarterChipActive]}>
+                        <Text style={[s.quarterChipText, selectedTIdx === i && s.quarterChipTextActive]}>
+                          Q{t.quarter} {t.year}
+                        </Text>
+                      </TouchableOpacity>
+                    ))}
+                  </ScrollView>
 
-                      {/* AI Summary */}
-                      <View style={[s.aiSummaryCard, !isPremium && s.aiSummaryCardLocked]}>
-                        <View style={s.aiSummaryHeader}>
-                          <View style={s.aiBadge}><Text style={s.aiBadgeText}>AI</Text></View>
-                          <Text style={s.aiSummaryTitle}>Zusammenfassung</Text>
-                          {!isPremium && (
-                            <View style={[s.premiumBadge, { marginLeft: 'auto' as any }]}>
-                              <Ionicons name="star" size={10} color="#22C55E" />
-                              <Text style={s.premiumBadgeText}>Premium</Text>
-                            </View>
+                  {(() => {
+                    const t = transcripts[selectedTIdx];
+                    if (!t) return null;
+                    return (
+                      <>
+                        <Text style={s.earningsDate}>
+                          {new Date(t.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'long', year: 'numeric' })}
+                        </Text>
+
+                        {/* AI Summary */}
+                        <View style={[s.aiSummaryCard, !isPremium && s.aiSummaryCardLocked]}>
+                          <View style={s.aiSummaryHeader}>
+                            <View style={s.aiBadge}><Text style={s.aiBadgeText}>AI</Text></View>
+                            <Text style={s.aiSummaryTitle}>Zusammenfassung</Text>
+                            {!isPremium && (
+                              <View style={[s.premiumBadge, { marginLeft: 'auto' as any }]}>
+                                <Ionicons name="star" size={10} color="#22C55E" />
+                                <Text style={s.premiumBadgeText}>Premium</Text>
+                              </View>
+                            )}
+                          </View>
+                          {isPremium ? (
+                            summaryLoading ? (
+                              <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', paddingVertical: 12 }}>
+                                <ActivityIndicator color="#22C55E" size="small" />
+                                <Text style={s.aiLoadingText}>Zusammenfassung wird generiert…</Text>
+                              </View>
+                            ) : aiSummary ? (
+                              aiSummary.split('\n\n').map((para, i) => (
+                                <Text key={i} style={s.aiSummaryText}>{para}</Text>
+                              ))
+                            ) : (
+                              <TouchableOpacity
+                                style={[s.upgradeBtn, { alignSelf: 'flex-start' }]}
+                                onPress={() => { const t = transcripts[selectedTIdx]; if (t) loadAiSummary(t); }}
+                              >
+                                <Ionicons name="sparkles" size={13} color="#020617" />
+                                <Text style={[s.upgradeBtnText, { fontSize: 13 }]}>Zusammenfassung generieren</Text>
+                              </TouchableOpacity>
+                            )
+                          ) : (
+                            <>
+                              <View style={[s.blurPreview, { marginBottom: 12 }]} pointerEvents="none">
+                                <View style={s.previewRow}><View style={[s.previewLine, { width: '95%' }]} /></View>
+                                <View style={s.previewRow}><View style={[s.previewLine, { width: '80%' }]} /></View>
+                                <View style={s.previewRow}><View style={[s.previewLine, { width: '88%' }]} /></View>
+                              </View>
+                              <TouchableOpacity style={[s.upgradeBtn, { alignSelf: 'flex-start' }]}
+                                onPress={() => Linking.openURL('https://finclue.de/preise')}>
+                                <Ionicons name="star" size={13} color="#020617" />
+                                <Text style={[s.upgradeBtnText, { fontSize: 13 }]}>Premium freischalten</Text>
+                              </TouchableOpacity>
+                            </>
                           )}
                         </View>
-                        {isPremium ? (
-                          summaryLoading ? (
-                            <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', paddingVertical: 12 }}>
-                              <ActivityIndicator color="#22C55E" size="small" />
-                              <Text style={s.aiLoadingText}>Zusammenfassung wird generiert…</Text>
-                            </View>
-                          ) : aiSummary ? (
-                            aiSummary.split('\n\n').map((para, i) => (
-                              <Text key={i} style={s.aiSummaryText}>{para}</Text>
-                            ))
-                          ) : (
-                            <Text style={s.noData}>Keine Zusammenfassung verfügbar</Text>
-                          )
-                        ) : (
-                          <>
-                            <View style={[s.blurPreview, { marginBottom: 12 }]} pointerEvents="none">
-                              <View style={s.previewRow}><View style={[s.previewLine, { width: '95%' }]} /></View>
-                              <View style={s.previewRow}><View style={[s.previewLine, { width: '80%' }]} /></View>
-                              <View style={s.previewRow}><View style={[s.previewLine, { width: '88%' }]} /></View>
-                            </View>
-                            <TouchableOpacity style={[s.upgradeBtn, { alignSelf: 'flex-start' }]}
-                              onPress={() => Linking.openURL('https://finclue.de/preise')}>
-                              <Ionicons name="star" size={13} color="#020617" />
-                              <Text style={[s.upgradeBtnText, { fontSize: 13 }]}>Premium freischalten</Text>
-                            </TouchableOpacity>
-                          </>
-                        )}
-                      </View>
 
-                      {/* Transcript */}
-                      <View style={s.transcriptCard}>
-                        <Text style={s.transcriptTitle}>Earnings Call Transkript</Text>
-                        <Text style={s.transcriptText} numberOfLines={showFullTranscript ? undefined : 12}>
-                          {t.content}
-                        </Text>
-                        <TouchableOpacity onPress={() => setShowFullTranscript(v => !v)} style={s.transcriptToggle}>
-                          <Text style={s.transcriptToggleText}>
-                            {showFullTranscript ? 'Weniger anzeigen ▲' : 'Vollständiges Transkript ▼'}
+                        {/* Transcript */}
+                        <View style={s.transcriptCard}>
+                          <Text style={s.transcriptTitle}>Earnings Call Transkript</Text>
+                          <Text style={s.transcriptText} numberOfLines={showFullTranscript ? undefined : 12}>
+                            {t.content}
                           </Text>
-                        </TouchableOpacity>
+                          <TouchableOpacity onPress={() => setShowFullTranscript(v => !v)} style={s.transcriptToggle}>
+                            <Text style={s.transcriptToggleText}>
+                              {showFullTranscript ? 'Weniger anzeigen ▲' : 'Vollständiges Transkript ▼'}
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </>
+                    );
+                  })()}
+                </>
+              )
+            )}
+
+            {/* ── SUB-TAB: EARNINGS SURPRISES ── */}
+            {earningsSubTab === 'surprises' && (
+              surprisesLoading ? (
+                <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              ) : earningSurprises.length === 0 ? (
+                <View style={s.tabLoading}><Text style={s.noData}>Keine Earnings Surprises verfügbar</Text></View>
+              ) : (
+                <View style={s.surprisesTable}>
+                  {/* Table header */}
+                  <View style={s.surprisesHeader}>
+                    <Text style={[s.surprisesCell, s.surprisesHeaderText, { flex: 1.4 }]}>Quartal</Text>
+                    <Text style={[s.surprisesCell, s.surprisesHeaderText, { flex: 1.2, textAlign: 'right' }]}>Erwartet</Text>
+                    <Text style={[s.surprisesCell, s.surprisesHeaderText, { flex: 1.2, textAlign: 'right' }]}>Tatsächlich</Text>
+                    <Text style={[s.surprisesCell, s.surprisesHeaderText, { flex: 1, textAlign: 'right' }]}>Surprise</Text>
+                  </View>
+                  {earningSurprises.map((item, i) => {
+                    const surprisePct = item.actualEarningResult != null && item.estimatedEarning != null && item.estimatedEarning !== 0
+                      ? ((item.actualEarningResult - item.estimatedEarning) / Math.abs(item.estimatedEarning)) * 100
+                      : null;
+                    const isPositive = surprisePct != null && surprisePct >= 0;
+                    const isNegative = surprisePct != null && surprisePct < 0;
+                    const dateStr = item.date ? new Date(item.date).toLocaleDateString('de-DE', { month: 'short', year: '2-digit' }) : '–';
+                    const fmtEps = (v: number | null) =>
+                      v != null ? v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '–';
+                    return (
+                      <View key={i} style={[s.surprisesRow, i % 2 === 0 && s.surprisesRowAlt]}>
+                        <Text style={[s.surprisesCell, { flex: 1.4, color: '#94A3B8' }]}>{dateStr}</Text>
+                        <Text style={[s.surprisesCell, { flex: 1.2, textAlign: 'right', color: '#CBD5E1' }]}>
+                          {fmtEps(item.estimatedEarning)}
+                        </Text>
+                        <Text style={[s.surprisesCell, { flex: 1.2, textAlign: 'right', color: '#CBD5E1' }]}>
+                          {fmtEps(item.actualEarningResult)}
+                        </Text>
+                        <Text style={[s.surprisesCell, {
+                          flex: 1,
+                          textAlign: 'right',
+                          fontWeight: '600',
+                          color: isPositive ? '#22C55E' : isNegative ? '#EF4444' : '#94A3B8',
+                        }]}>
+                          {surprisePct != null
+                            ? `${isPositive ? '+' : ''}${surprisePct.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`
+                            : '–'}
+                        </Text>
                       </View>
-                    </>
-                  );
-                })()}
-              </>
+                    );
+                  })}
+                </View>
+              )
             )}
           </View>
         )}
@@ -1459,6 +1558,39 @@ export default function StockScreen() {
                   );
                 })()}
 
+                {/* ── Upgrades & Downgrades ── */}
+                {gradings.length > 0 && (
+                  <View style={s.section}>
+                    <Text style={s.sectionTitle}>UPGRADES & DOWNGRADES</Text>
+                    {gradings.map((g, i) => {
+                      const action = (g.action || '').toLowerCase();
+                      const isUpgrade = action.includes('upgrade') || action.includes('initiat');
+                      const isDowngrade = action.includes('downgrade');
+                      const color = isUpgrade ? '#22C55E' : isDowngrade ? '#EF4444' : '#F59E0B';
+                      const actionLabel = isUpgrade ? 'Hochgestuft' : isDowngrade ? 'Herabgestuft' : 'Neu abgedeckt';
+                      const gradeChange = g.previousGrade && g.newGrade && g.previousGrade !== g.newGrade
+                        ? `${g.previousGrade} → ${g.newGrade}`
+                        : g.newGrade || '';
+                      const dateStr = g.publishedDate
+                        ? new Date(g.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: '2-digit' })
+                        : '';
+                      return (
+                        <View key={i} style={[s.gradingRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                          <View style={[s.gradingDot, { backgroundColor: color }]} />
+                          <View style={{ flex: 1 }}>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                              <Text style={[s.gradingAction, { color }]}>{actionLabel}</Text>
+                              <Text style={s.gradingDate}>{dateStr}</Text>
+                            </View>
+                            <Text style={s.gradingCompany}>{g.gradingCompany || g.analystCompany || '—'}</Text>
+                            {gradeChange ? <Text style={s.gradingChange}>{gradeChange}</Text> : null}
+                          </View>
+                        </View>
+                      );
+                    })}
+                  </View>
+                )}
+
                 {/* ── Price Targets ── */}
                 {priceTargets.length > 0 && (() => {
                   const currentPrice = quote?.price;
@@ -1874,6 +2006,30 @@ const s = StyleSheet.create({
   similarTicker: { color: '#F8FAFC', fontSize: 12, fontWeight: '700' },
   similarChange: { fontSize: 11, fontWeight: '600' },
 
+  // Earnings sub-tabs
+  subTabBar: {
+    flexDirection: 'row', gap: 8, marginBottom: 16,
+  },
+  subTabBtn: {
+    paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10,
+    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
+  },
+  subTabBtnActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
+  subTabText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
+  subTabTextActive: { color: '#22C55E' },
+
+  // Earnings surprises table
+  surprisesTable: { borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: '#1e1e20' },
+  surprisesHeader: {
+    flexDirection: 'row', backgroundColor: '#111113',
+    paddingHorizontal: 12, paddingVertical: 10,
+    borderBottomWidth: 1, borderBottomColor: '#1e1e20',
+  },
+  surprisesHeaderText: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 0.5 },
+  surprisesRow: { flexDirection: 'row', paddingHorizontal: 12, paddingVertical: 10, backgroundColor: '#0d0d0f' },
+  surprisesRowAlt: { backgroundColor: '#0a0a0b' },
+  surprisesCell: { fontSize: 13, color: '#CBD5E1' },
+
   // Earnings tab
   quarterChip: {
     paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10,
@@ -1978,6 +2134,12 @@ const s = StyleSheet.create({
   ratingLegend: { flexDirection: 'row', gap: 16 },
   ratingLegendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   ratingDot: { width: 8, height: 8, borderRadius: 4 },
+  gradingRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, paddingVertical: 12, paddingHorizontal: 16 },
+  gradingDot: { width: 8, height: 8, borderRadius: 4, marginTop: 4 },
+  gradingAction: { fontSize: 13, fontWeight: '700' },
+  gradingCompany: { color: '#CBD5E1', fontSize: 13, marginTop: 2 },
+  gradingChange: { color: '#64748B', fontSize: 12, marginTop: 2 },
+  gradingDate: { color: '#475569', fontSize: 12 },
   ratingLegendText: { color: '#94A3B8', fontSize: 12 },
 
   // Price target card
