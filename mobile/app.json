@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "finclue",
+    "name": "Finclue",
     "slug": "finclue",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,7 +15,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "de.finclue.app",
-      "buildNumber": "22",
+      "buildNumber": "24",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       }

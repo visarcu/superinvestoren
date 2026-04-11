@@ -101,12 +101,12 @@ async function sendAnalystEmail(
   const html = `<!DOCTYPE html>
 <html lang="de">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${symbol}: ${label} | finclue</title></head>
+<title>${symbol}: ${label} | Finclue</title></head>
 <body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111827;">
 
   <div style="max-width:600px;margin:0 auto;padding:32px 20px 16px;">
     <div style="text-align:center;margin-bottom:24px;">
-      <h1 style="color:#374151;margin:0;font-size:24px;font-weight:700;">finclue</h1>
+      <h1 style="color:#374151;margin:0;font-size:24px;font-weight:700;">Finclue</h1>
       <p style="color:#9ca3af;margin:4px 0 0;font-size:14px;">Analysten-Bewertung</p>
       ${ANALYST_EMAIL_TEST_MODE ? '<p style="background:#fbbf24;color:#92400e;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:500;margin:8px auto;display:inline-block;">🧪 TEST E-MAIL</p>' : ''}
     </div>
@@ -145,7 +145,7 @@ async function sendAnalystEmail(
       <!-- CTAs -->
       <div style="display:flex;gap:12px;flex-wrap:wrap;">
         <a href="${stockUrl}" style="display:inline-block;background:#111827;color:#ffffff;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;">
-          In finclue öffnen
+          In Finclue öffnen
         </a>
         ${grading.newsURL ? `
         <a href="${grading.newsURL}" style="display:inline-block;background:#f9fafb;color:#374151;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;border:1px solid #e5e7eb;">
@@ -164,7 +164,7 @@ async function sendAnalystEmail(
 </body></html>`
 
   await resend.emails.send({
-    from: 'finclue <noreply@finclue.de>',
+    from: 'Finclue <noreply@finclue.de>',
     to: toAddress,
     subject: `${symbol}: ${label} von ${grading.gradingCompany}`,
     html,

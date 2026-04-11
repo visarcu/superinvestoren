@@ -1577,7 +1577,12 @@ export default function StockScreen() {
                         ? new Date(g.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: '2-digit' })
                         : '';
                       return (
-                        <View key={i} style={[s.gradingRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                        <TouchableOpacity
+                          key={i}
+                          style={[s.gradingRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}
+                          onPress={() => g.newsURL ? router.push(`/news-article?url=${encodeURIComponent(g.newsURL)}&title=${encodeURIComponent(g.newsTitle || actionLabel)}`) : undefined}
+                          activeOpacity={g.newsURL ? 0.7 : 1}
+                        >
                           <View style={[s.gradingDot, { backgroundColor: color }]} />
                           <View style={{ flex: 1 }}>
                             <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -1586,8 +1591,10 @@ export default function StockScreen() {
                             </View>
                             <Text style={s.gradingCompany}>{g.gradingCompany || g.analystCompany || '—'}</Text>
                             {gradeChange ? <Text style={s.gradingChange}>{gradeChange}</Text> : null}
+                            {g.newsTitle ? <Text style={s.gradingNewsTitle} numberOfLines={2}>{g.newsTitle}</Text> : null}
                           </View>
-                        </View>
+                          {g.newsURL && <Ionicons name="chevron-forward" size={14} color="#334155" style={{ marginTop: 2 }} />}
+                        </TouchableOpacity>
                       );
                     })}
                   </View>
@@ -2140,6 +2147,7 @@ const s = StyleSheet.create({
   gradingDot: { width: 8, height: 8, borderRadius: 4, marginTop: 4 },
   gradingAction: { fontSize: 13, fontWeight: '700' },
   gradingCompany: { color: '#CBD5E1', fontSize: 13, marginTop: 2 },
+  gradingNewsTitle: { color: '#475569', fontSize: 11, marginTop: 4, lineHeight: 15 },
   gradingChange: { color: '#64748B', fontSize: 12, marginTop: 2 },
   gradingDate: { color: '#475569', fontSize: 12 },
   ratingLegendText: { color: '#94A3B8', fontSize: 12 },
