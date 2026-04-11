@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import {
   View, Text, TextInput, TouchableOpacity, StyleSheet,
-  ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Modal, ScrollView,
+  ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Modal, ScrollView, FlatList,
 } from 'react-native';
 import { Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -13,10 +13,20 @@ import StockLogo from '../components/StockLogo';
 const BASE_URL = 'https://finclue.de';
 const ALERTS_KEY = 'alerts_modal_shown';
 
+interface SearchSuggestion {
+  symbol: string;
+  name: string;
+  exchangeShortName?: string;
+  type?: string;
+}
+
 export default function AddTransactionScreen() {
   const [symbol, setSymbol] = useState('');
   const [searchResult, setSearchResult] = useState<any>(null);
   const [searching, setSearching] = useState(false);
+  const [suggestions, setSuggestions] = useState<SearchSuggestion[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [quantity, setQuantity] = useState('');
   const [purchasePrice, setPurchasePrice] = useState('');
   const [saving, setSaving] = useState(false);
@@ -27,9 +37,51 @@ export default function AddTransactionScreen() {
   const [alertDigest, setAlertDigest] = useState(true);
   const [savingAlerts, setSavingAlerts] = useState(false);
 
+  function handleSymbolChange(text: string) {
+    setSymbol(text);
+    setSearchResult(null);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    if (text.trim().length < 1) { setSuggestions([]); setShowSuggestions(false); return; }
+    debounceRef.current = setTimeout(() => fetchSuggestions(text.trim()), 250);
+  }
+
+  async function fetchSuggestions(query: string) {
+    try {
+      const res = await fetch(`${BASE_URL}/api/search?query=${encodeURIComponent(query)}`);
+      if (!res.ok) return;
+      const data = await res.json();
+      const results: SearchSuggestion[] = Array.isArray(data) ? data : (data.results || []);
+      setSuggestions(results.filter(r => r.symbol && r.name).slice(0, 8));
+      setShowSuggestions(true);
+    } catch { /* ignore */ }
+  }
+
+  async function selectSuggestion(item: SearchSuggestion) {
+    setShowSuggestions(false);
+    setSuggestions([]);
+    setSymbol(item.symbol);
+    setSearching(true);
+    setSearchResult(null);
+    try {
+      const res = await fetch(`${BASE_URL}/api/quotes?symbols=${item.symbol}`);
+      if (!res.ok) throw new Error('Netzwerkfehler');
+      const data = await res.json();
+      const found = Array.isArray(data) ? data[0] : null;
+      if (found?.symbol) {
+        setSearchResult(found);
+        if (found.price) setPurchasePrice(found.price.toFixed(2));
+      }
+    } catch {
+      Alert.alert('Fehler', 'Aktie konnte nicht geladen werden.');
+    } finally {
+      setSearching(false);
+    }
+  }
+
   async function searchStock() {
     const sym = symbol.trim().toUpperCase();
     if (!sym) return;
+    setShowSuggestions(false);
     setSearching(true);
     setSearchResult(null);
     try {
@@ -173,10 +225,10 @@ export default function AddTransactionScreen() {
           <View style={s.searchRow}>
             <TextInput
               style={s.searchInput}
-              placeholder="Ticker-Symbol (z.B. AAPL)"
+              placeholder="Name oder Ticker (z.B. NVIDIA)"
               placeholderTextColor="#475569"
               value={symbol}
-              onChangeText={t => { setSymbol(t.toUpperCase()); setSearchResult(null); }}
+              onChangeText={t => handleSymbolChange(t.toUpperCase())}
               autoCapitalize="characters"
               autoCorrect={false}
               returnKeyType="search"
@@ -192,6 +244,29 @@ export default function AddTransactionScreen() {
                 : <Ionicons name="search" size={20} color="#F8FAFC" />}
             </TouchableOpacity>
           </View>
+
+          {/* Autocomplete Suggestions */}
+          {showSuggestions && suggestions.length > 0 && (
+            <View style={s.suggestionBox}>
+              {suggestions.map((item, i) => (
+                <TouchableOpacity
+                  key={item.symbol}
+                  style={[s.suggestionRow, i < suggestions.length - 1 && s.suggestionBorder]}
+                  onPress={() => selectSuggestion(item)}
+                  activeOpacity={0.7}
+                >
+                  <StockLogo ticker={item.symbol} size={32} borderRadius={8} />
+                  <View style={{ flex: 1, marginLeft: 10 }}>
+                    <Text style={s.suggestionTicker}>{item.symbol}</Text>
+                    <Text style={s.suggestionName} numberOfLines={1}>{item.name}</Text>
+                  </View>
+                  {item.exchangeShortName && (
+                    <Text style={s.suggestionExchange}>{item.exchangeShortName}</Text>
+                  )}
+                </TouchableOpacity>
+              ))}
+            </View>
+          )}
 
           {/* Result card */}
           {searchResult && (
@@ -340,6 +415,18 @@ const s = StyleSheet.create({
     alignItems: 'center', justifyContent: 'center',
     borderWidth: 1, borderColor: '#2c2c2e',
   },
+
+  suggestionBox: {
+    marginTop: 4, backgroundColor: '#111113', borderRadius: 12,
+    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+  },
+  suggestionRow: {
+    flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 10,
+  },
+  suggestionBorder: { borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  suggestionTicker: { color: '#F8FAFC', fontSize: 13, fontWeight: '700' },
+  suggestionName: { color: '#64748B', fontSize: 11, marginTop: 1 },
+  suggestionExchange: { color: '#475569', fontSize: 10, fontWeight: '600' },
 
   stockCard: {
     flexDirection: 'row', alignItems: 'center', marginTop: 10,
