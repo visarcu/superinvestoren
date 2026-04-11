@@ -31,6 +31,7 @@ const YAHOO_TICKER_ALIASES: Record<string, string> = {
   'NLM.DE':  'NLM.F',    // FRoSTA AG — nur im Freiverkehr
   'IEMA.DE': 'IEMA.L',   // iShares MSCI EM IMI UCITS ETF — nur auf LSE
   'NUKL.DE': 'NUKL.L',   // iShares Nuclear Energy UCITS ETF — nur auf LSE
+  'TOJ.DE':  'RIG',      // Transocean Ltd. — XETRA-Ticker TOJ, Hauptlisting NYSE (USD → EUR)
 }
 
 /**
