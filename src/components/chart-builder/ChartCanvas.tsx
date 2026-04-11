@@ -126,24 +126,58 @@ export default function ChartCanvas({
   // When bars are present, filter data to only points where at least one bar
   // metric has a value. This prevents bars from being paper-thin when mixed
   // with high-frequency data (e.g. daily prices + quarterly EBITDA).
-  // Lines still connect between these points via connectNulls.
+  // For line metrics, interpolate the nearest available value to each bar date.
   const effectiveChartData = useMemo(() => {
     if (!hasBars) return chartData
 
     const barSeriesKeys = barMetrics.map(m => `${m.stockTicker}_${m.metricKey}`)
+    const lineSeriesKeys = lineMetrics.map(m => `${m.stockTicker}_${m.metricKey}`)
 
-    const filtered = chartData.filter(point => {
-      return barSeriesKeys.some(key => {
-        const val = point[key]
-        return val !== undefined && val !== null
+    // Find data points where bars have values
+    const barPoints = chartData.filter(point =>
+      barSeriesKeys.some(key => point[key] !== undefined && point[key] !== null)
+    )
+
+    // Only filter if it actually reduces the data significantly
+    if (barPoints.length === 0 || barPoints.length >= chartData.length * 0.8) {
+      return chartData
+    }
+
+    // For each bar point, fill in the nearest line values from the full dataset
+    if (lineSeriesKeys.length > 0) {
+      return barPoints.map(barPoint => {
+        const enriched = { ...barPoint }
+        for (const lineKey of lineSeriesKeys) {
+          if (enriched[lineKey] !== undefined && enriched[lineKey] !== null) continue
+
+          // Find the nearest data point that has this line value
+          const barDate = barPoint.date as string
+          let closest: number | undefined
+          let closestDist = Infinity
+
+          for (const point of chartData) {
+            const val = point[lineKey]
+            if (val === undefined || val === null) continue
+            // Simple string-based distance for date comparison
+            const dist = Math.abs(
+              new Date(point.date as string).getTime() - new Date(barDate).getTime()
+            )
+            if (dist < closestDist) {
+              closestDist = dist
+              closest = val as number
+            }
+          }
+
+          if (closest !== undefined) {
+            enriched[lineKey] = closest
+          }
+        }
+        return enriched
       })
-    })
+    }
 
-    // Only use filtered if it actually reduced the data (bars have sparse data)
-    return filtered.length > 0 && filtered.length < chartData.length * 0.8
-      ? filtered
-      : chartData
-  }, [chartData, hasBars, barMetrics])
+    return barPoints
+  }, [chartData, hasBars, barMetrics, lineMetrics])
 
   // In combo mode: bars → left axis, lines → right axis (separate scales)
   // Determine the unit for each axis based on chart type grouping
