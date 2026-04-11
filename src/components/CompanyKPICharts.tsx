@@ -183,15 +183,11 @@ export default function CompanyKPICharts({ ticker, isPremium }: CompanyKPICharts
         <span className="text-xs px-2 py-0.5 rounded-full bg-brand/10 text-brand font-medium">SEC EDGAR</span>
       </div>
 
-      {!isPremium ? (
-        <PremiumGate />
-      ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {Object.entries(data.metrics).map(([key, metric]) => (
-            <KPICard key={key} metricKey={key} metric={metric} />
-          ))}
-        </div>
-      )}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        {Object.entries(data.metrics).map(([key, metric]) => (
+          <KPICard key={key} metricKey={key} metric={metric} />
+        ))}
+      </div>
     </section>
   )
 }
