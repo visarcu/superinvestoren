@@ -26,7 +26,8 @@ export default function RootLayout() {
     const notifSub = Notifications.addNotificationResponseReceivedListener((response) => {
       const data = response.notification.request.content.data as any;
       if (data?.screen === 'stock' && data?.ticker) {
-        router.push(`/stock/${data.ticker}`);
+        const tab = data?.tab ? `?tab=${data.tab}` : '';
+        router.push(`/stock/${data.ticker}${tab}`);
       } else if (data?.screen === 'portfolio') {
         router.push('/(tabs)/portfolio');
       }

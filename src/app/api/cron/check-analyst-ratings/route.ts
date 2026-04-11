@@ -248,6 +248,10 @@ async function handleCheck() {
         newGrade: grading.newGrade,
         previousGrade: grading.previousGrade,
         publishedDate: grading.publishedDate,
+        // Mobile deep link → stock detail, estimates tab
+        screen: 'stock',
+        ticker: symbol,
+        tab: 'estimates',
       }
       const href = `/analyse/stocks/${symbol.toLowerCase()}/ratings`
 

@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl, StyleSheet, Modal, Pressable } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
@@ -38,7 +38,8 @@ interface DivInfo {
 export default function PortfolioScreen() {
   const [activeTab, setActiveTab] = useState<Tab>('positionen');
   const [portfolioList, setPortfolioList] = useState<{ id: string; name: string }[]>([]);
-  const [selectedPortfolioId, setSelectedPortfolioId] = useState<string | null>(null);
+  const [selectedPortfolioId, setSelectedPortfolioId] = useState<string | null>(null); // null = all
+  const [showPortfolioModal, setShowPortfolioModal] = useState(false);
   const [holdings, setHoldings] = useState<Holding[]>([]);
   const [portfolioName, setPortfolioName] = useState('');
   const [totalValue, setTotalValue] = useState(0);
@@ -52,13 +53,19 @@ export default function PortfolioScreen() {
 
   useFocusEffect(useCallback(() => { loadPortfolio(); }, []));
 
-  async function switchPortfolio(id: string, name: string) {
+  async function switchPortfolio(id: string | null, name: string) {
     setSelectedPortfolioId(id);
     setPortfolioName(name);
+    setShowPortfolioModal(false);
     setHoldings([]);
     setDivData([]);
     setLoading(true);
-    await loadHoldings(id);
+    if (id === null) {
+      // Load all portfolios combined
+      await loadAllHoldings();
+    } else {
+      await loadHoldings(id);
+    }
   }
 
   async function loadPortfolio() {
@@ -75,16 +82,20 @@ export default function PortfolioScreen() {
       if (!portfolios?.length) { setLoading(false); setRefreshing(false); return; }
       setPortfolioList(portfolios);
 
-      // Use already selected portfolio if still valid, else default to first
-      const currentId = selectedPortfolioId && portfolios.find(p => p.id === selectedPortfolioId)
-        ? selectedPortfolioId
-        : portfolios[0].id;
-      const portfolio = portfolios.find(p => p.id === currentId) || portfolios[0];
-
-      if (!selectedPortfolioId) setSelectedPortfolioId(portfolio.id);
-      setPortfolioName(portfolio.name);
-
-      await loadHoldings(portfolio.id);
+      // On first load default to first portfolio; keep selection on refresh
+      if (selectedPortfolioId === undefined) {
+        setSelectedPortfolioId(portfolios[0].id);
+        setPortfolioName(portfolios[0].name);
+        await loadHoldings(portfolios[0].id);
+      } else if (selectedPortfolioId === null) {
+        // "Alle Depots" mode
+        setPortfolioName('Alle Depots');
+        await loadAllHoldings(portfolios.map((p: any) => p.id));
+      } else {
+        const portfolio = portfolios.find((p: any) => p.id === selectedPortfolioId) || portfolios[0];
+        setPortfolioName(portfolio.name);
+        await loadHoldings(portfolio.id);
+      }
     } catch (e: any) {
       setError(e.message || 'Fehler');
     } finally {
@@ -133,6 +144,60 @@ export default function PortfolioScreen() {
       setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
       setTotalValue(tv);
       setTotalCost(tc);
+      loadDividends(enriched);
+    } catch (e: any) {
+      setError(e.message || 'Fehler');
+    } finally {
+      setLoading(false); setRefreshing(false);
+    }
+  }
+
+  async function loadAllHoldings(portfolioIds?: string[]) {
+    try {
+      const ids = portfolioIds || portfolioList.map(p => p.id);
+      if (!ids.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
+      const { data: rawHoldings, error: hErr } = await supabase
+        .from('portfolio_holdings')
+        .select('symbol, name, quantity, purchase_price, current_price')
+        .in('portfolio_id', ids);
+      if (hErr) throw hErr;
+      if (!rawHoldings?.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
+      // Merge duplicate symbols (sum quantities)
+      const merged: Record<string, any> = {};
+      for (const h of rawHoldings) {
+        if (!merged[h.symbol]) merged[h.symbol] = { ...h };
+        else {
+          merged[h.symbol].quantity = (merged[h.symbol].quantity || 0) + (h.quantity || 0);
+          merged[h.symbol].purchase_price = h.purchase_price; // use latest
+        }
+      }
+      const mergedArr = Object.values(merged);
+      const symbols = mergedArr.map((h: any) => h.symbol).join(',');
+      const [qRes, siRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`),
+        fetch(`${BASE_URL}/api/portfolio/super-investor-overlap`, {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ tickers: mergedArr.map((h: any) => h.symbol) }),
+        }),
+      ]);
+      const quotes: any[] = qRes.ok ? await qRes.json() : [];
+      const quoteMap: Record<string, any> = {};
+      quotes.forEach((q: any) => { quoteMap[q.symbol] = q; });
+      if (siRes.ok) setSiCounts(await siRes.json());
+      let tv = 0, tc = 0;
+      const enriched: Holding[] = mergedArr.map((h: any) => {
+        const q = quoteMap[h.symbol] || {};
+        const currentPrice = q.price || h.current_price || 0;
+        const currentValue = currentPrice * (h.quantity || 0);
+        const cost = (h.purchase_price || 0) * (h.quantity || 0);
+        tv += currentValue; tc += cost;
+        return { ...h, currentPrice, currentValue, cost, gain: currentValue - cost,
+          gainPct: cost > 0 ? ((currentValue - cost) / cost) * 100 : 0,
+          displayName: q.name || h.name || h.symbol };
+      });
+      enriched.forEach(h => { h.weight = tv > 0 ? (h.currentValue / tv) * 100 : 0; });
+      setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
+      setTotalValue(tv); setTotalCost(tc);
       loadDividends(enriched);
     } catch (e: any) {
       setError(e.message || 'Fehler');
@@ -201,27 +266,55 @@ export default function PortfolioScreen() {
       >
         {/* Header */}
         <View style={s.header}>
-          <Text style={s.title}>Portfolio</Text>
+          <TouchableOpacity style={s.portfolioSelector} onPress={() => setShowPortfolioModal(true)}>
+            <Text style={s.title}>{portfolioName || 'Portfolio'}</Text>
+            {portfolioList.length > 1 && (
+              <Ionicons name="chevron-down" size={18} color="#94A3B8" style={{ marginTop: 2 }} />
+            )}
+          </TouchableOpacity>
           <TouchableOpacity style={s.addBtn} onPress={() => router.push('/add-transaction')}>
             <Ionicons name="add" size={22} color="#F8FAFC" />
           </TouchableOpacity>
         </View>
 
-        {/* Portfolio Switcher */}
-        {portfolioList.length > 1 && (
-          <ScrollView horizontal showsHorizontalScrollIndicator={false}
-            contentContainerStyle={s.portfolioSwitcher}>
-            {portfolioList.map(p => (
-              <TouchableOpacity key={p.id}
-                style={[s.portfolioChip, selectedPortfolioId === p.id && s.portfolioChipActive]}
-                onPress={() => { if (selectedPortfolioId !== p.id) switchPortfolio(p.id, p.name); }}>
-                <Text style={[s.portfolioChipText, selectedPortfolioId === p.id && s.portfolioChipTextActive]}>
-                  {p.name}
-                </Text>
+        {/* Portfolio Modal */}
+        <Modal visible={showPortfolioModal} transparent animationType="slide" onRequestClose={() => setShowPortfolioModal(false)}>
+          <Pressable style={s.modalOverlay} onPress={() => setShowPortfolioModal(false)}>
+            <Pressable style={s.modalSheet} onPress={e => e.stopPropagation()}>
+              <View style={s.modalHandle} />
+              <Text style={s.modalTitle}>Depot auswählen</Text>
+
+              {/* All portfolios option */}
+              <TouchableOpacity style={s.modalOption} onPress={() => switchPortfolio(null, 'Alle Depots')}>
+                <View style={s.modalOptionLeft}>
+                  <Ionicons name="layers-outline" size={20} color="#22C55E" />
+                  <View>
+                    <Text style={s.modalOptionName}>Alle Depots</Text>
+                    <Text style={s.modalOptionSub}>{portfolioList.length} Depots zusammengefasst</Text>
+                  </View>
+                </View>
+                {selectedPortfolioId === null && <Ionicons name="checkmark" size={18} color="#22C55E" />}
               </TouchableOpacity>
-            ))}
-          </ScrollView>
-        )}
+
+              <View style={s.modalDivider} />
+
+              {/* Individual portfolios */}
+              {portfolioList.map(p => (
+                <TouchableOpacity key={p.id} style={s.modalOption} onPress={() => switchPortfolio(p.id, p.name)}>
+                  <View style={s.modalOptionLeft}>
+                    <Ionicons name="briefcase-outline" size={20} color="#64748B" />
+                    <Text style={s.modalOptionName}>{p.name}</Text>
+                  </View>
+                  {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color="#22C55E" />}
+                </TouchableOpacity>
+              ))}
+
+              <TouchableOpacity style={s.modalCancel} onPress={() => setShowPortfolioModal(false)}>
+                <Text style={s.modalCancelText}>Abbrechen</Text>
+              </TouchableOpacity>
+            </Pressable>
+          </Pressable>
+        </Modal>
 
         {/* Summary Card */}
         <View style={s.summaryCard}>
@@ -511,14 +604,34 @@ const s = StyleSheet.create({
 
   // Header
   header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  portfolioSwitcher: { paddingHorizontal: 16, paddingBottom: 12, gap: 8 },
-  portfolioChip: {
-    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
-    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
+  portfolioSelector: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  // Modal
+  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'flex-end' },
+  modalSheet: {
+    backgroundColor: '#111113', borderTopLeftRadius: 20, borderTopRightRadius: 20,
+    paddingBottom: 34, paddingTop: 12,
   },
-  portfolioChipActive: { borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.1)' },
-  portfolioChipText: { color: '#64748b', fontSize: 13, fontWeight: '600' },
-  portfolioChipTextActive: { color: '#22C55E' },
+  modalHandle: {
+    width: 36, height: 4, borderRadius: 2, backgroundColor: '#334155',
+    alignSelf: 'center', marginBottom: 16,
+  },
+  modalTitle: {
+    color: '#64748B', fontSize: 12, fontWeight: '700', letterSpacing: 1,
+    textTransform: 'uppercase', paddingHorizontal: 20, marginBottom: 8,
+  },
+  modalOption: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 20, paddingVertical: 14,
+  },
+  modalOptionLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  modalOptionName: { color: '#F8FAFC', fontSize: 16, fontWeight: '600' },
+  modalOptionSub: { color: '#64748B', fontSize: 13, marginTop: 1 },
+  modalDivider: { height: 1, backgroundColor: '#1e1e20', marginVertical: 4, marginHorizontal: 20 },
+  modalCancel: {
+    marginHorizontal: 16, marginTop: 8, paddingVertical: 14, borderRadius: 12,
+    backgroundColor: '#1e293b', alignItems: 'center',
+  },
+  modalCancelText: { color: '#94A3B8', fontSize: 16, fontWeight: '600' },
   title: { color: '#FFFFFF', fontSize: 26, fontWeight: '700', letterSpacing: -0.8 },
   subtitle: { color: '#8E8E93', fontSize: 13, marginTop: 1 },
   addBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
