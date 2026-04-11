@@ -134,6 +134,7 @@ const NAV_ITEMS: NavItem[] = [
   { id: 'finder', label: 'Stock Finder', icon: SparklesIcon, href: '/analyse/finder' },
   { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },
   { id: 'dcf', label: 'DCF Calculator', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
+  { id: 'analyst-ratings', label: 'Analyst Ratings', icon: ArrowTrendingUpIcon, href: '/analyse/analyst-ratings' },
   { id: 'insider', label: 'Insider Trading', icon: EyeIcon, href: '/analyse/insider' },
   { id: 'ai', label: 'Finclue AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
 ]
@@ -603,10 +604,21 @@ const CommandPalette = React.memo(({
     const searchTerm = query.toUpperCase()
     if (searchTerm.length > 0) {
       // Aktien durchsuchen
-      const matchingStocks = stocks.filter(stock =>
-        stock.ticker.includes(searchTerm) ||
-        stock.name.toLowerCase().includes(query.toLowerCase())
-      ).slice(0, 6)
+      const q = query.toLowerCase()
+      const matchingStocks = stocks
+        .filter(stock =>
+          stock.ticker.includes(searchTerm) ||
+          stock.name.toLowerCase().includes(q)
+        )
+        .sort((a, b) => {
+          const score = (s: typeof a) =>
+            s.ticker === searchTerm ? 0
+            : s.ticker.startsWith(searchTerm) ? 1
+            : s.name.toLowerCase().startsWith(q) ? 2
+            : 3
+          return score(a) - score(b)
+        })
+        .slice(0, 6)
 
       const stockCommands = matchingStocks.map(stock => ({
         id: `stock-${stock.ticker}`,
