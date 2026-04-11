@@ -8,6 +8,9 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { Resend } from 'resend'
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -76,6 +79,96 @@ async function createInAppNotification(
     return
   }
   await sendPushNotification(userId, title, message, data)
+}
+
+async function sendAnalystEmail(
+  userEmail: string,
+  symbol: string,
+  label: string,
+  grading: FMPGrading,
+  gradeChange: string,
+) {
+  const actionColor = label === 'Hochgestuft' ? '#22C55E' : label === 'Herabgestuft' ? '#EF4444' : '#F59E0B'
+  const stockUrl = `https://finclue.de/analyse/stocks/${symbol.toLowerCase()}/ratings`
+  const date = new Date(grading.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })
+
+  const html = `
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;background:#0a0a0b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
+  <div style="max-width:580px;margin:0 auto;padding:32px 16px;">
+
+    <!-- Header -->
+    <div style="text-align:center;margin-bottom:32px;">
+      <span style="font-size:22px;font-weight:800;color:#F8FAFC;letter-spacing:-0.5px;">finclue</span>
+    </div>
+
+    <!-- Card -->
+    <div style="background:#111113;border-radius:16px;border:1px solid #1e1e20;overflow:hidden;margin-bottom:24px;">
+
+      <!-- Tag -->
+      <div style="background:${actionColor}18;border-bottom:1px solid ${actionColor}30;padding:12px 20px;">
+        <span style="color:${actionColor};font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">● ${label}</span>
+      </div>
+
+      <!-- Content -->
+      <div style="padding:24px 20px;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
+          <img src="https://financialmodelingprep.com/image-stock/${symbol}.png" width="44" height="44"
+            style="border-radius:10px;background:#1e1e20;" onerror="this.style.display='none'" />
+          <div>
+            <div style="color:#F8FAFC;font-size:20px;font-weight:800;">${symbol}</div>
+            <div style="color:#64748B;font-size:13px;margin-top:2px;">${grading.gradingCompany} · ${date}</div>
+          </div>
+        </div>
+
+        <!-- Grade Change -->
+        <div style="background:#0a0a0b;border-radius:12px;border:1px solid #1e1e20;padding:16px;margin-bottom:20px;">
+          <div style="color:#475569;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:10px;">BEWERTUNG</div>
+          ${grading.previousGrade && grading.newGrade && grading.previousGrade !== grading.newGrade ? `
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="color:#94A3B8;font-size:15px;text-decoration:line-through;">${grading.previousGrade}</span>
+            <span style="color:#475569;font-size:14px;">→</span>
+            <span style="color:${actionColor};font-size:15px;font-weight:700;">${grading.newGrade}</span>
+          </div>` : `
+          <span style="color:${actionColor};font-size:15px;font-weight:700;">${grading.newGrade || label}</span>`}
+        </div>
+
+        ${grading.newsTitle ? `
+        <div style="margin-bottom:20px;">
+          <div style="color:#475569;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px;">ARTIKEL</div>
+          <div style="color:#94A3B8;font-size:13px;line-height:1.5;">${grading.newsTitle}</div>
+        </div>` : ''}
+
+        <!-- CTAs -->
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="${stockUrl}" style="display:inline-block;background:#F8FAFC;color:#0a0a0b;font-size:14px;font-weight:700;padding:12px 20px;border-radius:10px;text-decoration:none;">
+            In finclue öffnen
+          </a>
+          ${grading.newsURL ? `
+          <a href="${grading.newsURL}" style="display:inline-block;background:#1e1e20;color:#94A3B8;font-size:14px;font-weight:600;padding:12px 20px;border-radius:10px;text-decoration:none;">
+            Artikel lesen →
+          </a>` : ''}
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div style="text-align:center;">
+      <p style="color:#334155;font-size:12px;margin:0 0 8px;">Du erhältst diese E-Mail weil du ${symbol} in deiner Watchlist oder deinem Portfolio hast.</p>
+      <a href="https://finclue.de/einstellungen" style="color:#475569;font-size:12px;">Benachrichtigungen verwalten</a>
+    </div>
+  </div>
+</body>
+</html>`
+
+  await resend.emails.send({
+    from: 'finclue <noreply@finclue.de>',
+    to: userEmail,
+    subject: `${symbol}: ${label} von ${grading.gradingCompany}`,
+    html,
+  })
 }
 
 interface FMPGrading {
@@ -177,6 +270,15 @@ async function handleCheck() {
     }
   }
 
+  // ── 2b. Load user emails ──────────────────────────────────────────────────
+  const userEmailMap = new Map<string, string>()
+  if (allUserIds.length > 0) {
+    const { data: { users } } = await supabaseService.auth.admin.listUsers({ perPage: 1000 })
+    for (const u of (users || [])) {
+      if (u.email && allUserIds.includes(u.id)) userEmailMap.set(u.id, u.email)
+    }
+  }
+
   // ── 3. Determine lookback window ──────────────────────────────────────────
   // Test mode: 30 Tage, damit garantiert was gefunden wird
   // Production: 48h um Wochenenden/Feiertage abzudecken ohne Duplikate zu erzeugen
@@ -261,6 +363,15 @@ async function handleCheck() {
 
       for (const userId of usersToNotify) {
         await createInAppNotification(userId, title, message, notifData, href)
+        // Send email if user has an email
+        const email = userEmailMap.get(userId)
+        if (email) {
+          try {
+            await sendAnalystEmail(email, symbol, label, grading, gradeChange)
+          } catch (e) {
+            console.error(`[AnalystRatings] Email error for ${userId}:`, e)
+          }
+        }
         totalNotified++
       }
     }
