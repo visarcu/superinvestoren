@@ -21,15 +21,32 @@ export async function GET(req: Request) {
   const limit = Math.min(parseInt(searchParams.get('limit') || '50'), 100)
 
   try {
-    // FMP has a bulk endpoint for recent upgrades/downgrades
-    const url = `https://financialmodelingprep.com/api/v4/upgrades-downgrades?apikey=${apiKey}`
-    const res = await fetch(url, { next: { revalidate: 1800 } }) // 30 min cache
-    if (!res.ok) return NextResponse.json([])
-    const data = await res.json()
-    if (!Array.isArray(data)) return NextResponse.json([])
+    // FMP v4 requires symbol param — fetch top tickers in parallel batches
+    const batchSize = 10
+    const allGradings: any[] = []
 
-    // Return the latest entries
-    return NextResponse.json(data.slice(0, limit))
+    for (let i = 0; i < MAJOR_TICKERS.length; i += batchSize) {
+      const batch = MAJOR_TICKERS.slice(i, i + batchSize)
+      const results = await Promise.all(
+        batch.map(async (symbol) => {
+          try {
+            const url = `https://financialmodelingprep.com/api/v4/upgrades-downgrades?symbol=${symbol}&apikey=${apiKey}`
+            const res = await fetch(url, { next: { revalidate: 1800 } })
+            if (!res.ok) return []
+            const data = await res.json()
+            return Array.isArray(data) ? data.slice(0, 3) : []
+          } catch { return [] }
+        })
+      )
+      allGradings.push(...results.flat())
+    }
+
+    // Sort by date descending and return
+    allGradings.sort((a, b) =>
+      new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime()
+    )
+
+    return NextResponse.json(allGradings.slice(0, limit))
   } catch (e) {
     return NextResponse.json([])
   }
