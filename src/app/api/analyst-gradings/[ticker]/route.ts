@@ -11,7 +11,7 @@ export async function GET(
   if (!apiKey) return NextResponse.json({ error: 'API key missing' }, { status: 500 })
 
   try {
-    const url = `https://financialmodelingprep.com/api/v4/upgrades-downgrades-grading-company?company=${ticker}&apikey=${apiKey}`
+    const url = `https://financialmodelingprep.com/api/v4/upgrades-downgrades?symbol=${ticker}&apikey=${apiKey}`
     const res = await fetch(url, { next: { revalidate: 3600 } })
     if (!res.ok) return NextResponse.json([], { status: 200 })
     const data = await res.json()
