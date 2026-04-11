@@ -136,12 +136,21 @@ export async function GET(request: NextRequest) {
       }
     }
 
+    // Deduplicate: keep only the earliest upcoming date per symbol
+    const deduped = new Map<string, typeof earningsEvents[0]>()
+    for (const event of earningsEvents) {
+      const existing = deduped.get(event.ticker)
+      if (!existing || new Date(event.date) < new Date(existing.date)) {
+        deduped.set(event.ticker, event)
+      }
+    }
+
     // Sort by date (upcoming first)
-    const sortedEvents = earningsEvents.sort((a, b) => 
+    const sortedEvents = [...deduped.values()].sort((a, b) =>
       new Date(a.date).getTime() - new Date(b.date).getTime()
     )
 
-    console.log(`📅 Final result: ${sortedEvents.length} earnings events`)
+    console.log(`📅 Final result: ${sortedEvents.length} earnings events (deduped from ${earningsEvents.length})`)
 
     return NextResponse.json(sortedEvents, {
       headers: {
