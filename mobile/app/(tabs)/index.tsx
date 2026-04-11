@@ -136,13 +136,28 @@ export default function DashboardScreen() {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showDrawer, setShowDrawer] = useState(false);
+  const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
       setUserName(data.user?.email?.split('@')[0] || 'Investor');
     });
     loadAll();
+    loadUnreadCount();
   }, []);
+
+  async function loadUnreadCount() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const res = await fetch(`${BASE}/api/notifications?unread=true&limit=50`, {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+      if (!res.ok) return;
+      const json = await res.json();
+      setUnreadCount((json.notifications || []).length);
+    } catch { /* ignore */ }
+  }
 
   async function loadAll() {
     try {
@@ -208,6 +223,18 @@ export default function DashboardScreen() {
             <Text style={s.greeting}>{greeting}</Text>
             <Text style={s.name}>{userName}</Text>
           </View>
+          <TouchableOpacity
+            style={s.bellBtn}
+            onPress={() => { setUnreadCount(0); router.push('/notifications-center'); }}
+            activeOpacity={0.7}
+          >
+            <Ionicons name={unreadCount > 0 ? 'notifications' : 'notifications-outline'} size={22} color="#F8FAFC" />
+            {unreadCount > 0 && (
+              <View style={s.bellBadge}>
+                <Text style={s.bellBadgeText}>{unreadCount > 9 ? '9+' : unreadCount}</Text>
+              </View>
+            )}
+          </TouchableOpacity>
         </View>
 
         {/* ── Search ──────────────────────────────────── */}
@@ -393,6 +420,9 @@ const s = StyleSheet.create({
   avatarText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
   greeting: { color: '#8E8E93', fontSize: 12 },
   name: { color: '#FFFFFF', fontSize: 20, fontWeight: '700', letterSpacing: -0.4 },
+  bellBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' },
+  bellBadge: { position: 'absolute', top: -2, right: -2, backgroundColor: '#F97316', borderRadius: 8, minWidth: 16, height: 16, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderWidth: 1.5, borderColor: '#0a0a0b' },
+  bellBadgeText: { color: '#fff', fontSize: 9, fontWeight: '800' },
 
   // Search
   searchWrap: { paddingHorizontal: 16, marginBottom: 16 },
