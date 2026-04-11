@@ -120,6 +120,32 @@ export default function ChartCanvas({
   }, [visibleMetrics, viewMode])
 
   const hasBars = barMetrics.length > 0
+  const hasLines = lineMetrics.length > 0
+  const isComboChart = hasBars && hasLines
+
+  // In combo mode: bars → left axis, lines → right axis (separate scales)
+  // Determine the unit for each axis based on chart type grouping
+  const comboLeftUnit = useMemo(() => {
+    if (!isComboChart) return null
+    const barDef = barMetrics[0] && getMetricDefinition(barMetrics[0].metricKey)
+    return barDef?.unit || 'currency'
+  }, [isComboChart, barMetrics])
+
+  const comboRightUnit = useMemo(() => {
+    if (!isComboChart) return null
+    // Pick the most common unit among line metrics
+    const unitCounts = new Map<string, number>()
+    for (const m of lineMetrics) {
+      const def = getMetricDefinition(m.metricKey)
+      if (def) unitCounts.set(def.unit, (unitCounts.get(def.unit) || 0) + 1)
+    }
+    let best = 'number'
+    let bestCount = 0
+    for (const [unit, count] of unitCounts) {
+      if (count > bestCount) { best = unit; bestCount = count }
+    }
+    return best
+  }, [isComboChart, lineMetrics])
 
   // Get current values for performance labels
   const currentValues = useMemo(() => {
@@ -151,15 +177,17 @@ export default function ChartCanvas({
   }, [chartData.length])
 
   // Determine Y-axis unit for formatting
-  const leftAxisUnit = yAxisConfigs.find(c => c.side === 'left')?.unit || 'number'
-  const rightAxisUnit = yAxisConfigs.find(c => c.side === 'right')?.unit
-  const hasRightAxis = yAxisConfigs.length > 1
+  // In combo mode, override axis units: bars (left) use bar unit, lines (right) use line unit
+  const configLeftUnit = yAxisConfigs.find(c => c.side === 'left')?.unit || 'number'
+  const configRightUnit = yAxisConfigs.find(c => c.side === 'right')?.unit
+  const configHasRightAxis = yAxisConfigs.length > 1
+
+  const leftAxisUnit = isComboChart ? (comboLeftUnit || 'currency') : configLeftUnit
+  const rightAxisUnit = isComboChart ? (comboRightUnit || 'number') : configRightUnit
+  const hasRightAxis = isComboChart || configHasRightAxis
+
   const effectiveLeftUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : leftAxisUnit
   const effectiveRightUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : rightAxisUnit
-
-  // Check which axes have bars (for domain calculation)
-  const leftAxisHasBars = barMetrics.some(m => !(hasRightAxis && m.yAxisSide === 'right'))
-  const rightAxisHasBars = hasRightAxis && barMetrics.some(m => m.yAxisSide === 'right')
 
   if (visibleMetrics.length === 0 && !loading) {
     return (
@@ -196,7 +224,7 @@ export default function ChartCanvas({
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={chartData}
-            margin={{ top: 16, right: hasRightAxis ? 70 : 50, left: 10, bottom: 20 }}
+            margin={{ top: 16, right: hasRightAxis ? 80 : 50, left: 10, bottom: 20 }}
             barCategoryGap={hasBars ? '15%' : undefined}
             barGap={2}
           >
@@ -240,13 +268,13 @@ export default function ChartCanvas({
               tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
               width={65}
               tickFormatter={(value: number) => formatYAxisTick(value, effectiveLeftUnit)}
-              domain={leftAxisHasBars ? [0, 'auto'] : ['auto', 'auto']}
+              domain={hasBars ? [0, 'auto'] : ['auto', 'auto']}
               scale={viewMode === 'log' ? 'log' : 'auto'}
               allowDataOverflow={viewMode === 'log'}
               dx={-4}
             />
 
-            {/* Right Y-Axis (if mixed units) */}
+            {/* Right Y-Axis */}
             {hasRightAxis && effectiveRightUnit && (
               <YAxis
                 yAxisId="right"
@@ -256,7 +284,7 @@ export default function ChartCanvas({
                 tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
                 width={65}
                 tickFormatter={(value: number) => formatYAxisTick(value, effectiveRightUnit)}
-                domain={rightAxisHasBars ? [0, 'auto'] : ['auto', 'auto']}
+                domain={['auto', 'auto']}
                 scale={viewMode === 'log' ? 'log' : 'auto'}
                 allowDataOverflow={viewMode === 'log'}
                 dx={4}
@@ -286,9 +314,12 @@ export default function ChartCanvas({
             />
 
             {/* === Bar metrics (rendered first so lines appear on top) === */}
+            {/* In combo mode: bars always on left axis */}
             {barMetrics.map(metric => {
               const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
-              const yAxisId = hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left'
+              const yAxisId = isComboChart
+                ? 'left'
+                : (hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left')
 
               return (
                 <Bar
@@ -307,9 +338,12 @@ export default function ChartCanvas({
             })}
 
             {/* === Line metrics (rendered on top of bars) === */}
+            {/* In combo mode: lines always on right axis */}
             {lineMetrics.map(metric => {
               const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
-              const yAxisId = hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left'
+              const yAxisId = isComboChart
+                ? 'right'
+                : (hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left')
 
               return (
                 <Line
