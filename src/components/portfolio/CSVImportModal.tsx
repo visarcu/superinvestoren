@@ -64,13 +64,13 @@ export default function CSVImportModal({
   const [checkingDuplicates, setCheckingDuplicates] = useState(false)
   const [showSkippedDetails, setShowSkippedDetails] = useState(false)
   const [showDuplicateDetails, setShowDuplicateDetails] = useState(false)
-  const [importSource, setImportSource] = useState<'csv' | 'pdf' | null>(null)
   const [skippedResolve, setSkippedResolve] = useState(false)
   const [pendingDuplicateCheck, setPendingDuplicateCheck] = useState(false)
   const [pdfParsing, setPdfParsing] = useState(false)
   const [pdfErrors, setPdfErrors] = useState<string[]>([])
-  const fileInputRef = useRef<HTMLInputElement>(null)
-  const pdfInputRef = useRef<HTMLInputElement>(null)
+  const [detectedFormat, setDetectedFormat] = useState<string | null>(null)
+  const [isDragOver, setIsDragOver] = useState(false)
+  const autoInputRef = useRef<HTMLInputElement>(null)
 
   // Reset State
   const resetState = useCallback(() => {
@@ -89,9 +89,10 @@ export default function CSVImportModal({
     setCheckingDuplicates(false)
     setShowSkippedDetails(false)
     setShowDuplicateDetails(false)
-    setImportSource(null)
     setPdfParsing(false)
     setPdfErrors([])
+    setDetectedFormat(null)
+    setIsDragOver(false)
     setSkippedResolve(false)
     setPendingDuplicateCheck(false)
   }, [])
@@ -101,325 +102,136 @@ export default function CSVImportModal({
     onClose()
   }, [resetState, onClose])
 
-  // === STEP 1: Upload + Auto-Resolve ===
-  const handleFileUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
+  // === STEP 1: Unified Auto-Upload (erkennt Format automatisch) ===
+  const runISINResolve = useCallback(async (
+    uniqueISINs: string[],
+    setMap: (m: Map<string, { symbol: string; name: string; source: string }>) => void,
+  ) => {
+    if (uniqueISINs.length === 0) {
+      setSkippedResolve(true)
+      setStep('preview')
+      setPendingDuplicateCheck(true)
+      return
+    }
+    const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
+    const newMap = new Map<string, { symbol: string; name: string; source: string }>()
+    resolved.forEach((value, key) => {
+      newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
+    })
 
-    try {
-      const text = await file.text()
-      const result = parseScalableCSV(text)
-      setParseResult(result)
-
-      // Sofort in den Lade-Screen wechseln
-      setStep('processing')
-
-      if (result.uniqueISINs.length > 0) {
-        // Phase 1: Lokal auflösen (etfs.ts)
-        const { resolved, unresolved } = resolveISINsLocally(result.uniqueISINs)
-
-        const newMap = new Map<string, { symbol: string; name: string; source: string }>()
-        resolved.forEach((value, key) => {
-          newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
-        })
-
-        // Phase 2: Unaufgelöste ISINs automatisch via API auflösen
-        if (unresolved.length > 0) {
-          setIsinMap(newMap)
-          setResolving(true)
-
-          try {
-            const response = await fetch('/api/portfolio/resolve-isins', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ isins: unresolved }),
-            })
-
-            if (response.ok) {
-              const { results } = await response.json()
-              const stillUnresolved: string[] = []
-
-              for (const isin of unresolved) {
-                if (results[isin]) {
-                  newMap.set(isin, {
-                    symbol: results[isin].symbol,
-                    name: results[isin].name,
-                    source: results[isin].source || 'openfigi',
-                  })
-                } else {
-                  stillUnresolved.push(isin)
-                }
-              }
-
-              setIsinMap(new Map(newMap))
-              setUnresolvedISINs(stillUnresolved)
-
-              if (stillUnresolved.length === 0) {
-                setSkippedResolve(true)
-                setStep('preview')
-                setPendingDuplicateCheck(true)
-              } else {
-                // Nur bei echten Auflösungsproblemen den Resolve-Step zeigen
-                setStep('resolve')
-              }
-            }
-          } catch (error: any) {
-            console.error('Auto ISIN resolution error:', error)
-            setUnresolvedISINs(unresolved)
-            setStep('resolve')
-          } finally {
-            setResolving(false)
-          }
-        } else {
-          // Alles lokal aufgelöst → direkt zu Preview
-          setIsinMap(newMap)
-          setUnresolvedISINs([])
-          setSkippedResolve(true)
-          setStep('preview')
-          setPendingDuplicateCheck(true)
-        }
-      } else {
-        setStep('resolve')
-      }
-    } catch (error: any) {
-      setImportError(`Fehler beim Lesen der Datei: ${error.message}`)
+    if (unresolved.length === 0) {
+      setMap(newMap)
+      setUnresolvedISINs([])
+      setSkippedResolve(true)
+      setStep('preview')
+      setPendingDuplicateCheck(true)
+      return
     }
 
-    // Reset file input
-    if (fileInputRef.current) fileInputRef.current.value = ''
-  }, [])
-
-  // === STEP 1b: Flatex PDF Upload ===
-  const handlePDFUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files
-    if (!files || files.length === 0) return
-
-    setImportSource('pdf')
-    setPdfParsing(true)
-    setPdfErrors([])
-    setImportError(null)
-
+    setMap(newMap)
+    setResolving(true)
     try {
-      // Auth Token holen
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session?.access_token) {
-        setImportError('Nicht angemeldet. Bitte neu einloggen.')
-        setPdfParsing(false)
-        return
-      }
-
-      // PDFs als FormData an API senden
-      const formData = new FormData()
-      for (let i = 0; i < files.length; i++) {
-        formData.append('files', files[i])
-      }
-
-      const response = await fetch('/api/portfolio/parse-flatex-pdf', {
+      const resp = await fetch('/api/portfolio/resolve-isins', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${session.access_token}`,
-        },
-        body: formData,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ isins: unresolved }),
       })
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
-        setImportError(errData.error || 'PDF-Parsing fehlgeschlagen')
-        setPdfParsing(false)
-        if (pdfInputRef.current) pdfInputRef.current.value = ''
-        return
-      }
-
-      const data = await response.json()
-
-      if (data.errors?.length > 0) {
-        setPdfErrors(data.errors)
-      }
-
-      if (data.transactions.length === 0) {
-        setImportError('Keine Transaktionen in den PDFs gefunden.')
-        setPdfParsing(false)
-        if (pdfInputRef.current) pdfInputRef.current.value = ''
-        return
-      }
-
-      // Flatex-Transaktionen in CSVParseResult konvertieren
-      const flatexTxs = data.transactions as FlatexParsedTransaction[]
-      const uniqueISINs = [...new Set(flatexTxs.map((t: FlatexParsedTransaction) => t.isin))]
-
-      const parsedTransactions: ParsedTransaction[] = flatexTxs.map((tx: FlatexParsedTransaction) => ({
-        date: tx.date,
-        type: tx.type,
-        isin: tx.isin,
-        name: tx.name,
-        quantity: tx.quantity,
-        price: tx.price,
-        totalValue: tx.totalValue,
-        fee: tx.fees || 0,
-        tax: 0,
-        notes: tx.notes,
-        originalType: `flatex_${tx.type}`,
-      }))
-
-      const byType: Record<string, number> = {}
-      parsedTransactions.forEach(t => {
-        byType[t.type] = (byType[t.type] || 0) + 1
-      })
-
-      const csvResult: CSVParseResult = {
-        transactions: parsedTransactions,
-        uniqueISINs,
-        skipped: [],
-        summary: {
-          total: files.length,
-          imported: parsedTransactions.length,
-          skipped: (data.totalFiles || files.length) - (data.parsedFiles || 0),
-          byType,
-        },
-      }
-
-      setParseResult(csvResult)
-      setStep('processing')
-
-      // ISIN-Auflösung starten (gleicher Flow wie CSV)
-      if (uniqueISINs.length > 0) {
-        const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
-        const newMap = new Map<string, { symbol: string; name: string; source: string }>()
-        resolved.forEach((value, key) => {
-          newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
-        })
-
-        if (unresolved.length > 0) {
-          setIsinMap(newMap)
-          setResolving(true)
-
-          try {
-            const resolveResp = await fetch('/api/portfolio/resolve-isins', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ isins: unresolved }),
-            })
-
-            if (resolveResp.ok) {
-              const { results } = await resolveResp.json()
-              const stillUnresolved: string[] = []
-
-              for (const isin of unresolved) {
-                if (results[isin]) {
-                  newMap.set(isin, {
-                    symbol: results[isin].symbol,
-                    name: results[isin].name,
-                    source: results[isin].source || 'openfigi',
-                  })
-                } else {
-                  stillUnresolved.push(isin)
-                }
-              }
-
-              setIsinMap(new Map(newMap))
-              setUnresolvedISINs(stillUnresolved)
-
-              if (stillUnresolved.length === 0) {
-                setSkippedResolve(true)
-                setStep('preview')
-                setPendingDuplicateCheck(true)
-              } else {
-                setStep('resolve')
-              }
-            }
-          } catch {
-            console.error('Auto ISIN resolution error for PDF import')
-            setUnresolvedISINs(unresolved)
-            setStep('resolve')
-          } finally {
-            setResolving(false)
+      if (resp.ok) {
+        const { results } = await resp.json()
+        const stillUnresolved: string[] = []
+        for (const isin of unresolved) {
+          if (results[isin]) {
+            newMap.set(isin, { symbol: results[isin].symbol, name: results[isin].name, source: results[isin].source || 'openfigi' })
+          } else {
+            stillUnresolved.push(isin)
           }
-        } else {
-          // Alles lokal aufgelöst → direkt zu Preview
-          setIsinMap(newMap)
-          setUnresolvedISINs([])
+        }
+        setMap(new Map(newMap))
+        setUnresolvedISINs(stillUnresolved)
+        if (stillUnresolved.length === 0) {
           setSkippedResolve(true)
           setStep('preview')
           setPendingDuplicateCheck(true)
+        } else {
+          setStep('resolve')
         }
-      } else {
-        // Keine ISINs → direkt zu Preview
-        setSkippedResolve(true)
-        setStep('preview')
-        setPendingDuplicateCheck(true)
       }
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
-      setImportError(`PDF-Upload fehlgeschlagen: ${msg}`)
+    } catch {
+      setUnresolvedISINs(unresolved)
+      setStep('resolve')
     } finally {
-      setPdfParsing(false)
-      if (pdfInputRef.current) pdfInputRef.current.value = ''
+      setResolving(false)
     }
   }, [])
 
-  // === STEP 1c: Freedom24 Steuerbericht XLSX Upload (empfohlen — hat ISINs + Dividenden) ===
-  const handleFreedom24TaxUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files
-    if (!files || files.length === 0) return
+  const handleAutoUpload = useCallback(async (files: FileList | File[]) => {
+    const fileArr = Array.from(files)
+    if (fileArr.length === 0) return
 
-    setImportSource('pdf')
     setPdfParsing(true)
     setPdfErrors([])
     setImportError(null)
+    setDetectedFormat(null)
 
     try {
       const { data: { session } } = await supabase.auth.getSession()
       if (!session?.access_token) {
         setImportError('Nicht angemeldet. Bitte neu einloggen.')
-        setPdfParsing(false)
         return
       }
 
       const formData = new FormData()
-      formData.append('file', files[0])
+      fileArr.forEach(f => formData.append('files', f))
 
-      const response = await fetch('/api/portfolio/parse-freedom24-tax', {
+      const response = await fetch('/api/portfolio/import-auto', {
         method: 'POST',
         headers: { 'Authorization': `Bearer ${session.access_token}` },
         body: formData,
       })
 
       if (!response.ok) {
-        const errData = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
-        setImportError(errData.error || 'XLSX-Parsing fehlgeschlagen')
-        setPdfParsing(false)
+        const err = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
+        setImportError(err.error || 'Import fehlgeschlagen')
         return
       }
 
       const data = await response.json()
+
       if (data.errors?.length > 0) setPdfErrors(data.errors)
 
       if (!data.transactions || data.transactions.length === 0) {
-        setImportError('Keine Transaktionen im Steuerbericht gefunden.')
-        setPdfParsing(false)
+        setImportError('Keine Transaktionen erkannt. Bitte prüfe Dateiformat und Inhalt.')
         return
       }
 
-      const txs = data.transactions as FlatexParsedTransaction[]
-      // ISINs sind vorhanden → ISIN-Resolver nutzen wie bei Flatex
-      const uniqueISINs = [...new Set(txs.map(tx => tx.isin).filter(Boolean))]
+      setDetectedFormat(data.formatLabel)
 
-      const parsedTransactions: ParsedTransaction[] = txs.map((tx) => ({
-        date: tx.date,
-        type: tx.type,
-        isin: tx.isin,
-        // symbol bewusst NICHT setzen — ISIN-Resolver soll den korrekten Ticker ermitteln
-        // tx.name enthält den rohen Freedom24-Ticker (z.B. "KKR.US") was falsch wäre
-        symbol: '',
-        name: tx.name,
-        quantity: tx.quantity,
-        price: tx.price,
-        totalValue: tx.totalValue,
-        fee: tx.fees || 0,
-        tax: 0,
-        notes: tx.notes,
-        originalType: `freedom24_${tx.type}`,
-      }))
+      let parsedTransactions: ParsedTransaction[]
+      let uniqueISINs: string[]
+
+      if (data.format === 'scalable') {
+        // Scalable CSV → bereits ParsedTransaction[] vom Server
+        parsedTransactions = data.transactions as ParsedTransaction[]
+        uniqueISINs = (data.uniqueISINs as string[]) || []
+      } else {
+        // Alle anderen → FlatexParsedTransaction[] → ParsedTransaction[]
+        const txs = data.transactions as FlatexParsedTransaction[]
+        uniqueISINs = [...new Set(txs.map(t => t.isin).filter(Boolean))]
+        parsedTransactions = txs.map(tx => ({
+          date: tx.date,
+          type: tx.type,
+          isin: tx.isin,
+          symbol: '',
+          name: tx.name,
+          quantity: tx.quantity,
+          price: tx.price,
+          totalValue: tx.totalValue,
+          fee: tx.fees || 0,
+          tax: 0,
+          notes: tx.notes,
+          originalType: `${data.format}_${tx.type}`,
+        }))
+      }
 
       const byType: Record<string, number> = {}
       parsedTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
@@ -437,169 +249,15 @@ export default function CSVImportModal({
       })
 
       setStep('processing')
-
-      // ISIN-Auflösung (gleicher Flow wie Flatex PDF)
-      if (uniqueISINs.length > 0) {
-        const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
-        const newMap = new Map<string, { symbol: string; name: string; source: string }>()
-        resolved.forEach((value, key) => {
-          newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
-        })
-
-        if (unresolved.length > 0) {
-          setIsinMap(newMap)
-          setResolving(true)
-
-          try {
-            const resolveResp = await fetch('/api/portfolio/resolve-isins', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ isins: unresolved }),
-            })
-
-            if (resolveResp.ok) {
-              const { results } = await resolveResp.json()
-              const stillUnresolved: string[] = []
-
-              for (const isin of unresolved) {
-                if (results[isin]) {
-                  newMap.set(isin, {
-                    symbol: results[isin].symbol,
-                    name: results[isin].name,
-                    source: results[isin].source || 'openfigi',
-                  })
-                } else {
-                  stillUnresolved.push(isin)
-                }
-              }
-
-              setIsinMap(new Map(newMap))
-              setUnresolvedISINs(stillUnresolved)
-
-              if (stillUnresolved.length === 0) {
-                setSkippedResolve(true)
-                setStep('preview')
-                setPendingDuplicateCheck(true)
-              } else {
-                setStep('resolve')
-              }
-            }
-          } catch {
-            console.error('Auto ISIN resolution error for Freedom24 Tax import')
-            setUnresolvedISINs(unresolved)
-            setStep('resolve')
-          } finally {
-            setResolving(false)
-          }
-        } else {
-          // Alles lokal aufgelöst → direkt zu Preview
-          setIsinMap(newMap)
-          setUnresolvedISINs([])
-          setSkippedResolve(true)
-          setStep('preview')
-          setPendingDuplicateCheck(true)
-        }
-      } else {
-        setSkippedResolve(true)
-        setStep('preview')
-        setPendingDuplicateCheck(true)
-      }
+      await runISINResolve(uniqueISINs, setIsinMap)
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
       setImportError(`Upload fehlgeschlagen: ${msg}`)
     } finally {
       setPdfParsing(false)
+      if (autoInputRef.current) autoInputRef.current.value = ''
     }
-  }, [])
-
-  // === STEP 1d: Freedom24 Trades XLSX Upload (legacy — ohne ISINs) ===
-  const handleFreedom24XLSXUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = event.target.files
-    if (!files || files.length === 0) return
-
-    setImportSource('pdf')
-    setPdfParsing(true)
-    setPdfErrors([])
-    setImportError(null)
-
-    try {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session?.access_token) {
-        setImportError('Nicht angemeldet. Bitte neu einloggen.')
-        setPdfParsing(false)
-        return
-      }
-
-      const formData = new FormData()
-      formData.append('file', files[0])
-
-      const response = await fetch('/api/portfolio/parse-freedom24-xlsx', {
-        method: 'POST',
-        headers: { 'Authorization': `Bearer ${session.access_token}` },
-        body: formData,
-      })
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
-        setImportError(errData.error || 'XLSX-Parsing fehlgeschlagen')
-        setPdfParsing(false)
-        return
-      }
-
-      const data = await response.json()
-
-      if (data.errors?.length > 0) setPdfErrors(data.errors)
-
-      if (!data.transactions || data.transactions.length === 0) {
-        setImportError('Keine Transaktionen in der XLSX-Datei gefunden.')
-        setPdfParsing(false)
-        return
-      }
-
-      // Ticker direkt als Symbol verwenden (keine ISIN-Auflösung nötig)
-      const txs = data.transactions as FlatexParsedTransaction[]
-      const parsedTransactions: ParsedTransaction[] = txs.map((tx) => ({
-        date: tx.date,
-        type: tx.type,
-        isin: tx.isin || tx.name, // Ticker als Fallback-Key
-        symbol: tx.name,          // Ticker direkt als Symbol
-        name: tx.name,
-        quantity: tx.quantity,
-        price: tx.price,
-        totalValue: tx.totalValue,
-        fee: tx.fees || 0,
-        tax: 0,
-        notes: tx.notes,
-        originalType: `freedom24_${tx.type}`,
-      }))
-
-      const byType: Record<string, number> = {}
-      parsedTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
-
-      setParseResult({
-        transactions: parsedTransactions,
-        uniqueISINs: [],
-        skipped: [],
-        summary: {
-          total: data.totalRows || parsedTransactions.length,
-          imported: parsedTransactions.length,
-          skipped: 0,
-          byType,
-        },
-      })
-
-      setIsinMap(new Map())
-      setUnresolvedISINs([])
-      setSkippedResolve(true)
-      setStep('preview')
-      setPendingDuplicateCheck(true)
-    } catch (error: unknown) {
-      const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
-      setImportError(`XLSX-Upload fehlgeschlagen: ${msg}`)
-    } finally {
-      setPdfParsing(false)
-    }
-  }, [])
+  }, [runISINResolve])
 
   // === STEP 2: ISIN Resolution (manueller Retry-Button) ===
   const resolveViaAPI = useCallback(async () => {
@@ -952,110 +610,70 @@ export default function CSVImportModal({
           {/* === UPLOAD STEP === */}
           {step === 'upload' && (
             <div className="py-4">
-              <h3 className="text-base font-medium text-white mb-1 text-center">Broker auswählen</h3>
+              <h3 className="text-base font-medium text-white mb-1 text-center">Transaktionen importieren</h3>
               <p className="text-sm text-neutral-500 mb-6 text-center">
-                Wähle deinen Broker und lade deine Transaktionsdaten hoch.
+                Lade deine Broker-Datei hoch — das Format wird automatisch erkannt.
               </p>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
-                {/* Scalable Capital CSV */}
-                <label className="group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-emerald-500/30 rounded-xl cursor-pointer transition-all text-center">
-                  <div className="w-12 h-12 rounded-xl bg-emerald-500/10 flex items-center justify-center group-hover:bg-emerald-500/20 transition-colors">
-                    <DocumentTextIcon className="w-6 h-6 text-emerald-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white text-sm">Scalable Capital</p>
-                    <p className="text-xs text-neutral-500 mt-0.5">CSV-Export hochladen</p>
-                  </div>
-                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.csv</span>
-                  <input
-                    ref={fileInputRef}
-                    type="file"
-                    accept=".csv"
-                    onChange={(e) => { setImportSource('csv'); handleFileUpload(e) }}
-                    className="hidden"
-                  />
-                </label>
-
-                {/* PDF Import (Flatex, Smartbroker+, Trade Republic) */}
-                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-orange-500/30 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
-                  {pdfParsing && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
-                      <ArrowPathIcon className="w-6 h-6 text-orange-400 animate-spin" />
+              {/* Dropzone */}
+              <label
+                className={`relative flex flex-col items-center justify-center gap-4 p-10 rounded-2xl border-2 border-dashed cursor-pointer transition-all ${
+                  pdfParsing
+                    ? 'pointer-events-none opacity-50 border-neutral-700'
+                    : isDragOver
+                    ? 'border-emerald-400 bg-emerald-500/5'
+                    : 'border-neutral-700 hover:border-neutral-500 hover:bg-neutral-800/30'
+                }`}
+                onDragOver={(e) => { e.preventDefault(); setIsDragOver(true) }}
+                onDragLeave={() => setIsDragOver(false)}
+                onDrop={(e) => {
+                  e.preventDefault()
+                  setIsDragOver(false)
+                  if (e.dataTransfer.files.length > 0) handleAutoUpload(e.dataTransfer.files)
+                }}
+              >
+                {pdfParsing ? (
+                  <>
+                    <ArrowPathIcon className="w-10 h-10 text-emerald-400 animate-spin" />
+                    <p className="text-sm text-neutral-400">Wird verarbeitet…</p>
+                  </>
+                ) : (
+                  <>
+                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-emerald-500/15' : 'bg-neutral-800'}`}>
+                      <ArrowUpTrayIcon className={`w-8 h-8 transition-colors ${isDragOver ? 'text-emerald-400' : 'text-neutral-500'}`} />
                     </div>
-                  )}
-                  <div className="w-12 h-12 rounded-xl bg-orange-500/10 flex items-center justify-center group-hover:bg-orange-500/20 transition-colors">
-                    <svg className="w-6 h-6 text-orange-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <p className="font-medium text-white text-sm">Flatex / Smartbroker+ / TR</p>
-                    <p className="text-xs text-neutral-500 mt-0.5">PDF-Abrechnungen hochladen</p>
-                  </div>
-                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.pdf · Mehrere möglich · Auto-Erkennung</span>
-                  <input
-                    ref={pdfInputRef}
-                    type="file"
-                    accept=".pdf"
-                    multiple
-                    onChange={handlePDFUpload}
-                    className="hidden"
-                  />
-                </label>
-
-                {/* Freedom24 Steuerbericht (empfohlen) */}
-                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-green-700/40 hover:border-green-500/60 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
-                  {pdfParsing && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
-                      <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
+                    <div className="text-center">
+                      <p className="text-sm font-medium text-white">Datei hier ablegen oder klicken</p>
+                      <p className="text-xs text-neutral-500 mt-1">Format wird automatisch erkannt</p>
                     </div>
-                  )}
-                  <div className="absolute top-2 right-2 text-[10px] font-semibold text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full">Empfohlen</div>
-                  <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
-                    <DocumentTextIcon className="w-6 h-6 text-green-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white text-sm">Freedom24 Steuerbericht</p>
-                    <p className="text-xs text-neutral-500 mt-0.5">Mit ISINs & Dividenden</p>
-                  </div>
-                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.xlsx · Berichte → Steuerberichte → Excel</span>
-                  <input
-                    type="file"
-                    accept=".xlsx,.xls"
-                    onChange={handleFreedom24TaxUpload}
-                    className="hidden"
-                  />
-                </label>
-
-                {/* Freedom24 Trades XLSX (alternativ) */}
-                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-green-500/30 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
-                  {pdfParsing && (
-                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
-                      <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
+                    <div className="flex flex-wrap justify-center gap-2">
+                      {[
+                        { label: 'Scalable Capital', ext: '.csv', color: 'text-emerald-400 bg-emerald-500/10' },
+                        { label: 'Flatex / Smartbroker+ / TR', ext: '.pdf', color: 'text-orange-400 bg-orange-500/10' },
+                        { label: 'Freedom24 Steuerbericht', ext: '.xlsx', color: 'text-green-400 bg-green-500/10' },
+                        { label: 'Freedom24 Trades', ext: '.xlsx', color: 'text-neutral-400 bg-neutral-800' },
+                      ].map(b => (
+                        <span key={b.label} className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${b.color}`}>
+                          {b.label} · {b.ext}
+                        </span>
+                      ))}
                     </div>
-                  )}
-                  <div className="w-12 h-12 rounded-xl bg-neutral-700/30 flex items-center justify-center group-hover:bg-neutral-700/50 transition-colors">
-                    <DocumentTextIcon className="w-6 h-6 text-neutral-400" />
-                  </div>
-                  <div>
-                    <p className="font-medium text-white text-sm">Freedom24 Trades</p>
-                    <p className="text-xs text-neutral-500 mt-0.5">Auftragshistorie Export</p>
-                  </div>
-                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.xlsx · Auftragshistorie → Export</span>
-                  <input
-                    type="file"
-                    accept=".xlsx,.xls"
-                    onChange={handleFreedom24XLSXUpload}
-                    className="hidden"
-                  />
-                </label>
-              </div>
+                  </>
+                )}
+                <input
+                  ref={autoInputRef}
+                  type="file"
+                  accept=".pdf,.csv,.xlsx,.xls"
+                  multiple
+                  onChange={(e) => { if (e.target.files) handleAutoUpload(e.target.files) }}
+                  className="hidden"
+                />
+              </label>
 
-              {/* PDF Parse Errors */}
+              {/* Fehler */}
               {pdfErrors.length > 0 && (
-                <div className="mt-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-                  <p className="text-xs font-medium text-amber-400 mb-1">Hinweise beim PDF-Parsing:</p>
+                <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
+                  <p className="text-xs font-medium text-amber-400 mb-1">Hinweise:</p>
                   <ul className="space-y-0.5">
                     {pdfErrors.map((err, i) => (
                       <li key={i} className="text-xs text-neutral-400">• {err}</li>
@@ -1065,13 +683,13 @@ export default function CSVImportModal({
               )}
 
               {importError && (
-                <div className="mt-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
+                <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
                   <p className="text-sm text-red-400">{importError}</p>
                 </div>
               )}
 
-              <p className="text-xs text-neutral-600 mt-4 text-center">
-                Weitere Broker folgen bald. Feature-Wunsch? Schreib uns!
+              <p className="text-xs text-neutral-600 mt-5 text-center">
+                Weitere Broker folgen bald · Bei Fragen: support@finclue.de
               </p>
             </div>
           )}
@@ -1081,7 +699,11 @@ export default function CSVImportModal({
             <div className="text-center py-12">
               <ArrowPathIcon className="w-10 h-10 text-emerald-400 animate-spin mx-auto mb-4" />
               <h3 className="text-base font-medium text-white mb-2">Transaktionen werden verarbeitet…</h3>
-              <p className="text-sm text-neutral-500">Wertpapiere werden aufgelöst</p>
+              <p className="text-sm text-neutral-500">
+                {detectedFormat ? (
+                  <><span className="text-emerald-400">{detectedFormat}</span> erkannt · Wertpapiere werden aufgelöst</>
+                ) : 'Wertpapiere werden aufgelöst'}
+              </p>
             </div>
           )}
 
