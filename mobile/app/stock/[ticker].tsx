@@ -47,7 +47,7 @@ const ALL_TABS: { key: MainTab; label: string; etfOnly?: boolean; hideForEtf?: b
 ];
 
 export default function StockScreen() {
-  const { ticker } = useLocalSearchParams<{ ticker: string }>();
+  const { ticker, tab: initialTab } = useLocalSearchParams<{ ticker: string; tab?: string }>();
 
   // ─── Core ───────────────────────────────────────────────
   const [quote, setQuote] = useState<any>(null);
@@ -57,8 +57,10 @@ export default function StockScreen() {
   const [watchlistLoading, setWatchlistLoading] = useState(false);
 
   // ─── Tab ────────────────────────────────────────────────
-  const [activeTab, setActiveTab] = useState<MainTab>('overview');
-  const loadedTabs = useRef<Set<MainTab>>(new Set(['overview']));
+  const validTabs: MainTab[] = ['overview','earnings','investors','insider','financials','holdings','valuation','estimates','dividends'];
+  const startTab: MainTab = (initialTab && validTabs.includes(initialTab as MainTab)) ? initialTab as MainTab : 'overview';
+  const [activeTab, setActiveTab] = useState<MainTab>(startTab);
+  const loadedTabs = useRef<Set<MainTab>>(new Set([startTab]));
 
   // ─── Chart ──────────────────────────────────────────────
   const [historical, setHistorical] = useState<HistoricalPoint[]>([]);
