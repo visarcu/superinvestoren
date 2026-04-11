@@ -28,6 +28,8 @@ export default function RootLayout() {
       if (data?.screen === 'stock' && data?.ticker) {
         const tab = data?.tab ? `?tab=${data.tab}` : '';
         router.push(`/stock/${data.ticker}${tab}`);
+      } else if (data?.screen === 'investor' && data?.slug) {
+        router.push(`/investor/${data.slug}`);
       } else if (data?.screen === 'portfolio') {
         router.push('/(tabs)/portfolio');
       }

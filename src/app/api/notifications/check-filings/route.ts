@@ -171,12 +171,27 @@ export async function GET(request: NextRequest) {
   return handleFilingCheck()
 }
 
+async function sendPush(userId: string, title: string, body: string, data?: object) {
+  try {
+    const secret = process.env.INTERNAL_API_SECRET
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
+    if (!secret) return
+    await fetch(`${baseUrl}/api/notifications/push`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
+      body: JSON.stringify({ userIds: [userId], title, body, data }),
+    })
+  } catch (e) {
+    console.error('[Filing Cron] Push error:', e)
+  }
+}
+
 async function handleFilingCheck() {
   try {
     console.log('[Filing Cron] Starting filing alerts check...')
     console.log(`[Filing Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
 
-    // Alle User mit aktivierten Filing-Notifications holen
+    // Alle User mit aktivierten Filing-Notifications holen (preferred_investors = followed investors)
     let query = supabaseService
       .from('notification_settings')
       .select(`
@@ -245,6 +260,14 @@ async function handleFilingCheck() {
                 data: { investor: investorSlug, quarterKey: filingCheck.quarterKey },
                 href: `/superinvestor/${investorSlug}`
               })
+
+              // ✅ Push Notification senden
+              await sendPush(
+                userSettings.user_id,
+                `Neues Filing: ${investorName}`,
+                `${filingCheck.quarterKey} Portfolio-Änderungen verfügbar`,
+                { screen: 'investor', slug: investorSlug }
+              )
 
               totalFilingNotifications++
 
