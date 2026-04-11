@@ -1,6 +1,6 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import {
-  View, Text, ScrollView, TouchableOpacity, StyleSheet,
+  View, Text, SectionList, TouchableOpacity, StyleSheet,
   ActivityIndicator, RefreshControl,
 } from 'react-native';
 import { Stack, router } from 'expo-router';
@@ -44,10 +44,24 @@ function timeAgo(dateStr: string): string {
   return new Date(dateStr).toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
 }
 
+function getSectionTitle(dateStr: string): string {
+  const now = new Date();
+  const date = new Date(dateStr);
+  const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  const startOfYesterday = new Date(startOfToday.getTime() - 86400000);
+  const startOfWeek = new Date(startOfToday.getTime() - 7 * 86400000);
+
+  if (date >= startOfToday) return 'Heute';
+  if (date >= startOfYesterday) return 'Gestern';
+  if (date >= startOfWeek) return 'Diese Woche';
+  return 'Älter';
+}
+
 export default function NotificationsCenterScreen() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [markingAll, setMarkingAll] = useState(false);
 
   useEffect(() => { load(); }, []);
 
@@ -68,6 +82,8 @@ export default function NotificationsCenterScreen() {
   }
 
   async function markAllRead() {
+    if (markingAll) return;
+    setMarkingAll(true);
     try {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session) return;
@@ -76,11 +92,12 @@ export default function NotificationsCenterScreen() {
         headers: { Authorization: `Bearer ${session.access_token}` },
       });
       setNotifications(prev => prev.map(n => ({ ...n, read: true })));
-    } catch { /* ignore */ }
+    } catch { /* ignore */ } finally {
+      setMarkingAll(false);
+    }
   }
 
   async function handleTap(n: Notification) {
-    // Mark as read
     if (!n.read) {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
@@ -92,88 +109,120 @@ export default function NotificationsCenterScreen() {
         setNotifications(prev => prev.map(x => x.id === n.id ? { ...x, read: true } : x));
       }
     }
-    // Navigate
     if (n.data?.screen === 'stock' && n.data?.ticker) {
       const tab = n.data.tab ? `?tab=${n.data.tab}` : '';
       router.push(`/stock/${n.data.ticker}${tab}`);
     } else if (n.data?.screen === 'investor' && n.data?.slug) {
       router.push(`/investor/${n.data.slug}`);
-    } else if (n.href) {
-      // fallback: ignore web-only hrefs
     }
   }
 
   const unreadCount = notifications.filter(n => !n.read).length;
 
+  const sections = useMemo(() => {
+    if (notifications.length === 0) return [];
+    const grouped: Record<string, Notification[]> = {};
+    const order = ['Heute', 'Gestern', 'Diese Woche', 'Älter'];
+    for (const n of notifications) {
+      const section = getSectionTitle(n.created_at);
+      if (!grouped[section]) grouped[section] = [];
+      grouped[section].push(n);
+    }
+    return order
+      .filter(title => grouped[title]?.length)
+      .map(title => ({ title, data: grouped[title] }));
+  }, [notifications]);
+
   return (
     <SafeAreaView style={s.container} edges={['bottom']}>
       <Stack.Screen options={{
         title: 'Benachrichtigungen',
-        headerStyle: { backgroundColor: '#111113' },
+        headerStyle: { backgroundColor: '#0a0a0b' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: '',
+        headerTitleStyle: { fontSize: 17, fontWeight: '700' },
+        headerShadowVisible: false,
         headerRight: () => unreadCount > 0 ? (
-          <TouchableOpacity onPress={markAllRead} hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}>
-            <Text style={s.markAllText}>Alle gelesen</Text>
+          <TouchableOpacity
+            onPress={markAllRead}
+            disabled={markingAll}
+            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+            style={s.headerAction}
+          >
+            <Ionicons name="checkmark-done" size={18} color={markingAll ? '#1E293B' : '#22C55E'} />
           </TouchableOpacity>
         ) : null,
       }} />
 
       {loading ? (
         <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 48 }} />
+      ) : notifications.length === 0 ? (
+        <View style={s.emptyWrap}>
+          <View style={s.emptyIcon}>
+            <Ionicons name="notifications-off-outline" size={32} color="#475569" />
+          </View>
+          <Text style={s.emptyTitle}>Keine Benachrichtigungen</Text>
+          <Text style={s.emptyText}>Hier erscheinen Analyst-Ratings, Earnings, Filings und mehr.</Text>
+        </View>
       ) : (
-        <ScrollView
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22C55E" />}
-          contentContainerStyle={notifications.length === 0 ? s.emptyContainer : undefined}
-        >
-          {notifications.length > 0 && unreadCount > 0 && (
-            <TouchableOpacity style={s.markAllBar} onPress={markAllRead} activeOpacity={0.7}>
-              <Ionicons name="checkmark-done" size={15} color="#22C55E" />
-              <Text style={s.markAllBarText}>Alle als gelesen markieren</Text>
-            </TouchableOpacity>
-          )}
-          {notifications.length === 0 ? (
-            <View style={s.emptyWrap}>
-              <View style={s.emptyIcon}>
-                <Ionicons name="notifications-off-outline" size={32} color="#475569" />
-              </View>
-              <Text style={s.emptyTitle}>Keine Benachrichtigungen</Text>
-              <Text style={s.emptyText}>Hier erscheinen Analyst-Ratings, Earnings, Filings und mehr.</Text>
+        <SectionList
+          sections={sections}
+          keyExtractor={n => n.id}
+          refreshControl={
+            <RefreshControl
+              refreshing={refreshing}
+              onRefresh={() => { setRefreshing(true); load(); }}
+              tintColor="#22C55E"
+            />
+          }
+          stickySectionHeadersEnabled={false}
+          renderSectionHeader={({ section }) => (
+            <View style={s.sectionHeader}>
+              <Text style={s.sectionTitle}>{section.title}</Text>
+              {section.title === 'Heute' && unreadCount > 0 && (
+                <View style={s.unreadBadge}>
+                  <Text style={s.unreadBadgeText}>{unreadCount} neu</Text>
+                </View>
+              )}
             </View>
-          ) : (
-            notifications.map((n, i) => {
-              const icon = TYPE_ICON[n.type] || TYPE_ICON.default;
-              const isLast = i === notifications.length - 1;
-              return (
-                <TouchableOpacity
-                  key={n.id}
-                  style={[s.row, !isLast && s.rowBorder, !n.read && s.rowUnread]}
-                  onPress={() => handleTap(n)}
-                  activeOpacity={0.7}
-                >
-                  {/* Unread dot */}
+          )}
+          renderItem={({ item: n, index, section }) => {
+            const icon = TYPE_ICON[n.type] || TYPE_ICON.default;
+            const isLast = index === section.data.length - 1;
+            const hasNav = n.data?.screen === 'stock' || n.data?.screen === 'investor';
+            return (
+              <TouchableOpacity
+                style={[s.row, !isLast && s.rowBorder, !n.read && s.rowUnread]}
+                onPress={() => handleTap(n)}
+                activeOpacity={0.6}
+              >
+                <View style={[s.iconWrap, { backgroundColor: icon.color + '15' }]}>
+                  <Ionicons name={icon.name} size={20} color={icon.color} />
                   {!n.read && <View style={s.unreadDot} />}
+                </View>
 
-                  {/* Icon */}
-                  <View style={[s.iconWrap, { backgroundColor: icon.color + '18' }]}>
-                    <Ionicons name={icon.name} size={18} color={icon.color} />
-                  </View>
-
-                  {/* Content */}
-                  <View style={s.content}>
-                    <Text style={[s.title, !n.read && s.titleUnread]} numberOfLines={1}>{n.title}</Text>
-                    <Text style={s.message} numberOfLines={2}>{n.message}</Text>
+                <View style={s.content}>
+                  <View style={s.titleRow}>
+                    <Text style={[s.title, !n.read && s.titleUnread]} numberOfLines={1}>
+                      {n.title}
+                    </Text>
                     <Text style={s.time}>{timeAgo(n.created_at)}</Text>
                   </View>
+                  <Text style={[s.message, !n.read && s.messageUnread]} numberOfLines={2}>
+                    {n.message}
+                  </Text>
+                </View>
 
-                  {(n.data?.screen === 'stock' || n.data?.screen === 'investor') && (
-                    <Ionicons name="chevron-forward" size={14} color="#334155" />
-                  )}
-                </TouchableOpacity>
-              );
-            })
-          )}
-        </ScrollView>
+                {hasNav && (
+                  <View style={s.chevronWrap}>
+                    <Ionicons name="chevron-forward" size={16} color="#334155" />
+                  </View>
+                )}
+              </TouchableOpacity>
+            );
+          }}
+          contentContainerStyle={{ paddingBottom: 32 }}
+        />
       )}
     </SafeAreaView>
   );
@@ -181,34 +230,61 @@ export default function NotificationsCenterScreen() {
 
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#0a0a0b' },
-  markAllText: { color: '#22C55E', fontSize: 13, fontWeight: '600' },
+
+  headerAction: {
+    width: 36, height: 36, borderRadius: 18,
+    backgroundColor: 'rgba(34,197,94,0.1)',
+    alignItems: 'center', justifyContent: 'center',
+  },
+
+  sectionHeader: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
+    paddingHorizontal: 16, paddingTop: 20, paddingBottom: 8,
+  },
+  sectionTitle: {
+    color: '#64748B', fontSize: 13, fontWeight: '600',
+    textTransform: 'uppercase', letterSpacing: 0.5,
+  },
+  unreadBadge: {
+    backgroundColor: 'rgba(34,197,94,0.12)',
+    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
+  },
+  unreadBadgeText: { color: '#22C55E', fontSize: 11, fontWeight: '600' },
 
   row: {
     flexDirection: 'row', alignItems: 'center',
     paddingHorizontal: 16, paddingVertical: 14,
-    backgroundColor: '#0a0a0b', gap: 12, position: 'relative',
+    backgroundColor: '#0a0a0b', gap: 12,
+    marginHorizontal: 0,
   },
-  rowBorder: { borderBottomWidth: 1, borderBottomColor: '#111113' },
-  rowUnread: { backgroundColor: '#0d1117' },
-
-  unreadDot: {
-    position: 'absolute', left: 4, top: '50%',
-    width: 6, height: 6, borderRadius: 3, backgroundColor: '#22C55E',
-    marginTop: -3,
-  },
+  rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1E293B' },
+  rowUnread: { backgroundColor: '#0c1018' },
 
   iconWrap: {
-    width: 40, height: 40, borderRadius: 12,
+    width: 44, height: 44, borderRadius: 14,
     alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  },
+  unreadDot: {
+    position: 'absolute', top: -1, right: -1,
+    width: 10, height: 10, borderRadius: 5,
+    backgroundColor: '#22C55E',
+    borderWidth: 2, borderColor: '#0a0a0b',
   },
 
   content: { flex: 1, minWidth: 0 },
-  title: { color: '#94A3B8', fontSize: 13, fontWeight: '500', marginBottom: 2 },
+  titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 },
+  title: { color: '#94A3B8', fontSize: 14, fontWeight: '500', flex: 1, marginRight: 8 },
   titleUnread: { color: '#F8FAFC', fontWeight: '700' },
-  message: { color: '#64748B', fontSize: 12, lineHeight: 17, marginBottom: 4 },
-  time: { color: '#334155', fontSize: 11 },
+  message: { color: '#475569', fontSize: 13, lineHeight: 18 },
+  messageUnread: { color: '#64748B' },
+  time: { color: '#475569', fontSize: 12, flexShrink: 0 },
 
-  emptyContainer: { flex: 1 },
+  chevronWrap: {
+    width: 28, height: 28, borderRadius: 8,
+    backgroundColor: '#111113',
+    alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  },
+
   emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 12 },
   emptyIcon: {
     width: 64, height: 64, borderRadius: 32,
@@ -217,12 +293,4 @@ const s = StyleSheet.create({
   },
   emptyTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '600' },
   emptyText: { color: '#475569', fontSize: 14, textAlign: 'center', lineHeight: 20 },
-
-  markAllBar: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    gap: 6, paddingVertical: 12,
-    borderBottomWidth: 1, borderBottomColor: '#111113',
-    backgroundColor: 'rgba(34,197,94,0.05)',
-  },
-  markAllBarText: { color: '#22C55E', fontSize: 13, fontWeight: '600' },
 });

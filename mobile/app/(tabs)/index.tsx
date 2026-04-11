@@ -67,7 +67,7 @@ const SCREEN_W = Dimensions.get('window').width;
 const DRAWER_W = Math.min(SCREEN_W * 0.78, 320);
 
 const MEHR_ITEMS = [
-  { label: 'Analyst Ratings', icon: 'trending-up-outline' as const, route: '/analyst-ratings' },
+  { label: 'Watchlist', icon: 'bookmark-outline' as const, route: '/(tabs)/watchlist' },
   { label: 'Screener', icon: 'funnel-outline' as const, route: '/(tabs)/screener' },
   { label: 'Finclue AI', icon: 'sparkles-outline' as const, route: '/(tabs)/ai' },
   { label: 'Dividenden-Kalender', icon: 'calendar-outline' as const, route: '/(tabs)/calendar' },

@@ -77,10 +77,10 @@ export default function TabsLayout() {
           }}
         />
         <Tabs.Screen
-          name="watchlist"
+          name="news"
           options={{
-            title: 'Watchlist',
-            tabBarIcon: ({ color, size }) => <Ionicons name="bookmark" size={size} color={color} />,
+            title: 'News',
+            tabBarIcon: ({ color, size }) => <Ionicons name="newspaper" size={size} color={color} />,
           }}
         />
         <Tabs.Screen
@@ -118,6 +118,7 @@ export default function TabsLayout() {
           }}
         />
         {/* Hidden tabs — accessible via Drawer menu */}
+        <Tabs.Screen name="watchlist" options={{ href: null }} />
         <Tabs.Screen name="mehr" options={{ href: null }} />
         <Tabs.Screen name="screener" options={{ href: null }} />
         <Tabs.Screen name="ai" options={{ href: null }} />

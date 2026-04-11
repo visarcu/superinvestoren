@@ -60,7 +60,7 @@ export default function StockScreen() {
   const validTabs: MainTab[] = ['overview','earnings','investors','insider','financials','holdings','valuation','estimates','dividends'];
   const startTab: MainTab = (initialTab && validTabs.includes(initialTab as MainTab)) ? initialTab as MainTab : 'overview';
   const [activeTab, setActiveTab] = useState<MainTab>(startTab);
-  const loadedTabs = useRef<Set<MainTab>>(new Set([startTab]));
+  const loadedTabs = useRef<Set<MainTab>>(new Set(['overview']));
 
   // ─── Chart ──────────────────────────────────────────────
   const [historical, setHistorical] = useState<HistoricalPoint[]>([]);
@@ -121,7 +121,6 @@ export default function StockScreen() {
   const [estimatesLoading, setEstimatesLoading] = useState(false);
   const [priceTargets, setPriceTargets] = useState<any[]>([]);
   const [ratings, setRatings] = useState<any | null>(null);
-  const [gradings, setGradings] = useState<any[]>([]);
 
   // ─── Dividends tab ───────────────────────────────────────
   const [dividendData, setDividendData] = useState<any>(null);
@@ -145,13 +144,16 @@ export default function StockScreen() {
   useEffect(() => {
     if (loadedTabs.current.has(activeTab)) return;
     loadedTabs.current.add(activeTab);
-    if (activeTab === 'earnings') loadEarnings();
-    if (activeTab === 'investors') loadInvestors();
-    if (activeTab === 'insider') loadInsider();
-    if (activeTab === 'holdings') loadEtfHoldings();
-    if (activeTab === 'valuation') loadValuation();
-    if (activeTab === 'estimates') loadEstimates();
-    if (activeTab === 'dividends') loadDividends();
+    const loaders: Record<string, () => void> = {
+      earnings: loadEarnings,
+      investors: loadInvestors,
+      insider: loadInsider,
+      holdings: loadEtfHoldings,
+      valuation: loadValuation,
+      estimates: loadEstimates,
+      dividends: loadDividends,
+    };
+    loaders[activeTab]?.();
   }, [activeTab]);
 
   // ─── Data loaders ────────────────────────────────────────
@@ -344,11 +346,10 @@ export default function StockScreen() {
   async function loadEstimates() {
     setEstimatesLoading(true);
     try {
-      const [estRes, ptRes, ratRes, gradRes] = await Promise.all([
+      const [estRes, ptRes, ratRes] = await Promise.all([
         fetch(`${BASE_URL}/api/analyst-estimates/${ticker}`),
         fetch(`${BASE_URL}/api/price-targets/${ticker}`),
         fetch(`${BASE_URL}/api/recommendations/${ticker}`),
-        fetch(`${BASE_URL}/api/analyst-gradings/${ticker}`),
       ]);
       if (estRes.ok) {
         const d = await estRes.json();
@@ -361,10 +362,6 @@ export default function StockScreen() {
       if (ratRes.ok) {
         const d = await ratRes.json();
         setRatings(d);
-      }
-      if (gradRes.ok) {
-        const d = await gradRes.json();
-        setGradings(Array.isArray(d) ? d : []);
       }
     } catch(e) { console.error(e); }
     finally { setEstimatesLoading(false); }
@@ -1560,46 +1557,6 @@ export default function StockScreen() {
                   );
                 })()}
 
-                {/* ── Upgrades & Downgrades ── */}
-                {gradings.length > 0 && (
-                  <View style={s.section}>
-                    <Text style={s.sectionTitle}>UPGRADES & DOWNGRADES</Text>
-                    {gradings.map((g, i) => {
-                      const action = (g.action || '').toLowerCase();
-                      const isUpgrade = action.includes('upgrade') || action.includes('initiat');
-                      const isDowngrade = action.includes('downgrade');
-                      const color = isUpgrade ? '#22C55E' : isDowngrade ? '#EF4444' : '#F59E0B';
-                      const actionLabel = isUpgrade ? 'Hochgestuft' : isDowngrade ? 'Herabgestuft' : 'Neu abgedeckt';
-                      const gradeChange = g.previousGrade && g.newGrade && g.previousGrade !== g.newGrade
-                        ? `${g.previousGrade} → ${g.newGrade}`
-                        : g.newGrade || '';
-                      const dateStr = g.publishedDate
-                        ? new Date(g.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: '2-digit' })
-                        : '';
-                      return (
-                        <TouchableOpacity
-                          key={i}
-                          style={[s.gradingRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}
-                          onPress={() => g.newsURL ? router.push(`/news-article?url=${encodeURIComponent(g.newsURL)}&title=${encodeURIComponent(g.newsTitle || actionLabel)}`) : undefined}
-                          activeOpacity={g.newsURL ? 0.7 : 1}
-                        >
-                          <View style={[s.gradingDot, { backgroundColor: color }]} />
-                          <View style={{ flex: 1 }}>
-                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-                              <Text style={[s.gradingAction, { color }]}>{actionLabel}</Text>
-                              <Text style={s.gradingDate}>{dateStr}</Text>
-                            </View>
-                            <Text style={s.gradingCompany}>{g.gradingCompany || g.analystCompany || '—'}</Text>
-                            {gradeChange ? <Text style={s.gradingChange}>{gradeChange}</Text> : null}
-                            {g.newsTitle ? <Text style={s.gradingNewsTitle} numberOfLines={2}>{g.newsTitle}</Text> : null}
-                          </View>
-                          {g.newsURL && <Ionicons name="chevron-forward" size={14} color="#334155" style={{ marginTop: 2 }} />}
-                        </TouchableOpacity>
-                      );
-                    })}
-                  </View>
-                )}
-
                 {/* ── Price Targets ── */}
                 {priceTargets.length > 0 && (() => {
                   const currentPrice = quote?.price;
@@ -2143,13 +2100,6 @@ const s = StyleSheet.create({
   ratingLegend: { flexDirection: 'row', gap: 16 },
   ratingLegendItem: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   ratingDot: { width: 8, height: 8, borderRadius: 4 },
-  gradingRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 12, paddingVertical: 12, paddingHorizontal: 16 },
-  gradingDot: { width: 8, height: 8, borderRadius: 4, marginTop: 4 },
-  gradingAction: { fontSize: 13, fontWeight: '700' },
-  gradingCompany: { color: '#CBD5E1', fontSize: 13, marginTop: 2 },
-  gradingNewsTitle: { color: '#475569', fontSize: 11, marginTop: 4, lineHeight: 15 },
-  gradingChange: { color: '#64748B', fontSize: 12, marginTop: 2 },
-  gradingDate: { color: '#475569', fontSize: 12 },
   ratingLegendText: { color: '#94A3B8', fontSize: 12 },
 
   // Price target card
