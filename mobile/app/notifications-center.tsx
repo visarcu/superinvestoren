@@ -126,6 +126,12 @@ export default function NotificationsCenterScreen() {
           refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22C55E" />}
           contentContainerStyle={notifications.length === 0 ? s.emptyContainer : undefined}
         >
+          {notifications.length > 0 && unreadCount > 0 && (
+            <TouchableOpacity style={s.markAllBar} onPress={markAllRead} activeOpacity={0.7}>
+              <Ionicons name="checkmark-done" size={15} color="#22C55E" />
+              <Text style={s.markAllBarText}>Alle als gelesen markieren</Text>
+            </TouchableOpacity>
+          )}
           {notifications.length === 0 ? (
             <View style={s.emptyWrap}>
               <View style={s.emptyIcon}>
@@ -211,4 +217,12 @@ const s = StyleSheet.create({
   },
   emptyTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '600' },
   emptyText: { color: '#475569', fontSize: 14, textAlign: 'center', lineHeight: 20 },
+
+  markAllBar: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 6, paddingVertical: 12,
+    borderBottomWidth: 1, borderBottomColor: '#111113',
+    backgroundColor: 'rgba(34,197,94,0.05)',
+  },
+  markAllBarText: { color: '#22C55E', fontSize: 13, fontWeight: '600' },
 });
