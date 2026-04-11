@@ -138,12 +138,13 @@ export default function NewsScreen() {
         const results = await Promise.all(
           tickersToFetch.map(t =>
             fetch(`${BASE_URL}/api/stock-news/${t}?limit=5`)
-              .then(r => r.ok ? r.json() : [])
-              .catch(() => [])
+              .then(r => r.ok ? r.json() : { articles: [] })
+              .catch(() => ({ articles: [] }))
           )
         );
-        for (const articles of results) {
-          if (Array.isArray(articles)) allArticles.push(...articles);
+        for (const res of results) {
+          const items = Array.isArray(res) ? res : (res.articles || []);
+          allArticles.push(...items);
         }
       }
 
