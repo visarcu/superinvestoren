@@ -5,7 +5,6 @@
 
 import React, { useEffect, useState } from 'react'
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
-import LoadingSpinner from '@/components/LoadingSpinner'
 import Link from 'next/link'
 
 interface KPIDataPoint { period: string; periodDate: string; value: number; filingUrl: string | null }
@@ -19,31 +18,26 @@ function formatValue(value: number, unit: string): string {
   if (unit === 'percent') return `${value.toFixed(1).replace('.', ',')} %`
   if (unit === 'dollars') return `$${value.toFixed(2).replace('.', ',')}`
   if (unit === 'GWh') return `${value.toFixed(1).replace('.', ',')} GWh`
-  if (unit === 'thousands') {
-    // Vehicle counts: show as actual number (e.g. 418,2 Tsd.)
-    return `${value.toFixed(1).replace('.', ',')} Tsd.`
-  }
+  if (unit === 'thousands') return `${value.toFixed(1).replace('.', ',')} Tsd.`
   if (unit === 'millions') {
     if (value >= 1000) return `${(value / 1000).toFixed(2).replace('.', ',')} Mrd.`
     return `${value.toFixed(1).replace('.', ',')} Mio.`
   }
-  if (unit === 'billions') {
-    return `${value.toFixed(2).replace('.', ',')} Mrd.`
-  }
+  if (unit === 'billions') return `${value.toFixed(2).replace('.', ',')} Mrd.`
   return value.toLocaleString('de-DE')
 }
 
 function formatYAxis(value: number, unit: string): string {
-  if (unit === 'percent') return `${value} %`
+  if (unit === 'percent') return `${value}%`
   if (unit === 'dollars') return `$${value}`
-  if (unit === 'GWh') return `${value} GWh`
-  if (unit === 'thousands') return `${value} Tsd.`
+  if (unit === 'GWh') return `${value}`
+  if (unit === 'thousands') return `${value}`
   if (unit === 'millions') {
-    if (value >= 1000) return `${(value / 1000).toFixed(1).replace('.', ',')} Mrd.`
-    return `${value} Mio.`
+    if (value >= 1000) return `${(value / 1000).toFixed(0)} Mrd.`
+    return `${value}`
   }
   if (unit === 'billions') return `${value} Mrd.`
-  return value.toLocaleString('de-DE')
+  return String(value)
 }
 
 function CustomTooltip({ active, payload, label, unit, metricLabel }: {
@@ -60,46 +54,65 @@ function CustomTooltip({ active, payload, label, unit, metricLabel }: {
 
 // ─── Single KPI Card ──────────────────────────────────────────────────────────
 
-function KPICard({ metricKey, metric }: { metricKey: string; metric: KPIMetric }) {
+function KPICard({ metric }: { metricKey: string; metric: KPIMetric }) {
   const latest = metric.data[metric.data.length - 1]
   const yearAgo = metric.data[metric.data.length - 5]
   const yoy = yearAgo ? ((latest.value - yearAgo.value) / Math.abs(yearAgo.value)) * 100 : null
 
   return (
-    <div className="bg-theme-card rounded-lg p-4 hover:bg-theme-hover transition-all duration-300 group">
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex-1 min-w-0">
-          <p className="text-xs text-theme-secondary truncate">{metric.label}</p>
-          <p className="text-lg font-bold text-theme-primary mt-0.5">
-            {latest ? formatValue(latest.value, metric.unit) : '–'}
-          </p>
-        </div>
-        <div className="text-right ml-2 flex-shrink-0">
-          {yoy !== null && (
-            <span className={`text-xs font-semibold ${yoy >= 0 ? 'text-green-500' : 'text-red-500'}`}>
-              {yoy >= 0 ? '+' : ''}{yoy.toFixed(1).replace('.', ',')} %
-            </span>
-          )}
-          {latest && (
-            <p className="text-xs text-theme-secondary mt-0.5">{latest.period}</p>
-          )}
-        </div>
+    <div className="bg-theme-card rounded-xl p-4 hover:bg-theme-hover transition-all duration-200">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-1">
+        <p className="text-xs text-theme-secondary leading-tight pr-2">{metric.label}</p>
+        {latest && (
+          <p className="text-xs text-theme-muted flex-shrink-0">{latest.period}</p>
+        )}
       </div>
 
-      <ResponsiveContainer width="100%" height={80}>
-        <LineChart data={metric.data} margin={{ top: 2, right: 2, left: 0, bottom: 2 }}>
+      {/* Value + YoY */}
+      <div className="flex items-end justify-between mb-3">
+        <p className="text-xl font-bold text-theme-primary">
+          {latest ? formatValue(latest.value, metric.unit) : '–'}
+        </p>
+        {yoy !== null && (
+          <span className={`text-xs font-semibold mb-0.5 ${yoy >= 0 ? 'text-green-500' : 'text-red-500'}`}>
+            {yoy >= 0 ? '+' : ''}{yoy.toFixed(1).replace('.', ',')} %
+          </span>
+        )}
+      </div>
+
+      {/* Chart with axes + grid – matching Kennzahlen-Charts aesthetic */}
+      <ResponsiveContainer width="100%" height={130}>
+        <LineChart data={metric.data} margin={{ top: 4, right: 4, left: -8, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" stroke="rgba(128,128,128,0.12)" vertical={false} />
+          <XAxis
+            dataKey="period"
+            tick={{ fontSize: 9, fill: 'currentColor', opacity: 0.45 }}
+            tickLine={false}
+            axisLine={false}
+            interval="preserveStartEnd"
+          />
+          <YAxis
+            tickFormatter={(v) => formatYAxis(v, metric.unit)}
+            tick={{ fontSize: 9, fill: 'currentColor', opacity: 0.45 }}
+            tickLine={false}
+            axisLine={false}
+            width={38}
+            tickCount={4}
+          />
+          <Tooltip content={<CustomTooltip unit={metric.unit} metricLabel={metric.label} />} />
           <Line
             type="monotone"
             dataKey="value"
             stroke="#22c55e"
-            strokeWidth={1.5}
+            strokeWidth={2}
             dot={false}
-            activeDot={{ r: 3, strokeWidth: 0, fill: '#22c55e' }}
+            activeDot={{ r: 4, strokeWidth: 0, fill: '#22c55e' }}
           />
-          <Tooltip content={<CustomTooltip unit={metric.unit} metricLabel={metric.label} />} />
         </LineChart>
       </ResponsiveContainer>
 
+      {/* Source link */}
       {latest?.filingUrl && (
         <a
           href={latest.filingUrl}
@@ -119,13 +132,13 @@ function KPICard({ metricKey, metric }: { metricKey: string; metric: KPIMetric }
 
 function PremiumGate() {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
       {[1, 2, 3].map((i) => (
-        <div key={i} className="bg-theme-card rounded-lg p-4 relative overflow-hidden">
-          <div className="blur-sm opacity-30 pointer-events-none select-none">
+        <div key={i} className="bg-theme-card rounded-xl p-4 relative overflow-hidden">
+          <div className="blur-sm opacity-25 pointer-events-none select-none">
             <p className="text-xs text-theme-secondary">KPI Metrik</p>
-            <p className="text-lg font-bold text-theme-primary mt-0.5">12,3 Mrd.</p>
-            <div className="mt-3 h-20 bg-theme-secondary rounded" />
+            <p className="text-xl font-bold text-theme-primary mt-0.5 mb-3">12,3 Mrd.</p>
+            <div className="h-32 bg-theme-secondary rounded" />
           </div>
           {i === 2 && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 p-4">
@@ -161,8 +174,6 @@ export default function CompanyKPICharts({ ticker, isPremium }: CompanyKPICharts
   }, [ticker])
 
   if (loading) return null
-
-  // No data → hide for unsupported stocks
   if (!data || Object.keys(data.metrics || {}).length === 0) return null
 
   return (
@@ -175,7 +186,7 @@ export default function CompanyKPICharts({ ticker, isPremium }: CompanyKPICharts
       {!isPremium ? (
         <PremiumGate />
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {Object.entries(data.metrics).map(([key, metric]) => (
             <KPICard key={key} metricKey={key} metric={metric} />
           ))}
