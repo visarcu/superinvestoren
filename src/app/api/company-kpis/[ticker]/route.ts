@@ -12,7 +12,7 @@ export async function GET(
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
     if (!supabaseUrl || !supabaseKey) {
-      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+      return NextResponse.json({ error: 'Database not configured', hasUrl: !!supabaseUrl, hasKey: !!supabaseKey }, { status: 500 })
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey)
@@ -26,7 +26,7 @@ export async function GET(
 
     if (error) {
       console.error(`Error fetching company KPIs for ${ticker}:`, error.message)
-      return NextResponse.json({ error: 'Failed to fetch KPIs' }, { status: 500 })
+      return NextResponse.json({ error: 'Failed to fetch KPIs', detail: error.message }, { status: 500 })
     }
 
     if (!kpis || kpis.length === 0) {
@@ -59,6 +59,6 @@ export async function GET(
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error)
     console.error(`Error fetching company KPIs for ${ticker}:`, errMsg)
-    return NextResponse.json({ error: 'Failed to fetch KPIs' }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch KPIs', detail: errMsg }, { status: 500 })
   }
 }
