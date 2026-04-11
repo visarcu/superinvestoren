@@ -357,7 +357,94 @@ export default function CSVImportModal({
     }
   }, [])
 
-  // === STEP 1c: Freedom24 XLSX Upload ===
+  // === STEP 1c: Freedom24 Steuerbericht XLSX Upload (empfohlen — hat ISINs + Dividenden) ===
+  const handleFreedom24TaxUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files
+    if (!files || files.length === 0) return
+
+    setImportSource('pdf')
+    setPdfParsing(true)
+    setPdfErrors([])
+    setImportError(null)
+
+    try {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session?.access_token) {
+        setImportError('Nicht angemeldet. Bitte neu einloggen.')
+        setPdfParsing(false)
+        return
+      }
+
+      const formData = new FormData()
+      formData.append('file', files[0])
+
+      const response = await fetch('/api/portfolio/parse-freedom24-tax', {
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${session.access_token}` },
+        body: formData,
+      })
+
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({ error: 'Unbekannter Fehler' }))
+        setImportError(errData.error || 'XLSX-Parsing fehlgeschlagen')
+        setPdfParsing(false)
+        return
+      }
+
+      const data = await response.json()
+      if (data.errors?.length > 0) setPdfErrors(data.errors)
+
+      if (!data.transactions || data.transactions.length === 0) {
+        setImportError('Keine Transaktionen im Steuerbericht gefunden.')
+        setPdfParsing(false)
+        return
+      }
+
+      const txs = data.transactions as FlatexParsedTransaction[]
+      // ISINs sind vorhanden → ISIN-Resolver nutzen wie bei Flatex
+      const uniqueISINs = [...new Set(txs.map(tx => tx.isin).filter(Boolean))]
+
+      const parsedTransactions: ParsedTransaction[] = txs.map((tx) => ({
+        date: tx.date,
+        type: tx.type,
+        isin: tx.isin,
+        symbol: tx.name,
+        name: tx.name,
+        quantity: tx.quantity,
+        price: tx.price,
+        totalValue: tx.totalValue,
+        fee: tx.fees || 0,
+        tax: 0,
+        notes: tx.notes,
+        originalType: `freedom24_${tx.type}`,
+      }))
+
+      const byType: Record<string, number> = {}
+      parsedTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
+
+      setParseResult({
+        transactions: parsedTransactions,
+        uniqueISINs,
+        skipped: [],
+        summary: {
+          total: parsedTransactions.length,
+          imported: parsedTransactions.length,
+          skipped: 0,
+          byType,
+        },
+      })
+
+      setStep('preview')
+      setPendingDuplicateCheck(true)
+    } catch (error: unknown) {
+      const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
+      setImportError(`Upload fehlgeschlagen: ${msg}`)
+    } finally {
+      setPdfParsing(false)
+    }
+  }, [])
+
+  // === STEP 1d: Freedom24 Trades XLSX Upload (legacy — ohne ISINs) ===
   const handleFreedom24XLSXUpload = useCallback(async (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files
     if (!files || files.length === 0) return
@@ -849,19 +936,43 @@ export default function CSVImportModal({
                   />
                 </label>
 
-                {/* XLSX Import — Freedom24 */}
-                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-green-500/30 rounded-xl cursor-pointer transition-all text-center sm:col-span-2 ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
+                {/* Freedom24 Steuerbericht (empfohlen) */}
+                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-green-700/40 hover:border-green-500/60 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
                   {pdfParsing && (
                     <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
                       <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
                     </div>
                   )}
+                  <div className="absolute top-2 right-2 text-[10px] font-semibold text-green-400 bg-green-500/10 px-2 py-0.5 rounded-full">Empfohlen</div>
                   <div className="w-12 h-12 rounded-xl bg-green-500/10 flex items-center justify-center group-hover:bg-green-500/20 transition-colors">
                     <DocumentTextIcon className="w-6 h-6 text-green-400" />
                   </div>
                   <div>
-                    <p className="font-medium text-white text-sm">Freedom24</p>
-                    <p className="text-xs text-neutral-500 mt-0.5">Trades XLSX hochladen</p>
+                    <p className="font-medium text-white text-sm">Freedom24 Steuerbericht</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">Mit ISINs & Dividenden</p>
+                  </div>
+                  <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.xlsx · Berichte → Steuerberichte → Excel</span>
+                  <input
+                    type="file"
+                    accept=".xlsx,.xls"
+                    onChange={handleFreedom24TaxUpload}
+                    className="hidden"
+                  />
+                </label>
+
+                {/* Freedom24 Trades XLSX (alternativ) */}
+                <label className={`group relative flex flex-col items-center gap-3 p-5 bg-neutral-800/40 hover:bg-neutral-800/70 border border-neutral-700/50 hover:border-green-500/30 rounded-xl cursor-pointer transition-all text-center ${pdfParsing ? 'pointer-events-none opacity-60' : ''}`}>
+                  {pdfParsing && (
+                    <div className="absolute inset-0 flex items-center justify-center bg-neutral-900/50 rounded-xl z-10">
+                      <ArrowPathIcon className="w-6 h-6 text-green-400 animate-spin" />
+                    </div>
+                  )}
+                  <div className="w-12 h-12 rounded-xl bg-neutral-700/30 flex items-center justify-center group-hover:bg-neutral-700/50 transition-colors">
+                    <DocumentTextIcon className="w-6 h-6 text-neutral-400" />
+                  </div>
+                  <div>
+                    <p className="font-medium text-white text-sm">Freedom24 Trades</p>
+                    <p className="text-xs text-neutral-500 mt-0.5">Auftragshistorie Export</p>
                   </div>
                   <span className="text-[10px] text-neutral-600 bg-neutral-800 px-2 py-0.5 rounded-full">.xlsx · Auftragshistorie → Export</span>
                   <input
