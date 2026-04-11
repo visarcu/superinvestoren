@@ -51,7 +51,8 @@ export async function GET(
       { headers: { 'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400' } }
     )
   } catch (error) {
-    console.error(`Error fetching company KPIs for ${ticker}:`, error)
-    return NextResponse.json({ error: 'Failed to fetch KPIs' }, { status: 500 })
+    const errMsg = error instanceof Error ? error.message : String(error)
+    console.error(`Error fetching company KPIs for ${ticker}:`, errMsg)
+    return NextResponse.json({ error: 'Failed to fetch KPIs', detail: errMsg }, { status: 500 })
   }
 }
