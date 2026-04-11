@@ -24,11 +24,9 @@ export function extractMetricTimeSeries(
     const sorted = [...data.historicalPrices].sort(
       (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
     )
-    const firstValue = sorted[0].close
-    if (firstValue === 0) return []
     return sorted.map(d => ({
       date: d.date,
-      value: ((d.close - firstValue) / firstValue) * 100,
+      value: d.close,
     }))
   }
 
