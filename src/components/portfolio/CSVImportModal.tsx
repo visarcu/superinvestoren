@@ -408,7 +408,9 @@ export default function CSVImportModal({
         date: tx.date,
         type: tx.type,
         isin: tx.isin,
-        symbol: tx.name,
+        // symbol bewusst NICHT setzen — ISIN-Resolver soll den korrekten Ticker ermitteln
+        // tx.name enthält den rohen Freedom24-Ticker (z.B. "KKR.US") was falsch wäre
+        symbol: '',
         name: tx.name,
         quantity: tx.quantity,
         price: tx.price,
@@ -434,8 +436,74 @@ export default function CSVImportModal({
         },
       })
 
-      setStep('preview')
-      setPendingDuplicateCheck(true)
+      setStep('processing')
+
+      // ISIN-Auflösung (gleicher Flow wie Flatex PDF)
+      if (uniqueISINs.length > 0) {
+        const { resolved, unresolved } = resolveISINsLocally(uniqueISINs)
+        const newMap = new Map<string, { symbol: string; name: string; source: string }>()
+        resolved.forEach((value, key) => {
+          newMap.set(key, { symbol: value.symbol, name: value.name, source: value.source })
+        })
+
+        if (unresolved.length > 0) {
+          setIsinMap(newMap)
+          setResolving(true)
+
+          try {
+            const resolveResp = await fetch('/api/portfolio/resolve-isins', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ isins: unresolved }),
+            })
+
+            if (resolveResp.ok) {
+              const { results } = await resolveResp.json()
+              const stillUnresolved: string[] = []
+
+              for (const isin of unresolved) {
+                if (results[isin]) {
+                  newMap.set(isin, {
+                    symbol: results[isin].symbol,
+                    name: results[isin].name,
+                    source: results[isin].source || 'openfigi',
+                  })
+                } else {
+                  stillUnresolved.push(isin)
+                }
+              }
+
+              setIsinMap(new Map(newMap))
+              setUnresolvedISINs(stillUnresolved)
+
+              if (stillUnresolved.length === 0) {
+                setSkippedResolve(true)
+                setStep('preview')
+                setPendingDuplicateCheck(true)
+              } else {
+                setStep('resolve')
+              }
+            }
+          } catch {
+            console.error('Auto ISIN resolution error for Freedom24 Tax import')
+            setUnresolvedISINs(unresolved)
+            setStep('resolve')
+          } finally {
+            setResolving(false)
+          }
+        } else {
+          // Alles lokal aufgelöst → direkt zu Preview
+          setIsinMap(newMap)
+          setUnresolvedISINs([])
+          setSkippedResolve(true)
+          setStep('preview')
+          setPendingDuplicateCheck(true)
+        }
+      } else {
+        setSkippedResolve(true)
+        setStep('preview')
+        setPendingDuplicateCheck(true)
+      }
     } catch (error: unknown) {
       const msg = error instanceof Error ? error.message : 'Unbekannter Fehler'
       setImportError(`Upload fehlgeschlagen: ${msg}`)
