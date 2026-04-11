@@ -56,10 +56,28 @@ interface NewsArticle {
   symbol?: string;
 }
 
+const FALLBACK_TICKERS = ['AAPL', 'MSFT', 'NVDA', 'GOOGL', 'AMZN', 'META', 'TSLA'];
+
 // ── Helpers ───────────────────────────────────────────────
 
 function getColor(action: string) {
   return ACTION_COLORS[action?.toLowerCase()] || '#64748B';
+}
+
+function actionDE(action: string): string {
+  const a = action?.toLowerCase();
+  if (a === 'upgrade') return 'Hochgestuft';
+  if (a === 'downgrade') return 'Herabgestuft';
+  if (a === 'initiated' || a?.includes('initiat')) return 'Neu bewertet';
+  if (a === 'hold' || a === 'reiterated' || a === 'maintained') return 'Bestätigt';
+  return action;
+}
+
+function buildGermanDescription(g: Grading): string {
+  const label = actionDE(g.action);
+  const hasChange = g.previousGrade && g.newGrade && g.previousGrade !== g.newGrade;
+  const change = hasChange ? ` (${g.previousGrade} → ${g.newGrade})` : g.newGrade ? ` → ${g.newGrade}` : '';
+  return `${g.gradingCompany} hat ${g.symbol} ${label.toLowerCase()}${change}`;
 }
 
 function timeAgo(dateStr: string) {
@@ -130,11 +148,11 @@ export default function NewsScreen() {
         tickers = [...new Set([...wlTickers, ...pfTickers])];
       }
 
-      // Fetch news for user's tickers (max 5 for performance)
-      const tickersToFetch = tickers.slice(0, 5);
+      // Use user tickers or fallback to popular stocks
+      const tickersToFetch = tickers.length > 0 ? tickers.slice(0, 5) : FALLBACK_TICKERS.slice(0, 5);
       const allArticles: NewsArticle[] = [];
 
-      if (tickersToFetch.length > 0) {
+      {
         const results = await Promise.all(
           tickersToFetch.map(t =>
             fetch(`${BASE_URL}/api/stock-news/${t}?limit=5`)
@@ -183,25 +201,20 @@ export default function NewsScreen() {
   function renderRatingItem({ item: g, index: i }: { item: Grading; index: number }) {
     const color = getColor(g.action);
     const hasGradeChange = g.previousGrade && g.newGrade && g.previousGrade !== g.newGrade;
-    const hasNews = !!g.newsURL;
+    const label = actionDE(g.action);
+    const description = buildGermanDescription(g);
 
     return (
       <TouchableOpacity
         style={[s.ratingRow, i > 0 && s.rowBorder]}
-        onPress={() => {
-          if (hasNews) {
-            router.push(`/news-article?url=${encodeURIComponent(g.newsURL)}&title=${encodeURIComponent(g.newsTitle || g.gradingCompany)}`);
-          } else {
-            router.push(`/stock/${g.symbol}?tab=estimates`);
-          }
-        }}
+        onPress={() => router.push(`/stock/${g.symbol}?tab=estimates`)}
         activeOpacity={0.6}
       >
         <View style={[s.actionBadge, { backgroundColor: color + '15' }]}>
           <Ionicons
             name={g.action?.toLowerCase() === 'upgrade' ? 'trending-up' :
                   g.action?.toLowerCase() === 'downgrade' ? 'trending-down' :
-                  g.action?.toLowerCase() === 'initiated' ? 'add-circle' : 'refresh'}
+                  g.action?.toLowerCase()?.includes('initiat') ? 'add-circle' : 'refresh'}
             size={18}
             color={color}
           />
@@ -211,7 +224,7 @@ export default function NewsScreen() {
           <View style={s.ratingTopRow}>
             <Text style={s.ratingSymbol}>{g.symbol}</Text>
             <View style={[s.actionPill, { backgroundColor: color + '15' }]}>
-              <Text style={[s.actionPillText, { color }]}>{g.action}</Text>
+              <Text style={[s.actionPillText, { color }]}>{label}</Text>
             </View>
             <Text style={s.ratingTime}>{timeAgo(g.publishedDate)}</Text>
           </View>
@@ -226,9 +239,7 @@ export default function NewsScreen() {
             </View>
           )}
 
-          {g.newsTitle ? (
-            <Text style={s.ratingNewsTitle} numberOfLines={2}>{g.newsTitle}</Text>
-          ) : null}
+          <Text style={s.ratingDescription} numberOfLines={2}>{description}</Text>
         </View>
 
         <Ionicons name="chevron-forward" size={14} color="#334155" />
@@ -494,7 +505,7 @@ const s = StyleSheet.create({
   gradeRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
   gradePrev: { color: '#64748B', fontSize: 12, textDecorationLine: 'line-through' },
   gradeNew: { color: '#F8FAFC', fontSize: 12, fontWeight: '600' },
-  ratingNewsTitle: { color: '#475569', fontSize: 12, lineHeight: 16, marginTop: 4 },
+  ratingDescription: { color: '#64748B', fontSize: 13, lineHeight: 17, marginTop: 4 },
 
   // ── News Row ──
   newsRow: {
