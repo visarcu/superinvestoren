@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { View, Text, ScrollView, ActivityIndicator, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import StockLogo from '../../components/StockLogo';
 import { tickerFromCusip } from '../../lib/cusipMap';
+import { supabase } from '../../lib/auth';
 
 const BASE_URL = 'https://finclue.de';
 const PAGE_SIZE = 10;
@@ -89,7 +90,47 @@ export default function InvestorDetailScreen() {
   const [activityQ, setActivityQ] = useState('');
   const [activityLoading, setActivityLoading] = useState(false);
 
-  useEffect(() => { loadData(); }, [slug]);
+  // Follow / notification state
+  const [following, setFollowing] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
+
+  useEffect(() => { loadData(); checkFollowing(); }, [slug]);
+
+  async function checkFollowing() {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+    const { data } = await supabase
+      .from('notification_settings')
+      .select('preferred_investors')
+      .eq('user_id', session.user.id)
+      .maybeSingle();
+    const list: string[] = data?.preferred_investors || [];
+    setFollowing(list.includes(slug as string));
+  }
+
+  async function toggleFollow() {
+    if (followLoading) return;
+    setFollowLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+      const { data } = await supabase
+        .from('notification_settings')
+        .select('preferred_investors')
+        .eq('user_id', session.user.id)
+        .maybeSingle();
+      const list: string[] = data?.preferred_investors || [];
+      const newList = following
+        ? list.filter(s => s !== slug)
+        : [...list, slug as string];
+      await supabase
+        .from('notification_settings')
+        .upsert({ user_id: session.user.id, preferred_investors: newList }, { onConflict: 'user_id' });
+      setFollowing(!following);
+    } finally {
+      setFollowLoading(false);
+    }
+  }
 
   function computeTransactions(latest: Position[], prevData: any): Transaction[] {
     if (!prevData) return [];
@@ -189,6 +230,15 @@ export default function InvestorDetailScreen() {
         headerStyle: { backgroundColor: '#111113' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: 'Investoren',
+        headerRight: () => (
+          <TouchableOpacity onPress={toggleFollow} disabled={followLoading} hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}>
+            <Ionicons
+              name={following ? 'notifications' : 'notifications-outline'}
+              size={22}
+              color={following ? '#22C55E' : '#64748B'}
+            />
+          </TouchableOpacity>
+        ),
       }} />
 
       <SafeAreaView style={s.container} edges={['bottom']}>

@@ -1,6 +1,6 @@
 import { Tabs, router } from 'expo-router';
-import { useEffect, useState, useRef } from 'react';
-import { View } from 'react-native';
+import { useEffect, useState, useRef, useCallback } from 'react';
+import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../../lib/auth';
@@ -42,6 +42,10 @@ export default function TabsLayout() {
     AsyncStorage.setItem(PREMIUM_MODAL_KEY, Date.now().toString());
     setShowPremium(false);
   }
+
+  const openPremium = useCallback(() => {
+    setShowPremium(true);
+  }, []);
 
   if (!checked) return null;
 
@@ -91,6 +95,26 @@ export default function TabsLayout() {
           options={{
             title: 'Superinv.',
             tabBarIcon: ({ color, size }) => <Ionicons name="people" size={size} color={color} />,
+          }}
+        />
+        <Tabs.Screen
+          name="upgrade"
+          options={{
+            title: 'Upgrade',
+            tabBarActiveTintColor: '#F97316',
+            tabBarInactiveTintColor: '#F97316',
+            tabBarIcon: ({ size }) => <Ionicons name="chevron-up" size={size} color="#F97316" />,
+            tabBarLabel: ({ }) => (
+              <Text style={{ color: '#F97316', fontSize: 10, fontWeight: '700', marginTop: 2 }}>
+                Upgrade
+              </Text>
+            ),
+          }}
+          listeners={{
+            tabPress: (e) => {
+              e.preventDefault();
+              openPremium();
+            },
           }}
         />
         {/* Hidden tabs — accessible via Drawer menu */}
