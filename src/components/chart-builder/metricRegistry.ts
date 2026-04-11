@@ -147,6 +147,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'income-statement',
     field: 'revenue',
     isFlowMetric: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'netIncome',
@@ -157,6 +158,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'income-statement',
     field: 'netIncome',
     isFlowMetric: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'ebitda',
@@ -167,6 +169,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'income-statement',
     field: 'ebitda',
     isFlowMetric: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'freeCashFlow',
@@ -177,6 +180,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'cash-flow-statement',
     field: 'freeCashFlow',
     isFlowMetric: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'operatingCashFlow',
@@ -187,6 +191,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'cash-flow-statement',
     field: 'operatingCashFlow',
     isFlowMetric: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'capex',
@@ -198,6 +203,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     field: 'capitalExpenditure',
     isFlowMetric: true,
     absValue: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'eps',
@@ -208,6 +214,7 @@ export const METRIC_REGISTRY: MetricDefinition[] = [
     source: 'income-statement',
     field: 'epsdiluted',
     isFlowMetric: true,
+    preferredChartType: 'bar',
   },
   {
     key: 'sharesOutstanding',

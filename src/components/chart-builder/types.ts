@@ -21,6 +21,8 @@ export interface MetricDefinition {
   isFlowMetric?: boolean
   /** Take absolute value of the raw field (e.g. capitalExpenditure is negative in FMP) */
   absValue?: boolean
+  /** Preferred chart type: 'bar' for absolute values (revenue, FCF, etc.), 'line' for ratios/percentages */
+  preferredChartType?: 'bar' | 'line'
 }
 
 export interface ActiveMetric {

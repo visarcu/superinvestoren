@@ -4,7 +4,8 @@
 import { useMemo } from 'react'
 import {
   ResponsiveContainer,
-  LineChart,
+  ComposedChart,
+  Bar,
   Line,
   XAxis,
   YAxis,
@@ -27,6 +28,16 @@ interface ChartCanvasProps {
   yAxisConfigs: YAxisConfig[]
   viewMode: ViewMode
   loading: boolean
+}
+
+/** Determine whether a metric should render as a bar or line */
+function getEffectiveChartType(metricKey: string, viewMode: ViewMode): 'bar' | 'line' {
+  // In transformed views, always use lines (bars don't make sense for indexed/% change)
+  if (viewMode === 'indexed' || viewMode === 'percent_change' || viewMode === 'log') {
+    return 'line'
+  }
+  const def = getMetricDefinition(metricKey)
+  return def?.preferredChartType || 'line'
 }
 
 // Custom tooltip component for a cleaner look
@@ -62,7 +73,7 @@ function CustomTooltip({ active, payload, label, viewMode }: any) {
               <div className="flex items-center gap-2 min-w-0">
                 <div
                   className="w-2 h-2 rounded-full flex-shrink-0"
-                  style={{ backgroundColor: entry.color }}
+                  style={{ backgroundColor: entry.color || entry.fill }}
                 />
                 <span className="text-[11px] text-white/70 truncate">
                   {def?.label || metricKey}
@@ -94,6 +105,22 @@ export default function ChartCanvas({
     [activeMetrics]
   )
 
+  // Split metrics into bar and line groups
+  const { barMetrics, lineMetrics } = useMemo(() => {
+    const bars: ActiveMetric[] = []
+    const lines: ActiveMetric[] = []
+    for (const m of visibleMetrics) {
+      if (getEffectiveChartType(m.metricKey, viewMode) === 'bar') {
+        bars.push(m)
+      } else {
+        lines.push(m)
+      }
+    }
+    return { barMetrics: bars, lineMetrics: lines }
+  }, [visibleMetrics, viewMode])
+
+  const hasBars = barMetrics.length > 0
+
   // Get current values for performance labels
   const currentValues = useMemo(() => {
     if (chartData.length === 0) return {}
@@ -117,7 +144,6 @@ export default function ChartCanvas({
 
   // Determine X-axis interval: show all ticks for sparse data (annual/quarterly),
   // use auto for dense data (daily prices)
-  // NOTE: All hooks must be above any early return to satisfy Rules of Hooks
   const xAxisInterval = useMemo(() => {
     if (chartData.length <= 15) return 0
     if (chartData.length <= 30) return 1
@@ -130,6 +156,10 @@ export default function ChartCanvas({
   const hasRightAxis = yAxisConfigs.length > 1
   const effectiveLeftUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : leftAxisUnit
   const effectiveRightUnit = (viewMode === 'percent_change' || viewMode === 'indexed') ? 'percent' : rightAxisUnit
+
+  // Check which axes have bars (for domain calculation)
+  const leftAxisHasBars = barMetrics.some(m => !(hasRightAxis && m.yAxisSide === 'right'))
+  const rightAxisHasBars = hasRightAxis && barMetrics.some(m => m.yAxisSide === 'right')
 
   if (visibleMetrics.length === 0 && !loading) {
     return (
@@ -164,15 +194,17 @@ export default function ChartCanvas({
 
       <div className="h-full w-full px-2 pt-4 pb-2">
         <ResponsiveContainer width="100%" height="100%">
-          <LineChart
+          <ComposedChart
             data={chartData}
             margin={{ top: 16, right: hasRightAxis ? 70 : 50, left: 10, bottom: 20 }}
+            barCategoryGap={hasBars ? '15%' : undefined}
+            barGap={2}
           >
             {/* Grid: subtle horizontal lines, very faint verticals */}
             <CartesianGrid
               strokeDasharray="none"
               stroke="rgba(255,255,255,0.06)"
-              vertical={true}
+              vertical={!hasBars}
               horizontalPoints={undefined}
               verticalFill={[]}
               horizontalFill={[]}
@@ -199,7 +231,7 @@ export default function ChartCanvas({
               padding={{ left: 10, right: 10 }}
             />
 
-            {/* Left Y-Axis */}
+            {/* Left Y-Axis — start from 0 when bars are present */}
             <YAxis
               yAxisId="left"
               orientation="left"
@@ -208,7 +240,7 @@ export default function ChartCanvas({
               tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
               width={65}
               tickFormatter={(value: number) => formatYAxisTick(value, effectiveLeftUnit)}
-              domain={['auto', 'auto']}
+              domain={leftAxisHasBars ? [0, 'auto'] : ['auto', 'auto']}
               scale={viewMode === 'log' ? 'log' : 'auto'}
               allowDataOverflow={viewMode === 'log'}
               dx={-4}
@@ -224,7 +256,7 @@ export default function ChartCanvas({
                 tick={{ fill: 'rgba(255,255,255,0.4)', fontSize: 11, fontWeight: 500 }}
                 width={65}
                 tickFormatter={(value: number) => formatYAxisTick(value, effectiveRightUnit)}
-                domain={['auto', 'auto']}
+                domain={rightAxisHasBars ? [0, 'auto'] : ['auto', 'auto']}
                 scale={viewMode === 'log' ? 'log' : 'auto'}
                 allowDataOverflow={viewMode === 'log'}
                 dx={4}
@@ -245,7 +277,7 @@ export default function ChartCanvas({
             {/* Custom Tooltip */}
             <RechartsTooltip
               content={<CustomTooltip viewMode={viewMode} />}
-              cursor={{
+              cursor={hasBars ? { fill: 'rgba(255,255,255,0.04)' } : {
                 stroke: 'rgba(255,255,255,0.15)',
                 strokeWidth: 1,
                 strokeDasharray: '4 4',
@@ -253,8 +285,29 @@ export default function ChartCanvas({
               isAnimationActive={false}
             />
 
-            {/* Data lines */}
-            {visibleMetrics.map(metric => {
+            {/* === Bar metrics (rendered first so lines appear on top) === */}
+            {barMetrics.map(metric => {
+              const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
+              const yAxisId = hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left'
+
+              return (
+                <Bar
+                  key={seriesKey}
+                  dataKey={seriesKey}
+                  yAxisId={yAxisId}
+                  fill={metric.color}
+                  fillOpacity={0.88}
+                  radius={[3, 3, 0, 0] as any}
+                  name={seriesKey}
+                  animationDuration={400}
+                  animationEasing="ease-out"
+                  maxBarSize={50}
+                />
+              )
+            })}
+
+            {/* === Line metrics (rendered on top of bars) === */}
+            {lineMetrics.map(metric => {
               const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
               const yAxisId = hasRightAxis && metric.yAxisSide === 'right' ? 'right' : 'left'
 
@@ -280,7 +333,7 @@ export default function ChartCanvas({
                 />
               )
             })}
-          </LineChart>
+          </ComposedChart>
         </ResponsiveContainer>
       </div>
 
