@@ -123,6 +123,28 @@ export default function ChartCanvas({
   const hasLines = lineMetrics.length > 0
   const isComboChart = hasBars && hasLines
 
+  // When bars are present, filter data to only points where at least one bar
+  // metric has a value. This prevents bars from being paper-thin when mixed
+  // with high-frequency data (e.g. daily prices + quarterly EBITDA).
+  // Lines still connect between these points via connectNulls.
+  const effectiveChartData = useMemo(() => {
+    if (!hasBars) return chartData
+
+    const barSeriesKeys = barMetrics.map(m => `${m.stockTicker}_${m.metricKey}`)
+
+    const filtered = chartData.filter(point => {
+      return barSeriesKeys.some(key => {
+        const val = point[key]
+        return val !== undefined && val !== null
+      })
+    })
+
+    // Only use filtered if it actually reduced the data (bars have sparse data)
+    return filtered.length > 0 && filtered.length < chartData.length * 0.8
+      ? filtered
+      : chartData
+  }, [chartData, hasBars, barMetrics])
+
   // In combo mode: bars → left axis, lines → right axis (separate scales)
   // Determine the unit for each axis based on chart type grouping
   const comboLeftUnit = useMemo(() => {
@@ -149,8 +171,8 @@ export default function ChartCanvas({
 
   // Get current values for performance labels
   const currentValues = useMemo(() => {
-    if (chartData.length === 0) return {}
-    const lastPoint = chartData[chartData.length - 1]
+    if (effectiveChartData.length === 0) return {}
+    const lastPoint = effectiveChartData[effectiveChartData.length - 1]
     const values: Record<string, { value: number; color: string; ticker: string; label: string }> = {}
     for (const metric of visibleMetrics) {
       const seriesKey = `${metric.stockTicker}_${metric.metricKey}`
@@ -166,15 +188,15 @@ export default function ChartCanvas({
       }
     }
     return values
-  }, [chartData, visibleMetrics])
+  }, [effectiveChartData, visibleMetrics])
 
   // Determine X-axis interval: show all ticks for sparse data (annual/quarterly),
   // use auto for dense data (daily prices)
   const xAxisInterval = useMemo(() => {
-    if (chartData.length <= 15) return 0
-    if (chartData.length <= 30) return 1
+    if (effectiveChartData.length <= 15) return 0
+    if (effectiveChartData.length <= 30) return 1
     return 'preserveStartEnd' as const
-  }, [chartData.length])
+  }, [effectiveChartData.length])
 
   // Determine Y-axis unit for formatting
   // In combo mode, override axis units: bars (left) use bar unit, lines (right) use line unit
@@ -223,7 +245,7 @@ export default function ChartCanvas({
       <div className="h-full w-full px-2 pt-4 pb-2">
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
-            data={chartData}
+            data={effectiveChartData}
             margin={{ top: 16, right: hasRightAxis ? 80 : 50, left: 10, bottom: 20 }}
             barCategoryGap={hasBars ? '15%' : undefined}
             barGap={2}
