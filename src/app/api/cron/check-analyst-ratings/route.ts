@@ -81,6 +81,9 @@ async function createInAppNotification(
   await sendPushNotification(userId, title, message, data)
 }
 
+const ANALYST_EMAIL_TEST_MODE = true // set false to send to all users
+const ANALYST_EMAIL_TEST_ADDRESS = 'visi1@hotmail.de'
+
 async function sendAnalystEmail(
   userEmail: string,
   symbol: string,
@@ -88,84 +91,81 @@ async function sendAnalystEmail(
   grading: FMPGrading,
   gradeChange: string,
 ) {
-  const actionColor = label === 'Hochgestuft' ? '#22C55E' : label === 'Herabgestuft' ? '#EF4444' : '#F59E0B'
+  const toAddress = ANALYST_EMAIL_TEST_MODE ? ANALYST_EMAIL_TEST_ADDRESS : userEmail
+  const actionColor = label === 'Hochgestuft' ? '#059669' : label === 'Herabgestuft' ? '#DC2626' : '#D97706'
+  const actionBg = label === 'Hochgestuft' ? '#f0fdf4' : label === 'Herabgestuft' ? '#fef2f2' : '#fffbeb'
+  const actionBorder = label === 'Hochgestuft' ? '#bbf7d0' : label === 'Herabgestuft' ? '#fecaca' : '#fde68a'
   const stockUrl = `https://finclue.de/analyse/stocks/${symbol.toLowerCase()}/ratings`
   const date = new Date(grading.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })
 
-  const html = `
-<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="de">
-<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin:0;padding:0;background:#0a0a0b;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
-  <div style="max-width:580px;margin:0 auto;padding:32px 16px;">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${symbol}: ${label} | finclue</title></head>
+<body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111827;">
 
-    <!-- Header -->
-    <div style="text-align:center;margin-bottom:32px;">
-      <span style="font-size:22px;font-weight:800;color:#F8FAFC;letter-spacing:-0.5px;">finclue</span>
-    </div>
-
-    <!-- Card -->
-    <div style="background:#111113;border-radius:16px;border:1px solid #1e1e20;overflow:hidden;margin-bottom:24px;">
-
-      <!-- Tag -->
-      <div style="background:${actionColor}18;border-bottom:1px solid ${actionColor}30;padding:12px 20px;">
-        <span style="color:${actionColor};font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">● ${label}</span>
-      </div>
-
-      <!-- Content -->
-      <div style="padding:24px 20px;">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;">
-          <img src="https://financialmodelingprep.com/image-stock/${symbol}.png" width="44" height="44"
-            style="border-radius:10px;background:#1e1e20;" onerror="this.style.display='none'" />
-          <div>
-            <div style="color:#F8FAFC;font-size:20px;font-weight:800;">${symbol}</div>
-            <div style="color:#64748B;font-size:13px;margin-top:2px;">${grading.gradingCompany} · ${date}</div>
-          </div>
-        </div>
-
-        <!-- Grade Change -->
-        <div style="background:#0a0a0b;border-radius:12px;border:1px solid #1e1e20;padding:16px;margin-bottom:20px;">
-          <div style="color:#475569;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:10px;">BEWERTUNG</div>
-          ${grading.previousGrade && grading.newGrade && grading.previousGrade !== grading.newGrade ? `
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span style="color:#94A3B8;font-size:15px;text-decoration:line-through;">${grading.previousGrade}</span>
-            <span style="color:#475569;font-size:14px;">→</span>
-            <span style="color:${actionColor};font-size:15px;font-weight:700;">${grading.newGrade}</span>
-          </div>` : `
-          <span style="color:${actionColor};font-size:15px;font-weight:700;">${grading.newGrade || label}</span>`}
-        </div>
-
-        ${grading.newsTitle ? `
-        <div style="margin-bottom:20px;">
-          <div style="color:#475569;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:8px;">ARTIKEL</div>
-          <div style="color:#94A3B8;font-size:13px;line-height:1.5;">${grading.newsTitle}</div>
-        </div>` : ''}
-
-        <!-- CTAs -->
-        <div style="display:flex;gap:10px;flex-wrap:wrap;">
-          <a href="${stockUrl}" style="display:inline-block;background:#F8FAFC;color:#0a0a0b;font-size:14px;font-weight:700;padding:12px 20px;border-radius:10px;text-decoration:none;">
-            In finclue öffnen
-          </a>
-          ${grading.newsURL ? `
-          <a href="${grading.newsURL}" style="display:inline-block;background:#1e1e20;color:#94A3B8;font-size:14px;font-weight:600;padding:12px 20px;border-radius:10px;text-decoration:none;">
-            Artikel lesen →
-          </a>` : ''}
-        </div>
-      </div>
-    </div>
-
-    <!-- Footer -->
-    <div style="text-align:center;">
-      <p style="color:#334155;font-size:12px;margin:0 0 8px;">Du erhältst diese E-Mail weil du ${symbol} in deiner Watchlist oder deinem Portfolio hast.</p>
-      <a href="https://finclue.de/einstellungen" style="color:#475569;font-size:12px;">Benachrichtigungen verwalten</a>
+  <div style="max-width:600px;margin:0 auto;padding:32px 20px 16px;">
+    <div style="text-align:center;margin-bottom:24px;">
+      <h1 style="color:#374151;margin:0;font-size:24px;font-weight:700;">finclue</h1>
+      <p style="color:#9ca3af;margin:4px 0 0;font-size:14px;">Analysten-Bewertung</p>
+      ${ANALYST_EMAIL_TEST_MODE ? '<p style="background:#fbbf24;color:#92400e;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:500;margin:8px auto;display:inline-block;">🧪 TEST E-MAIL</p>' : ''}
     </div>
   </div>
-</body>
-</html>`
+
+  <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);overflow:hidden;">
+    <div style="padding:32px;">
+
+      <!-- Action Badge -->
+      <div style="background:${actionBg};border:1px solid ${actionBorder};border-radius:8px;padding:12px 16px;margin-bottom:24px;display:inline-block;">
+        <span style="color:${actionColor};font-size:13px;font-weight:700;">${label}</span>
+      </div>
+
+      <h2 style="color:#111827;font-size:22px;font-weight:700;margin:0 0 4px;">${symbol}</h2>
+      <p style="color:#6b7280;font-size:14px;margin:0 0 24px;">${grading.gradingCompany} · ${date}</p>
+
+      <!-- Grade Change Box -->
+      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px;margin-bottom:24px;">
+        <div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;margin-bottom:12px;">BEWERTUNG</div>
+        ${grading.previousGrade && grading.newGrade && grading.previousGrade !== grading.newGrade ? `
+        <div style="display:flex;align-items:center;gap:12px;">
+          <span style="color:#9ca3af;font-size:16px;text-decoration:line-through;">${grading.previousGrade}</span>
+          <span style="color:#d1d5db;font-size:18px;">→</span>
+          <span style="color:${actionColor};font-size:18px;font-weight:700;">${grading.newGrade}</span>
+        </div>` : `
+        <span style="color:${actionColor};font-size:18px;font-weight:700;">${grading.newGrade || label}</span>`}
+      </div>
+
+      ${grading.newsTitle ? `
+      <!-- Article -->
+      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px;margin-bottom:24px;">
+        <div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;margin-bottom:8px;">ARTIKEL</div>
+        <p style="color:#374151;font-size:14px;line-height:1.6;margin:0;">${grading.newsTitle}</p>
+      </div>` : ''}
+
+      <!-- CTAs -->
+      <div style="display:flex;gap:12px;flex-wrap:wrap;">
+        <a href="${stockUrl}" style="display:inline-block;background:#111827;color:#ffffff;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;">
+          In finclue öffnen
+        </a>
+        ${grading.newsURL ? `
+        <a href="${grading.newsURL}" style="display:inline-block;background:#f9fafb;color:#374151;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;border:1px solid #e5e7eb;">
+          Artikel lesen →
+        </a>` : ''}
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div style="max-width:600px;margin:16px auto;text-align:center;">
+    <p style="color:#9ca3af;font-size:12px;margin:0 0 6px;">Du erhältst diese E-Mail weil ${symbol} in deiner Watchlist oder deinem Portfolio ist.</p>
+    <a href="https://finclue.de/einstellungen" style="color:#6b7280;font-size:12px;">Benachrichtigungen verwalten</a>
+  </div>
+
+</body></html>`
 
   await resend.emails.send({
     from: 'finclue <noreply@finclue.de>',
-    to: userEmail,
+    to: toAddress,
     subject: `${symbol}: ${label} von ${grading.gradingCompany}`,
     html,
   })
