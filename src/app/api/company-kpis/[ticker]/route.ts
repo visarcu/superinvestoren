@@ -1,6 +1,6 @@
 // src/app/api/company-kpis/[ticker]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { createClient } from '@supabase/supabase-js'
 
 export async function GET(
   _request: NextRequest,
@@ -9,22 +9,28 @@ export async function GET(
   const ticker = params.ticker.toUpperCase()
 
   try {
-    const kpis = await prisma.companyKPI.findMany({
-      where: { ticker },
-      orderBy: [{ metric: 'asc' }, { periodDate: 'asc' }],
-      select: {
-        metric: true,
-        label: true,
-        value: true,
-        unit: true,
-        period: true,
-        periodDate: true,
-        filingUrl: true,
-      },
-    })
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY
+    if (!supabaseUrl || !supabaseKey) {
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+    }
 
-    if (kpis.length === 0) {
-      return NextResponse.json({ ticker, metrics: [] })
+    const supabase = createClient(supabaseUrl, supabaseKey)
+
+    const { data: kpis, error } = await supabase
+      .from('CompanyKPI')
+      .select('metric, label, value, unit, period, periodDate, filingUrl')
+      .eq('ticker', ticker)
+      .order('metric', { ascending: true })
+      .order('periodDate', { ascending: true })
+
+    if (error) {
+      console.error(`Error fetching company KPIs for ${ticker}:`, error.message)
+      return NextResponse.json({ error: 'Failed to fetch KPIs' }, { status: 500 })
+    }
+
+    if (!kpis || kpis.length === 0) {
+      return NextResponse.json({ ticker, metrics: {} })
     }
 
     // Group by metric for easy charting
@@ -40,7 +46,7 @@ export async function GET(
       }
       grouped[kpi.metric].data.push({
         period: kpi.period,
-        periodDate: kpi.periodDate.toISOString(),
+        periodDate: kpi.periodDate,
         value: kpi.value,
         filingUrl: kpi.filingUrl,
       })
@@ -53,6 +59,6 @@ export async function GET(
   } catch (error) {
     const errMsg = error instanceof Error ? error.message : String(error)
     console.error(`Error fetching company KPIs for ${ticker}:`, errMsg)
-    return NextResponse.json({ error: 'Failed to fetch KPIs', detail: errMsg }, { status: 500 })
+    return NextResponse.json({ error: 'Failed to fetch KPIs' }, { status: 500 })
   }
 }
