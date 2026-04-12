@@ -271,6 +271,100 @@ function ComparisonChart({
   )
 }
 
+// ─── Ticker Search ───────────────────────────────────────────────────────────
+
+function TickerSearch({ currentTicker, onSelect }: { currentTicker: string; onSelect: (t: string) => void }) {
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<{ ticker: string; name: string }[]>([])
+  const [focused, setFocused] = useState(false)
+  const inputRef = React.useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (query.length < 1) { setResults([]); return }
+
+    const timeout = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/search?query=${encodeURIComponent(query)}&limit=8`)
+        if (res.ok) {
+          const data = await res.json()
+          const items = (Array.isArray(data) ? data : [])
+            .filter((r: any) => r.symbol)
+            .slice(0, 8)
+            .map((r: any) => ({
+              ticker: r.symbol.toUpperCase(),
+              name: r.name || '',
+            }))
+          if (items.length > 0) {
+            setResults(items)
+            return
+          }
+        }
+      } catch { /* fallback below */ }
+
+      // Fallback: jeden eingetippten Text als Ticker anbieten
+      if (query.length >= 1 && query.length <= 6 && /^[A-Za-z.]+$/.test(query)) {
+        setResults([{ ticker: query.toUpperCase(), name: 'Direkt laden (SEC XBRL)' }])
+      } else {
+        setResults([])
+      }
+    }, 250)
+
+    return () => clearTimeout(timeout)
+  }, [query])
+
+  return (
+    <div className="relative">
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1 max-w-xs">
+          <input
+            ref={inputRef}
+            type="text"
+            value={query}
+            onChange={e => setQuery(e.target.value)}
+            onFocus={() => setFocused(true)}
+            onBlur={() => setTimeout(() => setFocused(false), 200)}
+            onKeyDown={e => {
+              if (e.key === 'Enter' && query.trim()) {
+                onSelect(query.trim().toUpperCase())
+                setQuery('')
+                setFocused(false)
+                inputRef.current?.blur()
+              }
+            }}
+            placeholder="Ticker suchen (z.B. HIMS, CRWD, DIS...)"
+            className="w-full px-3 py-2 bg-theme-card border border-theme-light rounded-lg text-sm text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/30"
+          />
+          <kbd className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-theme-muted bg-theme-tertiary px-1.5 py-0.5 rounded">↵</kbd>
+        </div>
+        <span className="text-xs text-theme-muted hidden sm:block">~10.000 US-Aktien verfügbar</span>
+      </div>
+
+      {/* Dropdown Results */}
+      {focused && results.length > 0 && (
+        <div className="absolute z-50 top-full mt-1 w-full max-w-xs bg-theme-card border border-theme-light rounded-lg shadow-2xl overflow-hidden">
+          {results.map(r => (
+            <button
+              key={r.ticker}
+              onMouseDown={() => {
+                onSelect(r.ticker)
+                setQuery('')
+                setFocused(false)
+              }}
+              className="w-full px-3 py-2 text-left hover:bg-theme-hover transition-colors flex items-center justify-between"
+            >
+              <div>
+                <span className="text-sm font-semibold text-theme-primary">{r.ticker}</span>
+                <span className="text-xs text-theme-muted ml-2">{r.name.slice(0, 35)}</span>
+              </div>
+              <span className="text-[10px] text-theme-muted">SEC</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
 // ─── Main Page ───────────────────────────────────────────────────────────────
 
 const QUICK_TICKERS = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'TSLA', 'META', 'NFLX', 'V', 'MA', 'ASML', 'SBUX', 'COST', 'PYPL']
@@ -353,9 +447,16 @@ export default function SecDataComparisonPage() {
         </p>
       </div>
 
-      {/* Controls */}
-      <div className="flex flex-wrap gap-3 mb-6">
-        {/* Ticker Quick Select */}
+      {/* Search */}
+      <div className="mb-4">
+        <TickerSearch
+          currentTicker={ticker}
+          onSelect={(t) => router.push(`/analyse/sec-data/${t}`)}
+        />
+      </div>
+
+      {/* Quick Tickers + Years */}
+      <div className="flex flex-wrap items-center gap-3 mb-6">
         <div className="flex flex-wrap gap-1.5">
           {QUICK_TICKERS.map(t => (
             <button
@@ -372,7 +473,6 @@ export default function SecDataComparisonPage() {
           ))}
         </div>
 
-        {/* Years Selector */}
         <div className="flex gap-1.5 ml-auto">
           {[5, 10, 20].map(y => (
             <button
