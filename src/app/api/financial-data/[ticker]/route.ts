@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getSecFinancials } from '@/lib/sec/secFinancialService'
+import { getFinancialData as getSecData } from '@/lib/sec/secDataStore'
 
 // ─── SEC → FMP Format Adapter ────────────────────────────────────────────────
 // Wandelt SEC XBRL Daten ins FMP Income-Statement Format um,
@@ -51,7 +51,7 @@ async function getSecOverrides(
   }
 
   try {
-    const secData = await getSecFinancials(ticker, { years, period: 'annual' })
+    const secData = await getSecData(ticker, { years, period: 'annual' })
 
     if (!secData.periods || secData.periods.length === 0) {
       return { overrides: new Map(), source: 'none' }

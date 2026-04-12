@@ -2,7 +2,7 @@
 // GET /api/v1/financials/balance-sheet/{ticker}
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getSecFinancials } from '@/lib/sec/secFinancialService'
+import { getFinancialData } from '@/lib/sec/secDataStore'
 
 export async function GET(
   request: NextRequest,
@@ -14,7 +14,7 @@ export async function GET(
   const period = (searchParams.get('period') || 'annual') as 'annual' | 'quarterly'
 
   try {
-    const data = await getSecFinancials(ticker, { years, period })
+    const data = await getFinancialData(ticker, { years, period })
 
     const statements = data.periods.map(p => ({
       period: p.period,
