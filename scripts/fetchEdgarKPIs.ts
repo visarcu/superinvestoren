@@ -29,6 +29,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'paid memberships / paid subscribers (global total)',
       'average revenue per membership (ARM) or average monthly revenue per paying membership',
       'streaming revenue',
+      'operating margin — store as percent (e.g. 31.7% → value: 31.7, unit: "percent")',
     ],
   },
   SPOT: {
@@ -40,6 +41,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'premium subscribers',
       'premium average revenue per user (ARPU)',
       'gross profit',
+      'gross margin — store as percent (e.g. 31.1% → value: 31.1, unit: "percent")',
     ],
   },
   META: {
@@ -49,6 +51,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'family daily active people (DAP)',
       'family monthly active people (MAP)',
       'average revenue per user (ARPU)',
+      'operating margin — store as percent (e.g. 41% → value: 41, unit: "percent")',
     ],
   },
   UBER: {
@@ -58,6 +61,8 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'monthly active platform consumers (MAPCs)',
       'trips completed',
       'gross bookings (total dollar value)',
+      'Mobility segment adjusted EBITDA — store in millions',
+      'Delivery segment adjusted EBITDA — store in millions',
     ],
   },
   ABNB: {
@@ -65,7 +70,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
     name: 'Airbnb',
     kpiHints: [
       'nights and experiences booked',
-      'active listings (supply)',
+      'active listings — IMPORTANT: Airbnb reports this as a single number like "8 million" or "9 million". Store as millions (e.g. "8 million active listings" → value: 8, unit: "millions"). Do NOT multiply by 1000.',
       'gross booking value (GBV)',
     ],
   },
@@ -77,6 +82,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'merchant solutions revenue',
       'subscription solutions revenue',
       'monthly recurring revenue (MRR) — store as millions not dollars',
+      'gross profit margin / gross margin — store as percent (e.g. 51.5% → value: 51.5, unit: "percent")',
     ],
   },
   SNAP: {
@@ -88,11 +94,32 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
     ],
   },
   PINS: {
-    cik: '1506439',
+    cik: '1506293',
     name: 'Pinterest',
     kpiHints: [
       'monthly active users (MAUs)',
       'average revenue per user (ARPU)',
+    ],
+  },
+  // ── Payment Networks ──────────────────────────────────────────────────────
+  MA: {
+    cik: '1141391',
+    name: 'Mastercard',
+    kpiHints: [
+      'total Mastercard and Maestro-branded cards — store in billions (e.g. 3.6 billion → value: 3.6, unit: "billions")',
+      'gross dollar volume (GDV) — store in billions (e.g. $2.5 trillion → value: 2500, unit: "billions"). If only growth % is stated, store the growth percentage (unit: "percent")',
+      'switched transactions — store in billions (e.g. 45.5 billion → value: 45.5, unit: "billions")',
+      'cross-border volume growth — store as percent (e.g. 15% → value: 15, unit: "percent")',
+    ],
+  },
+  V: {
+    cik: '1403161',
+    name: 'Visa',
+    kpiHints: [
+      'total payment credentials — store in billions (e.g. 4.7 billion credentials → value: 4.7, unit: "billions")',
+      'processed transactions — store in billions (e.g. 65.4 billion → value: 65.4, unit: "billions")',
+      'total payments volume — store in billions of dollars (e.g. $3.9 trillion → value: 3900, unit: "billions"). If only growth % is stated, store the growth rate (unit: "percent")',
+      'cross-border volume growth excluding intra-Europe — store as percent (e.g. 11% → value: 11, unit: "percent")',
     ],
   },
   // ── Magnificent 7 ─────────────────────────────────────────────────────────
@@ -104,6 +131,9 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'advertising services revenue',
       'third-party seller services revenue',
       'online stores revenue',
+      'AWS operating income — store in millions',
+      'North America operating income — store in millions',
+      'International operating income — store in millions (can be negative)',
     ],
   },
   MSFT: {
@@ -114,6 +144,9 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'Azure and other cloud services revenue growth percentage',
       'Productivity and Business Processes revenue',
       'More Personal Computing revenue',
+      'Intelligent Cloud operating income — store in millions',
+      'Productivity and Business Processes operating income — store in millions',
+      'More Personal Computing operating income — store in millions',
     ],
   },
   GOOGL: {
@@ -124,6 +157,8 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'YouTube advertising revenue',
       'Google Cloud revenue',
       'Google Services total revenue',
+      'Google Services operating income — store in millions',
+      'Google Cloud operating income — store in millions (can be negative in older quarters)',
     ],
   },
   NVDA: {
@@ -133,6 +168,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'Data Center revenue',
       'Gaming revenue',
       'total revenue',
+      'GAAP gross margin — store as percent (e.g. 73.0% → value: 73.0, unit: "percent")',
     ],
   },
   TSLA: {
@@ -144,6 +180,7 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'energy storage deployed in GWh — store actual GWh value, unit: "GWh"',
       'energy generation and storage revenue — store in millions',
       'automotive revenue — store in millions',
+      'total GAAP gross margin — store as percent (e.g. 18.0% → value: 18.0, unit: "percent"). Only extract if explicitly stated as a percentage.',
     ],
   },
   AAPL: {
