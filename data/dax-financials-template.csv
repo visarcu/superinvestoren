@@ -1,0 +1,31 @@
+ticker,entity_name,period,fiscal_year,fiscal_period,currency,revenue,net_income,gross_profit,operating_income,cost_of_revenue,eps,eps_basic,research_and_development,selling_general_admin,income_tax,interest_expense,depreciation,total_assets,total_liabilities,shareholders_equity,cash,long_term_debt,short_term_debt,total_debt,inventory,accounts_receivable,accounts_payable,goodwill,property_plant_equip,shares_outstanding,operating_cash_flow,capex,free_cash_flow,dividend_per_share,dividends_paid,share_repurchase,source
+SAP.DE,SAP SE,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+SAP.DE,SAP SE,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+SAP.DE,SAP SE,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+SIE.DE,Siemens AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+SIE.DE,Siemens AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+SIE.DE,Siemens AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+ALV.DE,Allianz SE,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+ALV.DE,Allianz SE,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+ALV.DE,Allianz SE,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+DTE.DE,Deutsche Telekom AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+DTE.DE,Deutsche Telekom AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+DTE.DE,Deutsche Telekom AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+BAS.DE,BASF SE,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+BAS.DE,BASF SE,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+BAS.DE,BASF SE,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+MBG.DE,Mercedes-Benz Group AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+MBG.DE,Mercedes-Benz Group AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+MBG.DE,Mercedes-Benz Group AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+BMW.DE,Bayerische Motoren Werke AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+BMW.DE,Bayerische Motoren Werke AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+BMW.DE,Bayerische Motoren Werke AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+ADS.DE,Adidas AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+ADS.DE,Adidas AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+ADS.DE,Adidas AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+MUV2.DE,Muenchener Rueckversicherungs-Gesellschaft AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+MUV2.DE,Muenchener Rueckversicherungs-Gesellschaft AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+MUV2.DE,Muenchener Rueckversicherungs-Gesellschaft AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+DB1.DE,Deutsche Boerse AG,2025,2025,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+DB1.DE,Deutsche Boerse AG,2024,2024,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht
+DB1.DE,Deutsche Boerse AG,2023,2023,FY,EUR,,,,,,,,,,,,,,,,,,,,,,,,,,,,,geschaeftsbericht

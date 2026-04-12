@@ -228,31 +228,81 @@ const ENDPOINT_GROUPS: EndpointGroup[] = [
     ],
   },
   {
-    title: 'Company Profile',
+    title: 'Company',
     icon: '🏢',
-    description: 'Firmenname, Ticker, Börse, Branche (SIC), Firmengröße, Adresse. Direkt von SEC EDGAR.',
+    description: 'Firmenprofil und Unternehmensliste. Name, Ticker, Börse, Sektor, Adresse, Fiscal Year End. ~10.000 US-Unternehmen.',
     endpoints: [
       {
         method: 'GET',
         path: '/v1/company/{ticker}',
         title: 'Get Company Profile',
-        description: 'Firmenprofil aus SEC EDGAR: Name, Ticker(s), Börse, SIC-Code, Firmengröße-Kategorie, Staat, Geschäftsjahresende, Adresse.',
+        description: 'Detailliertes Firmenprofil: Name, Ticker, Börse, SIC-Code, Sektor, Industrie, Firmengröße, Geschäftsjahresende, Adresse, Telefon, ehemalige Namen.',
         params: [
-          { name: 'ticker', type: 'string', required: true, description: 'Ticker-Symbol' },
+          { name: 'ticker', type: 'string', required: true, description: 'Ticker-Symbol (z.B. AAPL, MSFT, TSLA)' },
         ],
         response: `{
-  "ticker": "AAPL",
   "name": "Apple Inc.",
-  "exchange": "Nasdaq",
+  "ticker": "AAPL",
+  "cik": "320193",
+  "exchangeName": "Nasdaq",
+  "exchangeSymbol": "Nasdaq",
   "sic": "3571",
   "sicDescription": "Electronic Computers",
-  "category": "Large accelerated filer",
+  "sector": "Technology",
+  "industry": "Computer Hardware",
+  "countryCode": "US",
   "state": "CA",
+  "category": "Large accelerated filer",
   "fiscalYearEnd": "0926",
-  "phone": "(408) 996-1010"
+  "fiscalYearEndFormatted": "September 26",
+  "phone": "(408) 996-1010",
+  "address": {
+    "street": "ONE APPLE PARK WAY",
+    "city": "CUPERTINO",
+    "state": "CA",
+    "zip": "95014"
+  },
+  "formerNames": [
+    { "name": "APPLE COMPUTER INC", "from": "1994-01-26", "to": "2007-01-04" }
+  ],
+  "source": "sec-edgar"
 }`,
-        exampleUrl: '/api/sec/company/AAPL',
-        status: 'coming-soon',
+        exampleUrl: '/api/v1/company/AAPL',
+        status: 'live',
+      },
+      {
+        method: 'GET',
+        path: '/v1/companies',
+        title: 'List Companies',
+        description: 'Paginierte Liste aller verfügbaren Unternehmen. Suchbar nach Name oder Ticker. Filterbar nach Börse.',
+        params: [],
+        queryParams: [
+          { name: 'page', type: 'integer', default: '1', description: 'Seitennummer' },
+          { name: 'pageSize', type: 'integer', default: '100', description: 'Einträge pro Seite (max 1000)' },
+          { name: 'search', type: 'string', default: '', description: 'Suche nach Ticker oder Name' },
+          { name: 'exchange', type: 'string', default: '', description: 'Filter nach Börse (Nasdaq, NYSE)' },
+        ],
+        response: `{
+  "pagination": {
+    "page": 1,
+    "pageSize": 100,
+    "totalCount": 10408,
+    "totalPages": 105,
+    "hasNextPage": true,
+    "hasPreviousPage": false
+  },
+  "data": [
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "cik": "320193",
+      "exchange": "Nasdaq"
+    }
+  ],
+  "source": "sec-edgar"
+}`,
+        exampleUrl: '/api/v1/companies?search=APPLE&pageSize=5',
+        status: 'live',
       },
     ],
   },
