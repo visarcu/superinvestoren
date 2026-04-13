@@ -308,7 +308,24 @@ export default function DashboardScreen() {
             {/* ── Märkte ───────────────────────────── */}
             {quotes.length > 0 && (
               <View style={s.section}>
-                <Text style={s.sectionTitle}>MÄRKTE</Text>
+                <View style={s.sectionRow}>
+                  <Text style={s.sectionTitle}>MÄRKTE</Text>
+                  {(() => {
+                    const ts = quotes[0]?.timestamp;
+                    if (!ts) return null;
+                    const d = new Date(ts * 1000);
+                    const diffMin = Math.floor((Date.now() - d.getTime()) / 60000);
+                    if (diffMin < 5) return (
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                        <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#22C55E' }} />
+                        <Text style={[s.timestampLabel, { color: '#22C55E' }]}>Live</Text>
+                      </View>
+                    );
+                    const day = d.toLocaleDateString('de-DE', { weekday: 'short' });
+                    const time = d.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' });
+                    return <Text style={s.timestampLabel}>Stand: {day}, {time}</Text>;
+                  })()}
+                </View>
                 <View style={s.listCard}>
                   {quotes.map((q, i) => (
                     <View key={q.symbol} style={i > 0 ? s.rowBorder : undefined}>
@@ -447,6 +464,7 @@ const s = StyleSheet.create({
   section: { paddingHorizontal: 16, marginBottom: 8 },
   sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
+  timestampLabel: { color: '#334155', fontSize: 11, fontWeight: '500' },
   sectionLink: { color: '#22C55E', fontSize: 13, fontWeight: '600', marginBottom: 10 },
   // Sector
   sectorCard: {
