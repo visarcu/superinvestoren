@@ -27,7 +27,7 @@ const TICKER_DOMAINS: Record<string, string> = {
   JNJ: 'jnj.com', UNH: 'unitedhealthgroup.com', PFE: 'pfizer.com',
   LLY: 'lilly.com', ABBV: 'abbvie.com', MRK: 'merck.com', TMO: 'thermofisher.com',
   // Consumer
-  WMT: 'walmart.com', KO: 'coca-cola.com', PEP: 'pepsico.com', PG: 'pg.com',
+  WMT: 'walmart.com', KO: 'coca-colacompany.com', PEP: 'pepsico.com', PG: 'pg.com',
   COST: 'costco.com', NKE: 'nike.com', SBUX: 'starbucks.com', MCD: 'mcdonalds.com',
   DIS: 'disney.com',
   // Industrial
