@@ -593,7 +593,7 @@ export default function FeyStockPage() {
                   ) : null}
 
                   {/* Jahresansicht: SEC XBRL */}
-                  {financialPeriod === 'annual' && (
+                  {financialPeriod === 'annual' && (<>
                   <div>
                     <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Gewinn- & Verlustrechnung</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -651,7 +651,7 @@ export default function FeyStockPage() {
                       <ChartCard data={balance} dataKey="shareholdersEquity" label="Eigenkapital" color="#38bdf8" />
                     </div>
                   </div>
-                  )}
+                  </>)}
                 </>
               )
             })()}
