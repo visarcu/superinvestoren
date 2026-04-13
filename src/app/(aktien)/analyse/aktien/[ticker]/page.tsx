@@ -80,14 +80,22 @@ const TT: React.CSSProperties = {
 
 // ─── Chart Card ──────────────────────────────────────────────────────────────
 
-function ChartCard({ data, dataKey, label, color, format, className }: {
+function ChartCard({ data, dataKey, label, color, format, className, guidanceValue, guidanceLabel }: {
   data: any[]; dataKey: string; label: string; color: string; format?: 'dollar'; className?: string
+  guidanceValue?: number | null; guidanceLabel?: string
 }) {
-  const vals = data.filter(d => d[dataKey] !== null && d[dataKey] !== undefined && d[dataKey] !== 0)
+  let vals = data.filter(d => d[dataKey] !== null && d[dataKey] !== undefined && d[dataKey] !== 0)
   if (vals.length === 0) return null
 
-  const latest = vals[vals.length - 1]?.[dataKey]
-  const prev = vals[vals.length - 2]?.[dataKey]
+  // Guidance als letzten grauen Balken hinzufügen
+  if (guidanceValue) {
+    const lastPeriod = vals[vals.length - 1]?.period
+    const nextYear = lastPeriod ? String(parseInt(lastPeriod) + 1) : 'Guidance'
+    vals = [...vals, { period: `${guidanceLabel || nextYear}*`, [dataKey]: guidanceValue, _isGuidance: true }]
+  }
+
+  const latest = vals[vals.length - (guidanceValue ? 2 : 1)]?.[dataKey]
+  const prev = vals[vals.length - (guidanceValue ? 3 : 2)]?.[dataKey]
   const growth = latest && prev ? ((latest - prev) / Math.abs(prev)) * 100 : null
 
   // Period label for latest value
@@ -108,7 +116,7 @@ function ChartCard({ data, dataKey, label, color, format, className }: {
               growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
             }`}>{growth >= 0 ? '+' : ''}{growth.toFixed(1)}%</span>
           )}
-          {latestPeriod && <span className="text-[9px] text-white/15">FY {latestPeriod}</span>}
+          {latestPeriod && <span className="text-[9px] text-white/15">GJ {latestPeriod}</span>}
         </div>
       </div>
       <div className="h-40 mt-3">
@@ -124,12 +132,39 @@ function ChartCard({ data, dataKey, label, color, format, className }: {
             <Tooltip cursor={{ fill: 'rgba(255,255,255,0.03)' }} content={({ active, payload, label: l }) => {
               if (!active || !payload?.length) return null
               const v = payload[0].value as number
+              const isG = payload[0]?.payload?._isGuidance
               return (<div style={TT}>
-                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>{l}</p>
-                <p style={{ color: '#fff', fontSize: '15px', fontWeight: 700 }}>{format === 'dollar' ? `${v.toFixed(2).replace('.', ',')} $` : fmt(v)}</p>
+                <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>
+                  {l} {isG && <span style={{ color: 'rgba(255,255,255,0.15)' }}>Guidance</span>}
+                </p>
+                <p style={{ color: isG ? 'rgba(255,255,255,0.4)' : '#fff', fontSize: '15px', fontWeight: 700 }}>
+                  {format === 'dollar' ? `${v.toFixed(2).replace('.', ',')} $` : fmt(v)}
+                </p>
+                {isG && <p style={{ color: 'rgba(255,255,255,0.15)', fontSize: '9px', marginTop: '2px' }}>Unternehmens-Prognose</p>}
               </div>)
             }} />
-            <Bar dataKey={dataKey} fill={color} opacity={0.75} radius={[3, 3, 0, 0]} />
+            <Bar
+              dataKey={dataKey}
+              fill={color}
+              opacity={0.75}
+              radius={[3, 3, 0, 0]}
+              // Guidance Bars grau darstellen
+              shape={(props: any) => {
+                const { x, y, width, height, payload } = props
+                const isGuidance = payload?._isGuidance
+                return (
+                  <rect
+                    x={x} y={y} width={width} height={height}
+                    rx={3} ry={3}
+                    fill={isGuidance ? 'rgba(255,255,255,0.08)' : color}
+                    opacity={isGuidance ? 1 : 0.75}
+                    stroke={isGuidance ? 'rgba(255,255,255,0.12)' : 'none'}
+                    strokeWidth={isGuidance ? 1 : 0}
+                    strokeDasharray={isGuidance ? '3 3' : 'none'}
+                  />
+                )
+              }}
+            />
           </BarChart>
         </ResponsiveContainer>
       </div>
