@@ -66,6 +66,11 @@ interface XbrlCompanyFacts {
       description?: string
       units: Record<string, XbrlFactEntry[]>
     }>
+    'ifrs-full'?: Record<string, {
+      label: string
+      description?: string
+      units: Record<string, XbrlFactEntry[]>
+    }>
     dei?: Record<string, any>
   }
 }
@@ -252,7 +257,7 @@ function extractConcept(
 
     const conceptResults = new Map<string, XbrlFactEntry>()
 
-    for (const [, entries] of Object.entries(concept.units)) {
+    for (const [, entries] of Object.entries(concept.units) as [string, XbrlFactEntry[]][]) {
       for (const entry of entries) {
         if (formFilter === 'annual' && !annualForms.includes(entry.form)) continue
         if (formFilter === 'quarterly' && !quarterlyForms.includes(entry.form)) continue

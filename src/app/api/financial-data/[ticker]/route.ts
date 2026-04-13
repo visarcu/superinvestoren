@@ -123,6 +123,8 @@ interface FinancialDataResponse {
     financials: 'sec-xbrl' | 'fmp'
     revenue?: 'sec-xbrl' | 'fmp'
     netIncome?: 'sec-xbrl' | 'fmp'
+    keyMetrics?: 'fmp'
+    dividends?: 'fmp'
     other: 'fmp'
   }
 }
@@ -285,6 +287,7 @@ export async function GET(
         financials: dataSource,
         keyMetrics: 'fmp',
         dividends: 'fmp',
+        other: 'fmp',
       },
     }
 

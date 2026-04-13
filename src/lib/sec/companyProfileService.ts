@@ -91,7 +91,6 @@ const SIC_SECTOR_MAP: Record<string, { sector: string; industry: string }> = {
   '2835': { sector: 'Healthcare', industry: 'Diagnostics' },
   '2836': { sector: 'Healthcare', industry: 'Biotechnology' },
   '3841': { sector: 'Healthcare', industry: 'Medical Devices' },
-  '5912': { sector: 'Healthcare', industry: 'Pharmacies' },
   '8000': { sector: 'Healthcare', industry: 'Healthcare Services' },
   // Industrials
   '3721': { sector: 'Industrials', industry: 'Aerospace & Defense' },

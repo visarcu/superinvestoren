@@ -14,7 +14,7 @@ interface EconomicEvent {
 interface CalendarDay { date: string; events: EconomicEvent[] }
 
 interface FredData {
-  nameDE: string; observations: { date: string; value: number }[]
+  nameDE: string; unit?: string; observations: { date: string; value: number }[]
 }
 
 const TT: React.CSSProperties = {
