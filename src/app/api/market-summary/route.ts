@@ -71,10 +71,17 @@ export async function POST(request: Request) {
             : content.split('\n').filter((l: string) => l.trim() && !l.startsWith('**') && !l.startsWith('#')).slice(0, 2).join(' ')
 
           if (overview && overview.length > 30) {
+            // Extrahiere Quellen aus dem Recap (z.B. "[Handelsblatt]", "[Der Aktionär]")
+            const sourceMatches = content.match(/\[([^\]]+)\]/g) || []
+            const sources = [...new Set(sourceMatches.map((s: string) => s.replace(/[\[\]]/g, '')).filter((s: string) =>
+              !['DAX', 'SPX', 'QQQ', 'AAPL', 'MSFT', 'NVDA', 'TSLA', 'META', 'SAP', 'BTC', 'ETH', 'SPOT', 'COIN', 'KO', 'GS', 'DIS', 'NKE', 'LLY', 'CAT', 'V', 'MA'].includes(s)
+            ))].slice(0, 4)
+
             console.log('[Market Summary] Using Finclue News Recap')
             return NextResponse.json({
-              summary: overview.slice(0, 250),
+              summary: overview,
               fullRecap: content,
+              sources,
               isBullish,
               generated: true,
               source: 'finclue-news'

@@ -177,6 +177,8 @@ export default function ModernDashboard() {
   const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
   const [userName, setUserName] = useState<string | null>(null)
   const [aiSummary, setAiSummary] = useState<string | null>(null)
+  const [aiSummarySources, setAiSummarySources] = useState<string[]>([])
+  const [aiSummarySource, setAiSummarySource] = useState<string>('')
   const [aiSummaryLoading, setAiSummaryLoading] = useState(false)
   const [lastMarketUpdate, setLastMarketUpdate] = useState<Date | null>(null)
   const { formatStockPrice, formatPercentage } = useCurrency()
@@ -390,6 +392,8 @@ export default function ModernDashboard() {
         if (response.ok) {
           const data = await response.json()
           setAiSummary(data.summary)
+          setAiSummarySources(data.sources || [])
+          setAiSummarySource(data.source || '')
         }
       } catch (error) {
         console.error('Failed to load AI summary:', error)
@@ -481,6 +485,14 @@ export default function ModernDashboard() {
                 marketSentiment?.description || 'Analysiere aktuelle Marktbewegungen...'
               )}
             </p>
+            {aiSummarySources.length > 0 && (
+              <p className="text-xs text-theme-muted mt-2">
+                Quellen: {aiSummarySources.join(', ')}
+                {aiSummarySource === 'finclue-news' && (
+                  <span className="ml-1 text-brand">· Finclue News</span>
+                )}
+              </p>
+            )}
           </div>
 
           {/* Sector Performance Card */}
