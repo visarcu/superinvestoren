@@ -11,7 +11,7 @@ import {
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
-interface CompanyProfile {
+interface UnternehmenProfile {
   name: string; ticker: string; cik: string; exchangeName: string
   sector: string; industry: string; fiscalYearEndFormatted: string
   phone: string | null
@@ -54,15 +54,15 @@ type Tab = 'overview' | 'news' | 'financials' | 'kpis'
 function fmt(v: number | null): string {
   if (v === null || v === undefined) return '–'
   const a = Math.abs(v)
-  if (a >= 1e12) return `$${(v / 1e12).toFixed(2)}T`
-  if (a >= 1e9) return `$${(v / 1e9).toFixed(1)}B`
-  if (a >= 1e6) return `$${(v / 1e6).toFixed(0)}M`
-  return `$${v.toLocaleString('en-US')}`
+  if (a >= 1e12) return `${(v / 1e12).toFixed(2).replace('.', ',')} Bio. $`
+  if (a >= 1e9) return `${(v / 1e9).toFixed(1).replace('.', ',')} Mrd. $`
+  if (a >= 1e6) return `${(v / 1e6).toFixed(0)} Mio. $`
+  return `${v.toLocaleString('de-DE')} $`
 }
 
 function fmtPct(v: number | null): string {
   if (v === null) return '–'
-  return `${v >= 0 ? '+' : ''}${v.toFixed(1)}%`
+  return `${v >= 0 ? '+' : ''}${v.toFixed(1).replace('.', ',')}%`
 }
 
 function timeAgo(d: string): string {
@@ -99,7 +99,7 @@ function ChartCard({ data, dataKey, label, color, format, className }: {
         <div>
           <p className="text-[11px] text-white/30 font-medium tracking-wide">{label}</p>
           <p className="text-2xl font-bold text-white mt-1">
-            {format === 'dollar' ? `$${latest?.toFixed(2)}` : fmt(latest)}
+            {format === 'dollar' ? `${latest?.toFixed(2).replace('.', ',')} $` : fmt(latest)}
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
@@ -121,7 +121,7 @@ function ChartCard({ data, dataKey, label, color, format, className }: {
               const v = payload[0].value as number
               return (<div style={TT}>
                 <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>{l}</p>
-                <p style={{ color: '#fff', fontSize: '15px', fontWeight: 700 }}>{format === 'dollar' ? `$${v.toFixed(2)}` : fmt(v)}</p>
+                <p style={{ color: '#fff', fontSize: '15px', fontWeight: 700 }}>{format === 'dollar' ? `${v.toFixed(2).replace('.', ',')} $` : fmt(v)}</p>
               </div>)
             }} />
             <Bar dataKey={dataKey} fill={color} opacity={0.7} radius={[4, 4, 0, 0]} />
@@ -140,7 +140,7 @@ export default function FeyStockPage() {
   const ticker = (params.ticker as string)?.toUpperCase() || 'AAPL'
 
   const [tab, setTab] = useState<Tab>('overview')
-  const [profile, setProfile] = useState<CompanyProfile | null>(null)
+  const [profile, setProfile] = useState<UnternehmenProfile | null>(null)
   const [income, setIncome] = useState<Period[]>([])
   const [balance, setBalance] = useState<BalancePeriod[]>([])
   const [cashflow, setCashflow] = useState<CashFlowPeriod[]>([])
@@ -219,19 +219,20 @@ export default function FeyStockPage() {
   const opMargin = L?.revenue && L?.operatingIncome ? (L.operatingIncome / L.revenue) * 100 : null
   const netMargin = L?.revenue && L?.netIncome ? (L.netIncome / L.revenue) * 100 : null
 
+  const fyLabel = L?.period ? `GJ ${L.period}` : ''
   const metrics = [
-    { label: 'Revenue', value: fmt(L?.revenue || null), sub: L ? `FY ${L.period}` : '' },
-    { label: 'Net Income', value: fmt(L?.netIncome || null) },
-    { label: 'EPS', value: L?.eps ? `$${L.eps.toFixed(2)}` : '–' },
-    { label: 'Gross Margin', value: grossMargin ? `${grossMargin.toFixed(1)}%` : '–' },
-    { label: 'Op. Margin', value: opMargin ? `${opMargin.toFixed(1)}%` : '–' },
-    { label: 'Net Margin', value: netMargin ? `${netMargin.toFixed(1)}%` : '–' },
-    { label: 'Rev. Growth', value: fmtPct(revGrowth), color: revGrowth },
-    { label: 'Cash', value: fmt(LB?.cash || null) },
-    { label: 'Debt', value: fmt(LB?.totalDebt || LB?.longTermDebt || null) },
-    { label: 'Op. CF', value: fmt(LC?.operatingCashFlow || null) },
-    { label: 'FCF', value: fmt(LC?.freeCashFlow || null) },
-    { label: 'R&D', value: fmt(L?.researchAndDevelopment || null) },
+    { label: 'Umsatz', value: fmt(L?.revenue || null) },
+    { label: 'Nettogewinn', value: fmt(L?.netIncome || null) },
+    { label: 'Gewinn/Aktie', value: L?.eps ? `${L.eps.toFixed(2).replace('.', ',')} $` : '–' },
+    { label: 'Bruttomarge', value: grossMargin ? `${grossMargin.toFixed(1).replace('.', ',')}%` : '–' },
+    { label: 'Op. Marge', value: opMargin ? `${opMargin.toFixed(1).replace('.', ',')}%` : '–' },
+    { label: 'Nettomarge', value: netMargin ? `${netMargin.toFixed(1).replace('.', ',')}%` : '–' },
+    { label: 'Umsatzwachstum', value: fmtPct(revGrowth), color: revGrowth },
+    { label: 'Barmittel', value: fmt(LB?.cash || null) },
+    { label: 'Schulden', value: fmt(LB?.totalDebt || LB?.longTermDebt || null) },
+    { label: 'Op. Cashflow', value: fmt(LC?.operatingCashFlow || null) },
+    { label: 'Free Cashflow', value: fmt(LC?.freeCashFlow || null) },
+    { label: 'F&E', value: fmt(L?.researchAndDevelopment || null) },
   ].filter(m => m.value !== '–')
 
   return (
@@ -267,7 +268,7 @@ export default function FeyStockPage() {
           <div className="lg:col-span-2 bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6">
             <div className="flex items-start justify-between mb-2">
               <div>
-                <p className="text-[11px] text-white/25 font-medium">Revenue</p>
+                <p className="text-[11px] text-white/25 font-medium">Umsatz</p>
                 <p className="text-3xl font-bold text-white mt-1">{fmt(L?.revenue || null)}</p>
                 {L?.period && <p className="text-[11px] text-white/15 mt-0.5">FY {L.period}</p>}
               </div>
@@ -303,7 +304,10 @@ export default function FeyStockPage() {
 
           {/* Key Metrics Grid (1 col) */}
           <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5">
-            <p className="text-[11px] text-white/25 font-medium mb-4">Key Metrics</p>
+            <div className="flex items-baseline justify-between mb-4">
+              <p className="text-[11px] text-white/25 font-medium">Kennzahlen</p>
+              {fyLabel && <p className="text-[10px] text-white/12">{fyLabel}</p>}
+            </div>
             <div className="space-y-3">
               {metrics.slice(0, 10).map(m => (
                 <div key={m.label} className="flex items-center justify-between">
@@ -345,22 +349,22 @@ export default function FeyStockPage() {
           <div className="w-full max-w-6xl space-y-4">
             {/* Row 1: Net Income + EPS + Gross Profit */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <ChartCard data={income} dataKey="netIncome" label="Net Income" color="#4ade80" />
-              <ChartCard data={income} dataKey="eps" label="Earnings Per Share" color="#fbbf24" format="dollar" />
-              <ChartCard data={income} dataKey="grossProfit" label="Gross Profit" color="#60a5fa" />
+              <ChartCard data={income} dataKey="netIncome" label="Nettogewinn" color="#4ade80" />
+              <ChartCard data={income} dataKey="eps" label="Gewinn je Aktie" color="#fbbf24" format="dollar" />
+              <ChartCard data={income} dataKey="grossProfit" label="Bruttogewinn" color="#60a5fa" />
             </div>
 
             {/* Row 2: Cash Flow + Balance Sheet */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operating Cash Flow" color="#22d3ee" />
-              <ChartCard data={cashflow} dataKey="freeCashFlow" label="Free Cash Flow" color="#f97316" />
-              <ChartCard data={balance} dataKey="cash" label="Cash & Equivalents" color="#34d399" />
+              <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operativer Cashflow" color="#22d3ee" />
+              <ChartCard data={cashflow} dataKey="freeCashFlow" label="Free Cashflow" color="#f97316" />
+              <ChartCard data={balance} dataKey="cash" label="Barmittel" color="#34d399" />
             </div>
 
-            {/* Row 3: News + Company Info */}
+            {/* Row 3: News + Unternehmen Info */}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
               <div className="lg:col-span-3">
-                <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Latest News</p>
+                <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Aktuelle News</p>
                 {news.length > 0 ? (
                   <div className="space-y-1.5">
                     {news.slice(0, 5).map(a => (
@@ -378,20 +382,20 @@ export default function FeyStockPage() {
                   </div>
                 ) : (
                   <div className="p-10 rounded-xl bg-[#0c0c16] border border-white/[0.03] text-center">
-                    <p className="text-[13px] text-white/15">No recent news</p>
+                    <p className="text-[13px] text-white/15">Keine aktuellen News</p>
                   </div>
                 )}
               </div>
               {profile && (
                 <div className="lg:col-span-2">
-                  <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Company</p>
+                  <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Unternehmen</p>
                   <div className="bg-[#0c0c16] border border-white/[0.03] rounded-xl p-5 space-y-3.5">
                     {[
-                      ['Name', profile.name], ['Exchange', profile.exchangeName],
-                      ['Sector', profile.sector], ['Industry', profile.industry],
-                      ['FY End', profile.fiscalYearEndFormatted], ['CIK', profile.cik],
-                      ...(profile.phone ? [['Phone', profile.phone]] : []),
-                      ...(profile.address ? [['HQ', `${profile.address.city}, ${profile.address.state}`]] : []),
+                      ['Name', profile.name], ['Börse', profile.exchangeName],
+                      ['Sektor', profile.sector], ['Branche', profile.industry],
+                      ['GJ Ende', profile.fiscalYearEndFormatted], ['CIK', profile.cik],
+                      ...(profile.phone ? [['Telefon', profile.phone]] : []),
+                      ...(profile.address ? [['Sitz', `${profile.address.city}, ${profile.address.state}`]] : []),
                     ].map(([k, v]) => (
                       <div key={k} className="flex justify-between">
                         <span className="text-[12px] text-white/15">{k}</span>
@@ -407,8 +411,8 @@ export default function FeyStockPage() {
         ) : tab === 'news' ? (
           news.length === 0 ? (
             <div className="text-center py-28">
-              <p className="text-white/20 text-sm">No news for {ticker}</p>
-              <p className="text-white/8 text-xs mt-1">Updates every 15 min from 14 sources</p>
+              <p className="text-white/20 text-sm">Keine News für {ticker}</p>
+              <p className="text-white/8 text-xs mt-1">News werden alle 15 Min. aus 14 Quellen aktualisiert</p>
             </div>
           ) : (
             <div className="w-full max-w-3xl space-y-1.5">
@@ -429,19 +433,19 @@ export default function FeyStockPage() {
         ) : tab === 'financials' ? (
           <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {[
-              { d: income, k: 'revenue', l: 'Revenue', c: '#fff' },
-              { d: income, k: 'netIncome', l: 'Net Income', c: '#4ade80' },
-              { d: income, k: 'grossProfit', l: 'Gross Profit', c: '#60a5fa' },
-              { d: income, k: 'operatingIncome', l: 'Operating Income', c: '#c084fc' },
-              { d: income, k: 'eps', l: 'EPS', c: '#fbbf24', f: 'dollar' as const },
-              { d: income, k: 'researchAndDevelopment', l: 'R&D Expense', c: '#f472b6' },
-              { d: cashflow, k: 'operatingCashFlow', l: 'Operating Cash Flow', c: '#22d3ee' },
-              { d: cashflow, k: 'freeCashFlow', l: 'Free Cash Flow', c: '#f97316' },
-              { d: cashflow, k: 'shareRepurchase', l: 'Share Repurchase', c: '#e879f9' },
-              { d: balance, k: 'totalAssets', l: 'Total Assets', c: '#a78bfa' },
-              { d: balance, k: 'cash', l: 'Cash & Equivalents', c: '#34d399' },
-              { d: balance, k: 'longTermDebt', l: 'Long-Term Debt', c: '#fb923c' },
-              { d: balance, k: 'shareholdersEquity', l: 'Equity', c: '#38bdf8' },
+              { d: income, k: 'revenue', l: 'Umsatz', c: '#fff' },
+              { d: income, k: 'netIncome', l: 'Nettogewinn', c: '#4ade80' },
+              { d: income, k: 'grossProfit', l: 'Bruttogewinn', c: '#60a5fa' },
+              { d: income, k: 'operatingIncome', l: 'Operatives Ergebnis', c: '#c084fc' },
+              { d: income, k: 'eps', l: 'Gewinn je Aktie', c: '#fbbf24', f: 'dollar' as const },
+              { d: income, k: 'researchAndDevelopment', l: 'F&E Aufwand', c: '#f472b6' },
+              { d: cashflow, k: 'operatingCashFlow', l: 'Operativer Cashflow', c: '#22d3ee' },
+              { d: cashflow, k: 'freeCashFlow', l: 'Free Cashflow', c: '#f97316' },
+              { d: cashflow, k: 'shareRepurchase', l: 'Aktienrückkäufe', c: '#e879f9' },
+              { d: balance, k: 'totalAssets', l: 'Bilanzsumme', c: '#a78bfa' },
+              { d: balance, k: 'cash', l: 'Barmittel', c: '#34d399' },
+              { d: balance, k: 'longTermDebt', l: 'Langfristige Schulden', c: '#fb923c' },
+              { d: balance, k: 'shareholdersEquity', l: 'Eigenkapital', c: '#38bdf8' },
             ].map(({ d, k, l, c, f }) => (
               <ChartCard key={k} data={d} dataKey={k} label={l} color={c} format={f} />
             ))}
@@ -450,8 +454,8 @@ export default function FeyStockPage() {
         ) : tab === 'kpis' ? (
           Object.keys(kpis).length === 0 ? (
             <div className="text-center py-28">
-              <p className="text-white/20 text-sm">No Operating KPIs for {ticker}</p>
-              <p className="text-white/8 text-xs mt-1">Available for AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA, META, NFLX, UBER, MA, V</p>
+              <p className="text-white/20 text-sm">Keine Operating KPIs für {ticker}</p>
+              <p className="text-white/8 text-xs mt-1">Verfügbar für AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA, META, NFLX, UBER, MA, V</p>
             </div>
           ) : (
             <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
