@@ -4,6 +4,45 @@
 
 import { getCIK, getXbrlUrl } from './cikMapping'
 
+// ─── Known Stock Splits ──────────────────────────────────────────────────────
+// Splits die historische Dividenden verzerren.
+// Format: { date: 'YYYY-MM-DD', ratio: Neuer/Alter (z.B. 4:1 → ratio: 4) }
+
+const KNOWN_SPLITS: Record<string, { date: string; ratio: number }[]> = {
+  AAPL: [
+    { date: '2020-08-31', ratio: 4 },  // 4:1 Split
+    { date: '2014-06-09', ratio: 7 },  // 7:1 Split
+  ],
+  TSLA: [
+    { date: '2022-08-25', ratio: 3 },  // 3:1 Split
+    { date: '2020-08-31', ratio: 5 },  // 5:1 Split
+  ],
+  NVDA: [
+    { date: '2024-06-10', ratio: 10 }, // 10:1 Split
+    { date: '2021-07-20', ratio: 4 },  // 4:1 Split
+  ],
+  GOOGL: [
+    { date: '2022-07-18', ratio: 20 }, // 20:1 Split
+  ],
+  AMZN: [
+    { date: '2022-06-06', ratio: 20 }, // 20:1 Split
+  ],
+}
+
+function adjustForSplits(ticker: string, amount: number, endDate: string): number {
+  const splits = KNOWN_SPLITS[ticker.toUpperCase()]
+  if (!splits) return amount
+
+  let adjusted = amount
+  for (const split of splits) {
+    // Wenn die Dividende VOR dem Split war, durch den Ratio teilen
+    if (endDate < split.date) {
+      adjusted /= split.ratio
+    }
+  }
+  return adjusted
+}
+
 // ─── Types ───────────────────────────────────────────────────────────────────
 
 export interface SecQuarterlyDividend {
@@ -77,7 +116,7 @@ async function fetchFacts(cik: string): Promise<any> {
 
 // ─── Extraction ──────────────────────────────────────────────────────────────
 
-function extractQuarterlyDividends(facts: any): SecQuarterlyDividend[] {
+function extractQuarterlyDividends(facts: any, ticker: string): SecQuarterlyDividend[] {
   const gaap = facts.facts?.['us-gaap'] || {}
 
   const conceptNames = [
@@ -152,7 +191,7 @@ function extractQuarterlyDividends(facts: any): SecQuarterlyDividend[] {
   for (const [annualEndYear, annualEntry] of annualByEndYear) {
     const annualStart = annualEntry.start
     const annualEnd = annualEntry.end
-    const annualVal = annualEntry.val
+    const annualVal = adjustForSplits(ticker, annualEntry.val, annualEntry.end)
 
     // Finde alle Quartale die in diesen Annual-Zeitraum fallen
     const quartersInPeriod = Array.from(byEnd.values()).filter(q => {
@@ -200,7 +239,7 @@ function extractQuarterlyDividends(facts: any): SecQuarterlyDividend[] {
       return {
         endDate: e.end,
         startDate: e.start,
-        amount: e.val,
+        amount: adjustForSplits(ticker, e.val, e.end),
         fiscalQuarter: fq,
         fiscalYear: e.fy,
         calendarYear: parseInt(e.end.slice(0, 4)),
@@ -339,7 +378,7 @@ export async function getSecDividends(ticker: string): Promise<SecDividendRespon
 
   const facts = await fetchFacts(cik)
 
-  const quarterly = extractQuarterlyDividends(facts)
+  const quarterly = extractQuarterlyDividends(facts, ticker)
   const annuals = buildAnnualDividends(quarterly)
   const epsMap = extractAnnualEPS(facts)
   const cagr = calculateCAGR(annuals)
