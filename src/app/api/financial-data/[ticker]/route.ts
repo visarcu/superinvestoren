@@ -120,8 +120,9 @@ interface FinancialDataResponse {
   period: string
   years: number
   _dataSource?: {
-    revenue: 'sec-xbrl' | 'fmp'
-    netIncome: 'sec-xbrl' | 'fmp'
+    financials: 'sec-xbrl' | 'fmp'
+    revenue?: 'sec-xbrl' | 'fmp'
+    netIncome?: 'sec-xbrl' | 'fmp'
     other: 'fmp'
   }
 }
