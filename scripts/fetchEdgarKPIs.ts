@@ -30,6 +30,8 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'average revenue per membership (ARM) or average monthly revenue per paying membership',
       'streaming revenue',
       'operating margin — store as percent (e.g. 31.7% → value: 31.7, unit: "percent")',
+      'GUIDANCE/OUTLOOK: revenue guidance or forecast for NEXT quarter — store in millions, use metric name "guidance_revenue", label "Revenue Guidance"',
+      'GUIDANCE/OUTLOOK: operating margin guidance for NEXT quarter — store as percent, use metric name "guidance_operating_margin", label "Op. Margin Guidance"',
     ],
   },
   SPOT: {
@@ -52,6 +54,10 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'family monthly active people (MAP)',
       'average revenue per user (ARPU)',
       'operating margin — store as percent (e.g. 41% → value: 41, unit: "percent")',
+      'GUIDANCE/OUTLOOK: total revenue guidance/outlook/range for NEXT quarter — if a range is given, use the midpoint. Store in millions, metric name "guidance_revenue", label "Revenue Guidance"',
+      'GEOGRAPHIC: ARPU for US & Canada — store in dollars, metric name "arpu_us_canada", label "ARPU US & Canada"',
+      'GEOGRAPHIC: ARPU for Europe — store in dollars, metric name "arpu_europe", label "ARPU Europe"',
+      'GEOGRAPHIC: ARPU for Asia-Pacific — store in dollars, metric name "arpu_asia_pacific", label "ARPU Asia-Pacific"',
     ],
   },
   UBER: {
@@ -134,6 +140,8 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'AWS operating income — store in millions',
       'North America operating income — store in millions',
       'International operating income — store in millions (can be negative)',
+      'GUIDANCE/OUTLOOK: net sales/revenue guidance for NEXT quarter — if a range, use midpoint. Store in millions, metric "guidance_revenue", label "Revenue Guidance"',
+      'GUIDANCE/OUTLOOK: operating income guidance for NEXT quarter — if a range, use midpoint. Store in millions, metric "guidance_operating_income", label "Op. Income Guidance"',
     ],
   },
   MSFT: {
@@ -147,6 +155,8 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'Intelligent Cloud operating income — store in millions',
       'Productivity and Business Processes operating income — store in millions',
       'More Personal Computing operating income — store in millions',
+      'GUIDANCE/OUTLOOK: Intelligent Cloud revenue guidance for NEXT quarter — store in millions, metric "guidance_intelligent_cloud", label "Intelligent Cloud Guidance"',
+      'GUIDANCE/OUTLOOK: total revenue guidance for NEXT quarter — store in millions, metric "guidance_revenue", label "Revenue Guidance"',
     ],
   },
   GOOGL: {
@@ -159,6 +169,9 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'Google Services total revenue',
       'Google Services operating income — store in millions',
       'Google Cloud operating income — store in millions (can be negative in older quarters)',
+      'GEOGRAPHIC: United States revenue — store in millions, metric "revenue_us", label "Revenue US"',
+      'GEOGRAPHIC: EMEA revenue — store in millions, metric "revenue_emea", label "Revenue EMEA"',
+      'GEOGRAPHIC: APAC / Asia-Pacific revenue — store in millions, metric "revenue_apac", label "Revenue APAC"',
     ],
   },
   NVDA: {
@@ -169,6 +182,8 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'Gaming revenue',
       'total revenue',
       'GAAP gross margin — store as percent (e.g. 73.0% → value: 73.0, unit: "percent")',
+      'GUIDANCE/OUTLOOK: revenue guidance/outlook for NEXT quarter — store in millions, metric "guidance_revenue", label "Revenue Guidance"',
+      'GUIDANCE/OUTLOOK: GAAP gross margin guidance for NEXT quarter — store as percent, metric "guidance_gross_margin", label "Gross Margin Guidance"',
     ],
   },
   TSLA: {
@@ -192,6 +207,9 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'Mac revenue / net sales',
       'iPad revenue / net sales',
       'Wearables, Home and Accessories revenue',
+      'GEOGRAPHIC: Americas revenue — store in millions, metric "revenue_americas", label "Revenue Americas"',
+      'GEOGRAPHIC: Europe revenue — store in millions, metric "revenue_europe", label "Revenue Europe"',
+      'GEOGRAPHIC: Greater China revenue — store in millions, metric "revenue_china", label "Revenue China"',
     ],
   },
 }
@@ -349,12 +367,14 @@ Focus specifically on these KPIs if present:
 ${kpiHints.map((h, i) => `${i + 1}. ${h}`).join('\n')}
 
 Rules:
-- Return ONLY actual reported values, never estimates or guidance
+- For regular KPIs: Return actual reported values for the CURRENT quarter being reported
+- For GUIDANCE/OUTLOOK items: Return the company's forward-looking guidance for the NEXT quarter. The period should be the NEXT quarter (e.g. if reporting Q4 2025, guidance period = "Q1 2026"). If a range is given (e.g. "$36-38B"), use the midpoint.
+- For GEOGRAPHIC items: Return geographic revenue breakdowns for the CURRENT quarter
 - For total revenue/GMV/bookings: always use "millions". Convert billions to millions (e.g. "$10.1B" → value: 10100, unit: "millions")
 - For subscriber/user counts: always use "millions" (e.g. "325M subscribers" → value: 325, unit: "millions")
 - For per-user metrics (ARPU, ARM, average revenue per membership/subscriber): use "dollars" and store the actual dollar value (e.g. "$17.26 per membership" → value: 17.26, unit: "dollars")
 - For percentages, store as a decimal multiplied by 100 (e.g. 15.3% → value: 15.3, unit: "percent")
-- The period should be the fiscal quarter being reported (e.g. "Q4 2024"), NOT the filing date
+- The period should be the fiscal quarter being reported (e.g. "Q4 2024"), NOT the filing date. EXCEPTION: For GUIDANCE items, use the NEXT quarter as the period.
 - periodDate should be the last day of that fiscal quarter in ISO format (e.g. "2024-12-31")
 - metric should be a stable snake_case key (e.g. "paid_subscribers", "maus", "gross_bookings")
 - label should be a clean display name (e.g. "Paid Subscribers", "Monthly Active Users")
