@@ -32,44 +32,20 @@ export async function GET(request: NextRequest) {
 
     const { data: secEvents } = await q1
 
-    // Fallback: FMP EarningsCalendar (wenn eigene Daten leer)
-    let finalEvents: any[] = []
-    let dataSource = 'sec-8k'
-
-    if (secEvents && secEvents.length > 0) {
-      finalEvents = secEvents.map(e => ({
-        symbol: e.ticker,
-        companyName: e.company_name,
-        date: e.date,
-        time: null,
-        fiscalQuarter: e.fiscal_quarter ? parseInt(e.fiscal_quarter.replace('Q', '')) : null,
-        fiscalYear: e.fiscal_year,
-        epsEstimate: null,
-        epsActual: e.eps_actual,
-        revenueEstimate: null,
-        revenueActual: e.revenue_actual,
-      }))
-    } else {
-      // Fallback auf FMP-Daten
-      const fromTS = `${from} 00:00:00`
-      const toTS = `${to} 23:59:59`
-      let q2 = supabase
-        .from('EarningsCalendar')
-        .select('symbol, companyName, date, time, fiscalQuarter, fiscalYear, epsEstimate, epsActual, revenueEstimate, revenueActual')
-        .gte('date', fromTS)
-        .lte('date', toTS)
-        .order('date', { ascending: true })
-        .limit(limit)
-      if (ticker) q2 = q2.eq('symbol', ticker)
-
-      const { data, error } = await q2
-      if (error) {
-        console.error('[Earnings API]', error)
-        throw new Error(error.message || JSON.stringify(error))
-      }
-      finalEvents = data || []
-      dataSource = 'fmp-legacy'
-    }
+    // Nur eigene Daten – kein FMP Fallback
+    const finalEvents = (secEvents || []).map(e => ({
+      symbol: e.ticker,
+      companyName: e.company_name,
+      date: e.date,
+      time: null,
+      fiscalQuarter: e.fiscal_quarter ? parseInt(e.fiscal_quarter.replace('Q', '')) : null,
+      fiscalYear: e.fiscal_year,
+      epsEstimate: null,
+      epsActual: e.eps_actual,
+      revenueEstimate: null,
+      revenueActual: e.revenue_actual,
+    }))
+    const dataSource = 'sec-8k'
 
     // Gruppiere nach Datum
     const byDate: Record<string, any[]> = {}

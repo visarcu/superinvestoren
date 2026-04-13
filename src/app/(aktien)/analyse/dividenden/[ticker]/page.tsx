@@ -27,6 +27,30 @@ export default function DividendenPage() {
   const [data, setData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [profile, setProfile] = useState<any>(null)
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [search, setSearch] = useState('')
+  const [searchResults, setSearchResults] = useState<{ ticker: string; name: string; exchange: string }[]>([])
+  const [selectedIdx, setSelectedIdx] = useState(0)
+  const searchRef = React.useRef<HTMLInputElement>(null)
+
+  // Cmd+K
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); setSearchOpen(true); setSearch(''); setSearchResults([]); setTimeout(() => searchRef.current?.focus(), 50) }
+      if (e.key === 'Escape') setSearchOpen(false)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
+  // Live search
+  useEffect(() => {
+    if (!search || search.length < 1) { setSearchResults([]); return }
+    const t = setTimeout(async () => {
+      try { const r = await fetch(`/api/v1/companies?search=${encodeURIComponent(search)}&pageSize=6`); if (r.ok) { const d = await r.json(); setSearchResults(d.data || []); setSelectedIdx(0) } } catch {}
+    }, 150)
+    return () => clearTimeout(t)
+  }, [search])
 
   useEffect(() => {
     setLoading(true)
@@ -238,6 +262,42 @@ export default function DividendenPage() {
         )}
       </main>
 
+      {/* Search Modal */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[12vh]" onClick={() => setSearchOpen(false)}>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
+          <div className="relative w-full max-w-xl mx-4" onClick={e => e.stopPropagation()}>
+            <div className="bg-[#111119] border border-white/[0.1] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden">
+              <div className="flex items-center gap-3 px-5 py-4">
+                <svg className="w-5 h-5 text-white/25" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}><path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" /></svg>
+                <input ref={searchRef} value={search} onChange={e => setSearch(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'ArrowDown') { e.preventDefault(); setSelectedIdx(i => Math.min(i + 1, (searchResults.length || 6) - 1)) }
+                    if (e.key === 'ArrowUp') { e.preventDefault(); setSelectedIdx(i => Math.max(i - 1, 0)) }
+                    if (e.key === 'Enter') { const t = searchResults.length > 0 ? searchResults[selectedIdx]?.ticker : search.trim().toUpperCase(); if (t) { router.push(`/analyse/dividenden/${t}`); setSearch(''); setSearchOpen(false) } }
+                    if (e.key === 'Escape') setSearchOpen(false)
+                  }}
+                  placeholder="Aktie suchen..." className="flex-1 bg-transparent text-[17px] text-white placeholder:text-white/25 focus:outline-none" autoFocus />
+                <kbd className="text-[10px] text-white/15 bg-white/[0.05] px-2 py-1 rounded-lg border border-white/[0.06]">ESC</kbd>
+              </div>
+              <div className="border-t border-white/[0.05] py-2">
+                {searchResults.length > 0 ? searchResults.map((r, i) => (
+                  <button key={r.ticker} onClick={() => { router.push(`/analyse/dividenden/${r.ticker}`); setSearchOpen(false) }}
+                    onMouseEnter={() => setSelectedIdx(i)}
+                    className={`w-full flex items-center justify-between px-5 py-2.5 transition-colors ${i === selectedIdx ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'}`}>
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center"><span className="text-[10px] font-bold text-white/40">{r.ticker.slice(0, 2)}</span></div>
+                      <div className="text-left"><p className="text-[13px] font-medium text-white/80">{r.ticker}</p><p className="text-[11px] text-white/25 truncate max-w-[280px]">{r.name}</p></div>
+                    </div>
+                    <span className="text-[10px] text-white/15">{r.exchange}</span>
+                  </button>
+                )) : <p className="text-[10px] text-white/15 uppercase tracking-widest px-5 py-2">Ticker eingeben...</p>}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Bottom Nav */}
       <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
         <nav className="flex items-center gap-1 bg-[#141420]/90 backdrop-blur-2xl border border-white/[0.08] rounded-2xl px-2 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
@@ -259,6 +319,12 @@ export default function DividendenPage() {
             </svg>
             <span className="text-[9px] text-white/25">Aktie</span>
           </Link>
+          <button onClick={() => { setSearchOpen(true); setTimeout(() => searchRef.current?.focus(), 50) }} className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
+            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span className="text-[9px] text-white/25">Search</span>
+          </button>
         </nav>
       </div>
     </div>

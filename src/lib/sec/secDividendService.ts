@@ -142,7 +142,8 @@ function extractQuarterlyDividends(facts: any, ticker: string): SecQuarterlyDivi
         }
       }
     }
-    if (quarterEntries.length > 0) break
+    // Nicht breaken – alle Konzepte durchsuchen und mergen
+    // KO nutzt z.B. "Declared" für 2008-2018 und "CashPaid" für 2021-2025
   }
 
   // ── Schritt 2: Full-Year Einträge extrahieren (≥300 Tage) ──
@@ -164,7 +165,7 @@ function extractQuarterlyDividends(facts: any, ticker: string): SecQuarterlyDivi
         }
       }
     }
-    if (annualEntries.length > 0) break
+    // Alle Konzepte durchsuchen (nicht breaken)
   }
 
   // Dedupliziere Quartale nach End-Date
