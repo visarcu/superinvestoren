@@ -138,6 +138,7 @@ export default function DashboardScreen() {
   const [searchResults, setSearchResults] = useState<any[]>([]);
   const [showDrawer, setShowDrawer] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
+  const [marketSummary, setMarketSummary] = useState<{ summary: string; isBullish: boolean } | null>(null);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -187,8 +188,40 @@ export default function DashboardScreen() {
           setGuruTrades(d.trades.slice(0, 5));
         }
       }
+      // Load market summary after we have quotes + sectors
+      loadMarketSummary(quotesRes, sectorRes);
     } catch (e) { console.error(e); }
     finally { setLoading(false); setRefreshing(false); }
+  }
+
+  async function loadMarketSummary(quotesRes: PromiseSettledResult<Response>, sectorRes: PromiseSettledResult<Response>) {
+    try {
+      if (quotesRes.status !== 'fulfilled' || sectorRes.status !== 'fulfilled') return;
+      const qData = await quotesRes.value.clone().json();
+      const sData = await sectorRes.value.clone().json();
+      if (!Array.isArray(qData) || !sData.sectors) return;
+
+      const findQ = (sym: string) => qData.find((q: any) => q.symbol === sym);
+      const spy = findQ('SPY');
+      const qqq = findQ('QQQ');
+      const dia = findQ('DIA');
+
+      const markets = {
+        spx: { price: spy?.price || 0, changePct: spy?.changesPercentage || 0, positive: (spy?.changesPercentage || 0) >= 0 },
+        ixic: { price: qqq?.price || 0, changePct: qqq?.changesPercentage || 0, positive: (qqq?.changesPercentage || 0) >= 0 },
+        dji: { price: dia?.price || 0, changePct: dia?.changesPercentage || 0, positive: (dia?.changesPercentage || 0) >= 0 },
+        dax: { price: 0, changePct: 0, positive: true },
+      };
+
+      const res = await fetch(`${BASE}/api/market-summary`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ markets, sectors: sData.sectors }),
+      });
+      if (!res.ok) return;
+      const data = await res.json();
+      if (data.summary) setMarketSummary(data);
+    } catch { /* silent */ }
   }
 
   async function handleSearch(q: string) {
@@ -301,6 +334,26 @@ export default function DashboardScreen() {
                       </View>
                     );
                   })}
+                </View>
+              </View>
+            )}
+
+            {/* ── Markt-Zusammenfassung ─────────────── */}
+            {marketSummary && (
+              <View style={s.section}>
+                <View style={s.summaryCard}>
+                  <View style={s.summaryBadge}>
+                    <Ionicons
+                      name={marketSummary.isBullish ? 'trending-up' : 'trending-down'}
+                      size={14}
+                      color={marketSummary.isBullish ? '#22C55E' : '#EF4444'}
+                    />
+                    <Text style={[s.summaryBadgeText, { color: marketSummary.isBullish ? '#22C55E' : '#EF4444' }]}>
+                      {marketSummary.isBullish ? 'Bullish' : 'Bearish'}
+                    </Text>
+                  </View>
+                  <Text style={s.summaryText}>{marketSummary.summary}</Text>
+                  <Text style={s.summarySource}>Finclue Marktanalyse</Text>
                 </View>
               </View>
             )}
@@ -465,6 +518,18 @@ const s = StyleSheet.create({
   sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
   timestampLabel: { color: '#334155', fontSize: 11, fontWeight: '500' },
+  summaryCard: {
+    backgroundColor: '#111113', borderRadius: 14, padding: 16,
+    borderWidth: 1, borderColor: '#1e1e20',
+  },
+  summaryBadge: {
+    flexDirection: 'row', alignItems: 'center', gap: 5,
+    alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4,
+    borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.04)', marginBottom: 10,
+  },
+  summaryBadgeText: { fontSize: 12, fontWeight: '700' },
+  summaryText: { color: '#CBD5E1', fontSize: 13, lineHeight: 20 },
+  summarySource: { color: '#334155', fontSize: 11, marginTop: 8 },
   sectionLink: { color: '#22C55E', fontSize: 13, fontWeight: '600', marginBottom: 10 },
   // Sector
   sectorCard: {
