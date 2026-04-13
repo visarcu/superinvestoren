@@ -149,6 +149,9 @@ export default function FeyStockPage() {
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
+  const [searchResults, setSearchResults] = useState<{ ticker: string; name: string; exchange: string }[]>([])
+  const [searchLoading, setSearchLoading] = useState(false)
+  const [selectedIdx, setSelectedIdx] = useState(0)
   const searchRef = React.useRef<HTMLInputElement>(null)
 
   // Cmd+K to open search
@@ -157,6 +160,9 @@ export default function FeyStockPage() {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
         setSearchOpen(true)
+        setSearch('')
+        setSearchResults([])
+        setSelectedIdx(0)
         setTimeout(() => searchRef.current?.focus(), 50)
       }
       if (e.key === 'Escape') setSearchOpen(false)
@@ -164,6 +170,24 @@ export default function FeyStockPage() {
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
   }, [])
+
+  // Live search with our own API
+  useEffect(() => {
+    if (!search || search.length < 1) { setSearchResults([]); return }
+    const timeout = setTimeout(async () => {
+      setSearchLoading(true)
+      try {
+        const res = await fetch(`/api/v1/companies?search=${encodeURIComponent(search)}&pageSize=8`)
+        if (res.ok) {
+          const data = await res.json()
+          setSearchResults(data.data || [])
+          setSelectedIdx(0)
+        }
+      } catch { /* ignore */ }
+      setSearchLoading(false)
+    }, 150)
+    return () => clearTimeout(timeout)
+  }, [search])
 
   useEffect(() => {
     setLoading(true)
@@ -469,12 +493,13 @@ export default function FeyStockPage() {
 
       {/* ── SEARCH MODAL (Cmd+K) ─────────────────────────── */}
       {searchOpen && (
-        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]" onClick={() => setSearchOpen(false)}>
-          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
-          <div className="relative w-full max-w-lg mx-4" onClick={e => e.stopPropagation()}>
-            <div className="bg-[#12121e] border border-white/[0.08] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden">
-              <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.06]">
-                <svg className="w-5 h-5 text-white/30 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[12vh]" onClick={() => setSearchOpen(false)}>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
+          <div className="relative w-full max-w-xl mx-4 animate-in fade-in slide-in-from-top-4 duration-200" onClick={e => e.stopPropagation()}>
+            <div className="bg-[#111119] border border-white/[0.1] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden">
+              {/* Search Input */}
+              <div className="flex items-center gap-3 px-5 py-4">
+                <svg className="w-5 h-5 text-white/25 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
                 <input
@@ -482,42 +507,93 @@ export default function FeyStockPage() {
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   onKeyDown={e => {
-                    if (e.key === 'Enter' && search.trim()) {
-                      router.push(`/analyse/aktien/${search.trim().toUpperCase()}`)
-                      setSearch('')
-                      setSearchOpen(false)
+                    if (e.key === 'ArrowDown') { e.preventDefault(); setSelectedIdx(i => Math.min(i + 1, (searchResults.length || 8) - 1)) }
+                    if (e.key === 'ArrowUp') { e.preventDefault(); setSelectedIdx(i => Math.max(i - 1, 0)) }
+                    if (e.key === 'Enter') {
+                      const target = searchResults.length > 0 ? searchResults[selectedIdx]?.ticker : search.trim().toUpperCase()
+                      if (target) { router.push(`/analyse/aktien/${target}`); setSearch(''); setSearchOpen(false) }
                     }
                     if (e.key === 'Escape') setSearchOpen(false)
                   }}
-                  placeholder="Search for a stock..."
-                  className="flex-1 bg-transparent text-[16px] text-white placeholder:text-white/20 focus:outline-none"
+                  placeholder="Aktie suchen..."
+                  className="flex-1 bg-transparent text-[17px] text-white placeholder:text-white/25 focus:outline-none"
                   autoFocus
                 />
-                <kbd className="text-[10px] text-white/15 bg-white/[0.04] px-2 py-0.5 rounded-md border border-white/[0.06]">ESC</kbd>
+                {searchLoading && <div className="w-4 h-4 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />}
+                <kbd className="text-[10px] text-white/15 bg-white/[0.05] px-2 py-1 rounded-lg border border-white/[0.06]">ESC</kbd>
               </div>
 
-              {/* Quick suggestions */}
-              <div className="px-3 py-2">
-                <p className="text-[10px] text-white/15 uppercase tracking-wider px-2 py-1.5">Popular</p>
-                {['AAPL', 'MSFT', 'NVDA', 'TSLA', 'GOOGL', 'AMZN', 'META', 'NFLX'].map(t => (
-                  <button
-                    key={t}
-                    onClick={() => { router.push(`/analyse/aktien/${t}`); setSearch(''); setSearchOpen(false) }}
-                    className={`w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors ${
-                      t === ticker ? 'bg-white/[0.04] text-white/60' : 'text-white/40 hover:bg-white/[0.04] hover:text-white/70'
-                    }`}
-                  >
-                    <span className="font-medium text-white/60">{t}</span>
-                    {t === ticker && <span className="text-[10px] text-white/15 ml-2">current</span>}
-                  </button>
-                ))}
+              <div className="border-t border-white/[0.05]" />
+
+              {/* Results */}
+              <div className="py-2 max-h-[50vh] overflow-y-auto">
+                {searchResults.length > 0 ? (
+                  <>
+                    <p className="text-[10px] text-white/15 uppercase tracking-widest font-medium px-5 py-1.5">Ergebnisse</p>
+                    {searchResults.map((r, i) => (
+                      <button
+                        key={r.ticker}
+                        onClick={() => { router.push(`/analyse/aktien/${r.ticker}`); setSearch(''); setSearchOpen(false) }}
+                        onMouseEnter={() => setSelectedIdx(i)}
+                        className={`w-full flex items-center justify-between px-5 py-2.5 transition-colors ${
+                          i === selectedIdx ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center flex-shrink-0">
+                            <span className="text-[10px] font-bold text-white/40">{r.ticker.slice(0, 2)}</span>
+                          </div>
+                          <div className="text-left">
+                            <p className="text-[13px] font-medium text-white/80">{r.ticker}</p>
+                            <p className="text-[11px] text-white/25 truncate max-w-[280px]">{r.name}</p>
+                          </div>
+                        </div>
+                        <span className="text-[10px] text-white/15">{r.exchange}</span>
+                      </button>
+                    ))}
+                  </>
+                ) : search.length > 0 && !searchLoading ? (
+                  <div className="px-5 py-8 text-center">
+                    <p className="text-[13px] text-white/20">Keine Ergebnisse für "{search}"</p>
+                    <p className="text-[11px] text-white/10 mt-1">Drücke Enter um direkt zu {search.toUpperCase()} zu gehen</p>
+                  </div>
+                ) : (
+                  <>
+                    <p className="text-[10px] text-white/15 uppercase tracking-widest font-medium px-5 py-1.5">Beliebt</p>
+                    {[
+                      { t: 'AAPL', n: 'Apple Inc.' }, { t: 'MSFT', n: 'Microsoft Corp.' },
+                      { t: 'NVDA', n: 'NVIDIA Corp.' }, { t: 'TSLA', n: 'Tesla, Inc.' },
+                      { t: 'GOOGL', n: 'Alphabet Inc.' }, { t: 'AMZN', n: 'Amazon.com' },
+                    ].map((item, i) => (
+                      <button
+                        key={item.t}
+                        onClick={() => { router.push(`/analyse/aktien/${item.t}`); setSearch(''); setSearchOpen(false) }}
+                        onMouseEnter={() => setSelectedIdx(i)}
+                        className={`w-full flex items-center justify-between px-5 py-2.5 transition-colors ${
+                          i === selectedIdx ? 'bg-white/[0.06]' : 'hover:bg-white/[0.03]'
+                        }`}
+                      >
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-lg bg-white/[0.06] flex items-center justify-center flex-shrink-0">
+                            <span className="text-[10px] font-bold text-white/40">{item.t.slice(0, 2)}</span>
+                          </div>
+                          <div className="text-left">
+                            <p className="text-[13px] font-medium text-white/80">{item.t}</p>
+                            <p className="text-[11px] text-white/25">{item.n}</p>
+                          </div>
+                        </div>
+                        {item.t === ticker && <span className="text-[9px] text-white/10 bg-white/[0.04] px-2 py-0.5 rounded-md">Aktuell</span>}
+                      </button>
+                    ))}
+                  </>
+                )}
               </div>
 
-              {/* Keyboard hint */}
-              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-white/12">
-                <span><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">↵</kbd> to go</span>
-                <span><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">ESC</kbd> to close</span>
-                <span className="ml-auto"><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">⌘K</kbd> to search</span>
+              {/* Footer */}
+              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-5 text-[10px] text-white/15">
+                <span className="flex items-center gap-1.5"><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.05]">↑↓</kbd> Navigieren</span>
+                <span className="flex items-center gap-1.5"><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.05]">↵</kbd> Öffnen</span>
+                <span className="flex items-center gap-1.5 ml-auto"><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.05]">⌘K</kbd> Suche</span>
               </div>
             </div>
           </div>
