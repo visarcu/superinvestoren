@@ -205,7 +205,7 @@ export default function PositionsTable({
                     )
                   })()}
                 </div>
-                <p className="text-xs text-neutral-500 truncate">{holding.symbol} · {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.purchase_price_display)}</p>
+                <p className="text-xs text-neutral-500 truncate">{holding.symbol}{holding.isin ? ` · ${holding.isin}` : ''} · {holding.quantity.toLocaleString('de-DE')} × {formatStockPrice(holding.purchase_price_display)}</p>
               </div>
             </>
           )}
@@ -327,7 +327,7 @@ export default function PositionsTable({
                 })()}
               </div>
               <p className="text-xs text-neutral-500 truncate">
-                {group.symbol} · {group.totalQuantity.toLocaleString('de-DE')} × {formatStockPrice(group.weightedPurchasePrice)}
+                {group.symbol}{group.holdings[0]?.isin ? ` · ${group.holdings[0].isin}` : ''} · {group.totalQuantity.toLocaleString('de-DE')} × {formatStockPrice(group.weightedPurchasePrice)}
                 {hasMultipleDepots && (
                   <span className="text-neutral-600"> · {group.holdings.length} Depots</span>
                 )}

@@ -26,6 +26,7 @@ export interface Holding {
   id: string
   symbol: string
   name: string
+  isin?: string
   quantity: number
   purchase_price: number
   purchase_price_display: number
