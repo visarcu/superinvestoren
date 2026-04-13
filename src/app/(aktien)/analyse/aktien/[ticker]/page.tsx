@@ -202,6 +202,7 @@ export default function FeyStockPage() {
   const [selectedIdx, setSelectedIdx] = useState(0)
   const searchRef = React.useRef<HTMLInputElement>(null)
   const [expandedChart, setExpandedChart] = useState<{ data: any[]; dataKey: string; label: string; color: string; format?: 'dollar' } | null>(null)
+  const [financialPeriod, setFinancialPeriod] = useState<'annual' | 'quarterly'>('annual')
 
   // Cmd+K to open search
   useEffect(() => {
@@ -528,6 +529,18 @@ export default function FeyStockPage() {
 
         ) : tab === 'financials' ? (
           <div className="w-full max-w-6xl space-y-6">
+            {/* Period Toggle */}
+            <div className="flex items-center gap-1 bg-white/[0.02] rounded-lg p-0.5 w-fit">
+              <button onClick={() => setFinancialPeriod('annual')}
+                className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors ${financialPeriod === 'annual' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'}`}>
+                Jährlich
+              </button>
+              <button onClick={() => setFinancialPeriod('quarterly')}
+                className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors ${financialPeriod === 'quarterly' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'}`}>
+                Quartalsweise
+              </button>
+            </div>
+
             {/* Guidance Revenue extrahieren */}
             {(() => {
               const guidanceRev = kpis['guidance_revenue']?.data?.slice(-1)[0]?.value
@@ -538,12 +551,54 @@ export default function FeyStockPage() {
 
               return (
                 <>
-                  {/* Income Statement + Guidance */}
+                  {/* Quartalsansicht: KPI-basiert */}
+                  {financialPeriod === 'quarterly' && Object.keys(kpis).length > 0 ? (
+                    <div>
+                      <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Quartalszahlen (aus Earnings Reports)</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {Object.entries(kpis)
+                          .filter(([k]) => !k.startsWith('guidance_'))
+                          .map(([key, metric]) => {
+                            const chartData = metric.data.map((d: any) => ({
+                              period: d.period,
+                              [key]: metric.unit === 'millions' ? d.value * 1e6 : d.value,
+                            }))
+                            // Guidance für dieses Segment?
+                            const gKey = `guidance_${key.replace('total_', '')}`
+                            const gVal = kpis[gKey]?.data?.slice(-1)[0]
+                            return <ChartCard
+                              key={key}
+                              data={chartData}
+                              dataKey={key}
+                              label={metric.label}
+                              color="#22c55e"
+                              guidanceValue={gVal ? (metric.unit === 'millions' ? gVal.value * 1e6 : gVal.value) : null}
+                              guidanceLabel={gVal?.period}
+                              onExpand={() => setExpandedChart({ data: chartData, dataKey: key, label: metric.label, color: '#22c55e' })}
+                            />
+                          })}
+                      </div>
+                      {guidanceRev && (
+                        <p className="text-[10px] text-white/15 mt-3">
+                          Guidance: Revenue {guidanceRevLabel} = {fmt(guidanceRev * 1e6)}
+                          {kpis['guidance_gross_margin'] && ` · Gross Margin ${kpis['guidance_gross_margin'].data.slice(-1)[0]?.value}%`}
+                        </p>
+                      )}
+                    </div>
+                  ) : financialPeriod === 'quarterly' ? (
+                    <div className="text-center py-20">
+                      <p className="text-white/20 text-[14px]">Keine Quartalsdaten für {ticker}</p>
+                      <p className="text-white/10 text-[12px] mt-1">Quartalsdaten verfügbar für: AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA, META, NFLX</p>
+                    </div>
+                  ) : null}
+
+                  {/* Jahresansicht: SEC XBRL */}
+                  {financialPeriod === 'annual' && (
                   <div>
                     <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Gewinn- & Verlustrechnung</p>
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                       <ChartCard data={income} dataKey="revenue" label="Umsatz" color="#fff"
-                        guidanceValue={guidanceRev ? guidanceRev * 1e6 : null}
+                        guidanceValue={financialPeriod === 'annual' ? null : (guidanceRev ? guidanceRev * 1e6 : null)}
                         guidanceLabel={guidanceRevLabel || undefined}
                         onExpand={() => setExpandedChart({ data: income, dataKey: 'revenue', label: 'Umsatz', color: '#fff' })} />
                       <ChartCard data={income} dataKey="netIncome" label="Nettogewinn" color="#4ade80"
@@ -596,6 +651,7 @@ export default function FeyStockPage() {
                       <ChartCard data={balance} dataKey="shareholdersEquity" label="Eigenkapital" color="#38bdf8" />
                     </div>
                   </div>
+                  )}
                 </>
               )
             })()}
