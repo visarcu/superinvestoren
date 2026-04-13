@@ -59,7 +59,7 @@ const COMPANY_PATTERNS: [RegExp, string][] = [
   [/\bSalesforce\b|CRM/i, 'CRM'], [/\bAdobe\b|ADBE/i, 'ADBE'],
   // Finance
   [/\bJPMorgan\b|JPM/i, 'JPM'], [/\bGoldman\sSachs\b|GS\b/i, 'GS'],
-  [/\bVisa\b(?!\s*Free)|V\b/i, 'V'], [/\bMastercard\b|MA\b/i, 'MA'],
+  [/\bVisa\b(?!\s*Free)/i, 'V'], [/\bMastercard\b(?!\s*University)/i, 'MA'],
   [/\bPayPal\b|PYPL/i, 'PYPL'], [/\bBerkshire\b|BRK/i, 'BRK.B'],
   // Healthcare
   [/\bPfizer\b|PFE/i, 'PFE'], [/\bEli\sLilly\b|LLY/i, 'LLY'],

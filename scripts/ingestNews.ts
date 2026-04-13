@@ -15,7 +15,8 @@ import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
 
 import { fetchAllFeeds } from '../src/lib/news/feedFetcher.js'
-import { processArticles, generateSimpleRecap } from '../src/lib/news/newsProcessor.js'
+import { processArticles } from '../src/lib/news/newsProcessor.js'
+import { generateAIRecap } from '../src/lib/news/recapGenerator.js'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -58,21 +59,23 @@ async function generateAndStoreRecap(articles: any[]): Promise<void> {
   const hour = new Date().getHours()
   const type = hour < 14 ? 'morning' : 'evening'
 
-  const { content, tickers } = generateSimpleRecap(articles, type)
+  console.log(`🤖 Generiere AI ${type} Recap...`)
+  const recap = await generateAIRecap(articles, type)
 
   const { error } = await supabase
     .from('news_recaps')
     .insert({
-      type,
-      content_de: content,
-      tickers,
-      article_count: Math.min(articles.length, 10),
+      type: recap.type,
+      content_de: recap.contentDe,
+      content_en: recap.contentEn,
+      tickers: recap.tickers,
+      article_count: recap.articleCount,
     })
 
   if (error) {
     console.error('❌ Recap speichern fehlgeschlagen:', error.message)
   } else {
-    console.log(`📝 ${type} Recap gespeichert (${tickers.length} Ticker)`)
+    console.log(`📝 ${type} Recap gespeichert (${recap.tickers.length} Ticker, ${recap.contentDe.length} Zeichen)`)
   }
 }
 

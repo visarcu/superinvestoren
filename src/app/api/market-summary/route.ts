@@ -1,6 +1,8 @@
 // API Route für AI-generierte Market Summary
-// Nutzt Perplexity API für aktuelle Web-Suche nach Markt-News
+// Primary: Finclue News Recap (RSS-basiert)
+// Fallback: Perplexity API
 import { NextResponse } from 'next/server'
+import { createClient } from '@supabase/supabase-js'
 
 const PERPLEXITY_API_URL = 'https://api.perplexity.ai/chat/completions'
 
@@ -40,9 +42,55 @@ export async function POST(request: Request) {
     const topSector = sortedSectors[0]
     const bottomSector = sortedSectors[sortedSectors.length - 1]
 
+    // ── PRIMARY: Finclue News Recap aus Supabase ──────────────────────
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+    if (supabaseUrl && supabaseKey) {
+      try {
+        const supabase = createClient(supabaseUrl, supabaseKey)
+        const today = new Date().toISOString().slice(0, 10)
+        const hour = new Date().getHours()
+        const type = hour < 14 ? 'morning' : 'evening'
+
+        const { data: recap } = await supabase
+          .from('news_recaps')
+          .select('content_de, generated_at')
+          .eq('type', type)
+          .gte('generated_at', `${today}T00:00:00`)
+          .order('generated_at', { ascending: false })
+          .limit(1)
+          .single()
+
+        if (recap?.content_de) {
+          // Extrahiere die ersten 2 Sätze des Marktüberblicks für den Dashboard-Summary
+          const content = recap.content_de
+          const overviewMatch = content.match(/\*\*Marktüberblick\*\*\s*\n([\s\S]*?)(?=\n\*\*|$)/)
+          const overview = overviewMatch
+            ? overviewMatch[1].trim()
+            : content.split('\n').filter((l: string) => l.trim() && !l.startsWith('**') && !l.startsWith('#')).slice(0, 2).join(' ')
+
+          if (overview && overview.length > 30) {
+            console.log('[Market Summary] Using Finclue News Recap')
+            return NextResponse.json({
+              summary: overview.slice(0, 250),
+              fullRecap: content,
+              isBullish,
+              generated: true,
+              source: 'finclue-news'
+            }, {
+              headers: { 'Cache-Control': 'public, max-age=900, stale-while-revalidate=1800' }
+            })
+          }
+        }
+      } catch (e) {
+        console.warn('[Market Summary] Finclue Recap not available, falling back to Perplexity')
+      }
+    }
+
+    // ── FALLBACK: Perplexity API ────────────────────────────────────────
     const perplexityKey = process.env.PERPLEXITY_API_KEY
 
-    // Fallback wenn kein Perplexity Key
     if (!perplexityKey) {
       console.log('[Market Summary] No Perplexity API key, using fallback')
       return NextResponse.json({

@@ -307,6 +307,92 @@ const ENDPOINT_GROUPS: EndpointGroup[] = [
     ],
   },
   {
+    title: 'News',
+    icon: '📰',
+    description: 'Finanznachrichten aus 14 Quellen (7 DE + 7 INT). RSS-basiert, mit Ticker-Matching, Kategorisierung und AI-Recaps.',
+    endpoints: [
+      {
+        method: 'GET',
+        path: '/v1/news',
+        title: 'Get News Feed',
+        description: 'Paginierter Nachrichten-Feed. Filterbar nach Ticker, Kategorie, Sprache. Cursor-basierte Pagination.',
+        params: [],
+        queryParams: [
+          { name: 'limit', type: 'integer', default: '20', description: 'Ergebnisse pro Seite (max 100)' },
+          { name: 'lang', type: 'string', default: 'all', description: '"de" oder "en"' },
+          { name: 'ticker', type: 'string', default: '', description: 'Filter nach Ticker (z.B. NVDA)' },
+          { name: 'category', type: 'string', default: '', description: 'earnings, macro, geopolitics, analyst, ma, product' },
+        ],
+        response: `{
+  "data": [
+    {
+      "id": "abc123",
+      "title": "Neue Seeblockade belastet DAX",
+      "summary": "Die Ankündigung der USA, die Straße von Hormuz zu blockieren...",
+      "url": "https://www.handelsblatt.com/...",
+      "sourceName": "Handelsblatt",
+      "publishedAt": "2026-04-13T08:00:00Z",
+      "language": "de",
+      "tickers": ["DAX"],
+      "category": "geopolitics",
+      "relevanceScore": 0.8
+    }
+  ],
+  "pagination": { "limit": 20, "hasNextPage": true, "nextCursor": "..." }
+}`,
+        exampleUrl: '/api/v1/news?limit=5&lang=de',
+        status: 'live',
+      },
+      {
+        method: 'GET',
+        path: '/v1/news/recap',
+        title: 'Get Market Recap',
+        description: 'AI-generierter Morning/Evening Recap. Fasst die wichtigsten Nachrichten zusammen, erklärt Marktbewegungen und nennt betroffene Ticker.',
+        params: [],
+        queryParams: [
+          { name: 'type', type: 'string', default: 'morning', description: '"morning" oder "evening"' },
+          { name: 'lang', type: 'string', default: 'de', description: '"de" oder "en"' },
+        ],
+        response: `{
+  "type": "morning",
+  "content": "**Marktüberblick**\\nDie Märkte starten mit Verlusten...",
+  "tickers": ["SAP", "NVDA", "BTC"],
+  "articleCount": 15,
+  "generatedAt": "2026-04-13T08:15:00Z"
+}`,
+        exampleUrl: '/api/v1/news/recap?type=morning',
+        status: 'live',
+      },
+      {
+        method: 'GET',
+        path: '/v1/news/stock/{ticker}',
+        title: 'Get Stock News',
+        description: 'Alle Nachrichten die einen bestimmten Ticker betreffen. Automatisches Ticker-Matching aus 60+ Aktien und Indizes.',
+        params: [
+          { name: 'ticker', type: 'string', required: true, description: 'Ticker-Symbol (z.B. NVDA, TSLA, SAP)' },
+        ],
+        queryParams: [
+          { name: 'limit', type: 'integer', default: '10', description: 'Max Ergebnisse (max 50)' },
+        ],
+        response: `{
+  "ticker": "NVDA",
+  "articles": [
+    {
+      "title": "Saudi Arabia partners with Nvidia to advance AI",
+      "summary": "...",
+      "sourceName": "Yahoo Finance",
+      "publishedAt": "2026-04-13T10:00:00Z",
+      "category": "product"
+    }
+  ],
+  "count": 5
+}`,
+        exampleUrl: '/api/v1/news/stock/NVDA',
+        status: 'live',
+      },
+    ],
+  },
+  {
     title: 'Earnings Calendar',
     icon: '📅',
     description: 'Earnings-Termine direkt aus SEC 8-K Filing-Dates.',
@@ -596,6 +682,7 @@ curl "https://api.finclue.de/v1/kpis/NFLX"`} />
                   <ul className="space-y-1.5 text-[#c9d1d9]">
                     <li className="flex items-center gap-2"><span className="text-yellow-400">◐</span> IFRS-Unternehmen (SAP, Unilever, NVO)</li>
                     <li className="flex items-center gap-2"><span className="text-yellow-400">◐</span> Company Profiles (Name, Börse, SIC, Adresse)</li>
+                    <li className="flex items-center gap-2"><span className="text-green-400">✓</span> News API: 14 RSS-Quellen (7 DE + 7 INT) + AI Recaps</li>
                     <li className="flex items-center gap-2"><span className="text-yellow-400">◐</span> Earnings Calendar aus SEC Filing-Dates</li>
                     <li className="flex items-center gap-2"><span className="text-yellow-400">◐</span> Dividend Calendar mit Ex-Dates</li>
                   </ul>
