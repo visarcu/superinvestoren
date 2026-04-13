@@ -185,9 +185,59 @@ function extractConcept(
   if (!conceptDef) return new Map()
 
   const gaap = facts.facts['us-gaap']
-  if (!gaap) return new Map()
+  const ifrs = facts.facts['ifrs-full']
 
-  const conceptNames = [conceptDef.primary, ...(conceptDef.fallbacks || [])]
+  // IFRS-Mapping: Gleiche Feldnamen, andere XBRL-Tags
+  const IFRS_MAP: Record<string, string[]> = {
+    revenue: ['Revenue', 'RevenueFromContractsWithCustomers'],
+    netIncome: ['ProfitLoss', 'ProfitLossAttributableToOwnersOfParent'],
+    grossProfit: ['GrossProfit'],
+    operatingIncome: ['ProfitLossFromOperatingActivities'],
+    costOfRevenue: ['CostOfSales'],
+    eps: ['BasicEarningsLossPerShare'],
+    epsBasic: ['BasicEarningsLossPerShare'],
+    totalAssets: ['Assets'],
+    totalLiabilities: ['Liabilities'],
+    shareholdersEquity: ['Equity', 'EquityAttributableToOwnersOfParent'],
+    cash: ['CashAndCashEquivalents'],
+    longTermDebt: ['NoncurrentFinancialLiabilities', 'NoncurrentLiabilities'],
+    shortTermDebt: ['CurrentFinancialLiabilities', 'CurrentLiabilities'],
+    operatingCashFlow: ['CashFlowsFromUsedInOperatingActivities'],
+    capex: ['PurchaseOfPropertyPlantAndEquipmentClassifiedAsInvestingActivities'],
+    dividendsPaid: ['DividendsPaid', 'DividendsPaidClassifiedAsFinancingActivities'],
+    dividendPerShare: ['DividendsPaidOrdinarySharesPerShare'],
+    rd: ['ResearchAndDevelopmentExpense'],
+    sga: ['SellingGeneralAndAdministrativeExpense'],
+    incomeTax: ['IncomeTaxExpenseContinuingOperations', 'IncomeTaxExpense'],
+    interestExpense: ['FinanceCosts', 'InterestExpense'],
+    goodwill: ['Goodwill'],
+    propertyPlantEquip: ['PropertyPlantAndEquipment'],
+    accountsReceivable: ['TradeAndOtherCurrentReceivables'],
+    accountsPayable: ['TradeAndOtherCurrentPayables'],
+    inventory: ['Inventories'],
+    depreciation: ['DepreciationAndAmortisationExpense'],
+    shareRepurchase: ['PurchaseOfTreasuryShares'],
+  }
+
+  // Bestimme welche Taxonomie(n) vorhanden sind
+  const taxonomies: { source: Record<string, any>; conceptNames: string[] }[] = []
+
+  if (gaap && Object.keys(gaap).length > 0) {
+    const conceptNames = [conceptDef.primary, ...(conceptDef.fallbacks || [])]
+    taxonomies.push({ source: gaap, conceptNames })
+  }
+
+  if (ifrs && Object.keys(ifrs).length > 0) {
+    const ifrsNames = IFRS_MAP[conceptKey]
+    if (ifrsNames) {
+      taxonomies.push({ source: ifrs, conceptNames: ifrsNames })
+    }
+  }
+
+  if (taxonomies.length === 0) return new Map()
+
+  // Legacy: nur für den Fall dass es weder GAAP noch IFRS Matches gibt
+  const conceptNames = taxonomies[0].conceptNames
   const results = new Map<string, XbrlFactEntry>()
 
   // Sammle Einträge von ALLEN Konzepten, nimm das mit der besten Abdeckung.
@@ -195,8 +245,9 @@ function extractConcept(
   // hat 17 Jahre, "RevenueFromContractWithCustomer..." nur 4 Jahre).
   const candidateMaps: Map<string, XbrlFactEntry>[] = []
 
-  for (const conceptName of conceptNames) {
-    const concept = gaap[conceptName]
+  for (const taxonomy of taxonomies) {
+  for (const conceptName of taxonomy.conceptNames) {
+    const concept = taxonomy.source[conceptName]
     if (!concept) continue
 
     const conceptResults = new Map<string, XbrlFactEntry>()
@@ -234,7 +285,8 @@ function extractConcept(
     if (conceptResults.size > 0) {
       candidateMaps.push(conceptResults)
     }
-  }
+  } // end conceptName loop
+  } // end taxonomy loop
 
   // Wähle das Konzept mit der besten Abdeckung, fülle Lücken aus den anderen.
   // Grund: Mastercard hat 2007-2014 unter "Revenues", 2015-2016 unter
