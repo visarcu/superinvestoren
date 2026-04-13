@@ -90,25 +90,33 @@ function ChartCard({ data, dataKey, label, color, format, className }: {
   const prev = vals[vals.length - 2]?.[dataKey]
   const growth = latest && prev ? ((latest - prev) / Math.abs(prev)) * 100 : null
 
+  // Period label for latest value
+  const latestPeriod = vals[vals.length - 1]?.period
+
   return (
-    <div className={`bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.08] transition-colors ${className || ''}`}>
+    <div className={`bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.06] transition-all ${className || ''}`}>
       <div className="flex items-start justify-between mb-1">
-        <p className="text-[11px] text-white/30 font-medium tracking-wide">{label}</p>
-        {growth !== null && (
-          <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
-            growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
-          }`}>{growth >= 0 ? '+' : ''}{growth.toFixed(1)}%</span>
-        )}
+        <div>
+          <p className="text-[11px] text-white/30 font-medium tracking-wide">{label}</p>
+          <p className="text-2xl font-bold text-white mt-1">
+            {format === 'dollar' ? `$${latest?.toFixed(2)}` : fmt(latest)}
+          </p>
+        </div>
+        <div className="flex flex-col items-end gap-1">
+          {growth !== null && (
+            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+              growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+            }`}>{growth >= 0 ? '+' : ''}{growth.toFixed(1)}%</span>
+          )}
+          {latestPeriod && <span className="text-[9px] text-white/15">FY {latestPeriod}</span>}
+        </div>
       </div>
-      <p className="text-2xl font-bold text-white mb-3">
-        {format === 'dollar' ? `$${latest?.toFixed(2)}` : fmt(latest)}
-      </p>
-      <div className="h-36">
+      <div className="h-36 mt-3">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={vals} margin={{ top: 0, right: 0, bottom: 0, left: 0 }}>
-            <XAxis dataKey="period" tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.12)' }} axisLine={false} tickLine={false} />
+          <BarChart data={vals} margin={{ top: 4, right: 2, bottom: 0, left: 2 }}>
+            <XAxis dataKey="period" tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.15)' }} axisLine={false} tickLine={false} />
             <YAxis hide />
-            <Tooltip cursor={false} content={({ active, payload, label: l }) => {
+            <Tooltip cursor={{ fill: 'rgba(255,255,255,0.02)' }} content={({ active, payload, label: l }) => {
               if (!active || !payload?.length) return null
               const v = payload[0].value as number
               return (<div style={TT}>
@@ -116,7 +124,7 @@ function ChartCard({ data, dataKey, label, color, format, className }: {
                 <p style={{ color: '#fff', fontSize: '15px', fontWeight: 700 }}>{format === 'dollar' ? `$${v.toFixed(2)}` : fmt(v)}</p>
               </div>)
             }} />
-            <Bar dataKey={dataKey} fill={color} opacity={0.65} radius={[4, 4, 0, 0]} />
+            <Bar dataKey={dataKey} fill={color} opacity={0.7} radius={[4, 4, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -192,22 +200,33 @@ export default function FeyStockPage() {
       <header className="px-6 sm:px-10 py-4 flex items-center justify-between border-b border-white/[0.03] max-w-7xl mx-auto w-full">
         <div className="flex items-center gap-4">
           <button onClick={() => router.back()} className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors">
-            <span className="text-white/50">←</span>
+            <svg className="w-4 h-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+            </svg>
           </button>
+          {/* Ticker Logo Placeholder */}
+          <div className="w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center">
+            <span className="text-sm font-bold text-white/40">{ticker.slice(0, 2)}</span>
+          </div>
           <div>
-            <div className="flex items-baseline gap-2">
-              <h1 className="text-xl font-bold text-white">{ticker}</h1>
-              <span className="text-xs text-white/20">{profile?.exchangeName}</span>
+            <div className="flex items-baseline gap-2.5">
+              <h1 className="text-lg font-bold text-white tracking-tight">{ticker}</h1>
+              <span className="text-[11px] text-white/20 font-medium">{profile?.exchangeName}</span>
             </div>
-            <p className="text-[13px] text-white/35">{profile?.name}{profile?.industry ? ` · ${profile.industry}` : ''}</p>
+            <p className="text-[12px] text-white/30">{profile?.name}{profile?.industry ? ` · ${profile.industry}` : ''}</p>
           </div>
         </div>
-        <input
-          value={search} onChange={e => setSearch(e.target.value)}
-          onKeyDown={e => { if (e.key === 'Enter' && search.trim()) { router.push(`/analyse/aktien/${search.trim().toUpperCase()}`); setSearch('') } }}
-          placeholder="Search..."
-          className="w-32 sm:w-44 px-3 py-2 bg-white/[0.03] border border-white/[0.05] rounded-xl text-sm text-white placeholder:text-white/12 focus:outline-none focus:border-white/12"
-        />
+        <div className="relative">
+          <input
+            value={search} onChange={e => setSearch(e.target.value)}
+            onKeyDown={e => { if (e.key === 'Enter' && search.trim()) { router.push(`/analyse/aktien/${search.trim().toUpperCase()}`); setSearch('') } }}
+            placeholder="Search ticker..."
+            className="w-44 sm:w-56 pl-9 pr-3 py-2 bg-white/[0.03] border border-white/[0.05] rounded-xl text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/15 focus:bg-white/[0.05] transition-all"
+          />
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+        </div>
       </header>
 
       {/* ── METRICS STRIP ─────────────────────────────────── */}
