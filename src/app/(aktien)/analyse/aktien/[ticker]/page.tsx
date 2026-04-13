@@ -80,9 +80,9 @@ const TT: React.CSSProperties = {
 
 // ─── Chart Card ──────────────────────────────────────────────────────────────
 
-function ChartCard({ data, dataKey, label, color, format, className, guidanceValue, guidanceLabel }: {
+function ChartCard({ data, dataKey, label, color, format, className, guidanceValue, guidanceLabel, onExpand }: {
   data: any[]; dataKey: string; label: string; color: string; format?: 'dollar'; className?: string
-  guidanceValue?: number | null; guidanceLabel?: string
+  guidanceValue?: number | null; guidanceLabel?: string; onExpand?: () => void
 }) {
   let vals = data.filter(d => d[dataKey] !== null && d[dataKey] !== undefined && d[dataKey] !== 0)
   if (vals.length === 0) return null
@@ -102,7 +102,8 @@ function ChartCard({ data, dataKey, label, color, format, className, guidanceVal
   const latestPeriod = vals[vals.length - 1]?.period
 
   return (
-    <div className={`bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.06] transition-all ${className || ''}`}>
+    <div className={`bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.06] transition-all group ${onExpand ? 'cursor-pointer' : ''} ${className || ''}`}
+      onClick={onExpand}>
       <div className="flex items-start justify-between mb-1">
         <div>
           <p className="text-[11px] text-white/30 font-medium tracking-wide">{label}</p>
@@ -111,11 +112,18 @@ function ChartCard({ data, dataKey, label, color, format, className, guidanceVal
           </p>
         </div>
         <div className="flex flex-col items-end gap-1">
-          {growth !== null && (
-            <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
-              growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
-            }`}>{growth >= 0 ? '+' : ''}{growth.toFixed(1)}%</span>
-          )}
+          <div className="flex items-center gap-1.5">
+            {growth !== null && (
+              <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                growth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+              }`}>{growth >= 0 ? '+' : ''}{growth.toFixed(1)}%</span>
+            )}
+            {onExpand && (
+              <svg className="w-3.5 h-3.5 text-white/0 group-hover:text-white/25 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+              </svg>
+            )}
+          </div>
           {latestPeriod && <span className="text-[9px] text-white/15">GJ {latestPeriod}</span>}
         </div>
       </div>
@@ -193,6 +201,7 @@ export default function FeyStockPage() {
   const [searchLoading, setSearchLoading] = useState(false)
   const [selectedIdx, setSelectedIdx] = useState(0)
   const searchRef = React.useRef<HTMLInputElement>(null)
+  const [expandedChart, setExpandedChart] = useState<{ data: any[]; dataKey: string; label: string; color: string; format?: 'dollar' } | null>(null)
 
   // Cmd+K to open search
   useEffect(() => {
@@ -535,12 +544,18 @@ export default function FeyStockPage() {
                     <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
                       <ChartCard data={income} dataKey="revenue" label="Umsatz" color="#fff"
                         guidanceValue={guidanceRev ? guidanceRev * 1e6 : null}
-                        guidanceLabel={guidanceRevLabel || undefined} />
-                      <ChartCard data={income} dataKey="netIncome" label="Nettogewinn" color="#4ade80" />
-                      <ChartCard data={income} dataKey="grossProfit" label="Bruttogewinn" color="#60a5fa" />
-                      <ChartCard data={income} dataKey="operatingIncome" label="Operatives Ergebnis" color="#c084fc" />
-                      <ChartCard data={income} dataKey="eps" label="Gewinn je Aktie" color="#fbbf24" format="dollar" />
-                      <ChartCard data={income} dataKey="researchAndDevelopment" label="F&E Aufwand" color="#f472b6" />
+                        guidanceLabel={guidanceRevLabel || undefined}
+                        onExpand={() => setExpandedChart({ data: income, dataKey: 'revenue', label: 'Umsatz', color: '#fff' })} />
+                      <ChartCard data={income} dataKey="netIncome" label="Nettogewinn" color="#4ade80"
+                        onExpand={() => setExpandedChart({ data: income, dataKey: 'netIncome', label: 'Nettogewinn', color: '#4ade80' })} />
+                      <ChartCard data={income} dataKey="grossProfit" label="Bruttogewinn" color="#60a5fa"
+                        onExpand={() => setExpandedChart({ data: income, dataKey: 'grossProfit', label: 'Bruttogewinn', color: '#60a5fa' })} />
+                      <ChartCard data={income} dataKey="operatingIncome" label="Operatives Ergebnis" color="#c084fc"
+                        onExpand={() => setExpandedChart({ data: income, dataKey: 'operatingIncome', label: 'Operatives Ergebnis', color: '#c084fc' })} />
+                      <ChartCard data={income} dataKey="eps" label="Gewinn je Aktie" color="#fbbf24" format="dollar"
+                        onExpand={() => setExpandedChart({ data: income, dataKey: 'eps', label: 'Gewinn je Aktie', color: '#fbbf24', format: 'dollar' })} />
+                      <ChartCard data={income} dataKey="researchAndDevelopment" label="F&E Aufwand" color="#f472b6"
+                        onExpand={() => setExpandedChart({ data: income, dataKey: 'researchAndDevelopment', label: 'F&E Aufwand', color: '#f472b6' })} />
                     </div>
                   </div>
 
@@ -629,6 +644,54 @@ export default function FeyStockPage() {
           )
         ) : null}
       </main>
+
+      {/* ── CHART EXPAND MODAL ─────────────────────────────── */}
+      {expandedChart && (
+        <div className="fixed inset-0 z-[90] flex items-center justify-center p-4" onClick={() => setExpandedChart(null)}>
+          <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+          <div className="relative w-full max-w-4xl" onClick={e => e.stopPropagation()}>
+            <div className="bg-[#0c0c16] border border-white/[0.08] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden">
+              <div className="px-6 py-5 flex items-start justify-between">
+                <div>
+                  <p className="text-[15px] font-semibold text-white">{expandedChart.label}</p>
+                  <p className="text-3xl font-bold text-white mt-1">
+                    {(() => {
+                      const vals = expandedChart.data.filter(d => d[expandedChart.dataKey])
+                      const v = vals[vals.length - 1]?.[expandedChart.dataKey]
+                      return expandedChart.format === 'dollar' ? `${v?.toFixed(2).replace('.', ',')} $` : fmt(v)
+                    })()}
+                  </p>
+                </div>
+                <button onClick={() => setExpandedChart(null)} className="p-1.5 rounded-lg hover:bg-white/[0.06]">
+                  <svg className="w-5 h-5 text-white/30" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <div className="px-6 pb-6 h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={expandedChart.data.filter(d => d[expandedChart.dataKey])} margin={{ top: 10, right: 10, bottom: 20, left: 50 }}>
+                    <XAxis dataKey="period" tick={{ fontSize: 11, fill: 'rgba(255,255,255,0.25)' }} axisLine={false} tickLine={false} />
+                    <YAxis tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.15)' }} axisLine={false} tickLine={false} width={50}
+                      tickFormatter={v => expandedChart.format === 'dollar' ? `$${v}` : fmt(v).replace(' $', '')} />
+                    <Tooltip cursor={{ fill: 'rgba(255,255,255,0.03)' }} content={({ active, payload, label: l }) => {
+                      if (!active || !payload?.length) return null
+                      const v = payload[0].value as number
+                      return (<div style={TT}>
+                        <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px' }}>{l}</p>
+                        <p style={{ color: '#fff', fontSize: '18px', fontWeight: 700 }}>
+                          {expandedChart.format === 'dollar' ? `${v.toFixed(2).replace('.', ',')} $` : fmt(v)}
+                        </p>
+                      </div>)
+                    }} />
+                    <Bar dataKey={expandedChart.dataKey} fill={expandedChart.color} opacity={0.75} radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* ── SEARCH MODAL (Cmd+K) ─────────────────────────── */}
       {searchOpen && (

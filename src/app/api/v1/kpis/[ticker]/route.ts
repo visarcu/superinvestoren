@@ -24,6 +24,7 @@ export async function GET(
       .select('metric, label, value, unit, period, periodDate, filingUrl')
       .eq('ticker', ticker)
       .order('periodDate', { ascending: true })
+      .limit(500)
 
     if (error) throw error
     if (!kpis || kpis.length === 0) {
