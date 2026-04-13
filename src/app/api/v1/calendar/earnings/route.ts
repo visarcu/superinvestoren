@@ -20,24 +20,29 @@ export async function GET(request: NextRequest) {
   try {
     const supabase = createClient(supabaseUrl, supabaseKey)
 
-    let query = supabase
+    // Query Earnings – Supabase filter mit Timestamp-String
+    const fromTS = `${from} 00:00:00`
+    const toTS = `${to} 23:59:59`
+
+    let q = supabase
       .from('EarningsCalendar')
       .select('symbol, companyName, date, time, fiscalQuarter, fiscalYear, epsEstimate, epsActual, revenueEstimate, revenueActual')
-      .gte('date', from)
-      .lte('date', to)
+      .gte('date', fromTS)
+      .lte('date', toTS)
       .order('date', { ascending: true })
       .limit(limit)
 
-    if (ticker) {
-      query = query.eq('symbol', ticker)
-    }
+    if (ticker) q = q.eq('symbol', ticker)
 
-    const { data: events, error } = await query
-    if (error) throw error
+    const { data: finalEvents, error } = await q
+    if (error) {
+      console.error('[Earnings API]', error)
+      throw new Error(error.message || JSON.stringify(error))
+    }
 
     // Gruppiere nach Datum
     const byDate: Record<string, any[]> = {}
-    for (const event of events || []) {
+    for (const event of finalEvents || []) {
       const dateKey = new Date(event.date).toISOString().slice(0, 10)
       if (!byDate[dateKey]) byDate[dateKey] = []
 
@@ -62,7 +67,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({
       from,
       to,
-      totalEvents: events?.length || 0,
+      totalEvents: finalEvents?.length || 0,
       dates: Object.entries(byDate).map(([date, events]) => ({
         date,
         events,
