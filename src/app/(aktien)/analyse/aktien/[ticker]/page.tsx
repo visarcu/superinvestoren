@@ -216,17 +216,8 @@ export default function FeyStockPage() {
             <p className="text-[12px] text-white/30">{profile?.name}{profile?.industry ? ` · ${profile.industry}` : ''}</p>
           </div>
         </div>
-        <div className="relative">
-          <input
-            value={search} onChange={e => setSearch(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && search.trim()) { router.push(`/analyse/aktien/${search.trim().toUpperCase()}`); setSearch('') } }}
-            placeholder="Search ticker..."
-            className="w-44 sm:w-56 pl-9 pr-3 py-2 bg-white/[0.03] border border-white/[0.05] rounded-xl text-sm text-white placeholder:text-white/15 focus:outline-none focus:border-white/15 focus:bg-white/[0.05] transition-all"
-          />
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-          </svg>
-        </div>
+        {/* Intentionally empty – search is in bottom nav */}
+        <div />
       </header>
 
       {/* ── HERO: Revenue Trend + Key Metrics ─────────────── */}
@@ -460,35 +451,43 @@ export default function FeyStockPage() {
         ) : null}
       </main>
 
-      {/* ── BOTTOM NAV (Fixed, Fey-Style) ────────────────── */}
-      <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-white/[0.04] bg-[#06060e]/90 backdrop-blur-xl px-6 py-2.5">
-        <div className="flex items-center justify-center gap-2 max-w-md mx-auto">
-          <Link href="/analyse" className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
-            <svg className="w-5 h-5 text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+      {/* ── FLOATING BOTTOM NAV (Fey-Style Pill) ───────────── */}
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
+        <nav className="flex items-center gap-1 bg-[#141420]/90 backdrop-blur-2xl border border-white/[0.08] rounded-2xl px-2 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
+          <Link href="/analyse" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
+            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
             </svg>
-            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Home</span>
+            <span className="text-[9px] text-white/25 group-hover:text-white/50">Home</span>
           </Link>
-          <Link href="/analyse/calendar" className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
-            <svg className="w-5 h-5 text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <Link href="/analyse/calendar" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
+            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
             </svg>
-            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Earnings</span>
+            <span className="text-[9px] text-white/25 group-hover:text-white/50">Earnings</span>
           </Link>
-          <Link href="/analyse" className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
-            <svg className="w-5 h-5 text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          <Link href="/analyse" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
+            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
             </svg>
-            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Markets</span>
+            <span className="text-[9px] text-white/25 group-hover:text-white/50">Markets</span>
           </Link>
-          <button onClick={() => document.querySelector<HTMLInputElement>('header input')?.focus()} className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
-            <svg className="w-5 h-5 text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+          {/* Divider */}
+          <div className="w-px h-6 bg-white/[0.06] mx-1" />
+          {/* Search with inline input */}
+          <div className="relative flex items-center">
+            <svg className="absolute left-2.5 w-[14px] h-[14px] text-white/25 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
-            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Search</span>
-          </button>
-        </div>
-      </nav>
+            <input
+              value={search} onChange={e => setSearch(e.target.value)}
+              onKeyDown={e => { if (e.key === 'Enter' && search.trim()) { router.push(`/analyse/aktien/${search.trim().toUpperCase()}`); setSearch('') } }}
+              placeholder="Ticker..."
+              className="w-24 sm:w-32 pl-8 pr-2 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-lg text-[12px] text-white placeholder:text-white/20 focus:outline-none focus:border-white/15 focus:bg-white/[0.08] focus:w-40 transition-all"
+            />
+          </div>
+        </nav>
+      </div>
     </div>
   )
 }
