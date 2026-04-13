@@ -197,7 +197,8 @@ export async function getFinancialData(
           .order('fiscal_year', { ascending: true })
           .limit(years)
 
-        if (allRows && allRows.length > 0) {
+        // Nur Cache nutzen wenn genug Perioden vorhanden (mind. 80% der angefragten Jahre)
+        if (allRows && allRows.length >= Math.min(years * 0.8, years - 2)) {
           const periods = allRows.map(rowToPeriod)
           const latestRow = allRows[allRows.length - 1]
 
