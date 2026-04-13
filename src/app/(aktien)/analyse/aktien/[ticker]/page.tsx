@@ -250,10 +250,13 @@ export default function FeyStockPage() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
           </button>
-          {/* Ticker Logo Placeholder */}
-          <div className="w-10 h-10 rounded-xl bg-white/[0.06] flex items-center justify-center">
-            <span className="text-sm font-bold text-white/40">{ticker.slice(0, 2)}</span>
-          </div>
+          {/* Ticker Logo */}
+          <img
+            src={`/api/v1/logo/${ticker}?size=80`}
+            alt={ticker}
+            className="w-10 h-10 rounded-xl bg-white/[0.06] object-contain"
+            onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }}
+          />
           <div>
             <div className="flex items-baseline gap-2.5">
               <h1 className="text-lg font-bold text-white tracking-tight">{ticker}</h1>
