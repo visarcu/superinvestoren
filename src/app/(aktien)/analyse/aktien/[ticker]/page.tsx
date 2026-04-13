@@ -229,26 +229,69 @@ export default function FeyStockPage() {
         </div>
       </header>
 
-      {/* ── METRICS STRIP ─────────────────────────────────── */}
-      <div className="px-6 sm:px-10 py-3 border-b border-white/[0.03] overflow-x-auto">
-        <div className="flex gap-7 min-w-max max-w-7xl mx-auto">
-          {metrics.map(m => (
-            <div key={m.label}>
-              <p className="text-[10px] text-white/25 mb-0.5">{m.label}</p>
-              <p className={`text-[14px] font-semibold ${
-                'color' in m && m.color !== null && m.color !== undefined
-                  ? (m.color as number) >= 0 ? 'text-emerald-400' : 'text-red-400'
-                  : 'text-white/90'
-              }`}>{m.value}</p>
-              {'sub' in m && m.sub && <p className="text-[9px] text-white/8">{m.sub}</p>}
+      {/* ── HERO: Revenue Trend + Key Metrics ─────────────── */}
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          {/* Revenue Chart (Hero – 2 cols) */}
+          <div className="lg:col-span-2 bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6">
+            <div className="flex items-start justify-between mb-2">
+              <div>
+                <p className="text-[11px] text-white/25 font-medium">Revenue</p>
+                <p className="text-3xl font-bold text-white mt-1">{fmt(L?.revenue || null)}</p>
+                {L?.period && <p className="text-[11px] text-white/15 mt-0.5">FY {L.period}</p>}
+              </div>
+              {revGrowth !== null && (
+                <span className={`text-[12px] font-bold px-2.5 py-1 rounded-lg ${
+                  revGrowth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
+                }`}>{revGrowth >= 0 ? '+' : ''}{revGrowth.toFixed(1)}% YoY</span>
+              )}
             </div>
-          ))}
+            <div className="h-44">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={income.filter(d => d.revenue)} margin={{ top: 10, right: 0, bottom: 0, left: 0 }}>
+                  <defs>
+                    <linearGradient id="heroRevGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity={0.08} />
+                      <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
+                    </linearGradient>
+                  </defs>
+                  <XAxis dataKey="period" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.15)' }} axisLine={false} tickLine={false} />
+                  <YAxis hide />
+                  <Tooltip cursor={false} content={({ active, payload, label: l }) => {
+                    if (!active || !payload?.length) return null
+                    return (<div style={TT}>
+                      <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>{l}</p>
+                      <p style={{ color: '#fff', fontSize: '16px', fontWeight: 700 }}>{fmt(payload[0].value as number)}</p>
+                    </div>)
+                  }} />
+                  <Area type="monotone" dataKey="revenue" stroke="rgba(255,255,255,0.4)" strokeWidth={2} fill="url(#heroRevGrad)" dot={false} activeDot={{ r: 3, fill: '#fff', strokeWidth: 0 }} />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+
+          {/* Key Metrics Grid (1 col) */}
+          <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5">
+            <p className="text-[11px] text-white/25 font-medium mb-4">Key Metrics</p>
+            <div className="space-y-3">
+              {metrics.slice(0, 10).map(m => (
+                <div key={m.label} className="flex items-center justify-between">
+                  <span className="text-[12px] text-white/25">{m.label}</span>
+                  <span className={`text-[13px] font-semibold ${
+                    'color' in m && m.color !== null && m.color !== undefined
+                      ? (m.color as number) >= 0 ? 'text-emerald-400' : 'text-red-400'
+                      : 'text-white/80'
+                  }`}>{m.value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 
       {/* ── TABS ──────────────────────────────────────────── */}
-      <div className="px-6 sm:px-10 border-b border-white/[0.03]">
-        <div className="flex max-w-7xl mx-auto">
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 border-b border-white/[0.03]">
+        <div className="flex">
           {(['overview', 'news', 'financials', 'kpis'] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-5 py-3 text-[13px] font-medium relative transition-colors ${
@@ -269,18 +312,18 @@ export default function FeyStockPage() {
           </div>
         ) : tab === 'overview' ? (
           <div className="w-full max-w-6xl space-y-4">
-            {/* Row 1: Revenue + Net Income + EPS */}
+            {/* Row 1: Net Income + EPS + Gross Profit */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <ChartCard data={income} dataKey="revenue" label="Revenue" color="#ffffff" />
               <ChartCard data={income} dataKey="netIncome" label="Net Income" color="#4ade80" />
               <ChartCard data={income} dataKey="eps" label="Earnings Per Share" color="#fbbf24" format="dollar" />
+              <ChartCard data={income} dataKey="grossProfit" label="Gross Profit" color="#60a5fa" />
             </div>
 
             {/* Row 2: Cash Flow + Balance Sheet */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operating Cash Flow" color="#22d3ee" />
+              <ChartCard data={cashflow} dataKey="freeCashFlow" label="Free Cash Flow" color="#f97316" />
               <ChartCard data={balance} dataKey="cash" label="Cash & Equivalents" color="#34d399" />
-              <ChartCard data={balance} dataKey="shareholdersEquity" label="Equity" color="#38bdf8" />
             </div>
 
             {/* Row 3: News + Company Info */}
