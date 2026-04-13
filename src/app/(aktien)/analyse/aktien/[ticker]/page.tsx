@@ -189,7 +189,7 @@ export default function FeyStockPage() {
   return (
     <div className="min-h-screen bg-[#06060e] flex flex-col">
       {/* ── HEADER ──────────────────────────────────────────── */}
-      <header className="px-6 sm:px-10 py-4 flex items-center justify-between border-b border-white/[0.03]">
+      <header className="px-6 sm:px-10 py-4 flex items-center justify-between border-b border-white/[0.03] max-w-7xl mx-auto w-full">
         <div className="flex items-center gap-4">
           <button onClick={() => router.back()} className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors">
             <span className="text-white/50">←</span>
@@ -212,7 +212,7 @@ export default function FeyStockPage() {
 
       {/* ── METRICS STRIP ─────────────────────────────────── */}
       <div className="px-6 sm:px-10 py-3 border-b border-white/[0.03] overflow-x-auto">
-        <div className="flex gap-7 min-w-max">
+        <div className="flex gap-7 min-w-max max-w-7xl mx-auto">
           {metrics.map(m => (
             <div key={m.label}>
               <p className="text-[10px] text-white/15 mb-0.5">{m.label}</p>
@@ -229,7 +229,7 @@ export default function FeyStockPage() {
 
       {/* ── TABS ──────────────────────────────────────────── */}
       <div className="px-6 sm:px-10 border-b border-white/[0.03]">
-        <div className="flex">
+        <div className="flex max-w-7xl mx-auto">
           {(['overview', 'news', 'financials', 'kpis'] as Tab[]).map(t => (
             <button key={t} onClick={() => setTab(t)}
               className={`px-5 py-3 text-[13px] font-medium relative transition-colors ${
@@ -243,34 +243,28 @@ export default function FeyStockPage() {
       </div>
 
       {/* ── CONTENT ───────────────────────────────────────── */}
-      <main className="flex-1 px-6 sm:px-10 py-8 overflow-y-auto">
+      <main className="flex-1 px-6 sm:px-10 py-8 overflow-y-auto flex flex-col items-center">
         {loading ? (
           <div className="flex items-center justify-center py-32">
             <div className="w-5 h-5 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
           </div>
         ) : tab === 'overview' ? (
-          <div className="max-w-7xl space-y-6">
-            {/* Row 1: Revenue + Net Income (large) */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <ChartCard data={income} dataKey="revenue" label="Revenue" color="#ffffff" className="min-h-[240px]" />
-              <ChartCard data={income} dataKey="netIncome" label="Net Income" color="#4ade80" className="min-h-[240px]" />
-            </div>
-
-            {/* Row 2: EPS + Gross Profit + Op CF (medium) */}
+          <div className="w-full max-w-6xl space-y-4">
+            {/* Row 1: Revenue + Net Income + EPS */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <ChartCard data={income} dataKey="revenue" label="Revenue" color="#ffffff" />
+              <ChartCard data={income} dataKey="netIncome" label="Net Income" color="#4ade80" />
               <ChartCard data={income} dataKey="eps" label="Earnings Per Share" color="#fbbf24" format="dollar" />
-              <ChartCard data={income} dataKey="grossProfit" label="Gross Profit" color="#60a5fa" />
-              <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operating Cash Flow" color="#22d3ee" />
             </div>
 
-            {/* Row 3: Balance Sheet highlights */}
+            {/* Row 2: Cash Flow + Balance Sheet */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operating Cash Flow" color="#22d3ee" />
               <ChartCard data={balance} dataKey="cash" label="Cash & Equivalents" color="#34d399" />
-              <ChartCard data={balance} dataKey="totalAssets" label="Total Assets" color="#a78bfa" />
               <ChartCard data={balance} dataKey="shareholdersEquity" label="Equity" color="#38bdf8" />
             </div>
 
-            {/* Row 4: News + Company Info */}
+            {/* Row 3: News + Company Info */}
             <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
               <div className="lg:col-span-3">
                 <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Latest News</p>
@@ -324,7 +318,7 @@ export default function FeyStockPage() {
               <p className="text-white/8 text-xs mt-1">Updates every 15 min from 14 sources</p>
             </div>
           ) : (
-            <div className="max-w-3xl space-y-1.5">
+            <div className="w-full max-w-3xl space-y-1.5">
               {news.map(a => (
                 <a key={a.id} href={a.url} target="_blank" rel="noopener noreferrer"
                   className="block p-4 rounded-xl bg-[#0c0c16] border border-white/[0.03] hover:border-white/[0.08] transition-all group">
@@ -340,7 +334,7 @@ export default function FeyStockPage() {
           )
 
         ) : tab === 'financials' ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 max-w-7xl">
+          <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {[
               { d: income, k: 'revenue', l: 'Revenue', c: '#fff' },
               { d: income, k: 'netIncome', l: 'Net Income', c: '#4ade80' },
@@ -367,7 +361,7 @@ export default function FeyStockPage() {
               <p className="text-white/8 text-xs mt-1">Available for AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA, META, NFLX, UBER, MA, V</p>
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 max-w-6xl">
+            <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {Object.entries(kpis).map(([key, m]) => {
                 const latest = m.data[m.data.length - 1]
                 const prev = m.data[m.data.length - 5]
@@ -404,22 +398,33 @@ export default function FeyStockPage() {
         ) : null}
       </main>
 
-      {/* ── BOTTOM NAV (Fey-Style) ────────────────────────── */}
-      <nav className="border-t border-white/[0.04] bg-[#06060e]/80 backdrop-blur-xl px-6 sm:px-10 py-2">
-        <div className="flex items-center justify-center gap-1 max-w-lg mx-auto">
-          {[
-            { icon: '🏠', label: 'Home', href: '/analyse' },
-            { icon: '📅', label: 'Earnings', href: '/analyse/calendar' },
-            { icon: '📊', label: 'Markets', href: '/analyse' },
-            { icon: '🔍', label: 'Search', href: '#', action: () => document.querySelector<HTMLInputElement>('header input')?.focus() },
-          ].map(item => (
-            <Link key={item.label} href={item.href}
-              onClick={item.action ? (e) => { e.preventDefault(); item.action?.() } : undefined}
-              className="flex flex-col items-center gap-0.5 px-5 py-1.5 rounded-xl hover:bg-white/[0.04] transition-colors">
-              <span className="text-base">{item.icon}</span>
-              <span className="text-[10px] text-white/25">{item.label}</span>
-            </Link>
-          ))}
+      {/* ── BOTTOM NAV (Fey-Style, SVG Icons) ─────────────── */}
+      <nav className="border-t border-white/[0.04] bg-[#06060e]/90 backdrop-blur-xl px-6 py-2.5">
+        <div className="flex items-center justify-center gap-2 max-w-md mx-auto">
+          <Link href="/analyse" className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
+            <svg className="w-[18px] h-[18px] text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
+            </svg>
+            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Home</span>
+          </Link>
+          <Link href="/analyse/calendar" className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
+            <svg className="w-[18px] h-[18px] text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+            </svg>
+            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Earnings</span>
+          </Link>
+          <Link href="/analyse" className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
+            <svg className="w-[18px] h-[18px] text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Markets</span>
+          </Link>
+          <button onClick={() => document.querySelector<HTMLInputElement>('header input')?.focus()} className="flex flex-col items-center gap-1 px-4 py-1 rounded-xl hover:bg-white/[0.04] transition-colors group">
+            <svg className="w-[18px] h-[18px] text-white/25 group-hover:text-white/50 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+            </svg>
+            <span className="text-[10px] text-white/20 group-hover:text-white/40 transition-colors">Search</span>
+          </button>
         </div>
       </nav>
     </div>
