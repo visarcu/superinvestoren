@@ -148,6 +148,22 @@ export default function FeyStockPage() {
   const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const searchRef = React.useRef<HTMLInputElement>(null)
+
+  // Cmd+K to open search
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSearchOpen(true)
+        setTimeout(() => searchRef.current?.focus(), 50)
+      }
+      if (e.key === 'Escape') setSearchOpen(false)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
 
   useEffect(() => {
     setLoading(true)
@@ -451,6 +467,63 @@ export default function FeyStockPage() {
         ) : null}
       </main>
 
+      {/* ── SEARCH MODAL (Cmd+K) ─────────────────────────── */}
+      {searchOpen && (
+        <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[15vh]" onClick={() => setSearchOpen(false)}>
+          <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="relative w-full max-w-lg mx-4" onClick={e => e.stopPropagation()}>
+            <div className="bg-[#12121e] border border-white/[0.08] rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden">
+              <div className="flex items-center gap-3 px-5 py-4 border-b border-white/[0.06]">
+                <svg className="w-5 h-5 text-white/30 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+                <input
+                  ref={searchRef}
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  onKeyDown={e => {
+                    if (e.key === 'Enter' && search.trim()) {
+                      router.push(`/analyse/aktien/${search.trim().toUpperCase()}`)
+                      setSearch('')
+                      setSearchOpen(false)
+                    }
+                    if (e.key === 'Escape') setSearchOpen(false)
+                  }}
+                  placeholder="Search for a stock..."
+                  className="flex-1 bg-transparent text-[16px] text-white placeholder:text-white/20 focus:outline-none"
+                  autoFocus
+                />
+                <kbd className="text-[10px] text-white/15 bg-white/[0.04] px-2 py-0.5 rounded-md border border-white/[0.06]">ESC</kbd>
+              </div>
+
+              {/* Quick suggestions */}
+              <div className="px-3 py-2">
+                <p className="text-[10px] text-white/15 uppercase tracking-wider px-2 py-1.5">Popular</p>
+                {['AAPL', 'MSFT', 'NVDA', 'TSLA', 'GOOGL', 'AMZN', 'META', 'NFLX'].map(t => (
+                  <button
+                    key={t}
+                    onClick={() => { router.push(`/analyse/aktien/${t}`); setSearch(''); setSearchOpen(false) }}
+                    className={`w-full text-left px-3 py-2 rounded-lg text-[13px] transition-colors ${
+                      t === ticker ? 'bg-white/[0.04] text-white/60' : 'text-white/40 hover:bg-white/[0.04] hover:text-white/70'
+                    }`}
+                  >
+                    <span className="font-medium text-white/60">{t}</span>
+                    {t === ticker && <span className="text-[10px] text-white/15 ml-2">current</span>}
+                  </button>
+                ))}
+              </div>
+
+              {/* Keyboard hint */}
+              <div className="px-5 py-2.5 border-t border-white/[0.04] flex items-center gap-4 text-[10px] text-white/12">
+                <span><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">↵</kbd> to go</span>
+                <span><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">ESC</kbd> to close</span>
+                <span className="ml-auto"><kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.06]">⌘K</kbd> to search</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── FLOATING BOTTOM NAV (Fey-Style Pill) ───────────── */}
       <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
         <nav className="flex items-center gap-1 bg-[#141420]/90 backdrop-blur-2xl border border-white/[0.08] rounded-2xl px-2 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
@@ -472,20 +545,13 @@ export default function FeyStockPage() {
             </svg>
             <span className="text-[9px] text-white/25 group-hover:text-white/50">Markets</span>
           </Link>
-          {/* Divider */}
-          <div className="w-px h-6 bg-white/[0.06] mx-1" />
-          {/* Search with inline input */}
-          <div className="relative flex items-center">
-            <svg className="absolute left-2.5 w-[14px] h-[14px] text-white/25 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <button onClick={() => { setSearchOpen(true); setTimeout(() => searchRef.current?.focus(), 50) }}
+            className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
+            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
             </svg>
-            <input
-              value={search} onChange={e => setSearch(e.target.value)}
-              onKeyDown={e => { if (e.key === 'Enter' && search.trim()) { router.push(`/analyse/aktien/${search.trim().toUpperCase()}`); setSearch('') } }}
-              placeholder="Ticker..."
-              className="w-24 sm:w-32 pl-8 pr-2 py-1.5 bg-white/[0.04] border border-white/[0.06] rounded-lg text-[12px] text-white placeholder:text-white/20 focus:outline-none focus:border-white/15 focus:bg-white/[0.08] focus:w-40 transition-all"
-            />
-          </div>
+            <span className="text-[9px] text-white/25 group-hover:text-white/50">Search</span>
+          </button>
         </nav>
       </div>
     </div>
