@@ -22,16 +22,19 @@ const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' 
   'HMWO.DE': { symbol: 'HMWO.L',  exchange: 'GBp' },
   // Freedom24 .EU-Ticker (nach .DE-Konvertierung) — FMP-Fallbacks
   'IEMA.DE': { symbol: 'IEMA.L',  exchange: 'GBp' }, // iShares MSCI EM IMI UCITS ETF
-  'NUKL.DE': { symbol: 'NUKL.L',  exchange: 'GBp' }, // WisdomTree Nuclear Energy ETF
+  'NUKL.DE': { symbol: 'NUKL.L',  exchange: 'GBp' }, // VanEck Uranium and Nuclear Technologies UCITS ETF
   'SPGP.DE': { symbol: 'SPGP.L',  exchange: 'GBp' }, // Invesco S&P 500 GARP ETF
+  'BHP.DE':  { symbol: 'BHP.L',   exchange: 'GBp' }, // BHP Group — XETRA-Kurs nicht von FMP gedeckt, LSE-Fallback
 }
 
 // Ticker-Aliases für Yahoo Finance Fallback (FMP kennt sie nicht)
 const YAHOO_TICKER_ALIASES: Record<string, string> = {
   'NLM.DE':  'NLM.F',    // FRoSTA AG — nur im Freiverkehr
   'IEMA.DE': 'IEMA.L',   // iShares MSCI EM IMI UCITS ETF — nur auf LSE
-  'NUKL.DE': 'NUKL.L',   // iShares Nuclear Energy UCITS ETF — nur auf LSE
+  'NUKL.DE': 'NUKL.L',   // VanEck Uranium and Nuclear Technologies UCITS ETF — nur auf LSE
   'TOJ.DE':  'RIG',      // Transocean Ltd. — XETRA-Ticker TOJ, Hauptlisting NYSE (USD → EUR)
+  'QYLE.DE': 'QYLE.DE',  // Global X Nasdaq 100 Covered Call UCITS ETF — Yahoo hat QYLE.DE direkt
+  'MICC.DE': 'MICC',     // Magnum Ice Cream — kein XETRA-Ticker, NYSE-Listing via Yahoo
 }
 
 /**

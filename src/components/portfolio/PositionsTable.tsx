@@ -110,8 +110,19 @@ export default function PositionsTable({
       g.weightedPurchasePrice = g.totalQuantity > 0 ? g.totalCostBasis / g.totalQuantity : 0
     })
 
-    return Array.from(groups.values()).sort((a, b) => b.totalValue - a.totalValue)
+    return Array.from(groups.values())
   }, [holdings, isAllDepotsView])
+
+  const sortedGroupedPositions = useMemo(() => {
+    if (!groupedPositions) return null
+    return [...groupedPositions].sort((a, b) => {
+      let diff = 0
+      if (sortBy === 'value') diff = b.totalValue - a.totalValue
+      else if (sortBy === 'gainLoss') diff = b.gainLoss - a.gainLoss
+      else if (sortBy === 'gainLossPercent') diff = b.gainLossPercent - a.gainLossPercent
+      return sortDir === 'desc' ? diff : -diff
+    })
+  }, [groupedPositions, sortBy, sortDir])
 
   const sortedHoldings = useMemo(() => {
     return [...holdings].sort((a, b) => {
@@ -434,9 +445,9 @@ export default function PositionsTable({
 
       {/* Positions List */}
       <div className="space-y-0">
-        {isAllDepotsView && groupedPositions ? (
+        {isAllDepotsView && sortedGroupedPositions ? (
           // Alle-Depots: Gruppierte Ansicht mit aufklappbaren Positionen
-          groupedPositions.map((group, index) => renderGroupedRow(group, index))
+          sortedGroupedPositions.map((group, index) => renderGroupedRow(group, index))
         ) : (
           // Einzeldepot: Normale Ansicht
           sortedHoldings.map((holding, index) => renderHoldingRow(holding, index))

@@ -1038,5 +1038,41 @@ export const etfs: ETF[] = [
     category: 'Currency',
     isin: 'US46090E4057',
     ter: 0.75
-  }
+  },
+
+  // === MANUELL GEPFLEGTE ISIN-KORREKTUREN (OpenFIGI liefert falsche/fehlende Ticker) ===
+  {
+    symbol: 'QYLE.DE',
+    name: 'Global X Nasdaq 100 Covered Call UCITS ETF',
+    issuer: 'Global X',
+    assetClass: 'Equity',
+    category: 'Covered Call',
+    isin: 'IE00BM8R0J59',
+    ter: 0.45
+  },
+  {
+    symbol: 'MICC',
+    name: 'The Magnum Ice Cream Company N.V.',
+    issuer: 'Magnum',
+    assetClass: 'Equity',
+    category: 'Consumer Staples',
+    isin: 'NL0015002MS2',
+  },
+  {
+    symbol: 'NUKL.DE',
+    name: 'VanEck Uranium and Nuclear Technologies UCITS ETF',
+    issuer: 'VanEck',
+    assetClass: 'Equity',
+    category: 'Thematic',
+    isin: 'IE000M7V94E1',
+    ter: 0.55
+  },
+  {
+    symbol: 'BHP.DE',
+    name: 'BHP Group Limited',
+    issuer: 'BHP',
+    assetClass: 'Equity',
+    category: 'Materials',
+    isin: 'AU000000BHP4',
+  },
 ];
