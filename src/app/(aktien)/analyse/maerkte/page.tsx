@@ -168,7 +168,7 @@ export default function MaerktePage() {
       fetch(`/api/v1/calendar/economic?from=${today}&to=${in30d}`).then(r => r.ok ? r.json() : { dates: [] }),
       fetch(`/api/v1/news/recap?type=morning`).then(r => r.ok ? r.json() : null),
       // FRED Daten parallel laden
-      ...['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment'].map(
+      ...['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment', 'ecb_rate', 'eu_unemployment', 'de_unemployment'].map(
         s => fetch(`/api/v1/economic/${s}?limit=36`).then(r => r.ok ? r.json() : null).catch(() => null)
       ),
     ]).then(([cal, recap, ...fredResults]) => {
@@ -176,7 +176,7 @@ export default function MaerktePage() {
       if (recap?.content) setNewsRecap(recap.content)
 
       const fredMap: Record<string, FredData> = {}
-      const keys = ['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment']
+      const keys = ['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment', 'ecb_rate', 'eu_unemployment', 'de_unemployment']
       keys.forEach((key, i) => {
         if (fredResults[i]) fredMap[key] = fredResults[i]
       })
@@ -248,14 +248,19 @@ export default function MaerktePage() {
               const latest = obs[obs.length - 1]
               const prev = obs[obs.length - 2]
               const change = latest && prev ? latest.value - prev.value : null
-              const isPercent = data.nameDE.includes('quote') || data.nameDE.includes('zins') || data.nameDE.includes('Wachstum') || data.nameDE.includes('Rendite') || data.nameDE.includes('Sentiment') || key.includes('rate') || key.includes('funds') || key.includes('treasury') || key === 'unemployment' || key === 'gdp_growth'
+              const isPercent = data.nameDE.includes('quote') || data.nameDE.includes('zins') || data.nameDE.includes('Wachstum') || data.nameDE.includes('Rendite') || data.nameDE.includes('Sentiment') || key.includes('rate') || key.includes('funds') || key.includes('treasury') || key === 'unemployment' || key === 'gdp_growth' || key.includes('inflation')
+
+              // Region bestimmen
+              const region = key.startsWith('de_') ? '🇩🇪' : key.startsWith('eu_') || key.startsWith('ecb') ? '🇪🇺' : '🇺🇸'
 
               return (
                 <div key={key} className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 cursor-pointer hover:border-white/[0.08] transition-all group"
                   onClick={() => setExpandChart({ key, data })}>
                   <div className="flex items-start justify-between mb-1">
                     <div>
-                      <p className="text-[11px] text-white/25 font-medium">{data.nameDE}</p>
+                      <p className="text-[11px] text-white/25 font-medium">
+                        <span className="mr-1.5">{region}</span>{data.nameDE}
+                      </p>
                       <p className="text-2xl font-bold text-white mt-1">
                         {isPercent ? `${latest.value.toFixed(1).replace('.', ',')}%` : latest.value.toLocaleString('de-DE', { maximumFractionDigits: 1 })}
                       </p>

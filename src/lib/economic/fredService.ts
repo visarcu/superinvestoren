@@ -42,6 +42,17 @@ export const FRED_SERIES: Record<string, {
 
   // Manufacturing
   ism_mfg: { id: 'MANEMP', name: 'Manufacturing Employment', nameDE: 'Beschäftigung Produktion', unit: 'thousands', frequency: 'monthly', category: 'manufacturing' },
+
+  // ── Eurozone / EZB ─────────────────────────────────────────────────────
+  ecb_rate: { id: 'ECBDFR', name: 'ECB Deposit Facility Rate', nameDE: 'EZB Einlagefazilität', unit: 'percent', frequency: 'daily', category: 'rates' },
+  eu_unemployment: { id: 'LRHUTTTTEZM156S', name: 'Eurozone Unemployment Rate', nameDE: 'Eurozone Arbeitslosenquote', unit: 'percent', frequency: 'monthly', category: 'employment' },
+  eu_inflation: { id: 'FPCPITOTLZGEMU', name: 'Eurozone CPI Inflation', nameDE: 'Eurozone Inflation', unit: 'percent', frequency: 'annual', category: 'inflation' },
+  eu_gdp_growth: { id: 'CLVMEURSCAB1GQEA19', name: 'Eurozone Real GDP', nameDE: 'Eurozone BIP (real)', unit: 'millions', frequency: 'quarterly', category: 'gdp' },
+
+  // ── Deutschland ────────────────────────────────────────────────────────
+  de_unemployment: { id: 'LMUNRRTTDEM156S', name: 'German Unemployment Rate', nameDE: 'Deutsche Arbeitslosenquote', unit: 'percent', frequency: 'monthly', category: 'employment' },
+  de_inflation: { id: 'FPCPITOTLZGDEU', name: 'German CPI Inflation', nameDE: 'Deutsche Inflation', unit: 'percent', frequency: 'annual', category: 'inflation' },
+  de_gdp: { id: 'CLVMNACSCAB1GQDE', name: 'German Real GDP', nameDE: 'Deutsches BIP (real)', unit: 'millions', frequency: 'quarterly', category: 'gdp' },
 }
 
 // ─── FRED API Client ─────────────────────────────────────────────────────────
