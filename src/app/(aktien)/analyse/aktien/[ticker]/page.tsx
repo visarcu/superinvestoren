@@ -518,24 +518,72 @@ export default function FeyStockPage() {
           )
 
         ) : tab === 'financials' ? (
-          <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-            {[
-              { d: income, k: 'revenue', l: 'Umsatz', c: '#fff' },
-              { d: income, k: 'netIncome', l: 'Nettogewinn', c: '#4ade80' },
-              { d: income, k: 'grossProfit', l: 'Bruttogewinn', c: '#60a5fa' },
-              { d: income, k: 'operatingIncome', l: 'Operatives Ergebnis', c: '#c084fc' },
-              { d: income, k: 'eps', l: 'Gewinn je Aktie', c: '#fbbf24', f: 'dollar' as const },
-              { d: income, k: 'researchAndDevelopment', l: 'F&E Aufwand', c: '#f472b6' },
-              { d: cashflow, k: 'operatingCashFlow', l: 'Operativer Cashflow', c: '#22d3ee' },
-              { d: cashflow, k: 'freeCashFlow', l: 'Free Cashflow', c: '#f97316' },
-              { d: cashflow, k: 'shareRepurchase', l: 'Aktienrückkäufe', c: '#e879f9' },
-              { d: balance, k: 'totalAssets', l: 'Bilanzsumme', c: '#a78bfa' },
-              { d: balance, k: 'cash', l: 'Barmittel', c: '#34d399' },
-              { d: balance, k: 'longTermDebt', l: 'Langfristige Schulden', c: '#fb923c' },
-              { d: balance, k: 'shareholdersEquity', l: 'Eigenkapital', c: '#38bdf8' },
-            ].map(({ d, k, l, c, f }) => (
-              <ChartCard key={k} data={d} dataKey={k} label={l} color={c} format={f} />
-            ))}
+          <div className="w-full max-w-6xl space-y-6">
+            {/* Guidance Revenue extrahieren */}
+            {(() => {
+              const guidanceRev = kpis['guidance_revenue']?.data?.slice(-1)[0]?.value
+              const guidanceRevLabel = kpis['guidance_revenue']?.data?.slice(-1)[0]?.period
+              const segmentKpis = Object.entries(kpis).filter(([k]) =>
+                !k.startsWith('guidance_') && !k.startsWith('gaap_') && k !== 'total_revenue'
+              )
+
+              return (
+                <>
+                  {/* Income Statement + Guidance */}
+                  <div>
+                    <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Gewinn- & Verlustrechnung</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      <ChartCard data={income} dataKey="revenue" label="Umsatz" color="#fff"
+                        guidanceValue={guidanceRev ? guidanceRev * 1e6 : null}
+                        guidanceLabel={guidanceRevLabel || undefined} />
+                      <ChartCard data={income} dataKey="netIncome" label="Nettogewinn" color="#4ade80" />
+                      <ChartCard data={income} dataKey="grossProfit" label="Bruttogewinn" color="#60a5fa" />
+                      <ChartCard data={income} dataKey="operatingIncome" label="Operatives Ergebnis" color="#c084fc" />
+                      <ChartCard data={income} dataKey="eps" label="Gewinn je Aktie" color="#fbbf24" format="dollar" />
+                      <ChartCard data={income} dataKey="researchAndDevelopment" label="F&E Aufwand" color="#f472b6" />
+                    </div>
+                  </div>
+
+                  {/* Segment Revenue (wenn vorhanden) */}
+                  {segmentKpis.length > 0 && (
+                    <div>
+                      <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Umsatz nach Segmenten</p>
+                      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                        {segmentKpis.map(([key, metric]) => {
+                          // KPI Daten in ChartCard Format umwandeln
+                          const chartData = metric.data.map((d: any) => ({
+                            period: d.period.replace('Q1 ', '').replace('Q2 ', '').replace('Q3 ', '').replace('Q4 ', ''),
+                            [key]: metric.unit === 'millions' ? d.value * 1e6 : d.value,
+                          }))
+                          return <ChartCard key={key} data={chartData} dataKey={key} label={metric.label} color="#22c55e" />
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Cash Flow */}
+                  <div>
+                    <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Cashflow</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operativer Cashflow" color="#22d3ee" />
+                      <ChartCard data={cashflow} dataKey="freeCashFlow" label="Free Cashflow" color="#f97316" />
+                      <ChartCard data={cashflow} dataKey="shareRepurchase" label="Aktienrückkäufe" color="#e879f9" />
+                    </div>
+                  </div>
+
+                  {/* Bilanz */}
+                  <div>
+                    <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Bilanz</p>
+                    <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                      <ChartCard data={balance} dataKey="totalAssets" label="Bilanzsumme" color="#a78bfa" />
+                      <ChartCard data={balance} dataKey="cash" label="Barmittel" color="#34d399" />
+                      <ChartCard data={balance} dataKey="longTermDebt" label="Langfristige Schulden" color="#fb923c" />
+                      <ChartCard data={balance} dataKey="shareholdersEquity" label="Eigenkapital" color="#38bdf8" />
+                    </div>
+                  </div>
+                </>
+              )
+            })()}
           </div>
 
         ) : tab === 'kpis' ? (
