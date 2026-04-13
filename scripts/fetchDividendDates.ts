@@ -38,6 +38,7 @@ const DIVIDEND_COMPANIES: Record<string, { cik: string; name: string }> = {
   MRK: { cik: '310158', name: 'Merck' },
   AVGO: { cik: '1649338', name: 'Broadcom' },
   CSCO: { cik: '858877', name: 'Cisco' },
+  SAP: { cik: '1000184', name: 'SAP SE' },
 }
 
 // ─── EDGAR Helpers (reused from fetchEdgarKPIs) ──────────────────────────────

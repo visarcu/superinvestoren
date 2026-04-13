@@ -198,6 +198,21 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
       'total GAAP gross margin — store as percent (e.g. 18.0% → value: 18.0, unit: "percent"). Only extract if explicitly stated as a percentage.',
     ],
   },
+  SAP: {
+    cik: '1000184',
+    name: 'SAP SE',
+    forms: ['20-F'],
+    kpiHints: [
+      'cloud revenue / cloud and software revenue — store in millions',
+      'current cloud backlog — store in millions',
+      'total revenue — store in millions',
+      'operating profit (non-IFRS or IFRS) — store in millions',
+      'free cash flow — store in millions',
+      'GEOGRAPHIC: EMEA revenue — store in millions, metric "revenue_emea", label "Revenue EMEA"',
+      'GEOGRAPHIC: Americas revenue — store in millions, metric "revenue_americas", label "Revenue Americas"',
+      'GEOGRAPHIC: APJ / Asia-Pacific revenue — store in millions, metric "revenue_apj", label "Revenue APJ"',
+    ],
+  },
   AAPL: {
     cik: '320193',
     name: 'Apple',

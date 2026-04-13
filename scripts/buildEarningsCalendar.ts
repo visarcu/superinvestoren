@@ -64,6 +64,9 @@ const TOP_COMPANIES: Record<string, { cik: string; name: string }> = {
   COIN: { cik: '1679788', name: 'Coinbase Global' },
   SNAP: { cik: '1564408', name: 'Snap Inc.' },
   PINS: { cik: '1506293', name: 'Pinterest, Inc.' },
+  // German / European (filing with SEC)
+  SAP: { cik: '1000184', name: 'SAP SE' },
+  ASML: { cik: '937966', name: 'ASML Holding NV' },
 }
 
 // ─── EDGAR: Get Earnings 8-K Filings ─────────────────────────────────────────
