@@ -486,6 +486,7 @@ export default function CSVImportModal({
               portfolio_id: portfolioId,
               symbol: holding.symbol,
               name: holding.name,
+              isin: holding.isin || null,
               quantity: parseFloat(holding.quantity.toFixed(8)),
               purchase_price: parseFloat(holding.avgPrice.toFixed(4)),
               purchase_date: holding.earliestDate,

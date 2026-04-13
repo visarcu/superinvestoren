@@ -282,6 +282,7 @@ export function reconstructHoldings(
 ): Array<{
   symbol: string
   name: string
+  isin: string
   quantity: number
   avgPrice: number
   earliestDate: string
@@ -294,6 +295,7 @@ export function reconstructHoldings(
   const positions: Record<string, {
     symbol: string
     name: string
+    isin: string
     totalShares: number
     totalCost: number
     earliestDate: string
@@ -309,6 +311,7 @@ export function reconstructHoldings(
       positions[sym] = {
         symbol: sym,
         name: tx.name,
+        isin: tx.isin || '',
         totalShares: 0,
         totalCost: 0,
         earliestDate: tx.date,
@@ -364,6 +367,7 @@ export function reconstructHoldings(
     .map(p => ({
       symbol: p.symbol,
       name: p.name,
+      isin: p.isin,
       quantity: p.totalShares,
       avgPrice: p.totalCost / p.totalShares,
       earliestDate: p.earliestDate,
