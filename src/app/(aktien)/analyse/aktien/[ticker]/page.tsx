@@ -265,8 +265,13 @@ export default function FeyStockPage() {
             <p className="text-[12px] text-white/30">{profile?.name}{profile?.industry ? ` · ${profile.industry}` : ''}</p>
           </div>
         </div>
-        {/* Intentionally empty – search is in bottom nav */}
-        <div />
+        {/* Quick Actions */}
+        <div className="flex items-center gap-2">
+          <Link href={`/analyse/dividenden/${ticker}`}
+            className="px-3 py-1.5 text-[11px] text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-lg hover:bg-white/[0.06] hover:text-white/50 transition-all">
+            Dividenden
+          </Link>
+        </div>
       </header>
 
       {/* ── HERO: Revenue Trend + Key Metrics ─────────────── */}
@@ -328,6 +333,19 @@ export default function FeyStockPage() {
                 </div>
               ))}
             </div>
+
+            {/* News Snippet in Key Metrics */}
+            {news.length > 0 && (
+              <div className="mt-4 pt-4 border-t border-white/[0.04]">
+                <p className="text-[10px] text-white/15 uppercase tracking-wider mb-2">Aktuell</p>
+                <a href={news[0].url} target="_blank" rel="noopener noreferrer" className="block group">
+                  <p className="text-[11px] text-white/40 group-hover:text-white/60 transition-colors line-clamp-2 leading-relaxed">
+                    {news[0].title}
+                  </p>
+                  <p className="text-[9px] text-white/12 mt-1">{news[0].sourceName} · {timeAgo(news[0].publishedAt)}</p>
+                </a>
+              </div>
+            )}
           </div>
         </div>
       </div>
