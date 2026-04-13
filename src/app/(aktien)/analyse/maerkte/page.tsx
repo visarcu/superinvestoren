@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { ResponsiveContainer, AreaChart, Area, XAxis, YAxis, Tooltip } from 'recharts'
 
 interface EconomicEvent {
   date: string; time: string | null; name: string; nameDE: string
@@ -11,6 +12,15 @@ interface EconomicEvent {
 }
 
 interface CalendarDay { date: string; events: EconomicEvent[] }
+
+interface FredData {
+  nameDE: string; observations: { date: string; value: number }[]
+}
+
+const TT: React.CSSProperties = {
+  backgroundColor: 'rgba(6,6,14,0.96)', border: '1px solid rgba(255,255,255,0.06)',
+  borderRadius: '10px', padding: '10px 14px', boxShadow: '0 12px 40px rgba(0,0,0,0.5)',
+}
 
 const IMPACT_COLORS = {
   high: 'bg-red-500/10 text-red-400 border-red-500/20',
@@ -25,8 +35,10 @@ const COUNTRY_FLAGS: Record<string, string> = {
 export default function MaerktePage() {
   const [events, setEvents] = useState<CalendarDay[]>([])
   const [loading, setLoading] = useState(true)
-  const [filter, setFilter] = useState<string>('all') // all, high, US, EU, DE
+  const [filter, setFilter] = useState<string>('all')
   const [newsRecap, setNewsRecap] = useState<string>('')
+  const [fredData, setFredData] = useState<Record<string, FredData>>({})
+  const [activeTab, setActiveTab] = useState<'kalender' | 'indikatoren'>('kalender')
 
   useEffect(() => {
     setLoading(true)
@@ -36,9 +48,20 @@ export default function MaerktePage() {
     Promise.all([
       fetch(`/api/v1/calendar/economic?from=${today}&to=${in30d}`).then(r => r.ok ? r.json() : { dates: [] }),
       fetch(`/api/v1/news/recap?type=morning`).then(r => r.ok ? r.json() : null),
-    ]).then(([cal, recap]) => {
+      // FRED Daten parallel laden
+      ...['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment'].map(
+        s => fetch(`/api/v1/economic/${s}?limit=36`).then(r => r.ok ? r.json() : null).catch(() => null)
+      ),
+    ]).then(([cal, recap, ...fredResults]) => {
       setEvents(cal.dates || [])
       if (recap?.content) setNewsRecap(recap.content)
+
+      const fredMap: Record<string, FredData> = {}
+      const keys = ['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment']
+      keys.forEach((key, i) => {
+        if (fredResults[i]) fredMap[key] = fredResults[i]
+      })
+      setFredData(fredMap)
     }).finally(() => setLoading(false))
   }, [])
 
@@ -81,6 +104,85 @@ export default function MaerktePage() {
           </div>
         )}
 
+        {/* Tabs: Kalender / Indikatoren */}
+        <div className="flex gap-1 border-b border-white/[0.03] mb-4">
+          {[
+            { key: 'kalender' as const, label: 'Wirtschaftskalender' },
+            { key: 'indikatoren' as const, label: 'Wirtschaftsindikatoren' },
+          ].map(t => (
+            <button key={t.key} onClick={() => setActiveTab(t.key)}
+              className={`px-4 py-2.5 text-[13px] font-medium relative transition-colors ${
+                activeTab === t.key ? 'text-white' : 'text-white/20 hover:text-white/40'
+              }`}>
+              {t.label}
+              {activeTab === t.key && <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-white rounded-full" />}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === 'indikatoren' ? (
+          /* ── Wirtschaftsindikatoren (FRED Charts) ──────────── */
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {Object.entries(fredData).map(([key, data]) => {
+              const obs = data.observations
+              if (!obs || obs.length === 0) return null
+              const latest = obs[obs.length - 1]
+              const prev = obs[obs.length - 2]
+              const change = latest && prev ? latest.value - prev.value : null
+              const isPercent = data.nameDE.includes('quote') || data.nameDE.includes('zins') || data.nameDE.includes('Wachstum') || data.nameDE.includes('Rendite') || data.nameDE.includes('Sentiment') || key.includes('rate') || key.includes('funds') || key.includes('treasury') || key === 'unemployment' || key === 'gdp_growth'
+
+              return (
+                <div key={key} className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5">
+                  <div className="flex items-start justify-between mb-1">
+                    <div>
+                      <p className="text-[11px] text-white/25 font-medium">{data.nameDE}</p>
+                      <p className="text-2xl font-bold text-white mt-1">
+                        {isPercent ? `${latest.value.toFixed(1).replace('.', ',')}%` : latest.value.toLocaleString('de-DE', { maximumFractionDigits: 1 })}
+                      </p>
+                    </div>
+                    {change !== null && (
+                      <span className={`text-[11px] font-bold px-2 py-0.5 rounded-md ${
+                        (key === 'unemployment' ? change <= 0 : change >= 0)
+                          ? 'bg-emerald-500/10 text-emerald-400'
+                          : 'bg-red-500/10 text-red-400'
+                      }`}>
+                        {change >= 0 ? '+' : ''}{isPercent ? `${change.toFixed(1).replace('.', ',')} Pp.` : change.toLocaleString('de-DE', { maximumFractionDigits: 1 })}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[9px] text-white/12 mb-3">{latest.date}</p>
+                  <div className="h-32">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={obs} margin={{ top: 5, right: 0, bottom: 0, left: 0 }}>
+                        <defs>
+                          <linearGradient id={`fred-${key}`} x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.15} />
+                            <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+                          </linearGradient>
+                        </defs>
+                        <XAxis dataKey="date" tick={{ fontSize: 8, fill: 'rgba(255,255,255,0.1)' }} axisLine={false} tickLine={false} interval={Math.floor(obs.length / 4)} tickFormatter={d => d.slice(0, 7)} />
+                        <YAxis hide domain={['dataMin', 'dataMax']} />
+                        <Tooltip cursor={false} content={({ active, payload }) => {
+                          if (!active || !payload?.length) return null
+                          const v = payload[0].value as number
+                          const d = payload[0].payload.date
+                          return (<div style={TT}>
+                            <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>{d}</p>
+                            <p style={{ color: '#fff', fontSize: '15px', fontWeight: 700 }}>
+                              {isPercent ? `${v.toFixed(2).replace('.', ',')}%` : v.toLocaleString('de-DE', { maximumFractionDigits: 1 })}
+                            </p>
+                          </div>)
+                        }} />
+                        <Area type="monotone" dataKey="value" stroke="#3b82f6" strokeWidth={1.5} fill={`url(#fred-${key})`} dot={false} />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        ) : (
+          <>
         {/* Filter */}
         <div className="flex gap-1.5 flex-wrap">
           {[
@@ -164,6 +266,8 @@ export default function MaerktePage() {
               )
             })}
           </div>
+        )}
+          </>
         )}
       </main>
 
