@@ -6,6 +6,8 @@ import fs from 'fs'
 import path from 'path'
 
 const DATA_DIR = path.join(process.cwd(), 'src/data/politician-trades')
+const FMP_API_KEY = process.env.FMP_API_KEY
+const FMP_BASE = 'https://financialmodelingprep.com/api/v4'
 
 interface PoliticianTrade {
   transactionDate: string
@@ -74,6 +76,30 @@ function getQuarterCutoff(): string {
   return `${cutoffYear}-${String(cutoffMonth).padStart(2, '0')}-01`
 }
 
+// FMP Senate-Trades laden (ergänzt lokale Daten mit neuesten Trades)
+async function fetchFmpTrades(page: number): Promise<PoliticianTrade[]> {
+  if (!FMP_API_KEY) return []
+  try {
+    const url = `${FMP_BASE}/senate-disclosure-rss-feed?page=${page}&apikey=${FMP_API_KEY}`
+    const res = await fetch(url, { next: { revalidate: 1800 } })
+    if (!res.ok) return []
+    const raw = await res.json()
+    if (!Array.isArray(raw)) return []
+    return raw.map((t: any) => ({
+      transactionDate: t.transactionDate || '',
+      disclosureDate: t.disclosureDate || '',
+      ticker: t.ticker || '',
+      assetDescription: t.assetDescription || '',
+      type: t.type || '',
+      amount: t.amount || '',
+      representative: t.representative || '',
+      slug: (t.representative || '').toLowerCase().replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-'),
+    }))
+  } catch {
+    return []
+  }
+}
+
 export async function GET() {
   try {
     if (!fs.existsSync(DATA_DIR)) {
@@ -96,6 +122,9 @@ export async function GET() {
       transactionCount: number
     }>()
 
+    // Deduplizierung: Set von "transactionDate-ticker-type" Keys
+    const seenTrades = new Set<string>()
+
     for (const file of files) {
       try {
         const raw = fs.readFileSync(path.join(DATA_DIR, file), 'utf8')
@@ -112,8 +141,11 @@ export async function GET() {
           const ticker = trade.ticker?.trim()
           if (!ticker || ticker.length > 10 || ticker.includes(' ')) continue
 
-          const { min, max } = parseAmountRange(trade.amount || '')
           const politicianName = trade.representative || data.name || ''
+          const dedupeKey = `${date}-${ticker}-${type}-${politicianName}`
+          seenTrades.add(dedupeKey)
+
+          const { min, max } = parseAmountRange(trade.amount || '')
 
           if (!tickerMap.has(ticker)) {
             tickerMap.set(ticker, {
@@ -138,6 +170,48 @@ export async function GET() {
         }
       } catch {
         // Einzelne Datei-Fehler ignorieren
+      }
+    }
+
+    // FMP-Trades mergen (neueste Trades die noch nicht lokal sind)
+    const fmpPages = await Promise.all([fetchFmpTrades(0), fetchFmpTrades(1)])
+    const fmpTrades = [...fmpPages[0], ...fmpPages[1]]
+
+    for (const trade of fmpTrades) {
+      const date = trade.transactionDate || trade.disclosureDate
+      if (!date || date < cutoff) continue
+
+      const type = (trade.type || '').toLowerCase()
+      if (!type.includes('purchase') && type !== 'buy') continue
+
+      const ticker = trade.ticker?.trim()
+      if (!ticker || ticker.length > 10 || ticker.includes(' ')) continue
+
+      const politicianName = trade.representative || ''
+      const dedupeKey = `${date}-${ticker}-${type}-${politicianName}`
+      if (seenTrades.has(dedupeKey)) continue
+      seenTrades.add(dedupeKey)
+
+      const { min, max } = parseAmountRange(trade.amount || '')
+
+      if (!tickerMap.has(ticker)) {
+        tickerMap.set(ticker, {
+          companyName: trade.assetDescription || ticker,
+          politicians: new Set(),
+          totalValueMin: 0,
+          totalValueMax: 0,
+          transactionCount: 0,
+        })
+      }
+
+      const entry = tickerMap.get(ticker)!
+      if (politicianName) entry.politicians.add(politicianName)
+      entry.totalValueMin += min
+      entry.totalValueMax += max
+      entry.transactionCount++
+
+      if (trade.assetDescription && trade.assetDescription !== ticker) {
+        entry.companyName = trade.assetDescription
       }
     }
 

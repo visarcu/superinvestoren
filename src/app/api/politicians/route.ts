@@ -257,6 +257,8 @@ export async function GET(req: NextRequest) {
 
     const feedTrades: PoliticianTrade[] = []
     const checked = new Set<string>()
+    // Deduplizierung: gleiche Logik wie bei Einzelseiten
+    const seenKeys = new Set<string>()
 
     for (const pol of sortedByRecent) {
       if (pol.lastTradeDate < cutoff && feedTrades.length > 500) break
@@ -269,7 +271,27 @@ export async function GET(req: NextRequest) {
         const recent = data.trades.filter(
           t => (t.transactionDate || t.disclosureDate) >= cutoff
         )
+        for (const t of recent) {
+          const key = `${t.transactionDate}-${t.ticker}-${t.type}-${t.representative || data.name}`
+          seenKeys.add(key)
+        }
         feedTrades.push(...recent)
+      }
+    }
+
+    // FMP-Trades mergen (neueste Trades die noch nicht lokal sind)
+    if (FMP_API_KEY) {
+      const fmpPage0 = await fetchFmpTrades(0)
+      const fmpPage1 = await fetchFmpTrades(1)
+      const fmpAll = [...fmpPage0, ...fmpPage1]
+
+      for (const t of fmpAll) {
+        const date = t.transactionDate || t.disclosureDate
+        if (!date || date < cutoff) continue
+        const key = `${t.transactionDate}-${t.ticker}-${t.type}-${t.representative}`
+        if (seenKeys.has(key)) continue
+        seenKeys.add(key)
+        feedTrades.push(t)
       }
     }
 
