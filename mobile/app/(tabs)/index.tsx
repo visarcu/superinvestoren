@@ -45,16 +45,17 @@ const INVESTOR_PHOTOS: Record<string, string> = {
 const TRADE_COLOR: Record<string, string> = { NEW: '#22C55E', ADD: '#22C55E', REDUCE: '#EF4444', SOLD: '#EF4444' };
 
 const INVESTOR_NAMES: Record<string, string> = {
-  buffett: 'Warren Buffett', ackman: 'Bill Ackman', gates: 'Bill Gates',
+  buffett: 'Warren Buffett', ackman: 'Bill Ackman', gates: 'Bill Gates Foundation',
   burry: 'Michael Burry', klarman: 'Seth Klarman', akre: 'Chuck Akre',
   greenblatt: 'Joel Greenblatt', fisher: 'Ken Fisher', soros: 'George Soros',
   gayner: 'Thomas Gayner', tangen: 'Nicolai Tangen', pabrai: 'Mohnish Pabrai',
   peltz: 'Nelson Peltz', miller: 'Bill Miller', davis: 'Christopher Davis',
+  marks: 'Howard Marks', chou: 'Francis Chou', duan: 'Li Lu',
+  viking: 'Viking Global', dalio: 'Ray Dalio', icahn: 'Carl Icahn',
+  druckenmiller: 'Stanley Druckenmiller', tepper: 'David Tepper',
+  einhorn: 'David Einhorn', loeb: 'Daniel Loeb', dodgecox: 'Dodge & Cox',
+  russo: 'Thomas Russo', rochon: 'Francois Rochon', coleman: 'Chase Coleman',
 };
-
-function formatInvestorName(slug: string): string {
-  return INVESTOR_NAMES[slug] || slug.charAt(0).toUpperCase() + slug.slice(1);
-}
 
 function formatBigValue(v: number): string {
   if (!v) return '–';
@@ -437,7 +438,7 @@ export default function DashboardScreen() {
                         {/* Investor + stock info */}
                         <View style={s.guruInfo}>
                           <View style={s.guruTopRow}>
-                            <Text style={s.guruInvestorName} numberOfLines={1}>{trade.investorName}</Text>
+                            <Text style={s.guruInvestorName} numberOfLines={1}>{INVESTOR_NAMES[trade.investor] || trade.investorName}</Text>
                             <View style={[s.tradeBadge, { borderColor: color + '40', backgroundColor: color + '15' }]}>
                               <Text style={[s.tradeBadgeText, { color }]}>{label}</Text>
                             </View>
