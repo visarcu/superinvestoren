@@ -412,6 +412,10 @@ export default function FeyStockPage() {
               </div>
             </div>
           )}
+          <Link href={`/analyse/aktien/${ticker}/investoren`}
+            className="px-3 py-1.5 text-[11px] text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-lg hover:bg-white/[0.06] hover:text-white/50 transition-all">
+            Investoren
+          </Link>
           <Link href={`/analyse/dividenden/${ticker}`}
             className="px-3 py-1.5 text-[11px] text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-lg hover:bg-white/[0.06] hover:text-white/50 transition-all">
             Dividenden
