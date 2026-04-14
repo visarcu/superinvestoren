@@ -223,6 +223,10 @@ export default function FeyStockPage() {
   const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
   const [earnings, setEarnings] = useState<EarningsEntry[]>([])
   const [quote, setQuote] = useState<{ price: number; change: number; changePercent: number; marketCap?: number; source: string } | null>(null)
+  const [priceChart, setPriceChart] = useState<{ date: string; price: number }[]>([])
+  const [chartTimeframe, setChartTimeframe] = useState<'1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'>('1Y')
+  const [chartLoading, setChartLoading] = useState(false)
+  const [fullPriceHistory, setFullPriceHistory] = useState<{ date: string; price: number }[]>([])
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
@@ -304,6 +308,40 @@ export default function FeyStockPage() {
     }, 30000)
     return () => clearInterval(interval)
   }, [ticker])
+
+  // Fetch full historical price data and filter by timeframe
+  useEffect(() => {
+    setChartLoading(true)
+    fetch(`/api/historical/${ticker}`)
+      .then(r => r.ok ? r.json() : null)
+      .then(d => {
+        if (d?.historical) {
+          const sorted = [...d.historical]
+            .sort((a: any, b: any) => a.date.localeCompare(b.date))
+            .map((h: any) => ({ date: h.date, price: h.close }))
+          setFullPriceHistory(sorted)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setChartLoading(false))
+  }, [ticker])
+
+  useEffect(() => {
+    if (fullPriceHistory.length === 0) return
+    const now = new Date()
+    const cutoff = new Date()
+    switch (chartTimeframe) {
+      case '1D': cutoff.setDate(now.getDate() - 1); break
+      case '1W': cutoff.setDate(now.getDate() - 7); break
+      case '1M': cutoff.setMonth(now.getMonth() - 1); break
+      case '3M': cutoff.setMonth(now.getMonth() - 3); break
+      case '1Y': cutoff.setFullYear(now.getFullYear() - 1); break
+      case '5Y': cutoff.setFullYear(now.getFullYear() - 5); break
+    }
+    const cutoffStr = cutoff.toISOString().slice(0, 10)
+    const filtered = fullPriceHistory.filter(p => p.date >= cutoffStr)
+    setPriceChart(filtered.length > 0 ? filtered : fullPriceHistory.slice(-30))
+  }, [fullPriceHistory, chartTimeframe])
 
   const L = income[income.length - 1]
   const P = income[income.length - 2]
@@ -442,44 +480,85 @@ export default function FeyStockPage() {
         )
       })()}
 
-      {/* ── HERO: Revenue Trend + Key Metrics ─────────────── */}
+      {/* ── HERO: Price Chart + Key Metrics ────────────────── */}
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-5">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
-          {/* Revenue Chart (Hero – 2 cols) */}
+          {/* Price Chart (Hero – 2 cols) */}
           <div className="lg:col-span-2 bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6">
-            <div className="flex items-start justify-between mb-2">
+            <div className="flex items-start justify-between mb-3">
               <div>
-                <p className="text-[11px] text-white/25 font-medium">Umsatz</p>
-                <p className="text-3xl font-bold text-white mt-1">{fmt(L?.revenue || null)}</p>
-                {L?.period && <p className="text-[11px] text-white/15 mt-0.5">FY {L.period}</p>}
+                {quote ? (
+                  <>
+                    <p className="text-3xl font-bold text-white tabular-nums">{quote.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className={`text-[13px] font-semibold tabular-nums ${quote.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {quote.changePercent >= 0 ? '+' : ''}{quote.changePercent.toFixed(2).replace('.', ',')}%
+                      </span>
+                      <span className={`text-[12px] tabular-nums ${quote.changePercent >= 0 ? 'text-emerald-400/50' : 'text-red-400/50'}`}>
+                        {quote.change >= 0 ? '+' : ''}{quote.change.toFixed(2).replace('.', ',')} $
+                      </span>
+                    </div>
+                  </>
+                ) : (
+                  <div className="h-12 flex items-center"><div className="w-32 h-6 bg-white/[0.04] rounded animate-pulse" /></div>
+                )}
               </div>
-              {revGrowth !== null && (
-                <span className={`text-[12px] font-bold px-2.5 py-1 rounded-lg ${
-                  revGrowth >= 0 ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
-                }`}>{revGrowth >= 0 ? '+' : ''}{revGrowth.toFixed(1)}% YoY</span>
-              )}
+              {/* Timeframe Buttons */}
+              <div className="flex gap-1">
+                {(['1D', '1W', '1M', '3M', '1Y', '5Y'] as const).map(tf => (
+                  <button key={tf} onClick={() => setChartTimeframe(tf)}
+                    className={`px-2.5 py-1 text-[10px] font-medium rounded-lg transition-all ${
+                      chartTimeframe === tf ? 'bg-white/[0.08] text-white' : 'text-white/20 hover:text-white/40 hover:bg-white/[0.03]'
+                    }`}>{tf}</button>
+                ))}
+              </div>
             </div>
-            <div className="h-44">
-              <ResponsiveContainer width="100%" height="100%">
-                <AreaChart data={income.filter(d => d.revenue)} margin={{ top: 10, right: 0, bottom: 0, left: 0 }}>
-                  <defs>
-                    <linearGradient id="heroRevGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stopColor="#ffffff" stopOpacity={0.08} />
-                      <stop offset="100%" stopColor="#ffffff" stopOpacity={0} />
-                    </linearGradient>
-                  </defs>
-                  <XAxis dataKey="period" tick={{ fontSize: 10, fill: 'rgba(255,255,255,0.15)' }} axisLine={false} tickLine={false} />
-                  <YAxis hide />
-                  <Tooltip cursor={false} content={({ active, payload, label: l }) => {
-                    if (!active || !payload?.length) return null
-                    return (<div style={TT}>
-                      <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>{l}</p>
-                      <p style={{ color: '#fff', fontSize: '16px', fontWeight: 700 }}>{fmt(payload[0].value as number)}</p>
-                    </div>)
-                  }} />
-                  <Area type="monotone" dataKey="revenue" stroke="rgba(255,255,255,0.4)" strokeWidth={2} fill="url(#heroRevGrad)" dot={false} activeDot={{ r: 3, fill: '#fff', strokeWidth: 0 }} />
-                </AreaChart>
-              </ResponsiveContainer>
+            <div className="h-48 relative">
+              {chartLoading && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="w-4 h-4 border-2 border-white/10 border-t-white/30 rounded-full animate-spin" />
+                </div>
+              )}
+              {priceChart.length > 0 ? (
+                <ResponsiveContainer width="100%" height="100%">
+                  <AreaChart data={priceChart} margin={{ top: 10, right: 0, bottom: 0, left: 0 }}>
+                    <defs>
+                      <linearGradient id="heroPriceGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stopColor={quote && quote.changePercent >= 0 ? '#22c55e' : '#ef4444'} stopOpacity={0.12} />
+                        <stop offset="100%" stopColor={quote && quote.changePercent >= 0 ? '#22c55e' : '#ef4444'} stopOpacity={0} />
+                      </linearGradient>
+                    </defs>
+                    <XAxis dataKey="date" tick={{ fontSize: 9, fill: 'rgba(255,255,255,0.12)' }} axisLine={false} tickLine={false}
+                      tickFormatter={(d: string) => {
+                        const date = new Date(d)
+                        if (chartTimeframe === '1D') return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+                        if (chartTimeframe === '1W') return date.toLocaleDateString('de-DE', { weekday: 'short' })
+                        if (['1M', '3M'].includes(chartTimeframe)) return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })
+                        return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
+                      }}
+                      interval={Math.max(0, Math.floor(priceChart.length / 8))}
+                    />
+                    <YAxis hide domain={['auto', 'auto']} />
+                    <Tooltip cursor={{ stroke: 'rgba(255,255,255,0.06)', strokeWidth: 1 }} content={({ active, payload }) => {
+                      if (!active || !payload?.length) return null
+                      const v = payload[0].value as number
+                      const d = new Date(payload[0].payload.date)
+                      return (<div style={TT}>
+                        <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>
+                          {d.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}
+                        </p>
+                        <p style={{ color: '#fff', fontSize: '17px', fontWeight: 700, marginTop: '2px' }}>
+                          {v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $
+                        </p>
+                      </div>)
+                    }} />
+                    <Area type="monotone" dataKey="price" stroke={quote && quote.changePercent >= 0 ? '#22c55e' : '#ef4444'}
+                      strokeWidth={1.5} fill="url(#heroPriceGrad)" dot={false} activeDot={{ r: 3, fill: '#fff', strokeWidth: 0 }} />
+                  </AreaChart>
+                </ResponsiveContainer>
+              ) : !chartLoading ? (
+                <div className="h-full flex items-center justify-center"><p className="text-white/10 text-[12px]">Keine Kursdaten</p></div>
+              ) : null}
             </div>
           </div>
 

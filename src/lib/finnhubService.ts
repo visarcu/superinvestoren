@@ -243,6 +243,21 @@ export async function warmUpQuoteCache(): Promise<number> {
   return fetched
 }
 
+// ─── Historical Candles (Stub – Finnhub Free hat keine historischen Candles) ─
+
+export interface PriceCandle {
+  date: string; open: number; high: number; low: number; close: number; volume: number
+}
+
+export async function getFinnhubCandles(
+  _symbol: string,
+  _timeframe: string
+): Promise<PriceCandle[]> {
+  // Finnhub Free-Tier hat keinen Zugriff auf /stock/candle
+  // Historische Kurse kommen stattdessen von /api/historical/{ticker} (FMP+Yahoo)
+  return []
+}
+
 // ─── Cache Stats ────────────────────────────────────────────────────────────
 
 export function getQuoteCacheStats() {
