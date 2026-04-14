@@ -59,6 +59,10 @@
     {
       "path": "/api/notifications/daily-dividend-reminder",
       "schedule": "30 7 * * *"
+    },
+    {
+      "path": "/api/notifications/check-economic-events",
+      "schedule": "0 7 * * *"
     }
   ]
 }
