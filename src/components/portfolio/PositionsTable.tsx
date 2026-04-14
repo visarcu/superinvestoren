@@ -128,12 +128,8 @@ export default function PositionsTable({
     return [...holdings].sort((a, b) => {
       let diff = 0
       if (sortBy === 'value') diff = b.value - a.value
-      else if (sortBy === 'gainLoss') diff = (b.value - b.purchase_price_display * b.quantity) - (a.value - a.purchase_price_display * a.quantity)
-      else if (sortBy === 'gainLossPercent') {
-        const pctA = a.purchase_price_display > 0 ? (a.current_price - a.purchase_price_display) / a.purchase_price_display : 0
-        const pctB = b.purchase_price_display > 0 ? (b.current_price - b.purchase_price_display) / b.purchase_price_display : 0
-        diff = pctB - pctA
-      }
+      else if (sortBy === 'gainLoss') diff = b.gain_loss - a.gain_loss
+      else if (sortBy === 'gainLossPercent') diff = b.gain_loss_percent - a.gain_loss_percent
       return sortDir === 'desc' ? diff : -diff
     })
   }, [holdings, sortBy, sortDir])
