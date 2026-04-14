@@ -14,7 +14,7 @@ const XBRL_CONCEPTS: Record<string, { primary: string; fallbacks?: string[] }> =
   netIncome:          { primary: 'NetIncomeLoss' },
   grossProfit:        { primary: 'GrossProfit' },
   operatingIncome:    { primary: 'OperatingIncomeLoss', fallbacks: ['OperatingIncomeLossFromContinuingOperations'] },
-  costOfRevenue:      { primary: 'CostOfGoodsAndServicesSold', fallbacks: ['CostOfRevenue', 'CostOfGoodsSold'] },
+  costOfRevenue:      { primary: 'CostOfGoodsAndServicesSold', fallbacks: ['CostOfRevenue', 'CostOfGoodsSold', 'ProductionAndDistributionCosts'] },
   eps:                { primary: 'EarningsPerShareDiluted' },
   epsBasic:           { primary: 'EarningsPerShareBasic' },
   totalAssets:        { primary: 'Assets' },
@@ -25,10 +25,10 @@ const XBRL_CONCEPTS: Record<string, { primary: string; fallbacks?: string[] }> =
   shortTermDebt:      { primary: 'LongTermDebtCurrent' },
   totalDebt:          { primary: 'LongTermDebt', fallbacks: ['DebtInstrumentCarryingAmount'] },
   operatingCashFlow:  { primary: 'NetCashProvidedByUsedInOperatingActivities', fallbacks: ['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'] },
-  capex:              { primary: 'PaymentsToAcquirePropertyPlantAndEquipment', fallbacks: ['PaymentsToAcquireProductiveAssets', 'CapitalExpenditureDiscontinuedOperations'] },
+  capex:              { primary: 'PaymentsToAcquirePropertyPlantAndEquipment', fallbacks: ['PaymentsToAcquireProductiveAssets', 'CapitalExpenditures'] },
   dividendPerShare:   { primary: 'CommonStockDividendsPerShareDeclared', fallbacks: ['CommonStockDividendsPerShareCashPaid'] },
   sharesOutstanding:  { primary: 'CommonStockSharesOutstanding', fallbacks: ['WeightedAverageNumberOfDilutedSharesOutstanding'] },
-  rd:                 { primary: 'ResearchAndDevelopmentExpense' },
+  rd:                 { primary: 'ResearchAndDevelopmentExpense', fallbacks: ['ResearchAndDevelopmentExpenseExcludingAcquiredInProcessCost', 'TechnologyAndDevelopmentExpense'] },
   sga:                { primary: 'SellingGeneralAndAdministrativeExpense', fallbacks: ['GeneralAndAdministrativeExpense'] },
   depreciation:       { primary: 'DepreciationDepletionAndAmortization', fallbacks: ['DepreciationAndAmortization', 'Depreciation'] },
   dividendsPaid:      { primary: 'PaymentsOfDividends', fallbacks: ['PaymentsOfDividendsCommonStock'] },
@@ -409,7 +409,12 @@ export async function getSecFinancials(
       // Income Statement
       revenue: getValue('revenue'),
       netIncome: getValue('netIncome'),
-      grossProfit: getValue('grossProfit'),
+      // GrossProfit: direkt aus XBRL, oder berechnet aus Revenue - CostOfRevenue
+      grossProfit: getValue('grossProfit') ?? (
+        getValue('revenue') !== null && getValue('costOfRevenue') !== null
+          ? getValue('revenue')! - getValue('costOfRevenue')!
+          : null
+      ),
       operatingIncome: getValue('operatingIncome'),
       costOfRevenue: getValue('costOfRevenue'),
       eps: getValue('eps'),
