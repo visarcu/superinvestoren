@@ -25,7 +25,7 @@ const XBRL_CONCEPTS: Record<string, { primary: string; fallbacks?: string[] }> =
   shortTermDebt:      { primary: 'LongTermDebtCurrent' },
   totalDebt:          { primary: 'LongTermDebt', fallbacks: ['DebtInstrumentCarryingAmount'] },
   operatingCashFlow:  { primary: 'NetCashProvidedByUsedInOperatingActivities', fallbacks: ['NetCashProvidedByUsedInOperatingActivitiesContinuingOperations'] },
-  capex:              { primary: 'PaymentsToAcquirePropertyPlantAndEquipment' },
+  capex:              { primary: 'PaymentsToAcquirePropertyPlantAndEquipment', fallbacks: ['PaymentsToAcquireProductiveAssets', 'CapitalExpenditureDiscontinuedOperations'] },
   dividendPerShare:   { primary: 'CommonStockDividendsPerShareDeclared', fallbacks: ['CommonStockDividendsPerShareCashPaid'] },
   sharesOutstanding:  { primary: 'CommonStockSharesOutstanding', fallbacks: ['WeightedAverageNumberOfDilutedSharesOutstanding'] },
   rd:                 { primary: 'ResearchAndDevelopmentExpense' },
