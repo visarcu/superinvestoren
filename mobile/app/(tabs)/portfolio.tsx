@@ -354,21 +354,28 @@ export default function PortfolioScreen() {
         {/* Summary Card */}
         <View style={s.summaryCard}>
           <Text style={s.summaryLabel}>Gesamtwert</Text>
-          <Text style={s.summaryValue}>{fmtCurrency(totalValue)}</Text>
-          <View style={s.gainRow}>
-            {periodLoading ? (
-              <ActivityIndicator color="#22C55E" size="small" />
-            ) : (
-              <>
-                <Text style={[s.gainText, { color: displayGain >= 0 ? '#22C55E' : '#EF4444' }]}>
-                  {displayGain >= 0 ? '+' : ''}{fmtCurrency(displayGain)}
-                </Text>
-                <Text style={[s.gainPct, { color: displayGainPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+          <View style={s.valueRow}>
+            <Text style={s.summaryValue}>{fmtCurrency(totalValue)}</Text>
+            {!periodLoading && (
+              <View style={[s.gainBadge, { backgroundColor: displayGainPct >= 0 ? 'rgba(34,197,94,0.12)' : 'rgba(239,68,68,0.12)' }]}>
+                <Ionicons
+                  name={displayGainPct >= 0 ? 'trending-up' : 'trending-down'}
+                  size={14}
+                  color={displayGainPct >= 0 ? '#22C55E' : '#EF4444'}
+                />
+                <Text style={[s.gainBadgeText, { color: displayGainPct >= 0 ? '#22C55E' : '#EF4444' }]}>
                   {fmtPct(displayGainPct)}
                 </Text>
-              </>
+              </View>
             )}
           </View>
+          {periodLoading ? (
+            <ActivityIndicator color="#22C55E" size="small" style={{ marginTop: 8 }} />
+          ) : (
+            <Text style={[s.gainAbsolute, { color: displayGain >= 0 ? '#22C55E' : '#EF4444' }]}>
+              {displayGain >= 0 ? '+' : ''}{fmtCurrency(displayGain)} {period !== 'gesamt' ? `(${period})` : ''}
+            </Text>
+          )}
           {/* Period selector */}
           <View style={s.periodRow}>
             {(['gesamt', '1W', '1M', '3M', 'YTD', '1J'] as Period[]).map(p => (
@@ -386,9 +393,9 @@ export default function PortfolioScreen() {
           </View>
           {totalAnnualDiv > 0 && (
             <View style={s.divSummaryRow}>
-              <Ionicons name="cash-outline" size={13} color="#22C55E" />
+              <Ionicons name="cash-outline" size={12} color="#475569" />
               <Text style={s.divSummaryText}>
-                {fmtBig(totalAnnualDiv)}/Jahr · {fmtDE(portfolioYield)} % Rendite
+                Dividende: {fmtBig(totalAnnualDiv)}/Jahr ({fmtDE(portfolioYield)} %)
               </Text>
             </View>
           )}
@@ -703,17 +710,18 @@ const s = StyleSheet.create({
   // Summary Card — flat, no gradient
   summaryCard: { marginHorizontal: 16, marginBottom: 20, borderRadius: 18, padding: 22, backgroundColor: '#141414', borderWidth: 1, borderColor: '#222222' },
   summaryLabel: { color: '#8E8E93', fontSize: 12, fontWeight: '500', letterSpacing: 0.2, marginBottom: 6 },
-  summaryValue: { color: '#FFFFFF', fontSize: 34, fontWeight: '700', letterSpacing: -1.2 },
-  gainRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 },
-  gainText: { fontSize: 14, fontWeight: '600' },
-  gainPct: { fontSize: 14, fontWeight: '500', color: '#8E8E93' },
+  valueRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  summaryValue: { color: '#FFFFFF', fontSize: 32, fontWeight: '700', letterSpacing: -1.2 },
+  gainBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
+  gainBadgeText: { fontSize: 13, fontWeight: '700' },
+  gainAbsolute: { fontSize: 13, fontWeight: '500', marginTop: 4 },
   periodRow: { flexDirection: 'row', gap: 6, marginTop: 14 },
   periodPill: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8, backgroundColor: '#1E1E20' },
   periodPillActive: { backgroundColor: 'rgba(34,197,94,0.12)' },
   periodText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
   periodTextActive: { color: '#22C55E' },
-  divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#222222' },
-  divSummaryText: { color: '#22C55E', fontSize: 12, fontWeight: '500' },
+  divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#1E1E20' },
+  divSummaryText: { color: '#64748B', fontSize: 12, fontWeight: '500' },
 
   // Inner Tab Bar — underline style
   tabBar: { paddingHorizontal: 20, gap: 0, paddingBottom: 0, borderBottomWidth: 1, borderBottomColor: '#1C1C1E', marginBottom: 20 },
