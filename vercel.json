@@ -71,6 +71,10 @@
     {
       "path": "/api/cron/detect-earnings",
       "schedule": "*/5 16-22 * 1-2,4-5,7-8,10-11 *"
+    },
+    {
+      "path": "/api/notifications/check-economic-events",
+      "schedule": "0 7 * * *"
     }
   ]
 }

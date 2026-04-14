@@ -28,6 +28,7 @@ const TYPE_ICON: Record<string, { name: any; color: string }> = {
   dividend_alert:  { name: 'cash',               color: '#22C55E' },
   price_alert:     { name: 'flash',              color: '#EF4444' },
   portfolio_mover: { name: 'pulse',              color: '#F97316' },
+  economic_event:  { name: 'globe',              color: '#06B6D4' },
   default:         { name: 'notifications',      color: '#64748B' },
 };
 

@@ -1075,4 +1075,16 @@ export const etfs: ETF[] = [
     category: 'Materials',
     isin: 'AU000000BHP4',
   },
+  // IE00B4L5YC18 wird in unserem etfs.ts fälschlicherweise WSML.DE zugeordnet.
+  // Freedom24 meldet diese ISIN als IEMA (iShares MSCI EM UCITS ETF).
+  // Dieser Override kommt zuletzt → überschreibt WSML.DE-Mapping für diese ISIN.
+  {
+    symbol: 'IEMA.DE',
+    name: 'iShares MSCI EM UCITS ETF',
+    issuer: 'iShares',
+    assetClass: 'Equity',
+    category: 'Emerging Markets',
+    isin: 'IE00B4L5YC18',
+    ter: 0.18
+  },
 ];
