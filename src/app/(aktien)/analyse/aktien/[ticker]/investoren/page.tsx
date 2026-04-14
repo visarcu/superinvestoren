@@ -66,15 +66,21 @@ export default function InvestorenPage() {
     Promise.all([
       fetch(`/api/v1/investors/stock/${ticker}`).then(r => r.ok ? r.json() : null).catch(() => null),
       fetch(`/api/v1/company/${ticker}`).then(r => r.ok ? r.json() : null).catch(() => null),
-      // Insider trades from existing API
-      fetch(`/api/insider-trading?ticker=${ticker}&limit=30`).then(r => r.ok ? r.json() : null).catch(() => null),
-      // Politician trades
-      fetch(`/api/politician-trades?ticker=${ticker}`).then(r => r.ok ? r.json() : null).catch(() => null),
+      // Insider trades from own SEC Form 4 parser
+      fetch(`/api/v1/insider-trades/${ticker}?limit=30`).then(r => r.ok ? r.json() : null).catch(() => null),
+      // Politician trades from own STOCK Act data
+      fetch(`/api/v1/politician-trades/stock/${ticker}?limit=30`).then(r => r.ok ? r.json() : null).catch(() => null),
     ]).then(([inv, company, insider, politicians]) => {
       if (inv?.investors) setSuperInvestors(inv.investors)
       if (company?.name) setCompanyName(company.name)
-      if (insider?.trades) setInsiderTrades(insider.trades)
-      if (politicians?.trades) setPoliticianTrades(politicians.trades)
+      if (insider?.trades) setInsiderTrades(insider.trades.map((t: any) => ({
+        name: t.insiderName, title: t.title, date: t.transactionDate, type: t.type,
+        shares: t.shares, value: t.totalValue || 0, price: t.pricePerShare || 0,
+      })))
+      if (politicians?.trades) setPoliticianTrades(politicians.trades.map((t: any) => ({
+        name: t.politician?.name, party: t.politician?.party, date: t.transactionDate || t.disclosureDate,
+        type: t.type?.includes('Purchase') ? 'Purchase' : 'Sale', amount: t.amount,
+      })))
     }).finally(() => setLoading(false))
   }, [ticker])
 
