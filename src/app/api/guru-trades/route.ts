@@ -53,6 +53,18 @@ const investorNames: Record<string, string> = {
   triplefrond: 'Triple Frond Partners',
   ketterer: 'Sarah Ketterer',
   makaira: 'Tom Bancroft',
+  marks: 'Howard Marks',
+  chou: 'Francis Chou',
+  duan: 'Li Lu',
+  viking: 'Viking Global',
+  dalio: 'Ray Dalio',
+  icahn: 'Carl Icahn',
+  druckenmiller: 'Stanley Druckenmiller',
+  tepper: 'David Tepper',
+  einhorn: 'David Einhorn',
+  loeb: 'Daniel Loeb',
+  coleman: 'Chase Coleman',
+  mandel: 'Stephen Mandel',
 }
 
 const cusipIndex = new Map<string, string>()

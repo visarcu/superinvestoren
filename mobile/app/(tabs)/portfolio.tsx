@@ -51,6 +51,12 @@ export default function PortfolioScreen() {
   const [divData, setDivData] = useState<DivInfo[]>([]);
   const [divLoading, setDivLoading] = useState(false);
 
+  // Period selector for summary card
+  type Period = 'gesamt' | '1W' | '1M' | '3M' | 'YTD' | '1J';
+  const [period, setPeriod] = useState<Period>('gesamt');
+  const [periodGain, setPeriodGain] = useState<{ value: number; pct: number } | null>(null);
+  const [periodLoading, setPeriodLoading] = useState(false);
+
   useFocusEffect(useCallback(() => { loadPortfolio(); }, []));
 
   async function switchPortfolio(id: string | null, name: string) {
@@ -236,8 +242,37 @@ export default function PortfolioScreen() {
     finally { setDivLoading(false); }
   }
 
+  async function loadPeriodPerformance(p: Period) {
+    if (p === 'gesamt') { setPeriodGain(null); return; }
+    setPeriodLoading(true);
+    try {
+      const daysMap: Record<string, number> = { '1W': 7, '1M': 30, '3M': 90, 'YTD': Math.floor((Date.now() - new Date(new Date().getFullYear(), 0, 1).getTime()) / 86400000), '1J': 365 };
+      const days = daysMap[p] || 30;
+      const res = await fetch(`${BASE_URL}/api/portfolio-history`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          portfolioId: selectedPortfolioId,
+          holdings: holdings.map(h => ({ symbol: h.symbol, quantity: h.quantity, purchase_price: h.purchase_price })),
+          days,
+        }),
+      });
+      if (!res.ok) { setPeriodGain(null); return; }
+      const { data } = await res.json();
+      if (!Array.isArray(data) || data.length < 2) { setPeriodGain(null); return; }
+      const startVal = data[0].value;
+      const endVal = data[data.length - 1].value;
+      const diff = endVal - startVal;
+      const pct = startVal > 0 ? (diff / startVal) * 100 : 0;
+      setPeriodGain({ value: diff, pct });
+    } catch { setPeriodGain(null); }
+    finally { setPeriodLoading(false); }
+  }
+
   const totalGain = totalValue - totalCost;
   const totalGainPct = totalCost > 0 ? (totalGain / totalCost) * 100 : 0;
+  const displayGain = period === 'gesamt' ? totalGain : (periodGain?.value ?? totalGain);
+  const displayGainPct = period === 'gesamt' ? totalGainPct : (periodGain?.pct ?? totalGainPct);
   const totalAnnualDiv = divData.reduce((s, d) => s + d.annualIncome, 0);
   const portfolioYield = totalValue > 0 ? (totalAnnualDiv / totalValue) * 100 : 0;
 
@@ -321,12 +356,33 @@ export default function PortfolioScreen() {
           <Text style={s.summaryLabel}>Gesamtwert</Text>
           <Text style={s.summaryValue}>{fmtCurrency(totalValue)}</Text>
           <View style={s.gainRow}>
-            <Text style={[s.gainText, { color: totalGain >= 0 ? '#22C55E' : '#EF4444' }]}>
-              {totalGain >= 0 ? '+' : ''}{fmtCurrency(totalGain)}
-            </Text>
-            <Text style={[s.gainPct, { color: totalGain >= 0 ? '#22C55E' : '#EF4444' }]}>
-              {fmtPct(totalGainPct)}
-            </Text>
+            {periodLoading ? (
+              <ActivityIndicator color="#22C55E" size="small" />
+            ) : (
+              <>
+                <Text style={[s.gainText, { color: displayGain >= 0 ? '#22C55E' : '#EF4444' }]}>
+                  {displayGain >= 0 ? '+' : ''}{fmtCurrency(displayGain)}
+                </Text>
+                <Text style={[s.gainPct, { color: displayGainPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                  {fmtPct(displayGainPct)}
+                </Text>
+              </>
+            )}
+          </View>
+          {/* Period selector */}
+          <View style={s.periodRow}>
+            {(['gesamt', '1W', '1M', '3M', 'YTD', '1J'] as Period[]).map(p => (
+              <TouchableOpacity
+                key={p}
+                style={[s.periodPill, period === p && s.periodPillActive]}
+                onPress={() => { setPeriod(p); loadPeriodPerformance(p); }}
+                activeOpacity={0.7}
+              >
+                <Text style={[s.periodText, period === p && s.periodTextActive]}>
+                  {p === 'gesamt' ? 'Gesamt' : p}
+                </Text>
+              </TouchableOpacity>
+            ))}
           </View>
           {totalAnnualDiv > 0 && (
             <View style={s.divSummaryRow}>
@@ -372,7 +428,15 @@ export default function PortfolioScreen() {
         ) : activeTab === 'positionen' ? (
           /* ── POSITIONEN TAB ── */
           <View style={s.list}>
-            <Text style={s.sectionLabel}>POSITIONEN</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+              <Text style={s.sectionLabel}>POSITIONEN</Text>
+              {Object.values(siCounts).some(v => v.count > 0) && (
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 10 }}>
+                  <Ionicons name="star" size={10} color="#F59E0B" />
+                  <Text style={{ color: '#475569', fontSize: 11 }}>= Superinvestor hält Aktie</Text>
+                </View>
+              )}
+            </View>
             {holdings.map((h) => {
               const siCount = siCounts[h.symbol]?.count ?? 0;
               return (
@@ -380,7 +444,7 @@ export default function PortfolioScreen() {
                   <StockLogo ticker={h.symbol} size={42} borderRadius={10} />
                   <View style={s.rowMid}>
                     <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                      <Text style={s.symbol}>{h.symbol}</Text>
+                      <Text style={s.symbol} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
                       {siCount > 0 && (
                         <View style={s.siBadge}>
                           <Ionicons name="star" size={9} color="#F59E0B" />
@@ -388,7 +452,7 @@ export default function PortfolioScreen() {
                         </View>
                       )}
                     </View>
-                    <Text style={s.shares}>{h.quantity} Aktien · ⌀ {fmtCurrency(h.purchase_price || 0)}</Text>
+                    <Text style={s.shares}>{h.quantity} Aktien · {h.symbol} · ⌀ {fmtCurrency(h.purchase_price || 0)}</Text>
                   </View>
                   <View style={s.rowRight}>
                     <Text style={s.value}>{fmtCurrency(h.currentValue)}</Text>
@@ -440,7 +504,7 @@ export default function PortfolioScreen() {
                   <StockLogo ticker={h.symbol} size={28} borderRadius={6} />
                   <View style={{ flex: 1, marginLeft: 10 }}>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
-                      <Text style={s.allocTicker}>{h.symbol}</Text>
+                      <Text style={s.allocTicker} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
                       <Text style={s.allocPct}>{fmtDE(h.weight ?? 0, 1)} %</Text>
                     </View>
                     <View style={s.allocBar}>
@@ -457,7 +521,7 @@ export default function PortfolioScreen() {
               {[...holdings].sort((a, b) => b.gainPct - a.gainPct).map((h, i) => (
                 <TouchableOpacity key={h.symbol} style={[s.plRow, i > 0 && s.allocBorder]}
                   onPress={() => router.push(`/stock/${h.symbol}`)}>
-                  <Text style={s.plTicker}>{h.symbol}</Text>
+                  <Text style={s.plTicker} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
                   <View style={{ flex: 1 }} />
                   <Text style={s.plAbs}>
                     {h.gain >= 0 ? '+' : ''}{fmtCurrency(h.gain)}
@@ -643,6 +707,11 @@ const s = StyleSheet.create({
   gainRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 },
   gainText: { fontSize: 14, fontWeight: '600' },
   gainPct: { fontSize: 14, fontWeight: '500', color: '#8E8E93' },
+  periodRow: { flexDirection: 'row', gap: 6, marginTop: 14 },
+  periodPill: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8, backgroundColor: '#1E1E20' },
+  periodPillActive: { backgroundColor: 'rgba(34,197,94,0.12)' },
+  periodText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
+  periodTextActive: { color: '#22C55E' },
   divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 12, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#222222' },
   divSummaryText: { color: '#22C55E', fontSize: 12, fontWeight: '500' },
 
