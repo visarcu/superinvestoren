@@ -12,6 +12,7 @@ const SHOW_INTERVAL_DAYS = 3;
 export default function TabsLayout() {
   const [checked, setChecked] = useState(false);
   const [showPremium, setShowPremium] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -25,7 +26,7 @@ export default function TabsLayout() {
         .eq('user_id', data.session.user.id)
         .maybeSingle();
 
-      if (profile?.is_premium) return;
+      if (profile?.is_premium) { setIsPremium(true); return; }
 
       const lastShown = await AsyncStorage.getItem(PREMIUM_MODAL_KEY);
       if (lastShown) {
@@ -100,6 +101,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="upgrade"
           options={{
+            href: isPremium ? null : undefined,
             title: 'Upgrade',
             tabBarActiveTintColor: '#F97316',
             tabBarInactiveTintColor: '#F97316',
