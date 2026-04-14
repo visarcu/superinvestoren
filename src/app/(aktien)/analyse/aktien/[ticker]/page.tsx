@@ -222,6 +222,7 @@ export default function FeyStockPage() {
   const [news, setNews] = useState<NewsArticle[]>([])
   const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
   const [earnings, setEarnings] = useState<EarningsEntry[]>([])
+  const [quote, setQuote] = useState<{ price: number; change: number; changePercent: number; marketCap?: number; source: string } | null>(null)
   const [loading, setLoading] = useState(true)
   const [search, setSearch] = useState('')
   const [searchOpen, setSearchOpen] = useState(false)
@@ -267,9 +268,11 @@ export default function FeyStockPage() {
     return () => clearTimeout(timeout)
   }, [search])
 
+  // Fetch all data
   useEffect(() => {
     setLoading(true)
     setTab('overview')
+    setQuote(null)
     Promise.all([
       fetch(`/api/v1/company/${ticker}`).then(r => r.ok ? r.json() : null).catch(() => null),
       fetch(`/api/v1/financials/income-statement/${ticker}?years=10`).then(r => r.ok ? r.json() : null).catch(() => null),
@@ -278,7 +281,8 @@ export default function FeyStockPage() {
       fetch(`/api/v1/news/stock/${ticker}?limit=20`).then(r => r.ok ? r.json() : null).catch(() => null),
       fetch(`/api/v1/kpis/${ticker}`).then(r => r.ok ? r.json() : null).catch(() => null),
       fetch(`/api/v1/earnings/${ticker}?limit=12`).then(r => r.ok ? r.json() : null).catch(() => null),
-    ]).then(([p, inc, bal, cf, n, k, e]) => {
+      fetch(`/api/v1/quotes/${ticker}`).then(r => r.ok ? r.json() : null).catch(() => null),
+    ]).then(([p, inc, bal, cf, n, k, e, q]) => {
       if (p && !p.error) setProfile(p)
       if (inc?.data) setIncome(inc.data)
       if (bal?.data) setBalance(bal.data)
@@ -286,7 +290,19 @@ export default function FeyStockPage() {
       if (n?.articles) setNews(n.articles)
       if (k?.metrics) setKpis(k.metrics)
       if (e?.earnings) setEarnings(e.earnings)
+      if (q?.price) setQuote({ price: q.price, change: q.change, changePercent: q.changePercent, marketCap: q.marketCap, source: q.source })
     }).finally(() => setLoading(false))
+  }, [ticker])
+
+  // Auto-refresh quote every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch(`/api/v1/quotes/${ticker}`)
+        .then(r => r.ok ? r.json() : null)
+        .then(q => { if (q?.price) setQuote({ price: q.price, change: q.change, changePercent: q.changePercent, marketCap: q.marketCap, source: q.source }) })
+        .catch(() => {})
+    }, 30000)
+    return () => clearInterval(interval)
   }, [ticker])
 
   const L = income[income.length - 1]
@@ -300,7 +316,10 @@ export default function FeyStockPage() {
   const netMargin = L?.revenue && L?.netIncome ? (L.netIncome / L.revenue) * 100 : null
 
   const fyLabel = L?.period ? `GJ ${L.period}` : ''
+  const pe = quote?.price && L?.eps && L.eps > 0 ? quote.price / L.eps : null
   const metrics = [
+    { label: 'Marktkapitalisierung', value: quote?.marketCap ? fmt(quote.marketCap) : '–' },
+    { label: 'KGV (P/E)', value: pe ? pe.toFixed(1).replace('.', ',') : '–' },
     { label: 'Umsatz', value: fmt(L?.revenue || null) },
     { label: 'Nettogewinn', value: fmt(L?.netIncome || null) },
     { label: 'Gewinn/Aktie', value: L?.eps ? `${L.eps.toFixed(2).replace('.', ',')} $` : '–' },
@@ -340,8 +359,21 @@ export default function FeyStockPage() {
             <p className="text-[12px] text-white/30">{profile?.name}{profile?.industry ? ` · ${profile.industry}` : ''}</p>
           </div>
         </div>
-        {/* Quick Actions */}
-        <div className="flex items-center gap-2">
+        {/* Price + Quick Actions */}
+        <div className="flex items-center gap-4">
+          {quote && (
+            <div className="text-right">
+              <p className="text-xl font-bold text-white tabular-nums">{quote.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $</p>
+              <div className="flex items-center justify-end gap-1.5">
+                <span className={`text-[12px] font-semibold tabular-nums ${quote.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {quote.changePercent >= 0 ? '+' : ''}{quote.changePercent.toFixed(2).replace('.', ',')}%
+                </span>
+                <span className={`text-[11px] tabular-nums ${quote.changePercent >= 0 ? 'text-emerald-400/50' : 'text-red-400/50'}`}>
+                  {quote.change >= 0 ? '+' : ''}{quote.change.toFixed(2).replace('.', ',')}
+                </span>
+              </div>
+            </div>
+          )}
           <Link href={`/analyse/dividenden/${ticker}`}
             className="px-3 py-1.5 text-[11px] text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-lg hover:bg-white/[0.06] hover:text-white/50 transition-all">
             Dividenden
