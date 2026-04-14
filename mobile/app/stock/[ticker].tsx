@@ -36,14 +36,14 @@ interface Transcript { symbol: string; quarter: number; year: number; date: stri
 
 const ALL_TABS: { key: MainTab; label: string; etfOnly?: boolean; hideForEtf?: boolean }[] = [
   { key: 'overview',   label: 'Übersicht' },
-  { key: 'earnings',   label: 'Quartal',     hideForEtf: true },
-  { key: 'investors',  label: 'Investoren' },
-  { key: 'insider',    label: 'Insider',     hideForEtf: true },
   { key: 'financials', label: 'Finanzen',    hideForEtf: true },
-  { key: 'holdings',   label: 'Holdings',    etfOnly: true },
   { key: 'valuation',  label: 'Bewertung',   hideForEtf: true },
   { key: 'estimates',  label: 'Schätzungen', hideForEtf: true },
+  { key: 'earnings',   label: 'Quartal',     hideForEtf: true },
   { key: 'dividends',  label: 'Dividende' },
+  { key: 'investors',  label: 'Investoren' },
+  { key: 'insider',    label: 'Insider',     hideForEtf: true },
+  { key: 'holdings',   label: 'Holdings',    etfOnly: true },
 ];
 
 export default function StockScreen() {
@@ -216,14 +216,14 @@ export default function StockScreen() {
     setFinLoading(true);
     try {
       const [fdRes, kmRes] = await Promise.all([
-        fetch(`${BASE_URL}/api/financial-data/${ticker}?years=6&period=annual`),
+        fetch(`${BASE_URL}/api/financial-data/${ticker}?years=10&period=annual`),
         fetch(`${BASE_URL}/api/key-metrics/${ticker}?period=annual&limit=1`),
       ]);
       if (fdRes.ok) {
         const fd = await fdRes.json();
-        setIncomeData([...(fd.incomeStatements || [])].reverse().slice(-6));
-        setCashFlowData([...(fd.cashFlows || [])].reverse().slice(-6));
-        setBalanceData([...(fd.balanceSheets || [])].reverse().slice(-6));
+        setIncomeData([...(fd.incomeStatements || [])].reverse().slice(-10));
+        setCashFlowData([...(fd.cashFlows || [])].reverse().slice(-10));
+        setBalanceData([...(fd.balanceSheets || [])].reverse().slice(-10));
       }
       if (kmRes.ok) {
         const km = await kmRes.json();
@@ -647,12 +647,16 @@ export default function StockScreen() {
               <Text style={s.sectionTitle}>KENNZAHLEN</Text>
               <View style={s.metricsGrid}>
                 <MetricCard label="Marktkapital." value={formatMarketCap(quote?.marketCap)} />
-                <MetricCard label="KGV" value={quote?.pe ? fmtDE(quote.pe, 1) : '—'} />
+                <MetricCard label="KGV (TTM)" value={quote?.pe ? fmtDE(quote.pe, 1) : '—'} />
+                <MetricCard label="KGV (Fwd)" value={
+                  estimatesData.length > 0 && estimatesData[0]?.estimatedEpsAvg > 0 && quote?.price
+                    ? fmtDE(quote.price / estimatesData[0].estimatedEpsAvg, 1)
+                    : '—'
+                } />
                 <MetricCard label="52W Hoch" value={quote?.yearHigh ? `${fmtDE(quote.yearHigh)} $` : '—'} />
                 <MetricCard label="52W Tief" value={quote?.yearLow ? `${fmtDE(quote.yearLow)} $` : '—'} />
-                <MetricCard label="Volumen" value={formatVolume(quote?.volume)} />
+                <MetricCard label="Volumen (Tag)" value={formatVolume(quote?.volume)} />
                 <MetricCard label="Ø Volumen" value={formatVolume(quote?.avgVolume)} />
-                <MetricCard label="Ø 50 Tage" value={quote?.priceAvg50 ? `${fmtDE(quote.priceAvg50)} $` : '—'} />
                 <MetricCard
                   label="Gewinnmarge"
                   value={latestIncome?.netIncomeRatio ? `${fmtDE(latestIncome.netIncomeRatio * 100, 1)} %` : '—'}
@@ -671,8 +675,8 @@ export default function StockScreen() {
                     { key: 'ebitda',    label: 'EBITDA' },
                     { key: 'netIncome', label: 'Gewinn' },
                     { key: 'eps',       label: 'EPS' },
-                    { key: 'fcf',       label: 'Free Cashflow' },
-                    { key: 'capex',     label: 'CapEx' },
+                    { key: 'fcf',       label: 'Freier Cashflow' },
+                    { key: 'capex',     label: 'Investitionen' },
                     { key: 'dividends', label: 'Dividenden' },
                     { key: 'shares',    label: 'Aktien im Umlauf' },
                   ] as { key: FinBarTab; label: string }[]).map(t => (
@@ -744,13 +748,14 @@ export default function StockScreen() {
                   <>
                     <BarChart
                       data={barData}
-                      barWidth={Math.min(36, (SCREEN_WIDTH - 80) / barData.length - 8)}
-                      spacing={Math.min(16, (SCREEN_WIDTH - 80) / barData.length - 20)}
+                      barWidth={Math.min(28, (SCREEN_WIDTH - 80) / barData.length - 6)}
+                      spacing={Math.min(10, (SCREEN_WIDTH - 80) / barData.length - 16)}
                       roundedTop hideRules
                       xAxisColor="rgba(255,255,255,0.08)" yAxisColor="transparent" hideYAxisText
-                      noOfSections={3} barBorderRadius={4}
-                      xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
-                      backgroundColor="transparent" width={SCREEN_WIDTH - 56} height={130} initialSpacing={12}
+                      noOfSections={4} barBorderRadius={4}
+                      xAxisLabelTextStyle={{ color: '#64748B', fontSize: 9 }}
+                      backgroundColor="transparent" width={SCREEN_WIDTH - 56} height={150} initialSpacing={8}
+                      maxValue={Math.max(...barData.map(d => d.value)) * 1.15}
                     />
                     <View style={s.finSummaryRow}>
                       <Text style={s.finSummaryLabel}>
@@ -773,7 +778,7 @@ export default function StockScreen() {
               <View style={s.section}>
                 <Text style={s.sectionTitle}>BEWERTUNG</Text>
                 <View style={s.metricsGrid}>
-                  <MetricCard label="KGV" value={keyMetrics.peRatio ? fmtDE(keyMetrics.peRatio, 1) : '—'} />
+                  <MetricCard label="KGV (TTM)" value={keyMetrics.peRatio ? fmtDE(keyMetrics.peRatio, 1) : '—'} />
                   <MetricCard label="KUV" value={keyMetrics.priceToSalesRatio ? fmtDE(keyMetrics.priceToSalesRatio, 1) : '—'} />
                   <MetricCard label="KBV" value={keyMetrics.pbRatio ? fmtDE(keyMetrics.pbRatio, 1) : '—'} />
                   <MetricCard label="EV/EBITDA" value={keyMetrics.enterpriseValueOverEBITDA ? fmtDE(keyMetrics.enterpriseValueOverEBITDA, 1) : '—'} />
@@ -1354,7 +1359,7 @@ export default function StockScreen() {
               const valuationRows = [...valuationData].reverse();
               const years = valuationRows.map(r => r.calendarYear || r.date?.slice(0,4) || '');
               const fields = [
-                { label: 'KGV', key: 'peRatio', isPercent: false },
+                { label: 'KGV (Jahresende)', key: 'peRatio', isPercent: false },
                 { label: 'KUV', key: 'priceToSalesRatio', isPercent: false },
                 { label: 'KBV', key: 'pbRatio', isPercent: false },
                 { label: 'EV/EBITDA', key: 'enterpriseValueOverEBITDA', isPercent: false },
@@ -1629,6 +1634,18 @@ export default function StockScreen() {
                   );
                 })()}
 
+                {/* ── Aktuelle Kennzahlen ── */}
+                {(quote?.eps || latestIncome?.revenue) && (
+                  <View style={s.section}>
+                    <Text style={s.sectionTitle}>AKTUELLE KENNZAHLEN</Text>
+                    <View style={s.metricsGrid}>
+                      {quote?.eps ? <MetricCard label="EPS (TTM)" value={`${fmtDE(quote.eps)} $`} /> : null}
+                      {latestIncome?.revenue ? <MetricCard label="Umsatz (letzt. GJ)" value={formatBigNumber(latestIncome.revenue)} /> : null}
+                      {latestIncome?.netIncome ? <MetricCard label="Gewinn (letzt. GJ)" value={formatBigNumber(latestIncome.netIncome)} /> : null}
+                    </View>
+                  </View>
+                )}
+
                 {/* ── EPS & Revenue Estimates ── */}
                 {estimatesData.length === 0 ? (
                   !ratings && priceTargets.length === 0 && (
@@ -1700,10 +1717,18 @@ export default function StockScreen() {
                     <Text style={s.sectionTitle}>DIVIDENDEN-ÜBERSICHT</Text>
                     <View style={s.metricsGrid}>
                       <MetricCard label="Dividendenrendite" value={ci?.currentYield ? `${fmtDE(ci.currentYield * 100, 2)} %` : '—'} />
-                      <MetricCard label="TTM je Aktie" value={ci?.dividendPerShareTTM ? `${fmtDE(ci.dividendPerShareTTM)} $` : '—'} />
+                      <MetricCard label="Div./Aktie (12M)" value={ci?.dividendPerShareTTM ? `${fmtDE(ci.dividendPerShareTTM)} $` : '—'} />
                       <MetricCard label="Ausschüttungsquote" value={ci?.payoutRatio ? `${fmtDE(ci.payoutRatio * 100, 1)} %` : '—'} />
-                      <MetricCard label="Wachstum (Ø)" value={growthRate != null ? `${fmtDE(growthRate, 1)} %` : '—'} />
-                      <MetricCard label="Qualität" value={ci?.dividendQuality?.category ?? '—'} />
+                      <MetricCard label="Wachstum (Ø p.a.)" value={growthRate != null ? `${fmtDE(growthRate, 1)} %` : '—'} />
+                      <MetricCard label="Qualität" value={(() => {
+                        const q = ci?.dividendQuality;
+                        if (!q?.category || q.category === '—') return '—';
+                        const labels: Record<string, string> = {
+                          excellent: 'Hervorragend', good: 'Gut', average: 'Durchschnittl.',
+                          poor: 'Schwach', none: '—',
+                        };
+                        return labels[q.category.toLowerCase()] || q.category;
+                      })()} />
                     </View>
                   </View>
 
