@@ -204,7 +204,7 @@ export default function CalendarScreen() {
     if (dividendEvents.length === 0 && !loading) {
       return (
         <View style={s.emptyTab}>
-          <Ionicons name="cash-outline" size={40} color="#334155" />
+          <Ionicons name="cash-outline" size={40} color={theme.text.muted} />
           <Text style={s.emptyTitle}>Keine Dividenden</Text>
           <Text style={s.emptyText}>Füge Aktien zum {sourceFilter === 'portfolio' ? 'Depot' : 'Watchlist'} hinzu</Text>
         </View>
@@ -216,16 +216,16 @@ export default function CalendarScreen() {
         {/* Month Nav */}
         <View style={s.monthNav}>
           <TouchableOpacity onPress={() => changeMonth(-1)} style={s.monthBtn}>
-            <Ionicons name="chevron-back" size={20} color="#94a3b8" />
+            <Ionicons name="chevron-back" size={20} color={theme.text.secondary} />
           </TouchableOpacity>
           <View style={{ alignItems: 'center' }}>
             <Text style={s.monthTitle}>{MONTHS_DE[month]} {year}</Text>
             {monthTotal > 0 && (
-              <Text style={s.monthTotal}>Gesamt: <Text style={{ color: '#34C759' }}>{fmtCurrency(monthTotal)}</Text></Text>
+              <Text style={s.monthTotal}>Gesamt: <Text style={{ color: theme.accent.positive }}>{fmtCurrency(monthTotal)}</Text></Text>
             )}
           </View>
           <TouchableOpacity onPress={() => changeMonth(1)} style={s.monthBtn}>
-            <Ionicons name="chevron-forward" size={20} color="#94a3b8" />
+            <Ionicons name="chevron-forward" size={20} color={theme.text.secondary} />
           </TouchableOpacity>
         </View>
 
@@ -247,7 +247,7 @@ export default function CalendarScreen() {
                 style={[s.calCell, hasEvents && s.calCellHasEvent, isSel && s.calCellSelected, isToday && !isSel && s.calCellToday]}
                 onPress={() => setSelectedDay(isSel ? null : dateStr)}>
                 <Text style={[s.calDayNum, isToday && s.calDayToday, isSel && s.calDaySelected, hasEvents && !isSel && s.calDayHasEvent]}>{dayNum}</Text>
-                {hasEvents && <View style={[s.calDot, isSel && { backgroundColor: '#fff' }]} />}
+                {hasEvents && <View style={[s.calDot, isSel && { backgroundColor: theme.text.inverse }]} />}
               </TouchableOpacity>
             );
           })}
@@ -280,7 +280,7 @@ export default function CalendarScreen() {
                 return (
                   <View key={dateStr} style={s.upcomingGroup}>
                     <View style={s.upcomingDateRow}>
-                      <Text style={[s.upcomingDate, isToday2 && { color: '#34C759' }]}>{label}</Text>
+                      <Text style={[s.upcomingDate, isToday2 && { color: theme.accent.positive }]}>{label}</Text>
                       {dayTotal > 0 && <Text style={s.upcomingDayTotal}>{fmtCurrency(dayTotal)}</Text>}
                     </View>
                     {evs.map((ev, i) => <DividendRow key={i} event={ev} />)}
@@ -313,7 +313,7 @@ export default function CalendarScreen() {
     if (earningsEvents.length === 0 && !loading) {
       return (
         <View style={s.emptyTab}>
-          <Ionicons name="bar-chart-outline" size={40} color="#334155" />
+          <Ionicons name="bar-chart-outline" size={40} color={theme.text.muted} />
           <Text style={s.emptyTitle}>Keine Quartalszahlen</Text>
           <Text style={s.emptyText}>Füge Aktien zum {sourceFilter === 'portfolio' ? 'Depot' : 'Watchlist'} hinzu</Text>
         </View>
@@ -325,11 +325,11 @@ export default function CalendarScreen() {
         {/* Month Nav */}
         <View style={s.monthNav}>
           <TouchableOpacity onPress={() => changeMonth(-1)} style={s.monthBtn}>
-            <Ionicons name="chevron-back" size={20} color="#94a3b8" />
+            <Ionicons name="chevron-back" size={20} color={theme.text.secondary} />
           </TouchableOpacity>
           <Text style={s.monthTitle}>{MONTHS_DE[month]} {year}</Text>
           <TouchableOpacity onPress={() => changeMonth(1)} style={s.monthBtn}>
-            <Ionicons name="chevron-forward" size={20} color="#94a3b8" />
+            <Ionicons name="chevron-forward" size={20} color={theme.text.secondary} />
           </TouchableOpacity>
         </View>
 
@@ -351,7 +351,7 @@ export default function CalendarScreen() {
                 style={[s.calCell, hasEvents && s.calCellHasEvent, isSel && s.calCellSelected, isToday && !isSel && s.calCellToday]}
                 onPress={() => setSelectedDay(isSel ? null : dateStr)}>
                 <Text style={[s.calDayNum, isToday && s.calDayToday, isSel && s.calDaySelected, hasEvents && !isSel && s.calDayHasEvent]}>{dayNum}</Text>
-                {hasEvents && <View style={[s.calDot, isSel && { backgroundColor: '#fff' }]} />}
+                {hasEvents && <View style={[s.calDot, isSel && { backgroundColor: theme.text.inverse }]} />}
               </TouchableOpacity>
             );
           })}
@@ -383,7 +383,7 @@ export default function CalendarScreen() {
                 return (
                   <View key={dateStr} style={s.upcomingGroup}>
                     <View style={s.upcomingDateRow}>
-                      <Text style={[s.upcomingDate, isToday2 && { color: '#34C759' }]}>{label}</Text>
+                      <Text style={[s.upcomingDate, isToday2 && { color: theme.accent.positive }]}>{label}</Text>
                     </View>
                     {evs.map((ev, i) => <EarningsRow key={i} event={ev} />)}
                   </View>
@@ -401,7 +401,7 @@ export default function CalendarScreen() {
       {/* Header */}
       <View style={s.header}>
         <TouchableOpacity onPress={() => router.back()} style={s.backBtn}>
-          <Ionicons name="chevron-back" size={22} color="#fff" />
+          <Ionicons name="chevron-back" size={22} color={theme.text.primary} />
         </TouchableOpacity>
         <Text style={s.headerTitle}>Kalender</Text>
         <View style={{ width: 36 }} />
@@ -432,12 +432,12 @@ export default function CalendarScreen() {
       </View>
 
       {loading ? (
-        <View style={s.center}><ActivityIndicator color="#34C759" size="large" /></View>
+        <View style={s.center}><ActivityIndicator color={theme.text.tertiary} size="large" /></View>
       ) : (
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{ paddingBottom: 40 }}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#34C759" />}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor={theme.text.tertiary} />}
         >
           {mainTab === 'dividends' ? renderDividendsTab() : renderEarningsTab()}
         </ScrollView>
@@ -509,102 +509,97 @@ function EarningsRow({ event }: { event: EarningsEvent }) {
   );
 }
 
+import { theme, tabularStyle } from '../../lib/theme';
+
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
+  container: { flex: 1, backgroundColor: theme.bg.base },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 60, paddingBottom: 12,
-    borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
+    paddingHorizontal: theme.space.lg, paddingTop: 60, paddingBottom: theme.space.md,
+    borderBottomWidth: 1, borderBottomColor: theme.border.default,
   },
   backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
-  headerTitle: { color: '#fff', fontSize: 17, fontWeight: '700' },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12 },
+  headerTitle: { color: theme.text.primary, fontSize: theme.font.title1, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: theme.space.md },
 
-  // Main tab bar
-  mainTabBar: {
-    flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
-  },
+  mainTabBar: { flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: theme.border.default },
   mainTabBtn: {
-    flex: 1, paddingVertical: 12, alignItems: 'center',
+    flex: 1, paddingVertical: theme.space.md, alignItems: 'center',
     borderBottomWidth: 2, borderBottomColor: 'transparent',
   },
-  mainTabBtnActive: { borderBottomColor: '#34C759' },
-  mainTabText: { color: '#64748b', fontSize: 14, fontWeight: '600' },
-  mainTabTextActive: { color: '#34C759' },
+  mainTabBtnActive: { borderBottomColor: theme.text.primary },
+  mainTabText: { color: theme.text.tertiary, fontSize: theme.font.title3, fontWeight: theme.weight.medium },
+  mainTabTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
 
-  // Source filter chips
-  filterRow: {
-    flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingVertical: 12,
-  },
+  filterRow: { flexDirection: 'row', gap: theme.space.sm, paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md },
   filterChip: {
-    paddingHorizontal: 14, paddingVertical: 6, borderRadius: 20,
-    borderWidth: 1, borderColor: '#2C2C2E', backgroundColor: '#1C1C1E',
+    paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.xs + 2,
+    borderRadius: theme.radius.full,
+    borderWidth: 1, borderColor: theme.border.default, backgroundColor: theme.bg.card,
   },
-  filterChipActive: { borderColor: '#34C759', backgroundColor: 'rgba(34,197,94,0.1)' },
-  filterChipText: { color: '#64748b', fontSize: 13, fontWeight: '600' },
-  filterChipTextActive: { color: '#34C759' },
+  filterChipActive: { borderColor: theme.border.strong, backgroundColor: theme.bg.cardElevated },
+  filterChipText: { color: theme.text.tertiary, fontSize: theme.font.body, fontWeight: theme.weight.medium },
+  filterChipTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
 
-  // Empty state
-  emptyTab: { alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 80 },
-  emptyTitle: { color: '#fff', fontSize: 17, fontWeight: '600' },
-  emptyText: { color: '#64748b', fontSize: 14, textAlign: 'center' },
+  emptyTab: { alignItems: 'center', justifyContent: 'center', gap: theme.space.md, paddingTop: 80 },
+  emptyTitle: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+  emptyText: { color: theme.text.tertiary, fontSize: theme.font.title3, textAlign: 'center', lineHeight: 20 },
 
-  // Calendar
   monthNav: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 20, paddingVertical: 16,
+    paddingHorizontal: theme.space.xl, paddingVertical: theme.space.lg,
   },
   monthBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
-  monthTitle: { color: '#fff', fontSize: 18, fontWeight: '700' },
-  monthTotal: { color: '#64748b', fontSize: 13, marginTop: 2 },
-  dowRow: { flexDirection: 'row', paddingHorizontal: 8, marginBottom: 4 },
-  dowLabel: { flex: 1, textAlign: 'center', color: '#475569', fontSize: 12, fontWeight: '600' },
-  calGrid: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 8 },
+  monthTitle: { color: theme.text.primary, fontSize: theme.font.title1, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal },
+  monthTotal: { color: theme.text.tertiary, fontSize: theme.font.body, marginTop: 2, ...tabularStyle },
+  dowRow: { flexDirection: 'row', paddingHorizontal: theme.space.sm, marginBottom: theme.space.xs },
+  dowLabel: { flex: 1, textAlign: 'center', color: theme.text.muted, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
+  calGrid: { flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: theme.space.sm },
   calCell: {
     width: `${100/7}%`, aspectRatio: 1, alignItems: 'center', justifyContent: 'center',
-    borderRadius: 8, marginVertical: 2,
+    borderRadius: theme.radius.sm, marginVertical: 2,
   },
-  calCellHasEvent: { backgroundColor: 'rgba(34,197,94,0.08)' },
-  calCellSelected: { backgroundColor: '#34C759' },
-  calCellToday: { borderWidth: 1, borderColor: '#34C759' },
-  calDayNum: { color: '#64748b', fontSize: 14 },
-  calDayHasEvent: { color: '#fff', fontWeight: '600' },
-  calDayToday: { color: '#34C759', fontWeight: '700' },
-  calDaySelected: { color: '#fff', fontWeight: '700' },
-  calDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#34C759', marginTop: 2 },
+  calCellHasEvent: { backgroundColor: theme.bg.card },
+  calCellSelected: { backgroundColor: theme.text.primary },
+  calCellToday: { borderWidth: 1, borderColor: theme.border.strong },
+  calDayNum: { color: theme.text.tertiary, fontSize: theme.font.title3, ...tabularStyle },
+  calDayHasEvent: { color: theme.text.primary, fontWeight: theme.weight.semibold },
+  calDayToday: { color: theme.text.primary, fontWeight: theme.weight.bold },
+  calDaySelected: { color: theme.text.inverse, fontWeight: theme.weight.bold },
+  calDot: { width: 3, height: 3, borderRadius: 2, backgroundColor: theme.accent.positive, marginTop: 2 },
 
-  // Day detail
   dayDetail: {
-    marginHorizontal: 16, marginTop: 12, backgroundColor: '#1C1C1E',
-    borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#2C2C2E',
+    marginHorizontal: theme.space.lg, marginTop: theme.space.md,
+    backgroundColor: theme.bg.card,
+    borderRadius: theme.radius.md, padding: theme.space.lg,
+    borderWidth: 1, borderColor: theme.border.default,
   },
-  dayDetailTitle: { color: '#94a3b8', fontSize: 13, fontWeight: '600', marginBottom: 12 },
+  dayDetailTitle: { color: theme.text.tertiary, fontSize: theme.font.body, fontWeight: theme.weight.semibold, marginBottom: theme.space.md, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
 
-  // Upcoming
-  upcomingSection: { marginTop: 24, paddingHorizontal: 16 },
-  sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 12 },
-  upcomingGroup: { marginBottom: 20 },
-  upcomingDateRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  upcomingDate: { color: '#94a3b8', fontSize: 13, fontWeight: '600' },
-  upcomingDayTotal: { color: '#34C759', fontSize: 13, fontWeight: '700' },
+  upcomingSection: { marginTop: theme.space.xxl, paddingHorizontal: theme.space.lg },
+  sectionTitle: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wider, textTransform: 'uppercase', marginBottom: theme.space.md },
+  upcomingGroup: { marginBottom: theme.space.xl },
+  upcomingDateRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: theme.space.sm },
+  upcomingDate: { color: theme.text.secondary, fontSize: theme.font.body, fontWeight: theme.weight.semibold, ...tabularStyle },
+  upcomingDayTotal: { color: theme.accent.positive, fontSize: theme.font.body, fontWeight: theme.weight.semibold, ...tabularStyle },
 
-  // Event rows
   eventRow: {
-    flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#1C1C1E', borderRadius: 10, padding: 12,
-    marginBottom: 8, borderWidth: 1, borderColor: '#2C2C2E',
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.md,
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.md, padding: theme.space.md,
+    marginBottom: theme.space.sm, borderWidth: 1, borderColor: theme.border.default,
   },
-  eventLogo: { width: 36, height: 36, borderRadius: 8, overflow: 'hidden' },
+  eventLogo: { width: 32, height: 32, borderRadius: theme.radius.sm, overflow: 'hidden' },
   eventLogoFallback: {
-    width: 36, height: 36, borderRadius: 8, backgroundColor: '#1e293b',
+    width: 32, height: 32, borderRadius: theme.radius.sm,
+    backgroundColor: theme.bg.cardElevated,
     alignItems: 'center', justifyContent: 'center',
   },
-  eventLogoText: { color: '#fff', fontSize: 14, fontWeight: '700' },
-  eventSymbol: { color: '#fff', fontSize: 14, fontWeight: '700' },
-  eventSub: { color: '#475569', fontSize: 12, marginTop: 2 },
-  eventValue: { color: '#34C759', fontSize: 14, fontWeight: '700' },
-  eventFreq: { color: '#475569', fontSize: 11, marginTop: 2 },
-  eventQuarter: { color: '#94a3b8', fontSize: 13, fontWeight: '600' },
+  eventLogoText: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  eventSymbol: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  eventSub: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 2 },
+  eventValue: { color: theme.accent.positive, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, ...tabularStyle },
+  eventFreq: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 2, ...tabularStyle },
+  eventQuarter: { color: theme.text.secondary, fontSize: theme.font.body, fontWeight: theme.weight.medium, ...tabularStyle },
 
-  noData: { color: '#475569', fontSize: 14, textAlign: 'center', paddingVertical: 12 },
+  noData: { color: theme.text.tertiary, fontSize: theme.font.title3, textAlign: 'center', paddingVertical: theme.space.md },
 });

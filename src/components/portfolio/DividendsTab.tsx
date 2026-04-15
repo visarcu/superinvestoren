@@ -1,4 +1,5 @@
 // src/components/portfolio/DividendsTab.tsx
+// Premium-Style Dividenden-Übersicht — neutral, dezent, mit klaren Hierarchien.
 'use client'
 
 import React, { useMemo, useState, useEffect } from 'react'
@@ -34,15 +35,28 @@ interface DividendsTabProps {
   isAllDepotsView: boolean
 }
 
-// Custom Tooltip für den BarChart
+// Premium-Tooltip
 function DividendChartTooltip({ active, payload, label, formatCurrency }: TooltipProps<number, string> & { formatCurrency: (v: number) => string }) {
   if (!active || !payload?.[0]) return null
   return (
-    <div className="bg-neutral-800 border border-neutral-700 rounded-lg px-3 py-2 shadow-lg">
-      <p className="text-xs text-neutral-400 mb-0.5">{label}</p>
-      <p className="text-sm font-semibold text-emerald-400">
-        +{formatCurrency(payload[0].value as number)}
+    <div className="bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 shadow-2xl">
+      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-0.5">{label}</p>
+      <p className="text-[13px] font-semibold text-white tabular-nums">
+        {formatCurrency(payload[0].value as number)}
       </p>
+    </div>
+  )
+}
+
+// Wiederverwendbare Karten-Komponente
+function StatCard({ label, value, sub, accent }: { label: string; value: string; sub?: React.ReactNode; accent?: 'positive' | 'neutral' }) {
+  return (
+    <div className="bg-neutral-950 border border-neutral-800/80 rounded-xl p-4">
+      <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">{label}</p>
+      <p className={`text-xl font-semibold tracking-tight tabular-nums ${
+        accent === 'positive' ? 'text-emerald-400' : 'text-white'
+      }`}>{value}</p>
+      {sub && <div className="text-[11px] text-neutral-500 mt-1.5 tabular-nums">{sub}</div>}
     </div>
   )
 }
@@ -91,7 +105,7 @@ export default function DividendsTab({
 
     const now = new Date()
     const currentYear = now.getFullYear()
-    const lastYear = currentYear - 1
+    const lastYearN = currentYear - 1
 
     let total = 0
     let thisYearTotal = 0
@@ -101,10 +115,9 @@ export default function DividendsTab({
       total += tx.total_value
       const txYear = new Date(tx.date).getFullYear()
       if (txYear === currentYear) thisYearTotal += tx.total_value
-      if (txYear === lastYear) lastYearTotal += tx.total_value
+      if (txYear === lastYearN) lastYearTotal += tx.total_value
     }
 
-    // Monate seit erster Dividende
     const dates = dividendTransactions.map(tx => new Date(tx.date).getTime())
     const oldest = new Date(Math.min(...dates))
     const monthsSpan = Math.max(1,
@@ -176,7 +189,7 @@ export default function DividendsTab({
     return Array.from(map.values()).sort((a, b) => b.totalAmount - a.totalAmount)
   }, [dividendTransactions])
 
-  // YoY-Vergleich Text
+  // YoY-Vergleich
   const yoyText = useMemo(() => {
     if (stats.lastYear === 0 && stats.thisYear === 0) return null
     if (stats.lastYear === 0) return 'Erstes Jahr'
@@ -185,233 +198,161 @@ export default function DividendsTab({
     return `${sign}${change.toFixed(0)}% vs. Vorjahr`
   }, [stats])
 
-  // Empty State (no dividend transactions yet) — still show upcoming
+  // ============================================================
+  // EMPTY STATE
+  // ============================================================
   if (dividendTransactions.length === 0) {
     return (
-      <div className="space-y-6">
+      <div className="space-y-5">
         {/* Anstehende Dividenden */}
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-5">
-          <h3 className="text-sm font-medium text-neutral-900 dark:text-white mb-4">Anstehende Dividenden</h3>
+        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+          <div className="mb-4">
+            <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Dividenden</h3>
+            <p className="text-[11px] text-neutral-500 mt-0.5">Aus deinen aktuellen Positionen</p>
+          </div>
           {upcomingLoading ? (
-            <div className="space-y-3">
+            <div className="space-y-2">
               {[1, 2, 3].map(i => (
                 <div key={i} className="flex items-center justify-between py-2 animate-pulse">
                   <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-neutral-700 rounded-full" />
+                    <div className="w-7 h-7 bg-neutral-800 rounded-full" />
                     <div>
-                      <div className="h-4 bg-neutral-800 rounded w-12 mb-1" />
-                      <div className="h-3 bg-neutral-800 rounded w-20" />
+                      <div className="h-3 bg-neutral-800 rounded w-16 mb-1" />
+                      <div className="h-2.5 bg-neutral-800 rounded w-24" />
                     </div>
                   </div>
-                  <div className="h-4 bg-neutral-800 rounded w-24" />
+                  <div className="h-3 bg-neutral-800 rounded w-20" />
                 </div>
               ))}
             </div>
           ) : upcomingDividends.length === 0 ? (
-            <div className="text-center py-6">
-              <CalendarDaysIcon className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
-              <p className="text-neutral-500 text-sm">Keine anstehenden Dividenden gefunden</p>
+            <div className="text-center py-8">
+              <CalendarDaysIcon className="w-7 h-7 text-neutral-700 mx-auto mb-2" />
+              <p className="text-[12px] text-neutral-500">Keine anstehenden Dividenden gefunden</p>
             </div>
           ) : (
-            <div className="space-y-0">
-              {upcomingDividends.map((div, idx) => {
-                const exDate = new Date(div.date)
-                const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
-                const holding = holdings.find(h => h.symbol === div.ticker)
-                return (
-                  <Link
-                    key={idx}
-                    href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
-                    className="flex items-center justify-between py-3 border-b border-neutral-100 dark:border-neutral-800/30 last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="w-1 h-8 bg-emerald-500 rounded-full flex-shrink-0" />
-                      <Logo ticker={div.ticker} alt={div.ticker} className="w-7 h-7 flex-shrink-0" padding="none" />
-                      <div>
-                        <span className="text-sm font-medium text-neutral-900 dark:text-white">{div.ticker}</span>
-                        {holding?.name && (
-                          <span className="text-xs text-neutral-500 ml-2 hidden sm:inline">{holding.name}</span>
-                        )}
-                        <p className="text-xs text-neutral-500 mt-0.5">Ex-Datum: {formattedDate}</p>
-                      </div>
-                    </div>
-                    <div className="text-right flex-shrink-0">
-                      <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                        ${div.dividend.toFixed(2)}/Aktie
-                      </p>
-                      <p className="text-[10px] text-neutral-500 mt-0.5">{div.frequency}</p>
-                    </div>
-                  </Link>
-                )
-              })}
-            </div>
+            <UpcomingDividendsList items={upcomingDividends} holdings={holdings} />
           )}
         </div>
 
-        {/* No transactions yet */}
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 border-dashed p-10 text-center">
-          <div className="w-14 h-14 mx-auto mb-4 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-            <BanknotesIcon className="w-7 h-7 text-emerald-400" />
+        {/* Empty Hint */}
+        <div className="bg-neutral-900/30 rounded-xl border border-neutral-800/80 border-dashed p-10 text-center">
+          <div className="w-11 h-11 mx-auto mb-3 bg-neutral-900 border border-neutral-800 rounded-xl flex items-center justify-center">
+            <BanknotesIcon className="w-5 h-5 text-neutral-400" />
           </div>
-          <h3 className="text-lg font-medium text-neutral-900 dark:text-white mb-2">Noch keine Dividenden erhalten</h3>
-          <p className="text-sm text-neutral-500 max-w-sm mx-auto">
-            Dividenden werden automatisch hier angezeigt, sobald du sie über den <span className="text-emerald-400 font-medium">+</span> Button erfasst.
+          <h3 className="text-sm font-semibold text-white mb-1 tracking-tight">Noch keine Dividenden</h3>
+          <p className="text-[12px] text-neutral-500 max-w-sm mx-auto leading-relaxed">
+            Dividenden erscheinen automatisch hier, sobald sie über den Import oder den + Button erfasst werden.
           </p>
         </div>
       </div>
     )
   }
 
-  const maxSymbolAmount = bySymbol.length > 0 ? bySymbol[0].totalAmount : 1
   const visiblePayments = showAllPayments ? dividendTransactions : dividendTransactions.slice(0, 15)
+  const maxSymbolAmount = bySymbol.length > 0 ? bySymbol[0].totalAmount : 1
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
+      {/* Kennzahlen */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <StatCard
+          label="Gesamt erhalten"
+          value={formatCurrency(stats.totalDividends)}
+          accent="positive"
+          sub={`${stats.totalPayments} Zahlung${stats.totalPayments !== 1 ? 'en' : ''}`}
+        />
+        <StatCard
+          label={`Dieses Jahr (${new Date().getFullYear()})`}
+          value={formatCurrency(stats.thisYear)}
+          accent="positive"
+          sub={yoyText && (
+            <span className={
+              yoyText === 'Erstes Jahr' ? 'text-neutral-500'
+                : yoyText.startsWith('+') ? 'text-emerald-400/80'
+                : 'text-red-400/80'
+            }>{yoyText}</span>
+          )}
+        />
+        <StatCard
+          label="Ø Monatlich"
+          value={formatCurrency(stats.avgMonthly)}
+          accent="positive"
+          sub={`über ${stats.monthsSpan} Monat${stats.monthsSpan !== 1 ? 'e' : ''}`}
+        />
+        <StatCard
+          label="Persönliche Rendite"
+          value={`${stats.dividendYield.toFixed(2)}%`}
+          accent="positive"
+          sub="Jahres-Div. / Portfoliowert"
+        />
+      </div>
+
       {/* Anstehende Dividenden */}
-      <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-5">
-        <h3 className="text-sm font-medium text-neutral-900 dark:text-white mb-4">Anstehende Dividenden</h3>
+      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+        <div className="mb-4">
+          <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Dividenden</h3>
+          <p className="text-[11px] text-neutral-500 mt-0.5">Aus deinen aktuellen Positionen</p>
+        </div>
         {upcomingLoading ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {[1, 2, 3].map(i => (
               <div key={i} className="flex items-center justify-between py-2 animate-pulse">
                 <div className="flex items-center gap-3">
-                  <div className="w-1 h-8 bg-neutral-700 rounded-full" />
+                  <div className="w-7 h-7 bg-neutral-800 rounded-full" />
                   <div>
-                    <div className="h-4 bg-neutral-800 rounded w-12 mb-1" />
-                    <div className="h-3 bg-neutral-800 rounded w-20" />
+                    <div className="h-3 bg-neutral-800 rounded w-16 mb-1" />
+                    <div className="h-2.5 bg-neutral-800 rounded w-24" />
                   </div>
                 </div>
-                <div className="h-4 bg-neutral-800 rounded w-24" />
+                <div className="h-3 bg-neutral-800 rounded w-20" />
               </div>
             ))}
           </div>
         ) : upcomingDividends.length === 0 ? (
           <div className="text-center py-6">
-            <CalendarDaysIcon className="w-8 h-8 text-neutral-600 mx-auto mb-2" />
-            <p className="text-neutral-500 text-sm">Keine anstehenden Dividenden gefunden</p>
+            <CalendarDaysIcon className="w-6 h-6 text-neutral-700 mx-auto mb-2" />
+            <p className="text-[12px] text-neutral-500">Keine anstehenden Dividenden gefunden</p>
           </div>
         ) : (
-          <div className="space-y-0">
-            {upcomingDividends.map((div, idx) => {
-              const exDate = new Date(div.date)
-              const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
-              const holding = holdings.find(h => h.symbol === div.ticker)
-              return (
-                <Link
-                  key={idx}
-                  href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
-                  className="flex items-center justify-between py-3 border-b border-neutral-100 dark:border-neutral-800/30 last:border-b-0 hover:bg-neutral-50 dark:hover:bg-neutral-800/30 -mx-2 px-2 rounded transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="w-1 h-8 bg-emerald-500 rounded-full flex-shrink-0" />
-                    <Logo ticker={div.ticker} alt={div.ticker} className="w-7 h-7 flex-shrink-0" padding="none" />
-                    <div>
-                      <span className="text-sm font-medium text-neutral-900 dark:text-white">{div.ticker}</span>
-                      {holding?.name && (
-                        <span className="text-xs text-neutral-500 ml-2 hidden sm:inline">{holding.name}</span>
-                      )}
-                      <p className="text-xs text-neutral-500 mt-0.5">Ex-Datum: {formattedDate}</p>
-                    </div>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                      ${div.dividend.toFixed(2)}/Aktie
-                    </p>
-                    <p className="text-[10px] text-neutral-500 mt-0.5">{div.frequency}</p>
-                  </div>
-                </Link>
-              )
-            })}
-          </div>
+          <UpcomingDividendsList items={upcomingDividends} holdings={holdings} />
         )}
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        {/* Gesamt erhalten */}
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
-          <p className="text-xs text-neutral-500 mb-1">Gesamt erhalten</p>
-          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-            +{formatCurrency(stats.totalDividends)}
-          </p>
-          <p className="text-xs text-neutral-500 mt-1">
-            {stats.totalPayments} Zahlung{stats.totalPayments !== 1 ? 'en' : ''}
-          </p>
-        </div>
-
-        {/* Dieses Jahr */}
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
-          <p className="text-xs text-neutral-500 mb-1">Dieses Jahr ({new Date().getFullYear()})</p>
-          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-            +{formatCurrency(stats.thisYear)}
-          </p>
-          {yoyText && (
-            <p className={`text-xs mt-1 ${
-              yoyText === 'Erstes Jahr'
-                ? 'text-neutral-500'
-                : yoyText.startsWith('+')
-                  ? 'text-emerald-600/70 dark:text-emerald-400/70'
-                  : 'text-red-500/70'
-            }`}>
-              {yoyText}
-            </p>
-          )}
-        </div>
-
-        {/* Ø Monatlich */}
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
-          <p className="text-xs text-neutral-500 mb-1">Ø Monatlich</p>
-          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-            +{formatCurrency(stats.avgMonthly)}
-          </p>
-          <p className="text-xs text-neutral-500 mt-1">
-            basierend auf {stats.monthsSpan} Monat{stats.monthsSpan !== 1 ? 'en' : ''}
-          </p>
-        </div>
-
-        {/* Persönliche Dividendenrendite */}
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
-          <p className="text-xs text-neutral-500 mb-1">Pers. Div.-Rendite</p>
-          <p className="text-xl font-bold text-emerald-600 dark:text-emerald-400">
-            {stats.dividendYield.toFixed(2)}%
-          </p>
-          <p className="text-xs text-neutral-500 mt-1">
-            Jahresdividenden / Portfoliowert
-          </p>
-        </div>
-      </div>
-
-      {/* Monatliche Dividenden Chart */}
+      {/* Monatlicher Verlauf */}
       {monthlyData.length > 0 && (
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-5 border border-neutral-200 dark:border-neutral-800/50">
+        <div className="bg-neutral-900/50 rounded-xl p-5 border border-neutral-800/80">
           <div className="mb-4">
-            <h3 className="text-sm font-medium text-neutral-900 dark:text-white">Monatliche Dividenden</h3>
-            <p className="text-xs text-neutral-500 mt-0.5">Letzte 12 Monate</p>
+            <h3 className="text-sm font-semibold text-white tracking-tight">Monatlicher Verlauf</h3>
+            <p className="text-[11px] text-neutral-500 mt-0.5">Letzte 12 Monate</p>
           </div>
-          <div className="h-[250px]">
+          <div className="h-[240px] -mx-2">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={monthlyData} margin={{ top: 5, right: 5, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
                 <XAxis
                   dataKey="month"
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#525252', fontSize: 11 }}
+                  tick={{ fill: '#525252', fontSize: 10 }}
                   interval="preserveStartEnd"
                 />
                 <YAxis
                   axisLine={false}
                   tickLine={false}
-                  tick={{ fill: '#525252', fontSize: 11 }}
+                  tick={{ fill: '#525252', fontSize: 10 }}
                   tickFormatter={(v) => v === 0 ? '0' : `${v.toFixed(0)}€`}
-                  width={50}
+                  width={48}
                 />
-                <Tooltip content={<DividendChartTooltip formatCurrency={formatCurrency} />} />
+                <Tooltip
+                  cursor={{ fill: 'rgba(255,255,255,0.03)' }}
+                  content={<DividendChartTooltip formatCurrency={formatCurrency} />}
+                />
                 <Bar
                   dataKey="amount"
                   fill="#10b981"
-                  radius={[4, 4, 0, 0]}
-                  maxBarSize={40}
+                  radius={[3, 3, 0, 0]}
+                  maxBarSize={32}
                 />
               </BarChart>
             </ResponsiveContainer>
@@ -421,34 +362,34 @@ export default function DividendsTab({
 
       {/* Dividenden nach Aktie */}
       {bySymbol.length > 0 && (
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-100 dark:border-neutral-800/30">
-            <h3 className="text-sm font-medium text-neutral-900 dark:text-white">Dividenden nach Aktie</h3>
+        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
+          <div className="px-5 py-4 border-b border-neutral-800/80">
+            <h3 className="text-sm font-semibold text-white tracking-tight">Top Dividendenzahler</h3>
+            <p className="text-[11px] text-neutral-500 mt-0.5">Sortiert nach kumulierter Auszahlung</p>
           </div>
-          <div className="divide-y divide-neutral-100 dark:divide-neutral-800/30">
+          <div>
             {bySymbol.map((item) => {
               const percent = stats.totalDividends > 0 ? (item.totalAmount / stats.totalDividends) * 100 : 0
               return (
-                <div key={item.symbol} className="px-5 py-3 flex items-center gap-3">
-                  <Logo ticker={item.symbol} alt={item.symbol} className="w-8 h-8 flex-shrink-0" padding="none" />
+                <div key={item.symbol} className="px-5 py-3 flex items-center gap-3 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors">
+                  <Logo ticker={item.symbol} alt={item.symbol} className="w-7 h-7 flex-shrink-0" padding="none" />
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
-                      <span className="text-sm font-medium text-neutral-900 dark:text-white">{item.symbol}</span>
-                      <span className="text-xs text-neutral-500 truncate">{item.name}</span>
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="text-[13px] font-medium text-white">{item.symbol}</span>
+                      <span className="text-[11px] text-neutral-500 truncate">{item.name}</span>
                     </div>
-                    {/* Proportional bar */}
-                    <div className="mt-1.5 h-1.5 bg-neutral-100 dark:bg-neutral-800/50 rounded-full overflow-hidden">
+                    <div className="h-1 bg-neutral-800/60 rounded-full overflow-hidden">
                       <div
-                        className="h-full bg-emerald-500/60 rounded-full transition-all"
+                        className="h-full bg-emerald-500/70 rounded-full transition-all"
                         style={{ width: `${(item.totalAmount / maxSymbolAmount) * 100}%` }}
                       />
                     </div>
                   </div>
                   <div className="text-right flex-shrink-0">
-                    <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400">
-                      +{formatCurrency(item.totalAmount)}
+                    <p className="text-[13px] font-semibold text-white tabular-nums">
+                      {formatCurrency(item.totalAmount)}
                     </p>
-                    <p className="text-[10px] text-neutral-500">
+                    <p className="text-[10px] text-neutral-500 tabular-nums">
                       {item.count}× · {percent.toFixed(0)}%
                     </p>
                   </div>
@@ -459,29 +400,29 @@ export default function DividendsTab({
         </div>
       )}
 
-      {/* Letzte Dividendenzahlungen */}
-      <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 overflow-hidden">
-        <div className="px-5 py-4 border-b border-neutral-100 dark:border-neutral-800/30">
-          <h3 className="text-sm font-medium text-neutral-900 dark:text-white">Letzte Zahlungen</h3>
+      {/* Letzte Zahlungen */}
+      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
+        <div className="px-5 py-4 border-b border-neutral-800/80">
+          <h3 className="text-sm font-semibold text-white tracking-tight">Letzte Zahlungen</h3>
+          <p className="text-[11px] text-neutral-500 mt-0.5">Chronologisch absteigend</p>
         </div>
-        <div className="divide-y divide-neutral-100 dark:divide-neutral-800/30">
+        <div>
           {visiblePayments.map((tx) => {
             const txDate = new Date(tx.date)
             const formattedDate = `${String(txDate.getDate()).padStart(2, '0')}.${String(txDate.getMonth() + 1).padStart(2, '0')}.${txDate.getFullYear()}`
 
             return (
-              <div key={tx.id} className="px-5 py-3 flex items-center gap-3">
-                <Logo ticker={tx.symbol} alt={tx.symbol} className="w-8 h-8 flex-shrink-0" padding="none" />
+              <div key={tx.id} className="px-5 py-2.5 flex items-center gap-3 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors">
+                <Logo ticker={tx.symbol} alt={tx.symbol} className="w-7 h-7 flex-shrink-0" padding="none" />
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-medium text-neutral-900 dark:text-white">{tx.symbol}</span>
-                    <span className="text-xs text-neutral-500 truncate">{tx.name}</span>
+                    <span className="text-[13px] font-medium text-white">{tx.symbol}</span>
+                    <span className="text-[11px] text-neutral-500 truncate">{tx.name}</span>
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
-                    <span className="text-xs text-neutral-500">{formattedDate}</span>
-                    {/* Depot-Badge in Alle Depots View */}
+                    <span className="text-[11px] text-neutral-500 tabular-nums">{formattedDate}</span>
                     {isAllDepotsView && tx.portfolio_name && (
-                      <span className="inline-flex items-center gap-1 text-[10px] text-neutral-500 bg-neutral-100 dark:bg-neutral-800/50 px-1.5 py-0.5 rounded">
+                      <span className="inline-flex items-center gap-1 text-[10px] text-neutral-400 bg-neutral-900 border border-neutral-800 px-1.5 py-0.5 rounded">
                         <span
                           className="w-1.5 h-1.5 rounded-full flex-shrink-0"
                           style={{ backgroundColor: getBrokerColor(tx.broker_type, tx.broker_color) }}
@@ -491,24 +432,64 @@ export default function DividendsTab({
                     )}
                   </div>
                 </div>
-                <p className="text-sm font-semibold text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-                  +{formatCurrency(tx.total_value)}
+                <p className="text-[13px] font-semibold text-emerald-400 tabular-nums flex-shrink-0">
+                  {formatCurrency(tx.total_value)}
                 </p>
               </div>
             )
           })}
         </div>
 
-        {/* Mehr anzeigen */}
         {dividendTransactions.length > 15 && !showAllPayments && (
           <button
             onClick={() => setShowAllPayments(true)}
-            className="w-full py-3 text-xs text-neutral-500 hover:text-neutral-300 transition-colors border-t border-neutral-100 dark:border-neutral-800/30"
+            className="w-full py-3 text-[11px] font-medium text-neutral-400 hover:text-white hover:bg-neutral-900/50 transition-colors border-t border-neutral-800/80"
           >
             Alle {dividendTransactions.length} Zahlungen anzeigen
           </button>
         )}
       </div>
+    </div>
+  )
+}
+
+// ============================================================
+// UpcomingDividendsList — Sub-Komponente
+// ============================================================
+function UpcomingDividendsList({ items, holdings }: { items: UpcomingDividend[]; holdings: Holding[] }) {
+  return (
+    <div>
+      {items.map((div, idx) => {
+        const exDate = new Date(div.date)
+        const formattedDate = exDate.toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })
+        const holding = holdings.find(h => h.symbol === div.ticker)
+        return (
+          <Link
+            key={idx}
+            href={`/analyse/stocks/${div.ticker.toLowerCase()}`}
+            className="flex items-center justify-between py-2.5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/40 transition-colors -mx-2 px-2 rounded"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <Logo ticker={div.ticker} alt={div.ticker} className="w-7 h-7 flex-shrink-0" padding="none" />
+              <div className="min-w-0">
+                <div className="flex items-center gap-2">
+                  <span className="text-[13px] font-medium text-white">{div.ticker}</span>
+                  {holding?.name && (
+                    <span className="text-[11px] text-neutral-500 truncate hidden sm:inline">{holding.name}</span>
+                  )}
+                </div>
+                <p className="text-[10px] text-neutral-500 mt-0.5">Ex-Datum: {formattedDate}</p>
+              </div>
+            </div>
+            <div className="text-right flex-shrink-0">
+              <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
+                ${div.dividend.toFixed(2)}
+              </p>
+              <p className="text-[10px] text-neutral-500">{div.frequency}</p>
+            </div>
+          </Link>
+        )
+      })}
     </div>
   )
 }

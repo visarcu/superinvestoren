@@ -118,7 +118,7 @@ export default function ScreenerScreen() {
   const SortBtn = ({ k, label }: { k: SortKey; label: string }) => (
     <TouchableOpacity style={[s.sortBtn, sortKey === k && s.sortBtnActive]} onPress={() => toggleSort(k)}>
       <Text style={[s.sortBtnText, sortKey === k && s.sortBtnTextActive]}>{label}</Text>
-      {sortKey === k && <Ionicons name={sortAsc ? 'chevron-up' : 'chevron-down'} size={10} color="#34C759" />}
+      {sortKey === k && <Ionicons name={sortAsc ? 'chevron-up' : 'chevron-down'} size={10} color={theme.text.primary} />}
     </TouchableOpacity>
   );
 
@@ -132,7 +132,7 @@ export default function ScreenerScreen() {
             <Text style={s.subtitle}>Aktien filtern & entdecken</Text>
           </View>
           <TouchableOpacity style={s.filterToggle} onPress={() => setShowFilters(f => !f)}>
-            <Ionicons name="options" size={18} color={showFilters ? '#34C759' : '#64748B'} />
+            <Ionicons name="options" size={18} color={showFilters ? theme.text.primary : theme.text.tertiary} />
           </TouchableOpacity>
         </View>
 
@@ -204,7 +204,7 @@ export default function ScreenerScreen() {
                 <Text style={s.resetBtnText}>Zurücksetzen</Text>
               </TouchableOpacity>
               <TouchableOpacity style={s.searchBtn} onPress={() => runScreener()}>
-                <Ionicons name="search" size={16} color="#000000" />
+                <Ionicons name="search" size={16} color={theme.text.inverse} />
                 <Text style={s.searchBtnText}>Suchen</Text>
               </TouchableOpacity>
             </View>
@@ -214,12 +214,12 @@ export default function ScreenerScreen() {
         {/* Results */}
         {loading ? (
           <View style={s.center}>
-            <ActivityIndicator color="#34C759" size="large" />
+            <ActivityIndicator color={theme.text.primary} size="large" />
             <Text style={s.loadingText}>Screener läuft...</Text>
           </View>
         ) : hasSearched && results.length === 0 ? (
           <View style={s.center}>
-            <Ionicons name="search-outline" size={40} color="#475569" />
+            <Ionicons name="search-outline" size={40} color={theme.text.tertiary} />
             <Text style={s.emptyTitle}>Keine Ergebnisse</Text>
             <Text style={s.emptyText}>Passe die Filter an</Text>
           </View>
@@ -263,13 +263,13 @@ export default function ScreenerScreen() {
                       </Text>
                     </View>
                   </View>
-                  <Text style={[s.resultCell, { flex: 1.2, textAlign: 'right', color: '#F8FAFC', fontWeight: '600' }]}>
+                  <Text style={[s.resultCell, { flex: 1.2, textAlign: 'right', color: theme.text.primary, fontWeight: theme.weight.semibold }, tabularStyle]}>
                     {fmtDE(stock.price ?? 0)}
                   </Text>
-                  <Text style={[s.resultCell, { flex: 1.2, textAlign: 'right', color: pos ? '#34C759' : '#FF3B30', fontWeight: '600' }]}>
+                  <Text style={[s.resultCell, { flex: 1.2, textAlign: 'right', color: pos ? theme.accent.positive : theme.accent.negative, fontWeight: theme.weight.semibold }, tabularStyle]}>
                     {pos ? '+' : ''}{fmtDE(chg)} %
                   </Text>
-                  <Text style={[s.resultCell, { flex: 1.5, textAlign: 'right', color: '#94A3B8' }]}>
+                  <Text style={[s.resultCell, { flex: 1.5, textAlign: 'right', color: theme.text.secondary }, tabularStyle]}>
                     {fmtBig(stock.marketCap)}
                   </Text>
                 </TouchableOpacity>
@@ -278,7 +278,7 @@ export default function ScreenerScreen() {
           </View>
         ) : !hasSearched ? (
           <View style={s.center}>
-            <Ionicons name="funnel-outline" size={48} color="#2C2C2E" />
+            <Ionicons name="funnel-outline" size={48} color={theme.text.muted} />
             <Text style={s.emptyTitle}>Filter setzen & suchen</Text>
             <Text style={s.emptyText}>Oder wähle einen Preset oben</Text>
           </View>
@@ -288,52 +288,54 @@ export default function ScreenerScreen() {
   );
 }
 
+import { theme, tabularStyle } from '../../lib/theme';
+
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#000000' },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingTop: 12, paddingBottom: 8 },
-  title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
-  subtitle: { color: '#64748B', fontSize: 13, marginTop: 2 },
-  filterToggle: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center' },
+  safe: { flex: 1, backgroundColor: theme.bg.base },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingTop: theme.space.md, paddingBottom: theme.space.sm },
+  title: { color: theme.text.primary, fontSize: 22, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight },
+  subtitle: { color: theme.text.tertiary, fontSize: theme.font.body, marginTop: 2 },
+  filterToggle: { width: 36, height: 36, borderRadius: theme.radius.full, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center' },
 
-  presetsRow: { paddingHorizontal: 16, gap: 8, paddingBottom: 12 },
-  presetBtn: { backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 10, minWidth: 120 },
-  presetLabel: { color: '#F8FAFC', fontSize: 13, fontWeight: '600', marginBottom: 2 },
-  presetDesc: { color: '#64748B', fontSize: 10 },
+  presetsRow: { paddingHorizontal: theme.space.lg, gap: theme.space.sm, paddingBottom: theme.space.md },
+  presetBtn: { backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, borderRadius: theme.radius.md, paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.sm + 2, minWidth: 120 },
+  presetLabel: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.semibold, marginBottom: 2 },
+  presetDesc: { color: theme.text.tertiary, fontSize: theme.font.captionSm },
 
-  filterBox: { marginHorizontal: 16, backgroundColor: '#1C1C1E', borderRadius: 16, borderWidth: 1, borderColor: '#2C2C2E', padding: 16, marginBottom: 12 },
-  filterTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 12 },
-  filterLabel: { color: '#64748B', fontSize: 11, fontWeight: '600', marginBottom: 6 },
-  sectorRow: { flexDirection: 'row', gap: 6 },
-  sectorBtn: { paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20, backgroundColor: '#2C2C2E', borderWidth: 1, borderColor: '#2c2c2e' },
-  sectorBtnActive: { borderColor: '#34C759', backgroundColor: 'rgba(34,197,94,0.1)' },
-  sectorBtnText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
-  sectorBtnTextActive: { color: '#34C759' },
-  inputGrid: { gap: 10 },
+  filterBox: { marginHorizontal: theme.space.lg, backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default, padding: theme.space.lg, marginBottom: theme.space.md },
+  filterTitle: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wider, textTransform: 'uppercase', marginBottom: theme.space.md },
+  filterLabel: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.medium, marginBottom: theme.space.xs + 2, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
+  sectorRow: { flexDirection: 'row', gap: theme.space.xs + 2 },
+  sectorBtn: { paddingHorizontal: theme.space.md, paddingVertical: theme.space.xs + 3, borderRadius: theme.radius.full, backgroundColor: theme.bg.cardElevated, borderWidth: 1, borderColor: theme.border.default },
+  sectorBtnActive: { borderColor: theme.border.strong, backgroundColor: theme.bg.cardHover },
+  sectorBtnText: { color: theme.text.tertiary, fontSize: theme.font.bodySm, fontWeight: theme.weight.medium },
+  sectorBtnTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
+  inputGrid: { gap: theme.space.sm + 2 },
   inputItem: {},
-  input: { backgroundColor: '#2C2C2E', borderRadius: 10, borderWidth: 1, borderColor: '#2c2c2e', color: '#F8FAFC', paddingHorizontal: 12, paddingVertical: 10, fontSize: 14 },
-  filterBtns: { flexDirection: 'row', gap: 10, marginTop: 16 },
-  resetBtn: { flex: 1, paddingVertical: 13, borderRadius: 12, borderWidth: 1, borderColor: '#2C2C2E', alignItems: 'center' },
-  resetBtnText: { color: '#64748B', fontWeight: '600', fontSize: 14 },
-  searchBtn: { flex: 2, backgroundColor: '#34C759', paddingVertical: 13, borderRadius: 12, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6 },
-  searchBtnText: { color: '#000000', fontWeight: '700', fontSize: 15 },
+  input: { backgroundColor: theme.bg.cardElevated, borderRadius: theme.radius.md, borderWidth: 1, borderColor: theme.border.default, color: theme.text.primary, paddingHorizontal: theme.space.md, paddingVertical: theme.space.sm + 2, fontSize: theme.font.title3, ...tabularStyle },
+  filterBtns: { flexDirection: 'row', gap: theme.space.sm + 2, marginTop: theme.space.lg },
+  resetBtn: { flex: 1, paddingVertical: theme.space.md + 1, borderRadius: theme.radius.md, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center' },
+  resetBtnText: { color: theme.text.tertiary, fontWeight: theme.weight.semibold, fontSize: theme.font.title3 },
+  searchBtn: { flex: 2, backgroundColor: theme.text.primary, paddingVertical: theme.space.md + 1, borderRadius: theme.radius.md, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.space.xs + 2 },
+  searchBtnText: { color: theme.text.inverse, fontWeight: theme.weight.semibold, fontSize: theme.font.title2 },
 
-  center: { alignItems: 'center', paddingVertical: 48, gap: 10 },
-  loadingText: { color: '#64748B', marginTop: 8 },
-  emptyTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '600' },
-  emptyText: { color: '#64748B', fontSize: 13 },
+  center: { alignItems: 'center', paddingVertical: 48, gap: theme.space.sm + 2 },
+  loadingText: { color: theme.text.tertiary, marginTop: theme.space.sm },
+  emptyTitle: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+  emptyText: { color: theme.text.tertiary, fontSize: theme.font.body },
 
-  resultsBox: { marginHorizontal: 16, marginBottom: 32 },
-  sortBar: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 10 },
-  resultCount: { color: '#64748B', fontSize: 12, fontWeight: '600', marginRight: 4 },
-  sortBtn: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E', flexDirection: 'row', alignItems: 'center', gap: 3 },
-  sortBtnActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
-  sortBtnText: { color: '#475569', fontSize: 11, fontWeight: '600' },
-  sortBtnTextActive: { color: '#34C759' },
-  tableHeader: { flexDirection: 'row', paddingHorizontal: 14, paddingVertical: 8, borderBottomWidth: 1, borderBottomColor: '#2C2C2E' },
-  thCell: { color: '#475569', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
-  resultRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, backgroundColor: '#1C1C1E' },
-  resultBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
+  resultsBox: { marginHorizontal: theme.space.lg, marginBottom: theme.space.xxxl },
+  sortBar: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm, marginBottom: theme.space.sm + 2 },
+  resultCount: { color: theme.text.tertiary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, marginRight: theme.space.xs, ...tabularStyle },
+  sortBtn: { paddingHorizontal: theme.space.sm + 2, paddingVertical: theme.space.xs + 2, borderRadius: theme.radius.sm, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, flexDirection: 'row', alignItems: 'center', gap: 3 },
+  sortBtnActive: { borderColor: theme.border.strong, backgroundColor: theme.bg.cardElevated },
+  sortBtnText: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.medium },
+  sortBtnTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
+  tableHeader: { flexDirection: 'row', paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.sm, borderBottomWidth: 1, borderBottomColor: theme.border.default, backgroundColor: theme.bg.card, borderTopLeftRadius: theme.radius.lg, borderTopRightRadius: theme.radius.lg, borderWidth: 1, borderBottomWidth: 1, borderColor: theme.border.default },
+  thCell: { color: theme.text.tertiary, fontSize: theme.font.captionSm, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
+  resultRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.md, backgroundColor: theme.bg.card, borderLeftWidth: 1, borderRightWidth: 1, borderColor: theme.border.default },
+  resultBorder: { borderTopWidth: 1, borderTopColor: theme.border.default },
   resultCell: { flexDirection: 'row', alignItems: 'center' } as any,
-  stockSymbol: { color: '#F8FAFC', fontSize: 13, fontWeight: '700' },
-  stockName: { color: '#64748B', fontSize: 10, marginTop: 1 },
+  stockSymbol: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.semibold },
+  stockName: { color: theme.text.tertiary, fontSize: theme.font.captionSm, marginTop: 1 },
 });

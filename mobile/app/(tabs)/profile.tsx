@@ -92,7 +92,7 @@ export default function ProfileScreen() {
   if (loading) {
     return (
       <SafeAreaView style={s.container}>
-        <ActivityIndicator color="#34C759" style={{ marginTop: 60 }} />
+        <ActivityIndicator color={theme.text.tertiary} style={{ marginTop: 60 }} />
       </SafeAreaView>
     );
   }
@@ -116,7 +116,7 @@ export default function ProfileScreen() {
             <Text style={s.emailText}>{email}</Text>
             {isPremium ? (
               <View style={s.premiumBadge}>
-                <Ionicons name="star" size={10} color="#34C759" />
+                <Ionicons name="star" size={10} color={theme.text.tertiary} />
                 <Text style={s.premiumBadgeText}>Premium</Text>
               </View>
             ) : (
@@ -126,7 +126,7 @@ export default function ProfileScreen() {
             )}
           </View>
           <TouchableOpacity style={s.editBtn} onPress={() => setEditMode(!editMode)}>
-            <Ionicons name={editMode ? 'close' : 'pencil'} size={16} color="#34C759" />
+            <Ionicons name={editMode ? 'close' : 'pencil'} size={16} color={theme.text.tertiary} />
           </TouchableOpacity>
         </View>
 
@@ -139,7 +139,7 @@ export default function ProfileScreen() {
               value={firstName}
               onChangeText={setFirstName}
               placeholder="Max"
-              placeholderTextColor="#475569"
+              placeholderTextColor={theme.text.muted}
               keyboardAppearance="dark"
             />
             <Text style={s.editLabel}>Nachname</Text>
@@ -148,12 +148,12 @@ export default function ProfileScreen() {
               value={lastName}
               onChangeText={setLastName}
               placeholder="Mustermann"
-              placeholderTextColor="#475569"
+              placeholderTextColor={theme.text.muted}
               keyboardAppearance="dark"
             />
             <TouchableOpacity style={s.saveBtn} onPress={saveProfile} disabled={saving}>
               {saving
-                ? <ActivityIndicator color="#020617" size="small" />
+                ? <ActivityIndicator color={theme.text.inverse} size="small" />
                 : <Text style={s.saveBtnText}>Speichern</Text>}
             </TouchableOpacity>
           </View>
@@ -184,7 +184,7 @@ export default function ProfileScreen() {
             ) : (
               <>
                 <View style={s.upgradeCard}>
-                  <Ionicons name="star" size={20} color="#34C759" />
+                  <Ionicons name="star" size={20} color={theme.text.tertiary} />
                   <View style={{ flex: 1, marginLeft: 12 }}>
                     <Text style={s.upgradeTitle}>Werde Premium</Text>
                     <Text style={s.upgradeDesc}>Voller Zugang zu AI-Analysen, Earnings-Zusammenfassungen und mehr.</Text>
@@ -195,7 +195,7 @@ export default function ProfileScreen() {
                   onPress={() => Linking.openURL('https://finclue.de/pricing')}
                   activeOpacity={0.8}
                 >
-                  <Ionicons name="star" size={14} color="#020617" />
+                  <Ionicons name="star" size={14} color={theme.text.inverse} />
                   <Text style={s.upgradBtnText}>Premium freischalten</Text>
                 </TouchableOpacity>
               </>
@@ -273,7 +273,7 @@ export default function ProfileScreen() {
         {/* ── Abmelden ────────────────────────── */}
         <View style={[s.section, { marginBottom: 12 }]}>
           <TouchableOpacity style={s.signOutBtn} onPress={handleSignOut} activeOpacity={0.7}>
-            <Ionicons name="log-out-outline" size={18} color="#FF3B30" />
+            <Ionicons name="log-out-outline" size={18} color={theme.accent.negative} />
             <Text style={s.signOutText}>Abmelden</Text>
           </TouchableOpacity>
         </View>
@@ -298,7 +298,7 @@ function Row({
       <Text style={s.rowLabel}>{label}</Text>
       <View style={s.rowRight}>
         {value ? <Text style={[s.rowValue, valueColor ? { color: valueColor } : {}]} numberOfLines={1}>{value}</Text> : null}
-        {arrow ? <Ionicons name="chevron-forward" size={14} color="#475569" style={{ marginLeft: 4 }} /> : null}
+        {arrow ? <Ionicons name="chevron-forward" size={14} color={theme.text.tertiary} style={{ marginLeft: 4 }} /> : null}
       </View>
     </View>
   );
@@ -310,109 +310,106 @@ function Divider() {
   return <View style={s.divider} />;
 }
 
+import { theme, tabularStyle } from '../../lib/theme';
+
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
+  container: { flex: 1, backgroundColor: theme.bg.base },
 
-  header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 },
-  pageTitle: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
+  header: { paddingHorizontal: theme.space.xl, paddingTop: theme.space.md, paddingBottom: theme.space.sm },
+  pageTitle: { color: theme.text.primary, fontSize: 22, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight },
 
-  // Avatar
   avatarSection: {
     flexDirection: 'row', alignItems: 'center',
-    marginHorizontal: 16, marginVertical: 16,
-    backgroundColor: '#1C1C1E', borderRadius: 16,
-    borderWidth: 1, borderColor: '#2C2C2E',
-    padding: 16, gap: 14,
+    marginHorizontal: theme.space.lg, marginVertical: theme.space.lg,
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.lg,
+    borderWidth: 1, borderColor: theme.border.default,
+    padding: theme.space.lg, gap: theme.space.lg - 2,
   },
   avatar: {
-    width: 56, height: 56, borderRadius: 28,
-    backgroundColor: '#34C759',
+    width: 52, height: 52, borderRadius: theme.radius.full,
+    backgroundColor: theme.bg.cardElevated,
+    borderWidth: 1, borderColor: theme.border.default,
     alignItems: 'center', justifyContent: 'center',
   },
-  avatarLetter: { color: '#000000', fontSize: 24, fontWeight: '700' },
+  avatarLetter: { color: theme.text.primary, fontSize: theme.font.display2, fontWeight: theme.weight.semibold },
   avatarInfo: { flex: 1, gap: 3 },
-  displayName: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
-  emailText: { color: '#64748B', fontSize: 13 },
+  displayName: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+  emailText: { color: theme.text.tertiary, fontSize: theme.font.body },
   premiumBadge: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
     alignSelf: 'flex-start',
-    backgroundColor: 'rgba(245,158,11,0.15)', borderRadius: 6,
+    backgroundColor: theme.accent.warningSoft, borderRadius: theme.radius.sm,
     paddingHorizontal: 7, paddingVertical: 3,
-    borderWidth: 1, borderColor: 'rgba(245,158,11,0.3)',
+    borderWidth: 1, borderColor: 'rgba(255,159,10,0.3)',
     marginTop: 2,
   },
-  premiumBadgeText: { color: '#34C759', fontSize: 11, fontWeight: '700' },
+  premiumBadgeText: { color: theme.accent.warning, fontSize: theme.font.caption, fontWeight: theme.weight.semibold },
   freeBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#2C2C2E', borderRadius: 6,
+    backgroundColor: theme.bg.cardElevated, borderRadius: theme.radius.sm,
     paddingHorizontal: 7, paddingVertical: 3, marginTop: 2,
   },
-  freeBadgeText: { color: '#64748B', fontSize: 11, fontWeight: '600' },
+  freeBadgeText: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold },
   editBtn: {
-    width: 34, height: 34, borderRadius: 10,
-    backgroundColor: 'rgba(34,197,94,0.1)',
-    borderWidth: 1, borderColor: 'rgba(34,197,94,0.25)',
+    width: 32, height: 32, borderRadius: theme.radius.md - 2,
+    backgroundColor: theme.bg.cardElevated,
+    borderWidth: 1, borderColor: theme.border.default,
     alignItems: 'center', justifyContent: 'center',
   },
 
-  // Edit form
   editCard: {
-    marginHorizontal: 16, marginBottom: 8,
-    backgroundColor: '#1C1C1E', borderRadius: 16,
-    borderWidth: 1, borderColor: '#2C2C2E',
-    padding: 16, gap: 8,
+    marginHorizontal: theme.space.lg, marginBottom: theme.space.sm,
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.lg,
+    borderWidth: 1, borderColor: theme.border.default,
+    padding: theme.space.lg, gap: theme.space.sm,
   },
-  editLabel: { color: '#64748B', fontSize: 12, fontWeight: '600', marginBottom: 2 },
+  editLabel: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.medium, marginBottom: 2, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
   editInput: {
-    backgroundColor: '#000000', borderRadius: 10,
-    borderWidth: 1, borderColor: '#2C2C2E',
-    paddingHorizontal: 14, paddingVertical: 10,
-    color: '#F8FAFC', fontSize: 14, marginBottom: 4,
+    backgroundColor: theme.bg.base, borderRadius: theme.radius.md,
+    borderWidth: 1, borderColor: theme.border.default,
+    paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.sm + 2,
+    color: theme.text.primary, fontSize: theme.font.title3, marginBottom: theme.space.xs,
   },
   saveBtn: {
-    backgroundColor: '#34C759', borderRadius: 10,
-    paddingVertical: 12, alignItems: 'center',
-    marginTop: 4,
+    backgroundColor: theme.text.primary, borderRadius: theme.radius.md,
+    paddingVertical: theme.space.md, alignItems: 'center',
+    marginTop: theme.space.xs,
   },
-  saveBtnText: { color: '#000000', fontSize: 14, fontWeight: '700' },
+  saveBtnText: { color: theme.text.inverse, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
 
-  // Sections
-  section: { paddingHorizontal: 16, marginBottom: 8 },
-  sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
+  section: { paddingHorizontal: theme.space.lg, marginBottom: theme.space.sm },
+  sectionTitle: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wider, textTransform: 'uppercase', marginBottom: theme.space.sm },
   card: {
-    backgroundColor: '#1C1C1E', borderRadius: 16,
-    borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden',
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.lg,
+    borderWidth: 1, borderColor: theme.border.default, overflow: 'hidden',
   },
 
-  // Rows
-  row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 14 },
-  rowIcon: { marginRight: 12 },
-  rowLabel: { color: '#F8FAFC', fontSize: 14, flex: 1 },
+  row: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2 },
+  rowIcon: { marginRight: theme.space.md },
+  rowLabel: { color: theme.text.primary, fontSize: theme.font.title3, flex: 1 },
   rowRight: { flexDirection: 'row', alignItems: 'center' },
-  rowValue: { color: '#64748B', fontSize: 13, maxWidth: 160 },
-  divider: { height: 1, backgroundColor: '#2C2C2E', marginLeft: 46 },
+  rowValue: { color: theme.text.tertiary, fontSize: theme.font.body, maxWidth: 160, ...tabularStyle },
+  divider: { height: 1, backgroundColor: theme.border.default, marginLeft: 46 },
 
-  // Premium upgrade
   upgradeCard: {
     flexDirection: 'row', alignItems: 'flex-start',
-    padding: 16, gap: 0,
+    padding: theme.space.lg, gap: 0,
   },
-  upgradeTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '700', marginBottom: 4 },
-  upgradeDesc: { color: '#64748B', fontSize: 13, lineHeight: 18 },
+  upgradeTitle: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, marginBottom: theme.space.xs },
+  upgradeDesc: { color: theme.text.tertiary, fontSize: theme.font.body, lineHeight: 18 },
   upgradBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    margin: 16, marginTop: 4,
-    backgroundColor: '#34C759', borderRadius: 12,
-    paddingVertical: 12,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.space.sm,
+    margin: theme.space.lg, marginTop: theme.space.xs,
+    backgroundColor: theme.text.primary, borderRadius: theme.radius.md,
+    paddingVertical: theme.space.md,
   },
-  upgradBtnText: { color: '#000000', fontSize: 14, fontWeight: '700' },
+  upgradBtnText: { color: theme.text.inverse, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
 
-  // Sign out
   signOutBtn: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
-    backgroundColor: 'rgba(239,68,68,0.1)', borderRadius: 14,
-    borderWidth: 1, borderColor: 'rgba(239,68,68,0.25)',
-    paddingVertical: 14,
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.space.sm,
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.lg,
+    borderWidth: 1, borderColor: theme.border.default,
+    paddingVertical: theme.space.lg,
   },
-  signOutText: { color: '#FF3B30', fontSize: 15, fontWeight: '700' },
+  signOutText: { color: theme.accent.negative, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
 });

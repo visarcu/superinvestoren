@@ -183,7 +183,7 @@ export default function InvestorsScreen() {
           </View>
 
           {tradesLoading ? (
-            <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
+            <ActivityIndicator color={theme.text.tertiary} style={{ marginVertical: 24 }} />
           ) : (
             <View style={s.tradesList}>
               {filteredTrades.map((trade, i) => {
@@ -255,7 +255,7 @@ export default function InvestorsScreen() {
                 <Ionicons
                   name={tab.icon as any}
                   size={12}
-                  color={activeInsightTab === tab.id ? '#34C759' : '#475569'}
+                  color={activeInsightTab === tab.id ? theme.text.primary : theme.text.tertiary}
                 />
                 <Text style={[s.tabText, activeInsightTab === tab.id && s.tabTextActive]}>
                   {tab.label}
@@ -265,7 +265,7 @@ export default function InvestorsScreen() {
           </View>
 
           {insightsLoading ? (
-            <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
+            <ActivityIndicator color={theme.text.tertiary} style={{ marginVertical: 24 }} />
           ) : (
             <View style={s.insightsList}>
               {insightItems.map((item, i) => (
@@ -304,7 +304,7 @@ export default function InvestorsScreen() {
                         )}
                       </View>
                     )}
-                    <Ionicons name="chevron-forward" size={12} color="#475569" style={{ marginLeft: 4 }} />
+                    <Ionicons name="chevron-forward" size={12} color={theme.text.tertiary} style={{ marginLeft: 4 }} />
                   </View>
                 </TouchableOpacity>
               ))}
@@ -317,11 +317,11 @@ export default function InvestorsScreen() {
           <Text style={s.sectionLabel}>INVESTOREN</Text>
 
           <View style={s.searchBox}>
-            <Ionicons name="search" size={16} color="#475569" />
+            <Ionicons name="search" size={16} color={theme.text.tertiary} />
             <TextInput
               style={s.searchInput}
               placeholder="Investor suchen..."
-              placeholderTextColor="#475569"
+              placeholderTextColor={theme.text.muted}
               value={search}
               onChangeText={setSearch}
               keyboardAppearance="dark"
@@ -349,7 +349,7 @@ export default function InvestorsScreen() {
                   </View>
                   <View style={s.cardRight}>
                     <Text style={s.aum}>{item.aum}</Text>
-                    <Ionicons name="chevron-forward" size={14} color="#475569" style={{ marginTop: 2 }} />
+                    <Ionicons name="chevron-forward" size={14} color={theme.text.tertiary} style={{ marginTop: 2 }} />
                   </View>
                 </TouchableOpacity>
               );
@@ -361,65 +361,81 @@ export default function InvestorsScreen() {
   );
 }
 
+import { theme, tabularStyle } from '../../lib/theme';
+
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
-  header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
-  title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
-  subtitle: { color: '#64748B', fontSize: 13, marginTop: 2 },
-  section: { paddingHorizontal: 16, marginBottom: 20 },
-  sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
-  sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1 },
-  quarterBadge: { color: '#34C759', fontSize: 11, fontWeight: '600', backgroundColor: 'rgba(34,197,94,0.1)', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
-  tabs: { flexDirection: 'row', gap: 6, marginBottom: 10 },
-  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 8, borderRadius: 10, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E' },
-  tabActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
-  tabText: { color: '#475569', fontSize: 11, fontWeight: '600' },
-  tabTextActive: { color: '#34C759' },
+  container: { flex: 1, backgroundColor: theme.bg.base },
+  header: { paddingHorizontal: theme.space.lg, paddingTop: theme.space.md, paddingBottom: theme.space.md },
+  title: { color: theme.text.primary, fontSize: 22, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight },
+  subtitle: { color: theme.text.tertiary, fontSize: theme.font.body, marginTop: 2 },
+  section: { paddingHorizontal: theme.space.lg, marginBottom: theme.space.xl },
+  sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: theme.space.sm + 2 },
+  sectionLabel: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wider, textTransform: 'uppercase' },
+  quarterBadge: { color: theme.text.secondary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, backgroundColor: theme.bg.cardElevated, paddingHorizontal: theme.space.sm, paddingVertical: 2, borderRadius: theme.radius.sm, ...tabularStyle },
+  tabs: { flexDirection: 'row', gap: theme.space.xs + 2, marginBottom: theme.space.sm + 2 },
+  tab: {
+    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: theme.space.xs,
+    paddingVertical: theme.space.sm, borderRadius: theme.radius.md,
+    backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default,
+  },
+  tabActive: { borderColor: theme.border.strong, backgroundColor: theme.bg.cardElevated },
+  tabText: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.medium },
+  tabTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
 
   // Trades
-  tradesList: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
-  tradeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, gap: 10 },
-  tradeRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
-  tradeAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 },
-  tradeAvatarImg: { width: 38, height: 38, borderRadius: 19 },
-  tradeAvatarText: { fontSize: 12, fontWeight: '700', color: '#64748B' },
+  tradesList: { backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default, overflow: 'hidden' },
+  tradeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md, gap: theme.space.sm + 2 },
+  tradeRowBorder: { borderTopWidth: 1, borderTopColor: theme.border.default },
+  tradeAvatar: { width: 36, height: 36, borderRadius: theme.radius.full, backgroundColor: theme.bg.cardElevated, alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 },
+  tradeAvatarImg: { width: 36, height: 36, borderRadius: theme.radius.full },
+  tradeAvatarText: { fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, color: theme.text.tertiary },
   tradeInfo: { flex: 1, minWidth: 0 },
-  tradeTop: { flexDirection: 'row', alignItems: 'center', gap: 6, marginBottom: 2 },
-  tradeTicker: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
-  typeBadge: { borderRadius: 5, paddingHorizontal: 6, paddingVertical: 2 },
-  typeBadgeText: { fontSize: 10, fontWeight: '700' },
-  tradeInvestor: { color: '#64748B', fontSize: 11, marginBottom: 1 },
-  tradeName: { color: '#475569', fontSize: 11 },
+  tradeTop: { flexDirection: 'row', alignItems: 'center', gap: theme.space.xs + 2, marginBottom: 2 },
+  tradeTicker: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  typeBadge: { borderRadius: theme.radius.sm - 1, paddingHorizontal: theme.space.xs + 2, paddingVertical: 2 },
+  typeBadgeText: { fontSize: theme.font.captionSm, fontWeight: theme.weight.semibold },
+  tradeInvestor: { color: theme.text.tertiary, fontSize: theme.font.caption, marginBottom: 1 },
+  tradeName: { color: theme.text.muted, fontSize: theme.font.caption },
   tradeRight: { alignItems: 'flex-end', flexShrink: 0 },
-  tradeValue: { color: '#F8FAFC', fontSize: 12, fontWeight: '600' },
-  tradeChange: { fontSize: 12, fontWeight: '700', marginTop: 2 },
+  tradeValue: { color: theme.text.primary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, ...tabularStyle },
+  tradeChange: { fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, marginTop: 2, ...tabularStyle },
 
   // Insights
-  insightsList: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
-  insightRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
-  insightRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
-  insightRank: { color: '#2c2c2e', fontSize: 12, fontWeight: '700', width: 22 },
-  insightLogo: { marginRight: 10 },
+  insightsList: { backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default, overflow: 'hidden' },
+  insightRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md },
+  insightRowBorder: { borderTopWidth: 1, borderTopColor: theme.border.default },
+  insightRank: { color: theme.text.muted, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, width: 22, ...tabularStyle },
+  insightLogo: { marginRight: theme.space.sm + 2 },
   insightInfo: { flex: 1 },
-  insightTicker: { color: '#F8FAFC', fontWeight: '700', fontSize: 13 },
-  insightName: { color: '#64748B', fontSize: 11, marginTop: 1 },
+  insightTicker: { color: theme.text.primary, fontWeight: theme.weight.semibold, fontSize: theme.font.body },
+  insightName: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 1 },
   insightRight: { flexDirection: 'row', alignItems: 'center' },
-  countBadge: { backgroundColor: 'rgba(34,197,94,0.12)', borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3 },
-  countText: { color: '#34C759', fontSize: 11, fontWeight: '700' },
-  insightValue: { color: '#F8FAFC', fontWeight: '600', fontSize: 12, textAlign: 'right' },
-  insightInvestor: { color: '#475569', fontSize: 10, textAlign: 'right', marginTop: 1 },
+  countBadge: { backgroundColor: theme.bg.cardElevated, borderRadius: theme.radius.sm, paddingHorizontal: 7, paddingVertical: 3 },
+  countText: { color: theme.text.primary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, ...tabularStyle },
+  insightValue: { color: theme.text.primary, fontWeight: theme.weight.semibold, fontSize: theme.font.bodySm, textAlign: 'right', ...tabularStyle },
+  insightInvestor: { color: theme.text.tertiary, fontSize: theme.font.captionSm, textAlign: 'right', marginTop: 1 },
 
   // Investors list
-  searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#1C1C1E', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10, gap: 8, borderWidth: 1, borderColor: '#2C2C2E', marginBottom: 10 },
-  searchInput: { flex: 1, color: '#F8FAFC', fontSize: 14 },
-  investorList: { gap: 6 },
-  card: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: '#2C2C2E' },
-  avatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#2C2C2E', backgroundColor: '#1C1C1E', overflow: 'hidden' },
-  avatarImg: { width: 44, height: 44, borderRadius: 22 },
-  avatarText: { fontSize: 14, fontWeight: '700' },
+  searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: theme.bg.card, borderRadius: theme.radius.md, paddingHorizontal: theme.space.md, paddingVertical: theme.space.sm + 2, gap: theme.space.sm, borderWidth: 1, borderColor: theme.border.default, marginBottom: theme.space.sm + 2 },
+  searchInput: { flex: 1, color: theme.text.primary, fontSize: theme.font.title3 },
+  investorList: { backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default, overflow: 'hidden' },
+  card: {
+    backgroundColor: theme.bg.card,
+    paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2,
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.md,
+    borderBottomWidth: 1, borderBottomColor: theme.border.default,
+  },
+  avatar: {
+    width: 40, height: 40, borderRadius: theme.radius.full,
+    alignItems: 'center', justifyContent: 'center',
+    borderWidth: 1, borderColor: theme.border.default,
+    backgroundColor: theme.bg.cardElevated, overflow: 'hidden',
+  },
+  avatarImg: { width: 40, height: 40, borderRadius: theme.radius.full },
+  avatarText: { fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
   cardContent: { flex: 1 },
-  investorName: { color: '#F8FAFC', fontSize: 15, fontWeight: '600' },
-  investorFund: { color: '#64748B', fontSize: 12, marginTop: 2 },
+  investorName: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  investorFund: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 2 },
   cardRight: { alignItems: 'flex-end' },
-  aum: { color: '#475569', fontSize: 12 },
+  aum: { color: theme.text.tertiary, fontSize: theme.font.bodySm, ...tabularStyle },
 });

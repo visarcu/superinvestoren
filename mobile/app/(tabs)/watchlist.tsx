@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import StockRow from '../../components/StockRow';
+import { theme, tabularStyle } from '../../lib/theme';
 
 const BASE_URL = 'https://finclue.de';
 
@@ -97,10 +98,10 @@ export default function WatchlistScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator color="#34C759" style={{ marginTop: 32 }} />
+        <ActivityIndicator color={theme.text.tertiary} style={{ marginTop: 32 }} />
       ) : error ? (
         <View style={s.emptyState}>
-          <Ionicons name="alert-circle-outline" size={40} color="#FF3B30" />
+          <Ionicons name="alert-circle-outline" size={36} color={theme.accent.negative} />
           <Text style={s.emptyTitle}>Fehler</Text>
           <Text style={s.emptyText}>{error}</Text>
           <TouchableOpacity style={s.actionBtn} onPress={loadWatchlist}>
@@ -110,7 +111,7 @@ export default function WatchlistScreen() {
       ) : items.length === 0 ? (
         <View style={s.emptyState}>
           <View style={s.emptyIcon}>
-            <Ionicons name="bookmark-outline" size={28} color="#475569" />
+            <Ionicons name="bookmark-outline" size={22} color={theme.text.tertiary} />
           </View>
           <Text style={s.emptyTitle}>Watchlist ist leer</Text>
           <Text style={s.emptyText}>Füge Aktien zu deiner Watchlist hinzu um sie hier zu sehen.</Text>
@@ -121,14 +122,14 @@ export default function WatchlistScreen() {
       ) : (
         <ScrollView
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadWatchlist(); }} tintColor="#34C759" />
+            <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadWatchlist(); }} tintColor={theme.text.tertiary} />
           }
           contentContainerStyle={s.scroll}
         >
           {/* Anstehende Earnings */}
           {earnings.length > 0 && (
             <View style={s.section}>
-              <Text style={s.sectionTitle}>ANSTEHENDE EARNINGS</Text>
+              <Text style={s.sectionTitle}>Anstehende Earnings</Text>
               <View style={s.earningsCard}>
                 {earnings.map((ev, i) => {
                   const days = daysUntil(ev.date);
@@ -139,17 +140,17 @@ export default function WatchlistScreen() {
                       key={`${ev.ticker}-${ev.date}`}
                       style={[s.earningsRow, i > 0 && s.earningsRowBorder]}
                       onPress={() => router.push(`/stock/${ev.ticker}`)}
-                      activeOpacity={0.7}
+                      activeOpacity={0.6}
                     >
                       <View style={s.earningsLeft}>
-                        <View style={[s.earningsDot, { backgroundColor: isToday ? '#34C759' : isSoon ? '#F8FAFC' : '#475569' }]} />
+                        <View style={[s.earningsDot, { backgroundColor: isToday ? theme.accent.positive : isSoon ? theme.text.primary : theme.text.muted }]} />
                         <View>
                           <Text style={s.earningsTicker}>{ev.ticker}</Text>
                           <Text style={s.earningsQuarter}>{ev.quarter}</Text>
                         </View>
                       </View>
                       <View style={s.earningsRight}>
-                        <Text style={[s.earningsDate, isSoon && { color: '#F8FAFC' }]}>
+                        <Text style={[s.earningsDate, isSoon && { color: theme.text.primary }]}>
                           {isToday ? 'Heute' : formatEarningsDate(ev.date)}
                         </Text>
                         {formatTime(ev.time) ? (
@@ -165,14 +166,17 @@ export default function WatchlistScreen() {
 
           {/* Aktien-Liste */}
           <View style={s.section}>
-            <Text style={s.sectionTitle}>BEOBACHTETE AKTIEN</Text>
-            {listData.map((item: any) => (
-              <StockRow
-                key={item.symbol || item.ticker}
-                quote={item}
-                onPress={() => router.push(`/stock/${item.symbol || item.ticker}`)}
-              />
-            ))}
+            <Text style={s.sectionTitle}>Beobachtete Aktien</Text>
+            <View style={s.listCard}>
+              {listData.map((item: any, idx: number) => (
+                <View key={item.symbol || item.ticker} style={[idx < listData.length - 1 && s.itemBorder]}>
+                  <StockRow
+                    quote={item}
+                    onPress={() => router.push(`/stock/${item.symbol || item.ticker}`)}
+                  />
+                </View>
+              ))}
+            </View>
           </View>
         </ScrollView>
       )}
@@ -181,27 +185,45 @@ export default function WatchlistScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
-  header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
-  title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
-  subtitle: { color: '#64748B', fontSize: 14, marginTop: 2 },
-  scroll: { paddingBottom: 24 },
-  section: { paddingHorizontal: 16, marginBottom: 16 },
-  sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
-  earningsCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
-  earningsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 14 },
-  earningsRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
-  earningsLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  earningsDot: { width: 8, height: 8, borderRadius: 4 },
-  earningsTicker: { color: '#F8FAFC', fontWeight: '700', fontSize: 14 },
-  earningsQuarter: { color: '#64748B', fontSize: 11, marginTop: 2 },
+  container: { flex: 1, backgroundColor: theme.bg.base },
+  header: { paddingHorizontal: theme.space.xl, paddingTop: theme.space.md, paddingBottom: theme.space.md },
+  title: { color: theme.text.primary, fontSize: 22, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight },
+  subtitle: { color: theme.text.tertiary, fontSize: theme.font.body, marginTop: 2, ...tabularStyle },
+  scroll: { paddingBottom: 32 },
+  section: { paddingHorizontal: theme.space.lg, marginBottom: theme.space.lg },
+  sectionTitle: {
+    color: theme.text.tertiary,
+    fontSize: theme.font.caption,
+    fontWeight: theme.weight.semibold,
+    letterSpacing: theme.tracking.wider,
+    textTransform: 'uppercase',
+    marginBottom: theme.space.sm,
+  },
+  earningsCard: { backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default, overflow: 'hidden' },
+  earningsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2 },
+  earningsRowBorder: { borderTopWidth: 1, borderTopColor: theme.border.default },
+  earningsLeft: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
+  earningsDot: { width: 6, height: 6, borderRadius: 3 },
+  earningsTicker: { color: theme.text.primary, fontWeight: theme.weight.semibold, fontSize: theme.font.title3, letterSpacing: theme.tracking.normal },
+  earningsQuarter: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 2 },
   earningsRight: { alignItems: 'flex-end' },
-  earningsDate: { color: '#F8FAFC', fontWeight: '600', fontSize: 13 },
-  earningsTime: { color: '#64748B', fontSize: 11, marginTop: 2 },
-  emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 80, gap: 12 },
-  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
-  emptyTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
-  emptyText: { color: '#64748B', fontSize: 14, textAlign: 'center', paddingHorizontal: 32 },
-  actionBtn: { backgroundColor: 'rgba(34,197,94,0.15)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 8 },
-  actionBtnText: { color: '#34C759', fontWeight: '600' },
+  earningsDate: { color: theme.text.secondary, fontWeight: theme.weight.semibold, fontSize: theme.font.body, ...tabularStyle },
+  earningsTime: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 2 },
+  listCard: { backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, borderWidth: 1, borderColor: theme.border.default, overflow: 'hidden' },
+  itemBorder: { borderBottomWidth: 1, borderBottomColor: theme.border.default },
+  emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 80, gap: theme.space.md },
+  emptyIcon: {
+    width: 48, height: 48, borderRadius: theme.radius.lg,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  emptyTitle: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal },
+  emptyText: { color: theme.text.tertiary, fontSize: theme.font.title3, textAlign: 'center', paddingHorizontal: 32, lineHeight: 20 },
+  actionBtn: {
+    backgroundColor: theme.text.primary,
+    borderRadius: theme.radius.md, paddingHorizontal: theme.space.xxl, paddingVertical: theme.space.md,
+    marginTop: theme.space.sm,
+  },
+  actionBtnText: { color: theme.text.inverse, fontWeight: theme.weight.semibold, fontSize: theme.font.title3 },
 });

@@ -83,9 +83,16 @@ function calculateRealizedGains(transactions: Transaction[]): {
   }
 
   // Chronologisch sortieren (älteste zuerst)
-  const sorted = [...transactions].sort(
-    (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
-  )
+  // Bei gleichem Datum: Buys vor Sells (sonst werden Intraday-Trades falsch abgerechnet)
+  const typePriority: Record<string, number> = {
+    transfer_in: 0, buy: 1, dividend: 2, sell: 3, transfer_out: 4,
+    cash_deposit: 5, cash_withdrawal: 6,
+  }
+  const sorted = [...transactions].sort((a, b) => {
+    const dateCmp = new Date(a.date).getTime() - new Date(b.date).getTime()
+    if (dateCmp !== 0) return dateCmp
+    return (typePriority[a.type] ?? 99) - (typePriority[b.type] ?? 99)
+  })
 
   // Kostenbasis pro Symbol tracken
   const positions = new Map<string, { totalShares: number; totalCost: number }>()

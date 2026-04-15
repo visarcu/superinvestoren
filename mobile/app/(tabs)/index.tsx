@@ -115,10 +115,10 @@ function SideDrawer({ visible, onClose, userName }: { visible: boolean; onClose:
           {MEHR_ITEMS.map((item) => (
             <TouchableOpacity key={item.route} style={d.item} onPress={() => navigate(item.route)} activeOpacity={0.7}>
               <View style={d.iconBox}>
-                <Ionicons name={item.icon} size={20} color="#8E8E93" />
+                <Ionicons name={item.icon} size={20} color={theme.text.tertiary} />
               </View>
               <Text style={d.itemLabel}>{item.label}</Text>
-              <Ionicons name="chevron-forward" size={15} color="#48484A" />
+              <Ionicons name="chevron-forward" size={15} color={theme.text.muted} />
             </TouchableOpacity>
           ))}
         </ScrollView>
@@ -245,7 +245,7 @@ export default function DashboardScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadAll(); }} tintColor="#34C759" />
+          <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadAll(); }} tintColor={theme.text.tertiary} />
         }
         keyboardShouldPersistTaps="handled"
       >
@@ -263,7 +263,7 @@ export default function DashboardScreen() {
             onPress={() => { setUnreadCount(0); router.push('/notifications-center'); }}
             activeOpacity={0.7}
           >
-            <Ionicons name={unreadCount > 0 ? 'notifications' : 'notifications-outline'} size={22} color="#F8FAFC" />
+            <Ionicons name={unreadCount > 0 ? 'notifications' : 'notifications-outline'} size={22} color={theme.text.primary} />
             {unreadCount > 0 && (
               <View style={s.bellBadge}>
                 <Text style={s.bellBadgeText}>{unreadCount > 9 ? '9+' : unreadCount}</Text>
@@ -275,7 +275,7 @@ export default function DashboardScreen() {
         {/* ── Search ──────────────────────────────────── */}
         <View style={s.searchWrap}>
           <View style={s.searchBox}>
-            <Ionicons name="search" size={18} color="#475569" style={{ marginRight: 8 }} />
+            <Ionicons name="search" size={18} color={theme.text.tertiary} style={{ marginRight: 8 }} />
             <TextInput
               style={s.searchInput}
               placeholder="Aktie suchen z.B. AAPL..."
@@ -286,7 +286,7 @@ export default function DashboardScreen() {
             />
             {searchQuery.length > 0 && (
               <TouchableOpacity onPress={() => { setSearchQuery(''); setSearchResults([]); }}>
-                <Ionicons name="close-circle" size={18} color="#475569" />
+                <Ionicons name="close-circle" size={18} color={theme.text.tertiary} />
               </TouchableOpacity>
             )}
           </View>
@@ -309,7 +309,7 @@ export default function DashboardScreen() {
         </View>
 
         {loading ? (
-          <ActivityIndicator color="#34C759" style={{ marginTop: 40 }} />
+          <ActivityIndicator color={theme.text.tertiary} style={{ marginTop: 40 }} />
         ) : (
           <>
             {/* ── Sektor Performance ───────────────── */}
@@ -465,106 +465,108 @@ export default function DashboardScreen() {
   );
 }
 
+import { theme, tabularStyle } from '../../lib/theme';
+
 const d = StyleSheet.create({
-  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.6)' },
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: theme.bg.overlay },
   drawer: {
     position: 'absolute', top: 0, left: 0, bottom: 0,
-    width: DRAWER_W, backgroundColor: '#000000',
-    borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: '#2C2C2E',
+    width: DRAWER_W, backgroundColor: theme.bg.base,
+    borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: theme.border.default,
   },
-  userRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingTop: 64, paddingBottom: 20 },
-  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
-  avatarText: { color: '#FFFFFF', fontSize: 19, fontWeight: '700' },
-  userName: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
-  userSub: { color: '#8E8E93', fontSize: 12, marginTop: 1 },
-  divider: { height: StyleSheet.hairlineWidth, backgroundColor: '#2C2C2E' },
-  item: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingVertical: 16, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1C1C1E' },
-  iconBox: { width: 36, height: 36, borderRadius: 9, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
-  itemLabel: { flex: 1, color: '#FFFFFF', fontSize: 15, fontWeight: '500' },
+  userRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.lg - 2, paddingHorizontal: theme.space.xl, paddingTop: 64, paddingBottom: theme.space.xl },
+  avatar: { width: 44, height: 44, borderRadius: theme.radius.full, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center' },
+  avatarText: { color: theme.text.primary, fontSize: theme.font.title1, fontWeight: theme.weight.semibold },
+  userName: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+  userSub: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 1 },
+  divider: { height: StyleSheet.hairlineWidth, backgroundColor: theme.border.default },
+  item: { flexDirection: 'row', alignItems: 'center', gap: theme.space.lg - 2, paddingHorizontal: theme.space.xl, paddingVertical: theme.space.lg, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: theme.border.subtle },
+  iconBox: { width: 34, height: 34, borderRadius: theme.radius.md - 1, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center' },
+  itemLabel: { flex: 1, color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.medium },
 });
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
+  container: { flex: 1, backgroundColor: theme.bg.base },
 
-  // Header
-  header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
-  avatarBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
-  avatarText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
-  greeting: { color: '#8E8E93', fontSize: 12 },
-  name: { color: '#FFFFFF', fontSize: 22, fontWeight: '700', letterSpacing: -0.4 },
-  bellBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' },
-  bellBadge: { position: 'absolute', top: -2, right: -2, backgroundColor: '#FF3B30', borderRadius: 8, minWidth: 16, height: 16, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderWidth: 1.5, borderColor: '#000000' },
-  bellBadgeText: { color: '#fff', fontSize: 9, fontWeight: '800' },
+  header: { paddingHorizontal: theme.space.xl, paddingTop: theme.space.md, paddingBottom: theme.space.lg, flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
+  avatarBtn: { width: 38, height: 38, borderRadius: theme.radius.full, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
+  avatarText: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+  greeting: { color: theme.text.tertiary, fontSize: theme.font.caption },
+  name: { color: theme.text.primary, fontSize: 20, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight },
+  bellBtn: { width: 38, height: 38, borderRadius: theme.radius.full, backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default, alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' },
+  bellBadge: { position: 'absolute', top: -2, right: -2, backgroundColor: theme.accent.negative, borderRadius: 8, minWidth: 16, height: 16, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderWidth: 1.5, borderColor: theme.bg.base },
+  bellBadgeText: { color: theme.text.primary, fontSize: theme.font.micro, fontWeight: theme.weight.bold, ...tabularStyle },
 
-  // Search
-  searchWrap: { paddingHorizontal: 16, marginBottom: 16 },
+  searchWrap: { paddingHorizontal: theme.space.lg, marginBottom: theme.space.lg },
   searchBox: {
     flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#1C1C1E',
-    borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+    borderRadius: theme.radius.md, paddingHorizontal: theme.space.md, paddingVertical: theme.space.sm + 2,
   },
-  searchInput: { flex: 1, color: '#FFFFFF', fontSize: 15 },
+  searchInput: { flex: 1, color: theme.text.primary, fontSize: theme.font.title2 },
   searchDropdown: {
-    backgroundColor: '#1C1C1E',
-    borderRadius: 10, marginTop: 4, overflow: 'hidden',
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+    borderRadius: theme.radius.md, marginTop: theme.space.xs, overflow: 'hidden',
   },
-  searchItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
-  searchItemBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#2C2C2E' },
-  searchSymbol: { color: '#FFFFFF', fontSize: 15, fontWeight: '600', width: 60 },
-  searchName: { color: '#8E8E93', fontSize: 13, flex: 1 },
-  searchEx: { color: '#48484A', fontSize: 11, marginLeft: 8 },
+  searchItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md },
+  searchItemBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border.default },
+  searchSymbol: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold, width: 60 },
+  searchName: { color: theme.text.tertiary, fontSize: theme.font.body, flex: 1 },
+  searchEx: { color: theme.text.muted, fontSize: theme.font.caption, marginLeft: theme.space.sm },
 
-  // Sections
-  section: { paddingHorizontal: 16, marginBottom: 12 },
-  sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
-  sectionTitle: { color: '#8E8E93', fontSize: 13, fontWeight: '600', marginBottom: 8 },
-  timestampLabel: { color: '#48484A', fontSize: 12, fontWeight: '500' },
+  section: { paddingHorizontal: theme.space.lg, marginBottom: theme.space.md },
+  sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: theme.space.sm },
+  sectionTitle: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wider, textTransform: 'uppercase', marginBottom: theme.space.sm },
+  timestampLabel: { color: theme.text.muted, fontSize: theme.font.caption, fontWeight: theme.weight.medium, ...tabularStyle },
   summaryCard: {
-    backgroundColor: '#1C1C1E', borderRadius: 12, padding: 16,
+    backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default,
+    borderRadius: theme.radius.md, padding: theme.space.lg,
   },
   summaryBadge: {
-    flexDirection: 'row', alignItems: 'center', gap: 5,
-    alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 3,
-    borderRadius: 6, backgroundColor: 'rgba(255,255,255,0.06)', marginBottom: 10,
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.xs + 1,
+    alignSelf: 'flex-start', paddingHorizontal: theme.space.sm, paddingVertical: 3,
+    borderRadius: theme.radius.sm, backgroundColor: theme.bg.cardElevated, marginBottom: theme.space.sm + 2,
   },
-  summaryBadgeText: { fontSize: 12, fontWeight: '600' },
-  summaryText: { color: '#FFFFFF', fontSize: 14, lineHeight: 21 },
-  summarySource: { color: '#48484A', fontSize: 11, marginTop: 8 },
-  sectionLink: { color: '#FFFFFF', fontSize: 13, fontWeight: '500', marginBottom: 8 },
-  // Sector
+  summaryBadgeText: { fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold },
+  summaryText: { color: theme.text.primary, fontSize: theme.font.title3, lineHeight: 20 },
+  summarySource: { color: theme.text.muted, fontSize: theme.font.caption, marginTop: theme.space.sm },
+  sectionLink: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.medium, marginBottom: theme.space.sm },
+
   sectorCard: {
-    backgroundColor: '#1C1C1E', borderRadius: 12, overflow: 'hidden',
+    backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default,
+    borderRadius: theme.radius.md, overflow: 'hidden',
   },
-  sectorRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, gap: 8 },
-  sectorRowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#2C2C2E' },
-  sectorName: { color: '#8E8E93', fontSize: 13, width: 120 },
-  sectorBarWrap: { flex: 1, height: 3, backgroundColor: '#2C2C2E', borderRadius: 1.5, overflow: 'hidden' },
+  sectorRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.sm + 2, gap: theme.space.sm },
+  sectorRowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border.default },
+  sectorName: { color: theme.text.secondary, fontSize: theme.font.body, width: 120 },
+  sectorBarWrap: { flex: 1, height: 3, backgroundColor: theme.border.default, borderRadius: 1.5, overflow: 'hidden' },
   sectorBar: { height: 3, borderRadius: 1.5, minWidth: 2 },
-  sectorChange: { fontSize: 13, fontWeight: '600', width: 54, textAlign: 'right' },
+  sectorChange: { fontSize: theme.font.body, fontWeight: theme.weight.semibold, width: 54, textAlign: 'right', ...tabularStyle },
 
-  // List card (markets + guru)
   listCard: {
-    backgroundColor: '#1C1C1E', borderRadius: 12, overflow: 'hidden',
+    backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default,
+    borderRadius: theme.radius.md, overflow: 'hidden',
   },
-  rowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#2C2C2E' },
+  rowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border.default },
 
-  // Guru trades
-  guruRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
+  guruRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm + 2, paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.md },
   guruAvatar: {
-    width: 36, height: 36, borderRadius: 18,
-    backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center',
+    width: 36, height: 36, borderRadius: theme.radius.full,
+    backgroundColor: theme.bg.cardElevated, alignItems: 'center', justifyContent: 'center',
     overflow: 'hidden',
   },
-  guruAvatarImg: { width: 36, height: 36, borderRadius: 18 },
-  guruAvatarText: { color: '#8E8E93', fontSize: 12, fontWeight: '700' },
+  guruAvatarImg: { width: 36, height: 36, borderRadius: theme.radius.full },
+  guruAvatarText: { color: theme.text.tertiary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold },
   guruInfo: { flex: 1, gap: 2 },
-  guruTopRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  guruInvestorName: { color: '#FFFFFF', fontSize: 14, fontWeight: '600', flex: 1 },
-  guruTicker: { color: '#8E8E93', fontSize: 12 },
+  guruTopRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.xs + 2 },
+  guruInvestorName: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, flex: 1 },
+  guruTicker: { color: theme.text.tertiary, fontSize: theme.font.bodySm },
   tradeBadge: {
-    borderRadius: 4, borderWidth: 0,
-    paddingHorizontal: 6, paddingVertical: 2,
+    borderRadius: theme.radius.sm - 2, borderWidth: 0,
+    paddingHorizontal: theme.space.xs + 2, paddingVertical: 2,
   },
-  tradeBadgeText: { fontSize: 11, fontWeight: '600' },
-  guruValue: { fontSize: 13, fontWeight: '600', textAlign: 'right' },
+  tradeBadgeText: { fontSize: theme.font.caption, fontWeight: theme.weight.semibold },
+  guruValue: { fontSize: theme.font.body, fontWeight: theme.weight.semibold, textAlign: 'right', ...tabularStyle },
 });

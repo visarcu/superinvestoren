@@ -13,8 +13,10 @@ import PortfolioEarningsPreview from '@/components/PortfolioEarningsPreview'
 import SoldPositions from '@/components/portfolio/SoldPositions'
 import { getETFBySymbol } from '@/lib/etfUtils'
 import AIAnalyseTab from '@/components/portfolio/AIAnalyseTab'
+import AnalysisTab from '@/components/portfolio/AnalysisTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
+import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
 import Logo from '@/components/Logo'
 import { perfColor } from '@/utils/formatters'
 import {
@@ -121,7 +123,7 @@ export default function PortfolioDashboard() {
   }, [p.holdings, fetchSuperInvestorOverlap])
 
   // UI State
-  const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'transactions' | 'ai-analyse' | 'dividends'>('overview')
+  const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'analysis' | 'transactions' | 'ai-analyse' | 'dividends'>('overview')
   const [showDepotSwitcher, setShowDepotSwitcher] = useState(false)
   const [showPremiumModal, setShowPremiumModal] = useState(false)
   const [premiumFeatureMessage, setPremiumFeatureMessage] = useState('')
@@ -155,6 +157,9 @@ export default function PortfolioDashboard() {
 
   // CSV Import State
   const [showCSVImport, setShowCSVImport] = useState(false)
+
+  // Cash-Toggle State (mit/ohne Cash im Gesamtwert)
+  const [includeCashInTotal, setIncludeCashInTotal] = useState(true)
 
   // Handlers
   const handlePremiumRequired = () => {
@@ -389,24 +394,52 @@ export default function PortfolioDashboard() {
             </div>
           </div>
 
-          {/* Quick Value Display */}
-          <div className="flex items-baseline gap-8">
+          {/* Quick Value Display + Cash-Toggle */}
+          <div className="flex items-end justify-between gap-8 flex-wrap">
             <div>
-              <p className="text-3xl font-bold text-white">{p.formatCurrency(p.totalValue)}</p>
+              <p className="text-3xl font-bold text-white tracking-tight tabular-nums">
+                {p.formatCurrency(includeCashInTotal ? p.totalValue : p.stockValue)}
+              </p>
               <div className="flex items-center gap-3 mt-1">
-                <span className={`text-sm font-medium ${perfColor(p.totalReturn)}`}>
+                <span className={`text-sm font-medium tabular-nums ${perfColor(p.totalReturn)}`}>
                   {p.totalReturn >= 0 ? '+' : ''}{p.formatCurrency(p.totalReturn)}
                 </span>
-                <span className={`text-sm ${perfColor(p.totalReturnPercent)}`}>
+                <span className={`text-sm tabular-nums ${perfColor(p.totalReturnPercent)}`}>
                   {p.formatPercentage(p.totalReturnPercent)}
                 </span>
                 {p.xirrPercent !== null && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded ${perfColor(p.xirrPercent, 'bg')}`}>
+                  <span className={`text-xs px-1.5 py-0.5 rounded tabular-nums ${perfColor(p.xirrPercent, 'bg')}`}>
                     XIRR: {p.xirrPercent >= 0 ? '+' : ''}{p.xirrPercent.toFixed(1)}% p.a.
                   </span>
                 )}
               </div>
             </div>
+
+            {/* Cash-Toggle: nur sichtbar wenn Cash != 0 */}
+            {p.cashPosition !== 0 && (
+              <div className="inline-flex items-center bg-neutral-900/50 border border-neutral-800 rounded-lg p-0.5 text-[11px] font-medium">
+                <button
+                  onClick={() => setIncludeCashInTotal(true)}
+                  className={`px-3 py-1.5 rounded-md transition-colors ${
+                    includeCashInTotal
+                      ? 'bg-neutral-800 text-white'
+                      : 'text-neutral-500 hover:text-neutral-300'
+                  }`}
+                >
+                  Mit Cash
+                </button>
+                <button
+                  onClick={() => setIncludeCashInTotal(false)}
+                  className={`px-3 py-1.5 rounded-md transition-colors ${
+                    !includeCashInTotal
+                      ? 'bg-neutral-800 text-white'
+                      : 'text-neutral-500 hover:text-neutral-300'
+                  }`}
+                >
+                  Nur Wertpapiere
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -416,8 +449,9 @@ export default function PortfolioDashboard() {
         {[
           { key: 'overview' as const, label: 'Übersicht', premium: false },
           { key: 'positions' as const, label: 'Positionen', premium: false },
-          { key: 'ai-analyse' as const, label: 'KI-Analyse', premium: true },
+          { key: 'analysis' as const, label: 'Analyse', premium: false },
           { key: 'dividends' as const, label: 'Dividenden', premium: true },
+          { key: 'ai-analyse' as const, label: 'KI-Analyse', premium: true },
           { key: 'transactions' as const, label: 'Transaktionen', premium: true },
         ].map(tab => (
           <button
@@ -479,19 +513,46 @@ export default function PortfolioDashboard() {
               </div>
             )}
 
-            {/* Chart */}
+            {/* Chart + Anstehende Earnings nebeneinander */}
             {p.holdings.length > 0 && (
-              <div className="mt-6 bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
-                <PortfolioValueChart
-                  portfolioId={p.portfolio?.id || ''}
-                  holdings={p.holdings.map(h => ({
-                    symbol: h.symbol,
-                    quantity: h.quantity,
-                    purchase_price: h.purchase_price,
-                    purchase_date: h.purchase_date
-                  }))}
+              <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr,1.6fr] gap-5">
+                {/* Earnings links — kompakt, clean */}
+                <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/50 overflow-hidden">
+                  <PortfolioEarningsPreview symbols={p.holdings.map(h => h.symbol)} />
+                </div>
+
+                {/* Chart rechts — bekommt mehr Platz */}
+                <div className="bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
+                  <PortfolioValueChart
+                    portfolioId={p.portfolio?.id || ''}
+                    holdings={p.holdings.map(h => ({
+                      symbol: h.symbol,
+                      quantity: h.quantity,
+                      purchase_price: h.purchase_price,
+                      purchase_date: h.purchase_date
+                    }))}
+                    cashPosition={p.cashPosition}
+                    formatCurrency={p.formatCurrency}
+                  />
+                </div>
+              </div>
+            )}
+
+            {/* Allokations-Donut */}
+            {p.holdings.length > 0 && (
+              <div className="mt-5 bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
+                <div className="flex items-center justify-between mb-5">
+                  <h3 className="text-sm font-semibold text-white tracking-tight">Allokation</h3>
+                  <span className="text-[11px] text-neutral-500">
+                    {includeCashInTotal ? 'Inkl. Cash' : 'Nur Wertpapiere'}
+                  </span>
+                </div>
+                <PortfolioAllocation
+                  holdings={p.holdings}
                   cashPosition={p.cashPosition}
+                  totalValue={p.totalValue}
                   formatCurrency={p.formatCurrency}
+                  includeCash={includeCashInTotal && p.cashPosition > 0}
                 />
               </div>
             )}
@@ -577,13 +638,6 @@ export default function PortfolioDashboard() {
               )
             })()}
 
-            {/* Anstehende Earnings */}
-            {p.holdings.length > 0 && (
-              <div className="mt-6">
-                <PortfolioEarningsPreview symbols={p.holdings.map(h => h.symbol)} />
-              </div>
-            )}
-
             {/* Verkaufte Wertpapiere */}
             <SoldPositions
               transactions={p.transactions}
@@ -610,6 +664,18 @@ export default function PortfolioDashboard() {
             isAllDepotsView={p.isAllDepotsView}
             portfolioId={p.portfolio?.id}
             superInvestorCounts={superInvestorCounts}
+          />
+        )}
+
+        {/* Analysis Tab */}
+        {activeTab === 'analysis' && (
+          <AnalysisTab
+            holdings={p.holdings}
+            cashPosition={p.cashPosition}
+            totalValue={p.totalValue}
+            formatCurrency={p.formatCurrency}
+            formatPercentage={p.formatPercentage}
+            portfolioId={p.portfolio?.id}
           />
         )}
 

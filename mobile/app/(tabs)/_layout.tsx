@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../../lib/auth';
 import PremiumModal from '../../components/PremiumModal';
+import { theme } from '../../lib/theme';
 
 const PREMIUM_MODAL_KEY = 'premium_modal_last_shown';
 const SHOW_INTERVAL_DAYS = 3;
@@ -58,16 +59,16 @@ export default function TabsLayout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#000000',
-            borderTopColor: '#1C1C1E',
+            backgroundColor: theme.bg.base,
+            borderTopColor: theme.border.default,
             borderTopWidth: StyleSheet.hairlineWidth,
             height: 88,
             paddingBottom: 28,
             paddingTop: 10,
           },
-          tabBarActiveTintColor: '#FFFFFF',
-          tabBarInactiveTintColor: '#48484A',
-          tabBarLabelStyle: { fontSize: 10, fontWeight: '500', marginTop: 2 },
+          tabBarActiveTintColor: theme.text.primary,
+          tabBarInactiveTintColor: theme.text.muted,
+          tabBarLabelStyle: { fontSize: theme.font.captionSm, fontWeight: theme.weight.medium, marginTop: 2, letterSpacing: 0.2 },
         }}
       >
         <Tabs.Screen

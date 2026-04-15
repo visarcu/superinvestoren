@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import StockLogo from '../../components/StockLogo';
+import { theme, tabularStyle, perfColor } from '../../lib/theme';
 
 const BASE_URL = 'https://finclue.de';
 
@@ -297,18 +298,18 @@ export default function PortfolioScreen() {
     <SafeAreaView style={s.container}>
       <ScrollView
         style={{ flex: 1 }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor="#34C759" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor={theme.accent.positive} />}
       >
         {/* Header */}
         <View style={s.header}>
           <TouchableOpacity style={s.portfolioSelector} onPress={() => setShowPortfolioModal(true)}>
             <Text style={s.title}>{portfolioName || 'Portfolio'}</Text>
             {portfolioList.length > 1 && (
-              <Ionicons name="chevron-down" size={18} color="#94A3B8" style={{ marginTop: 2 }} />
+              <Ionicons name="chevron-down" size={18} color={theme.text.secondary} style={{ marginTop: 2 }} />
             )}
           </TouchableOpacity>
           <TouchableOpacity style={s.addBtn} onPress={() => router.push('/add-transaction')}>
-            <Ionicons name="add" size={22} color="#F8FAFC" />
+            <Ionicons name="add" size={22} color={theme.text.primary} />
           </TouchableOpacity>
         </View>
 
@@ -322,13 +323,13 @@ export default function PortfolioScreen() {
               {/* All portfolios option */}
               <TouchableOpacity style={s.modalOption} onPress={() => switchPortfolio(null, 'Alle Depots')}>
                 <View style={s.modalOptionLeft}>
-                  <Ionicons name="layers-outline" size={20} color="#34C759" />
+                  <Ionicons name="layers-outline" size={20} color={theme.accent.positive} />
                   <View>
                     <Text style={s.modalOptionName}>Alle Depots</Text>
                     <Text style={s.modalOptionSub}>{portfolioList.length} Depots zusammengefasst</Text>
                   </View>
                 </View>
-                {selectedPortfolioId === null && <Ionicons name="checkmark" size={18} color="#34C759" />}
+                {selectedPortfolioId === null && <Ionicons name="checkmark" size={18} color={theme.accent.positive} />}
               </TouchableOpacity>
 
               <View style={s.modalDivider} />
@@ -337,10 +338,10 @@ export default function PortfolioScreen() {
               {portfolioList.map(p => (
                 <TouchableOpacity key={p.id} style={s.modalOption} onPress={() => switchPortfolio(p.id, p.name)}>
                   <View style={s.modalOptionLeft}>
-                    <Ionicons name="briefcase-outline" size={20} color="#64748B" />
+                    <Ionicons name="briefcase-outline" size={20} color={theme.text.tertiary} />
                     <Text style={s.modalOptionName}>{p.name}</Text>
                   </View>
-                  {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color="#34C759" />}
+                  {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color={theme.accent.positive} />}
                 </TouchableOpacity>
               ))}
 
@@ -361,18 +362,18 @@ export default function PortfolioScreen() {
                 <Ionicons
                   name={displayGainPct >= 0 ? 'trending-up' : 'trending-down'}
                   size={14}
-                  color={displayGainPct >= 0 ? '#34C759' : '#FF3B30'}
+                  color={displayGainPct >= 0 ? theme.accent.positive : theme.accent.negative}
                 />
-                <Text style={[s.gainBadgeText, { color: displayGainPct >= 0 ? '#34C759' : '#FF3B30' }]}>
+                <Text style={[s.gainBadgeText, { color: displayGainPct >= 0 ? theme.accent.positive : theme.accent.negative }]}>
                   {fmtPct(displayGainPct)}
                 </Text>
               </View>
             )}
           </View>
           {periodLoading ? (
-            <ActivityIndicator color="#34C759" size="small" style={{ marginTop: 8 }} />
+            <ActivityIndicator color={theme.accent.positive} size="small" style={{ marginTop: 8 }} />
           ) : (
-            <Text style={[s.gainAbsolute, { color: displayGain >= 0 ? '#34C759' : '#FF3B30' }]}>
+            <Text style={[s.gainAbsolute, { color: displayGain >= 0 ? theme.accent.positive : theme.accent.negative }]}>
               {displayGain >= 0 ? '+' : ''}{fmtCurrency(displayGain)} {period !== 'gesamt' ? `(${period})` : ''}
             </Text>
           )}
@@ -393,7 +394,7 @@ export default function PortfolioScreen() {
           </View>
           {totalAnnualDiv > 0 && (
             <View style={s.divSummaryRow}>
-              <Ionicons name="cash-outline" size={12} color="#475569" />
+              <Ionicons name="cash-outline" size={12} color={theme.text.tertiary} />
               <Text style={s.divSummaryText}>
                 Dividende: {fmtBig(totalAnnualDiv)}/Jahr ({fmtDE(portfolioYield)} %)
               </Text>
@@ -407,27 +408,27 @@ export default function PortfolioScreen() {
           {tabs.map(tab => (
             <TouchableOpacity key={tab.id} style={[s.tabItem, activeTab === tab.id && s.tabItemActive]}
               onPress={() => setActiveTab(tab.id)}>
-              <Ionicons name={tab.icon as any} size={14} color={activeTab === tab.id ? '#34C759' : '#475569'} />
+              <Ionicons name={tab.icon as any} size={14} color={activeTab === tab.id ? theme.text.primary : theme.text.tertiary} />
               <Text style={[s.tabLabel, activeTab === tab.id && s.tabLabelActive]}>{tab.label}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
 
         {loading ? (
-          <ActivityIndicator color="#34C759" style={{ marginTop: 32 }} />
+          <ActivityIndicator color={theme.accent.positive} style={{ marginTop: 32 }} />
         ) : error ? (
           <View style={s.emptyState}>
-            <Ionicons name="alert-circle-outline" size={40} color="#FF3B30" />
+            <Ionicons name="alert-circle-outline" size={40} color={theme.accent.negative} />
             <Text style={s.emptyTitle}>Fehler beim Laden</Text>
             <Text style={s.emptyText}>{error}</Text>
           </View>
         ) : holdings.length === 0 ? (
           <View style={s.emptyState}>
-            <View style={s.emptyIcon}><Ionicons name="briefcase-outline" size={28} color="#475569" /></View>
+            <View style={s.emptyIcon}><Ionicons name="briefcase-outline" size={28} color={theme.text.tertiary} /></View>
             <Text style={s.emptyTitle}>Portfolio ist leer</Text>
             <Text style={s.emptyText}>Füge deine erste Transaktion hinzu</Text>
             <TouchableOpacity style={s.linkBtn} onPress={() => router.push('/add-transaction')}>
-              <Ionicons name="add-circle-outline" size={18} color="#F8FAFC" style={{ marginRight: 6 }} />
+              <Ionicons name="add-circle-outline" size={18} color={theme.text.primary} style={{ marginRight: 6 }} />
               <Text style={s.linkBtnText}>Transaktion hinzufügen</Text>
             </TouchableOpacity>
           </View>
@@ -435,41 +436,49 @@ export default function PortfolioScreen() {
         ) : activeTab === 'positionen' ? (
           /* ── POSITIONEN TAB ── */
           <View style={s.list}>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
-              <Text style={s.sectionLabel}>POSITIONEN</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+              <Text style={s.sectionLabel}>Positionen</Text>
               {Object.values(siCounts).some(v => v.count > 0) && (
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4, marginBottom: 10 }}>
-                  <Ionicons name="star" size={10} color="#F59E0B" />
-                  <Text style={{ color: '#475569', fontSize: 11 }}>= Superinvestor hält Aktie</Text>
+                  <Ionicons name="star" size={10} color={theme.accent.warning} />
+                  <Text style={{ color: theme.text.tertiary, fontSize: theme.font.captionSm }}>= Superinvestor hält Aktie</Text>
                 </View>
               )}
             </View>
-            {holdings.map((h) => {
-              const siCount = siCounts[h.symbol]?.count ?? 0;
-              return (
-                <TouchableOpacity key={h.symbol} style={s.row} onPress={() => router.push(`/stock/${h.symbol}`)} activeOpacity={0.7}>
-                  <StockLogo ticker={h.symbol} size={42} borderRadius={10} />
-                  <View style={s.rowMid}>
-                    <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
-                      <Text style={s.symbol} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
-                      {siCount > 0 && (
-                        <View style={s.siBadge}>
-                          <Ionicons name="star" size={9} color="#F59E0B" />
-                          <Text style={s.siBadgeText}>{siCount}</Text>
-                        </View>
-                      )}
+            <View style={s.card}>
+              {holdings.map((h, idx) => {
+                const siCount = siCounts[h.symbol]?.count ?? 0;
+                const isLast = idx === holdings.length - 1;
+                return (
+                  <TouchableOpacity
+                    key={h.symbol}
+                    style={[s.row, isLast && { borderBottomWidth: 0 }]}
+                    onPress={() => router.push(`/stock/${h.symbol}`)}
+                    activeOpacity={0.6}
+                  >
+                    <StockLogo ticker={h.symbol} size={36} borderRadius={10} />
+                    <View style={s.rowMid}>
+                      <View style={{ flexDirection: 'row', alignItems: 'center', gap: 6 }}>
+                        <Text style={s.symbol} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
+                        {siCount > 0 && (
+                          <View style={s.siBadge}>
+                            <Ionicons name="star" size={9} color={theme.accent.warning} />
+                            <Text style={s.siBadgeText}>{siCount}</Text>
+                          </View>
+                        )}
+                      </View>
+                      <Text style={s.shares} numberOfLines={1}>{h.quantity} × {h.symbol} · ⌀ {fmtCurrency(h.purchase_price || 0)}</Text>
                     </View>
-                    <Text style={s.shares}>{h.quantity} Aktien · {h.symbol} · ⌀ {fmtCurrency(h.purchase_price || 0)}</Text>
-                  </View>
-                  <View style={s.rowRight}>
-                    <Text style={s.value}>{fmtCurrency(h.currentValue)}</Text>
-                    <Text style={[s.gain, { color: h.gain >= 0 ? '#34C759' : '#FF3B30' }]}>{fmtPct(h.gainPct)}</Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
+                    <View style={s.rowRight}>
+                      <Text style={s.value}>{fmtCurrency(h.currentValue)}</Text>
+                      <Text style={[s.gain, { color: perfColor(h.gain) }]}>{fmtPct(h.gainPct)}</Text>
+                    </View>
+                  </TouchableOpacity>
+                );
+              })}
+            </View>
             <TouchableOpacity style={s.transactionBtn} onPress={() => router.push('/add-transaction')}>
-              <Ionicons name="add-circle-outline" size={18} color="#34C759" />
+              <Ionicons name="add" size={16} color={theme.text.primary} />
               <Text style={s.transactionBtnText}>Transaktion hinzufügen</Text>
             </TouchableOpacity>
           </View>
@@ -491,13 +500,13 @@ export default function PortfolioScreen() {
               </View>
               <View style={s.statCard}>
                 <Text style={s.statLabel}>Gewinn/Verlust</Text>
-                <Text style={[s.statValue, { color: totalGain >= 0 ? '#34C759' : '#FF3B30' }]}>
+                <Text style={[s.statValue, { color: totalGain >= 0 ? theme.accent.positive : theme.accent.negative }]}>
                   {totalGain >= 0 ? '+' : ''}{fmtBig(totalGain)}
                 </Text>
               </View>
               <View style={s.statCard}>
                 <Text style={s.statLabel}>Rendite (gesamt)</Text>
-                <Text style={[s.statValue, { color: totalGainPct >= 0 ? '#34C759' : '#FF3B30' }]}>
+                <Text style={[s.statValue, { color: totalGainPct >= 0 ? theme.accent.positive : theme.accent.negative }]}>
                   {fmtPct(totalGainPct)}
                 </Text>
               </View>
@@ -533,7 +542,7 @@ export default function PortfolioScreen() {
                   <Text style={s.plAbs}>
                     {h.gain >= 0 ? '+' : ''}{fmtCurrency(h.gain)}
                   </Text>
-                  <Text style={[s.plPct, { color: h.gainPct >= 0 ? '#34C759' : '#FF3B30' }]}>
+                  <Text style={[s.plPct, { color: h.gainPct >= 0 ? theme.accent.positive : theme.accent.negative }]}>
                     {fmtPct(h.gainPct)}
                   </Text>
                 </TouchableOpacity>
@@ -545,10 +554,10 @@ export default function PortfolioScreen() {
           /* ── DIVIDENDEN TAB ── */
           <View style={s.list}>
             {divLoading ? (
-              <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
+              <ActivityIndicator color={theme.accent.positive} style={{ marginVertical: 24 }} />
             ) : divData.length === 0 ? (
               <View style={s.emptyState}>
-                <Ionicons name="cash-outline" size={36} color="#475569" />
+                <Ionicons name="cash-outline" size={36} color={theme.text.tertiary} />
                 <Text style={s.emptyTitle}>Keine Dividenden</Text>
                 <Text style={s.emptyText}>Deine Aktien zahlen aktuell keine Dividenden</Text>
               </View>
@@ -602,7 +611,7 @@ export default function PortfolioScreen() {
                   <View style={s.divDivider} />
                   <View style={s.divSummaryItem}>
                     <Text style={s.divSummaryLabel}>Portfoliorendite</Text>
-                    <Text style={[s.divSummaryBig, { color: '#34C759' }]}>{fmtDE(portfolioYield)} %</Text>
+                    <Text style={[s.divSummaryBig, { color: theme.accent.positive }]}>{fmtDE(portfolioYield)} %</Text>
                   </View>
                   <View style={s.divDivider} />
                   <View style={s.divSummaryItem}>
@@ -644,7 +653,7 @@ export default function PortfolioScreen() {
             <Text style={s.sectionLabel}>SUPERINVESTOREN MIT DEINEN AKTIEN</Text>
             {siList.length === 0 ? (
               <View style={s.emptyState}>
-                <Ionicons name="people-outline" size={36} color="#475569" />
+                <Ionicons name="people-outline" size={36} color={theme.text.tertiary} />
                 <Text style={s.emptyTitle}>Keine Überschneidungen</Text>
                 <Text style={s.emptyText}>Kein Superinvestor hält aktuell deine Aktien</Text>
               </View>
@@ -671,127 +680,243 @@ export default function PortfolioScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
+  container: { flex: 1, backgroundColor: theme.bg.base },
 
   // Header
-  header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  portfolioSelector: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  // Modal
-  modalOverlay: { flex: 1, backgroundColor: 'rgba(0,0,0,0.6)', justifyContent: 'flex-end' },
+  header: {
+    paddingHorizontal: theme.space.xl,
+    paddingTop: theme.space.md,
+    paddingBottom: theme.space.lg,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  portfolioSelector: { flexDirection: 'row', alignItems: 'center', gap: theme.space.xs },
+  title: {
+    color: theme.text.primary,
+    fontSize: 22,
+    fontWeight: theme.weight.bold,
+    letterSpacing: theme.tracking.tight,
+  },
+  subtitle: { color: theme.text.tertiary, fontSize: theme.font.body },
+  addBtn: {
+    width: 34, height: 34, borderRadius: theme.radius.full,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+    alignItems: 'center', justifyContent: 'center',
+  },
+
+  // Bottom-Sheet Modal
+  modalOverlay: { flex: 1, backgroundColor: theme.bg.overlay, justifyContent: 'flex-end' },
   modalSheet: {
-    backgroundColor: '#111113', borderTopLeftRadius: 20, borderTopRightRadius: 20,
-    paddingBottom: 34, paddingTop: 12,
+    backgroundColor: theme.bg.cardElevated,
+    borderTopLeftRadius: theme.radius.xl, borderTopRightRadius: theme.radius.xl,
+    paddingBottom: 34, paddingTop: theme.space.md,
   },
   modalHandle: {
-    width: 36, height: 4, borderRadius: 2, backgroundColor: '#334155',
-    alignSelf: 'center', marginBottom: 16,
+    width: 36, height: 4, borderRadius: 2, backgroundColor: theme.border.strong,
+    alignSelf: 'center', marginBottom: theme.space.lg,
   },
   modalTitle: {
-    color: '#64748B', fontSize: 12, fontWeight: '700', letterSpacing: 1,
-    textTransform: 'uppercase', paddingHorizontal: 20, marginBottom: 8,
+    color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.semibold,
+    letterSpacing: theme.tracking.wider, textTransform: 'uppercase',
+    paddingHorizontal: theme.space.xl, marginBottom: theme.space.sm,
   },
   modalOption: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 20, paddingVertical: 14,
+    paddingHorizontal: theme.space.xl, paddingVertical: theme.space.md + 2,
   },
-  modalOptionLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  modalOptionName: { color: '#F8FAFC', fontSize: 16, fontWeight: '600' },
-  modalOptionSub: { color: '#64748B', fontSize: 13, marginTop: 1 },
-  modalDivider: { height: 1, backgroundColor: '#1e1e20', marginVertical: 4, marginHorizontal: 20 },
+  modalOptionLeft: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
+  modalOptionName: { color: theme.text.primary, fontSize: 15, fontWeight: theme.weight.medium },
+  modalOptionSub: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 1 },
+  modalDivider: { height: 1, backgroundColor: theme.border.default, marginVertical: theme.space.xs, marginHorizontal: theme.space.xl },
   modalCancel: {
-    marginHorizontal: 16, marginTop: 8, paddingVertical: 14, borderRadius: 12,
-    backgroundColor: '#1e293b', alignItems: 'center',
+    marginHorizontal: theme.space.lg, marginTop: theme.space.sm,
+    paddingVertical: theme.space.md + 2, borderRadius: theme.radius.md,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+    alignItems: 'center',
   },
-  modalCancelText: { color: '#94A3B8', fontSize: 16, fontWeight: '600' },
-  title: { color: '#FFFFFF', fontSize: 26, fontWeight: '700', letterSpacing: -0.8 },
-  subtitle: { color: '#8E8E93', fontSize: 13, marginTop: 1 },
-  addBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
+  modalCancelText: { color: theme.text.secondary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
 
-  // Summary Card — flat, no gradient
-  summaryCard: { marginHorizontal: 16, marginBottom: 20, borderRadius: 18, padding: 22, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E' },
-  summaryLabel: { color: '#8E8E93', fontSize: 12, fontWeight: '500', letterSpacing: 0.2, marginBottom: 6 },
-  valueRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
-  summaryValue: { color: '#FFFFFF', fontSize: 32, fontWeight: '700', letterSpacing: -1.2 },
-  gainBadge: { flexDirection: 'row', alignItems: 'center', gap: 4, paddingHorizontal: 8, paddingVertical: 4, borderRadius: 8 },
-  gainBadgeText: { fontSize: 13, fontWeight: '700' },
-  gainAbsolute: { fontSize: 13, fontWeight: '500', marginTop: 4 },
-  periodRow: { flexDirection: 'row', gap: 6, marginTop: 14 },
-  periodPill: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8, backgroundColor: '#1E1E20' },
-  periodPillActive: { backgroundColor: '#2C2C2E' },
-  periodText: { color: '#48484A', fontSize: 12, fontWeight: '600' },
-  periodTextActive: { color: '#FFFFFF' },
-  divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#1E1E20' },
-  divSummaryText: { color: '#64748B', fontSize: 12, fontWeight: '500' },
+  // Summary Card — premium flat
+  summaryCard: {
+    marginHorizontal: theme.space.lg, marginBottom: theme.space.xl,
+    borderRadius: theme.radius.xl, padding: theme.space.xl,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+  },
+  summaryLabel: {
+    color: theme.text.tertiary, fontSize: theme.font.caption,
+    fontWeight: theme.weight.medium, letterSpacing: theme.tracking.wide,
+    textTransform: 'uppercase', marginBottom: theme.space.sm,
+  },
+  valueRow: { flexDirection: 'row', alignItems: 'baseline', gap: theme.space.sm + 2, flexWrap: 'wrap' },
+  summaryValue: {
+    color: theme.text.primary,
+    fontSize: theme.font.display1, fontWeight: theme.weight.bold,
+    letterSpacing: theme.tracking.tight, ...tabularStyle,
+  },
+  gainBadge: {
+    flexDirection: 'row', alignItems: 'center', gap: 3,
+    paddingHorizontal: theme.space.sm, paddingVertical: 2,
+    borderRadius: theme.radius.sm,
+  },
+  gainBadgeText: { fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, ...tabularStyle },
+  gainAbsolute: { fontSize: theme.font.bodySm, fontWeight: theme.weight.medium, marginTop: theme.space.xs, ...tabularStyle },
+  periodRow: { flexDirection: 'row', gap: theme.space.xs + 2, marginTop: theme.space.lg },
+  periodPill: {
+    paddingHorizontal: theme.space.md, paddingVertical: theme.space.xs + 2,
+    borderRadius: theme.radius.sm,
+    backgroundColor: 'transparent',
+  },
+  periodPillActive: { backgroundColor: theme.bg.cardHover },
+  periodText: { color: theme.text.muted, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, letterSpacing: 0.3 },
+  periodTextActive: { color: theme.text.primary },
+  divSummaryRow: {
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.xs + 2,
+    marginTop: theme.space.lg, paddingTop: theme.space.md,
+    borderTopWidth: 1, borderTopColor: theme.border.default,
+  },
+  divSummaryText: { color: theme.text.tertiary, fontSize: theme.font.caption, fontWeight: theme.weight.medium },
 
   // Inner Tab Bar — underline style
-  tabBar: { paddingHorizontal: 20, gap: 0, paddingBottom: 0, borderBottomWidth: 1, borderBottomColor: '#1C1C1E', marginBottom: 20 },
-  tabItem: { flexDirection: 'row', alignItems: 'center', gap: 5, paddingHorizontal: 12, paddingVertical: 11, borderBottomWidth: 2, borderBottomColor: 'transparent', marginBottom: -1 },
-  tabItemActive: { borderBottomColor: '#FFFFFF' },
-  tabLabel: { color: '#8E8E93', fontSize: 13, fontWeight: '600' },
-  tabLabelActive: { color: '#FFFFFF' },
+  tabBar: {
+    paddingHorizontal: theme.space.xl, gap: 0, paddingBottom: 0,
+    borderBottomWidth: 1, borderBottomColor: theme.border.default,
+    marginBottom: theme.space.xl,
+  },
+  tabItem: {
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.xs + 1,
+    paddingHorizontal: theme.space.md, paddingVertical: theme.space.md - 1,
+    borderBottomWidth: 2, borderBottomColor: 'transparent', marginBottom: -1,
+  },
+  tabItemActive: { borderBottomColor: theme.text.primary },
+  tabLabel: { color: theme.text.tertiary, fontSize: theme.font.body, fontWeight: theme.weight.medium },
+  tabLabelActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
 
   // Content
-  list: { paddingHorizontal: 16, paddingBottom: 40 },
-  sectionLabel: { color: '#48484A', fontSize: 11, fontWeight: '600', letterSpacing: 0.8, marginBottom: 10, marginTop: 4 },
-  card: { backgroundColor: '#1C1C1E', borderRadius: 16,  overflow: 'hidden' },
+  list: { paddingHorizontal: theme.space.lg, paddingBottom: 40 },
+  sectionLabel: {
+    color: theme.text.tertiary, fontSize: theme.font.caption,
+    fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wider,
+    textTransform: 'uppercase',
+    marginBottom: theme.space.md - 2, marginTop: theme.space.xs,
+  },
+  card: { backgroundColor: theme.bg.card, borderRadius: theme.radius.lg, overflow: 'hidden', borderWidth: 1, borderColor: theme.border.default },
 
-  // Position rows
-  row: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
-  rowMid: { flex: 1 },
-  symbol: { color: '#FFFFFF', fontSize: 15, fontWeight: '700', letterSpacing: -0.2 },
-  shares: { color: '#8E8E93', fontSize: 12, marginTop: 2 },
+  // Position rows — Listen-Style mit Border-Separators
+  row: {
+    backgroundColor: theme.bg.card,
+    paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2,
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.md,
+    borderBottomWidth: 1, borderBottomColor: theme.border.default,
+  },
+  rowMid: { flex: 1, minWidth: 0 },
+  symbol: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal },
+  shares: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 2, ...tabularStyle },
   rowRight: { alignItems: 'flex-end' },
-  value: { color: '#FFFFFF', fontSize: 15, fontWeight: '600' },
-  gain: { fontSize: 13, marginTop: 2, fontWeight: '500' },
-  siBadge: { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 20, paddingHorizontal: 6, paddingVertical: 2 },
-  siBadgeText: { color: '#8E8E93', fontSize: 10, fontWeight: '600' },
-  transactionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 14, padding: 14, backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E' },
-  transactionBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
+  value: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, ...tabularStyle },
+  gain: { fontSize: theme.font.bodySm, marginTop: 2, fontWeight: theme.weight.medium, ...tabularStyle },
+  siBadge: {
+    flexDirection: 'row', alignItems: 'center', gap: 3,
+    backgroundColor: theme.bg.cardElevated,
+    borderRadius: theme.radius.full, paddingHorizontal: 6, paddingVertical: 2,
+  },
+  siBadgeText: { color: theme.text.tertiary, fontSize: theme.font.captionSm, fontWeight: theme.weight.semibold },
+  transactionBtn: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: theme.space.sm, marginTop: theme.space.lg, padding: theme.space.lg,
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.lg,
+    borderWidth: 1, borderColor: theme.border.default,
+  },
+  transactionBtnText: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
 
   // Performance
-  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  statCard: { flex: 1, minWidth: '45%', backgroundColor: '#1C1C1E', borderRadius: 14,  padding: 16 },
-  statLabel: { color: '#8E8E93', fontSize: 11, marginBottom: 8, fontWeight: '500' },
-  statValue: { color: '#FFFFFF', fontSize: 17, fontWeight: '700', letterSpacing: -0.4 },
-  allocRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
-  allocBorder: { borderTopWidth: 1, borderTopColor: '#1C1C1E' },
-  allocTicker: { color: '#FFFFFF', fontSize: 13, fontWeight: '600' },
-  allocPct: { color: '#8E8E93', fontSize: 12, fontWeight: '600' },
-  allocBar: { height: 3, backgroundColor: '#2C2C2E', borderRadius: 2, overflow: 'hidden', marginTop: 6 },
-  allocBarFill: { height: 3, backgroundColor: 'rgba(255,255,255,0.5)', borderRadius: 2 },
-  plRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13, gap: 8 },
-  plTicker: { color: '#FFFFFF', fontSize: 13, fontWeight: '700', width: 60 },
-  plAbs: { color: '#8E8E93', fontSize: 12, marginRight: 8 },
-  plPct: { fontSize: 13, fontWeight: '700', width: 72, textAlign: 'right' },
+  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: theme.space.sm },
+  statCard: {
+    flex: 1, minWidth: '45%',
+    backgroundColor: theme.bg.card,
+    borderRadius: theme.radius.lg, padding: theme.space.lg,
+    borderWidth: 1, borderColor: theme.border.default,
+  },
+  statLabel: {
+    color: theme.text.tertiary, fontSize: theme.font.caption,
+    marginBottom: theme.space.sm,
+    fontWeight: theme.weight.medium, letterSpacing: theme.tracking.wide,
+    textTransform: 'uppercase',
+  },
+  statValue: { color: theme.text.primary, fontSize: theme.font.title1, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal, ...tabularStyle },
+  allocRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 1 },
+  allocBorder: { borderTopWidth: 1, borderTopColor: theme.border.default },
+  allocTicker: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.semibold },
+  allocPct: { color: theme.text.tertiary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, ...tabularStyle },
+  allocBar: { height: 3, backgroundColor: theme.border.default, borderRadius: 2, overflow: 'hidden', marginTop: 6 },
+  allocBarFill: { height: 3, backgroundColor: theme.text.secondary, borderRadius: 2 },
+  plRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 1, gap: theme.space.sm },
+  plTicker: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.semibold, width: 60 },
+  plAbs: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginRight: theme.space.sm, ...tabularStyle },
+  plPct: { fontSize: theme.font.body, fontWeight: theme.weight.semibold, width: 72, textAlign: 'right', ...tabularStyle },
 
   // Dividenden
-  divSummaryCard: { backgroundColor: '#1C1C1E', borderRadius: 16,  padding: 18, flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  divSummaryCard: {
+    backgroundColor: theme.bg.card,
+    borderRadius: theme.radius.lg, padding: theme.space.lg + 2,
+    flexDirection: 'row', alignItems: 'center', marginBottom: theme.space.sm,
+    borderWidth: 1, borderColor: theme.border.default,
+  },
   divSummaryItem: { flex: 1, alignItems: 'center' },
-  divSummaryLabel: { color: '#8E8E93', fontSize: 10, fontWeight: '500', marginBottom: 6 },
-  divSummaryBig: { color: '#FFFFFF', fontSize: 15, fontWeight: '700', letterSpacing: -0.3 },
-  divDivider: { width: 1, height: 32, backgroundColor: '#2C2C2E' },
-  upcomingDivRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
-  upcomingDivAccent: { width: 3, height: 28, backgroundColor: '#34C759', borderRadius: 2, marginRight: 12 },
-  divRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
-  divTicker: { color: '#FFFFFF', fontSize: 14, fontWeight: '700', letterSpacing: -0.2 },
-  divSub: { color: '#8E8E93', fontSize: 11, marginTop: 2 },
-  divNext: { color: '#34C759', fontSize: 10, marginTop: 3 },
-  divIncome: { color: '#FFFFFF', fontSize: 14, fontWeight: '700', letterSpacing: -0.3 },
-  divIncomeLabel: { color: '#8E8E93', fontSize: 10, marginTop: 2 },
+  divSummaryLabel: {
+    color: theme.text.tertiary, fontSize: theme.font.captionSm,
+    fontWeight: theme.weight.medium, letterSpacing: theme.tracking.wide,
+    textTransform: 'uppercase', marginBottom: theme.space.xs + 2,
+  },
+  divSummaryBig: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal, ...tabularStyle },
+  divDivider: { width: 1, height: 28, backgroundColor: theme.border.default },
+  upcomingDivRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 1 },
+  upcomingDivAccent: { width: 2, height: 24, backgroundColor: theme.accent.positive, borderRadius: 1, marginRight: theme.space.md },
+  divRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 1 },
+  divTicker: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal },
+  divSub: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 2 },
+  divNext: { color: theme.accent.positive, fontSize: theme.font.captionSm, marginTop: 3, ...tabularStyle },
+  divIncome: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal, ...tabularStyle },
+  divIncomeLabel: { color: theme.text.tertiary, fontSize: theme.font.captionSm, marginTop: 2 },
 
   // Superinvestoren
-  siRow: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
-  siAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
-  siAvatarText: { color: '#8E8E93', fontSize: 16, fontWeight: '700' },
-  siName: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
-  siTickers: { color: '#8E8E93', fontSize: 12, marginTop: 2 },
-  siCountBadge: { backgroundColor: '#1C1C1E', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 5 },
-  siCountText: { color: '#8E8E93', fontSize: 12, fontWeight: '600' },
+  siRow: {
+    backgroundColor: theme.bg.card,
+    paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2,
+    flexDirection: 'row', alignItems: 'center', gap: theme.space.md,
+    borderBottomWidth: 1, borderBottomColor: theme.border.default,
+  },
+  siAvatar: {
+    width: 36, height: 36, borderRadius: theme.radius.full,
+    backgroundColor: theme.bg.cardElevated,
+    borderWidth: 1, borderColor: theme.border.default,
+    alignItems: 'center', justifyContent: 'center',
+  },
+  siAvatarText: { color: theme.text.secondary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  siName: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  siTickers: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 2 },
+  siCountBadge: {
+    backgroundColor: theme.bg.cardElevated,
+    borderRadius: theme.radius.sm, paddingHorizontal: theme.space.sm + 2, paddingVertical: theme.space.xs + 1,
+  },
+  siCountText: { color: theme.text.secondary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, ...tabularStyle },
 
-  emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 56, gap: 10 },
-  emptyIcon: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
-  emptyTitle: { color: '#FFFFFF', fontSize: 17, fontWeight: '600' },
-  emptyText: { color: '#8E8E93', fontSize: 14, textAlign: 'center', paddingHorizontal: 32, lineHeight: 20 },
-  linkBtn: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 24, paddingVertical: 13, marginTop: 10, flexDirection: 'row', alignItems: 'center' },
-  linkBtnText: { color: '#FFFFFF', fontWeight: '600', fontSize: 14 },
+  emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 56, gap: theme.space.sm + 2 },
+  emptyIcon: {
+    width: 48, height: 48, borderRadius: theme.radius.lg,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
+    alignItems: 'center', justifyContent: 'center', marginBottom: theme.space.xs,
+  },
+  emptyTitle: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal },
+  emptyText: { color: theme.text.tertiary, fontSize: theme.font.title3, textAlign: 'center', paddingHorizontal: 32, lineHeight: 20 },
+  linkBtn: {
+    backgroundColor: theme.text.primary,
+    borderRadius: theme.radius.md, paddingHorizontal: theme.space.xxl, paddingVertical: theme.space.md + 1,
+    marginTop: theme.space.md - 2, flexDirection: 'row', alignItems: 'center',
+  },
+  linkBtnText: { color: theme.text.inverse, fontWeight: theme.weight.semibold, fontSize: theme.font.title3 },
 });

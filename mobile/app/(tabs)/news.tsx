@@ -234,7 +234,7 @@ export default function NewsScreen() {
           {hasGradeChange && (
             <View style={s.gradeRow}>
               <Text style={s.gradePrev}>{g.previousGrade}</Text>
-              <Ionicons name="arrow-forward" size={10} color="#475569" />
+              <Ionicons name="arrow-forward" size={10} color={theme.text.tertiary} />
               <Text style={s.gradeNew}>{g.newGrade}</Text>
             </View>
           )}
@@ -242,7 +242,7 @@ export default function NewsScreen() {
           <Text style={s.ratingDescription} numberOfLines={2}>{description}</Text>
         </View>
 
-        <Ionicons name="chevron-forward" size={14} color="#334155" />
+        <Ionicons name="chevron-forward" size={14} color={theme.text.muted} />
       </TouchableOpacity>
     );
   }
@@ -260,7 +260,7 @@ export default function NewsScreen() {
           <Image source={{ uri: article.image }} style={s.newsImage} />
         ) : (
           <View style={[s.newsImage, s.newsImagePlaceholder]}>
-            <Ionicons name="newspaper-outline" size={20} color="#475569" />
+            <Ionicons name="newspaper-outline" size={20} color={theme.text.tertiary} />
           </View>
         )}
 
@@ -297,7 +297,7 @@ export default function NewsScreen() {
           onPress={() => router.push('/notifications-center')}
           hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
         >
-          <Ionicons name="notifications-outline" size={22} color="#94A3B8" />
+          <Ionicons name="notifications-outline" size={22} color={theme.text.secondary} />
         </TouchableOpacity>
       </View>
 
@@ -311,7 +311,7 @@ export default function NewsScreen() {
           <Ionicons
             name="trending-up"
             size={16}
-            color={subTab === 'ratings' ? '#34C759' : '#64748B'}
+            color={subTab === 'ratings' ? theme.text.primary : theme.text.tertiary}
           />
           <Text style={[s.subTabText, subTab === 'ratings' && s.subTabTextActive]}>
             Analyst Ratings
@@ -325,7 +325,7 @@ export default function NewsScreen() {
           <Ionicons
             name="newspaper-outline"
             size={16}
-            color={subTab === 'news' ? '#34C759' : '#64748B'}
+            color={subTab === 'news' ? theme.text.primary : theme.text.tertiary}
           />
           <Text style={[s.subTabText, subTab === 'news' && s.subTabTextActive]}>
             Markt-News
@@ -337,7 +337,7 @@ export default function NewsScreen() {
       {subTab === 'ratings' && (
         ratingsLoading ? (
           <View style={s.loadingWrap}>
-            <ActivityIndicator color="#34C759" size="large" />
+            <ActivityIndicator color={theme.text.tertiary} size="large" />
           </View>
         ) : (
           <FlatList
@@ -348,7 +348,7 @@ export default function NewsScreen() {
               <RefreshControl
                 refreshing={ratingsRefreshing}
                 onRefresh={() => { setRatingsRefreshing(true); loadRatings(); }}
-                tintColor="#34C759"
+                tintColor={theme.text.tertiary}
               />
             }
             ListHeaderComponent={
@@ -393,7 +393,7 @@ export default function NewsScreen() {
             }
             ListEmptyComponent={
               <View style={s.emptyWrap}>
-                <Ionicons name="analytics-outline" size={32} color="#475569" />
+                <Ionicons name="analytics-outline" size={32} color={theme.text.tertiary} />
                 <Text style={s.emptyText}>Keine Ratings gefunden</Text>
               </View>
             }
@@ -406,7 +406,7 @@ export default function NewsScreen() {
       {subTab === 'news' && (
         newsLoading ? (
           <View style={s.loadingWrap}>
-            <ActivityIndicator color="#34C759" size="large" />
+            <ActivityIndicator color={theme.text.tertiary} size="large" />
           </View>
         ) : (
           <FlatList
@@ -417,12 +417,12 @@ export default function NewsScreen() {
               <RefreshControl
                 refreshing={newsRefreshing}
                 onRefresh={() => { setNewsRefreshing(true); loadNews(); }}
-                tintColor="#34C759"
+                tintColor={theme.text.tertiary}
               />
             }
             ListEmptyComponent={
               <View style={s.emptyWrap}>
-                <Ionicons name="newspaper-outline" size={32} color="#475569" />
+                <Ionicons name="newspaper-outline" size={32} color={theme.text.tertiary} />
                 <Text style={s.emptyTitle}>Keine News</Text>
                 <Text style={s.emptyText}>
                   Füge Aktien zu deiner Watchlist oder deinem Portfolio hinzu, um personalisierte News zu erhalten.
@@ -437,95 +437,92 @@ export default function NewsScreen() {
   );
 }
 
-const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000000' },
+import { theme, tabularStyle } from '../../lib/theme';
 
-  // ── Header ──
+const s = StyleSheet.create({
+  container: { flex: 1, backgroundColor: theme.bg.base },
+
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 20, paddingTop: 8, paddingBottom: 12,
+    paddingHorizontal: theme.space.xl, paddingTop: theme.space.md, paddingBottom: theme.space.md,
   },
-  headerTitle: { color: '#F8FAFC', fontSize: 28, fontWeight: '800' },
+  headerTitle: { color: theme.text.primary, fontSize: 22, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight },
 
-  // ── Sub-Tabs ──
   subTabRow: {
-    flexDirection: 'row', marginHorizontal: 16, marginBottom: 12,
-    backgroundColor: '#1C1C1E', borderRadius: 10, padding: 3,
+    flexDirection: 'row', marginHorizontal: theme.space.lg, marginBottom: theme.space.md,
+    backgroundColor: theme.bg.card, borderRadius: theme.radius.md, padding: 3,
+    borderWidth: 1, borderColor: theme.border.default,
   },
   subTab: {
     flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    gap: 6, paddingVertical: 8, borderRadius: 8,
+    gap: theme.space.xs + 2, paddingVertical: theme.space.sm, borderRadius: theme.radius.sm,
   },
-  subTabActive: { backgroundColor: '#2C2C2E' },
-  subTabText: { color: '#48484A', fontSize: 14, fontWeight: '600' },
-  subTabTextActive: { color: '#FFFFFF' },
+  subTabActive: { backgroundColor: theme.bg.cardElevated },
+  subTabText: { color: theme.text.tertiary, fontSize: theme.font.title3, fontWeight: theme.weight.medium },
+  subTabTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
 
-  // ── Loading ──
   loadingWrap: { flex: 1, alignItems: 'center', justifyContent: 'center' },
 
-  // ── Stats ──
-  statsRow: { flexDirection: 'row', paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4, gap: 10 },
+  statsRow: { flexDirection: 'row', paddingHorizontal: theme.space.lg, paddingTop: theme.space.sm, paddingBottom: theme.space.xs, gap: theme.space.sm + 2 },
   statCard: {
-    flex: 1, backgroundColor: '#1C1C1E', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#2C2C2E',
+    flex: 1, backgroundColor: theme.bg.card, borderRadius: theme.radius.md, padding: theme.space.lg,
+    borderWidth: 1, borderColor: theme.border.default,
   },
-  statLabel: { color: '#64748B', fontSize: 12, marginBottom: 4 },
-  statValue: { color: '#F8FAFC', fontSize: 20, fontWeight: '700' },
+  statLabel: { color: theme.text.tertiary, fontSize: theme.font.caption, marginBottom: theme.space.xs, fontWeight: theme.weight.medium, letterSpacing: theme.tracking.wide, textTransform: 'uppercase' },
+  statValue: { color: theme.text.primary, fontSize: theme.font.display2, fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.normal, ...tabularStyle },
 
-  // ── Filters ──
-  filterScroll: { marginTop: 8, marginBottom: 4 },
-  filterRow: { paddingHorizontal: 16, gap: 8, paddingBottom: 8 },
+  filterScroll: { marginTop: theme.space.sm, marginBottom: theme.space.xs },
+  filterRow: { paddingHorizontal: theme.space.lg, gap: theme.space.sm, paddingBottom: theme.space.sm },
   filterPill: {
-    paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
-    backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E',
+    paddingHorizontal: theme.space.md + 2, paddingVertical: theme.space.xs + 3,
+    borderRadius: theme.radius.full,
+    backgroundColor: theme.bg.card,
+    borderWidth: 1, borderColor: theme.border.default,
   },
-  filterPillActive: { backgroundColor: '#2C2C2E', borderColor: '#3A3A3C' },
-  filterText: { color: '#48484A', fontSize: 13, fontWeight: '600' },
-  filterTextActive: { color: '#FFFFFF' },
+  filterPillActive: { backgroundColor: theme.bg.cardElevated, borderColor: theme.border.strong },
+  filterText: { color: theme.text.tertiary, fontSize: theme.font.body, fontWeight: theme.weight.medium },
+  filterTextActive: { color: theme.text.primary, fontWeight: theme.weight.semibold },
 
-  // ── Shared ──
-  rowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#1E293B' },
+  rowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border.default },
 
-  // ── Rating Row ──
   ratingRow: {
     flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 16, paddingVertical: 14, gap: 12,
+    paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2, gap: theme.space.md,
   },
   actionBadge: {
-    width: 44, height: 44, borderRadius: 14,
+    width: 40, height: 40, borderRadius: theme.radius.md,
     alignItems: 'center', justifyContent: 'center', flexShrink: 0,
   },
   ratingContent: { flex: 1, minWidth: 0 },
-  ratingTopRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  ratingSymbol: { color: '#F8FAFC', fontSize: 15, fontWeight: '700' },
-  actionPill: { paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
-  actionPillText: { fontSize: 11, fontWeight: '700', textTransform: 'capitalize' },
-  ratingTime: { color: '#475569', fontSize: 11, marginLeft: 'auto' },
-  ratingCompany: { color: '#94A3B8', fontSize: 13, marginTop: 2 },
-  gradeRow: { flexDirection: 'row', alignItems: 'center', gap: 4, marginTop: 4 },
-  gradePrev: { color: '#64748B', fontSize: 12, textDecorationLine: 'line-through' },
-  gradeNew: { color: '#F8FAFC', fontSize: 12, fontWeight: '600' },
-  ratingDescription: { color: '#64748B', fontSize: 13, lineHeight: 17, marginTop: 4 },
+  ratingTopRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm },
+  ratingSymbol: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold },
+  actionPill: { paddingHorizontal: theme.space.sm, paddingVertical: 2, borderRadius: theme.radius.sm },
+  actionPillText: { fontSize: theme.font.caption, fontWeight: theme.weight.semibold, textTransform: 'capitalize' },
+  ratingTime: { color: theme.text.muted, fontSize: theme.font.caption, marginLeft: 'auto', ...tabularStyle },
+  ratingCompany: { color: theme.text.secondary, fontSize: theme.font.body, marginTop: 2 },
+  gradeRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.xs, marginTop: theme.space.xs },
+  gradePrev: { color: theme.text.tertiary, fontSize: theme.font.bodySm, textDecorationLine: 'line-through' },
+  gradeNew: { color: theme.text.primary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold },
+  ratingDescription: { color: theme.text.tertiary, fontSize: theme.font.body, lineHeight: 17, marginTop: theme.space.xs },
 
-  // ── News Row ──
   newsRow: {
-    flexDirection: 'row', paddingHorizontal: 16, paddingVertical: 14, gap: 12,
+    flexDirection: 'row', paddingHorizontal: theme.space.lg, paddingVertical: theme.space.md + 2, gap: theme.space.md,
   },
   newsImage: {
-    width: 80, height: 80, borderRadius: 10, backgroundColor: '#1C1C1E', flexShrink: 0,
+    width: 72, height: 72, borderRadius: theme.radius.md,
+    backgroundColor: theme.bg.card, flexShrink: 0,
   },
   newsImagePlaceholder: { alignItems: 'center', justifyContent: 'center' },
   newsContent: { flex: 1, minWidth: 0, justifyContent: 'center' },
   newsTicker: {
-    color: '#34C759', fontSize: 12, fontWeight: '700', marginBottom: 4,
+    color: theme.accent.positive, fontSize: theme.font.caption, fontWeight: theme.weight.semibold, marginBottom: theme.space.xs, letterSpacing: theme.tracking.wide,
   },
-  newsTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '600', lineHeight: 20 },
-  newsMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 },
-  newsSite: { color: '#64748B', fontSize: 12 },
-  newsTime: { color: '#475569', fontSize: 11 },
+  newsTitle: { color: theme.text.primary, fontSize: theme.font.title3, fontWeight: theme.weight.semibold, lineHeight: 19 },
+  newsMetaRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.sm, marginTop: theme.space.xs + 2 },
+  newsSite: { color: theme.text.tertiary, fontSize: theme.font.caption },
+  newsTime: { color: theme.text.muted, fontSize: theme.font.caption, ...tabularStyle },
 
-  // ── Empty ──
-  emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 12 },
-  emptyTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '600' },
-  emptyText: { color: '#475569', fontSize: 14, textAlign: 'center', lineHeight: 20 },
+  emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: theme.space.md },
+  emptyTitle: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold },
+  emptyText: { color: theme.text.tertiary, fontSize: theme.font.title3, textAlign: 'center', lineHeight: 20 },
 });

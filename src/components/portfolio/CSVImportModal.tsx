@@ -1,24 +1,39 @@
 // src/components/portfolio/CSVImportModal.tsx
-// Multi-Step Import Wizard für Scalable Capital CSV & Broker PDFs (Flatex, Smartbroker+, Trade Republic)
+// Multi-Step Import Wizard nach Parqet-Stil:
+//   Broker auswählen → Anleitung → Upload → Cash-Handling → Vorschau → Import → Fertig
+// Unterstützt: Scalable Capital (CSV), Trade Republic / Flatex / Smartbroker+ (PDF), Freedom24 (XLSX)
 'use client'
 
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { parseScalableCSV, reconstructHoldings, type ParsedTransaction, type CSVParseResult } from '@/lib/scalableCSVParser'
+import { reconstructHoldings, type ParsedTransaction, type CSVParseResult } from '@/lib/scalableCSVParser'
 import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates } from '@/lib/duplicateCheck'
 import type { FlatexParsedTransaction } from '@/lib/flatexPDFParser'
+import {
+  IMPORT_BROKERS,
+  getImportBroker,
+  formatToBrokerId,
+  type ImportBrokerId,
+  type ImportBrokerInfo,
+} from '@/lib/importBrokerConfig'
+import { BrokerLogo } from './BrokerLogo'
 import {
   XMarkIcon,
   ArrowUpTrayIcon,
   ArrowPathIcon,
   CheckIcon,
   ExclamationTriangleIcon,
-  DocumentTextIcon,
   ArrowRightIcon,
   ArrowLeftIcon,
   MagnifyingGlassIcon,
   ChevronDownIcon,
+  BanknotesIcon,
+  CurrencyEuroIcon,
+  NoSymbolIcon,
+  LightBulbIcon,
+  ArrowTopRightOnSquareIcon,
+  ChartBarIcon,
 } from '@heroicons/react/24/outline'
 
 interface CSVImportModalProps {
@@ -29,9 +44,19 @@ interface CSVImportModalProps {
   onImportComplete: () => void
 }
 
-type ImportStep = 'upload' | 'processing' | 'resolve' | 'preview' | 'importing' | 'done'
+type WizardStep =
+  | 'broker'
+  | 'instructions'
+  | 'upload'
+  | 'processing'
+  | 'resolve'
+  | 'cash'
+  | 'preview'
+  | 'importing'
+  | 'done'
 
-// Typen für die Anzeige
+type CashMode = 'include' | 'ignore'
+
 const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   buy: { label: 'Kauf', color: 'text-emerald-400' },
   sell: { label: 'Verkauf', color: 'text-red-400' },
@@ -42,6 +67,15 @@ const TYPE_LABELS: Record<string, { label: string; color: string }> = {
   transfer_out: { label: 'Ausbuchung', color: 'text-orange-400' },
 }
 
+// Sichtbare Hauptschritte im Step-Indikator
+const MAIN_STEPS: { key: WizardStep[]; label: string }[] = [
+  { key: ['broker'], label: 'Broker' },
+  { key: ['instructions'], label: 'Anleitung' },
+  { key: ['upload', 'processing', 'resolve'], label: 'Upload' },
+  { key: ['cash'], label: 'Cash' },
+  { key: ['preview', 'importing', 'done'], label: 'Vorschau' },
+]
+
 export default function CSVImportModal({
   isOpen,
   onClose,
@@ -49,32 +83,72 @@ export default function CSVImportModal({
   portfolioName,
   onImportComplete,
 }: CSVImportModalProps) {
-  const [step, setStep] = useState<ImportStep>('upload')
+  // === Wizard-State ===
+  const [step, setStep] = useState<WizardStep>('broker')
+  const [selectedBroker, setSelectedBroker] = useState<ImportBrokerInfo | null>(null)
+  const [cashMode, setCashMode] = useState<CashMode>('include')
+
+  // === Parser / Resolve State ===
   const [parseResult, setParseResult] = useState<CSVParseResult | null>(null)
   const [isinMap, setIsinMap] = useState<Map<string, { symbol: string; name: string; source: string }>>(new Map())
   const [unresolvedISINs, setUnresolvedISINs] = useState<string[]>([])
   const [resolving, setResolving] = useState(false)
+  const [manualMappings, setManualMappings] = useState<Record<string, string>>({})
+  const [detectedFormat, setDetectedFormat] = useState<string | null>(null)
+  const [pdfParsing, setPdfParsing] = useState(false)
+  const [pdfErrors, setPdfErrors] = useState<string[]>([])
+
+  // === Import State ===
   const [importing, setImporting] = useState(false)
   const [importProgress, setImportProgress] = useState({ current: 0, total: 0 })
   const [importError, setImportError] = useState<string | null>(null)
-  const [importResult, setImportResult] = useState<{ transactions: number; holdings: number } | null>(null)
-  const [manualMappings, setManualMappings] = useState<Record<string, string>>({})
+  const [importResult, setImportResult] = useState<{
+    transactionsAttempted: number
+    transactionsSaved: number
+    duplicatesSkipped: number
+    holdingsCreated: number
+    holdingsUpdated: number
+    cashMode: CashMode
+    cashTransactionsImported: number
+    unresolvedSymbols: number
+  } | null>(null)
+
+  // === Duplikate ===
   const [duplicateIndices, setDuplicateIndices] = useState<Set<number>>(new Set())
   const [duplicateCheckDone, setDuplicateCheckDone] = useState(false)
   const [checkingDuplicates, setCheckingDuplicates] = useState(false)
+  const [pendingDuplicateCheck, setPendingDuplicateCheck] = useState(false)
+
+  // === UI State ===
   const [showSkippedDetails, setShowSkippedDetails] = useState(false)
   const [showDuplicateDetails, setShowDuplicateDetails] = useState(false)
-  const [skippedResolve, setSkippedResolve] = useState(false)
-  const [pendingDuplicateCheck, setPendingDuplicateCheck] = useState(false)
-  const [pdfParsing, setPdfParsing] = useState(false)
-  const [pdfErrors, setPdfErrors] = useState<string[]>([])
-  const [detectedFormat, setDetectedFormat] = useState<string | null>(null)
   const [isDragOver, setIsDragOver] = useState(false)
   const autoInputRef = useRef<HTMLInputElement>(null)
 
-  // Reset State
+  // === Reset-Feature: existierende Portfolio-Daten ===
+  const [existingDataCount, setExistingDataCount] = useState<{ transactions: number; holdings: number } | null>(null)
+  const [resetBeforeImport, setResetBeforeImport] = useState(false)
+
+  // Prüfe existierende Daten im Portfolio (wird beim Öffnen des Modals gemacht)
+  React.useEffect(() => {
+    if (!isOpen || !portfolioId) return
+    let cancelled = false
+    ;(async () => {
+      const [{ count: txCount }, { count: holdCount }] = await Promise.all([
+        supabase.from('portfolio_transactions').select('id', { count: 'exact', head: true }).eq('portfolio_id', portfolioId),
+        supabase.from('portfolio_holdings').select('id', { count: 'exact', head: true }).eq('portfolio_id', portfolioId),
+      ])
+      if (cancelled) return
+      setExistingDataCount({ transactions: txCount || 0, holdings: holdCount || 0 })
+    })()
+    return () => { cancelled = true }
+  }, [isOpen, portfolioId])
+
+  // === Reset ===
   const resetState = useCallback(() => {
-    setStep('upload')
+    setStep('broker')
+    setSelectedBroker(null)
+    setCashMode('include')
     setParseResult(null)
     setIsinMap(new Map())
     setUnresolvedISINs([])
@@ -93,8 +167,8 @@ export default function CSVImportModal({
     setPdfErrors([])
     setDetectedFormat(null)
     setIsDragOver(false)
-    setSkippedResolve(false)
     setPendingDuplicateCheck(false)
+    setResetBeforeImport(false)
   }, [])
 
   const handleClose = useCallback(() => {
@@ -102,14 +176,24 @@ export default function CSVImportModal({
     onClose()
   }, [resetState, onClose])
 
-  // === STEP 1: Unified Auto-Upload (erkennt Format automatisch) ===
+  // ======================================================================
+  // STEP 1: Broker auswählen
+  // ======================================================================
+  const handleSelectBroker = useCallback((broker: ImportBrokerInfo) => {
+    setSelectedBroker(broker)
+    setStep('instructions')
+  }, [])
+
+  // ======================================================================
+  // STEP 3: Upload → Auto-Format-Erkennung
+  // ======================================================================
   const runISINResolve = useCallback(async (
     uniqueISINs: string[],
     setMap: (m: Map<string, { symbol: string; name: string; source: string }>) => void,
   ) => {
     if (uniqueISINs.length === 0) {
-      setSkippedResolve(true)
-      setStep('preview')
+      // Keine ISINs → direkt zu Cash-Step
+      setStep('cash')
       setPendingDuplicateCheck(true)
       return
     }
@@ -122,8 +206,7 @@ export default function CSVImportModal({
     if (unresolved.length === 0) {
       setMap(newMap)
       setUnresolvedISINs([])
-      setSkippedResolve(true)
-      setStep('preview')
+      setStep('cash')
       setPendingDuplicateCheck(true)
       return
     }
@@ -149,8 +232,7 @@ export default function CSVImportModal({
         setMap(new Map(newMap))
         setUnresolvedISINs(stillUnresolved)
         if (stillUnresolved.length === 0) {
-          setSkippedResolve(true)
-          setStep('preview')
+          setStep('cash')
           setPendingDuplicateCheck(true)
         } else {
           setStep('resolve')
@@ -206,15 +288,24 @@ export default function CSVImportModal({
 
       setDetectedFormat(data.formatLabel)
 
+      // Warnung wenn Broker-Format nicht zur Auswahl passt
+      if (selectedBroker && selectedBroker.id !== 'other') {
+        const detectedBrokerId = formatToBrokerId(data.format)
+        if (detectedBrokerId !== selectedBroker.id) {
+          setPdfErrors(prev => [
+            `Hinweis: Du hast "${selectedBroker.name}" ausgewählt, die Datei sieht aber nach "${getImportBroker(detectedBrokerId).name}" aus. Der Import läuft trotzdem weiter.`,
+            ...prev,
+          ])
+        }
+      }
+
       let parsedTransactions: ParsedTransaction[]
       let uniqueISINs: string[]
 
       if (data.format === 'scalable') {
-        // Scalable CSV → bereits ParsedTransaction[] vom Server
         parsedTransactions = data.transactions as ParsedTransaction[]
         uniqueISINs = (data.uniqueISINs as string[]) || []
       } else {
-        // Alle anderen → FlatexParsedTransaction[] → ParsedTransaction[]
         const txs = data.transactions as FlatexParsedTransaction[]
         uniqueISINs = [...new Set(txs.map(t => t.isin).filter(Boolean))]
         parsedTransactions = txs.map(tx => ({
@@ -257,9 +348,11 @@ export default function CSVImportModal({
       setPdfParsing(false)
       if (autoInputRef.current) autoInputRef.current.value = ''
     }
-  }, [runISINResolve])
+  }, [runISINResolve, selectedBroker])
 
-  // === STEP 2: ISIN Resolution (manueller Retry-Button) ===
+  // ======================================================================
+  // STEP 4: ISIN Resolution
+  // ======================================================================
   const resolveViaAPI = useCallback(async () => {
     if (unresolvedISINs.length === 0) return
 
@@ -291,7 +384,7 @@ export default function CSVImportModal({
         setIsinMap(newMap)
         setUnresolvedISINs(stillUnresolved)
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('ISIN resolution error:', error)
     } finally {
       setResolving(false)
@@ -309,7 +402,6 @@ export default function CSVImportModal({
     for (const isin of unresolvedISINs) {
       const manual = manualMappings[isin]
       if (manual && manual.trim()) {
-        // Beschreibung aus den Transaktionen holen
         const tx = parseResult?.transactions.find(t => t.isin === isin)
         newMap.set(isin, { symbol: manual.trim().toUpperCase(), name: tx?.name || manual, source: 'manual' })
       } else {
@@ -321,31 +413,37 @@ export default function CSVImportModal({
     setUnresolvedISINs(stillUnresolved)
   }, [unresolvedISINs, manualMappings, isinMap, parseResult])
 
-  // Transaktionen mit aufgelösten Symbolen
+  // ======================================================================
+  // Transaktionen mit aufgelösten Symbolen + Cash-Filter
+  // ======================================================================
   const resolvedTransactions = useMemo(() => {
     if (!parseResult) return []
 
     return parseResult.transactions.map(tx => {
-      if (tx.symbol) return tx // Bereits aufgelöst (z.B. CASH)
-
+      if (tx.symbol) return tx
       const resolved = isinMap.get(tx.isin)
       if (resolved) {
         return { ...tx, symbol: resolved.symbol, name: resolved.name || tx.name }
       }
-
-      return tx // Unaufgelöst — ISIN als Fallback
+      return tx
     })
   }, [parseResult, isinMap])
 
-  // Holdings Vorschau
-  const previewHoldings = useMemo(() => {
-    const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
-    return reconstructHoldings(txWithSymbols)
-  }, [resolvedTransactions])
+  // Nach Cash-Mode gefilterte Transaktionen
+  const cashFilteredTransactions = useMemo(() => {
+    if (cashMode === 'include') return resolvedTransactions
+    // cashMode === 'ignore': Cash-Transaktionen rausfiltern
+    return resolvedTransactions.filter(t => t.type !== 'cash_deposit' && t.type !== 'cash_withdrawal')
+  }, [resolvedTransactions, cashMode])
 
-  // Duplikat-Prüfung starten wenn Preview-Step erreicht wird
+  const previewHoldings = useMemo(() => {
+    const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol && t.symbol !== 'CASH')
+    return reconstructHoldings(txWithSymbols)
+  }, [cashFilteredTransactions])
+
+  // Duplikat-Prüfung
   const runDuplicateCheck = useCallback(async () => {
-    const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
+    const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol)
     if (txWithSymbols.length === 0) return
 
     setCheckingDuplicates(true)
@@ -368,9 +466,8 @@ export default function CSVImportModal({
     } finally {
       setCheckingDuplicates(false)
     }
-  }, [resolvedTransactions, portfolioId])
+  }, [cashFilteredTransactions, portfolioId])
 
-  // Auto-Duplikat-Prüfung wenn resolve-Step übersprungen wurde
   React.useEffect(() => {
     if (pendingDuplicateCheck && step === 'preview') {
       setPendingDuplicateCheck(false)
@@ -378,31 +475,49 @@ export default function CSVImportModal({
     }
   }, [pendingDuplicateCheck, step, runDuplicateCheck])
 
-  // Duplikat-Transaktionen für die Detail-Anzeige
   const duplicateTransactions = useMemo(() => {
     if (duplicateIndices.size === 0) return []
-    const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
+    const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol)
     return Array.from(duplicateIndices).map(i => txWithSymbols[i]).filter(Boolean)
-  }, [resolvedTransactions, duplicateIndices])
+  }, [cashFilteredTransactions, duplicateIndices])
 
-  // Zusammenfassung für Preview
+  // Summary
   const importSummary = useMemo(() => {
     if (!parseResult) return null
 
-    const withSymbols = resolvedTransactions.filter(t => t.symbol)
+    const withSymbols = cashFilteredTransactions.filter(t => t.symbol)
     const withoutSymbols = resolvedTransactions.filter(t => !t.symbol && t.isin)
+    const cashTxCount = resolvedTransactions.filter(t => t.type === 'cash_deposit' || t.type === 'cash_withdrawal').length
+
+    const byType: Record<string, number> = {}
+    cashFilteredTransactions.forEach(t => { byType[t.type] = (byType[t.type] || 0) + 1 })
+
+    // Holdings-Markierungen
+    const transferHoldings = previewHoldings.filter(h => h.fromTransfer)
+    const corpActionHoldings = previewHoldings.filter(h => h.fromCorpAction)
+
+    // Bei Reset: alle bestehenden Daten werden gelöscht → keine Duplikate relevant
+    const effectiveDuplicateCount = resetBeforeImport ? 0 : duplicateIndices.size
 
     return {
       totalTransactions: withSymbols.length,
       skippedNoSymbol: withoutSymbols.length,
-      duplicateCount: duplicateIndices.size,
-      newTransactions: withSymbols.length - duplicateIndices.size,
+      duplicateCount: effectiveDuplicateCount,
+      newTransactions: withSymbols.length - effectiveDuplicateCount,
       holdings: previewHoldings.length,
-      byType: parseResult.summary.byType,
+      byType,
+      cashTxCount,
+      cashIncluded: cashMode === 'include',
+      transferHoldings,
+      corpActionHoldings,
+      stockSplits: parseResult.stockSplits || [],
+      tickerRenames: parseResult.tickerRenames || [],
     }
-  }, [parseResult, resolvedTransactions, previewHoldings, duplicateIndices])
+  }, [parseResult, resolvedTransactions, cashFilteredTransactions, previewHoldings, duplicateIndices, cashMode, resetBeforeImport])
 
-  // === STEP 4: Import ===
+  // ======================================================================
+  // STEP 7: Import
+  // ======================================================================
   const handleImport = useCallback(async () => {
     if (!parseResult) return
 
@@ -411,9 +526,24 @@ export default function CSVImportModal({
     setImportError(null)
 
     try {
-      const txWithSymbols = resolvedTransactions.filter(t => t.symbol)
-      // Duplikate herausfiltern
-      const txToImport = txWithSymbols.filter((_, i) => !duplicateIndices.has(i))
+      // Optional: Bestehende Daten des Portfolios löschen (Reset)
+      // Nur Transactions + Holdings löschen, NICHT das Portfolio selbst (cash_position, name etc. bleiben)
+      if (resetBeforeImport) {
+        const [delTx, delHold] = await Promise.all([
+          supabase.from('portfolio_transactions').delete().eq('portfolio_id', portfolioId),
+          supabase.from('portfolio_holdings').delete().eq('portfolio_id', portfolioId),
+        ])
+        if (delTx.error) throw new Error(`Fehler beim Löschen der Transaktionen: ${delTx.error.message}`)
+        if (delHold.error) throw new Error(`Fehler beim Löschen der Positionen: ${delHold.error.message}`)
+        // Auch Cash-Position auf 0 zurücksetzen (wird gleich neu berechnet)
+        await supabase.from('portfolios').update({ cash_position: 0 }).eq('id', portfolioId)
+      }
+
+      const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol)
+      // Bei Reset: alle Duplikate ignorieren (wurden ja gerade gelöscht)
+      const txToImport = resetBeforeImport
+        ? txWithSymbols
+        : txWithSymbols.filter((_, i) => !duplicateIndices.has(i))
       setImportProgress({ current: 0, total: txToImport.length })
 
       if (txToImport.length === 0) {
@@ -423,7 +553,9 @@ export default function CSVImportModal({
         return
       }
 
-      // Transaktionen in Batches von 50 einfügen
+      let savedCount = 0
+
+      // Batch-Import
       const batchSize = 50
       for (let i = 0; i < txToImport.length; i += batchSize) {
         const batch = txToImport.slice(i, i + batchSize)
@@ -446,14 +578,16 @@ export default function CSVImportModal({
 
         if (error) throw error
 
+        savedCount += rows.length
         setImportProgress({ current: Math.min(i + batchSize, txToImport.length), total: txToImport.length })
       }
 
       // Holdings erstellen/aktualisieren
-      const holdings = reconstructHoldings(txToImport)
+      const holdings = reconstructHoldings(txToImport.filter(t => t.symbol !== 'CASH'))
+      let holdingsCreated = 0
+      let holdingsUpdated = 0
 
       for (const holding of holdings) {
-        // Prüfen ob Holding bereits existiert
         const { data: existing } = await supabase
           .from('portfolio_holdings')
           .select('id, quantity, purchase_price')
@@ -462,7 +596,6 @@ export default function CSVImportModal({
           .single()
 
         if (existing) {
-          // Bestehende Position aufstocken (Durchschnittskostenmethode)
           const existQty = Number(existing.quantity) || 0
           const existPrice = Number(existing.purchase_price) || 0
           const newTotalQty = parseFloat((existQty + holding.quantity).toFixed(8))
@@ -478,8 +611,8 @@ export default function CSVImportModal({
               purchase_currency: 'EUR',
             })
             .eq('id', existing.id)
+          holdingsUpdated++
         } else {
-          // Neue Position erstellen
           await supabase
             .from('portfolio_holdings')
             .insert({
@@ -492,61 +625,66 @@ export default function CSVImportModal({
               purchase_date: holding.earliestDate,
               purchase_currency: 'EUR',
             })
+          holdingsCreated++
         }
       }
 
-      // Cash-Position aktualisieren
-      // Zwei Modi:
-      // A) Wenn das Portfolio Einzahlungen/Auszahlungen hat (z.B. Scalable CSV):
-      //    → Volle Neuberechnung aus ALLEN Transaktionen
-      // B) Wenn nur Trades vorliegen (z.B. Flatex PDFs ohne Deposit-Daten):
-      //    → Cash NICHT anfassen, da wir keine vollständige Transaktionshistorie haben
-      const { data: allPortfolioTx } = await supabase
-        .from('portfolio_transactions')
-        .select('type, total_value')
-        .eq('portfolio_id', portfolioId)
+      // Cash-Position aktualisieren — nur bei cashMode === 'include'
+      let cashTransactionsImported = 0
+      if (cashMode === 'include') {
+        const { data: allPortfolioTx } = await supabase
+          .from('portfolio_transactions')
+          .select('type, total_value')
+          .eq('portfolio_id', portfolioId)
 
-      if (allPortfolioTx && allPortfolioTx.length > 0) {
-        // Prüfe ob das Portfolio Einzahlungs-/Auszahlungsdaten hat
-        const hasCashFlowData = allPortfolioTx.some(
-          tx => tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
-        )
+        if (allPortfolioTx && allPortfolioTx.length > 0) {
+          const hasCashFlowData = allPortfolioTx.some(
+            tx => tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
+          )
 
-        if (hasCashFlowData) {
-          // Vollständige Neuberechnung — Portfolio hat komplette Transaktionshistorie
-          const totalCash = allPortfolioTx.reduce((sum, tx) => {
-            const val = Number(tx.total_value) || 0
-            switch (tx.type) {
-              case 'cash_deposit':   return sum + val  // Einzahlung → Cash steigt
-              case 'cash_withdrawal': return sum - val // Auszahlung/Gebühren → Cash sinkt
-              case 'buy':            return sum - val  // Kauf → Cash sinkt
-              case 'sell':           return sum + val  // Verkauf → Cash steigt
-              case 'dividend':       return sum + val  // Dividende → Cash steigt
-              default:               return sum        // transfer_in/out: kein Cash-Impact
-            }
-          }, 0)
+          if (hasCashFlowData) {
+            const totalCash = allPortfolioTx.reduce((sum, tx) => {
+              const val = Number(tx.total_value) || 0
+              switch (tx.type) {
+                case 'cash_deposit':   return sum + val
+                case 'cash_withdrawal': return sum - val
+                case 'buy':            return sum - val
+                case 'sell':           return sum + val
+                case 'dividend':       return sum + val
+                default:               return sum
+              }
+            }, 0)
 
-          await supabase
-            .from('portfolios')
-            .update({ cash_position: totalCash })
-            .eq('id', portfolioId)
+            await supabase
+              .from('portfolios')
+              .update({ cash_position: totalCash })
+              .eq('id', portfolioId)
+          }
         }
-        // Sonst: Cash-Position unverändert lassen (z.B. bei reinem PDF-Import)
+        cashTransactionsImported = txToImport.filter(
+          t => t.type === 'cash_deposit' || t.type === 'cash_withdrawal'
+        ).length
       }
 
       setImportResult({
-        transactions: txToImport.length,
-        holdings: holdings.length,
+        transactionsAttempted: cashFilteredTransactions.filter(t => t.symbol).length,
+        transactionsSaved: savedCount,
+        duplicatesSkipped: resetBeforeImport ? 0 : duplicateIndices.size,
+        holdingsCreated,
+        holdingsUpdated,
+        cashMode,
+        cashTransactionsImported,
+        unresolvedSymbols: resolvedTransactions.filter(t => !t.symbol && t.isin).length,
       })
       setStep('done')
     } catch (error: any) {
       console.error('Import error:', error)
       setImportError(error.message || 'Fehler beim Import')
-      setStep('preview') // Zurück zum Preview
+      setStep('preview')
     } finally {
       setImporting(false)
     }
-  }, [parseResult, resolvedTransactions, portfolioId])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport])
 
   // Format helpers
   const formatCurrency = (amount: number) =>
@@ -554,76 +692,180 @@ export default function CSVImportModal({
 
   if (!isOpen) return null
 
+  // ======================================================================
+  // Step-Indikator
+  // ======================================================================
+  const currentMainStepIndex = MAIN_STEPS.findIndex(s => s.key.includes(step))
+
+  const renderStepIndicator = () => (
+    <div className="flex items-center gap-1.5 px-6 py-3 border-b border-neutral-800/60 flex-shrink-0 overflow-x-auto">
+      {MAIN_STEPS.map((s, i) => {
+        const isActive = i === currentMainStepIndex
+        const isDone = i < currentMainStepIndex
+        return (
+          <React.Fragment key={i}>
+            {i > 0 && <div className={`w-4 h-px ${isDone ? 'bg-neutral-600' : 'bg-neutral-800'}`} />}
+            <div className={`flex items-center gap-1.5 text-[11px] font-medium whitespace-nowrap tracking-tight ${
+              isActive ? 'text-white' : isDone ? 'text-neutral-400' : 'text-neutral-600'
+            }`}>
+              {isDone ? (
+                <CheckIcon className="w-3 h-3 text-neutral-400" />
+              ) : (
+                <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] border ${
+                  isActive ? 'border-white text-white' : 'border-neutral-700 text-neutral-600'
+                }`}>
+                  {i + 1}
+                </span>
+              )}
+              {s.label}
+            </div>
+          </React.Fragment>
+        )
+      })}
+    </div>
+  )
+
+  // ======================================================================
+  // Render Step Content
+  // ======================================================================
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-neutral-900 rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-hidden shadow-2xl border border-neutral-800 flex flex-col">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4">
+      <div className="bg-neutral-950 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-2xl border border-neutral-800/80 flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between p-5 border-b border-neutral-800 flex-shrink-0">
-          <div>
-            <h2 className="text-lg font-semibold text-white">Transaktions-Import</h2>
-            <p className="text-xs text-neutral-500 mt-0.5">
-              Transaktionen in "{portfolioName}" importieren
-            </p>
+        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80 flex-shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
+            {selectedBroker && step !== 'broker' && (
+              <BrokerLogo brokerId={selectedBroker.id} size={32} />
+            )}
+            <div className="min-w-0">
+              <h2 className="text-[15px] font-semibold text-white tracking-tight">
+                {step === 'broker' ? 'Depot importieren' : `Import · ${selectedBroker?.shortName || 'Wizard'}`}
+              </h2>
+              <p className="text-xs text-neutral-500 mt-0.5 truncate">
+                {step === 'broker' ? 'Wähle deinen Broker' : `Ziel-Depot: ${portfolioName}`}
+              </p>
+            </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-1.5 hover:bg-neutral-800 rounded-lg transition-colors"
+            className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors flex-shrink-0"
           >
-            <XMarkIcon className="w-5 h-5 text-neutral-400" />
+            <XMarkIcon className="w-4.5 h-4.5 text-neutral-500 hover:text-neutral-300" />
           </button>
         </div>
 
         {/* Step Indicator */}
-        <div className="flex items-center gap-2 px-5 py-3 border-b border-neutral-800/50 flex-shrink-0">
-          {(skippedResolve
-            ? [{ key: 'upload', label: '1. Upload' }, { key: 'preview', label: '2. Vorschau' }]
-            : [{ key: 'upload', label: '1. Upload' }, { key: 'resolve', label: '2. Symbole' }, { key: 'preview', label: '3. Vorschau' }]
-          ).map((s, i) => {
-            const isActive = s.key === step || (['processing', 'importing'].includes(step) && s.key === 'preview') || (step === 'done' && s.key === 'preview')
-            const isDone =
-              (s.key === 'upload' && !['upload'].includes(step)) ||
-              (s.key === 'resolve' && ['preview', 'importing', 'done'].includes(step))
-
-            return (
-              <React.Fragment key={s.key}>
-                {i > 0 && <div className="w-8 h-px bg-neutral-700" />}
-                <div className={`flex items-center gap-1.5 text-xs font-medium ${
-                  isActive ? 'text-emerald-400' : isDone ? 'text-neutral-400' : 'text-neutral-600'
-                }`}>
-                  {isDone ? (
-                    <CheckIcon className="w-3.5 h-3.5 text-emerald-400" />
-                  ) : (
-                    <span className={`w-4 h-4 rounded-full flex items-center justify-center text-[10px] border ${
-                      isActive ? 'border-emerald-400 text-emerald-400' : 'border-neutral-600 text-neutral-600'
-                    }`}>
-                      {i + 1}
-                    </span>
-                  )}
-                  {s.label}
-                </div>
-              </React.Fragment>
-            )
-          })}
-        </div>
+        {step !== 'broker' && renderStepIndicator()}
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-5">
-          {/* === UPLOAD STEP === */}
-          {step === 'upload' && (
-            <div className="py-4">
-              <h3 className="text-base font-medium text-white mb-1 text-center">Transaktionen importieren</h3>
-              <p className="text-sm text-neutral-500 mb-6 text-center">
-                Lade deine Broker-Datei hoch — das Format wird automatisch erkannt.
-              </p>
+        <div className="flex-1 overflow-y-auto px-6 py-6">
+          {/* === STEP 1: Broker-Auswahl === */}
+          {step === 'broker' && (
+            <div>
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Von welchem Broker?</h3>
+                <p className="text-[13px] text-neutral-500">
+                  Wähle deinen Broker — wir zeigen dir dann, wo genau du die Export-Datei findest.
+                </p>
+              </div>
 
-              {/* Dropzone */}
+              <div className="grid grid-cols-2 gap-2">
+                {IMPORT_BROKERS.map(b => (
+                  <button
+                    key={b.id}
+                    onClick={() => handleSelectBroker(b)}
+                    className="group p-3.5 rounded-xl border border-neutral-800/80 bg-neutral-900/50 hover:bg-neutral-900 hover:border-neutral-700 transition-all text-left"
+                  >
+                    <div className="flex items-start gap-3">
+                      <BrokerLogo brokerId={b.id} size={36} />
+                      <div className="min-w-0 flex-1 pt-0.5">
+                        <div className="flex items-center gap-1.5 flex-wrap">
+                          <span className="font-medium text-[13px] text-white">{b.name}</span>
+                          {b.isBetterThanPdf && (
+                            <span className="text-[9px] font-medium px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">CSV</span>
+                          )}
+                        </div>
+                        <p className="text-[11px] text-neutral-500 mt-0.5">
+                          {b.formats.join(' · ')}
+                          {b.supportsMultiFile && ' · Mehrere Dateien'}
+                        </p>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+
+              <p className="text-[11px] text-neutral-600 mt-6 text-center">
+                Dein Broker fehlt? Schreib uns an <span className="text-neutral-400">support@finclue.de</span>
+              </p>
+            </div>
+          )}
+
+          {/* === STEP 2: Anleitung === */}
+          {step === 'instructions' && selectedBroker && (
+            <div>
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">{selectedBroker.instructions.title}</h3>
+                <p className="text-[13px] text-neutral-500">
+                  Folge diesen Schritten, um die Export-Datei zu bekommen.
+                </p>
+              </div>
+
+              {/* Schritt-Liste */}
+              <ol className="space-y-1 mb-5">
+                {selectedBroker.instructions.steps.map((step, i) => (
+                  <li key={i} className="flex gap-3 py-2.5 px-3 rounded-lg hover:bg-neutral-900/50 transition-colors">
+                    <span className="flex-shrink-0 w-5 h-5 rounded-full bg-neutral-800 text-[11px] font-semibold text-neutral-300 flex items-center justify-center mt-0.5">
+                      {i + 1}
+                    </span>
+                    <span className="text-[13px] text-neutral-200 leading-relaxed">{step}</span>
+                  </li>
+                ))}
+              </ol>
+
+              {/* Hinweis */}
+              {selectedBroker.instructions.hint && (
+                <div className="mb-5 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                  <div className="flex gap-2.5">
+                    <LightBulbIcon className="w-4 h-4 flex-shrink-0 mt-0.5 text-neutral-400" />
+                    <p className="text-[12px] text-neutral-400 leading-relaxed">{selectedBroker.instructions.hint}</p>
+                  </div>
+                </div>
+              )}
+
+              {/* Login-Button */}
+              {selectedBroker.instructions.loginUrl && (
+                <a
+                  href={selectedBroker.instructions.loginUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg bg-neutral-900 border border-neutral-800 hover:border-neutral-700 hover:bg-neutral-800/60 text-[13px] text-neutral-200 transition-colors"
+                >
+                  <ArrowTopRightOnSquareIcon className="w-3.5 h-3.5" />
+                  {selectedBroker.instructions.loginLabel || 'Zur Broker-Website'}
+                </a>
+              )}
+            </div>
+          )}
+
+          {/* === STEP 3: Upload === */}
+          {step === 'upload' && selectedBroker && (
+            <div>
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Datei hochladen</h3>
+                <p className="text-[13px] text-neutral-500">
+                  Akzeptiert: {selectedBroker.formats.join(', ')}
+                  {selectedBroker.supportsMultiFile && ' · mehrere Dateien möglich'}
+                </p>
+              </div>
+
               <label
-                className={`relative flex flex-col items-center justify-center gap-4 p-10 rounded-2xl border-2 border-dashed cursor-pointer transition-all ${
+                className={`relative flex flex-col items-center justify-center gap-4 p-12 rounded-2xl border border-dashed cursor-pointer transition-all ${
                   pdfParsing
-                    ? 'pointer-events-none opacity-50 border-neutral-700'
+                    ? 'pointer-events-none opacity-50 border-neutral-800 bg-neutral-900/50'
                     : isDragOver
-                    ? 'border-emerald-400 bg-emerald-500/5'
-                    : 'border-neutral-700 hover:border-neutral-500 hover:bg-neutral-800/30'
+                    ? 'border-emerald-500/50 bg-emerald-500/5'
+                    : 'border-neutral-800 hover:border-neutral-700 bg-neutral-900/30 hover:bg-neutral-900/60'
                 }`}
                 onDragOver={(e) => { e.preventDefault(); setIsDragOver(true) }}
                 onDragLeave={() => setIsDragOver(false)}
@@ -635,43 +877,32 @@ export default function CSVImportModal({
               >
                 {pdfParsing ? (
                   <>
-                    <ArrowPathIcon className="w-10 h-10 text-emerald-400 animate-spin" />
-                    <p className="text-sm text-neutral-400">Wird verarbeitet…</p>
+                    <ArrowPathIcon className="w-8 h-8 text-neutral-400 animate-spin" />
+                    <p className="text-[13px] text-neutral-400">Datei wird verarbeitet…</p>
                   </>
                 ) : (
                   <>
-                    <div className={`w-16 h-16 rounded-2xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-emerald-500/15' : 'bg-neutral-800'}`}>
-                      <ArrowUpTrayIcon className={`w-8 h-8 transition-colors ${isDragOver ? 'text-emerald-400' : 'text-neutral-500'}`} />
+                    <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${isDragOver ? 'bg-emerald-500/10' : 'bg-neutral-900 border border-neutral-800'}`}>
+                      <ArrowUpTrayIcon className={`w-5 h-5 transition-colors ${isDragOver ? 'text-emerald-400' : 'text-neutral-500'}`} />
                     </div>
                     <div className="text-center">
-                      <p className="text-sm font-medium text-white">Datei hier ablegen oder klicken</p>
-                      <p className="text-xs text-neutral-500 mt-1">Format wird automatisch erkannt</p>
-                    </div>
-                    <div className="flex flex-wrap justify-center gap-2">
-                      {[
-                        { label: 'Scalable Capital', ext: '.csv', color: 'text-emerald-400 bg-emerald-500/10' },
-                        { label: 'Flatex / Smartbroker+ / TR', ext: '.pdf', color: 'text-orange-400 bg-orange-500/10' },
-                        { label: 'Freedom24 Steuerbericht', ext: '.xlsx', color: 'text-green-400 bg-green-500/10' },
-                        { label: 'Freedom24 Trades', ext: '.xlsx', color: 'text-neutral-400 bg-neutral-800' },
-                      ].map(b => (
-                        <span key={b.label} className={`text-[10px] font-medium px-2.5 py-1 rounded-full ${b.color}`}>
-                          {b.label} · {b.ext}
-                        </span>
-                      ))}
+                      <p className="text-[13px] font-medium text-white">Datei hier ablegen oder klicken</p>
+                      <p className="text-[11px] text-neutral-500 mt-1">
+                        {selectedBroker.formats.join(' · ')} · max. 10 MB
+                      </p>
                     </div>
                   </>
                 )}
                 <input
                   ref={autoInputRef}
                   type="file"
-                  accept=".pdf,.csv,.xlsx,.xls"
-                  multiple
+                  accept={selectedBroker.accept}
+                  multiple={selectedBroker.supportsMultiFile}
                   onChange={(e) => { if (e.target.files) handleAutoUpload(e.target.files) }}
                   className="hidden"
                 />
               </label>
 
-              {/* Fehler */}
               {pdfErrors.length > 0 && (
                 <div className="mt-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
                   <p className="text-xs font-medium text-amber-400 mb-1">Hinweise:</p>
@@ -688,29 +919,35 @@ export default function CSVImportModal({
                   <p className="text-sm text-red-400">{importError}</p>
                 </div>
               )}
-
-              <p className="text-xs text-neutral-600 mt-5 text-center">
-                Weitere Broker folgen bald · Bei Fragen: support@finclue.de
-              </p>
             </div>
           )}
 
-          {/* === PROCESSING STEP === */}
+          {/* === STEP: PROCESSING === */}
           {step === 'processing' && (
             <div className="text-center py-12">
-              <ArrowPathIcon className="w-10 h-10 text-emerald-400 animate-spin mx-auto mb-4" />
-              <h3 className="text-base font-medium text-white mb-2">Transaktionen werden verarbeitet…</h3>
-              <p className="text-sm text-neutral-500">
+              <ArrowPathIcon className="w-8 h-8 text-neutral-400 animate-spin mx-auto mb-4" />
+              <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Datei wird verarbeitet…</h3>
+              <p className="text-[13px] text-neutral-500">
                 {detectedFormat ? (
-                  <><span className="text-emerald-400">{detectedFormat}</span> erkannt · Wertpapiere werden aufgelöst</>
+                  <><span className="text-neutral-300">{detectedFormat}</span> erkannt · Wertpapiere werden aufgelöst</>
                 ) : 'Wertpapiere werden aufgelöst'}
               </p>
             </div>
           )}
 
-          {/* === RESOLVE STEP === */}
+          {/* === STEP 4: RESOLVE === */}
           {step === 'resolve' && parseResult && (
             <div>
+              <div className="mb-4">
+                <h3 className="text-base font-medium text-white mb-1">
+                  Wertpapiere zuordnen
+                </h3>
+                <p className="text-sm text-neutral-500">
+                  {isinMap.size} von {parseResult.uniqueISINs.length} automatisch erkannt.
+                  {unresolvedISINs.length > 0 && ` ${unresolvedISINs.length} ISIN${unresolvedISINs.length !== 1 ? 's' : ''} manuell zuordnen:`}
+                </p>
+              </div>
+
               {resolving && (
                 <div className="flex items-center gap-3 p-4 bg-neutral-800/30 rounded-xl mb-4">
                   <ArrowPathIcon className="w-4 h-4 text-emerald-400 animate-spin flex-shrink-0" />
@@ -721,161 +958,312 @@ export default function CSVImportModal({
                 </div>
               )}
 
-              {/* Nur unaufgelöste ISINs anzeigen */}
               {unresolvedISINs.length > 0 && (
-                  <div>
-                    <div className="flex items-center gap-2 mb-2">
-                      <ExclamationTriangleIcon className="w-4 h-4 text-amber-400" />
-                      <span className="text-sm text-amber-400">{unresolvedISINs.length} nicht aufgelöst</span>
-                    </div>
-
-                    <div className="space-y-2 mb-3">
-                      {unresolvedISINs.map(isin => {
-                        const tx = parseResult.transactions.find(t => t.isin === isin)
-                        return (
-                          <div key={isin} className="flex items-center gap-2 p-2 bg-amber-500/5 border border-amber-500/10 rounded-lg">
-                            <div className="flex-1 min-w-0">
-                              <span className="text-xs font-mono text-neutral-400">{isin}</span>
-                              {tx && <span className="text-xs text-neutral-500 ml-2">{tx.name}</span>}
-                            </div>
-                            <input
-                              type="text"
-                              placeholder="Symbol"
-                              value={manualMappings[isin] || ''}
-                              onChange={(e) => handleManualMapping(isin, e.target.value)}
-                              className="w-24 px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-white text-xs uppercase"
-                            />
+                <div>
+                  <div className="space-y-2 mb-3">
+                    {unresolvedISINs.map(isin => {
+                      const tx = parseResult.transactions.find(t => t.isin === isin)
+                      return (
+                        <div key={isin} className="flex items-center gap-2 p-2 bg-amber-500/5 border border-amber-500/10 rounded-lg">
+                          <div className="flex-1 min-w-0">
+                            <span className="text-xs font-mono text-neutral-400">{isin}</span>
+                            {tx && <span className="text-xs text-neutral-500 ml-2">{tx.name}</span>}
                           </div>
-                        )
-                      })}
-                    </div>
-
-                    <div className="flex gap-2">
-                      <button
-                        onClick={resolveViaAPI}
-                        disabled={resolving}
-                        className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-white rounded-lg transition-colors"
-                      >
-                        {resolving ? (
-                          <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
-                        ) : (
-                          <MagnifyingGlassIcon className="w-3.5 h-3.5" />
-                        )}
-                        {resolving ? 'Suche...' : 'Erneut suchen'}
-                      </button>
-
-                      {Object.keys(manualMappings).length > 0 && (
-                        <button
-                          onClick={applyManualMappings}
-                          className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 rounded-lg transition-colors"
-                        >
-                          <CheckIcon className="w-3.5 h-3.5" />
-                          Manuelle Zuordnung anwenden
-                        </button>
-                      )}
-                    </div>
+                          <input
+                            type="text"
+                            placeholder="Symbol"
+                            value={manualMappings[isin] || ''}
+                            onChange={(e) => handleManualMapping(isin, e.target.value)}
+                            className="w-24 px-2 py-1 bg-neutral-800 border border-neutral-700 rounded text-white text-xs uppercase"
+                          />
+                        </div>
+                      )
+                    })}
                   </div>
-                )}
+
+                  <div className="flex gap-2">
+                    <button
+                      onClick={resolveViaAPI}
+                      disabled={resolving}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-neutral-800 hover:bg-neutral-700 disabled:opacity-50 text-white rounded-lg transition-colors"
+                    >
+                      {resolving ? (
+                        <ArrowPathIcon className="w-3.5 h-3.5 animate-spin" />
+                      ) : (
+                        <MagnifyingGlassIcon className="w-3.5 h-3.5" />
+                      )}
+                      {resolving ? 'Suche...' : 'Erneut suchen'}
+                    </button>
+
+                    {Object.keys(manualMappings).length > 0 && (
+                      <button
+                        onClick={applyManualMappings}
+                        className="flex items-center gap-1.5 px-3 py-1.5 text-sm bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 rounded-lg transition-colors"
+                      >
+                        <CheckIcon className="w-3.5 h-3.5" />
+                        Anwenden
+                      </button>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 
-          {/* === PREVIEW STEP === */}
+          {/* === STEP 5: CASH === */}
+          {step === 'cash' && parseResult && (
+            <div>
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">
+                  Cash-Bewegungen
+                </h3>
+                <p className="text-[13px] text-neutral-500">
+                  {resolvedTransactions.filter(t => t.type === 'cash_deposit' || t.type === 'cash_withdrawal').length} Ein-/Auszahlungen in deiner Datei — wie sollen wir damit umgehen?
+                </p>
+              </div>
+
+              <div className="space-y-2">
+                {/* Option A: include */}
+                <button
+                  onClick={() => setCashMode('include')}
+                  className={`w-full p-4 rounded-xl border text-left transition-all ${
+                    cashMode === 'include'
+                      ? 'border-neutral-600 bg-neutral-900'
+                      : 'border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/70'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 transition-colors ${
+                      cashMode === 'include' ? 'border-white bg-white' : 'border-neutral-600'
+                    }`}>
+                      {cashMode === 'include' && <div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-neutral-950" /></div>}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-0.5">
+                        <span className="font-medium text-[13px] text-white">Cash übernehmen</span>
+                        <span className="text-[9px] font-medium px-1.5 py-0.5 bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">
+                          Empfohlen
+                        </span>
+                      </div>
+                      <p className="text-[12px] text-neutral-400 leading-relaxed">
+                        Ein-/Auszahlungen und Zinsen werden importiert, Cash-Position wird automatisch berechnet — so wie im Broker-Depot.
+                      </p>
+                    </div>
+                  </div>
+                </button>
+
+                {/* Option B: ignore */}
+                <button
+                  onClick={() => setCashMode('ignore')}
+                  className={`w-full p-4 rounded-xl border text-left transition-all ${
+                    cashMode === 'ignore'
+                      ? 'border-neutral-600 bg-neutral-900'
+                      : 'border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/70'
+                  }`}
+                >
+                  <div className="flex items-start gap-3">
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-0.5 transition-colors ${
+                      cashMode === 'ignore' ? 'border-white bg-white' : 'border-neutral-600'
+                    }`}>
+                      {cashMode === 'ignore' && <div className="w-full h-full flex items-center justify-center"><div className="w-1.5 h-1.5 rounded-full bg-neutral-950" /></div>}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="mb-0.5">
+                        <span className="font-medium text-[13px] text-white">Cash ignorieren</span>
+                      </div>
+                      <p className="text-[12px] text-neutral-400 leading-relaxed">
+                        Nur Käufe, Verkäufe und Dividenden — Cash-Position bleibt unverändert. Sinnvoll, wenn du Cash separat verwaltest.
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* === STEP 6: PREVIEW === */}
           {step === 'preview' && importSummary && (
             <div>
-              {/* Parse-Zusammenfassung */}
-              {parseResult && (
-                <div className="bg-neutral-800/30 rounded-xl p-4 mb-4">
-                  <div className="grid grid-cols-3 gap-3 text-sm">
-                    <div>
-                      <p className="text-neutral-500">Eingelesen</p>
-                      <p className="text-white font-medium">{parseResult.summary.imported}</p>
+              <div className="mb-6">
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Import-Vorschau</h3>
+                <p className="text-[13px] text-neutral-500">Prüfe die Zusammenfassung bevor du importierst.</p>
+              </div>
+
+              {/* Kennzahlen */}
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-neutral-800/80 border border-neutral-800/80 rounded-xl overflow-hidden mb-5">
+                <div className="bg-neutral-950 p-4">
+                  <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Transaktionen</p>
+                  <p className="text-white font-semibold text-xl tracking-tight tabular-nums">{importSummary.totalTransactions}</p>
+                </div>
+                <div className="bg-neutral-950 p-4">
+                  <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Positionen</p>
+                  <p className="text-white font-semibold text-xl tracking-tight tabular-nums">{importSummary.holdings}</p>
+                </div>
+                <div className="bg-neutral-950 p-4">
+                  <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Duplikate</p>
+                  {checkingDuplicates ? (
+                    <div className="flex items-center gap-1.5">
+                      <ArrowPathIcon className="w-3.5 h-3.5 text-neutral-500 animate-spin" />
+                      <span className="text-neutral-500 text-sm">…</span>
                     </div>
-                    <div>
-                      <p className="text-neutral-500">Übersprungen</p>
-                      {parseResult.summary.skipped > 0 ? (
-                        <button
-                          onClick={() => setShowSkippedDetails(!showSkippedDetails)}
-                          className="flex items-center gap-1 text-amber-400 font-medium hover:text-amber-300 transition-colors"
-                        >
-                          {parseResult.summary.skipped}
-                          <ChevronDownIcon className={`w-3 h-3 transition-transform ${showSkippedDetails ? 'rotate-180' : ''}`} />
-                        </button>
-                      ) : (
-                        <p className="text-neutral-400">{parseResult.summary.skipped}</p>
-                      )}
-                    </div>
-                    <div>
-                      <p className="text-neutral-500">Wertpapiere</p>
-                      <p className="text-white font-medium">{parseResult.uniqueISINs.length}</p>
-                    </div>
-                  </div>
-                  {showSkippedDetails && parseResult.skipped.length > 0 && (
-                    <div className="mt-3 pt-3 border-t border-neutral-700/50">
-                      <p className="text-xs font-medium text-neutral-500 mb-2">Übersprungene Zeilen:</p>
-                      <div className="max-h-32 overflow-y-auto space-y-1">
-                        {parseResult.skipped.map((s, i) => (
-                          <div key={i} className="flex items-start gap-2 text-xs py-1 px-2 bg-amber-500/5 rounded">
-                            <span className="text-neutral-600 font-mono shrink-0">Z.{s.row}</span>
-                            <span className="text-amber-400/80 shrink-0">{s.reason}</span>
-                            <span className="text-neutral-500 truncate">{s.data}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                  ) : (
+                    <p className={`font-semibold text-xl tracking-tight tabular-nums ${importSummary.duplicateCount > 0 ? 'text-amber-400' : 'text-neutral-300'}`}>
+                      {importSummary.duplicateCount}
+                    </p>
                   )}
                 </div>
-              )}
-
-              {/* Import-Zusammenfassung */}
-              <div className="bg-neutral-800/30 rounded-xl p-4 mb-4">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-                  <div>
-                    <p className="text-neutral-500">Transaktionen</p>
-                    <p className="text-white font-medium text-lg">{importSummary.totalTransactions}</p>
-                  </div>
-                  <div>
-                    <p className="text-neutral-500">Positionen</p>
-                    <p className="text-white font-medium text-lg">{importSummary.holdings}</p>
-                  </div>
-                  <div>
-                    <p className="text-neutral-500">Duplikate</p>
-                    {checkingDuplicates ? (
-                      <div className="flex items-center gap-1.5">
-                        <ArrowPathIcon className="w-3.5 h-3.5 text-neutral-500 animate-spin" />
-                        <span className="text-neutral-500 text-sm">Prüfe...</span>
-                      </div>
-                    ) : (
-                      <p className={`font-medium text-lg ${importSummary.duplicateCount > 0 ? 'text-amber-400' : 'text-emerald-400'}`}>
-                        {importSummary.duplicateCount}
-                      </p>
-                    )}
-                  </div>
-                  <div>
-                    <p className="text-neutral-500">Neu</p>
-                    <p className="text-emerald-400 font-medium text-lg">{importSummary.newTransactions}</p>
-                  </div>
+                <div className="bg-neutral-950 p-4">
+                  <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1">Neu</p>
+                  <p className="text-emerald-400 font-semibold text-xl tracking-tight tabular-nums">{importSummary.newTransactions}</p>
                 </div>
               </div>
 
+              {/* Reset-Option (nur wenn Portfolio schon Daten hat) */}
+              {existingDataCount && (existingDataCount.transactions > 0 || existingDataCount.holdings > 0) && (
+                <button
+                  onClick={() => setResetBeforeImport(!resetBeforeImport)}
+                  className={`w-full mb-3 p-3.5 rounded-xl border text-left transition-all ${
+                    resetBeforeImport
+                      ? 'border-red-500/40 bg-red-500/5'
+                      : 'border-neutral-800/80 bg-neutral-900/50 hover:border-neutral-700'
+                  }`}
+                >
+                  <div className="flex items-start gap-2.5">
+                    <div className={`w-4 h-4 rounded border flex-shrink-0 mt-0.5 flex items-center justify-center transition-colors ${
+                      resetBeforeImport
+                        ? 'border-red-500 bg-red-500'
+                        : 'border-neutral-600'
+                    }`}>
+                      {resetBeforeImport && <CheckIcon className="w-3 h-3 text-neutral-950" strokeWidth={3} />}
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[12px] font-medium text-white">
+                        Bestehende Daten vor Import löschen
+                      </p>
+                      <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">
+                        Dieses Depot enthält bereits <span className="text-neutral-300 tabular-nums">{existingDataCount.transactions}</span> Transaktionen und <span className="text-neutral-300 tabular-nums">{existingDataCount.holdings}</span> Positionen
+                        {resetBeforeImport
+                          ? <span className="text-red-400"> — werden komplett gelöscht und durch den neuen Import ersetzt (inkl. Cash-Position).</span>
+                          : ' — bleiben erhalten, Duplikate werden automatisch übersprungen.'}
+                      </p>
+                    </div>
+                  </div>
+                </button>
+              )}
+
+              {/* Cash-Mode Info */}
+              <div className="mb-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80 flex items-start gap-2.5">
+                {importSummary.cashIncluded
+                  ? <BanknotesIcon className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
+                  : <NoSymbolIcon className="w-4 h-4 text-neutral-500 flex-shrink-0 mt-0.5" />
+                }
+                <div className="flex-1">
+                  <p className="text-[12px] font-medium text-white">
+                    {importSummary.cashIncluded ? 'Cash-Bewegungen werden übernommen' : 'Cash wird ignoriert'}
+                  </p>
+                  <p className="text-[11px] text-neutral-500 mt-0.5 leading-relaxed">
+                    {importSummary.cashIncluded
+                      ? `${importSummary.cashTxCount} Ein-/Auszahlungen + Zinsen werden importiert, Cash-Position neu berechnet.`
+                      : `${importSummary.cashTxCount} Cash-Bewegungen werden übersprungen.`}
+                  </p>
+                </div>
+              </div>
+
+              {/* Stock Splits & Renames Info */}
+              {(importSummary.stockSplits.length > 0 || importSummary.tickerRenames.length > 0) && (
+                <div className="mb-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                  <p className="text-[12px] font-medium text-white mb-1.5">
+                    Corporate Actions automatisch verarbeitet
+                  </p>
+                  <ul className="space-y-1 text-[11px] text-neutral-500 leading-relaxed">
+                    {importSummary.stockSplits.map((s, i) => (
+                      <li key={`split-${i}`} className="flex gap-1.5">
+                        <span className="text-neutral-600">·</span>
+                        Aktiensplit {s.ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am {s.date} ({s.isin}) — vorherige Trades rückwirkend umgerechnet
+                      </li>
+                    ))}
+                    {importSummary.tickerRenames.map((r, i) => (
+                      <li key={`rename-${i}`} className="flex gap-1.5">
+                        <span className="text-neutral-600">·</span>
+                        Ticker-Umstellung {r.date}: {r.fromIsin} → {r.toIsin} (Ratio {r.ratio.toFixed(4)}) — Einstandskurs übertragen
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Transfer-Holdings Warnung */}
+              {importSummary.transferHoldings.length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20">
+                  <div className="flex items-start gap-2.5">
+                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-[12px] font-medium text-amber-300 mb-1">
+                        {importSummary.transferHoldings.length} Position{importSummary.transferHoldings.length !== 1 ? 'en' : ''} via Depotübertrag
+                      </p>
+                      <p className="text-[11px] text-neutral-400 leading-relaxed mb-2">
+                        Einstandskurs = Transferkurs (der echte Original-Kaufpreis liegt nicht in der CSV vor). Performance «seit Kauf» ist dadurch oft zu niedrig — du kannst die Einstandskurse nach dem Import manuell korrigieren.
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {importSummary.transferHoldings.slice(0, 12).map(h => (
+                          <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-neutral-900 text-neutral-300 border border-neutral-800 rounded">
+                            {h.symbol}
+                          </span>
+                        ))}
+                        {importSummary.transferHoldings.length > 12 && (
+                          <span className="text-[10px] px-1.5 py-0.5 text-neutral-500">
+                            +{importSummary.transferHoldings.length - 12}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Corp-Action-Holdings Warnung (Spin-off ohne klare Kostenbasis) */}
+              {importSummary.corpActionHoldings.filter(h => !importSummary.transferHoldings.find(t => t.symbol === h.symbol)).length > 0 && (
+                <div className="mb-3 p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80">
+                  <div className="flex items-start gap-2.5">
+                    <ExclamationTriangleIcon className="w-4 h-4 text-neutral-400 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1">
+                      <p className="text-[12px] font-medium text-white mb-1">
+                        Positionen aus Corporate Action
+                      </p>
+                      <p className="text-[11px] text-neutral-500 leading-relaxed mb-2">
+                        Aus Splits/Umstellungen/Spin-offs. Bei Spin-offs ist der Einstandskurs nicht eindeutig rekonstruierbar.
+                      </p>
+                      <div className="flex flex-wrap gap-1">
+                        {importSummary.corpActionHoldings
+                          .filter(h => !importSummary.transferHoldings.find(t => t.symbol === h.symbol))
+                          .map(h => (
+                          <span key={h.symbol} className="text-[10px] font-medium px-1.5 py-0.5 bg-neutral-900 text-neutral-300 border border-neutral-800 rounded">
+                            {h.symbol}{h.avgPrice === 0 ? ' · EK 0' : ''}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Duplikat-Warnung */}
               {duplicateCheckDone && importSummary.duplicateCount > 0 && (
-                <div className="mb-4 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
-                  <div className="flex gap-2">
-                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                    <div className="text-xs text-neutral-400 flex-1">
+                <div className="mb-3 p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20">
+                  <div className="flex gap-2.5">
+                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 flex-shrink-0 mt-0.5" />
+                    <div className="text-[11px] text-neutral-400 flex-1 leading-relaxed">
                       <button
                         onClick={() => setShowDuplicateDetails(!showDuplicateDetails)}
-                        className="flex items-center gap-1 font-medium text-amber-400 mb-1 hover:text-amber-300 transition-colors"
+                        className="flex items-center gap-1 text-[12px] font-medium text-amber-300 mb-0.5 hover:text-amber-200 transition-colors"
                       >
                         {importSummary.duplicateCount} Duplikat{importSummary.duplicateCount !== 1 ? 'e' : ''} erkannt
                         <ChevronDownIcon className={`w-3 h-3 transition-transform ${showDuplicateDetails ? 'rotate-180' : ''}`} />
                       </button>
                       <p>
-                        {importSummary.duplicateCount} Transaktion{importSummary.duplicateCount !== 1 ? 'en existieren' : ' existiert'} bereits im Depot und {importSummary.duplicateCount !== 1 ? 'werden' : 'wird'} übersprungen.
-                        Es werden nur {importSummary.newTransactions} neue Transaktionen importiert.
+                        Existieren bereits im Depot und werden übersprungen — nur {importSummary.newTransactions} neue Transaktionen werden importiert.
                       </p>
 
-                      {/* Duplikat-Details */}
                       {showDuplicateDetails && duplicateTransactions.length > 0 && (
                         <div className="mt-2 pt-2 border-t border-amber-500/10">
                           <div className="max-h-40 overflow-y-auto space-y-1">
@@ -906,13 +1294,13 @@ export default function CSVImportModal({
 
               {/* Typ-Verteilung */}
               <div className="mb-4">
-                <h5 className="text-xs font-medium text-neutral-500 mb-2 uppercase tracking-wider">Nach Typ</h5>
-                <div className="flex flex-wrap gap-2">
+                <h5 className="text-[11px] font-semibold text-neutral-500 mb-2 uppercase tracking-wider">Nach Typ</h5>
+                <div className="flex flex-wrap gap-1.5">
                   {Object.entries(importSummary.byType).map(([type, count]) => {
                     const config = TYPE_LABELS[type]
                     return (
-                      <span key={type} className={`px-2.5 py-1 rounded-full text-xs font-medium bg-neutral-800 ${config?.color || 'text-neutral-400'}`}>
-                        {config?.label || type}: {count}
+                      <span key={type} className="px-2 py-0.5 rounded-md text-[11px] font-medium bg-neutral-900 border border-neutral-800 text-neutral-300">
+                        {config?.label || type} <span className="text-neutral-500 ml-0.5 tabular-nums">{count}</span>
                       </span>
                     )
                   })}
@@ -922,17 +1310,31 @@ export default function CSVImportModal({
               {/* Holdings Vorschau */}
               {previewHoldings.length > 0 && (
                 <div className="mb-4">
-                  <h5 className="text-xs font-medium text-neutral-500 mb-2 uppercase tracking-wider">Resultierende Positionen</h5>
-                  <div className="max-h-60 overflow-y-auto space-y-0 border border-neutral-800/50 rounded-xl overflow-hidden">
+                  <h5 className="text-[11px] font-semibold text-neutral-500 mb-2 uppercase tracking-wider">
+                    Resultierende Positionen <span className="text-neutral-600 ml-0.5 tabular-nums">({previewHoldings.length})</span>
+                  </h5>
+                  <div className="max-h-60 overflow-y-auto border border-neutral-800/80 rounded-xl overflow-hidden">
                     {previewHoldings.sort((a, b) => (b.quantity * b.avgPrice) - (a.quantity * a.avgPrice)).map(h => (
-                      <div key={h.symbol} className="flex items-center justify-between py-2.5 px-3 border-b border-neutral-800/30 last:border-b-0">
-                        <div>
-                          <span className="font-medium text-white text-sm">{h.symbol}</span>
-                          <p className="text-xs text-neutral-500 truncate max-w-[200px]">{h.name}</p>
+                      <div key={h.symbol} className="flex items-center justify-between py-2.5 px-3.5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="font-medium text-white text-[13px]">{h.symbol}</span>
+                            {h.fromTransfer && (
+                              <span className="text-[9px] font-medium px-1 py-0.5 bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded" title="Einstandskurs basiert auf Depotübertrag">
+                                Transfer
+                              </span>
+                            )}
+                            {h.fromCorpAction && !h.fromTransfer && (
+                              <span className="text-[9px] font-medium px-1 py-0.5 bg-neutral-800 text-neutral-300 border border-neutral-700 rounded" title="Aus Corporate Action">
+                                Corp. Act.
+                              </span>
+                            )}
+                          </div>
+                          <p className="text-[11px] text-neutral-500 truncate max-w-[320px] mt-0.5">{h.name}</p>
                         </div>
-                        <div className="text-right">
-                          <p className="text-sm text-white">{h.quantity.toLocaleString('de-DE', { maximumFractionDigits: 3 })} Stk.</p>
-                          <p className="text-xs text-neutral-500">Ø {formatCurrency(h.avgPrice)}</p>
+                        <div className="text-right flex-shrink-0">
+                          <p className="text-[13px] text-white tabular-nums">{h.quantity.toLocaleString('de-DE', { maximumFractionDigits: 3 })}</p>
+                          <p className="text-[11px] text-neutral-500 tabular-nums">Ø {formatCurrency(h.avgPrice)}</p>
                         </div>
                       </div>
                     ))}
@@ -941,54 +1343,104 @@ export default function CSVImportModal({
               )}
 
               {importError && (
-                <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
-                  <p className="text-sm text-red-400">{importError}</p>
+                <div className="mb-4 p-3 rounded-xl bg-red-500/5 border border-red-500/20">
+                  <p className="text-[12px] text-red-400">{importError}</p>
                 </div>
               )}
-
-              {/* Hinweis */}
-              <div className="p-3 bg-amber-500/5 border border-amber-500/10 rounded-lg">
-                <div className="flex gap-2">
-                  <ExclamationTriangleIcon className="w-4 h-4 text-amber-400 flex-shrink-0 mt-0.5" />
-                  <div className="text-xs text-neutral-400">
-                    <p className="font-medium text-amber-400 mb-1">Hinweis</p>
-                    <p>Der Import erstellt Transaktionen und Positionen im Depot "{portfolioName}". Bestehende Positionen werden aktualisiert (Durchschnittskostenmethode). Die Cash-Position wird anhand von Ein-/Auszahlungen angepasst.</p>
-                  </div>
-                </div>
-              </div>
             </div>
           )}
 
-          {/* === IMPORTING STEP === */}
+          {/* === STEP: IMPORTING === */}
           {step === 'importing' && (
             <div className="text-center py-12">
-              <ArrowPathIcon className="w-10 h-10 text-emerald-400 animate-spin mx-auto mb-4" />
-              <h3 className="text-base font-medium text-white mb-2">Importiere Transaktionen...</h3>
-              <p className="text-sm text-neutral-500">
-                {importProgress.current} / {importProgress.total}
+              <ArrowPathIcon className="w-8 h-8 text-neutral-400 animate-spin mx-auto mb-4" />
+              <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Import läuft…</h3>
+              <p className="text-[13px] text-neutral-500 tabular-nums">
+                {importProgress.current} / {importProgress.total} Transaktionen
               </p>
-              <div className="mt-4 max-w-xs mx-auto bg-neutral-800 rounded-full h-2">
+              <div className="mt-4 max-w-xs mx-auto bg-neutral-800/60 rounded-full h-1 overflow-hidden">
                 <div
-                  className="bg-emerald-500 h-2 rounded-full transition-all duration-300"
+                  className="bg-white h-1 rounded-full transition-all duration-300"
                   style={{ width: importProgress.total > 0 ? `${(importProgress.current / importProgress.total) * 100}%` : '0%' }}
                 />
               </div>
             </div>
           )}
 
-          {/* === DONE STEP === */}
+          {/* === STEP 7: DONE === */}
           {step === 'done' && importResult && (
-            <div className="text-center py-12">
-              <div className="w-16 h-16 mx-auto mb-4 bg-emerald-500/20 rounded-2xl flex items-center justify-center">
-                <CheckIcon className="w-8 h-8 text-emerald-400" />
+            <div>
+              <div className="text-center mb-6">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-neutral-900 border border-neutral-800 flex items-center justify-center">
+                  <CheckIcon className="w-5 h-5 text-white" />
+                </div>
+                <h3 className="text-base font-semibold text-white mb-1 tracking-tight">Import abgeschlossen</h3>
+                <p className="text-[13px] text-neutral-500">
+                  Dein Depot wurde erfolgreich aktualisiert.
+                </p>
               </div>
-              <h3 className="text-base font-medium text-white mb-2">Import abgeschlossen!</h3>
-              <p className="text-sm text-neutral-500 mb-1">
-                {importResult.transactions} Transaktionen importiert
-              </p>
-              <p className="text-sm text-neutral-500">
-                {importResult.holdings} Positionen erstellt/aktualisiert
-              </p>
+
+              {/* Ergebnis-Breakdown */}
+              <div className="rounded-xl border border-neutral-800/80 overflow-hidden mb-4">
+                <div className="flex items-center justify-between py-2.5 px-4 bg-neutral-900/40">
+                  <span className="text-[13px] text-neutral-400">Transaktionen gespeichert</span>
+                  <span className="text-[13px] font-semibold text-white tabular-nums">
+                    {importResult.transactionsSaved} <span className="text-neutral-500 font-normal">/ {importResult.transactionsAttempted}</span>
+                  </span>
+                </div>
+
+                {importResult.duplicatesSkipped > 0 && (
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                    <span className="text-[13px] text-neutral-400">Duplikate übersprungen</span>
+                    <span className="text-[13px] font-semibold text-amber-400 tabular-nums">{importResult.duplicatesSkipped}</span>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                  <span className="text-[13px] text-neutral-400">Positionen neu erstellt</span>
+                  <span className="text-[13px] font-semibold text-white tabular-nums">{importResult.holdingsCreated}</span>
+                </div>
+
+                {importResult.holdingsUpdated > 0 && (
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                    <span className="text-[13px] text-neutral-400">Positionen aufgestockt</span>
+                    <span className="text-[13px] font-semibold text-white tabular-nums">{importResult.holdingsUpdated}</span>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                  <span className="text-[13px] text-neutral-400">
+                    {importResult.cashMode === 'include' ? 'Cash-Bewegungen' : 'Cash ignoriert'}
+                  </span>
+                  <span className={`text-[13px] font-semibold tabular-nums ${importResult.cashMode === 'include' ? 'text-white' : 'text-neutral-500'}`}>
+                    {importResult.cashMode === 'include' ? importResult.cashTransactionsImported : '—'}
+                  </span>
+                </div>
+
+                {importResult.unresolvedSymbols > 0 && (
+                  <div className="flex items-center justify-between py-2.5 px-4 border-t border-neutral-800/80">
+                    <span className="text-[13px] text-amber-400">Nicht zugeordnet</span>
+                    <span className="text-[13px] font-semibold text-amber-400 tabular-nums">{importResult.unresolvedSymbols}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* Status-Hinweis */}
+              {importResult.transactionsSaved < importResult.transactionsAttempted - importResult.duplicatesSkipped ? (
+                <div className="p-3.5 rounded-xl bg-amber-500/5 border border-amber-500/20 flex gap-2.5">
+                  <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 flex-shrink-0 mt-0.5" />
+                  <p className="text-[12px] text-neutral-400 leading-relaxed">
+                    Nicht alle Transaktionen konnten gespeichert werden. Prüfe dein Depot und wiederhole ggf. den Import.
+                  </p>
+                </div>
+              ) : (
+                <div className="p-3.5 rounded-xl bg-neutral-900/50 border border-neutral-800/80 flex gap-2.5">
+                  <CheckIcon className="w-4 h-4 text-neutral-300 flex-shrink-0 mt-0.5" />
+                  <p className="text-[12px] text-neutral-400 leading-relaxed">
+                    Alle Transaktionen erfolgreich importiert. Dein Depot ist jetzt bereit.
+                  </p>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -996,6 +1448,24 @@ export default function CSVImportModal({
         {/* Footer Actions */}
         <div className="flex items-center justify-between p-5 border-t border-neutral-800 flex-shrink-0">
           <div>
+            {step === 'instructions' && (
+              <button
+                onClick={() => setStep('broker')}
+                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"
+              >
+                <ArrowLeftIcon className="w-3.5 h-3.5" />
+                Zurück
+              </button>
+            )}
+            {step === 'upload' && (
+              <button
+                onClick={() => setStep('instructions')}
+                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"
+              >
+                <ArrowLeftIcon className="w-3.5 h-3.5" />
+                Zurück
+              </button>
+            )}
             {step === 'resolve' && (
               <button
                 onClick={() => setStep('upload')}
@@ -1005,9 +1475,18 @@ export default function CSVImportModal({
                 Zurück
               </button>
             )}
+            {step === 'cash' && (
+              <button
+                onClick={() => setStep(unresolvedISINs.length > 0 ? 'resolve' : 'upload')}
+                className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"
+              >
+                <ArrowLeftIcon className="w-3.5 h-3.5" />
+                Zurück
+              </button>
+            )}
             {step === 'preview' && (
               <button
-                onClick={() => setStep(skippedResolve ? 'upload' : 'resolve')}
+                onClick={() => setStep('cash')}
                 className="flex items-center gap-1.5 text-sm text-neutral-400 hover:text-white transition-colors"
               >
                 <ArrowLeftIcon className="w-3.5 h-3.5" />
@@ -1026,38 +1505,63 @@ export default function CSVImportModal({
               </button>
             )}
 
+            {/* Step 2 → Step 3 */}
+            {step === 'instructions' && (
+              <button
+                onClick={() => setStep('upload')}
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
+              >
+                Datei hochladen
+                <ArrowRightIcon className="w-3.5 h-3.5" />
+              </button>
+            )}
+
+            {/* Step Resolve → Cash */}
             {step === 'resolve' && (
               <button
-                onClick={() => { setStep('preview'); runDuplicateCheck() }}
+                onClick={() => { setStep('cash') }}
                 disabled={resolving}
-                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white text-sm rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 Weiter
                 <ArrowRightIcon className="w-3.5 h-3.5" />
               </button>
             )}
 
+            {/* Step Cash → Preview */}
+            {step === 'cash' && (
+              <button
+                onClick={() => { setStep('preview'); setPendingDuplicateCheck(true) }}
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
+              >
+                Vorschau
+                <ArrowRightIcon className="w-3.5 h-3.5" />
+              </button>
+            )}
+
+            {/* Step Preview → Import */}
             {step === 'preview' && (
               <button
                 onClick={handleImport}
-                disabled={importing || !importSummary || importSummary.totalTransactions === 0}
-                className="flex items-center gap-1.5 px-5 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white text-sm font-medium rounded-lg transition-colors"
+                disabled={importing || !importSummary || importSummary.totalTransactions === 0 || checkingDuplicates}
+                className="flex items-center gap-1.5 px-4 py-2 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-800 disabled:text-neutral-500 disabled:cursor-not-allowed text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 {importing ? (
                   <ArrowPathIcon className="w-4 h-4 animate-spin" />
                 ) : (
-                  <ArrowUpTrayIcon className="w-4 h-4" />
+                  <ArrowUpTrayIcon className="w-3.5 h-3.5" />
                 )}
                 Jetzt importieren
               </button>
             )}
 
+            {/* Step Done */}
             {step === 'done' && (
               <button
                 onClick={() => { handleClose(); onImportComplete() }}
-                className="flex items-center gap-1.5 px-5 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm font-medium rounded-lg transition-colors"
+                className="flex items-center gap-1.5 px-4 py-2 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
-                <CheckIcon className="w-4 h-4" />
+                <CheckIcon className="w-3.5 h-3.5" />
                 Fertig
               </button>
             )}

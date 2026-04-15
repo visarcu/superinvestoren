@@ -6,8 +6,8 @@ export default function PortfolioStockPage({ params }: { params: { ticker: strin
   const ticker = params.ticker.toUpperCase()
 
   return (
-    <div className="min-h-screen bg-theme-primary">
-      <main className="w-full px-6 lg:px-8 py-8">
+    <div className="min-h-screen bg-dark">
+      <main className="w-full px-6 lg:px-8 py-6 pb-24">
         <PortfolioStockDetail ticker={ticker} />
       </main>
     </div>

@@ -360,36 +360,46 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <div className="w-8 h-8 border-2 border-neutral-300 dark:border-neutral-700 border-t-emerald-400 rounded-full animate-spin" />
+        <div className="w-6 h-6 border-2 border-neutral-800 border-t-white rounded-full animate-spin" />
       </div>
     )
   }
 
   return (
-    <div className="max-w-4xl mx-auto">
-      {/* Header */}
-      <div className="flex items-center gap-4 mb-6">
-        <button
-          onClick={handleBack}
-          className="flex items-center gap-2 text-sm text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition-colors"
-        >
-          <ArrowLeftIcon className="w-4 h-4" />
-          Zurück
-        </button>
-        <div className="flex items-center gap-3">
-          <Logo ticker={ticker} alt={ticker} className="w-8 h-8" padding="none" />
-          <div>
-            <h1 className="text-xl font-bold text-neutral-900 dark:text-white">{ticker}</h1>
-            {stockName && (
-              <p className="text-xs text-neutral-500">{stockName}</p>
-            )}
+    <div className="max-w-5xl mx-auto">
+      {/* Header — schlank mit Logo, Symbol, Name, aktueller Kurs */}
+      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
+        <div className="flex items-center gap-3 min-w-0">
+          <button
+            onClick={handleBack}
+            className="p-1.5 -ml-1.5 hover:bg-neutral-900/60 rounded-lg transition-colors"
+            aria-label="Zurück"
+          >
+            <ArrowLeftIcon className="w-4 h-4 text-neutral-400" />
+          </button>
+          <Logo ticker={ticker} alt={ticker} className="w-9 h-9" padding="none" />
+          <div className="min-w-0">
+            <h1 className="text-base font-semibold text-white tracking-tight truncate">
+              {stockName || ticker}
+            </h1>
+            <p className="text-[11px] text-neutral-500 tabular-nums">
+              {ticker}
+              {currentPriceEUR !== null && <> · {formatCurrency(currentPriceEUR)}</>}
+            </p>
           </div>
-          {currentPriceEUR !== null && (
-            <span className="text-neutral-500 dark:text-neutral-400 text-sm">
-              {formatCurrency(currentPriceEUR)}
-            </span>
-          )}
         </div>
+
+        {/* Performance Pill rechts */}
+        {performance && currentPriceEUR !== null && (
+          <div className="flex items-center gap-2 text-right">
+            <div>
+              <p className="text-[10px] text-neutral-500 uppercase tracking-wider">Gesamtrendite</p>
+              <p className={`text-lg font-semibold tracking-tight tabular-nums ${perfColor(performance.totalReturn)}`}>
+                {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
+              </p>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Chart */}
@@ -400,36 +410,36 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           purchaseMarkers={chartMarkers.length > 0 ? chartMarkers : undefined}
         />
       ) : (
-        <div className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-12 text-center">
-          <p className="text-neutral-500">Keine Kursdaten verfügbar</p>
+        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-12 text-center">
+          <p className="text-[13px] text-neutral-500">Keine Kursdaten verfügbar</p>
         </div>
       )}
 
-      {/* Performance Summary Cards */}
+      {/* Performance Cards — als Grid mit border-Separators */}
       {performance && currentPriceEUR !== null && (
-        <div className="mt-6 grid grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-800/80 border border-neutral-800/80 rounded-xl overflow-hidden">
           {/* Kursgewinn — bei geschlossener Position den realisierten Kursgewinn zeigen */}
-          <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-3 border border-neutral-200 dark:border-neutral-800/50">
-            <p className="text-xs text-neutral-500 mb-1">
-              {performance.remainingQuantity === 0 ? 'Kursgewinn (realisiert)' : 'Kursgewinn'}
+          <div className="bg-neutral-950 p-4">
+            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">
+              {performance.remainingQuantity === 0 ? 'Realisierter Kursgewinn' : 'Kursgewinn'}
             </p>
             {performance.remainingQuantity === 0 ? (
               <>
-                <p className={`text-lg font-bold ${perfColor(performance.totalRealizedGain)}`}>
+                <p className={`text-xl font-semibold tracking-tight tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
                   {performance.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.totalRealizedGain)}
                 </p>
                 {performance.totalInvested > 0 && (
-                  <p className={`text-xs ${perfColor(performance.totalRealizedGain, 'muted')}`}>
+                  <p className={`text-[11px] tabular-nums mt-1 ${perfColor(performance.totalRealizedGain)}`}>
                     {performance.totalRealizedGain >= 0 ? '+' : ''}{((performance.totalRealizedGain / performance.totalInvested) * 100).toFixed(1)}%
                   </p>
                 )}
               </>
             ) : (
               <>
-                <p className={`text-lg font-bold ${perfColor(performance.unrealizedGain)}`}>
+                <p className={`text-xl font-semibold tracking-tight tabular-nums ${perfColor(performance.unrealizedGain)}`}>
                   {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
                 </p>
-                <p className={`text-xs ${perfColor(performance.unrealizedGainPercent, 'muted')}`}>
+                <p className={`text-[11px] tabular-nums mt-1 ${perfColor(performance.unrealizedGainPercent)}`}>
                   {performance.unrealizedGainPercent >= 0 ? '+' : ''}{performance.unrealizedGainPercent.toFixed(1)}%
                 </p>
               </>
@@ -437,9 +447,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           </div>
 
           {/* Realisierte Gewinne */}
-          <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-3 border border-neutral-200 dark:border-neutral-800/50">
-            <p className="text-xs text-neutral-500 mb-1">Realisiert</p>
-            <p className={`text-lg font-bold ${performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-400 dark:text-neutral-600'}`}>
+          <div className="bg-neutral-950 p-4">
+            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">Realisiert</p>
+            <p className={`text-xl font-semibold tracking-tight tabular-nums ${performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-600'}`}>
               {performance.totalRealizedGain !== 0
                 ? `${performance.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(performance.totalRealizedGain)}`
                 : formatCurrency(0)
@@ -448,9 +458,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           </div>
 
           {/* Dividenden */}
-          <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-3 border border-neutral-200 dark:border-neutral-800/50">
-            <p className="text-xs text-neutral-500 mb-1">Dividenden</p>
-            <p className={`text-lg font-bold ${performance.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-400 dark:text-neutral-600'}`}>
+          <div className="bg-neutral-950 p-4">
+            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">Dividenden</p>
+            <p className={`text-xl font-semibold tracking-tight tabular-nums ${performance.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
               {performance.totalDividends > 0
                 ? `+${formatCurrency(performance.totalDividends)}`
                 : formatCurrency(0)
@@ -458,21 +468,24 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             </p>
           </div>
 
-          {/* Gesamtrendite */}
-          <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-3 border border-neutral-200 dark:border-neutral-800/50">
-            <p className="text-xs text-neutral-500 mb-1">Gesamtrendite</p>
-            <p className={`text-lg font-bold ${perfColor(performance.totalReturn)}`}>
-              {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
+          {/* Position / Wert */}
+          <div className="bg-neutral-950 p-4">
+            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">
+              {performance.remainingQuantity === 0 ? 'Status' : 'Aktueller Wert'}
             </p>
             {performance.remainingQuantity === 0 ? (
-              <p className="text-xs text-neutral-500">Position geschlossen</p>
+              <>
+                <p className="text-xl font-semibold text-neutral-400 tracking-tight">Geschlossen</p>
+                <p className="text-[11px] text-neutral-500 mt-1">Position verkauft</p>
+              </>
             ) : (
               <>
-                {allocation !== null && (
-                  <p className="text-xs text-neutral-500">{allocation.toFixed(1)}% Allokation</p>
-                )}
-                <p className="text-xs text-neutral-500">
-                  {performance.remainingQuantity.toLocaleString('de-DE')} Stk. × {formatCurrency(currentPriceEUR)}
+                <p className="text-xl font-semibold text-white tracking-tight tabular-nums">
+                  {formatCurrency(performance.currentValue)}
+                </p>
+                <p className="text-[11px] text-neutral-500 mt-1 tabular-nums">
+                  {performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.
+                  {allocation !== null && <> · {allocation.toFixed(1)}%</>}
                 </p>
               </>
             )}
@@ -488,42 +501,41 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           const showSavings = etfInfo.ter > 0.20 && savings.savingsPerYear >= 1
 
           return (
-            <div className="mt-6 bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-4">
-              <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-3">ETF-Kosten</h3>
+            <div className="mt-5 bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+              <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mb-3">ETF-Kosten</h3>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div>
-                  <p className="text-[10px] text-neutral-500 mb-0.5">TER</p>
-                  <p className="text-sm font-medium text-violet-400">{formatTER(etfInfo.ter)}</p>
+                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">TER</p>
+                  <p className="text-[13px] font-semibold text-white tabular-nums">{formatTER(etfInfo.ter)}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-neutral-500 mb-0.5">Jährl. Kosten</p>
-                  <p className="text-sm font-medium text-neutral-900 dark:text-white">{formatCurrency(yearCost)}</p>
+                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Jährl. Kosten</p>
+                  <p className="text-[13px] font-semibold text-white tabular-nums">{formatCurrency(yearCost)}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-neutral-500 mb-0.5">Anbieter</p>
-                  <p className="text-sm font-medium text-neutral-900 dark:text-white">{etfInfo.issuer}</p>
+                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Anbieter</p>
+                  <p className="text-[13px] font-semibold text-white truncate">{etfInfo.issuer}</p>
                 </div>
                 <div>
-                  <p className="text-[10px] text-neutral-500 mb-0.5">Kategorie</p>
-                  <p className="text-sm font-medium text-neutral-900 dark:text-white">{etfInfo.category}</p>
+                  <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Kategorie</p>
+                  <p className="text-[13px] font-semibold text-white truncate">{etfInfo.category}</p>
                 </div>
               </div>
 
               {showSavings && (
-                <div className="mt-3 bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
-                  <div className="flex items-start gap-2">
-                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400 mt-0.5 flex-shrink-0" />
-                    <div>
-                      <p className="text-sm text-neutral-900 dark:text-white font-medium">
+                <div className="mt-4 bg-amber-500/5 border border-amber-500/20 rounded-lg p-3">
+                  <div className="flex items-start gap-2.5">
+                    <ExclamationTriangleIcon className="w-4 h-4 text-amber-400/90 mt-0.5 flex-shrink-0" />
+                    <div className="flex-1">
+                      <p className="text-[12px] font-medium text-amber-300 mb-1">
                         Sparpotenzial: {formatCurrency(savings.savingsPerYear)}/Jahr
                       </p>
-                      <p className="text-xs text-neutral-500 mt-1">
-                        Mit einer TER von 0,20% würdest du <span className="text-amber-400 font-medium">{formatCurrency(savings.savingsPerYear)}/Jahr</span> sparen
-                        ({formatCurrency(savings.savingsOver5Years)} über 5 Jahre, {formatCurrency(savings.savingsOver10Years)} über 10 Jahre).
+                      <p className="text-[11px] text-neutral-400 leading-relaxed">
+                        Mit einer TER von 0,20% würdest du {formatCurrency(savings.savingsPerYear)}/Jahr sparen ({formatCurrency(savings.savingsOver5Years)} über 5 Jahre, {formatCurrency(savings.savingsOver10Years)} über 10 Jahre).
                       </p>
-                      <p className="text-[10px] text-neutral-500/70 mt-2">
-                        Keine Anlageberatung. Die tatsächlichen Kosten und ETF-Alternativen können abweichen.
+                      <p className="text-[10px] text-neutral-600 mt-2">
+                        Keine Anlageberatung. Tatsächliche Kosten können abweichen.
                       </p>
                     </div>
                   </div>
@@ -536,81 +548,88 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
       {/* Multi-Depot Breakdown */}
       {isMultiDepot && depotBreakdowns.length > 1 && (
-        <div className="mt-6 space-y-3">
-          <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400">Aufschlüsselung nach Depot</h3>
+        <div className="mt-5">
+          <h3 className="text-[11px] font-semibold text-neutral-500 uppercase tracking-wider mb-3">Aufschlüsselung nach Depot</h3>
 
-          {depotBreakdowns.map((depot) => {
-            const brokerName = getBrokerDisplayName(depot.brokerType, depot.brokerName)
-            const brokerCol = getBrokerColor(depot.brokerType, depot.brokerColor)
-            const p = depot.performance
+          <div className="space-y-2">
+            {depotBreakdowns.map((depot) => {
+              const brokerName = getBrokerDisplayName(depot.brokerType, depot.brokerName)
+              const brokerCol = getBrokerColor(depot.brokerType, depot.brokerColor)
+              const p = depot.performance
 
-            return (
-              <div
-                key={depot.portfolioId}
-                className="bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-4"
-              >
-                {/* Depot Header */}
-                <div className="flex items-center gap-2.5 mb-3">
-                  <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: brokerCol }} />
-                  <span className="text-sm font-medium text-neutral-900 dark:text-white">{depot.portfolioName}</span>
-                  {brokerName !== depot.portfolioName && (
-                    <span className="text-xs text-neutral-500">{brokerName}</span>
-                  )}
+              return (
+                <div
+                  key={depot.portfolioId}
+                  className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-4"
+                >
+                  {/* Depot Header */}
+                  <div className="flex items-center gap-2.5 mb-3 pb-3 border-b border-neutral-800/80">
+                    <div className="w-2 h-2 rounded-full flex-shrink-0" style={{ backgroundColor: brokerCol }} />
+                    <span className="text-[13px] font-semibold text-white">{depot.portfolioName}</span>
+                    {brokerName !== depot.portfolioName && (
+                      <span className="text-[11px] text-neutral-500">{brokerName}</span>
+                    )}
+                  </div>
+
+                  {/* Depot Stats */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <div>
+                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Position</p>
+                      <p className="text-[13px] font-semibold text-white tabular-nums">
+                        {p.remainingQuantity > 0
+                          ? `${p.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.`
+                          : 'Verkauft'
+                        }
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Kursgewinn</p>
+                      <p className={`text-[13px] font-semibold tabular-nums ${perfColor(p.unrealizedGain)}`}>
+                        {p.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(p.unrealizedGain)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Realisiert</p>
+                      <p className={`text-[13px] font-semibold tabular-nums ${p.totalRealizedGain !== 0 ? perfColor(p.totalRealizedGain) : 'text-neutral-600'}`}>
+                        {p.totalRealizedGain !== 0
+                          ? `${p.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(p.totalRealizedGain)}`
+                          : formatCurrency(0)
+                        }
+                      </p>
+                    </div>
+                    <div>
+                      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Dividenden</p>
+                      <p className={`text-[13px] font-semibold tabular-nums ${p.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
+                        {p.totalDividends > 0 ? `+${formatCurrency(p.totalDividends)}` : formatCurrency(0)}
+                      </p>
+                    </div>
+                  </div>
                 </div>
-
-                {/* Depot Stats */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div>
-                    <p className="text-[10px] text-neutral-500 mb-0.5">Position</p>
-                    <p className="text-sm font-medium text-neutral-900 dark:text-white">
-                      {p.remainingQuantity > 0
-                        ? `${p.remainingQuantity.toLocaleString('de-DE')} Stk.`
-                        : 'Verkauft'
-                      }
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-neutral-500 mb-0.5">Kursgewinn</p>
-                    <p className={`text-sm font-medium ${perfColor(p.unrealizedGain)}`}>
-                      {p.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(p.unrealizedGain)}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-neutral-500 mb-0.5">Realisiert</p>
-                    <p className={`text-sm font-medium ${p.totalRealizedGain !== 0 ? perfColor(p.totalRealizedGain) : 'text-neutral-400 dark:text-neutral-600'}`}>
-                      {p.totalRealizedGain !== 0
-                        ? `${p.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(p.totalRealizedGain)}`
-                        : formatCurrency(0)
-                      }
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-[10px] text-neutral-500 mb-0.5">Dividenden</p>
-                    <p className={`text-sm font-medium ${p.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-400 dark:text-neutral-600'}`}>
-                      {p.totalDividends > 0 ? `+${formatCurrency(p.totalDividends)}` : formatCurrency(0)}
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       )}
 
       {/* Transaktionshistorie */}
       {allTransactions.length > 0 && currentPriceEUR !== null && performance && (
-        <div className="mt-6 bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-4">
-          <h3 className="text-sm font-medium text-neutral-500 dark:text-neutral-400 mb-3">Transaktionen</h3>
+        <div className="mt-5 bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
+          <div className="px-5 py-4 border-b border-neutral-800/80">
+            <h3 className="text-sm font-semibold text-white tracking-tight">Transaktionen</h3>
+            <p className="text-[11px] text-neutral-500 mt-0.5">
+              {allTransactions.length} Buchung{allTransactions.length !== 1 ? 'en' : ''} · chronologisch
+            </p>
+          </div>
 
-          <div className="space-y-0">
+          <div>
             {(() => {
-              // Sortiert chronologisch für die Labels
               const sorted = [...allTransactions].sort(
                 (a, b) => new Date(a.date).getTime() - new Date(b.date).getTime()
               )
               let buyIdx = 0
               let sellIdx = 0
               let divIdx = 0
+              let transferIdx = 0
 
               return sorted.map((tx) => {
                 if (tx.type === 'buy') {
@@ -625,26 +644,25 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="flex items-center justify-between py-2.5 border-b border-neutral-100 dark:border-neutral-800/50 last:border-0"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 flex items-center justify-center bg-blue-500/20 text-blue-400 text-xs font-bold rounded-full">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-6 h-6 flex items-center justify-center bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-[10px] font-bold rounded-full tabular-nums">
                           {label}
                         </span>
-                        <span className="text-sm text-neutral-500">
-                          {formatDate(tx.date)}
-                        </span>
+                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
                       </div>
-                      <div className="text-sm text-neutral-700 dark:text-neutral-300">
-                        {tx.quantity.toLocaleString('de-DE')} Stk. × {formatCurrency(tx.price)}
+                      <span className="text-[11px] text-emerald-400/70 font-medium uppercase tracking-wider">Kauf</span>
+                      <div className="text-[12px] text-neutral-300 tabular-nums text-right">
+                        {tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} × {formatCurrency(tx.price)}
                       </div>
-                      <div className="text-right">
-                        <span className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <div className="text-right min-w-[100px]">
+                        <p className={`text-[13px] font-semibold tabular-nums ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
                           {isPositive ? '+' : ''}{formatCurrency(gainLoss)}
-                        </span>
-                        <span className={`text-xs ml-1.5 ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
-                          ({isPositive ? '+' : ''}{gainLossPercent.toFixed(1)}%)
-                        </span>
+                        </p>
+                        <p className={`text-[10px] tabular-nums ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+                          {isPositive ? '+' : ''}{gainLossPercent.toFixed(1)}%
+                        </p>
                       </div>
                     </div>
                   )
@@ -661,26 +679,25 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="flex items-center justify-between py-2.5 border-b border-neutral-100 dark:border-neutral-800/50 last:border-0"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 flex items-center justify-center bg-red-500/20 text-red-400 text-xs font-bold rounded-full">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-6 h-6 flex items-center justify-center bg-red-500/10 border border-red-500/20 text-red-400 text-[10px] font-bold rounded-full tabular-nums">
                           {label}
                         </span>
-                        <span className="text-sm text-neutral-500">
-                          {formatDate(tx.date)}
-                        </span>
+                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
                       </div>
-                      <div className="text-sm text-neutral-700 dark:text-neutral-300">
-                        {tx.quantity.toLocaleString('de-DE')} Stk. × {formatCurrency(tx.price)}
+                      <span className="text-[11px] text-red-400/70 font-medium uppercase tracking-wider">Verkauf</span>
+                      <div className="text-[12px] text-neutral-300 tabular-nums text-right">
+                        {tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} × {formatCurrency(tx.price)}
                       </div>
-                      <div className="text-right">
-                        <span className={`text-sm font-medium ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+                      <div className="text-right min-w-[100px]">
+                        <p className={`text-[13px] font-semibold tabular-nums ${isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
                           {isPositive ? '+' : ''}{formatCurrency(realizedGain)}
-                        </span>
-                        <span className={`text-xs ml-1.5 ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
-                          ({isPositive ? '+' : ''}{realizedPercent.toFixed(1)}%)
-                        </span>
+                        </p>
+                        <p className={`text-[10px] tabular-nums ${isPositive ? 'text-emerald-400/70' : 'text-red-400/70'}`}>
+                          {isPositive ? '+' : ''}{realizedPercent.toFixed(1)}%
+                        </p>
                       </div>
                     </div>
                   )
@@ -693,23 +710,49 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
                   return (
                     <div
                       key={tx.id}
-                      className="flex items-center justify-between py-2.5 border-b border-neutral-100 dark:border-neutral-800/50 last:border-0"
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="w-7 h-7 flex items-center justify-center bg-purple-500/20 text-purple-400 text-xs font-bold rounded-full">
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-6 h-6 flex items-center justify-center bg-blue-500/10 border border-blue-500/20 text-blue-400 text-[10px] font-bold rounded-full tabular-nums">
                           {label}
                         </span>
-                        <span className="text-sm text-neutral-500">
-                          {formatDate(tx.date)}
-                        </span>
+                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
                       </div>
-                      <div className="text-sm text-neutral-700 dark:text-neutral-300">
-                        Dividende
-                      </div>
-                      <div className="text-right">
-                        <span className="text-sm font-medium text-emerald-400">
+                      <span className="text-[11px] text-blue-400/70 font-medium uppercase tracking-wider">Dividende</span>
+                      <div />
+                      <div className="text-right min-w-[100px]">
+                        <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
                           +{formatCurrency(tx.total_value)}
+                        </p>
+                      </div>
+                    </div>
+                  )
+                }
+
+                if (tx.type === 'transfer_in' || tx.type === 'transfer_out') {
+                  transferIdx++
+                  const label = `T${transferIdx}`
+                  const isIn = tx.type === 'transfer_in'
+
+                  return (
+                    <div
+                      key={tx.id}
+                      className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-2.5 border-b border-neutral-800/60 hover:bg-neutral-900/50 transition-colors"
+                    >
+                      <div className="flex items-center gap-2.5">
+                        <span className="w-6 h-6 flex items-center justify-center bg-violet-500/10 border border-violet-500/20 text-violet-400 text-[10px] font-bold rounded-full tabular-nums">
+                          {label}
                         </span>
+                        <span className="text-[11px] text-neutral-500 tabular-nums">{formatDate(tx.date)}</span>
+                      </div>
+                      <span className="text-[11px] text-violet-400/70 font-medium uppercase tracking-wider">{isIn ? 'Einbuchung' : 'Ausbuchung'}</span>
+                      <div className="text-[12px] text-neutral-300 tabular-nums text-right">
+                        {tx.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} × {formatCurrency(tx.price)}
+                      </div>
+                      <div className="text-right min-w-[100px]">
+                        <p className="text-[12px] text-neutral-400 tabular-nums">
+                          {formatCurrency(tx.quantity * tx.price)}
+                        </p>
                       </div>
                     </div>
                   )
@@ -721,25 +764,24 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
             {/* Gesamt-Zeile */}
             {allTransactions.length > 1 && performance && (
-              <div className="flex items-center justify-between pt-3 mt-1 border-t border-neutral-300/50 dark:border-neutral-700/50">
-                <div className="flex items-center gap-3">
-                  <span className="w-7 h-7 flex items-center justify-center bg-neutral-200 dark:bg-neutral-700/50 text-neutral-700 dark:text-neutral-300 text-xs font-bold rounded-full">
+              <div className="grid grid-cols-[auto,1fr,1fr,auto] items-center gap-3 px-5 py-3 bg-neutral-900/40">
+                <div className="flex items-center gap-2.5">
+                  <span className="w-6 h-6 flex items-center justify-center bg-neutral-800 border border-neutral-700 text-neutral-300 text-[10px] font-bold rounded-full">
                     Σ
                   </span>
-                  <span className="text-sm text-neutral-700 dark:text-neutral-300 font-medium">
-                    Gesamt
-                  </span>
+                  <span className="text-[11px] text-neutral-400 font-medium uppercase tracking-wider">Gesamt</span>
                 </div>
-                <div className="text-sm text-neutral-700 dark:text-neutral-300">
+                <div />
+                <div className="text-[12px] text-neutral-300 tabular-nums text-right">
                   {performance.remainingQuantity > 0
-                    ? `${performance.remainingQuantity.toLocaleString('de-DE')} Stk. — ${formatCurrency(performance.currentValue)}`
+                    ? `${performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.`
                     : 'Position geschlossen'
                   }
                 </div>
-                <div className="text-right">
-                  <span className={`text-sm font-semibold ${perfColor(performance.totalReturn)}`}>
+                <div className="text-right min-w-[100px]">
+                  <p className={`text-[13px] font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
                     {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
-                  </span>
+                  </p>
                 </div>
               </div>
             )}
@@ -749,8 +791,8 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
       {/* Keine Transaktionen */}
       {allTransactions.length === 0 && !loading && (
-        <div className="mt-6 bg-white dark:bg-neutral-900/50 rounded-xl border border-neutral-200 dark:border-neutral-800/50 p-8 text-center">
-          <p className="text-neutral-500 text-sm">Keine Transaktionen für {ticker} vorhanden.</p>
+        <div className="mt-5 bg-neutral-900/30 rounded-xl border border-neutral-800/80 border-dashed p-10 text-center">
+          <p className="text-[13px] text-neutral-500">Keine Transaktionen für {ticker} vorhanden.</p>
         </div>
       )}
     </div>
