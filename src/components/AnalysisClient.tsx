@@ -42,7 +42,7 @@ const WallStreetRatingDonut = dynamic(
 
 
 // ✨ Growth Section Integration
-const GrowthSection = dynamic(
+const _GrowthSection = dynamic(
   () => import('@/components/GrowthSection'),
   { ssr: false, loading: () => <LoadingSpinner /> }
 )
@@ -921,35 +921,14 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             )}
           </div>
 
-          {/* RECHTE SPALTE - NEWS & GROWTH (2/5) */}
+          {/* RECHTE SPALTE - NEWS RECAP (2/5) */}
           <div className="lg:col-span-2 space-y-6">
-            <StockNewsSummary ticker={ticker} />
-
-            {/* GROWTH SEKTION */}
-            <LazyWrapper
-              minHeight="300px"
-              rootMargin="250px"
-              className="bg-theme-card rounded-lg"
-              fallback={
-                <div className="bg-theme-card rounded-lg p-6 flex items-center justify-center" style={{ minHeight: '300px' }}>
-                  <div className="text-center">
-                    <div className="animate-pulse flex space-x-4">
-                      <div className="flex-1 space-y-3 py-1">
-                        <div className="h-4 bg-theme-tertiary rounded w-2/3"></div>
-                        <div className="h-4 bg-theme-tertiary rounded w-1/3"></div>
-                        <div className="h-4 bg-theme-tertiary rounded w-1/2"></div>
-                      </div>
-                    </div>
-                    <p className="text-theme-muted text-sm mt-4">Lade Wachstums-Analyse...</p>
-                  </div>
-                </div>
-              }
-            >
-              <GrowthSection
-                ticker={ticker}
-                isPremium={user?.isPremium || false}
-              />
-            </LazyWrapper>
+            <StockNewsSummary
+              ticker={ticker}
+              companyName={stock?.name || undefined}
+              price={livePrice ?? undefined}
+              changePct={liveChangePct ?? 0}
+            />
           </div>
         </div>
 

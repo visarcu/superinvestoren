@@ -156,8 +156,9 @@ export default function MaerktePage() {
   const [filter, setFilter] = useState<string>('all')
   const [newsRecap, setNewsRecap] = useState<string>('')
   const [fredData, setFredData] = useState<Record<string, FredData>>({})
-  const [activeTab, setActiveTab] = useState<'kalender' | 'indikatoren'>('kalender')
+  const [activeTab, setActiveTab] = useState<'maerkte' | 'kalender' | 'indikatoren'>('maerkte')
   const [expandChart, setExpandChart] = useState<{ key: string; data: FredData } | null>(null)
+  const [marketIndices, setMarketIndices] = useState<any>(null)
 
   useEffect(() => {
     setLoading(true)
@@ -167,13 +168,41 @@ export default function MaerktePage() {
     Promise.all([
       fetch(`/api/v1/calendar/economic?from=${today}&to=${in30d}`).then(r => r.ok ? r.json() : { dates: [] }),
       fetch(`/api/v1/news/recap?type=morning`).then(r => r.ok ? r.json() : null),
+      fetch('/api/dashboard-cached').then(r => r.ok ? r.json() : null).catch(() => null),
+      fetch('/api/v1/markets').then(r => r.ok ? r.json() : null).catch(() => null),
       // FRED Daten parallel laden
       ...['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment', 'ecb_rate', 'eu_unemployment', 'de_unemployment'].map(
         s => fetch(`/api/v1/economic/${s}?limit=36`).then(r => r.ok ? r.json() : null).catch(() => null)
       ),
-    ]).then(([cal, recap, ...fredResults]) => {
+    ]).then(([cal, recap, dashData, marketsData, ...fredResults]) => {
       setEvents(cal.dates || [])
       if (recap?.content) setNewsRecap(recap.content)
+
+      // Market Indices zusammenbauen
+      const indices: any[] = []
+      if (dashData?.markets) {
+        const m = dashData.markets
+        const defs = [
+          { key: 'spx', name: 'S&P 500', flag: '🇺🇸' },
+          { key: 'ixic', name: 'NASDAQ 100', flag: '🇺🇸' },
+          { key: 'dji', name: 'Dow Jones', flag: '🇺🇸' },
+          { key: 'dax', name: 'DAX', flag: '🇩🇪' },
+          { key: 'stoxx', name: 'STOXX 600', flag: '🇪🇺' },
+        ]
+        defs.forEach(d => {
+          if (m[d.key]) indices.push({ ...d, ...m[d.key], type: 'index' })
+        })
+        const comDefs = [
+          { key: 'btc', name: 'Bitcoin', flag: '₿' },
+          { key: 'gold', name: 'Gold', flag: '🥇' },
+          { key: 'silver', name: 'Silber', flag: '🥈' },
+          { key: 'oil', name: 'Öl (Brent)', flag: '🛢️' },
+        ]
+        comDefs.forEach(d => {
+          if (m[d.key]) indices.push({ ...d, ...m[d.key], type: 'commodity' })
+        })
+      }
+      setMarketIndices({ indices, sectors: marketsData?.sectors || [], allSectorsChange: marketsData?.allSectorsChange || 0 })
 
       const fredMap: Record<string, FredData> = {}
       const keys = ['cpi', 'unemployment', 'fed_funds', 'treasury_10y', 'gdp_growth', 'consumer_sentiment', 'ecb_rate', 'eu_unemployment', 'de_unemployment']
@@ -200,7 +229,7 @@ export default function MaerktePage() {
       {/* Header */}
       <header className="px-6 sm:px-10 py-4 max-w-6xl mx-auto w-full">
         <div className="flex items-center gap-4">
-          <Link href="/analyse" className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors">
+          <Link href="/analyse/home" className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors">
             <svg className="w-4 h-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
             </svg>
@@ -226,6 +255,7 @@ export default function MaerktePage() {
         {/* Tabs: Kalender / Indikatoren */}
         <div className="flex gap-1 border-b border-white/[0.03] mb-4">
           {[
+            { key: 'maerkte' as const, label: 'Märkte' },
             { key: 'kalender' as const, label: 'Wirtschaftskalender' },
             { key: 'indikatoren' as const, label: 'Wirtschaftsindikatoren' },
           ].map(t => (
@@ -239,7 +269,134 @@ export default function MaerktePage() {
           ))}
         </div>
 
-        {activeTab === 'indikatoren' ? (
+        {activeTab === 'maerkte' ? (
+          /* ── Märkte Übersicht (Indizes + Sektoren) ──────────── */
+          <div className="space-y-6">
+            {/* Sector Performance */}
+            {marketIndices?.sectors?.length > 0 && (
+              <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5">
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-[14px] font-semibold text-white/80">Sektor-Performance</h3>
+                  <span className={`text-[12px] font-semibold ${(marketIndices.allSectorsChange || 0) >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                    Alle Sektoren: {(marketIndices.allSectorsChange || 0) >= 0 ? '+' : ''}{(marketIndices.allSectorsChange || 0).toFixed(2)}%
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {marketIndices.sectors.map((s: any) => (
+                    <div key={s.symbol} className="bg-white/[0.02] rounded-xl px-4 py-3 border border-white/[0.03]">
+                      <p className="text-[12px] text-white/50 truncate">{s.nameDE}</p>
+                      <p className={`text-[15px] font-bold tabular-nums mt-1 ${s.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                        {s.changePercent >= 0 ? '+' : ''}{s.changePercent?.toFixed(2)}%
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Indizes Tabelle */}
+            {marketIndices?.indices?.length > 0 && (
+              <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl overflow-hidden">
+                <div className="px-5 py-4 border-b border-white/[0.03]">
+                  <h3 className="text-[14px] font-semibold text-white/80">Indizes & Rohstoffe</h3>
+                  <p className="text-[11px] text-white/20 mt-0.5">Stand: {new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</p>
+                </div>
+                {/* Table Header */}
+                <div className="hidden sm:grid grid-cols-12 px-5 py-2 text-[10px] text-white/20 uppercase tracking-wider font-medium border-b border-white/[0.03]">
+                  <div className="col-span-3">Name</div>
+                  <div className="col-span-2 text-right">Kurs</div>
+                  <div className="col-span-2 text-right">24h %</div>
+                  <div className="col-span-3 text-center">Tagesrange</div>
+                  <div className="col-span-2 text-right">Status</div>
+                </div>
+                {/* Indizes */}
+                {marketIndices.indices.filter((i: any) => i.type === 'index').length > 0 && (
+                  <>
+                    <div className="px-5 py-2 text-[10px] text-white/15 uppercase tracking-widest">Indizes</div>
+                    {marketIndices.indices.filter((i: any) => i.type === 'index').map((idx: any) => {
+                      const pct = idx.changePct || idx.changePercent || 0
+                      const range = idx.high && idx.low ? ((idx.price - idx.low) / (idx.high - idx.low)) * 100 : 50
+                      return (
+                        <div key={idx.key} className="grid grid-cols-12 items-center px-5 py-3 border-t border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+                          <div className="col-span-3 flex items-center gap-2.5">
+                            <span className="text-[14px]">{idx.flag}</span>
+                            <span className="text-[13px] font-medium text-white/80">{idx.name}</span>
+                          </div>
+                          <div className="col-span-2 text-right text-[13px] text-white/70 tabular-nums font-medium">
+                            {idx.price >= 10000 ? idx.price.toLocaleString('de-DE', { maximumFractionDigits: 0 }) : idx.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                          <div className="col-span-2 text-right">
+                            <span className={`text-[12px] font-semibold tabular-nums ${pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {pct >= 0 ? '+' : ''}{pct.toFixed(2)}%
+                            </span>
+                          </div>
+                          <div className="col-span-3 px-2">
+                            {idx.high && idx.low ? (
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-white/15 tabular-nums">{idx.low.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                                <div className="flex-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
+                                  <div className="h-full rounded-full bg-emerald-500/50" style={{ width: `${Math.max(2, Math.min(98, range))}%` }} />
+                                </div>
+                                <span className="text-[10px] text-white/15 tabular-nums">{idx.high.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                              </div>
+                            ) : (
+                              <div className="h-1 bg-white/[0.04] rounded-full" />
+                            )}
+                          </div>
+                          <div className="col-span-2 text-right">
+                            <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400">Open</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </>
+                )}
+                {/* Rohstoffe */}
+                {marketIndices.indices.filter((i: any) => i.type === 'commodity').length > 0 && (
+                  <>
+                    <div className="px-5 py-2 text-[10px] text-white/15 uppercase tracking-widest border-t border-white/[0.04]">Rohstoffe & Crypto</div>
+                    {marketIndices.indices.filter((i: any) => i.type === 'commodity').map((c: any) => {
+                      const pct = c.changePct || c.changePercent || 0
+                      const range = c.high && c.low ? ((c.price - c.low) / (c.high - c.low)) * 100 : 50
+                      return (
+                        <div key={c.key} className="grid grid-cols-12 items-center px-5 py-3 border-t border-white/[0.02] hover:bg-white/[0.02] transition-colors">
+                          <div className="col-span-3 flex items-center gap-2.5">
+                            <span className="text-[14px]">{c.flag}</span>
+                            <span className="text-[13px] font-medium text-white/80">{c.name}</span>
+                          </div>
+                          <div className="col-span-2 text-right text-[13px] text-white/70 tabular-nums font-medium">
+                            {c.price >= 10000 ? c.price.toLocaleString('de-DE', { maximumFractionDigits: 0 }) : c.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                          </div>
+                          <div className="col-span-2 text-right">
+                            <span className={`text-[12px] font-semibold tabular-nums ${pct >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+                              {pct >= 0 ? '+' : ''}{pct.toFixed(2)}%
+                            </span>
+                          </div>
+                          <div className="col-span-3 px-2">
+                            {c.high && c.low ? (
+                              <div className="flex items-center gap-2">
+                                <span className="text-[10px] text-white/15 tabular-nums">{c.low.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                                <div className="flex-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
+                                  <div className="h-full rounded-full bg-emerald-500/50" style={{ width: `${Math.max(2, Math.min(98, range))}%` }} />
+                                </div>
+                                <span className="text-[10px] text-white/15 tabular-nums">{c.high.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                              </div>
+                            ) : (
+                              <div className="h-1 bg-white/[0.04] rounded-full" />
+                            )}
+                          </div>
+                          <div className="col-span-2 text-right">
+                            <span className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-400">Open</span>
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </>
+                )}
+              </div>
+            )}
+          </div>
+        ) : activeTab === 'indikatoren' ? (
           /* ── Wirtschaftsindikatoren (FRED Charts) ──────────── */
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {Object.entries(fredData).map(([key, data]) => {
@@ -411,29 +568,6 @@ export default function MaerktePage() {
         />
       })()}
 
-      {/* Bottom Nav */}
-      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-50">
-        <nav className="flex items-center gap-1 bg-[#141420]/90 backdrop-blur-2xl border border-white/[0.08] rounded-2xl px-2 py-1.5 shadow-[0_8px_32px_rgba(0,0,0,0.5)]">
-          <Link href="/analyse" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
-            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 12l8.954-8.955a1.126 1.126 0 011.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" />
-            </svg>
-            <span className="text-[9px] text-white/25">Home</span>
-          </Link>
-          <Link href="/analyse/kalendar" className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl hover:bg-white/[0.06] transition-all group">
-            <svg className="w-[18px] h-[18px] text-white/35 group-hover:text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
-            </svg>
-            <span className="text-[9px] text-white/25">Earnings</span>
-          </Link>
-          <div className="flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl bg-white/[0.06]">
-            <svg className="w-[18px] h-[18px] text-white/70" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-            </svg>
-            <span className="text-[9px] text-white/50">Märkte</span>
-          </div>
-        </nav>
-      </div>
     </div>
   )
 }
