@@ -2,42 +2,10 @@
 // Primäre Quelle: FMP (Financial Modeling Prep)
 // Fallback 1: FMP mit alternativen Börsen (.AS, .L) für Xetra-ETFs
 // Fallback 2: Yahoo Finance
+//
+// Sonderfälle pflegen: src/data/tickerFallbacks.ts
 import { NextResponse } from 'next/server'
-
-// Bekannte Xetra-Ticker die FMP nicht unterstützt → auf andere Börsen mappen
-// .AS = Euronext Amsterdam (EUR, keine Konvertierung nötig)
-// .L  = London Stock Exchange (GBp, durch 100 teilen → GBP, dann × GBP/EUR)
-// .L  = London Stock Exchange (GBP, direkt × GBP/EUR — manche ETFs handeln in GBP nicht GBp)
-const XETRA_EXCHANGE_FALLBACK: Record<string, { symbol: string; exchange: 'EUR' | 'GBp' | 'GBP' }> = {
-  'VHYL.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },
-  'FWRG.DE': { symbol: 'FWRG.L',  exchange: 'GBp' },
-  'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBP' }, // FWRA.L handelt in GBP (nicht GBp)
-  'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBP' }, // Freedom24 Ticker für Invesco FTSE All-World
-  'VWRL.DE': { symbol: 'VWRL.L',  exchange: 'GBp' },
-  'VWCE.DE': { symbol: 'VWCE.L',  exchange: 'GBp' },
-  'EQQQ.DE': { symbol: 'EQQQ.L',  exchange: 'GBp' },
-  'IUIT.DE': { symbol: 'IUIT.L',  exchange: 'GBp' },
-  'CSPX.DE': { symbol: 'CSPX.L',  exchange: 'GBp' },
-  'SWDA.DE': { symbol: 'SWDA.L',  exchange: 'GBp' },
-  'HMWO.DE': { symbol: 'HMWO.L',  exchange: 'GBp' },
-  // Freedom24 .EU-Ticker (nach .DE-Konvertierung) — FMP-Fallbacks
-  'IEMA.DE': { symbol: 'IEMA.L',  exchange: 'GBp' }, // iShares MSCI EM IMI UCITS ETF
-  'NUKL.DE': { symbol: 'NUKL.L',  exchange: 'GBp' }, // VanEck Uranium and Nuclear Technologies UCITS ETF
-  'SPGP.DE': { symbol: 'SPGP.L',  exchange: 'GBp' }, // Invesco S&P 500 GARP ETF
-  'BHP.DE':  { symbol: 'BHP.L',   exchange: 'GBp' }, // BHP Group — XETRA-Kurs nicht von FMP gedeckt, LSE-Fallback
-  'QYLE.DE': { symbol: 'QYLE.L',  exchange: 'GBp' }, // Global X Nasdaq 100 Covered Call UCITS ETF — LSE-Fallback (GBp)
-  'WSML.DE': { symbol: 'WSML.L',  exchange: 'GBp' }, // iShares MSCI World Small Cap — LSE-Fallback
-}
-
-// Ticker-Aliases für Yahoo Finance Fallback (FMP kennt sie nicht)
-const YAHOO_TICKER_ALIASES: Record<string, string> = {
-  'NLM.DE':  'NLM.F',    // FRoSTA AG — nur im Freiverkehr
-  'IEMA.DE': 'IEMA.L',   // iShares MSCI EM IMI UCITS ETF — nur auf LSE
-  'NUKL.DE': 'NUKL.L',   // VanEck Uranium and Nuclear Technologies UCITS ETF — nur auf LSE
-  'TOJ.DE':  'RIG',      // Transocean Ltd. — XETRA-Ticker TOJ, Hauptlisting NYSE (USD → EUR)
-  'QYLE.DE': 'QYLE.L',   // Global X Nasdaq 100 Covered Call UCITS ETF — via LSE (FMP-Fallback bevorzugt)
-  'MICC.DE': 'MICC',     // Magnum Ice Cream — kein XETRA-Ticker, NYSE-Listing via Yahoo
-}
+import { EXCHANGE_FALLBACKS, YAHOO_ALIASES } from '@/data/tickerFallbacks'
 
 /**
  * Yahoo Finance Fallback: Kurs für ein einzelnes Symbol holen.
@@ -119,11 +87,11 @@ export async function GET(request: Request) {
   }
 
   // Prüfe welche Symbole FMP nicht geliefert hat oder keinen validen Kurs haben
-  // Außerdem: Symbole aus XETRA_EXCHANGE_FALLBACK immer über den alternativen Ticker holen
+  // Außerdem: Symbole aus EXCHANGE_FALLBACKS immer über den alternativen Ticker holen
   // (FMP liefert für diese manchmal falsche Währung oder price=0)
   const fmpSymbols = new Set(
     quotes
-      .filter((q: any) => q.price > 0 && !XETRA_EXCHANGE_FALLBACK[q.symbol])
+      .filter((q: any) => q.price > 0 && !EXCHANGE_FALLBACKS[q.symbol])
       .map((q: any) => q.symbol)
   )
   // FMP-Quotes für XETRA-Fallback-Ticker verwerfen — werden unten korrekt geholt
@@ -131,11 +99,11 @@ export async function GET(request: Request) {
   let missingSymbols = symbolList.filter(s => !fmpSymbols.has(s))
 
   // === Fallback 1: Xetra-ETFs auf alternativen Börsen suchen ===
-  const xetraFallbackNeeded = missingSymbols.filter(s => XETRA_EXCHANGE_FALLBACK[s])
+  const xetraFallbackNeeded = missingSymbols.filter(s => EXCHANGE_FALLBACKS[s])
 
   if (xetraFallbackNeeded.length > 0) {
     // GBP/EUR Rate laden falls .L Ticker vorhanden (GBp oder GBP)
-    const needsGbp = xetraFallbackNeeded.some(s => XETRA_EXCHANGE_FALLBACK[s]?.exchange === 'GBp' || XETRA_EXCHANGE_FALLBACK[s]?.exchange === 'GBP')
+    const needsGbp = xetraFallbackNeeded.some(s => EXCHANGE_FALLBACKS[s]?.exchange === 'GBp' || EXCHANGE_FALLBACKS[s]?.exchange === 'GBP')
     let gbpToEurRate = 1.18 // Fallback-Rate
 
     if (needsGbp) {
@@ -155,7 +123,7 @@ export async function GET(request: Request) {
     }
 
     // Alternative Ticker von FMP abrufen
-    const altSymbols = xetraFallbackNeeded.map(s => XETRA_EXCHANGE_FALLBACK[s].symbol)
+    const altSymbols = xetraFallbackNeeded.map(s => EXCHANGE_FALLBACKS[s].symbol)
     try {
       const altEncoded = altSymbols.map(s => encodeURIComponent(s)).join(',')
       const altRes = await fetch(
@@ -167,11 +135,11 @@ export async function GET(request: Request) {
           for (const altQuote of altData) {
             // Rückwärts-Mapping: alternativer Ticker → ursprünglicher .DE Ticker
             const originalTicker = xetraFallbackNeeded.find(
-              s => XETRA_EXCHANGE_FALLBACK[s].symbol === altQuote.symbol
+              s => EXCHANGE_FALLBACKS[s].symbol === altQuote.symbol
             )
             if (!originalTicker || !altQuote.price) continue
 
-            const { exchange } = XETRA_EXCHANGE_FALLBACK[originalTicker]
+            const { exchange } = EXCHANGE_FALLBACKS[originalTicker]
             let eurPrice = altQuote.price
 
             if (exchange === 'GBp') {
@@ -277,7 +245,7 @@ export async function GET(request: Request) {
     } catch { /* Fallback-Raten verwenden */ }
 
     const yahooPromises = missingSymbols.map(s => {
-      const yahooSymbol = YAHOO_TICKER_ALIASES[s] || s
+      const yahooSymbol = YAHOO_ALIASES[s] || s
       return fetchYahooQuote(yahooSymbol).then(result =>
         result ? { ...result, symbol: s } : null
       )
