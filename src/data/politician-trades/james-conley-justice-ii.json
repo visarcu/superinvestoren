@@ -1,0 +1,26 @@
+{
+  "slug": "james-conley-justice-ii",
+  "name": "James Conley Justice, II",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "10/10/2025",
+      "transactionDate": "08/28/2025",
+      "owner": "self",
+      "ticker": "PEBO",
+      "assetDescription": "Peoples Bancorp Inc. - Common Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$250,001 - $500,000",
+      "representative": "James Conley Justice, II",
+      "district": "Justice II,  James Conley (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-conley-justice-ii",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

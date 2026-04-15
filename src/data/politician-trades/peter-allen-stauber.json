@@ -1,0 +1,26 @@
+{
+  "slug": "peter-allen-stauber",
+  "name": "Peter Allen Stauber",
+  "chamber": "house",
+  "state": "MN",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-28",
+      "transactionDate": "2025-10-27",
+      "owner": "self",
+      "ticker": "NWL",
+      "assetDescription": "Newell Brands Inc.",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$15,001 - $50,000",
+      "representative": "Peter Allen Stauber",
+      "district": "MN",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033488.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "peter-allen-stauber",
+      "state": "MN",
+      "chamber": "house"
+    }
+  ]
+}

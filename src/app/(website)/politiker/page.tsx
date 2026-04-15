@@ -12,6 +12,13 @@ import {
   ArrowTrendingUpIcon,
 } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
+import politicianIndex from '@/data/politician-trades/index.json'
+
+// Foto-Map aus Index aufbauen
+const photoMap = new Map<string, string>()
+for (const p of politicianIndex as any[]) {
+  if (p.photoUrl) photoMap.set(p.slug, p.photoUrl)
+}
 
 interface TopPoliticianBuy {
   ticker: string
@@ -335,13 +342,21 @@ export default function PolitikerPage() {
                     {/* Party accent line */}
                     <div className={`absolute top-0 left-0 right-0 h-0.5 rounded-t-xl ${isD ? 'bg-blue-500/50' : 'bg-red-500/50'}`} />
 
-                    {/* Avatar + Name */}
+                    {/* Avatar / Foto + Name */}
                     <div className="flex items-center gap-3">
-                      <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
-                        isD ? 'bg-blue-500/10 text-blue-400' : 'bg-red-500/10 text-red-400'
-                      }`}>
-                        {slug.split('-').map(n => n[0].toUpperCase()).slice(0, 2).join('')}
-                      </div>
+                      {photoMap.has(slug) ? (
+                        <img
+                          src={photoMap.get(slug)!}
+                          alt={slug}
+                          className="w-9 h-9 rounded-full object-cover flex-shrink-0 border border-neutral-700"
+                        />
+                      ) : (
+                        <div className={`w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 ${
+                          isD ? 'bg-blue-500/10 text-blue-400' : 'bg-red-500/10 text-red-400'
+                        }`}>
+                          {slug.split('-').map(n => n[0].toUpperCase()).slice(0, 2).join('')}
+                        </div>
+                      )}
                       <div className="min-w-0">
                         <div className="flex items-center gap-1.5">
                           <p className="text-sm font-semibold text-white truncate leading-tight group-hover:text-neutral-200">

@@ -1,0 +1,26 @@
+{
+  "slug": "brad-knott",
+  "name": "Brad Knott",
+  "chamber": "house",
+  "state": "NC",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-01-14",
+      "transactionDate": "2025-01-14",
+      "owner": "self",
+      "ticker": "CMPO",
+      "assetDescription": "Stock",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Brad Knott",
+      "district": "NC",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20027846.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "brad-knott",
+      "state": "NC",
+      "chamber": "house"
+    }
+  ]
+}

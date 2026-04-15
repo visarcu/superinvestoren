@@ -1,0 +1,26 @@
+{
+  "slug": "donald-w-norcross",
+  "name": "Donald W. Norcross",
+  "chamber": "house",
+  "state": "NJ",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-08-07",
+      "transactionDate": "2024-06-04",
+      "owner": "self",
+      "ticker": "TD",
+      "assetDescription": "Toronto Dominion Bank",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Donald W. Norcross",
+      "district": "NJ",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030894.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "donald-w-norcross",
+      "state": "NJ",
+      "chamber": "house"
+    }
+  ]
+}

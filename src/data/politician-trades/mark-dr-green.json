@@ -1,0 +1,44 @@
+{
+  "slug": "mark-dr-green",
+  "name": "Mark Dr Green",
+  "chamber": "house",
+  "state": "TN",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-02-25",
+      "transactionDate": "2025-02-18",
+      "owner": "self",
+      "ticker": "NGL",
+      "assetDescription": "Common Units representing Limited $250,000 Partner Interests",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$100,001 - $250,000",
+      "representative": "Mark Dr Green",
+      "district": "TN",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20027845.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mark-dr-green",
+      "state": "TN",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-02-06",
+      "transactionDate": "2025-01-30",
+      "owner": "self",
+      "ticker": "NGL",
+      "assetDescription": "Common Units representing Limited $500,000 Partner Interests",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$500,001 - $1,000,000",
+      "representative": "Mark Dr Green",
+      "district": "TN",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026701.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mark-dr-green",
+      "state": "TN",
+      "chamber": "house"
+    }
+  ]
+}

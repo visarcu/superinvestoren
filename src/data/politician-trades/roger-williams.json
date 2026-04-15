@@ -75,6 +75,24 @@
       "slug": "roger-williams",
       "state": "TX",
       "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-12-22",
+      "transactionDate": "2025-12-22",
+      "owner": "self",
+      "ticker": "FANG",
+      "assetDescription": "Stock",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Roger Williams",
+      "district": "TX",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033783.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "roger-williams",
+      "state": "TX",
+      "chamber": "house"
     }
   ]
 }

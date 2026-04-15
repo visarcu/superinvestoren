@@ -153,9 +153,22 @@ export default function PolitikerDetailPage() {
   const [loading, setLoading] = useState(true)
   const [typeFilter, setTypeFilter] = useState<'all' | 'purchase' | 'sale'>('all')
   const [sectorData, setSectorData] = useState<Record<string, SectorInfo>>({})
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null)
+  const [party, setParty] = useState<string | null>(null)
 
   const name = slugToName(slug)
   const knownInfo = KNOWN_POLITICIANS[slug]
+
+  // Foto + Party aus Index laden
+  useEffect(() => {
+    fetch('/api/v1/politician-trades/stock/AAPL').catch(() => {}) // warm-up, ignorieren
+    import('@/data/politician-trades/index.json').then(mod => {
+      const idx = (mod.default || mod) as any[]
+      const entry = idx.find((p: any) => p.slug === slug)
+      if (entry?.photoUrl) setPhotoUrl(entry.photoUrl)
+      if (entry?.party) setParty(entry.party)
+    }).catch(() => {})
+  }, [slug])
 
   useEffect(() => {
     if (!slug) return
@@ -246,8 +259,10 @@ export default function PolitikerDetailPage() {
       }))
   }, [trades, sectorData])
 
-  const partyColor = knownInfo?.party === 'D' ? 'text-blue-400' : knownInfo?.party === 'R' ? 'text-red-400' : 'text-neutral-400'
-  const partyLabel = knownInfo?.party === 'D' ? 'Demokrat' : knownInfo?.party === 'R' ? 'Republikaner' : 'Unabhängig'
+  // Party: zuerst aus KNOWN_POLITICIANS, dann aus Index
+  const partyKey = knownInfo?.party || (party?.startsWith('D') ? 'D' : party?.startsWith('R') ? 'R' : party?.startsWith('I') ? 'I' : null)
+  const partyColor = partyKey === 'D' ? 'text-blue-400' : partyKey === 'R' ? 'text-red-400' : 'text-neutral-400'
+  const partyLabel = partyKey === 'D' ? 'Demokrat' : partyKey === 'R' ? 'Republikaner' : partyKey === 'I' ? 'Unabhängig' : null
 
   return (
     <div className="min-h-screen bg-dark">
@@ -264,15 +279,23 @@ export default function PolitikerDetailPage() {
           </Link>
 
           <div className="flex items-start gap-5">
-            {/* Avatar */}
-            <div className="w-14 h-14 rounded-xl bg-neutral-800 flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border border-neutral-700">
-              {name.split(' ').map(n => n[0]).join('').slice(0, 2)}
-            </div>
+            {/* Avatar / Foto */}
+            {photoUrl ? (
+              <img
+                src={photoUrl}
+                alt={name}
+                className="w-16 h-20 rounded-xl object-cover flex-shrink-0 border border-neutral-700 bg-neutral-800"
+              />
+            ) : (
+              <div className="w-14 h-14 rounded-xl bg-neutral-800 flex items-center justify-center text-white font-bold text-lg flex-shrink-0 border border-neutral-700">
+                {name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+              </div>
+            )}
 
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-3 mb-1">
                 <h1 className="text-2xl md:text-3xl font-semibold text-white tracking-tight">{name}</h1>
-                {knownInfo && <span className={`text-sm font-medium ${partyColor}`}>{partyLabel}</span>}
+                {partyLabel && <span className={`text-sm font-medium ${partyColor}`}>{partyLabel}</span>}
               </div>
               <div className="flex items-center gap-3 text-sm text-neutral-500 mb-2">
                 {knownInfo && (

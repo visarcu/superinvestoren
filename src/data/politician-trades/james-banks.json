@@ -1,0 +1,26 @@
+{
+  "slug": "james-banks",
+  "name": "James Banks",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "03/10/2025",
+      "transactionDate": "02/18/2025",
+      "owner": "self",
+      "ticker": "YUM",
+      "assetDescription": "Yum! Brands\n                                        \n                                        \n                                        \n                                            \n                                                \n                                                    Company: Yum\n                                                    \n                                                         (Louisville, KY)\n                                                    \n                                                \n                                            \n\n                                            \n                                                Description: Food",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "James Banks",
+      "district": "Banks, James E. (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-banks",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

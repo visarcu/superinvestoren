@@ -1,0 +1,44 @@
+{
+  "slug": "rafael-e-cruz",
+  "name": "Rafael E Cruz",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "11/12/2025",
+      "transactionDate": "11/11/2025",
+      "owner": "self",
+      "ticker": "GS",
+      "assetDescription": "Goldman Sachs Group",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$100,001 - $250,000",
+      "representative": "Rafael E Cruz",
+      "district": "Cruz, Ted (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "rafael-e-cruz",
+      "state": "",
+      "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2024",
+      "disclosureDate": "04/24/2024",
+      "transactionDate": "04/15/2024",
+      "owner": "self",
+      "ticker": "GS",
+      "assetDescription": "Goldman Sachs Group",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$250,001 - $500,000",
+      "representative": "Rafael E Cruz",
+      "district": "Cruz, Ted (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "rafael-e-cruz",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

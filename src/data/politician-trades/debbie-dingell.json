@@ -75,6 +75,42 @@
       "slug": "debbie-dingell",
       "state": "MI",
       "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-11-10",
+      "transactionDate": "2025-10-30",
+      "owner": "self",
+      "ticker": "SOLS",
+      "assetDescription": "Common Stock",
+      "type": "exchange",
+      "typeRaw": "Exchange",
+      "amount": "$1,001 - $15,000",
+      "representative": "Debbie Dingell",
+      "district": "MI",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029105.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "debbie-dingell",
+      "state": "MI",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-01-22",
+      "transactionDate": "2025-01-15",
+      "owner": "self",
+      "ticker": "DIS",
+      "assetDescription": "Walt Disney Company",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Debbie Dingell",
+      "district": "MI",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026647.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "debbie-dingell",
+      "state": "MI",
+      "chamber": "house"
     }
   ]
 }

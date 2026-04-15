@@ -1,86 +1,306 @@
 [
   {
-    "slug": "david-taylor",
-    "name": "David Taylor",
+    "slug": "lisa-mcclain",
+    "name": "Lisa McClain",
     "chamber": "senate",
-    "state": "OH",
-    "tradeCount": 98,
-    "lastTradeDate": "2026-03-12",
+    "state": "MI",
+    "tradeCount": 1259,
+    "lastTradeDate": "2026-02-06",
     "recentTickers": [
-      "RPM",
-      "CVX",
-      "PH",
-      "HD",
-      "LRCX"
-    ]
-  },
-  {
-    "slug": "cleo-fields",
-    "name": "Cleo Fields",
-    "chamber": "senate",
-    "state": "LA",
-    "tradeCount": 67,
-    "lastTradeDate": "2026-03-12",
-    "recentTickers": [
-      "MSFT",
+      "BBAI",
       "AAPL",
-      "MU",
-      "GOOGL",
-      "META"
-    ]
-  },
-  {
-    "slug": "pete-sessions",
-    "name": "Pete Sessions",
-    "chamber": "senate",
-    "state": "TX",
-    "tradeCount": 2,
-    "lastTradeDate": "2026-03-09",
-    "recentTickers": [
-      "VZ"
-    ]
-  },
-  {
-    "slug": "kelly-louise-morrison",
-    "name": "Kelly Louise Morrison",
-    "chamber": "senate",
-    "state": "MN",
-    "tradeCount": 3,
-    "lastTradeDate": "2026-03-08",
-    "recentTickers": [
-      "AJG",
-      "ASHGY"
-    ]
+      "APPF",
+      "ALLE",
+      "GOOGL"
+    ],
+    "bioguideId": "M001136",
+    "photoUrl": "/images/politicians/lisa-mcclain.jpg",
+    "party": "Republican"
   },
   {
     "slug": "gilbert-cisneros",
     "name": "Gilbert Cisneros",
     "chamber": "senate",
     "state": "CA",
-    "tradeCount": 354,
-    "lastTradeDate": "2026-03-02",
+    "tradeCount": 1130,
+    "lastTradeDate": "2026-03-27",
     "recentTickers": [
-      "THR",
-      "FSS",
-      "TSM",
-      "HOOD",
-      "MU"
-    ]
+      "AEIS",
+      "SKY",
+      "SCHW",
+      "DASH",
+      "FN"
+    ],
+    "bioguideId": "C001123",
+    "photoUrl": "/images/politicians/gilbert-cisneros.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "rob-bresnahan",
+    "name": "Rob Bresnahan",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 512,
+    "lastTradeDate": "2026-02-03",
+    "recentTickers": [
+      "K",
+      "SPY",
+      "BRK/B",
+      "QQQ",
+      "IWM"
+    ],
+    "bioguideId": "B001327",
+    "photoUrl": "/images/politicians/rob-bresnahan.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "julie-johnson",
+    "name": "Julie Johnson",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 480,
+    "lastTradeDate": "2025-12-18",
+    "recentTickers": [
+      "WFC",
+      "XEL",
+      "BMY",
+      "ABBV",
+      "IBM"
+    ],
+    "bioguideId": "J000310",
+    "photoUrl": "/images/politicians/julie-johnson.jpg",
+    "party": "Democrat"
   },
   {
     "slug": "josh-gottheimer",
     "name": "Josh Gottheimer",
     "chamber": "senate",
     "state": "NJ",
-    "tradeCount": 52,
-    "lastTradeDate": "2026-02-27",
+    "tradeCount": 454,
+    "lastTradeDate": "2026-03-24",
     "recentTickers": [
-      "IFNNY",
+      "COLB",
+      "CCI",
+      "FN",
+      "APD",
+      "ALC"
+    ],
+    "bioguideId": "G000583",
+    "photoUrl": "/images/politicians/josh-gottheimer.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "valerie-hoyle",
+    "name": "Valerie Hoyle",
+    "chamber": "house",
+    "state": "OR",
+    "tradeCount": 353,
+    "lastTradeDate": "2025-09-23",
+    "recentTickers": [
+      "GOOGL",
+      "AMZN",
+      "DOX",
+      "APP",
+      "ARES"
+    ],
+    "bioguideId": "H001094",
+    "photoUrl": "/images/politicians/valerie-hoyle.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "john-boozman",
+    "name": "John Boozman",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 330,
+    "lastTradeDate": "12/31/2025",
+    "recentTickers": [
+      "SMCI",
+      "IVW",
+      "KRE",
+      "IJR",
+      "SLV"
+    ],
+    "bioguideId": "B001236",
+    "photoUrl": "/images/politicians/john-boozman.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "ro-khanna",
+    "name": "Ro Khanna",
+    "chamber": "senate",
+    "state": "CA",
+    "tradeCount": 295,
+    "lastTradeDate": "2025-10-30",
+    "recentTickers": [
+      "MDLZ",
+      "LIN",
+      "WM",
+      "DOV",
+      "PM"
+    ],
+    "bioguideId": "K000389",
+    "photoUrl": "/images/politicians/ro-khanna.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "thomas-h-tuberville",
+    "name": "Thomas H Tuberville",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 256,
+    "lastTradeDate": "12/26/2023",
+    "recentTickers": [
+      "PARA",
+      "VZ",
+      "RF",
+      "KEY",
+      "UAA"
+    ],
+    "bioguideId": "T000278",
+    "photoUrl": "/images/politicians/thomas-h-tuberville.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "julia-letlow",
+    "name": "Julia Letlow",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 250,
+    "lastTradeDate": "2026-02-20",
+    "recentTickers": [
+      "BXP",
+      "DINO",
+      "TRV",
+      "AVGO",
+      "EXR"
+    ],
+    "bioguideId": "L000595",
+    "photoUrl": "/images/politicians/julia-letlow.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "april-mcclain-delaney",
+    "name": "April McClain Delaney",
+    "chamber": "house",
+    "state": "MD",
+    "tradeCount": 248,
+    "lastTradeDate": "2026-03-31",
+    "recentTickers": [
+      "EME",
+      "NDAQ",
+      "PKG",
+      "ROL",
+      "TSCO"
+    ],
+    "bioguideId": "M001232",
+    "photoUrl": "/images/politicians/april-mcclain-delaney.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "marjorie-taylor-greene",
+    "name": "Marjorie Taylor Greene",
+    "chamber": "senate",
+    "state": "GA",
+    "tradeCount": 241,
+    "lastTradeDate": "2025-11-21",
+    "recentTickers": [
+      "IBIT",
+      "PG",
+      "MELI",
       "PANW",
-      "FSS",
-      "INTU",
-      "CVNA"
+      "KMI"
     ]
+  },
+  {
+    "slug": "markwayne-mullin",
+    "name": "Markwayne Mullin",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 237,
+    "lastTradeDate": "12/29/2025",
+    "recentTickers": [
+      "CAT",
+      "LLY",
+      "JPM",
+      "COF",
+      "RTX"
+    ],
+    "bioguideId": "M001225",
+    "photoUrl": "/images/politicians/markwayne-mullin.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "bruce-westerman",
+    "name": "Bruce Westerman",
+    "chamber": "house",
+    "state": "AR",
+    "tradeCount": 201,
+    "lastTradeDate": "2025-04-21",
+    "recentTickers": [
+      "ABT",
+      "ADDYY",
+      "ADBE",
+      "GOOGL",
+      "AMZN"
+    ],
+    "bioguideId": "W000821",
+    "photoUrl": "/images/politicians/bruce-westerman.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "michael-mccaul",
+    "name": "Michael McCaul",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 182,
+    "lastTradeDate": "2026-01-30",
+    "recentTickers": [
+      "MSFT",
+      "WDAY",
+      "MELI",
+      "INTU",
+      "SAP"
+    ],
+    "bioguideId": "M001157",
+    "photoUrl": "/images/politicians/michael-mccaul.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "david-j-taylor",
+    "name": "David J. Taylor",
+    "chamber": "house",
+    "state": "OH",
+    "tradeCount": 134,
+    "lastTradeDate": "2026-03-24",
+    "recentTickers": [
+      "IBP",
+      "KR",
+      "FITB",
+      "HD",
+      "MPC"
+    ],
+    "bioguideId": "T000490",
+    "photoUrl": "/images/politicians/david-j-taylor.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "shelley-m-capito",
+    "name": "Shelley M Capito",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 124,
+    "lastTradeDate": "12/29/2023",
+    "recentTickers": [
+      "TFC",
+      "GE",
+      "UNH",
+      "JPM",
+      "MSFT"
+    ],
+    "bioguideId": "C001047",
+    "photoUrl": "/images/politicians/shelley-m-capito.jpg",
+    "party": "Republican"
   },
   {
     "slug": "april-delaney",
@@ -98,628 +318,237 @@
     ]
   },
   {
-    "slug": "charles-j-chuck-fleischmann",
-    "name": "Charles J. \"Chuck\" Fleischmann",
+    "slug": "cleo-fields",
+    "name": "Cleo Fields",
     "chamber": "senate",
-    "state": "TN",
-    "tradeCount": 23,
-    "lastTradeDate": "2026-02-23",
+    "state": "LA",
+    "tradeCount": 99,
+    "lastTradeDate": "2026-03-12",
     "recentTickers": [
-      "ACN",
-      "EEFT",
-      "NOW",
-      "PYPL",
-      "UNH"
-    ]
-  },
-  {
-    "slug": "william-r-keating",
-    "name": "William R. Keating",
-    "chamber": "senate",
-    "state": "MA",
-    "tradeCount": 3,
-    "lastTradeDate": "2026-02-20",
-    "recentTickers": [
-      "GOOGL",
-      "CB",
-      "CMCSA"
-    ]
-  },
-  {
-    "slug": "julia-letlow",
-    "name": "Julia Letlow",
-    "chamber": "senate",
-    "state": "",
-    "tradeCount": 100,
-    "lastTradeDate": "2026-02-20",
-    "recentTickers": [
-      "BXP",
-      "DINO",
-      "TRV",
-      "EXE",
-      "PEG"
-    ]
-  },
-  {
-    "slug": "sheri-biggs",
-    "name": "Sheri Biggs",
-    "chamber": "senate",
-    "state": "SC",
-    "tradeCount": 92,
-    "lastTradeDate": "2026-02-19",
-    "recentTickers": [
-      "8376923Z",
-      "BNS",
-      "BNPQY",
-      "UBS",
-      "IBIT"
-    ]
-  },
-  {
-    "slug": "tony-wied",
-    "name": "Tony Wied",
-    "chamber": "senate",
-    "state": "WI",
-    "tradeCount": 27,
-    "lastTradeDate": "2026-02-19",
-    "recentTickers": [
-      "MU",
-      "V",
-      "WAL",
-      "LH",
-      "AVGO"
-    ]
-  },
-  {
-    "slug": "richard-w-allen",
-    "name": "Richard W. Allen",
-    "chamber": "senate",
-    "state": "GA",
-    "tradeCount": 11,
-    "lastTradeDate": "2026-02-19",
-    "recentTickers": [
-      "TSM",
-      "INTU",
-      "KMI",
-      "AWK",
-      "SPGI"
-    ]
-  },
-  {
-    "slug": "thomas-suozzi",
-    "name": "Thomas Suozzi",
-    "chamber": "senate",
-    "state": "NY",
-    "tradeCount": 9,
-    "lastTradeDate": "2026-02-18",
-    "recentTickers": [
-      "AMD",
+      "MSFT",
       "AAPL",
-      "URI",
-      "PLTR",
-      "NEE"
-    ]
-  },
-  {
-    "slug": "thomas-h-kean",
-    "name": "Thomas H. Kean",
-    "chamber": "senate",
-    "state": "NJ",
-    "tradeCount": 29,
-    "lastTradeDate": "2026-02-18",
-    "recentTickers": [
-      "LIN",
-      "WAT",
-      "FCNCA",
       "GOOGL",
-      "ABT"
-    ]
+      "MU",
+      "META"
+    ],
+    "bioguideId": "F000110",
+    "photoUrl": "/images/politicians/cleo-fields.jpg",
+    "party": "Democrat"
   },
   {
-    "slug": "tim-moore",
-    "name": "Tim Moore",
+    "slug": "david-taylor",
+    "name": "David Taylor",
     "chamber": "senate",
-    "state": "NC",
-    "tradeCount": 49,
-    "lastTradeDate": "2026-02-18",
+    "state": "OH",
+    "tradeCount": 98,
+    "lastTradeDate": "2026-03-12",
     "recentTickers": [
-      "COIN",
-      "DNUT",
-      "GNPX",
-      "T",
-      "VZ"
-    ]
+      "RPM",
+      "CVX",
+      "PH",
+      "HD",
+      "LRCX"
+    ],
+    "bioguideId": "T000490",
+    "photoUrl": "/images/politicians/david-taylor.jpg",
+    "party": "Republican"
   },
   {
     "slug": "jonathan-jackson",
     "name": "Jonathan Jackson",
     "chamber": "senate",
     "state": "IL",
-    "tradeCount": 43,
-    "lastTradeDate": "2026-02-17",
+    "tradeCount": 96,
+    "lastTradeDate": "2026-03-20",
     "recentTickers": [
+      "AMZN",
+      "BP",
       "IBM",
       "BK",
-      "C",
-      "THC",
-      "WELL"
-    ]
+      "THC"
+    ],
+    "bioguideId": "J000309",
+    "photoUrl": "/images/politicians/jonathan-jackson.jpg",
+    "party": "Democrat"
   },
   {
-    "slug": "austin-scott",
-    "name": "Austin Scott",
+    "slug": "sheri-biggs",
+    "name": "Sheri Biggs",
     "chamber": "senate",
-    "state": "GA",
-    "tradeCount": 2,
-    "lastTradeDate": "2026-02-17",
+    "state": "SC",
+    "tradeCount": 96,
+    "lastTradeDate": "2026-02-19",
     "recentTickers": [
-      "GEV",
-      "GE"
-    ]
-  },
-  {
-    "slug": "lloyd-doggett",
-    "name": "Lloyd Doggett",
-    "chamber": "senate",
-    "state": "TX",
-    "tradeCount": 6,
-    "lastTradeDate": "2026-02-17",
-    "recentTickers": [
-      "PG",
-      "HD",
-      "KO",
-      "PPG",
-      "IBM"
-    ]
-  },
-  {
-    "slug": "jake-auchincloss",
-    "name": "Jake Auchincloss",
-    "chamber": "senate",
-    "state": "MA",
-    "tradeCount": 2,
-    "lastTradeDate": "2026-02-17",
-    "recentTickers": [
-      "STT"
-    ]
-  },
-  {
-    "slug": "virginia-foxx",
-    "name": "Virginia Foxx",
-    "chamber": "senate",
-    "state": "NC",
-    "tradeCount": 10,
-    "lastTradeDate": "2026-02-13",
-    "recentTickers": [
-      "ARLP",
-      "HTGC",
-      "PSA",
-      "EFC"
-    ]
-  },
-  {
-    "slug": "ed-case",
-    "name": "Ed Case",
-    "chamber": "senate",
-    "state": "HI",
-    "tradeCount": 2,
-    "lastTradeDate": "2026-02-12",
-    "recentTickers": [
-      "AAPL",
-      "PG"
-    ]
-  },
-  {
-    "slug": "august-lee-pfluger",
-    "name": "August Lee Pfluger",
-    "chamber": "senate",
-    "state": "TX",
-    "tradeCount": 5,
-    "lastTradeDate": "2026-02-10",
-    "recentTickers": [
-      "WBD",
-      "SIRI",
-      "FNF",
-      "FWONK",
-      "LLYVK"
-    ]
+      "8376923Z",
+      "BNS",
+      "BNPQY",
+      "UBS"
+    ],
+    "bioguideId": "B001325",
+    "photoUrl": "/images/politicians/sheri-biggs.jpg",
+    "party": "Republican"
   },
   {
     "slug": "byron-donalds",
     "name": "Byron Donalds",
     "chamber": "senate",
     "state": "FL",
-    "tradeCount": 29,
-    "lastTradeDate": "2026-02-10",
+    "tradeCount": 95,
+    "lastTradeDate": "2026-03-20",
     "recentTickers": [
+      "NFLX",
+      "PYPL",
       "TTD",
       "NOW",
-      "BRO",
-      "PYPL",
-      "HWM"
-    ]
-  },
-  {
-    "slug": "debbie-dingell",
-    "name": "Debbie Dingell",
-    "chamber": "senate",
-    "state": "MI",
-    "tradeCount": 4,
-    "lastTradeDate": "2026-02-10",
-    "recentTickers": [
-      "WAT",
-      "HON",
-      "AAPL",
-      "GOOGL"
-    ]
-  },
-  {
-    "slug": "scott-mr-franklin",
-    "name": "Scott Mr Franklin",
-    "chamber": "senate",
-    "state": "FL",
-    "tradeCount": 3,
-    "lastTradeDate": "2026-02-10",
-    "recentTickers": [
-      "HSY",
-      "IVV",
-      "UNP"
-    ]
-  },
-  {
-    "slug": "kevin-hern",
-    "name": "Kevin Hern",
-    "chamber": "senate",
-    "state": "OK",
-    "tradeCount": 17,
-    "lastTradeDate": "2026-02-09",
-    "recentTickers": [
-      "WAT",
-      "RY",
-      "HD",
-      "CSX",
-      "BSX"
-    ]
-  },
-  {
-    "slug": "lisa-mcclain",
-    "name": "Lisa McClain",
-    "chamber": "senate",
-    "state": "MI",
-    "tradeCount": 204,
-    "lastTradeDate": "2026-02-06",
-    "recentTickers": [
-      "BBAI",
-      "AAPL",
-      "APPF",
-      "ALLE",
-      "GOOGL"
-    ]
-  },
-  {
-    "slug": "rob-bresnahan",
-    "name": "Rob Bresnahan",
-    "chamber": "senate",
-    "state": "PA",
-    "tradeCount": 10,
-    "lastTradeDate": "2026-02-03",
-    "recentTickers": [
-      "K",
-      "SPY",
-      "BRK/B",
-      "QQQ",
-      "IWM"
-    ]
-  },
-  {
-    "slug": "neal-p-dunn",
-    "name": "Neal P. Dunn",
-    "chamber": "senate",
-    "state": "FL",
-    "tradeCount": 3,
-    "lastTradeDate": "2026-02-02",
-    "recentTickers": [
-      "CADE",
-      "HBAN",
-      "JPM"
-    ]
-  },
-  {
-    "slug": "daniel-meuser",
-    "name": "Daniel Meuser",
-    "chamber": "senate",
-    "state": "PA",
-    "tradeCount": 2,
-    "lastTradeDate": "2026-01-30",
-    "recentTickers": [
-      "NVDA"
-    ]
-  },
-  {
-    "slug": "michael-mccaul",
-    "name": "Michael McCaul",
-    "chamber": "senate",
-    "state": "TX",
-    "tradeCount": 182,
-    "lastTradeDate": "2026-01-30",
-    "recentTickers": [
-      "MSFT",
-      "WDAY",
-      "MELI",
-      "INTU",
-      "SAP"
-    ]
-  },
-  {
-    "slug": "john-mcguire",
-    "name": "John McGuire",
-    "chamber": "senate",
-    "state": "VA",
-    "tradeCount": 4,
-    "lastTradeDate": "2026-01-30",
-    "recentTickers": [
-      "NVDA",
-      "MSFT",
-      "WMT"
-    ]
-  },
-  {
-    "slug": "dale-strong",
-    "name": "Dale Strong",
-    "chamber": "senate",
-    "state": "",
-    "tradeCount": 1,
-    "lastTradeDate": "2026-01-28",
-    "recentTickers": [
-      "IREN"
-    ]
-  },
-  {
-    "slug": "scott-h-peters",
-    "name": "Scott H. Peters",
-    "chamber": "senate",
-    "state": "CA",
-    "tradeCount": 16,
-    "lastTradeDate": "2026-01-21",
-    "recentTickers": []
-  },
-  {
-    "slug": "robert-e-latta",
-    "name": "Robert E. Latta",
-    "chamber": "senate",
-    "state": "OH",
-    "tradeCount": 2,
-    "lastTradeDate": "2026-01-20",
-    "recentTickers": [
-      "FMAO"
-    ]
-  },
-  {
-    "slug": "nancy-pelosi",
-    "name": "Nancy Pelosi",
-    "chamber": "senate",
-    "state": "CA",
-    "tradeCount": 19,
-    "lastTradeDate": "2026-01-16",
-    "recentTickers": [
-      "AMZN",
-      "VST",
-      "TEM",
-      "AB",
-      "NVDA"
-    ]
-  },
-  {
-    "slug": "michael-patrick-guest",
-    "name": "Michael Patrick Guest",
-    "chamber": "senate",
-    "state": "MS",
-    "tradeCount": 5,
-    "lastTradeDate": "2026-01-09",
-    "recentTickers": [
-      "EVVTY",
-      "DT",
-      "CHRD",
-      "MPWR"
-    ]
-  },
-  {
-    "slug": "rick-larsen",
-    "name": "Rick Larsen",
-    "chamber": "senate",
-    "state": "WA",
-    "tradeCount": 6,
-    "lastTradeDate": "2026-01-07",
-    "recentTickers": [
-      "META",
-      "MDLZ",
-      "VRSK",
-      "DRI",
-      "WM"
-    ]
-  },
-  {
-    "slug": "james-french-hill",
-    "name": "James French Hill",
-    "chamber": "senate",
-    "state": "AR",
-    "tradeCount": 3,
-    "lastTradeDate": "2025-12-31",
-    "recentTickers": [
-      "PFE",
-      "KD",
-      "SOLV"
-    ]
+      "BRO"
+    ],
+    "bioguideId": "D000032",
+    "photoUrl": "/images/politicians/byron-donalds.jpg",
+    "party": "Republican"
   },
   {
     "slug": "dan-newhouse",
     "name": "Dan Newhouse",
     "chamber": "senate",
     "state": "WA",
-    "tradeCount": 31,
+    "tradeCount": 90,
     "lastTradeDate": "2025-12-31",
     "recentTickers": [
       "RCL",
       "BR",
       "SNPS",
-      "TMUS",
-      "GOOGL"
-    ]
+      "AVGO",
+      "SBUX"
+    ],
+    "bioguideId": "N000189",
+    "photoUrl": "/images/politicians/dan-newhouse.jpg",
+    "party": "Republican"
   },
   {
     "slug": "jefferson-shreve",
     "name": "Jefferson Shreve",
     "chamber": "senate",
     "state": "IN",
-    "tradeCount": 4,
+    "tradeCount": 89,
     "lastTradeDate": "2025-12-30",
     "recentTickers": [
       "JPM",
       "PRU",
       "PUK",
-      "BMO"
-    ]
+      "BMO",
+      "CSCO"
+    ],
+    "bioguideId": "S001229",
+    "photoUrl": "/images/politicians/jefferson-shreve.jpg",
+    "party": "Republican"
   },
   {
-    "slug": "steve-cohen",
-    "name": "Steve Cohen",
-    "chamber": "senate",
-    "state": "TN",
-    "tradeCount": 6,
-    "lastTradeDate": "2025-12-29",
-    "recentTickers": [
-      "NOC",
-      "FLR",
-      "SONY",
-      "MS",
-      "OZK"
-    ]
-  },
-  {
-    "slug": "roger-williams",
-    "name": "Roger Williams",
-    "chamber": "senate",
-    "state": "TX",
-    "tradeCount": 4,
-    "lastTradeDate": "2025-12-22",
-    "recentTickers": [
-      "JPM",
-      "CVX",
-      "RTX",
-      "FANG"
-    ]
-  },
-  {
-    "slug": "nicole-malliotakis",
-    "name": "Nicole Malliotakis",
-    "chamber": "senate",
-    "state": "NY",
-    "tradeCount": 3,
-    "lastTradeDate": "2025-12-19",
-    "recentTickers": [
-      "IEP",
-      "FBC",
-      "CMG"
-    ]
-  },
-  {
-    "slug": "julie-johnson",
-    "name": "Julie Johnson",
-    "chamber": "senate",
-    "state": "TX",
-    "tradeCount": 143,
-    "lastTradeDate": "2025-12-18",
-    "recentTickers": [
-      "WFC",
-      "XEL",
-      "BMY",
-      "ABBV",
-      "IBM"
-    ]
-  },
-  {
-    "slug": "david-rouzer",
-    "name": "David Rouzer",
+    "slug": "val-hoyle",
+    "name": "Val Hoyle",
     "chamber": "senate",
     "state": "",
-    "tradeCount": 1,
-    "lastTradeDate": "2025-12-09",
+    "tradeCount": 84,
+    "lastTradeDate": "2025-09-23",
     "recentTickers": [
-      "BA"
-    ]
+      "COST",
+      "COP",
+      "CTSH",
+      "CDNS",
+      "CHRW"
+    ],
+    "bioguideId": "H001094",
+    "photoUrl": "/images/politicians/val-hoyle.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "sheldon-whitehouse",
+    "name": "Sheldon Whitehouse",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 71,
+    "lastTradeDate": "12/19/2024",
+    "recentTickers": [
+      "LRCX",
+      "AAPL",
+      "SNOW",
+      "LLY",
+      "PFE"
+    ],
+    "bioguideId": "W000802",
+    "photoUrl": "/images/politicians/sheldon-whitehouse.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "tim-moore",
+    "name": "Tim Moore",
+    "chamber": "senate",
+    "state": "NC",
+    "tradeCount": 68,
+    "lastTradeDate": "2026-03-13",
+    "recentTickers": [
+      "SMPL",
+      "LGIH",
+      "COIN",
+      "DNUT",
+      "HOG"
+    ],
+    "bioguideId": "M001236",
+    "photoUrl": "/images/politicians/tim-moore.jpg",
+    "party": "Republican"
   },
   {
     "slug": "jared-moskowitz",
     "name": "Jared Moskowitz",
     "chamber": "senate",
     "state": "FL",
-    "tradeCount": 16,
-    "lastTradeDate": "2025-12-02",
+    "tradeCount": 67,
+    "lastTradeDate": "2026-02-27",
     "recentTickers": [
+      "ROP",
       "ATO",
       "PEP",
       "PEG",
-      "SO",
-      "MCK"
-    ]
+      "SO"
+    ],
+    "bioguideId": "M001217",
+    "photoUrl": "/images/politicians/jared-moskowitz.jpg",
+    "party": "Democrat"
   },
   {
-    "slug": "debbie-wasserman-schultz",
-    "name": "Debbie Wasserman Schultz",
-    "chamber": "senate",
-    "state": "FL",
-    "tradeCount": 3,
-    "lastTradeDate": "2025-11-25",
-    "recentTickers": [
-      "DRQ",
-      "ANGO",
-      "BRY.1"
-    ]
-  },
-  {
-    "slug": "harold-dallas-rogers",
-    "name": "Harold Dallas Rogers",
-    "chamber": "senate",
-    "state": "KY",
-    "tradeCount": 10,
-    "lastTradeDate": "2025-11-24",
-    "recentTickers": [
-      "T",
-      "BBVLX",
-      "VEA",
-      "VUG",
-      "BBTBX"
-    ]
-  },
-  {
-    "slug": "dwight-evans",
-    "name": "Dwight Evans",
-    "chamber": "senate",
-    "state": "PA",
-    "tradeCount": 8,
-    "lastTradeDate": "2025-11-21",
-    "recentTickers": [
-      "MSFT",
-      "BABA",
-      "NVDA",
-      "CVS",
-      "AWK"
-    ]
-  },
-  {
-    "slug": "marjorie-taylor-greene",
-    "name": "Marjorie Taylor Greene",
-    "chamber": "senate",
+    "slug": "richard-dean-dr-mccormick",
+    "name": "Richard Dean Dr McCormick",
+    "chamber": "house",
     "state": "GA",
-    "tradeCount": 32,
-    "lastTradeDate": "2025-11-21",
+    "tradeCount": 65,
+    "lastTradeDate": "2026-03-19",
     "recentTickers": [
-      "IBIT",
-      "PG",
-      "MELI",
-      "PANW",
-      "KMI"
-    ]
+      "ABT",
+      "ADI",
+      "ADP",
+      "BLK",
+      "HD"
+    ],
+    "bioguideId": "M001218",
+    "photoUrl": "/images/politicians/richard-dean-dr-mccormick.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "thomas-h-kean-jr",
+    "name": "Thomas H. Kean Jr",
+    "chamber": "house",
+    "state": "NJ",
+    "tradeCount": 57,
+    "lastTradeDate": "2026-03-31",
+    "recentTickers": [
+      "AMCR",
+      "FCNCA",
+      "JNJ",
+      "LIN",
+      "PEP"
+    ],
+    "bioguideId": "K000398",
+    "photoUrl": "/images/politicians/thomas-h-kean-jr.jpg",
+    "party": "Republican"
   },
   {
     "slug": "rich-mccormick",
@@ -737,28 +566,684 @@
     ]
   },
   {
-    "slug": "donald-sternoff-beyer",
-    "name": "Donald Sternoff Beyer",
-    "chamber": "senate",
-    "state": "VA",
-    "tradeCount": 5,
-    "lastTradeDate": "2025-10-31",
-    "recentTickers": []
+    "slug": "ritchie-john-torres",
+    "name": "Ritchie John Torres",
+    "chamber": "house",
+    "state": "NY",
+    "tradeCount": 44,
+    "lastTradeDate": "2025-07-11",
+    "recentTickers": [
+      "ABBV",
+      "AMT",
+      "AAPL",
+      "BLK",
+      "BX"
+    ],
+    "bioguideId": "T000486",
+    "photoUrl": "/images/politicians/ritchie-john-torres.jpg",
+    "party": "Democrat"
   },
   {
-    "slug": "ro-khanna",
-    "name": "Ro Khanna",
+    "slug": "angus-s-king-jr",
+    "name": "Angus S King, Jr.",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 38,
+    "lastTradeDate": "12/29/2025",
+    "recentTickers": [
+      "HON",
+      "LLY",
+      "CMCSA",
+      "VZ",
+      "EA"
+    ],
+    "bioguideId": "K000383",
+    "photoUrl": "/images/politicians/angus-s-king-jr.jpg",
+    "party": "Independent"
+  },
+  {
+    "slug": "greg-landsman",
+    "name": "Greg Landsman",
+    "chamber": "house",
+    "state": "OH",
+    "tradeCount": 33,
+    "lastTradeDate": "2025-05-09",
+    "recentTickers": [
+      "KR",
+      "GOOGL",
+      "AMZN",
+      "AMP",
+      "ANET"
+    ],
+    "bioguideId": "L000601",
+    "photoUrl": "/images/politicians/greg-landsman.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "james-comer",
+    "name": "James Comer",
+    "chamber": "house",
+    "state": "KY",
+    "tradeCount": 33,
+    "lastTradeDate": "2025-07-03",
+    "recentTickers": [
+      "ANET",
+      "T",
+      "AVGO",
+      "CHDN",
+      "DOV"
+    ],
+    "bioguideId": "C001108",
+    "photoUrl": "/images/politicians/james-comer.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "kevin-hern",
+    "name": "Kevin Hern",
+    "chamber": "senate",
+    "state": "OK",
+    "tradeCount": 32,
+    "lastTradeDate": "2026-03-24",
+    "recentTickers": [
+      "CMCSA",
+      "SMA",
+      "KVUE",
+      "ACN",
+      "MUA"
+    ],
+    "bioguideId": "H001082",
+    "photoUrl": "/images/politicians/kevin-hern.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "scott-scott-franklin",
+    "name": "Scott Scott Franklin",
+    "chamber": "house",
+    "state": "FL",
+    "tradeCount": 31,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "HSY",
+      "IVV",
+      "UNP",
+      "CMCSA",
+      "NVO"
+    ],
+    "bioguideId": "F000472",
+    "photoUrl": "/images/politicians/scott-scott-franklin.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "john-w-hickenlooper",
+    "name": "John W Hickenlooper",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 30,
+    "lastTradeDate": "12/13/2023",
+    "recentTickers": [
+      "CMG",
+      "FWONK",
+      "LSXMK\n                                        \n                                        \n                                            \n                                            SIRI",
+      "LSXMK",
+      "INTU"
+    ],
+    "bioguideId": "H000273",
+    "photoUrl": "/images/politicians/john-w-hickenlooper.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "kelly-louise-morrison",
+    "name": "Kelly Louise Morrison",
+    "chamber": "senate",
+    "state": "MN",
+    "tradeCount": 29,
+    "lastTradeDate": "2026-03-09",
+    "recentTickers": [
+      "AJG",
+      "MICC",
+      "ASHGY",
+      "ACN",
+      "TMO"
+    ],
+    "bioguideId": "M001234",
+    "photoUrl": "/images/politicians/kelly-louise-morrison.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "thomas-h-kean",
+    "name": "Thomas H. Kean",
+    "chamber": "senate",
+    "state": "NJ",
+    "tradeCount": 29,
+    "lastTradeDate": "2026-02-18",
+    "recentTickers": [
+      "LIN",
+      "WAT",
+      "FCNCA",
+      "GOOGL",
+      "ABT"
+    ],
+    "bioguideId": "K000398",
+    "photoUrl": "/images/politicians/thomas-h-kean.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "virginia-foxx",
+    "name": "Virginia Foxx",
+    "chamber": "senate",
+    "state": "NC",
+    "tradeCount": 29,
+    "lastTradeDate": "2026-02-13",
+    "recentTickers": [
+      "ARLP",
+      "HTGC",
+      "PSA",
+      "EFC"
+    ],
+    "bioguideId": "F000450",
+    "photoUrl": "/images/politicians/virginia-foxx.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "jerry-moran",
+    "name": "Jerry Moran,",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 29,
+    "lastTradeDate": "12/16/2024",
+    "recentTickers": [
+      "BRK.B",
+      "VZ",
+      "USB",
+      "CI",
+      "PII"
+    ],
+    "bioguideId": "M000934",
+    "photoUrl": "/images/politicians/jerry-moran.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "dwight-evans",
+    "name": "Dwight Evans",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 27,
+    "lastTradeDate": "2025-11-21",
+    "recentTickers": [
+      "MSFT",
+      "BABA",
+      "NVDA",
+      "CVS",
+      "AWK"
+    ],
+    "bioguideId": "E000296",
+    "photoUrl": "/images/politicians/dwight-evans.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "tony-wied",
+    "name": "Tony Wied",
+    "chamber": "senate",
+    "state": "WI",
+    "tradeCount": 27,
+    "lastTradeDate": "2026-02-19",
+    "recentTickers": [
+      "MU",
+      "V",
+      "WAL",
+      "LH",
+      "AVGO"
+    ],
+    "bioguideId": "W000829",
+    "photoUrl": "/images/politicians/tony-wied.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "david-h-mccormick",
+    "name": "David H McCormick",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 26,
+    "lastTradeDate": "11/28/2025",
+    "recentTickers": [
+      "BITB",
+      "IJR"
+    ],
+    "bioguideId": "M001243",
+    "photoUrl": "/images/politicians/david-h-mccormick.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "lloyd-doggett",
+    "name": "Lloyd Doggett",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 24,
+    "lastTradeDate": "2026-03-26",
+    "recentTickers": [
+      "HD",
+      "JNJ",
+      "PG",
+      "KO",
+      "PPG"
+    ],
+    "bioguideId": "D000399",
+    "photoUrl": "/images/politicians/lloyd-doggett.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "katie-britt",
+    "name": "Katie Britt",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 24,
+    "lastTradeDate": "11/07/2025",
+    "recentTickers": [
+      "NVDA",
+      "AAPL",
+      "GOOG",
+      "UPS",
+      "AMZN"
+    ],
+    "bioguideId": "B001319",
+    "photoUrl": "/images/politicians/katie-britt.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "charles-j-chuck-fleischmann",
+    "name": "Charles J. \"Chuck\" Fleischmann",
+    "chamber": "senate",
+    "state": "TN",
+    "tradeCount": 23,
+    "lastTradeDate": "2026-02-23",
+    "recentTickers": [
+      "ACN",
+      "EEFT",
+      "NOW",
+      "PYPL",
+      "UNH"
+    ],
+    "bioguideId": "F000459",
+    "photoUrl": "/images/politicians/charles-j-chuck-fleischmann.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "nancy-pelosi",
+    "name": "Nancy Pelosi",
     "chamber": "senate",
     "state": "CA",
-    "tradeCount": 295,
-    "lastTradeDate": "2025-10-30",
+    "tradeCount": 19,
+    "lastTradeDate": "2026-01-16",
     "recentTickers": [
+      "AMZN",
+      "VST",
+      "TEM",
+      "AB",
+      "NVDA"
+    ],
+    "bioguideId": "P000197",
+    "photoUrl": "/images/politicians/nancy-pelosi.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "scott-h-peters",
+    "name": "Scott H. Peters",
+    "chamber": "senate",
+    "state": "CA",
+    "tradeCount": 16,
+    "lastTradeDate": "2026-01-21",
+    "recentTickers": [],
+    "bioguideId": "P000608",
+    "photoUrl": "/images/politicians/scott-h-peters.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "rick-larsen",
+    "name": "Rick Larsen",
+    "chamber": "senate",
+    "state": "WA",
+    "tradeCount": 15,
+    "lastTradeDate": "2026-01-07",
+    "recentTickers": [
+      "META",
       "MDLZ",
-      "LIN",
-      "WM",
-      "DOV",
-      "PM"
+      "VRSK",
+      "DRI",
+      "WM"
+    ],
+    "bioguideId": "L000560",
+    "photoUrl": "/images/politicians/rick-larsen.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "gary-c-peters",
+    "name": "Gary C Peters",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 15,
+    "lastTradeDate": "12/28/2023",
+    "recentTickers": [
+      "D",
+      "INTC",
+      "VZ",
+      "CAG",
+      "LEG"
+    ],
+    "bioguideId": "P000595",
+    "photoUrl": "/images/politicians/gary-c-peters.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "richard-w-allen",
+    "name": "Richard W. Allen",
+    "chamber": "senate",
+    "state": "GA",
+    "tradeCount": 14,
+    "lastTradeDate": "2026-02-19",
+    "recentTickers": [
+      "TSM",
+      "INTU",
+      "KMI",
+      "AWK",
+      "SPGI"
+    ],
+    "bioguideId": "A000372",
+    "photoUrl": "/images/politicians/richard-w-allen.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "carol-devine-miller",
+    "name": "Carol Devine Miller",
+    "chamber": "house",
+    "state": "WV",
+    "tradeCount": 12,
+    "lastTradeDate": "2025-03-10",
+    "recentTickers": [
+      "AFL",
+      "AWK",
+      "CME",
+      "GILD",
+      "HON"
+    ],
+    "bioguideId": "M001205",
+    "photoUrl": "/images/politicians/carol-devine-miller.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "william-r-keating",
+    "name": "William R. Keating",
+    "chamber": "senate",
+    "state": "MA",
+    "tradeCount": 12,
+    "lastTradeDate": "2026-02-20",
+    "recentTickers": [
+      "GOOGL",
+      "CB",
+      "CMCSA",
+      "CSGP",
+      "ACN"
+    ],
+    "bioguideId": "K000375",
+    "photoUrl": "/images/politicians/william-r-keating.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "a-mitchell-mcconnell-jr",
+    "name": "A. Mitchell McConnell, Jr.",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 11,
+    "lastTradeDate": "12/24/2025",
+    "recentTickers": [
+      "LAZR",
+      "WFC"
     ]
+  },
+  {
+    "slug": "lindsey-graham",
+    "name": "Lindsey Graham",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 11,
+    "lastTradeDate": "12/31/2025",
+    "recentTickers": [
+      "BSCQ",
+      "VIG",
+      "USFR",
+      "IBDQ",
+      "BSCP"
+    ],
+    "bioguideId": "G000359",
+    "photoUrl": "/images/politicians/lindsey-graham.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "harold-dallas-rogers",
+    "name": "Harold Dallas Rogers",
+    "chamber": "senate",
+    "state": "KY",
+    "tradeCount": 10,
+    "lastTradeDate": "2025-11-24",
+    "recentTickers": [
+      "T",
+      "BBVLX",
+      "VEA",
+      "VUG",
+      "BBTBX"
+    ],
+    "bioguideId": "R000395",
+    "photoUrl": "/images/politicians/harold-dallas-rogers.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "thomas-suozzi",
+    "name": "Thomas Suozzi",
+    "chamber": "senate",
+    "state": "NY",
+    "tradeCount": 10,
+    "lastTradeDate": "2026-02-18",
+    "recentTickers": [
+      "AMD",
+      "AAPL",
+      "URI",
+      "PLTR",
+      "NEE"
+    ],
+    "bioguideId": "S001201",
+    "photoUrl": "/images/politicians/thomas-suozzi.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "john-fetterman",
+    "name": "John Fetterman",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 10,
+    "lastTradeDate": "05/15/2025",
+    "recentTickers": [
+      "GOOG",
+      "MU",
+      "MSFT",
+      "ERIE",
+      "AMZN"
+    ],
+    "bioguideId": "F000479",
+    "photoUrl": "/images/politicians/john-fetterman.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "ed-case",
+    "name": "Ed Case",
+    "chamber": "senate",
+    "state": "HI",
+    "tradeCount": 9,
+    "lastTradeDate": "2026-02-12",
+    "recentTickers": [
+      "AAPL",
+      "PG"
+    ],
+    "bioguideId": "C001055",
+    "photoUrl": "/images/politicians/ed-case.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "emily-randall",
+    "name": "Emily Randall",
+    "chamber": "house",
+    "state": "WA",
+    "tradeCount": 9,
+    "lastTradeDate": "2025-01-07",
+    "recentTickers": [
+      "ABT",
+      "GOOG",
+      "AMGN",
+      "XOM",
+      "FTV"
+    ],
+    "bioguideId": "R000621",
+    "photoUrl": "/images/politicians/emily-randall.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "tina-smith",
+    "name": "Tina Smith",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 9,
+    "lastTradeDate": "11/21/2025",
+    "recentTickers": [
+      "HBAN",
+      "TCMD",
+      "PODD",
+      "NEE",
+      "MMM"
+    ],
+    "bioguideId": "S001203",
+    "photoUrl": "/images/politicians/tina-smith.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "daniel-meuser",
+    "name": "Daniel Meuser",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 8,
+    "lastTradeDate": "2026-01-30",
+    "recentTickers": [
+      "NVDA",
+      "GOOGL",
+      "AMGN",
+      "APTV",
+      "MSFT"
+    ],
+    "bioguideId": "M001204",
+    "photoUrl": "/images/politicians/daniel-meuser.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "john-mcguire",
+    "name": "John McGuire",
+    "chamber": "senate",
+    "state": "VA",
+    "tradeCount": 8,
+    "lastTradeDate": "2026-01-30",
+    "recentTickers": [
+      "NVDA",
+      "MSFT",
+      "WMT",
+      "META",
+      "NFLX"
+    ],
+    "bioguideId": "M001239",
+    "photoUrl": "/images/politicians/john-mcguire.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "steve-cohen",
+    "name": "Steve Cohen",
+    "chamber": "senate",
+    "state": "TN",
+    "tradeCount": 8,
+    "lastTradeDate": "2025-12-29",
+    "recentTickers": [
+      "NOC",
+      "FLR",
+      "SONY",
+      "MS",
+      "OZK"
+    ],
+    "bioguideId": "C001068",
+    "photoUrl": "/images/politicians/steve-cohen.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "adam-smith",
+    "name": "Adam Smith",
+    "chamber": "house",
+    "state": "WA",
+    "tradeCount": 7,
+    "lastTradeDate": "2025-08-08",
+    "recentTickers": [
+      "ABBNY",
+      "AAPL",
+      "C",
+      "NEM",
+      "PG"
+    ],
+    "bioguideId": "S000510",
+    "photoUrl": "/images/politicians/adam-smith.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "austin-scott",
+    "name": "Austin Scott",
+    "chamber": "senate",
+    "state": "GA",
+    "tradeCount": 7,
+    "lastTradeDate": "2026-02-17",
+    "recentTickers": [
+      "GEV",
+      "GE"
+    ],
+    "bioguideId": "S001189",
+    "photoUrl": "/images/politicians/austin-scott.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "debbie-wasserman-schultz",
+    "name": "Debbie Wasserman Schultz",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 7,
+    "lastTradeDate": "2025-11-25",
+    "recentTickers": [
+      "DRQ",
+      "ANGO",
+      "BRY.1",
+      "VSAT",
+      "NGD"
+    ],
+    "bioguideId": "W000797",
+    "photoUrl": "/images/politicians/debbie-wasserman-schultz.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "susie-lee",
+    "name": "Susie Lee",
+    "chamber": "house",
+    "state": "NV",
+    "tradeCount": 7,
+    "lastTradeDate": "2025-03-28",
+    "recentTickers": [
+      "FLL",
+      "CCL",
+      "GDEN",
+      "MGM",
+      "SBUX"
+    ],
+    "bioguideId": "L000590",
+    "photoUrl": "/images/politicians/susie-lee.jpg",
+    "party": "Democrat"
   },
   {
     "slug": "suzan-k-delbene",
@@ -767,7 +1252,310 @@
     "state": "WA",
     "tradeCount": 7,
     "lastTradeDate": "2025-10-30",
-    "recentTickers": []
+    "recentTickers": [],
+    "bioguideId": "D000617",
+    "photoUrl": "/images/politicians/suzan-k-delbene.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "debbie-dingell",
+    "name": "Debbie Dingell",
+    "chamber": "senate",
+    "state": "MI",
+    "tradeCount": 6,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "WAT",
+      "HON",
+      "AAPL",
+      "GOOGL",
+      "SOLS"
+    ],
+    "bioguideId": "D000624",
+    "photoUrl": "/images/politicians/debbie-dingell.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "max-miller",
+    "name": "Max Miller",
+    "chamber": "senate",
+    "state": "OH",
+    "tradeCount": 6,
+    "lastTradeDate": "2025-10-27",
+    "recentTickers": [
+      "GLAS"
+    ],
+    "bioguideId": "M001222",
+    "photoUrl": "/images/politicians/max-miller.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "ron-l-wyden",
+    "name": "Ron L Wyden",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 6,
+    "lastTradeDate": "06/03/2025",
+    "recentTickers": [
+      "PFE",
+      "UPS",
+      "LLY",
+      "IRBT",
+      "SOLV"
+    ],
+    "bioguideId": "W000779",
+    "photoUrl": "/images/politicians/ron-l-wyden.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "august-lee-pfluger",
+    "name": "August Lee Pfluger",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 5,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "WBD",
+      "SIRI",
+      "FNF",
+      "FWONK",
+      "LLYVK"
+    ],
+    "bioguideId": "P000048",
+    "photoUrl": "/images/politicians/august-lee-pfluger.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "donald-sternoff-beyer",
+    "name": "Donald Sternoff Beyer",
+    "chamber": "senate",
+    "state": "VA",
+    "tradeCount": 5,
+    "lastTradeDate": "2025-10-31",
+    "recentTickers": [],
+    "bioguideId": "B001292",
+    "photoUrl": "/images/politicians/donald-sternoff-beyer.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "george-whitesides",
+    "name": "George Whitesides",
+    "chamber": "house",
+    "state": "CA",
+    "tradeCount": 5,
+    "lastTradeDate": "2025-03-24",
+    "recentTickers": [
+      "KO",
+      "HD",
+      "PG",
+      "V",
+      "DIS"
+    ],
+    "bioguideId": "W000830",
+    "photoUrl": "/images/politicians/george-whitesides.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "james-french-hill",
+    "name": "James French Hill",
+    "chamber": "senate",
+    "state": "AR",
+    "tradeCount": 5,
+    "lastTradeDate": "2025-12-31",
+    "recentTickers": [
+      "PFE",
+      "KD",
+      "SOLV",
+      "SFL",
+      "T"
+    ],
+    "bioguideId": "H001072",
+    "photoUrl": "/images/politicians/james-french-hill.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "michael-patrick-guest",
+    "name": "Michael Patrick Guest",
+    "chamber": "senate",
+    "state": "MS",
+    "tradeCount": 5,
+    "lastTradeDate": "2026-01-09",
+    "recentTickers": [
+      "EVVTY",
+      "DT",
+      "CHRD",
+      "MPWR"
+    ],
+    "bioguideId": "G000591",
+    "photoUrl": "/images/politicians/michael-patrick-guest.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "roger-williams",
+    "name": "Roger Williams",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 5,
+    "lastTradeDate": "2025-12-22",
+    "recentTickers": [
+      "JPM",
+      "CVX",
+      "RTX",
+      "FANG"
+    ],
+    "bioguideId": "W000816",
+    "photoUrl": "/images/politicians/roger-williams.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "william-f-hagerty-iv",
+    "name": "William F Hagerty, IV",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 5,
+    "lastTradeDate": "12/27/2023",
+    "recentTickers": [
+      "DDOG",
+      "EQC",
+      "CEQP\n                                        \n                                        \n                                            \n                                            ET",
+      "ETRN\n                                        \n                                        \n                                            \n                                            EQT",
+      "AHL-C"
+    ]
+  },
+  {
+    "slug": "august-lee-pfluger-ii",
+    "name": "August Lee Pfluger II",
+    "chamber": "house",
+    "state": "TX",
+    "tradeCount": 4,
+    "lastTradeDate": "2026-01-13",
+    "recentTickers": [
+      "FNF",
+      "SIRI",
+      "DIS",
+      "LLYVK"
+    ]
+  },
+  {
+    "slug": "ashley-moody",
+    "name": "Ashley Moody",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 4,
+    "lastTradeDate": "01/22/2025",
+    "recentTickers": [
+      "MU",
+      "AMAT",
+      "HWM",
+      "OKTA"
+    ],
+    "bioguideId": "M001244",
+    "photoUrl": "/images/politicians/ashley-moody.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "gerald-e-connolly",
+    "name": "Gerald E. Connolly",
+    "chamber": "house",
+    "state": "VA",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-05-13",
+    "recentTickers": [
+      "LDOS",
+      "D"
+    ]
+  },
+  {
+    "slug": "laura-friedman",
+    "name": "Laura Friedman",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-09-10",
+    "recentTickers": [
+      "PSKY",
+      "DIS",
+      "PARA"
+    ],
+    "bioguideId": "F000483",
+    "photoUrl": "/images/politicians/laura-friedman.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "mark-alford",
+    "name": "Mark Alford",
+    "chamber": "house",
+    "state": "MO",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-03-16",
+    "recentTickers": [
+      "AAPL",
+      "T",
+      "SPYB"
+    ],
+    "bioguideId": "A000379",
+    "photoUrl": "/images/politicians/mark-alford.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "mike-kelly",
+    "name": "Mike Kelly",
+    "chamber": "senate",
+    "state": "PA",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-10-21",
+    "recentTickers": [],
+    "bioguideId": "K000376",
+    "photoUrl": "/images/politicians/mike-kelly.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "neal-p-dunn",
+    "name": "Neal P. Dunn",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-02-02",
+    "recentTickers": [
+      "CADE",
+      "HBAN",
+      "JPM"
+    ],
+    "bioguideId": "D000628",
+    "photoUrl": "/images/politicians/neal-p-dunn.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "nicole-malliotakis",
+    "name": "Nicole Malliotakis",
+    "chamber": "senate",
+    "state": "NY",
+    "tradeCount": 3,
+    "lastTradeDate": "2025-12-19",
+    "recentTickers": [
+      "IEP",
+      "FBC",
+      "CMG"
+    ],
+    "bioguideId": "M000317",
+    "photoUrl": "/images/politicians/nicole-malliotakis.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "scott-mr-franklin",
+    "name": "Scott Mr Franklin",
+    "chamber": "senate",
+    "state": "FL",
+    "tradeCount": 3,
+    "lastTradeDate": "2026-02-10",
+    "recentTickers": [
+      "HSY",
+      "IVV",
+      "UNP"
+    ],
+    "bioguideId": "F000472",
+    "photoUrl": "/images/politicians/scott-mr-franklin.jpg",
+    "party": "Republican"
   },
   {
     "slug": "brandon-gill",
@@ -779,7 +1567,125 @@
     "recentTickers": [
       "IBIT",
       "BTCUSD"
-    ]
+    ],
+    "bioguideId": "G000603",
+    "photoUrl": "/images/politicians/brandon-gill.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "cliff-bentz",
+    "name": "Cliff Bentz",
+    "chamber": "house",
+    "state": "OR",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-06-06",
+    "recentTickers": [
+      "AMGN",
+      "PG"
+    ],
+    "bioguideId": "B000668",
+    "photoUrl": "/images/politicians/cliff-bentz.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "dave-min",
+    "name": "Dave Min",
+    "chamber": "house",
+    "state": "CA",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-03-19",
+    "recentTickers": [
+      "FSLR",
+      "ZOOM"
+    ],
+    "bioguideId": "M001241",
+    "photoUrl": "/images/politicians/dave-min.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "jake-auchincloss",
+    "name": "Jake Auchincloss",
+    "chamber": "senate",
+    "state": "MA",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-02-17",
+    "recentTickers": [
+      "STT"
+    ],
+    "bioguideId": "A000148",
+    "photoUrl": "/images/politicians/jake-auchincloss.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "katherine-m-clark",
+    "name": "Katherine M. Clark",
+    "chamber": "senate",
+    "state": "MA",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-10-27",
+    "recentTickers": [
+      "PG"
+    ],
+    "bioguideId": "C001101",
+    "photoUrl": "/images/politicians/katherine-m-clark.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "laurel-lee",
+    "name": "Laurel Lee",
+    "chamber": "house",
+    "state": "FL",
+    "tradeCount": 2,
+    "lastTradeDate": "2024-11-29",
+    "recentTickers": [
+      "HURA",
+      "BABA"
+    ],
+    "bioguideId": "L000597",
+    "photoUrl": "/images/politicians/laurel-lee.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "mark-dr-green",
+    "name": "Mark Dr Green",
+    "chamber": "house",
+    "state": "TN",
+    "tradeCount": 2,
+    "lastTradeDate": "2025-02-18",
+    "recentTickers": [
+      "NGL"
+    ],
+    "bioguideId": "G000553",
+    "photoUrl": "/images/politicians/mark-dr-green.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "pete-sessions",
+    "name": "Pete Sessions",
+    "chamber": "senate",
+    "state": "TX",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-03-09",
+    "recentTickers": [
+      "VZ"
+    ],
+    "bioguideId": "S000250",
+    "photoUrl": "/images/politicians/pete-sessions.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "robert-e-latta",
+    "name": "Robert E. Latta",
+    "chamber": "senate",
+    "state": "OH",
+    "tradeCount": 2,
+    "lastTradeDate": "2026-01-20",
+    "recentTickers": [
+      "FMAO"
+    ],
+    "bioguideId": "L000566",
+    "photoUrl": "/images/politicians/robert-e-latta.jpg",
+    "party": "Republican"
   },
   {
     "slug": "scott-desjarlais",
@@ -791,67 +1697,24 @@
     "recentTickers": [
       "UPS",
       "PEP"
-    ]
+    ],
+    "bioguideId": "D000616",
+    "photoUrl": "/images/politicians/scott-desjarlais.jpg",
+    "party": "Republican"
   },
   {
-    "slug": "pete-stauber",
-    "name": "Pete Stauber",
+    "slug": "rafael-e-cruz",
+    "name": "Rafael E Cruz",
     "chamber": "senate",
     "state": "",
-    "tradeCount": 1,
-    "lastTradeDate": "2025-10-27",
-    "recentTickers": [
-      "NWL"
-    ]
-  },
-  {
-    "slug": "katherine-m-clark",
-    "name": "Katherine M. Clark",
-    "chamber": "senate",
-    "state": "MA",
     "tradeCount": 2,
-    "lastTradeDate": "2025-10-27",
+    "lastTradeDate": "11/11/2025",
     "recentTickers": [
-      "PG"
-    ]
-  },
-  {
-    "slug": "max-miller",
-    "name": "Max Miller",
-    "chamber": "senate",
-    "state": "OH",
-    "tradeCount": 4,
-    "lastTradeDate": "2025-10-27",
-    "recentTickers": [
-      "GLAS"
-    ]
-  },
-  {
-    "slug": "mike-kelly",
-    "name": "Mike Kelly",
-    "chamber": "senate",
-    "state": "PA",
-    "tradeCount": 3,
-    "lastTradeDate": "2025-10-21",
-    "recentTickers": []
-  },
-  {
-    "slug": "ann-wagner",
-    "name": "Ann Wagner",
-    "chamber": "senate",
-    "state": "MO",
-    "tradeCount": 1,
-    "lastTradeDate": "2025-10-21",
-    "recentTickers": []
-  },
-  {
-    "slug": "chellie-pingree",
-    "name": "Chellie Pingree",
-    "chamber": "senate",
-    "state": "ME",
-    "tradeCount": 1,
-    "lastTradeDate": "2025-10-20",
-    "recentTickers": []
+      "GS"
+    ],
+    "bioguideId": "C001098",
+    "photoUrl": "/images/politicians/rafael-e-cruz.jpg",
+    "party": "Republican"
   },
   {
     "slug": "adrian-smith",
@@ -862,7 +1725,104 @@
     "lastTradeDate": "2025-10-17",
     "recentTickers": [
       "BTCUSD"
-    ]
+    ],
+    "bioguideId": "S001172",
+    "photoUrl": "/images/politicians/adrian-smith.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "andrew-garbarino",
+    "name": "Andrew Garbarino",
+    "chamber": "house",
+    "state": "NY",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-08-21",
+    "recentTickers": [
+      "GAP"
+    ],
+    "bioguideId": "G000597",
+    "photoUrl": "/images/politicians/andrew-garbarino.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "ann-wagner",
+    "name": "Ann Wagner",
+    "chamber": "senate",
+    "state": "MO",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-21",
+    "recentTickers": [],
+    "bioguideId": "W000812",
+    "photoUrl": "/images/politicians/ann-wagner.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "brad-knott",
+    "name": "Brad Knott",
+    "chamber": "house",
+    "state": "NC",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-01-14",
+    "recentTickers": [
+      "CMPO"
+    ],
+    "bioguideId": "K000405",
+    "photoUrl": "/images/politicians/brad-knott.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "chellie-pingree",
+    "name": "Chellie Pingree",
+    "chamber": "senate",
+    "state": "ME",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-20",
+    "recentTickers": [],
+    "bioguideId": "P000597",
+    "photoUrl": "/images/politicians/chellie-pingree.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "dale-strong",
+    "name": "Dale Strong",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2026-01-28",
+    "recentTickers": [
+      "IREN"
+    ],
+    "bioguideId": "S001220",
+    "photoUrl": "/images/politicians/dale-strong.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "david-rouzer",
+    "name": "David Rouzer",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-12-09",
+    "recentTickers": [
+      "BA"
+    ],
+    "bioguideId": "R000603",
+    "photoUrl": "/images/politicians/david-rouzer.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "donald-w-norcross",
+    "name": "Donald W. Norcross",
+    "chamber": "house",
+    "state": "NJ",
+    "tradeCount": 1,
+    "lastTradeDate": "2024-06-04",
+    "recentTickers": [
+      "TD"
+    ],
+    "bioguideId": "N000188",
+    "photoUrl": "/images/politicians/donald-w-norcross.jpg",
+    "party": "Democrat"
   },
   {
     "slug": "eleanor-holmes-norton",
@@ -873,7 +1833,10 @@
     "lastTradeDate": "2025-10-14",
     "recentTickers": [
       "BRK/B"
-    ]
+    ],
+    "bioguideId": "N000147",
+    "photoUrl": "/images/politicians/eleanor-holmes-norton.jpg",
+    "party": "Democrat"
   },
   {
     "slug": "keith-self",
@@ -884,33 +1847,50 @@
     "lastTradeDate": "2025-10-07",
     "recentTickers": [
       "LDOS"
-    ]
+    ],
+    "bioguideId": "S001224",
+    "photoUrl": "/images/politicians/keith-self.jpg",
+    "party": "Republican"
   },
   {
-    "slug": "val-hoyle",
-    "name": "Val Hoyle",
+    "slug": "patrick-ryan",
+    "name": "Patrick Ryan",
     "chamber": "senate",
-    "state": "",
-    "tradeCount": 84,
-    "lastTradeDate": "2025-09-23",
-    "recentTickers": [
-      "COST",
-      "COP",
-      "CTSH",
-      "CDNS",
-      "CHRW"
-    ]
+    "state": "NY",
+    "tradeCount": 1,
+    "lastTradeDate": "2024-07-31",
+    "recentTickers": [],
+    "bioguideId": "R000579",
+    "photoUrl": "/images/politicians/patrick-ryan.jpg",
+    "party": "Democrat"
   },
   {
-    "slug": "laura-friedman",
-    "name": "Laura Friedman",
+    "slug": "pete-stauber",
+    "name": "Pete Stauber",
     "chamber": "senate",
     "state": "",
     "tradeCount": 1,
-    "lastTradeDate": "2025-09-10",
+    "lastTradeDate": "2025-10-27",
     "recentTickers": [
-      "PSKY"
-    ]
+      "NWL"
+    ],
+    "bioguideId": "S001212",
+    "photoUrl": "/images/politicians/pete-stauber.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "peter-allen-stauber",
+    "name": "Peter Allen Stauber",
+    "chamber": "house",
+    "state": "MN",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-10-27",
+    "recentTickers": [
+      "NWL"
+    ],
+    "bioguideId": "S001212",
+    "photoUrl": "/images/politicians/peter-allen-stauber.jpg",
+    "party": "Republican"
   },
   {
     "slug": "pramila-jayapal",
@@ -921,6 +1901,146 @@
     "lastTradeDate": "2023-10-31",
     "recentTickers": [
       "NWL"
+    ],
+    "bioguideId": "J000298",
+    "photoUrl": "/images/politicians/pramila-jayapal.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "terri-a-sewell",
+    "name": "Terri A. Sewell",
+    "chamber": "house",
+    "state": "AL",
+    "tradeCount": 1,
+    "lastTradeDate": "2025-04-10",
+    "recentTickers": [
+      "AAPL"
+    ],
+    "bioguideId": "S001185",
+    "photoUrl": "/images/politicians/terri-a-sewell.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "warren-davidson",
+    "name": "Warren Davidson",
+    "chamber": "senate",
+    "state": "OH",
+    "tradeCount": 1,
+    "lastTradeDate": "2026-03-23",
+    "recentTickers": [
+      "GEHC"
+    ],
+    "bioguideId": "D000626",
+    "photoUrl": "/images/politicians/warren-davidson.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "james-conley-justice-ii",
+    "name": "James Conley Justice, II",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "08/28/2025",
+    "recentTickers": [
+      "PEBO"
     ]
+  },
+  {
+    "slug": "adam-b-schiff",
+    "name": "Adam B Schiff",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "09/22/2025",
+    "recentTickers": [
+      "AAPL"
+    ],
+    "bioguideId": "S001150",
+    "photoUrl": "/images/politicians/adam-b-schiff.jpg",
+    "party": "Democrat"
+  },
+  {
+    "slug": "john-n-kennedy",
+    "name": "John N Kennedy",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "04/21/2025",
+    "recentTickers": [
+      "NLY"
+    ],
+    "bioguideId": "K000393",
+    "photoUrl": "/images/politicians/john-n-kennedy.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "bernie-moreno",
+    "name": "Bernie Moreno",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "03/17/2025",
+    "recentTickers": [
+      "BEEP"
+    ],
+    "bioguideId": "M001242",
+    "photoUrl": "/images/politicians/bernie-moreno.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "james-banks",
+    "name": "James Banks",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "02/18/2025",
+    "recentTickers": [
+      "YUM"
+    ],
+    "bioguideId": "B001299",
+    "photoUrl": "/images/politicians/james-banks.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "susan-m-collins",
+    "name": "Susan M Collins",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "08/05/2024",
+    "recentTickers": [
+      "GL"
+    ],
+    "bioguideId": "C001035",
+    "photoUrl": "/images/politicians/susan-m-collins.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "daniel-s-sullivan",
+    "name": "Daniel S Sullivan",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "01/24/2024",
+    "recentTickers": [
+      "RPM"
+    ],
+    "bioguideId": "S001198",
+    "photoUrl": "/images/politicians/daniel-s-sullivan.jpg",
+    "party": "Republican"
+  },
+  {
+    "slug": "rick-scott",
+    "name": "Rick Scott",
+    "chamber": "senate",
+    "state": "",
+    "tradeCount": 1,
+    "lastTradeDate": "12/20/2023",
+    "recentTickers": [
+      "VAXX"
+    ],
+    "bioguideId": "S001217",
+    "photoUrl": "/images/politicians/rick-scott.jpg",
+    "party": "Republican"
   }
 ]

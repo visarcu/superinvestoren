@@ -1,0 +1,26 @@
+{
+  "slug": "warren-davidson",
+  "name": "Warren Davidson",
+  "chamber": "senate",
+  "state": "OH",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-26",
+      "transactionDate": "2026-03-23",
+      "owner": "self",
+      "ticker": "GEHC",
+      "assetDescription": "GE HEALTHCARE TECHNOLOGI INC",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Warren Davidson",
+      "district": "OH08",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034223.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "warren-davidson",
+      "state": "OH",
+      "chamber": "senate"
+    }
+  ]
+}

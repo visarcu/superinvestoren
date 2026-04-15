@@ -1,0 +1,62 @@
+{
+  "slug": "gerald-e-connolly",
+  "name": "Gerald E. Connolly",
+  "chamber": "house",
+  "state": "VA",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-05-17",
+      "transactionDate": "2025-05-13",
+      "owner": "Joint",
+      "ticker": "LDOS",
+      "assetDescription": "",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Gerald E. Connolly",
+      "district": "VA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030388.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "gerald-e-connolly",
+      "state": "VA",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-02-05",
+      "transactionDate": "2025-02-05",
+      "owner": "Joint",
+      "ticker": "D",
+      "assetDescription": "Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Gerald E. Connolly",
+      "district": "VA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026724.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "gerald-e-connolly",
+      "state": "VA",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-02-05",
+      "transactionDate": "2025-02-05",
+      "owner": "Joint",
+      "ticker": "LDOS",
+      "assetDescription": "",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Gerald E. Connolly",
+      "district": "VA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026724.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "gerald-e-connolly",
+      "state": "VA",
+      "chamber": "house"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "slug": "andrew-garbarino",
+  "name": "Andrew Garbarino",
+  "chamber": "house",
+  "state": "NY",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-08-21",
+      "transactionDate": "2025-08-21",
+      "owner": "self",
+      "ticker": "GAP",
+      "assetDescription": "Gap, Inc.",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Andrew Garbarino",
+      "district": "NY",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030952.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "andrew-garbarino",
+      "state": "NY",
+      "chamber": "house"
+    }
+  ]
+}

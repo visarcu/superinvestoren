@@ -1,0 +1,26 @@
+{
+  "slug": "daniel-s-sullivan",
+  "name": "Daniel S Sullivan",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2024",
+      "disclosureDate": "02/09/2024",
+      "transactionDate": "01/24/2024",
+      "owner": "self",
+      "ticker": "RPM",
+      "assetDescription": "RPM International Inc. Common Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Daniel S Sullivan",
+      "district": "Sullivan, Dan (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "daniel-s-sullivan",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

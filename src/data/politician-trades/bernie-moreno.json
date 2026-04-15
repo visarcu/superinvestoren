@@ -1,0 +1,26 @@
+{
+  "slug": "bernie-moreno",
+  "name": "Bernie Moreno",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "04/30/2025",
+      "transactionDate": "03/17/2025",
+      "owner": "self",
+      "ticker": "BEEP",
+      "assetDescription": "Mobile Infrastructure Corp",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Bernie Moreno",
+      "district": "Moreno, Bernardo (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "bernie-moreno",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

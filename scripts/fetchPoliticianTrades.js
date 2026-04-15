@@ -252,33 +252,31 @@ async function run() {
 
   await fs.mkdir(OUT_DIR, { recursive: true })
 
-  // 1) Daten aus allen Quellen laden (parallel wo möglich)
-  const [houseTrades, senateTrades, fmpTrades] = await Promise.all([
+  // 1) Daten laden — Priorität: House/Senate Watcher, Fallback: FMP
+  const [houseTrades, senateTrades] = await Promise.all([
     fetchHouseWatcher(),
     fetchSenateWatcher(),
-    fetchFmpAllPages(),
   ])
 
   // 2) Zusammenführen und deduplizieren
-  // Priorität: housestockwatcher/senatestockwatcher > FMP (FMP hat weniger historische Daten)
   const watcherTrades = [...houseTrades, ...senateTrades]
   const hasWatcherData = watcherTrades.length > 100
 
   let allTrades
   if (hasWatcherData) {
-    // Watcher-Daten haben Vorrang; FMP ergänzt für die letzten Wochen
-    const watcherKeys = new Set(
-      watcherTrades.map(t => `${t.transactionDate}|${t.ticker}|${t.type}|${t.slug}`)
-    )
-    const newFmpTrades = fmpTrades.filter(
-      t => !watcherKeys.has(`${t.transactionDate}|${t.ticker}|${t.type}|${t.slug}`)
-    )
-    allTrades = deduplicateTrades([...watcherTrades, ...newFmpTrades])
-    console.log(`\n→ Quellen: Watcher (${watcherTrades.length}) + FMP-Ergänzung (${newFmpTrades.length})`)
+    allTrades = deduplicateTrades(watcherTrades)
+    console.log(`\n→ Quellen: House Watcher (${houseTrades.length}) + Senate Watcher (${senateTrades.length})`)
   } else {
-    // Nur FMP (Watcher nicht erreichbar)
-    allTrades = deduplicateTrades(fmpTrades)
-    console.log(`\n→ Nur FMP-Daten verfügbar (Watcher nicht erreichbar)`)
+    // Fallback: FMP wenn Watcher nicht erreichbar
+    console.log('\n⚠️  Watcher nicht erreichbar — versuche FMP als Fallback...')
+    const fmpTrades = await fetchFmpAllPages()
+    if (fmpTrades.length > 0) {
+      allTrades = deduplicateTrades(fmpTrades)
+      console.log(`→ FMP-Fallback: ${fmpTrades.length} Trades geladen`)
+    } else {
+      allTrades = []
+      console.log('→ Keine Daten verfügbar. Bestehende Daten bleiben erhalten.')
+    }
   }
 
   console.log(`→ Gesamt nach Deduplizierung: ${allTrades.length.toLocaleString('de')} Trades`)

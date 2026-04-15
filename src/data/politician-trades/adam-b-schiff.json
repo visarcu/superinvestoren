@@ -1,0 +1,26 @@
+{
+  "slug": "adam-b-schiff",
+  "name": "Adam B Schiff",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "09/30/2025",
+      "transactionDate": "09/22/2025",
+      "owner": "self",
+      "ticker": "AAPL",
+      "assetDescription": "Apple Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Adam B Schiff",
+      "district": "Schiff,  Adam B. (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "adam-b-schiff",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

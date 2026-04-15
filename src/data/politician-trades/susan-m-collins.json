@@ -1,0 +1,26 @@
+{
+  "slug": "susan-m-collins",
+  "name": "Susan M Collins",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2024",
+      "disclosureDate": "09/13/2024",
+      "transactionDate": "08/05/2024",
+      "owner": "self",
+      "ticker": "GL",
+      "assetDescription": "Globe Life Inc",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "Susan M Collins",
+      "district": "Collins, Susan M. (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "susan-m-collins",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

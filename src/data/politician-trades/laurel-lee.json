@@ -1,0 +1,44 @@
+{
+  "slug": "laurel-lee",
+  "name": "Laurel Lee",
+  "chamber": "house",
+  "state": "FL",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-01-05",
+      "transactionDate": "2024-11-29",
+      "owner": "Spouse",
+      "ticker": "HURA",
+      "assetDescription": "Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Laurel Lee",
+      "district": "FL",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20026513.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "laurel-lee",
+      "state": "FL",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-01-05",
+      "transactionDate": "2024-11-29",
+      "owner": "self",
+      "ticker": "BABA",
+      "assetDescription": "",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Laurel Lee",
+      "district": "FL",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030875.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "laurel-lee",
+      "state": "FL",
+      "chamber": "house"
+    }
+  ]
+}

@@ -1,0 +1,62 @@
+{
+  "slug": "mark-alford",
+  "name": "Mark Alford",
+  "chamber": "house",
+  "state": "MO",
+  "trades": [
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-16",
+      "transactionDate": "2026-03-16",
+      "owner": "self",
+      "ticker": "AAPL",
+      "assetDescription": "Apple Inc. - Common Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Mark Alford",
+      "district": "MO",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034201.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mark-alford",
+      "state": "MO",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-16",
+      "transactionDate": "2026-03-16",
+      "owner": "self",
+      "ticker": "T",
+      "assetDescription": "AT&T Inc.",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Mark Alford",
+      "district": "MO",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034201.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mark-alford",
+      "state": "MO",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-03-16",
+      "transactionDate": "2026-03-16",
+      "owner": "self",
+      "ticker": "SPYB",
+      "assetDescription": "SPDR S&P 500 Buyback ETF",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Mark Alford",
+      "district": "MO",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20034201.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "mark-alford",
+      "state": "MO",
+      "chamber": "house"
+    }
+  ]
+}

@@ -185,6 +185,24 @@
       "chamber": "senate"
     },
     {
+      "disclosureYear": "2026",
+      "disclosureDate": "2026-01-06",
+      "transactionDate": "2025-12-12",
+      "owner": "Spouse",
+      "ticker": "FERG",
+      "assetDescription": "Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Richard W. Allen",
+      "district": "GA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2026/20033751.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "richard-w-allen",
+      "state": "GA",
+      "chamber": "house"
+    },
+    {
       "disclosureYear": "2025",
       "disclosureDate": "2025-10-08",
       "transactionDate": "2025-09-12",
@@ -201,6 +219,42 @@
       "slug": "richard-w-allen",
       "state": "GA",
       "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-07-03",
+      "transactionDate": "2025-06-20",
+      "owner": "Spouse",
+      "ticker": "INTU",
+      "assetDescription": "SP          Intuit Inc. - Common Stock",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Richard W. Allen",
+      "district": "GA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030608.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "richard-w-allen",
+      "state": "GA",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-06-09",
+      "transactionDate": "2025-05-16",
+      "owner": "Spouse",
+      "ticker": "TMO",
+      "assetDescription": "Stock",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Richard W. Allen",
+      "district": "GA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030502.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "richard-w-allen",
+      "state": "GA",
+      "chamber": "house"
     }
   ]
 }

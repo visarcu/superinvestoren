@@ -1,0 +1,26 @@
+{
+  "slug": "patrick-ryan",
+  "name": "Patrick Ryan",
+  "chamber": "senate",
+  "state": "NY",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-10-10",
+      "transactionDate": "2024-07-31",
+      "owner": "self",
+      "ticker": "",
+      "assetDescription": "OnSolve LLC Shares",
+      "type": "sale",
+      "typeRaw": "Sale (Full)",
+      "amount": "$15,001 - $50,000",
+      "representative": "Patrick Ryan",
+      "district": "NY18",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030800.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "patrick-ryan",
+      "state": "NY",
+      "chamber": "senate"
+    }
+  ]
+}

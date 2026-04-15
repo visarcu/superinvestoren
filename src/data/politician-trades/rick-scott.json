@@ -1,0 +1,26 @@
+{
+  "slug": "rick-scott",
+  "name": "Rick Scott",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2024",
+      "disclosureDate": "01/19/2024",
+      "transactionDate": "12/20/2023",
+      "owner": "self",
+      "ticker": "VAXX",
+      "assetDescription": "Vaxxinity, Inc. - Class A Common Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Rick Scott",
+      "district": "Scott, Rick (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "rick-scott",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

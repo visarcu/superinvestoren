@@ -21,6 +21,42 @@
       "slug": "laura-friedman",
       "state": "",
       "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-08-31",
+      "transactionDate": "2025-08-26",
+      "owner": "self",
+      "ticker": "DIS",
+      "assetDescription": "Walt Disney Company",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Laura Friedman",
+      "district": "CA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032051.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "laura-friedman",
+      "state": "CA",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-08-31",
+      "transactionDate": "2025-08-26",
+      "owner": "self",
+      "ticker": "PARA",
+      "assetDescription": "Fidelity Brokerage Services, LLC D : Paramount Class B Stock",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Laura Friedman",
+      "district": "CA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20032051.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "laura-friedman",
+      "state": "CA",
+      "chamber": "house"
     }
   ]
 }

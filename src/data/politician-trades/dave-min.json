@@ -1,0 +1,44 @@
+{
+  "slug": "dave-min",
+  "name": "Dave Min",
+  "chamber": "house",
+  "state": "CA",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-03-31",
+      "transactionDate": "2025-03-19",
+      "owner": "self",
+      "ticker": "FSLR",
+      "assetDescription": "",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Dave Min",
+      "district": "CA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029100.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "dave-min",
+      "state": "CA",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-03-31",
+      "transactionDate": "2025-03-19",
+      "owner": "self",
+      "ticker": "ZOOM",
+      "assetDescription": "Zoom Technologies, Inc.",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "Dave Min",
+      "district": "CA",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20029100.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "dave-min",
+      "state": "CA",
+      "chamber": "house"
+    }
+  ]
+}

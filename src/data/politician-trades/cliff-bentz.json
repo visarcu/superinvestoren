@@ -1,0 +1,44 @@
+{
+  "slug": "cliff-bentz",
+  "name": "Cliff Bentz",
+  "chamber": "house",
+  "state": "OR",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-07-01",
+      "transactionDate": "2025-06-06",
+      "owner": "Spouse",
+      "ticker": "AMGN",
+      "assetDescription": "SP          Amgen Inc. - Common Stock",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Cliff Bentz",
+      "district": "OR",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030646.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "cliff-bentz",
+      "state": "OR",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-07-01",
+      "transactionDate": "2025-06-06",
+      "owner": "Spouse",
+      "ticker": "PG",
+      "assetDescription": "SP          Procter & Gamble Company",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Cliff Bentz",
+      "district": "OR",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030646.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "cliff-bentz",
+      "state": "OR",
+      "chamber": "house"
+    }
+  ]
+}

@@ -75,6 +75,42 @@
       "slug": "max-miller",
       "state": "OH",
       "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-06-30",
+      "transactionDate": "2025-06-30",
+      "owner": "self",
+      "ticker": "GLAS",
+      "assetDescription": "Trimer Capital Partners I LP",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Max Miller",
+      "district": "OH",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030585.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "max-miller",
+      "state": "OH",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-06-30",
+      "transactionDate": "2025-06-12",
+      "owner": "self",
+      "ticker": "GLAS",
+      "assetDescription": "Trimer Capital Partners I LP",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "Max Miller",
+      "district": "OH",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030585.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "max-miller",
+      "state": "OH",
+      "chamber": "house"
     }
   ]
 }

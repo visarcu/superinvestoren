@@ -1,0 +1,26 @@
+{
+  "slug": "john-n-kennedy",
+  "name": "John N Kennedy",
+  "chamber": "senate",
+  "state": "",
+  "trades": [
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "05/08/2025",
+      "transactionDate": "04/21/2025",
+      "owner": "self",
+      "ticker": "NLY",
+      "assetDescription": "Annaly Capital Management Inc\n                                        \n                                        \n                                        \n                                            \n                                                \n                                                    Company: Annaly Capital Management Inc.\n                                                    \n                                                         (New York, New York)\n                                                    \n                                                \n                                            \n\n                                            \n                                                Description: Mortgage Real Estate Investment Trust",
+      "type": "purchase",
+      "typeRaw": "Purchase",
+      "amount": "$1,001 - $15,000",
+      "representative": "John N Kennedy",
+      "district": "Kennedy, John (Senator)",
+      "link": "",
+      "capitalGainsOver200USD": "False",
+      "slug": "john-n-kennedy",
+      "state": "",
+      "chamber": "senate"
+    }
+  ]
+}

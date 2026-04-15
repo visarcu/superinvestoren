@@ -57,6 +57,42 @@
       "slug": "james-french-hill",
       "state": "AR",
       "chamber": "senate"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-12-31",
+      "transactionDate": "2025-12-31",
+      "owner": "self",
+      "ticker": "SFL",
+      "assetDescription": "SFL Corporation Ltd",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$15,001 - $50,000",
+      "representative": "James French Hill",
+      "district": "AR",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20033661.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-french-hill",
+      "state": "AR",
+      "chamber": "house"
+    },
+    {
+      "disclosureYear": "2025",
+      "disclosureDate": "2025-06-23",
+      "transactionDate": "2025-06-23",
+      "owner": "Spouse",
+      "ticker": "T",
+      "assetDescription": "SP          AT&T Inc.",
+      "type": "sale",
+      "typeRaw": "Sale",
+      "amount": "$1,001 - $15,000",
+      "representative": "James French Hill",
+      "district": "AR",
+      "link": "https://disclosures-clerk.house.gov/public_disc/ptr-pdfs/2025/20030551.pdf",
+      "capitalGainsOver200USD": "False",
+      "slug": "james-french-hill",
+      "state": "AR",
+      "chamber": "house"
     }
   ]
 }

@@ -12,6 +12,13 @@ import {
   InformationCircleIcon,
   UserGroupIcon,
 } from '@heroicons/react/24/outline'
+import politicianIndex from '@/data/politician-trades/index.json'
+
+// Foto-Map
+const _photoMap = new Map<string, string>()
+for (const p of politicianIndex as any[]) {
+  if (p.photoUrl) _photoMap.set(p.slug, p.photoUrl)
+}
 
 interface PoliticianTrade {
   disclosureDate: string
@@ -281,19 +288,25 @@ export default function PolitikerTickerPage() {
                           {formatDateDE(trade.transactionDate)}
                         </td>
                         <td className="py-3 px-5">
-                          {slug ? (
-                            <Link
-                              href={`/politiker/${slug}`}
-                              className="text-sm font-medium text-theme-primary hover:text-emerald-400 transition-colors"
-                            >
-                              {name}
-                            </Link>
-                          ) : (
-                            <span className="text-sm font-medium text-theme-primary">{name}</span>
-                          )}
-                          {trade.state && (
-                            <span className="text-xs text-theme-muted ml-1.5">{trade.state}</span>
-                          )}
+                          <div className="flex items-center gap-2.5">
+                            {slug && _photoMap.has(slug) ? (
+                              <img src={_photoMap.get(slug)!} alt={name} className="w-7 h-7 rounded-full object-cover flex-shrink-0 border border-white/10" />
+                            ) : (
+                              <div className="w-7 h-7 rounded-full bg-theme-secondary/30 flex items-center justify-center text-[10px] font-bold text-theme-muted flex-shrink-0">
+                                {name.split(' ').map(n => n[0]).join('').slice(0, 2)}
+                              </div>
+                            )}
+                            <div>
+                              {slug ? (
+                                <Link href={`/politiker/${slug}`} className="text-sm font-medium text-theme-primary hover:text-emerald-400 transition-colors">
+                                  {name}
+                                </Link>
+                              ) : (
+                                <span className="text-sm font-medium text-theme-primary">{name}</span>
+                              )}
+                              {trade.state && <span className="text-xs text-theme-muted ml-1.5">{trade.state}</span>}
+                            </div>
+                          </div>
                         </td>
                         <td className="py-3 px-5">
                           <span className="text-xs text-theme-muted capitalize">
