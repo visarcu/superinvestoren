@@ -25,8 +25,8 @@ interface Grading {
 type FilterAction = 'all' | 'upgrade' | 'downgrade' | 'initiated' | 'reiterated';
 
 const ACTION_COLORS: Record<string, string> = {
-  upgrade: '#22C55E',
-  downgrade: '#EF4444',
+  upgrade: '#34C759',
+  downgrade: '#FF3B30',
   initiated: '#3B82F6',
   reiterated: '#F59E0B',
   maintained: '#64748B',
@@ -89,28 +89,28 @@ export default function AnalystRatingsScreen() {
     <SafeAreaView style={s.container} edges={['bottom']}>
       <Stack.Screen options={{
         title: 'Analyst Ratings',
-        headerStyle: { backgroundColor: '#111113' },
+        headerStyle: { backgroundColor: '#1C1C1E' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: '',
       }} />
 
       {loading ? (
-        <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 48 }} />
+        <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 48 }} />
       ) : (
         <ScrollView
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#22C55E" />
+            <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); load(); }} tintColor="#34C759" />
           }
         >
           {/* Stats Row */}
           <View style={s.statsRow}>
             <View style={s.statCard}>
               <Text style={s.statLabel}>Upgrades</Text>
-              <Text style={[s.statValue, { color: '#22C55E' }]}>{stats.upgrade}</Text>
+              <Text style={[s.statValue, { color: '#34C759' }]}>{stats.upgrade}</Text>
             </View>
             <View style={s.statCard}>
               <Text style={s.statLabel}>Downgrades</Text>
-              <Text style={[s.statValue, { color: '#EF4444' }]}>{stats.downgrade}</Text>
+              <Text style={[s.statValue, { color: '#FF3B30' }]}>{stats.downgrade}</Text>
             </View>
             <View style={s.statCard}>
               <Text style={s.statLabel}>Gesamt</Text>
@@ -212,12 +212,12 @@ export default function AnalystRatingsScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   statsRow: { flexDirection: 'row', paddingHorizontal: 16, paddingTop: 16, gap: 10 },
   statCard: {
-    flex: 1, backgroundColor: '#111113', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#1e1e20',
+    flex: 1, backgroundColor: '#1C1C1E', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   statLabel: { color: '#64748B', fontSize: 12, marginBottom: 4 },
   statValue: { color: '#F8FAFC', fontSize: 20, fontWeight: '700' },
@@ -226,17 +226,17 @@ const s = StyleSheet.create({
   filterRow: { paddingHorizontal: 16, gap: 8 },
   filterPill: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
-    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E',
   },
-  filterPillActive: { backgroundColor: '#22C55E20', borderColor: '#22C55E' },
+  filterPillActive: { backgroundColor: '#34C75920', borderColor: '#34C759' },
   filterText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  filterTextActive: { color: '#22C55E' },
+  filterTextActive: { color: '#34C759' },
 
   row: {
     flexDirection: 'row', alignItems: 'center',
     paddingHorizontal: 16, paddingVertical: 14, gap: 12,
   },
-  rowBorder: { borderTopWidth: 1, borderTopColor: '#111113' },
+  rowBorder: { borderTopWidth: 1, borderTopColor: '#1C1C1E' },
 
   actionBadge: {
     width: 40, height: 40, borderRadius: 12,

@@ -221,7 +221,7 @@ export default function CalendarScreen() {
           <View style={{ alignItems: 'center' }}>
             <Text style={s.monthTitle}>{MONTHS_DE[month]} {year}</Text>
             {monthTotal > 0 && (
-              <Text style={s.monthTotal}>Gesamt: <Text style={{ color: '#22C55E' }}>{fmtCurrency(monthTotal)}</Text></Text>
+              <Text style={s.monthTotal}>Gesamt: <Text style={{ color: '#34C759' }}>{fmtCurrency(monthTotal)}</Text></Text>
             )}
           </View>
           <TouchableOpacity onPress={() => changeMonth(1)} style={s.monthBtn}>
@@ -280,7 +280,7 @@ export default function CalendarScreen() {
                 return (
                   <View key={dateStr} style={s.upcomingGroup}>
                     <View style={s.upcomingDateRow}>
-                      <Text style={[s.upcomingDate, isToday2 && { color: '#22C55E' }]}>{label}</Text>
+                      <Text style={[s.upcomingDate, isToday2 && { color: '#34C759' }]}>{label}</Text>
                       {dayTotal > 0 && <Text style={s.upcomingDayTotal}>{fmtCurrency(dayTotal)}</Text>}
                     </View>
                     {evs.map((ev, i) => <DividendRow key={i} event={ev} />)}
@@ -383,7 +383,7 @@ export default function CalendarScreen() {
                 return (
                   <View key={dateStr} style={s.upcomingGroup}>
                     <View style={s.upcomingDateRow}>
-                      <Text style={[s.upcomingDate, isToday2 && { color: '#22C55E' }]}>{label}</Text>
+                      <Text style={[s.upcomingDate, isToday2 && { color: '#34C759' }]}>{label}</Text>
                     </View>
                     {evs.map((ev, i) => <EarningsRow key={i} event={ev} />)}
                   </View>
@@ -432,12 +432,12 @@ export default function CalendarScreen() {
       </View>
 
       {loading ? (
-        <View style={s.center}><ActivityIndicator color="#22C55E" size="large" /></View>
+        <View style={s.center}><ActivityIndicator color="#34C759" size="large" /></View>
       ) : (
         <ScrollView
           style={{ flex: 1 }}
           contentContainerStyle={{ paddingBottom: 40 }}
-          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#22C55E" />}
+          refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#34C759" />}
         >
           {mainTab === 'dividends' ? renderDividendsTab() : renderEarningsTab()}
         </ScrollView>
@@ -510,11 +510,11 @@ function EarningsRow({ event }: { event: EarningsEvent }) {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 16, paddingTop: 60, paddingBottom: 12,
-    borderBottomWidth: 1, borderBottomColor: '#1e1e20',
+    borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
   },
   backBtn: { width: 36, height: 36, alignItems: 'center', justifyContent: 'center' },
   headerTitle: { color: '#fff', fontSize: 17, fontWeight: '700' },
@@ -522,15 +522,15 @@ const s = StyleSheet.create({
 
   // Main tab bar
   mainTabBar: {
-    flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#1e1e20',
+    flexDirection: 'row', borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
   },
   mainTabBtn: {
     flex: 1, paddingVertical: 12, alignItems: 'center',
     borderBottomWidth: 2, borderBottomColor: 'transparent',
   },
-  mainTabBtnActive: { borderBottomColor: '#22C55E' },
+  mainTabBtnActive: { borderBottomColor: '#34C759' },
   mainTabText: { color: '#64748b', fontSize: 14, fontWeight: '600' },
-  mainTabTextActive: { color: '#22C55E' },
+  mainTabTextActive: { color: '#34C759' },
 
   // Source filter chips
   filterRow: {
@@ -538,11 +538,11 @@ const s = StyleSheet.create({
   },
   filterChip: {
     paddingHorizontal: 14, paddingVertical: 6, borderRadius: 20,
-    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
+    borderWidth: 1, borderColor: '#2C2C2E', backgroundColor: '#1C1C1E',
   },
-  filterChipActive: { borderColor: '#22C55E', backgroundColor: 'rgba(34,197,94,0.1)' },
+  filterChipActive: { borderColor: '#34C759', backgroundColor: 'rgba(34,197,94,0.1)' },
   filterChipText: { color: '#64748b', fontSize: 13, fontWeight: '600' },
-  filterChipTextActive: { color: '#22C55E' },
+  filterChipTextActive: { color: '#34C759' },
 
   // Empty state
   emptyTab: { alignItems: 'center', justifyContent: 'center', gap: 12, paddingTop: 80 },
@@ -565,18 +565,18 @@ const s = StyleSheet.create({
     borderRadius: 8, marginVertical: 2,
   },
   calCellHasEvent: { backgroundColor: 'rgba(34,197,94,0.08)' },
-  calCellSelected: { backgroundColor: '#22C55E' },
-  calCellToday: { borderWidth: 1, borderColor: '#22C55E' },
+  calCellSelected: { backgroundColor: '#34C759' },
+  calCellToday: { borderWidth: 1, borderColor: '#34C759' },
   calDayNum: { color: '#64748b', fontSize: 14 },
   calDayHasEvent: { color: '#fff', fontWeight: '600' },
-  calDayToday: { color: '#22C55E', fontWeight: '700' },
+  calDayToday: { color: '#34C759', fontWeight: '700' },
   calDaySelected: { color: '#fff', fontWeight: '700' },
-  calDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#22C55E', marginTop: 2 },
+  calDot: { width: 4, height: 4, borderRadius: 2, backgroundColor: '#34C759', marginTop: 2 },
 
   // Day detail
   dayDetail: {
-    marginHorizontal: 16, marginTop: 12, backgroundColor: '#111113',
-    borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1e1e20',
+    marginHorizontal: 16, marginTop: 12, backgroundColor: '#1C1C1E',
+    borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#2C2C2E',
   },
   dayDetailTitle: { color: '#94a3b8', fontSize: 13, fontWeight: '600', marginBottom: 12 },
 
@@ -586,13 +586,13 @@ const s = StyleSheet.create({
   upcomingGroup: { marginBottom: 20 },
   upcomingDateRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
   upcomingDate: { color: '#94a3b8', fontSize: 13, fontWeight: '600' },
-  upcomingDayTotal: { color: '#22C55E', fontSize: 13, fontWeight: '700' },
+  upcomingDayTotal: { color: '#34C759', fontSize: 13, fontWeight: '700' },
 
   // Event rows
   eventRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#111113', borderRadius: 10, padding: 12,
-    marginBottom: 8, borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 10, padding: 12,
+    marginBottom: 8, borderWidth: 1, borderColor: '#2C2C2E',
   },
   eventLogo: { width: 36, height: 36, borderRadius: 8, overflow: 'hidden' },
   eventLogoFallback: {
@@ -602,7 +602,7 @@ const s = StyleSheet.create({
   eventLogoText: { color: '#fff', fontSize: 14, fontWeight: '700' },
   eventSymbol: { color: '#fff', fontSize: 14, fontWeight: '700' },
   eventSub: { color: '#475569', fontSize: 12, marginTop: 2 },
-  eventValue: { color: '#22C55E', fontSize: 14, fontWeight: '700' },
+  eventValue: { color: '#34C759', fontSize: 14, fontWeight: '700' },
   eventFreq: { color: '#475569', fontSize: 11, marginTop: 2 },
   eventQuarter: { color: '#94a3b8', fontSize: 13, fontWeight: '600' },
 

@@ -184,7 +184,7 @@ export default function AIScreen() {
               >
                 {msg.role === 'assistant' && (
                   <View style={s.aiAvatar}>
-                    <Text style={{ fontSize: 10, fontWeight: '700', color: '#22C55E' }}>AI</Text>
+                    <Text style={{ fontSize: 10, fontWeight: '700', color: '#34C759' }}>AI</Text>
                   </View>
                 )}
                 <View style={[s.bubbleInner, msg.role === 'user' ? s.userInner : s.aiInner]}>
@@ -198,10 +198,10 @@ export default function AIScreen() {
           {loading && (
             <View style={[s.bubble, s.aiBubble]}>
               <View style={s.aiAvatar}>
-                <Text style={{ fontSize: 10, fontWeight: '700', color: '#22C55E' }}>AI</Text>
+                <Text style={{ fontSize: 10, fontWeight: '700', color: '#34C759' }}>AI</Text>
               </View>
               <View style={[s.bubbleInner, s.aiInner, { paddingVertical: 14 }]}>
-                <ActivityIndicator size="small" color="#22C55E" />
+                <ActivityIndicator size="small" color="#34C759" />
               </View>
             </View>
           )}
@@ -224,7 +224,7 @@ export default function AIScreen() {
             onPress={() => sendMessage()}
             disabled={!input.trim() || loading}
           >
-            <Ionicons name="send" size={18} color={input.trim() && !loading ? '#0a0a0b' : '#475569'} />
+            <Ionicons name="send" size={18} color={input.trim() && !loading ? '#000000' : '#475569'} />
           </TouchableOpacity>
         </View>
       </KeyboardAvoidingView>
@@ -233,19 +233,19 @@ export default function AIScreen() {
 }
 
 const s = StyleSheet.create({
-  safe: { flex: 1, backgroundColor: '#0a0a0b' },
+  safe: { flex: 1, backgroundColor: '#000000' },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 16, paddingTop: 12, paddingBottom: 10,
-    borderBottomWidth: 1, borderBottomColor: '#1e1e20',
+    borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
   },
   headerLeft: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   aiBadge: {
     width: 36, height: 36, borderRadius: 10,
-    backgroundColor: '#22C55E20', borderWidth: 1, borderColor: '#22C55E40',
+    backgroundColor: '#34C75920', borderWidth: 1, borderColor: '#34C75940',
     alignItems: 'center', justifyContent: 'center',
   },
-  aiBadgeText: { fontSize: 11, fontWeight: '800', color: '#22C55E' },
+  aiBadgeText: { fontSize: 11, fontWeight: '800', color: '#34C759' },
   headerTitle: { fontSize: 16, fontWeight: '700', color: '#F8FAFC' },
   headerSub: { fontSize: 11, color: '#64748B', marginTop: 1 },
   clearBtn: { padding: 8 },
@@ -253,8 +253,8 @@ const s = StyleSheet.create({
   tickerRow: {
     flexDirection: 'row', alignItems: 'center',
     marginHorizontal: 16, marginTop: 10, marginBottom: 2,
-    backgroundColor: '#111113', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8,
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   tickerInput: { flex: 1, color: '#F8FAFC', fontSize: 13, fontWeight: '600' },
 
@@ -263,7 +263,7 @@ const s = StyleSheet.create({
   welcome: { alignItems: 'center', paddingTop: 20 },
   welcomeIcon: {
     width: 72, height: 72, borderRadius: 20,
-    backgroundColor: '#22C55E15', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: '#34C75915', alignItems: 'center', justifyContent: 'center',
     marginBottom: 16,
   },
   welcomeTitle: { fontSize: 22, fontWeight: '700', color: '#F8FAFC', marginBottom: 8 },
@@ -275,7 +275,7 @@ const s = StyleSheet.create({
     flexDirection: 'row', flexWrap: 'wrap', gap: 8, justifyContent: 'center',
   },
   quickBtn: {
-    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E',
     borderRadius: 20, paddingHorizontal: 14, paddingVertical: 9,
   },
   quickBtnText: { color: '#CBD5E1', fontSize: 13, fontWeight: '500' },
@@ -285,30 +285,30 @@ const s = StyleSheet.create({
   aiBubble: { justifyContent: 'flex-start' },
   aiAvatar: {
     width: 26, height: 26, borderRadius: 8,
-    backgroundColor: '#22C55E15', borderWidth: 1, borderColor: '#22C55E30',
+    backgroundColor: '#34C75915', borderWidth: 1, borderColor: '#34C75930',
     alignItems: 'center', justifyContent: 'center', marginRight: 8, marginBottom: 2,
   },
   bubbleInner: { maxWidth: '80%', borderRadius: 14, padding: 12 },
-  userInner: { backgroundColor: '#22C55E', borderBottomRightRadius: 4 },
-  aiInner: { backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20', borderBottomLeftRadius: 4 },
+  userInner: { backgroundColor: '#34C759', borderBottomRightRadius: 4 },
+  aiInner: { backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E', borderBottomLeftRadius: 4 },
   bubbleText: { fontSize: 14, lineHeight: 20 },
-  userText: { color: '#0a0a0b', fontWeight: '500' },
+  userText: { color: '#000000', fontWeight: '500' },
   aiText: { color: '#E2E8F0' },
 
   inputRow: {
     flexDirection: 'row', alignItems: 'flex-end', gap: 8,
     paddingHorizontal: 16, paddingVertical: 12,
-    borderTopWidth: 1, borderTopColor: '#1e1e20',
-    backgroundColor: '#0a0a0b',
+    borderTopWidth: 1, borderTopColor: '#2C2C2E',
+    backgroundColor: '#000000',
   },
   input: {
-    flex: 1, backgroundColor: '#111113', borderRadius: 14, borderWidth: 1,
-    borderColor: '#1e1e20', color: '#F8FAFC', fontSize: 14,
+    flex: 1, backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1,
+    borderColor: '#2C2C2E', color: '#F8FAFC', fontSize: 14,
     paddingHorizontal: 14, paddingVertical: 10, maxHeight: 100,
   },
   sendBtn: {
     width: 42, height: 42, borderRadius: 12,
-    backgroundColor: '#22C55E', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: '#34C759', alignItems: 'center', justifyContent: 'center',
   },
-  sendBtnDisabled: { backgroundColor: '#1e1e20' },
+  sendBtnDisabled: { backgroundColor: '#2C2C2E' },
 });

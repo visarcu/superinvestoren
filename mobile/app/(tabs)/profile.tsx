@@ -92,7 +92,7 @@ export default function ProfileScreen() {
   if (loading) {
     return (
       <SafeAreaView style={s.container}>
-        <ActivityIndicator color="#22C55E" style={{ marginTop: 60 }} />
+        <ActivityIndicator color="#34C759" style={{ marginTop: 60 }} />
       </SafeAreaView>
     );
   }
@@ -116,7 +116,7 @@ export default function ProfileScreen() {
             <Text style={s.emailText}>{email}</Text>
             {isPremium ? (
               <View style={s.premiumBadge}>
-                <Ionicons name="star" size={10} color="#22C55E" />
+                <Ionicons name="star" size={10} color="#34C759" />
                 <Text style={s.premiumBadgeText}>Premium</Text>
               </View>
             ) : (
@@ -126,7 +126,7 @@ export default function ProfileScreen() {
             )}
           </View>
           <TouchableOpacity style={s.editBtn} onPress={() => setEditMode(!editMode)}>
-            <Ionicons name={editMode ? 'close' : 'pencil'} size={16} color="#22C55E" />
+            <Ionicons name={editMode ? 'close' : 'pencil'} size={16} color="#34C759" />
           </TouchableOpacity>
         </View>
 
@@ -167,10 +167,10 @@ export default function ProfileScreen() {
               <>
                 <Row
                   icon="star"
-                  iconColor="#22C55E"
+                  iconColor="#34C759"
                   label="Premium aktiv"
                   value={subEnd ? `bis ${subEnd}` : 'Aktiv'}
-                  valueColor="#22C55E"
+                  valueColor="#34C759"
                 />
                 <Divider />
                 <Row
@@ -184,7 +184,7 @@ export default function ProfileScreen() {
             ) : (
               <>
                 <View style={s.upgradeCard}>
-                  <Ionicons name="star" size={20} color="#22C55E" />
+                  <Ionicons name="star" size={20} color="#34C759" />
                   <View style={{ flex: 1, marginLeft: 12 }}>
                     <Text style={s.upgradeTitle}>Werde Premium</Text>
                     <Text style={s.upgradeDesc}>Voller Zugang zu AI-Analysen, Earnings-Zusammenfassungen und mehr.</Text>
@@ -224,10 +224,10 @@ export default function ProfileScreen() {
             <Divider />
             <Row
               icon="shield-checkmark"
-              iconColor={profile?.email_verified ? '#22C55E' : '#22C55E'}
+              iconColor={profile?.email_verified ? '#34C759' : '#34C759'}
               label="E-Mail verifiziert"
               value={profile?.email_verified ? 'Ja' : 'Ausstehend'}
-              valueColor={profile?.email_verified ? '#22C55E' : '#22C55E'}
+              valueColor={profile?.email_verified ? '#34C759' : '#34C759'}
             />
           </View>
         </View>
@@ -238,7 +238,7 @@ export default function ProfileScreen() {
           <View style={s.card}>
             <Row
               icon="notifications"
-              iconColor="#22C55E"
+              iconColor="#34C759"
               label="Benachrichtigungen"
               onPress={() => router.push('/notification-settings')}
               arrow
@@ -273,7 +273,7 @@ export default function ProfileScreen() {
         {/* ── Abmelden ────────────────────────── */}
         <View style={[s.section, { marginBottom: 12 }]}>
           <TouchableOpacity style={s.signOutBtn} onPress={handleSignOut} activeOpacity={0.7}>
-            <Ionicons name="log-out-outline" size={18} color="#EF4444" />
+            <Ionicons name="log-out-outline" size={18} color="#FF3B30" />
             <Text style={s.signOutText}>Abmelden</Text>
           </TouchableOpacity>
         </View>
@@ -311,7 +311,7 @@ function Divider() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   header: { paddingHorizontal: 20, paddingTop: 8, paddingBottom: 8 },
   pageTitle: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
@@ -320,16 +320,16 @@ const s = StyleSheet.create({
   avatarSection: {
     flexDirection: 'row', alignItems: 'center',
     marginHorizontal: 16, marginVertical: 16,
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 16,
+    borderWidth: 1, borderColor: '#2C2C2E',
     padding: 16, gap: 14,
   },
   avatar: {
     width: 56, height: 56, borderRadius: 28,
-    backgroundColor: '#22C55E',
+    backgroundColor: '#34C759',
     alignItems: 'center', justifyContent: 'center',
   },
-  avatarLetter: { color: '#0a0a0b', fontSize: 24, fontWeight: '700' },
+  avatarLetter: { color: '#000000', fontSize: 24, fontWeight: '700' },
   avatarInfo: { flex: 1, gap: 3 },
   displayName: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
   emailText: { color: '#64748B', fontSize: 13 },
@@ -341,10 +341,10 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(245,158,11,0.3)',
     marginTop: 2,
   },
-  premiumBadgeText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
+  premiumBadgeText: { color: '#34C759', fontSize: 11, fontWeight: '700' },
   freeBadge: {
     alignSelf: 'flex-start',
-    backgroundColor: '#1e1e20', borderRadius: 6,
+    backgroundColor: '#2C2C2E', borderRadius: 6,
     paddingHorizontal: 7, paddingVertical: 3, marginTop: 2,
   },
   freeBadgeText: { color: '#64748B', fontSize: 11, fontWeight: '600' },
@@ -358,30 +358,30 @@ const s = StyleSheet.create({
   // Edit form
   editCard: {
     marginHorizontal: 16, marginBottom: 8,
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 16,
+    borderWidth: 1, borderColor: '#2C2C2E',
     padding: 16, gap: 8,
   },
   editLabel: { color: '#64748B', fontSize: 12, fontWeight: '600', marginBottom: 2 },
   editInput: {
-    backgroundColor: '#0a0a0b', borderRadius: 10,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#000000', borderRadius: 10,
+    borderWidth: 1, borderColor: '#2C2C2E',
     paddingHorizontal: 14, paddingVertical: 10,
     color: '#F8FAFC', fontSize: 14, marginBottom: 4,
   },
   saveBtn: {
-    backgroundColor: '#22C55E', borderRadius: 10,
+    backgroundColor: '#34C759', borderRadius: 10,
     paddingVertical: 12, alignItems: 'center',
     marginTop: 4,
   },
-  saveBtnText: { color: '#0a0a0b', fontSize: 14, fontWeight: '700' },
+  saveBtnText: { color: '#000000', fontSize: 14, fontWeight: '700' },
 
   // Sections
   section: { paddingHorizontal: 16, marginBottom: 8 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
   card: {
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+    backgroundColor: '#1C1C1E', borderRadius: 16,
+    borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden',
   },
 
   // Rows
@@ -390,7 +390,7 @@ const s = StyleSheet.create({
   rowLabel: { color: '#F8FAFC', fontSize: 14, flex: 1 },
   rowRight: { flexDirection: 'row', alignItems: 'center' },
   rowValue: { color: '#64748B', fontSize: 13, maxWidth: 160 },
-  divider: { height: 1, backgroundColor: '#1e1e20', marginLeft: 46 },
+  divider: { height: 1, backgroundColor: '#2C2C2E', marginLeft: 46 },
 
   // Premium upgrade
   upgradeCard: {
@@ -402,10 +402,10 @@ const s = StyleSheet.create({
   upgradBtn: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8,
     margin: 16, marginTop: 4,
-    backgroundColor: '#22C55E', borderRadius: 12,
+    backgroundColor: '#34C759', borderRadius: 12,
     paddingVertical: 12,
   },
-  upgradBtnText: { color: '#0a0a0b', fontSize: 14, fontWeight: '700' },
+  upgradBtnText: { color: '#000000', fontSize: 14, fontWeight: '700' },
 
   // Sign out
   signOutBtn: {
@@ -414,5 +414,5 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(239,68,68,0.25)',
     paddingVertical: 14,
   },
-  signOutText: { color: '#EF4444', fontSize: 15, fontWeight: '700' },
+  signOutText: { color: '#FF3B30', fontSize: 15, fontWeight: '700' },
 });

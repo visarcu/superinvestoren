@@ -45,7 +45,7 @@ const INVESTOR_LABELS: Record<string, string> = {
   tangen: 'Tangen', peltz: 'Peltz', yacktman: 'Yacktman',
 };
 
-const COLORS = ['#22C55E', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#2c2c2e', '#1e1e20'];
+const COLORS = ['#34C759', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#2c2c2e', '#2C2C2E'];
 
 function getInitials(name: string) {
   return name.split(' ').map(n => n[0]).slice(0, 2).join('');
@@ -63,10 +63,10 @@ function formatValue(val: number) {
 }
 
 const TRADE_TYPE_CONFIG: Record<string, { label: string; color: string; bg: string }> = {
-  ADD:    { label: 'Aufgestockt', color: '#22C55E', bg: 'rgba(34,197,94,0.12)' },
+  ADD:    { label: 'Aufgestockt', color: '#34C759', bg: 'rgba(34,197,94,0.12)' },
   NEW:    { label: 'Neu',         color: '#3B82F6', bg: 'rgba(59,130,246,0.12)' },
   REDUCE: { label: 'Reduziert',  color: '#F59E0B', bg: 'rgba(245,158,11,0.12)' },
-  SOLD:   { label: 'Verkauft',   color: '#EF4444', bg: 'rgba(239,68,68,0.12)' },
+  SOLD:   { label: 'Verkauft',   color: '#FF3B30', bg: 'rgba(239,68,68,0.12)' },
 };
 
 interface Trade {
@@ -183,7 +183,7 @@ export default function InvestorsScreen() {
           </View>
 
           {tradesLoading ? (
-            <ActivityIndicator color="#22C55E" style={{ marginVertical: 24 }} />
+            <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
           ) : (
             <View style={s.tradesList}>
               {filteredTrades.map((trade, i) => {
@@ -255,7 +255,7 @@ export default function InvestorsScreen() {
                 <Ionicons
                   name={tab.icon as any}
                   size={12}
-                  color={activeInsightTab === tab.id ? '#22C55E' : '#475569'}
+                  color={activeInsightTab === tab.id ? '#34C759' : '#475569'}
                 />
                 <Text style={[s.tabText, activeInsightTab === tab.id && s.tabTextActive]}>
                   {tab.label}
@@ -265,7 +265,7 @@ export default function InvestorsScreen() {
           </View>
 
           {insightsLoading ? (
-            <ActivityIndicator color="#22C55E" style={{ marginVertical: 24 }} />
+            <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
           ) : (
             <View style={s.insightsList}>
               {insightItems.map((item, i) => (
@@ -362,25 +362,25 @@ export default function InvestorsScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
   header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
   title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
   subtitle: { color: '#64748B', fontSize: 13, marginTop: 2 },
   section: { paddingHorizontal: 16, marginBottom: 20 },
   sectionHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
   sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1 },
-  quarterBadge: { color: '#22C55E', fontSize: 11, fontWeight: '600', backgroundColor: 'rgba(34,197,94,0.1)', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
+  quarterBadge: { color: '#34C759', fontSize: 11, fontWeight: '600', backgroundColor: 'rgba(34,197,94,0.1)', paddingHorizontal: 8, paddingVertical: 2, borderRadius: 6 },
   tabs: { flexDirection: 'row', gap: 6, marginBottom: 10 },
-  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 8, borderRadius: 10, backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20' },
+  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 4, paddingVertical: 8, borderRadius: 10, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E' },
   tabActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
   tabText: { color: '#475569', fontSize: 11, fontWeight: '600' },
-  tabTextActive: { color: '#22C55E' },
+  tabTextActive: { color: '#34C759' },
 
   // Trades
-  tradesList: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  tradesList: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
   tradeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, gap: 10 },
-  tradeRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
-  tradeAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 },
+  tradeRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
+  tradeAvatar: { width: 38, height: 38, borderRadius: 19, backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', flexShrink: 0 },
   tradeAvatarImg: { width: 38, height: 38, borderRadius: 19 },
   tradeAvatarText: { fontSize: 12, fontWeight: '700', color: '#64748B' },
   tradeInfo: { flex: 1, minWidth: 0 },
@@ -395,9 +395,9 @@ const s = StyleSheet.create({
   tradeChange: { fontSize: 12, fontWeight: '700', marginTop: 2 },
 
   // Insights
-  insightsList: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  insightsList: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
   insightRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12 },
-  insightRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  insightRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
   insightRank: { color: '#2c2c2e', fontSize: 12, fontWeight: '700', width: 22 },
   insightLogo: { marginRight: 10 },
   insightInfo: { flex: 1 },
@@ -405,16 +405,16 @@ const s = StyleSheet.create({
   insightName: { color: '#64748B', fontSize: 11, marginTop: 1 },
   insightRight: { flexDirection: 'row', alignItems: 'center' },
   countBadge: { backgroundColor: 'rgba(34,197,94,0.12)', borderRadius: 6, paddingHorizontal: 7, paddingVertical: 3 },
-  countText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
+  countText: { color: '#34C759', fontSize: 11, fontWeight: '700' },
   insightValue: { color: '#F8FAFC', fontWeight: '600', fontSize: 12, textAlign: 'right' },
   insightInvestor: { color: '#475569', fontSize: 10, textAlign: 'right', marginTop: 1 },
 
   // Investors list
-  searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10, gap: 8, borderWidth: 1, borderColor: '#1e1e20', marginBottom: 10 },
+  searchBox: { flexDirection: 'row', alignItems: 'center', backgroundColor: '#1C1C1E', borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10, gap: 8, borderWidth: 1, borderColor: '#2C2C2E', marginBottom: 10 },
   searchInput: { flex: 1, color: '#F8FAFC', fontSize: 14 },
   investorList: { gap: 6 },
-  card: { backgroundColor: '#111113', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: '#1e1e20' },
-  avatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113', overflow: 'hidden' },
+  card: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', gap: 12, borderWidth: 1, borderColor: '#2C2C2E' },
+  avatar: { width: 44, height: 44, borderRadius: 22, alignItems: 'center', justifyContent: 'center', borderWidth: 1, borderColor: '#2C2C2E', backgroundColor: '#1C1C1E', overflow: 'hidden' },
   avatarImg: { width: 44, height: 44, borderRadius: 22 },
   avatarText: { fontSize: 14, fontWeight: '700' },
   cardContent: { flex: 1 },

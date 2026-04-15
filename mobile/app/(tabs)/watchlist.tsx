@@ -97,10 +97,10 @@ export default function WatchlistScreen() {
       </View>
 
       {loading ? (
-        <ActivityIndicator color="#22C55E" style={{ marginTop: 32 }} />
+        <ActivityIndicator color="#34C759" style={{ marginTop: 32 }} />
       ) : error ? (
         <View style={s.emptyState}>
-          <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
+          <Ionicons name="alert-circle-outline" size={40} color="#FF3B30" />
           <Text style={s.emptyTitle}>Fehler</Text>
           <Text style={s.emptyText}>{error}</Text>
           <TouchableOpacity style={s.actionBtn} onPress={loadWatchlist}>
@@ -121,7 +121,7 @@ export default function WatchlistScreen() {
       ) : (
         <ScrollView
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadWatchlist(); }} tintColor="#22C55E" />
+            <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadWatchlist(); }} tintColor="#34C759" />
           }
           contentContainerStyle={s.scroll}
         >
@@ -142,7 +142,7 @@ export default function WatchlistScreen() {
                       activeOpacity={0.7}
                     >
                       <View style={s.earningsLeft}>
-                        <View style={[s.earningsDot, { backgroundColor: isToday ? '#22C55E' : isSoon ? '#F8FAFC' : '#475569' }]} />
+                        <View style={[s.earningsDot, { backgroundColor: isToday ? '#34C759' : isSoon ? '#F8FAFC' : '#475569' }]} />
                         <View>
                           <Text style={s.earningsTicker}>{ev.ticker}</Text>
                           <Text style={s.earningsQuarter}>{ev.quarter}</Text>
@@ -181,16 +181,16 @@ export default function WatchlistScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
   header: { paddingHorizontal: 16, paddingTop: 8, paddingBottom: 12 },
   title: { color: '#F8FAFC', fontSize: 24, fontWeight: '700', letterSpacing: -0.5 },
   subtitle: { color: '#64748B', fontSize: 14, marginTop: 2 },
   scroll: { paddingBottom: 24 },
   section: { paddingHorizontal: 16, marginBottom: 16 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
-  earningsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  earningsCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
   earningsRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingVertical: 14 },
-  earningsRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  earningsRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
   earningsLeft: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   earningsDot: { width: 8, height: 8, borderRadius: 4 },
   earningsTicker: { color: '#F8FAFC', fontWeight: '700', fontSize: 14 },
@@ -199,9 +199,9 @@ const s = StyleSheet.create({
   earningsDate: { color: '#F8FAFC', fontWeight: '600', fontSize: 13 },
   earningsTime: { color: '#64748B', fontSize: 11, marginTop: 2 },
   emptyState: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingBottom: 80, gap: 12 },
-  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#111113', alignItems: 'center', justifyContent: 'center' },
+  emptyIcon: { width: 64, height: 64, borderRadius: 32, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
   emptyTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
   emptyText: { color: '#64748B', fontSize: 14, textAlign: 'center', paddingHorizontal: 32 },
   actionBtn: { backgroundColor: 'rgba(34,197,94,0.15)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 12, marginTop: 8 },
-  actionBtnText: { color: '#22C55E', fontWeight: '600' },
+  actionBtnText: { color: '#34C759', fontWeight: '600' },
 });

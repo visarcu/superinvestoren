@@ -175,13 +175,13 @@ export default function AlertsScreen() {
         </TouchableOpacity>
         <Text style={s.headerTitle}>Kursalarme</Text>
         <TouchableOpacity style={s.addBtn} onPress={() => setShowModal(true)}>
-          <Ionicons name="add" size={24} color="#EF4444" />
+          <Ionicons name="add" size={24} color="#FF3B30" />
         </TouchableOpacity>
       </View>
 
       <ScrollView style={s.scroll} contentContainerStyle={s.scrollContent}>
         {loading ? (
-          <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 60 }} />
+          <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 60 }} />
         ) : alerts.length === 0 ? (
           <View style={s.emptyState}>
             <Ionicons name="notifications-off-outline" size={48} color="#334155" />
@@ -219,7 +219,7 @@ export default function AlertsScreen() {
                 <View style={s.alertRight}>
                   {alert.triggered ? (
                     <View style={s.triggeredBadge}>
-                      <Ionicons name="checkmark-circle" size={14} color="#22C55E" />
+                      <Ionicons name="checkmark-circle" size={14} color="#34C759" />
                       <Text style={s.triggeredText}>Ausgelöst</Text>
                     </View>
                   ) : (
@@ -264,7 +264,7 @@ export default function AlertsScreen() {
 
           {/* Current price preview */}
           {priceLoading && (
-            <ActivityIndicator color="#22C55E" size="small" style={{ marginBottom: 8, alignSelf: 'flex-start' }} />
+            <ActivityIndicator color="#34C759" size="small" style={{ marginBottom: 8, alignSelf: 'flex-start' }} />
           )}
           {!priceLoading && currentPricePreview != null && (
             <Text style={s.currentPriceHint}>
@@ -327,11 +327,11 @@ export default function AlertsScreen() {
 }
 
 const s = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#0a0a0b' },
+  safeArea: { flex: 1, backgroundColor: '#000000' },
   header: {
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: 16, paddingVertical: 12,
-    borderBottomWidth: 1, borderBottomColor: '#1e1e20',
+    borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
   },
   backBtn: { padding: 4 },
   headerTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '700' },
@@ -344,7 +344,7 @@ const s = StyleSheet.create({
   emptyTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '700', marginTop: 16 },
   emptySubtitle: { color: '#475569', fontSize: 14, textAlign: 'center', marginTop: 8, lineHeight: 20 },
   emptyBtn: {
-    marginTop: 24, backgroundColor: '#EF4444', borderRadius: 12,
+    marginTop: 24, backgroundColor: '#FF3B30', borderRadius: 12,
     paddingHorizontal: 24, paddingVertical: 12,
   },
   emptyBtnText: { color: '#fff', fontSize: 15, fontWeight: '700' },
@@ -352,7 +352,7 @@ const s = StyleSheet.create({
   list: { paddingHorizontal: 16, gap: 10 },
 
   alertCard: {
-    backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E',
     padding: 14, flexDirection: 'row', alignItems: 'center',
   },
   alertCardTriggered: { opacity: 0.6 },
@@ -364,24 +364,24 @@ const s = StyleSheet.create({
   condAbove: { backgroundColor: 'rgba(34,197,94,0.12)' },
   condBelow: { backgroundColor: 'rgba(239,68,68,0.12)' },
   condBadgeText: { fontSize: 11, fontWeight: '700' },
-  condAboveText: { color: '#22C55E' },
-  condBelowText: { color: '#EF4444' },
+  condAboveText: { color: '#34C759' },
+  condBelowText: { color: '#FF3B30' },
   targetPrice: { color: '#94A3B8', fontSize: 13, fontWeight: '600' },
   textMuted: { color: '#475569' },
 
   alertRight: { alignItems: 'center' },
   deleteBtn: { padding: 8 },
   triggeredBadge: { flexDirection: 'row', alignItems: 'center', gap: 4 },
-  triggeredText: { color: '#22C55E', fontSize: 12, fontWeight: '600' },
+  triggeredText: { color: '#34C759', fontSize: 12, fontWeight: '600' },
 
   // Modal
   modalBackdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.65)' },
   modalSheet: {
     position: 'absolute', bottom: 0, left: 0, right: 0,
-    backgroundColor: '#111113',
+    backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 20, borderTopRightRadius: 20,
     paddingHorizontal: 20, paddingBottom: 40,
-    borderTopWidth: 1, borderTopColor: '#1e1e20',
+    borderTopWidth: 1, borderTopColor: '#2C2C2E',
   },
   modalHandle: {
     width: 36, height: 4, borderRadius: 2, backgroundColor: '#334155',
@@ -390,25 +390,25 @@ const s = StyleSheet.create({
   modalTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '700', marginBottom: 20 },
   inputLabel: { color: '#94A3B8', fontSize: 13, fontWeight: '600', marginBottom: 6 },
   input: {
-    backgroundColor: '#0a0a0b', borderRadius: 10, borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#000000', borderRadius: 10, borderWidth: 1, borderColor: '#2C2C2E',
     color: '#F8FAFC', fontSize: 15, paddingHorizontal: 14, paddingVertical: 12,
     marginBottom: 14,
   },
   currentPriceHint: { color: '#475569', fontSize: 13, marginBottom: 10 },
-  currentPriceValue: { color: '#22C55E', fontWeight: '700' },
+  currentPriceValue: { color: '#34C759', fontWeight: '700' },
 
   condToggleRow: { flexDirection: 'row', gap: 10, marginBottom: 14 },
   condToggleBtn: {
     flex: 1, paddingVertical: 10, borderRadius: 10,
-    borderWidth: 1, borderColor: '#1e1e20', alignItems: 'center',
-    backgroundColor: '#0a0a0b',
+    borderWidth: 1, borderColor: '#2C2C2E', alignItems: 'center',
+    backgroundColor: '#000000',
   },
-  condToggleBtnActive: { borderColor: '#EF4444', backgroundColor: 'rgba(239,68,68,0.08)' },
+  condToggleBtnActive: { borderColor: '#FF3B30', backgroundColor: 'rgba(239,68,68,0.08)' },
   condToggleBtnText: { color: '#475569', fontSize: 14, fontWeight: '600' },
-  condToggleBtnTextActive: { color: '#EF4444' },
+  condToggleBtnTextActive: { color: '#FF3B30' },
 
   saveBtn: {
-    backgroundColor: '#EF4444', borderRadius: 12,
+    backgroundColor: '#FF3B30', borderRadius: 12,
     paddingVertical: 14, alignItems: 'center', marginTop: 4, marginBottom: 10,
   },
   saveBtnDisabled: { opacity: 0.6 },

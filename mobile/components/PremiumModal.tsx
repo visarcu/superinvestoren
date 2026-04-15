@@ -104,7 +104,7 @@ export default function PremiumModal({ visible, onClose }: Props) {
           onPress={() => { Linking.openURL('https://finclue.de/pricing'); onClose(); }}
           activeOpacity={0.85}
         >
-          <Ionicons name="star" size={16} color="#0a0a0b" />
+          <Ionicons name="star" size={16} color="#000000" />
           <Text style={s.ctaBtnText}>Premium freischalten</Text>
         </TouchableOpacity>
 
@@ -126,11 +126,11 @@ const s = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: '#111113',
+    backgroundColor: '#1C1C1E',
     borderTopLeftRadius: 28,
     borderTopRightRadius: 28,
     borderWidth: 1,
-    borderColor: '#1e1e20',
+    borderColor: '#2C2C2E',
     paddingTop: 20,
     paddingHorizontal: 24,
     paddingBottom: 44,
@@ -140,7 +140,7 @@ const s = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: '#1e1e20',
+    backgroundColor: '#2C2C2E',
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 4,
@@ -152,7 +152,7 @@ const s = StyleSheet.create({
     alignItems: 'center',
     alignSelf: 'flex-start',
     gap: 5,
-    backgroundColor: '#1e1e20',
+    backgroundColor: '#2C2C2E',
     borderRadius: 20,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -165,10 +165,10 @@ const s = StyleSheet.create({
   subtitle: { color: '#64748B', fontSize: 14, lineHeight: 20 },
 
   featureList: {
-    backgroundColor: '#0a0a0b',
+    backgroundColor: '#000000',
     borderRadius: 16,
     borderWidth: 1,
-    borderColor: '#1e1e20',
+    borderColor: '#2C2C2E',
     marginBottom: 20,
     overflow: 'hidden',
   },
@@ -179,13 +179,13 @@ const s = StyleSheet.create({
     paddingVertical: 14,
     gap: 12,
     borderBottomWidth: 1,
-    borderBottomColor: '#1e1e20',
+    borderBottomColor: '#2C2C2E',
   },
   featureIcon: {
     width: 32,
     height: 32,
     borderRadius: 8,
-    backgroundColor: '#1e1e20',
+    backgroundColor: '#2C2C2E',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -202,6 +202,6 @@ const s = StyleSheet.create({
     paddingVertical: 17,
     marginBottom: 2,
   },
-  ctaBtnText: { color: '#0a0a0b', fontSize: 16, fontWeight: '800' },
+  ctaBtnText: { color: '#000000', fontSize: 16, fontWeight: '800' },
   laterText: { color: '#475569', fontSize: 14 },
 });

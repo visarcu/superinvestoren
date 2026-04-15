@@ -85,24 +85,24 @@ export default function NotificationSettingsScreen() {
   if (loading) {
     return (
       <SafeAreaView style={s.container}>
-        <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#111113' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
-        <ActivityIndicator color="#22C55E" style={{ marginTop: 40 }} />
+        <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#1C1C1E' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
+        <ActivityIndicator color="#34C759" style={{ marginTop: 40 }} />
       </SafeAreaView>
     );
   }
 
   return (
     <SafeAreaView style={s.container}>
-      <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#111113' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
+      <Stack.Screen options={{ title: 'Benachrichtigungen', headerStyle: { backgroundColor: '#1C1C1E' }, headerTintColor: '#F8FAFC', headerBackTitle: '' }} />
 
       <ScrollView showsVerticalScrollIndicator={false}>
         {/* Info banner */}
         <View style={s.infoBanner}>
-          <Ionicons name="notifications" size={18} color="#22C55E" />
+          <Ionicons name="notifications" size={18} color="#34C759" />
           <Text style={s.infoText}>
             Push-Benachrichtigungen direkt aufs Handy. Einstellungen gelten auch für die Website.
           </Text>
-          {saving && <ActivityIndicator size="small" color="#22C55E" style={{ marginLeft: 4 }} />}
+          {saving && <ActivityIndicator size="small" color="#34C759" style={{ marginLeft: 4 }} />}
         </View>
 
         {/* ── Watchlist-Dips ───────────────────── */}
@@ -111,7 +111,7 @@ export default function NotificationSettingsScreen() {
           <View style={s.card}>
             <View style={s.row}>
               <View style={s.rowLeft}>
-                <Ionicons name="trending-down" size={18} color="#EF4444" style={s.rowIcon} />
+                <Ionicons name="trending-down" size={18} color="#FF3B30" style={s.rowIcon} />
                 <View>
                   <Text style={s.rowLabel}>Kursrückgang-Alarm</Text>
                   <Text style={s.rowSub}>Noti wenn Aktie unter Schwelle fällt</Text>
@@ -120,8 +120,8 @@ export default function NotificationSettingsScreen() {
               <Switch
                 value={settings.watchlist_enabled}
                 onValueChange={v => update('watchlist_enabled', v)}
-                trackColor={{ false: '#1e1e20', true: '#166534' }}
-                thumbColor={settings.watchlist_enabled ? '#22C55E' : '#475569'}
+                trackColor={{ false: '#2C2C2E', true: '#166534' }}
+                thumbColor={settings.watchlist_enabled ? '#34C759' : '#475569'}
               />
             </View>
 
@@ -164,8 +164,8 @@ export default function NotificationSettingsScreen() {
               <Switch
                 value={settings.earnings_enabled}
                 onValueChange={v => update('earnings_enabled', v)}
-                trackColor={{ false: '#1e1e20', true: '#166534' }}
-                thumbColor={settings.earnings_enabled ? '#22C55E' : '#475569'}
+                trackColor={{ false: '#2C2C2E', true: '#166534' }}
+                thumbColor={settings.earnings_enabled ? '#34C759' : '#475569'}
               />
             </View>
 
@@ -208,8 +208,8 @@ export default function NotificationSettingsScreen() {
               <Switch
                 value={settings.earnings_email_enabled}
                 onValueChange={v => update('earnings_email_enabled', v)}
-                trackColor={{ false: '#1e1e20', true: '#166534' }}
-                thumbColor={settings.earnings_email_enabled ? '#22C55E' : '#475569'}
+                trackColor={{ false: '#2C2C2E', true: '#166534' }}
+                thumbColor={settings.earnings_email_enabled ? '#34C759' : '#475569'}
               />
             </View>
 
@@ -245,7 +245,7 @@ export default function NotificationSettingsScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   infoBanner: {
     flexDirection: 'row', alignItems: 'center', gap: 10,
@@ -258,10 +258,10 @@ const s = StyleSheet.create({
   section: { paddingHorizontal: 16, marginBottom: 8 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 8 },
   card: {
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+    backgroundColor: '#1C1C1E', borderRadius: 16,
+    borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden',
   },
-  divider: { height: 1, backgroundColor: '#1e1e20', marginLeft: 46 },
+  divider: { height: 1, backgroundColor: '#2C2C2E', marginLeft: 46 },
 
   row: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: 16 },
   rowLeft: { flexDirection: 'row', alignItems: 'center', flex: 1, gap: 12 },
@@ -274,20 +274,20 @@ const s = StyleSheet.create({
   thresholdBtns: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', marginTop: 8 },
   thresholdBtn: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 8,
-    backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e',
+    backgroundColor: '#2C2C2E', borderWidth: 1, borderColor: '#2c2c2e',
   },
-  thresholdBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)', borderColor: '#22C55E' },
+  thresholdBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)', borderColor: '#34C759' },
   thresholdBtnText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  thresholdBtnTextActive: { color: '#22C55E' },
+  thresholdBtnTextActive: { color: '#34C759' },
 
   // Frequency buttons
   freqRow: { padding: 16, gap: 10 },
   freqBtns: { flexDirection: 'row', gap: 8, marginTop: 8 },
   freqBtn: {
     flex: 1, paddingVertical: 8, alignItems: 'center', borderRadius: 8,
-    backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e',
+    backgroundColor: '#2C2C2E', borderWidth: 1, borderColor: '#2c2c2e',
   },
-  freqBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)', borderColor: '#22C55E' },
+  freqBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)', borderColor: '#34C759' },
   freqBtnText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
-  freqBtnTextActive: { color: '#22C55E' },
+  freqBtnTextActive: { color: '#34C759' },
 });
