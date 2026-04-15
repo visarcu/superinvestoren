@@ -93,6 +93,24 @@ async function handleDailyDividendReminder() {
 
     const payingSet = new Map(payingToday.map(p => [p.symbol, p.dividend]))
 
+    // 3b. Fetch company names for paying symbols
+    const nameMap = new Map<string, string>()
+    try {
+      const symbols = payingToday.map(p => p.symbol).join(',')
+      const quoteRes = await fetch(`https://financialmodelingprep.com/api/v3/quote/${symbols}?apikey=${process.env.FMP_API_KEY}`)
+      if (quoteRes.ok) {
+        const quotes = await quoteRes.json()
+        for (const q of (Array.isArray(quotes) ? quotes : [])) {
+          if (q.symbol && q.name) nameMap.set(q.symbol, q.name)
+        }
+      }
+    } catch { /* silent */ }
+
+    function displayName(symbol: string) {
+      const name = nameMap.get(symbol)
+      return name ? `${name} (${symbol})` : symbol
+    }
+
     // 4. Send push per user
     const secret  = process.env.INTERNAL_API_SECRET
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
@@ -114,15 +132,15 @@ async function handleDailyDividendReminder() {
           const { symbol, dividend } = userPayouts[0]
           const fmtDiv = dividend.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 4 })
           title = `Dividende heute`
-          body  = `${symbol} zahlt heute ${fmtDiv} $ pro Aktie`
+          body  = `${displayName(symbol)} zahlt heute ${fmtDiv} $ pro Aktie`
           data  = { screen: 'stock', ticker: symbol }
         } else if (userPayouts.length === 2) {
           title = `Dividenden heute`
-          body  = `${userPayouts[0].symbol} & ${userPayouts[1].symbol} zahlen heute Dividende`
+          body  = `${displayName(userPayouts[0].symbol)} & ${displayName(userPayouts[1].symbol)} zahlen heute Dividende`
           data  = { screen: 'portfolio' }
         } else {
           title = `Dividenden heute`
-          body  = `${userPayouts[0].symbol}, ${userPayouts[1].symbol} & ${userPayouts.length - 2} weitere zahlen heute`
+          body  = `${displayName(userPayouts[0].symbol)}, ${displayName(userPayouts[1].symbol)} & ${userPayouts.length - 2} weitere zahlen heute`
           data  = { screen: 'portfolio' }
         }
 
