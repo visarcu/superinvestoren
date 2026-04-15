@@ -118,8 +118,16 @@ export async function GET(request: Request) {
     // Nicht sofort 502 — versuche Fallbacks
   }
 
-  // Prüfe welche Symbole FMP nicht geliefert hat
-  const fmpSymbols = new Set(quotes.map((q: any) => q.symbol))
+  // Prüfe welche Symbole FMP nicht geliefert hat oder keinen validen Kurs haben
+  // Außerdem: Symbole aus XETRA_EXCHANGE_FALLBACK immer über den alternativen Ticker holen
+  // (FMP liefert für diese manchmal falsche Währung oder price=0)
+  const fmpSymbols = new Set(
+    quotes
+      .filter((q: any) => q.price > 0 && !XETRA_EXCHANGE_FALLBACK[q.symbol])
+      .map((q: any) => q.symbol)
+  )
+  // FMP-Quotes für XETRA-Fallback-Ticker verwerfen — werden unten korrekt geholt
+  quotes = quotes.filter((q: any) => fmpSymbols.has(q.symbol))
   let missingSymbols = symbolList.filter(s => !fmpSymbols.has(s))
 
   // === Fallback 1: Xetra-ETFs auf alternativen Börsen suchen ===
