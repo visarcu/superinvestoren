@@ -12,13 +12,13 @@ export default function NewsArticleScreen() {
     <SafeAreaView style={s.container} edges={['bottom']}>
       <Stack.Screen options={{
         title: title ? (title.length > 40 ? title.slice(0, 40) + '…' : title) : 'Artikel',
-        headerStyle: { backgroundColor: '#111113' },
+        headerStyle: { backgroundColor: '#1C1C1E' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: '',
       }} />
       {loading && (
         <View style={s.loader}>
-          <ActivityIndicator color="#22C55E" size="large" />
+          <ActivityIndicator color="#34C759" size="large" />
         </View>
       )}
       <WebView
@@ -33,7 +33,7 @@ export default function NewsArticleScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
   webview: { flex: 1 },
-  loader: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 10, backgroundColor: '#0a0a0b' },
+  loader: { ...StyleSheet.absoluteFillObject, alignItems: 'center', justifyContent: 'center', zIndex: 10, backgroundColor: '#000000' },
 });

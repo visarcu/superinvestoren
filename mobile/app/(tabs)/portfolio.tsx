@@ -297,7 +297,7 @@ export default function PortfolioScreen() {
     <SafeAreaView style={s.container}>
       <ScrollView
         style={{ flex: 1 }}
-        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor="#22C55E" />}
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor="#34C759" />}
       >
         {/* Header */}
         <View style={s.header}>
@@ -322,13 +322,13 @@ export default function PortfolioScreen() {
               {/* All portfolios option */}
               <TouchableOpacity style={s.modalOption} onPress={() => switchPortfolio(null, 'Alle Depots')}>
                 <View style={s.modalOptionLeft}>
-                  <Ionicons name="layers-outline" size={20} color="#22C55E" />
+                  <Ionicons name="layers-outline" size={20} color="#34C759" />
                   <View>
                     <Text style={s.modalOptionName}>Alle Depots</Text>
                     <Text style={s.modalOptionSub}>{portfolioList.length} Depots zusammengefasst</Text>
                   </View>
                 </View>
-                {selectedPortfolioId === null && <Ionicons name="checkmark" size={18} color="#22C55E" />}
+                {selectedPortfolioId === null && <Ionicons name="checkmark" size={18} color="#34C759" />}
               </TouchableOpacity>
 
               <View style={s.modalDivider} />
@@ -340,7 +340,7 @@ export default function PortfolioScreen() {
                     <Ionicons name="briefcase-outline" size={20} color="#64748B" />
                     <Text style={s.modalOptionName}>{p.name}</Text>
                   </View>
-                  {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color="#22C55E" />}
+                  {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color="#34C759" />}
                 </TouchableOpacity>
               ))}
 
@@ -361,18 +361,18 @@ export default function PortfolioScreen() {
                 <Ionicons
                   name={displayGainPct >= 0 ? 'trending-up' : 'trending-down'}
                   size={14}
-                  color={displayGainPct >= 0 ? '#22C55E' : '#EF4444'}
+                  color={displayGainPct >= 0 ? '#34C759' : '#FF3B30'}
                 />
-                <Text style={[s.gainBadgeText, { color: displayGainPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                <Text style={[s.gainBadgeText, { color: displayGainPct >= 0 ? '#34C759' : '#FF3B30' }]}>
                   {fmtPct(displayGainPct)}
                 </Text>
               </View>
             )}
           </View>
           {periodLoading ? (
-            <ActivityIndicator color="#22C55E" size="small" style={{ marginTop: 8 }} />
+            <ActivityIndicator color="#34C759" size="small" style={{ marginTop: 8 }} />
           ) : (
-            <Text style={[s.gainAbsolute, { color: displayGain >= 0 ? '#22C55E' : '#EF4444' }]}>
+            <Text style={[s.gainAbsolute, { color: displayGain >= 0 ? '#34C759' : '#FF3B30' }]}>
               {displayGain >= 0 ? '+' : ''}{fmtCurrency(displayGain)} {period !== 'gesamt' ? `(${period})` : ''}
             </Text>
           )}
@@ -407,17 +407,17 @@ export default function PortfolioScreen() {
           {tabs.map(tab => (
             <TouchableOpacity key={tab.id} style={[s.tabItem, activeTab === tab.id && s.tabItemActive]}
               onPress={() => setActiveTab(tab.id)}>
-              <Ionicons name={tab.icon as any} size={14} color={activeTab === tab.id ? '#22C55E' : '#475569'} />
+              <Ionicons name={tab.icon as any} size={14} color={activeTab === tab.id ? '#34C759' : '#475569'} />
               <Text style={[s.tabLabel, activeTab === tab.id && s.tabLabelActive]}>{tab.label}</Text>
             </TouchableOpacity>
           ))}
         </ScrollView>
 
         {loading ? (
-          <ActivityIndicator color="#22C55E" style={{ marginTop: 32 }} />
+          <ActivityIndicator color="#34C759" style={{ marginTop: 32 }} />
         ) : error ? (
           <View style={s.emptyState}>
-            <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
+            <Ionicons name="alert-circle-outline" size={40} color="#FF3B30" />
             <Text style={s.emptyTitle}>Fehler beim Laden</Text>
             <Text style={s.emptyText}>{error}</Text>
           </View>
@@ -463,13 +463,13 @@ export default function PortfolioScreen() {
                   </View>
                   <View style={s.rowRight}>
                     <Text style={s.value}>{fmtCurrency(h.currentValue)}</Text>
-                    <Text style={[s.gain, { color: h.gain >= 0 ? '#22C55E' : '#EF4444' }]}>{fmtPct(h.gainPct)}</Text>
+                    <Text style={[s.gain, { color: h.gain >= 0 ? '#34C759' : '#FF3B30' }]}>{fmtPct(h.gainPct)}</Text>
                   </View>
                 </TouchableOpacity>
               );
             })}
             <TouchableOpacity style={s.transactionBtn} onPress={() => router.push('/add-transaction')}>
-              <Ionicons name="add-circle-outline" size={18} color="#22C55E" />
+              <Ionicons name="add-circle-outline" size={18} color="#34C759" />
               <Text style={s.transactionBtnText}>Transaktion hinzufügen</Text>
             </TouchableOpacity>
           </View>
@@ -491,13 +491,13 @@ export default function PortfolioScreen() {
               </View>
               <View style={s.statCard}>
                 <Text style={s.statLabel}>Gewinn/Verlust</Text>
-                <Text style={[s.statValue, { color: totalGain >= 0 ? '#22C55E' : '#EF4444' }]}>
+                <Text style={[s.statValue, { color: totalGain >= 0 ? '#34C759' : '#FF3B30' }]}>
                   {totalGain >= 0 ? '+' : ''}{fmtBig(totalGain)}
                 </Text>
               </View>
               <View style={s.statCard}>
                 <Text style={s.statLabel}>Rendite (gesamt)</Text>
-                <Text style={[s.statValue, { color: totalGainPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                <Text style={[s.statValue, { color: totalGainPct >= 0 ? '#34C759' : '#FF3B30' }]}>
                   {fmtPct(totalGainPct)}
                 </Text>
               </View>
@@ -533,7 +533,7 @@ export default function PortfolioScreen() {
                   <Text style={s.plAbs}>
                     {h.gain >= 0 ? '+' : ''}{fmtCurrency(h.gain)}
                   </Text>
-                  <Text style={[s.plPct, { color: h.gainPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                  <Text style={[s.plPct, { color: h.gainPct >= 0 ? '#34C759' : '#FF3B30' }]}>
                     {fmtPct(h.gainPct)}
                   </Text>
                 </TouchableOpacity>
@@ -545,7 +545,7 @@ export default function PortfolioScreen() {
           /* ── DIVIDENDEN TAB ── */
           <View style={s.list}>
             {divLoading ? (
-              <ActivityIndicator color="#22C55E" style={{ marginVertical: 24 }} />
+              <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
             ) : divData.length === 0 ? (
               <View style={s.emptyState}>
                 <Ionicons name="cash-outline" size={36} color="#475569" />
@@ -602,7 +602,7 @@ export default function PortfolioScreen() {
                   <View style={s.divDivider} />
                   <View style={s.divSummaryItem}>
                     <Text style={s.divSummaryLabel}>Portfoliorendite</Text>
-                    <Text style={[s.divSummaryBig, { color: '#22C55E' }]}>{fmtDE(portfolioYield)} %</Text>
+                    <Text style={[s.divSummaryBig, { color: '#34C759' }]}>{fmtDE(portfolioYield)} %</Text>
                   </View>
                   <View style={s.divDivider} />
                   <View style={s.divSummaryItem}>
@@ -671,7 +671,7 @@ export default function PortfolioScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0a' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   // Header
   header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 14, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
@@ -708,7 +708,7 @@ const s = StyleSheet.create({
   addBtn: { width: 36, height: 36, borderRadius: 18, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
 
   // Summary Card — flat, no gradient
-  summaryCard: { marginHorizontal: 16, marginBottom: 20, borderRadius: 18, padding: 22, backgroundColor: '#141414', borderWidth: 1, borderColor: '#222222' },
+  summaryCard: { marginHorizontal: 16, marginBottom: 20, borderRadius: 18, padding: 22, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E' },
   summaryLabel: { color: '#8E8E93', fontSize: 12, fontWeight: '500', letterSpacing: 0.2, marginBottom: 6 },
   valueRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
   summaryValue: { color: '#FFFFFF', fontSize: 32, fontWeight: '700', letterSpacing: -1.2 },
@@ -717,9 +717,9 @@ const s = StyleSheet.create({
   gainAbsolute: { fontSize: 13, fontWeight: '500', marginTop: 4 },
   periodRow: { flexDirection: 'row', gap: 6, marginTop: 14 },
   periodPill: { paddingHorizontal: 10, paddingVertical: 5, borderRadius: 8, backgroundColor: '#1E1E20' },
-  periodPillActive: { backgroundColor: 'rgba(34,197,94,0.12)' },
-  periodText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
-  periodTextActive: { color: '#22C55E' },
+  periodPillActive: { backgroundColor: '#2C2C2E' },
+  periodText: { color: '#48484A', fontSize: 12, fontWeight: '600' },
+  periodTextActive: { color: '#FFFFFF' },
   divSummaryRow: { flexDirection: 'row', alignItems: 'center', gap: 6, marginTop: 14, paddingTop: 12, borderTopWidth: 1, borderTopColor: '#1E1E20' },
   divSummaryText: { color: '#64748B', fontSize: 12, fontWeight: '500' },
 
@@ -733,10 +733,10 @@ const s = StyleSheet.create({
   // Content
   list: { paddingHorizontal: 16, paddingBottom: 40 },
   sectionLabel: { color: '#48484A', fontSize: 11, fontWeight: '600', letterSpacing: 0.8, marginBottom: 10, marginTop: 4 },
-  card: { backgroundColor: '#141414', borderRadius: 16, borderWidth: 1, borderColor: '#222222', overflow: 'hidden' },
+  card: { backgroundColor: '#1C1C1E', borderRadius: 16,  overflow: 'hidden' },
 
   // Position rows
-  row: { backgroundColor: '#141414', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
+  row: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
   rowMid: { flex: 1 },
   symbol: { color: '#FFFFFF', fontSize: 15, fontWeight: '700', letterSpacing: -0.2 },
   shares: { color: '#8E8E93', fontSize: 12, marginTop: 2 },
@@ -745,19 +745,19 @@ const s = StyleSheet.create({
   gain: { fontSize: 13, marginTop: 2, fontWeight: '500' },
   siBadge: { flexDirection: 'row', alignItems: 'center', gap: 3, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: 20, paddingHorizontal: 6, paddingVertical: 2 },
   siBadgeText: { color: '#8E8E93', fontSize: 10, fontWeight: '600' },
-  transactionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 14, padding: 14, backgroundColor: '#141414', borderRadius: 14, borderWidth: 1, borderColor: '#222222' },
+  transactionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: 14, padding: 14, backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E' },
   transactionBtnText: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
 
   // Performance
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  statCard: { flex: 1, minWidth: '45%', backgroundColor: '#141414', borderRadius: 14, borderWidth: 1, borderColor: '#222222', padding: 16 },
+  statCard: { flex: 1, minWidth: '45%', backgroundColor: '#1C1C1E', borderRadius: 14,  padding: 16 },
   statLabel: { color: '#8E8E93', fontSize: 11, marginBottom: 8, fontWeight: '500' },
   statValue: { color: '#FFFFFF', fontSize: 17, fontWeight: '700', letterSpacing: -0.4 },
   allocRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
   allocBorder: { borderTopWidth: 1, borderTopColor: '#1C1C1E' },
   allocTicker: { color: '#FFFFFF', fontSize: 13, fontWeight: '600' },
   allocPct: { color: '#8E8E93', fontSize: 12, fontWeight: '600' },
-  allocBar: { height: 3, backgroundColor: '#222222', borderRadius: 2, overflow: 'hidden', marginTop: 6 },
+  allocBar: { height: 3, backgroundColor: '#2C2C2E', borderRadius: 2, overflow: 'hidden', marginTop: 6 },
   allocBarFill: { height: 3, backgroundColor: 'rgba(255,255,255,0.5)', borderRadius: 2 },
   plRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13, gap: 8 },
   plTicker: { color: '#FFFFFF', fontSize: 13, fontWeight: '700', width: 60 },
@@ -765,22 +765,22 @@ const s = StyleSheet.create({
   plPct: { fontSize: 13, fontWeight: '700', width: 72, textAlign: 'right' },
 
   // Dividenden
-  divSummaryCard: { backgroundColor: '#141414', borderRadius: 16, borderWidth: 1, borderColor: '#222222', padding: 18, flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
+  divSummaryCard: { backgroundColor: '#1C1C1E', borderRadius: 16,  padding: 18, flexDirection: 'row', alignItems: 'center', marginBottom: 8 },
   divSummaryItem: { flex: 1, alignItems: 'center' },
   divSummaryLabel: { color: '#8E8E93', fontSize: 10, fontWeight: '500', marginBottom: 6 },
   divSummaryBig: { color: '#FFFFFF', fontSize: 15, fontWeight: '700', letterSpacing: -0.3 },
-  divDivider: { width: 1, height: 32, backgroundColor: '#222222' },
+  divDivider: { width: 1, height: 32, backgroundColor: '#2C2C2E' },
   upcomingDivRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
-  upcomingDivAccent: { width: 3, height: 28, backgroundColor: '#22C55E', borderRadius: 2, marginRight: 12 },
+  upcomingDivAccent: { width: 3, height: 28, backgroundColor: '#34C759', borderRadius: 2, marginRight: 12 },
   divRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 13 },
   divTicker: { color: '#FFFFFF', fontSize: 14, fontWeight: '700', letterSpacing: -0.2 },
   divSub: { color: '#8E8E93', fontSize: 11, marginTop: 2 },
-  divNext: { color: '#22C55E', fontSize: 10, marginTop: 3 },
+  divNext: { color: '#34C759', fontSize: 10, marginTop: 3 },
   divIncome: { color: '#FFFFFF', fontSize: 14, fontWeight: '700', letterSpacing: -0.3 },
   divIncomeLabel: { color: '#8E8E93', fontSize: 10, marginTop: 2 },
 
   // Superinvestoren
-  siRow: { backgroundColor: '#141414', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
+  siRow: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center', marginBottom: 2, gap: 12 },
   siAvatar: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
   siAvatarText: { color: '#8E8E93', fontSize: 16, fontWeight: '700' },
   siName: { color: '#FFFFFF', fontSize: 14, fontWeight: '600' },
@@ -789,7 +789,7 @@ const s = StyleSheet.create({
   siCountText: { color: '#8E8E93', fontSize: 12, fontWeight: '600' },
 
   emptyState: { alignItems: 'center', justifyContent: 'center', paddingVertical: 56, gap: 10 },
-  emptyIcon: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#141414', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
+  emptyIcon: { width: 60, height: 60, borderRadius: 30, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', marginBottom: 4 },
   emptyTitle: { color: '#FFFFFF', fontSize: 17, fontWeight: '600' },
   emptyText: { color: '#8E8E93', fontSize: 14, textAlign: 'center', paddingHorizontal: 32, lineHeight: 20 },
   linkBtn: { backgroundColor: '#1C1C1E', borderRadius: 14, paddingHorizontal: 24, paddingVertical: 13, marginTop: 10, flexDirection: 'row', alignItems: 'center' },

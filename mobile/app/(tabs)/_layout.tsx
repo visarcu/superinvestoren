@@ -1,6 +1,6 @@
 import { Tabs, router } from 'expo-router';
 import { useEffect, useState, useRef, useCallback } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../../lib/auth';
@@ -58,16 +58,16 @@ export default function TabsLayout() {
         screenOptions={{
           headerShown: false,
           tabBarStyle: {
-            backgroundColor: '#0a0a0a',
+            backgroundColor: '#000000',
             borderTopColor: '#1C1C1E',
-            borderTopWidth: 1,
+            borderTopWidth: StyleSheet.hairlineWidth,
             height: 88,
             paddingBottom: 28,
             paddingTop: 10,
           },
           tabBarActiveTintColor: '#FFFFFF',
           tabBarInactiveTintColor: '#48484A',
-          tabBarLabelStyle: { fontSize: 10, fontWeight: '600', marginTop: 2 },
+          tabBarLabelStyle: { fontSize: 10, fontWeight: '500', marginTop: 2 },
         }}
       >
         <Tabs.Screen

@@ -212,7 +212,7 @@ export default function AddTransactionScreen() {
     <SafeAreaView style={s.container}>
       <Stack.Screen options={{
         title: 'Transaktion hinzufügen',
-        headerStyle: { backgroundColor: '#111113' },
+        headerStyle: { backgroundColor: '#1C1C1E' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: '',
       }} />
@@ -329,7 +329,7 @@ export default function AddTransactionScreen() {
                 disabled={saving || !quantity || !purchasePrice}
               >
                 {saving
-                  ? <ActivityIndicator size="small" color="#0a0a0b" />
+                  ? <ActivityIndicator size="small" color="#000000" />
                   : <Text style={s.saveBtnText}>Hinzufügen</Text>}
               </TouchableOpacity>
             </>
@@ -380,7 +380,7 @@ export default function AddTransactionScreen() {
               disabled={savingAlerts}
             >
               {savingAlerts
-                ? <ActivityIndicator size="small" color="#0a0a0b" />
+                ? <ActivityIndicator size="small" color="#000000" />
                 : <Text style={s.doneBtnText}>Fertig</Text>}
             </TouchableOpacity>
 
@@ -398,7 +398,7 @@ export default function AddTransactionScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
   content: { padding: 16 },
 
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
@@ -406,32 +406,32 @@ const s = StyleSheet.create({
 
   searchRow: { flexDirection: 'row', gap: 8 },
   searchInput: {
-    flex: 1, backgroundColor: '#111113', borderRadius: 12,
-    borderWidth: 1, borderColor: '#1e1e20',
+    flex: 1, backgroundColor: '#1C1C1E', borderRadius: 12,
+    borderWidth: 1, borderColor: '#2C2C2E',
     color: '#F8FAFC', fontSize: 16, paddingHorizontal: 14, paddingVertical: 13,
   },
   searchBtn: {
-    backgroundColor: '#1e1e20', borderRadius: 12, width: 50,
+    backgroundColor: '#2C2C2E', borderRadius: 12, width: 50,
     alignItems: 'center', justifyContent: 'center',
     borderWidth: 1, borderColor: '#2c2c2e',
   },
 
   suggestionBox: {
-    marginTop: 4, backgroundColor: '#111113', borderRadius: 12,
-    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+    marginTop: 4, backgroundColor: '#1C1C1E', borderRadius: 12,
+    borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden',
   },
   suggestionRow: {
     flexDirection: 'row', alignItems: 'center', paddingHorizontal: 12, paddingVertical: 10,
   },
-  suggestionBorder: { borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  suggestionBorder: { borderBottomWidth: 1, borderBottomColor: '#2C2C2E' },
   suggestionTicker: { color: '#F8FAFC', fontSize: 13, fontWeight: '700' },
   suggestionName: { color: '#64748B', fontSize: 11, marginTop: 1 },
   suggestionExchange: { color: '#475569', fontSize: 10, fontWeight: '600' },
 
   stockCard: {
     flexDirection: 'row', alignItems: 'center', marginTop: 10,
-    backgroundColor: '#111113', borderRadius: 14,
-    borderWidth: 1, borderColor: '#1e1e20', padding: 14,
+    backgroundColor: '#1C1C1E', borderRadius: 14,
+    borderWidth: 1, borderColor: '#2C2C2E', padding: 14,
   },
   stockSymbol: { color: '#F8FAFC', fontSize: 15, fontWeight: '700' },
   stockName: { color: '#64748B', fontSize: 12, marginTop: 2 },
@@ -439,8 +439,8 @@ const s = StyleSheet.create({
   stockExchange: { color: '#475569', fontSize: 11, marginTop: 2 },
 
   input: {
-    backgroundColor: '#111113', borderRadius: 12,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 12,
+    borderWidth: 1, borderColor: '#2C2C2E',
     color: '#F8FAFC', fontSize: 16, paddingHorizontal: 14, paddingVertical: 13,
   },
 
@@ -456,14 +456,14 @@ const s = StyleSheet.create({
     paddingVertical: 16, alignItems: 'center',
   },
   saveBtnDisabled: { opacity: 0.35 },
-  saveBtnText: { color: '#0a0a0b', fontSize: 16, fontWeight: '700' },
+  saveBtnText: { color: '#000000', fontSize: 16, fontWeight: '700' },
 
   // Modal
   modalOverlay: { flex: 1, justifyContent: 'flex-end', backgroundColor: 'rgba(0,0,0,0.75)' },
   modalSheet: {
-    backgroundColor: '#111113', borderTopLeftRadius: 28, borderTopRightRadius: 28,
+    backgroundColor: '#1C1C1E', borderTopLeftRadius: 28, borderTopRightRadius: 28,
     padding: 28, paddingBottom: 44, alignItems: 'center',
-    borderWidth: 1, borderColor: '#1e1e20',
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   bellWrap: {
     width: 72, height: 72, borderRadius: 36,
@@ -474,14 +474,14 @@ const s = StyleSheet.create({
   modalSub: { color: '#64748B', fontSize: 14, marginTop: 2, marginBottom: 24 },
 
   alertOptions: {
-    width: '100%', backgroundColor: '#0a0a0b', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20', marginBottom: 20, overflow: 'hidden',
+    width: '100%', backgroundColor: '#000000', borderRadius: 16,
+    borderWidth: 1, borderColor: '#2C2C2E', marginBottom: 20, overflow: 'hidden',
   },
   alertRow: { flexDirection: 'row', alignItems: 'center', padding: 16, gap: 14 },
-  alertDiv: { height: 1, backgroundColor: '#1e1e20' },
+  alertDiv: { height: 1, backgroundColor: '#2C2C2E' },
   checkbox: {
     width: 24, height: 24, borderRadius: 6,
-    backgroundColor: '#1e1e20', borderWidth: 1, borderColor: '#2c2c2e',
+    backgroundColor: '#2C2C2E', borderWidth: 1, borderColor: '#2c2c2e',
     alignItems: 'center', justifyContent: 'center',
   },
   checkboxOn: { backgroundColor: '#374151', borderColor: '#64748B' },
@@ -492,7 +492,7 @@ const s = StyleSheet.create({
     width: '100%', backgroundColor: '#F8FAFC', borderRadius: 14,
     paddingVertical: 16, alignItems: 'center', marginBottom: 16,
   },
-  doneBtnText: { color: '#0a0a0b', fontSize: 16, fontWeight: '700' },
+  doneBtnText: { color: '#000000', fontSize: 16, fontWeight: '700' },
   advancedLink: { color: '#64748B', fontSize: 13, textAlign: 'center' },
   advancedHighlight: { color: '#94A3B8', textDecorationLine: 'underline' },
 });

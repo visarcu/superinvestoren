@@ -25,8 +25,8 @@ const TYPE_ICON: Record<string, { name: any; color: string }> = {
   analyst_rating:  { name: 'trending-up',       color: '#3B82F6' },
   filing_alert:    { name: 'document-text',      color: '#8B5CF6' },
   earnings_alert:  { name: 'bar-chart',          color: '#F59E0B' },
-  dividend_alert:  { name: 'cash',               color: '#22C55E' },
-  price_alert:     { name: 'flash',              color: '#EF4444' },
+  dividend_alert:  { name: 'cash',               color: '#34C759' },
+  price_alert:     { name: 'flash',              color: '#FF3B30' },
   portfolio_mover: { name: 'pulse',              color: '#F97316' },
   economic_event:  { name: 'globe',              color: '#06B6D4' },
   default:         { name: 'notifications',      color: '#64748B' },
@@ -138,7 +138,7 @@ export default function NotificationsCenterScreen() {
     <SafeAreaView style={s.container} edges={['bottom']}>
       <Stack.Screen options={{
         title: 'Benachrichtigungen',
-        headerStyle: { backgroundColor: '#0a0a0b' },
+        headerStyle: { backgroundColor: '#000000' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: '',
         headerTitleStyle: { fontSize: 17, fontWeight: '700' },
@@ -150,13 +150,13 @@ export default function NotificationsCenterScreen() {
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
             style={s.headerAction}
           >
-            <Ionicons name="checkmark-done" size={18} color={markingAll ? '#1E293B' : '#22C55E'} />
+            <Ionicons name="checkmark-done" size={18} color={markingAll ? '#1E293B' : '#34C759'} />
           </TouchableOpacity>
         ) : null,
       }} />
 
       {loading ? (
-        <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 48 }} />
+        <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 48 }} />
       ) : notifications.length === 0 ? (
         <View style={s.emptyWrap}>
           <View style={s.emptyIcon}>
@@ -173,7 +173,7 @@ export default function NotificationsCenterScreen() {
             <RefreshControl
               refreshing={refreshing}
               onRefresh={() => { setRefreshing(true); load(); }}
-              tintColor="#22C55E"
+              tintColor="#34C759"
             />
           }
           stickySectionHeadersEnabled={false}
@@ -230,7 +230,7 @@ export default function NotificationsCenterScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   headerAction: {
     width: 36, height: 36, borderRadius: 18,
@@ -250,12 +250,12 @@ const s = StyleSheet.create({
     backgroundColor: 'rgba(34,197,94,0.12)',
     paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
   },
-  unreadBadgeText: { color: '#22C55E', fontSize: 11, fontWeight: '600' },
+  unreadBadgeText: { color: '#34C759', fontSize: 11, fontWeight: '600' },
 
   row: {
     flexDirection: 'row', alignItems: 'center',
     paddingHorizontal: 16, paddingVertical: 14,
-    backgroundColor: '#0a0a0b', gap: 12,
+    backgroundColor: '#000000', gap: 12,
     marginHorizontal: 0,
   },
   rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1E293B' },
@@ -268,8 +268,8 @@ const s = StyleSheet.create({
   unreadDot: {
     position: 'absolute', top: -1, right: -1,
     width: 10, height: 10, borderRadius: 5,
-    backgroundColor: '#22C55E',
-    borderWidth: 2, borderColor: '#0a0a0b',
+    backgroundColor: '#34C759',
+    borderWidth: 2, borderColor: '#000000',
   },
 
   content: { flex: 1, minWidth: 0 },
@@ -282,14 +282,14 @@ const s = StyleSheet.create({
 
   chevronWrap: {
     width: 28, height: 28, borderRadius: 8,
-    backgroundColor: '#111113',
+    backgroundColor: '#1C1C1E',
     alignItems: 'center', justifyContent: 'center', flexShrink: 0,
   },
 
   emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 12 },
   emptyIcon: {
     width: 64, height: 64, borderRadius: 32,
-    backgroundColor: '#111113', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center',
     marginBottom: 4,
   },
   emptyTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '600' },

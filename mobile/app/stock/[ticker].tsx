@@ -461,12 +461,12 @@ export default function StockScreen() {
   const chart = chartResult();
   const chartPoints = chart?.points ?? [];
   const isPositive = (chart?.periodChange ?? 0) >= 0;
-  const chartColor = isPositive ? '#22C55E' : '#EF4444';
+  const chartColor = isPositive ? '#34C759' : '#FF3B30';
 
   if (loading) {
     return (
       <SafeAreaView style={s.container}>
-        <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 32 }} />
+        <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 32 }} />
       </SafeAreaView>
     );
   }
@@ -491,12 +491,12 @@ export default function StockScreen() {
         options={{
           title: ticker || '',
           headerBackTitle: 'Zurück',
-          headerStyle: { backgroundColor: '#111113' },
+          headerStyle: { backgroundColor: '#1C1C1E' },
           headerTintColor: '#F8FAFC',
           headerRight: () => (
             <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading} style={{ marginRight: 4 }}>
               <Ionicons name={inWatchlist ? 'bookmark' : 'bookmark-outline'} size={22}
-                color={inWatchlist ? '#22C55E' : '#94A3B8'} />
+                color={inWatchlist ? '#34C759' : '#94A3B8'} />
             </TouchableOpacity>
           ),
         }}
@@ -528,7 +528,7 @@ export default function StockScreen() {
           <TouchableOpacity onPress={toggleWatchlist} disabled={watchlistLoading}
             style={[s.watchlistBtn, inWatchlist && s.watchlistBtnActive]} activeOpacity={0.7}>
             <Ionicons name={inWatchlist ? 'bookmark' : 'bookmark-outline'} size={16}
-              color={inWatchlist ? '#0a0a0b' : '#22C55E'} />
+              color={inWatchlist ? '#000000' : '#34C759'} />
             <Text style={[s.watchlistBtnText, inWatchlist && s.watchlistBtnTextActive]}>
               {inWatchlist ? 'In Watchlist' : '+ Watchlist'}
             </Text>
@@ -571,21 +571,21 @@ export default function StockScreen() {
               {chartMode === 'tradingview' ? (
                 <View style={s.tvContainer}>
                   <WebView
-                    source={{ html: `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"><style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#0a0a0b;overflow:hidden;}</style></head><body><div id="tv" style="width:100%;height:100vh;"></div><script src="https://s3.tradingview.com/tv.js"></script><script>new TradingView.widget({autosize:true,symbol:"${ticker}",interval:"D",timezone:"Europe/Berlin",theme:"dark",style:"1",locale:"de",toolbar_bg:"#111113",enable_publishing:false,hide_side_toolbar:true,allow_symbol_change:false,save_image:false,container_id:"tv"});</script></body></html>` }}
+                    source={{ html: `<!DOCTYPE html><html><head><meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0"><style>*{margin:0;padding:0;box-sizing:border-box;}body{background:#000000;overflow:hidden;}</style></head><body><div id="tv" style="width:100%;height:100vh;"></div><script src="https://s3.tradingview.com/tv.js"></script><script>new TradingView.widget({autosize:true,symbol:"${ticker}",interval:"D",timezone:"Europe/Berlin",theme:"dark",style:"1",locale:"de",toolbar_bg:"#1C1C1E",enable_publishing:false,hide_side_toolbar:true,allow_symbol_change:false,save_image:false,container_id:"tv"});</script></body></html>` }}
                     style={s.tvWebView}
                     javaScriptEnabled
                     domStorageEnabled
                     startInLoadingState
                     renderLoading={() => (
                       <View style={s.tvLoading}>
-                        <ActivityIndicator color="#22C55E" size="small" />
+                        <ActivityIndicator color="#34C759" size="small" />
                         <Text style={{ color: '#475569', fontSize: 12, marginTop: 8 }}>TradingView lädt...</Text>
                       </View>
                     )}
                   />
                 </View>
               ) : chartLoading ? (
-                <View style={s.chartLoading}><ActivityIndicator color="#22C55E" size="small" /></View>
+                <View style={s.chartLoading}><ActivityIndicator color="#34C759" size="small" /></View>
               ) : chart && chartPoints.length > 1 ? (
                 <>
                   <View style={s.chartPerfRow}>
@@ -688,7 +688,7 @@ export default function StockScreen() {
                 </View>
               </ScrollView>
               {finLoading ? (
-                <View style={s.finLoading}><ActivityIndicator color="#22C55E" size="small" /></View>
+                <View style={s.finLoading}><ActivityIndicator color="#34C759" size="small" /></View>
               ) : (() => {
                 // Determine data source and field
                 const isCashflowTab = finBarTab === 'fcf' || finBarTab === 'capex' || finBarTab === 'dividends';
@@ -720,7 +720,7 @@ export default function StockScreen() {
                   return {
                     value: displayVal || 0.001,
                     label: row.calendarYear || row.date?.slice(0, 4) || '',
-                    frontColor: isNeg ? '#EF4444' : '#22C55E',
+                    frontColor: isNeg ? '#FF3B30' : '#34C759',
                     topLabelComponent: () => (
                       <Text style={s.barTopLabel}>
                         {isNeg ? '-' : ''}
@@ -763,7 +763,7 @@ export default function StockScreen() {
                         <Text style={s.finSummaryValue}>{latestDisplay}</Text>
                       </Text>
                       {yoyPct !== null && (
-                        <Text style={[s.finSummaryPct, { color: yoyPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                        <Text style={[s.finSummaryPct, { color: yoyPct >= 0 ? '#34C759' : '#FF3B30' }]}>
                           {yoyPct >= 0 ? '▲' : '▼'} {fmtDE(Math.abs(yoyPct), 1)} % YoY
                         </Text>
                       )}
@@ -797,7 +797,7 @@ export default function StockScreen() {
                 </View>
                 {!isPremium && (
                   <View style={s.premiumBadge}>
-                    <Ionicons name="star" size={10} color="#22C55E" />
+                    <Ionicons name="star" size={10} color="#34C759" />
                     <Text style={s.premiumBadgeText}>Premium</Text>
                   </View>
                 )}
@@ -805,7 +805,7 @@ export default function StockScreen() {
               {isPremium ? (
                 aiLoading ? (
                   <View style={s.aiLoadingWrap}>
-                    <ActivityIndicator color="#22C55E" size="small" />
+                    <ActivityIndicator color="#34C759" size="small" />
                     <Text style={s.aiLoadingText}>Analyse wird geladen…</Text>
                   </View>
                 ) : (
@@ -838,7 +838,7 @@ export default function StockScreen() {
                 )
               ) : (
                 <View style={s.lockedCard}>
-                  <View style={s.lockedIconWrap}><Ionicons name="lock-closed" size={28} color="#22C55E" /></View>
+                  <View style={s.lockedIconWrap}><Ionicons name="lock-closed" size={28} color="#34C759" /></View>
                   <Text style={s.lockedTitle}>Premium erforderlich</Text>
                   <Text style={s.lockedDesc}>Hole dir Bull- und Bear-Argumente basierend auf unserem KI-Index – exklusiv für Premium-Mitglieder.</Text>
                   <View style={s.blurPreview} pointerEvents="none">
@@ -889,22 +889,22 @@ export default function StockScreen() {
                   <Text style={s.aiAnalyseTitle}>60-Sekunden Check</Text>
                   <Text style={s.aiAnalyseSub}>KI-Analyse für {ticker}</Text>
                 </View>
-                <Ionicons name="chevron-forward" size={16} color="#22C55E" />
+                <Ionicons name="chevron-forward" size={16} color="#34C759" />
               </TouchableOpacity>
             </View>
 
             {/* Kursalarm Button */}
             <TouchableOpacity style={s.alertBtn} onPress={() => router.push('/alerts' as any)}>
-              <Ionicons name="notifications-outline" size={18} color="#EF4444" />
+              <Ionicons name="notifications-outline" size={18} color="#FF3B30" />
               <Text style={s.alertBtnText}>Kursalarm setzen</Text>
-              <Ionicons name="chevron-forward" size={16} color="#EF4444" />
+              <Ionicons name="chevron-forward" size={16} color="#FF3B30" />
             </TouchableOpacity>
 
             {/* News */}
             <View style={s.section}>
               <Text style={s.sectionTitle}>NACHRICHTEN</Text>
               {newsLoading ? (
-                <ActivityIndicator color="#22C55E" size="small" style={{ marginVertical: 12 }} />
+                <ActivityIndicator color="#34C759" size="small" style={{ marginVertical: 12 }} />
               ) : newsArticles.length === 0 ? (
                 <Text style={s.noData}>Keine Nachrichten verfügbar</Text>
               ) : (
@@ -956,7 +956,7 @@ export default function StockScreen() {
                         onPress={() => router.push(`/stock/${sym}`)}>
                         <StockLogo ticker={sym} size={36} borderRadius={8} />
                         <Text style={s.similarTicker}>{sym}</Text>
-                        <Text style={[s.similarChange, { color: pos ? '#22C55E' : '#EF4444' }]}>
+                        <Text style={[s.similarChange, { color: pos ? '#34C759' : '#FF3B30' }]}>
                           {pos ? '+' : ''}{fmtDE(chg, 1)} %
                         </Text>
                       </TouchableOpacity>
@@ -995,7 +995,7 @@ export default function StockScreen() {
             {/* ── SUB-TAB: TRANSKRIPT ── */}
             {earningsSubTab === 'transcript' && (
               transcriptLoading ? (
-                <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+                <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
               ) : transcripts.length === 0 ? (
                 <View style={s.tabLoading}><Text style={s.noData}>Keine Earnings-Daten verfügbar</Text></View>
               ) : (
@@ -1033,7 +1033,7 @@ export default function StockScreen() {
                             <Text style={s.aiSummaryTitle}>Zusammenfassung</Text>
                             {!isPremium && (
                               <View style={[s.premiumBadge, { marginLeft: 'auto' as any }]}>
-                                <Ionicons name="star" size={10} color="#22C55E" />
+                                <Ionicons name="star" size={10} color="#34C759" />
                                 <Text style={s.premiumBadgeText}>Premium</Text>
                               </View>
                             )}
@@ -1041,7 +1041,7 @@ export default function StockScreen() {
                           {isPremium ? (
                             summaryLoading ? (
                               <View style={{ flexDirection: 'row', gap: 8, alignItems: 'center', paddingVertical: 12 }}>
-                                <ActivityIndicator color="#22C55E" size="small" />
+                                <ActivityIndicator color="#34C759" size="small" />
                                 <Text style={s.aiLoadingText}>Zusammenfassung wird generiert…</Text>
                               </View>
                             ) : aiSummary ? (
@@ -1095,7 +1095,7 @@ export default function StockScreen() {
             {/* ── SUB-TAB: EARNINGS SURPRISES ── */}
             {earningsSubTab === 'surprises' && (
               surprisesLoading ? (
-                <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+                <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
               ) : earningSurprises.length === 0 ? (
                 <View style={s.tabLoading}><Text style={s.noData}>Keine Earnings Surprises verfügbar</Text></View>
               ) : (
@@ -1129,7 +1129,7 @@ export default function StockScreen() {
                           flex: 1,
                           textAlign: 'right',
                           fontWeight: '600',
-                          color: isPositive ? '#22C55E' : isNegative ? '#EF4444' : '#94A3B8',
+                          color: isPositive ? '#34C759' : isNegative ? '#FF3B30' : '#94A3B8',
                         }]}>
                           {surprisePct != null
                             ? `${isPositive ? '+' : ''}${surprisePct.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`
@@ -1150,7 +1150,7 @@ export default function StockScreen() {
         {activeTab === 'investors' && (
           <View style={s.tabContent}>
             {siLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : siPositions.length === 0 ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Superinvestoren-Daten</Text></View>
             ) : (
@@ -1166,11 +1166,11 @@ export default function StockScreen() {
                       <Text style={s.siSummaryLabel}>Gesamtwert</Text>
                     </View>
                     <View style={s.siSummaryItem}>
-                      <Text style={[s.siSummaryVal, { color: '#22C55E' }]}>{siSummary.increasingTrends}</Text>
+                      <Text style={[s.siSummaryVal, { color: '#34C759' }]}>{siSummary.increasingTrends}</Text>
                       <Text style={s.siSummaryLabel}>Aufgestockt</Text>
                     </View>
                     <View style={s.siSummaryItem}>
-                      <Text style={[s.siSummaryVal, { color: '#EF4444' }]}>{siSummary.decreasingTrends}</Text>
+                      <Text style={[s.siSummaryVal, { color: '#FF3B30' }]}>{siSummary.decreasingTrends}</Text>
                       <Text style={s.siSummaryLabel}>Reduziert</Text>
                     </View>
                   </View>
@@ -1178,7 +1178,7 @@ export default function StockScreen() {
                 {siPositions.map((pos: any, i: number) => {
                   const trend = pos.position?.trend;
                   const isNew = pos.position?.isNewPosition;
-                  const trendColor = isNew ? '#94A3B8' : trend === 'increasing' ? '#22C55E' : trend === 'decreasing' ? '#EF4444' : '#94A3B8';
+                  const trendColor = isNew ? '#94A3B8' : trend === 'increasing' ? '#34C759' : trend === 'decreasing' ? '#FF3B30' : '#94A3B8';
                   const trendLabel = isNew ? 'Neu' : trend === 'increasing' ? '▲' : trend === 'decreasing' ? '▼' : '—';
                   return (
                     <TouchableOpacity key={i} style={s.siRow}
@@ -1214,13 +1214,13 @@ export default function StockScreen() {
         {activeTab === 'insider' && (
           <View style={s.tabContent}>
             {insiderLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : insiderData.length === 0 ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Insider-Transaktionen</Text></View>
             ) : (
               insiderData.map((tx: any, i: number) => {
                 const isBuy = tx.acquiredDisposedCode === 'A' || tx.transactionType?.toLowerCase().includes('buy');
-                const txColor = isBuy ? '#22C55E' : '#EF4444';
+                const txColor = isBuy ? '#34C759' : '#FF3B30';
                 const txLabel = isBuy ? 'KAUF' : 'VERKAUF';
                 const val = tx.price && tx.securitiesTransacted
                   ? tx.price * tx.securitiesTransacted : null;
@@ -1267,7 +1267,7 @@ export default function StockScreen() {
             </View>
 
             {finLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : (() => {
               const rawRows = finDetailTab === 'balance' ? balanceData : finDetailTab === 'cashflow' ? cashFlowData : incomeData;
               const rows = [...rawRows].reverse();
@@ -1332,7 +1332,7 @@ export default function StockScreen() {
                           }
                           const isNeg = val !== null && val !== undefined && val < 0;
                           return (
-                            <Text key={ri} style={[s.finTableCell, s.finTableValue, isNeg && { color: '#EF4444' }]}>
+                            <Text key={ri} style={[s.finTableCell, s.finTableValue, isNeg && { color: '#FF3B30' }]}>
                               {display}
                             </Text>
                           );
@@ -1352,7 +1352,7 @@ export default function StockScreen() {
         {activeTab === 'valuation' && (
           <View style={s.tabContent}>
             {valuationLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : valuationData.length === 0 ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Bewertungsdaten</Text></View>
             ) : (() => {
@@ -1430,14 +1430,14 @@ export default function StockScreen() {
 
                   <View style={s.fwdPeCard}>
                     {/* Header row */}
-                    <View style={[s.fwdPeRow, { backgroundColor: '#0a0a0b' }]}>
+                    <View style={[s.fwdPeRow, { backgroundColor: '#000000' }]}>
                       <Text style={s.fwdPeHeaderLabel}>Jahr</Text>
                       <Text style={s.fwdPeHeaderLabel}>EPS</Text>
                       <Text style={s.fwdPeHeaderLabel}>KGV</Text>
                     </View>
 
                     {/* Actual current */}
-                    <View style={[s.fwdPeRow, { backgroundColor: '#111113' }]}>
+                    <View style={[s.fwdPeRow, { backgroundColor: '#1C1C1E' }]}>
                       <Text style={s.fwdPeYear}>{currentYear} (TTM)</Text>
                       <Text style={s.fwdPeEPS}>{currentEPS ? `${fmtDE(currentEPS)} $` : '—'}</Text>
                       <Text style={[s.fwdPeValue, { color: '#F8FAFC' }]}>
@@ -1472,7 +1472,7 @@ export default function StockScreen() {
         {activeTab === 'holdings' && (
           <View style={s.tabContent}>
             {etfHoldingsLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : etfHoldings.length === 0 ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Holdings-Daten verfügbar</Text></View>
             ) : (
@@ -1514,7 +1514,7 @@ export default function StockScreen() {
         {activeTab === 'estimates' && (
           <View style={s.tabContent}>
             {estimatesLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : (
               <>
                 {/* ── Analyst Rating Consensus ── */}
@@ -1528,7 +1528,7 @@ export default function StockScreen() {
                   const holdPct = (hold / total) * 100;
                   const sellPct = (sell / total) * 100;
                   const consensus = buyPct >= 60 ? 'Kaufen' : buyPct >= 40 ? 'Halten' : 'Verkaufen';
-                  const consensusColor = buyPct >= 60 ? '#22C55E' : buyPct >= 40 ? '#F59E0B' : '#EF4444';
+                  const consensusColor = buyPct >= 60 ? '#34C759' : buyPct >= 40 ? '#F59E0B' : '#FF3B30';
                   return (
                     <View style={s.section}>
                       <Text style={s.sectionTitle}>ANALYSTEN-RATING</Text>
@@ -1539,13 +1539,13 @@ export default function StockScreen() {
                         </View>
                         {/* Bar */}
                         <View style={s.ratingBarContainer}>
-                          {buyPct > 0 && <View style={[s.ratingBarSegment, { flex: buyPct, backgroundColor: '#22C55E' }]} />}
+                          {buyPct > 0 && <View style={[s.ratingBarSegment, { flex: buyPct, backgroundColor: '#34C759' }]} />}
                           {holdPct > 0 && <View style={[s.ratingBarSegment, { flex: holdPct, backgroundColor: '#F59E0B' }]} />}
-                          {sellPct > 0 && <View style={[s.ratingBarSegment, { flex: sellPct, backgroundColor: '#EF4444' }]} />}
+                          {sellPct > 0 && <View style={[s.ratingBarSegment, { flex: sellPct, backgroundColor: '#FF3B30' }]} />}
                         </View>
                         <View style={s.ratingLegend}>
                           <View style={s.ratingLegendItem}>
-                            <View style={[s.ratingDot, { backgroundColor: '#22C55E' }]} />
+                            <View style={[s.ratingDot, { backgroundColor: '#34C759' }]} />
                             <Text style={s.ratingLegendText}>Kaufen ({buy})</Text>
                           </View>
                           <View style={s.ratingLegendItem}>
@@ -1553,7 +1553,7 @@ export default function StockScreen() {
                             <Text style={s.ratingLegendText}>Halten ({hold})</Text>
                           </View>
                           <View style={s.ratingLegendItem}>
-                            <View style={[s.ratingDot, { backgroundColor: '#EF4444' }]} />
+                            <View style={[s.ratingDot, { backgroundColor: '#FF3B30' }]} />
                             <Text style={s.ratingLegendText}>Verkaufen ({sell})</Text>
                           </View>
                         </View>
@@ -1581,7 +1581,7 @@ export default function StockScreen() {
                           </View>
                           {upside != null && (
                             <View style={[s.ptUpsideBadge, { backgroundColor: upside >= 0 ? 'rgba(34,197,94,0.15)' : 'rgba(239,68,68,0.15)' }]}>
-                              <Text style={[s.ptUpsideText, { color: upside >= 0 ? '#22C55E' : '#EF4444' }]}>
+                              <Text style={[s.ptUpsideText, { color: upside >= 0 ? '#34C759' : '#FF3B30' }]}>
                                 {upside >= 0 ? '+' : ''}{fmtDE(upside, 1)} %
                               </Text>
                               <Text style={s.ptUpsideLabel}>Potenzial</Text>
@@ -1591,12 +1591,12 @@ export default function StockScreen() {
                         <View style={s.ptRangeRow}>
                           <View style={s.ptRangeItem}>
                             <Text style={s.ptRangeLabel}>Hoch</Text>
-                            <Text style={[s.ptRangeValue, { color: '#22C55E' }]}>{highTarget != null ? `${fmtDE(highTarget, 2)} $` : '—'}</Text>
+                            <Text style={[s.ptRangeValue, { color: '#34C759' }]}>{highTarget != null ? `${fmtDE(highTarget, 2)} $` : '—'}</Text>
                           </View>
                           <View style={s.ptRangeDivider} />
                           <View style={s.ptRangeItem}>
                             <Text style={s.ptRangeLabel}>Tief</Text>
-                            <Text style={[s.ptRangeValue, { color: '#EF4444' }]}>{lowTarget != null ? `${fmtDE(lowTarget, 2)} $` : '—'}</Text>
+                            <Text style={[s.ptRangeValue, { color: '#FF3B30' }]}>{lowTarget != null ? `${fmtDE(lowTarget, 2)} $` : '—'}</Text>
                           </View>
                           <View style={s.ptRangeDivider} />
                           <View style={s.ptRangeItem}>
@@ -1613,7 +1613,7 @@ export default function StockScreen() {
                           const date = pt.publishedDate ? new Date(pt.publishedDate).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: '2-digit' }) : '—';
                           const upPct = currentPrice && pt.priceTarget ? ((pt.priceTarget - currentPrice) / currentPrice) * 100 : null;
                           return (
-                            <View key={i} style={[s.ptCallRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                            <View key={i} style={[s.ptCallRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#2C2C2E' }]}>
                               <View style={{ flex: 1 }}>
                                 <Text style={s.ptCallCompany} numberOfLines={1}>{pt.analystCompany || '—'}</Text>
                                 <Text style={s.ptCallDate}>{date}</Text>
@@ -1621,7 +1621,7 @@ export default function StockScreen() {
                               <View style={{ alignItems: 'flex-end' }}>
                                 <Text style={s.ptCallTarget}>{pt.priceTarget != null ? `${fmtDE(pt.priceTarget, 2)} $` : '—'}</Text>
                                 {upPct != null && (
-                                  <Text style={[s.ptCallUpside, { color: upPct >= 0 ? '#22C55E' : '#EF4444' }]}>
+                                  <Text style={[s.ptCallUpside, { color: upPct >= 0 ? '#34C759' : '#FF3B30' }]}>
                                     {upPct >= 0 ? '+' : ''}{fmtDE(upPct, 1)} %
                                   </Text>
                                 )}
@@ -1702,7 +1702,7 @@ export default function StockScreen() {
         {activeTab === 'dividends' && (
           <View style={s.tabContent}>
             {dividendLoading ? (
-              <View style={s.tabLoading}><ActivityIndicator color="#22C55E" /></View>
+              <View style={s.tabLoading}><ActivityIndicator color="#34C759" /></View>
             ) : !dividendData ? (
               <View style={s.tabLoading}><Text style={s.noData}>Keine Dividenden-Daten</Text></View>
             ) : (() => {
@@ -1741,7 +1741,7 @@ export default function StockScreen() {
                     const barData = entries.map(([year, val]) => ({
                       value: val || 0.001,
                       label: year.slice(2),
-                      frontColor: '#22C55E',
+                      frontColor: '#34C759',
                       topLabelComponent: () => (
                         <Text style={s.barTopLabel}>{fmtDE(val)} $</Text>
                       ),
@@ -1771,7 +1771,7 @@ export default function StockScreen() {
                       <Text style={s.sectionTitle}>QUARTALSVERLAUF</Text>
                       <View style={s.divHistoryCard}>
                         {quarterly.slice(0, 12).map((d: any, i: number) => (
-                          <View key={i} style={[s.divHistoryRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#1e1e20' }]}>
+                          <View key={i} style={[s.divHistoryRow, i > 0 && { borderTopWidth: 1, borderTopColor: '#2C2C2E' }]}>
                             <Text style={s.divHistoryDate}>
                               {d.date ? new Date(d.date).toLocaleDateString('de-DE', { day: '2-digit', month: 'short', year: 'numeric' }) : '—'}
                             </Text>
@@ -1848,11 +1848,11 @@ function formatVolume(val?: number): string {
 
 // ─── Styles ──────────────────────────────────────────────────
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
-  scroll: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
+  scroll: { flex: 1, backgroundColor: '#000000' },
 
   // Price Header
-  priceHeader: { backgroundColor: '#111113', padding: 20, borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  priceHeader: { backgroundColor: '#1C1C1E', padding: 20, borderBottomWidth: 1, borderBottomColor: '#2C2C2E' },
   priceRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' },
   priceLeft: { flexDirection: 'row', alignItems: 'center' },
   price: { color: '#F8FAFC', fontSize: 28, fontWeight: '700', letterSpacing: -0.5 },
@@ -1867,17 +1867,17 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)',
     borderRadius: 10, paddingHorizontal: 16, paddingVertical: 10, alignSelf: 'flex-start',
   },
-  watchlistBtnActive: { backgroundColor: '#22C55E', borderColor: '#22C55E' },
-  watchlistBtnText: { color: '#22C55E', fontWeight: '600', fontSize: 14 },
-  watchlistBtnTextActive: { color: '#0a0a0b' },
+  watchlistBtnActive: { backgroundColor: '#34C759', borderColor: '#34C759' },
+  watchlistBtnText: { color: '#34C759', fontWeight: '600', fontSize: 14 },
+  watchlistBtnTextActive: { color: '#000000' },
 
   // Main Tab Bar
-  mainTabBar: { backgroundColor: '#111113', borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  mainTabBar: { backgroundColor: '#1C1C1E', borderBottomWidth: 1, borderBottomColor: '#2C2C2E' },
   mainTabBarContent: { paddingHorizontal: 16, paddingVertical: 0, gap: 4 },
   mainTab: { paddingHorizontal: 16, paddingVertical: 13 },
-  mainTabActive: { borderBottomWidth: 2, borderBottomColor: '#22C55E' },
+  mainTabActive: { borderBottomWidth: 2, borderBottomColor: '#34C759' },
   mainTabText: { color: '#64748B', fontSize: 14, fontWeight: '600' },
-  mainTabTextActive: { color: '#22C55E' },
+  mainTabTextActive: { color: '#34C759' },
 
   // Tab Content wrapper
   tabContent: { padding: 16, gap: 12 },
@@ -1885,18 +1885,18 @@ const s = StyleSheet.create({
 
   // Chart
   // Chart mode toggle
-  chartModeToggle: { flexDirection: 'row', backgroundColor: '#111113', borderRadius: 10, padding: 3, marginHorizontal: 16, marginBottom: 12, marginTop: 4 },
+  chartModeToggle: { flexDirection: 'row', backgroundColor: '#1C1C1E', borderRadius: 10, padding: 3, marginHorizontal: 16, marginBottom: 12, marginTop: 4 },
   chartModeBtn: { flex: 1, paddingVertical: 7, alignItems: 'center', borderRadius: 8 },
-  chartModeBtnActive: { backgroundColor: '#1e1e20' },
+  chartModeBtnActive: { backgroundColor: '#2C2C2E' },
   chartModeBtnText: { color: '#475569', fontSize: 13, fontWeight: '500' },
   chartModeBtnTextActive: { color: '#F8FAFC', fontWeight: '600' },
   tvContainer: { height: 380, marginHorizontal: 0, borderRadius: 0, overflow: 'hidden' },
-  tvWebView: { flex: 1, backgroundColor: '#0a0a0b' },
-  tvLoading: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: '#0a0a0b' },
+  tvWebView: { flex: 1, backgroundColor: '#000000' },
+  tvLoading: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center', backgroundColor: '#000000' },
 
   chartCard: {
-    backgroundColor: '#111113', marginHorizontal: 16, marginTop: 16,
-    borderRadius: 16, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+    backgroundColor: '#1C1C1E', marginHorizontal: 16, marginTop: 16,
+    borderRadius: 16, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden',
   },
   chartLoading: { height: 200, alignItems: 'center', justifyContent: 'center' },
   noData: { color: '#475569', fontSize: 13 },
@@ -1911,26 +1911,26 @@ const s = StyleSheet.create({
   rangePicker: {
     flexDirection: 'row', justifyContent: 'space-around',
     paddingHorizontal: 16, paddingVertical: 12,
-    borderTopWidth: 1, borderTopColor: '#1e1e20', marginTop: 4,
+    borderTopWidth: 1, borderTopColor: '#2C2C2E', marginTop: 4,
   },
   rangeBtn: { paddingHorizontal: 14, paddingVertical: 6, borderRadius: 8 },
   rangeBtnActive: { backgroundColor: 'rgba(34,197,94,0.15)' },
   rangeBtnText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  rangeBtnTextActive: { color: '#22C55E' },
+  rangeBtnTextActive: { color: '#34C759' },
 
   // Sections
   section: { padding: 16 },
   sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
   metricsGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  descCard: { backgroundColor: '#111113', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#1e1e20' },
+  descCard: { backgroundColor: '#1C1C1E', borderRadius: 12, padding: 16, borderWidth: 1, borderColor: '#2C2C2E' },
   descText: { color: '#94A3B8', fontSize: 14, lineHeight: 22 },
 
   // Finanzen bar chart
   finTabs: { flexDirection: 'row', gap: 8, marginBottom: 14 },
-  finTab: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#1e1e20' },
-  finTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
+  finTab: { paddingHorizontal: 12, paddingVertical: 6, borderRadius: 8, borderWidth: 1, borderColor: '#2C2C2E' },
+  finTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#34C759' },
   finTabText: { color: '#64748B', fontSize: 12, fontWeight: '600' },
-  finTabTextActive: { color: '#22C55E' },
+  finTabTextActive: { color: '#34C759' },
   finLoading: { height: 100, alignItems: 'center', justifyContent: 'center' },
   barTopLabel: { color: '#94A3B8', fontSize: 9, textAlign: 'center', marginBottom: 2 },
   finSummaryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 10, paddingHorizontal: 4 },
@@ -1946,14 +1946,14 @@ const s = StyleSheet.create({
     paddingHorizontal: 6, paddingVertical: 2,
     borderWidth: 1, borderColor: 'rgba(34,197,94,0.3)',
   },
-  aiBadgeText: { color: '#22C55E', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
+  aiBadgeText: { color: '#34C759', fontSize: 10, fontWeight: '700', letterSpacing: 0.5 },
   premiumBadge: {
     flexDirection: 'row', alignItems: 'center', gap: 4,
     backgroundColor: 'rgba(245,158,11,0.12)', borderRadius: 6,
     paddingHorizontal: 8, paddingVertical: 3,
     borderWidth: 1, borderColor: 'rgba(245,158,11,0.25)',
   },
-  premiumBadgeText: { color: '#22C55E', fontSize: 10, fontWeight: '700' },
+  premiumBadgeText: { color: '#34C759', fontSize: 10, fontWeight: '700' },
   aiLoadingWrap: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingVertical: 24, justifyContent: 'center' },
   aiLoadingText: { color: '#64748B', fontSize: 13 },
   aiBullsBears: { gap: 12 },
@@ -1963,15 +1963,15 @@ const s = StyleSheet.create({
   aiColHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
   bullEmoji: { fontSize: 18 },
   bearEmoji: { fontSize: 18 },
-  bullLabel: { color: '#22C55E', fontSize: 13, fontWeight: '700' },
-  bearLabel: { color: '#EF4444', fontSize: 13, fontWeight: '700' },
+  bullLabel: { color: '#34C759', fontSize: 13, fontWeight: '700' },
+  bearLabel: { color: '#FF3B30', fontSize: 13, fontWeight: '700' },
   argRow: { flexDirection: 'row', gap: 10, marginBottom: 10, alignItems: 'flex-start' },
-  bullDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#22C55E', marginTop: 6, flexShrink: 0 },
-  bearDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#EF4444', marginTop: 6, flexShrink: 0 },
+  bullDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#34C759', marginTop: 6, flexShrink: 0 },
+  bearDot: { width: 6, height: 6, borderRadius: 3, backgroundColor: '#FF3B30', marginTop: 6, flexShrink: 0 },
   argText: { color: '#CBD5E1', fontSize: 13, lineHeight: 20, flex: 1 },
   lockedCard: {
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20', padding: 24, alignItems: 'center',
+    backgroundColor: '#1C1C1E', borderRadius: 16,
+    borderWidth: 1, borderColor: '#2C2C2E', padding: 24, alignItems: 'center',
   },
   lockedIconWrap: {
     width: 52, height: 52, borderRadius: 16,
@@ -1981,17 +1981,17 @@ const s = StyleSheet.create({
   lockedTitle: { color: '#F8FAFC', fontSize: 16, fontWeight: '700', marginBottom: 8 },
   lockedDesc: { color: '#64748B', fontSize: 13, lineHeight: 20, textAlign: 'center', marginBottom: 20 },
   blurPreview: { width: '100%', marginBottom: 20, gap: 8, opacity: 0.15 },
-  previewRow: { backgroundColor: '#1e1e20', borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 },
+  previewRow: { backgroundColor: '#2C2C2E', borderRadius: 8, paddingVertical: 10, paddingHorizontal: 12 },
   previewLine: { height: 10, backgroundColor: '#2c2c2e', borderRadius: 5 },
   upgradeBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 8,
-    backgroundColor: '#22C55E', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 13,
+    backgroundColor: '#34C759', borderRadius: 12, paddingHorizontal: 24, paddingVertical: 13,
   },
-  upgradeBtnText: { color: '#0a0a0b', fontSize: 15, fontWeight: '700' },
+  upgradeBtnText: { color: '#000000', fontSize: 15, fontWeight: '700' },
 
   // Similar stocks
   similarCard: {
-    backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E',
     padding: 12, alignItems: 'center', gap: 6, minWidth: 80,
   },
   similarTicker: { color: '#F8FAFC', fontSize: 12, fontWeight: '700' },
@@ -2003,66 +2003,66 @@ const s = StyleSheet.create({
   },
   subTabBtn: {
     paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10,
-    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
+    borderWidth: 1, borderColor: '#2C2C2E', backgroundColor: '#1C1C1E',
   },
-  subTabBtnActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
+  subTabBtnActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#34C759' },
   subTabText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  subTabTextActive: { color: '#22C55E' },
+  subTabTextActive: { color: '#34C759' },
 
   // Earnings surprises table
-  surprisesTable: { borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: '#1e1e20' },
+  surprisesTable: { borderRadius: 14, overflow: 'hidden', borderWidth: 1, borderColor: '#2C2C2E' },
   surprisesHeader: {
-    flexDirection: 'row', backgroundColor: '#111113',
+    flexDirection: 'row', backgroundColor: '#1C1C1E',
     paddingHorizontal: 12, paddingVertical: 10,
-    borderBottomWidth: 1, borderBottomColor: '#1e1e20',
+    borderBottomWidth: 1, borderBottomColor: '#2C2C2E',
   },
   surprisesHeaderText: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 0.5 },
   surprisesRow: { flexDirection: 'row', paddingHorizontal: 12, paddingVertical: 10, backgroundColor: '#0d0d0f' },
-  surprisesRowAlt: { backgroundColor: '#0a0a0b' },
+  surprisesRowAlt: { backgroundColor: '#000000' },
   surprisesCell: { fontSize: 13, color: '#CBD5E1' },
 
   // Earnings tab
   quarterChip: {
     paddingHorizontal: 14, paddingVertical: 8, borderRadius: 10,
-    borderWidth: 1, borderColor: '#1e1e20', backgroundColor: '#111113',
+    borderWidth: 1, borderColor: '#2C2C2E', backgroundColor: '#1C1C1E',
   },
-  quarterChipActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
+  quarterChipActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#34C759' },
   quarterChipText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  quarterChipTextActive: { color: '#22C55E' },
+  quarterChipTextActive: { color: '#34C759' },
   earningsDate: { color: '#475569', fontSize: 12, marginTop: 4 },
   aiSummaryCard: {
-    backgroundColor: '#111113', borderRadius: 14, padding: 16,
+    backgroundColor: '#1C1C1E', borderRadius: 14, padding: 16,
     borderWidth: 1, borderColor: 'rgba(34,197,94,0.2)',
   },
-  aiSummaryCardLocked: { borderColor: '#1e1e20' },
+  aiSummaryCardLocked: { borderColor: '#2C2C2E' },
   aiSummaryHeader: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 12 },
   aiSummaryTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
   aiSummaryText: { color: '#CBD5E1', fontSize: 13, lineHeight: 21, marginBottom: 8 },
   transcriptCard: {
-    backgroundColor: '#111113', borderRadius: 14, padding: 16,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 14, padding: 16,
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   transcriptTitle: { color: '#64748B', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 12 },
   transcriptText: { color: '#94A3B8', fontSize: 13, lineHeight: 20 },
   transcriptToggle: { marginTop: 12, paddingVertical: 8, alignItems: 'center' },
-  transcriptToggleText: { color: '#22C55E', fontSize: 13, fontWeight: '600' },
+  transcriptToggleText: { color: '#34C759', fontSize: 13, fontWeight: '600' },
 
   // Investors tab
   siSummaryRow: {
-    flexDirection: 'row', backgroundColor: '#111113', borderRadius: 14,
-    borderWidth: 1, borderColor: '#1e1e20', padding: 16,
+    flexDirection: 'row', backgroundColor: '#1C1C1E', borderRadius: 14,
+    borderWidth: 1, borderColor: '#2C2C2E', padding: 16,
   },
   siSummaryItem: { flex: 1, alignItems: 'center' },
   siSummaryVal: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
   siSummaryLabel: { color: '#475569', fontSize: 11, marginTop: 2 },
   siRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#111113', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   siAvatar: {
     width: 40, height: 40, borderRadius: 20,
-    backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center',
+    backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center',
   },
   siAvatarText: { color: '#94A3B8', fontSize: 16, fontWeight: '700' },
   siInfo: { flex: 1 },
@@ -2075,8 +2075,8 @@ const s = StyleSheet.create({
   // Insider tab
   insiderRow: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#111113', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   insiderBadge: { borderRadius: 8, paddingHorizontal: 8, paddingVertical: 4, minWidth: 66, alignItems: 'center' },
   insiderBadgeText: { fontSize: 11, fontWeight: '700', letterSpacing: 0.5 },
@@ -2089,12 +2089,12 @@ const s = StyleSheet.create({
   finDetailTabs: { flexDirection: 'row', gap: 8, marginBottom: 16 },
   finDetailTab: {
     flex: 1, paddingVertical: 10, borderRadius: 10,
-    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20', alignItems: 'center',
+    backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E', alignItems: 'center',
   },
-  finDetailTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
+  finDetailTabActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#34C759' },
   finDetailTabText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  finDetailTabTextActive: { color: '#22C55E' },
-  finTableHeader: { flexDirection: 'row', paddingBottom: 8, borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  finDetailTabTextActive: { color: '#34C759' },
+  finTableHeader: { flexDirection: 'row', paddingBottom: 8, borderBottomWidth: 1, borderBottomColor: '#2C2C2E' },
   finTableHeaderText: { color: '#475569', fontSize: 11, fontWeight: '700' },
   finTableRow: { flexDirection: 'row', paddingVertical: 10 },
   finTableRowAlt: { backgroundColor: 'rgba(30,41,59,0.4)' },
@@ -2104,19 +2104,19 @@ const s = StyleSheet.create({
   finTableValue: { color: '#F8FAFC', fontSize: 12, fontWeight: '500' },
 
   // Estimates tab
-  estimateCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', marginHorizontal: 16, marginBottom: 10, padding: 16 },
+  estimateCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', marginHorizontal: 16, marginBottom: 10, padding: 16 },
   estimateHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
   estimateYear: { color: '#F8FAFC', fontSize: 16, fontWeight: '700' },
   estimateAnalysts: { color: '#64748B', fontSize: 12 },
   estimateRow: { flexDirection: 'row', alignItems: 'flex-start' },
   estimateItem: { flex: 1, paddingHorizontal: 4 },
-  estimateDivider: { width: 1, backgroundColor: '#1e1e20', marginHorizontal: 8, alignSelf: 'stretch' },
+  estimateDivider: { width: 1, backgroundColor: '#2C2C2E', marginHorizontal: 8, alignSelf: 'stretch' },
   estimateLabel: { color: '#64748B', fontSize: 11, fontWeight: '600', marginBottom: 4 },
   estimateValue: { color: '#F8FAFC', fontSize: 16, fontWeight: '700', marginBottom: 2 },
   estimateRange: { color: '#475569', fontSize: 11 },
 
   // Rating card
-  ratingCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', padding: 16 },
+  ratingCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', padding: 16 },
   ratingConsensus: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 },
   ratingConsensusLabel: { fontSize: 22, fontWeight: '800' },
   ratingTotal: { color: '#64748B', fontSize: 12 },
@@ -2128,7 +2128,7 @@ const s = StyleSheet.create({
   ratingLegendText: { color: '#94A3B8', fontSize: 12 },
 
   // Price target card
-  ptCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', padding: 16, marginBottom: 4 },
+  ptCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', padding: 16, marginBottom: 4 },
   ptMainRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 },
   ptMainItem: {},
   ptMainLabel: { color: '#64748B', fontSize: 11, fontWeight: '600', marginBottom: 4 },
@@ -2136,12 +2136,12 @@ const s = StyleSheet.create({
   ptUpsideBadge: { borderRadius: 10, paddingHorizontal: 12, paddingVertical: 8, alignItems: 'center' },
   ptUpsideText: { fontSize: 18, fontWeight: '800' },
   ptUpsideLabel: { color: '#64748B', fontSize: 11, marginTop: 2 },
-  ptRangeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  ptRangeRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingTop: 14, borderTopWidth: 1, borderTopColor: '#2C2C2E' },
   ptRangeItem: { flex: 1, alignItems: 'center' },
-  ptRangeDivider: { width: 1, height: 28, backgroundColor: '#1e1e20' },
+  ptRangeDivider: { width: 1, height: 28, backgroundColor: '#2C2C2E' },
   ptRangeLabel: { color: '#64748B', fontSize: 11, marginBottom: 4 },
   ptRangeValue: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },
-  ptCallsList: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  ptCallsList: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
   ptCallRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
   ptCallCompany: { color: '#F8FAFC', fontSize: 13, fontWeight: '600' },
   ptCallDate: { color: '#475569', fontSize: 11, marginTop: 2 },
@@ -2149,24 +2149,24 @@ const s = StyleSheet.create({
   ptCallUpside: { fontSize: 11, fontWeight: '600', marginTop: 2, textAlign: 'right' },
 
   // Dividends tab
-  divHistoryCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  divHistoryCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
   divHistoryRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
   divHistoryDate: { color: '#94A3B8', fontSize: 13 },
   divHistoryAmount: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
 
   // News
-  newsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
+  newsCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
   aiAnalyseBtn: {
     flexDirection: 'row', alignItems: 'center', gap: 12,
-    backgroundColor: '#111113', borderRadius: 14, padding: 14,
-    borderWidth: 1, borderColor: '#22C55E30',
+    backgroundColor: '#1C1C1E', borderRadius: 14, padding: 14,
+    borderWidth: 1, borderColor: '#34C75930',
   },
   aiAnalyseBadge: {
     width: 38, height: 38, borderRadius: 10,
-    backgroundColor: '#22C55E20', borderWidth: 1, borderColor: '#22C55E40',
+    backgroundColor: '#34C75920', borderWidth: 1, borderColor: '#34C75940',
     alignItems: 'center', justifyContent: 'center',
   },
-  aiAnalyseBadgeText: { fontSize: 11, fontWeight: '800', color: '#22C55E' },
+  aiAnalyseBadgeText: { fontSize: 11, fontWeight: '800', color: '#34C759' },
   aiAnalyseTitle: { fontSize: 14, fontWeight: '700', color: '#F8FAFC' },
   aiAnalyseSub: { fontSize: 12, color: '#64748B', marginTop: 2 },
 
@@ -2177,18 +2177,18 @@ const s = StyleSheet.create({
     padding: 14, marginHorizontal: 16, marginBottom: 8,
     borderWidth: 1, borderColor: 'rgba(239,68,68,0.2)',
   },
-  alertBtnText: { flex: 1, color: '#EF4444', fontSize: 14, fontWeight: '600' },
+  alertBtnText: { flex: 1, color: '#FF3B30', fontSize: 14, fontWeight: '600' },
 
   newsRow: { paddingHorizontal: 16, paddingVertical: 14, flexDirection: 'row', alignItems: 'center' },
-  newsRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  newsRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
   newsTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '500', lineHeight: 20, marginBottom: 6 },
   newsMeta: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   newsSource: { color: '#475569', fontSize: 12, fontWeight: '600' },
   newsAge: { color: '#2c2c2e', fontSize: 12 },
 
   // Forward KGV
-  fwdPeCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden' },
-  fwdPeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#1e1e20' },
+  fwdPeCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden' },
+  fwdPeRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, borderBottomWidth: 1, borderBottomColor: '#2C2C2E' },
   fwdPeRowAlt: { backgroundColor: 'rgba(255,255,255,0.02)' },
   fwdPeHeaderLabel: { color: '#475569', fontSize: 11, fontWeight: '700', flex: 1, letterSpacing: 0.5 },
   fwdPeYear: { color: '#94A3B8', fontSize: 13, flex: 1 },
@@ -2196,11 +2196,11 @@ const s = StyleSheet.create({
   fwdPeValue: { fontSize: 15, fontWeight: '700', flex: 1, textAlign: 'right' as const },
 
   // ETF Holdings
-  holdingsCard: { backgroundColor: '#111113', borderRadius: 14, borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden', marginHorizontal: 16 },
+  holdingsCard: { backgroundColor: '#1C1C1E', borderRadius: 14, borderWidth: 1, borderColor: '#2C2C2E', overflow: 'hidden', marginHorizontal: 16 },
   holdingRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 12, gap: 10 },
-  holdingRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  holdingRowBorder: { borderTopWidth: 1, borderTopColor: '#2C2C2E' },
   holdingRank: { width: 24, height: 24, borderRadius: 12, backgroundColor: 'rgba(34,197,94,0.15)', alignItems: 'center', justifyContent: 'center' },
-  holdingRankText: { color: '#22C55E', fontSize: 11, fontWeight: '700' },
+  holdingRankText: { color: '#34C759', fontSize: 11, fontWeight: '700' },
   holdingSymbol: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
   holdingName: { color: '#475569', fontSize: 12, marginTop: 1 },
   holdingPct: { color: '#F8FAFC', fontSize: 14, fontWeight: '700' },

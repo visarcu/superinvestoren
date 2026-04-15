@@ -10,7 +10,7 @@ import { supabase } from '../../lib/auth';
 const BASE_URL = 'https://finclue.de';
 const PAGE_SIZE = 10;
 
-const COLORS = ['#22C55E', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#2c2c2e', '#1e1e20'];
+const COLORS = ['#34C759', '#16A34A', '#15803D', '#94A3B8', '#64748B', '#475569', '#2c2c2e', '#2C2C2E'];
 
 const INVESTOR_PHOTOS: Record<string, string> = {
   buffett: 'https://finclue.de/images/buffett-cartoon.png',
@@ -227,7 +227,7 @@ export default function InvestorDetailScreen() {
     <>
       <Stack.Screen options={{
         title: displayName,
-        headerStyle: { backgroundColor: '#111113' },
+        headerStyle: { backgroundColor: '#1C1C1E' },
         headerTintColor: '#F8FAFC',
         headerBackTitle: 'Investoren',
         headerRight: () => (
@@ -235,7 +235,7 @@ export default function InvestorDetailScreen() {
             <Ionicons
               name={following ? 'notifications' : 'notifications-outline'}
               size={22}
-              color={following ? '#22C55E' : '#64748B'}
+              color={following ? '#34C759' : '#64748B'}
             />
           </TouchableOpacity>
         ),
@@ -243,10 +243,10 @@ export default function InvestorDetailScreen() {
 
       <SafeAreaView style={s.container} edges={['bottom']}>
         {loading ? (
-          <ActivityIndicator color="#22C55E" size="large" style={{ marginTop: 48 }} />
+          <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 48 }} />
         ) : error ? (
           <View style={s.center}>
-            <Ionicons name="alert-circle-outline" size={40} color="#EF4444" />
+            <Ionicons name="alert-circle-outline" size={40} color="#FF3B30" />
             <Text style={s.centerTitle}>Fehler beim Laden</Text>
             <Text style={s.centerText}>{error}</Text>
             <TouchableOpacity style={s.actionBtn} onPress={loadData}>
@@ -295,14 +295,14 @@ export default function InvestorDetailScreen() {
                   style={[s.tab, activeTab === 'holdings' && s.tabActive]}
                   onPress={() => setActiveTab('holdings')}
                 >
-                  <Ionicons name="briefcase-outline" size={13} color={activeTab === 'holdings' ? '#22C55E' : '#475569'} />
+                  <Ionicons name="briefcase-outline" size={13} color={activeTab === 'holdings' ? '#34C759' : '#475569'} />
                   <Text style={[s.tabText, activeTab === 'holdings' && s.tabTextActive]}>Portfolio</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={[s.tab, activeTab === 'activity' && s.tabActive]}
                   onPress={() => setActiveTab('activity')}
                 >
-                  <Ionicons name="swap-horizontal-outline" size={13} color={activeTab === 'activity' ? '#22C55E' : '#475569'} />
+                  <Ionicons name="swap-horizontal-outline" size={13} color={activeTab === 'activity' ? '#34C759' : '#475569'} />
                   <Text style={[s.tabText, activeTab === 'activity' && s.tabTextActive]}>
                     Aktivität {transactions.length > 0 ? `(${transactions.length})` : ''}
                   </Text>
@@ -354,7 +354,7 @@ export default function InvestorDetailScreen() {
                 {hasMore && (
                   <TouchableOpacity style={s.actionBtn} onPress={() => setVisibleCount(c => c + PAGE_SIZE)} activeOpacity={0.7}>
                     <Text style={s.actionBtnText}>{positions.length - visibleCount} weitere Positionen</Text>
-                    <Ionicons name="chevron-down" size={14} color="#22C55E" style={{ marginLeft: 4 }} />
+                    <Ionicons name="chevron-down" size={14} color="#34C759" style={{ marginLeft: 4 }} />
                   </TouchableOpacity>
                 )}
               </>
@@ -377,7 +377,7 @@ export default function InvestorDetailScreen() {
                 </ScrollView>
 
                 {activityLoading ? (
-                  <ActivityIndicator color="#22C55E" size="small" style={{ marginVertical: 24 }} />
+                  <ActivityIndicator color="#34C759" size="small" style={{ marginVertical: 24 }} />
                 ) : transactions.length === 0 ? (
                   <View style={s.center}>
                     <Text style={s.centerText}>Keine Transaktionen für {activityQ}</Text>
@@ -390,7 +390,7 @@ export default function InvestorDetailScreen() {
                   const isBuy = txn.type === 'Kauf' || txn.type === 'Neu';
                   const isNew = txn.type === 'Neu';
                   const isSold = txn.type === 'Verkauft';
-                  const typeColor = isBuy ? '#22C55E' : '#EF4444';
+                  const typeColor = isBuy ? '#34C759' : '#FF3B30';
                   return (
                     <TouchableOpacity
                       key={`${txn.cusip || txn.name}-${i}`}
@@ -414,7 +414,7 @@ export default function InvestorDetailScreen() {
                           {ticker && <Text style={s.ticker}>{ticker} </Text>}
                           <Text style={s.posName} numberOfLines={1}>{cleanName(txn.name)}</Text>
                         </View>
-                        <Text style={[s.deltaShares, { color: isBuy ? '#22C55E' : '#EF4444' }]}>
+                        <Text style={[s.deltaShares, { color: isBuy ? '#34C759' : '#FF3B30' }]}>
                           {txn.deltaShares > 0 ? '+' : ''}{txn.deltaShares.toLocaleString('de-DE')} Aktien
                         </Text>
                       </View>
@@ -424,7 +424,7 @@ export default function InvestorDetailScreen() {
                           <Text style={[s.typeText, { color: typeColor }]}>{txn.type}</Text>
                         </View>
                         {!isNew && !isSold && (
-                          <Text style={[s.pctChange, { color: isBuy ? '#22C55E' : '#EF4444' }]}>
+                          <Text style={[s.pctChange, { color: isBuy ? '#34C759' : '#FF3B30' }]}>
                             {txn.pctChange.toFixed(1)}%
                           </Text>
                         )}
@@ -457,29 +457,29 @@ function formatValue(val: number) {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
   center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 12, padding: 32 },
   centerTitle: { color: '#F8FAFC', fontSize: 18, fontWeight: '600' },
   centerText: { color: '#64748B', fontSize: 14, textAlign: 'center' },
   list: { paddingHorizontal: 16, paddingBottom: 32, paddingTop: 8 },
   photoHeader: { alignItems: 'center', paddingVertical: 16 },
-  photo: { width: 88, height: 88, borderRadius: 44, backgroundColor: '#111113' },
-  summary: { flexDirection: 'row', backgroundColor: '#111113', borderRadius: 14, padding: 16, marginBottom: 12, borderWidth: 1, borderColor: '#1e1e20', gap: 8 },
+  photo: { width: 88, height: 88, borderRadius: 44, backgroundColor: '#1C1C1E' },
+  summary: { flexDirection: 'row', backgroundColor: '#1C1C1E', borderRadius: 14, padding: 16, marginBottom: 12, borderWidth: 1, borderColor: '#2C2C2E', gap: 8 },
   summaryItem: { flex: 1 },
   summaryLabel: { color: '#64748B', fontSize: 10, marginBottom: 4, fontWeight: '600', letterSpacing: 0.5 },
   summaryValue: { color: '#F8FAFC', fontSize: 18, fontWeight: '700', letterSpacing: -0.5 },
   summaryNum: { color: '#F8FAFC', fontSize: 18, fontWeight: '700' },
   quarterRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 },
   quarterBadge: { backgroundColor: 'rgba(34,197,94,0.12)', borderRadius: 8, paddingHorizontal: 10, paddingVertical: 4, borderWidth: 1, borderColor: 'rgba(34,197,94,0.25)' },
-  quarterText: { color: '#22C55E', fontSize: 12, fontWeight: '700' },
+  quarterText: { color: '#34C759', fontSize: 12, fontWeight: '700' },
   txnHint: { color: '#475569', fontSize: 11 },
   tabs: { flexDirection: 'row', gap: 8, marginBottom: 12 },
-  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 10, borderRadius: 12, backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20' },
+  tab: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, paddingVertical: 10, borderRadius: 12, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E' },
   tabActive: { borderColor: 'rgba(34,197,94,0.4)', backgroundColor: 'rgba(34,197,94,0.08)' },
   tabText: { color: '#475569', fontSize: 12, fontWeight: '600' },
-  tabTextActive: { color: '#22C55E' },
+  tabTextActive: { color: '#34C759' },
   sectionLabel: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
-  row: { backgroundColor: '#111113', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', marginBottom: 4, borderWidth: 1, borderColor: '#1e1e20' },
+  row: { backgroundColor: '#1C1C1E', borderRadius: 12, paddingHorizontal: 14, paddingVertical: 12, flexDirection: 'row', alignItems: 'center', marginBottom: 4, borderWidth: 1, borderColor: '#2C2C2E' },
   logoWrap: { marginRight: 12, flexShrink: 0 },
   badge: { width: 44, height: 44, borderRadius: 10, alignItems: 'center', justifyContent: 'center', marginRight: 12, flexShrink: 0 },
   badgeText: { fontWeight: '700', fontSize: 13 },
@@ -491,17 +491,17 @@ const s = StyleSheet.create({
   deltaShares: { fontSize: 11, fontWeight: '600', marginTop: 3 },
   right: { alignItems: 'flex-end', minWidth: 64 },
   value: { color: '#F8FAFC', fontWeight: '600', fontSize: 13 },
-  weight: { color: '#22C55E', fontSize: 11, fontWeight: '600', marginTop: 2 },
+  weight: { color: '#34C759', fontSize: 11, fontWeight: '600', marginTop: 2 },
   typeBadge: { borderRadius: 6, paddingHorizontal: 7, paddingVertical: 2, marginTop: 3 },
   typeText: { fontSize: 11, fontWeight: '700' },
   pctChange: { fontSize: 10, marginTop: 2 },
   actionBtn: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'rgba(34,197,94,0.1)', borderWidth: 1, borderColor: 'rgba(34,197,94,0.25)', borderRadius: 12, paddingVertical: 14, marginTop: 8 },
-  actionBtnText: { color: '#22C55E', fontWeight: '600', fontSize: 14 },
+  actionBtnText: { color: '#34C759', fontWeight: '600', fontSize: 14 },
 
   // Quarter picker in Aktivität tab
   quarterPicker: { flexDirection: 'row', gap: 8, paddingBottom: 12 },
-  qChip: { paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20, backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20' },
+  qChip: { paddingHorizontal: 12, paddingVertical: 7, borderRadius: 20, backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E' },
   qChipActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: 'rgba(34,197,94,0.4)' },
   qChipText: { color: '#475569', fontSize: 12, fontWeight: '600' },
-  qChipTextActive: { color: '#22C55E' },
+  qChipTextActive: { color: '#34C759' },
 });

@@ -30,8 +30,8 @@ interface Grading {
 type FilterAction = 'all' | 'upgrade' | 'downgrade' | 'initiated';
 
 const ACTION_COLORS: Record<string, string> = {
-  upgrade: '#22C55E',
-  downgrade: '#EF4444',
+  upgrade: '#34C759',
+  downgrade: '#FF3B30',
   initiated: '#3B82F6',
   reiterated: '#F59E0B',
   maintained: '#64748B',
@@ -311,7 +311,7 @@ export default function NewsScreen() {
           <Ionicons
             name="trending-up"
             size={16}
-            color={subTab === 'ratings' ? '#22C55E' : '#64748B'}
+            color={subTab === 'ratings' ? '#34C759' : '#64748B'}
           />
           <Text style={[s.subTabText, subTab === 'ratings' && s.subTabTextActive]}>
             Analyst Ratings
@@ -325,7 +325,7 @@ export default function NewsScreen() {
           <Ionicons
             name="newspaper-outline"
             size={16}
-            color={subTab === 'news' ? '#22C55E' : '#64748B'}
+            color={subTab === 'news' ? '#34C759' : '#64748B'}
           />
           <Text style={[s.subTabText, subTab === 'news' && s.subTabTextActive]}>
             Markt-News
@@ -337,7 +337,7 @@ export default function NewsScreen() {
       {subTab === 'ratings' && (
         ratingsLoading ? (
           <View style={s.loadingWrap}>
-            <ActivityIndicator color="#22C55E" size="large" />
+            <ActivityIndicator color="#34C759" size="large" />
           </View>
         ) : (
           <FlatList
@@ -348,7 +348,7 @@ export default function NewsScreen() {
               <RefreshControl
                 refreshing={ratingsRefreshing}
                 onRefresh={() => { setRatingsRefreshing(true); loadRatings(); }}
-                tintColor="#22C55E"
+                tintColor="#34C759"
               />
             }
             ListHeaderComponent={
@@ -357,11 +357,11 @@ export default function NewsScreen() {
                 <View style={s.statsRow}>
                   <View style={s.statCard}>
                     <Text style={s.statLabel}>Upgrades</Text>
-                    <Text style={[s.statValue, { color: '#22C55E' }]}>{stats.upgrade}</Text>
+                    <Text style={[s.statValue, { color: '#34C759' }]}>{stats.upgrade}</Text>
                   </View>
                   <View style={s.statCard}>
                     <Text style={s.statLabel}>Downgrades</Text>
-                    <Text style={[s.statValue, { color: '#EF4444' }]}>{stats.downgrade}</Text>
+                    <Text style={[s.statValue, { color: '#FF3B30' }]}>{stats.downgrade}</Text>
                   </View>
                   <View style={s.statCard}>
                     <Text style={s.statLabel}>Gesamt</Text>
@@ -406,7 +406,7 @@ export default function NewsScreen() {
       {subTab === 'news' && (
         newsLoading ? (
           <View style={s.loadingWrap}>
-            <ActivityIndicator color="#22C55E" size="large" />
+            <ActivityIndicator color="#34C759" size="large" />
           </View>
         ) : (
           <FlatList
@@ -417,7 +417,7 @@ export default function NewsScreen() {
               <RefreshControl
                 refreshing={newsRefreshing}
                 onRefresh={() => { setNewsRefreshing(true); loadNews(); }}
-                tintColor="#22C55E"
+                tintColor="#34C759"
               />
             }
             ListEmptyComponent={
@@ -438,7 +438,7 @@ export default function NewsScreen() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0b' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   // ── Header ──
   header: {
@@ -450,15 +450,15 @@ const s = StyleSheet.create({
   // ── Sub-Tabs ──
   subTabRow: {
     flexDirection: 'row', marginHorizontal: 16, marginBottom: 12,
-    backgroundColor: '#111113', borderRadius: 12, padding: 4,
+    backgroundColor: '#1C1C1E', borderRadius: 10, padding: 3,
   },
   subTab: {
     flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
-    gap: 6, paddingVertical: 10, borderRadius: 10,
+    gap: 6, paddingVertical: 8, borderRadius: 8,
   },
-  subTabActive: { backgroundColor: '#1E293B' },
-  subTabText: { color: '#64748B', fontSize: 14, fontWeight: '600' },
-  subTabTextActive: { color: '#F8FAFC' },
+  subTabActive: { backgroundColor: '#2C2C2E' },
+  subTabText: { color: '#48484A', fontSize: 14, fontWeight: '600' },
+  subTabTextActive: { color: '#FFFFFF' },
 
   // ── Loading ──
   loadingWrap: { flex: 1, alignItems: 'center', justifyContent: 'center' },
@@ -466,8 +466,8 @@ const s = StyleSheet.create({
   // ── Stats ──
   statsRow: { flexDirection: 'row', paddingHorizontal: 16, paddingTop: 8, paddingBottom: 4, gap: 10 },
   statCard: {
-    flex: 1, backgroundColor: '#111113', borderRadius: 12, padding: 14,
-    borderWidth: 1, borderColor: '#1e1e20',
+    flex: 1, backgroundColor: '#1C1C1E', borderRadius: 12, padding: 14,
+    borderWidth: 1, borderColor: '#2C2C2E',
   },
   statLabel: { color: '#64748B', fontSize: 12, marginBottom: 4 },
   statValue: { color: '#F8FAFC', fontSize: 20, fontWeight: '700' },
@@ -477,11 +477,11 @@ const s = StyleSheet.create({
   filterRow: { paddingHorizontal: 16, gap: 8, paddingBottom: 8 },
   filterPill: {
     paddingHorizontal: 14, paddingVertical: 7, borderRadius: 20,
-    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderWidth: 1, borderColor: '#2C2C2E',
   },
-  filterPillActive: { backgroundColor: 'rgba(34,197,94,0.12)', borderColor: '#22C55E' },
-  filterText: { color: '#64748B', fontSize: 13, fontWeight: '600' },
-  filterTextActive: { color: '#22C55E' },
+  filterPillActive: { backgroundColor: '#2C2C2E', borderColor: '#3A3A3C' },
+  filterText: { color: '#48484A', fontSize: 13, fontWeight: '600' },
+  filterTextActive: { color: '#FFFFFF' },
 
   // ── Shared ──
   rowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#1E293B' },
@@ -512,12 +512,12 @@ const s = StyleSheet.create({
     flexDirection: 'row', paddingHorizontal: 16, paddingVertical: 14, gap: 12,
   },
   newsImage: {
-    width: 80, height: 80, borderRadius: 10, backgroundColor: '#111113', flexShrink: 0,
+    width: 80, height: 80, borderRadius: 10, backgroundColor: '#1C1C1E', flexShrink: 0,
   },
   newsImagePlaceholder: { alignItems: 'center', justifyContent: 'center' },
   newsContent: { flex: 1, minWidth: 0, justifyContent: 'center' },
   newsTicker: {
-    color: '#22C55E', fontSize: 12, fontWeight: '700', marginBottom: 4,
+    color: '#34C759', fontSize: 12, fontWeight: '700', marginBottom: 4,
   },
   newsTitle: { color: '#F8FAFC', fontSize: 14, fontWeight: '600', lineHeight: 20 },
   newsMetaRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginTop: 6 },

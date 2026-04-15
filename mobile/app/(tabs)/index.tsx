@@ -42,7 +42,7 @@ const INVESTOR_PHOTOS: Record<string, string> = {
   gates: 'https://finclue.de/images/gates.png',
   einhorn: 'https://finclue.de/images/einhorn.png',
 };
-const TRADE_COLOR: Record<string, string> = { NEW: '#22C55E', ADD: '#22C55E', REDUCE: '#EF4444', SOLD: '#EF4444' };
+const TRADE_COLOR: Record<string, string> = { NEW: '#34C759', ADD: '#34C759', REDUCE: '#FF3B30', SOLD: '#FF3B30' };
 
 const INVESTOR_NAMES: Record<string, string> = {
   buffett: 'Warren Buffett', ackman: 'Bill Ackman', gates: 'Bill Gates Foundation',
@@ -245,7 +245,7 @@ export default function DashboardScreen() {
       <ScrollView
         showsVerticalScrollIndicator={false}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadAll(); }} tintColor="#22C55E" />
+          <RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadAll(); }} tintColor="#34C759" />
         }
         keyboardShouldPersistTaps="handled"
       >
@@ -309,7 +309,7 @@ export default function DashboardScreen() {
         </View>
 
         {loading ? (
-          <ActivityIndicator color="#22C55E" style={{ marginTop: 40 }} />
+          <ActivityIndicator color="#34C759" style={{ marginTop: 40 }} />
         ) : (
           <>
             {/* ── Sektor Performance ───────────────── */}
@@ -326,10 +326,10 @@ export default function DashboardScreen() {
                         <View style={s.sectorBarWrap}>
                           <View style={[
                             s.sectorBar,
-                            { width: `${barWidth}%` as any, backgroundColor: isPos ? '#22C55E' : '#475569' },
+                            { width: `${barWidth}%` as any, backgroundColor: isPos ? '#34C759' : '#475569' },
                           ]} />
                         </View>
-                        <Text style={[s.sectorChange, { color: isPos ? '#22C55E' : '#94A3B8' }]}>
+                        <Text style={[s.sectorChange, { color: isPos ? '#34C759' : '#94A3B8' }]}>
                           {sec.changeFormatted}
                         </Text>
                       </View>
@@ -347,9 +347,9 @@ export default function DashboardScreen() {
                     <Ionicons
                       name={marketSummary.isBullish ? 'trending-up' : 'trending-down'}
                       size={14}
-                      color={marketSummary.isBullish ? '#22C55E' : '#EF4444'}
+                      color={marketSummary.isBullish ? '#34C759' : '#FF3B30'}
                     />
-                    <Text style={[s.summaryBadgeText, { color: marketSummary.isBullish ? '#22C55E' : '#EF4444' }]}>
+                    <Text style={[s.summaryBadgeText, { color: marketSummary.isBullish ? '#34C759' : '#FF3B30' }]}>
                       {marketSummary.isBullish ? 'Bullish' : 'Bearish'}
                     </Text>
                   </View>
@@ -371,8 +371,8 @@ export default function DashboardScreen() {
                     const diffMin = Math.floor((Date.now() - d.getTime()) / 60000);
                     if (diffMin < 5) return (
                       <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
-                        <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#22C55E' }} />
-                        <Text style={[s.timestampLabel, { color: '#22C55E' }]}>Live</Text>
+                        <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: '#34C759' }} />
+                        <Text style={[s.timestampLabel, { color: '#34C759' }]}>Live</Text>
                       </View>
                     );
                     const day = d.toLocaleDateString('de-DE', { weekday: 'short' });
@@ -466,108 +466,105 @@ export default function DashboardScreen() {
 }
 
 const d = StyleSheet.create({
-  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.55)' },
+  backdrop: { ...StyleSheet.absoluteFillObject, backgroundColor: 'rgba(0,0,0,0.6)' },
   drawer: {
     position: 'absolute', top: 0, left: 0, bottom: 0,
-    width: DRAWER_W, backgroundColor: '#111111',
-    borderRightWidth: 1, borderRightColor: '#1C1C1E',
+    width: DRAWER_W, backgroundColor: '#000000',
+    borderRightWidth: StyleSheet.hairlineWidth, borderRightColor: '#2C2C2E',
   },
   userRow: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingTop: 64, paddingBottom: 20 },
-  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center' },
+  avatar: { width: 46, height: 46, borderRadius: 23, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
   avatarText: { color: '#FFFFFF', fontSize: 19, fontWeight: '700' },
   userName: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
   userSub: { color: '#8E8E93', fontSize: 12, marginTop: 1 },
-  divider: { height: 1, backgroundColor: '#1C1C1E' },
-  item: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingVertical: 16, borderBottomWidth: 1, borderBottomColor: '#1A1A1A' },
+  divider: { height: StyleSheet.hairlineWidth, backgroundColor: '#2C2C2E' },
+  item: { flexDirection: 'row', alignItems: 'center', gap: 14, paddingHorizontal: 20, paddingVertical: 16, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1C1C1E' },
   iconBox: { width: 36, height: 36, borderRadius: 9, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center' },
   itemLabel: { flex: 1, color: '#FFFFFF', fontSize: 15, fontWeight: '500' },
 });
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0a0a0a' },
+  container: { flex: 1, backgroundColor: '#000000' },
 
   // Header
   header: { paddingHorizontal: 20, paddingTop: 10, paddingBottom: 16, flexDirection: 'row', alignItems: 'center', gap: 12 },
   avatarBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', flexShrink: 0 },
   avatarText: { color: '#FFFFFF', fontSize: 16, fontWeight: '700' },
   greeting: { color: '#8E8E93', fontSize: 12 },
-  name: { color: '#FFFFFF', fontSize: 20, fontWeight: '700', letterSpacing: -0.4 },
+  name: { color: '#FFFFFF', fontSize: 22, fontWeight: '700', letterSpacing: -0.4 },
   bellBtn: { width: 40, height: 40, borderRadius: 20, backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center', flexShrink: 0, position: 'relative' },
-  bellBadge: { position: 'absolute', top: -2, right: -2, backgroundColor: '#F97316', borderRadius: 8, minWidth: 16, height: 16, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderWidth: 1.5, borderColor: '#0a0a0b' },
+  bellBadge: { position: 'absolute', top: -2, right: -2, backgroundColor: '#FF3B30', borderRadius: 8, minWidth: 16, height: 16, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 3, borderWidth: 1.5, borderColor: '#000000' },
   bellBadgeText: { color: '#fff', fontSize: 9, fontWeight: '800' },
 
   // Search
   searchWrap: { paddingHorizontal: 16, marginBottom: 16 },
   searchBox: {
     flexDirection: 'row', alignItems: 'center',
-    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
-    borderRadius: 12, paddingHorizontal: 12, paddingVertical: 10,
+    backgroundColor: '#1C1C1E',
+    borderRadius: 10, paddingHorizontal: 12, paddingVertical: 10,
   },
-  searchInput: { flex: 1, color: '#F8FAFC', fontSize: 14 },
+  searchInput: { flex: 1, color: '#FFFFFF', fontSize: 15 },
   searchDropdown: {
-    backgroundColor: '#111113', borderWidth: 1, borderColor: '#1e1e20',
-    borderRadius: 12, marginTop: 4, overflow: 'hidden',
+    backgroundColor: '#1C1C1E',
+    borderRadius: 10, marginTop: 4, overflow: 'hidden',
   },
   searchItem: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 16, paddingVertical: 12 },
-  searchItemBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
-  searchSymbol: { color: '#F8FAFC', fontSize: 14, fontWeight: '600', width: 60 },
-  searchName: { color: '#64748B', fontSize: 13, flex: 1 },
-  searchEx: { color: '#475569', fontSize: 11, marginLeft: 8 },
+  searchItemBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#2C2C2E' },
+  searchSymbol: { color: '#FFFFFF', fontSize: 15, fontWeight: '600', width: 60 },
+  searchName: { color: '#8E8E93', fontSize: 13, flex: 1 },
+  searchEx: { color: '#48484A', fontSize: 11, marginLeft: 8 },
 
   // Sections
-  section: { paddingHorizontal: 16, marginBottom: 8 },
-  sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 10 },
-  sectionTitle: { color: '#475569', fontSize: 11, fontWeight: '700', letterSpacing: 1, marginBottom: 10 },
-  timestampLabel: { color: '#334155', fontSize: 11, fontWeight: '500' },
+  section: { paddingHorizontal: 16, marginBottom: 12 },
+  sectionRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 8 },
+  sectionTitle: { color: '#8E8E93', fontSize: 13, fontWeight: '600', marginBottom: 8 },
+  timestampLabel: { color: '#48484A', fontSize: 12, fontWeight: '500' },
   summaryCard: {
-    backgroundColor: '#111113', borderRadius: 14, padding: 16,
-    borderWidth: 1, borderColor: '#1e1e20',
+    backgroundColor: '#1C1C1E', borderRadius: 12, padding: 16,
   },
   summaryBadge: {
     flexDirection: 'row', alignItems: 'center', gap: 5,
-    alignSelf: 'flex-start', paddingHorizontal: 10, paddingVertical: 4,
-    borderRadius: 8, backgroundColor: 'rgba(255,255,255,0.04)', marginBottom: 10,
+    alignSelf: 'flex-start', paddingHorizontal: 8, paddingVertical: 3,
+    borderRadius: 6, backgroundColor: 'rgba(255,255,255,0.06)', marginBottom: 10,
   },
-  summaryBadgeText: { fontSize: 12, fontWeight: '700' },
-  summaryText: { color: '#CBD5E1', fontSize: 13, lineHeight: 20 },
-  summarySource: { color: '#334155', fontSize: 11, marginTop: 8 },
-  sectionLink: { color: '#22C55E', fontSize: 13, fontWeight: '600', marginBottom: 10 },
+  summaryBadgeText: { fontSize: 12, fontWeight: '600' },
+  summaryText: { color: '#FFFFFF', fontSize: 14, lineHeight: 21 },
+  summarySource: { color: '#48484A', fontSize: 11, marginTop: 8 },
+  sectionLink: { color: '#FFFFFF', fontSize: 13, fontWeight: '500', marginBottom: 8 },
   // Sector
   sectorCard: {
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+    backgroundColor: '#1C1C1E', borderRadius: 12, overflow: 'hidden',
   },
   sectorRow: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 14, paddingVertical: 10, gap: 8 },
-  sectorRowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
-  sectorName: { color: '#94A3B8', fontSize: 12, width: 120 },
-  sectorBarWrap: { flex: 1, height: 4, backgroundColor: '#1e1e20', borderRadius: 2, overflow: 'hidden' },
-  sectorBar: { height: 4, borderRadius: 2, minWidth: 2 },
-  sectorChange: { fontSize: 12, fontWeight: '700', width: 54, textAlign: 'right' },
+  sectorRowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#2C2C2E' },
+  sectorName: { color: '#8E8E93', fontSize: 13, width: 120 },
+  sectorBarWrap: { flex: 1, height: 3, backgroundColor: '#2C2C2E', borderRadius: 1.5, overflow: 'hidden' },
+  sectorBar: { height: 3, borderRadius: 1.5, minWidth: 2 },
+  sectorChange: { fontSize: 13, fontWeight: '600', width: 54, textAlign: 'right' },
 
   // List card (markets + guru)
   listCard: {
-    backgroundColor: '#111113', borderRadius: 16,
-    borderWidth: 1, borderColor: '#1e1e20', overflow: 'hidden',
+    backgroundColor: '#1C1C1E', borderRadius: 12, overflow: 'hidden',
   },
-  rowBorder: { borderTopWidth: 1, borderTopColor: '#1e1e20' },
+  rowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: '#2C2C2E' },
 
   // Guru trades
   guruRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
   guruAvatar: {
     width: 36, height: 36, borderRadius: 18,
-    backgroundColor: '#1e1e20', alignItems: 'center', justifyContent: 'center',
-    borderWidth: 1, borderColor: '#2c2c2e', overflow: 'hidden',
+    backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center',
+    overflow: 'hidden',
   },
   guruAvatarImg: { width: 36, height: 36, borderRadius: 18 },
-  guruAvatarText: { color: '#94A3B8', fontSize: 12, fontWeight: '700' },
+  guruAvatarText: { color: '#8E8E93', fontSize: 12, fontWeight: '700' },
   guruInfo: { flex: 1, gap: 2 },
   guruTopRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
-  guruInvestorName: { color: '#F8FAFC', fontSize: 13, fontWeight: '600', flex: 1 },
-  guruTicker: { color: '#475569', fontSize: 12 },
+  guruInvestorName: { color: '#FFFFFF', fontSize: 14, fontWeight: '600', flex: 1 },
+  guruTicker: { color: '#8E8E93', fontSize: 12 },
   tradeBadge: {
-    borderRadius: 5, borderWidth: 1,
+    borderRadius: 4, borderWidth: 0,
     paddingHorizontal: 6, paddingVertical: 2,
   },
-  tradeBadgeText: { fontSize: 10, fontWeight: '700' },
-  guruValue: { fontSize: 13, fontWeight: '700', textAlign: 'right' },
+  tradeBadgeText: { fontSize: 11, fontWeight: '600' },
+  guruValue: { fontSize: 13, fontWeight: '600', textAlign: 'right' },
 });

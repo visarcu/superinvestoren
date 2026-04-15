@@ -44,14 +44,14 @@ export default function RootLayout() {
   return (
     <>
       <StatusBar style="light" backgroundColor="#020617" />
-      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#0a0a0b' } }}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: '#000000' } }}>
         <Stack.Screen name="(auth)/login" />
         <Stack.Screen name="(tabs)" />
         <Stack.Screen
           name="stock/[ticker]"
           options={{
             headerShown: true,
-            headerStyle: { backgroundColor: '#111113' },
+            headerStyle: { backgroundColor: '#1C1C1E' },
             headerTintColor: '#F8FAFC',
             headerBackTitle: '',
           }}
@@ -60,7 +60,7 @@ export default function RootLayout() {
           name="investor/[slug]"
           options={{
             headerShown: true,
-            headerStyle: { backgroundColor: '#111113' },
+            headerStyle: { backgroundColor: '#1C1C1E' },
             headerTintColor: '#F8FAFC',
             headerBackTitle: '',
           }}
@@ -69,7 +69,7 @@ export default function RootLayout() {
           name="notification-settings"
           options={{
             headerShown: true,
-            headerStyle: { backgroundColor: '#111113' },
+            headerStyle: { backgroundColor: '#1C1C1E' },
             headerTintColor: '#F8FAFC',
             headerBackTitle: '',
           }}
@@ -79,7 +79,7 @@ export default function RootLayout() {
           options={{
             headerShown: true,
             title: 'Transaktion hinzufügen',
-            headerStyle: { backgroundColor: '#111113' },
+            headerStyle: { backgroundColor: '#1C1C1E' },
             headerTintColor: '#F8FAFC',
             headerBackTitle: '',
           }}
