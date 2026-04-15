@@ -62,12 +62,40 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
   const [isFullscreen, setIsFullscreen] = useState(false)
   const [showMA, setShowMA] = useState(false)
   const [show52W, setShow52W] = useState(false)
+  const [intradayData, setIntradayData] = useState<StockData[] | null>(null)
+  const [intradayLoading, setIntradayLoading] = useState(false)
   const chartContainerRef = useRef<HTMLDivElement>(null)
 
   const { theme } = useTheme()
   const { formatPercentage } = useCurrency()
 
   const isDark = theme === 'dark'
+
+  // Intraday-Daten laden wenn 1D ausgewählt
+  useEffect(() => {
+    if (selectedRange !== '1D') {
+      setIntradayData(null)
+      return
+    }
+
+    let cancelled = false
+    setIntradayLoading(true)
+
+    fetch(`/api/intraday/${ticker}`)
+      .then(res => res.json())
+      .then(data => {
+        if (cancelled) return
+        setIntradayData(data?.intraday || [])
+      })
+      .catch(() => {
+        if (!cancelled) setIntradayData([])
+      })
+      .finally(() => {
+        if (!cancelled) setIntradayLoading(false)
+      })
+
+    return () => { cancelled = true }
+  }, [selectedRange, ticker])
 
   // Währung basierend auf Ticker erkennen (z.B. G24.DE → EUR, AAPL → USD)
   const tickerCurrency = useMemo(() => detectTickerCurrency(ticker), [ticker])
@@ -100,10 +128,8 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
       }
 
       const days = timeRange.days
-      if (days === 1) {
-        const sortedData = stockData.sort((a, b) => b.date.localeCompare(a.date))
-        return sortedData.slice(0, Math.min(5, sortedData.length)).reverse()
-      }
+      // 1D wird über intradayData behandelt, nicht über daily data
+      if (days === 1) return []
 
       cutoffDate = new Date(now.getTime() - days * 24 * 60 * 60 * 1000)
     }
@@ -146,6 +172,24 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
 
   // Chart data
   const chartData = useMemo(() => {
+    // 1D: Intraday-Daten verwenden
+    if (selectedRange === '1D') {
+      if (!intradayData?.length) return []
+      const basePrice = intradayData[0].close
+      return intradayData.map(d => {
+        const time = d.date.includes(' ') ? d.date.split(' ')[1].slice(0, 5) : d.date
+        const value = selectedMode === 'total_return'
+          ? ((d.close - basePrice) / basePrice) * 100
+          : d.close
+        return {
+          date: d.date,
+          [ticker]: value,
+          ma50: null,
+          formattedDate: time,
+        }
+      })
+    }
+
     const mainData = calculateChartData(data, selectedMode)
     if (!mainData.length) return []
 
@@ -164,7 +208,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
     }))
 
     return result
-  }, [data, selectedRange, selectedMode, ticker, showMA])
+  }, [data, selectedRange, selectedMode, ticker, showMA, intradayData])
 
   // Current price & stats
   const currentPrice = useMemo(() => {
@@ -382,6 +426,11 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
 
       {/* Chart - Clean minimal style like Fey */}
       <div className={`px-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : 'h-[350px]'}`}>
+        {intradayLoading && selectedRange === '1D' ? (
+          <div className="h-full flex items-center justify-center">
+            <div className="animate-pulse text-theme-muted text-sm">Intraday-Daten laden...</div>
+          </div>
+        ) : (
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 10, bottom: 20 }}>
             <defs>
@@ -398,6 +447,11 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
               tickLine={false}
               tick={{ fill: isDark ? '#6b7280' : '#9ca3af', fontSize: 11 }}
               tickFormatter={(value) => {
+                if (selectedRange === '1D') {
+                  // Intraday: Uhrzeit anzeigen (z.B. "14:30")
+                  if (value.includes(' ')) return value.split(' ')[1].slice(0, 5)
+                  return value
+                }
                 const date = new Date(value)
                 if (['1Y', '3Y', '5Y', 'MAX'].includes(selectedRange)) {
                   // Jahres-/Mehrjahres-Ranges: "Jan. 25" — immer mit Jahr
@@ -520,6 +574,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
             })}
           </ComposedChart>
         </ResponsiveContainer>
+        )}
       </div>
 
       {/* Footer / Legende */}

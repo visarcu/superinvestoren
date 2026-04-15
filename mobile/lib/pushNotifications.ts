@@ -48,8 +48,8 @@ export async function registerForPushNotifications(): Promise<string | null> {
     console.log('📱 Push Token:', token);
     await saveDeviceToken(token);
     return token;
-  } catch (e) {
-    // Expo Go doesn't support push tokens without a projectId — skip silently
+  } catch (e: any) {
+    console.error('[Push] getExpoPushTokenAsync failed:', e?.message || e);
     return null;
   }
 }

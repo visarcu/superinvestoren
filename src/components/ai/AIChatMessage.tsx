@@ -1,11 +1,14 @@
 // src/components/ai/AIChatMessage.tsx
 import React from 'react'
+import Link from 'next/link'
+import { ArrowTopRightOnSquareIcon } from '@heroicons/react/24/outline'
 import { Message } from './types'
 import AIChart from './AIChart'
 import AIActionButton from './AIActionButton'
 import RAGSourcesDisplay from './RAGSourcesDisplay'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { investors as allInvestors } from '@/data/investors'
 
 interface AIChatMessageProps {
     message: Message
@@ -76,6 +79,20 @@ export default function AIChatMessage({ message, onExecuteAction }: AIChatMessag
                         ragEnabled={message.ragEnabled}
                     />
                 )}
+
+                {/* Investor Deep Link */}
+                {isAssistant && message.investorSlug && (() => {
+                    const inv = allInvestors.find(i => i.slug === message.investorSlug)
+                    return inv ? (
+                        <Link
+                            href={`/superinvestor/${inv.slug}`}
+                            className="mt-3 flex items-center gap-2 text-sm text-brand-light hover:text-brand font-medium transition-colors group"
+                        >
+                            <ArrowTopRightOnSquareIcon className="w-4 h-4" />
+                            <span>{inv.name} Portfolio ansehen</span>
+                        </Link>
+                    ) : null
+                })()}
 
                 {/* Quick Actions */}
                 {isAssistant && message.actions && message.actions.length > 0 && (

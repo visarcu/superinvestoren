@@ -19,7 +19,7 @@ for (const stock of stocks) {
         .filter(w => w.length > 3)
     for (const part of nameParts) {
         // Avoid generic words
-        if (!['inc', 'corp', 'ltd', 'class', 'group', 'holding', 'holdings', 'company', 'international', 'technologies', 'systems', 'services', 'capital'].includes(part)) {
+        if (!['inc', 'corp', 'ltd', 'class', 'group', 'holding', 'holdings', 'company', 'international', 'technologies', 'systems', 'services', 'capital', 'aktien', 'kommanditgesellschaft', 'gesellschaft', 'vorzugsaktien', 'stammaktien', 'preferred', 'common', 'trust', 'fund', 'index', 'etf'].includes(part)) {
             nameToTicker.set(part, ticker)
         }
     }

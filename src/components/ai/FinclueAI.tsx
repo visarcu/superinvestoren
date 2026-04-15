@@ -152,6 +152,7 @@ export default function FinclueAI({
             const responseData = await response.json()
 
             if (responseData.success && responseData.response) {
+                const detectedInvestor = hybrid.effectiveInvestor || responseData.response.metadata?.investor
                 setMessages(prev => [...prev, {
                     id: (Date.now() + 1).toString(),
                     type: 'assistant',
@@ -160,7 +161,8 @@ export default function FinclueAI({
                     charts: responseData.response.charts || [],
                     actions: responseData.response.actions || [],
                     ragSources: responseData.response.metadata?.ragSources || [],
-                    ragEnabled: responseData.ragEnabled
+                    ragEnabled: responseData.ragEnabled,
+                    investorSlug: (hybrid.contextType === 'superinvestor' || hybrid.contextType === 'hybrid') ? detectedInvestor : undefined
                 }])
             } else {
                 throw new Error('Invalid response format')
@@ -230,6 +232,24 @@ export default function FinclueAI({
                             onExecuteAction={(prompt) => sendMessage(prompt)}
                         />
                     ))}
+
+                    {/* Typing indicator */}
+                    {isLoading && (
+                        <div className="flex items-start gap-3 py-3">
+                            <div className="w-8 h-8 rounded-full bg-brand/10 flex items-center justify-center border border-brand/20 shrink-0">
+                                <div className="w-3 h-3 rounded-full bg-brand" />
+                            </div>
+                            <div className="bg-theme-secondary/60 border border-theme rounded-2xl rounded-tl-sm px-4 py-3">
+                                <div className="flex items-center gap-1.5">
+                                    <span className="text-xs text-theme-muted mr-1">Finclue AI analysiert</span>
+                                    <span className="w-1.5 h-1.5 rounded-full bg-brand animate-bounce" style={{ animationDelay: '0ms' }} />
+                                    <span className="w-1.5 h-1.5 rounded-full bg-brand animate-bounce" style={{ animationDelay: '150ms' }} />
+                                    <span className="w-1.5 h-1.5 rounded-full bg-brand animate-bounce" style={{ animationDelay: '300ms' }} />
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
                     <div ref={messagesEndRef} />
                 </div>
             </div>

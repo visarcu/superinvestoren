@@ -164,10 +164,24 @@ export default function ImprovedDCFCalculator() {
 
   // Filtered stocks for search
   const filteredStocks = searchQuery
-    ? stocks.filter(s =>
-      s.ticker.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      s.name.toLowerCase().includes(searchQuery.toLowerCase())
-    ).slice(0, 8)
+    ? (() => {
+        const q = searchQuery.toLowerCase()
+        const qUpper = searchQuery.toUpperCase()
+        return stocks
+          .filter(s =>
+            s.ticker.toLowerCase().includes(q) ||
+            s.name.toLowerCase().includes(q)
+          )
+          .sort((a, b) => {
+            const score = (s: typeof a) =>
+              s.ticker === qUpper ? 0
+              : s.ticker.startsWith(qUpper) ? 1
+              : s.name.toLowerCase().startsWith(q) ? 2
+              : 3
+            return score(a) - score(b)
+          })
+          .slice(0, 8)
+      })()
     : []
 
   // Load stock data from API
@@ -195,15 +209,15 @@ export default function ImprovedDCFCalculator() {
       const fcfPerShare = metrics?.freeCashFlowPerShareTTM || 0
       const fcfYield = metrics?.freeCashFlowYieldTTM ? metrics.freeCashFlowYieldTTM * 100 : (fcfPerShare / price * 100) || 0
 
-      // Calculate 5-year average growth rates
+      // Calculate 5-year CAGR from YoY growth rates (geometric mean = CAGR)
       const epsGrowthValues = growthArray.map((g: { epsgrowth?: number }) => g.epsgrowth).filter((v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v))
       const epsGrowth5Y = epsGrowthValues.length > 0
-        ? (epsGrowthValues.reduce((a: number, b: number) => a + b, 0) / epsGrowthValues.length) * 100
+        ? (Math.pow(epsGrowthValues.reduce((a: number, b: number) => a * (1 + b), 1), 1 / epsGrowthValues.length) - 1) * 100
         : 0
 
       const fcfGrowthValues = growthArray.map((g: { freeCashFlowGrowth?: number }) => g.freeCashFlowGrowth).filter((v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v))
       const fcfGrowth5Y = fcfGrowthValues.length > 0
-        ? (fcfGrowthValues.reduce((a: number, b: number) => a + b, 0) / fcfGrowthValues.length) * 100
+        ? (Math.pow(fcfGrowthValues.reduce((a: number, b: number) => a * (1 + b), 1), 1 / fcfGrowthValues.length) - 1) * 100
         : 0
 
       // Calculate SBC impact (Stock Based Compensation as % of FCF)

@@ -9,6 +9,7 @@ export interface Message {
     actions?: AIQuickAction[]
     ragSources?: string[]
     ragEnabled?: boolean
+    investorSlug?: string
 }
 
 export interface ChartData {

@@ -950,11 +950,13 @@ function RevenueSegmentsChart({
   ticker,
   onExpand,
   isPremium,
+  period = 'annual',
   maxYears = 10
 }: {
   ticker: string,
   onExpand: () => void,
   isPremium: boolean,
+  period?: 'annual' | 'quarterly',
   maxYears?: number
 }) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
@@ -969,7 +971,8 @@ function RevenueSegmentsChart({
       }
 
       try {
-        const url = `/api/revenue-segmentation/${ticker}?type=product&period=annual&structure=flat`
+        const apiPeriod = period === 'quarterly' ? 'quarter' : 'annual'
+        const url = `/api/revenue-segmentation/${ticker}?type=product&period=${apiPeriod}&structure=flat`
         
         console.log('🔍 [RevenueSegments] API URL:', url)
         
@@ -1022,9 +1025,11 @@ function RevenueSegmentsChart({
               return null
             }
 
-            // Extract year from date
-            const year = dateKey.substring(0, 4)
-            const result: any = { label: year }
+            // Extract label from date
+            const label = period === 'quarterly'
+              ? formatQuarterLabel(dateKey)
+              : dateKey.substring(0, 4)
+            const result: any = { label }
             
             // Add all segments
             Object.entries(segments).forEach(([segmentName, value]) => {
@@ -1057,7 +1062,7 @@ function RevenueSegmentsChart({
     }
 
     loadSegments()
-  }, [ticker, isPremium])
+  }, [ticker, isPremium, period])
 
   // Loading State
   if (loading) {
@@ -1289,11 +1294,13 @@ function GeographicSegmentsChart({
   ticker,
   onExpand,
   isPremium,
+  period = 'annual',
   maxYears = 10
 }: {
   ticker: string,
   onExpand: () => void,
   isPremium: boolean,
+  period?: 'annual' | 'quarterly',
   maxYears?: number
 }) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
@@ -1303,8 +1310,9 @@ function GeographicSegmentsChart({
   useEffect(() => {
     async function loadSegments() {
       try {
+        const apiPeriod = period === 'quarterly' ? 'quarter' : 'annual'
         const res = await fetch(
-          `/api/revenue-segmentation/${ticker}?type=geographic&period=annual&structure=flat`
+          `/api/revenue-segmentation/${ticker}?type=geographic&period=${apiPeriod}&structure=flat`
         )
         
         if (res.ok) {
@@ -1320,10 +1328,14 @@ function GeographicSegmentsChart({
               const firstKey = Object.keys(yearData)[0]
               
               if (firstKey && firstKey.match(/^\d{4}-\d{2}-\d{2}$/)) {
-                year = firstKey.substring(0, 4)
+                year = period === 'quarterly'
+                  ? formatQuarterLabel(firstKey)
+                  : firstKey.substring(0, 4)
                 segments = yearData[firstKey]
               } else if (yearData.date) {
-                year = yearData.date.substring(0, 4)
+                year = period === 'quarterly'
+                  ? formatQuarterLabel(yearData.date)
+                  : yearData.date.substring(0, 4)
                 segments = { ...yearData }
                 delete segments.date
                 delete segments.symbol
@@ -1364,7 +1376,7 @@ function GeographicSegmentsChart({
     } else {
       setLoading(false)
     }
-  }, [ticker, isPremium])
+  }, [ticker, isPremium, period])
 
   // Loading State
   if (loading) {
@@ -2261,10 +2273,11 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             case 'revenueSegments':
               return (
                 <RevenueSegmentsChart
-                  key={metricKey}
+                  key={`${metricKey}-${period}`}
                   ticker={ticker}
                   onExpand={() => setFullscreen('revenueSegments')}
                   isPremium={isPremium}
+                  period={period}
                   maxYears={isPremium ? years : 5}
                 />
               )
@@ -2308,10 +2321,11 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
             case 'geographicSegments':
               return (
                 <GeographicSegmentsChart
-                  key={metricKey}
+                  key={`${metricKey}-${period}`}
                   ticker={ticker}
                   onExpand={() => setFullscreen('geographicSegments')}
                   isPremium={isPremium}
+                  period={period}
                   maxYears={isPremium ? years : 5}
                 />
               )

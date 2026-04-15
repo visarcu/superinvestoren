@@ -69,11 +69,9 @@ async function updateRAGData() {
     
     const ingestionService = new DataIngestionService(ragSystem)
     
-    // Deine wichtigsten Aktien (kannst du später aus DB holen)
-    const watchedStocks = [
-      'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 
-      'NVDA', 'META', 'NFLX', 'CRM', 'ADBE'
-    ]
+    // Zentrale RAG-Ticker-Liste (in src/lib/ragTickers.ts pflegen)
+    const { RAG_TICKERS } = await import('../src/lib/ragTickers')
+    const watchedStocks = [...RAG_TICKERS]
     
     console.log(`📰 Aktualisiere News für ${watchedStocks.length} Aktien...`)
     

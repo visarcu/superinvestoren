@@ -559,42 +559,51 @@ ${portfolioData.transactionsHistory}
 `
     }
 
-    if (portfolioChanges) {
-      prompt += `**Aktuellster Berichtszeitraum (Latest Snapshot):**
-• 🆕 Neue Positionen: ${portfolioChanges.newPositions?.length || 0}
-• 📈 Erhöhte Positionen: ${portfolioChanges.increasedPositions?.length || 0}
-• 📉 Reduzierte Positionen: ${portfolioChanges.decreasedPositions?.length || 0}
-• ❌ Geschlossene Positionen: ${portfolioChanges.closedPositions?.length || 0}
-
-`
-    }
   }
 
-  // ✅ ENHANCED: Current Buffett Activity (based on latest data)
-  if (investor === 'warren-buffett' || investor.includes('buffett')) {
-    prompt += `## AKTUELLE WARREN BUFFETT AKTIVITÄTEN (Q1 2025):
+  // ✅ Dynamic portfolio activity from live 13F data
+  if (portfolioData?.portfolioChanges) {
+    const { newPositions, closedPositions, increasedPositions, decreasedPositions } = portfolioData.portfolioChanges
+    const quarterLabel = portfolioData.latestQuarter?.date || 'Aktuellstes Quartal'
 
-**NEUE/STARK ERHÖHTE POSITIONEN:**
-• **Constellation Brands (STZ)** - 12M Aktien (~$2.3B, 6.7% Anteil)
-• **Domino's Pizza (DPZ)** - +86% auf 2.4M Aktien (~$1.3B)
-• **Occidental Petroleum (OXY)** - Erhöht auf 27% Anteil (~$11.4B)
-• **Sirius XM (SIRI)** - Auf 35.4% erhöht (119M Aktien)
-• **VeriSign (VRSN)** - Leicht erhöht auf 13.2M Aktien
+    prompt += `## AKTUELLE PORTFOLIO-AKTIVITÄTEN (${investor.replace(/-/g, ' ').toUpperCase()}, ${quarterLabel}):\n\n`
 
-**VOLLSTÄNDIGE EXITS:**
-• **Citigroup** - Komplett verkauft
-• **Nu Holdings** (brasilianisches Fintech) - Komplett verkauft
+    if (newPositions?.length > 0) {
+      prompt += `**NEUE POSITIONEN:**\n`
+      newPositions.slice(0, 5).forEach((p: any) => {
+        const val = p.value ? ` (~$${(p.value / 1e9).toFixed(2)}B)` : ''
+        const shares = p.shares ? ` | ${p.shares.toLocaleString()} Aktien` : ''
+        prompt += `• **${p.ticker || p.name}**${val}${shares}\n`
+      })
+      prompt += '\n'
+    }
 
-**REDUZIERTE POSITIONEN:**
-• **Bank of America** - Position verkleinert
-• **Capital One** - Position verkleinert
+    if (closedPositions?.length > 0) {
+      prompt += `**VOLLSTÄNDIGE EXITS:**\n`
+      closedPositions.slice(0, 5).forEach((p: any) => {
+        const val = p.previousValue ? ` (zuletzt ~$${(p.previousValue / 1e9).toFixed(2)}B)` : ''
+        prompt += `• **${p.ticker || p.name}**${val}\n`
+      })
+      prompt += '\n'
+    }
 
-**CASH-POSITION:** Rekord-hoch bei **$347 Milliarden** (Q1 2025)
+    if (increasedPositions?.length > 0) {
+      prompt += `**ERHÖHTE POSITIONEN:**\n`
+      increasedPositions.slice(0, 5).forEach((p: any) => {
+        const pct = p.percentChange ? ` (+${p.percentChange.toFixed(1)}%)` : ''
+        prompt += `• **${p.ticker || p.name}**${pct}\n`
+      })
+      prompt += '\n'
+    }
 
-**BUFFETT'S GEHEIMES PORTFOLIO (New England Asset Management):**
-Separate $616M Portfolio mit 122 Wertpapieren - kaufte kürzlich Aktien mit $775B Aktienrückkäufen
-
-`
+    if (decreasedPositions?.length > 0) {
+      prompt += `**REDUZIERTE POSITIONEN:**\n`
+      decreasedPositions.slice(0, 5).forEach((p: any) => {
+        const pct = p.percentChange ? ` (${p.percentChange.toFixed(1)}%)` : ''
+        prompt += `• **${p.ticker || p.name}**${pct}\n`
+      })
+      prompt += '\n'
+    }
   }
 
   prompt += `**NUTZER-FRAGE:** ${message}
@@ -950,13 +959,40 @@ ${portfolioData.transactionsHistory}`
   }
 
   if (portfolioChanges) {
-    prompt += `
+    const quarterLabel = portfolioData.latestQuarter?.date || 'Aktuellstes Quartal'
+    prompt += `\n\n## PORTFOLIO AKTIVITÄTEN (${quarterLabel}):`
 
-## PORTFOLIO AKTIVITÄTEN (aktuellster Berichtszeitraum):
-• 🆕 Neue Positionen: ${portfolioChanges.newPositions?.length || 0}
-• 📈 Erhöhte Positionen: ${portfolioChanges.increasedPositions?.length || 0}
-• 📉 Reduzierte Positionen: ${portfolioChanges.decreasedPositions?.length || 0}
-• ❌ Geschlossene Positionen: ${portfolioChanges.closedPositions?.length || 0}`
+    if (portfolioChanges.newPositions?.length > 0) {
+      prompt += `\n🆕 NEUE POSITIONEN:`
+      portfolioChanges.newPositions.slice(0, 5).forEach((p: any) => {
+        const val = p.value ? ` (~$${(p.value / 1e9).toFixed(2)}B)` : ''
+        prompt += `\n  • ${p.ticker || p.name}${val}`
+      })
+    }
+
+    if (portfolioChanges.closedPositions?.length > 0) {
+      prompt += `\n❌ VOLLSTÄNDIGE EXITS:`
+      portfolioChanges.closedPositions.slice(0, 5).forEach((p: any) => {
+        const val = p.previousValue ? ` (zuletzt ~$${(p.previousValue / 1e9).toFixed(2)}B)` : ''
+        prompt += `\n  • ${p.ticker || p.name}${val}`
+      })
+    }
+
+    if (portfolioChanges.increasedPositions?.length > 0) {
+      prompt += `\n📈 ERHÖHT:`
+      portfolioChanges.increasedPositions.slice(0, 5).forEach((p: any) => {
+        const pct = p.percentChange ? ` (+${p.percentChange.toFixed(1)}%)` : ''
+        prompt += `\n  • ${p.ticker || p.name}${pct}`
+      })
+    }
+
+    if (portfolioChanges.decreasedPositions?.length > 0) {
+      prompt += `\n📉 REDUZIERT:`
+      portfolioChanges.decreasedPositions.slice(0, 5).forEach((p: any) => {
+        const pct = p.percentChange ? ` (${p.percentChange.toFixed(1)}%)` : ''
+        prompt += `\n  • ${p.ticker || p.name}${pct}`
+      })
+    }
   }
 
   if (sectorAllocation && Object.keys(sectorAllocation).length > 0) {
