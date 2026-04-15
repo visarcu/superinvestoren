@@ -5,22 +5,30 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getFinnhubQuote, getFinnhubProfile } from '@/lib/finnhubService'
+import { resolveEUTicker, resolveFMPTicker, getEUCompanyInfo } from '@/lib/tickerResolver'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
 ) {
-  const ticker = params.ticker.toUpperCase()
+  const rawTicker = params.ticker.toUpperCase()
 
-  if (!/^[A-Z0-9.-]{1,10}$/.test(ticker)) {
+  if (!/^[A-Z0-9.-]{1,10}$/.test(rawTicker)) {
     return NextResponse.json({ error: 'Invalid ticker' }, { status: 400 })
   }
+
+  // EU-Ticker Resolution
+  const euMapping = resolveEUTicker(rawTicker)
+  const ticker = rawTicker // Immer Original-Ticker im Response
+  const finnhubTicker = euMapping?.finnhub || rawTicker
+  const fmpTicker = euMapping?.fmp || rawTicker
+  const euInfo = getEUCompanyInfo(rawTicker)
 
   try {
     // Primary: Finnhub (kostenlos, Echtzeit)
     const [quote, profile] = await Promise.all([
-      getFinnhubQuote(ticker),
-      getFinnhubProfile(ticker),
+      getFinnhubQuote(finnhubTicker),
+      getFinnhubProfile(finnhubTicker),
     ])
 
     if (quote) {
@@ -34,9 +42,10 @@ export async function GET(
         open: quote.open,
         previousClose: quote.previousClose,
         marketCap: profile?.marketCap || null,
-        name: profile?.name || null,
-        exchange: profile?.exchange || null,
-        currency: profile?.currency || 'USD',
+        name: profile?.name || euInfo?.name || null,
+        exchange: profile?.exchange || euInfo?.exchange || null,
+        currency: profile?.currency || euInfo?.currency || 'USD',
+        country: euInfo?.country || null,
         timestamp: quote.timestamp,
         source: 'finnhub',
       }, {
@@ -44,11 +53,11 @@ export async function GET(
       })
     }
 
-    // Fallback: FMP (wenn Finnhub den Ticker nicht kennt)
+    // Fallback: FMP mit EU-Ticker-Mapping
     const fmpKey = process.env.FMP_API_KEY
     if (fmpKey) {
       const fmpRes = await fetch(
-        `https://financialmodelingprep.com/api/v3/quote/${ticker}?apikey=${fmpKey}`,
+        `https://financialmodelingprep.com/api/v3/quote/${fmpTicker}?apikey=${fmpKey}`,
         { next: { revalidate: 30 } }
       )
       if (fmpRes.ok) {
@@ -66,8 +75,9 @@ export async function GET(
             previousClose: q.previousClose || null,
             marketCap: q.marketCap || null,
             name: q.name || null,
-            exchange: q.exchange || null,
-            currency: 'USD',
+            exchange: q.exchange || euInfo?.exchange || null,
+            currency: euInfo?.currency || 'USD',
+            country: euInfo?.country || null,
             timestamp: q.timestamp || Math.floor(Date.now() / 1000),
             source: 'fmp-fallback',
           }, {

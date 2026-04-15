@@ -2,6 +2,7 @@
 // Primär: FMP (Financial Modeling Prep)
 // Fallback: Yahoo Finance (für europäische ETFs die FMP schlecht abdeckt)
 import { NextRequest, NextResponse } from 'next/server'
+import { resolveFMPTicker, isEUTicker } from '@/lib/tickerResolver'
 
 /**
  * Yahoo Finance Historical Data Fallback.
@@ -46,18 +47,19 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
 ) {
-  const { ticker } = params
+  const rawTicker = params.ticker
   const apiKey = process.env.FMP_API_KEY
 
   if (!apiKey) {
     return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
   }
 
-  // Ist es ein europäischer Ticker? (.DE, .L, .PA, .AS, .MI etc.)
-  const isEuropeanTicker = /\.(DE|L|PA|AS|MI|SW|BR|MC|VI|HE|CO|ST|OL|LS|WA|IR)$/i.test(ticker)
+  // EU-Ticker Resolution: BMW → BMW.DE
+  const ticker = resolveFMPTicker(rawTicker)
+  const isEuropeanTicker = isEUTicker(rawTicker) || /\.(DE|L|PA|AS|MI|SW|BR|MC|VI|HE|CO|ST|OL|LS|WA|IR)$/i.test(ticker)
 
   try {
-    // FMP als primäre Quelle
+    // FMP als primäre Quelle (mit gemapptem Ticker)
     const response = await fetch(
       `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${apiKey}`,
       { next: { revalidate: 1800 } }

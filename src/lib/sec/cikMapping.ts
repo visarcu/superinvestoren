@@ -11,6 +11,37 @@ const TICKER_OVERRIDES: Record<string, string> = {
   'BRK.B': '1067983',
   'BRK-B': '1067983',
   BRK_B: '1067983',
+
+  // ── EU-Firmen mit SEC 20-F Filings ─────────────────────────
+  // Diese europäischen Firmen haben US-Listings und filen bei der SEC
+  SAP: '1000184',         // SAP SE (NYSE: SAP)
+  'SAP.DE': '1000184',
+  ASML: '937966',         // ASML Holding NV (NASDAQ: ASML)
+  'ASML.AS': '937966',
+  AZN: '901832',          // AstraZeneca PLC (NYSE: AZN)
+  'AZN.L': '901832',
+  HSBC: '1089113',        // HSBC Holdings PLC (NYSE: HSBC)
+  'HSBA.L': '1089113',
+  NVS: '1114448',         // Novartis AG (NYSE: NVS)
+  'NOVN.SW': '1114448',
+  NOVN: '1114448',
+  SHEL: '1306965',        // Shell plc (NYSE: SHEL)
+  'SHEL.L': '1306965',
+  NVO: '353278',          // Novo Nordisk A/S (NYSE: NVO)
+  'NOVO-B.CO': '353278',
+  NOVO: '353278',
+  UL: '217410',           // Unilever PLC (NYSE: UL)
+  'UNA.AS': '217410',
+  UNA: '217410',
+  GSK: '1660568',         // GSK plc (NYSE: GSK)
+  'GSK.L': '1660568',
+  RIO: '1370418',         // Rio Tinto (NYSE: RIO)
+  BP: '313807',           // BP p.l.c. (NYSE: BP)
+  'BP.L': '313807',
+  DEO: '807073',          // Diageo plc (NYSE: DEO)
+  BUD: '1367693',         // Anheuser-Busch InBev (NYSE: BUD)
+  ABB: '1889437',         // ABB Ltd (NYSE: ABB)
+  'ABBN.SW': '1889437',
 }
 
 // ─── Auto-Lookup Cache ───────────────────────────────────────────────────────
