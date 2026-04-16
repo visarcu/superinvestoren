@@ -15,7 +15,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid'
 import { BrokerBadge } from './PortfolioBrokerSelector'
-import { BrokerType, getBrokerColor } from '@/lib/brokerConfig'
+import { BrokerType, getBrokerColor, brokerTypeToLogoId } from '@/lib/brokerConfig'
+import { BrokerLogo } from './portfolio/BrokerLogo'
 import { useCurrency } from '@/lib/CurrencyContext'
 
 export interface PortfolioSummary {
@@ -157,6 +158,7 @@ export default function PortfolioDepotList({
       <div className="space-y-0">
         {portfolios.map((portfolio) => {
           const brokerColor = getBrokerColor(portfolio.broker_type, portfolio.broker_color)
+          const logoId = brokerTypeToLogoId(portfolio.broker_type)
           const isMenuOpen = openMenuId === portfolio.id
 
           return (
@@ -166,13 +168,17 @@ export default function PortfolioDepotList({
             >
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-4">
-                  {/* Broker Color Indicator */}
-                  <div
-                    className="w-10 h-10 rounded-lg flex items-center justify-center"
-                    style={{ backgroundColor: `${brokerColor}20` }}
-                  >
-                    <BriefcaseIcon className="w-5 h-5" style={{ color: brokerColor }} />
-                  </div>
+                  {/* Broker Logo oder Fallback-Icon */}
+                  {logoId ? (
+                    <BrokerLogo brokerId={logoId} size={40} />
+                  ) : (
+                    <div
+                      className="w-10 h-10 rounded-lg flex items-center justify-center"
+                      style={{ backgroundColor: `${brokerColor}20` }}
+                    >
+                      <BriefcaseIcon className="w-5 h-5" style={{ color: brokerColor }} />
+                    </div>
+                  )}
 
                   <div>
                     <div className="flex items-center gap-2 mb-1">

@@ -21,15 +21,19 @@ interface BrokerLogoProps {
 // `bg` ist die Fläche hinter dem Logo (meist passend zur Markenfarbe, weil die
 // offiziellen SVGs oft weiß gefüllt sind). Fehlt ein Eintrag → Inline-Fallback.
 const LOGO_FILES: Partial<Record<ImportBrokerId, { src: string; bg: string; padding?: string }>> = {
-  scalable: { src: '/broker-logos/scalable-capital.svg', bg: '#0E2A3D', padding: 'p-1.5' },
-  traderepublic: { src: '/broker-logos/trade-republic.svg', bg: '#0A0A0A', padding: 'p-1.5' },
+  // Scalable: helles Logo — weißer Hintergrund passt gut
+  scalable: { src: '/broker-logos/scalable-capital.png', bg: '#FFFFFF', padding: 'p-1' },
+  // Trade Republic: weißes Wordmark auf transparent → schwarzer Hintergrund macht's sichtbar
+  traderepublic: { src: '/broker-logos/trade-republic.png', bg: '#0A0A0A', padding: 'p-1' },
   // Flatex-Logo ist orange/weiß auf weißem Hintergrund → weißer bg passt
   flatex: { src: '/broker-logos/flatex.png', bg: '#FFFFFF', padding: 'p-1' },
+  // Smartbroker+: blau-weißes Logo → weißer Hintergrund
+  smartbroker: { src: '/broker-logos/smartbroker.svg', bg: '#FFFFFF', padding: 'p-1' },
+  // Freedom24: typischerweise dunkel gehaltenes Logo → weißer Hintergrund rendert neutral
+  freedom24: { src: '/broker-logos/freedom24.png', bg: '#FFFFFF', padding: 'p-1' },
   // ING-Logo: dunkelblaue Wortmarke + oranger Löwe auf weißem Hintergrund
   ing: { src: '/broker-logos/ing.jpg', bg: '#FFFFFF', padding: 'p-1' },
-  // Weitere Broker-Logos hier aktivieren, sobald SVGs in public/broker-logos/ liegen:
-  // smartbroker: { src: '/broker-logos/smartbroker.svg', bg: '#0066CC', padding: 'p-1.5' },
-  // freedom24: { src: '/broker-logos/freedom24.svg', bg: '#000000', padding: 'p-1.5' },
+  // Weitere Broker-Logos hier aktivieren, sobald Dateien in public/broker-logos/ liegen:
   // zero: { src: '/broker-logos/finanzen-net-zero.svg', bg: '#E4007F', padding: 'p-1.5' },
 }
 
