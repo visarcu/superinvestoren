@@ -81,7 +81,7 @@ async function createInAppNotification(
   await sendPushNotification(userId, title, message, data)
 }
 
-const ANALYST_EMAIL_TEST_MODE = true // set false to send to all users
+const ANALYST_EMAIL_TEST_MODE = false // set true to redirect all emails to ANALYST_EMAIL_TEST_ADDRESS
 const ANALYST_EMAIL_TEST_ADDRESS = 'visi1@hotmail.de'
 
 async function sendAnalystEmail(
@@ -308,27 +308,31 @@ async function handleCheck(queryTestUserId: string | null = null) {
         .toLowerCase()
         .replace(/\s+/g, '_')
 
-      // Check if already seen
-      const { data: existing } = await supabaseService
-        .from('analyst_actions_seen')
-        .select('action_key')
-        .eq('action_key', actionKey)
-        .maybeSingle()
+      // Check if already seen — skip dedupe in test mode so we can re-test
+      if (!testUserId) {
+        const { data: existing } = await supabaseService
+          .from('analyst_actions_seen')
+          .select('action_key')
+          .eq('action_key', actionKey)
+          .maybeSingle()
 
-      if (existing) continue // already notified
+        if (existing) continue // already notified
+      }
 
       totalNew++
 
-      // Mark as seen immediately to avoid race conditions on concurrent runs
-      await supabaseService.from('analyst_actions_seen').insert({
-        action_key: actionKey,
-        symbol,
-        grading_company: grading.gradingCompany,
-        action_type: normalizeAction(grading.action),
-        new_grade: grading.newGrade,
-        previous_grade: grading.previousGrade,
-        published_date: dateStr,
-      })
+      // Mark as seen (only in production mode, not during testing)
+      if (!testUserId) {
+        await supabaseService.from('analyst_actions_seen').insert({
+          action_key: actionKey,
+          symbol,
+          grading_company: grading.gradingCompany,
+          action_type: normalizeAction(grading.action),
+          new_grade: grading.newGrade,
+          previous_grade: grading.previousGrade,
+          published_date: dateStr,
+        })
+      }
 
       // Build notification texts (German)
       const label = actionLabel(grading.action)
