@@ -1,6 +1,12 @@
 // src/components/portfolio/BrokerLogo.tsx
-// Inline-SVG-Logos für unterstützte Broker.
-// Approximationen der offiziellen Marken zur Identifikation im Import-Wizard.
+// Broker-Logos für den Import-Wizard und die Depot-Auswahl.
+//
+// Zwei Render-Wege:
+//   1) File-based (bevorzugt): offizielle SVG-Datei aus public/broker-logos/.
+//      Dateien mit weißem Fill werden vor brand-farbigem Hintergrund gerendert.
+//      Um ein neues Logo zu aktivieren: Datei ablegen, LOGO_FILES unten ergänzen.
+//   2) Inline SVG (Fallback): selbst gezeichnete Approximation als Platzhalter.
+//
 // Markenrechte verbleiben bei den jeweiligen Inhabern (referentielle Markennutzung, §23 MarkenG).
 import React from 'react'
 import type { ImportBrokerId } from '@/lib/importBrokerConfig'
@@ -11,9 +17,46 @@ interface BrokerLogoProps {
   className?: string
 }
 
+// Mapping ImportBrokerId → Datei in public/broker-logos/ + Hintergrundfarbe.
+// `bg` ist die Fläche hinter dem Logo (meist passend zur Markenfarbe, weil die
+// offiziellen SVGs oft weiß gefüllt sind). Fehlt ein Eintrag → Inline-Fallback.
+const LOGO_FILES: Partial<Record<ImportBrokerId, { src: string; bg: string; padding?: string }>> = {
+  scalable: { src: '/broker-logos/scalable-capital.svg', bg: '#0E2A3D', padding: 'p-1.5' },
+  traderepublic: { src: '/broker-logos/trade-republic.svg', bg: '#0A0A0A', padding: 'p-1.5' },
+  // Flatex-Logo ist orange/weiß auf weißem Hintergrund → weißer bg passt
+  flatex: { src: '/broker-logos/flatex.png', bg: '#FFFFFF', padding: 'p-1' },
+  // ING-Logo: dunkelblaue Wortmarke + oranger Löwe auf weißem Hintergrund
+  ing: { src: '/broker-logos/ing.jpg', bg: '#FFFFFF', padding: 'p-1' },
+  // Weitere Broker-Logos hier aktivieren, sobald SVGs in public/broker-logos/ liegen:
+  // smartbroker: { src: '/broker-logos/smartbroker.svg', bg: '#0066CC', padding: 'p-1.5' },
+  // freedom24: { src: '/broker-logos/freedom24.svg', bg: '#000000', padding: 'p-1.5' },
+  // zero: { src: '/broker-logos/finanzen-net-zero.svg', bg: '#E4007F', padding: 'p-1.5' },
+}
+
 export function BrokerLogo({ brokerId, size = 36, className }: BrokerLogoProps) {
   const sizeStyle = { width: size, height: size }
 
+  // 1) Echte Logo-Datei vorhanden? → als <img> rendern.
+  const file = LOGO_FILES[brokerId]
+  if (file) {
+    return (
+      <div
+        style={{ ...sizeStyle, backgroundColor: file.bg }}
+        className={`relative flex-shrink-0 rounded-lg overflow-hidden flex items-center justify-center ${file.padding ?? ''} ${className ?? ''}`}
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={file.src}
+          alt=""
+          aria-hidden
+          className="w-full h-full object-contain"
+          draggable={false}
+        />
+      </div>
+    )
+  }
+
+  // 2) Fallback: inline-gezeichnete Approximation.
   switch (brokerId) {
     case 'scalable':
       // Scalable Capital — dunkles Quadrat mit grünem geschwungenem "S"

@@ -848,54 +848,100 @@ export default function PortfolioDashboard() {
           </div>
         )}
 
-        {/* Cash Modal */}
+        {/* Cash Modal — Premium-Design (Apple-inspired dark) */}
         {showCashModal && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-neutral-900 rounded-xl p-6 max-w-sm w-full">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-white">Cash Position bearbeiten</h2>
-                <button onClick={() => setShowCashModal(false)} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
-                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Aktueller Stand</label>
-                  <div className="p-3 bg-neutral-800/20 rounded-lg">
-                    <span className="text-lg font-bold text-white">{p.formatCurrency(p.cashPosition)}</span>
+          <div
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 overflow-y-auto"
+            onClick={() => setShowCashModal(false)}
+          >
+            <div className="min-h-screen flex items-center justify-center p-4">
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="bg-neutral-950 rounded-2xl max-w-md w-full border border-neutral-800/80 shadow-2xl overflow-hidden"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80">
+                  <div>
+                    <h2 className="text-[17px] font-semibold text-white tracking-tight">Cash-Position</h2>
+                    <p className="text-[12px] text-neutral-500 mt-0.5">Bestand anpassen</p>
                   </div>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Neuer Cash-Betrag (EUR)</label>
-                  <div className="flex gap-2">
-                    <input type="number" step="0.01" value={newCashAmount} onChange={(e) => setNewCashAmount(e.target.value)} placeholder="0.00"
-                      className="flex-1 px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
-                    {p.cashPosition !== 0 && (
-                      <button onClick={() => setNewCashAmount('0')}
-                        className="px-3 py-2 text-xs text-red-400 border border-red-500/30 hover:bg-red-500/10 rounded-lg transition-colors whitespace-nowrap">
-                        Auf 0
-                      </button>
-                    )}
-                  </div>
-                </div>
-                {newCashAmount && parseFloat(newCashAmount) !== p.cashPosition && (
-                  <div className={`p-3 rounded-lg ${parseFloat(newCashAmount) > p.cashPosition ? 'bg-emerald-500/10 border border-emerald-500/20' : 'bg-red-500/10 border border-red-500/20'}`}>
-                    <p className="text-sm">
-                      <span className="text-neutral-400">Änderung: </span>
-                      <span className={parseFloat(newCashAmount) > p.cashPosition ? 'text-emerald-400' : 'text-red-400'}>
-                        {parseFloat(newCashAmount) > p.cashPosition ? '+' : ''}{p.formatCurrency(parseFloat(newCashAmount) - p.cashPosition)}
-                      </span>
-                    </p>
-                  </div>
-                )}
-                <div className="flex gap-3 pt-2">
-                  <button onClick={handleUpdateCash} disabled={newCashAmount === '' || parseFloat(newCashAmount) === p.cashPosition}
-                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors">
-                    Speichern
+                  <button
+                    onClick={() => setShowCashModal(false)}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-500 hover:text-white hover:bg-neutral-900 transition-colors"
+                    aria-label="Schließen"
+                  >
+                    <XMarkIcon className="w-5 h-5" />
                   </button>
-                  <button onClick={() => setShowCashModal(false)}
-                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors">
+                </div>
+
+                {/* Body */}
+                <div className="px-6 py-5 space-y-5">
+                  {/* Aktueller Stand */}
+                  <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/40 px-4 py-3.5">
+                    <div className="text-[11px] uppercase tracking-wider text-neutral-500 font-medium">Aktuell</div>
+                    <div className="text-[22px] font-semibold text-white tabular-nums mt-1">
+                      {p.formatCurrency(p.cashPosition)}
+                    </div>
+                  </div>
+
+                  {/* Neuer Betrag */}
+                  <div>
+                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">
+                      Neuer Cash-Betrag (EUR)
+                    </label>
+                    <div className="flex gap-2">
+                      <input
+                        type="number"
+                        step="0.01"
+                        value={newCashAmount}
+                        onChange={(e) => setNewCashAmount(e.target.value)}
+                        placeholder="0,00"
+                        className="flex-1 px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                        autoFocus
+                      />
+                      {p.cashPosition !== 0 && (
+                        <button
+                          onClick={() => setNewCashAmount('0')}
+                          className="px-3 py-3 text-[12px] font-medium text-neutral-400 border border-neutral-800 hover:border-neutral-700 hover:text-white rounded-xl transition-colors whitespace-nowrap"
+                        >
+                          Auf 0
+                        </button>
+                      )}
+                    </div>
+                  </div>
+
+                  {/* Änderungs-Preview */}
+                  {newCashAmount && parseFloat(newCashAmount) !== p.cashPosition && (
+                    <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/40 px-4 py-3">
+                      <div className="flex items-center justify-between">
+                        <span className="text-[12px] text-neutral-500">Änderung</span>
+                        <span
+                          className={`text-[14px] font-medium tabular-nums ${
+                            parseFloat(newCashAmount) > p.cashPosition ? 'text-emerald-400' : 'text-red-400'
+                          }`}
+                        >
+                          {parseFloat(newCashAmount) > p.cashPosition ? '+' : ''}
+                          {p.formatCurrency(parseFloat(newCashAmount) - p.cashPosition)}
+                        </span>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Footer — Apple-Stil: Primary = weiß, Secondary = ghost */}
+                <div className="px-6 py-4 border-t border-neutral-800/80 flex gap-2">
+                  <button
+                    onClick={() => setShowCashModal(false)}
+                    className="flex-1 py-2.5 text-[13px] font-medium text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 rounded-xl transition-colors"
+                  >
                     Abbrechen
+                  </button>
+                  <button
+                    onClick={handleUpdateCash}
+                    disabled={newCashAmount === '' || parseFloat(newCashAmount) === p.cashPosition}
+                    className="flex-1 py-2.5 text-[13px] font-medium bg-white text-neutral-950 hover:bg-neutral-200 disabled:bg-neutral-800 disabled:text-neutral-600 disabled:cursor-not-allowed rounded-xl transition-colors"
+                  >
+                    Speichern
                   </button>
                 </div>
               </div>

@@ -122,10 +122,10 @@ export function getBrokerColor(brokerId: BrokerType | string | null | undefined,
 
 /**
  * Mapping BrokerType → ImportBrokerId für die BrokerLogo-Komponente.
- * Liefert null, wenn kein Logo-Äquivalent existiert (z.B. manuell/andere/ING/Comdirect/IB).
+ * Liefert null, wenn kein Logo-Äquivalent existiert (z.B. manuell/andere/Comdirect/IB).
  */
 export function brokerTypeToLogoId(brokerId: BrokerType | string | null | undefined):
-  'scalable' | 'traderepublic' | 'flatex' | 'smartbroker' | 'freedom24' | 'zero' | null {
+  'scalable' | 'traderepublic' | 'flatex' | 'smartbroker' | 'freedom24' | 'zero' | 'ing' | null {
   switch (brokerId) {
     case 'trade_republic': return 'traderepublic'
     case 'scalable_capital': return 'scalable'
@@ -133,6 +133,7 @@ export function brokerTypeToLogoId(brokerId: BrokerType | string | null | undefi
     case 'flatex': return 'flatex'
     case 'smartbroker': return 'smartbroker'
     case 'freedom24': return 'freedom24'
+    case 'ing': return 'ing'
     default: return null
   }
 }
