@@ -28,7 +28,8 @@ function normalizeAction(raw: string): string {
   const s = raw.toLowerCase().trim()
   if (s.includes('upgrade')) return 'upgrade'
   if (s.includes('downgrade')) return 'downgrade'
-  if (s.includes('initiat')) return 'initiated'
+  // Match "initiated", "initiate coverage", "initialise" (British spelling FMP uses)
+  if (s.includes('initiat') || s.includes('initial')) return 'initiated'
   return s
 }
 
