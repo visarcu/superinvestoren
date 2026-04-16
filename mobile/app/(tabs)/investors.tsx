@@ -4,20 +4,9 @@ import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import StockLogo from '../../components/StockLogo';
+import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 
 const BASE_URL = 'https://finclue.de';
-
-const INVESTOR_PHOTOS: Record<string, string> = {
-  buffett: 'https://finclue.de/images/buffett-cartoon.png',
-  ackman: 'https://finclue.de/images/ackman-cartoon.png',
-  burry: 'https://finclue.de/images/burry-cartoon.png',
-  marks: 'https://finclue.de/images/marks-cartoon.png',
-  pabrai: 'https://finclue.de/images/pabrai-cartoon.png',
-  druckenmiller: 'https://finclue.de/images/druckenmiller-cartoon.png',
-  tepper: 'https://finclue.de/images/tepper.png',
-  gates: 'https://finclue.de/images/gates.png',
-  einhorn: 'https://finclue.de/images/einhorn.png',
-};
 
 const TOP_INVESTORS = [
   { slug: 'buffett', name: 'Warren Buffett', fund: 'Berkshire Hathaway', aum: '$300B+' },

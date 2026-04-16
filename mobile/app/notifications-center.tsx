@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, useMemo } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import {
   View, Text, SectionList, TouchableOpacity, StyleSheet,
   ActivityIndicator, RefreshControl,
@@ -22,14 +22,14 @@ interface Notification {
 }
 
 const TYPE_ICON: Record<string, { name: any; color: string }> = {
-  analyst_rating:  { name: 'trending-up',       color: '#3B82F6' },
-  filing_alert:    { name: 'document-text',      color: '#8B5CF6' },
-  earnings_alert:  { name: 'bar-chart',          color: '#F59E0B' },
+  analyst_rating:  { name: 'trending-up',       color: '#34C759' },
+  filing_alert:    { name: 'document-text',      color: '#8E8E93' },
+  earnings_alert:  { name: 'bar-chart',          color: '#8E8E93' },
   dividend_alert:  { name: 'cash',               color: '#34C759' },
   price_alert:     { name: 'flash',              color: '#FF3B30' },
-  portfolio_mover: { name: 'pulse',              color: '#F97316' },
-  economic_event:  { name: 'globe',              color: '#06B6D4' },
-  default:         { name: 'notifications',      color: '#64748B' },
+  portfolio_mover: { name: 'pulse',              color: '#8E8E93' },
+  economic_event:  { name: 'globe',              color: '#8E8E93' },
+  default:         { name: 'notifications',      color: '#8E8E93' },
 };
 
 function timeAgo(dateStr: string): string {
@@ -135,163 +135,165 @@ export default function NotificationsCenterScreen() {
   }, [notifications]);
 
   return (
-    <SafeAreaView style={s.container} edges={['bottom']}>
-      <Stack.Screen options={{
-        title: 'Benachrichtigungen',
-        headerStyle: { backgroundColor: '#000000' },
-        headerTintColor: '#F8FAFC',
-        headerBackTitle: '',
-        headerTitleStyle: { fontSize: 17, fontWeight: '700' },
-        headerShadowVisible: false,
-        headerRight: () => unreadCount > 0 ? (
+    <>
+      <Stack.Screen options={{ headerShown: false }} />
+      <SafeAreaView style={s.container} edges={['top', 'bottom']}>
+        {/* Custom Header */}
+        <View style={s.header}>
           <TouchableOpacity
-            onPress={markAllRead}
-            disabled={markingAll}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            style={s.headerAction}
+            onPress={() => router.back()}
+            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+            style={s.headerBtn}
           >
-            <Ionicons name="checkmark-done" size={18} color={markingAll ? '#1E293B' : '#34C759'} />
+            <Ionicons name="chevron-back" size={26} color="#FFFFFF" />
           </TouchableOpacity>
-        ) : null,
-      }} />
-
-      {loading ? (
-        <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 48 }} />
-      ) : notifications.length === 0 ? (
-        <View style={s.emptyWrap}>
-          <View style={s.emptyIcon}>
-            <Ionicons name="notifications-off-outline" size={32} color="#475569" />
+          <View style={s.headerTitleWrap}>
+            <Text style={s.headerTitle}>Benachrichtigungen</Text>
+            {unreadCount > 0 && (
+              <Text style={s.headerSubtitle}>{unreadCount} ungelesen</Text>
+            )}
           </View>
-          <Text style={s.emptyTitle}>Keine Benachrichtigungen</Text>
-          <Text style={s.emptyText}>Hier erscheinen Analyst-Ratings, Earnings, Filings und mehr.</Text>
-        </View>
-      ) : (
-        <SectionList
-          sections={sections}
-          keyExtractor={n => n.id}
-          refreshControl={
-            <RefreshControl
-              refreshing={refreshing}
-              onRefresh={() => { setRefreshing(true); load(); }}
-              tintColor="#34C759"
-            />
-          }
-          stickySectionHeadersEnabled={false}
-          renderSectionHeader={({ section }) => (
-            <View style={s.sectionHeader}>
-              <Text style={s.sectionTitle}>{section.title}</Text>
-              {section.title === 'Heute' && unreadCount > 0 && (
-                <View style={s.unreadBadge}>
-                  <Text style={s.unreadBadgeText}>{unreadCount} neu</Text>
-                </View>
-              )}
-            </View>
+          {unreadCount > 0 ? (
+            <TouchableOpacity
+              onPress={markAllRead}
+              disabled={markingAll}
+              hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+              style={s.headerBtn}
+            >
+              <Ionicons name="checkmark-done" size={22} color={markingAll ? '#48484A' : '#34C759'} />
+            </TouchableOpacity>
+          ) : (
+            <View style={s.headerBtn} />
           )}
-          renderItem={({ item: n, index, section }) => {
-            const icon = TYPE_ICON[n.type] || TYPE_ICON.default;
-            const isLast = index === section.data.length - 1;
-            const hasNav = n.data?.screen === 'stock' || n.data?.screen === 'investor';
-            return (
-              <TouchableOpacity
-                style={[s.row, !isLast && s.rowBorder, !n.read && s.rowUnread]}
-                onPress={() => handleTap(n)}
-                activeOpacity={0.6}
-              >
-                <View style={[s.iconWrap, { backgroundColor: icon.color + '15' }]}>
-                  <Ionicons name={icon.name} size={20} color={icon.color} />
-                  {!n.read && <View style={s.unreadDot} />}
-                </View>
+        </View>
 
-                <View style={s.content}>
-                  <View style={s.titleRow}>
-                    <Text style={[s.title, !n.read && s.titleUnread]} numberOfLines={1}>
-                      {n.title}
+        {loading ? (
+          <ActivityIndicator color="#34C759" size="large" style={{ marginTop: 48 }} />
+        ) : notifications.length === 0 ? (
+          <View style={s.emptyWrap}>
+            <View style={s.emptyIcon}>
+              <Ionicons name="notifications-off-outline" size={32} color="#48484A" />
+            </View>
+            <Text style={s.emptyTitle}>Keine Benachrichtigungen</Text>
+            <Text style={s.emptyText}>Hier erscheinen Analyst-Ratings, Earnings, Filings und mehr.</Text>
+          </View>
+        ) : (
+          <SectionList
+            sections={sections}
+            keyExtractor={n => n.id}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={() => { setRefreshing(true); load(); }}
+                tintColor="#34C759"
+              />
+            }
+            stickySectionHeadersEnabled={false}
+            renderSectionHeader={({ section }) => (
+              <View style={s.sectionHeader}>
+                <Text style={s.sectionTitle}>{section.title}</Text>
+              </View>
+            )}
+            renderItem={({ item: n, index, section }) => {
+              const icon = TYPE_ICON[n.type] || TYPE_ICON.default;
+              const isLast = index === section.data.length - 1;
+              const hasNav = n.data?.screen === 'stock' || n.data?.screen === 'investor';
+              return (
+                <TouchableOpacity
+                  style={[s.row, !isLast && s.rowBorder, !n.read && s.rowUnread]}
+                  onPress={() => handleTap(n)}
+                  activeOpacity={0.6}
+                >
+                  <View style={[s.iconWrap, { backgroundColor: icon.color + '20' }]}>
+                    <Ionicons name={icon.name} size={18} color={icon.color} />
+                  </View>
+
+                  <View style={s.content}>
+                    <View style={s.titleRow}>
+                      <Text
+                        style={[s.title, !n.read && s.titleUnread]}
+                        numberOfLines={1}
+                      >
+                        {n.title}
+                      </Text>
+                      {!n.read && <View style={s.unreadDot} />}
+                    </View>
+                    <Text style={[s.message, !n.read && s.messageUnread]} numberOfLines={2}>
+                      {n.message}
                     </Text>
                     <Text style={s.time}>{timeAgo(n.created_at)}</Text>
                   </View>
-                  <Text style={[s.message, !n.read && s.messageUnread]} numberOfLines={2}>
-                    {n.message}
-                  </Text>
-                </View>
 
-                {hasNav && (
-                  <View style={s.chevronWrap}>
-                    <Ionicons name="chevron-forward" size={16} color="#334155" />
-                  </View>
-                )}
-              </TouchableOpacity>
-            );
-          }}
-          contentContainerStyle={{ paddingBottom: 32 }}
-        />
-      )}
-    </SafeAreaView>
+                  {hasNav && (
+                    <Ionicons name="chevron-forward" size={16} color="#3A3A3C" />
+                  )}
+                </TouchableOpacity>
+              );
+            }}
+            contentContainerStyle={{ paddingBottom: 40 }}
+          />
+        )}
+      </SafeAreaView>
+    </>
   );
 }
 
 const s = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000000' },
 
-  headerAction: {
-    width: 36, height: 36, borderRadius: 18,
-    backgroundColor: 'rgba(34,197,94,0.1)',
-    alignItems: 'center', justifyContent: 'center',
+  // Custom Header
+  header: {
+    flexDirection: 'row', alignItems: 'center',
+    paddingHorizontal: 8, paddingVertical: 8,
+    borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1C1C1E',
   },
+  headerBtn: {
+    width: 40, height: 40, alignItems: 'center', justifyContent: 'center',
+  },
+  headerTitleWrap: { flex: 1, alignItems: 'center' },
+  headerTitle: { color: '#FFFFFF', fontSize: 17, fontWeight: '700' },
+  headerSubtitle: { color: '#8E8E93', fontSize: 12, marginTop: 1 },
 
+  // Section Header
   sectionHeader: {
-    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
-    paddingHorizontal: 16, paddingTop: 20, paddingBottom: 8,
+    paddingHorizontal: 16, paddingTop: 20, paddingBottom: 6,
   },
   sectionTitle: {
-    color: '#64748B', fontSize: 13, fontWeight: '600',
+    color: '#8E8E93', fontSize: 13, fontWeight: '600',
     textTransform: 'uppercase', letterSpacing: 0.5,
   },
-  unreadBadge: {
-    backgroundColor: 'rgba(34,197,94,0.12)',
-    paddingHorizontal: 8, paddingVertical: 3, borderRadius: 10,
-  },
-  unreadBadgeText: { color: '#34C759', fontSize: 11, fontWeight: '600' },
 
+  // Row
   row: {
-    flexDirection: 'row', alignItems: 'center',
-    paddingHorizontal: 16, paddingVertical: 14,
-    backgroundColor: '#000000', gap: 12,
-    marginHorizontal: 0,
+    flexDirection: 'row', alignItems: 'flex-start',
+    paddingHorizontal: 16, paddingVertical: 14, gap: 12,
   },
-  rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1E293B' },
-  rowUnread: { backgroundColor: '#0c1018' },
+  rowBorder: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: '#1C1C1E' },
+  rowUnread: { backgroundColor: '#0A0A0A' },
 
   iconWrap: {
-    width: 44, height: 44, borderRadius: 14,
+    width: 36, height: 36, borderRadius: 10,
     alignItems: 'center', justifyContent: 'center', flexShrink: 0,
-  },
-  unreadDot: {
-    position: 'absolute', top: -1, right: -1,
-    width: 10, height: 10, borderRadius: 5,
-    backgroundColor: '#34C759',
-    borderWidth: 2, borderColor: '#000000',
   },
 
   content: { flex: 1, minWidth: 0 },
-  titleRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 3 },
-  title: { color: '#94A3B8', fontSize: 14, fontWeight: '500', flex: 1, marginRight: 8 },
-  titleUnread: { color: '#F8FAFC', fontWeight: '700' },
-  message: { color: '#475569', fontSize: 13, lineHeight: 18 },
-  messageUnread: { color: '#64748B' },
-  time: { color: '#475569', fontSize: 12, flexShrink: 0 },
-
-  chevronWrap: {
-    width: 28, height: 28, borderRadius: 8,
-    backgroundColor: '#1C1C1E',
-    alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+  titleRow: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 2 },
+  title: { color: '#8E8E93', fontSize: 15, fontWeight: '500', flex: 1 },
+  titleUnread: { color: '#FFFFFF', fontWeight: '600' },
+  unreadDot: {
+    width: 8, height: 8, borderRadius: 4, backgroundColor: '#34C759',
   },
+  message: { color: '#48484A', fontSize: 14, lineHeight: 19 },
+  messageUnread: { color: '#8E8E93' },
+  time: { color: '#48484A', fontSize: 12, marginTop: 6 },
 
+  // Empty state
   emptyWrap: { flex: 1, alignItems: 'center', justifyContent: 'center', padding: 40, gap: 12 },
   emptyIcon: {
     width: 64, height: 64, borderRadius: 32,
     backgroundColor: '#1C1C1E', alignItems: 'center', justifyContent: 'center',
     marginBottom: 4,
   },
-  emptyTitle: { color: '#F8FAFC', fontSize: 17, fontWeight: '600' },
-  emptyText: { color: '#475569', fontSize: 14, textAlign: 'center', lineHeight: 20 },
+  emptyTitle: { color: '#FFFFFF', fontSize: 17, fontWeight: '600' },
+  emptyText: { color: '#8E8E93', fontSize: 14, textAlign: 'center', lineHeight: 20 },
 });
