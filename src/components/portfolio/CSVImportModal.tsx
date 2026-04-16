@@ -97,6 +97,10 @@ export default function CSVImportModal({
   const [detectedFormat, setDetectedFormat] = useState<string | null>(null)
   const [pdfParsing, setPdfParsing] = useState(false)
   const [pdfErrors, setPdfErrors] = useState<string[]>([])
+  // Historische Schlusskurse für transfer_in/out-Transaktionen (Key: "SYMBOL|YYYY-MM-DD")
+  // ING-Depotüberträge haben keinen Einstandskurs — hier ziehen wir den Tagesschlusskurs.
+  const [transferPrices, setTransferPrices] = useState<Record<string, number>>({})
+  const [fetchingTransferPrices, setFetchingTransferPrices] = useState(false)
 
   // === Import State ===
   const [importing, setImporting] = useState(false)
@@ -144,6 +148,48 @@ export default function CSVImportModal({
     return () => { cancelled = true }
   }, [isOpen, portfolioId])
 
+  // Nach ISIN-Resolution: historische Schlusskurse für Transfer-Transaktionen
+  // (ohne Einstandspreis) fetchen. Pro Symbol ein FMP-Call mit Range.
+  React.useEffect(() => {
+    if (!parseResult || isinMap.size === 0) return
+    // Alle Transfer-Transaktionen finden, die noch keinen Preis haben
+    const needsPrice: Array<{ symbol: string; date: string }> = []
+    const seen = new Set<string>()
+    for (const tx of parseResult.transactions) {
+      if (!tx.isFromTransfer) continue
+      if (tx.price > 0) continue
+      if (!tx.date) continue
+      const symbol = tx.symbol || isinMap.get(tx.isin)?.symbol
+      if (!symbol) continue
+      const key = `${symbol}|${tx.date}`
+      if (seen.has(key)) continue
+      seen.add(key)
+      if (transferPrices[key]) continue // schon gefetcht
+      needsPrice.push({ symbol, date: tx.date })
+    }
+    if (needsPrice.length === 0) return
+
+    let cancelled = false
+    ;(async () => {
+      setFetchingTransferPrices(true)
+      try {
+        const resp = await fetch('/api/portfolio/historical-prices', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: needsPrice }),
+        })
+        if (!resp.ok) return
+        const { results } = await resp.json() as { results: Record<string, number> }
+        if (cancelled || !results) return
+        setTransferPrices(prev => ({ ...prev, ...results }))
+      } finally {
+        if (!cancelled) setFetchingTransferPrices(false)
+      }
+    })()
+    return () => { cancelled = true }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [parseResult, isinMap])
+
   // === Reset ===
   const resetState = useCallback(() => {
     setStep('broker')
@@ -153,6 +199,8 @@ export default function CSVImportModal({
     setIsinMap(new Map())
     setUnresolvedISINs([])
     setResolving(false)
+    setTransferPrices({})
+    setFetchingTransferPrices(false)
     setImporting(false)
     setImportProgress({ current: 0, total: 0 })
     setImportError(null)
@@ -307,7 +355,11 @@ export default function CSVImportModal({
         parsedTransactions = data.transactions as ParsedTransaction[]
         uniqueISINs = (data.uniqueISINs as string[]) || []
       } else {
-        const txs = data.transactions as FlatexParsedTransaction[]
+        // Typ-Erweiterung für PDF-Parser die auch Transfer-Typen liefern (z.B. ING)
+        const txs = data.transactions as (Omit<FlatexParsedTransaction, 'type'> & {
+          type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out'
+          isFromTransfer?: boolean
+        })[]
         uniqueISINs = [...new Set(txs.map(t => t.isin).filter(Boolean))]
         parsedTransactions = txs.map(tx => ({
           date: tx.date,
@@ -322,6 +374,8 @@ export default function CSVImportModal({
           tax: 0,
           notes: tx.notes,
           originalType: `${data.format}_${tx.type}`,
+          // Transfer-in/out ohne Einstandspreis werden unten via Historical-Price-API nachgezogen
+          isFromTransfer: tx.isFromTransfer || tx.type === 'transfer_in' || tx.type === 'transfer_out',
         }))
       }
 
@@ -421,14 +475,29 @@ export default function CSVImportModal({
     if (!parseResult) return []
 
     return parseResult.transactions.map(tx => {
-      if (tx.symbol) return tx
-      const resolved = isinMap.get(tx.isin)
-      if (resolved) {
-        return { ...tx, symbol: resolved.symbol, name: resolved.name || tx.name }
+      // Symbol via ISIN-Map auflösen (falls noch nicht gesetzt)
+      let resolved = tx
+      if (!tx.symbol) {
+        const res = isinMap.get(tx.isin)
+        if (res) resolved = { ...tx, symbol: res.symbol, name: res.name || tx.name }
       }
-      return tx
+
+      // Transfer ohne Einstandskurs → historischen Schlusskurs einsetzen (falls gefetcht)
+      if (resolved.isFromTransfer && resolved.price === 0 && resolved.symbol && resolved.date) {
+        const key = `${resolved.symbol}|${resolved.date}`
+        const histPrice = transferPrices[key]
+        if (histPrice && histPrice > 0) {
+          resolved = {
+            ...resolved,
+            price: histPrice,
+            totalValue: histPrice * resolved.quantity,
+            notes: `${resolved.notes} · Einstandskurs: Schlusskurs am Übertragsdatum (${histPrice.toFixed(2)}€)`,
+          }
+        }
+      }
+      return resolved
     })
-  }, [parseResult, isinMap])
+  }, [parseResult, isinMap, transferPrices])
 
   // Nach Cash-Mode gefilterte Transaktionen
   const cashFilteredTransactions = useMemo(() => {

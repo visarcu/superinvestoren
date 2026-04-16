@@ -25,6 +25,8 @@ export interface IngParsedTransaction {
   currency: string
   exchange: string
   notes: string
+  // Flags für Holdings-Rekonstruktion + nachträgliche Preis-Auflösung
+  isFromTransfer?: boolean // transfer_in/out aus Depotübertrag (ING liefert keinen Kurs)
 }
 
 export interface IngParseResult {
@@ -248,14 +250,15 @@ export function parseIngPDFText(text: string, fileName: string): IngParseResult 
             isin: pos.isin,
             wkn: pos.wkn,
             quantity: pos.qty,
-            price: 0, // ING-Depotüberträge enthalten keinen Kurs
-            totalValue: 0,
+            price: 0, // ING-Depotüberträge enthalten keinen Kurs — wird im Import-Flow via
+            totalValue: 0, // historischem Marktpreis am Transfer-Datum nachgezogen.
             fees: 0,
             endAmount: 0,
             date: pos.date,
             currency: 'EUR',
             exchange: '',
             notes: `ING-Import · ${isTransferIn ? 'Depotübertrag (Eingang)' : 'Depotübertrag (Ausgang)'} · Anschaffungsdaten werden separat übermittelt`,
+            isFromTransfer: true,
           })
         }
       }
