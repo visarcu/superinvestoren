@@ -8,23 +8,26 @@ export async function GET(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleDailyDividendReminder()
+  const { searchParams } = new URL(request.url)
+  const testUserId = searchParams.get('testUserId')
+  return handleDailyDividendReminder(testUserId)
 }
 
-async function handleDailyDividendReminder() {
+async function handleDailyDividendReminder(testUserId: string | null = null) {
   try {
-    console.log('[Daily Dividend Reminder] Starting...')
+    if (testUserId) console.log(`[Daily Dividend Reminder] TEST MODE — only notifying ${testUserId}`)
+    else console.log('[Daily Dividend Reminder] Starting...')
 
     const todayStr = new Date().toISOString().split('T')[0]
 
-    // 1. Get all users with push tokens
-    const { data: deviceTokenRows, error: tokenError } = await supabaseAdmin
-      .from('device_tokens')
-      .select('user_id, token')
+    // 1. Get users with push tokens (filtered to testUser if set)
+    let tokenQuery = supabaseAdmin.from('device_tokens').select('user_id, token')
+    if (testUserId) tokenQuery = tokenQuery.eq('user_id', testUserId)
+    const { data: deviceTokenRows, error: tokenError } = await tokenQuery
 
     if (tokenError || !deviceTokenRows || deviceTokenRows.length === 0) {
       console.log('[Daily Dividend Reminder] No device tokens found')
-      return NextResponse.json({ success: true, notificationsSent: 0 })
+      return NextResponse.json({ success: true, notificationsSent: 0, testMode: !!testUserId })
     }
 
     const userIds = [...new Set(deviceTokenRows.map(r => r.user_id))]

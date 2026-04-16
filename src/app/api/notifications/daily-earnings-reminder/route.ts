@@ -15,17 +15,19 @@ export async function GET(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleDailyEarningsReminder()
+  const { searchParams } = new URL(request.url)
+  return handleDailyEarningsReminder(searchParams.get('testUserId'))
 }
 
-async function handleDailyEarningsReminder() {
+async function handleDailyEarningsReminder(testUserId: string | null = null) {
   try {
-    console.log('[Daily Earnings Reminder] Starting...')
+    if (testUserId) console.log(`[Daily Earnings Reminder] TEST MODE — only notifying ${testUserId}`)
+    else console.log('[Daily Earnings Reminder] Starting...')
 
-    // 1. Get all users with registered device tokens (push enabled)
-    const { data: deviceTokenRows, error: tokenError } = await supabaseAdmin
-      .from('device_tokens')
-      .select('user_id, token')
+    // 1. Get users with push tokens (filtered to testUser if set)
+    let tokenQuery = supabaseAdmin.from('device_tokens').select('user_id, token')
+    if (testUserId) tokenQuery = tokenQuery.eq('user_id', testUserId)
+    const { data: deviceTokenRows, error: tokenError } = await tokenQuery
 
     if (tokenError) {
       console.error('[Daily Earnings Reminder] device_tokens error:', tokenError)

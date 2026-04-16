@@ -83,27 +83,32 @@ async function createInAppNotification({
   }
 }
 
+function getTestUserFromRequest(request: NextRequest): string | null {
+  const q = new URL(request.url).searchParams.get('testUserId')
+  return q && UUID_REGEX.test(q) ? q : null
+}
+
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleWatchlistCheck()
+  return handleWatchlistCheck(getTestUserFromRequest(request))
 }
 
 export async function GET(request: NextRequest) {
-  // Vercel Cron Jobs use GET requests
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleWatchlistCheck()
+  return handleWatchlistCheck(getTestUserFromRequest(request))
 }
 
-async function handleWatchlistCheck() {
+async function handleWatchlistCheck(queryTestUserId: string | null = null) {
   try {
+    const testUser = queryTestUserId || TEST_USER_ID
     console.log('[Cron] Starting watchlist check...')
-    console.log(`[Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
+    console.log(`[Cron] Test mode: ${testUser ? 'ON (user: ' + testUser + ')' : 'OFF'}`)
 
     // 1. Alle User mit aktivierten Watchlist-Notifications holen
     let query = supabaseService
@@ -116,8 +121,8 @@ async function handleWatchlistCheck() {
       .eq('watchlist_enabled', true)
 
     // Filter by test user if set
-    if (TEST_USER_ID) {
-      query = query.eq('user_id', TEST_USER_ID)
+    if (testUser) {
+      query = query.eq("user_id", testUser)
     }
 
     const { data: usersWithNotifications, error: usersError } = await query
@@ -269,7 +274,7 @@ async function handleWatchlistCheck() {
 
           // Check if user is Premium (or in test mode)
           const isPremiumUser = profile?.is_premium || false
-          const bypassPremiumCheck = !!TEST_USER_ID && userSettings.user_id === TEST_USER_ID
+          const bypassPremiumCheck = !!testUser && userSettings.user_id === testUser
 
           if (profile && (isPremiumUser || bypassPremiumCheck)) {
             const { data: { user } } = await supabaseService.auth.admin.getUserById(userSettings.user_id)
@@ -328,7 +333,7 @@ async function handleWatchlistCheck() {
 
     return NextResponse.json({
       success: true,
-      testMode: !!TEST_USER_ID,
+      testMode: !!testUser,
       usersChecked: usersWithNotifications?.length || 0,
       tickersChecked: totalTickersChecked,
       dipsFound: totalDipsFound,

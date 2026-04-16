@@ -199,15 +199,15 @@ async function fetchRecentGradings(symbol: string, since: Date): Promise<FMPGrad
   })
 }
 
-async function handleCheck() {
+async function handleCheck(queryTestUserId: string | null = null) {
   console.log('[AnalystRatings] Starting check...')
 
   if (!FMP_API_KEY) {
     return NextResponse.json({ error: 'FMP_API_KEY not set' }, { status: 500 })
   }
 
-  // TEST MODE: wenn gesetzt, gehen Notifications nur an diesen einen User
-  const testUserId = process.env.ANALYST_RATINGS_TEST_USER_ID || null
+  // TEST MODE: query param overrides env var
+  const testUserId = queryTestUserId || process.env.ANALYST_RATINGS_TEST_USER_ID || null
   if (testUserId) {
     console.log(`[AnalystRatings] TEST MODE — only notifying user ${testUserId}`)
   }
@@ -394,7 +394,7 @@ export async function GET(request: NextRequest) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleCheck()
+  return handleCheck(new URL(request.url).searchParams.get('testUserId'))
 }
 
 export async function POST(request: NextRequest) {
@@ -402,5 +402,5 @@ export async function POST(request: NextRequest) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleCheck()
+  return handleCheck(new URL(request.url).searchParams.get('testUserId'))
 }

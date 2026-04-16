@@ -62,8 +62,9 @@ async function sendPush(userIds: string[], title: string, body: string, data?: o
   })
 }
 
-async function handleCheck() {
-  console.log('[EconomicEvents] Starting check...')
+async function handleCheck(testUserId: string | null = null) {
+  if (testUserId) console.log(`[EconomicEvents] TEST MODE — only notifying ${testUserId}`)
+  else console.log('[EconomicEvents] Starting check...')
 
   if (!FMP_API_KEY) {
     return NextResponse.json({ error: 'FMP_API_KEY not set' }, { status: 500 })
@@ -96,18 +97,20 @@ async function handleCheck() {
 
   console.log(`[EconomicEvents] Found ${rateDecisions.length} rate decision(s)`)
 
-  // 3. Check deduplication — don't send twice for the same day
+  // 3. Check deduplication — don't send twice for the same day (skip in test mode)
   const dedupeKey = `economic_event_${today}`
-  const { data: existing } = await supabaseAdmin
-    .from('notification_log')
-    .select('id')
-    .eq('reference_id', dedupeKey)
-    .eq('notification_type', 'economic_event')
-    .maybeSingle()
+  if (!testUserId) {
+    const { data: existing } = await supabaseAdmin
+      .from('notification_log')
+      .select('id')
+      .eq('reference_id', dedupeKey)
+      .eq('notification_type', 'economic_event')
+      .maybeSingle()
 
-  if (existing) {
-    console.log('[EconomicEvents] Already notified today')
-    return NextResponse.json({ success: true, message: 'Already notified today', notificationsSent: 0 })
+    if (existing) {
+      console.log('[EconomicEvents] Already notified today')
+      return NextResponse.json({ success: true, message: 'Already notified today', notificationsSent: 0 })
+    }
   }
 
   // 4. Build notification message
@@ -135,10 +138,10 @@ async function handleCheck() {
     message += ` Außerdem: ${others.join(', ')}-Zinsentscheid.`
   }
 
-  // 5. Get all users with push tokens
-  const { data: deviceTokenRows } = await supabaseAdmin
-    .from('device_tokens')
-    .select('user_id')
+  // 5. Get users with push tokens (filtered to testUser if set)
+  let tokenQuery = supabaseAdmin.from('device_tokens').select('user_id')
+  if (testUserId) tokenQuery = tokenQuery.eq('user_id', testUserId)
+  const { data: deviceTokenRows } = await tokenQuery
 
   const userIds = [...new Set((deviceTokenRows || []).map(r => r.user_id))]
 
@@ -169,13 +172,15 @@ async function handleCheck() {
   // Send push
   await sendPush(userIds, title, message)
 
-  // 7. Log for deduplication
-  await supabaseAdmin.from('notification_log').insert({
-    user_id: userIds[0],
-    notification_type: 'economic_event',
-    reference_id: dedupeKey,
-    content: { events: rateDecisions.map(e => e.event), date: today },
-  })
+  // 7. Log for deduplication (skip in test mode so we can re-test)
+  if (!testUserId) {
+    await supabaseAdmin.from('notification_log').insert({
+      user_id: userIds[0],
+      notification_type: 'economic_event',
+      reference_id: dedupeKey,
+      content: { events: rateDecisions.map(e => e.event), date: today },
+    })
+  }
 
   console.log(`[EconomicEvents] Notified ${userIds.length} users about ${rateDecisions.length} rate decision(s)`)
 
@@ -193,7 +198,8 @@ export async function GET(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleCheck()
+  const { searchParams } = new URL(request.url)
+  return handleCheck(searchParams.get('testUserId'))
 }
 
 export async function POST(request: Request) {
@@ -201,5 +207,6 @@ export async function POST(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleCheck()
+  const { searchParams } = new URL(request.url)
+  return handleCheck(searchParams.get('testUserId'))
 }

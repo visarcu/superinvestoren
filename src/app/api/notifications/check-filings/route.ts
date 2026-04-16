@@ -154,21 +154,25 @@ async function checkForNewFiling(investorSlug: string): Promise<{ isNew: boolean
   }
 }
 
+function getTestUserFromRequest(request: NextRequest): string | null {
+  const q = new URL(request.url).searchParams.get('testUserId')
+  return q && UUID_REGEX.test(q) ? q : null
+}
+
 export async function POST(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleFilingCheck()
+  return handleFilingCheck(getTestUserFromRequest(request))
 }
 
 export async function GET(request: NextRequest) {
-  // Vercel Cron Jobs use GET requests
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleFilingCheck()
+  return handleFilingCheck(getTestUserFromRequest(request))
 }
 
 async function sendPush(userId: string, title: string, body: string, data?: object) {
@@ -186,10 +190,11 @@ async function sendPush(userId: string, title: string, body: string, data?: obje
   }
 }
 
-async function handleFilingCheck() {
+async function handleFilingCheck(queryTestUserId: string | null = null) {
   try {
+    const testUser = queryTestUserId || TEST_USER_ID
     console.log('[Filing Cron] Starting filing alerts check...')
-    console.log(`[Filing Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
+    console.log(`[Filing Cron] Test mode: ${testUser ? 'ON (user: ' + testUser + ')' : 'OFF'}`)
 
     // Alle User mit aktivierten Filing-Notifications holen (preferred_investors = followed investors)
     let query = supabaseService
@@ -201,8 +206,8 @@ async function handleFilingCheck() {
       .eq('filings_enabled', true)
 
     // Filter by test user if set
-    if (TEST_USER_ID) {
-      query = query.eq('user_id', TEST_USER_ID)
+    if (testUser) {
+      query = query.eq('user_id', testUser)
     }
 
     const { data: usersWithFilingNotifications, error: usersError } = await query
@@ -327,7 +332,7 @@ async function handleFilingCheck() {
 
     return NextResponse.json({
       success: true,
-      testMode: !!TEST_USER_ID,
+      testMode: !!testUser,
       usersChecked: usersWithFilingNotifications?.length || 0,
       investorsChecked: totalInvestorsChecked,
       newFilingsFound,
