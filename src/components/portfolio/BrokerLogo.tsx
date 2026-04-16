@@ -145,6 +145,28 @@ export function BrokerLogo({ brokerId, size = 36, className }: BrokerLogoProps) 
         </div>
       )
 
+    case 'ing':
+      // ING-DiBa — weißer Hintergrund, orange "ING" Schriftzug (vereinfacht)
+      return (
+        <div style={sizeStyle} className={`relative flex-shrink-0 ${className ?? ''}`}>
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+            <rect width="36" height="36" rx="8" fill="#FFFFFF" />
+            <text
+              x="18"
+              y="22"
+              fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
+              fontSize="11"
+              fontWeight="800"
+              fill="#FF6200"
+              textAnchor="middle"
+              letterSpacing="-0.4"
+            >
+              ING
+            </text>
+          </svg>
+        </div>
+      )
+
     case 'other':
     default:
       // Fallback — neutrales Quadrat mit Fragezeichen
