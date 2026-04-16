@@ -9,6 +9,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "check:isin": "tsx scripts/checkIsinIntegrity.ts",
     "fetch13f": "node --experimental-json-modules scripts/fetch13f.js",
     "fetch-series": "node --experimental-json-modules scripts/fetchSeries.js",
     "fetchNportP": "node --experimental-json-modules scripts/fetchNportP.js",

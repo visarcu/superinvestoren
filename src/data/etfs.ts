@@ -138,26 +138,10 @@ export const etfs: ETF[] = [
     isin: 'IE00BJ0KDR00',
     ter: 0.07
   },
-  {
-    symbol: 'A1JX52',
-    symbol_de: 'VGWL.DE',
-    name: 'Vanguard FTSE All-World UCITS ETF (Dist)',
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Global All-World',
-    isin: 'IE00B3RBWM25',
-    ter: 0.22
-  },
-  {
-    symbol: 'A2PKXG',
-    symbol_de: 'VWCE.DE',
-    name: 'Vanguard FTSE All-World UCITS ETF (Acc)',
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Global All-World',
-    isin: 'IE00BK5BQT80',
-    ter: 0.22
-  },
+  // Entfernte Duplikate:
+  //   - A1JX52 / IE00B3RBWM25 → identisch zu VGWL.DE (oben)
+  //   - A2PKXG / IE00BK5BQT80 → identisch zu VWCE.DE (oben)
+  // Begründung: WKN-Einträge mit symbol_de verursachten gleiche ISIN mehrfach im Map.
   {
     symbol: 'A12CX1',
     name: 'Amundi MSCI World UCITS ETF',
@@ -221,22 +205,19 @@ export const etfs: ETF[] = [
     isin: 'DE0002635307',
     ter: 0.20
   },
-  {
-    symbol: 'XCS7.DE',
-    name: 'Xtrackers S&P 500 UCITS ETF',
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'US Large Cap',
-    isin: 'IE00BJ0KDQ92',
-    ter: 0.07
-  },
+  // Entfernt: XCS7.DE hatte fälschlich ISIN IE00BJ0KDQ92 hinterlegt — das ist
+  // aber die ISIN des Xtrackers MSCI World ETF (XDWL.DE, siehe weiter unten).
+  // XCS7 ist der Xtrackers S&P 500 UCITS ETF 1C und hat die ISIN IE00BM67HT60.
+  // Bei Bedarf neu anlegen mit der korrekten ISIN.
   {
     symbol: 'WSML.DE',
     name: 'iShares Core MSCI World IMI UCITS ETF',
     issuer: 'iShares',
     assetClass: 'Equity',
     category: 'Global All Cap',
-    isin: 'IE00B4L5YC18',
+    // ISIN entfernt: IE00B4L5YC18 war fälschlich hinterlegt — das ist die ISIN
+    // des iShares MSCI EM UCITS ETF (IEMA.DE, weiter unten). Die echte WSML-ISIN
+    // (iShares Core MSCI World Small Cap, IE00BF4RFH31) bei Bedarf nachtragen.
     ter: 0.18
   },
   {
@@ -311,15 +292,10 @@ export const etfs: ETF[] = [
     isin: 'IE00B60SX394',
     ter: 0.19
   },
-  {
-    symbol: 'DBX2.DE',
-    name: 'Xtrackers MSCI EM Asia UCITS ETF',
-    issuer: 'Xtrackers',
-    assetClass: 'Equity',
-    category: 'Asia Emerging Markets',
-    isin: 'IE00BTJRMP35',
-    ter: 0.65
-  },
+  // Entfernt: DBX2.DE hatte fälschlich ISIN IE00BTJRMP35 hinterlegt — das ist
+  // aber die ISIN des Xtrackers MSCI Emerging Markets ETF (XMME.DE, weiter oben).
+  // DBX2 ist der Xtrackers MSCI EM Asia UCITS ETF und hat die ISIN LU0292107645.
+  // Bei Bedarf neu anlegen mit der korrekten ISIN.
   
   // === WEITERE BELIEBTE DEUTSCHE ETFs ===
   // FWRG.DE / FWIA.DE (Invesco FTSE All-World) — bereits oben definiert
@@ -359,24 +335,11 @@ export const etfs: ETF[] = [
     isin: 'IE00B4X9L533',
     ter: 0.15
   },
-  {
-    symbol: 'VUSA.L',
-    name: 'Vanguard S&P 500 UCITS ETF (Dist)',
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'US Large Cap',
-    isin: 'IE00B3XXRP09',
-    ter: 0.07
-  },
-  {
-    symbol: 'VWRL.L',
-    name: 'Vanguard FTSE All-World UCITS ETF (Dist)',
-    issuer: 'Vanguard',
-    assetClass: 'Equity',
-    category: 'Global All-World',
-    isin: 'IE00B3RBWM25',
-    ter: 0.22
-  },
+  // Entfernte London-Listings (gleiche ISIN wie .DE-Variante, aber Preis in GBX/Pence):
+  //   - VUSA.L / IE00B3XXRP09 → duplikat zu VUSA.DE (oben)
+  //   - VWRL.L / IE00B3RBWM25 → duplikat zu VGWL.DE (oben)
+  // Grund: ISINs mehrfach im Map → letzter Eintrag gewann (VWRL.L) → FMP liefert GBX,
+  // unser Code teilt durch 100 → Marktwert war Faktor 100 zu niedrig (VGWL-Bug).
   {
     symbol: 'VHYL.DE',
     name: 'Vanguard FTSE All-World High Dividend Yield UCITS ETF',
@@ -519,7 +482,8 @@ export const etfs: ETF[] = [
     issuer: 'Vanguard',
     assetClass: 'Equity',
     category: 'Financials',
-    isin: 'US9229086751',
+    // ISIN entfernt: US9229086751 kollidierte mit VGK (Vanguard FTSE Europe).
+    // Echte VFH-ISIN (US9229087690) bei Bedarf nachtragen und validieren.
     ter: 0.10
   },
   
