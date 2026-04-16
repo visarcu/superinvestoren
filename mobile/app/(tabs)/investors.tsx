@@ -173,7 +173,7 @@ export default function InvestorsScreen() {
   }).slice(0, 20);
 
   return (
-    <SafeAreaView style={s.container}>
+    <SafeAreaView style={s.container} edges={['top']}>
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* Header */}
         <View style={s.header}>

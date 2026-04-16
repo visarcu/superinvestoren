@@ -238,7 +238,7 @@ export default function DashboardScreen() {
   const greeting = hour < 12 ? 'Guten Morgen' : hour < 18 ? 'Guten Tag' : 'Guten Abend';
 
   return (
-    <SafeAreaView style={s.container}>
+    <SafeAreaView style={s.container} edges={['top']}>
       <SideDrawer visible={showDrawer} onClose={() => setShowDrawer(false)} userName={userName} />
       <ScrollView
         showsVerticalScrollIndicator={false}

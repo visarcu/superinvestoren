@@ -10,7 +10,7 @@ import { supabase } from '../../lib/auth';
 
 const BASE_URL = 'https://finclue.de';
 
-type SubTab = 'ratings' | 'news';
+type SubTab = 'news' | 'ratings';
 
 // ── Analyst Ratings Types ─────────────────────────────────
 
@@ -94,7 +94,7 @@ function timeAgo(dateStr: string) {
 }
 
 export default function NewsScreen() {
-  const [subTab, setSubTab] = useState<SubTab>('ratings');
+  const [subTab, setSubTab] = useState<SubTab>('news');
 
   // ── Analyst Ratings State ──
   const [gradings, setGradings] = useState<Grading[]>([]);
@@ -304,20 +304,6 @@ export default function NewsScreen() {
       {/* Sub-Tabs */}
       <View style={s.subTabRow}>
         <TouchableOpacity
-          style={[s.subTab, subTab === 'ratings' && s.subTabActive]}
-          onPress={() => setSubTab('ratings')}
-          activeOpacity={0.7}
-        >
-          <Ionicons
-            name="trending-up"
-            size={16}
-            color={subTab === 'ratings' ? '#34C759' : '#64748B'}
-          />
-          <Text style={[s.subTabText, subTab === 'ratings' && s.subTabTextActive]}>
-            Analyst Ratings
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity
           style={[s.subTab, subTab === 'news' && s.subTabActive]}
           onPress={() => setSubTab('news')}
           activeOpacity={0.7}
@@ -329,6 +315,20 @@ export default function NewsScreen() {
           />
           <Text style={[s.subTabText, subTab === 'news' && s.subTabTextActive]}>
             Markt-News
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[s.subTab, subTab === 'ratings' && s.subTabActive]}
+          onPress={() => setSubTab('ratings')}
+          activeOpacity={0.7}
+        >
+          <Ionicons
+            name="trending-up"
+            size={16}
+            color={subTab === 'ratings' ? '#34C759' : '#64748B'}
+          />
+          <Text style={[s.subTabText, subTab === 'ratings' && s.subTabTextActive]}>
+            Analyst Ratings
           </Text>
         </TouchableOpacity>
       </View>
