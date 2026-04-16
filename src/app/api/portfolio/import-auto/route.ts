@@ -12,6 +12,7 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { parseScalableCSV } from '@/lib/scalableCSVParser'
+import { parseZeroCSV, isZeroCSV } from '@/lib/zeroCSVParser'
 import { parseFlatexPDFText, type FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import { parseSmartbrokerPDFText, type SmartbrokerParsedTransaction } from '@/lib/smartbrokerPDFParser'
 import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '@/lib/tradeRepublicPDFParser'
@@ -84,9 +85,23 @@ export async function POST(request: Request) {
     const firstFile = files[0]
     const ext = firstFile.name.toLowerCase().split('.').pop() ?? ''
 
-    // ===== CSV → Scalable Capital =====
+    // ===== CSV → Scalable Capital oder finanzen.net Zero =====
     if (ext === 'csv') {
       const text = await firstFile.text()
+
+      // Auto-Detection über Header
+      if (isZeroCSV(text)) {
+        const result = parseZeroCSV(text)
+        return NextResponse.json({
+          format: 'zero',
+          formatLabel: 'finanzen.net zero',
+          transactions: result.transactions,
+          errors: result.skipped,
+          uniqueISINs: result.uniqueISINs,
+        })
+      }
+
+      // Fallback: Scalable (hat semikolon-CSV mit englischen Spalten)
       const result = parseScalableCSV(text)
       return NextResponse.json({
         format: 'scalable',

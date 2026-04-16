@@ -8,6 +8,7 @@ export type ImportBrokerId =
   | 'flatex'
   | 'smartbroker'
   | 'freedom24'
+  | 'zero'
   | 'other'
 
 export interface ImportBrokerInfo {
@@ -132,6 +133,29 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     },
   },
   {
+    id: 'zero',
+    name: 'finanzen.net zero',
+    shortName: 'Zero',
+    formats: ['.csv'],
+    accept: '.csv',
+    initial: '0',
+    accentDot: 'bg-pink-400',
+    supportsMultiFile: false,
+    isBetterThanPdf: true,
+    instructions: {
+      title: 'So findest du die Export-Datei bei finanzen.net zero',
+      steps: [
+        'Logge dich bei finanzen.net zero ein (Web oder App)',
+        'Gehe zu "Orders" bzw. "Orderhistorie"',
+        'Klicke auf den Export / Download-Button',
+        'Wähle "CSV-Export" und lade die Datei herunter',
+      ],
+      hint: 'Der Zero-Export enthält Käufe/Verkäufe inkl. Sparplan-Ausführungen. Dividenden und Ein-/Auszahlungen sind nicht enthalten — du kannst sie bei Bedarf manuell ergänzen.',
+      loginUrl: 'https://www.finanzen.net/zero',
+      loginLabel: 'Zu finanzen.net zero',
+    },
+  },
+  {
     id: 'other',
     name: 'Anderer Broker',
     shortName: 'Anderer',
@@ -159,6 +183,7 @@ export function getImportBroker(id: ImportBrokerId | string | null | undefined):
 export function formatToBrokerId(format: string | null | undefined): ImportBrokerId {
   if (!format) return 'other'
   if (format === 'scalable') return 'scalable'
+  if (format === 'zero') return 'zero'
   if (format.startsWith('pdf_traderepublic')) return 'traderepublic'
   if (format.startsWith('pdf_smartbroker')) return 'smartbroker'
   if (format.startsWith('pdf_flatex')) return 'flatex'

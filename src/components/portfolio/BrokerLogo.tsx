@@ -123,6 +123,28 @@ export function BrokerLogo({ brokerId, size = 36, className }: BrokerLogoProps) 
         </div>
       )
 
+    case 'zero':
+      // finanzen.net zero — pink-magenta Akzent, stilisierte "0"
+      return (
+        <div style={sizeStyle} className={`relative flex-shrink-0 ${className ?? ''}`}>
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+            <rect width="36" height="36" rx="8" fill="#E4007F" />
+            <text
+              x="18"
+              y="25"
+              fontFamily="ui-sans-serif, system-ui, -apple-system, sans-serif"
+              fontSize="18"
+              fontWeight="800"
+              fill="#FFFFFF"
+              textAnchor="middle"
+              letterSpacing="-0.8"
+            >
+              0
+            </text>
+          </svg>
+        </div>
+      )
+
     case 'other':
     default:
       // Fallback — neutrales Quadrat mit Fragezeichen
