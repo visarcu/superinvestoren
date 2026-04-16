@@ -19,7 +19,7 @@ interface Transaction {
   symbol: string
   quantity: number
   price: number
-  type: 'buy' | 'sell'
+  type: 'buy' | 'sell' | 'transfer_in' | 'transfer_out'
 }
 
 // Erkennt ob ein Ticker in EUR notiert ist (FMP liefert Preise in Börsenwährung)
@@ -86,8 +86,9 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { portfolioId, holdings, cashPosition = 0, days = 30 } = body as {
+    const { portfolioId, portfolioIds, holdings, cashPosition = 0, days = 30 } = body as {
       portfolioId?: string
+      portfolioIds?: string[]
       holdings: HoldingInput[]
       cashPosition: number
       days: number
@@ -107,16 +108,28 @@ export async function POST(request: NextRequest) {
     const fromDate = startDate.toISOString().split('T')[0]
     const toDate = endDate.toISOString().split('T')[0]
 
-    // 1. Lade Transaktionen wenn portfolioId vorhanden
+    // 1. Lade Transaktionen:
+    //    - portfolioIds[] (Alle-Depots-Ansicht) → alle Portfolios des Users
+    //    - portfolioId (Einzelansicht) → genau dieses Portfolio
+    //    - 'all' als portfolioId ist kein gültiges UUID → wird ignoriert (Fallback zu Holdings)
     let transactionsBySymbol = new Map<string, Transaction[]>()
     let allTransactions: Transaction[] = []
 
-    if (portfolioId) {
+    // UUIDs für DB-Query bestimmen
+    const isValidUuid = (v?: string) => !!v && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
+    const validIds = Array.isArray(portfolioIds)
+      ? portfolioIds.filter(isValidUuid)
+      : isValidUuid(portfolioId) ? [portfolioId!] : []
+
+    if (validIds.length > 0) {
       const { data: transactions, error: txError } = await supabase
         .from('portfolio_transactions')
         .select('date, symbol, quantity, price, type')
-        .eq('portfolio_id', portfolioId)
-        .in('type', ['buy', 'sell'])
+        .in('portfolio_id', validIds)
+        // transfer_in/out mit einbeziehen — sonst fehlen im Chart alle via
+        // Depotübertrag eingebuchten Shares (z.B. 147 VGWL in ING war nicht
+        // sichtbar, obwohl sie den Großteil des Depots ausmachten).
+        .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
         .order('date', { ascending: true })
 
       if (txError) {
@@ -302,10 +315,14 @@ export async function POST(request: NextRequest) {
 
           txs.forEach(tx => {
             if (tx.date <= date) {
-              if (tx.type === 'buy') {
+              // buy + transfer_in erhöhen Bestand — bei transfer_in nutzen wir den
+              // historischen Schlusskurs als Kostenbasis (beim Import bereits in
+              // price geschrieben). Wenn price=0 (unbekannt), fehlt die Kostenbasis
+              // für totalInvested — das ist akzeptabel, der Bestand stimmt trotzdem.
+              if (tx.type === 'buy' || tx.type === 'transfer_in') {
                 sharesOwned += tx.quantity
-                costBasis += tx.quantity * tx.price // tx.price ist in EUR (purchase_price)
-              } else if (tx.type === 'sell') {
+                costBasis += tx.quantity * (tx.price || 0)
+              } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
                 const avgCost = sharesOwned > 0 ? costBasis / sharesOwned : 0
                 sharesOwned -= tx.quantity
                 costBasis -= tx.quantity * avgCost
@@ -319,13 +336,17 @@ export async function POST(request: NextRequest) {
             totalInvested += costBasis
           }
         } else {
-          // Fallback: Holdings-basiert (einzelner Kauf)
-          const holding = holdings.find(h => h.symbol === symbol)
-          if (!holding) return
+          // Fallback: Holdings-basiert (keine Transaktionen im Portfolio).
+          // WICHTIG: In der "Alle Depots"-Ansicht kann ein Symbol mehrfach vorkommen
+          // (z.B. VWCE in Scalable UND ING) — wir müssen alle aggregieren, sonst
+          // wird nur das erste Depot gezählt und der Chart ist zu niedrig.
+          const matchingHoldings = holdings.filter(h => h.symbol === symbol)
+          if (matchingHoldings.length === 0) return
 
-          const costBasis = (holding.purchase_price || 0) * holding.quantity
-          totalValue += holding.quantity * currentPriceEUR
-          totalInvested += costBasis
+          const totalQty = matchingHoldings.reduce((s, h) => s + h.quantity, 0)
+          const totalCost = matchingHoldings.reduce((s, h) => s + (h.purchase_price || 0) * h.quantity, 0)
+          totalValue += totalQty * currentPriceEUR
+          totalInvested += totalCost
         }
       })
 
@@ -387,12 +408,13 @@ export async function POST(request: NextRequest) {
         }
 
         const cf = cashflowByChartDate.get(targetDate) || 0
-        if (tx.type === 'buy') {
-          // Kauf = Geldzufluss ins Portfolio (externer Cashflow)
-          cashflowByChartDate.set(targetDate, cf + (tx.quantity * tx.price))
-        } else if (tx.type === 'sell') {
-          // Verkauf = Geldabfluss aus Portfolio
-          cashflowByChartDate.set(targetDate, cf - (tx.quantity * tx.price))
+        // buy + transfer_in = fiktiver positiver Cashflow (Shares erscheinen im
+        // Depot, TWR muss das als externe Einlage behandeln damit die Rendite
+        // nicht künstlich gut aussieht). Analog transfer_out zu Verkauf.
+        if (tx.type === 'buy' || tx.type === 'transfer_in') {
+          cashflowByChartDate.set(targetDate, cf + (tx.quantity * (tx.price || 0)))
+        } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
+          cashflowByChartDate.set(targetDate, cf - (tx.quantity * (tx.price || 0)))
         }
       })
     }

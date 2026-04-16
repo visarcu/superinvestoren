@@ -534,6 +534,11 @@ export default function PortfolioDashboard() {
                 <div className="bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
                   <PortfolioValueChart
                     portfolioId={p.portfolio?.id || ''}
+                    // Bei Alle-Depots: alle echten UUIDs übergeben, damit die API
+                    // Transaktionen aus sämtlichen Depots aggregiert statt 'all'
+                    // als (ungültige) UUID zu behandeln und auf Holdings-Fallback
+                    // zu fallen (führte zu halbierten Chart-Werten).
+                    portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(ap => ap.id) : undefined}
                     holdings={p.holdings.map(h => ({
                       symbol: h.symbol,
                       quantity: h.quantity,

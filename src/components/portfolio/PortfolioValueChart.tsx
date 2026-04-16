@@ -17,7 +17,14 @@ import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { perfColor } from '@/utils/formatters'
 
 interface PortfolioValueChartProps {
+  /** Einzel-Depot-ID. Bei "Alle Depots"-Ansicht ignoriert — dann portfolioIds nutzen. */
   portfolioId: string
+  /**
+   * UUIDs aller Depots in der "Alle Depots"-Ansicht. Wird nur gesetzt wenn der
+   * User die Aggregat-Ansicht aktiv hat — sonst undefined. Die API nutzt dann
+   * `.in('portfolio_id', portfolioIds)` statt einer einzelnen Abfrage.
+   */
+  portfolioIds?: string[]
   holdings: Array<{
     symbol: string
     quantity: number
@@ -49,6 +56,7 @@ interface PerformanceDataPoint {
 
 export default function PortfolioValueChart({
   portfolioId,
+  portfolioIds,
   holdings,
   cashPosition,
   formatCurrency
@@ -76,7 +84,12 @@ export default function PortfolioValueChart({
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          portfolioId,
+          // Bei Alle-Depots-Ansicht: echte UUIDs aller Portfolios durchreichen.
+          // Sonst würde die API die synthetische 'all'-ID als UUID interpretieren
+          // und keine Transaktionen finden → Chart fällt auf Holdings-Fallback
+          // zurück und zählt Symbole nur einfach statt aggregiert.
+          portfolioId: portfolioIds && portfolioIds.length > 0 ? undefined : portfolioId,
+          portfolioIds,
           holdings: holdings.map(h => ({
             symbol: h.symbol,
             quantity: h.quantity,
@@ -120,7 +133,7 @@ export default function PortfolioValueChart({
     } finally {
       setLoading(false)
     }
-  }, [portfolioId, holdings, cashPosition, selectedRange])
+  }, [portfolioId, portfolioIds, holdings, cashPosition, selectedRange])
 
   useEffect(() => {
     fetchData()
