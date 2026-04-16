@@ -204,21 +204,24 @@ async function handleDailyEarningsReminder(testUserId: string | null = null) {
           continue
         }
 
+        // Deep link: single stock → stock detail, multiple → portfolio tab
+        const notifData = matchedSymbols.length === 1
+          ? { screen: 'stock', ticker: matchedSymbols[0] }
+          : { screen: 'portfolio', symbols: matchedSymbols }
+
+        // Create in-app notification
+        await supabaseAdmin.from('notifications').insert({
+          user_id: userId,
+          type: 'earnings_alert',
+          title,
+          message: body,
+          data: notifData,
+        })
+
         const pushResponse = await fetch(`${baseUrl}/api/notifications/push`, {
           method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-internal-secret': secret,
-          },
-          body: JSON.stringify({
-            userIds: [userId],
-            title,
-            body,
-            // Deep link: single stock → stock detail, multiple → portfolio tab
-            data: matchedSymbols.length === 1
-              ? { screen: 'stock', ticker: matchedSymbols[0] }
-              : { screen: 'portfolio', symbols: matchedSymbols },
-          }),
+          headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
+          body: JSON.stringify({ userIds: [userId], title, body, data: notifData }),
         })
 
         if (!pushResponse.ok) {

@@ -149,6 +149,15 @@ async function handleDailyDividendReminder(testUserId: string | null = null) {
 
         if (!secret) continue
 
+        // Create in-app notification
+        await supabaseAdmin.from('notifications').insert({
+          user_id: userId,
+          type: 'dividend_alert',
+          title,
+          message: body,
+          data,
+        })
+
         const pushRes = await fetch(`${baseUrl}/api/notifications/push`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
