@@ -86,11 +86,36 @@ export default function InvestorsScreen() {
   const [investors, setInvestors] = useState<Investor[]>([]);
   const [investorsLoading, setInvestorsLoading] = useState(true);
 
+  // Smart Money: top-level sub-tabs
+  const [smartMoneyTab, setSmartMoneyTab] = useState<'superinvestors' | 'kongress'>('superinvestors');
+  const [politicianTopBuys, setPoliticianTopBuys] = useState<any[]>([]);
+  const [politicianTrades, setPoliticianTrades] = useState<any[]>([]);
+  const [politicianLoading, setPoliticianLoading] = useState(true);
+
   useFocusEffect(useCallback(() => {
     if (!insights) loadInsights();
     if (trades.length === 0) loadTrades();
     if (investors.length === 0) loadInvestors();
+    if (politicianTopBuys.length === 0) loadPoliticians();
   }, []));
+
+  async function loadPoliticians() {
+    try {
+      const [topRes, tradesRes] = await Promise.all([
+        fetch(`${BASE_URL}/api/politicians/top-buys?limit=10`),
+        fetch(`${BASE_URL}/api/politicians?limit=20`),
+      ]);
+      if (topRes.ok) {
+        const d = await topRes.json();
+        setPoliticianTopBuys(d.topBuys || []);
+      }
+      if (tradesRes.ok) {
+        const d = await tradesRes.json();
+        setPoliticianTrades(d.trades || []);
+      }
+    } catch { /* silent */ }
+    finally { setPoliticianLoading(false); }
+  }
 
   async function loadInvestors() {
     try {
@@ -152,10 +177,126 @@ export default function InvestorsScreen() {
       <ScrollView keyboardShouldPersistTaps="handled">
         {/* Header */}
         <View style={s.header}>
-          <Text style={s.title}>Superinvestoren</Text>
-          <Text style={s.subtitle}>13F Portfolio-Tracker</Text>
+          <Text style={s.title}>Smart Money</Text>
+          <Text style={s.subtitle}>Wem die Profis folgen</Text>
         </View>
 
+        {/* Sub-Tabs */}
+        <View style={s.smartTabsWrap}>
+          <View style={s.smartTabs}>
+            <TouchableOpacity
+              style={[s.smartTab, smartMoneyTab === 'superinvestors' && s.smartTabActive]}
+              onPress={() => setSmartMoneyTab('superinvestors')}
+              activeOpacity={0.7}
+            >
+              <Ionicons
+                name="trending-up"
+                size={15}
+                color={smartMoneyTab === 'superinvestors' ? '#FFFFFF' : '#48484A'}
+              />
+              <Text style={[s.smartTabText, smartMoneyTab === 'superinvestors' && s.smartTabTextActive]}>
+                Superinvestoren
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[s.smartTab, smartMoneyTab === 'kongress' && s.smartTabActive]}
+              onPress={() => setSmartMoneyTab('kongress')}
+              activeOpacity={0.7}
+            >
+              <Ionicons
+                name="flag"
+                size={15}
+                color={smartMoneyTab === 'kongress' ? '#FFFFFF' : '#48484A'}
+              />
+              <Text style={[s.smartTabText, smartMoneyTab === 'kongress' && s.smartTabTextActive]}>
+                Kongress
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+
+        {/* Kongress Content */}
+        {smartMoneyTab === 'kongress' && (
+          <>
+            <View style={s.section}>
+              <Text style={s.sectionLabel}>MEISTGEKAUFTE AKTIEN</Text>
+              {politicianLoading ? (
+                <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
+              ) : politicianTopBuys.length === 0 ? (
+                <Text style={s.emptyText}>Keine Daten verfügbar</Text>
+              ) : (
+                <View style={s.listCard}>
+                  {politicianTopBuys.map((t: any, i: number) => (
+                    <TouchableOpacity
+                      key={t.ticker}
+                      style={[s.polRow, i > 0 && s.polRowBorder]}
+                      onPress={() => router.push(`/stock/${t.ticker}`)}
+                      activeOpacity={0.7}
+                    >
+                      <View style={s.polIcon}>
+                        <Ionicons name="flag" size={16} color="#8E8E93" />
+                      </View>
+                      <View style={s.polInfo}>
+                        <Text style={s.polTicker}>{t.ticker}</Text>
+                        <Text style={s.polSub} numberOfLines={1}>
+                          {t.politicianCount} Politiker · {t.transactionCount} Käufe
+                        </Text>
+                      </View>
+                      <View style={{ alignItems: 'flex-end' }}>
+                        <Text style={s.polValue}>
+                          {t.totalValueMax >= 1_000_000
+                            ? `${(t.totalValueMax / 1_000_000).toFixed(1)} Mio.`
+                            : `${(t.totalValueMax / 1_000).toFixed(0)} K`}
+                        </Text>
+                        <Text style={s.polValueLabel}>max. Vol.</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              )}
+            </View>
+
+            <View style={s.section}>
+              <Text style={s.sectionLabel}>LETZTE TRANSAKTIONEN</Text>
+              {politicianTrades.length > 0 && (
+                <View style={s.listCard}>
+                  {politicianTrades.slice(0, 15).map((t: any, i: number) => {
+                    const isBuy = (t.type || '').toLowerCase() === 'purchase';
+                    const color = isBuy ? '#34C759' : '#FF3B30';
+                    return (
+                      <TouchableOpacity
+                        key={`${t.representative}-${t.ticker}-${i}`}
+                        style={[s.polRow, i > 0 && s.polRowBorder]}
+                        onPress={() => t.ticker && router.push(`/stock/${t.ticker}`)}
+                        activeOpacity={0.7}
+                      >
+                        <View style={[s.polBadge, { backgroundColor: color + '20' }]}>
+                          <Text style={[s.polBadgeText, { color }]}>
+                            {isBuy ? 'KAUF' : 'VERK'}
+                          </Text>
+                        </View>
+                        <View style={s.polInfo}>
+                          <Text style={s.polTicker}>{t.ticker || '—'}</Text>
+                          <Text style={s.polSub} numberOfLines={1}>
+                            {t.representative} · {t.state}
+                          </Text>
+                        </View>
+                        <View style={{ alignItems: 'flex-end' }}>
+                          <Text style={s.polValueSmall}>{t.amount?.replace('$', '').replace(' - $', '–') || ''}</Text>
+                          <Text style={s.polValueLabel}>{t.transactionDate}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+            </View>
+          </>
+        )}
+
+        {/* Superinvestors Content (original) */}
+        {smartMoneyTab === 'superinvestors' && (
+        <>
         {/* ── AKTIVITÄT SEKTION ── */}
         <View style={s.section}>
           <View style={s.sectionHeader}>
@@ -366,6 +507,8 @@ export default function InvestorsScreen() {
             })}
           </View>
         </View>
+        </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -449,4 +592,32 @@ const s = StyleSheet.create({
   cardRight: { alignItems: 'flex-end' },
   aum: { color: theme.text.tertiary, fontSize: theme.font.bodySm, ...tabularStyle },
   emptyText: { color: theme.text.tertiary, fontSize: theme.font.bodySm, textAlign: 'center', paddingVertical: 24 },
+
+  // Smart Money sub-tabs
+  smartTabsWrap: { paddingHorizontal: 16, marginBottom: 12 },
+  smartTabs: {
+    flexDirection: 'row', backgroundColor: theme.bg.card,
+    borderRadius: 10, padding: 3,
+  },
+  smartTab: {
+    flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center',
+    gap: 6, paddingVertical: 9, borderRadius: 8,
+  },
+  smartTabActive: { backgroundColor: theme.bg.cardHover },
+  smartTabText: { color: theme.text.muted, fontSize: theme.font.body, fontWeight: theme.weight.semibold },
+  smartTabTextActive: { color: theme.text.primary },
+
+  // Kongress content
+  listCard: { backgroundColor: theme.bg.card, borderRadius: 12, overflow: 'hidden' },
+  polRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
+  polRowBorder: { borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: theme.border.default },
+  polIcon: { width: 36, height: 36, borderRadius: 18, backgroundColor: theme.bg.cardHover, alignItems: 'center', justifyContent: 'center' },
+  polBadge: { width: 44, paddingVertical: 6, borderRadius: 6, alignItems: 'center', justifyContent: 'center' },
+  polBadgeText: { fontSize: theme.font.caption, fontWeight: theme.weight.bold },
+  polInfo: { flex: 1 },
+  polTicker: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.bold },
+  polSub: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 2 },
+  polValue: { color: theme.text.primary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold },
+  polValueSmall: { color: theme.text.primary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold },
+  polValueLabel: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 1 },
 });

@@ -62,8 +62,9 @@ export default function TabsLayout() {
             backgroundColor: theme.bg.base,
             borderTopColor: theme.border.default,
             borderTopWidth: StyleSheet.hairlineWidth,
-            paddingTop: 6,
           },
+          tabBarItemStyle: { paddingTop: 4 },
+          tabBarHideOnKeyboard: true,
           tabBarActiveTintColor: theme.text.primary,
           tabBarInactiveTintColor: theme.text.muted,
           tabBarLabelStyle: { fontSize: theme.font.captionSm, fontWeight: theme.weight.medium, marginTop: 2, letterSpacing: 0.2 },
@@ -93,7 +94,7 @@ export default function TabsLayout() {
         <Tabs.Screen
           name="investors"
           options={{
-            title: 'Superinv.',
+            title: 'Smart Money',
             tabBarIcon: ({ color, size }) => <Ionicons name="people" size={size} color={color} />,
           }}
         />
