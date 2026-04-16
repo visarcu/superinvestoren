@@ -112,13 +112,18 @@ export default function PortfolioScreen() {
 
   async function loadHoldings(portfolioId: string) {
     try {
-      const { data: rawHoldings, error: hErr } = await supabase
-        .from('portfolio_holdings')
-        .select('symbol, name, quantity, purchase_price, current_price')
-        .eq('portfolio_id', portfolioId);
+      // Also fetch cash_position from portfolio itself
+      const [{ data: portfolioData }, { data: rawHoldings, error: hErr }] = await Promise.all([
+        supabase.from('portfolios').select('cash_position').eq('id', portfolioId).maybeSingle(),
+        supabase.from('portfolio_holdings').select('symbol, name, quantity, purchase_price, current_price').eq('portfolio_id', portfolioId),
+      ]);
+      const cashPosition = Number(portfolioData?.cash_position) || 0;
 
       if (hErr) throw hErr;
-      if (!rawHoldings?.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
+      if (!rawHoldings?.length) {
+        setHoldings([]); setTotalValue(cashPosition); setTotalCost(0);
+        setLoading(false); setRefreshing(false); return;
+      }
 
       const symbols = rawHoldings.map((h: any) => h.symbol).join(',');
       const [qRes, siRes] = await Promise.all([
@@ -149,7 +154,7 @@ export default function PortfolioScreen() {
 
       enriched.forEach(h => { h.weight = tv > 0 ? (h.currentValue / tv) * 100 : 0; });
       setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
-      setTotalValue(tv);
+      setTotalValue(tv + cashPosition);
       setTotalCost(tc);
       loadDividends(enriched);
     } catch (e: any) {

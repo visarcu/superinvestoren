@@ -11,6 +11,7 @@ import { searchStocks } from '../../lib/api';
 import { supabase } from '../../lib/auth';
 import StockRow from '../../components/StockRow';
 import StockLogo from '../../components/StockLogo';
+import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 
 const BASE = 'https://finclue.de';
 const MARKET_SYMBOLS = ['SPY', 'QQQ', 'DIA', 'IWM'];
@@ -31,17 +32,6 @@ interface GuruTrade {
 
 const TRADE_LABEL: Record<string, string> = { NEW: 'Neu', ADD: 'Aufgestockt', REDUCE: 'Reduziert', SOLD: 'Verkauft' };
 
-const INVESTOR_PHOTOS: Record<string, string> = {
-  buffett: 'https://finclue.de/images/buffett-cartoon.png',
-  ackman: 'https://finclue.de/images/ackman-cartoon.png',
-  burry: 'https://finclue.de/images/burry-cartoon.png',
-  marks: 'https://finclue.de/images/marks-cartoon.png',
-  pabrai: 'https://finclue.de/images/pabrai-cartoon.png',
-  druckenmiller: 'https://finclue.de/images/druckenmiller-cartoon.png',
-  tepper: 'https://finclue.de/images/tepper.png',
-  gates: 'https://finclue.de/images/gates.png',
-  einhorn: 'https://finclue.de/images/einhorn.png',
-};
 const TRADE_COLOR: Record<string, string> = { NEW: '#34C759', ADD: '#34C759', REDUCE: '#FF3B30', SOLD: '#FF3B30' };
 
 const INVESTOR_NAMES: Record<string, string> = {
@@ -140,6 +130,7 @@ export default function DashboardScreen() {
   const [showDrawer, setShowDrawer] = useState(false);
   const [unreadCount, setUnreadCount] = useState(0);
   const [marketSummary, setMarketSummary] = useState<{ summary: string; isBullish: boolean } | null>(null);
+  const [politicianTrades, setPoliticianTrades] = useState<any[]>([]);
 
   useEffect(() => {
     supabase.auth.getUser().then(({ data }) => {
@@ -164,11 +155,12 @@ export default function DashboardScreen() {
 
   async function loadAll() {
     try {
-      const [quotesRes, popularRes, sectorRes, guruRes] = await Promise.allSettled([
+      const [quotesRes, popularRes, sectorRes, guruRes, polRes] = await Promise.allSettled([
         fetch(`${BASE}/api/quotes?symbols=${MARKET_SYMBOLS.join(',')}`),
         fetch(`${BASE}/api/quotes?symbols=${POPULAR_SYMBOLS.join(',')}`),
         fetch(`${BASE}/api/sector-performance`),
         fetch(`${BASE}/api/guru-trades`),
+        fetch(`${BASE}/api/politicians/top-buys?limit=5`),
       ]);
 
       if (quotesRes.status === 'fulfilled' && quotesRes.value.ok) {
@@ -187,6 +179,12 @@ export default function DashboardScreen() {
         const d = await guruRes.value.json();
         if (d.trades?.length) {
           setGuruTrades(d.trades.slice(0, 5));
+        }
+      }
+      if (polRes.status === 'fulfilled' && polRes.value.ok) {
+        const d = await polRes.value.json();
+        if (d.topBuys?.length) {
+          setPoliticianTrades(d.topBuys.slice(0, 5));
         }
       }
       // Load market summary after we have quotes + sectors
@@ -456,6 +454,43 @@ export default function DashboardScreen() {
                 </View>
               </View>
             )}
+
+            {/* ── Kongress Trades ───────────────────── */}
+            {politicianTrades.length > 0 && (
+              <View style={s.section}>
+                <View style={s.sectionRow}>
+                  <Text style={s.sectionTitle}>KONGRESS TRADES</Text>
+                </View>
+                <View style={s.listCard}>
+                  {politicianTrades.map((trade: any, i: number) => (
+                    <TouchableOpacity
+                      key={trade.ticker}
+                      style={[s.polRow, i > 0 && s.rowBorder]}
+                      onPress={() => router.push(`/stock/${trade.ticker}`)}
+                      activeOpacity={0.7}
+                    >
+                      <View style={s.polIcon}>
+                        <Ionicons name="flag" size={16} color="#8E8E93" />
+                      </View>
+                      <View style={s.polInfo}>
+                        <Text style={s.polTicker}>{trade.ticker}</Text>
+                        <Text style={s.polSub} numberOfLines={1}>
+                          {trade.politicianCount} Politiker · {trade.transactionCount} Käufe
+                        </Text>
+                      </View>
+                      <View style={{ alignItems: 'flex-end' }}>
+                        <Text style={s.polValue}>
+                          {trade.totalValueMax >= 1_000_000
+                            ? `${(trade.totalValueMax / 1_000_000).toFixed(1)} Mio.`
+                            : `${(trade.totalValueMax / 1_000).toFixed(0)} K`}
+                        </Text>
+                        <Text style={s.polValueLabel}>max. Volumen</Text>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
+            )}
           </>
         )}
 
@@ -569,4 +604,13 @@ const s = StyleSheet.create({
   },
   tradeBadgeText: { fontSize: theme.font.caption, fontWeight: theme.weight.semibold },
   guruValue: { fontSize: theme.font.body, fontWeight: theme.weight.semibold, textAlign: 'right', ...tabularStyle },
+
+  // Politician Trades
+  polRow: { flexDirection: 'row', alignItems: 'center', gap: 10, paddingHorizontal: 14, paddingVertical: 12 },
+  polIcon: { width: 36, height: 36, borderRadius: 18, backgroundColor: theme.bg.cardHover, alignItems: 'center', justifyContent: 'center' },
+  polInfo: { flex: 1 },
+  polTicker: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.bold },
+  polSub: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 2 },
+  polValue: { color: theme.text.primary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold },
+  polValueLabel: { color: theme.text.tertiary, fontSize: theme.font.caption, marginTop: 1 },
 });

@@ -1,7 +1,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react';
 import {
   View, Text, ScrollView, TouchableOpacity, ActivityIndicator,
-  StyleSheet, Dimensions, Linking,
+  StyleSheet, Dimensions, Linking, Image,
 } from 'react-native';
 import { useLocalSearchParams, Stack, router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,6 +12,7 @@ import { supabase, checkIsPremium } from '../../lib/auth';
 import PriceChange from '../../components/PriceChange';
 import MetricCard from '../../components/MetricCard';
 import StockLogo from '../../components/StockLogo';
+import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 
 const BASE_URL = 'https://finclue.de';
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -1180,11 +1181,15 @@ export default function StockScreen() {
                   const isNew = pos.position?.isNewPosition;
                   const trendColor = isNew ? '#94A3B8' : trend === 'increasing' ? '#34C759' : trend === 'decreasing' ? '#FF3B30' : '#94A3B8';
                   const trendLabel = isNew ? 'Neu' : trend === 'increasing' ? '▲' : trend === 'decreasing' ? '▼' : '—';
+                  const slug = pos.investor?.slug || pos.investor?.name?.toLowerCase();
+                  const photoUrl = INVESTOR_PHOTOS[slug];
                   return (
                     <TouchableOpacity key={i} style={s.siRow}
-                      onPress={() => router.push(`/investor/${pos.investor?.slug || pos.investor?.name?.toLowerCase()}`)}>
+                      onPress={() => router.push(`/investor/${slug}`)}>
                       <View style={s.siAvatar}>
-                        <Text style={s.siAvatarText}>{(pos.investor?.name || '?').charAt(0)}</Text>
+                        {photoUrl
+                          ? <Image source={{ uri: photoUrl }} style={{ width: 36, height: 36, borderRadius: 18 }} />
+                          : <Text style={s.siAvatarText}>{(pos.investor?.name || '?').charAt(0)}</Text>}
                       </View>
                       <View style={s.siInfo}>
                         <Text style={s.siName}>{pos.investor?.name}</Text>
@@ -2061,8 +2066,9 @@ const s = StyleSheet.create({
     borderWidth: 1, borderColor: '#2C2C2E',
   },
   siAvatar: {
-    width: 40, height: 40, borderRadius: 20,
+    width: 36, height: 36, borderRadius: 18,
     backgroundColor: '#2C2C2E', alignItems: 'center', justifyContent: 'center',
+    overflow: 'hidden',
   },
   siAvatarText: { color: '#94A3B8', fontSize: 16, fontWeight: '700' },
   siInfo: { flex: 1 },
