@@ -24,6 +24,14 @@ export async function GET(request: Request) {
 
 async function handleDailyPortfolioMover(testUserId: string | null = null) {
   try {
+    // Skip weekends (Sat=6, Sun=0) — markets are closed
+    // Test mode bypasses this check so you can test any day
+    const dayOfWeek = new Date().getUTCDay()
+    if (!testUserId && (dayOfWeek === 0 || dayOfWeek === 6)) {
+      console.log('[Daily Portfolio Mover] Skipping weekend run')
+      return NextResponse.json({ success: true, skipped: 'weekend', notificationsSent: 0 })
+    }
+
     if (testUserId) console.log(`[Daily Portfolio Mover] TEST MODE — only notifying ${testUserId}`)
     else console.log('[Daily Portfolio Mover] Starting...')
 
@@ -159,17 +167,23 @@ async function handleDailyPortfolioMover(testUserId: string | null = null) {
           continue
         }
 
+        const notifData = topMovers.length === 1
+          ? { screen: 'stock', ticker: topMovers[0].symbol }
+          : { screen: 'portfolio' }
+
+        // Create in-app notification (so it shows in notifications center)
+        await supabaseAdmin.from('notifications').insert({
+          user_id: userId,
+          type: 'portfolio_mover',
+          title,
+          message: body,
+          data: notifData,
+        })
+
         const pushResponse = await fetch(`${baseUrl}/api/notifications/push`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
-          body: JSON.stringify({
-            userIds: [userId],
-            title,
-            body,
-            data: topMovers.length === 1
-              ? { screen: 'stock', ticker: topMovers[0].symbol }
-              : { screen: 'portfolio' },
-          }),
+          body: JSON.stringify({ userIds: [userId], title, body, data: notifData }),
         })
 
         if (!pushResponse.ok) {
