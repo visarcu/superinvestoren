@@ -20,22 +20,27 @@ export async function POST(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleEarningsCheck()
+  const { searchParams } = new URL(request.url)
+  const queryTestUser = searchParams.get('testUserId')
+  return handleEarningsCheck(queryTestUser && UUID_REGEX.test(queryTestUser) ? queryTestUser : null)
 }
 
 export async function GET(request: Request) {
-  // Vercel Cron Jobs use GET requests
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleEarningsCheck()
+  const { searchParams } = new URL(request.url)
+  const queryTestUser = searchParams.get('testUserId')
+  return handleEarningsCheck(queryTestUser && UUID_REGEX.test(queryTestUser) ? queryTestUser : null)
 }
 
-async function handleEarningsCheck() {
+async function handleEarningsCheck(queryTestUserId: string | null = null) {
   try {
+    // Query param overrides env var
+    const testUser = queryTestUserId || TEST_USER_ID
     console.log('[Earnings Cron] Starting earnings check (in-app notifications only)...')
-    console.log(`[Earnings Cron] Test mode: ${TEST_USER_ID ? 'ON (user: ' + TEST_USER_ID + ')' : 'OFF'}`)
+    console.log(`[Earnings Cron] Test mode: ${testUser ? 'ON (user: ' + testUser + ')' : 'OFF'}`)
 
     // 1. Get users with earnings notifications enabled (in-app)
     let settingsQuery = supabase
@@ -43,8 +48,8 @@ async function handleEarningsCheck() {
       .select('user_id, earnings_enabled, earnings_days_before')
       .eq('earnings_enabled', true)
 
-    if (TEST_USER_ID) {
-      settingsQuery = settingsQuery.eq('user_id', TEST_USER_ID)
+    if (testUser) {
+      settingsQuery = settingsQuery.eq('user_id', testUser)
     }
 
     const { data: userSettings, error: settingsError } = await settingsQuery
@@ -57,7 +62,7 @@ async function handleEarningsCheck() {
     if (!userSettings || userSettings.length === 0) {
       return NextResponse.json({
         success: true,
-        testMode: !!TEST_USER_ID,
+        testMode: !!testUser,
         message: 'No users with earnings notifications enabled',
         usersChecked: 0,
         tickersChecked: 0,
@@ -85,7 +90,7 @@ async function handleEarningsCheck() {
     if (!watchlistItems || watchlistItems.length === 0) {
       return NextResponse.json({
         success: true,
-        testMode: !!TEST_USER_ID,
+        testMode: !!testUser,
         message: 'No watchlist items found',
         usersChecked: userSettings.length,
         tickersChecked: 0,
@@ -194,7 +199,7 @@ async function handleEarningsCheck() {
 
     return NextResponse.json({
       success: true,
-      testMode: !!TEST_USER_ID,
+      testMode: !!testUser,
       usersChecked: userSettings.length,
       tickersChecked: tickers.length,
       earningsFoundInPeriod: upcomingEarnings.length,

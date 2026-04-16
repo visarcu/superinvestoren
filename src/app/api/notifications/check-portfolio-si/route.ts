@@ -117,9 +117,10 @@ function getCurrentQuarterKey(): string {
   return (latest as any)?.quarter || 'unknown'
 }
 
-async function handleCheck() {
+async function handleCheck(queryTestUserId: string | null = null) {
   const startTime = Date.now()
-  console.log(`[SI-Portfolio-Alert] Starting check... Test mode: ${TEST_USER_ID ? 'ON (' + TEST_USER_ID + ')' : 'OFF'}`)
+  const testUser = queryTestUserId || TEST_USER_ID
+  console.log(`[SI-Portfolio-Alert] Starting check... Test mode: ${testUser ? 'ON (' + testUser + ')' : 'OFF'}`)
 
   const currentQuarter = getCurrentQuarterKey()
   let notificationsCreated = 0
@@ -131,11 +132,11 @@ async function handleCheck() {
       .select('portfolio_id, symbol, user_id:portfolios(user_id)')
 
     // In test mode, only fetch holdings for the test user's portfolios
-    if (TEST_USER_ID) {
+    if (testUser) {
       const { data: testPortfolios } = await supabaseService
         .from('portfolios')
         .select('id')
-        .eq('user_id', TEST_USER_ID)
+        .eq('user_id', testUser)
       if (testPortfolios && testPortfolios.length > 0) {
         holdingsQuery = holdingsQuery.in('portfolio_id', testPortfolios.map(p => p.id))
       }
@@ -301,12 +302,17 @@ async function handleCheck() {
   }
 }
 
+function getTestUserFromRequest(request: NextRequest): string | null {
+  const q = new URL(request.url).searchParams.get('testUserId')
+  return q && UUID_REGEX.test(q) ? q : null
+}
+
 export async function GET(request: NextRequest) {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleCheck()
+  return handleCheck(getTestUserFromRequest(request))
 }
 
 export async function POST(request: NextRequest) {
@@ -314,5 +320,5 @@ export async function POST(request: NextRequest) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleCheck()
+  return handleCheck(getTestUserFromRequest(request))
 }

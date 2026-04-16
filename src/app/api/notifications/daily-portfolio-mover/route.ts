@@ -17,17 +17,20 @@ export async function GET(request: Request) {
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
-  return handleDailyPortfolioMover()
+  const { searchParams } = new URL(request.url)
+  const testUserId = searchParams.get('testUserId')
+  return handleDailyPortfolioMover(testUserId)
 }
 
-async function handleDailyPortfolioMover() {
+async function handleDailyPortfolioMover(testUserId: string | null = null) {
   try {
-    console.log('[Daily Portfolio Mover] Starting...')
+    if (testUserId) console.log(`[Daily Portfolio Mover] TEST MODE — only notifying ${testUserId}`)
+    else console.log('[Daily Portfolio Mover] Starting...')
 
-    // 1. Get all users with registered device tokens (push enabled)
-    const { data: deviceTokenRows, error: tokenError } = await supabaseAdmin
-      .from('device_tokens')
-      .select('user_id, token')
+    // 1. Get users with push tokens (filtered to testUser if set)
+    let tokenQuery = supabaseAdmin.from('device_tokens').select('user_id, token')
+    if (testUserId) tokenQuery = tokenQuery.eq('user_id', testUserId)
+    const { data: deviceTokenRows, error: tokenError } = await tokenQuery
 
     if (tokenError) {
       console.error('[Daily Portfolio Mover] device_tokens error:', tokenError)
