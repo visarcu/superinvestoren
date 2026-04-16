@@ -85,6 +85,25 @@ function parseTime(t: string): string {
 }
 
 /**
+ * Trading 212 schreibt bei EU-Aktien den Ticker ohne Börsen-Suffix (z.B.
+ * "P911" für Porsche, "ZAL" für Zalando). Unser /api/quotes erwartet aber
+ * das FMP-Format mit Suffix (P911.DE). Heuristik: wenn die ISIN mit einem
+ * EU-Ländercode startet und der Ticker keinen '.' enthält, hängen wir '.DE'
+ * an (XETRA ist Default für europäische Listings in Trading 212).
+ *
+ * US-Ticker (MSFT, BKNG, SPGI, INTU) bleiben unverändert — die kennt FMP
+ * direkt ohne Suffix.
+ */
+function normalizeTicker(ticker: string, isin: string): string {
+  if (!ticker) return ticker
+  if (ticker.includes('.')) return ticker
+  const country = isin.substring(0, 2).toUpperCase()
+  const euCountries = ['DE', 'AT', 'IE', 'LU', 'FR', 'NL', 'BE', 'IT', 'ES', 'FI', 'PT']
+  if (euCountries.includes(country)) return `${ticker}.DE`
+  return ticker
+}
+
+/**
  * Parst ein Trading-212 CSV und liefert ParsedTransaction[].
  *
  * Action-Mapping:
@@ -156,7 +175,8 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
     if (!action || !date) continue
 
     const isin = (fields[idx.isin] || '').trim()
-    const ticker = (fields[idx.ticker] || '').trim()
+    const rawTicker = (fields[idx.ticker] || '').trim()
+    const ticker = normalizeTicker(rawTicker, isin)
     const name = (fields[idx.name] || '').trim() || ticker
     const notesIn = (fields[idx.notes] || '').trim()
     const shares = parseNum(fields[idx.shares])

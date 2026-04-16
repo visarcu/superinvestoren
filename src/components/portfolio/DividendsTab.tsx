@@ -200,37 +200,46 @@ export default function DividendsTab({
   }, [dividendTransactions, totalPortfolioValue])
 
   // ============================================================
-  // Forward-Yield-Projektion: pro Holding die durchschnittliche annualisierte
-  // Dividende aus der Historie berechnen und mit aktueller Quantity hochrechnen.
+  // Forward-Yield-Projektion: pro Holding die annualisierte Dividende aus
+  // der 12-Monats-Historie berechnen und mit aktueller Quantity hochrechnen.
+  //
+  // Kritischer Fix: Früher hatten wir eine Map<symbol, quantity> die bei jeder
+  // Div-Tx überschrieben wurde. Da dividendTransactions neueste-zuerst sortiert
+  // ist, blieb am Ende die Qty der ÄLTESTEN Tx stehen. Wenn der User in der
+  // Zwischenzeit nachgekauft hatte, war diese Qty viel kleiner als aktuell →
+  // perShareDiv wurde um den Faktor (aktuell / alt) überschätzt → Prognose
+  // explodierte (User berichtete 9107€ statt ~420€ — Faktor 21).
+  //
+  // Neue Logik: wir berechnen pro einzelner Div-Transaktion perShare =
+  // total_value / tx.quantity und summieren diese Stück-Dividenden über die
+  // letzten 12 Monate. Das ist robust gegen Qty-Änderungen.
   // ============================================================
   const forwardProjection = useMemo(() => {
     if (dividendTransactions.length === 0 || holdings.length === 0) {
       return { annualExpected: 0, perHolding: [] as Array<{ symbol: string; annual: number; yieldOnCost: number; currentYield: number }> }
     }
 
-    // Pro Symbol: die letzten 12 Monate an Dividenden pro Stück berechnen
     const now = new Date()
     const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, now.getDate())
-    const perSymbolDiv12m = new Map<string, number>()
-    const perSymbolQty12m = new Map<string, number>() // letzte bekannte Qty zum Zeitpunkt der Div
+
+    // Summe der Stück-Dividenden pro Symbol (über 12 M): Σ (total_value / quantity)
+    const perSymbolDivPerShare = new Map<string, number>()
     for (const tx of dividendTransactions) {
       if (new Date(tx.date) < twelveMonthsAgo) continue
-      perSymbolDiv12m.set(tx.symbol, (perSymbolDiv12m.get(tx.symbol) || 0) + tx.total_value)
-      // Quantity bei Dividende (nicht ideal, aber beste Approximation wenn Tx keine Qty hat)
-      if (tx.quantity > 0) perSymbolQty12m.set(tx.symbol, tx.quantity)
+      if (tx.quantity <= 0) continue // Fallback-Divs (qty=1) würden sonst explodieren
+      const perShare = tx.total_value / tx.quantity
+      if (!isFinite(perShare) || perShare <= 0) continue
+      perSymbolDivPerShare.set(tx.symbol, (perSymbolDivPerShare.get(tx.symbol) || 0) + perShare)
     }
 
     const perHolding: Array<{ symbol: string; annual: number; yieldOnCost: number; currentYield: number }> = []
     let annualExpected = 0
 
     for (const h of holdings) {
-      const hist12m = perSymbolDiv12m.get(h.symbol) || 0
-      if (hist12m === 0 || h.quantity <= 0) continue
+      const perShareAnnual = perSymbolDivPerShare.get(h.symbol) || 0
+      if (perShareAnnual <= 0 || h.quantity <= 0) continue
 
-      // Skalieren auf aktuelle Qty (falls User nachgekauft hat)
-      const histQty = perSymbolQty12m.get(h.symbol) || h.quantity
-      const perShareDiv = histQty > 0 ? hist12m / histQty : 0
-      const annual = perShareDiv * h.quantity
+      const annual = perShareAnnual * h.quantity
       annualExpected += annual
 
       const costBasis = h.purchase_price_display * h.quantity

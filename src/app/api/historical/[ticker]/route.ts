@@ -1,8 +1,16 @@
 // src/app/api/historical/[ticker]/route.ts
 // Primär: FMP (Financial Modeling Prep)
 // Fallback: Yahoo Finance (für europäische ETFs die FMP schlecht abdeckt)
+// Zweiter Fallback: EXCHANGE_FALLBACKS aus tickerFallbacks.ts (Xetra-ETFs
+// die FMP nur auf .L führt, z.B. FWRG.DE → FWRG.L mit GBp→EUR-Umrechnung)
 import { NextRequest, NextResponse } from 'next/server'
 import { resolveFMPTicker, isEUTicker } from '@/lib/tickerResolver'
+import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
+
+// GBP→EUR Näherungsrate für historische Umrechnung. Für Chart-Trend ist das
+// ausreichend — eine tagesgenaue historische FX-Rate ist pro Datenpunkt zu
+// teuer (N FMP-Calls) und ändert nichts am Wachstums-Pattern.
+const GBP_EUR_APPROX = 1.17
 
 /**
  * Yahoo Finance Historical Data Fallback.
@@ -118,6 +126,38 @@ export async function GET(
           historical: sorted,
           _source: 'yahoo',
         })
+      }
+    }
+
+    // Finaler Fallback: EXCHANGE_FALLBACKS nutzen (z.B. FWRG.DE → FWRG.L).
+    // Das greift für Xetra-ETFs, die FMP nur auf dem London-Listing führt.
+    // Preise werden je nach Exchange umgerechnet (GBp → EUR).
+    const fallback = EXCHANGE_FALLBACKS[ticker] || EXCHANGE_FALLBACKS[rawTicker]
+    if (fallback && fmpData.length === 0) {
+      try {
+        const altRes = await fetch(
+          `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(fallback.symbol)}?serietype=line&apikey=${apiKey}`,
+          { next: { revalidate: 1800 } },
+        )
+        if (altRes.ok) {
+          const altJson = await altRes.json()
+          const altHist: { date: string; close: number }[] = altJson?.historical || []
+          if (altHist.length > 0) {
+            const converted = altHist.map(p => {
+              let close = p.close
+              if (fallback.exchange === 'GBp') close = (p.close / 100) * GBP_EUR_APPROX
+              else if (fallback.exchange === 'GBP') close = p.close * GBP_EUR_APPROX
+              return { date: p.date, close: Math.round(close * 100) / 100 }
+            })
+            return NextResponse.json({
+              symbol: ticker,
+              historical: converted,
+              _source: `fmp_alt:${fallback.symbol}`,
+            })
+          }
+        }
+      } catch (err) {
+        console.error(`EXCHANGE_FALLBACKS fetch for ${ticker} → ${fallback.symbol} failed:`, err)
       }
     }
 
