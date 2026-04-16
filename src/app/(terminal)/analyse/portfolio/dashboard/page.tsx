@@ -664,6 +664,7 @@ export default function PortfolioDashboard() {
             isAllDepotsView={p.isAllDepotsView}
             portfolioId={p.portfolio?.id}
             superInvestorCounts={superInvestorCounts}
+            historicalPerfByDepot={p.historicalPerfByDepot}
           />
         )}
 

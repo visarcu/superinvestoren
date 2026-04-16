@@ -4,7 +4,7 @@
 import React, { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Logo from '@/components/Logo'
-import { type Holding } from '@/hooks/usePortfolio'
+import { type Holding, type DepotHistoricalPerf } from '@/hooks/usePortfolio'
 import { perfColor } from '@/utils/formatters'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import { getETFBySymbol, formatTER, calculateTERCost } from '@/lib/etfUtils'
@@ -32,6 +32,10 @@ interface PositionsTableProps {
   isAllDepotsView: boolean
   portfolioId?: string
   superInvestorCounts?: Record<string, { count: number; investors: { name: string; slug: string }[] }>
+  // Historische Performance pro (symbol, portfolio_id) für Ghost-Sub-Rows
+  // (Depot hat 0 aktuelle Shares, aber historische Dividenden/Realisiert).
+  // Keys: "SYMBOL|PORTFOLIO_ID"
+  historicalPerfByDepot?: Map<string, DepotHistoricalPerf>
 }
 
 // Gruppierte Position für Alle-Depots-Ansicht
@@ -62,7 +66,8 @@ export default function PositionsTable({
   onEditCash,
   isAllDepotsView,
   portfolioId,
-  superInvestorCounts
+  superInvestorCounts,
+  historicalPerfByDepot,
 }: PositionsTableProps) {
   const router = useRouter()
   const [expandedSymbols, setExpandedSymbols] = useState<Set<string>>(new Set())
@@ -306,10 +311,25 @@ export default function PositionsTable({
     )
   }
 
+  // Ghost-Entries für dieses Symbol aus historicalPerfByDepot finden:
+  // Depots, die das Symbol mal hielten (Dividenden / Realisiert) aber aktuell 0 Shares.
+  const getGhostDepotsForSymbol = (symbol: string, activeHoldings: Holding[]): DepotHistoricalPerf[] => {
+    if (!historicalPerfByDepot || historicalPerfByDepot.size === 0) return []
+    const activePortfolioIds = new Set(activeHoldings.map(h => h.portfolio_id).filter(Boolean))
+    const ghosts: DepotHistoricalPerf[] = []
+    for (const [key, perf] of historicalPerfByDepot) {
+      if (!key.startsWith(`${symbol}|`)) continue
+      if (activePortfolioIds.has(perf.portfolioId)) continue
+      ghosts.push(perf)
+    }
+    return ghosts
+  }
+
   // Gruppierte Position Row (Alle-Depots-Ansicht)
   const renderGroupedRow = (group: GroupedPosition, index: number) => {
     const isExpanded = expandedSymbols.has(group.symbol)
-    const hasMultipleDepots = group.holdings.length > 1
+    const ghostDepots = getGhostDepotsForSymbol(group.symbol, group.holdings)
+    const hasMultipleDepots = group.holdings.length + ghostDepots.length > 1
     const percentage = totalValue > 0 ? (group.totalValue / totalValue) * 100 : 0
 
     return (
@@ -405,15 +425,70 @@ export default function PositionsTable({
           </div>
         </div>
 
-        {/* Sub-Rows: Per-Depot Breakdown */}
+        {/* Sub-Rows: Per-Depot Breakdown (aktive + historische Ghost-Depots) */}
         {isExpanded && hasMultipleDepots && (
           <div className="border-l-2 border-neutral-800 ml-6">
             {group.holdings
               .sort((a, b) => b.value - a.value)
               .map(h => renderHoldingRow(h, 0, true))
             }
+            {ghostDepots
+              .sort((a, b) => (b.totalDividends + b.totalRealized) - (a.totalDividends + a.totalRealized))
+              .map(ghost => renderGhostDepotRow(ghost))
+            }
           </div>
         )}
+      </div>
+    )
+  }
+
+  // Ghost-Depot Sub-Row: zeigt ein Depot, in dem das Symbol MAL gehalten wurde,
+  // aktuell aber 0 Shares → nur historische Dividenden + Realisiert sind relevant.
+  // Analog zu Parqet's "Aus Portfolio: X" Anzeige mit 0 Anteile.
+  const renderGhostDepotRow = (ghost: DepotHistoricalPerf) => {
+    return (
+      <div
+        key={`ghost-${ghost.symbol}-${ghost.portfolioId}`}
+        className="grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 -mx-2 px-2 rounded-lg ml-4 bg-neutral-900/10 opacity-75"
+      >
+        {/* Depot-Info (statt Logo) */}
+        <div className="col-span-4 flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-lg bg-neutral-900/60 border border-neutral-800 flex items-center justify-center flex-shrink-0">
+            <BriefcaseIcon className="w-4 h-4 text-neutral-500" />
+          </div>
+          <div className="min-w-0 flex-1">
+            <div className="text-[13px] font-medium text-neutral-400 truncate">{ghost.portfolioName}</div>
+            <div className="text-[11px] text-neutral-600">0 Anteile · historisch</div>
+          </div>
+        </div>
+
+        {/* Kurs — leer */}
+        <div className="col-span-2 text-right text-[12px] text-neutral-600">—</div>
+
+        {/* Wert — 0 */}
+        <div className="col-span-2 text-right">
+          <div className="text-[13px] text-neutral-500 tabular-nums">0,00 €</div>
+        </div>
+
+        {/* Kursgewinn — 0 */}
+        <div className="col-span-1 text-right text-[12px] text-neutral-600">—</div>
+
+        {/* Dividenden / Realisiert (historisch) */}
+        <div className="col-span-2 text-right">
+          {ghost.totalDividends > 0 && (
+            <div className="text-[11px] text-emerald-500/80 tabular-nums">
+              +{ghost.totalDividends.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € Div.
+            </div>
+          )}
+          {ghost.totalRealized !== 0 && (
+            <div className={`text-[11px] tabular-nums ${ghost.totalRealized >= 0 ? 'text-emerald-500/80' : 'text-red-500/80'}`}>
+              {ghost.totalRealized >= 0 ? '+' : ''}{ghost.totalRealized.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € Real.
+            </div>
+          )}
+        </div>
+
+        {/* Actions — leer */}
+        <div className="col-span-1"></div>
       </div>
     )
   }

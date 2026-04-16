@@ -140,6 +140,115 @@ function calculateRealizedGains(transactions: Transaction[]): {
   return { totalRealizedGain, totalDividends, realizedGainByTxId }
 }
 
+// Historische Performance pro (symbol, portfolio_id) aggregieren.
+// Wird in der "Alle Depots"-Ansicht genutzt: ermöglicht Ghost-Rows für Depots,
+// die eine Position mal hatten (Dividenden, realisierter Gewinn) aber aktuell
+// 0 Shares halten — analog zu Parqet.
+export interface DepotHistoricalPerf {
+  symbol: string
+  portfolioId: string
+  portfolioName: string
+  brokerType?: string | null
+  brokerName?: string | null
+  brokerColor?: string | null
+  totalDividends: number
+  totalRealized: number
+}
+
+export function calculateHistoricalPerfByDepot(
+  allTransactions: Transaction[],
+): Map<string, DepotHistoricalPerf> {
+  const result = new Map<string, DepotHistoricalPerf>()
+
+  // Pro portfolio_id die Realized Gains berechnen — jedes Depot als isolierter Track
+  const byPortfolio = new Map<string, Transaction[]>()
+  for (const tx of allTransactions) {
+    if (!tx.portfolio_id) continue
+    if (!byPortfolio.has(tx.portfolio_id)) byPortfolio.set(tx.portfolio_id, [])
+    byPortfolio.get(tx.portfolio_id)!.push(tx)
+  }
+
+  for (const [portfolioId, txs] of byPortfolio) {
+    // Für dieses Depot die Realized-Gains-Simulation laufen lassen (pro Symbol)
+    const sorted = [...txs].sort((a, b) => {
+      const dateCmp = new Date(a.date).getTime() - new Date(b.date).getTime()
+      if (dateCmp !== 0) return dateCmp
+      const typePriority: Record<string, number> = {
+        transfer_in: 0, buy: 1, dividend: 2, sell: 3, transfer_out: 4,
+      }
+      return (typePriority[a.type] ?? 99) - (typePriority[b.type] ?? 99)
+    })
+
+    // Positions-Tracker pro Symbol in diesem Depot
+    const positions = new Map<string, { shares: number; cost: number }>()
+    // Ergebnis pro Symbol in diesem Depot
+    const perSymbol = new Map<string, { dividends: number; realized: number }>()
+    // Portfolio-Meta aus erster Transaktion ziehen
+    const firstTx = txs[0]
+    const meta = {
+      portfolioName: firstTx.portfolio_name || 'Unbekanntes Depot',
+      brokerType: firstTx.broker_type,
+      brokerName: firstTx.broker_name,
+      brokerColor: firstTx.broker_color,
+    }
+
+    for (const tx of sorted) {
+      const sym = tx.symbol
+      if (!sym || sym === 'CASH') continue
+      if (!perSymbol.has(sym)) perSymbol.set(sym, { dividends: 0, realized: 0 })
+      const agg = perSymbol.get(sym)!
+
+      if (tx.type === 'buy' || tx.type === 'transfer_in') {
+        const pos = positions.get(sym) || { shares: 0, cost: 0 }
+        pos.shares += tx.quantity
+        pos.cost += tx.quantity * tx.price
+        positions.set(sym, pos)
+      } else if (tx.type === 'sell') {
+        const pos = positions.get(sym)
+        if (pos && pos.shares > 0) {
+          const avgCost = pos.cost / pos.shares
+          const sellQty = Math.min(tx.quantity, pos.shares)
+          agg.realized += (tx.price - avgCost) * sellQty
+          pos.cost -= sellQty * avgCost
+          pos.shares -= sellQty
+          if (pos.shares <= 0.0001) { pos.shares = 0; pos.cost = 0 }
+          positions.set(sym, pos)
+        }
+      } else if (tx.type === 'transfer_out') {
+        // Kein realized gain — Kostenbasis wandert mit
+        const pos = positions.get(sym)
+        if (pos && pos.shares > 0) {
+          const avgCost = pos.cost / pos.shares
+          const qty = Math.min(tx.quantity, pos.shares)
+          pos.cost -= qty * avgCost
+          pos.shares -= qty
+          if (pos.shares <= 0.0001) { pos.shares = 0; pos.cost = 0 }
+          positions.set(sym, pos)
+        }
+      } else if (tx.type === 'dividend') {
+        agg.dividends += tx.total_value
+      }
+    }
+
+    // Fülle das Ergebnis-Map
+    for (const [symbol, agg] of perSymbol) {
+      if (agg.dividends === 0 && agg.realized === 0) continue // nichts zu zeigen
+      result.set(`${symbol}|${portfolioId}`, {
+        symbol,
+        portfolioId,
+        portfolioName: meta.portfolioName,
+        brokerType: meta.brokerType,
+        brokerName: meta.brokerName,
+        brokerColor: meta.brokerColor,
+        totalDividends: agg.dividends,
+        totalRealized: agg.realized,
+      })
+    }
+  }
+
+  return result
+}
+
 export function usePortfolio() {
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -198,6 +307,14 @@ export function usePortfolio() {
   const { totalRealizedGain, totalDividends, realizedGainByTxId } = useMemo(
     () => calculateRealizedGains(transactions),
     [transactions]
+  )
+
+  // Historische Performance pro (symbol, portfolio_id) — für Ghost-Rows in der
+  // "Alle Depots"-Ansicht (Position wurde transferiert, aber Depot X hat noch
+  // historische Dividenden/Realized dort erzielt). Nur sinnvoll mit Portfolio-Info.
+  const historicalPerfByDepot = useMemo(
+    () => isAllDepotsView ? calculateHistoricalPerfByDepot(transactions) : new Map(),
+    [transactions, isAllDepotsView]
   )
 
   // Gesamtrendite = Unrealisiert + Realisiert + Dividenden
@@ -978,6 +1095,7 @@ export function usePortfolio() {
     totalReturn,
     totalReturnPercent,
     realizedGainByTxId,
+    historicalPerfByDepot,
     xirrPercent,
     activeInvestments: holdings.length,
 
