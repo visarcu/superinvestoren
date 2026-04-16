@@ -6,6 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import StockLogo from '../../components/StockLogo';
 import { theme, tabularStyle, perfColor } from '../../lib/theme';
+import { getEURRates, toEUR } from '../../lib/currency';
 
 const BASE_URL = 'https://finclue.de';
 
@@ -14,14 +15,14 @@ type Tab = 'positionen' | 'performance' | 'dividenden' | 'superinvestoren';
 function fmtDE(v: number, d = 2) {
   return Math.abs(v).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d });
 }
-function fmtCurrency(v: number) { return `${fmtDE(v)} $`; }
+function fmtCurrency(v: number) { return `${fmtDE(v)} €`; }
 function fmtPct(v: number, sign = true) {
   return `${sign && v >= 0 ? '+' : sign && v < 0 ? '-' : ''}${fmtDE(Math.abs(v))} %`;
 }
 function fmtBig(v: number) {
-  if (v >= 1e9) return `${fmtDE(v / 1e9, 1)} Mrd. $`;
-  if (v >= 1e6) return `${fmtDE(v / 1e6, 1)} Mio. $`;
-  return `${fmtDE(v, 0)} $`;
+  if (v >= 1e9) return `${fmtDE(v / 1e9, 1)} Mrd. €`;
+  if (v >= 1e6) return `${fmtDE(v / 1e6, 1)} Mio. €`;
+  return `${fmtDE(v, 0)} €`;
 }
 
 interface Holding {
@@ -126,13 +127,14 @@ export default function PortfolioScreen() {
       }
 
       const symbols = rawHoldings.map((h: any) => h.symbol).join(',');
-      const [qRes, siRes] = await Promise.all([
+      const [qRes, siRes, rates] = await Promise.all([
         fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`),
         fetch(`${BASE_URL}/api/portfolio/super-investor-overlap`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ tickers: rawHoldings.map((h: any) => h.symbol) }),
         }),
+        getEURRates(),
       ]);
 
       const quotes: any[] = qRes.ok ? await qRes.json() : [];
@@ -143,9 +145,13 @@ export default function PortfolioScreen() {
       let tv = 0, tc = 0;
       const enriched: Holding[] = rawHoldings.map((h: any) => {
         const q = quoteMap[h.symbol] || {};
-        const currentPrice = q.price || h.current_price || 0;
-        const currentValue = currentPrice * (h.quantity || 0);
-        const cost = (h.purchase_price || 0) * (h.quantity || 0);
+        const rawPrice = q.price || h.current_price || 0;
+        // Convert current price to EUR based on ticker currency
+        const currentPrice = toEUR(rawPrice, h.symbol, rates);
+        // purchase_price is already stored in EUR
+        const quantity = h.quantity || 0;
+        const currentValue = currentPrice * quantity;
+        const cost = (h.purchase_price || 0) * quantity;
         tv += currentValue; tc += cost;
         return { ...h, currentPrice, currentValue, cost, gain: currentValue - cost,
           gainPct: cost > 0 ? ((currentValue - cost) / cost) * 100 : 0,
@@ -185,13 +191,17 @@ export default function PortfolioScreen() {
       }
       const mergedArr = Object.values(merged);
       const symbols = mergedArr.map((h: any) => h.symbol).join(',');
-      const [qRes, siRes] = await Promise.all([
+      // Also fetch cash positions for all selected portfolios
+      const [qRes, siRes, rates, { data: cashRows }] = await Promise.all([
         fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`),
         fetch(`${BASE_URL}/api/portfolio/super-investor-overlap`, {
           method: 'POST', headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ tickers: mergedArr.map((h: any) => h.symbol) }),
         }),
+        getEURRates(),
+        supabase.from('portfolios').select('cash_position').in('id', ids),
       ]);
+      const totalCash = (cashRows || []).reduce((s: number, p: any) => s + (Number(p.cash_position) || 0), 0);
       const quotes: any[] = qRes.ok ? await qRes.json() : [];
       const quoteMap: Record<string, any> = {};
       quotes.forEach((q: any) => { quoteMap[q.symbol] = q; });
@@ -199,9 +209,11 @@ export default function PortfolioScreen() {
       let tv = 0, tc = 0;
       const enriched: Holding[] = mergedArr.map((h: any) => {
         const q = quoteMap[h.symbol] || {};
-        const currentPrice = q.price || h.current_price || 0;
-        const currentValue = currentPrice * (h.quantity || 0);
-        const cost = (h.purchase_price || 0) * (h.quantity || 0);
+        const rawPrice = q.price || h.current_price || 0;
+        const currentPrice = toEUR(rawPrice, h.symbol, rates);
+        const quantity = h.quantity || 0;
+        const currentValue = currentPrice * quantity;
+        const cost = (h.purchase_price || 0) * quantity;
         tv += currentValue; tc += cost;
         return { ...h, currentPrice, currentValue, cost, gain: currentValue - cost,
           gainPct: cost > 0 ? ((currentValue - cost) / cost) * 100 : 0,
@@ -209,7 +221,7 @@ export default function PortfolioScreen() {
       });
       enriched.forEach(h => { h.weight = tv > 0 ? (h.currentValue / tv) * 100 : 0; });
       setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
-      setTotalValue(tv); setTotalCost(tc);
+      setTotalValue(tv + totalCash); setTotalCost(tc);
       loadDividends(enriched);
     } catch (e: any) {
       setError(e.message || 'Fehler');
