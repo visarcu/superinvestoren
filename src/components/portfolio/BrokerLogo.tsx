@@ -33,8 +33,10 @@ const LOGO_FILES: Partial<Record<ImportBrokerId, { src: string; bg: string; padd
   freedom24: { src: '/broker-logos/freedom24.png', bg: '#FFFFFF', padding: 'p-1' },
   // ING-Logo: dunkelblaue Wortmarke + oranger Löwe auf weißem Hintergrund
   ing: { src: '/broker-logos/ing.jpg', bg: '#FFFFFF', padding: 'p-1' },
-  // Weitere Broker-Logos hier aktivieren, sobald Dateien in public/broker-logos/ liegen:
-  // zero: { src: '/broker-logos/finanzen-net-zero.svg', bg: '#E4007F', padding: 'p-1.5' },
+  // Trading 212: JPEG mit schwarzem Hintergrund eingebettet → kein padding, matching bg
+  trading212: { src: '/broker-logos/t212.jpeg', bg: '#0A0A0A', padding: 'p-0' },
+  // finanzen.net zero: PNG mit eigenem dunklen Hintergrund → kein padding, matching bg
+  zero: { src: '/broker-logos/finanzen-zero.png', bg: '#171717', padding: 'p-0' },
 }
 
 export function BrokerLogo({ brokerId, size = 36, className }: BrokerLogoProps) {

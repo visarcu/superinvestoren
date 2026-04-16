@@ -350,8 +350,8 @@ export default function CSVImportModal({
       let parsedTransactions: ParsedTransaction[]
       let uniqueISINs: string[]
 
-      if (data.format === 'scalable' || data.format === 'zero') {
-        // Beide Parser liefern bereits ParsedTransaction[]
+      if (data.format === 'scalable' || data.format === 'zero' || data.format === 'trading212') {
+        // Alle CSV-Parser liefern bereits ParsedTransaction[]
         parsedTransactions = data.transactions as ParsedTransaction[]
         uniqueISINs = (data.uniqueISINs as string[]) || []
       } else {

@@ -13,6 +13,7 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { parseScalableCSV } from '@/lib/scalableCSVParser'
 import { parseZeroCSV, isZeroCSV } from '@/lib/zeroCSVParser'
+import { parseTrading212CSV, isTrading212CSV } from '@/lib/trading212CSVParser'
 import { parseFlatexPDFText, type FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import { parseSmartbrokerPDFText, type SmartbrokerParsedTransaction } from '@/lib/smartbrokerPDFParser'
 import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '@/lib/tradeRepublicPDFParser'
@@ -91,11 +92,22 @@ export async function POST(request: Request) {
     const firstFile = files[0]
     const ext = firstFile.name.toLowerCase().split('.').pop() ?? ''
 
-    // ===== CSV → Scalable Capital oder finanzen.net Zero =====
+    // ===== CSV → Scalable Capital / finanzen.net Zero / Trading 212 =====
     if (ext === 'csv') {
       const text = await firstFile.text()
 
       // Auto-Detection über Header
+      if (isTrading212CSV(text)) {
+        const result = parseTrading212CSV(text)
+        return NextResponse.json({
+          format: 'trading212',
+          formatLabel: 'Trading 212',
+          transactions: result.transactions,
+          errors: result.skipped,
+          uniqueISINs: result.uniqueISINs,
+        })
+      }
+
       if (isZeroCSV(text)) {
         const result = parseZeroCSV(text)
         return NextResponse.json({
