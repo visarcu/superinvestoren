@@ -9,6 +9,7 @@ export type BrokerType =
   | 'smartbroker'
   | 'freedom24'
   | 'ing'
+  | 'trading212'
   | 'comdirect'
   | 'interactive_brokers'
   | 'andere'
@@ -72,6 +73,13 @@ export const BROKER_CONFIGS: BrokerConfig[] = [
     description: 'Direktbank mit Depot'
   },
   {
+    id: 'trading212',
+    displayName: 'Trading 212',
+    color: '#0ea5e9',
+    iconName: 'ChartBarIcon',
+    description: 'Mobiler Neobroker aus UK'
+  },
+  {
     id: 'comdirect',
     displayName: 'Comdirect',
     color: '#FFD700',
@@ -125,7 +133,7 @@ export function getBrokerColor(brokerId: BrokerType | string | null | undefined,
  * Liefert null, wenn kein Logo-Äquivalent existiert (z.B. manuell/andere/Comdirect/IB).
  */
 export function brokerTypeToLogoId(brokerId: BrokerType | string | null | undefined):
-  'scalable' | 'traderepublic' | 'flatex' | 'smartbroker' | 'freedom24' | 'zero' | 'ing' | null {
+  'scalable' | 'traderepublic' | 'flatex' | 'smartbroker' | 'freedom24' | 'zero' | 'ing' | 'trading212' | null {
   switch (brokerId) {
     case 'trade_republic': return 'traderepublic'
     case 'scalable_capital': return 'scalable'
@@ -134,6 +142,7 @@ export function brokerTypeToLogoId(brokerId: BrokerType | string | null | undefi
     case 'smartbroker': return 'smartbroker'
     case 'freedom24': return 'freedom24'
     case 'ing': return 'ing'
+    case 'trading212': return 'trading212'
     default: return null
   }
 }

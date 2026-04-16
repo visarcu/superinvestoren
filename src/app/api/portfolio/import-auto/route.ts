@@ -20,6 +20,7 @@ import { parseFreedom24PDFText } from '@/lib/freedom24PDFParser'
 import { parseFreedom24TaxXLSX } from '@/lib/freedom24TaxXLSXParser'
 import { parseFreedom24XLSXRows } from '@/lib/freedom24XLSXParser'
 import { parseIngPDFText, isIngPDF, type IngParsedTransaction } from '@/lib/ingPDFParser'
+import { parseTrading212PDFText, isTrading212PDF } from '@/lib/trading212PDFParser'
 
 export const maxDuration = 60
 
@@ -39,10 +40,12 @@ function getPdfParse() {
   return _pdfParse!
 }
 
-function detectBroker(text: string): 'flatex' | 'smartbroker' | 'traderepublic' | 'freedom24' | 'ing' | 'unknown' {
+function detectBroker(text: string): 'flatex' | 'smartbroker' | 'traderepublic' | 'freedom24' | 'ing' | 'trading212' | 'unknown' {
   const lower = text.toLowerCase()
   // ING muss VOR Flatex geprüft werden, da ING-PDFs auch das Wort "Wertpapier" enthalten
   if (isIngPDF(text)) return 'ing'
+  // Trading 212 vor Trade Republic (beide enthalten "Trade")
+  if (isTrading212PDF(text)) return 'trading212'
   if (lower.includes('freedom24') || lower.includes('freedom 24') || lower.includes('handelsbericht für den zeitraum')) return 'freedom24'
   if (lower.includes('trade republic') || lower.includes('traderepublic')) return 'traderepublic'
   if (lower.includes('smartbroker') || lower.includes('baader bank')) return 'smartbroker'
@@ -167,6 +170,13 @@ export async function POST(request: Request) {
             // nicht im Type hat — aber JSON-serialized geht das durch den Client-Mapper
             allTransactions.push(...(r.transactions as unknown as FlatexParsedTransaction[]))
             if (r.transactions.length > 0) parsedCount++
+          } else if (broker === 'trading212') {
+            const r = parseTrading212PDFText(text, file.name)
+            allErrors.push(...r.errors)
+            // Trading 212 liefert auch cash_deposit/cash_withdrawal als eigene Typen
+            // → Cast über 'unknown', damit TS nicht wegen type-Union meckert.
+            allTransactions.push(...(r.transactions as unknown as FlatexParsedTransaction[]))
+            if (r.transactions.length > 0) parsedCount++
           } else {
             const r = parseFlatexPDFText(text, file.name)
             allErrors.push(...r.errors)
@@ -184,6 +194,7 @@ export async function POST(request: Request) {
         traderepublic: 'Trade Republic',
         freedom24: 'Freedom24',
         ing: 'ING',
+        trading212: 'Trading 212',
         unknown: 'Unbekannter Broker',
       }
       const mainBroker = [...brokersSeen].filter(b => b !== 'unknown')[0] ?? 'unknown'

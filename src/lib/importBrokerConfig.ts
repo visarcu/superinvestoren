@@ -10,6 +10,7 @@ export type ImportBrokerId =
   | 'freedom24'
   | 'zero'
   | 'ing'
+  | 'trading212'
   | 'other'
 
 export interface ImportBrokerInfo {
@@ -159,6 +160,29 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     },
   },
   {
+    id: 'trading212',
+    name: 'Trading 212',
+    shortName: 'Trading 212',
+    formats: ['.pdf'],
+    accept: '.pdf',
+    initial: 'T212',
+    accentDot: 'bg-sky-500',
+    supportsMultiFile: true,
+    instructions: {
+      title: 'So findest du die Kontoauszüge bei Trading 212',
+      steps: [
+        'Öffne die Trading-212-App oder die Web-Oberfläche',
+        'Menu → "Historie" → Export-Button oben rechts',
+        'Wähle den Zeitraum (max. 365 Tage pro Export)',
+        'Lade die Monats-PDFs (oder alternativ den CSV-Export) herunter',
+        'Alle PDFs hier hochladen — mehrere gleichzeitig möglich',
+      ],
+      hint: 'Trading 212 bietet auch einen CSV-Export (Menu → Historie → Export). Der ist vollständiger als einzelne Monats-PDFs. Aktuell unterstützen wir die Monats-PDFs — CSV-Support folgt, sag einfach Bescheid, wenn du ihn brauchst.',
+      loginUrl: 'https://www.trading212.com',
+      loginLabel: 'Zu Trading 212',
+    },
+  },
+  {
     id: 'zero',
     name: 'finanzen.net zero',
     shortName: 'Zero',
@@ -211,6 +235,7 @@ export function formatToBrokerId(format: string | null | undefined): ImportBroke
   if (format === 'scalable') return 'scalable'
   if (format === 'zero') return 'zero'
   if (format.startsWith('pdf_ing')) return 'ing'
+  if (format.startsWith('pdf_trading212')) return 'trading212'
   if (format.startsWith('pdf_traderepublic')) return 'traderepublic'
   if (format.startsWith('pdf_smartbroker')) return 'smartbroker'
   if (format.startsWith('pdf_flatex')) return 'flatex'

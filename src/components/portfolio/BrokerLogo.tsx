@@ -170,6 +170,29 @@ export function BrokerLogo({ brokerId, size = 36, className }: BrokerLogoProps) 
         </div>
       )
 
+    case 'trading212':
+      // Trading 212 — schwarzes Quadrat mit "212" in weiß und türkis-Akzent
+      return (
+        <div style={sizeStyle} className={`relative flex-shrink-0 ${className ?? ''}`}>
+          <svg viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+            <rect width="36" height="36" rx="8" fill="#0A0A0A" />
+            <text
+              x="18"
+              y="22"
+              fontFamily="ui-sans-serif, system-ui, sans-serif"
+              fontSize="11"
+              fontWeight="700"
+              fill="#FFFFFF"
+              textAnchor="middle"
+              letterSpacing="-0.5"
+            >
+              212
+            </text>
+            <circle cx="18" cy="29" r="1.2" fill="#0ea5e9" />
+          </svg>
+        </div>
+      )
+
     case 'zero':
       // finanzen.net zero — pink-magenta Akzent, stilisierte "0"
       return (
