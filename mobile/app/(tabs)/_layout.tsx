@@ -63,7 +63,6 @@ export default function TabsLayout() {
             borderTopColor: theme.border.default,
             borderTopWidth: StyleSheet.hairlineWidth,
           },
-          tabBarItemStyle: { paddingTop: 4 },
           tabBarHideOnKeyboard: true,
           tabBarActiveTintColor: theme.text.primary,
           tabBarInactiveTintColor: theme.text.muted,

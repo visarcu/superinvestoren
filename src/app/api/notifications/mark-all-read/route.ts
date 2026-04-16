@@ -1,6 +1,7 @@
 // src/app/api/notifications/mark-all-read/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 // POST /api/notifications/mark-all-read - Mark all as read
 export async function POST(request: NextRequest) {
@@ -11,28 +12,29 @@ export async function POST(request: NextRequest) {
     }
 
     const token = authHeader.split(' ')[1]
-    
-    // Verify JWT token
+
+    // Verify JWT token (using anon client to validate user)
     const { data: { user }, error: authError } = await supabase.auth.getUser(token)
     if (authError || !user) {
       return NextResponse.json({ error: 'Invalid token' }, { status: 401 })
     }
 
-    const { data: notifications, error } = await supabase
+    // Use service role for the update (bypasses RLS)
+    const { data: notifications, error } = await supabaseAdmin
       .from('notifications')
       .update({ read: true })
       .eq('user_id', user.id)
       .eq('read', false)
-      .select()
+      .select('id')
 
     if (error) {
       console.error('Database error:', error)
-      return NextResponse.json({ error: 'Database error' }, { status: 500 })
+      return NextResponse.json({ error: 'Database error', detail: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      updatedCount: notifications?.length || 0 
+    return NextResponse.json({
+      success: true,
+      updatedCount: notifications?.length || 0
     })
 
   } catch (error) {

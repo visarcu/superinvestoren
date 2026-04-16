@@ -1,6 +1,7 @@
 // src/app/api/notifications/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabaseClient'
+import { supabaseAdmin } from '@/lib/supabaseAdmin'
 
 // PATCH /api/notifications/[id] - Mark as read
 export async function PATCH(
@@ -24,7 +25,7 @@ export async function PATCH(
     const body = await request.json()
     const { read } = body
 
-    const { data: notification, error } = await supabase
+    const { data: notification, error } = await supabaseAdmin
       .from('notifications')
       .update({ read })
       .eq('id', params.id)

@@ -312,7 +312,7 @@ export default function PortfolioScreen() {
   ];
 
   return (
-    <SafeAreaView style={s.container}>
+    <SafeAreaView style={s.container} edges={['top']}>
       <ScrollView
         style={{ flex: 1 }}
         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={() => { setRefreshing(true); loadPortfolio(); }} tintColor={theme.accent.positive} />}
