@@ -70,74 +70,17 @@ const ACTIVITY_TYPES: {
   key: ActivityType
   label: string
   icon: typeof ArrowDownTrayIcon
-  color: string
-  bg: string
+  accentDot: string
   description: string
   needsHoldings: boolean
 }[] = [
-  {
-    key: 'buy',
-    label: 'Kauf',
-    icon: ArrowDownTrayIcon,
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40',
-    description: 'Aktie kaufen oder aufstocken',
-    needsHoldings: false
-  },
-  {
-    key: 'sell',
-    label: 'Verkauf',
-    icon: ArrowUpTrayIcon,
-    color: 'text-red-400',
-    bg: 'bg-red-500/10 border-red-500/20 hover:border-red-500/40',
-    description: 'Position ganz oder teilweise verkaufen',
-    needsHoldings: true
-  },
-  {
-    key: 'dividend',
-    label: 'Dividende',
-    icon: BanknotesIcon,
-    color: 'text-blue-400',
-    bg: 'bg-blue-500/10 border-blue-500/20 hover:border-blue-500/40',
-    description: 'Dividendenzahlung erfassen',
-    needsHoldings: true
-  },
-  {
-    key: 'deposit',
-    label: 'Einzahlung',
-    icon: PlusIcon,
-    color: 'text-emerald-400',
-    bg: 'bg-emerald-500/10 border-emerald-500/20 hover:border-emerald-500/40',
-    description: 'Geld ins Depot einzahlen',
-    needsHoldings: false
-  },
-  {
-    key: 'withdrawal',
-    label: 'Auszahlung',
-    icon: MinusIcon,
-    color: 'text-red-400',
-    bg: 'bg-red-500/10 border-red-500/20 hover:border-red-500/40',
-    description: 'Geld vom Depot auszahlen',
-    needsHoldings: false
-  },
-  {
-    key: 'transfer_in',
-    label: 'Einbuchung',
-    icon: ArrowsRightLeftIcon,
-    color: 'text-violet-400',
-    bg: 'bg-violet-500/10 border-violet-500/20 hover:border-violet-500/40',
-    description: 'Depotübertrag: Aktie hierhin übertragen',
-    needsHoldings: false
-  },
-  {
-    key: 'transfer_out',
-    label: 'Ausbuchung',
-    icon: ArrowsRightLeftIcon,
-    color: 'text-orange-400',
-    bg: 'bg-orange-500/10 border-orange-500/20 hover:border-orange-500/40',
-    description: 'Depotübertrag: Aktie woanders hin',
-    needsHoldings: true
-  }
+  { key: 'buy',          label: 'Kauf',        icon: ArrowDownTrayIcon,  accentDot: 'bg-emerald-400', description: 'Aktie kaufen oder aufstocken', needsHoldings: false },
+  { key: 'sell',         label: 'Verkauf',     icon: ArrowUpTrayIcon,    accentDot: 'bg-red-400',     description: 'Position ganz oder teilweise verkaufen', needsHoldings: true },
+  { key: 'dividend',     label: 'Dividende',   icon: BanknotesIcon,      accentDot: 'bg-blue-400',    description: 'Dividendenzahlung erfassen', needsHoldings: true },
+  { key: 'deposit',      label: 'Einzahlung',  icon: PlusIcon,           accentDot: 'bg-emerald-400', description: 'Geld ins Depot einzahlen', needsHoldings: false },
+  { key: 'withdrawal',   label: 'Auszahlung',  icon: MinusIcon,          accentDot: 'bg-red-400',     description: 'Geld vom Depot auszahlen', needsHoldings: false },
+  { key: 'transfer_in',  label: 'Einbuchung',  icon: ArrowsRightLeftIcon, accentDot: 'bg-violet-400', description: 'Depotübertrag: Aktie hierhin übertragen', needsHoldings: false },
+  { key: 'transfer_out', label: 'Ausbuchung',  icon: ArrowsRightLeftIcon, accentDot: 'bg-orange-400', description: 'Depotübertrag: Aktie woanders hin', needsHoldings: true },
 ]
 
 const FREE_USER_POSITION_LIMIT = 2
@@ -192,41 +135,45 @@ export default function AddActivityModal({
   const selectedConfig = selectedType ? ACTIVITY_TYPES.find(t => t.key === selectedType) : null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 overflow-y-auto" onClick={handleClose}>
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 overflow-y-auto" onClick={handleClose}>
       <div className="min-h-full flex items-center justify-center p-4">
         <div
-          className="bg-white dark:bg-neutral-900 rounded-xl p-6 max-w-md w-full border border-neutral-200 dark:border-neutral-800 shadow-xl relative"
+          className="bg-neutral-950 rounded-2xl max-w-md w-full border border-neutral-800/80 shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
           onClick={(e) => e.stopPropagation()}
         >
         {/* Header */}
-        <div className="flex items-center justify-between mb-5">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80 flex-shrink-0">
           <div className="flex items-center gap-3">
             {step === 'form' && (
               <button
                 onClick={handleBack}
-                className="p-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded transition-colors"
+                className="p-1.5 -ml-1.5 hover:bg-neutral-900/60 rounded-lg transition-colors"
               >
-                <ArrowLeftIcon className="w-4 h-4 text-neutral-500" />
+                <ArrowLeftIcon className="w-4 h-4 text-neutral-400 hover:text-neutral-200" />
               </button>
             )}
-            <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">
-              {step === 'type'
-                ? 'Aktivität hinzufügen'
-                : selectedConfig?.label || ''
-              }
-            </h2>
+            <div>
+              <h2 className="text-[15px] font-semibold text-white tracking-tight">
+                {step === 'type' ? 'Aktivität hinzufügen' : selectedConfig?.label || ''}
+              </h2>
+              <p className="text-[11px] text-neutral-500 mt-0.5">
+                {step === 'type' ? 'Wähle den Typ deiner Buchung' : selectedConfig?.description}
+              </p>
+            </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded transition-colors"
+            className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors flex-shrink-0"
           >
-            <XMarkIcon className="w-5 h-5 text-neutral-400" />
+            <XMarkIcon className="w-4.5 h-4.5 text-neutral-500 hover:text-neutral-300" />
           </button>
         </div>
 
+        <div className="flex-1 overflow-y-auto px-6 py-5">
+
         {/* Step 1: Type Selection */}
         {step === 'type' && (
-          <div className="space-y-2">
+          <div className="space-y-1.5">
             {ACTIVITY_TYPES.map(type => {
               const Icon = type.icon
               const disabled = type.needsHoldings && holdings.length === 0
@@ -236,19 +183,21 @@ export default function AddActivityModal({
                   key={type.key}
                   onClick={() => !disabled && handleSelectType(type.key)}
                   disabled={disabled}
-                  className={`w-full flex items-center gap-4 p-4 rounded-xl border transition-all text-left ${
+                  className={`group w-full flex items-center gap-3 p-3.5 rounded-xl border transition-all text-left ${
                     disabled
-                      ? 'opacity-40 cursor-not-allowed border-neutral-200 dark:border-neutral-800'
-                      : type.bg
+                      ? 'opacity-40 cursor-not-allowed border-neutral-800/80 bg-neutral-900/30'
+                      : 'border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/80'
                   }`}
                 >
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center ${type.bg.split(' ')[0]}`}>
-                    <Icon className={`w-5 h-5 ${type.color}`} />
+                  <div className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center flex-shrink-0 relative">
+                    <Icon className="w-4 h-4 text-neutral-300" />
+                    <span className={`absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full ${type.accentDot}`} />
                   </div>
-                  <div className="flex-1">
-                    <span className="font-medium text-neutral-900 dark:text-white text-sm">{type.label}</span>
-                    <p className="text-xs text-neutral-500 mt-0.5">{type.description}</p>
+                  <div className="flex-1 min-w-0">
+                    <span className="font-medium text-[13px] text-white">{type.label}</span>
+                    <p className="text-[11px] text-neutral-500 mt-0.5 leading-snug">{type.description}</p>
                   </div>
+                  <ArrowLeftIcon className="w-3.5 h-3.5 text-neutral-600 rotate-180 group-hover:text-neutral-400 transition-colors flex-shrink-0" />
                 </button>
               )
             })}
@@ -336,6 +285,7 @@ export default function AddActivityModal({
             onSuccess={handleSuccess}
           />
         )}
+        </div>
         </div>
       </div>
     </div>

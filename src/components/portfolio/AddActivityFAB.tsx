@@ -5,8 +5,9 @@ import React, { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { PlusIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import { type Holding, type Portfolio } from '@/hooks/usePortfolio'
-import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
+import { getBrokerDisplayName, getBrokerColor, brokerTypeToLogoId } from '@/lib/brokerConfig'
 import AddActivityModal from './AddActivityModal'
+import { BrokerLogo } from './BrokerLogo'
 
 interface AddActivityFABProps {
   portfolioId: string
@@ -94,61 +95,64 @@ export default function AddActivityFAB({
 
   return (
     <>
-      {/* Floating Action Button */}
-      <div className="fixed bottom-6 right-6 z-50 group">
-        {/* Tooltip */}
-        <div className="absolute bottom-full right-0 mb-2 px-3 py-1.5 bg-neutral-800 text-white text-xs rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">
+      {/* Floating Action Button — Premium weiß */}
+      <div className="fixed bottom-6 right-6 z-40 group">
+        <div className="absolute bottom-full right-0 mb-2 px-2.5 py-1.5 bg-neutral-900 border border-neutral-800 text-white text-[11px] font-medium rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-xl">
           Aktivität hinzufügen
         </div>
         <button
           onClick={handleFABClick}
-          className="w-14 h-14 bg-emerald-500 hover:bg-emerald-400 text-white rounded-full shadow-lg shadow-emerald-500/25 hover:shadow-emerald-400/30 transition-all duration-200 flex items-center justify-center hover:scale-105 active:scale-95"
+          aria-label="Aktivität hinzufügen"
+          className="w-12 h-12 bg-white hover:bg-neutral-100 text-neutral-950 rounded-full shadow-2xl transition-all duration-200 flex items-center justify-center hover:scale-105 active:scale-95 ring-1 ring-black/5"
         >
-          <PlusIcon className="w-7 h-7" />
+          <PlusIcon className="w-5 h-5" strokeWidth={2.5} />
         </button>
       </div>
 
       {/* Depot-Auswahl Modal (nur in "Alle Depots" Ansicht) */}
       {showDepotPicker && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50" onClick={() => setShowDepotPicker(false)}>
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50" onClick={() => setShowDepotPicker(false)}>
           <div className="min-h-full flex items-center justify-center p-4">
             <div
-              className="bg-white dark:bg-neutral-900 rounded-xl p-6 max-w-sm w-full border border-neutral-200 dark:border-neutral-800 shadow-xl"
+              className="bg-neutral-950 rounded-2xl max-w-sm w-full border border-neutral-800/80 shadow-2xl overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold text-neutral-900 dark:text-white">Depot wählen</h2>
+              <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80">
+                <div>
+                  <h2 className="text-[15px] font-semibold text-white tracking-tight">Depot wählen</h2>
+                  <p className="text-[11px] text-neutral-500 mt-0.5">In welches Depot soll die Aktivität?</p>
+                </div>
                 <button
                   onClick={() => setShowDepotPicker(false)}
-                  className="p-1 hover:bg-neutral-100 dark:hover:bg-neutral-800 rounded transition-colors"
+                  className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors flex-shrink-0"
                 >
-                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
+                  <XMarkIcon className="w-4.5 h-4.5 text-neutral-500 hover:text-neutral-300" />
                 </button>
               </div>
-              <p className="text-sm text-neutral-500 mb-4">
-                In welches Depot soll die Aktivität?
-              </p>
-              <div className="space-y-2">
+              <div className="p-3 space-y-1">
                 {allPortfolios.map(pf => {
                   const brokerColor = getBrokerColor(pf.broker_type, pf.broker_color)
                   const brokerName = getBrokerDisplayName(pf.broker_type, pf.broker_name)
+                  const logoId = brokerTypeToLogoId(pf.broker_type)
                   return (
                     <button
                       key={pf.id}
                       onClick={() => handleSelectDepot(pf.id)}
-                      className="w-full flex items-center gap-3 p-3.5 rounded-xl border border-neutral-200 dark:border-neutral-700/50 hover:border-emerald-500/50 hover:bg-emerald-500/5 transition-all text-left"
+                      className="w-full flex items-center gap-3 p-3 rounded-xl border border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/80 transition-all text-left"
                     >
-                      <div
-                        className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 border border-neutral-200 dark:border-neutral-700/50"
-                      >
-                        <span
-                          className="w-4 h-4 rounded-full"
-                          style={{ backgroundColor: brokerColor }}
-                        />
-                      </div>
+                      {logoId ? (
+                        <BrokerLogo brokerId={logoId} size={34} />
+                      ) : (
+                        <div className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center flex-shrink-0 relative">
+                          <span
+                            className="w-1.5 h-1.5 rounded-full"
+                            style={{ backgroundColor: brokerColor }}
+                          />
+                        </div>
+                      )}
                       <div className="flex-1 min-w-0">
-                        <span className="font-medium text-neutral-900 dark:text-white text-sm">{pf.name}</span>
-                        <p className="text-xs text-neutral-500">{brokerName}</p>
+                        <span className="font-medium text-[13px] text-white truncate block">{pf.name}</span>
+                        <p className="text-[11px] text-neutral-500 truncate">{brokerName}</p>
                       </div>
                     </button>
                   )
