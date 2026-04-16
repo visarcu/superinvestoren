@@ -18,6 +18,8 @@ import DividendsTab from '@/components/portfolio/DividendsTab'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
 import Logo from '@/components/Logo'
+import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
+import { brokerTypeToLogoId } from '@/lib/brokerConfig'
 import { perfColor } from '@/utils/formatters'
 import {
   BriefcaseIcon,
@@ -344,14 +346,21 @@ export default function PortfolioDashboard() {
                             <hr className="my-1 border-neutral-800" />
                           </>
                         )}
-                        {p.allPortfolios.map(dp => (
-                          <Link key={dp.id} href={`/analyse/portfolio/dashboard?depot=${dp.id}`} onClick={() => setShowDepotSwitcher(false)}
-                            className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${p.portfolio?.id === dp.id ? 'bg-emerald-500/10' : ''}`}>
-                            <BriefcaseIcon className="w-4 h-4 text-neutral-400" />
-                            <span className="text-sm text-white truncate">{dp.name}</span>
-                            {p.portfolio?.id === dp.id && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
-                          </Link>
-                        ))}
+                        {p.allPortfolios.map(dp => {
+                          const logoId = brokerTypeToLogoId(dp.broker_type)
+                          return (
+                            <Link key={dp.id} href={`/analyse/portfolio/dashboard?depot=${dp.id}`} onClick={() => setShowDepotSwitcher(false)}
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${p.portfolio?.id === dp.id ? 'bg-emerald-500/10' : ''}`}>
+                              {logoId ? (
+                                <BrokerLogo brokerId={logoId} size={20} />
+                              ) : (
+                                <BriefcaseIcon className="w-4 h-4 text-neutral-400" />
+                              )}
+                              <span className="text-sm text-white truncate">{dp.name}</span>
+                              {p.portfolio?.id === dp.id && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
+                            </Link>
+                          )
+                        })}
                         <hr className="my-1 border-neutral-800" />
                         <Link href="/analyse/portfolio/depots/neu" onClick={() => setShowDepotSwitcher(false)}
                           className="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors text-emerald-400">
