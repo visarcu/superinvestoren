@@ -9,6 +9,7 @@ export type ImportBrokerId =
   | 'smartbroker'
   | 'freedom24'
   | 'zero'
+  | 'ing'
   | 'other'
 
 export interface ImportBrokerInfo {
@@ -133,6 +134,31 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     },
   },
   {
+    id: 'ing',
+    name: 'ING',
+    shortName: 'ING',
+    formats: ['.pdf'],
+    accept: '.pdf',
+    initial: 'ING',
+    accentDot: 'bg-orange-500',
+    supportsMultiFile: true,
+    instructions: {
+      title: 'So findest du die Abrechnungen bei ING',
+      steps: [
+        'Logge dich im ING-Banking ein (Web oder App)',
+        'Gehe zu "Postbox" oder "Dokumente & Postbox"',
+        'Lade alle relevanten PDFs herunter:',
+        '• Wertpapierabrechnungen (Kauf / Verkauf)',
+        '• Ertragsabrechnungen (Dividenden)',
+        '• Bestandsveränderungen (Depotüberträge)',
+        'Lade alle PDFs hier hoch — mehrere gleichzeitig möglich',
+      ],
+      hint: 'ING bietet leider keinen Gesamt-CSV-Export an. Lade einfach alle Dokumente aus deiner Postbox gleichzeitig hoch — wir lesen sie automatisch aus. Depotauszüge / Kontoauszüge / Kostenaufstellungen werden erkannt und übersprungen.',
+      loginUrl: 'https://banking.ing.de',
+      loginLabel: 'Zum ING-Banking',
+    },
+  },
+  {
     id: 'zero',
     name: 'finanzen.net zero',
     shortName: 'Zero',
@@ -184,6 +210,7 @@ export function formatToBrokerId(format: string | null | undefined): ImportBroke
   if (!format) return 'other'
   if (format === 'scalable') return 'scalable'
   if (format === 'zero') return 'zero'
+  if (format.startsWith('pdf_ing')) return 'ing'
   if (format.startsWith('pdf_traderepublic')) return 'traderepublic'
   if (format.startsWith('pdf_smartbroker')) return 'smartbroker'
   if (format.startsWith('pdf_flatex')) return 'flatex'
