@@ -8,22 +8,14 @@ import { INVESTOR_PHOTOS } from '../../lib/investorPhotos';
 
 const BASE_URL = 'https://finclue.de';
 
-const TOP_INVESTORS = [
-  { slug: 'buffett', name: 'Warren Buffett', fund: 'Berkshire Hathaway', aum: '$300B+' },
-  { slug: 'ackman', name: 'Bill Ackman', fund: 'Pershing Square', aum: '$10B+' },
-  { slug: 'burry', name: 'Michael Burry', fund: 'Scion Asset Mgmt', aum: '$300M+' },
-  { slug: 'tepper', name: 'David Tepper', fund: 'Appaloosa Mgmt', aum: '$14B+' },
-  { slug: 'dalio', name: 'Ray Dalio', fund: 'Bridgewater', aum: '$150B+' },
-  { slug: 'soros', name: 'George Soros', fund: 'Soros Fund Mgmt', aum: '$25B+' },
-  { slug: 'icahn', name: 'Carl Icahn', fund: 'Icahn Enterprises', aum: '$5B+' },
-  { slug: 'coleman', name: 'Chase Coleman', fund: 'Tiger Global', aum: '$25B+' },
-  { slug: 'druckenmiller', name: 'Stanley Druckenmiller', fund: 'Duquesne Family Office', aum: '$3B+' },
-  { slug: 'einhorn', name: 'David Einhorn', fund: 'Greenlight Capital', aum: '$1B+' },
-  { slug: 'klarman', name: 'Seth Klarman', fund: 'Baupost Group', aum: '$27B+' },
-  { slug: 'marks', name: 'Howard Marks', fund: 'Oaktree Capital', aum: '$170B+' },
-  { slug: 'greenblatt', name: 'Joel Greenblatt', fund: 'Gotham Asset Mgmt', aum: '$2B+' },
-  { slug: 'pabrai', name: 'Mohnish Pabrai', fund: 'Pabrai Funds', aum: '$500M+' },
-];
+interface Investor {
+  slug: string;
+  name: string;
+  subtitle: string;
+  totalValue: number;
+  positionsCount: number;
+  lastUpdate: string;
+}
 
 const INVESTOR_LABELS: Record<string, string> = {
   buffett: 'Buffett', ackman: 'Ackman', burry: 'Burry', tepper: 'Tepper',
@@ -91,10 +83,25 @@ export default function InvestorsScreen() {
   const [tradesLoading, setTradesLoading] = useState(true);
   const [activeTradeFilter, setActiveTradeFilter] = useState<'all' | 'buy' | 'sell'>('all');
 
+  const [investors, setInvestors] = useState<Investor[]>([]);
+  const [investorsLoading, setInvestorsLoading] = useState(true);
+
   useFocusEffect(useCallback(() => {
     if (!insights) loadInsights();
     if (trades.length === 0) loadTrades();
+    if (investors.length === 0) loadInvestors();
   }, []));
+
+  async function loadInvestors() {
+    try {
+      const res = await fetch(`${BASE_URL}/api/investors`);
+      if (res.ok) {
+        const data = await res.json();
+        setInvestors(data.investors || []);
+      }
+    } catch { /* silent */ }
+    finally { setInvestorsLoading(false); }
+  }
 
   async function loadInsights() {
     try {
@@ -116,10 +123,15 @@ export default function InvestorsScreen() {
     finally { setTradesLoading(false); }
   }
 
-  const filtered = TOP_INVESTORS.filter(i =>
-    i.name.toLowerCase().includes(search.toLowerCase()) ||
-    i.fund.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = investors
+    .filter(i => {
+      if (!search) return true;
+      const q = search.toLowerCase();
+      return i.name.toLowerCase().includes(q)
+        || i.subtitle.toLowerCase().includes(q)
+        || i.slug.toLowerCase().includes(q);
+    })
+    .sort((a, b) => (b.totalValue || 0) - (a.totalValue || 0));
 
   const insightItems: InsightItem[] = insights
     ? activeInsightTab === 'buys' ? insights.topBuys.slice(0, 6)
@@ -318,8 +330,17 @@ export default function InvestorsScreen() {
           </View>
 
           <View style={s.investorList}>
-            {filtered.map((item, index) => {
+            {investorsLoading ? (
+              <ActivityIndicator color="#34C759" style={{ marginVertical: 24 }} />
+            ) : filtered.length === 0 ? (
+              <Text style={s.emptyText}>Keine Investoren gefunden</Text>
+            ) : filtered.map((item, index) => {
               const color = COLORS[index % COLORS.length];
+              const aumDisplay = item.totalValue >= 1e9
+                ? `$${fmtDE(item.totalValue / 1e9, 1)}B`
+                : item.totalValue >= 1e6
+                ? `$${fmtDE(item.totalValue / 1e6, 0)}M`
+                : '—';
               return (
                 <TouchableOpacity
                   key={item.slug}
@@ -334,10 +355,10 @@ export default function InvestorsScreen() {
                   </View>
                   <View style={s.cardContent}>
                     <Text style={s.investorName}>{item.name}</Text>
-                    <Text style={s.investorFund}>{item.fund}</Text>
+                    <Text style={s.investorFund} numberOfLines={1}>{item.subtitle}</Text>
                   </View>
                   <View style={s.cardRight}>
-                    <Text style={s.aum}>{item.aum}</Text>
+                    <Text style={s.aum}>{aumDisplay}</Text>
                     <Ionicons name="chevron-forward" size={14} color={theme.text.tertiary} style={{ marginTop: 2 }} />
                   </View>
                 </TouchableOpacity>
@@ -427,4 +448,5 @@ const s = StyleSheet.create({
   investorFund: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 2 },
   cardRight: { alignItems: 'flex-end' },
   aum: { color: theme.text.tertiary, fontSize: theme.font.bodySm, ...tabularStyle },
+  emptyText: { color: theme.text.tertiary, fontSize: theme.font.bodySm, textAlign: 'center', paddingVertical: 24 },
 });
