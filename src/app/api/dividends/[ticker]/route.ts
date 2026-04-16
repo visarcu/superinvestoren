@@ -657,7 +657,11 @@ export async function GET(
     
     // 🔧 SPLIT ADJUSTMENT: Load stock splits and adjust dividends quarterly
     const stockSplits = await fetchStockSplits(ticker, apiKey)
-    const splitAdjustedDividends = await applySplitAdjustmentsQuarterly(ticker, apiKey, stockSplits)
+    const splitAdjustedRaw = await applySplitAdjustmentsQuarterly(ticker, apiKey, stockSplits)
+    // ✅ Filter out the current (incomplete) calendar year — otherwise the latest
+    // partial year distorts yearly history, year-over-year growth and CAGR.
+    // Quarterly history below still shows the current year's actual payments.
+    const splitAdjustedDividends = filterModernDividends(splitAdjustedRaw)
     
     console.log(`📊 Split adjustment for ${ticker}: ${stockSplits.length} splits found`)
     if (stockSplits.length > 0) {
