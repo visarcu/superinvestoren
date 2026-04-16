@@ -215,7 +215,12 @@ export function usePortfolio() {
     const cashflows: Cashflow[] = []
 
     if (transactions.length > 0) {
-      // Alle Buy/Sell/Dividend-Transaktionen als Cashflows
+      // Alle Buy/Sell/Dividend-Transaktionen als Cashflows.
+      // Depotüberträge (transfer_in/out) werden als fiktive Käufe/Verkäufe zur
+      // damaligen Kostenbasis eingerechnet — sonst fehlt der Anfangskapital-Fluss
+      // und XIRR explodiert (Beispiel ING: zeigte +1000% p.a. statt realistischer
+      // ~12%, weil 147 VGWL-Shares ohne Cashflow materialisiert wurden).
+      // Genauso wie Parqet das macht.
       transactions.forEach(tx => {
         if (!tx.date) return
         const txDate = new Date(tx.date)
@@ -226,6 +231,14 @@ export function usePortfolio() {
           cashflows.push({ amount: tx.total_value, date: txDate })
         } else if (tx.type === 'dividend') {
           cashflows.push({ amount: tx.total_value, date: txDate })
+        } else if (tx.type === 'transfer_in') {
+          // Fiktiver Kauf zur Kostenbasis am Transfer-Datum
+          const amount = tx.total_value > 0 ? tx.total_value : tx.price * tx.quantity
+          if (amount > 0) cashflows.push({ amount: -amount, date: txDate })
+        } else if (tx.type === 'transfer_out') {
+          // Fiktiver Verkauf zum Transfer-Kurs am Transfer-Datum
+          const amount = tx.total_value > 0 ? tx.total_value : tx.price * tx.quantity
+          if (amount > 0) cashflows.push({ amount, date: txDate })
         }
         // cash_deposit/cash_withdrawal ignorieren (externe Geldbewegungen)
       })

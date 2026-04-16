@@ -712,49 +712,108 @@ export default function PortfolioDashboard() {
 
         {/* ===== MODALS ===== */}
 
-        {/* Edit Position Modal */}
+        {/* Edit Position Modal — Premium-Design (Apple-inspired dark) */}
         {editingPosition && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full">
-              <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-white">Position bearbeiten</h2>
-                <button onClick={() => setEditingPosition(null)} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
-                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
-                </button>
-              </div>
-              <div className="space-y-4">
-                <div className="bg-neutral-800/20 rounded-lg p-3">
-                  <div className="flex items-center gap-3">
-                    <Logo ticker={editingPosition.symbol} alt={editingPosition.symbol} className="w-10 h-10" padding="none" />
-                    <div>
-                      <div className="font-semibold text-white">{editingPosition.symbol}</div>
-                      <div className="text-sm text-neutral-500">{editingPosition.name}</div>
+          <div
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 overflow-y-auto"
+            onClick={() => !saving && setEditingPosition(null)}
+          >
+            <div className="min-h-screen flex items-center justify-center p-4">
+              <div
+                onClick={(e) => e.stopPropagation()}
+                className="bg-neutral-950 rounded-2xl max-w-md w-full border border-neutral-800/80 shadow-2xl overflow-hidden"
+              >
+                {/* Header */}
+                <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80">
+                  <div>
+                    <h2 className="text-[17px] font-semibold text-white tracking-tight">Position bearbeiten</h2>
+                    <p className="text-[12px] text-neutral-500 mt-0.5">Menge, Einstandskurs oder Kaufdatum anpassen</p>
+                  </div>
+                  <button
+                    onClick={() => setEditingPosition(null)}
+                    disabled={saving}
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-500 hover:text-white hover:bg-neutral-900 transition-colors disabled:opacity-40"
+                    aria-label="Schließen"
+                  >
+                    <XMarkIcon className="w-5 h-5" />
+                  </button>
+                </div>
+
+                {/* Body */}
+                <div className="px-6 py-5 space-y-4">
+                  {/* Position */}
+                  <div className="flex items-center gap-3 rounded-xl border border-neutral-800/80 bg-neutral-900/40 px-4 py-3">
+                    <Logo ticker={editingPosition.symbol} alt={editingPosition.symbol} className="w-10 h-10 rounded-lg" padding="none" />
+                    <div className="min-w-0 flex-1">
+                      <div className="text-[14px] font-semibold text-white truncate">{editingPosition.symbol}</div>
+                      <div className="text-[12px] text-neutral-500 truncate">{editingPosition.name}</div>
                     </div>
                   </div>
+
+                  {/* Anzahl */}
+                  <div>
+                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">Anzahl</label>
+                    <input
+                      type="number"
+                      step="0.00000001"
+                      value={editQuantity}
+                      onChange={(e) => setEditQuantity(e.target.value)}
+                      className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                    />
+                  </div>
+
+                  {/* Einstandskurs */}
+                  <div>
+                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">Einstandskurs (EUR)</label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      value={editPrice}
+                      onChange={(e) => setEditPrice(e.target.value)}
+                      className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                    />
+                    <p className="mt-2 text-[11px] leading-relaxed text-neutral-500">
+                      Bei Depotüberträgen nutzen wir automatisch den Schlusskurs am Übertragsdatum. Falls du den echten Original-Kaufkurs kennst (z.B. aus einem alten Kontoauszug), trag ihn hier ein — dann werden Rendite und Kursgewinn korrekt berechnet.
+                    </p>
+                  </div>
+
+                  {/* Kaufdatum */}
+                  <div>
+                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">Kaufdatum</label>
+                    <input
+                      type="date"
+                      value={editDate}
+                      onChange={(e) => setEditDate(e.target.value)}
+                      className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Anzahl</label>
-                  <input type="number" value={editQuantity} onChange={(e) => setEditQuantity(e.target.value)}
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Kaufpreis (EUR)</label>
-                  <input type="number" value={editPrice} onChange={(e) => setEditPrice(e.target.value)}
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Kaufdatum</label>
-                  <input type="date" value={editDate} onChange={(e) => setEditDate(e.target.value)}
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white" />
-                </div>
-                <div className="flex gap-3 pt-2">
-                  <button onClick={handleUpdatePosition} disabled={saving}
-                    className="flex-1 py-2 bg-emerald-500 hover:bg-green-400 disabled:opacity-50 text-white rounded-lg transition-colors flex items-center justify-center gap-2">
-                    {saving ? <><ArrowPathIcon className="w-4 h-4 animate-spin" />Speichern...</> : <><CheckIcon className="w-4 h-4" />Speichern</>}
-                  </button>
-                  <button onClick={() => setEditingPosition(null)} disabled={saving}
-                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 disabled:opacity-50 text-white rounded-lg transition-colors">
+
+                {/* Footer */}
+                <div className="px-6 py-4 border-t border-neutral-800/80 flex gap-2">
+                  <button
+                    onClick={() => setEditingPosition(null)}
+                    disabled={saving}
+                    className="flex-1 py-2.5 text-[13px] font-medium text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 rounded-xl transition-colors disabled:opacity-40"
+                  >
                     Abbrechen
+                  </button>
+                  <button
+                    onClick={handleUpdatePosition}
+                    disabled={saving}
+                    className="flex-1 py-2.5 text-[13px] font-medium bg-white text-neutral-950 hover:bg-neutral-200 disabled:bg-neutral-800 disabled:text-neutral-600 disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2"
+                  >
+                    {saving ? (
+                      <>
+                        <ArrowPathIcon className="w-4 h-4 animate-spin" />
+                        Speichert…
+                      </>
+                    ) : (
+                      <>
+                        <CheckIcon className="w-4 h-4" />
+                        Speichern
+                      </>
+                    )}
                   </button>
                 </div>
               </div>
