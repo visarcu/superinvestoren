@@ -124,6 +124,22 @@ export default function PortfolioDashboard() {
     }
   }, [p.holdings, fetchSuperInvestorOverlap])
 
+  // Wert pro Depot berechnen (für den Switcher-Überblick)
+  const depotValues = useMemo(() => {
+    const values = new Map<string, number>()
+    p.holdings.forEach(h => {
+      if (h.portfolio_id) {
+        values.set(h.portfolio_id, (values.get(h.portfolio_id) || 0) + h.value)
+      }
+    })
+    // Cash dazu
+    p.allPortfolios.forEach(dp => {
+      const stockValue = values.get(dp.id) || 0
+      values.set(dp.id, stockValue + (dp.cash_position || 0))
+    })
+    return values
+  }, [p.holdings, p.allPortfolios])
+
   // UI State
   const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'analysis' | 'transactions' | 'ai-analyse' | 'dividends'>('overview')
   const [showDepotSwitcher, setShowDepotSwitcher] = useState(false)
@@ -348,6 +364,7 @@ export default function PortfolioDashboard() {
                         )}
                         {p.allPortfolios.map(dp => {
                           const logoId = brokerTypeToLogoId(dp.broker_type)
+                          const depotTotal = depotValues.get(dp.id)
                           return (
                             <Link key={dp.id} href={`/analyse/portfolio/dashboard?depot=${dp.id}`} onClick={() => setShowDepotSwitcher(false)}
                               className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${p.portfolio?.id === dp.id ? 'bg-emerald-500/10' : ''}`}>
@@ -356,8 +373,15 @@ export default function PortfolioDashboard() {
                               ) : (
                                 <BriefcaseIcon className="w-4 h-4 text-neutral-400" />
                               )}
-                              <span className="text-sm text-white truncate">{dp.name}</span>
-                              {p.portfolio?.id === dp.id && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
+                              <div className="flex-1 min-w-0">
+                                <span className="text-sm text-white truncate block">{dp.name}</span>
+                                {depotTotal !== undefined && (
+                                  <span className="text-[11px] text-neutral-500 tabular-nums">
+                                    {p.formatCurrency(depotTotal)}
+                                  </span>
+                                )}
+                              </div>
+                              {p.portfolio?.id === dp.id && <CheckIcon className="w-4 h-4 text-emerald-400 flex-shrink-0" />}
                             </Link>
                           )
                         })}
