@@ -62,7 +62,6 @@ const MEHR_ITEMS = [
   { label: 'Screener', icon: 'funnel-outline' as const, route: '/(tabs)/screener' },
   { label: 'Finclue AI', icon: 'sparkles-outline' as const, route: '/(tabs)/ai' },
   { label: 'Dividenden-Kalender', icon: 'calendar-outline' as const, route: '/(tabs)/calendar' },
-  { label: 'Kursalarme', icon: 'notifications-outline' as const, route: '/alerts' },
   { label: 'Profil & Einstellungen', icon: 'person-outline' as const, route: '/(tabs)/profile' },
 ];
 
