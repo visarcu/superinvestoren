@@ -69,12 +69,14 @@ export const etfMaster: ETFMasterEntry[] = [
   // --- iSHARES ---
   {
     isin: 'IE00B4L5YC18',
-    xetraTicker: 'IEMA.DE',
+    xetraTicker: 'EUNM.DE',
     name: 'iShares MSCI EM UCITS ETF (Dist)',
     issuer: 'iShares',
     ter: 0.18,
     category: 'Emerging Markets',
-    priceSource: { type: 'fmp_alt', ticker: 'IEMA.L', exchange: 'GBp' },
+    // IEMA.DE liefert auf FMP/Yahoo nichts. EUNM.DE ist der andere XETRA-Ticker
+    // für denselben Fonds und funktioniert auf FMP direkt (51,78 EUR).
+    priceSource: { type: 'fmp_direct' },
     verified: true,
   },
   {
