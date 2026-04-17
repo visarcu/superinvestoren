@@ -178,6 +178,54 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
 
+  {
+    isin: 'CNE100000296',
+    xetraTicker: 'BYDDF',
+    name: 'BYD Company Limited',
+    issuer: '',
+    ter: 0.0,
+    category: '',
+    priceSource: { type: 'fmp_direct' },
+    verified: true,
+  }
+,
+{
+  isin: 'CA09173B1076',
+  xetraTicker: 'BITF',
+  name: 'BITFARMS LTD.',
+  issuer: '',
+  ter: 0.0,
+  category: '',
+  priceSource: { type: 'fmp_direct' },
+  verified: true,
+}
+
+,
+{
+  isin: 'KYG9830T1067',
+  xetraTicker: 'XIACF',
+  name: 'XIAOMI',
+  issuer: '',
+  ter: 0.0,
+  category: '',
+  priceSource: { type: 'fmp_direct' },
+  verified: true,
+}
+
+,
+{
+  isin: 'KYG3R83K1037',
+  xetraTicker: 'FITGF',
+  name: 'Foxconn Interconnect Technology',
+  issuer: '',
+  ter: 0.0,
+  category: '',
+  priceSource: { type: 'fmp_direct' },
+  verified: true,
+}
+
+,
+
   // ============================================================================
   // Yahoo Finance (yahoo)
   // FMP kann weder den XETRA-Ticker noch ein alternatives Listing liefern.
@@ -1207,4 +1255,8 @@ export const etfMaster: ETFMasterEntry[] = [
     priceSource: { type: 'fmp_direct' },
     verified: true,
   },
+
+ 
+
+
 ]
