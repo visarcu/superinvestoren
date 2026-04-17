@@ -115,7 +115,7 @@ export default function PortfolioScreen() {
       // Also fetch cash_position from portfolio itself
       const [{ data: portfolioData }, { data: rawHoldings, error: hErr }] = await Promise.all([
         supabase.from('portfolios').select('cash_position').eq('id', portfolioId).maybeSingle(),
-        supabase.from('portfolio_holdings').select('symbol, name, quantity, purchase_price, current_price').eq('portfolio_id', portfolioId),
+        supabase.from('portfolio_holdings').select('*').eq('portfolio_id', portfolioId),
       ]);
       const cashPosition = Number(portfolioData?.cash_position) || 0;
 
@@ -175,17 +175,25 @@ export default function PortfolioScreen() {
       if (!ids.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
       const { data: rawHoldings, error: hErr } = await supabase
         .from('portfolio_holdings')
-        .select('symbol, name, quantity, purchase_price, current_price')
+        .select('*')
         .in('portfolio_id', ids);
       if (hErr) throw hErr;
       if (!rawHoldings?.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
-      // Merge duplicate symbols (sum quantities)
+      // Merge duplicate symbols (sum quantities, weighted avg purchase price)
       const merged: Record<string, any> = {};
       for (const h of rawHoldings) {
-        if (!merged[h.symbol]) merged[h.symbol] = { ...h };
-        else {
-          merged[h.symbol].quantity = (merged[h.symbol].quantity || 0) + (h.quantity || 0);
-          merged[h.symbol].purchase_price = h.purchase_price; // use latest
+        if (!merged[h.symbol]) {
+          merged[h.symbol] = { ...h };
+        } else {
+          const oldQty = merged[h.symbol].quantity || 0;
+          const oldPrice = merged[h.symbol].purchase_price || 0;
+          const newQty = h.quantity || 0;
+          const newPrice = h.purchase_price || 0;
+          const totalQty = oldQty + newQty;
+          merged[h.symbol].quantity = totalQty;
+          merged[h.symbol].purchase_price = totalQty > 0
+            ? ((oldQty * oldPrice) + (newQty * newPrice)) / totalQty
+            : newPrice;
         }
       }
       const mergedArr = Object.values(merged);
