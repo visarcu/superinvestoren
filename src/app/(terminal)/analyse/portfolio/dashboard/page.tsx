@@ -1,7 +1,7 @@
 // src/app/analyse/portfolio/dashboard/page.tsx - NEUAUFBAU
 'use client'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { usePortfolio, type Holding } from '@/hooks/usePortfolio'
 import QuickStats from '@/components/portfolio/QuickStats'
