@@ -122,6 +122,14 @@ async function checkForNewFiling(investorSlug: string): Promise<{ isNew: boolean
 
     console.log(`[Filing Check] Latest filing for ${investorSlug}: ${latestFiling.date} (${latestFiling.quarterKey})`)
 
+    // Skip filings older than 14 days — prevents notifying new followers about stale data
+    const filingAge = Date.now() - new Date(latestFiling.date).getTime()
+    const MAX_FILING_AGE_MS = 14 * 24 * 60 * 60 * 1000 // 14 days
+    if (filingAge > MAX_FILING_AGE_MS) {
+      console.log(`[Filing Check] Skipping ${investorSlug}: filing ${latestFiling.quarterKey} is ${Math.floor(filingAge / 86400000)}d old (max 14d)`)
+      return { isNew: false }
+    }
+
     // Prüfe ob wir für dieses Filing (basierend auf quarterKey) schon eine Notification gesendet haben
     const { data: existingNotification } = await supabaseService
       .from('notification_log')
