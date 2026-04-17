@@ -153,12 +153,14 @@ export const etfMaster: ETFMasterEntry[] = [
   // --- GLOBAL X ---
   {
     isin: 'IE00BM8R0J59',
+    wkn: 'A2QR39',
     xetraTicker: 'QYLE.DE',
-    name: 'Global X Nasdaq 100 Covered Call UCITS ETF',
+    name: 'Global X Nasdaq 100 Covered Call UCITS ETF D',
     issuer: 'Global X',
     ter: 0.45,
     category: 'Covered Call',
-    priceSource: { type: 'fmp_alt', ticker: 'QYLE.L', exchange: 'GBp' },
+    // FMP kennt weder QYLE.DE noch QYLE.L
+    priceSource: { type: 'yahoo' },
     verified: true,
   },
 
