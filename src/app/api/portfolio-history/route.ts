@@ -1,6 +1,7 @@
 // src/app/api/portfolio-history/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
 interface HistoricalDataPoint {
   date: string
@@ -42,6 +43,21 @@ const supabase = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY!
 )
 
+// GBP→EUR Näherungsrate für Chart-Umrechnung (reicht für Trend-Darstellung)
+const GBP_EUR_APPROX = 1.17
+
+/**
+ * Historische Preise für ein Symbol laden.
+ *
+ * Reihenfolge:
+ * 1. FMP direkt (deckt ~90% der Symbole ab)
+ * 2. EXCHANGE_FALLBACKS (für Xetra-ETFs die FMP nur auf .L führt)
+ * 3. Yahoo Finance (für den Rest — EU-ETFs wie FWIA.DE)
+ *
+ * Wichtig: Ohne Yahoo + Fallback fehlten im Portfolio-Chart alle Symbole
+ * die FMP nicht direkt kennt — bei einem User mit 47k in FWIA.DE führte
+ * das dazu, dass der Chart 24k statt 70k zeigte.
+ */
 async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: string): Promise<HistoricalDataPoint[]> {
   const cacheKey = `${symbol}_${fromDate}_${toDate}`
   const cached = historyCache.get(cacheKey)
@@ -55,31 +71,83 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
     throw new Error('FMP_API_KEY nicht konfiguriert')
   }
 
-  const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
-
-  const response = await fetch(url, { next: { revalidate: 1800 } })
-
-  if (!response.ok) {
-    console.error(`Fehler beim Abrufen von ${symbol}: HTTP ${response.status}`)
-    return []
+  // === Versuch 1: FMP direkt ===
+  let historicalData: HistoricalDataPoint[] = []
+  try {
+    const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
+    const response = await fetch(url, { next: { revalidate: 1800 } })
+    if (response.ok) {
+      const data = await response.json()
+      if (data.historical && Array.isArray(data.historical) && data.historical.length > 0) {
+        historicalData = data.historical
+          .map((item: { date: string; close: number }) => ({ date: item.date, close: item.close }))
+          .reverse()
+      }
+    }
+  } catch {
+    // FMP fehlgeschlagen → weiter zu Fallbacks
   }
 
-  const data = await response.json()
-
-  if (!data.historical || !Array.isArray(data.historical)) {
-    return []
+  // === Versuch 2: EXCHANGE_FALLBACKS (z.B. FWRG.DE → FWRG.L) ===
+  if (historicalData.length === 0) {
+    const fallback = EXCHANGE_FALLBACKS[symbol]
+    if (fallback) {
+      try {
+        const altUrl = `https://financialmodelingprep.com/api/v3/historical-price-full/${fallback.symbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
+        const altRes = await fetch(altUrl, { next: { revalidate: 1800 } })
+        if (altRes.ok) {
+          const altData = await altRes.json()
+          if (altData.historical?.length > 0) {
+            historicalData = altData.historical
+              .map((item: { date: string; close: number }) => {
+                let close = item.close
+                if (fallback.exchange === 'GBp') close = (close / 100) * GBP_EUR_APPROX
+                else if (fallback.exchange === 'GBP') close = close * GBP_EUR_APPROX
+                return { date: item.date, close }
+              })
+              .reverse()
+          }
+        }
+      } catch {
+        // Fallback FMP fehlgeschlagen
+      }
+    }
   }
 
-  const historicalData: HistoricalDataPoint[] = data.historical
-    .map((item: { date: string; close: number }) => ({
-      date: item.date,
-      close: item.close
-    }))
-    .reverse() // Älteste zuerst
+  // === Versuch 3: Yahoo Finance (für EU-ETFs wie FWIA.DE) ===
+  if (historicalData.length === 0) {
+    try {
+      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=2y&interval=1d&region=DE`
+      const yahooRes = await fetch(yahooUrl, {
+        headers: { 'User-Agent': 'Mozilla/5.0' },
+        signal: AbortSignal.timeout(10000),
+      })
+      if (yahooRes.ok) {
+        const yahooData = await yahooRes.json()
+        const result = yahooData?.chart?.result?.[0]
+        if (result?.timestamp?.length > 0) {
+          const timestamps: number[] = result.timestamp
+          const closes: (number | null)[] = result.indicators?.quote?.[0]?.close || []
+          const fromTime = new Date(fromDate).getTime() / 1000
+          for (let i = 0; i < timestamps.length; i++) {
+            const close = closes[i]
+            if (close === null || close === undefined || close <= 0) continue
+            if (timestamps[i] < fromTime) continue
+            const d = new Date(timestamps[i] * 1000)
+            historicalData.push({
+              date: d.toISOString().split('T')[0],
+              close: Math.round(close * 100) / 100,
+            })
+          }
+        }
+      }
+    } catch {
+      // Yahoo fehlgeschlagen
+    }
+  }
 
-  // Cache speichern
+  // Cache speichern (auch leere Ergebnisse → verhindert wiederholte Requests)
   historyCache.set(cacheKey, { data: historicalData, timestamp: Date.now() })
-
   return historicalData
 }
 

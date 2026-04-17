@@ -45,9 +45,12 @@ export const EXCHANGE_FALLBACKS: Record<string, { symbol: string; exchange: 'EUR
   // === INVESCO ===
   'EQQQ.DE': { symbol: 'EQQQ.L',  exchange: 'GBp' },   // Invesco NASDAQ-100
   'SPGP.DE': { symbol: 'SPGP.L',  exchange: 'GBp' },   // Invesco S&P 500 GARP
-  'FWRG.DE': { symbol: 'FWRG.L',  exchange: 'GBp' },   // Invesco FTSE All-World
-  'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBP' },   // Invesco FTSE All-World Acc (GBP, nicht GBp)
-  'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBP' },   // Freedom24-Ticker für Invesco FTSE All-World
+  'FWRG.DE': { symbol: 'FWRG.L',  exchange: 'GBp' },   // Invesco FTSE All-World (GBp-Listing)
+  // ENTFERNT: FWIA.DE → FWRA.L war FALSCH! FWIA und FWRA sind verschiedene
+  // Share-Classes mit verschiedenen Preisen (FWIA=7,47€ vs. FWRA=10,09€ umgerechnet).
+  // FWIA.DE wird jetzt via Yahoo-Fallback geladen (7,47€ korrekt).
+  // 'FWIA.DE': { symbol: 'FWRA.L',  exchange: 'GBP' },
+  // 'FWIA.EU': { symbol: 'FWRA.L',  exchange: 'GBP' },
 
   // === VANECK ===
   'NUKL.DE': { symbol: 'NUKL.L',  exchange: 'GBp' },   // VanEck Uranium and Nuclear Technologies
