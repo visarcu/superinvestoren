@@ -6,7 +6,7 @@
     },
     {
       "path": "/api/notifications/check-filings",
-      "schedule": "0 */6 * * *"
+      "schedule": "0 7,13,19 * * *"
     },
     {
       "path": "/api/notifications/check-watchlist",

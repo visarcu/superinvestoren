@@ -894,12 +894,7 @@ export default function StockScreen() {
               </TouchableOpacity>
             </View>
 
-            {/* Kursalarm Button */}
-            <TouchableOpacity style={s.alertBtn} onPress={() => router.push('/alerts' as any)}>
-              <Ionicons name="notifications-outline" size={18} color="#FF3B30" />
-              <Text style={s.alertBtnText}>Kursalarm setzen</Text>
-              <Ionicons name="chevron-forward" size={16} color="#FF3B30" />
-            </TouchableOpacity>
+            {/* Kursalarm — deaktiviert bis Post-Launch */}
 
             {/* News */}
             <View style={s.section}>
