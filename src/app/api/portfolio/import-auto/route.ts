@@ -4,8 +4,9 @@
 // Unterstützte Formate (auto-erkannt):
 //   .pdf               → Broker-PDF (Flatex, Smartbroker+, Trade Republic, Freedom24)
 //   .csv               → Scalable Capital CSV
-//   .xlsx mit ExecTrades-Sheet → Freedom24 Steuerbericht (bevorzugt)
-//   .xlsx ohne ExecTrades      → Freedom24 Auftragshistorie (Fallback)
+//   .xlsx mit Depotumsätze-Sheet → Flatex Depotumsätze
+//   .xlsx mit ExecTrades-Sheet   → Freedom24 Steuerbericht (bevorzugt)
+//   .xlsx ohne ExecTrades        → Freedom24 Auftragshistorie (Fallback)
 //
 // Response: { format, formatLabel, transactions, errors, totalFiles?, parsedFiles? }
 
@@ -20,6 +21,7 @@ import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '
 import { parseFreedom24PDFText } from '@/lib/freedom24PDFParser'
 import { parseFreedom24TaxXLSX } from '@/lib/freedom24TaxXLSXParser'
 import { parseFreedom24XLSXRows } from '@/lib/freedom24XLSXParser'
+import { parseFlatexDepotXLSX, isFlatexDepotXLSX } from '@/lib/flatexXLSXParser'
 import { parseIngPDFText, isIngPDF, type IngParsedTransaction } from '@/lib/ingPDFParser'
 import { parseTrading212PDFText, isTrading212PDF } from '@/lib/trading212PDFParser'
 
@@ -228,7 +230,21 @@ export async function POST(request: Request) {
       const buffer = Buffer.from(await firstFile.arrayBuffer())
       const workbook = XLSX.read(buffer, { type: 'buffer', cellDates: true })
 
-      // Sheet-Namen prüfen → Steuerbericht (ExecTrades) vs. Auftragshistorie
+      // Sheet-Namen prüfen → Flatex Depotumsätze vs. Freedom24
+      const rawRows: unknown[][] = XLSX.utils.sheet_to_json(
+        workbook.Sheets[workbook.SheetNames[0]], { header: 1 }
+      )
+      if (isFlatexDepotXLSX(workbook.SheetNames, rawRows[0] || [])) {
+        const result = parseFlatexDepotXLSX(rawRows, firstFile.name)
+        return NextResponse.json({
+          format: 'flatex_depot',
+          formatLabel: 'Flatex Depotumsätze',
+          transactions: result.transactions,
+          errors: result.errors,
+          totalRows: rawRows.length - 1,
+        })
+      }
+
       const hasExecTrades = workbook.SheetNames.some((n: string) => n.startsWith('ExecTrades'))
 
       if (hasExecTrades) {

@@ -80,19 +80,23 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     id: 'flatex',
     name: 'Flatex / DEGIRO',
     shortName: 'Flatex',
-    formats: ['.pdf'],
-    accept: '.pdf',
+    formats: ['.xlsx', '.pdf'],
+    accept: '.xlsx,.pdf',
     initial: 'F',
     accentDot: 'bg-orange-400',
     supportsMultiFile: true,
+    isBetterThanPdf: true,
     instructions: {
-      title: 'So findest du die Abrechnungen bei Flatex / DEGIRO',
+      title: 'So findest du die Export-Datei bei Flatex',
       steps: [
-        'Logge dich bei Flatex (oder DEGIRO) ein',
-        'Gehe zu "Dokumentenarchiv" → "Wertpapierabrechnungen"',
-        'Lade die Sammel- oder Einzelabrechnungen als PDF herunter',
-        'Lade alle PDFs hier hoch — mehrere gleichzeitig möglich',
+        'Logge dich bei Flatex ein',
+        'Gehe zu "Konto/Depot" → "Depotumsätze"',
+        'Wähle den gewünschten Zeitraum und klicke auf "XLSX-Export"',
+        'Alternativ: PDFs aus dem Dokumentenarchiv hochladen (einzeln)',
       ],
+      hint: 'Der XLSX-Export enthält alle Käufe, Verkäufe und Dividenden in einer Datei — einfacher und vollständiger als einzelne PDFs.',
+      loginUrl: 'https://www.flatex.de',
+      loginLabel: 'Zu Flatex',
     },
   },
   {
@@ -239,6 +243,7 @@ export function formatToBrokerId(format: string | null | undefined): ImportBroke
   if (format.startsWith('pdf_trading212')) return 'trading212'
   if (format.startsWith('pdf_traderepublic')) return 'traderepublic'
   if (format.startsWith('pdf_smartbroker')) return 'smartbroker'
+  if (format === 'flatex_depot') return 'flatex'
   if (format.startsWith('pdf_flatex')) return 'flatex'
   if (format.startsWith('pdf_freedom24')) return 'freedom24'
   if (format.startsWith('freedom24')) return 'freedom24'

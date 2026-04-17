@@ -1,6 +1,7 @@
 // src/app/api/portfolio-history/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
 interface HistoricalDataPoint {
@@ -71,53 +72,37 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
     throw new Error('FMP_API_KEY nicht konfiguriert')
   }
 
-  // === Versuch 1: FMP direkt ===
+  // Preis-Quelle bestimmen: etfMaster hat Priorität
+  const masterSource = resolvePriceSource(symbol)
+
   let historicalData: HistoricalDataPoint[] = []
-  try {
-    const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${symbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
-    const response = await fetch(url, { next: { revalidate: 1800 } })
-    if (response.ok) {
-      const data = await response.json()
-      if (data.historical && Array.isArray(data.historical) && data.historical.length > 0) {
-        historicalData = data.historical
-          .map((item: { date: string; close: number }) => ({ date: item.date, close: item.close }))
-          .reverse()
-      }
-    }
-  } catch {
-    // FMP fehlgeschlagen → weiter zu Fallbacks
-  }
 
-  // === Versuch 2: EXCHANGE_FALLBACKS (z.B. FWRG.DE → FWRG.L) ===
-  if (historicalData.length === 0) {
-    const fallback = EXCHANGE_FALLBACKS[symbol]
-    if (fallback) {
-      try {
-        const altUrl = `https://financialmodelingprep.com/api/v3/historical-price-full/${fallback.symbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
-        const altRes = await fetch(altUrl, { next: { revalidate: 1800 } })
-        if (altRes.ok) {
-          const altData = await altRes.json()
-          if (altData.historical?.length > 0) {
-            historicalData = altData.historical
-              .map((item: { date: string; close: number }) => {
-                let close = item.close
-                if (fallback.exchange === 'GBp') close = (close / 100) * GBP_EUR_APPROX
-                else if (fallback.exchange === 'GBP') close = close * GBP_EUR_APPROX
-                return { date: item.date, close }
-              })
-              .reverse()
-          }
-        }
-      } catch {
-        // Fallback FMP fehlgeschlagen
-      }
-    }
-  }
-
-  // === Versuch 3: Yahoo Finance (für EU-ETFs wie FWIA.DE) ===
-  if (historicalData.length === 0) {
+  // Helper: FMP Historical mit optionaler Währungs-Konvertierung
+  const fetchFmpHistorical = async (fetchSymbol: string, exchange?: 'GBp' | 'GBP' | 'EUR') => {
     try {
-      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=2y&interval=1d&region=DE`
+      const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${fetchSymbol}?from=${fromDate}&to=${toDate}&apikey=${apiKey}`
+      const response = await fetch(url, { next: { revalidate: 1800 } })
+      if (response.ok) {
+        const data = await response.json()
+        if (data.historical && Array.isArray(data.historical) && data.historical.length > 0) {
+          return data.historical
+            .map((item: { date: string; close: number }) => {
+              let close = item.close
+              if (exchange === 'GBp') close = (close / 100) * GBP_EUR_APPROX
+              else if (exchange === 'GBP') close = close * GBP_EUR_APPROX
+              return { date: item.date, close }
+            })
+            .reverse()
+        }
+      }
+    } catch { /* weiter zu Fallbacks */ }
+    return []
+  }
+
+  // Helper: Yahoo Finance Historical
+  const fetchYahooHistorical = async (yahooSymbol: string) => {
+    try {
+      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=2y&interval=1d&region=DE`
       const yahooRes = await fetch(yahooUrl, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
         signal: AbortSignal.timeout(10000),
@@ -129,20 +114,52 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
           const timestamps: number[] = result.timestamp
           const closes: (number | null)[] = result.indicators?.quote?.[0]?.close || []
           const fromTime = new Date(fromDate).getTime() / 1000
+          const points: HistoricalDataPoint[] = []
           for (let i = 0; i < timestamps.length; i++) {
             const close = closes[i]
             if (close === null || close === undefined || close <= 0) continue
             if (timestamps[i] < fromTime) continue
             const d = new Date(timestamps[i] * 1000)
-            historicalData.push({
-              date: d.toISOString().split('T')[0],
-              close: Math.round(close * 100) / 100,
-            })
+            points.push({ date: d.toISOString().split('T')[0], close: Math.round(close * 100) / 100 })
           }
+          return points
         }
       }
-    } catch {
-      // Yahoo fehlgeschlagen
+    } catch { /* Yahoo fehlgeschlagen */ }
+    return []
+  }
+
+  if (masterSource) {
+    // === Master-gesteuertes Fetching ===
+    if (masterSource.type === 'fmp_direct') {
+      historicalData = await fetchFmpHistorical(symbol)
+    } else if (masterSource.type === 'fmp_alt') {
+      historicalData = await fetchFmpHistorical(masterSource.ticker, masterSource.exchange)
+    } else if (masterSource.type === 'yahoo') {
+      historicalData = await fetchYahooHistorical(masterSource.ticker || symbol)
+    }
+
+    // Master-Fallback: wenn prescribierte Quelle leer, Yahoo als Backup
+    if (historicalData.length === 0 && masterSource.type !== 'yahoo') {
+      historicalData = await fetchYahooHistorical(symbol)
+    }
+  } else {
+    // === Nicht im Master: bestehende Fallback-Chain ===
+
+    // Versuch 1: FMP direkt
+    historicalData = await fetchFmpHistorical(symbol)
+
+    // Versuch 2: EXCHANGE_FALLBACKS (z.B. FWRG.DE → FWRG.L)
+    if (historicalData.length === 0) {
+      const fallback = EXCHANGE_FALLBACKS[symbol]
+      if (fallback) {
+        historicalData = await fetchFmpHistorical(fallback.symbol, fallback.exchange)
+      }
+    }
+
+    // Versuch 3: Yahoo Finance
+    if (historicalData.length === 0) {
+      historicalData = await fetchYahooHistorical(symbol)
     }
   }
 
