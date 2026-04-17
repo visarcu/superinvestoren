@@ -1,14 +1,14 @@
 // src/lib/isinResolver.ts — ISIN → Ticker Symbol Auflösung (Client-seitig)
-// Nutzt etfs.ts (200 handkuratierte) + xetraETFsComplete.ts (~1.600 mit ISIN).
+// Nutzt etfMaster (Prio 0, handkuratiert) + xetraETFsComplete.ts (Prio 1, auto-generiert).
 
-import { etfs } from '@/data/etfs'
+import { etfMaster } from '@/data/etfMaster'
 import { xetraETFs } from '@/data/xetraETFsComplete'
 
 export interface ResolvedISIN {
   isin: string
   symbol: string
   name: string
-  source: 'etf_static' | 'etf_xetra' | 'cusip_local' | 'openfigi' | 'fmp_api' | 'manual'
+  source: 'etf_master' | 'etf_xetra' | 'cusip_local' | 'openfigi' | 'fmp_api' | 'manual'
 }
 
 let _isinMap: Map<string, { symbol: string; name: string; source: ResolvedISIN['source'] }> | null = null
@@ -17,32 +17,16 @@ function getISINMap(): Map<string, { symbol: string; name: string; source: Resol
   if (_isinMap) return _isinMap
   _isinMap = new Map()
 
-  // Priorität 1a: etfs.ts — nur XETRA-Listings (.DE) und solche mit symbol_de
-  // Hintergrund: Die gleiche ISIN kann in etfs.ts mehrfach auftauchen (z.B. IE00B3RBWM25
-  // als VGWL.DE UND als VWRL.L für das London-Listing). Für deutsche User wollen wir
-  // XETRA-Preise (EUR), nicht London-Preise (GBX/Pence), sonst liefert FMP Pence und
-  // unser GBX/100-Konverter skaliert den Marktwert um Faktor 100 herunter.
-  for (const etf of etfs) {
-    if (!etf.isin) continue
-    const key = etf.isin.toUpperCase()
-    const xetraSymbol = etf.symbol_de?.endsWith('.DE') ? etf.symbol_de
-      : etf.symbol.endsWith('.DE') ? etf.symbol
-      : null
-    if (xetraSymbol) {
-      _isinMap.set(key, { symbol: xetraSymbol, name: etf.name, source: 'etf_static' })
-    }
+  // Priorität 0: etfMaster — verifizierte, autoritative Einträge
+  for (const entry of etfMaster) {
+    _isinMap.set(entry.isin.toUpperCase(), {
+      symbol: entry.xetraTicker,
+      name: entry.name,
+      source: 'etf_master',
+    })
   }
 
-  // Priorität 1b: etfs.ts — alle übrigen (nicht-XETRA) Einträge, nur wenn ISIN noch frei
-  for (const etf of etfs) {
-    if (!etf.isin) continue
-    const key = etf.isin.toUpperCase()
-    if (!_isinMap.has(key)) {
-      _isinMap.set(key, { symbol: etf.symbol, name: etf.name, source: 'etf_static' })
-    }
-  }
-
-  // Priorität 2: xetraETFsComplete (mehr Coverage, überschreibt NICHT Prio 1)
+  // Priorität 1: xetraETFsComplete (breitere Coverage, überschreibt NICHT Prio 0)
   for (const etf of xetraETFs) {
     if (etf.isin) {
       const key = etf.isin.toUpperCase()
@@ -56,7 +40,7 @@ function getISINMap(): Map<string, { symbol: string; name: string; source: Resol
 }
 
 /**
- * ISIN lokal auflösen (etfs.ts + xetraETFsComplete.ts).
+ * ISIN lokal auflösen (etfMaster + xetraETFsComplete.ts).
  */
 export function resolveISINLocally(isin: string): ResolvedISIN | null {
   const map = getISINMap()

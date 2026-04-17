@@ -11,6 +11,7 @@
 // Nicht gefundene Paare fehlen im results-Objekt (kein Fehler).
 
 import { NextResponse } from 'next/server'
+import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
@@ -106,16 +107,32 @@ export async function POST(request: Request) {
         .toISOString()
         .slice(0, 10)
 
-      // Falls FMP für den XETRA-Ticker keine historischen Daten hat (VHYL.DE ist so
-      // ein Fall), nutzen wir den kuratierten Alternativ-Ticker aus tickerFallbacks.ts.
-      // Bei GBp-Preisen wird zusätzlich /100 × GBP-EUR-Rate gerechnet.
-      const fallback = EXCHANGE_FALLBACKS[symbol]
-      const fetchSymbol = fallback?.symbol || symbol
-      const convert = (raw: number): number => {
-        if (!fallback) return raw
-        if (fallback.exchange === 'GBp') return (raw / 100) * GBP_EUR_RATE
-        if (fallback.exchange === 'GBP') return raw * GBP_EUR_RATE
-        return raw // EUR: direkt
+      // Preis-Quelle bestimmen: etfMaster hat Priorität, dann EXCHANGE_FALLBACKS
+      const masterSource = resolvePriceSource(symbol)
+      let fetchSymbol = symbol
+      let convert = (raw: number): number => raw
+
+      if (masterSource) {
+        if (masterSource.type === 'fmp_alt') {
+          fetchSymbol = masterSource.ticker
+          convert = (raw: number): number => {
+            if (masterSource.exchange === 'GBp') return (raw / 100) * GBP_EUR_RATE
+            if (masterSource.exchange === 'GBP') return raw * GBP_EUR_RATE
+            return raw
+          }
+        }
+        // fmp_direct + yahoo: fetchSymbol bleibt symbol, convert bleibt identity
+      } else {
+        // Fallback für nicht-Master-Einträge: tickerFallbacks.ts
+        const fallback = EXCHANGE_FALLBACKS[symbol]
+        if (fallback) {
+          fetchSymbol = fallback.symbol
+          convert = (raw: number): number => {
+            if (fallback.exchange === 'GBp') return (raw / 100) * GBP_EUR_RATE
+            if (fallback.exchange === 'GBP') return raw * GBP_EUR_RATE
+            return raw
+          }
+        }
       }
 
       const url = `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(fetchSymbol)}?from=${from}&to=${to}&apikey=${FMP_API_KEY}`

@@ -5,6 +5,7 @@
 // die FMP nur auf .L führt, z.B. FWRG.DE → FWRG.L mit GBp→EUR-Umrechnung)
 import { NextRequest, NextResponse } from 'next/server'
 import { resolveFMPTicker, isEUTicker } from '@/lib/tickerResolver'
+import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
 // GBP→EUR Näherungsrate für historische Umrechnung. Für Chart-Trend ist das
@@ -66,98 +67,108 @@ export async function GET(
   const ticker = resolveFMPTicker(rawTicker)
   const isEuropeanTicker = isEUTicker(rawTicker) || /\.(DE|L|PA|AS|MI|SW|BR|MC|VI|HE|CO|ST|OL|LS|WA|IR)$/i.test(ticker)
 
-  try {
-    // FMP als primäre Quelle (mit gemapptem Ticker)
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/historical-price-full/${ticker}?serietype=line&apikey=${apiKey}`,
-      { next: { revalidate: 1800 } }
-    )
+  // etfMaster hat Priorität für die Preis-Quelle
+  const masterSource = resolvePriceSource(ticker) || resolvePriceSource(rawTicker)
 
-    let fmpData: { date: string; close: number }[] = []
-    if (response.ok) {
-      const data = await response.json()
-      fmpData = data?.historical || []
+  // Helper: FMP Historical mit Währungs-Konvertierung
+  const fetchFmpHistorical = async (fetchTicker: string, exchange?: 'GBp' | 'GBP' | 'EUR') => {
+    const res = await fetch(
+      `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(fetchTicker)}?serietype=line&apikey=${apiKey}`,
+      { next: { revalidate: 1800 } },
+    )
+    if (!res.ok) return []
+    const data = await res.json()
+    const hist: { date: string; close: number }[] = data?.historical || []
+    if (!exchange || exchange === 'EUR') return hist
+    return hist.map(p => {
+      let close = p.close
+      if (exchange === 'GBp') close = (p.close / 100) * GBP_EUR_APPROX
+      else if (exchange === 'GBP') close = p.close * GBP_EUR_APPROX
+      return { date: p.date, close: Math.round(close * 100) / 100 }
+    })
+  }
+
+  try {
+    // === Master-gesteuertes Fetching ===
+    if (masterSource) {
+      let historical: { date: string; close: number }[] = []
+      let source = ''
+
+      if (masterSource.type === 'fmp_direct') {
+        historical = await fetchFmpHistorical(ticker)
+        source = 'fmp'
+      } else if (masterSource.type === 'fmp_alt') {
+        historical = await fetchFmpHistorical(masterSource.ticker, masterSource.exchange)
+        source = `fmp_alt:${masterSource.ticker}`
+      } else if (masterSource.type === 'yahoo') {
+        const yahooTicker = masterSource.ticker || ticker
+        const yahooData = await fetchYahooHistorical(yahooTicker)
+        if (yahooData && yahooData.length > 0) {
+          historical = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
+          source = 'yahoo'
+        }
+      }
+
+      // Master-Fallback: wenn prescribierte Quelle leer, Yahoo als Backup
+      if (historical.length === 0 && masterSource.type !== 'yahoo') {
+        const yahooData = await fetchYahooHistorical(ticker)
+        if (yahooData && yahooData.length > 0) {
+          historical = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
+          source = 'yahoo'
+        }
+      }
+
+      return NextResponse.json({
+        symbol: ticker,
+        historical,
+        ...(source && source !== 'fmp' ? { _source: source } : {}),
+      })
     }
 
-    // Prüfe ob FMP-Daten ausreichend aktuell sind
-    // Für europäische Ticker: Wenn letzter Datenpunkt > 7 Tage alt oder < 30 Datenpunkte → Yahoo Fallback
+    // === Nicht im Master: bestehende Fallback-Chain ===
+    let fmpData = await fetchFmpHistorical(ticker)
+
+    // Für EU-Ticker: FMP-Daten prüfen und ggf. Yahoo bevorzugen
     let needsFallback = false
     if (isEuropeanTicker) {
       if (fmpData.length < 30) {
         needsFallback = true
       } else {
-        // Prüfe ob der neueste Datenpunkt aktuell ist (FMP sortiert DESC)
         const latestDate = new Date(fmpData[0]?.date || '1970-01-01')
         const daysSinceLatest = (Date.now() - latestDate.getTime()) / (1000 * 60 * 60 * 24)
-        if (daysSinceLatest > 7) {
-          needsFallback = true
-        }
+        if (daysSinceLatest > 7) needsFallback = true
       }
     }
 
     if (needsFallback) {
       const yahooData = await fetchYahooHistorical(ticker)
       if (yahooData && yahooData.length > 30) {
-        // Yahoo liefert chronologisch (älteste zuerst) — FMP Format ist DESC (neueste zuerst)
         const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
-        return NextResponse.json({
-          symbol: ticker,
-          historical: sorted,
-          _source: 'yahoo',
-        })
+        return NextResponse.json({ symbol: ticker, historical: sorted, _source: 'yahoo' })
       }
     }
 
-    // FMP-Daten zurückgeben (oder leeres Array)
     if (fmpData.length > 0) {
-      return NextResponse.json({
-        symbol: ticker,
-        historical: fmpData,
-      })
+      return NextResponse.json({ symbol: ticker, historical: fmpData })
     }
 
-    // Letzter Versuch: Yahoo für jeden Ticker wenn FMP komplett leer ist
-    if (fmpData.length === 0) {
-      const yahooData = await fetchYahooHistorical(ticker)
-      if (yahooData && yahooData.length > 0) {
-        const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
+    // Yahoo wenn FMP komplett leer
+    const yahooData = await fetchYahooHistorical(ticker)
+    if (yahooData && yahooData.length > 0) {
+      const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
+      return NextResponse.json({ symbol: ticker, historical: sorted, _source: 'yahoo' })
+    }
+
+    // Finaler Fallback: EXCHANGE_FALLBACKS (für nicht-Master-Ticker)
+    const fallback = EXCHANGE_FALLBACKS[ticker] || EXCHANGE_FALLBACKS[rawTicker]
+    if (fallback) {
+      const altHist = await fetchFmpHistorical(fallback.symbol, fallback.exchange)
+      if (altHist.length > 0) {
         return NextResponse.json({
           symbol: ticker,
-          historical: sorted,
-          _source: 'yahoo',
+          historical: altHist,
+          _source: `fmp_alt:${fallback.symbol}`,
         })
-      }
-    }
-
-    // Finaler Fallback: EXCHANGE_FALLBACKS nutzen (z.B. FWRG.DE → FWRG.L).
-    // Das greift für Xetra-ETFs, die FMP nur auf dem London-Listing führt.
-    // Preise werden je nach Exchange umgerechnet (GBp → EUR).
-    const fallback = EXCHANGE_FALLBACKS[ticker] || EXCHANGE_FALLBACKS[rawTicker]
-    if (fallback && fmpData.length === 0) {
-      try {
-        const altRes = await fetch(
-          `https://financialmodelingprep.com/api/v3/historical-price-full/${encodeURIComponent(fallback.symbol)}?serietype=line&apikey=${apiKey}`,
-          { next: { revalidate: 1800 } },
-        )
-        if (altRes.ok) {
-          const altJson = await altRes.json()
-          const altHist: { date: string; close: number }[] = altJson?.historical || []
-          if (altHist.length > 0) {
-            const converted = altHist.map(p => {
-              let close = p.close
-              if (fallback.exchange === 'GBp') close = (p.close / 100) * GBP_EUR_APPROX
-              else if (fallback.exchange === 'GBP') close = p.close * GBP_EUR_APPROX
-              return { date: p.date, close: Math.round(close * 100) / 100 }
-            })
-            return NextResponse.json({
-              symbol: ticker,
-              historical: converted,
-              _source: `fmp_alt:${fallback.symbol}`,
-            })
-          }
-        }
-      } catch (err) {
-        console.error(`EXCHANGE_FALLBACKS fetch for ${ticker} → ${fallback.symbol} failed:`, err)
       }
     }
 
@@ -166,20 +177,13 @@ export async function GET(
   } catch (error) {
     console.error(`Error fetching historical data for ${ticker}:`, error)
 
-    // Bei FMP-Fehler: Yahoo als Fallback versuchen
     try {
       const yahooData = await fetchYahooHistorical(ticker)
       if (yahooData && yahooData.length > 0) {
         const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
-        return NextResponse.json({
-          symbol: ticker,
-          historical: sorted,
-          _source: 'yahoo',
-        })
+        return NextResponse.json({ symbol: ticker, historical: sorted, _source: 'yahoo' })
       }
-    } catch {
-      // Yahoo auch fehlgeschlagen
-    }
+    } catch { /* Yahoo auch fehlgeschlagen */ }
 
     return NextResponse.json({ error: 'Failed to fetch historical data' }, { status: 500 })
   }
