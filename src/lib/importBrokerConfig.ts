@@ -246,6 +246,7 @@ export function formatToBrokerId(format: string | null | undefined): ImportBroke
   if (format === 'flatex_depot') return 'flatex'
   if (format.startsWith('pdf_flatex')) return 'flatex'
   if (format.startsWith('pdf_freedom24')) return 'freedom24'
+  if (format === 'freedom24_report') return 'freedom24'
   if (format.startsWith('freedom24')) return 'freedom24'
   return 'other'
 }
