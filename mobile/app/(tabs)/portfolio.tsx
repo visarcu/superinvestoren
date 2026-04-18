@@ -6,7 +6,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import StockLogo from '../../components/StockLogo';
 import { theme, tabularStyle, perfColor } from '../../lib/theme';
-import { getEURRates, toEUR } from '../../lib/currency';
+// Currency conversion now happens server-side in /api/portfolio/summary
 
 const BASE_URL = 'https://finclue.de';
 
@@ -111,125 +111,66 @@ export default function PortfolioScreen() {
     }
   }
 
+  // Single function: uses server-side /api/portfolio/summary for identical results as web
   async function loadHoldings(portfolioId: string) {
-    try {
-      // Also fetch cash_position from portfolio itself
-      const [{ data: portfolioData }, { data: rawHoldings, error: hErr }] = await Promise.all([
-        supabase.from('portfolios').select('cash_position').eq('id', portfolioId).maybeSingle(),
-        supabase.from('portfolio_holdings').select('*').eq('portfolio_id', portfolioId),
-      ]);
-      const cashPosition = Number(portfolioData?.cash_position) || 0;
-
-      if (hErr) throw hErr;
-      if (!rawHoldings?.length) {
-        setHoldings([]); setTotalValue(cashPosition); setTotalCost(0);
-        setLoading(false); setRefreshing(false); return;
-      }
-
-      const symbols = rawHoldings.map((h: any) => h.symbol).join(',');
-      const [qRes, siRes, rates] = await Promise.all([
-        fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`),
-        fetch(`${BASE_URL}/api/portfolio/super-investor-overlap`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tickers: rawHoldings.map((h: any) => h.symbol) }),
-        }),
-        getEURRates(),
-      ]);
-
-      const quotes: any[] = qRes.ok ? await qRes.json() : [];
-      const quoteMap: Record<string, any> = {};
-      quotes.forEach((q: any) => { quoteMap[q.symbol] = q; });
-      if (siRes.ok) setSiCounts(await siRes.json());
-
-      let tv = 0, tc = 0;
-      const enriched: Holding[] = rawHoldings.map((h: any) => {
-        const q = quoteMap[h.symbol] || {};
-        const rawPrice = q.price || h.current_price || 0;
-        // Convert current price to EUR based on ticker currency
-        const currentPrice = toEUR(rawPrice, h.symbol, rates);
-        // purchase_price is already stored in EUR
-        const quantity = h.quantity || 0;
-        const currentValue = currentPrice * quantity;
-        const cost = (h.purchase_price || 0) * quantity;
-        tv += currentValue; tc += cost;
-        return { ...h, currentPrice, currentValue, cost, gain: currentValue - cost,
-          gainPct: cost > 0 ? ((currentValue - cost) / cost) * 100 : 0,
-          displayName: q.name || h.name || h.symbol };
-      });
-
-      enriched.forEach(h => { h.weight = tv > 0 ? (h.currentValue / tv) * 100 : 0; });
-      setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
-      setTotalValue(tv + cashPosition);
-      setTotalCost(tc);
-      loadDividends(enriched);
-    } catch (e: any) {
-      setError(e.message || 'Fehler');
-    } finally {
-      setLoading(false); setRefreshing(false);
-    }
+    await loadFromServer(portfolioId);
   }
 
   async function loadAllHoldings(portfolioIds?: string[]) {
+    await loadFromServer(null); // null = all portfolios
+  }
+
+  async function loadFromServer(portfolioId: string | null) {
     try {
-      const ids = portfolioIds || portfolioList.map(p => p.id);
-      if (!ids.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
-      const { data: rawHoldings, error: hErr } = await supabase
-        .from('portfolio_holdings')
-        .select('*')
-        .in('portfolio_id', ids);
-      if (hErr) throw hErr;
-      if (!rawHoldings?.length) { setHoldings([]); setLoading(false); setRefreshing(false); return; }
-      // Merge duplicate symbols (sum quantities, weighted avg purchase price)
-      const merged: Record<string, any> = {};
-      for (const h of rawHoldings) {
-        if (!merged[h.symbol]) {
-          merged[h.symbol] = { ...h };
-        } else {
-          const oldQty = merged[h.symbol].quantity || 0;
-          const oldPrice = merged[h.symbol].purchase_price || 0;
-          const newQty = h.quantity || 0;
-          const newPrice = h.purchase_price || 0;
-          const totalQty = oldQty + newQty;
-          merged[h.symbol].quantity = totalQty;
-          merged[h.symbol].purchase_price = totalQty > 0
-            ? ((oldQty * oldPrice) + (newQty * newPrice)) / totalQty
-            : newPrice;
-        }
-      }
-      const mergedArr = Object.values(merged);
-      const symbols = mergedArr.map((h: any) => h.symbol).join(',');
-      // Also fetch cash positions for all selected portfolios
-      const [qRes, siRes, rates, { data: cashRows }] = await Promise.all([
-        fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`),
-        fetch(`${BASE_URL}/api/portfolio/super-investor-overlap`, {
-          method: 'POST', headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ tickers: mergedArr.map((h: any) => h.symbol) }),
-        }),
-        getEURRates(),
-        supabase.from('portfolios').select('cash_position').in('id', ids),
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      const url = portfolioId
+        ? `${BASE_URL}/api/portfolio/summary?portfolioId=${portfolioId}`
+        : `${BASE_URL}/api/portfolio/summary`;
+
+      const [summaryRes, siRes] = await Promise.all([
+        fetch(url, { headers: { Authorization: `Bearer ${session.access_token}` } }),
+        // SI overlap needs the tickers — we'll fetch after we have holdings
+        null,
       ]);
-      const totalCash = (cashRows || []).reduce((s: number, p: any) => s + (Number(p.cash_position) || 0), 0);
-      const quotes: any[] = qRes.ok ? await qRes.json() : [];
-      const quoteMap: Record<string, any> = {};
-      quotes.forEach((q: any) => { quoteMap[q.symbol] = q; });
-      if (siRes.ok) setSiCounts(await siRes.json());
-      let tv = 0, tc = 0;
-      const enriched: Holding[] = mergedArr.map((h: any) => {
-        const q = quoteMap[h.symbol] || {};
-        const rawPrice = q.price || h.current_price || 0;
-        const currentPrice = toEUR(rawPrice, h.symbol, rates);
-        const quantity = h.quantity || 0;
-        const currentValue = currentPrice * quantity;
-        const cost = (h.purchase_price || 0) * quantity;
-        tv += currentValue; tc += cost;
-        return { ...h, currentPrice, currentValue, cost, gain: currentValue - cost,
-          gainPct: cost > 0 ? ((currentValue - cost) / cost) * 100 : 0,
-          displayName: q.name || h.name || h.symbol };
+
+      if (!summaryRes.ok) throw new Error('Portfolio-Daten konnten nicht geladen werden');
+      const data = await summaryRes.json();
+
+      if (!data.holdings?.length) {
+        setHoldings([]); setTotalValue(data.totalValue || 0); setTotalCost(0);
+        setLoading(false); setRefreshing(false); return;
+      }
+
+      // Fetch SI overlap
+      const tickers = data.holdings.map((h: any) => h.symbol);
+      const overlapRes = await fetch(`${BASE_URL}/api/portfolio/super-investor-overlap`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tickers }),
       });
-      enriched.forEach(h => { h.weight = tv > 0 ? (h.currentValue / tv) * 100 : 0; });
-      setHoldings(enriched.sort((a, b) => b.currentValue - a.currentValue));
-      setTotalValue(tv + totalCash); setTotalCost(tc);
+      if (overlapRes.ok) setSiCounts(await overlapRes.json());
+
+      // Map server holdings to local Holding type
+      const enriched: Holding[] = data.holdings.map((h: any) => ({
+        symbol: h.symbol,
+        name: h.name || h.symbol,
+        quantity: h.quantity,
+        purchase_price: h.purchasePrice,
+        current_price: h.currentPrice,
+        currentPrice: h.currentPrice,
+        currentValue: h.value,
+        cost: h.cost,
+        gain: h.gainLoss,
+        gainPct: h.gainLossPercent,
+        displayName: h.name || h.symbol,
+        weight: h.weight,
+      }));
+
+      setHoldings(enriched);
+      setTotalValue(data.totalValue);
+      setTotalCost(data.totalCost);
       loadDividends(enriched);
     } catch (e: any) {
       setError(e.message || 'Fehler');
