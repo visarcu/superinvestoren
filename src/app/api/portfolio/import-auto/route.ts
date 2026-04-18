@@ -22,6 +22,7 @@ import { parseFreedom24PDFText } from '@/lib/freedom24PDFParser'
 import { parseFreedom24TaxXLSX } from '@/lib/freedom24TaxXLSXParser'
 import { parseFreedom24XLSXRows } from '@/lib/freedom24XLSXParser'
 import { parseFlatexDepotXLSX, isFlatexDepotXLSX } from '@/lib/flatexXLSXParser'
+import { parseFreedom24TradeReport, isFreedom24TradeReport } from '@/lib/freedom24TradeReportParser'
 import { parseIngPDFText, isIngPDF, type IngParsedTransaction } from '@/lib/ingPDFParser'
 import { parseTrading212PDFText, isTrading212PDF } from '@/lib/trading212PDFParser'
 
@@ -242,6 +243,22 @@ export async function POST(request: Request) {
           transactions: result.transactions,
           errors: result.errors,
           totalRows: rawRows.length - 1,
+        })
+      }
+
+      // Freedom24 Handelsbericht (hat "Trades ..." Sheet mit Transaktionsdatum)
+      if (isFreedom24TradeReport(workbook.SheetNames)) {
+        const sheets: Record<string, Record<string, unknown>[]> = {}
+        for (const sheetName of workbook.SheetNames) {
+          const sheet = workbook.Sheets[sheetName]
+          sheets[sheetName] = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+        }
+        const result = parseFreedom24TradeReport(sheets, firstFile.name)
+        return NextResponse.json({
+          format: 'freedom24_report',
+          formatLabel: 'Freedom24 Handelsbericht',
+          transactions: result.transactions,
+          errors: result.errors,
         })
       }
 
