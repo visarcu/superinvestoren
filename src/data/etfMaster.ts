@@ -404,6 +404,19 @@ export const etfMaster: ETFMasterEntry[] = [
     verified: true,
   },
   {
+    // DX2J.DE ist ein veralteter Ticker — FMP liefert 61€ (FALSCH, echter Kurs ~72€).
+    // XXSC.DE ist der aktuelle Ticker, FMP kennt ihn nicht, Yahoo liefert korrekt.
+    isin: 'LU0322253906',
+    wkn: 'DBX1AU',
+    xetraTicker: 'XXSC.DE',
+    name: 'Xtrackers MSCI Europe Small Cap UCITS ETF',
+    issuer: 'Xtrackers',
+    ter: 0.30,
+    category: 'Europe Small Cap',
+    priceSource: { type: 'yahoo' },
+    verified: true,
+  },
+  {
     isin: 'IE00BFNM3G45',
     xetraTicker: 'XMEU.DE',
     name: 'Xtrackers MSCI Europe UCITS ETF',
