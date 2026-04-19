@@ -131,11 +131,11 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
       title: 'So findest du die Datei bei Freedom24',
       steps: [
         'Logge dich bei Freedom24 ein',
-        'Gehe zu "Kontoauszüge" → "Steuerbericht" (jährlich) oder "Auftragshistorie"',
-        'Wähle den gewünschten Zeitraum',
-        'Exportiere als XLSX-Datei und lade sie hier hoch',
+        'Gehe zu "Berichte" → "Handelsberichte"',
+        'Wähle den gewünschten Zeitraum und exportiere als XLSX',
+        'Alternativ: "Kontoauszüge" → "Steuerbericht" oder "Auftragshistorie"',
       ],
-      hint: 'Der Steuerbericht ist vollständiger als die reine Auftragshistorie — wenn möglich, nimm den Steuerbericht.',
+      hint: 'Der Handelsbericht ist die beste Wahl — er enthält das echte Transaktionsdatum und ISINs. Der Steuerbericht funktioniert auch, nutzt aber das Abrechnungsdatum (T+2).',
     },
   },
   {
