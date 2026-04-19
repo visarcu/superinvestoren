@@ -35,6 +35,7 @@ interface TransactionInput {
   quantity: number
   price: number
   total_value: number
+  fee?: number
   date: string
 }
 
@@ -64,14 +65,18 @@ export function calculateSymbolPerformance(
 
   for (const tx of sorted) {
     if (tx.type === 'buy' || tx.type === 'transfer_in') {
+      const fee = Number(tx.fee) || 0
       totalShares += tx.quantity
-      totalCost += tx.quantity * tx.price
-      totalInvested += tx.quantity * tx.price
+      // Gebühren erhöhen die Kostenbasis (wie Parqet)
+      totalCost += tx.quantity * tx.price + fee
+      totalInvested += tx.quantity * tx.price + fee
     } else if (tx.type === 'sell') {
       if (totalShares <= 0) continue
 
+      const fee = Number(tx.fee) || 0
       const avgCostPerShare = totalCost / totalShares
-      const realizedGain = (tx.price - avgCostPerShare) * tx.quantity
+      // Verkaufsgebühren reduzieren den realisierten Gewinn
+      const realizedGain = (tx.price - avgCostPerShare) * tx.quantity - fee
       const realizedGainPercent = avgCostPerShare > 0
         ? ((tx.price - avgCostPerShare) / avgCostPerShare) * 100
         : 0
