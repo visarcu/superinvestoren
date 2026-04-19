@@ -365,7 +365,8 @@ export default function CSVImportModal({
           date: tx.date,
           type: tx.type,
           isin: tx.isin,
-          symbol: '',
+          // Wenn keine ISIN vorhanden (z.B. Freedom24 Trades), Ticker als Symbol verwenden
+          symbol: tx.isin ? '' : tx.name,
           name: tx.name,
           quantity: tx.quantity,
           price: tx.price,
