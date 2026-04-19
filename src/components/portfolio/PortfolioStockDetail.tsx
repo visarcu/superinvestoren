@@ -85,8 +85,12 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
       try {
         // Historische Kurse + Live-Quote + Wechselkurse parallel laden
+        // Für nicht-EUR-Ticker: Historical-API rechnet direkt in EUR um (wie Parqet)
+        const histUrl = isEURStock
+          ? `/api/historical/${ticker}`
+          : `/api/historical/${ticker}?convertToEUR=true`
         const [histRes, quoteRes, eurRateResult, gbpEurRateResult] = await Promise.all([
-          fetch(`/api/historical/${ticker}`),
+          fetch(histUrl),
           fetch(`/api/quotes?symbols=${encodeURIComponent(ticker)}`).catch(() => null),
           isEURStock ? Promise.resolve(null) : getEURRate().catch(() => null),
           isGBXStock ? fetch('/api/exchange-rate?from=GBP&to=EUR')

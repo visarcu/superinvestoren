@@ -52,12 +52,72 @@ async function fetchYahooHistorical(symbol: string): Promise<{ date: string; clo
   }
 }
 
+// Historische FX-Raten holen (EODHD oder FMP Fallback)
+async function fetchHistoricalFxRates(
+  pair: string, // z.B. 'USDEUR'
+  from: string,
+  to: string,
+  fmpApiKey: string,
+): Promise<Map<string, number>> {
+  const rateMap = new Map<string, number>()
+  const eodhd = process.env.EODHD_API_KEY
+
+  // Versuch 1: EODHD (bessere tägliche FX-Raten)
+  if (eodhd) {
+    try {
+      const symbol = pair.slice(0, 3) + pair.slice(3) + '.FOREX' // USDEUR → USDEUR.FOREX
+      const res = await fetch(
+        `https://eodhd.com/api/eod/${symbol}?from=${from}&to=${to}&api_token=${eodhd}&fmt=json`,
+        { signal: AbortSignal.timeout(5000) },
+      )
+      if (res.ok) {
+        const data = await res.json()
+        if (Array.isArray(data)) {
+          for (const d of data) rateMap.set(d.date, d.close)
+          if (rateMap.size > 0) return rateMap
+        }
+      }
+    } catch { /* Fallback zu FMP */ }
+  }
+
+  // Versuch 2: FMP historische FX-Raten
+  try {
+    const res = await fetch(
+      `https://financialmodelingprep.com/api/v3/historical-price-full/${pair}?from=${from}&to=${to}&apikey=${fmpApiKey}`,
+      { signal: AbortSignal.timeout(5000) },
+    )
+    if (res.ok) {
+      const data = await res.json()
+      const hist = data?.historical
+      if (Array.isArray(hist)) {
+        for (const d of hist) rateMap.set(d.date, d.close)
+      }
+    }
+  } catch { /* keine FX-Raten verfügbar */ }
+
+  return rateMap
+}
+
+// Nächste verfügbare FX-Rate für ein Datum finden (für Lücken an Wochenenden)
+function findClosestRate(rateMap: Map<string, number>, date: string): number | null {
+  if (rateMap.has(date)) return rateMap.get(date)!
+  // Bis zu 7 Tage zurück suchen
+  const d = new Date(date)
+  for (let i = 1; i <= 7; i++) {
+    d.setDate(d.getDate() - 1)
+    const key = d.toISOString().slice(0, 10)
+    if (rateMap.has(key)) return rateMap.get(key)!
+  }
+  return null
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
 ) {
   const rawTicker = params.ticker
   const apiKey = process.env.FMP_API_KEY
+  const convertToEUR = request.nextUrl.searchParams.get('convertToEUR') === 'true'
 
   if (!apiKey) {
     return NextResponse.json({ error: 'API key not configured' }, { status: 500 })
@@ -86,6 +146,34 @@ export async function GET(
       else if (exchange === 'GBP') close = p.close * GBP_EUR_APPROX
       return { date: p.date, close: Math.round(close * 100) / 100 }
     })
+  }
+
+  // Helper: Ergebnis mit optionaler EUR-Konvertierung zurückgeben
+  async function respondWithHistorical(
+    historical: { date: string; close: number }[],
+    extra: Record<string, unknown> = {},
+  ) {
+    // EUR-Konvertierung: wenn angefragt und Ticker nicht in EUR notiert
+    if (convertToEUR && !isEuropeanTicker && historical.length > 0) {
+      const dates = historical.map(h => h.date).sort()
+      const from = dates[0]
+      const to = dates[dates.length - 1]
+      const fxRates = await fetchHistoricalFxRates('USDEUR', from, to, apiKey!)
+
+      if (fxRates.size > 0) {
+        historical = historical.map(h => {
+          const rate = findClosestRate(fxRates, h.date)
+          return {
+            date: h.date,
+            close: rate ? Math.round(h.close * rate * 100) / 100 : h.close,
+          }
+        })
+        extra._currency = 'EUR'
+        extra._converted = true
+      }
+    }
+
+    return NextResponse.json({ symbol: ticker, historical, ...extra })
   }
 
   try {
@@ -118,11 +206,7 @@ export async function GET(
         }
       }
 
-      return NextResponse.json({
-        symbol: ticker,
-        historical,
-        ...(source && source !== 'fmp' ? { _source: source } : {}),
-      })
+      return respondWithHistorical(historical, source && source !== 'fmp' ? { _source: source } : {})
     }
 
     // === Nicht im Master: bestehende Fallback-Chain ===
@@ -144,19 +228,19 @@ export async function GET(
       const yahooData = await fetchYahooHistorical(ticker)
       if (yahooData && yahooData.length > 30) {
         const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
-        return NextResponse.json({ symbol: ticker, historical: sorted, _source: 'yahoo' })
+        return respondWithHistorical(sorted, { _source: 'yahoo' })
       }
     }
 
     if (fmpData.length > 0) {
-      return NextResponse.json({ symbol: ticker, historical: fmpData })
+      return respondWithHistorical(fmpData)
     }
 
     // Yahoo wenn FMP komplett leer
     const yahooData = await fetchYahooHistorical(ticker)
     if (yahooData && yahooData.length > 0) {
       const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
-      return NextResponse.json({ symbol: ticker, historical: sorted, _source: 'yahoo' })
+      return respondWithHistorical(sorted, { _source: 'yahoo' })
     }
 
     // Finaler Fallback: EXCHANGE_FALLBACKS (für nicht-Master-Ticker)
@@ -164,15 +248,11 @@ export async function GET(
     if (fallback) {
       const altHist = await fetchFmpHistorical(fallback.symbol, fallback.exchange)
       if (altHist.length > 0) {
-        return NextResponse.json({
-          symbol: ticker,
-          historical: altHist,
-          _source: `fmp_alt:${fallback.symbol}`,
-        })
+        return respondWithHistorical(altHist, { _source: `fmp_alt:${fallback.symbol}` })
       }
     }
 
-    return NextResponse.json({ symbol: ticker, historical: [] })
+    return respondWithHistorical([])
 
   } catch (error) {
     console.error(`Error fetching historical data for ${ticker}:`, error)
@@ -181,7 +261,7 @@ export async function GET(
       const yahooData = await fetchYahooHistorical(ticker)
       if (yahooData && yahooData.length > 0) {
         const sorted = [...yahooData].sort((a, b) => b.date.localeCompare(a.date))
-        return NextResponse.json({ symbol: ticker, historical: sorted, _source: 'yahoo' })
+        return respondWithHistorical(sorted, { _source: 'yahoo' })
       }
     } catch { /* Yahoo auch fehlgeschlagen */ }
 
