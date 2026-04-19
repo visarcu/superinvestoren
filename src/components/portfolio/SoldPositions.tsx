@@ -2,6 +2,7 @@
 'use client'
 
 import React, { useState, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/24/outline'
 import Logo from '@/components/Logo'
 import { perfColor } from '@/utils/formatters'
@@ -41,6 +42,7 @@ interface SoldPositionsProps {
 }
 
 export default function SoldPositions({ transactions, formatCurrency, portfolioId, totalValue }: SoldPositionsProps) {
+  const router = useRouter()
   const [expanded, setExpanded] = useState(false)
 
   const closedPositions = useMemo(() => {
@@ -191,7 +193,7 @@ export default function SoldPositions({ transactions, formatCurrency, portfolioI
               className="flex items-center justify-between py-2.5 border-b border-neutral-800/30 cursor-pointer hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors"
               onClick={() => {
                 if (portfolioId) {
-                  window.location.href = `/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue || 0}`
+                  router.push(`/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue || 0}`)
                 }
               }}
             >

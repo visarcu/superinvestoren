@@ -287,7 +287,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
     if (!purchaseMarkers?.length || !chartData.length || selectedMode !== 'price') return []
 
     return purchaseMarkers.map(marker => {
-      // Exakten Match oder nächsten Datenpunkt finden
+      // Exakten Match oder nächsten Datenpunkt finden (für X-Achse)
       let bestMatch = chartData[0]
       let bestDiff = Infinity
 
@@ -299,8 +299,12 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
         }
       }
 
-      const yValue = bestMatch[ticker] as number
-      if (typeof yValue !== 'number') return null
+      const chartValue = bestMatch[ticker] as number
+      if (typeof chartValue !== 'number') return null
+
+      // Kaufpreis verwenden wenn verfügbar (zeigt echten EK statt Schlusskurs),
+      // Fallback auf Chart-Schlusskurs wenn priceEUR fehlt oder 0
+      const yValue = marker.priceEUR > 0 ? marker.priceEUR : chartValue
 
       return {
         date: bestMatch.date,
