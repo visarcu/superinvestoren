@@ -1,0 +1,257 @@
+'use client'
+
+import React, { useState, useEffect, useMemo } from 'react'
+import StockHeader from './StockHeader'
+import EarningsBanner from './EarningsBanner'
+import HeroPriceChart from './HeroPriceChart'
+import KeyMetricsCard from './KeyMetricsCard'
+import StockTabs from './StockTabs'
+import ExpandedChartModal from './ExpandedChartModal'
+import OverviewTab from './tabs/OverviewTab'
+import NewsTab from './tabs/NewsTab'
+import FinancialsTab from './tabs/FinancialsTab'
+import EarningsTab from './tabs/EarningsTab'
+import KpisTab from './tabs/KpisTab'
+import AiTab from './tabs/AiTab'
+import { fmt, fmtPct } from '../_lib/format'
+import type {
+  UnternehmenProfile,
+  Period,
+  BalancePeriod,
+  CashFlowPeriod,
+  NewsArticle,
+  KPIMetric,
+  EarningsEntry,
+  Quote,
+  PricePoint,
+  ChartTimeframe,
+  Tab,
+  ExpandedChartState,
+} from '../_lib/types'
+
+interface StockPageClientProps {
+  ticker: string
+}
+
+export default function StockPageClient({ ticker }: StockPageClientProps) {
+  const [tab, setTab] = useState<Tab>('overview')
+  const [profile, setProfile] = useState<UnternehmenProfile | null>(null)
+  const [income, setIncome] = useState<Period[]>([])
+  const [balance, setBalance] = useState<BalancePeriod[]>([])
+  const [cashflow, setCashflow] = useState<CashFlowPeriod[]>([])
+  const [news, setNews] = useState<NewsArticle[]>([])
+  const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
+  const [earnings, setEarnings] = useState<EarningsEntry[]>([])
+  const [quote, setQuote] = useState<Quote | null>(null)
+  const [priceChart, setPriceChart] = useState<PricePoint[]>([])
+  const [chartTimeframe, setChartTimeframe] = useState<ChartTimeframe>('1Y')
+  const [chartLoading, setChartLoading] = useState(false)
+  const [fullPriceHistory, setFullPriceHistory] = useState<PricePoint[]>([])
+  const [aiAnalysis, setAiAnalysis] = useState<string | null>(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [expandedChart, setExpandedChart] = useState<ExpandedChartState | null>(null)
+  const [financialPeriod, setFinancialPeriod] = useState<'annual' | 'quarterly'>('annual')
+
+  // Fetch all data
+  useEffect(() => {
+    setLoading(true)
+    setTab('overview')
+    setQuote(null)
+    Promise.all([
+      fetch(`/api/v1/company/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/financials/income-statement/${ticker}?years=10`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/financials/balance-sheet/${ticker}?years=10`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/financials/cash-flow/${ticker}?years=10`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/news/stock/${ticker}?limit=20`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/kpis/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/earnings/${ticker}?limit=12`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/quotes/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+    ])
+      .then(([p, inc, bal, cf, n, k, e, q]) => {
+        if (p && !p.error) setProfile(p)
+        if (inc?.data) setIncome(inc.data)
+        if (bal?.data) setBalance(bal.data)
+        if (cf?.data) setCashflow(cf.data)
+        if (n?.articles) setNews(n.articles)
+        if (k?.metrics) setKpis(k.metrics)
+        if (e?.earnings) setEarnings(e.earnings)
+        if (q?.price)
+          setQuote({
+            price: q.price,
+            change: q.change,
+            changePercent: q.changePercent,
+            marketCap: q.marketCap,
+            source: q.source,
+          })
+      })
+      .finally(() => setLoading(false))
+  }, [ticker])
+
+  // Auto-refresh quote every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetch(`/api/v1/quotes/${ticker}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(q => {
+          if (q?.price)
+            setQuote({
+              price: q.price,
+              change: q.change,
+              changePercent: q.changePercent,
+              marketCap: q.marketCap,
+              source: q.source,
+            })
+        })
+        .catch(() => {})
+    }, 30000)
+    return () => clearInterval(interval)
+  }, [ticker])
+
+  // Fetch full historical price data
+  useEffect(() => {
+    setChartLoading(true)
+    fetch(`/api/historical/${ticker}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => {
+        if (d?.historical) {
+          const sorted = [...d.historical]
+            .sort((a: any, b: any) => a.date.localeCompare(b.date))
+            .map((h: any) => ({ date: h.date, price: h.close }))
+          setFullPriceHistory(sorted)
+        }
+      })
+      .catch(() => {})
+      .finally(() => setChartLoading(false))
+  }, [ticker])
+
+  // Filter price chart by timeframe
+  useEffect(() => {
+    if (fullPriceHistory.length === 0) return
+    const now = new Date()
+    const cutoff = new Date()
+    switch (chartTimeframe) {
+      case '1D':
+        cutoff.setDate(now.getDate() - 1)
+        break
+      case '1W':
+        cutoff.setDate(now.getDate() - 7)
+        break
+      case '1M':
+        cutoff.setMonth(now.getMonth() - 1)
+        break
+      case '3M':
+        cutoff.setMonth(now.getMonth() - 3)
+        break
+      case '1Y':
+        cutoff.setFullYear(now.getFullYear() - 1)
+        break
+      case '5Y':
+        cutoff.setFullYear(now.getFullYear() - 5)
+        break
+    }
+    const cutoffStr = cutoff.toISOString().slice(0, 10)
+    const filtered = fullPriceHistory.filter(p => p.date >= cutoffStr)
+    setPriceChart(filtered.length > 0 ? filtered : fullPriceHistory.slice(-30))
+  }, [fullPriceHistory, chartTimeframe])
+
+  // Derived metrics for KeyMetricsCard
+  const { metrics, fyLabel } = useMemo(() => {
+    const L = income[income.length - 1]
+    const P = income[income.length - 2]
+    const LB = balance[balance.length - 1]
+    const LC = cashflow[cashflow.length - 1]
+
+    const revGrowth = L?.revenue && P?.revenue ? ((L.revenue - P.revenue) / Math.abs(P.revenue)) * 100 : null
+    const grossMargin = L?.revenue && L?.grossProfit ? (L.grossProfit / L.revenue) * 100 : null
+    const opMargin = L?.revenue && L?.operatingIncome ? (L.operatingIncome / L.revenue) * 100 : null
+    const netMargin = L?.revenue && L?.netIncome ? (L.netIncome / L.revenue) * 100 : null
+    const pe = quote?.price && L?.eps && L.eps > 0 ? quote.price / L.eps : null
+
+    const items = [
+      { label: 'Marktkapitalisierung', value: quote?.marketCap ? fmt(quote.marketCap) : '–' },
+      { label: 'KGV (P/E)', value: pe ? pe.toFixed(1).replace('.', ',') : '–' },
+      { label: 'Umsatz', value: fmt(L?.revenue || null) },
+      { label: 'Nettogewinn', value: fmt(L?.netIncome || null) },
+      { label: 'Gewinn/Aktie', value: L?.eps ? `${L.eps.toFixed(2).replace('.', ',')} $` : '–' },
+      { label: 'Bruttomarge', value: grossMargin ? `${grossMargin.toFixed(1).replace('.', ',')}%` : '–' },
+      { label: 'Op. Marge', value: opMargin ? `${opMargin.toFixed(1).replace('.', ',')}%` : '–' },
+      { label: 'Nettomarge', value: netMargin ? `${netMargin.toFixed(1).replace('.', ',')}%` : '–' },
+      { label: 'Umsatzwachstum', value: fmtPct(revGrowth), color: revGrowth ?? undefined },
+      { label: 'Barmittel', value: fmt(LB?.cash || null) },
+      { label: 'Schulden', value: fmt(LB?.totalDebt || LB?.longTermDebt || null) },
+      { label: 'Op. Cashflow', value: fmt(LC?.operatingCashFlow || null) },
+      { label: 'Free Cashflow', value: fmt(LC?.freeCashFlow || null) },
+      { label: 'F&E', value: fmt(L?.researchAndDevelopment || null) },
+    ].filter(m => m.value !== '–')
+
+    return { metrics: items, fyLabel: L?.period ? `GJ ${L.period}` : '' }
+  }, [income, balance, cashflow, quote])
+
+  const startAiAnalysis = () => {
+    setAiLoading(true)
+    fetch(`/api/v1/ai/stock/${ticker}`)
+      .then(r => (r.ok ? r.json() : null))
+      .then(d => {
+        if (d?.analysis) setAiAnalysis(d.analysis)
+      })
+      .catch(() => {})
+      .finally(() => setAiLoading(false))
+  }
+
+  return (
+    <div className="min-h-screen bg-[#06060e] flex flex-col">
+      <StockHeader ticker={ticker} profile={profile} quote={quote} />
+
+      <EarningsBanner earnings={earnings} onClick={() => setTab('earnings')} />
+
+      {/* HERO: Price Chart + Key Metrics */}
+      <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-5">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+          <HeroPriceChart
+            quote={quote}
+            priceChart={priceChart}
+            chartTimeframe={chartTimeframe}
+            setChartTimeframe={setChartTimeframe}
+            chartLoading={chartLoading}
+          />
+          <KeyMetricsCard metrics={metrics} fyLabel={fyLabel} topNews={news[0] ?? null} />
+        </div>
+      </div>
+
+      <StockTabs tab={tab} setTab={setTab} />
+
+      {/* CONTENT */}
+      <main className="flex-1 px-6 sm:px-10 py-8 pb-24 overflow-y-auto flex flex-col items-center">
+        {loading ? (
+          <div className="flex items-center justify-center py-32">
+            <div className="w-5 h-5 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
+          </div>
+        ) : tab === 'overview' ? (
+          <OverviewTab income={income} balance={balance} cashflow={cashflow} news={news} profile={profile} />
+        ) : tab === 'news' ? (
+          <NewsTab news={news} ticker={ticker} />
+        ) : tab === 'financials' ? (
+          <FinancialsTab
+            ticker={ticker}
+            income={income}
+            balance={balance}
+            cashflow={cashflow}
+            kpis={kpis}
+            financialPeriod={financialPeriod}
+            setFinancialPeriod={setFinancialPeriod}
+            setExpandedChart={setExpandedChart}
+          />
+        ) : tab === 'earnings' ? (
+          <EarningsTab ticker={ticker} earnings={earnings} />
+        ) : tab === 'kpis' ? (
+          <KpisTab ticker={ticker} kpis={kpis} />
+        ) : tab === 'ai' ? (
+          <AiTab ticker={ticker} aiAnalysis={aiAnalysis} aiLoading={aiLoading} startAnalysis={startAiAnalysis} />
+        ) : null}
+      </main>
+
+      <ExpandedChartModal state={expandedChart} onClose={() => setExpandedChart(null)} />
+    </div>
+  )
+}
