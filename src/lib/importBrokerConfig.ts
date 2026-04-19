@@ -80,12 +80,11 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     id: 'flatex',
     name: 'Flatex / DEGIRO',
     shortName: 'Flatex',
-    formats: ['.xlsx', '.pdf'],
-    accept: '.xlsx,.pdf',
+    formats: ['.xlsx', '.pdf', '.csv'],
+    accept: '.xlsx,.pdf,.csv',
     initial: 'F',
     accentDot: 'bg-orange-400',
     supportsMultiFile: true,
-    isBetterThanPdf: true,
     instructions: {
       title: 'So findest du die Export-Datei bei Flatex',
       steps: [
