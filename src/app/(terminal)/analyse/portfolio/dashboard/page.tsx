@@ -148,13 +148,45 @@ export default function PortfolioDashboard() {
 
         const { data } = await supabase
           .from('portfolio_holdings')
-          .select('portfolio_id, current_price, quantity')
+          .select('portfolio_id, symbol, current_price, purchase_price, quantity')
           .in('portfolio_id', otherIds)
 
         if (cancelled || !data) return
+
+        // Symbole sammeln deren current_price NULL/0 ist → Live-Kurse holen
+        const symbolsToFetch = new Set<string>()
+        for (const h of data) {
+          const cp = Number(h.current_price)
+          if (!cp || cp <= 0) symbolsToFetch.add(h.symbol)
+        }
+
+        // Live-Kurse holen (Batch)
+        const liveQuotes = new Map<string, number>()
+        if (symbolsToFetch.size > 0) {
+          try {
+            const symbols = [...symbolsToFetch].join(',')
+            const res = await fetch(`/api/quotes?symbols=${encodeURIComponent(symbols)}`)
+            if (res.ok) {
+              const quotes = await res.json()
+              if (Array.isArray(quotes)) {
+                for (const q of quotes) {
+                  if (q.symbol && q.price > 0) liveQuotes.set(q.symbol, q.price)
+                }
+              }
+            }
+          } catch { /* Fallback: purchase_price */ }
+        }
+
+        if (cancelled) return
+
+        // Werte aggregieren: current_price > Live-Quote > purchase_price (Fallback)
         const map = new Map<string, number>()
         for (const h of data) {
-          const value = (Number(h.current_price) || 0) * (Number(h.quantity) || 0)
+          const cp = Number(h.current_price)
+          const live = liveQuotes.get(h.symbol)
+          const pp = Number(h.purchase_price)
+          const price = (cp && cp > 0) ? cp : (live && live > 0) ? live : pp
+          const value = (price || 0) * (Number(h.quantity) || 0)
           map.set(h.portfolio_id, (map.get(h.portfolio_id) || 0) + value)
         }
         setAllDepotHoldings(map)
