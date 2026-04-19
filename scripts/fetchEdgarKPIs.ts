@@ -26,12 +26,12 @@ const PILOT_COMPANIES: Record<string, { cik: string; name: string; kpiHints: str
     cik: '1065280',
     name: 'Netflix',
     kpiHints: [
-      'paid memberships / paid subscribers (global total)',
-      'average revenue per membership (ARM) or average monthly revenue per paying membership',
-      'streaming revenue',
-      'operating margin — store as percent (e.g. 31.7% → value: 31.7, unit: "percent")',
-      'GUIDANCE/OUTLOOK: revenue guidance or forecast for NEXT quarter — store in millions, use metric name "guidance_revenue", label "Revenue Guidance"',
-      'GUIDANCE/OUTLOOK: operating margin guidance for NEXT quarter — store as percent, use metric name "guidance_operating_margin", label "Op. Margin Guidance"',
+      'paid memberships / paid subscribers (global total) — NOTE: Netflix only reports this in annual Q4 earnings letters. If not found, skip.',
+      'average revenue per membership (ARM) or average monthly revenue per paying membership — NOTE: Netflix only reports this in annual Q4 earnings letters. If not found, skip.',
+      'total revenue (labeled "Revenues" in the income statement) — store in millions. Look in the Consolidated Statements of Operations table. Convert from thousands if needed (e.g. $12,249,757 thousand → value: 12250, unit: "millions"). Use metric name "streaming_revenue", label "Streaming Revenue" for backwards compatibility.',
+      'operating margin for the CURRENT quarter — look for explicit text like "operating margin of 32.3%" or in the summary table row "Operating Margin". This is DIFFERENT from the guidance value. Store as percent (e.g. 32.3% → value: 32.3, unit: "percent")',
+      'GUIDANCE/OUTLOOK: QUARTERLY revenue guidance or forecast for the NEXT single quarter (NOT full-year guidance) — store in millions, use metric name "guidance_revenue", label "Revenue Guidance". If only full-year guidance is given, skip this.',
+      'GUIDANCE/OUTLOOK: QUARTERLY operating margin guidance for the NEXT single quarter (NOT full-year targets) — store as percent, use metric name "guidance_operating_margin", label "Op. Margin Guidance". If only full-year guidance is given, skip this.',
     ],
   },
   SPOT: {
@@ -319,8 +319,13 @@ async function findExhibitDoc(cik: string, accessionNumber: string, primaryDoc: 
   ) || filenames.find((name) =>
     /pr\.htm/i.test(name) || /pressrelease/i.test(name) || /earnings/i.test(name)
   ) || filenames.find((name) =>
-    // Exclude the primary 8-K cover document and CFO commentary
-    !/cfo/i.test(name) && !/cover/i.test(name) && name !== primaryDoc
+    // Exclude index pages, search pages, primary 8-K cover document, and CFO commentary
+    name !== 'index.htm' &&
+    !/companysearch/i.test(name) &&
+    !/cfo/i.test(name) &&
+    !/cover/i.test(name) &&
+    name !== primaryDoc &&
+    name.endsWith('.htm') // only actual htm documents, not .html or .txt
   )
 
   return exhibit || null
@@ -347,13 +352,33 @@ async function fetchFilingText(cik: string, accessionNumber: string, primaryDoc:
     .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
     .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
     .replace(/<[^>]+>/g, ' ')
+    // Decode HTML entities
     .replace(/&nbsp;/g, ' ')
     .replace(/&amp;/g, '&')
     .replace(/&lt;/g, '<')
     .replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"')
+    .replace(/&#34;/g, '"')
+    .replace(/&#38;/g, '&')
+    .replace(/&#39;/g, "'")
+    .replace(/&#47;/g, '/')
+    .replace(/&#58;/g, ':')
+    .replace(/&#59;/g, ';')
+    .replace(/&#160;/g, ' ')
+    .replace(/&#8211;/g, '–')
+    .replace(/&#8212;/g, '—')
+    .replace(/&#8216;/g, "'")
+    .replace(/&#8217;/g, "'")
+    .replace(/&#8220;/g, '"')
+    .replace(/&#8221;/g, '"')
+    .replace(/&#8226;/g, '•')
+    .replace(/&#8230;/g, '…')
+    .replace(/&#\d+;/g, ' ') // catch-all for remaining numeric entities
+    // Strip boilerplate that wastes context: forward-looking statements disclaimers
+    .replace(/Forward[- ]Looking Statements[\s\S]{0,3000}?(?=\d+\s+\w+,\s+Inc\.|$)/i, ' ')
     .replace(/\s{2,}/g, ' ')
     .trim()
-    .slice(0, 24000) // more chars for exhibit docs
+    .slice(0, 48000) // increased from 24k to capture financial tables
 
   return { text, url }
 }
@@ -378,14 +403,16 @@ async function extractKPIs(
 ): Promise<ExtractedKPI[]> {
   const prompt = `You are a financial data analyst. Extract company-specific operating KPIs from this SEC 8-K earnings press release for ${companyName} (${ticker}).
 
-Focus specifically on these KPIs if present:
+Extract EACH of the following KPIs if present. Each KPI should be its own entry in the result array:
 ${kpiHints.map((h, i) => `${i + 1}. ${h}`).join('\n')}
 
+IMPORTANT: Regular KPIs and GUIDANCE KPIs are SEPARATE entries. If the text mentions both "operating margin of 32.3%" for the current quarter AND "operating margin guidance of 32.6%" for next quarter, return BOTH as separate objects.
+
 Rules:
-- For regular KPIs: Return actual reported values for the CURRENT quarter being reported
+- For regular KPIs (NOT marked GUIDANCE): Return actual reported values for the CURRENT quarter being reported. Look in the narrative text ("revenue grew to $X", "operating margin of X%") AND in the summary/financial tables.
 - For GUIDANCE/OUTLOOK items: Return the company's forward-looking guidance for the NEXT quarter. The period should be the NEXT quarter (e.g. if reporting Q4 2025, guidance period = "Q1 2026"). If a range is given (e.g. "$36-38B"), use the midpoint.
 - For GEOGRAPHIC items: Return geographic revenue breakdowns for the CURRENT quarter
-- For total revenue/GMV/bookings: always use "millions". Convert billions to millions (e.g. "$10.1B" → value: 10100, unit: "millions")
+- For total revenue/GMV/bookings: always use "millions". Convert billions to millions (e.g. "$10.1B" → value: 10100, unit: "millions"). If the income statement shows values "in thousands" (e.g. $12,249,757 in thousands), divide by 1000 and round to the nearest integer (→ value: 12250, unit: "millions").
 - For subscriber/user counts: always use "millions" (e.g. "325M subscribers" → value: 325, unit: "millions")
 - For per-user metrics (ARPU, ARM, average revenue per membership/subscriber): use "dollars" and store the actual dollar value (e.g. "$17.26 per membership" → value: 17.26, unit: "dollars")
 - For percentages, store as a decimal multiplied by 100 (e.g. 15.3% → value: 15.3, unit: "percent")
@@ -394,22 +421,20 @@ Rules:
 - metric should be a stable snake_case key (e.g. "paid_subscribers", "maus", "gross_bookings")
 - label should be a clean display name (e.g. "Paid Subscribers", "Monthly Active Users")
 - Only include KPIs you are highly confident about from the text
+- When a summary table has columns like "Q1'25 Q2'25 ... Q1'26 Q2'26 Forecast", the LAST column is the forecast/guidance, and the second-to-last is the CURRENT quarter being reported.
 
 Filing date: ${filingDate}
 
-Return a JSON array. Example format:
-[
-  {
-    "metric": "paid_subscribers",
-    "label": "Paid Subscribers",
-    "value": 301.6,
-    "unit": "millions",
-    "period": "Q4 2024",
-    "periodDate": "2024-12-31"
-  }
-]
+Return a JSON object with a "kpis" key containing an array. Each KPI is a separate entry.
+Example — note how operating_margin (current quarter) and guidance_operating_margin (next quarter) are SEPARATE entries:
+{"kpis": [
+  {"metric": "total_revenue", "label": "Total Revenue", "value": 12250, "unit": "millions", "period": "Q4 2024", "periodDate": "2024-12-31"},
+  {"metric": "operating_margin", "label": "Operating Margin", "value": 32.3, "unit": "percent", "period": "Q4 2024", "periodDate": "2024-12-31"},
+  {"metric": "guidance_revenue", "label": "Revenue Guidance", "value": 12574, "unit": "millions", "period": "Q1 2025", "periodDate": "2025-03-31"},
+  {"metric": "guidance_operating_margin", "label": "Op. Margin Guidance", "value": 32.6, "unit": "percent", "period": "Q1 2025", "periodDate": "2025-03-31"}
+]}
 
-If no relevant KPIs are found, return an empty array [].
+If no relevant KPIs are found, return {"kpis": []}.
 
 Press release text:
 ${filingText}`
@@ -425,16 +450,30 @@ ${filingText}`
 
   try {
     const parsed = JSON.parse(content)
-    // Handle all common wrapper shapes
-    const arr = Array.isArray(parsed)
-      ? parsed
-      : parsed.kpis ?? parsed.data ?? parsed.results ?? parsed.metrics ?? Object.values(parsed).find(Array.isArray) ?? []
+    // Handle all response shapes: array, {kpis:[...]}, {data:[...]}, or single object
+    let arr: ExtractedKPI[]
+    if (Array.isArray(parsed)) {
+      arr = parsed
+    } else if (parsed.kpis ?? parsed.data ?? parsed.results ?? parsed.metrics) {
+      arr = parsed.kpis ?? parsed.data ?? parsed.results ?? parsed.metrics
+    } else {
+      const nestedArr = Object.values(parsed).find(Array.isArray) as ExtractedKPI[] | undefined
+      if (nestedArr) {
+        arr = nestedArr
+      } else if (parsed.metric && parsed.label && typeof parsed.value === 'number') {
+        // Single KPI object returned without array wrapper
+        arr = [parsed as ExtractedKPI]
+      } else {
+        arr = []
+      }
+    }
+
     return arr.filter(
       (k: ExtractedKPI) =>
         k.metric && k.label && typeof k.value === 'number' && k.unit && k.period && k.periodDate
     )
   } catch {
-    console.error('Failed to parse KPI extraction response:', content)
+    console.error('Failed to parse KPI extraction response:', content.slice(0, 500))
     return []
   }
 }
@@ -487,7 +526,28 @@ async function processCompany(ticker: string, limit: number) {
         continue
       }
 
+      // Post-process: normalize metric names for backwards compatibility
       for (const kpi of kpis) {
+        if (kpi.metric === 'total_revenue' || kpi.metric === 'revenue') {
+          kpi.metric = 'streaming_revenue'
+          kpi.label = 'Streaming Revenue'
+        }
+        // Round revenue values to nearest integer (avoid 12249.757)
+        if (kpi.unit === 'millions' || kpi.unit === 'billions' || kpi.unit === 'thousands') {
+          kpi.value = Math.round(kpi.value)
+        }
+      }
+
+      // Deduplicate: if both total_revenue and streaming_revenue exist, keep only streaming_revenue
+      const seen = new Set<string>()
+      const dedupedKpis = kpis.filter(kpi => {
+        const key = `${kpi.metric}:${kpi.period}`
+        if (seen.has(key)) return false
+        seen.add(key)
+        return true
+      })
+
+      for (const kpi of dedupedKpis) {
         await prisma.companyKPI.upsert({
           where: {
             ticker_metric_period: {
