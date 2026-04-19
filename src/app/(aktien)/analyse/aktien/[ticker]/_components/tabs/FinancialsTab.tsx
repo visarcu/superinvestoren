@@ -2,6 +2,7 @@
 
 import React from 'react'
 import ChartCard from '../ChartCard'
+import FeyPremiumGate from '../FeyPremiumGate'
 import { fmt } from '../../_lib/format'
 import type {
   Period,
@@ -20,6 +21,8 @@ interface FinancialsTabProps {
   financialPeriod: 'annual' | 'quarterly'
   setFinancialPeriod: (p: 'annual' | 'quarterly') => void
   setExpandedChart: (s: ExpandedChartState | null) => void
+  isPremium: boolean
+  userLoading: boolean
 }
 
 export default function FinancialsTab({
@@ -31,7 +34,12 @@ export default function FinancialsTab({
   financialPeriod,
   setFinancialPeriod,
   setExpandedChart,
+  isPremium,
+  userLoading,
 }: FinancialsTabProps) {
+  // Quartalsansicht ist Premium. Free-User können den Toggle anklicken,
+  // sehen aber im quarterly-Mode statt der Daten das Premium-Gate.
+  const showQuarterlyGate = financialPeriod === 'quarterly' && !isPremium
   const guidanceRev = kpis['guidance_revenue']?.data?.slice(-1)[0]?.value
   const guidanceRevLabel = kpis['guidance_revenue']?.data?.slice(-1)[0]?.period
   const segmentKpis = Object.entries(kpis).filter(
@@ -52,16 +60,38 @@ export default function FinancialsTab({
         </button>
         <button
           onClick={() => setFinancialPeriod('quarterly')}
-          className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
+          className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors flex items-center gap-1.5 ${
             financialPeriod === 'quarterly' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
           }`}
         >
           Quartalsweise
+          {!isPremium && (
+            <svg className="w-3 h-3 text-violet-400/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+            </svg>
+          )}
         </button>
       </div>
 
-      {/* Quartalsansicht: KPI-basiert */}
-      {financialPeriod === 'quarterly' && Object.keys(kpis).length > 0 ? (
+      {/* Quartalsansicht für Free-User → Premium-Gate */}
+      {showQuarterlyGate && (
+        <FeyPremiumGate
+          isPremium={false}
+          loading={userLoading}
+          feature="Quartalszahlen"
+          description={`Quartalsweise Umsatz-, EPS- und KPI-Daten aus Earnings Reports für ${ticker}.`}
+        >
+          {/* Dummy-Inhalt hinter dem Blur, damit das Overlay nicht auf weißem Grund schwebt */}
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+            {[1, 2, 3, 4, 5, 6].map(i => (
+              <div key={i} className="h-56 rounded-2xl bg-[#0c0c16] border border-white/[0.04]" />
+            ))}
+          </div>
+        </FeyPremiumGate>
+      )}
+
+      {/* Quartalsansicht für Premium: KPI-basiert */}
+      {!showQuarterlyGate && financialPeriod === 'quarterly' && Object.keys(kpis).length > 0 ? (
         <div>
           <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">
             Quartalszahlen (aus Earnings Reports)
@@ -101,7 +131,7 @@ export default function FinancialsTab({
             </p>
           )}
         </div>
-      ) : financialPeriod === 'quarterly' ? (
+      ) : !showQuarterlyGate && financialPeriod === 'quarterly' ? (
         <div className="text-center py-20">
           <p className="text-white/20 text-[14px]">Keine Quartalsdaten für {ticker}</p>
           <p className="text-white/10 text-[12px] mt-1">

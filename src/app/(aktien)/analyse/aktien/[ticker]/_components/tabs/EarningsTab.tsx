@@ -2,14 +2,17 @@
 
 import React from 'react'
 import { fmt } from '../../_lib/format'
+import FeyPremiumGate from '../FeyPremiumGate'
 import type { EarningsEntry } from '../../_lib/types'
 
 interface EarningsTabProps {
   ticker: string
   earnings: EarningsEntry[]
+  isPremium: boolean
+  userLoading: boolean
 }
 
-export default function EarningsTab({ ticker, earnings }: EarningsTabProps) {
+export default function EarningsTab({ ticker, earnings, isPremium, userLoading }: EarningsTabProps) {
   if (earnings.length === 0) {
     return (
       <div className="text-center py-28">
@@ -20,6 +23,12 @@ export default function EarningsTab({ ticker, earnings }: EarningsTabProps) {
   }
 
   return (
+    <FeyPremiumGate
+      isPremium={isPremium}
+      loading={userLoading}
+      feature="Earnings & Beat/Miss-Analyse"
+      description={`Quartalszahlen, Umsatz/EPS-Vergleich gegen eigene Prognose und KI-Zusammenfassungen für ${ticker}.`}
+    >
     <div className="w-full max-w-4xl space-y-4">
       {earnings.map(e => {
         const h = e.highlights
@@ -260,5 +269,6 @@ export default function EarningsTab({ ticker, earnings }: EarningsTabProps) {
         )
       })}
     </div>
+    </FeyPremiumGate>
   )
 }

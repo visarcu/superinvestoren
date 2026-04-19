@@ -2,14 +2,17 @@
 
 import React from 'react'
 import { ResponsiveContainer, AreaChart, Area } from 'recharts'
+import FeyPremiumGate from '../FeyPremiumGate'
 import type { KPIMetric } from '../../_lib/types'
 
 interface KpisTabProps {
   ticker: string
   kpis: Record<string, KPIMetric>
+  isPremium: boolean
+  userLoading: boolean
 }
 
-export default function KpisTab({ ticker, kpis }: KpisTabProps) {
+export default function KpisTab({ ticker, kpis, isPremium, userLoading }: KpisTabProps) {
   if (Object.keys(kpis).length === 0) {
     return (
       <div className="text-center py-28">
@@ -22,6 +25,12 @@ export default function KpisTab({ ticker, kpis }: KpisTabProps) {
   }
 
   return (
+    <FeyPremiumGate
+      isPremium={isPremium}
+      loading={userLoading}
+      feature="Operating KPIs"
+      description={`Unternehmensspezifische Kennzahlen aus SEC-Filings (z.B. Subscriber, ARR, MAU) für ${ticker}.`}
+    >
     <div className="w-full max-w-6xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
       {Object.entries(kpis).map(([key, m]) => {
         const latest = m.data[m.data.length - 1]
@@ -87,5 +96,6 @@ export default function KpisTab({ ticker, kpis }: KpisTabProps) {
         )
       })}
     </div>
+    </FeyPremiumGate>
   )
 }

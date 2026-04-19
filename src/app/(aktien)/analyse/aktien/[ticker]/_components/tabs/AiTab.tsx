@@ -1,16 +1,32 @@
 'use client'
 
 import React from 'react'
+import FeyPremiumGate from '../FeyPremiumGate'
 
 interface AiTabProps {
   ticker: string
   aiAnalysis: string | null
   aiLoading: boolean
   startAnalysis: () => void
+  isPremium: boolean
+  userLoading: boolean
 }
 
-export default function AiTab({ ticker, aiAnalysis, aiLoading, startAnalysis }: AiTabProps) {
+export default function AiTab({
+  ticker,
+  aiAnalysis,
+  aiLoading,
+  startAnalysis,
+  isPremium,
+  userLoading,
+}: AiTabProps) {
   return (
+    <FeyPremiumGate
+      isPremium={isPremium}
+      loading={userLoading}
+      feature="AI Aktienanalyse"
+      description={`Vollständige KI-Analyse für ${ticker} basierend auf SEC-Filings, Earnings, Insider-Trades und Superinvestoren.`}
+    >
     <div className="w-full max-w-4xl">
       {aiAnalysis ? (
         <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6">
@@ -99,5 +115,6 @@ export default function AiTab({ ticker, aiAnalysis, aiLoading, startAnalysis }: 
         </div>
       )}
     </div>
+    </FeyPremiumGate>
   )
 }

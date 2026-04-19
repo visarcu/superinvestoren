@@ -14,6 +14,7 @@ import EarningsTab from './tabs/EarningsTab'
 import KpisTab from './tabs/KpisTab'
 import AiTab from './tabs/AiTab'
 import { fmt, fmtPct } from '../_lib/format'
+import { useStockUser } from '@/lib/hooks/useStockUser'
 import type {
   UnternehmenProfile,
   Period,
@@ -34,6 +35,7 @@ interface StockPageClientProps {
 }
 
 export default function StockPageClient({ ticker }: StockPageClientProps) {
+  const { isPremium, loading: userLoading } = useStockUser()
   const [tab, setTab] = useState<Tab>('overview')
   const [profile, setProfile] = useState<UnternehmenProfile | null>(null)
   const [income, setIncome] = useState<Period[]>([])
@@ -241,13 +243,22 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
             financialPeriod={financialPeriod}
             setFinancialPeriod={setFinancialPeriod}
             setExpandedChart={setExpandedChart}
+            isPremium={isPremium}
+            userLoading={userLoading}
           />
         ) : tab === 'earnings' ? (
-          <EarningsTab ticker={ticker} earnings={earnings} />
+          <EarningsTab ticker={ticker} earnings={earnings} isPremium={isPremium} userLoading={userLoading} />
         ) : tab === 'kpis' ? (
-          <KpisTab ticker={ticker} kpis={kpis} />
+          <KpisTab ticker={ticker} kpis={kpis} isPremium={isPremium} userLoading={userLoading} />
         ) : tab === 'ai' ? (
-          <AiTab ticker={ticker} aiAnalysis={aiAnalysis} aiLoading={aiLoading} startAnalysis={startAiAnalysis} />
+          <AiTab
+            ticker={ticker}
+            aiAnalysis={aiAnalysis}
+            aiLoading={aiLoading}
+            startAnalysis={startAiAnalysis}
+            isPremium={isPremium}
+            userLoading={userLoading}
+          />
         ) : null}
       </main>
 
