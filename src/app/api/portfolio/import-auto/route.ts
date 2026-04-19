@@ -122,6 +122,21 @@ export async function POST(request: Request) {
         })
       }
 
+      // Flatex Order-CSV erkennen (Semikolon-CSV mit "Kategorie;Bezeichnung;ISIN / WKN;Art;Handelsplatz")
+      // Diese CSV enthält keinen Kaufkurs pro Stück — nur Ordervolumen. Nicht importierbar.
+      const firstLine = text.split('\n')[0] || ''
+      if (firstLine.includes('Kategorie') && firstLine.includes('ISIN') && firstLine.includes('Handelsplatz')) {
+        return NextResponse.json({
+          format: 'flatex_csv',
+          formatLabel: 'Flatex Order-CSV',
+          transactions: [],
+          errors: [
+            'Flatex Order-CSV erkannt — diese Datei enthält leider keinen Kaufkurs pro Stück und kann nicht importiert werden.',
+            'Bitte exportiere stattdessen die Depotumsätze als XLSX: Konto/Depot → Depotumsätze → XLSX-Export.',
+          ],
+        })
+      }
+
       // Fallback: Scalable (hat semikolon-CSV mit englischen Spalten)
       const result = parseScalableCSV(text)
       return NextResponse.json({
