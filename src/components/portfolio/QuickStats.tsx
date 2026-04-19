@@ -17,6 +17,7 @@ interface QuickStatsProps {
   totalReturnPercent: number
   xirrPercent: number | null
   activeInvestments: number
+  totalFees?: number
   formatCurrency: (amount: number) => string
   formatPercentage: (value: number) => string
   onCashClick?: () => void
@@ -76,12 +77,13 @@ export default function QuickStats({
   totalReturnPercent,
   xirrPercent,
   activeInvestments,
+  totalFees = 0,
   formatCurrency,
   formatPercentage,
   onCashClick,
   onCreditClick,
 }: QuickStatsProps) {
-  const hasBreakdown = totalRealizedGain !== 0 || totalDividends > 0
+  const hasBreakdown = totalRealizedGain !== 0 || totalDividends > 0 || totalFees > 0
   const hasCredit = brokerCredit < 0
   // Eigenkapital = Gesamtwert + Kredit (Kredit ist negativ)
   const equity = totalValue + brokerCredit
@@ -185,6 +187,14 @@ export default function QuickStats({
                 +{formatCurrency(totalDividends)}
               </span>
             </div>
+            {totalFees > 0 && (
+              <div className="flex justify-between text-[10px]">
+                <span className="text-neutral-500">Ordergebühren</span>
+                <span className="text-amber-600/70 dark:text-amber-400/70">
+                  -{formatCurrency(totalFees)}
+                </span>
+              </div>
+            )}
           </div>
         )}
       </div>

@@ -638,6 +638,7 @@ export default function CSVImportModal({
           quantity: parseFloat(tx.quantity.toFixed(8)),
           price: parseFloat(tx.price.toFixed(4)),
           total_value: parseFloat(tx.totalValue.toFixed(2)),
+          fee: parseFloat((tx.fee || 0).toFixed(4)),
           date: tx.date,
           notes: tx.notes,
         }))

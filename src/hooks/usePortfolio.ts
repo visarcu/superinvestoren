@@ -54,6 +54,7 @@ export interface Transaction {
   quantity: number
   price: number
   total_value: number
+  fee?: number
   date: string
   created_at: string
   notes?: string
@@ -315,6 +316,12 @@ export function usePortfolio() {
   const historicalPerfByDepot = useMemo(
     () => isAllDepotsView ? calculateHistoricalPerfByDepot(transactions) : new Map(),
     [transactions, isAllDepotsView]
+  )
+
+  // Gesamt-Ordergebühren
+  const totalFees = useMemo(
+    () => transactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0),
+    [transactions]
   )
 
   // Gesamtrendite = Unrealisiert + Realisiert + Dividenden
@@ -1092,6 +1099,7 @@ export function usePortfolio() {
     totalGainLossPercent,
     totalRealizedGain,
     totalDividends,
+    totalFees,
     totalReturn,
     totalReturnPercent,
     realizedGainByTxId,
