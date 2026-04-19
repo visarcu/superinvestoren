@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 import { usePortfolio, type Holding } from '@/hooks/usePortfolio'
 import QuickStats from '@/components/portfolio/QuickStats'
 import PositionsTable from '@/components/portfolio/PositionsTable'
@@ -95,6 +96,7 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean; on
 }
 
 export default function PortfolioDashboard() {
+  const router = useRouter()
   const p = usePortfolio()
 
   // Superinvestor Overlap
@@ -641,7 +643,7 @@ export default function PortfolioDashboard() {
                           const base = p.portfolio?.id
                             ? `/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${p.portfolio.id}&totalValue=${p.totalValue}`
                             : `/analyse/stocks/${pos.symbol.toLowerCase()}`
-                          window.location.href = base
+                          router.push(base)
                         }}
                       >
                         <div className="flex items-center gap-3">
