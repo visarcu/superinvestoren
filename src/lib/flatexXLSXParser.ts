@@ -167,6 +167,18 @@ export function parseFlatexDepotXLSX(
       eurTotal = absBetrag / devisenkurs
     }
 
+    // Gebühren: Flatex Depotumsätze hat KEINE separate Spalte, aber der Betrag
+    // enthält bei normalen Trades die Gebühren (Betrag = Q×K + Fee bei Kauf,
+    // Betrag = Q×K - Fee bei Verkauf). Bei Bruchstücke/KVG (Sparpläne) sind
+    // die Trades gratis → Betrag = Q×K exakt.
+    const kursWert = qty * eurPrice
+    const diff = isKauf ? eurTotal - kursWert : kursWert - eurTotal
+    // Rundungsrauschen ignorieren (< 1 Cent)
+    const fees = Math.abs(diff) >= 0.01 ? Math.max(0, diff) : 0
+    // totalValue ohne Gebühren (= Kurswert), endAmount inkl. Gebühren
+    const totalValueClean = kursWert
+    const endAmount = isKauf ? totalValueClean + fees : totalValueClean - fees
+
     transactions.push({
       type: isKauf ? 'buy' : 'sell',
       name: bezeichnung,
@@ -174,9 +186,9 @@ export function parseFlatexDepotXLSX(
       wkn: '',
       quantity: qty,
       price: eurPrice,
-      totalValue: eurTotal,
-      fees: 0,   // Flatex Depotumsätze zeigen keine separaten Gebühren
-      endAmount: eurTotal,
+      totalValue: totalValueClean,
+      fees,
+      endAmount,
       date,
       currency: 'EUR',
       exchange: 'Flatex',
