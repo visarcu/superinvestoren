@@ -529,6 +529,7 @@ export default function PortfolioDashboard() {
               totalReturnPercent={p.totalReturnPercent}
               xirrPercent={p.xirrPercent}
               activeInvestments={p.activeInvestments}
+              totalFees={p.totalFees}
               formatCurrency={p.formatCurrency}
               formatPercentage={p.formatPercentage}
               onCashClick={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}

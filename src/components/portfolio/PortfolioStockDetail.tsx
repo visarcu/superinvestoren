@@ -25,6 +25,7 @@ interface FullTransaction {
   quantity: number
   price: number
   total_value: number
+  fee?: number
   date: string
   portfolio_id: string
 }
@@ -492,6 +493,20 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           </div>
         </div>
       )}
+
+      {/* Gebühren / Orderkosten */}
+      {(() => {
+        const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
+        if (totalFees <= 0) return null
+        return (
+          <div className="mt-2 px-4 py-2.5 bg-neutral-950 border border-neutral-800/80 rounded-xl flex items-center justify-between">
+            <p className="text-[11px] text-neutral-500 uppercase tracking-wider">Ordergebühren gesamt</p>
+            <p className="text-[13px] font-semibold text-amber-400/90 tabular-nums">
+              {formatCurrency(totalFees)}
+            </p>
+          </div>
+        )
+      })()}
 
       {/* ETF TER-Kosten */}
       {etfInfo?.ter !== undefined && performance && performance.currentValue > 0 && (
