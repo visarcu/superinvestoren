@@ -324,15 +324,16 @@ export function usePortfolio() {
     [transactions]
   )
 
-  // Gesamtrendite = Unrealisiert + Realisiert + Dividenden
+  // Gesamtrendite = Unrealisiert + Realisiert + Dividenden - Gebühren
   const totalReturn = useMemo(
-    () => totalGainLoss + totalRealizedGain + totalDividends,
-    [totalGainLoss, totalRealizedGain, totalDividends]
+    () => totalGainLoss + totalRealizedGain + totalDividends - totalFees,
+    [totalGainLoss, totalRealizedGain, totalDividends, totalFees]
   )
 
   const totalReturnPercent = useMemo(() => {
-    return totalInvested > 0 ? (totalReturn / totalInvested) * 100 : 0
-  }, [totalReturn, totalInvested])
+    const invested = totalInvested + totalFees // Gebühren erhöhen die Investitionskosten
+    return invested > 0 ? (totalReturn / invested) * 100 : 0
+  }, [totalReturn, totalInvested, totalFees])
 
   // XIRR Berechnung — korrekt mit allen Transaktionen
   const xirrPercent = useMemo(() => {
