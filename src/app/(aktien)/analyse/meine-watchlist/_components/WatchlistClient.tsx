@@ -109,22 +109,26 @@ export default function WatchlistClient() {
         if (!q || q.error) continue
         const screener = screenerMap[q.symbol] || {}
 
+        // 52W kommt aus dem Profile (EODHD); Volume aus dem Live-Quote (EODHD).
+        // Wenn der aktive Provider nichts liefert (z.B. Finnhub Free), bleiben Felder null.
+        const week52High = screener.week52High ?? 0
+        const week52Low = screener.week52Low ?? 0
+        const dipPercent =
+          week52High > 0 && q.price ? ((q.price - week52High) / week52High) * 100 : 0
+
         map[q.symbol] = {
           ticker: q.symbol,
           companyName: screener.companyName ?? undefined,
           price: q.price,
           change: q.change,
-          changePercent: q.changePercent, // v1-Schema (statt FMP changesPercentage)
-          // 52W high/low + Volume + P/E sind aktuell nicht in unseren eigenen
-          // Endpoints – kommen sp\u00e4ter mit EOD-Migration. UI hide diese Felder
-          // automatisch wenn 0/undefined.
-          week52High: 0,
-          week52Low: 0,
-          dipPercent: 0,
-          isDip: false,
+          changePercent: q.changePercent,
+          week52High,
+          week52Low,
+          dipPercent,
+          isDip: dipPercent <= -10,
           marketCap: screener.marketCap ?? undefined,
-          volume: undefined,
-          peRatio: undefined,
+          volume: q.volume ?? undefined,
+          peRatio: screener.peRatio ?? undefined,
           exchange: screener.exchange ?? undefined,
           currency: screener.currency ?? 'USD',
           revenueGrowthYOY: screener.revenueGrowthYoY ?? null,

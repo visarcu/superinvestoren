@@ -1,14 +1,15 @@
 // Finclue Data API v1 – Batch Screener
 // GET /api/v1/screener/batch?symbols=AAPL,MSFT,GOOGL
 //
-// Liefert pro Symbol "stabile" Stamm-/Fundamentaldaten, die in der Watchlist und
-// im Screener gebraucht werden – kombiniert eigene SEC-Income-Statements
-// (für Revenue Growth) mit dem Finnhub-Profile-Wrapper (Company-Name, Sitz, Market Cap).
+// Liefert pro Symbol Stamm-/Fundamentaldaten für Watchlist, Screener etc.
+// Kombiniert eigene SEC-Income-Statements (Revenue Growth) mit dem aktiven
+// Quote-Provider (EODHD oder Finnhub – siehe src/lib/quoteProvider.ts).
+// EODHD liefert zusätzlich 52W-High/Low + P/E direkt im Profile-Call.
 //
 // Live-Kurs- und Tagesdaten kommen aus /api/v1/quotes/batch.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getFinnhubProfile } from '@/lib/finnhubService'
+import { getProfile, getActiveProvider } from '@/lib/quoteProvider'
 import { getFinancialData } from '@/lib/sec/secDataStore'
 
 interface ScreenerEntry {
@@ -16,14 +17,18 @@ interface ScreenerEntry {
   companyName: string | null
   exchange: string | null
   industry: string | null
+  sector: string | null
   marketCap: number | null
   currency: string | null
+  week52High: number | null
+  week52Low: number | null
+  peRatio: number | null
   // Aus eigenen SEC-Daten berechnet
   revenueGrowthYoY: number | null
   revenueLatest: number | null
   revenueLatestYear: number | null
   source: {
-    profile: 'finnhub' | null
+    profile: 'finnhub' | 'eodhd' | null
     fundamentals: 'sec' | null
   }
   error?: string
@@ -33,7 +38,7 @@ async function loadEntry(symbol: string): Promise<ScreenerEntry> {
   const sym = symbol.toUpperCase()
 
   const [profile, financials] = await Promise.all([
-    getFinnhubProfile(sym).catch(() => null),
+    getProfile(sym).catch(() => null),
     // years: 10, weil getFinancialData ggf. die ältesten N zurückgibt –
     // wir nehmen unten selbst die letzten beiden Jahre.
     getFinancialData(sym, { years: 10, period: 'annual' }).catch(() => null),
@@ -63,13 +68,17 @@ async function loadEntry(symbol: string): Promise<ScreenerEntry> {
     companyName: profile?.name ?? null,
     exchange: profile?.exchange ?? null,
     industry: profile?.industry ?? null,
+    sector: profile?.sector ?? null,
     marketCap: profile?.marketCap ?? null,
     currency: profile?.currency ?? null,
+    week52High: profile?.week52High ?? null,
+    week52Low: profile?.week52Low ?? null,
+    peRatio: profile?.peRatio ?? null,
     revenueGrowthYoY,
     revenueLatest,
     revenueLatestYear,
     source: {
-      profile: profile ? 'finnhub' : null,
+      profile: profile?.source ?? null,
       fundamentals: revenueLatest !== null ? 'sec' : null,
     },
   }
@@ -99,8 +108,12 @@ export async function GET(request: NextRequest) {
       companyName: null,
       exchange: null,
       industry: null,
+      sector: null,
       marketCap: null,
       currency: null,
+      week52High: null,
+      week52Low: null,
+      peRatio: null,
       revenueGrowthYoY: null,
       revenueLatest: null,
       revenueLatestYear: null,
@@ -113,6 +126,7 @@ export async function GET(request: NextRequest) {
         data: entries,
         count: entries.length,
         requested: symbols.length,
+        provider: getActiveProvider(),
         fetchedAt: new Date().toISOString(),
       },
       {
