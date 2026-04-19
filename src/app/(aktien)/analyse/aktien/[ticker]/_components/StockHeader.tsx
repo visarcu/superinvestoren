@@ -3,6 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import FeyWatchlistButton from './FeyWatchlistButton'
 import type { UnternehmenProfile, Quote } from '../_lib/types'
 
 interface StockHeaderProps {
@@ -81,6 +82,7 @@ export default function StockHeader({ ticker, profile, quote }: StockHeaderProps
             </div>
           </div>
         )}
+        <FeyWatchlistButton ticker={ticker} />
         <Link
           href={`/analyse/aktien/${ticker}/investoren`}
           className="px-3 py-1.5 text-[11px] text-white/25 bg-white/[0.03] border border-white/[0.05] rounded-lg hover:bg-white/[0.06] hover:text-white/50 transition-all"
