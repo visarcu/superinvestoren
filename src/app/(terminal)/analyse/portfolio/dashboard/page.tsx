@@ -127,11 +127,60 @@ export default function PortfolioDashboard() {
   }, [p.holdings, fetchSuperInvestorOverlap])
 
   // Wert pro Depot berechnen (für den Switcher-Überblick)
+  // Im "Alle Depots"-Modus reichen p.holdings (haben portfolio_id).
+  // Im Single-Depot-Modus müssen wir Holdings der ANDEREN Depots separat laden.
+  const [allDepotHoldings, setAllDepotHoldings] = useState<Map<string, number>>(new Map())
+
+  useEffect(() => {
+    let cancelled = false
+    async function loadAllDepotValues() {
+      // Wenn nur ein Depot existiert, oder bereits "Alle Depots" → nichts zu tun
+      if (p.allPortfolios.length <= 1 || p.isAllDepotsView) {
+        setAllDepotHoldings(new Map())
+        return
+      }
+      try {
+        const { supabase } = await import('@/lib/supabaseClient')
+        const otherIds = p.allPortfolios
+          .filter(dp => dp.id !== p.portfolio?.id)
+          .map(dp => dp.id)
+        if (otherIds.length === 0) return
+
+        const { data } = await supabase
+          .from('portfolio_holdings')
+          .select('portfolio_id, current_price, quantity')
+          .in('portfolio_id', otherIds)
+
+        if (cancelled || !data) return
+        const map = new Map<string, number>()
+        for (const h of data) {
+          const value = (Number(h.current_price) || 0) * (Number(h.quantity) || 0)
+          map.set(h.portfolio_id, (map.get(h.portfolio_id) || 0) + value)
+        }
+        setAllDepotHoldings(map)
+      } catch (err) {
+        console.error('Error loading depot values:', err)
+      }
+    }
+    loadAllDepotValues()
+    return () => { cancelled = true }
+  }, [p.allPortfolios, p.portfolio?.id, p.isAllDepotsView])
+
   const depotValues = useMemo(() => {
     const values = new Map<string, number>()
+    // Aktuell geladenes Portfolio
     p.holdings.forEach(h => {
       if (h.portfolio_id) {
         values.set(h.portfolio_id, (values.get(h.portfolio_id) || 0) + h.value)
+      } else if (p.portfolio?.id) {
+        // Single-Depot-Modus: holdings haben kein portfolio_id Feld → dem aktuellen Depot zuordnen
+        values.set(p.portfolio.id, (values.get(p.portfolio.id) || 0) + h.value)
+      }
+    })
+    // Andere Depots (separat geladen)
+    allDepotHoldings.forEach((value, portfolioId) => {
+      if (!values.has(portfolioId)) {
+        values.set(portfolioId, value)
       }
     })
     // Cash dazu
@@ -140,7 +189,7 @@ export default function PortfolioDashboard() {
       values.set(dp.id, stockValue + (dp.cash_position || 0))
     })
     return values
-  }, [p.holdings, p.allPortfolios])
+  }, [p.holdings, p.allPortfolios, p.portfolio?.id, allDepotHoldings])
 
   // UI State
   const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'analysis' | 'transactions' | 'ai-analyse' | 'dividends'>('overview')
