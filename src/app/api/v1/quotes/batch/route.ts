@@ -1,14 +1,16 @@
 // Finclue Data API v1 – Batch Stock Quotes
 // GET /api/v1/quotes/batch?symbols=AAPL,MSFT,GOOGL
-// Source: Finnhub (kostenlos, Echtzeit) + FMP Fallback
+//
+// Provider-agnostisch: Quote-Quelle wird über QUOTE_PROVIDER (env) gewählt
+// (siehe src/lib/quoteProvider.ts). Aktuell: EODHD (default wenn Key da) oder Finnhub.
+// FMP bleibt als Notfall-Fallback für fehlende Symbole.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { getFinnhubBatchQuotes, getQuoteCacheStats } from '@/lib/finnhubService'
+import { getBatchQuotes, getActiveProvider } from '@/lib/quoteProvider'
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
   const symbolsParam = searchParams.get('symbols') || ''
-  const showStats = searchParams.get('stats') === 'true'
 
   if (!symbolsParam) {
     return NextResponse.json({ error: 'Missing symbols parameter' }, { status: 400 })
@@ -25,13 +27,11 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    // Finnhub batch (sequential mit Cache-Optimierung)
-    const finnhubQuotes = await getFinnhubBatchQuotes(symbols)
+    const provider = getActiveProvider()
+    const primaryQuotes = await getBatchQuotes(symbols)
 
-    // Finde fehlende Symbole
-    const missing = symbols.filter(s => !finnhubQuotes[s])
-
-    // FMP Fallback für fehlende
+    // FMP-Fallback für fehlende Symbole (Provider-unabhängig).
+    const missing = symbols.filter(s => !primaryQuotes[s])
     let fmpQuotes: Record<string, any> = {}
     if (missing.length > 0 && process.env.FMP_API_KEY) {
       try {
@@ -52,21 +52,21 @@ export async function GET(request: NextRequest) {
       } catch { /* FMP Fallback Fehler ignorieren */ }
     }
 
-    // Combine results
     const quotes = symbols.map(sym => {
-      const fh = finnhubQuotes[sym]
-      if (fh) {
+      const p = primaryQuotes[sym]
+      if (p) {
         return {
           symbol: sym,
-          price: fh.price,
-          change: fh.change,
-          changePercent: fh.changePercent,
-          dayHigh: fh.high,
-          dayLow: fh.low,
-          open: fh.open,
-          previousClose: fh.previousClose,
-          timestamp: fh.timestamp,
-          source: 'finnhub' as const,
+          price: p.price,
+          change: p.change,
+          changePercent: p.changePercent,
+          dayHigh: p.high,
+          dayLow: p.low,
+          open: p.open,
+          previousClose: p.previousClose,
+          volume: p.volume,
+          timestamp: p.timestamp,
+          source: p.source,
         }
       }
 
@@ -77,10 +77,11 @@ export async function GET(request: NextRequest) {
           price: fmp.price,
           change: fmp.change || 0,
           changePercent: fmp.changesPercentage || 0,
-          dayHigh: fmp.dayHigh || null,
-          dayLow: fmp.dayLow || null,
-          open: fmp.open || null,
-          previousClose: fmp.previousClose || null,
+          dayHigh: fmp.dayHigh ?? null,
+          dayLow: fmp.dayLow ?? null,
+          open: fmp.open ?? null,
+          previousClose: fmp.previousClose ?? null,
+          volume: fmp.volume ?? null,
           timestamp: fmp.timestamp || Math.floor(Date.now() / 1000),
           source: 'fmp-fallback' as const,
         }
@@ -89,16 +90,18 @@ export async function GET(request: NextRequest) {
       return { symbol: sym, error: 'not found' }
     })
 
-    return NextResponse.json({
-      quotes,
-      count: quotes.filter((q: any) => !q.error).length,
-      requested: symbols.length,
-      ...(showStats ? { cacheStats: getQuoteCacheStats() } : {}),
-      fetchedAt: new Date().toISOString(),
-    }, {
-      headers: { 'Cache-Control': 's-maxage=15, stale-while-revalidate=60' },
-    })
-
+    return NextResponse.json(
+      {
+        quotes,
+        count: quotes.filter((q: any) => !q.error).length,
+        requested: symbols.length,
+        provider,
+        fetchedAt: new Date().toISOString(),
+      },
+      {
+        headers: { 'Cache-Control': 's-maxage=15, stale-while-revalidate=60' },
+      }
+    )
   } catch (error) {
     const msg = error instanceof Error ? error.message : 'Unknown error'
     return NextResponse.json({ error: msg }, { status: 500 })
