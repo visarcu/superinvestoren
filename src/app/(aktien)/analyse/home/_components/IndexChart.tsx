@@ -90,15 +90,37 @@ export default function IndexChart({ indexSymbol, label, flag, quote }: IndexCha
     setLoading(true)
     setError(null)
 
-    fetch(`/api/v1/historical/${encodeURIComponent(historicalSymbol)}?days=${DAYS_PER_RANGE[range]}`)
+    // 1D / 1W nutzen Intraday-Bars (schöner, wie Broker-Charts)
+    // 1M+ nutzen EOD-Bars (Tagesauflösung reicht)
+    const useIntraday = range === '1W'
+    // 1D hätten wir ja auch gehabt in IndexChart, aber hier haben wir kein 1D-Range
+    // → für diese Home-Variante starten wir bei 1W.
+
+    const fetchUrl = useIntraday
+      ? `/api/v1/intraday/${encodeURIComponent(historicalSymbol)}?interval=15m&range=5d`
+      : `/api/v1/historical/${encodeURIComponent(historicalSymbol)}?days=${DAYS_PER_RANGE[range]}`
+
+    fetch(fetchUrl)
       .then(r => (r.ok ? r.json() : null))
       .then(data => {
         if (cancelled) return
-        const hist = (data?.historical || []) as { date: string; close: number }[]
-        const sorted = [...hist]
-          .filter(p => p.close > 0)
-          .sort((a, b) => a.date.localeCompare(b.date))
-        setPoints(sorted)
+        let pts: { date: string; close: number }[] = []
+        if (useIntraday) {
+          // Intraday-Response: [{timestamp, date, time, close}]
+          pts = (data?.points || [])
+            .filter((p: any) => p.close > 0)
+            .map((p: any) => ({
+              // Für 1W eindeutigen Key nutzen (Datum + Uhrzeit) damit Recharts
+              // jeden Intraday-Punkt einzeln rendert und nicht mergt
+              date: `${p.date}T${p.time}`,
+              close: p.close,
+            }))
+        } else {
+          pts = [...((data?.historical || []) as { date: string; close: number }[])]
+            .filter(p => p.close > 0)
+            .sort((a, b) => a.date.localeCompare(b.date))
+        }
+        setPoints(pts)
       })
       .catch(err => {
         if (!cancelled) setError(err instanceof Error ? err.message : 'Laden fehlgeschlagen')
