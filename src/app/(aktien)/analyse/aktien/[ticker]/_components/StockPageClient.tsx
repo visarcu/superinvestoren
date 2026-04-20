@@ -110,7 +110,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     return () => clearInterval(interval)
   }, [ticker])
 
-  // Fetch full historical price data — nutzt jetzt v1-Endpoint mit EODHD-primär + Yahoo-Fallback
+  // EOD-History für 1M+ (einmal laden, dann clientseitig filtern)
   useEffect(() => {
     setChartLoading(true)
     fetch(`/api/v1/historical/${ticker}?days=1900`)
@@ -127,18 +127,46 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
       .finally(() => setChartLoading(false))
   }, [ticker])
 
-  // Filter price chart by timeframe
+  // Timeframe-Logik:
+  //   1D  → Intraday 5min, range=1d   (schöne Live-Kurve wie Broker)
+  //   1W  → Intraday 15min, range=5d  (Stundenauflösung, mehrere Tage)
+  //   1M+ → EOD aus fullPriceHistory, clientseitig gefiltert
   useEffect(() => {
+    const useIntraday = chartTimeframe === '1D' || chartTimeframe === '1W'
+
+    if (useIntraday) {
+      setChartLoading(true)
+      const interval = chartTimeframe === '1D' ? '5m' : '15m'
+      const range = chartTimeframe === '1D' ? '1d' : '5d'
+      let cancelled = false
+
+      fetch(`/api/v1/intraday/${ticker}?interval=${interval}&range=${range}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(d => {
+          if (cancelled) return
+          const pts = (d?.points || [])
+            .filter((p: any) => p.close > 0)
+            .map((p: any) => ({
+              // Eindeutiger Key pro Intraday-Punkt: ISO-Timestamp
+              date: `${p.date}T${p.time}`,
+              price: p.close,
+            }))
+          setPriceChart(pts)
+        })
+        .catch(() => {})
+        .finally(() => {
+          if (!cancelled) setChartLoading(false)
+        })
+      return () => {
+        cancelled = true
+      }
+    }
+
+    // EOD-Pfad für 1M+
     if (fullPriceHistory.length === 0) return
     const now = new Date()
     const cutoff = new Date()
     switch (chartTimeframe) {
-      case '1D':
-        cutoff.setDate(now.getDate() - 1)
-        break
-      case '1W':
-        cutoff.setDate(now.getDate() - 7)
-        break
       case '1M':
         cutoff.setMonth(now.getMonth() - 1)
         break
@@ -156,9 +184,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     const filtered = fullPriceHistory.filter(p => p.date >= cutoffStr)
     const base = filtered.length > 0 ? filtered : fullPriceHistory.slice(-30)
 
-    // Letzten Punkt auf Live-Quote aktualisieren (EOD-Quelle ist tagaktuell nur
-    // nach Börsenschluss — tagsüber / an Börsentagen hängt sie hinterher).
-    // Wir hängen den Live-Preis als heutigen Punkt an bzw. ersetzen ihn.
+    // Letzten Punkt auf Live-Quote aktualisieren (EOD hängt tagsüber hinterher)
     if (quote?.price && base.length > 0) {
       const todayISO = new Date().toISOString().slice(0, 10)
       const last = base[base.length - 1]
@@ -172,7 +198,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     } else {
       setPriceChart(base)
     }
-  }, [fullPriceHistory, chartTimeframe, quote?.price])
+  }, [ticker, fullPriceHistory, chartTimeframe, quote?.price])
 
   // Derived metrics for KeyMetricsCard
   const { metrics, fyLabel } = useMemo(() => {
