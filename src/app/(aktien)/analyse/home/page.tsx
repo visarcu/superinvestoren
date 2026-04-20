@@ -4,6 +4,7 @@
 import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
+import IndexChart from './_components/IndexChart'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -78,13 +79,15 @@ export default function AnalyseDashboard() {
   const [aiSources, setAiSources] = useState<string[]>([])
   const [aiSourceLink, setAiSourceLink] = useState<string>('')
 
-  useEffect(() => {
-    Promise.all([
-      fetch('/api/v1/markets').then(r => r.ok ? r.json() : null).catch(() => null),
-      fetch('/api/dashboard-cached').then(r => r.ok ? r.json() : null).catch(() => null),
-    ]).then(([marketData, dashData]) => {
+  // Markets-Fetch als separate Funktion für initial + periodisches Refresh
+  const fetchMarkets = async (isInitial = false) => {
+    try {
+      const [marketData, dashData] = await Promise.all([
+        fetch('/api/v1/markets').then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch('/api/dashboard-cached').then(r => r.ok ? r.json() : null).catch(() => null),
+      ])
+
       if (marketData && !marketData.error) {
-        // Echte Index-Kurse aus dashboard-cached übernehmen (statt ETF-Proxies)
         if (dashData?.markets) {
           const m = dashData.markets as Record<string, DashboardMarket>
           const realIndices: MarketIndex[] = [
@@ -103,7 +106,6 @@ export default function AnalyseDashboard() {
           }))
           if (realIndices.length > 0) marketData.indices = realIndices
 
-          // Commodities aus dashboard-cached
           const realCommodities = [
             { symbol: 'btc',    name: 'Bitcoin',  nameDE: 'Bitcoin', ...(m.btc || {}) as any },
             { symbol: 'gold',   name: 'Gold',     nameDE: 'Gold', ...(m.gold || {}) as any },
@@ -118,10 +120,9 @@ export default function AnalyseDashboard() {
         }
         setMarket(marketData)
       }
-      setLoading(false)
 
-      // AI Markt-Summary laden (wie Prod — live generiert, clean formatiert)
-      if (dashData?.markets) {
+      // AI-Summary NUR beim initialen Load — der Call ist teuer (GPT)
+      if (isInitial && dashData?.markets) {
         fetch('/api/sector-performance').then(r => r.ok ? r.json() : { sectors: [] }).then(sectorData => {
           fetch('/api/market-summary', {
             method: 'POST',
@@ -136,44 +137,95 @@ export default function AnalyseDashboard() {
           }).catch(() => {})
         }).catch(() => {})
       }
-    })
+    } finally {
+      if (isInitial) setLoading(false)
+    }
+  }
 
-    // Portfolio laden
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) return
-      setIsLoggedIn(true)
-      supabase.from('portfolios').select('id').eq('user_id', session.user.id).eq('is_default', true).single()
-        .then(({ data: pf }) => {
-          if (!pf) return
-          supabase.from('portfolio_holdings').select('symbol, name, quantity, purchase_price').eq('portfolio_id', pf.id)
-            .then(({ data: h }) => {
-              if (!h || h.length === 0) return
-              setPortfolio(h)
-              const symbols = h.map(x => x.symbol).join(',')
-              fetch(`/api/v1/quotes/batch?symbols=${symbols}`)
-                .then(r => r.ok ? r.json() : null)
-                .then(qd => {
-                  if (!qd?.quotes) return
-                  const qm = new Map<string, any>(qd.quotes.filter((q: any) => !q.error).map((q: any) => [q.symbol, q]))
-                  let tv = 0, tc = 0
-                  const enriched = h.map(hd => {
-                    const q: any = qm.get(hd.symbol)
-                    const cp = q?.price || hd.purchase_price
-                    const v = cp * hd.quantity
-                    tv += v; tc += (q?.change || 0) * hd.quantity
-                    return { ...hd, currentPrice: cp, change: q?.change || 0, changePercent: q?.changePercent || 0 }
-                  })
-                  setPortfolio(enriched); setPortfolioValue(tv); setPortfolioChange(tc)
-                }).catch(() => {})
-            })
+  useEffect(() => {
+    fetchMarkets(true)
+
+    // Live-Refresh alle 30s: nur Markets, keine AI-Summary
+    const interval = setInterval(() => fetchMarkets(false), 30_000)
+    return () => clearInterval(interval)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  // Portfolio laden + alle 45s Quotes refreshen
+  useEffect(() => {
+    let cancelled = false
+    let portfolioId: string | null = null
+    let holdings: PortfolioHolding[] = []
+
+    const refreshQuotes = async () => {
+      if (!portfolioId || holdings.length === 0 || cancelled) return
+      const symbols = holdings.map(x => x.symbol).join(',')
+      try {
+        const qd = await fetch(`/api/v1/quotes/batch?symbols=${symbols}`).then(r => (r.ok ? r.json() : null))
+        if (!qd?.quotes || cancelled) return
+        const qm = new Map<string, any>(
+          qd.quotes.filter((q: any) => !q.error).map((q: any) => [q.symbol, q])
+        )
+        let tv = 0,
+          tc = 0
+        const enriched = holdings.map(hd => {
+          const q: any = qm.get(hd.symbol)
+          const cp = q?.price || hd.purchase_price
+          const v = cp * hd.quantity
+          tv += v
+          tc += (q?.change || 0) * hd.quantity
+          return { ...hd, currentPrice: cp, change: q?.change || 0, changePercent: q?.changePercent || 0 }
         })
-    })
+        setPortfolio(enriched)
+        setPortfolioValue(tv)
+        setPortfolioChange(tc)
+      } catch {
+        /* transient network error ignorieren */
+      }
+    }
+
+    ;(async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      if (!session || cancelled) return
+      setIsLoggedIn(true)
+
+      const { data: pf } = await supabase
+        .from('portfolios')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .eq('is_default', true)
+        .single()
+      if (!pf || cancelled) return
+      portfolioId = pf.id
+
+      const { data: h } = await supabase
+        .from('portfolio_holdings')
+        .select('symbol, name, quantity, purchase_price')
+        .eq('portfolio_id', pf.id)
+      if (!h || h.length === 0 || cancelled) return
+
+      holdings = h
+      setPortfolio(h)
+      await refreshQuotes()
+    })()
+
+    const interval = setInterval(refreshQuotes, 45_000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
   }, [])
 
   const now = new Date()
   const dateStr = now.toLocaleDateString('de-DE', { weekday: 'long', day: 'numeric', month: 'long' })
   const greeting = (() => { const h = now.getHours(); return h < 12 ? 'Guten Morgen' : h < 18 ? 'Guten Tag' : 'Guten Abend' })()
-  const selectedIdx = market?.indices.find(i => i.symbol === selectedIndex)
+  // selectedIdx sucht zuerst in den Indizes, fallback auf Commodities
+  // (damit der Chart rechts auch für Bitcoin/Gold/Silber/Öl greift)
+  const selectedIdx =
+    market?.indices.find(i => i.symbol === selectedIndex) ??
+    (market?.commodities.find(c => c.symbol === selectedIndex) as MarketIndex | undefined)
 
   if (loading) {
     return (
@@ -186,9 +238,19 @@ export default function AnalyseDashboard() {
   return (
     <div className="min-h-screen pb-24">
       {/* ── Header ──────────────────────────────────────────────── */}
-      <div className="px-5 pt-14 pb-2">
-        <h1 className="text-[24px] font-bold text-white tracking-tight">{greeting}</h1>
-        <p className="text-[13px] text-white/30 mt-0.5 capitalize">{dateStr}</p>
+      <div className="px-5 pt-14 pb-2 flex items-start justify-between">
+        <div>
+          <h1 className="text-[24px] font-bold text-white tracking-tight">{greeting}</h1>
+          <p className="text-[13px] text-white/30 mt-0.5 capitalize">{dateStr}</p>
+        </div>
+        {/* Live-Indikator: Pulsierender Dot, unaufdringlich */}
+        <div className="hidden sm:flex items-center gap-2 mt-2 bg-white/[0.03] border border-white/[0.06] rounded-full px-3 py-1.5">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400/60 animate-ping" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+          </span>
+          <span className="text-[11px] text-white/45 font-medium">Live</span>
+        </div>
       </div>
 
       {/* ── Row 1: News Recap + Sector Performance ─────────────── */}
@@ -300,8 +362,16 @@ export default function AnalyseDashboard() {
                   <span className="text-[10px] text-white/35 uppercase tracking-wider">Rohstoffe</span>
                 </div>
                 {market.commodities.map(c => (
-                  <div key={c.symbol} className="flex items-center justify-between px-5 py-2.5 border-t border-white/[0.03]">
-                    <span className="text-[13px] text-white/50">{c.nameDE}</span>
+                  <button
+                    key={c.symbol}
+                    onClick={() => setSelectedIndex(c.symbol)}
+                    className={`w-full flex items-center justify-between px-5 py-2.5 border-t border-white/[0.03] transition-colors ${
+                      selectedIndex === c.symbol ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'
+                    }`}
+                  >
+                    <span className={`text-[13px] ${selectedIndex === c.symbol ? 'text-white' : 'text-white/60'}`}>
+                      {c.nameDE}
+                    </span>
                     <div className="flex items-center gap-3">
                       <span className="text-[13px] text-white/50 tabular-nums">{fmtPrice(c.price)}</span>
                       <span className={`text-[11px] font-medium tabular-nums ${c.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -309,47 +379,28 @@ export default function AnalyseDashboard() {
                       </span>
                       <PctBadge value={c.changePercent} />
                     </div>
-                  </div>
+                  </button>
                 ))}
               </>
             )}
           </div>
 
-          {/* Ausgewählter Index Detail (rechts) */}
-          <div className="lg:col-span-3 bg-[#111119] border border-white/[0.06] rounded-2xl p-5 flex flex-col justify-between">
+          {/* Ausgewählter Index Detail (rechts) mit echtem Chart */}
+          <div className="lg:col-span-3 bg-[#111119] border border-white/[0.06] rounded-2xl p-5">
             {selectedIdx ? (
-              <>
-                <div>
-                  <p className="text-[13px] text-white/30">{selectedIdx.flag} {selectedIdx.name}</p>
-                  <div className="flex items-baseline gap-3 mt-1">
-                    <p className="text-[28px] font-bold text-white tabular-nums">{fmtPrice(selectedIdx.price)}</p>
-                    <span className={`text-[15px] font-semibold ${selectedIdx.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                      {selectedIdx.changePercent >= 0 ? '+' : ''}{selectedIdx.change.toFixed(2)} ({selectedIdx.changePercent.toFixed(2)}%)
-                    </span>
-                  </div>
-                </div>
-                {/* Placeholder für Chart — TODO: Finnhub Candles */}
-                <div className="mt-6 h-[180px] bg-white/[0.02] rounded-xl flex items-center justify-center border border-white/[0.03]">
-                  <div className="text-center">
-                    <p className="text-[24px] font-bold text-white/25">📈</p>
-                    <p className="text-[11px] text-white/30 mt-1">Chart kommt bald</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 mt-4">
-                  <div className="flex-1">
-                    <p className="text-[10px] text-white/35">Tageshoch</p>
-                    <p className="text-[13px] text-white/50 tabular-nums">{selectedIdx.dayHigh ? fmtPrice(selectedIdx.dayHigh as number) : '—'}</p>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[10px] text-white/35">Tagestief</p>
-                    <p className="text-[13px] text-white/50 tabular-nums">{selectedIdx.dayLow ? fmtPrice(selectedIdx.dayLow as number) : '—'}</p>
-                  </div>
-                  <div className="flex-1">
-                    <p className="text-[10px] text-white/35">Vortag</p>
-                    <p className="text-[13px] text-white/50 tabular-nums">{fmtPrice(selectedIdx.previousClose)}</p>
-                  </div>
-                </div>
-              </>
+              <IndexChart
+                indexSymbol={selectedIdx.symbol}
+                label={selectedIdx.name}
+                flag={selectedIdx.flag ?? ''}
+                quote={{
+                  price: selectedIdx.price,
+                  change: selectedIdx.change,
+                  changePercent: selectedIdx.changePercent,
+                  previousClose: selectedIdx.previousClose,
+                  dayHigh: selectedIdx.dayHigh,
+                  dayLow: selectedIdx.dayLow,
+                }}
+              />
             ) : (
               <p className="text-[13px] text-white/25">Wähle einen Index</p>
             )}
