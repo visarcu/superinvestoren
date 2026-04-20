@@ -9,6 +9,8 @@ import PortfolioTabs from './PortfolioTabs'
 import HoldingsTab from './HoldingsTab'
 import TransactionsTab from './TransactionsTab'
 import DividendsTab from './DividendsTab'
+import PortfolioAllocation from './PortfolioAllocation'
+import SoldPositions from './SoldPositions'
 import type { Tab } from '../_lib/types'
 
 export default function PortfolioClient() {
@@ -35,7 +37,11 @@ export default function PortfolioClient() {
 
   const [tab, setTab] = useState<Tab>('holdings')
 
-  // Tab aus URL synchronisieren (für Deep-Links / Browser-Back)
+  // Tag-Quotes (separater Quote-Stream für die "Heute"-Performance im Hero).
+  // usePortfolio liefert nur den Closing-Wert pro Holding, keine Tagesänderung.
+  // Wir aggregieren change × quantity zur Portfolio-Tagesperformance.
+  const [dayChangeBySymbol, setDayChangeBySymbol] = useState<Record<string, number>>({})
+
   useEffect(() => {
     if (typeof window === 'undefined') return
     const params = new URLSearchParams(window.location.search)
@@ -43,17 +49,43 @@ export default function PortfolioClient() {
     if (t === 'transaktionen' || t === 'dividenden') setTab(t)
   }, [])
 
-  // Tag-Performance aus Holdings (current_price - purchase_price entspricht NICHT Tagesänderung —
-  // wir holen die Tagesänderung später aus dem Quote-Stream. Für Phase A reichen 0/0, weil das
-  // Hero-Komponent gracefully handelt; echte Tagesänderung kommt mit dem Quote-Refresh-Stream
-  // den der Hook ohnehin schon laufen hat).
+  // Quote-Stream für Tagesänderungen (initial + alle 30s)
+  useEffect(() => {
+    if (holdings.length === 0) return
+    const symbols = [...new Set(holdings.map(h => h.symbol))].join(',')
+    let cancelled = false
+
+    const fetchChanges = () => {
+      fetch(`/api/v1/quotes/batch?symbols=${symbols}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(data => {
+          if (cancelled || !data?.quotes) return
+          const map: Record<string, number> = {}
+          for (const q of data.quotes) {
+            if (typeof q.change === 'number') map[q.symbol] = q.change
+          }
+          setDayChangeBySymbol(map)
+        })
+        .catch(() => {})
+    }
+
+    fetchChanges()
+    const interval = setInterval(fetchChanges, 30_000)
+    return () => {
+      cancelled = true
+      clearInterval(interval)
+    }
+  }, [holdings])
+
+  // Tagesperformance aggregiert (in Quote-Währung; Multi-Currency-Konvertierung kommt
+  // mit Phase C / Historical-Endpoint. Für US-only Portfolios und reine EUR-Portfolios
+  // ist die Aggregation aktuell korrekt.)
   const todayChange = useMemo(() => {
     return holdings.reduce((sum, h) => {
-      // Hook liefert keine separate "change"-Spalte → 0 als Fallback. Production-Page
-      // berechnet das aus quote.change × quantity; das wird in Phase B (Quote-Stream) ergänzt.
-      return sum + 0 * h.quantity
+      const change = dayChangeBySymbol[h.symbol]
+      return change !== undefined ? sum + change * h.quantity : sum
     }, 0)
-  }, [holdings])
+  }, [holdings, dayChangeBySymbol])
 
   const todayChangePercent = useMemo(() => {
     if (totalValue <= 0) return 0
@@ -107,14 +139,28 @@ export default function PortfolioClient() {
             <div className="w-5 h-5 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
           </div>
         ) : tab === 'holdings' ? (
-          <HoldingsTab
-            holdings={holdings}
-            totalValue={totalValue}
-            isAllDepotsView={isAllDepotsView}
-            formatCurrency={formatCurrency}
-            formatStockPrice={formatStockPrice}
-            formatPercentage={formatPercentage}
-          />
+          <>
+            <HoldingsTab
+              holdings={holdings}
+              totalValue={totalValue}
+              isAllDepotsView={isAllDepotsView}
+              formatCurrency={formatCurrency}
+              formatStockPrice={formatStockPrice}
+              formatPercentage={formatPercentage}
+            />
+            {holdings.length > 0 && (
+              <PortfolioAllocation
+                holdings={holdings}
+                cashPosition={cashPosition}
+                formatCurrency={formatCurrency}
+              />
+            )}
+            <SoldPositions
+              transactions={transactions}
+              formatCurrency={formatCurrency}
+              formatPercentage={formatPercentage}
+            />
+          </>
         ) : tab === 'transaktionen' ? (
           <TransactionsTab transactions={transactions} formatCurrency={formatCurrency} />
         ) : tab === 'dividenden' ? (
