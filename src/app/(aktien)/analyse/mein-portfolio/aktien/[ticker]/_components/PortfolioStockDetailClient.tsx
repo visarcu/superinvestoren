@@ -7,6 +7,7 @@ import StockDetailHeader from './StockDetailHeader'
 import StockPerformanceCard from './StockPerformanceCard'
 import StockHistoryChart, { type PurchaseMarker } from './StockHistoryChart'
 import StockTransactionsList from './StockTransactionsList'
+import InvestmentCaseCard from './InvestmentCaseCard'
 
 interface Props {
   ticker: string
@@ -38,6 +39,16 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
   // Holding für aktuellen Wert / Name (aus aggregierten Holdings)
   const symbolHolding = useMemo(
     () => holdings.find(h => h.symbol.toUpperCase() === ticker.toUpperCase()),
+    [holdings, ticker]
+  )
+
+  // Alle Holding-IDs für dieses Symbol (Multi-Depot: ein Symbol kann in mehreren
+  // Depots vorkommen — der Investment-Case wird auf alle gleichzeitig geschrieben)
+  const symbolHoldingIds = useMemo(
+    () =>
+      holdings
+        .filter(h => h.symbol.toUpperCase() === ticker.toUpperCase())
+        .map(h => h.id),
     [holdings, ticker]
   )
 
@@ -121,6 +132,8 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
               formatPercentage={formatPercentage}
               loading={isLoading}
             />
+
+            <InvestmentCaseCard holdingIds={symbolHoldingIds} ticker={ticker} />
 
             <StockHistoryChart
               history={history}

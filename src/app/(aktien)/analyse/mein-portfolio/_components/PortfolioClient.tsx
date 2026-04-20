@@ -12,6 +12,9 @@ import DividendsTab from './DividendsTab'
 import PortfolioAllocation from './PortfolioAllocation'
 import PortfolioValueChart from './PortfolioValueChart'
 import SoldPositions from './SoldPositions'
+import AddFAB from './AddFAB'
+import AddPositionModal from './AddPositionModal'
+import AddActivityModal from './AddActivityModal'
 import type { Tab } from '../_lib/types'
 
 export default function PortfolioClient() {
@@ -37,6 +40,8 @@ export default function PortfolioClient() {
   } = usePortfolio()
 
   const [tab, setTab] = useState<Tab>('holdings')
+  const [showAddPosition, setShowAddPosition] = useState(false)
+  const [showAddActivity, setShowAddActivity] = useState(false)
 
   // Tag-Quotes (separater Quote-Stream für die "Heute"-Performance im Hero).
   // usePortfolio liefert nur den Closing-Wert pro Holding, keine Tagesänderung.
@@ -188,6 +193,16 @@ export default function PortfolioClient() {
           />
         ) : null}
       </main>
+
+      {/* FAB + Modals */}
+      {!loading && (
+        <AddFAB
+          onAddPosition={() => setShowAddPosition(true)}
+          onAddActivity={() => setShowAddActivity(true)}
+        />
+      )}
+      <AddPositionModal open={showAddPosition} onClose={() => setShowAddPosition(false)} />
+      <AddActivityModal open={showAddActivity} onClose={() => setShowAddActivity(false)} />
     </div>
   )
 }

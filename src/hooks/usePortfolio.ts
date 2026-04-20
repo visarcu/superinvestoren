@@ -38,6 +38,9 @@ export interface Holding {
   gain_loss: number
   gain_loss_percent: number
   purchase_currency?: string
+  // Investment-Case (User-Notiz zur Anlagestrategie, optional)
+  investment_case?: string | null
+  investment_case_updated_at?: string | null
   // Portfolio-Info (gesetzt in "Alle Depots" Ansicht)
   portfolio_id?: string
   portfolio_name?: string
@@ -661,12 +664,14 @@ export function usePortfolio() {
     purchasePrice: number
     purchaseDate: string
     fees?: number
+    investmentCase?: string | null
   }) => {
     if (!portfolio?.id) throw new Error('Kein Portfolio ausgewählt')
 
-    const { stock, quantity, purchasePrice, purchaseDate, fees = 0 } = params
+    const { stock, quantity, purchasePrice, purchaseDate, fees = 0, investmentCase } = params
     const priceWithFees = purchasePrice + (fees / quantity)
 
+    const trimmedCase = investmentCase?.trim().slice(0, 1000) || null
     const { error } = await supabase
       .from('portfolio_holdings')
       .insert({
@@ -676,7 +681,9 @@ export function usePortfolio() {
         quantity,
         purchase_price: priceWithFees,
         purchase_date: purchaseDate,
-        purchase_currency: 'EUR'
+        purchase_currency: 'EUR',
+        investment_case: trimmedCase,
+        investment_case_updated_at: trimmedCase ? new Date().toISOString() : null,
       })
     if (error) throw error
 
