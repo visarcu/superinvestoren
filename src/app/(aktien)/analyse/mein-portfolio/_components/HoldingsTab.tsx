@@ -43,7 +43,7 @@ export default function HoldingsTab({
         return (
           <Link
             key={h.id}
-            href={`/analyse/aktien/${h.symbol}`}
+            href={`/analyse/mein-portfolio/aktien/${h.symbol}`}
             className="grid grid-cols-12 gap-3 items-center px-4 py-3.5 rounded-xl bg-[#0c0c16] border border-white/[0.04] hover:border-white/[0.08] transition-all group"
           >
             {/* Aktie */}

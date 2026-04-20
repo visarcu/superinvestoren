@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useMemo } from 'react'
+import Link from 'next/link'
 import type { Transaction } from '../_lib/types'
 
 interface DividendsTabProps {
@@ -28,6 +29,19 @@ export default function DividendsTab({ transactions, totalDividends, formatCurre
 
   return (
     <div className="space-y-1.5">
+      {/* Details-Link Header */}
+      <div className="flex items-center justify-between mb-2 px-1">
+        <p className="text-[10px] text-white/15 uppercase tracking-wider">
+          {dividends.length} {dividends.length === 1 ? 'Zahlung' : 'Zahlungen'}
+        </p>
+        <Link
+          href="/analyse/mein-portfolio/dividenden"
+          className="text-[11px] text-white/40 hover:text-white/70 transition-colors"
+        >
+          Detail-Ansicht →
+        </Link>
+      </div>
+
       {dividends.map(t => (
         <div
           key={t.id}
