@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts'
 import { fmt, TT } from '../_lib/format'
 
 interface ChartCardProps {
@@ -133,47 +133,29 @@ export default function ChartCard({
                 )
               }}
             />
+            {/* Cell-Pattern statt custom shape:
+                Recharts rendert Bars mit korrekter Behandlung negativer Werte automatisch
+                (nach unten wachsend von Zero-Line). Per-Cell Farbe erlaubt uns trotzdem
+                Guidance-Bars optisch abzusetzen. */}
             <Bar
               dataKey={dataKey}
-              fill={color}
-              opacity={0.75}
               radius={hasNegativeValues ? [3, 3, 3, 3] : [3, 3, 0, 0]}
-              shape={(props: any) => {
-                const { x, y, width, height, payload } = props
-                const isGuidance = payload?._isGuidance
-                // Normale Bars: Standard-Rendering durch Recharts (kein custom shape)
-                // → korrekt auch für negative Werte (wachsen nach unten von Zero-Line)
-                if (!isGuidance) {
-                  return (
-                    <rect
-                      x={x}
-                      y={y}
-                      width={width}
-                      height={Math.max(0, height)}
-                      rx={3}
-                      ry={3}
-                      fill={color}
-                      opacity={0.75}
-                    />
-                  )
-                }
-                // Guidance-Bars: gestrichelter Rahmen, dezentes Grau
+              isAnimationActive={false}
+            >
+              {vals.map((v, i) => {
+                const isGuidance = v?._isGuidance
                 return (
-                  <rect
-                    x={x}
-                    y={y}
-                    width={width}
-                    height={Math.max(0, height)}
-                    rx={3}
-                    ry={3}
-                    fill="rgba(255,255,255,0.08)"
-                    stroke="rgba(255,255,255,0.12)"
-                    strokeWidth={1}
-                    strokeDasharray="3 3"
+                  <Cell
+                    key={i}
+                    fill={isGuidance ? 'rgba(255,255,255,0.08)' : color}
+                    opacity={isGuidance ? 1 : 0.75}
+                    stroke={isGuidance ? 'rgba(255,255,255,0.2)' : 'none'}
+                    strokeWidth={isGuidance ? 1 : 0}
+                    strokeDasharray={isGuidance ? '3 3' : undefined}
                   />
                 )
-              }}
-            />
+              })}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>

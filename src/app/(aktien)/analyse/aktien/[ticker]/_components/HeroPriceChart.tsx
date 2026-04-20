@@ -118,10 +118,17 @@ export default function HeroPriceChart({
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(d: string) => {
-                  const date = new Date(d)
+                  // Intraday-Datenpunkt (hat 'T' im Key → ISO-Datetime)
+                  const isIntraday = d.includes('T')
+                  const date = new Date(isIntraday ? d : `${d}T12:00:00`)
                   if (chartTimeframe === '1D')
                     return date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
-                  if (chartTimeframe === '1W') return date.toLocaleDateString('de-DE', { weekday: 'short' })
+                  if (chartTimeframe === '1W') {
+                    // Bei Intraday-1W: Datum + Uhrzeit; bei EOD: nur Wochentag
+                    return isIntraday
+                      ? date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })
+                      : date.toLocaleDateString('de-DE', { weekday: 'short' })
+                  }
                   if (['1M', '3M'].includes(chartTimeframe))
                     return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })
                   return date.toLocaleDateString('de-DE', { month: 'short', year: '2-digit' })
@@ -134,12 +141,25 @@ export default function HeroPriceChart({
                 content={({ active, payload }) => {
                   if (!active || !payload?.length) return null
                   const v = payload[0].value as number
-                  const d = new Date(payload[0].payload.date)
+                  const rawDate = payload[0].payload.date as string
+                  const isIntraday = rawDate.includes('T')
+                  const d = new Date(isIntraday ? rawDate : `${rawDate}T12:00:00`)
                   const sinceStart = firstPrice ? ((v - firstPrice) / firstPrice) * 100 : null
                   return (
                     <div style={TT}>
-                      <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>
-                        {d.toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}
+                      <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: '10px' }}>
+                        {isIntraday
+                          ? d.toLocaleString('de-DE', {
+                              day: 'numeric',
+                              month: 'short',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                            })
+                          : d.toLocaleDateString('de-DE', {
+                              day: 'numeric',
+                              month: 'long',
+                              year: 'numeric',
+                            })}
                       </p>
                       <p style={{ color: '#fff', fontSize: '17px', fontWeight: 700, marginTop: '2px' }}>
                         {v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $
