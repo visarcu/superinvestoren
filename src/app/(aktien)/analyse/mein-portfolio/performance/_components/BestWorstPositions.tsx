@@ -53,7 +53,7 @@ function Side({
       </div>
       {items.length === 0 ? (
         <div className="px-5 py-8 text-center">
-          <p className="text-[12px] text-white/15">{emptyText}</p>
+          <p className="text-[12px] text-white/30">{emptyText}</p>
         </div>
       ) : (
         <div>
@@ -77,7 +77,7 @@ function Side({
                   />
                   <div className="min-w-0">
                     <p className="text-[11px] font-semibold text-white/70 group-hover:text-white">{h.symbol}</p>
-                    <p className="text-[9px] text-white/20 truncate max-w-[150px]">{h.name}</p>
+                    <p className="text-[9px] text-white/35 truncate max-w-[150px]">{h.name}</p>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">

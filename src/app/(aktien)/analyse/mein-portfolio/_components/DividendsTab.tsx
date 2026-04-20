@@ -22,7 +22,7 @@ export default function DividendsTab({ transactions, totalDividends, formatCurre
   if (dividends.length === 0) {
     return (
       <div className="text-center py-20">
-        <p className="text-white/15 text-sm">Keine Dividenden erfasst</p>
+        <p className="text-white/30 text-sm">Keine Dividenden erfasst</p>
       </div>
     )
   }
@@ -31,7 +31,7 @@ export default function DividendsTab({ transactions, totalDividends, formatCurre
     <div className="space-y-1.5">
       {/* Details-Link Header */}
       <div className="flex items-center justify-between mb-2 px-1">
-        <p className="text-[10px] text-white/15 uppercase tracking-wider">
+        <p className="text-[10px] text-white/30 uppercase tracking-wider">
           {dividends.length} {dividends.length === 1 ? 'Zahlung' : 'Zahlungen'}
         </p>
         <Link
@@ -59,14 +59,14 @@ export default function DividendsTab({ transactions, totalDividends, formatCurre
             />
             <div className="min-w-0">
               <p className="text-[13px] text-white/70">{t.symbol}</p>
-              <p className="text-[10px] text-white/20 truncate">{t.name}</p>
+              <p className="text-[10px] text-white/35 truncate">{t.name}</p>
             </div>
           </div>
           <div className="text-right flex-shrink-0">
             <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
               +{formatCurrency(t.total_value || t.price * t.quantity)}
             </p>
-            <p className="text-[10px] text-white/15">{new Date(t.date).toLocaleDateString('de-DE')}</p>
+            <p className="text-[10px] text-white/30">{new Date(t.date).toLocaleDateString('de-DE')}</p>
           </div>
         </div>
       ))}

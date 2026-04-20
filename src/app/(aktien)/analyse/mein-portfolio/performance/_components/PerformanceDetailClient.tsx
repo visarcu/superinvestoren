@@ -61,7 +61,7 @@ export default function PerformanceDetailClient() {
         ) : holdings.length === 0 ? (
           <div className="text-center py-32">
             <p className="text-white/30 text-[14px]">Keine Performance-Daten</p>
-            <p className="text-white/15 text-[12px] mt-1">Füge erst Positionen hinzu.</p>
+            <p className="text-white/30 text-[12px] mt-1">Füge erst Positionen hinzu.</p>
           </div>
         ) : (
           <>

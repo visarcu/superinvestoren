@@ -23,7 +23,7 @@ export default function PortfolioTabs({ tab, onChange }: PortfolioTabsProps) {
             key={t.key}
             onClick={() => onChange(t.key)}
             className={`px-5 py-3 text-[13px] font-medium relative transition-colors ${
-              tab === t.key ? 'text-white' : 'text-white/20 hover:text-white/40'
+              tab === t.key ? 'text-white' : 'text-white/35 hover:text-white/40'
             }`}
           >
             {t.label}

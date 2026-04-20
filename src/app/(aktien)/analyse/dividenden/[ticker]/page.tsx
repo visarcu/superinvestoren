@@ -58,7 +58,7 @@ export default function DividendenPage() {
           <div>
             <div className="flex items-baseline gap-2.5">
               <h1 className="text-lg font-bold text-white">{ticker}</h1>
-              <span className="text-[11px] text-white/20">Dividenden</span>
+              <span className="text-[11px] text-white/35">Dividenden</span>
             </div>
             <p className="text-[12px] text-white/30">{profile?.name || '...'}</p>
           </div>
@@ -75,7 +75,7 @@ export default function DividendenPage() {
           </div>
         ) : !data || annuals.length === 0 ? (
           <div className="text-center py-32">
-            <p className="text-white/20 text-[14px]">{ticker} zahlt keine Dividende</p>
+            <p className="text-white/35 text-[14px]">{ticker} zahlt keine Dividende</p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -141,7 +141,7 @@ export default function DividendenPage() {
                     <div key={c.period} className="flex items-center justify-between">
                       <span className="text-[12px] text-white/30">{c.period}</span>
                       <div className="flex items-center gap-3">
-                        <span className="text-[11px] text-white/15">
+                        <span className="text-[11px] text-white/30">
                           {c.startValue.toFixed(2).replace('.', ',')} → {c.endValue.toFixed(2).replace('.', ',')} $
                         </span>
                         <span className={`text-[13px] font-bold ${c.cagr >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
@@ -231,7 +231,7 @@ export default function DividendenPage() {
             </div>
 
             {/* Source */}
-            <p className="text-[10px] text-white/10 text-center">
+            <p className="text-[10px] text-white/25 text-center">
               Daten: SEC XBRL · Quelle: Finclue Data API
             </p>
           </div>

@@ -89,17 +89,17 @@ export default function DividendsDetailClient() {
 
               <div className="grid grid-cols-3 gap-4 mt-5 pt-5 border-t border-white/[0.03]">
                 <div>
-                  <p className="text-[9px] text-white/15 uppercase tracking-wider">Dieses Jahr</p>
+                  <p className="text-[9px] text-white/30 uppercase tracking-wider">Dieses Jahr</p>
                   <p className="text-[15px] font-semibold text-emerald-400 tabular-nums">
                     {formatCurrency(thisYear)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-white/15 uppercase tracking-wider">Aktien</p>
+                  <p className="text-[9px] text-white/30 uppercase tracking-wider">Aktien</p>
                   <p className="text-[15px] font-semibold text-white tabular-nums">{byStock.length}</p>
                 </div>
                 <div>
-                  <p className="text-[9px] text-white/15 uppercase tracking-wider">Zahlungen</p>
+                  <p className="text-[9px] text-white/30 uppercase tracking-wider">Zahlungen</p>
                   <p className="text-[15px] font-semibold text-white tabular-nums">{dividends.length}</p>
                 </div>
               </div>

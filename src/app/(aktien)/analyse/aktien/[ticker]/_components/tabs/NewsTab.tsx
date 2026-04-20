@@ -15,7 +15,7 @@ export default function NewsTab({ news, ticker }: NewsTabProps) {
       <div className="w-full max-w-3xl text-center py-28">
         <div className="w-14 h-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-4">
           <svg
-            className="w-6 h-6 text-white/15"
+            className="w-6 h-6 text-white/30"
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -29,7 +29,7 @@ export default function NewsTab({ news, ticker }: NewsTabProps) {
           </svg>
         </div>
         <p className="text-white/25 text-[14px]">Keine News für {ticker}</p>
-        <p className="text-white/10 text-[12px] mt-1">News werden alle 15 Min. aus 14 Quellen aktualisiert</p>
+        <p className="text-white/25 text-[12px] mt-1">News werden alle 15 Min. aus 14 Quellen aktualisiert</p>
       </div>
     )
   }
@@ -45,12 +45,12 @@ export default function NewsTab({ news, ticker }: NewsTabProps) {
           className="block p-6 rounded-2xl bg-[#0c0c16] border border-white/[0.06] hover:border-white/[0.1] transition-all group"
         >
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[10px] font-medium text-white/20 bg-white/[0.04] px-2 py-0.5 rounded-md">
+            <span className="text-[10px] font-medium text-white/35 bg-white/[0.04] px-2 py-0.5 rounded-md">
               {news[0].sourceName}
             </span>
-            <span className="text-[10px] text-white/10">{timeAgo(news[0].publishedAt)}</span>
+            <span className="text-[10px] text-white/25">{timeAgo(news[0].publishedAt)}</span>
             {news[0].category !== 'general' && (
-              <span className="text-[9px] text-white/15 bg-white/[0.03] px-1.5 py-0.5 rounded">
+              <span className="text-[9px] text-white/30 bg-white/[0.03] px-1.5 py-0.5 rounded">
                 {news[0].category}
               </span>
             )}
@@ -76,12 +76,12 @@ export default function NewsTab({ news, ticker }: NewsTabProps) {
           <div className="flex-1 min-w-0 mr-4">
             <p className="text-[13px] text-white/65 group-hover:text-white/90 transition-colors truncate">{a.title}</p>
             <div className="flex gap-2 mt-1">
-              <span className="text-[10px] text-white/15">{a.sourceName}</span>
-              <span className="text-[10px] text-white/8">{timeAgo(a.publishedAt)}</span>
+              <span className="text-[10px] text-white/30">{a.sourceName}</span>
+              <span className="text-[10px] text-white/25">{timeAgo(a.publishedAt)}</span>
             </div>
           </div>
           {a.category !== 'general' && (
-            <span className="text-[9px] text-white/12 bg-white/[0.03] px-1.5 py-0.5 rounded flex-shrink-0">
+            <span className="text-[9px] text-white/25 bg-white/[0.03] px-1.5 py-0.5 rounded flex-shrink-0">
               {a.category}
             </span>
           )}

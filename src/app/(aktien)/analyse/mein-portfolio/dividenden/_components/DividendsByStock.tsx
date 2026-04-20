@@ -50,7 +50,7 @@ export default function DividendsByStock({ data, formatCurrency }: DividendsBySt
                 />
                 <div className="min-w-0">
                   <p className="text-[12px] font-semibold text-white/70 group-hover:text-white">{d.symbol}</p>
-                  <p className="text-[10px] text-white/20 truncate">{d.name}</p>
+                  <p className="text-[10px] text-white/35 truncate">{d.name}</p>
                 </div>
               </div>
 

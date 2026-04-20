@@ -221,7 +221,7 @@ export default function AnalyseDashboard() {
             )}
           </div>
           {aiSources.length > 0 && (
-            <p className="text-[11px] text-white/20 mt-4">
+            <p className="text-[11px] text-white/35 mt-4">
               Quellen: {aiSources.join(', ')}
               {aiSourceLink === 'finclue-news' && (
                 <> · <Link href="/analyse/aktien/AAPL" className="text-emerald-400/50 hover:text-emerald-400/80">Finclue News</Link></>
@@ -234,7 +234,7 @@ export default function AnalyseDashboard() {
         <div className="bg-[#111119] border border-white/[0.06] rounded-2xl p-5">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-[14px] font-semibold text-white/80">Sector Performance</h2>
-            <span className="text-[10px] text-white/20">% Tagesveränderung</span>
+            <span className="text-[10px] text-white/35">% Tagesveränderung</span>
           </div>
           {market?.sectors && market.sectors.length > 0 ? (
             <div className="grid grid-cols-2 gap-x-6 gap-y-2">
@@ -297,7 +297,7 @@ export default function AnalyseDashboard() {
             {market?.commodities && market.commodities.length > 0 && (
               <>
                 <div className="border-t border-white/[0.06] px-5 py-2">
-                  <span className="text-[10px] text-white/20 uppercase tracking-wider">Rohstoffe</span>
+                  <span className="text-[10px] text-white/35 uppercase tracking-wider">Rohstoffe</span>
                 </div>
                 {market.commodities.map(c => (
                   <div key={c.symbol} className="flex items-center justify-between px-5 py-2.5 border-t border-white/[0.03]">
@@ -331,21 +331,21 @@ export default function AnalyseDashboard() {
                 {/* Placeholder für Chart — TODO: Finnhub Candles */}
                 <div className="mt-6 h-[180px] bg-white/[0.02] rounded-xl flex items-center justify-center border border-white/[0.03]">
                   <div className="text-center">
-                    <p className="text-[24px] font-bold text-white/10">📈</p>
-                    <p className="text-[11px] text-white/15 mt-1">Chart kommt bald</p>
+                    <p className="text-[24px] font-bold text-white/25">📈</p>
+                    <p className="text-[11px] text-white/30 mt-1">Chart kommt bald</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 mt-4">
                   <div className="flex-1">
-                    <p className="text-[10px] text-white/20">Tageshoch</p>
+                    <p className="text-[10px] text-white/35">Tageshoch</p>
                     <p className="text-[13px] text-white/50 tabular-nums">{selectedIdx.dayHigh ? fmtPrice(selectedIdx.dayHigh as number) : '—'}</p>
                   </div>
                   <div className="flex-1">
-                    <p className="text-[10px] text-white/20">Tagestief</p>
+                    <p className="text-[10px] text-white/35">Tagestief</p>
                     <p className="text-[13px] text-white/50 tabular-nums">{selectedIdx.dayLow ? fmtPrice(selectedIdx.dayLow as number) : '—'}</p>
                   </div>
                   <div className="flex-1">
-                    <p className="text-[10px] text-white/20">Vortag</p>
+                    <p className="text-[10px] text-white/35">Vortag</p>
                     <p className="text-[13px] text-white/50 tabular-nums">{fmtPrice(selectedIdx.previousClose)}</p>
                   </div>
                 </div>

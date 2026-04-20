@@ -84,7 +84,7 @@ export default function ChartCard({
               </svg>
             )}
           </div>
-          {latestPeriod && <span className="text-[9px] text-white/15">GJ {latestPeriod}</span>}
+          {latestPeriod && <span className="text-[9px] text-white/30">GJ {latestPeriod}</span>}
         </div>
       </div>
       <div className="h-40 mt-3">

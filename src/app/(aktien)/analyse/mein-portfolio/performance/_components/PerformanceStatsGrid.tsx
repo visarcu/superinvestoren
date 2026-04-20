@@ -35,7 +35,7 @@ export default function PerformanceStatsGrid({
     <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6">
       {/* Hero: Total Return */}
       <div>
-        <p className="text-[10px] text-white/15 uppercase tracking-widest">Gesamtrendite</p>
+        <p className="text-[10px] text-white/30 uppercase tracking-widest">Gesamtrendite</p>
         <div className="flex items-baseline gap-3 mt-1 flex-wrap">
           <p
             className={`text-3xl font-bold tabular-nums ${
@@ -109,7 +109,7 @@ function Stat({
     color === 'emerald' ? 'text-emerald-400' : color === 'red' ? 'text-red-400' : 'text-white'
   return (
     <div>
-      <p className="text-[9px] text-white/15 uppercase tracking-wider">{label}</p>
+      <p className="text-[9px] text-white/30 uppercase tracking-wider">{label}</p>
       <p className={`text-[15px] font-semibold tabular-nums ${dim ? 'text-white/30' : colorClass}`}>
         {value}
       </p>

@@ -111,7 +111,7 @@ export default function TickerSearch({
         onChange={e => setQuery(e.target.value)}
         onKeyDown={handleKey}
         placeholder={placeholder}
-        className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/15 focus:outline-none focus:border-white/[0.15] transition-colors"
+        className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/[0.15] transition-colors"
       />
 
       {(results.length > 0 || loading) && query && (
@@ -146,7 +146,7 @@ export default function TickerSearch({
                 <p className="text-[10px] text-white/40 truncate">{stock.name}</p>
               </div>
               {stock.exchange && (
-                <span className="text-[9px] text-white/20 uppercase tracking-wider flex-shrink-0">
+                <span className="text-[9px] text-white/35 uppercase tracking-wider flex-shrink-0">
                   {stock.exchange}
                 </span>
               )}

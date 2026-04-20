@@ -173,7 +173,7 @@ export default function AddPositionModal({ open, onClose }: AddPositionModalProp
             onChange={e => setInvestmentCase(e.target.value.slice(0, MAX_CASE))}
             placeholder={`Warum kaufst du diese Aktie? Z.B. "Defensive Position in Tech, KGV unter 20, starker Cashflow."`}
             rows={3}
-            className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/15 focus:outline-none focus:border-white/[0.15] transition-colors resize-none"
+            className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/[0.15] transition-colors resize-none"
           />
         </Field>
 
@@ -253,7 +253,7 @@ function Input({
       value={value}
       onChange={e => onChange(e.target.value)}
       {...rest}
-      className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/15 focus:outline-none focus:border-white/[0.15] transition-colors tabular-nums"
+      className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/[0.15] transition-colors tabular-nums"
     />
   )
 }

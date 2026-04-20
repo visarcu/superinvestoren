@@ -16,8 +16,8 @@ export default function KpisTab({ ticker, kpis, isPremium, userLoading }: KpisTa
   if (Object.keys(kpis).length === 0) {
     return (
       <div className="text-center py-28">
-        <p className="text-white/20 text-sm">Keine Operating KPIs für {ticker}</p>
-        <p className="text-white/8 text-xs mt-1">
+        <p className="text-white/35 text-sm">Keine Operating KPIs für {ticker}</p>
+        <p className="text-white/25 text-xs mt-1">
           Verfügbar für AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA, META, NFLX, UBER, MA, V
         </p>
       </div>
@@ -68,7 +68,7 @@ export default function KpisTab({ ticker, kpis, isPremium, userLoading }: KpisTa
                     {yoy.toFixed(1)}%
                   </span>
                 )}
-                <span className="text-[10px] text-white/12">{latest?.period}</span>
+                <span className="text-[10px] text-white/25">{latest?.period}</span>
               </div>
             </div>
             <p className="text-xl font-bold text-white mb-4">{val}</p>

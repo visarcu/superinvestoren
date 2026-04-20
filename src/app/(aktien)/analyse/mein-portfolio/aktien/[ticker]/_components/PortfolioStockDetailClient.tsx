@@ -119,7 +119,7 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
         {!isLoading && symbolTxs.length === 0 ? (
           <div className="text-center py-32">
             <p className="text-white/30 text-[14px]">Keine Transaktionen für {ticker}</p>
-            <p className="text-white/15 text-[12px] mt-1">
+            <p className="text-white/30 text-[12px] mt-1">
               Diese Aktie ist nicht in deinem Portfolio.
             </p>
           </div>

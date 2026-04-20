@@ -156,7 +156,7 @@ export default function SoldPositions({
         </div>
         <div className="flex items-center gap-3 flex-shrink-0">
           <div className="text-right">
-            <p className="text-[10px] text-white/15 uppercase tracking-wider">Gesamt</p>
+            <p className="text-[10px] text-white/30 uppercase tracking-wider">Gesamt</p>
             <p
               className={`text-[15px] font-bold tabular-nums ${
                 totalReturn >= 0 ? 'text-emerald-400' : 'text-red-400'
@@ -201,7 +201,7 @@ export default function SoldPositions({
                 />
                 <div className="min-w-0">
                   <p className="text-[12px] font-semibold text-white/70 group-hover:text-white">{p.symbol}</p>
-                  <p className="text-[10px] text-white/20 truncate">{p.name}</p>
+                  <p className="text-[10px] text-white/35 truncate">{p.name}</p>
                 </div>
               </div>
 

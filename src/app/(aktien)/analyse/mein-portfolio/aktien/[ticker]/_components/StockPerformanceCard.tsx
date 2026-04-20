@@ -98,7 +98,7 @@ function Stat({
         : 'text-white'
   return (
     <div>
-      <p className="text-[9px] text-white/15 uppercase tracking-wider">{label}</p>
+      <p className="text-[9px] text-white/30 uppercase tracking-wider">{label}</p>
       <p
         className={`${big ? 'text-[16px] font-bold' : 'text-[14px] font-semibold'} tabular-nums ${
           dim ? 'text-white/30' : colorClass

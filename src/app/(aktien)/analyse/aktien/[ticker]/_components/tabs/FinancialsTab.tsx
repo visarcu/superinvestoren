@@ -93,7 +93,7 @@ export default function FinancialsTab({
       {/* Quartalsansicht für Premium: KPI-basiert */}
       {!showQuarterlyGate && financialPeriod === 'quarterly' && Object.keys(kpis).length > 0 ? (
         <div>
-          <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">
+          <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">
             Quartalszahlen (aus Earnings Reports)
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -124,7 +124,7 @@ export default function FinancialsTab({
               })}
           </div>
           {guidanceRev && (
-            <p className="text-[10px] text-white/15 mt-3">
+            <p className="text-[10px] text-white/30 mt-3">
               Guidance: Revenue {guidanceRevLabel} = {fmt(guidanceRev * 1e6)}
               {kpis['guidance_gross_margin'] &&
                 ` · Gross Margin ${kpis['guidance_gross_margin'].data.slice(-1)[0]?.value}%`}
@@ -133,8 +133,8 @@ export default function FinancialsTab({
         </div>
       ) : !showQuarterlyGate && financialPeriod === 'quarterly' ? (
         <div className="text-center py-20">
-          <p className="text-white/20 text-[14px]">Keine Quartalsdaten für {ticker}</p>
-          <p className="text-white/10 text-[12px] mt-1">
+          <p className="text-white/35 text-[14px]">Keine Quartalsdaten für {ticker}</p>
+          <p className="text-white/25 text-[12px] mt-1">
             Quartalsdaten verfügbar für: AAPL, MSFT, GOOGL, AMZN, NVDA, TSLA, META, NFLX
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function FinancialsTab({
       {financialPeriod === 'annual' && (
         <>
           <div>
-            <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">
+            <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">
               Gewinn- & Verlustrechnung
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -223,7 +223,7 @@ export default function FinancialsTab({
           {/* Segment Revenue (wenn vorhanden) */}
           {segmentKpis.length > 0 && (
             <div>
-              <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">
+              <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">
                 Umsatz nach Segmenten
               </p>
               <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
@@ -241,7 +241,7 @@ export default function FinancialsTab({
 
           {/* Cash Flow */}
           <div>
-            <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Cashflow</p>
+            <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">Cashflow</p>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               <ChartCard data={cashflow} dataKey="operatingCashFlow" label="Operativer Cashflow" color="#22d3ee" />
               <ChartCard data={cashflow} dataKey="freeCashFlow" label="Free Cashflow" color="#f97316" />
@@ -251,7 +251,7 @@ export default function FinancialsTab({
 
           {/* Bilanz */}
           <div>
-            <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Bilanz</p>
+            <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">Bilanz</p>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
               <ChartCard data={balance} dataKey="totalAssets" label="Bilanzsumme" color="#a78bfa" />
               <ChartCard data={balance} dataKey="cash" label="Barmittel" color="#34d399" />
