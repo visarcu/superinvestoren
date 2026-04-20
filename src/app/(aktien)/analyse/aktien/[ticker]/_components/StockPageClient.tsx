@@ -110,10 +110,10 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     return () => clearInterval(interval)
   }, [ticker])
 
-  // Fetch full historical price data
+  // Fetch full historical price data — nutzt jetzt v1-Endpoint mit EODHD-primär + Yahoo-Fallback
   useEffect(() => {
     setChartLoading(true)
-    fetch(`/api/historical/${ticker}`)
+    fetch(`/api/v1/historical/${ticker}?days=1900`)
       .then(r => (r.ok ? r.json() : null))
       .then(d => {
         if (d?.historical) {
@@ -154,8 +154,25 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     }
     const cutoffStr = cutoff.toISOString().slice(0, 10)
     const filtered = fullPriceHistory.filter(p => p.date >= cutoffStr)
-    setPriceChart(filtered.length > 0 ? filtered : fullPriceHistory.slice(-30))
-  }, [fullPriceHistory, chartTimeframe])
+    const base = filtered.length > 0 ? filtered : fullPriceHistory.slice(-30)
+
+    // Letzten Punkt auf Live-Quote aktualisieren (EOD-Quelle ist tagaktuell nur
+    // nach Börsenschluss — tagsüber / an Börsentagen hängt sie hinterher).
+    // Wir hängen den Live-Preis als heutigen Punkt an bzw. ersetzen ihn.
+    if (quote?.price && base.length > 0) {
+      const todayISO = new Date().toISOString().slice(0, 10)
+      const last = base[base.length - 1]
+      if (last.date === todayISO) {
+        setPriceChart([...base.slice(0, -1), { date: todayISO, price: quote.price }])
+      } else if (last.date < todayISO) {
+        setPriceChart([...base, { date: todayISO, price: quote.price }])
+      } else {
+        setPriceChart(base)
+      }
+    } else {
+      setPriceChart(base)
+    }
+  }, [fullPriceHistory, chartTimeframe, quote?.price])
 
   // Derived metrics for KeyMetricsCard
   const { metrics, fyLabel } = useMemo(() => {
