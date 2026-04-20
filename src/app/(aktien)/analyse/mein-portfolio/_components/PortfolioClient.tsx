@@ -10,6 +10,7 @@ import HoldingsTab from './HoldingsTab'
 import TransactionsTab from './TransactionsTab'
 import DividendsTab from './DividendsTab'
 import PortfolioAllocation from './PortfolioAllocation'
+import PortfolioValueChart from './PortfolioValueChart'
 import SoldPositions from './SoldPositions'
 import type { Tab } from '../_lib/types'
 
@@ -129,6 +130,22 @@ export default function PortfolioClient() {
           formatCurrency={formatCurrency}
           formatPercentage={formatPercentage}
         />
+
+        {/* Wertentwicklungs-Chart (auch in "Alle Depots" Ansicht) */}
+        {!loading && holdings.length > 0 && (
+          <PortfolioValueChart
+            portfolioId={portfolio?.id ?? null}
+            portfolioIds={isAllDepotsView ? allPortfolios.map(p => p.id) : undefined}
+            holdings={holdings.map(h => ({
+              symbol: h.symbol,
+              quantity: h.quantity,
+              purchase_price: h.purchase_price,
+              purchase_date: h.purchase_date,
+            }))}
+            cashPosition={cashPosition}
+            formatCurrency={formatCurrency}
+          />
+        )}
       </div>
 
       <PortfolioTabs tab={tab} onChange={setTab} />
