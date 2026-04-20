@@ -58,9 +58,22 @@ export default function HoldingsTab({
                 }}
               />
               <div className="min-w-0">
-                <p className="text-[13px] font-medium text-white/80 group-hover:text-white transition-colors">
-                  {h.symbol}
-                </p>
+                <div className="flex items-center gap-1.5">
+                  <p className="text-[13px] font-medium text-white/80 group-hover:text-white transition-colors">
+                    {h.symbol}
+                  </p>
+                  {h.investment_case && (
+                    <span
+                      title="Investment-Case vorhanden"
+                      className="text-amber-400/70 group-hover:text-amber-400 transition-colors"
+                      aria-label="Investment-Case vorhanden"
+                    >
+                      <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M19.749 8.713L23 9.423l-5 4.875 1.182 6.882L13 18l-6.182 3.18L8 14.298 3 9.423l3.252-.71L9.999 2l3.751 6.713 5.999 0z" />
+                      </svg>
+                    </span>
+                  )}
+                </div>
                 <p className="text-[10px] text-white/20 truncate">{h.name}</p>
                 {isAllDepotsView && h.portfolio_name && (
                   <p className="text-[9px] text-white/15 mt-0.5 truncate">{h.portfolio_name}</p>
