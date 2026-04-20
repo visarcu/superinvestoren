@@ -214,7 +214,7 @@ export default function PortfolioValueChart({
               className={`px-2.5 py-1 text-[10px] font-medium rounded-lg transition-all ${
                 selectedRange === tf
                   ? 'bg-white/[0.08] text-white'
-                  : 'text-white/20 hover:text-white/40 hover:bg-white/[0.03]'
+                  : 'text-white/35 hover:text-white/40 hover:bg-white/[0.03]'
               }`}
             >
               {tf}
@@ -237,7 +237,7 @@ export default function PortfolioValueChart({
         )}
         {!loading && !error && data.length === 0 && (
           <div className="h-full flex items-center justify-center">
-            <p className="text-[12px] text-white/15">Keine Verlaufsdaten verfügbar</p>
+            <p className="text-[12px] text-white/30">Keine Verlaufsdaten verfügbar</p>
           </div>
         )}
         {!loading && data.length > 0 && (

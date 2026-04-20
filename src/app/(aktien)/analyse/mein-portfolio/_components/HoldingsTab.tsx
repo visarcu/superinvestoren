@@ -28,7 +28,7 @@ export default function HoldingsTab({
   return (
     <div className="space-y-1.5">
       {/* Table Header */}
-      <div className="grid grid-cols-12 gap-3 px-4 py-2 text-[10px] text-white/15 uppercase tracking-wider">
+      <div className="grid grid-cols-12 gap-3 px-4 py-2 text-[10px] text-white/30 uppercase tracking-wider">
         <div className="col-span-4">Aktie</div>
         <div className="col-span-1 text-right">Stk.</div>
         <div className="col-span-2 text-right">Kurs</div>
@@ -74,9 +74,9 @@ export default function HoldingsTab({
                     </span>
                   )}
                 </div>
-                <p className="text-[10px] text-white/20 truncate">{h.name}</p>
+                <p className="text-[10px] text-white/35 truncate">{h.name}</p>
                 {isAllDepotsView && h.portfolio_name && (
-                  <p className="text-[9px] text-white/15 mt-0.5 truncate">{h.portfolio_name}</p>
+                  <p className="text-[9px] text-white/30 mt-0.5 truncate">{h.portfolio_name}</p>
                 )}
               </div>
             </div>

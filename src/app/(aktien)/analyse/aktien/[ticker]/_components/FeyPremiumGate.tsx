@@ -77,7 +77,7 @@ export default function FeyPremiumGate({
             </svg>
           </Link>
 
-          <p className="text-[10px] text-white/20 mt-3">Jederzeit kündbar</p>
+          <p className="text-[10px] text-white/35 mt-3">Jederzeit kündbar</p>
         </div>
       </div>
     </div>

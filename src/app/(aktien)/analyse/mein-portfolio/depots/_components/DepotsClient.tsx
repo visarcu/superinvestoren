@@ -155,7 +155,7 @@ export default function DepotsClient() {
         ) : depots.length === 0 ? (
           <div className="text-center py-32">
             <p className="text-white/30 text-[14px]">Noch kein Depot</p>
-            <p className="text-white/15 text-[12px] mt-1">
+            <p className="text-white/30 text-[12px] mt-1">
               Erstelle dein erstes Depot, um Holdings hinzuzufügen.
             </p>
             <Link
@@ -169,7 +169,7 @@ export default function DepotsClient() {
           <>
             {/* Total */}
             <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mb-6">
-              <p className="text-[10px] text-white/15 uppercase tracking-widest">Gesamtvermögen über alle Depots</p>
+              <p className="text-[10px] text-white/30 uppercase tracking-widest">Gesamtvermögen über alle Depots</p>
               <p className="text-3xl font-bold text-white tabular-nums mt-1">
                 {total.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €
               </p>

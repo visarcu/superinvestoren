@@ -47,7 +47,7 @@ export default function AiTab({
               </svg>
             </div>
             <p className="text-[13px] font-semibold text-white/60">Finclue AI Analyse</p>
-            <span className="text-[9px] text-white/15 ml-auto">Basierend auf eigenen SEC-Daten</span>
+            <span className="text-[9px] text-white/30 ml-auto">Basierend auf eigenen SEC-Daten</span>
           </div>
           <div
             className="[&_h2]:text-[14px] [&_h2]:font-semibold [&_h2]:text-white/60 [&_h2]:mt-5 [&_h2]:mb-2
@@ -82,8 +82,8 @@ export default function AiTab({
       ) : aiLoading ? (
         <div className="flex flex-col items-center justify-center py-20 gap-3">
           <div className="w-5 h-5 border-2 border-violet-500/20 border-t-violet-400 rounded-full animate-spin" />
-          <p className="text-[12px] text-white/20">AI analysiert {ticker}...</p>
-          <p className="text-[10px] text-white/10">Sammelt Finanzdaten, Earnings, Insider-Trades, Superinvestoren</p>
+          <p className="text-[12px] text-white/35">AI analysiert {ticker}...</p>
+          <p className="text-[10px] text-white/25">Sammelt Finanzdaten, Earnings, Insider-Trades, Superinvestoren</p>
         </div>
       ) : (
         <div className="text-center py-20">
@@ -103,7 +103,7 @@ export default function AiTab({
             </svg>
           </div>
           <p className="text-white/30 text-sm">AI Aktienanalyse</p>
-          <p className="text-white/12 text-xs mt-1 mb-4">
+          <p className="text-white/25 text-xs mt-1 mb-4">
             Basierend auf SEC Finanzdaten, Earnings, Insider-Trades & Superinvestoren
           </p>
           <button

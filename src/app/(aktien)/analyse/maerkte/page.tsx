@@ -54,7 +54,7 @@ function ChartExpandModal({ data, title, unit, onClose }: {
                   </span>
                 )}
               </div>
-              <p className="text-[11px] text-white/20 mt-0.5">{latest?.date} · {filtered.length} Datenpunkte</p>
+              <p className="text-[11px] text-white/35 mt-0.5">{latest?.date} · {filtered.length} Datenpunkte</p>
             </div>
             <div className="flex items-center gap-2">
               {/* Timeframe Buttons */}
@@ -245,7 +245,7 @@ export default function MaerktePage() {
         {/* Morning Recap */}
         {newsRecap && (
           <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5">
-            <p className="text-[11px] text-white/20 uppercase tracking-wider mb-3">Marktüberblick</p>
+            <p className="text-[11px] text-white/35 uppercase tracking-wider mb-3">Marktüberblick</p>
             <div className="text-[13px] text-white/50 leading-relaxed whitespace-pre-line">
               {newsRecap.split('\n').filter(l => !l.startsWith('##') && !l.startsWith('**Top') && !l.startsWith('**Was')).slice(0, 4).join('\n').replace(/\*\*/g, '').replace(/\*Marktüberblick\*/, '').trim().slice(0, 300)}
             </div>
@@ -261,7 +261,7 @@ export default function MaerktePage() {
           ].map(t => (
             <button key={t.key} onClick={() => setActiveTab(t.key)}
               className={`px-4 py-2.5 text-[13px] font-medium relative transition-colors ${
-                activeTab === t.key ? 'text-white' : 'text-white/20 hover:text-white/40'
+                activeTab === t.key ? 'text-white' : 'text-white/35 hover:text-white/40'
               }`}>
               {t.label}
               {activeTab === t.key && <div className="absolute bottom-0 left-2 right-2 h-[2px] bg-white rounded-full" />}
@@ -299,10 +299,10 @@ export default function MaerktePage() {
               <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl overflow-hidden">
                 <div className="px-5 py-4 border-b border-white/[0.03]">
                   <h3 className="text-[14px] font-semibold text-white/80">Indizes & Rohstoffe</h3>
-                  <p className="text-[11px] text-white/20 mt-0.5">Stand: {new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</p>
+                  <p className="text-[11px] text-white/35 mt-0.5">Stand: {new Date().toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })} Uhr</p>
                 </div>
                 {/* Table Header */}
-                <div className="hidden sm:grid grid-cols-12 px-5 py-2 text-[10px] text-white/20 uppercase tracking-wider font-medium border-b border-white/[0.03]">
+                <div className="hidden sm:grid grid-cols-12 px-5 py-2 text-[10px] text-white/35 uppercase tracking-wider font-medium border-b border-white/[0.03]">
                   <div className="col-span-3">Name</div>
                   <div className="col-span-2 text-right">Kurs</div>
                   <div className="col-span-2 text-right">24h %</div>
@@ -312,7 +312,7 @@ export default function MaerktePage() {
                 {/* Indizes */}
                 {marketIndices.indices.filter((i: any) => i.type === 'index').length > 0 && (
                   <>
-                    <div className="px-5 py-2 text-[10px] text-white/15 uppercase tracking-widest">Indizes</div>
+                    <div className="px-5 py-2 text-[10px] text-white/30 uppercase tracking-widest">Indizes</div>
                     {marketIndices.indices.filter((i: any) => i.type === 'index').map((idx: any) => {
                       const pct = idx.changePct || idx.changePercent || 0
                       const range = idx.high && idx.low ? ((idx.price - idx.low) / (idx.high - idx.low)) * 100 : 50
@@ -333,11 +333,11 @@ export default function MaerktePage() {
                           <div className="col-span-3 px-2">
                             {idx.high && idx.low ? (
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-white/15 tabular-nums">{idx.low.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                                <span className="text-[10px] text-white/30 tabular-nums">{idx.low.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
                                 <div className="flex-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
                                   <div className="h-full rounded-full bg-emerald-500/50" style={{ width: `${Math.max(2, Math.min(98, range))}%` }} />
                                 </div>
-                                <span className="text-[10px] text-white/15 tabular-nums">{idx.high.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                                <span className="text-[10px] text-white/30 tabular-nums">{idx.high.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
                               </div>
                             ) : (
                               <div className="h-1 bg-white/[0.04] rounded-full" />
@@ -354,7 +354,7 @@ export default function MaerktePage() {
                 {/* Rohstoffe */}
                 {marketIndices.indices.filter((i: any) => i.type === 'commodity').length > 0 && (
                   <>
-                    <div className="px-5 py-2 text-[10px] text-white/15 uppercase tracking-widest border-t border-white/[0.04]">Rohstoffe & Crypto</div>
+                    <div className="px-5 py-2 text-[10px] text-white/30 uppercase tracking-widest border-t border-white/[0.04]">Rohstoffe & Crypto</div>
                     {marketIndices.indices.filter((i: any) => i.type === 'commodity').map((c: any) => {
                       const pct = c.changePct || c.changePercent || 0
                       const range = c.high && c.low ? ((c.price - c.low) / (c.high - c.low)) * 100 : 50
@@ -375,11 +375,11 @@ export default function MaerktePage() {
                           <div className="col-span-3 px-2">
                             {c.high && c.low ? (
                               <div className="flex items-center gap-2">
-                                <span className="text-[10px] text-white/15 tabular-nums">{c.low.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                                <span className="text-[10px] text-white/30 tabular-nums">{c.low.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
                                 <div className="flex-1 h-1 bg-white/[0.06] rounded-full overflow-hidden">
                                   <div className="h-full rounded-full bg-emerald-500/50" style={{ width: `${Math.max(2, Math.min(98, range))}%` }} />
                                 </div>
-                                <span className="text-[10px] text-white/15 tabular-nums">{c.high.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
+                                <span className="text-[10px] text-white/30 tabular-nums">{c.high.toLocaleString('de-DE', { maximumFractionDigits: 0 })}</span>
                               </div>
                             ) : (
                               <div className="h-1 bg-white/[0.04] rounded-full" />
@@ -433,8 +433,8 @@ export default function MaerktePage() {
                     )}
                   </div>
                   <div className="flex items-center justify-between mb-3">
-                    <p className="text-[9px] text-white/12">{latest.date}</p>
-                    <svg className="w-3.5 h-3.5 text-white/10 group-hover:text-white/30 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                    <p className="text-[9px] text-white/25">{latest.date}</p>
+                    <svg className="w-3.5 h-3.5 text-white/25 group-hover:text-white/30 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                       <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
                     </svg>
                   </div>
@@ -500,7 +500,7 @@ export default function MaerktePage() {
           </div>
         ) : filteredEvents.length === 0 ? (
           <div className="text-center py-20">
-            <p className="text-white/20 text-[14px]">Keine Wirtschaftstermine im gewählten Zeitraum</p>
+            <p className="text-white/35 text-[14px]">Keine Wirtschaftstermine im gewählten Zeitraum</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -522,7 +522,7 @@ export default function MaerktePage() {
                       <div key={i} className="flex items-center gap-4 p-3.5 rounded-xl bg-[#0c0c16] border border-white/[0.03] hover:border-white/[0.06] transition-colors">
                         {/* Time */}
                         <div className="w-12 text-center flex-shrink-0">
-                          <p className="text-[11px] text-white/20 font-mono">{event.time || '–'}</p>
+                          <p className="text-[11px] text-white/35 font-mono">{event.time || '–'}</p>
                         </div>
 
                         {/* Country Flag */}
@@ -531,7 +531,7 @@ export default function MaerktePage() {
                         {/* Event Info */}
                         <div className="flex-1 min-w-0">
                           <p className="text-[13px] text-white/70 font-medium">{event.nameDE}</p>
-                          <p className="text-[10px] text-white/20 mt-0.5">{event.description}</p>
+                          <p className="text-[10px] text-white/35 mt-0.5">{event.description}</p>
                         </div>
 
                         {/* Impact Badge */}
@@ -543,7 +543,7 @@ export default function MaerktePage() {
                         {(event.actual !== null || event.forecast !== null) && (
                           <div className="text-right flex-shrink-0">
                             {event.actual !== null && <p className="text-[12px] text-white/60 font-medium">{event.actual}</p>}
-                            {event.forecast !== null && <p className="text-[10px] text-white/20">Prognose: {event.forecast}</p>}
+                            {event.forecast !== null && <p className="text-[10px] text-white/35">Prognose: {event.forecast}</p>}
                           </div>
                         )}
                       </div>

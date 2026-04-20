@@ -95,7 +95,7 @@ export default function EarningsCalendarPage() {
         {/* Weekday headers */}
         <div className="grid grid-cols-5 gap-1 mb-1">
           {WEEKDAYS.map(d => (
-            <div key={d} className="text-center text-[10px] text-white/20 py-2 font-medium">{d}</div>
+            <div key={d} className="text-center text-[10px] text-white/35 py-2 font-medium">{d}</div>
           ))}
         </div>
 
@@ -146,7 +146,7 @@ export default function EarningsCalendarPage() {
                       </div>
                     ))}
                     {eventCount > 4 && (
-                      <p className="text-[8px] text-white/15">+{eventCount - 4} more</p>
+                      <p className="text-[8px] text-white/30">+{eventCount - 4} more</p>
                     )}
                   </div>
                 </div>
@@ -195,7 +195,7 @@ export default function EarningsCalendarPage() {
                             }`}>{e.result === 'beat' ? 'Beat' : 'Miss'}</span>
                           )}
                         </div>
-                        <p className="text-[10px] text-white/20 truncate max-w-[200px]">{e.company}</p>
+                        <p className="text-[10px] text-white/35 truncate max-w-[200px]">{e.company}</p>
                       </div>
                     </div>
                     <div className="text-right">
@@ -205,7 +205,7 @@ export default function EarningsCalendarPage() {
                         <p className="text-[11px] text-white/25">Est: {e.epsEstimate.toFixed(2).replace('.', ',')} $</p>
                       ) : null}
                       {e.time && e.time !== 'unknown' && (
-                        <p className="text-[9px] text-white/12">{e.time === 'bmo' ? 'Vor Börse' : e.time === 'amc' ? 'Nach Börse' : e.time}</p>
+                        <p className="text-[9px] text-white/25">{e.time === 'bmo' ? 'Vor Börse' : e.time === 'amc' ? 'Nach Börse' : e.time}</p>
                       )}
                     </div>
                   </button>

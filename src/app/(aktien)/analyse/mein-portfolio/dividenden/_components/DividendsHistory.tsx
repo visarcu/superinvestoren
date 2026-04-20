@@ -18,7 +18,7 @@ export default function DividendsHistory({ dividends, formatCurrency }: Dividend
     return (
       <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-12 mt-6 text-center">
         <p className="text-[14px] text-white/25">Noch keine Dividenden erfasst</p>
-        <p className="text-[12px] text-white/15 mt-1">
+        <p className="text-[12px] text-white/30 mt-1">
           Sobald Dividenden via Import oder manuell hinzugefügt werden, erscheinen sie hier.
         </p>
       </section>
@@ -58,14 +58,14 @@ export default function DividendsHistory({ dividends, formatCurrency }: Dividend
                 />
                 <div className="min-w-0">
                   <p className="text-[12px] font-semibold text-white/70 group-hover:text-white">{d.symbol}</p>
-                  <p className="text-[10px] text-white/20 truncate">{d.name}</p>
+                  <p className="text-[10px] text-white/35 truncate">{d.name}</p>
                 </div>
               </div>
               <div className="text-right flex-shrink-0">
                 <p className="text-[12px] font-semibold text-emerald-400 tabular-nums">
                   +{formatCurrency(value)}
                 </p>
-                <p className="text-[10px] text-white/15">
+                <p className="text-[10px] text-white/30">
                   {new Date(d.date).toLocaleDateString('de-DE', {
                     day: '2-digit',
                     month: 'short',

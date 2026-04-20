@@ -31,7 +31,7 @@ export default function StockTransactionsList({
   if (transactions.length === 0) {
     return (
       <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6 text-center">
-        <p className="text-[12px] text-white/15">Keine Transaktionen für dieses Symbol</p>
+        <p className="text-[12px] text-white/30">Keine Transaktionen für dieses Symbol</p>
       </section>
     )
   }

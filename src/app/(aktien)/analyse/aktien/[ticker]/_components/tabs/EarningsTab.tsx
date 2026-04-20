@@ -16,8 +16,8 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
   if (earnings.length === 0) {
     return (
       <div className="text-center py-28">
-        <p className="text-white/20 text-sm">Keine Earnings-Daten für {ticker}</p>
-        <p className="text-white/8 text-xs mt-1">Quartalszahlen werden aus SEC 8-K Press Releases extrahiert</p>
+        <p className="text-white/35 text-sm">Keine Earnings-Daten für {ticker}</p>
+        <p className="text-white/25 text-xs mt-1">Quartalszahlen werden aus SEC 8-K Press Releases extrahiert</p>
       </div>
     )
   }
@@ -107,7 +107,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
                     href={e.filingUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[10px] text-white/15 hover:text-white/40 px-2 py-1 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] transition-all"
+                    className="text-[10px] text-white/30 hover:text-white/40 px-2 py-1 rounded-lg bg-white/[0.02] hover:bg-white/[0.05] transition-all"
                   >
                     SEC Filing
                   </a>
@@ -120,7 +120,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
               <div className="px-6 py-2.5 flex items-center gap-5 border-b border-white/[0.03] bg-white/[0.015]">
                 {bm.revenue && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[9px] text-white/15 uppercase">Umsatz vs. Prognose:</span>
+                    <span className="text-[9px] text-white/30 uppercase">Umsatz vs. Prognose:</span>
                     <span className="text-[11px] font-medium text-white/50">
                       {fmt(bm.revenue.actual * 1e6)} vs. {fmt(bm.revenue.priorGuidance * 1e6)}
                     </span>
@@ -140,7 +140,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
                 )}
                 {bm.eps && (
                   <div className="flex items-center gap-2">
-                    <span className="text-[9px] text-white/15 uppercase">EPS vs. Prognose:</span>
+                    <span className="text-[9px] text-white/30 uppercase">EPS vs. Prognose:</span>
                     <span className="text-[11px] font-medium text-white/50">
                       {bm.eps.actual.toFixed(2).replace('.', ',')} $ vs.{' '}
                       {bm.eps.priorGuidance.toFixed(2).replace('.', ',')} $
@@ -167,7 +167,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
               <div className="px-6 py-3 flex flex-wrap items-center gap-6 border-b border-white/[0.03] bg-white/[0.01]">
                 {h.revenue_reported && (
                   <div>
-                    <p className="text-[9px] text-white/20 uppercase tracking-wider">Umsatz</p>
+                    <p className="text-[9px] text-white/35 uppercase tracking-wider">Umsatz</p>
                     <p className="text-[14px] font-bold text-white">
                       {fmt(h.revenue_reported * 1e6)}
                       {h.revenue_yoy_pct != null && (
@@ -185,7 +185,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
                 )}
                 {h.eps_reported && (
                   <div>
-                    <p className="text-[9px] text-white/20 uppercase tracking-wider">EPS</p>
+                    <p className="text-[9px] text-white/35 uppercase tracking-wider">EPS</p>
                     <p className="text-[14px] font-bold text-white">
                       {h.eps_reported.toFixed(2).replace('.', ',')} $
                       {h.eps_yoy_pct != null && (
@@ -203,13 +203,13 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
                 )}
                 {h.net_income && (
                   <div>
-                    <p className="text-[9px] text-white/20 uppercase tracking-wider">Nettogewinn</p>
+                    <p className="text-[9px] text-white/35 uppercase tracking-wider">Nettogewinn</p>
                     <p className="text-[14px] font-bold text-white">{fmt(h.net_income * 1e6)}</p>
                   </div>
                 )}
                 {h.guidance_revenue && !Array.isArray(h.guidance_revenue) && (
                   <div className="ml-auto">
-                    <p className="text-[9px] text-white/15 uppercase tracking-wider">Prognose nächstes Q</p>
+                    <p className="text-[9px] text-white/30 uppercase tracking-wider">Prognose nächstes Q</p>
                     <p className="text-[13px] font-semibold text-white/40">
                       {fmt(Number(h.guidance_revenue) * 1e6)}
                     </p>
@@ -217,7 +217,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
                 )}
                 {h.guidance_revenue && Array.isArray(h.guidance_revenue) && (
                   <div className="ml-auto">
-                    <p className="text-[9px] text-white/15 uppercase tracking-wider">Prognose nächstes Q</p>
+                    <p className="text-[9px] text-white/30 uppercase tracking-wider">Prognose nächstes Q</p>
                     <p className="text-[13px] font-semibold text-white/40">
                       {fmt(Number(h.guidance_revenue[0]) * 1e6)} – {fmt(Number(h.guidance_revenue[1]) * 1e6)}
                     </p>
@@ -262,7 +262,7 @@ export default function EarningsTab({ ticker, earnings, isPremium, userLoading }
               </div>
             ) : (
               <div className="px-6 py-4">
-                <p className="text-[12px] text-white/15 italic">Zusammenfassung wird generiert...</p>
+                <p className="text-[12px] text-white/30 italic">Zusammenfassung wird generiert...</p>
               </div>
             )}
           </div>

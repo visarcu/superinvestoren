@@ -48,7 +48,7 @@ export default function EarningsBanner({ earnings, onClick }: EarningsBannerProp
         <div className="flex-1 text-left">
           <p className="text-[13px] font-semibold text-white">
             Neue Quartalszahlen: {recentEarning.period}
-            <span className="text-white/20 font-normal ml-2">{timeLabel}</span>
+            <span className="text-white/35 font-normal ml-2">{timeLabel}</span>
           </p>
           <p className="text-[11px] text-white/30 mt-0.5">
             {h?.revenue_reported ? `Umsatz: ${fmt(h.revenue_reported * 1e6)}` : ''}
@@ -72,7 +72,7 @@ export default function EarningsBanner({ earnings, onClick }: EarningsBannerProp
         )}
 
         <svg
-          className="w-4 h-4 text-white/15 flex-shrink-0"
+          className="w-4 h-4 text-white/30 flex-shrink-0"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

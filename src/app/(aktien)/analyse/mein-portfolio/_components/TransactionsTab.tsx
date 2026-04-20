@@ -25,7 +25,7 @@ export default function TransactionsTab({ transactions, formatCurrency }: Transa
   if (transactions.length === 0) {
     return (
       <div className="text-center py-20">
-        <p className="text-white/15 text-sm">Keine Transaktionen</p>
+        <p className="text-white/30 text-sm">Keine Transaktionen</p>
       </div>
     )
   }
@@ -64,7 +64,7 @@ export default function TransactionsTab({ transactions, formatCurrency }: Transa
               </div>
               <div className="min-w-0">
                 <p className="text-[13px] text-white/70 truncate">{t.symbol || label}</p>
-                <p className="text-[10px] text-white/20">
+                <p className="text-[10px] text-white/35">
                   {label}
                   {t.quantity > 0 ? ` · ${t.quantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.` : ''}
                 </p>
@@ -79,7 +79,7 @@ export default function TransactionsTab({ transactions, formatCurrency }: Transa
                 {isInflow ? '+' : '-'}
                 {formatCurrency(value)}
               </p>
-              <p className="text-[10px] text-white/15">{new Date(t.date).toLocaleDateString('de-DE')}</p>
+              <p className="text-[10px] text-white/30">{new Date(t.date).toLocaleDateString('de-DE')}</p>
             </div>
           </div>
         )

@@ -37,7 +37,7 @@ export default function WatchlistGrid({ items, stockData, earningsEvents, onRemo
             {/* Remove-Button (top right, hover) */}
             <button
               onClick={() => onRemove(item.id, item.ticker)}
-              className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg text-white/15 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all z-10"
+              className="absolute top-3 right-3 w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all z-10"
               title={`${item.ticker} aus Watchlist entfernen`}
               aria-label={`${item.ticker} aus Watchlist entfernen`}
             >
@@ -95,7 +95,7 @@ export default function WatchlistGrid({ items, stockData, earningsEvents, onRemo
               {rangePos !== null && (
                 <div className="mb-3">
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-[9px] text-white/15 uppercase tracking-wider">52W</span>
+                    <span className="text-[9px] text-white/30 uppercase tracking-wider">52W</span>
                     {data?.isDip && (
                       <span className="text-[9px] font-bold text-amber-400/80 uppercase tracking-wider">Dip</span>
                     )}
@@ -111,8 +111,8 @@ export default function WatchlistGrid({ items, stockData, earningsEvents, onRemo
                     />
                   </div>
                   <div className="flex justify-between mt-1">
-                    <span className="text-[9px] text-white/20 tabular-nums">{fmtPrice(data?.week52Low)}</span>
-                    <span className="text-[9px] text-white/20 tabular-nums">{fmtPrice(data?.week52High)}</span>
+                    <span className="text-[9px] text-white/35 tabular-nums">{fmtPrice(data?.week52Low)}</span>
+                    <span className="text-[9px] text-white/35 tabular-nums">{fmtPrice(data?.week52High)}</span>
                   </div>
                 </div>
               )}
@@ -120,18 +120,18 @@ export default function WatchlistGrid({ items, stockData, earningsEvents, onRemo
               {/* Footer-Stats */}
               <div className="flex items-center justify-between pt-3 border-t border-white/[0.03] text-[11px]">
                 <div>
-                  <p className="text-white/20 mb-0.5">MKT Cap</p>
+                  <p className="text-white/35 mb-0.5">MKT Cap</p>
                   <p className="text-white/60 tabular-nums">{data?.marketCap ? fmtMarketCap(data.marketCap) : '–'}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-white/20 mb-0.5">Earnings</p>
+                  <p className="text-white/35 mb-0.5">Earnings</p>
                   {earnings ? (
                     <p className="text-white/60 tabular-nums flex items-center gap-1 justify-end">
                       <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
                       {formatEarningsDate(earnings)}
                     </p>
                   ) : (
-                    <p className="text-white/20">–</p>
+                    <p className="text-white/35">–</p>
                   )}
                 </div>
               </div>

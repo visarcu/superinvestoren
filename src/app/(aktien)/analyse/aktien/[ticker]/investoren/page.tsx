@@ -100,7 +100,7 @@ export default function InvestorenPage() {
             className="w-10 h-10 rounded-xl bg-white/[0.06] object-contain"
             onError={(e) => { (e.target as HTMLImageElement).style.display = 'none' }} />
           <div>
-            <h1 className="text-lg font-bold text-white">{ticker} <span className="text-white/20 font-normal text-[14px]">Investoren</span></h1>
+            <h1 className="text-lg font-bold text-white">{ticker} <span className="text-white/35 font-normal text-[14px]">Investoren</span></h1>
             <p className="text-[12px] text-white/30">{companyName}</p>
           </div>
         </div>
@@ -114,19 +114,19 @@ export default function InvestorenPage() {
       {superInvestors.length > 0 && (
         <div className="max-w-6xl mx-auto w-full px-6 sm:px-10 py-4 flex gap-8">
           <div>
-            <p className="text-[10px] text-white/20 uppercase tracking-wider">Superinvestoren</p>
+            <p className="text-[10px] text-white/35 uppercase tracking-wider">Superinvestoren</p>
             <p className="text-xl font-bold text-white">{superInvestors.length}</p>
           </div>
           <div>
-            <p className="text-[10px] text-white/20 uppercase tracking-wider">Gesamtwert</p>
+            <p className="text-[10px] text-white/35 uppercase tracking-wider">Gesamtwert</p>
             <p className="text-xl font-bold text-white">{fmt(totalSIValue)}</p>
           </div>
           <div>
-            <p className="text-[10px] text-white/20 uppercase tracking-wider">Aufgestockt</p>
+            <p className="text-[10px] text-white/35 uppercase tracking-wider">Aufgestockt</p>
             <p className="text-xl font-bold text-emerald-400">{superInvestors.filter(i => i.activity === 'aufgestockt' || i.activity === 'neu').length}</p>
           </div>
           <div>
-            <p className="text-[10px] text-white/20 uppercase tracking-wider">Reduziert</p>
+            <p className="text-[10px] text-white/35 uppercase tracking-wider">Reduziert</p>
             <p className="text-xl font-bold text-red-400">{superInvestors.filter(i => i.activity === 'reduziert').length}</p>
           </div>
         </div>
@@ -142,10 +142,10 @@ export default function InvestorenPage() {
           ] as { key: Tab; label: string; count: number }[]).map(t => (
             <button key={t.key} onClick={() => setTab(t.key)}
               className={`px-5 py-3 text-[13px] font-medium relative transition-colors ${
-                tab === t.key ? 'text-white' : 'text-white/20 hover:text-white/40'
+                tab === t.key ? 'text-white' : 'text-white/35 hover:text-white/40'
               }`}>
               {t.label}
-              {t.count > 0 && <span className="ml-1.5 text-[10px] text-white/15">{t.count}</span>}
+              {t.count > 0 && <span className="ml-1.5 text-[10px] text-white/30">{t.count}</span>}
               {tab === t.key && <div className="absolute bottom-0 left-3 right-3 h-[2px] bg-white rounded-full" />}
             </button>
           ))}
@@ -162,12 +162,12 @@ export default function InvestorenPage() {
         ) : tab === 'superinvestoren' ? (
           superInvestors.length === 0 ? (
             <div className="text-center py-28">
-              <p className="text-white/20 text-sm">Kein Superinvestor hält aktuell {ticker}</p>
+              <p className="text-white/35 text-sm">Kein Superinvestor hält aktuell {ticker}</p>
             </div>
           ) : (
             <div className="space-y-2">
               {/* Table Header */}
-              <div className="grid grid-cols-12 gap-4 px-5 py-2 text-[10px] text-white/20 uppercase tracking-wider">
+              <div className="grid grid-cols-12 gap-4 px-5 py-2 text-[10px] text-white/35 uppercase tracking-wider">
                 <div className="col-span-4">Investor</div>
                 <div className="col-span-2 text-right">Wert</div>
                 <div className="col-span-2 text-right">Aktien</div>
@@ -192,7 +192,7 @@ export default function InvestorenPage() {
                       )}
                       <div>
                         <p className="text-[13px] font-medium text-white/80 group-hover:text-white transition-colors">{si.investor.name}</p>
-                        <p className="text-[10px] text-white/15">{si.quarter}</p>
+                        <p className="text-[10px] text-white/30">{si.quarter}</p>
                       </div>
                     </div>
 
@@ -228,12 +228,12 @@ export default function InvestorenPage() {
         ) : tab === 'insider' ? (
           insiderTrades.length === 0 ? (
             <div className="text-center py-28">
-              <p className="text-white/20 text-sm">Keine Insider-Trades für {ticker}</p>
-              <p className="text-white/8 text-xs mt-1">Insider-Transaktionen werden aus SEC Form 4 Filings geladen</p>
+              <p className="text-white/35 text-sm">Keine Insider-Trades für {ticker}</p>
+              <p className="text-white/25 text-xs mt-1">Insider-Transaktionen werden aus SEC Form 4 Filings geladen</p>
             </div>
           ) : (
             <div className="space-y-2">
-              <div className="grid grid-cols-12 gap-4 px-5 py-2 text-[10px] text-white/20 uppercase tracking-wider">
+              <div className="grid grid-cols-12 gap-4 px-5 py-2 text-[10px] text-white/35 uppercase tracking-wider">
                 <div className="col-span-3">Insider</div>
                 <div className="col-span-2">Position</div>
                 <div className="col-span-2 text-right">Typ</div>
@@ -271,12 +271,12 @@ export default function InvestorenPage() {
         ) : tab === 'politiker' ? (
           politicianTrades.length === 0 ? (
             <div className="text-center py-28">
-              <p className="text-white/20 text-sm">Keine Politiker-Trades für {ticker}</p>
-              <p className="text-white/8 text-xs mt-1">Basierend auf STOCK Act Offenlegungen</p>
+              <p className="text-white/35 text-sm">Keine Politiker-Trades für {ticker}</p>
+              <p className="text-white/25 text-xs mt-1">Basierend auf STOCK Act Offenlegungen</p>
             </div>
           ) : (
             <div className="space-y-2">
-              <div className="grid grid-cols-12 gap-4 px-5 py-2 text-[10px] text-white/20 uppercase tracking-wider">
+              <div className="grid grid-cols-12 gap-4 px-5 py-2 text-[10px] text-white/35 uppercase tracking-wider">
                 <div className="col-span-3">Politiker</div>
                 <div className="col-span-2">Partei</div>
                 <div className="col-span-2 text-right">Typ</div>

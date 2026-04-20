@@ -397,7 +397,7 @@ function Input({
       value={value}
       onChange={e => onChange(e.target.value)}
       {...rest}
-      className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/15 focus:outline-none focus:border-white/[0.15] transition-colors tabular-nums"
+      className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-white/[0.15] transition-colors tabular-nums"
     />
   )
 }

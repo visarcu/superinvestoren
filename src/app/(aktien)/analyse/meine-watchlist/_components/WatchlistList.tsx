@@ -42,7 +42,7 @@ function SortHeader({ column, label, align = 'left', sortColumn, sortDirection, 
     <th
       onClick={() => onSort(column)}
       className={`px-4 py-3 text-[10px] font-semibold uppercase tracking-widest cursor-pointer transition-colors select-none ${
-        active ? 'text-white/60' : 'text-white/20 hover:text-white/40'
+        active ? 'text-white/60' : 'text-white/35 hover:text-white/40'
       } ${align === 'right' ? 'text-right' : 'text-left'}`}
     >
       <div className={`flex items-center gap-1 ${align === 'right' ? 'justify-end' : ''}`}>
@@ -152,7 +152,7 @@ export default function WatchlistList({
                         {fmtPct(data.revenueGrowthYOY)}
                       </p>
                     ) : (
-                      <p className="text-[12px] text-white/15">–</p>
+                      <p className="text-[12px] text-white/30">–</p>
                     )}
                   </td>
 
@@ -164,7 +164,7 @@ export default function WatchlistList({
                         <p className="text-[12px] text-white/60 tabular-nums">{formatEarningsDate(earnings)}</p>
                       </div>
                     ) : (
-                      <p className="text-[12px] text-white/15">–</p>
+                      <p className="text-[12px] text-white/30">–</p>
                     )}
                   </td>
 
@@ -179,7 +179,7 @@ export default function WatchlistList({
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => onRemove(item.id, item.ticker)}
-                      className="w-7 h-7 flex items-center justify-center rounded-lg text-white/15 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
+                      className="w-7 h-7 flex items-center justify-center rounded-lg text-white/30 hover:text-red-400 hover:bg-red-500/10 opacity-0 group-hover:opacity-100 transition-all"
                       title={`${item.ticker} aus Watchlist entfernen`}
                       aria-label={`${item.ticker} aus Watchlist entfernen`}
                     >

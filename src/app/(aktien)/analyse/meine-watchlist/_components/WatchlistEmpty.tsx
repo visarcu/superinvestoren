@@ -8,7 +8,7 @@ export default function WatchlistEmpty() {
     <div className="w-full max-w-md mx-auto text-center py-32">
       <div className="w-14 h-14 rounded-2xl bg-white/[0.03] flex items-center justify-center mx-auto mb-5">
         <svg
-          className="w-6 h-6 text-white/20"
+          className="w-6 h-6 text-white/35"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"

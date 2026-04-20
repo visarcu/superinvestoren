@@ -110,7 +110,7 @@ export default function StockHistoryChart({
   if (history.length === 0) {
     return (
       <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6 h-72 flex items-center justify-center">
-        <p className="text-[12px] text-white/15">Keine historischen Daten verfügbar</p>
+        <p className="text-[12px] text-white/30">Keine historischen Daten verfügbar</p>
       </div>
     )
   }
@@ -119,7 +119,7 @@ export default function StockHistoryChart({
     <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6">
       <h2 className="text-[13px] font-semibold text-white/80 mb-4">
         Kursverlauf
-        <span className="text-[10px] text-white/20 font-normal ml-2">
+        <span className="text-[10px] text-white/35 font-normal ml-2">
           mit Kaufpunkten · Preise in Quote-Währung
         </span>
       </h2>

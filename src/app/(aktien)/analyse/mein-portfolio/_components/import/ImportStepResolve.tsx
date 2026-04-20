@@ -185,7 +185,7 @@ function Stat({ label, value, color }: { label: string; value: number; color: 'e
   }[color]
   return (
     <div className={`${map.bg} rounded-xl p-3 text-center`}>
-      <p className={`text-xl font-bold ${value > 0 ? map.text : 'text-white/20'} tabular-nums`}>{value}</p>
+      <p className={`text-xl font-bold ${value > 0 ? map.text : 'text-white/35'} tabular-nums`}>{value}</p>
       <p className="text-[9px] text-white/30 uppercase tracking-wider mt-0.5">{label}</p>
     </div>
   )

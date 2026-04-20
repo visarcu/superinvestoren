@@ -33,7 +33,7 @@ export default function OverviewTab({ income, balance, cashflow, news, profile }
       {/* Row 3: News + Unternehmen Info */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
         <div className="lg:col-span-3">
-          <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Aktuelle News</p>
+          <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">Aktuelle News</p>
           {news.length > 0 ? (
             <div className="space-y-1.5">
               {news.slice(0, 5).map(a => (
@@ -48,12 +48,12 @@ export default function OverviewTab({ income, balance, cashflow, news, profile }
                     <p className="text-[13px] text-white/65 group-hover:text-white/90 transition-colors truncate">
                       {a.title}
                     </p>
-                    <p className="text-[11px] text-white/15 mt-0.5">
+                    <p className="text-[11px] text-white/30 mt-0.5">
                       {a.sourceName} · {timeAgo(a.publishedAt)}
                     </p>
                   </div>
                   {a.category !== 'general' && (
-                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/[0.03] text-white/15">
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-white/[0.03] text-white/30">
                       {a.category}
                     </span>
                   )}
@@ -62,13 +62,13 @@ export default function OverviewTab({ income, balance, cashflow, news, profile }
             </div>
           ) : (
             <div className="p-10 rounded-xl bg-[#0c0c16] border border-white/[0.03] text-center">
-              <p className="text-[13px] text-white/15">Keine aktuellen News</p>
+              <p className="text-[13px] text-white/30">Keine aktuellen News</p>
             </div>
           )}
         </div>
         {profile && (
           <div className="lg:col-span-2">
-            <p className="text-[11px] text-white/20 uppercase tracking-widest font-medium mb-3">Unternehmen</p>
+            <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">Unternehmen</p>
             <div className="bg-[#0c0c16] border border-white/[0.03] rounded-xl p-5 space-y-3.5">
               {(
                 [
@@ -83,7 +83,7 @@ export default function OverviewTab({ income, balance, cashflow, news, profile }
                 ] as [string, string][]
               ).map(([k, v]) => (
                 <div key={k} className="flex justify-between">
-                  <span className="text-[12px] text-white/15">{k}</span>
+                  <span className="text-[12px] text-white/30">{k}</span>
                   <span className="text-[12px] text-white/50 text-right">{v}</span>
                 </div>
               ))}

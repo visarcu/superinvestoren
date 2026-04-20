@@ -45,8 +45,8 @@ export default function PortfolioValueHero({
   if (!hasHoldings) {
     return (
       <div className="text-center py-20">
-        <p className="text-white/20 text-lg">Noch keine Positionen</p>
-        <p className="text-white/10 text-sm mt-1">Füge deine erste Aktie hinzu, um loszulegen</p>
+        <p className="text-white/35 text-lg">Noch keine Positionen</p>
+        <p className="text-white/25 text-sm mt-1">Füge deine erste Aktie hinzu, um loszulegen</p>
       </div>
     )
   }
@@ -76,7 +76,7 @@ export default function PortfolioValueHero({
           >
             ({formatPercentage(todayChangePercent)})
           </span>
-          <span className="text-[10px] text-white/15">Heute</span>
+          <span className="text-[10px] text-white/30">Heute</span>
         </div>
 
         <div className="w-px h-4 bg-white/[0.06]" />
@@ -98,23 +98,23 @@ export default function PortfolioValueHero({
           >
             ({formatPercentage(totalGainLossPercent)})
           </span>
-          <span className="text-[10px] text-white/15">Gesamt</span>
+          <span className="text-[10px] text-white/30">Gesamt</span>
         </div>
       </div>
 
       {/* Quick Stats */}
       <div className="flex flex-wrap gap-6 mt-4 pt-4 border-t border-white/[0.03]">
         <div>
-          <p className="text-[9px] text-white/15 uppercase tracking-wider">Positionen</p>
+          <p className="text-[9px] text-white/30 uppercase tracking-wider">Positionen</p>
           <p className="text-[15px] font-semibold text-white tabular-nums">{positionsCount}</p>
         </div>
         <div>
-          <p className="text-[9px] text-white/15 uppercase tracking-wider">Barmittel</p>
+          <p className="text-[9px] text-white/30 uppercase tracking-wider">Barmittel</p>
           <p className="text-[15px] font-semibold text-white tabular-nums">{formatCurrency(cashPosition)}</p>
         </div>
         {totalDividends > 0 && (
           <div>
-            <p className="text-[9px] text-white/15 uppercase tracking-wider">Dividenden</p>
+            <p className="text-[9px] text-white/30 uppercase tracking-wider">Dividenden</p>
             <p className="text-[15px] font-semibold text-emerald-400 tabular-nums">
               {formatCurrency(totalDividends)}
             </p>
@@ -122,7 +122,7 @@ export default function PortfolioValueHero({
         )}
         {totalRealizedGain !== 0 && (
           <div>
-            <p className="text-[9px] text-white/15 uppercase tracking-wider">Realisiert</p>
+            <p className="text-[9px] text-white/30 uppercase tracking-wider">Realisiert</p>
             <p
               className={`text-[15px] font-semibold tabular-nums ${
                 totalRealizedGain >= 0 ? 'text-emerald-400' : 'text-red-400'

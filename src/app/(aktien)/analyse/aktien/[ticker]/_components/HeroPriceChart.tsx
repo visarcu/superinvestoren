@@ -71,7 +71,7 @@ export default function HeroPriceChart({
                     {displayChange.toFixed(2).replace('.', ',')} $
                   </span>
                 )}
-                <span className="text-[10px] text-white/15">{TF_LABELS[chartTimeframe]}</span>
+                <span className="text-[10px] text-white/30">{TF_LABELS[chartTimeframe]}</span>
               </div>
             </>
           ) : (
@@ -89,7 +89,7 @@ export default function HeroPriceChart({
               className={`px-2.5 py-1 text-[10px] font-medium rounded-lg transition-all ${
                 chartTimeframe === tf
                   ? 'bg-white/[0.08] text-white'
-                  : 'text-white/20 hover:text-white/40 hover:bg-white/[0.03]'
+                  : 'text-white/35 hover:text-white/40 hover:bg-white/[0.03]'
               }`}
             >
               {tf}
@@ -173,7 +173,7 @@ export default function HeroPriceChart({
           </ResponsiveContainer>
         ) : !chartLoading ? (
           <div className="h-full flex items-center justify-center">
-            <p className="text-white/10 text-[12px]">Keine Kursdaten</p>
+            <p className="text-white/25 text-[12px]">Keine Kursdaten</p>
           </div>
         ) : null}
       </div>

@@ -124,7 +124,7 @@ export default function InvestmentCaseCard({ holdingIds, ticker }: InvestmentCas
       <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6">
         <div className="flex items-start justify-between gap-3 mb-2">
           <h2 className="text-[13px] font-semibold text-white/80">Mein Investment-Case</h2>
-          <span className="text-[10px] text-white/15 uppercase tracking-wider">Notiz</span>
+          <span className="text-[10px] text-white/30 uppercase tracking-wider">Notiz</span>
         </div>
         <p className="text-[12px] text-white/30 mb-4">
           Warum hast du {ticker} gekauft? Schreib es auf — hilft gegen Panik-Verkäufe und FOMO.
@@ -151,7 +151,7 @@ export default function InvestmentCaseCard({ holdingIds, ticker }: InvestmentCas
           <h2 className="text-[13px] font-semibold text-white/80">Mein Investment-Case</h2>
           <span
             className={`text-[10px] tabular-nums ${
-              remaining < 50 ? 'text-amber-400' : 'text-white/20'
+              remaining < 50 ? 'text-amber-400' : 'text-white/35'
             }`}
           >
             {text.length}/{MAX_LENGTH}
@@ -162,7 +162,7 @@ export default function InvestmentCaseCard({ holdingIds, ticker }: InvestmentCas
           onChange={e => setText(e.target.value.slice(0, MAX_LENGTH))}
           placeholder={`Warum kaufst du ${ticker}? Z.B. "Defensive Position in Tech, KGV unter 20, starker Cashflow, Buyback-Programm 2025–2028."`}
           rows={5}
-          className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-white/90 placeholder:text-white/15 focus:outline-none focus:border-white/[0.15] transition-colors resize-none"
+          className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-3 text-[13px] text-white/90 placeholder:text-white/30 focus:outline-none focus:border-white/[0.15] transition-colors resize-none"
           autoFocus
         />
         <div className="flex items-center justify-end gap-2 mt-3">
