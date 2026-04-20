@@ -15,6 +15,7 @@ import SoldPositions from './SoldPositions'
 import AddFAB from './AddFAB'
 import AddPositionModal from './AddPositionModal'
 import AddActivityModal from './AddActivityModal'
+import ImportWizardModal from './import/ImportWizardModal'
 import type { Tab } from '../_lib/types'
 
 export default function PortfolioClient() {
@@ -42,6 +43,7 @@ export default function PortfolioClient() {
   const [tab, setTab] = useState<Tab>('holdings')
   const [showAddPosition, setShowAddPosition] = useState(false)
   const [showAddActivity, setShowAddActivity] = useState(false)
+  const [showImport, setShowImport] = useState(false)
 
   // Tag-Quotes (separater Quote-Stream für die "Heute"-Performance im Hero).
   // usePortfolio liefert nur den Closing-Wert pro Holding, keine Tagesänderung.
@@ -199,10 +201,12 @@ export default function PortfolioClient() {
         <AddFAB
           onAddPosition={() => setShowAddPosition(true)}
           onAddActivity={() => setShowAddActivity(true)}
+          onImport={() => setShowImport(true)}
         />
       )}
       <AddPositionModal open={showAddPosition} onClose={() => setShowAddPosition(false)} />
       <AddActivityModal open={showAddActivity} onClose={() => setShowAddActivity(false)} />
+      <ImportWizardModal open={showImport} onClose={() => setShowImport(false)} />
     </div>
   )
 }

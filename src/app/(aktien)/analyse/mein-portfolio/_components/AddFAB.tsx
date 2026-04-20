@@ -7,9 +7,10 @@ import React, { useEffect, useRef, useState } from 'react'
 interface AddFABProps {
   onAddPosition: () => void
   onAddActivity: () => void
+  onImport: () => void
 }
 
-export default function AddFAB({ onAddPosition, onAddActivity }: AddFABProps) {
+export default function AddFAB({ onAddPosition, onAddActivity, onImport }: AddFABProps) {
   const [open, setOpen] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
 
@@ -71,6 +72,24 @@ export default function AddFAB({ onAddPosition, onAddActivity }: AddFABProps) {
             <div className="min-w-0">
               <p className="text-[13px] font-semibold text-white">Aktivität</p>
               <p className="text-[10px] text-white/30">Verkauf, Dividende, Cash, Transfer</p>
+            </div>
+          </button>
+
+          <button
+            onClick={() => {
+              setOpen(false)
+              onImport()
+            }}
+            className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-white/[0.04] transition-colors border-t border-white/[0.04]"
+          >
+            <div className="w-8 h-8 rounded-lg bg-violet-500/10 flex items-center justify-center flex-shrink-0">
+              <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
+              </svg>
+            </div>
+            <div className="min-w-0">
+              <p className="text-[13px] font-semibold text-white">Import</p>
+              <p className="text-[10px] text-white/30">CSV / PDF / XLSX vom Broker</p>
             </div>
           </button>
         </div>
