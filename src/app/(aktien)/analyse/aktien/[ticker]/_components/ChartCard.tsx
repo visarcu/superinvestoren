@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, ReferenceLine } from 'recharts'
 import { fmt, TT } from '../_lib/format'
 
 interface ChartCardProps {
@@ -29,6 +29,13 @@ export default function ChartCard({
 }: ChartCardProps) {
   let vals = data.filter(d => d[dataKey] !== null && d[dataKey] !== undefined && d[dataKey] !== 0)
   if (vals.length === 0) return null
+
+  // Für korrekte Darstellung negativer Werte: 0 muss in der Y-Achsen-Domain sein,
+  // damit Bars entweder nach oben (positiv) oder nach unten (negativ) wachsen.
+  const numericVals = vals.map(v => v[dataKey]).filter(v => typeof v === 'number') as number[]
+  const minVal = Math.min(...numericVals, 0)
+  const maxVal = Math.max(...numericVals, 0)
+  const hasNegativeValues = minVal < 0
 
   // Guidance als letzten grauen Balken hinzufügen
   if (guidanceValue) {
@@ -97,7 +104,16 @@ export default function ChartCard({
               tickLine={false}
               interval={vals.length > 12 ? 1 : 0}
             />
-            <YAxis hide />
+            <YAxis
+              hide
+              domain={[
+                hasNegativeValues ? minVal * 1.1 : 0,
+                maxVal > 0 ? maxVal * 1.1 : 0,
+              ]}
+            />
+            {hasNegativeValues && (
+              <ReferenceLine y={0} stroke="rgba(255,255,255,0.15)" strokeWidth={1} />
+            )}
             <Tooltip
               cursor={{ fill: 'rgba(255,255,255,0.03)' }}
               content={({ active, payload, label: l }) => {

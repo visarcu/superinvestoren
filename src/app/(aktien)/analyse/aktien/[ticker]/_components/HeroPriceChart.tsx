@@ -42,7 +42,7 @@ export default function HeroPriceChart({
   const isPositive = (displayChangePct ?? 0) >= 0
 
   return (
-    <div className="lg:col-span-2 bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6">
+    <div className="lg:col-span-2 bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 flex flex-col">
       <div className="flex items-start justify-between mb-3">
         <div>
           {quote ? (
@@ -97,7 +97,7 @@ export default function HeroPriceChart({
           ))}
         </div>
       </div>
-      <div className="h-52 relative">
+      <div className="flex-1 min-h-[240px] relative">
         {chartLoading && (
           <div className="absolute inset-0 flex items-center justify-center z-10">
             <div className="w-4 h-4 border-2 border-white/10 border-t-white/30 rounded-full animate-spin" />
