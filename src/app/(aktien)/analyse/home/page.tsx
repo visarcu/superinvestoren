@@ -82,9 +82,11 @@ export default function AnalyseDashboard() {
   // Markets-Fetch als separate Funktion für initial + periodisches Refresh
   const fetchMarkets = async (isInitial = false) => {
     try {
+      // /api/v1/markets/live liefert tagaktuelle Yahoo-Quotes (matcht TradingView).
+      // Alte /api/dashboard-cached hatte Werte mehrere Minuten bis Stunden daneben.
       const [marketData, dashData] = await Promise.all([
         fetch('/api/v1/markets').then(r => r.ok ? r.json() : null).catch(() => null),
-        fetch('/api/dashboard-cached').then(r => r.ok ? r.json() : null).catch(() => null),
+        fetch('/api/v1/markets/live').then(r => r.ok ? r.json() : null).catch(() => null),
       ])
 
       if (marketData && !marketData.error) {
