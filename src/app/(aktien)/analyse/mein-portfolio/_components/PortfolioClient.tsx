@@ -47,8 +47,10 @@ export default function PortfolioClient() {
 
   // Tag-Quotes (separater Quote-Stream für die "Heute"-Performance im Hero).
   // usePortfolio liefert nur den Closing-Wert pro Holding, keine Tagesänderung.
-  // Wir aggregieren change × quantity zur Portfolio-Tagesperformance.
+  // Wir aggregieren change × quantity zur Portfolio-Tagesperformance und
+  // reichen die Map plus Prozent-Map an HoldingsTab durch für die "Heute"-Spalte.
   const [dayChangeBySymbol, setDayChangeBySymbol] = useState<Record<string, number>>({})
+  const [dayChangePercentBySymbol, setDayChangePercentBySymbol] = useState<Record<string, number>>({})
 
   useEffect(() => {
     if (typeof window === 'undefined') return
@@ -68,11 +70,14 @@ export default function PortfolioClient() {
         .then(r => (r.ok ? r.json() : null))
         .then(data => {
           if (cancelled || !data?.quotes) return
-          const map: Record<string, number> = {}
+          const changeMap: Record<string, number> = {}
+          const pctMap: Record<string, number> = {}
           for (const q of data.quotes) {
-            if (typeof q.change === 'number') map[q.symbol] = q.change
+            if (typeof q.change === 'number') changeMap[q.symbol] = q.change
+            if (typeof q.changePercent === 'number') pctMap[q.symbol] = q.changePercent
           }
-          setDayChangeBySymbol(map)
+          setDayChangeBySymbol(changeMap)
+          setDayChangePercentBySymbol(pctMap)
         })
         .catch(() => {})
     }
@@ -168,6 +173,8 @@ export default function PortfolioClient() {
               holdings={holdings}
               totalValue={totalValue}
               isAllDepotsView={isAllDepotsView}
+              dayChangeBySymbol={dayChangeBySymbol}
+              dayChangePercentBySymbol={dayChangePercentBySymbol}
               formatCurrency={formatCurrency}
               formatStockPrice={formatStockPrice}
               formatPercentage={formatPercentage}

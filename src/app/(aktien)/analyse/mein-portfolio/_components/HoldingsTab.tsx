@@ -8,6 +8,10 @@ interface HoldingsTabProps {
   holdings: Holding[]
   totalValue: number
   isAllDepotsView: boolean
+  /** Tagesänderung in Quote-Währung pro Symbol (aus /api/v1/quotes/batch) */
+  dayChangeBySymbol?: Record<string, number>
+  /** Tagesänderung in % pro Symbol */
+  dayChangePercentBySymbol?: Record<string, number>
   formatCurrency: (v: number) => string
   formatStockPrice: (price: number, showCurrency?: boolean) => string
   formatPercentage: (v: number) => string
@@ -17,6 +21,8 @@ export default function HoldingsTab({
   holdings,
   totalValue,
   isAllDepotsView,
+  dayChangeBySymbol = {},
+  dayChangePercentBySymbol = {},
   formatCurrency,
   formatStockPrice,
   formatPercentage,
@@ -29,17 +35,24 @@ export default function HoldingsTab({
     <div className="space-y-1.5">
       {/* Table Header */}
       <div className="grid grid-cols-12 gap-3 px-4 py-2 text-[10px] text-white/30 uppercase tracking-wider">
-        <div className="col-span-4">Aktie</div>
+        <div className="col-span-3">Aktie</div>
         <div className="col-span-1 text-right">Stk.</div>
         <div className="col-span-2 text-right">Kurs</div>
         <div className="col-span-2 text-right">Wert</div>
+        <div className="col-span-2 text-right">Heute</div>
         <div className="col-span-2 text-right">Rendite</div>
-        <div className="col-span-1 text-right">Anteil</div>
       </div>
 
       {sorted.map(h => {
-        const portfolioPct = totalValue > 0 ? (h.value / totalValue) * 100 : 0
         const positive = h.gain_loss >= 0
+
+        // P/L (1D): Tages-Performance pro Position in Portfolio-Währung
+        const dayChangePerShare = dayChangeBySymbol[h.symbol]
+        const dayChangePct = dayChangePercentBySymbol[h.symbol]
+        const dayPositionChange =
+          typeof dayChangePerShare === 'number' ? dayChangePerShare * h.quantity : null
+        const dayPositive = (dayPositionChange ?? 0) >= 0
+
         return (
           <Link
             key={h.id}
@@ -47,7 +60,7 @@ export default function HoldingsTab({
             className="grid grid-cols-12 gap-3 items-center px-4 py-3.5 rounded-xl bg-[#0c0c16] border border-white/[0.04] hover:border-white/[0.08] transition-all group"
           >
             {/* Aktie */}
-            <div className="col-span-4 flex items-center gap-3 min-w-0">
+            <div className="col-span-3 flex items-center gap-3 min-w-0">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                 src={`/api/v1/logo/${h.symbol}?size=60`}
@@ -88,19 +101,59 @@ export default function HoldingsTab({
               </p>
             </div>
 
-            {/* Kurs */}
+            {/* Kurs (+ 1D %) */}
             <div className="col-span-2 text-right">
               <p className="text-[13px] text-white/70 tabular-nums">
                 {formatStockPrice(h.current_price_display ?? h.current_price, true)}
               </p>
+              {typeof dayChangePct === 'number' && (
+                <p
+                  className={`text-[10px] tabular-nums ${
+                    dayChangePct >= 0 ? 'text-emerald-400/60' : 'text-red-400/60'
+                  }`}
+                >
+                  {dayChangePct >= 0 ? '+' : ''}
+                  {dayChangePct.toFixed(2).replace('.', ',')}%
+                </p>
+              )}
             </div>
 
             {/* Wert */}
             <div className="col-span-2 text-right">
-              <p className="text-[13px] font-semibold text-white/80 tabular-nums">{formatCurrency(h.value)}</p>
+              <p className="text-[13px] font-semibold text-white/80 tabular-nums">
+                {formatCurrency(h.value)}
+              </p>
             </div>
 
-            {/* Rendite */}
+            {/* Heute (P/L 1D pro Position) */}
+            <div className="col-span-2 text-right">
+              {dayPositionChange !== null ? (
+                <>
+                  <p
+                    className={`text-[12px] font-semibold tabular-nums ${
+                      dayPositive ? 'text-emerald-400' : 'text-red-400'
+                    }`}
+                  >
+                    {dayPositive ? '+' : ''}
+                    {formatCurrency(dayPositionChange)}
+                  </p>
+                  {typeof dayChangePct === 'number' && (
+                    <p
+                      className={`text-[10px] tabular-nums ${
+                        dayPositive ? 'text-emerald-400/50' : 'text-red-400/50'
+                      }`}
+                    >
+                      {dayPositive ? '+' : ''}
+                      {dayChangePct.toFixed(2).replace('.', ',')}%
+                    </p>
+                  )}
+                </>
+              ) : (
+                <p className="text-[12px] text-white/20 tabular-nums">–</p>
+              )}
+            </div>
+
+            {/* Rendite (Gesamt) */}
             <div className="col-span-2 text-right">
               <p
                 className={`text-[12px] font-semibold tabular-nums ${
@@ -117,11 +170,6 @@ export default function HoldingsTab({
                 {positive ? '+' : ''}
                 {formatCurrency(h.gain_loss)}
               </p>
-            </div>
-
-            {/* Anteil */}
-            <div className="col-span-1 text-right">
-              <p className="text-[11px] text-white/25 tabular-nums">{portfolioPct.toFixed(1)}%</p>
             </div>
           </Link>
         )

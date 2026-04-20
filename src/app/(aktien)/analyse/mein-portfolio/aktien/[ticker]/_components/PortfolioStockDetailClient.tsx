@@ -52,6 +52,22 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
     [holdings, ticker]
   )
 
+  // FX-Split aggregiert über alle Holdings dieses Symbols (Multi-Depot)
+  const { plExclFx, plFromFx } = useMemo(() => {
+    const relevant = holdings.filter(h => h.symbol.toUpperCase() === ticker.toUpperCase())
+    let exclSum: number | null = null
+    let fromSum: number | null = null
+    let hasAny = false
+    for (const h of relevant) {
+      if (typeof h.pl_excl_fx === 'number' && typeof h.pl_from_fx === 'number') {
+        exclSum = (exclSum ?? 0) + h.pl_excl_fx
+        fromSum = (fromSum ?? 0) + h.pl_from_fx
+        hasAny = true
+      }
+    }
+    return hasAny ? { plExclFx: exclSum, plFromFx: fromSum } : { plExclFx: null, plFromFx: null }
+  }, [holdings, ticker])
+
   const stockName = symbolHolding?.name || symbolTxs[0]?.name || ticker
   const currentPriceEUR = symbolHolding?.current_price ?? 0
 
@@ -128,6 +144,8 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
             <StockPerformanceCard
               performance={performance}
               currentPriceEUR={currentPriceEUR}
+              plExclFx={plExclFx}
+              plFromFx={plFromFx}
               formatCurrency={formatCurrency}
               formatPercentage={formatPercentage}
               loading={isLoading}

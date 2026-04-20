@@ -6,6 +6,10 @@ import type { SymbolPerformance } from '@/utils/portfolioCalculations'
 interface StockPerformanceCardProps {
   performance: SymbolPerformance | null
   currentPriceEUR: number
+  /** Summe P/L excl. FX über alle Holdings dieses Symbols (null wenn keine FX-Rate gespeichert) */
+  plExclFx?: number | null
+  /** Summe P/L from FX über alle Holdings dieses Symbols */
+  plFromFx?: number | null
   formatCurrency: (v: number) => string
   formatPercentage: (v: number) => string
   loading: boolean
@@ -14,10 +18,14 @@ interface StockPerformanceCardProps {
 export default function StockPerformanceCard({
   performance,
   currentPriceEUR,
+  plExclFx,
+  plFromFx,
   formatCurrency,
   formatPercentage,
   loading,
 }: StockPerformanceCardProps) {
+  const hasFxSplit =
+    typeof plExclFx === 'number' && typeof plFromFx === 'number' && Math.abs(plFromFx) > 0.01
   if (loading || !performance) {
     return (
       <div className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6">
@@ -51,6 +59,32 @@ export default function StockPerformanceCard({
         {formatCurrency(currentPriceEUR)}
       </p>
 
+      {/* FX-Aufspaltung nur für Nicht-EUR Positionen mit gespeicherter Kaufrate */}
+      {hasFxSplit && (
+        <div className="mt-5 pt-5 border-t border-white/[0.03]">
+          <div className="flex items-center gap-2 mb-3">
+            <p className="text-[10px] font-semibold text-white/50 uppercase tracking-wider">
+              Rendite-Aufschlüsselung
+            </p>
+            <span className="text-[9px] text-white/30">Währung vs. Aktienkurs</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            <FxSplitRow
+              label="Kurs-Performance"
+              hint="Wenn der Wechselkurs seit dem Kauf gleich geblieben wäre"
+              value={plExclFx!}
+              formatCurrency={formatCurrency}
+            />
+            <FxSplitRow
+              label="Währungs-Effekt"
+              hint="Nur durch EUR/USD-Bewegung"
+              value={plFromFx!}
+              formatCurrency={formatCurrency}
+            />
+          </div>
+        </div>
+      )}
+
       {/* Stat-Grid */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-5 pt-5 border-t border-white/[0.03]">
         <Stat label="Investiert" value={formatCurrency(performance.totalInvested)} />
@@ -74,6 +108,36 @@ export default function StockPerformanceCard({
         />
       </div>
     </section>
+  )
+}
+
+function FxSplitRow({
+  label,
+  hint,
+  value,
+  formatCurrency,
+}: {
+  label: string
+  hint: string
+  value: number
+  formatCurrency: (v: number) => string
+}) {
+  const positive = value >= 0
+  return (
+    <div className="bg-white/[0.02] rounded-xl p-3">
+      <div className="flex items-baseline justify-between gap-2">
+        <p className="text-[11px] font-medium text-white/60">{label}</p>
+        <p
+          className={`text-[14px] font-bold tabular-nums ${
+            positive ? 'text-emerald-400' : 'text-red-400'
+          }`}
+        >
+          {positive ? '+' : ''}
+          {formatCurrency(value)}
+        </p>
+      </div>
+      <p className="text-[10px] text-white/30 mt-1">{hint}</p>
+    </div>
   )
 }
 

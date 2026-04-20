@@ -38,6 +38,11 @@ export interface Holding {
   gain_loss: number
   gain_loss_percent: number
   purchase_currency?: string
+  // FX-Split: Kurs-Performance vs Währungs-Effekt separat (optional — benötigt
+  // purchase_fx_rate in der DB und aktuelle FX-Rate). Null wenn nicht berechenbar
+  // (z.B. EUR-Kauf oder Kaufrate nicht gespeichert).
+  pl_excl_fx?: number | null
+  pl_from_fx?: number | null
   // Investment-Case (User-Notiz zur Anlagestrategie, optional)
   investment_case?: string | null
   investment_case_updated_at?: string | null
@@ -485,6 +490,38 @@ export function usePortfolio() {
       const gainLoss = value - costBasis
       const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
 
+      // FX-Split: nur berechenbar für Nicht-EUR-Positionen mit gespeicherter fx_rate
+      let plExclFx: number | null = null
+      let plFromFx: number | null = null
+      const purchaseFxRate = (h as any).purchase_fx_rate
+        ? Number((h as any).purchase_fx_rate)
+        : null
+      if (
+        purchaseFxRate &&
+        purchaseFxRate > 0 &&
+        tickerCurrency !== 'EUR' &&
+        quantity > 0 &&
+        apiPrice > 0
+      ) {
+        // Aktuelle FX-Rate (EUR pro Einheit Quote-Währung)
+        const currentFxRate =
+          tickerCurrency === 'USD' ? usdToEurRate : tickerCurrency === 'GBP' ? gbpToEurRate : null
+        if (currentFxRate && currentFxRate > 0) {
+          // Original Kaufpreis in Quote-Währung rekonstruieren:
+          // purchase_price (EUR) = purchasePriceOrig × purchaseFxRate
+          //   → purchasePriceOrig = purchase_price / purchaseFxRate
+          const purchasePriceOrig = purchasePrice / purchaseFxRate
+          // Bei GBP-Aktien (.L) kommt der Kurs in GBX (Pence) aus der API.
+          // Wir rechnen in GBP für die Split-Berechnung.
+          const effectiveApiPrice = tickerCurrency === 'GBP' ? apiPrice / 100 : apiPrice
+
+          // P/L excl. FX: Kursperformance bewertet zum Kauf-FX
+          plExclFx = (effectiveApiPrice - purchasePriceOrig) * quantity * purchaseFxRate
+          // P/L from FX: Währungs-Effekt auf der aktuellen Position
+          plFromFx = effectiveApiPrice * quantity * (currentFxRate - purchaseFxRate)
+        }
+      }
+
       return {
         ...h,
         current_price: apiPrice,
@@ -492,7 +529,9 @@ export function usePortfolio() {
         purchase_price_display: purchasePrice,
         value,
         gain_loss: gainLoss,
-        gain_loss_percent: gainLossPercent
+        gain_loss_percent: gainLossPercent,
+        pl_excl_fx: plExclFx,
+        pl_from_fx: plFromFx,
       }
     })
   }, [currency])
