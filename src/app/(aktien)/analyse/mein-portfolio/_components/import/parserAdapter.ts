@@ -1,69 +1,92 @@
-// Adapter: jeder Broker-Parser hat sein eigenes Output-Schema.
-// Hier wird das in unsere einheitliche NormalizedTransaction übersetzt.
+// Adapter: nutzt den existierenden /api/portfolio/import-auto Endpoint,
+// der bereits alle 12 Parser (CSV/PDF/XLSX) serverseitig ansteuert und
+// PDF via `pdf-parse`, XLSX via `xlsx` extrahiert.
 //
-// Aktuell implementiert: scalable (CSV) als Beispiel.
-// Weitere Parser (TR, Flatex, Smartbroker, ING, Freedom24, Trading212, Zero, Comdirect)
-// werden in Folge-Sessions inkrementell hier eingebunden.
+// Unser Job hier: Response → NormalizedTransaction[].
 
-import { parseScalableCSV, type ParsedTransaction as ScalableTx } from '@/lib/scalableCSVParser'
 import type { ImportBrokerId } from '@/lib/importBrokerConfig'
 import type { NormalizedTransaction } from './types'
 
 export class ParserNotImplementedError extends Error {
   constructor(brokerId: string) {
-    super(`Parser für ${brokerId} ist in dieser Session noch nicht angeschlossen — kommt in Folge-Session.`)
+    super(`Parser für ${brokerId} ist noch nicht angeschlossen.`)
   }
 }
 
-async function fileToText(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result))
-    reader.onerror = () => reject(reader.error || new Error('Datei konnte nicht gelesen werden'))
-    reader.readAsText(file, 'utf-8')
-  })
-}
-
-function fromScalable(tx: ScalableTx): NormalizedTransaction {
-  // Scalable nutzt eigene Type-Strings → auf unsere Vereinheitlichung mappen
+/**
+ * Die Parser haben alle leicht unterschiedliche Felder. Wir picken die
+ * gemeinsame Untermenge heraus und mappen auf unsere NormalizedTransaction.
+ */
+function normalizeRaw(raw: any): NormalizedTransaction {
+  // Typ kann bei einigen Parsern englisch, bei anderen deutsch sein — wir mappen beides
+  const rawType = String(raw.type ?? '').toLowerCase()
   const typeMap: Record<string, NormalizedTransaction['type']> = {
     buy: 'buy',
+    kauf: 'buy',
     sell: 'sell',
+    verkauf: 'sell',
     dividend: 'dividend',
+    dividende: 'dividend',
     cash_deposit: 'cash_deposit',
+    deposit: 'cash_deposit',
+    einzahlung: 'cash_deposit',
     cash_withdrawal: 'cash_withdrawal',
+    withdrawal: 'cash_withdrawal',
+    auszahlung: 'cash_withdrawal',
     transfer_in: 'transfer_in',
     transfer_out: 'transfer_out',
   }
+  const type = typeMap[rawType] ?? 'buy'
+
+  // Fees können unter verschiedenen Keys liegen
+  const fees = Number(raw.fee ?? raw.fees ?? 0) || 0
+
+  // Name-Fallback-Kette
+  const name =
+    raw.name ?? raw.companyName ?? raw.instrumentName ?? raw.description ?? raw.isin ?? 'Unbekannt'
+
   return {
-    type: typeMap[tx.type] ?? 'buy',
-    isin: tx.isin || null,
-    symbol: tx.symbol || null,
-    name: tx.name || tx.isin || 'Unbekannt',
-    quantity: tx.quantity,
-    price: tx.price,
-    fees: tx.fee || 0,
-    date: tx.date,
-    currency: 'EUR', // Scalable rechnet alles in EUR
-    notes: tx.notes,
+    type,
+    isin: raw.isin || null,
+    symbol: raw.symbol || raw.ticker || null,
+    name: String(name),
+    quantity: Number(raw.quantity ?? 0) || 0,
+    price: Number(raw.price ?? 0) || 0,
+    fees,
+    date: String(raw.date ?? ''),
+    currency: raw.currency || 'EUR',
+    notes: raw.notes || undefined,
   }
 }
 
 export async function parseFile(
-  brokerId: ImportBrokerId,
+  _brokerId: ImportBrokerId,
   file: File
 ): Promise<{ transactions: NormalizedTransaction[]; raw: any }> {
-  if (brokerId === 'scalable') {
-    const text = await fileToText(file)
-    const result = parseScalableCSV(text)
-    if (!result.transactions || result.transactions.length === 0) {
-      throw new Error('Keine Transaktionen in der Datei gefunden')
-    }
-    return {
-      transactions: result.transactions.map(fromScalable),
-      raw: result,
-    }
+  const fd = new FormData()
+  fd.append('files', file)
+
+  const res = await fetch('/api/portfolio/import-auto', {
+    method: 'POST',
+    body: fd,
+  })
+
+  if (!res.ok) {
+    const errBody = await res.json().catch(() => null)
+    throw new Error(errBody?.error || `Parser antwortete mit HTTP ${res.status}`)
   }
 
-  throw new ParserNotImplementedError(brokerId)
+  const data = await res.json()
+  const rawTxs: any[] = Array.isArray(data.transactions) ? data.transactions : []
+
+  if (rawTxs.length === 0) {
+    throw new Error('Keine Transaktionen in der Datei gefunden')
+  }
+
+  const normalized = rawTxs.map(normalizeRaw).filter(t => t.date) // ohne Datum nicht brauchbar
+
+  return {
+    transactions: normalized,
+    raw: data,
+  }
 }
