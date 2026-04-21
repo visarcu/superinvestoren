@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import IndexChart from './_components/IndexChart'
+import UpcomingEarningsCard from './_components/UpcomingEarningsCard'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -496,6 +497,11 @@ export default function AnalyseDashboard() {
           </div>
         </div>
       )}
+
+      {/* ── Row 4: Anstehende Earnings ─────────────────────────── */}
+      <div className="px-5 mt-6">
+        <UpcomingEarningsCard />
+      </div>
 
       <div className="h-8" />
     </div>
