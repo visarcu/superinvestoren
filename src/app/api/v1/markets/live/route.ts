@@ -15,6 +15,8 @@ interface MarketPoint {
   previousClose: number
   high?: number
   low?: number
+  /** Unix-Timestamp (Sekunden) des letzten Preises — für "vor X min"-Anzeige */
+  timestamp: number
   source: 'eodhd' | 'yahoo'
 }
 
@@ -58,6 +60,7 @@ async function fetchEodhd(symbol: string): Promise<MarketPoint | null> {
       previousClose: raw.previousClose ?? 0,
       high: raw.high ?? undefined,
       low: raw.low ?? undefined,
+      timestamp: typeof raw.timestamp === 'number' ? raw.timestamp : Math.floor(Date.now() / 1000),
       source: 'eodhd',
     }
   } catch {
@@ -88,6 +91,9 @@ async function fetchYahoo(symbol: string): Promise<MarketPoint | null> {
       previousClose: prev,
       high: meta.regularMarketDayHigh ?? undefined,
       low: meta.regularMarketDayLow ?? undefined,
+      timestamp: typeof meta.regularMarketTime === 'number'
+        ? meta.regularMarketTime
+        : Math.floor(Date.now() / 1000),
       source: 'yahoo',
     }
   } catch {

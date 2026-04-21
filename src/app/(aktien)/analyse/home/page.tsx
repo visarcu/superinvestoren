@@ -13,11 +13,14 @@ interface MarketIndex {
   country: string; flag: string; price: number; change: number
   changePercent: number; previousClose: number
   dayHigh?: number; dayLow?: number
+  /** Unix-Timestamp (Sekunden) des letzten Kurses */
+  timestamp?: number
 }
 
 interface DashboardMarket {
   price: number; change: number; changePct: number
   high: number; low: number; previousClose: number
+  timestamp?: number
 }
 
 interface Sector {
@@ -28,6 +31,7 @@ interface Sector {
 interface Commodity {
   symbol: string; name: string; nameDE: string
   price: number; change: number; changePercent: number
+  timestamp?: number
 }
 
 interface MarketData {
@@ -61,6 +65,46 @@ function PctBadge({ value }: { value: number }) {
       isPos ? 'bg-emerald-500/10 text-emerald-400' : 'bg-red-500/10 text-red-400'
     }`}>
       {isPos ? '+' : ''}{value.toFixed(2)}%
+    </span>
+  )
+}
+
+/**
+ * Dezenter "vor X min" / "Uhrzeit" Indikator für Live-Daten.
+ * < 2min: "live" (grüner Punkt)
+ * < 60min: "vor X min"
+ * sonst: Uhrzeit "HH:MM"
+ */
+function TimestampDot({ ts }: { ts?: number }) {
+  if (!ts || ts <= 0) return null
+  const ageMin = (Date.now() / 1000 - ts) / 60
+  if (ageMin < 2) {
+    return (
+      <span className="inline-flex items-center gap-1 text-[9px] text-emerald-400/80">
+        <span className="relative flex h-1.5 w-1.5">
+          <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400/60 animate-ping" />
+          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+        </span>
+        live
+      </span>
+    )
+  }
+  if (ageMin < 60) {
+    return <span className="text-[9px] text-white/30 tabular-nums">vor {Math.round(ageMin)} min</span>
+  }
+  if (ageMin < 24 * 60) {
+    const date = new Date(ts * 1000)
+    return (
+      <span className="text-[9px] text-white/30 tabular-nums">
+        {date.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })}
+      </span>
+    )
+  }
+  // Älter als ein Tag → Datum
+  const date = new Date(ts * 1000)
+  return (
+    <span className="text-[9px] text-amber-400/60 tabular-nums">
+      {date.toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })}
     </span>
   )
 }
@@ -105,6 +149,7 @@ export default function AnalyseDashboard() {
             previousClose: i.previousClose || 0,
             dayHigh: i.high || i.dayHigh,
             dayLow: i.low || i.dayLow,
+            timestamp: i.timestamp,
           }))
           if (realIndices.length > 0) marketData.indices = realIndices
 
@@ -117,6 +162,7 @@ export default function AnalyseDashboard() {
             ...c,
             change: c.change || 0,
             changePercent: c.changePct || c.changePercent || 0,
+            timestamp: c.timestamp,
           }))
           if (realCommodities.length > 0) marketData.commodities = realCommodities
         }
@@ -341,11 +387,12 @@ export default function AnalyseDashboard() {
                   selectedIndex === idx.symbol ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'
                 } ${i > 0 ? 'border-t border-white/[0.03]' : ''}`}
               >
-                <div className="flex items-center gap-2.5">
+                <div className="flex items-center gap-2.5 min-w-0">
                   <span className="text-[13px]">{idx.flag}</span>
                   <span className={`text-[13px] font-medium ${selectedIndex === idx.symbol ? 'text-white' : 'text-white/60'}`}>
                     {idx.nameDE}
                   </span>
+                  <TimestampDot ts={idx.timestamp} />
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-[13px] text-white/50 tabular-nums">{fmtPrice(idx.price)}</span>
@@ -371,9 +418,12 @@ export default function AnalyseDashboard() {
                       selectedIndex === c.symbol ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'
                     }`}
                   >
-                    <span className={`text-[13px] ${selectedIndex === c.symbol ? 'text-white' : 'text-white/60'}`}>
-                      {c.nameDE}
-                    </span>
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <span className={`text-[13px] ${selectedIndex === c.symbol ? 'text-white' : 'text-white/60'}`}>
+                        {c.nameDE}
+                      </span>
+                      <TimestampDot ts={c.timestamp} />
+                    </div>
                     <div className="flex items-center gap-3">
                       <span className="text-[13px] text-white/50 tabular-nums">{fmtPrice(c.price)}</span>
                       <span className={`text-[11px] font-medium tabular-nums ${c.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
