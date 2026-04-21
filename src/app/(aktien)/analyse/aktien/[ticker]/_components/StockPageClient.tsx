@@ -84,6 +84,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
             change: q.change,
             changePercent: q.changePercent,
             marketCap: q.marketCap,
+            timestamp: q.timestamp,
             source: q.source,
           })
       })
@@ -102,6 +103,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
               change: q.change,
               changePercent: q.changePercent,
               marketCap: q.marketCap,
+              timestamp: q.timestamp,
               source: q.source,
             })
         })

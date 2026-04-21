@@ -90,6 +90,8 @@ export interface Quote {
   change: number
   changePercent: number
   marketCap?: number
+  /** Unix-Timestamp (Sekunden) des letzten Quotes — für Market-Status-Badge */
+  timestamp?: number
   source: string
 }
 

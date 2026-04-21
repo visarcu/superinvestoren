@@ -4,6 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import FeyWatchlistButton from './FeyWatchlistButton'
+import MarketStatusBadge from './MarketStatusBadge'
 import type { UnternehmenProfile, Quote } from '../_lib/types'
 
 interface StockHeaderProps {
@@ -80,6 +81,11 @@ export default function StockHeader({ ticker, profile, quote }: StockHeaderProps
                 {quote.change.toFixed(2).replace('.', ',')}
               </span>
             </div>
+            {quote.timestamp ? (
+              <div className="flex justify-end mt-1">
+                <MarketStatusBadge ticker={ticker} quoteTs={quote.timestamp} />
+              </div>
+            ) : null}
           </div>
         )}
         <FeyWatchlistButton ticker={ticker} />
