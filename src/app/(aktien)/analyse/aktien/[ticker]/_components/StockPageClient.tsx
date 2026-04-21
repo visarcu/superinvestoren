@@ -15,6 +15,7 @@ import KpisTab from './tabs/KpisTab'
 import AiTab from './tabs/AiTab'
 import { fmt, fmtPct } from '../_lib/format'
 import { useStockUser } from '@/lib/hooks/useStockUser'
+import { addRecentTicker } from '@/lib/recentlyViewed'
 import type {
   UnternehmenProfile,
   Period,
@@ -90,6 +91,13 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
       })
       .finally(() => setLoading(false))
   }, [ticker])
+
+  // Recently-Viewed: Sobald das Profil geladen ist, Ticker + Firmenname in die
+  // localStorage-LRU schreiben. Dedup + Reordering machen wir im Helper.
+  useEffect(() => {
+    if (!profile?.name) return
+    addRecentTicker(ticker, profile.name)
+  }, [ticker, profile?.name])
 
   // Auto-refresh quote every 30 seconds
   useEffect(() => {

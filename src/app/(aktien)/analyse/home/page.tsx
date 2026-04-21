@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 import IndexChart from './_components/IndexChart'
 import UpcomingEarningsCard from './_components/UpcomingEarningsCard'
+import RecentlyViewedCard from './_components/RecentlyViewedCard'
 
 // ── Types ────────────────────────────────────────────────────────────────────
 
@@ -498,8 +499,9 @@ export default function AnalyseDashboard() {
         </div>
       )}
 
-      {/* ── Row 4: Anstehende Earnings ─────────────────────────── */}
-      <div className="px-5 mt-6">
+      {/* ── Row 4: Zuletzt analysiert + Anstehende Earnings ─────── */}
+      <div className="px-5 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <RecentlyViewedCard />
         <UpcomingEarningsCard />
       </div>
 
