@@ -1,15 +1,27 @@
 /**
  * buildEarningsCalendar.ts
  *
- * Baut einen eigenen Earnings Calendar aus SEC 8-K Filing-Dates.
- * Logik: Wenn ein 8-K Filing Earnings-relevanten Content hat,
- * ist das Filing-Datum = Earnings-Datum.
+ * Baut einen eigenen Earnings Calendar aus SEC 8-K Filing-Dates
+ * (Item 2.02 = Results of Operations). Kein FMP/EODHD.
  *
- * Speichert in einer eigenen Tabelle (nicht die FMP-Tabelle).
+ * Drei Modi:
  *
- * Usage:
- *   npx tsx scripts/buildEarningsCalendar.ts AAPL
- *   npx tsx scripts/buildEarningsCalendar.ts              # Top 50 Unternehmen
+ *   # 1. Explizite Tickers — nutzt TOP_COMPANIES hardcoded Mapping
+ *   npx tsx scripts/buildEarningsCalendar.ts AAPL GOOGL
+ *
+ *   # 2. Default — alle 41 hardcoded Top-Firmen
+ *   npx tsx scripts/buildEarningsCalendar.ts
+ *
+ *   # 3. Discovery — nimmt die Tickers, die unser NASDAQ-Ingest bereits
+ *   #    mit EPS-Estimate versehen hat (Proxy für Large/Mid-Cap-Coverage),
+ *   #    und löst die CIKs dynamisch über SEC company_tickers.json auf.
+ *   #    Ingestet Past-Earnings für das gesamte entdeckte Universum.
+ *   npx tsx scripts/buildEarningsCalendar.ts --discover --limit 20
+ *
+ * Optionen:
+ *   --limit N         Max Past-Earnings pro Firma (default 20)
+ *   --clean-legacy    Löscht Altlasten (source='sec-8k-filing-date')
+ *   --max-companies N Cap für --discover (default 500)
  */
 
 import { createClient } from '@supabase/supabase-js'
@@ -67,6 +79,70 @@ const TOP_COMPANIES: Record<string, { cik: string; name: string }> = {
   // German / European (filing with SEC)
   SAP: { cik: '1000184', name: 'SAP SE' },
   ASML: { cik: '937966', name: 'ASML Holding NV' },
+}
+
+// ─── SEC Ticker-Map (für Discovery) ──────────────────────────────────────────
+
+interface SecTickerEntry {
+  cik: string
+  name: string
+}
+
+/**
+ * Lädt die globale SEC Ticker→CIK Mapping (~10k Firmen).
+ * Format: { "0": { "cik_str": 320193, "ticker": "AAPL", "title": "Apple Inc." }, ... }
+ */
+async function loadSecTickerMap(): Promise<Map<string, SecTickerEntry>> {
+  const url = 'https://www.sec.gov/files/company_tickers.json'
+  const res = await fetch(url, {
+    headers: { 'User-Agent': 'Finclue research@finclue.de' },
+  })
+  if (!res.ok) throw new Error(`SEC ticker map HTTP ${res.status}`)
+  const data = (await res.json()) as Record<string, { cik_str: number; ticker: string; title: string }>
+  const map = new Map<string, SecTickerEntry>()
+  for (const key in data) {
+    const row = data[key]
+    if (!row?.ticker || !row?.cik_str) continue
+    map.set(row.ticker.toUpperCase(), {
+      cik: String(row.cik_str),
+      name: row.title,
+    })
+  }
+  return map
+}
+
+/**
+ * Discovery-Modus: liefert Tickers für die sich Past-Ingestion lohnt.
+ * Kriterium: bereits in SecEarningsCalendar mit eps_estimate gesetzt (=
+ * Analyst-Coverage vorhanden = Large/Mid-Cap). Sortiert nach "zuerst die,
+ * die wir NOCH nicht mit source='sec-8k-item-2.02' haben".
+ */
+async function discoverTickers(maxCompanies: number): Promise<string[]> {
+  // 1) Alle Tickers mit Estimate-Coverage (NASDAQ-ingested)
+  const { data: covered, error: e1 } = await supabase
+    .from('SecEarningsCalendar')
+    .select('ticker')
+    .not('eps_estimate', 'is', null)
+    .limit(10000)
+  if (e1) throw new Error(`Supabase query failed: ${e1.message}`)
+
+  const coveredSet = new Set<string>()
+  for (const row of covered || []) coveredSet.add(row.ticker as string)
+
+  // 2) Already-SEC-ingested Tickers (priorisieren neue)
+  const { data: already } = await supabase
+    .from('SecEarningsCalendar')
+    .select('ticker')
+    .eq('source', 'sec-8k-item-2.02')
+    .limit(10000)
+  const alreadySet = new Set<string>()
+  for (const row of already || []) alreadySet.add(row.ticker as string)
+
+  // Neue zuerst, bekannte danach
+  const nu = [...coveredSet].filter(t => !alreadySet.has(t))
+  const bekannt = [...coveredSet].filter(t => alreadySet.has(t))
+
+  return [...nu, ...bekannt].slice(0, maxCompanies)
 }
 
 // ─── EDGAR: Get Earnings 8-K Filings ─────────────────────────────────────────
@@ -152,9 +228,20 @@ function deriveCallTime(acceptanceDt: string): string | null {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
-async function processCompany(ticker: string, limit: number) {
-  const company = TOP_COMPANIES[ticker]
-  if (!company) { console.error(`Unknown: ${ticker}`); return }
+async function processCompany(
+  ticker: string,
+  limit: number,
+  secMap?: Map<string, SecTickerEntry>
+) {
+  // 1) Priorität: Hardcoded TOP_COMPANIES (kuratiert, richtiger Display-Name)
+  // 2) Fallback: Dynamischer SEC-Map-Lookup (für --discover)
+  const company: SecTickerEntry | undefined =
+    TOP_COMPANIES[ticker] || secMap?.get(ticker)
+
+  if (!company) {
+    console.error(`  ⚠️  ${ticker}: CIK nicht gefunden (weder TOP_COMPANIES noch SEC-Map)`)
+    return
+  }
 
   console.log(`📊 ${company.name} (${ticker})`)
 
@@ -214,9 +301,30 @@ async function main() {
   const limitArg = args.indexOf('--limit')
   const limit = limitArg !== -1 ? parseInt(args[limitArg + 1]) : 20
   const shouldClean = args.includes('--clean-legacy')
+  const discover = args.includes('--discover')
+  const maxArg = args.indexOf('--max-companies')
+  const maxCompanies = maxArg !== -1 ? parseInt(args[maxArg + 1]) : 500
 
-  const tickers = args.filter(a => !a.startsWith('--') && isNaN(Number(a)))
-  const targets = tickers.length > 0 ? tickers.map(t => t.toUpperCase()) : Object.keys(TOP_COMPANIES)
+  let targets: string[]
+  let secMap: Map<string, SecTickerEntry> | undefined
+
+  if (discover) {
+    console.log(`🔍 Discovery-Modus — lade SEC Ticker-Map…`)
+    secMap = await loadSecTickerMap()
+    console.log(`   SEC-Map: ${secMap.size} Firmen\n`)
+
+    console.log(`🔍 Ermittle Tickers aus NASDAQ-Coverage…`)
+    const discovered = await discoverTickers(maxCompanies)
+    // Nur Tickers mit SEC-CIK-Eintrag behalten
+    targets = discovered.filter(t => secMap!.has(t))
+    console.log(`   ${discovered.length} mit Estimate-Coverage, ${targets.length} mit SEC-CIK\n`)
+  } else {
+    const cliTickers = args.filter(a => !a.startsWith('--') && isNaN(Number(a)))
+    targets =
+      cliTickers.length > 0
+        ? cliTickers.map(t => t.toUpperCase())
+        : Object.keys(TOP_COMPANIES)
+  }
 
   console.log(`🚀 Finclue Earnings Calendar Builder (SEC 8-K Item 2.02)`)
   console.log(`   Companies: ${targets.length}`)
@@ -225,7 +333,7 @@ async function main() {
   if (shouldClean) await cleanLegacy()
 
   for (const ticker of targets) {
-    await processCompany(ticker, limit)
+    await processCompany(ticker, limit, secMap)
   }
 
   console.log('\n✅ Done!')
