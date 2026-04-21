@@ -71,7 +71,20 @@ const TOP_COMPANIES: Record<string, { cik: string; name: string }> = {
 
 // ─── EDGAR: Get Earnings 8-K Filings ─────────────────────────────────────────
 
-async function getEarnings8KDates(cik: string, limit: number): Promise<{ date: string; accession: string }[]> {
+interface FilingRecord {
+  date: string           // 2026-02-04
+  accession: string      // 0001652044-26-000012
+  items: string          // "2.02,9.01"
+  acceptanceDt: string   // 2026-02-04T16:05:12.000Z
+}
+
+/**
+ * Holt alle 8-K Filings mit Item 2.02 (Results of Operations) = echte
+ * Earnings-Ankündigungen. Alte Heuristik (Monat + Dedup pro Quartal) war
+ * fehleranfällig — sie hat Board-Change-8-Ks (Item 5.02) fälschlich als
+ * Earnings markiert.
+ */
+async function getEarnings8KDates(cik: string, limit: number): Promise<FilingRecord[]> {
   const paddedCik = cik.padStart(10, '0')
   const url = `https://data.sec.gov/submissions/CIK${paddedCik}.json`
   const res = await fetch(url, { headers: { 'User-Agent': 'Finclue research@finclue.de' } })
@@ -81,30 +94,60 @@ async function getEarnings8KDates(cik: string, limit: number): Promise<{ date: s
   const recent = data.filings?.recent
   if (!recent?.form) return []
 
-  const results: { date: string; accession: string }[] = []
-  const seenQuarters = new Set<string>()
+  const results: FilingRecord[] = []
+  const items = recent.items || []
+  const acceptances = recent.acceptanceDateTime || []
 
   for (let i = 0; i < recent.form.length && results.length < limit; i++) {
     if (recent.form[i] !== '8-K') continue
 
-    const filingDate = recent.filingDate[i]
-    // Deduplizierung: max 1 Earnings pro Quartal
-    const quarter = `${filingDate.slice(0, 4)}-Q${Math.ceil(parseInt(filingDate.slice(5, 7)) / 3)}`
-    if (seenQuarters.has(quarter)) continue
+    const itemStr = (items[i] || '') as string
+    // Item 2.02 = "Results of Operations and Financial Condition" = Earnings
+    if (!itemStr.split(',').map(s => s.trim()).includes('2.02')) continue
 
-    // Prüfe ob es ein Earnings-8K ist (Item 2.02 = Results of Operations)
-    // Wir können das nicht direkt aus der Submissions-API lesen,
-    // aber die meisten Earnings-8Ks kommen in Earnings-Season (Jan, Apr, Jul, Oct)
-    const month = parseInt(filingDate.slice(5, 7))
-    const isEarningsSeason = [1, 2, 4, 5, 7, 8, 10, 11].includes(month)
-
-    if (isEarningsSeason) {
-      seenQuarters.add(quarter)
-      results.push({ date: filingDate, accession: recent.accessionNumber[i] })
-    }
+    results.push({
+      date: recent.filingDate[i],
+      accession: recent.accessionNumber[i],
+      items: itemStr,
+      acceptanceDt: acceptances[i] || '',
+    })
   }
 
   return results
+}
+
+/**
+ * Grobe Fiscal-Quarter-Heuristik aus Filing-Monat. Funktioniert für Firmen
+ * mit Calendar-FY (GOOGL, AMZN, META, ...) — für Apple/Microsoft mit
+ * abweichendem FY ist's unscharf, aber für die Display-Anzeige
+ * "Q2 2026" ausreichend. Falls präzise nötig → per-Ticker Override später.
+ */
+function fiscalPeriod(filingDate: string): { quarter: string | null; year: number | null } {
+  const [yStr, mStr] = filingDate.split('-')
+  const y = Number(yStr)
+  const m = Number(mStr)
+  if (!y || !m) return { quarter: null, year: null }
+  // Earnings-Call ist ~1 Monat nach Quartalsende. Mapping:
+  if (m <= 2)  return { quarter: 'Q4', year: y - 1 }
+  if (m <= 5)  return { quarter: 'Q1', year: y }
+  if (m <= 8)  return { quarter: 'Q2', year: y }
+  if (m <= 11) return { quarter: 'Q3', year: y }
+  return { quarter: 'Q4', year: y }
+}
+
+/**
+ * Leitet bmo/amc aus `acceptanceDateTime` ab. SEC akzeptiert Filings in ET,
+ * nicht UTC. Das Format ist ISO-ähnlich ohne TZ-Indikator, aber tatsächlich ET.
+ * Vor ~09:30 = bmo (before market open), nach ~16:00 = amc (after market close),
+ * sonst intraday/unclear.
+ */
+function deriveCallTime(acceptanceDt: string): string | null {
+  if (!acceptanceDt) return null
+  const hh = Number(acceptanceDt.slice(11, 13))
+  if (isNaN(hh)) return null
+  if (hh < 9) return 'bmo'
+  if (hh >= 16) return 'amc'
+  return null
 }
 
 // ─── Main ────────────────────────────────────────────────────────────────────
@@ -116,23 +159,35 @@ async function processCompany(ticker: string, limit: number) {
   console.log(`📊 ${company.name} (${ticker})`)
 
   try {
-    const dates = await getEarnings8KDates(company.cik, limit)
+    const records = await getEarnings8KDates(company.cik, limit)
 
     let saved = 0
-    for (const { date } of dates) {
+    for (const rec of records) {
+      const fp = fiscalPeriod(rec.date)
+      const callTime = deriveCallTime(rec.acceptanceDt)
+
       const { error } = await supabase
         .from('SecEarningsCalendar')
         .upsert({
           ticker,
           company_name: company.name,
-          date,
-          source: 'sec-8k-filing-date',
+          date: rec.date,
+          fiscal_quarter: fp.quarter,
+          fiscal_year: fp.year,
+          items: rec.items,
+          accession: rec.accession,
+          call_time: callTime,
+          is_upcoming: false,
+          confirmed: true,
+          source: 'sec-8k-item-2.02',
+          updated_at: new Date().toISOString(),
         }, { onConflict: 'ticker,date' })
 
-      if (!error) saved++
+      if (error) console.error(`  ⚠️  ${rec.date}: ${error.message}`)
+      else saved++
     }
 
-    console.log(`  ${dates.length} Earnings-Dates gefunden, ${saved} gespeichert`)
+    console.log(`  ${records.length} Earnings (Item 2.02) gefunden, ${saved} gespeichert`)
   } catch (err) {
     console.error(`  ❌ ${err instanceof Error ? err.message.slice(0, 60) : err}`)
   }
@@ -140,20 +195,34 @@ async function processCompany(ticker: string, limit: number) {
   await new Promise(r => setTimeout(r, 200))
 }
 
+/**
+ * Löscht Altlasten aus der Month-Heuristik-Ära (source = 'sec-8k-filing-date').
+ * Optional: nur via --clean-legacy Flag.
+ */
+async function cleanLegacy() {
+  console.log('🧹 Lösche Legacy-Einträge (source = sec-8k-filing-date)…')
+  const { error, count } = await supabase
+    .from('SecEarningsCalendar')
+    .delete({ count: 'exact' })
+    .eq('source', 'sec-8k-filing-date')
+  if (error) console.error(`  ❌ ${error.message}`)
+  else console.log(`  ${count ?? '?'} Einträge gelöscht.\n`)
+}
+
 async function main() {
   const args = process.argv.slice(2)
   const limitArg = args.indexOf('--limit')
   const limit = limitArg !== -1 ? parseInt(args[limitArg + 1]) : 20
+  const shouldClean = args.includes('--clean-legacy')
 
   const tickers = args.filter(a => !a.startsWith('--') && isNaN(Number(a)))
   const targets = tickers.length > 0 ? tickers.map(t => t.toUpperCase()) : Object.keys(TOP_COMPANIES)
 
-  console.log(`🚀 Finclue Earnings Calendar Builder (SEC 8-K)`)
+  console.log(`🚀 Finclue Earnings Calendar Builder (SEC 8-K Item 2.02)`)
   console.log(`   Companies: ${targets.length}`)
   console.log(`   Limit: ${limit} per company\n`)
 
-  // Create table if not exists
-  // (Wird einmalig via Migration gemacht)
+  if (shouldClean) await cleanLegacy()
 
   for (const ticker of targets) {
     await processCompany(ticker, limit)
