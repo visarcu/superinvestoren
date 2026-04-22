@@ -102,32 +102,57 @@ export async function GET(request: NextRequest) {
 
     const rawEvents = ((data as unknown) as CalendarRow[] | null) ?? []
 
-    // Server-side Dedup: gleicher ticker + fiscal_quarter + fiscal_year kann
-    // doppelt vorkommen — z.B. Tesla 2026-04-02 (SEC 8-K Item 2.02 für
-    // Production Numbers) und 2026-04-22 (NASDAQ offizielle Q1 Earnings).
-    // Wir bevorzugen den verlässlicheren Eintrag:
+    // ── Dedup-Pass 1: gleicher ticker + fiscal_quarter + fiscal_year ──
+    // z.B. Tesla 2026-04-02 (SEC 8-K Item 2.02 für Production Numbers) und
+    // 2026-04-22 (NASDAQ offizielle Q1 Earnings). Wir bevorzugen:
     //   1) source='nasdaq-public' > 'sec-8k-item-2.02'
     //   2) Bei gleicher Source: späteres Datum (= echter Earnings Call)
-    const dedupMap = new Map<string, CalendarRow>()
+    const tickerDedup = new Map<string, CalendarRow>()
     for (const row of rawEvents) {
-      // Wenn fiscal_quarter/year fehlt, einzigartig → gar nicht deduplizieren
       const key = row.fiscal_quarter && row.fiscal_year
         ? `${row.ticker}|${row.fiscal_quarter}|${row.fiscal_year}`
         : `${row.ticker}|${row.date}`
-      const existing = dedupMap.get(key)
+      const existing = tickerDedup.get(key)
       if (!existing) {
-        dedupMap.set(key, row)
+        tickerDedup.set(key, row)
         continue
       }
       const existingIsNasdaq = existing.source === 'nasdaq-public'
       const rowIsNasdaq = row.source === 'nasdaq-public'
       if (rowIsNasdaq && !existingIsNasdaq) {
-        dedupMap.set(key, row)
+        tickerDedup.set(key, row)
       } else if (rowIsNasdaq === existingIsNasdaq && row.date > existing.date) {
-        dedupMap.set(key, row)
+        tickerDedup.set(key, row)
       }
     }
-    const events = Array.from(dedupMap.values()).sort((a, b) => {
+
+    // ── Dedup-Pass 2: gleicher company_name + date (Class-Pairs) ──
+    // z.B. GOOG/GOOGL (Alphabet Class C/A), BRK.A/BRK.B (Berkshire),
+    // FOX/FOXA, NWS/NWSA — beides dieselbe Firma mit identischen Earnings.
+    // Wir behalten alphabetisch den ersten Ticker. Bei Multi-Ticker-Filter
+    // (?tickers=…) kommt der Konflikt nur wenn der User beide Klassen hat.
+    const companyDedup = new Map<string, CalendarRow>()
+    for (const row of tickerDedup.values()) {
+      if (!row.company_name) {
+        // Ohne Name nicht deduplizieren — einzigartig per ticker+date
+        companyDedup.set(`${row.ticker}|${row.date}`, row)
+        continue
+      }
+      const normName = row.company_name.toLowerCase().trim()
+      const key = `${normName}|${row.date}`
+      const existing = companyDedup.get(key)
+      if (!existing) {
+        companyDedup.set(key, row)
+        continue
+      }
+      // Bei Klassen-Konflikt: alphabetisch ersten Ticker behalten
+      // (BRK.A vor BRK.B, FOX vor FOXA, GOOG vor GOOGL).
+      if (row.ticker < existing.ticker) {
+        companyDedup.set(key, row)
+      }
+    }
+
+    const events = Array.from(companyDedup.values()).sort((a, b) => {
       if (a.date !== b.date) return a.date < b.date ? -1 : 1
       const ma = a.market_cap || 0
       const mb = b.market_cap || 0
