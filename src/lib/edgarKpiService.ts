@@ -282,8 +282,8 @@ export const PILOT_COMPANIES: Record<string, CompanyConfig> = {
       'total orders — store in millions (e.g. 761 million → value: 761, unit: "millions")',
       'marketplace gross order value (GOV) — store in BILLIONS (e.g. $23.2B → value: 23.2, unit: "billions"), metric name "marketplace_gov", label "Marketplace GOV"',
       'monthly active users (MAUs) — store in millions',
-      'contribution profit — store in millions',
-      'contribution profit margin — store as percent',
+      'adjusted EBITDA — store in millions, metric "adjusted_ebitda", label "Adjusted EBITDA"',
+      'adjusted EBITDA margin as a percentage of marketplace GOV — store as percent (typically 3-5% for DoorDash). DO NOT extract contribution profit margin as a percentage of revenue (that gives ~35% and is a different metric). metric "adjusted_ebitda_margin_of_gov", label "Adj. EBITDA / GOV"',
     ],
   },
   LYFT: {
@@ -314,10 +314,10 @@ export const PILOT_COMPANIES: Record<string, CompanyConfig> = {
     cik: '1561550',
     name: 'Datadog',
     kpiHints: [
-      'total customers — store in thousands (e.g. 30,500 customers → value: 30.5, unit: "thousands")',
-      'customers with ARR $100,000 or more — store in thousands (e.g. 3,610 → value: 3.61, unit: "thousands"), metric name "customers_100k_arr", label "Customers $100k+ ARR"',
-      'customers with ARR $1 million or more — store as count (e.g. 462 → value: 462, unit: "count"), metric name "customers_1m_arr", label "Customers $1M+ ARR"',
-      'dollar-based net retention rate / DBNRR — store as percent, metric "dbnrr", label "Dollar-Based Net Retention"',
+      'customers with ARR $100,000 or more — this is a COUNT like "4,310 customers". Store value as the count (e.g. 4,310 → value: 4310, unit: "count"). NOT thousands. metric "customers_100k_arr", label "Customers $100k+ ARR"',
+      'customers with ARR $1 million or more — COUNT like "603 customers" → value: 603, unit: "count". metric "customers_1m_arr", label "Customers $1M+ ARR"',
+      'dollar-based net revenue retention / DBNRR — ONLY extract if a specific retention percentage like "115%" or "mid-100s%" is stated. Common Datadog phrasing: "dollar-based net retention rate was approximately 115%". DO NOT confuse with revenue growth YoY. If no specific retention number given, SKIP this metric. metric "dbnrr", label "Dollar-Based Net Retention"',
+      'NOTE: Datadog stopped reporting "total customers" in press releases; do NOT extract a total customer count unless explicitly labeled as "total customers".',
     ],
   },
   SNOW: {
@@ -340,9 +340,10 @@ export const PILOT_COMPANIES: Record<string, CompanyConfig> = {
       'subscription revenue — store in millions',
       'current remaining performance obligations (cRPO) — store in BILLIONS (e.g. $9.4B → value: 9.4, unit: "billions"), metric name "crpo", label "cRPO"',
       'total remaining performance obligations (RPO) — store in billions, metric name "rpo", label "Total RPO"',
-      'customers with more than $1 million in annual contract value (ACV) — store as count, metric name "customers_1m_acv", label "Customers $1M+ ACV"',
-      'customers with more than $5 million in ACV — store as count, metric name "customers_5m_acv", label "Customers $5M+ ACV"',
-      'renewal rate — store as percent',
+      'TOTAL customers with more than $1 million in annual contract value (ACV) — this is a cumulative COUNT of all such customers (typical range: 2000-2500 for ServiceNow), NOT the number added in the quarter. Store as count. metric name "customers_1m_acv", label "Customers $1M+ ACV". If only a "net new" or "additions" number is given, SKIP this metric.',
+      'TOTAL customers with more than $5 million in ACV — cumulative count, NOT net new. metric name "customers_5m_acv", label "Customers $5M+ ACV"',
+      'TOTAL customers with more than $20 million in ACV — cumulative count. metric name "customers_20m_acv", label "Customers $20M+ ACV"',
+      'renewal rate — store as percent (ServiceNow reports 97-99% typically)',
     ],
   },
   // ── Streaming / Media ─────────────────────────────────────────────────────
@@ -393,8 +394,9 @@ export const PILOT_COMPANIES: Record<string, CompanyConfig> = {
       'active sellers — store in millions, metric name "active_sellers", label "Active Sellers"',
       'consolidated gross merchandise sales (GMS) — store in BILLIONS (e.g. $2.9B → value: 2.9, unit: "billions"), metric name "gms", label "Consolidated GMS"',
       'marketplace GMS — store in billions',
-      'take rate — store as percent',
-      'adjusted EBITDA margin — store as percent',
+      'TRANSACTIONAL take rate (revenue as % of GMS from transaction fees only, typically 6-7%) — store as percent, metric "transactional_take_rate", label "Transactional Take Rate"',
+      'CONSOLIDATED take rate (total revenue as % of GMS including ads, shipping, Etsy Payments — typically 21-24%) — store as percent, metric "take_rate", label "Consolidated Take Rate"',
+      'adjusted EBITDA margin — store as percent, metric "adjusted_ebitda_margin", label "Adj. EBITDA Margin"',
     ],
   },
 }
@@ -665,9 +667,13 @@ export function normalizeKPIs(kpis: ExtractedKPI[], filingDate?: string): Extrac
       kpi.metric = alias.metric
       kpi.label = alias.label
     }
-    if (kpi.unit === 'millions' || kpi.unit === 'billions' || kpi.unit === 'thousands') {
-      kpi.value = Math.round(kpi.value)
-    }
+    // Magnitude-aware rounding: large values get integer precision,
+    // small values keep decimals (e.g. 4.31 thousand customers stays 4.31,
+    // not rounded to 4, which would drop 8% of the signal).
+    const v = Math.abs(kpi.value)
+    if (v >= 1000) kpi.value = Math.round(kpi.value)
+    else if (v >= 10) kpi.value = Math.round(kpi.value * 10) / 10
+    else kpi.value = Math.round(kpi.value * 100) / 100
   }
 
   // Sanity check: reject records whose periodDate is >6 months beyond the
