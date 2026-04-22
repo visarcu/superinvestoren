@@ -100,7 +100,40 @@ export async function GET(request: NextRequest) {
     const { data, error } = await q
     if (error) throw error
 
-    const events = ((data as unknown) as CalendarRow[] | null) ?? []
+    const rawEvents = ((data as unknown) as CalendarRow[] | null) ?? []
+
+    // Server-side Dedup: gleicher ticker + fiscal_quarter + fiscal_year kann
+    // doppelt vorkommen — z.B. Tesla 2026-04-02 (SEC 8-K Item 2.02 für
+    // Production Numbers) und 2026-04-22 (NASDAQ offizielle Q1 Earnings).
+    // Wir bevorzugen den verlässlicheren Eintrag:
+    //   1) source='nasdaq-public' > 'sec-8k-item-2.02'
+    //   2) Bei gleicher Source: späteres Datum (= echter Earnings Call)
+    const dedupMap = new Map<string, CalendarRow>()
+    for (const row of rawEvents) {
+      // Wenn fiscal_quarter/year fehlt, einzigartig → gar nicht deduplizieren
+      const key = row.fiscal_quarter && row.fiscal_year
+        ? `${row.ticker}|${row.fiscal_quarter}|${row.fiscal_year}`
+        : `${row.ticker}|${row.date}`
+      const existing = dedupMap.get(key)
+      if (!existing) {
+        dedupMap.set(key, row)
+        continue
+      }
+      const existingIsNasdaq = existing.source === 'nasdaq-public'
+      const rowIsNasdaq = row.source === 'nasdaq-public'
+      if (rowIsNasdaq && !existingIsNasdaq) {
+        dedupMap.set(key, row)
+      } else if (rowIsNasdaq === existingIsNasdaq && row.date > existing.date) {
+        dedupMap.set(key, row)
+      }
+    }
+    const events = Array.from(dedupMap.values()).sort((a, b) => {
+      if (a.date !== b.date) return a.date < b.date ? -1 : 1
+      const ma = a.market_cap || 0
+      const mb = b.market_cap || 0
+      if (ma !== mb) return mb - ma
+      return a.ticker < b.ticker ? -1 : 1
+    })
 
     // Gruppiere nach Datum
     const byDate = new Map<string, ReturnType<typeof toApiEvent>[]>()

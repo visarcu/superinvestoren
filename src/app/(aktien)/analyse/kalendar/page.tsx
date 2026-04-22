@@ -211,37 +211,23 @@ export default function EarningsCalendarPage() {
         </div>
       </header>
 
-      {/* Filter-Tabs */}
+      {/* Filter-Tabs — Portfolio/Watchlist sind immer klickbar; bei leerem
+           Inhalt zeigt der Calendar einen passenden EmptyState. */}
       <div className="px-6 sm:px-10 max-w-7xl mx-auto w-full">
         <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
-          {(['top', 'portfolio', 'watchlist', 'all'] as FilterMode[]).map(mode => {
-            const disabled =
-              (mode === 'portfolio' && (!isLoggedIn || portfolioTickers.length === 0)) ||
-              (mode === 'watchlist' && (!isLoggedIn || watchlistTickers.length === 0))
-            return (
-              <button
-                key={mode}
-                onClick={() => !disabled && setFilter(mode)}
-                disabled={disabled}
-                className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
-                  filter === mode
-                    ? 'bg-white/[0.08] text-white shadow-[0_0_20px_rgba(255,255,255,0.04)]'
-                    : disabled
-                      ? 'text-white/20 cursor-not-allowed'
-                      : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'
-                }`}
-                title={
-                  disabled
-                    ? mode === 'portfolio'
-                      ? 'Du hast noch kein Portfolio'
-                      : 'Deine Watchlist ist leer'
-                    : undefined
-                }
-              >
-                {FILTER_LABELS[mode]}
-              </button>
-            )
-          })}
+          {(['top', 'portfolio', 'watchlist', 'all'] as FilterMode[]).map(mode => (
+            <button
+              key={mode}
+              onClick={() => setFilter(mode)}
+              className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+                filter === mode
+                  ? 'bg-white/[0.08] text-white'
+                  : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'
+              }`}
+            >
+              {FILTER_LABELS[mode]}
+            </button>
+          ))}
         </div>
       </div>
 
@@ -282,7 +268,12 @@ export default function EarningsCalendarPage() {
             <div className="w-5 h-5 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
           </div>
         ) : data.length === 0 ? (
-          <EmptyState filter={filter} />
+          <EmptyState
+            filter={filter}
+            isLoggedIn={isLoggedIn}
+            hasPortfolio={portfolioTickers.length > 0}
+            hasWatchlist={watchlistTickers.length > 0}
+          />
         ) : (
           <div className="grid grid-cols-5 gap-1.5">
             {/* Offset für den Wochentag des 1. */}
@@ -312,16 +303,16 @@ export default function EarningsCalendarPage() {
                   disabled={!calDay}
                   className={`min-h-[140px] rounded-xl p-2.5 text-left transition-all ${
                     isToday
-                      ? 'bg-emerald-500/[0.06] border border-emerald-500/30 shadow-[0_0_24px_rgba(16,185,129,0.08)]'
+                      ? 'bg-white/[0.04] border border-white/[0.14] hover:border-white/[0.2] hover:bg-white/[0.06] cursor-pointer'
                       : eventCount > 0
                         ? 'bg-[#0c0c16] border border-white/[0.04] hover:border-white/[0.12] hover:bg-[#10101c] cursor-pointer'
                         : 'bg-[#0a0a12] border border-white/[0.02]'
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
-                    <span className={`text-[11px] font-semibold ${isToday ? 'text-emerald-400' : eventCount > 0 ? 'text-white/55' : 'text-white/20'}`}>
+                    <span className={`text-[11px] font-semibold ${isToday ? 'text-white' : eventCount > 0 ? 'text-white/55' : 'text-white/20'}`}>
                       {day}
-                      {isToday && <span className="ml-1 text-[9px] text-emerald-400/70">heute</span>}
+                      {isToday && <span className="ml-1 text-[9px] font-normal text-white/40">heute</span>}
                     </span>
                     {eventCount > 0 && (
                       <span className="text-[9px] text-white/25 tabular-nums">{eventCount}</span>
@@ -400,16 +391,56 @@ function DayEventRow({ event: e }: { event: EarningsEvent }) {
 
 // ── EmptyState ───────────────────────────────────────────────────────────────
 
-function EmptyState({ filter }: { filter: FilterMode }) {
-  const messages: Record<FilterMode, string> = {
-    top: 'Keine Top-Earnings (>$10B Market Cap) in diesem Monat.',
-    portfolio: 'Keine Earnings für deine Portfolio-Aktien in diesem Monat.',
-    watchlist: 'Keine Earnings für deine Watchlist-Aktien in diesem Monat.',
-    all: 'Keine Earnings-Daten für diesen Monat.',
+function EmptyState({
+  filter,
+  isLoggedIn,
+  hasPortfolio,
+  hasWatchlist,
+}: {
+  filter: FilterMode
+  isLoggedIn: boolean
+  hasPortfolio: boolean
+  hasWatchlist: boolean
+}) {
+  let primary = ''
+  let secondary: React.ReactNode = null
+
+  if (filter === 'portfolio') {
+    if (!isLoggedIn) {
+      primary = 'Logge dich ein, um deine Portfolio-Earnings zu sehen'
+    } else if (!hasPortfolio) {
+      primary = 'Du hast noch keine Portfolio-Aktien'
+      secondary = (
+        <Link href="/analyse/mein-portfolio" className="text-[12px] text-emerald-400/70 hover:text-emerald-400 mt-2">
+          Portfolio anlegen →
+        </Link>
+      )
+    } else {
+      primary = 'Keine Earnings für deine Portfolio-Aktien in diesem Monat'
+    }
+  } else if (filter === 'watchlist') {
+    if (!isLoggedIn) {
+      primary = 'Logge dich ein, um deine Watchlist-Earnings zu sehen'
+    } else if (!hasWatchlist) {
+      primary = 'Deine Watchlist ist leer'
+      secondary = (
+        <Link href="/analyse/meine-watchlist" className="text-[12px] text-emerald-400/70 hover:text-emerald-400 mt-2">
+          Aktien zur Watchlist hinzufügen →
+        </Link>
+      )
+    } else {
+      primary = 'Keine Earnings für deine Watchlist-Aktien in diesem Monat'
+    }
+  } else if (filter === 'top') {
+    primary = 'Keine Top-Earnings (>$10B Market Cap) in diesem Monat'
+  } else {
+    primary = 'Keine Earnings-Daten für diesen Monat'
   }
+
   return (
     <div className="flex flex-col items-center justify-center py-32">
-      <p className="text-[13px] text-white/40">{messages[filter]}</p>
+      <p className="text-[13px] text-white/40">{primary}</p>
+      {secondary}
     </div>
   )
 }
@@ -425,14 +456,14 @@ function DayDetailModal({
   onClose: () => void
   onSelectTicker: (ticker: string) => void
 }) {
-  // Sortiere nach: zuerst BMO (Pre-Market), dann AMC (After-Hours), dann unbekannt
-  // Innerhalb gleicher Time: nach Market Cap DESC
+  // Sortierung: ausschließlich nach Market Cap DESC — die größten Firmen oben.
+  // Bei gleicher Market Cap (oder beide null): alphabetisch nach Ticker.
   const sorted = useMemo(() => {
-    const order = (t: string | null) => (t === 'bmo' ? 0 : t === 'amc' ? 2 : 1)
     return [...day.events].sort((a, b) => {
-      const o = order(a.time) - order(b.time)
-      if (o !== 0) return o
-      return (b.marketCap || 0) - (a.marketCap || 0)
+      const ma = a.marketCap || 0
+      const mb = b.marketCap || 0
+      if (ma !== mb) return mb - ma
+      return a.ticker < b.ticker ? -1 : 1
     })
   }, [day.events])
 
