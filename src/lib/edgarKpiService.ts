@@ -644,12 +644,26 @@ ${filingText}`
 
 // ─── Post-processing ──────────────────────────────────────────────────────────
 
+// Canonical metric name aliases: variants the LLM sometimes emits → canonical name.
+// Keep labels stable; downstream consumers (frontend KPI charts) filter by metric name.
+const METRIC_ALIASES: Record<string, { metric: string; label: string }> = {
+  // NFLX: Netflix changed "Streaming Revenue" → "Revenues"
+  total_revenue: { metric: 'streaming_revenue', label: 'Streaming Revenue' },
+  revenue: { metric: 'streaming_revenue', label: 'Streaming Revenue' },
+  // RBLX: "average_bookings_per_dau" vs "abpdau"
+  average_bookings_per_dau: { metric: 'abpdau', label: 'ABPDAU' },
+  // SOFI: "deposits" vs "total_deposits"
+  deposits: { metric: 'total_deposits', label: 'Total Deposits' },
+  // MELI: "unique_active_buyers" vs "unique_active_users"
+  unique_active_buyers: { metric: 'unique_active_users', label: 'Unique Active Users' },
+}
+
 export function normalizeKPIs(kpis: ExtractedKPI[], filingDate?: string): ExtractedKPI[] {
-  // Normalize metric names for backwards compatibility
   for (const kpi of kpis) {
-    if (kpi.metric === 'total_revenue' || kpi.metric === 'revenue') {
-      kpi.metric = 'streaming_revenue'
-      kpi.label = 'Streaming Revenue'
+    const alias = METRIC_ALIASES[kpi.metric]
+    if (alias) {
+      kpi.metric = alias.metric
+      kpi.label = alias.label
     }
     if (kpi.unit === 'millions' || kpi.unit === 'billions' || kpi.unit === 'thousands') {
       kpi.value = Math.round(kpi.value)
