@@ -226,6 +226,177 @@ export const PILOT_COMPANIES: Record<string, CompanyConfig> = {
       'GEOGRAPHIC: Greater China revenue — store in millions, metric "revenue_china", label "Revenue China"',
     ],
   },
+  // ── Fintech / Payments ────────────────────────────────────────────────────
+  PYPL: {
+    cik: '1633917',
+    name: 'PayPal Holdings',
+    kpiHints: [
+      'active accounts / active customer accounts — store in millions (e.g. 434 million → value: 434, unit: "millions")',
+      'total payment volume (TPV) — store in BILLIONS (e.g. $437B → value: 437, unit: "billions")',
+      'number of payment transactions — store in billions (e.g. 6.6 billion → value: 6.6, unit: "billions")',
+      'payment transactions per active account — store as a count (e.g. 61.4 → value: 61.4, unit: "count")',
+      'transaction margin / transaction margin dollars — store in millions',
+      'GUIDANCE/OUTLOOK: revenue guidance for NEXT quarter — store in millions, metric "guidance_revenue", label "Revenue Guidance"',
+    ],
+  },
+  XYZ: {
+    cik: '1512673',
+    name: 'Block',
+    kpiHints: [
+      'Cash App monthly transacting actives / monthly active users — store in millions, metric name "cash_app_maus", label "Cash App MAUs"',
+      'Cash App gross profit — store in millions, metric name "cash_app_gross_profit", label "Cash App Gross Profit"',
+      'Square gross payment volume (GPV) — store in BILLIONS (e.g. $61B → value: 61, unit: "billions"), metric name "square_gpv", label "Square GPV"',
+      'Square gross profit — store in millions, metric name "square_gross_profit", label "Square Gross Profit"',
+      'Bitcoin revenue — store in millions, metric name "bitcoin_revenue", label "Bitcoin Revenue"',
+      'total gross profit — store in millions, metric name "total_gross_profit", label "Total Gross Profit"',
+    ],
+  },
+  SOFI: {
+    cik: '1818874',
+    name: 'SoFi Technologies',
+    kpiHints: [
+      'total members — store in millions (e.g. 10.1 million → value: 10.1, unit: "millions")',
+      'total products — store in millions (e.g. 14.7 million → value: 14.7, unit: "millions")',
+      'Tech Platform total accounts / Galileo accounts — store in millions',
+      'Financial Services products — store in millions',
+      'Lending products — store in millions',
+      'deposits / total deposits — store in billions',
+    ],
+  },
+  // ── Unique Operating KPIs ─────────────────────────────────────────────────
+  RBLX: {
+    cik: '1315098',
+    name: 'Roblox',
+    kpiHints: [
+      'daily active users (DAUs) — store in millions (e.g. 80.2 million → value: 80.2, unit: "millions")',
+      'hours engaged — store in billions (e.g. 20.7 billion hours → value: 20.7, unit: "billions")',
+      'bookings — this is virtual currency purchased, store in millions (e.g. $1,127 million → value: 1127, unit: "millions")',
+      'average bookings per DAU (ABPDAU) — store in dollars, metric "abpdau", label "ABPDAU"',
+      'average monthly unique payers — store in millions',
+    ],
+  },
+  DASH: {
+    cik: '1792789',
+    name: 'DoorDash',
+    kpiHints: [
+      'total orders — store in millions (e.g. 761 million → value: 761, unit: "millions")',
+      'marketplace gross order value (GOV) — store in BILLIONS (e.g. $23.2B → value: 23.2, unit: "billions"), metric name "marketplace_gov", label "Marketplace GOV"',
+      'monthly active users (MAUs) — store in millions',
+      'contribution profit — store in millions',
+      'contribution profit margin — store as percent',
+    ],
+  },
+  LYFT: {
+    cik: '1759509',
+    name: 'Lyft',
+    kpiHints: [
+      'active riders — store in millions (e.g. 24.7 million → value: 24.7, unit: "millions")',
+      'rides — store in millions (e.g. 217 million rides → value: 217, unit: "millions")',
+      'revenue per active rider — store in dollars',
+      'gross bookings — store in BILLIONS (e.g. $4.2B → value: 4.2, unit: "billions")',
+      'adjusted EBITDA margin — store as percent',
+    ],
+  },
+  // ── SaaS / Cloud / Enterprise Software ────────────────────────────────────
+  CRWD: {
+    cik: '1535527',
+    name: 'CrowdStrike',
+    kpiHints: [
+      'ending Annual Recurring Revenue (ARR) — store in millions, metric name "arr", label "Annual Recurring Revenue"',
+      'net new ARR — store in millions, metric name "net_new_arr", label "Net New ARR"',
+      'dollar-based net retention rate / DBNRR — store as percent, metric "dbnrr", label "Dollar-Based Net Retention"',
+      'subscription customers — CrowdStrike reports a rough count; store in thousands (e.g. 29,000 customers → value: 29, unit: "thousands") if stated',
+      'GUIDANCE/OUTLOOK: total revenue guidance for NEXT quarter — store in millions, metric "guidance_revenue", label "Revenue Guidance"',
+      'NOTE: CrowdStrike fiscal year ends January 31. Q1 FY2026 = Feb-Apr 2025 (periodDate 2025-04-30), Q4 FY2026 = Nov 2025 - Jan 2026 (periodDate 2026-01-31).',
+    ],
+  },
+  DDOG: {
+    cik: '1561550',
+    name: 'Datadog',
+    kpiHints: [
+      'total customers — store in thousands (e.g. 30,500 customers → value: 30.5, unit: "thousands")',
+      'customers with ARR $100,000 or more — store in thousands (e.g. 3,610 → value: 3.61, unit: "thousands"), metric name "customers_100k_arr", label "Customers $100k+ ARR"',
+      'customers with ARR $1 million or more — store as count (e.g. 462 → value: 462, unit: "count"), metric name "customers_1m_arr", label "Customers $1M+ ARR"',
+      'dollar-based net retention rate / DBNRR — store as percent, metric "dbnrr", label "Dollar-Based Net Retention"',
+    ],
+  },
+  SNOW: {
+    cik: '1640147',
+    name: 'Snowflake',
+    kpiHints: [
+      'product revenue — store in millions',
+      'remaining performance obligations (RPO) — store in BILLIONS (e.g. $6.7B → value: 6.7, unit: "billions"), metric name "rpo", label "RPO"',
+      'net revenue retention rate — store as percent, metric name "nrr", label "Net Revenue Retention"',
+      'total customers — store in thousands',
+      'customers with trailing 12-month product revenue greater than $1 million — store as count, metric name "customers_1m_product_revenue", label "Customers $1M+"',
+      'Global 2000 / Forbes Global 2000 customers — store as count, metric name "g2k_customers", label "Global 2000 Customers"',
+      'NOTE: Snowflake fiscal year ends January 31. Q1 FY2026 = Feb-Apr 2025, etc.',
+    ],
+  },
+  NOW: {
+    cik: '1373715',
+    name: 'ServiceNow',
+    kpiHints: [
+      'subscription revenue — store in millions',
+      'current remaining performance obligations (cRPO) — store in BILLIONS (e.g. $9.4B → value: 9.4, unit: "billions"), metric name "crpo", label "cRPO"',
+      'total remaining performance obligations (RPO) — store in billions, metric name "rpo", label "Total RPO"',
+      'customers with more than $1 million in annual contract value (ACV) — store as count, metric name "customers_1m_acv", label "Customers $1M+ ACV"',
+      'customers with more than $5 million in ACV — store as count, metric name "customers_5m_acv", label "Customers $5M+ ACV"',
+      'renewal rate — store as percent',
+    ],
+  },
+  // ── Streaming / Media ─────────────────────────────────────────────────────
+  DIS: {
+    cik: '1744489',
+    name: 'Walt Disney',
+    kpiHints: [
+      'Disney+ Core subscribers (excluding Hotstar / Disney+ Hotstar) — store in millions, metric name "disney_plus_core_subs", label "Disney+ Core Subs"',
+      'Disney+ Core ARPU (monthly) — store in dollars, metric name "disney_plus_core_arpu", label "Disney+ Core ARPU"',
+      'Hulu SVOD-Only subscribers — store in millions, metric name "hulu_svod_subs", label "Hulu SVOD Subs"',
+      'Hulu Live TV + SVOD subscribers — store in millions, metric name "hulu_live_subs", label "Hulu Live Subs"',
+      'Experiences segment operating income — store in millions, metric name "experiences_op_income", label "Experiences Op. Income"',
+      'Entertainment segment operating income — store in millions, metric name "entertainment_op_income", label "Entertainment Op. Income"',
+      'Sports segment (ESPN) operating income — store in millions, metric name "sports_op_income", label "Sports Op. Income"',
+      'NOTE: Disney fiscal year ends late September/early October. Q1 FY2026 = Oct-Dec 2025 (periodDate 2025-12-31), Q4 FY2026 = Jul-Sep 2026 (periodDate 2026-09-30).',
+    ],
+  },
+  WBD: {
+    cik: '1437107',
+    name: 'Warner Bros. Discovery',
+    kpiHints: [
+      'direct-to-consumer (DTC) / global Max subscribers — store in millions, metric name "dtc_subscribers", label "DTC Subscribers"',
+      'DTC ARPU (global or domestic) — store in dollars, metric name "dtc_arpu", label "DTC ARPU"',
+      'Studios segment revenue — store in millions, metric name "studios_revenue", label "Studios Revenue"',
+      'Networks segment revenue — store in millions, metric name "networks_revenue", label "Networks Revenue"',
+      'Direct-to-Consumer segment revenue — store in millions, metric name "dtc_revenue", label "DTC Revenue"',
+      'adjusted EBITDA — store in millions',
+    ],
+  },
+  // ── E-Commerce / Marketplaces ─────────────────────────────────────────────
+  MELI: {
+    cik: '1099590',
+    name: 'MercadoLibre',
+    kpiHints: [
+      'gross merchandise volume (GMV) — store in BILLIONS (e.g. $13.4B → value: 13.4, unit: "billions")',
+      'total payment volume (TPV) — store in BILLIONS (e.g. $58.9B → value: 58.9, unit: "billions")',
+      'unique active users / unique buyers — store in millions',
+      'unique fintech active users / fintech MAUs — store in millions, metric name "fintech_maus", label "Fintech MAUs"',
+      'items sold — store in millions',
+      'Mercado Pago acquiring TPV — store in billions, metric name "mercado_pago_tpv", label "Mercado Pago TPV"',
+    ],
+  },
+  ETSY: {
+    cik: '1370637',
+    name: 'Etsy',
+    kpiHints: [
+      'active buyers (trailing twelve month) — store in millions, metric name "active_buyers", label "Active Buyers"',
+      'active sellers — store in millions, metric name "active_sellers", label "Active Sellers"',
+      'consolidated gross merchandise sales (GMS) — store in BILLIONS (e.g. $2.9B → value: 2.9, unit: "billions"), metric name "gms", label "Consolidated GMS"',
+      'marketplace GMS — store in billions',
+      'take rate — store as percent',
+      'adjusted EBITDA margin — store as percent',
+    ],
+  },
 }
 
 // ─── Types ────────────────────────────────────────────────────────────────────
