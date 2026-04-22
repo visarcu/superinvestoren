@@ -6,6 +6,7 @@
 //   from=YYYY-MM-DD          Default: heute
 //   to=YYYY-MM-DD            Default: heute + 30d
 //   ticker=AAPL              Optional: Einzel-Ticker-Filter
+//   tickers=AAPL,MSFT,GOOGL  Optional: Multi-Ticker-Filter (z.B. Portfolio-View)
 //   upcoming=true            Nur anstehende (is_upcoming=true), ignoriert from/to
 //   days=N                   Mit upcoming=true: nur die nächsten N Tage
 //   limit=N                  Max Events (Cap 500)
@@ -49,6 +50,13 @@ export async function GET(request: NextRequest) {
   const from = upcomingOnly ? todayIso : (sp.get('from') || todayIso)
   const to = upcomingOnly ? futureIso : (sp.get('to') || futureIso)
   const ticker = sp.get('ticker')?.toUpperCase()
+  // Multi-Ticker (z.B. ?tickers=AAPL,MSFT,GOOGL für Portfolio-Views).
+  // Whitelist: A-Z0-9.- damit kein SQL-Injection-Surface entsteht.
+  const tickers = (sp.get('tickers') || '')
+    .split(',')
+    .map(t => t.trim().toUpperCase())
+    .filter(t => /^[A-Z0-9.\-]{1,15}$/.test(t))
+    .slice(0, 100)
   const limit = Math.min(parseInt(sp.get('limit') || '100'), 500)
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
@@ -74,6 +82,7 @@ export async function GET(request: NextRequest) {
       .limit(limit)
 
     if (ticker) q = q.eq('ticker', ticker)
+    if (tickers.length > 0) q = q.in('ticker', tickers)
     if (upcomingOnly) q = q.eq('is_upcoming', true)
 
     const { data, error } = await q

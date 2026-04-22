@@ -499,11 +499,19 @@ export default function AnalyseDashboard() {
         </div>
       )}
 
-      {/* ── Row 4: Zuletzt analysiert + Anstehende Earnings ─────── */}
-      <div className="px-5 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <RecentlyViewedCard />
-        <UpcomingEarningsCard />
-      </div>
+      {/* ── Row 4: Zuletzt analysiert + Portfolio-Earnings ────────
+            Earnings-Card nur wenn der User Portfolio-Holdings hat,
+            sonst nimmt Recently-Viewed die volle Breite. */}
+      {portfolio.length > 0 ? (
+        <div className="px-5 mt-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <RecentlyViewedCard />
+          <UpcomingEarningsCard tickers={portfolio.map(h => h.symbol)} />
+        </div>
+      ) : (
+        <div className="px-5 mt-6">
+          <RecentlyViewedCard />
+        </div>
+      )}
 
       <div className="h-8" />
     </div>

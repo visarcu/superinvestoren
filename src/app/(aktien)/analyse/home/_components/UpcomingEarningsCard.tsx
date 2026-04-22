@@ -1,9 +1,12 @@
 'use client'
 
-// Anstehende Earnings für die Home-Seite.
+// Anstehende Earnings für die Home-Seite — gescoped auf User-Portfolio.
 //
-// Quelle: /api/v1/calendar/earnings?upcoming=true&days=14 → NASDAQ Public Calendar.
-// Keine FMP/EODHD-Abhängigkeit.
+// Quelle: /api/v1/calendar/earnings?upcoming=true&days=14&tickers=...
+// (NASDAQ Public Calendar, in Supabase gecacht).
+//
+// Eingabe: `tickers` Prop (Portfolio-Symbole). Ohne Tickers → Card rendert
+// nichts (Home-Page versteckt sie konditional).
 //
 // Design: Fey-clean Card mit max. 6 Events. Jede Zeile:
 //   [Logo]  TICKER · Q4 2026         23. Apr.
@@ -79,36 +82,41 @@ function flatten(dates: CalendarDay[], limit: number): (EarningsEvent & { date: 
   return out
 }
 
-export default function UpcomingEarningsCard() {
+interface UpcomingEarningsCardProps {
+  /** Tickers aus dem User-Portfolio. Ohne Tickers → Card zeigt Empty-State. */
+  tickers: string[]
+}
+
+export default function UpcomingEarningsCard({ tickers }: UpcomingEarningsCardProps) {
   const [events, setEvents] = useState<(EarningsEvent & { date: string })[]>([])
   const [loading, setLoading] = useState(true)
 
+  // Stable Key für useEffect-Dependency (Array-Identität wechselt sonst pro Render)
+  const tickersKey = tickers.slice().sort().join(',')
+
   useEffect(() => {
-    fetch('/api/v1/calendar/earnings?upcoming=true&days=14&limit=120')
+    if (tickers.length === 0) {
+      setEvents([])
+      setLoading(false)
+      return
+    }
+    setLoading(true)
+    fetch(`/api/v1/calendar/earnings?upcoming=true&days=14&tickers=${tickersKey}&limit=200`)
       .then(r => (r.ok ? r.json() : null))
       .then(d => {
         if (!d?.dates) {
           setEvents([])
           return
         }
-        // NASDAQ liefert pro Tag oft 100+ Events — die meisten sind Small-Caps.
-        // Für die Home-Seite wollen wir die "wichtigen" Namen. Pragmatisch:
-        // Events mit EPS-Estimate sind aussagekräftiger (gibt Analysten-Coverage =
-        // größere Firma). Sortiere innerhalb jedes Tages nach "hat Estimate?" DESC.
-        const flatAll = flatten(d.dates, 400)
-        const scored = flatAll
-          .map(e => ({ ...e, _score: e.epsEstimate !== null ? 1 : 0 }))
-          .sort((a, b) => {
-            // Primär nach Datum ASC, sekundär nach Score DESC
-            if (a.date !== b.date) return a.date < b.date ? -1 : 1
-            return b._score - a._score
-          })
-          .slice(0, 6)
-        setEvents(scored)
+        // Bei Portfolio-Filter sind alle Events bereits relevant — wir nehmen
+        // chronologisch die ersten 6.
+        const all = flatten(d.dates, 50)
+        all.sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
+        setEvents(all.slice(0, 6))
       })
       .catch(() => setEvents([]))
       .finally(() => setLoading(false))
-  }, [])
+  }, [tickersKey, tickers.length])
 
   return (
     <div className="bg-[#111119] border border-white/[0.06] rounded-2xl p-5">
@@ -116,7 +124,8 @@ export default function UpcomingEarningsCard() {
         <div>
           <h2 className="text-[14px] font-semibold text-white/80">Anstehende Earnings</h2>
           <p className="text-[11px] text-white/30 mt-0.5">
-            Nächste 2 Wochen{events.length > 0 ? ` · ${events.length} Termine` : ''}
+            Aus deinem Portfolio · Nächste 2 Wochen
+            {events.length > 0 ? ` · ${events.length} Termine` : ''}
           </p>
         </div>
         <Link
@@ -135,7 +144,7 @@ export default function UpcomingEarningsCard() {
         </div>
       ) : events.length === 0 ? (
         <p className="text-[12px] text-white/25 py-4">
-          Keine Earnings in den nächsten 2 Wochen.
+          Keine Earnings in den nächsten 2 Wochen für dein Portfolio.
         </p>
       ) : (
         <div className="space-y-0.5">
