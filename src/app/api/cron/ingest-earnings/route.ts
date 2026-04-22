@@ -48,6 +48,14 @@ function parseCallTime(s?: string): string | null {
   return null
 }
 
+/** "$123,456,789,012" → 123456789012, "" → null */
+function parseMarketCap(s?: string): number | null {
+  if (!s) return null
+  const cleaned = s.replace(/[$,]/g, '').trim()
+  const n = Number(cleaned)
+  return isNaN(n) || n <= 0 ? null : Math.round(n)
+}
+
 function isoDate(d: Date): string {
   const y = d.getFullYear()
   const m = String(d.getMonth() + 1).padStart(2, '0')
@@ -63,6 +71,7 @@ interface NasdaqRow {
   fiscalQuarterEnding?: string
   time?: string
   epsForecast?: string
+  marketCap?: string
 }
 
 async function fetchNasdaqDay(date: string): Promise<NasdaqRow[]> {
@@ -134,6 +143,7 @@ export async function GET(request: NextRequest) {
         const fp = parseFiscalQuarter(r.fiscalQuarterEnding)
         const epsEst = parseEps(r.epsForecast)
         const callTime = parseCallTime(r.time)
+        const marketCap = parseMarketCap(r.marketCap)
         const isUpcoming = new Date(dateStr + 'T00:00:00') >= today
 
         const { error } = await supabase
@@ -147,6 +157,7 @@ export async function GET(request: NextRequest) {
               fiscal_year: fp.year,
               eps_estimate: epsEst,
               call_time: callTime,
+              market_cap: marketCap,
               is_upcoming: isUpcoming,
               confirmed: true,
               source: 'nasdaq-public',
