@@ -155,11 +155,11 @@ async function processDay(date: string, dryRun: boolean): Promise<{ rows: number
         fiscal_year: fp.year,
         eps_estimate: epsEst,
         call_time: callTime,
+        market_cap: marketCap,
         is_upcoming: isUpcoming,
         confirmed: true,
         source: 'nasdaq-public',
         updated_at: nowIso,
-        // marketCap speichern wir nicht direkt — nicht Teil des Schemas
       }, { onConflict: 'ticker,date' })
 
     if (error) {

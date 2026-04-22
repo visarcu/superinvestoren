@@ -9,7 +9,8 @@
 //   tickers=AAPL,MSFT,GOOGL  Optional: Multi-Ticker-Filter (z.B. Portfolio-View)
 //   upcoming=true            Nur anstehende (is_upcoming=true), ignoriert from/to
 //   days=N                   Mit upcoming=true: nur die nächsten N Tage
-//   limit=N                  Max Events (Cap 500)
+//   minMarketCap=N           Optional: Mindest-Market-Cap in USD (z.B. 10000000000 = $10B)
+//   limit=N                  Max Events (Cap 5000, default 500)
 //
 // Datenquellen (alle in Supabase-Tabelle "SecEarningsCalendar" konsolidiert):
 //   • sec-8k-item-2.02     Past Earnings aus SEC EDGAR 8-K Filings
@@ -31,6 +32,7 @@ interface CalendarRow {
   revenue_actual: number | null
   revenue_estimate: number | null
   call_time: string | null
+  market_cap: number | null
   is_upcoming: boolean
   source: string | null
 }
@@ -57,7 +59,13 @@ export async function GET(request: NextRequest) {
     .map(t => t.trim().toUpperCase())
     .filter(t => /^[A-Z0-9.\-]{1,15}$/.test(t))
     .slice(0, 100)
-  const limit = Math.min(parseInt(sp.get('limit') || '100'), 500)
+  // Default 500, Cap 5000. Vorher 500/500 — hat zur Cutoff bei viel-Earnings-
+  // Monaten geführt (z.B. Mai 2026 hat 2600+ Events, alles nach den ersten 500
+  // chronologisch fiel ab).
+  const limit = Math.min(parseInt(sp.get('limit') || '500'), 5000)
+  // Mindest-Market-Cap (USD). Z.B. 10_000_000_000 = $10B = nur Mid+Large Caps.
+  const minMarketCapRaw = sp.get('minMarketCap')
+  const minMarketCap = minMarketCapRaw ? parseInt(minMarketCapRaw) : null
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -73,17 +81,21 @@ export async function GET(request: NextRequest) {
       .select(
         'ticker, company_name, date, fiscal_quarter, fiscal_year, ' +
         'eps_actual, eps_estimate, revenue_actual, revenue_estimate, ' +
-        'call_time, is_upcoming, source'
+        'call_time, market_cap, is_upcoming, source'
       )
       .gte('date', from)
       .lte('date', to)
+      // Nach Datum aufsteigend, dann Market Cap absteigend (Größte zuerst pro Tag,
+      // damit auch bei niedrigem Limit die "wichtigen" Firmen drin sind).
       .order('date', { ascending: true })
+      .order('market_cap', { ascending: false, nullsFirst: false })
       .order('ticker', { ascending: true })
       .limit(limit)
 
     if (ticker) q = q.eq('ticker', ticker)
     if (tickers.length > 0) q = q.in('ticker', tickers)
     if (upcomingOnly) q = q.eq('is_upcoming', true)
+    if (minMarketCap !== null) q = q.gte('market_cap', minMarketCap)
 
     const { data, error } = await q
     if (error) throw error
@@ -147,6 +159,7 @@ function toApiEvent(row: CalendarRow) {
     epsActual: row.eps_actual,
     revenueEstimate: row.revenue_estimate,
     revenueActual: row.revenue_actual,
+    marketCap: row.market_cap,
     isUpcoming: row.is_upcoming,
     result: beat,
     source: row.source,
