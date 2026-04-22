@@ -473,7 +473,7 @@ ${filingText}`
 
 // ─── Post-processing ──────────────────────────────────────────────────────────
 
-export function normalizeKPIs(kpis: ExtractedKPI[]): ExtractedKPI[] {
+export function normalizeKPIs(kpis: ExtractedKPI[], filingDate?: string): ExtractedKPI[] {
   // Normalize metric names for backwards compatibility
   for (const kpi of kpis) {
     if (kpi.metric === 'total_revenue' || kpi.metric === 'revenue') {
@@ -484,9 +484,27 @@ export function normalizeKPIs(kpis: ExtractedKPI[]): ExtractedKPI[] {
       kpi.value = Math.round(kpi.value)
     }
   }
+
+  // Sanity check: reject records whose periodDate is >6 months beyond the
+  // filing date. This catches extraction errors like Visa's fiscal-year
+  // confusion that mapped "Q1 2026" → 2026-12-31.
+  const filingTs = filingDate ? new Date(filingDate).getTime() : Date.now()
+  const maxFutureMs = 6 * 30 * 24 * 60 * 60 * 1000 // ~6 months
+  const validated = kpis.filter((kpi) => {
+    const periodTs = new Date(kpi.periodDate).getTime()
+    if (Number.isNaN(periodTs)) return false
+    if (periodTs - filingTs > maxFutureMs) {
+      console.warn(
+        `[normalizeKPIs] Rejecting ${kpi.metric} ${kpi.period}: periodDate ${kpi.periodDate} is >6mo beyond filing ${filingDate}`
+      )
+      return false
+    }
+    return true
+  })
+
   // Deduplicate: same metric + period
   const seen = new Set<string>()
-  return kpis.filter((kpi) => {
+  return validated.filter((kpi) => {
     const key = `${kpi.metric}:${kpi.period}`
     if (seen.has(key)) return false
     seen.add(key)
@@ -600,7 +618,7 @@ export async function processCompany(
         continue
       }
 
-      const kpis = normalizeKPIs(rawKpis)
+      const kpis = normalizeKPIs(rawKpis, filing.filingDate)
 
       for (const kpi of kpis) {
         const existing = await prisma.companyKPI.findUnique({
