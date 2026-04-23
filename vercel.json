@@ -79,6 +79,10 @@
     {
       "path": "/api/notifications/check-economic-events",
       "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/update-company-kpis",
+      "schedule": "0 6 * * *"
     }
   ]
 }
