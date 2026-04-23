@@ -646,10 +646,8 @@ ${filingText}`
 
 // Canonical metric name aliases: variants the LLM sometimes emits → canonical name.
 // Keep labels stable; downstream consumers (frontend KPI charts) filter by metric name.
-const METRIC_ALIASES: Record<string, { metric: string; label: string }> = {
-  // NFLX: Netflix changed "Streaming Revenue" → "Revenues"
-  total_revenue: { metric: 'streaming_revenue', label: 'Streaming Revenue' },
-  revenue: { metric: 'streaming_revenue', label: 'Streaming Revenue' },
+// GLOBAL aliases apply to all tickers; TICKER-SPECIFIC aliases apply only when ticker matches.
+const METRIC_ALIASES_GLOBAL: Record<string, { metric: string; label: string }> = {
   // RBLX: "average_bookings_per_dau" vs "abpdau"
   average_bookings_per_dau: { metric: 'abpdau', label: 'ABPDAU' },
   // SOFI: "deposits" vs "total_deposits"
@@ -658,9 +656,20 @@ const METRIC_ALIASES: Record<string, { metric: string; label: string }> = {
   unique_active_buyers: { metric: 'unique_active_users', label: 'Unique Active Users' },
 }
 
-export function normalizeKPIs(kpis: ExtractedKPI[], filingDate?: string): ExtractedKPI[] {
+const METRIC_ALIASES_PER_TICKER: Record<string, Record<string, { metric: string; label: string }>> = {
+  // Netflix only: they used to call it "Streaming Revenue" in filings, now just "Revenues".
+  // Keep the historical metric name for frontend backwards compatibility.
+  NFLX: {
+    total_revenue: { metric: 'streaming_revenue', label: 'Streaming Revenue' },
+    revenue: { metric: 'streaming_revenue', label: 'Streaming Revenue' },
+  },
+}
+
+export function normalizeKPIs(kpis: ExtractedKPI[], filingDate?: string, ticker?: string): ExtractedKPI[] {
+  const tickerAliases = ticker ? (METRIC_ALIASES_PER_TICKER[ticker] ?? {}) : {}
   for (const kpi of kpis) {
-    const alias = METRIC_ALIASES[kpi.metric]
+    // Ticker-specific aliases take priority over global
+    const alias = tickerAliases[kpi.metric] ?? METRIC_ALIASES_GLOBAL[kpi.metric]
     if (alias) {
       kpi.metric = alias.metric
       kpi.label = alias.label
@@ -679,12 +688,27 @@ export function normalizeKPIs(kpis: ExtractedKPI[], filingDate?: string): Extrac
   // confusion that mapped "Q1 2026" → 2026-12-31.
   const filingTs = filingDate ? new Date(filingDate).getTime() : Date.now()
   const maxFutureMs = 6 * 30 * 24 * 60 * 60 * 1000 // ~6 months
+  // Metric name fragments for which value=0 is almost certainly an
+  // extraction error (the model returned 0 when it should have skipped).
+  const POSITIVE_REQUIRED_PATTERNS = /revenue|volume|bookings|gmv|gms|transactions|orders|rides|subscribers|members|users|accounts|customers|nights|listings|maus|dau|engaged/i
   const validated = kpis.filter((kpi) => {
     const periodTs = new Date(kpi.periodDate).getTime()
     if (Number.isNaN(periodTs)) return false
     if (periodTs - filingTs > maxFutureMs) {
       console.warn(
         `[normalizeKPIs] Rejecting ${kpi.metric} ${kpi.period}: periodDate ${kpi.periodDate} is >6mo beyond filing ${filingDate}`
+      )
+      return false
+    }
+    // Reject zero/negative values on metrics that should always be positive.
+    // Exclude growth/change/income/ebitda metrics which can legitimately be zero or negative.
+    if (
+      kpi.value <= 0 &&
+      POSITIVE_REQUIRED_PATTERNS.test(kpi.metric) &&
+      !/growth|change|income|ebitda|margin/i.test(kpi.metric)
+    ) {
+      console.warn(
+        `[normalizeKPIs] Rejecting ${kpi.metric} ${kpi.period}: value=${kpi.value} (should be positive)`
       )
       return false
     }
@@ -807,7 +831,7 @@ export async function processCompany(
         continue
       }
 
-      const kpis = normalizeKPIs(rawKpis, filing.filingDate)
+      const kpis = normalizeKPIs(rawKpis, filing.filingDate, ticker)
 
       for (const kpi of kpis) {
         const existing = await prisma.companyKPI.findUnique({
