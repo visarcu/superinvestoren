@@ -33,7 +33,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
 
   if (!mounted || !isClient) {
     return (
-      <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? 'bg-white' : 'bg-[#0a0a0a]'}`}>
+      <div className={`min-h-screen flex items-center justify-center ${isLightTheme ? 'bg-white' : 'bg-black'}`}>
         <div className="flex flex-col items-center gap-4">
           <div className="flex items-end gap-0.5">
             <div className="w-2 h-4 bg-brand rounded-sm animate-pulse"></div>
@@ -47,7 +47,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
   }
 
   return (
-    <div className={`min-h-screen flex flex-col ${isLightTheme ? 'bg-white text-gray-900' : 'bg-[#0a0a0a] text-white'}`} suppressHydrationWarning>
+    <div className={`min-h-screen flex flex-col ${isLightTheme ? 'bg-white text-gray-900' : 'bg-black text-white'}`} suppressHydrationWarning>
       <CurrencyProvider>
         {/* Page Transition Loader */}
         <PageTransitionLoader />
@@ -63,7 +63,7 @@ export default function OptimizedWebsiteLayout({ children }: { children: ReactNo
         <footer className={`py-10 border-t ${
           isLightTheme
             ? 'bg-white border-gray-200'
-            : 'bg-[#0a0a0a] border-white/10'
+            : 'bg-black border-white/10'
         }`}>
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
 
