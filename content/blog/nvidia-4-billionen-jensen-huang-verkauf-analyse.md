@@ -2,7 +2,7 @@
 title: "Nvidia knackt 4-Billionen-Grenze: Was Jensen Huangs 15-Millionen-Verkauf wirklich bedeutet"
 slug: "nvidia-4-billionen-jensen-huang-verkauf-analyse"
 excerpt: "Als erstes Unternehmen der Geschichte durchbricht Nvidia die 4-Billionen-Dollar-Marke. Doch warum verkauft CEO Jensen Huang ausgerechnet jetzt Aktien für 15 Millionen Dollar?"
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2025-07-15"
 readTime: "8 min"

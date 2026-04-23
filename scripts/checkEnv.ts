@@ -127,7 +127,7 @@ async function testFMPConnection(apiKey: string): Promise<boolean> {
 }
 
 async function checkEnvironment(): Promise<void> {
-  console.log('🔍 FinClue AI Environment Check\n')
+  console.log('🔍 Finclue AI Environment Check\n')
   
   const envVars = loadEnvFile()
   let hasErrors = false
@@ -320,7 +320,7 @@ async function checkEnvironment(): Promise<void> {
 // Example .env.local template
 function generateEnvTemplate(): void {
   console.log('📄 .env.local Template:\n')
-  console.log('# FinClue AI Environment Variables')
+  console.log('# Finclue AI Environment Variables')
   console.log('# Copy this template and fill in your actual keys')
   console.log('')
   console.log('# Pinecone Vector Database (Required)')

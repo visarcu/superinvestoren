@@ -5,7 +5,7 @@ import BentoGrid from '@/components/landing/BentoGrid'
 import Link from 'next/link'
 
 export const metadata: Metadata = {
-    title: 'FinClue AI - Superinvestor Intelligenz',
+    title: 'Finclue AI - Superinvestor Intelligenz',
     description: 'Analysiere dein Portfolio mit AI. Folge den Besten. Werde besser.',
 }
 
@@ -20,7 +20,7 @@ export default function AILandingPage() {
                         <div className="w-8 h-8 bg-brand rounded-lg flex items-center justify-center font-bold text-black text-sm">
                             FC
                         </div>
-                        <span className="text-white font-bold tracking-tight">FinClue</span>
+                        <span className="text-white font-bold tracking-tight">Finclue</span>
                     </div>
                 </Link>
 
@@ -43,7 +43,7 @@ export default function AILandingPage() {
             <footer className="py-12 border-t border-white/[0.06] bg-[#0A0B0F]">
                 <div className="max-w-7xl mx-auto px-6 text-center">
                     <p className="text-theme-muted text-sm">
-                        &copy; {new Date().getFullYear()} FinClue Research.
+                        &copy; {new Date().getFullYear()} Finclue Research.
                         <span className="mx-2 text-white/[0.1]">•</span>
                         Daten basieren auf SEC 13F Filings.
                         <span className="mx-2 text-white/[0.1]">•</span>

@@ -2,7 +2,7 @@
 title: "Warren Buffett macht geheime Aktienposition bekannt – Neues 13F-Filing Q2 2025"
 slug: "warren-buffett-setzt-auf-pool-corp-und-steigt-bei-t-mobile-aus"
 excerpt: "Das neue 13F-Filing von Berkshire Hathaway offenbart einen massiven Ausbau der Pool-Corp-Position, einen Neueinstieg bei UnitedHealth und den kompletten Ausstieg aus T-Mobile US."
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2025-08-14"
 readTime: "7 min"

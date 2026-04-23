@@ -2,7 +2,7 @@
 title: "Was sind 13F Filings? So trackst du Super-Investoren richtig"
 slug: "was-sind-13f-filings-super-investoren-tracken"
 excerpt: "Ein kompletter Guide für Einsteiger: Was sind 13F Filings, wo findest du sie und wie nutzt du sie für bessere Investment-Entscheidungen wie die Profis."
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2025-07-12"
 readTime: "12 min"
@@ -92,4 +92,4 @@ Ein Verkauf kann viele Gründe haben: Portfoliorebalancing, Liquiditätsbedarf o
 
 Mit diesem Wissen wirst du zu einem besseren, informierteren Investor.
 
-**Ready to start?** Tracke die besten Investoren der Welt mit FinClue und verpasse nie wieder einen wichtigen Move.
+**Ready to start?** Tracke die besten Investoren der Welt mit Finclue und verpasse nie wieder einen wichtigen Move.

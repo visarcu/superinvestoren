@@ -120,7 +120,7 @@ class RAGIntegrationSetup {
     autoConfirm?: boolean
     verbose?: boolean
   } = {}): Promise<void> {
-    console.log('🚀 FinClue AI RAG Integration Setup\n')
+    console.log('🚀 Finclue AI RAG Integration Setup\n')
     console.log('Dieser Assistent führt dich durch die komplette RAG Integration.\n')
 
     if (!options.autoConfirm) {
@@ -448,7 +448,7 @@ class RAGIntegrationSetup {
       console.log('🔧 Empfohlene nächste Aktionen:')
       console.log('1. Teste die Integration:')
       console.log('   npm run dev')
-      console.log('   → Gehe zu FinClue AI und frage nach Apple Earnings')
+      console.log('   → Gehe zu Finclue AI und frage nach Apple Earnings')
       console.log('')
       console.log('2. Füge mehr Aktien hinzu:')
       console.log('   npm run rag:ingest TSLA NVDA META')
@@ -505,7 +505,7 @@ async function main() {
 // Help command
 if (process.argv.includes('--help')) {
   console.log(`
-🚀 FinClue AI RAG Integration Setup
+🚀 Finclue AI RAG Integration Setup
 
 Usage: npm run setup:rag [options]
 

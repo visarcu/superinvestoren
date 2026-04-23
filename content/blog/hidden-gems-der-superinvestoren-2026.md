@@ -2,7 +2,7 @@
 title: "Die unterschätzten Picks der Superinvestoren: 5 Aktien abseits des Mainstreams"
 slug: "hidden-gems-superinvestoren-aktien-2026"
 excerpt: "Jeder schaut auf Apple und Coca-Cola – aber die wirklich spannenden Picks verstecken sich weiter unten im Portfolio. 5 Aktien, die nur wenige Superinvestoren halten."
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2026-01-14"
 readTime: "8 min"
