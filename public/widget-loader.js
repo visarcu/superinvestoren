@@ -453,7 +453,7 @@
           </div>
           <div class="finclue-widget-footer">
             <div class="finclue-widget-powered-by">
-              Powered by <a href="https://finclue.de" target="_blank">FinClue</a>
+              Powered by <a href="https://finclue.de" target="_blank">Finclue</a>
             </div>
           </div>
         </div>
@@ -463,7 +463,7 @@
     async loadData() {
       try {
         const url = `${FINCLUE_API_BASE}/${this.investor}?api_key=${encodeURIComponent(this.apiKey)}`;
-        console.log('FinClue Widget: Loading data from', url);
+        console.log('Finclue Widget: Loading data from', url);
         
         const response = await fetch(url, {
           headers: {
@@ -471,11 +471,11 @@
           }
         });
         
-        console.log('FinClue Widget: Response status', response.status, response.statusText);
+        console.log('Finclue Widget: Response status', response.status, response.statusText);
         
         if (!response.ok) {
           const errorText = await response.text();
-          console.error('FinClue Widget: Error response', errorText);
+          console.error('Finclue Widget: Error response', errorText);
           
           try {
             const errorData = JSON.parse(errorText);
@@ -486,7 +486,7 @@
         }
         
         const data = await response.json();
-        console.log('FinClue Widget: Received data', data);
+        console.log('Finclue Widget: Received data', data);
         this.render(data);
         
       } catch (error) {
@@ -641,7 +641,7 @@
             </div>
             <div class="finclue-widget-link">
               <a href="https://finclue.de/superinvestor/${this.investor}" target="_blank">
-                Vollständige Analyse auf FinClue →
+                Vollständige Analyse auf Finclue →
               </a>
             </div>
           </div>

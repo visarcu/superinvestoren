@@ -2,7 +2,7 @@
 title: "Shopify-Aktie explodiert: Warum die Q2-Zahlen die Wall Street sprachlos machen"
 slug: "shopify-q2-2025-quartalszahlen-analyse"
 excerpt: "Mit einem Kurssprung von über 20% belohnt der Markt Shopifys spektakuläre Quartalszahlen. Die E-Commerce-Plattform übertrifft alle Erwartungen und zeigt, dass profitables Wachstum im Tech-Sektor möglich ist."
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2025-08-07"
 readTime: "10 min"

@@ -2,7 +2,7 @@
 title: "Chris Hohn: Der Investor, der 2025 alle Hedgefonds-Rekorde brach"
 slug: "chris-hohn-tci-fund-rekordgewinn-2025"
 excerpt: "18,9 Milliarden Dollar Gewinn in einem Jahr – mehr als jeder Hedgefonds zuvor. Wer ist Chris Hohn, und was können wir von seinem Portfolio lernen?"
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2026-01-25"
 readTime: "10 min"
@@ -112,7 +112,7 @@ Die spannende Frage bleibt, ob er dieses Niveau halten kann – und welche Aktie
 
 ---
 
-**Chris Hohn auf FinClue tracken:** Du willst keine Änderungen im Portfolio verpassen? [Folge Chris Hohn auf FinClue](/superinvestors/chris-hohn) und erhalte eine Benachrichtigung, sobald das neue Filing veröffentlicht wird.
+**Chris Hohn auf Finclue tracken:** Du willst keine Änderungen im Portfolio verpassen? [Folge Chris Hohn auf Finclue](/superinvestors/chris-hohn) und erhalte eine Benachrichtigung, sobald das neue Filing veröffentlicht wird.
 
 ---
 

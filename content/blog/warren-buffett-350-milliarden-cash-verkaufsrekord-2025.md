@@ -2,7 +2,7 @@
 title: "Buffetts 350-Milliarden-Dollar-Warnung: Warum der Altmeister zum 11. Mal in Folge verkauft"
 slug: "warren-buffett-350-milliarden-cash-verkaufsrekord-2025"
 excerpt: "Warren Buffett sitzt auf einem Cashberg von 350 Milliarden Dollar und verkauft weiter. Was seine jüngsten Verisign- und DaVita-Verkäufe über den Markt aussagen."
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2025-08-06"
 readTime: "10 min"

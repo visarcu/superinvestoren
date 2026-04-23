@@ -2,7 +2,7 @@
 title: "DCF-Methode erklärt: So bewertest du Aktien wie die Profis"
 slug: "dcf-methode-erklaert"
 excerpt: "Die Discounted-Cash-Flow-Methode ist das wichtigste Bewertungstool für Value-Investoren. Wir erklären Schritt für Schritt, wie du den fairen Wert einer Aktie berechnest."
-author: "FinClue Research"
+author: "Finclue Research"
 authorImage: "/images/finclue-logo.png"
 publishedDate: "2026-01-27"
 readTime: "10 min"
@@ -243,7 +243,7 @@ Aber vergiss nicht: Jedes DCF-Modell ist nur so gut wie seine Annahmen. Nutze es
 
 ---
 
-**Automatische DCF-Analyse auf FinClue:** Du willst nicht selbst rechnen? Nutze unsere [AI-gestützte DCF-Analyse](/analyse), die automatisch Finanzdaten abruft und den fairen Wert mit Bear, Base und Bull Case berechnet.
+**Automatische DCF-Analyse auf Finclue:** Du willst nicht selbst rechnen? Nutze unsere [AI-gestützte DCF-Analyse](/analyse), die automatisch Finanzdaten abruft und den fairen Wert mit Bear, Base und Bull Case berechnet.
 
 ---
 
