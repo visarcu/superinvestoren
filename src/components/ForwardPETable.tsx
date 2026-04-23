@@ -102,7 +102,7 @@ export default function ForwardPETable({ ticker }: Props) {
 
   if (loading) {
     return (
-      <div className="bg-theme-card rounded-xl p-6 border border-theme-border">
+      <div className="bg-theme-card rounded-xl p-6 border border-theme">
         <div className="flex items-center gap-3">
           <div className="w-4 h-4 border-2 border-theme-muted border-t-transparent rounded-full animate-spin" />
           <span className="text-theme-muted text-sm">Lade KGV-Daten…</span>
@@ -114,9 +114,9 @@ export default function ForwardPETable({ ticker }: Props) {
   if (rows.length === 0) return null
 
   return (
-    <div className="bg-theme-card rounded-xl border border-theme-border overflow-hidden">
+    <div className="bg-theme-card rounded-xl border border-theme overflow-hidden">
       {/* Header */}
-      <div className="px-6 py-4 border-b border-theme-border">
+      <div className="px-6 py-4 border-b border-theme">
         <div className="flex items-start justify-between gap-4">
           <div>
             <h3 className="text-base font-semibold text-theme-primary">
@@ -135,7 +135,7 @@ export default function ForwardPETable({ ticker }: Props) {
       </div>
 
       {/* Rows */}
-      <div className="divide-y divide-theme-border">
+      <div className="divide-y divide-theme">
         {rows.map((row, i) => (
           <div
             key={i}
@@ -161,7 +161,7 @@ export default function ForwardPETable({ ticker }: Props) {
       </div>
 
       {/* Footer */}
-      <div className="px-6 py-3 border-t border-theme-border bg-theme-secondary/20">
+      <div className="px-6 py-3 border-t border-theme bg-theme-secondary/20">
         <p className="text-xs text-theme-muted">
           Forward-KGV = Aktueller Kurs ÷ Geschätzter EPS (Analysten-Konsensus)
         </p>
