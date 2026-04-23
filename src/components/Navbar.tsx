@@ -512,6 +512,7 @@ export default function Navbar() {
             </div>
           </div>
 
+          <NavLink href="/features" isLightTheme={isLightTheme}>Features</NavLink>
           <NavLink href="/lexikon" isLightTheme={isLightTheme}>Lexikon</NavLink>
           <NavLink href="/blog" isLightTheme={isLightTheme}>Blog</NavLink>
           <NavLink href="/pricing" isLightTheme={isLightTheme}>Preise</NavLink>
@@ -579,6 +580,17 @@ export default function Navbar() {
                     </div>
 
                     <div className="space-y-1">
+                      <Link
+                        href="/features"
+                        onClick={() => close()}
+                        className={`block px-3 py-2.5 text-sm rounded-lg transition-colors ${
+                          isLightTheme
+                            ? 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                            : 'text-neutral-300 hover:text-white hover:bg-neutral-800'
+                        }`}
+                      >
+                        Features
+                      </Link>
                       <Link
                         href="/lexikon"
                         onClick={() => close()}
