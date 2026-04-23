@@ -78,6 +78,7 @@ const DAX_COMPANIES: DaxCompanySeed[] = [
   // Immobilien & Sonstige
   { ticker: 'VNA.DE', isin: 'DE000A1ML7J1', lei: '529900PQK6N76YNCD397', name: 'Vonovia SE', nameShort: 'Vonovia', sector: 'Immobilien', irUrl: 'https://investoren.vonovia.de/en/' },
   { ticker: 'BNR.DE', isin: 'DE000A1DAHH0', lei: '391200T6FZBADQLBFO22', name: 'Brenntag SE', nameShort: 'Brenntag', sector: 'Chemiedistribution', irUrl: 'https://www.brenntag.com/en/investor-relations/' },
+  { ticker: 'G24.DE', isin: 'DE000A12DM80', lei: '5493007EIKM2ENQS7U66', name: 'Scout24 SE', nameShort: 'Scout24', sector: 'Online-Marktplatz', irUrl: 'https://www.scout24.com/investor-relations' },
 ]
 
 async function main() {
