@@ -37,7 +37,8 @@ export async function GET(
       statement: 'cash-flow',
       period,
       data: statements,
-      source: 'sec-xbrl',
+      source: data.source,
+      notice: data.notice,
       fetchedAt: data.fetchedAt,
     }, {
       headers: { 'Cache-Control': 's-maxage=3600, stale-while-revalidate=86400' },

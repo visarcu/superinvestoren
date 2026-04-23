@@ -6,13 +6,14 @@
 
 import { NextRequest, NextResponse } from 'next/server'
 import { getEodhdHistorical } from '@/lib/eodhdService'
+import { resolveEUTicker } from '@/lib/tickerResolver'
 
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
 ) {
-  const ticker = params.ticker?.toUpperCase()
-  if (!ticker) {
+  const rawTicker = params.ticker?.toUpperCase()
+  if (!rawTicker) {
     return NextResponse.json({ error: 'Missing ticker' }, { status: 400 })
   }
 
@@ -25,8 +26,12 @@ export async function GET(
   const fromDate = startDate.toISOString().slice(0, 10)
   const toDate = endDate.toISOString().slice(0, 10)
 
+  // EU-Ticker-Resolution (BMW → BMW.DE → EODHD mapped → BMW.XETRA)
+  const euMapping = resolveEUTicker(rawTicker)
+  const lookupSymbol = euMapping?.fmp || rawTicker
+
   try {
-    const points = await getEodhdHistorical(ticker, fromDate, toDate)
+    const points = await getEodhdHistorical(lookupSymbol, fromDate, toDate)
 
     // Antwort-Shape: { historical: [{ date, close }] } - kompatibel zum alten Endpoint.
     // Sortiert absteigend (neuestes zuerst), wie FMP es liefert.
@@ -44,7 +49,7 @@ export async function GET(
 
     return NextResponse.json(
       {
-        symbol: ticker,
+        symbol: rawTicker,
         historical,
         count: historical.length,
       },

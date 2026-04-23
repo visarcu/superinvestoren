@@ -12,12 +12,12 @@ model User {
   id                      String                   @id @default(cuid())
   email                   String                   @unique
   passwordHash            String
-  stripeCustomerId  String?   @unique
-  stripeSubscriptionId  String?
-  stripeSubId      String?
+  stripeCustomerId        String?                  @unique
+  stripeSubscriptionId    String?
+  stripeSubId             String?
   isPremium               Boolean                  @default(true)
   emailVerified           Boolean                  @default(false)
-  premiumSince DateTime?
+  premiumSince            DateTime?
   emailVerificationTokens EmailVerificationToken[]
   firstName               String? // neu
   lastName                String? // neu
@@ -62,13 +62,13 @@ model PasswordResetToken {
 }
 
 model ChartPreset {
-  id        String   @id @default(cuid())
-  user      User     @relation(fields: [userId], references: [id])
+  id        String    @id @default(cuid())
+  user      User      @relation(fields: [userId], references: [id])
   userId    String
   name      String
   charts    String[] // Array of chart keys like ["revenue", "profit", "debt"]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
   lastUsed  DateTime?
 
   @@index([userId])
@@ -76,10 +76,10 @@ model ChartPreset {
 }
 
 model Subscriber {
-  id            Int     @id @default(autoincrement())
-  email         String
-  investorSlug  String
-  createdAt     DateTime @default(now())
+  id           Int      @id @default(autoincrement())
+  email        String
+  investorSlug String
+  createdAt    DateTime @default(now())
 
   @@unique([email, investorSlug])
 }
@@ -90,8 +90,8 @@ model EarningsCalendar {
   symbol          String
   companyName     String?
   date            DateTime
-  time            String   // 'bmo' (before market open), 'amc' (after market close), 'dmh' (during market hours)
-  fiscalQuarter   Int?     // 1, 2, 3, 4
+  time            String // 'bmo' (before market open), 'amc' (after market close), 'dmh' (during market hours)
+  fiscalQuarter   Int? // 1, 2, 3, 4
   fiscalYear      Int?
   epsEstimate     Float?
   epsActual       Float?
@@ -108,18 +108,18 @@ model EarningsCalendar {
 // Company-specific KPIs extracted from SEC EDGAR 8-K filings
 // e.g. Netflix subscribers, Spotify MAUs, Uber trips, etc.
 model CompanyKPI {
-  id          String   @id @default(cuid())
-  ticker      String
-  metric      String
-  label       String
-  value       Float
-  unit        String
-  period      String
-  periodDate  DateTime
-  source      String   @default("SEC EDGAR 8-K")
-  filingUrl   String?
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  ticker     String
+  metric     String
+  label      String
+  value      Float
+  unit       String
+  period     String
+  periodDate DateTime
+  source     String   @default("SEC EDGAR 8-K")
+  filingUrl  String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
   @@unique([ticker, metric, period])
   @@index([ticker])
@@ -139,4 +139,101 @@ model AIReportDownload {
   @@index([userId])
   @@index([createdAt])
   @@index([ticker])
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// DAX 40 Financial Data – manuell gepflegte eigene Daten
+// ═══════════════════════════════════════════════════════════════════════════
+
+// DAX-Firma Metadaten (40 Einträge, selten geändert)
+model DaxCompany {
+  id               String    @id @default(cuid())
+  ticker           String    @unique // z.B. "SAP.DE"
+  tickerUS         String? // US ADR falls vorhanden (z.B. "SAP")
+  isin             String?
+  lei              String? // Legal Entity Identifier
+  name             String
+  nameShort        String? // "BMW" statt "Bayerische Motoren Werke Aktiengesellschaft"
+  sector           String?
+  industry         String?
+  country          String    @default("DE")
+  currency         String    @default("EUR")
+  fiscalYearEnd    String    @default("12-31") // "MM-DD"
+  irUrl            String? // IR-Startseite
+  reportsUrl       String? // Seite wo die Quartalsberichte liegen
+  nextEarningsDate DateTime? // nächstes erwartetes Berichtsdatum (für Reminder)
+  lastReportedQ    String? // "Q3-2025" – letzter bekannter Bericht
+  active           Boolean   @default(true) // aktuell im DAX?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  statements FinancialStatement[]
+
+  @@index([ticker])
+  @@index([nextEarningsDate])
+}
+
+// Finanzdaten pro Quartal/Jahr – manuell eingepflegt
+model FinancialStatement {
+  id           String     @id @default(cuid())
+  company      DaxCompany @relation(fields: [ticker], references: [ticker], onDelete: Cascade)
+  ticker       String
+  fiscalYear   Int // 2024
+  fiscalPeriod String // "Q1", "Q2", "Q3", "Q4", "FY", "H1", "9M"
+  periodEnd    DateTime // letzter Tag des Berichtszeitraums
+  reportDate   DateTime? // wann veröffentlicht
+  currency     String     @default("EUR")
+
+  // ── Income Statement (in Mio. – kompatibel mit FMP/SEC) ──
+  revenue           Float?
+  costOfRevenue     Float?
+  grossProfit       Float?
+  rAndD             Float?
+  sgA               Float?
+  operatingExpenses Float?
+  operatingIncome   Float? // EBIT
+  ebitda            Float?
+  interestExpense   Float?
+  incomeTax         Float?
+  netIncome         Float?
+  eps               Float? // basic
+  epsDiluted        Float?
+  sharesOutstanding Float? // in Mio.
+
+  // ── Balance Sheet (Instant, Ende Periode) ──
+  cashAndEquivalents Float?
+  shortTermInvest    Float?
+  inventory          Float?
+  receivables        Float?
+  totalCurrentAssets Float?
+  ppE                Float? // Property, Plant & Equipment
+  goodwill           Float?
+  totalAssets        Float?
+  shortTermDebt      Float?
+  longTermDebt       Float?
+  totalDebt          Float?
+  totalLiabilities   Float?
+  shareholdersEquity Float?
+
+  // ── Cash Flow Statement ──
+  operatingCashFlow Float?
+  capex             Float?
+  freeCashFlow      Float?
+  dividendsPaid     Float?
+  shareRepurchases  Float?
+
+  // ── Meta ──
+  sourceUrl      String? // Link zum Original-PDF/Bericht
+  source         String   @default("manual") // "manual" | "esef-upload" | "esef-api"
+  rawFacts       Json? // Alle extrahierten iXBRL Facts (auch unmapped). Key: "ifrs-full:Revenue@D-2024"
+  notes          String? // Freitext für spezielle Fälle
+  enteredByEmail String? // wer hat eingepflegt
+  verified       Boolean  @default(false) // zweiter Check erfolgt
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([ticker, fiscalYear, fiscalPeriod])
+  @@index([ticker])
+  @@index([periodEnd])
+  @@index([fiscalYear, fiscalPeriod])
 }

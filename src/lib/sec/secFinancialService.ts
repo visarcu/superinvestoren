@@ -115,8 +115,10 @@ export interface SecFinancialPeriod {
   dividendsPaid: number | null
   shareRepurchase: number | null
   // Meta
-  source: 'sec-xbrl'
+  source: 'sec-xbrl' | 'finclue-manual'
 }
+
+export type FinancialDataSource = 'sec-xbrl' | 'finclue-manual' | 'no-data'
 
 export interface SecFinancialResponse {
   ticker: string
@@ -125,8 +127,10 @@ export interface SecFinancialResponse {
   periods: SecFinancialPeriod[]
   availableMetrics: string[]
   totalPeriodsAvailable: number
-  source: 'sec-xbrl'
+  source: FinancialDataSource
   fetchedAt: string
+  /** Nur gesetzt wenn source='no-data' oder 'finclue-manual': erklärender Hinweis für das UI */
+  notice?: string
 }
 
 // ─── Cache ───────────────────────────────────────────────────────────────────

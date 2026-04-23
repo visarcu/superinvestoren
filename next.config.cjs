@@ -9,7 +9,7 @@ const nextConfig = {
   // pdf-parse braucht native Node.js Module — nicht durch Webpack bundeln
   // Next.js 13.x: experimental.serverComponentsExternalPackages (ab 14: serverExternalPackages)
   experimental: {
-    serverComponentsExternalPackages: ['pdf-parse', 'pdf-parse/lib/pdf-parse', 'xlsx'],
+    serverComponentsExternalPackages: ['pdf-parse', 'pdf-parse/lib/pdf-parse', 'xlsx', 'adm-zip', 'htmlparser2'],
   },
 
   images: {
@@ -51,6 +51,7 @@ const nextConfig = {
       config.externals = config.externals || [];
       config.externals.push('pdf-parse');
       config.externals.push('pdf-parse/lib/pdf-parse');
+      config.externals.push('adm-zip');
     }
 
     return config;

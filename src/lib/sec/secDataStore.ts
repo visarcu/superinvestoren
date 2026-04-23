@@ -177,6 +177,26 @@ export async function getFinancialData(
   const { years = 10, period = 'annual' } = options
   const db = getSupabase()
 
+  // ── Schritt 0: DAX-eigene Daten prüfen ────────────────────────────────
+  // Für deutsche/EU-Firmen prüfen wir ob es sich um eine DAX-Firma handelt.
+  // Falls ja: nehmen wir unsere Daten (oder geben leere Response zurück ohne SEC-Fallback,
+  // da DAX-Firmen typischerweise nicht bei der SEC filen).
+  try {
+    const { getDaxFinancials } = await import('@/lib/dax/daxFinancials')
+    const daxResult = await getDaxFinancials(ticker, { years, period })
+    if (daxResult.status === 'dax-with-data') {
+      console.log(`🇩🇪 [DAX eigene Daten] ${ticker}: ${daxResult.response.periods.length} Perioden`)
+      return daxResult.response
+    }
+    if (daxResult.status === 'dax-no-data') {
+      console.log(`🇩🇪 [DAX ohne Daten] ${ticker}: noch nicht eingepflegt – KEIN SEC-Fallback (wäre 404)`)
+      return daxResult.response
+    }
+    // status === 'not-dax' → weiter mit SEC-Pfad
+  } catch (daxError) {
+    console.warn(`⚠️ [DAX Lookup] ${ticker}: ${(daxError as Error).message}`)
+  }
+
   // ── Schritt 1: DB prüfen ──────────────────────────────────────────────
   if (db) {
     try {

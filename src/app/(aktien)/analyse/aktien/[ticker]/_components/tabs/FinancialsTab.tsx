@@ -23,6 +23,9 @@ interface FinancialsTabProps {
   setExpandedChart: (s: ExpandedChartState | null) => void
   isPremium: boolean
   userLoading: boolean
+  /** Herkunft: sec-xbrl (US/international), finclue-manual (eigene DAX-Daten), no-data (DAX, noch leer) */
+  dataSource?: 'sec-xbrl' | 'finclue-manual' | 'no-data' | null
+  dataNotice?: string | null
 }
 
 export default function FinancialsTab({
@@ -36,6 +39,8 @@ export default function FinancialsTab({
   setExpandedChart,
   isPremium,
   userLoading,
+  dataSource,
+  dataNotice,
 }: FinancialsTabProps) {
   // Quartalsansicht ist Premium. Free-User können den Toggle anklicken,
   // sehen aber im quarterly-Mode statt der Daten das Premium-Gate.
@@ -48,7 +53,8 @@ export default function FinancialsTab({
 
   return (
     <div className="w-full max-w-6xl space-y-6">
-      {/* Period Toggle */}
+      {/* Period Toggle + Daten-Quelle Indikator (dezent, Fey-Stil) */}
+      <div className="flex items-center justify-between gap-4 flex-wrap">
       <div className="flex items-center gap-1 bg-white/[0.02] rounded-lg p-0.5 w-fit">
         <button
           onClick={() => setFinancialPeriod('annual')}
@@ -72,6 +78,42 @@ export default function FinancialsTab({
           )}
         </button>
       </div>
+
+      {/* Daten-Quelle: dezenter inline-Indikator */}
+      {dataSource === 'finclue-manual' && (
+        <div
+          className="group flex items-center gap-1.5 text-[10px] text-white/30 hover:text-white/50 transition-colors cursor-default select-none"
+          title={dataNotice ?? 'Eigene Daten aus dem ESEF-Jahresfinanzbericht'}
+        >
+          <span className="w-1 h-1 rounded-full bg-emerald-400/70" />
+          <span className="uppercase tracking-widest">ESEF · Finclue</span>
+        </div>
+      )}
+      {dataSource === 'no-data' && (
+        <div
+          className="flex items-center gap-1.5 text-[10px] text-white/30 select-none"
+          title={dataNotice ?? ''}
+        >
+          <span className="w-1 h-1 rounded-full bg-amber-400/60 animate-pulse" />
+          <span className="uppercase tracking-widest">In Vorbereitung</span>
+        </div>
+      )}
+      </div>
+
+      {/* Empty-State: DAX-Firma ohne Daten → dezenter Hinweis statt leerer Charts */}
+      {dataSource === 'no-data' && income.length === 0 && (
+        <div className="flex flex-col items-center justify-center py-20 px-6 rounded-2xl border border-white/[0.04] bg-white/[0.01]">
+          <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center mb-4">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-400/70 animate-pulse" />
+          </div>
+          <div className="text-[13px] font-medium text-white/70 mb-1.5">
+            Finanzdaten in Vorbereitung
+          </div>
+          <div className="text-[12px] text-white/40 max-w-md text-center leading-relaxed">
+            {dataNotice ?? 'Wir pflegen die Daten dieser Firma gerade manuell aus dem offiziellen ESEF-Jahresfinanzbericht ein.'}
+          </div>
+        </div>
+      )}
 
       {/* Quartalsansicht für Free-User → Premium-Gate */}
       {showQuarterlyGate && (

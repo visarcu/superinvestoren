@@ -42,6 +42,9 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
   const [income, setIncome] = useState<Period[]>([])
   const [balance, setBalance] = useState<BalancePeriod[]>([])
   const [cashflow, setCashflow] = useState<CashFlowPeriod[]>([])
+  // Herkunft der Finanzdaten (für "Eigene Daten"-Badge bei DAX-Firmen)
+  const [financialSource, setFinancialSource] = useState<'sec-xbrl' | 'finclue-manual' | 'no-data' | null>(null)
+  const [financialNotice, setFinancialNotice] = useState<string | null>(null)
   const [news, setNews] = useState<NewsArticle[]>([])
   const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
   const [earnings, setEarnings] = useState<EarningsEntry[]>([])
@@ -76,6 +79,9 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
         if (inc?.data) setIncome(inc.data)
         if (bal?.data) setBalance(bal.data)
         if (cf?.data) setCashflow(cf.data)
+        // Source-Info aus Income-Statement übernehmen (Balance + Cashflow haben dieselbe Quelle)
+        if (inc?.source) setFinancialSource(inc.source)
+        if (inc?.notice) setFinancialNotice(inc.notice)
         if (n?.articles) setNews(n.articles)
         if (k?.metrics) setKpis(k.metrics)
         if (e?.earnings) setEarnings(e.earnings)
@@ -298,6 +304,8 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
             setExpandedChart={setExpandedChart}
             isPremium={isPremium}
             userLoading={userLoading}
+            dataSource={financialSource}
+            dataNotice={financialNotice}
           />
         ) : tab === 'earnings' ? (
           <EarningsTab ticker={ticker} earnings={earnings} isPremium={isPremium} userLoading={userLoading} />
