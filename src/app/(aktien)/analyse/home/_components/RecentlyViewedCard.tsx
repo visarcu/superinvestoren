@@ -56,7 +56,18 @@ export default function RecentlyViewedCard() {
         .then(d => {
           if (!d?.quotes) return
           const map: Record<string, QuoteRow> = {}
-          for (const q of d.quotes as QuoteRow[]) map[q.symbol] = q
+          for (const q of d.quotes as Array<Partial<QuoteRow> & { symbol: string; error?: string }>) {
+            if (q.error) continue
+            const price = Number(q.price)
+            const changePercent = Number(q.changePercent)
+            if (!Number.isFinite(price) || !Number.isFinite(changePercent)) continue
+            map[q.symbol] = {
+              symbol: q.symbol,
+              price,
+              change: Number(q.change) || 0,
+              changePercent,
+            }
+          }
           setQuotes(map)
         })
         .catch(() => {})
