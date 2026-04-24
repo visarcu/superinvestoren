@@ -245,8 +245,19 @@ export async function POST(request: NextRequest) {
         }
       }
 
-      if (totalInvested > 0) {
-        const performance = ((totalValue - totalInvested) / totalInvested) * 100
+      // Chart-Punkt erzeugen wann immer die Position Wert hat.
+      // BUGFIX: Vorher nur bei totalInvested>0 — das führte dazu dass
+      // Depotübertrag-Transfers ohne gespeicherten Einstandspreis (price=0)
+      // bis zum ersten echten Buy ignoriert wurden. Beispiel: User überträgt
+      // 2022 Aktien zu Scalable mit price=0 in CSV, erster Buy in 2024
+      // → Chart startete erst 2024 statt 2022.
+      // Jetzt: sobald stocks Wert haben (totalValue>0), wird ein Punkt
+      // gesetzt. Performance rechnen wir nur wenn totalInvested>0, sonst 0.
+      if (totalValue > 0) {
+        const performance =
+          totalInvested > 0
+            ? ((totalValue - totalInvested) / totalInvested) * 100
+            : 0
         chartData.push({
           date,
           value: Math.round(totalValue * 100) / 100,

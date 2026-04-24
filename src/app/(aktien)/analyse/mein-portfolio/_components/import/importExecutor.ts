@@ -118,12 +118,41 @@ export async function executeImport(
     result.insertedTransactions += chunk.length
   }
 
-  // 2) Cash-Position aktualisieren
+  // 2) Cash-Position aktualisieren.
+  //
+  // BUGFIX: Bisher wurden nur cash_deposit/cash_withdrawal in den Delta
+  // einbezogen — Buys/Sells/Dividenden waren ignoriert. Resultat: bei
+  // einem Depot mit 25k Einzahlungen und 38k Käufen kam der Executor auf
+  // Cash=+25k statt realistisch ~-13k. Jetzt werden ALLE Cash-affecting
+  // Events verrechnet, genau wie der Broker-Kontostand:
+  //   Einzahlungen + Dividenden + Sell-Erlöse
+  //   − Käufe − Gebühren − Steuern − Zins-Kosten
+  //   (transfer_in/out beeinflussen Cash NICHT, nur Holdings)
+  //
+  // fee-Feld wird bei buy/sell extra abgezogen (falls der Parser es mit-
+  // geliefert hat); bei dividends ist der totalValue bereits netto (nach
+  // Quellensteuer) — siehe TR-Parser-Fix.
   const cashDelta = transactions.reduce((sum, t) => {
-    const v = t.quantity * t.price
-    if (t.type === 'cash_deposit') return sum + v
-    if (t.type === 'cash_withdrawal') return sum - v
-    return sum
+    const v = t.totalValue || t.quantity * t.price
+    const fee = Math.abs(t.fee || 0)
+    switch (t.type) {
+      case 'cash_deposit':
+        return sum + v
+      case 'cash_withdrawal':
+        return sum - v
+      case 'dividend':
+        return sum + v
+      case 'buy':
+        return sum - v - fee
+      case 'sell':
+        return sum + v - fee
+      case 'transfer_in':
+      case 'transfer_out':
+        // Keine Cash-Bewegung (nur Shares)
+        return sum
+      default:
+        return sum
+    }
   }, 0)
 
   if (cashDelta !== 0) {
