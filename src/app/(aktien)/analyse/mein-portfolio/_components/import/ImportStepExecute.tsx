@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { executeImport, type ImportResult } from './importExecutor'
 import type { NormalizedTransaction } from './types'
 
@@ -10,21 +10,49 @@ interface Props {
   onDone: (result: ImportResult) => void
 }
 
+// Modul-level Guard gegen React-Strict-Mode Double-Mount in Development.
+// React 18 Strict-Mode unmountet + remountet Komponenten absichtlich, um
+// Side-Effect-Bugs aufzudecken. Dabei wird useRef neu initialisiert, useState
+// ebenfalls — ein Komponenten-interner Guard greift also nicht. Dieser Set
+// lebt auf Modul-Ebene und persistiert über Re-Mounts hinweg.
+const inflightImports = new Set<string>()
+// Promises für bereits laufende Importe, damit zweiter Mount auf denselben
+// Result warten kann statt silent zu skippen.
+const importPromises = new Map<string, Promise<ImportResult>>()
+
 export default function ImportStepExecute({ transactions, portfolioId, onDone }: Props) {
   const [progress, setProgress] = useState<'running' | 'done' | 'error'>('running')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
-  // Guard gegen React-Strict-Mode Double-Invoke in Development: useRef
-  // persistiert zwischen den beiden Mounts, verhindert zweiten executeImport.
-  const didRunRef = useRef(false)
 
   useEffect(() => {
-    if (didRunRef.current) return
-    didRunRef.current = true
-
+    // Key für diesen spezifischen Import (Depot + Batch-Größe als Proxy).
+    // Identifiziert eindeutig genug einen bestimmten Wizard-Lauf.
+    const key = `${portfolioId}|${transactions.length}`
     let cancelled = false
+
     async function run() {
       try {
-        const result = await executeImport(portfolioId, transactions)
+        let result: ImportResult
+        if (importPromises.has(key)) {
+          // Ein vorheriger Mount hat bereits executeImport gestartet — auf
+          // sein Ergebnis warten statt parallel zu starten.
+          result = await importPromises.get(key)!
+        } else {
+          inflightImports.add(key)
+          const p = executeImport(portfolioId, transactions)
+          importPromises.set(key, p)
+          try {
+            result = await p
+          } finally {
+            inflightImports.delete(key)
+            // Promise aus Map entfernen, damit der Flow bei späterem
+            // Import des gleichen Depots wieder frisch starten kann.
+            // Mit Delay, damit ein schneller Strict-Mode-Re-Mount noch das
+            // gleiche Promise findet (2s reichen dicke).
+            setTimeout(() => importPromises.delete(key), 2000)
+          }
+        }
+
         if (cancelled) return
         if (result.errors.length > 0 && result.insertedTransactions === 0) {
           setProgress('error')
