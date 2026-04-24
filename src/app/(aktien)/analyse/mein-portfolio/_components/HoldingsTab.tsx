@@ -239,7 +239,6 @@ export default function HoldingsTab({
                     `}
                   >
                     <span className="text-[12px] font-semibold tabular-nums leading-none">
-                      {positive ? '+' : ''}
                       {formatPercentage(h.gain_loss_percent)}
                     </span>
                     <span
