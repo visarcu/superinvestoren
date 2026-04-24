@@ -1111,6 +1111,47 @@ export function usePortfolio() {
     setPortfolio(prev => prev ? { ...prev, name: name.trim() } : null)
   }, [portfolio])
 
+  // Einzelne Transaktion direkt bearbeiten (z.B. Datum, Menge, Preis, Gebühren, Notiz).
+  // ACHTUNG: Keine automatische Synchronisation mit Holdings — der Nutzer ist
+  // selbst verantwortlich, die Holdings-Menge ggf. anzupassen (bei Buy-Edit).
+  const updateTransaction = useCallback(async (txId: string, updates: {
+    date?: string
+    quantity?: number
+    price?: number
+    fee?: number
+    notes?: string | null
+    total_value?: number
+  }) => {
+    const payload: Record<string, any> = { ...updates }
+    // total_value automatisch aktualisieren wenn qty oder price geändert wurden
+    if (payload.total_value === undefined && (payload.quantity !== undefined || payload.price !== undefined)) {
+      const tx = transactions.find(t => t.id === txId)
+      if (tx) {
+        const q = payload.quantity ?? tx.quantity
+        const p = payload.price ?? tx.price
+        payload.total_value = q * p
+      }
+    }
+
+    const { error } = await supabase
+      .from('portfolio_transactions')
+      .update(payload)
+      .eq('id', txId)
+    if (error) throw error
+
+    await loadPortfolio(depotIdParam)
+  }, [transactions, loadPortfolio, depotIdParam])
+
+  const deleteTransaction = useCallback(async (txId: string) => {
+    const { error } = await supabase
+      .from('portfolio_transactions')
+      .delete()
+      .eq('id', txId)
+    if (error) throw error
+
+    await loadPortfolio(depotIdParam)
+  }, [loadPortfolio, depotIdParam])
+
   const exportToCSV = useCallback(() => {
     const headers = ['Symbol', 'Name', 'Anzahl', 'Kaufpreis', 'Aktueller Preis', 'Wert', 'G/V', 'G/V %']
     const rows = holdings.map(h => [
@@ -1182,6 +1223,8 @@ export function usePortfolio() {
     updateCashPosition,
     updateBrokerCredit,
     updatePortfolioName,
+    updateTransaction,
+    deleteTransaction,
     exportToCSV,
   }
 }

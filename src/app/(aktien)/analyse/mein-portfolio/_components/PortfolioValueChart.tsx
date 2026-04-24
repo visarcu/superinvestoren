@@ -149,27 +149,34 @@ export default function PortfolioValueChart({
   const portfolioPerf = performanceData[performanceData.length - 1]?.portfolioPerformance ?? 0
 
   return (
-    <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6">
+    <section className="mt-6 rounded-xl bg-[#0a0a12]/70 border border-white/[0.05] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)] p-6">
       {/* Header: Toggle + Time-Range */}
       <div className="flex items-start justify-between mb-4 flex-wrap gap-3">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <h2 className="text-[13px] font-semibold text-white/80">
+          <div className="flex items-center gap-2.5 mb-1.5">
+            <h2 className="text-[13px] font-semibold text-white/90 tracking-tight">
               {chartView === 'value' ? 'Wertentwicklung' : 'Performance'}
             </h2>
-            <div className="flex items-center gap-0.5 bg-white/[0.02] rounded-lg p-0.5">
+            <div
+              role="tablist"
+              className="inline-flex items-center gap-0.5 p-0.5 rounded-full bg-white/[0.03] border border-white/[0.05]"
+            >
               <button
+                role="tab"
+                aria-selected={chartView === 'value'}
                 onClick={() => setChartView('value')}
-                className={`px-2.5 py-0.5 text-[10px] rounded-md transition-colors ${
-                  chartView === 'value' ? 'bg-white/[0.08] text-white' : 'text-white/30 hover:text-white/50'
+                className={`px-2.5 py-0.5 text-[10px] font-medium rounded-full transition-colors ${
+                  chartView === 'value' ? 'bg-white text-[#06060e]' : 'text-white/45 hover:text-white/80'
                 }`}
               >
                 Wert
               </button>
               <button
+                role="tab"
+                aria-selected={chartView === 'performance'}
                 onClick={() => setChartView('performance')}
-                className={`px-2.5 py-0.5 text-[10px] rounded-md transition-colors ${
-                  chartView === 'performance' ? 'bg-white/[0.08] text-white' : 'text-white/30 hover:text-white/50'
+                className={`px-2.5 py-0.5 text-[10px] font-medium rounded-full transition-colors ${
+                  chartView === 'performance' ? 'bg-white text-[#06060e]' : 'text-white/45 hover:text-white/80'
                 }`}
               >
                 Vergleich
@@ -177,44 +184,58 @@ export default function PortfolioValueChart({
             </div>
           </div>
           {!loading && chartView === 'value' && valueData.length > 0 && (
-            <div className="flex items-baseline gap-2">
-              <p className="text-2xl font-bold text-white tabular-nums">{formatCurrency(lastValue)}</p>
+            <div className="flex items-baseline gap-2.5">
+              <p className="text-2xl font-semibold text-white tabular-nums tracking-tight">
+                {formatCurrency(lastValue)}
+              </p>
               <span
-                className={`text-[12px] font-semibold tabular-nums ${
-                  isPositive ? 'text-emerald-400' : 'text-red-400'
+                className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium tabular-nums ${
+                  isPositive
+                    ? 'bg-emerald-400/[0.08] text-emerald-300'
+                    : 'bg-red-400/[0.08] text-red-300'
                 }`}
               >
                 {isPositive ? '+' : ''}
-                {formatCurrency(valueChange)} ({isPositive ? '+' : ''}
-                {valuePct.toFixed(2).replace('.', ',')}%)
+                {formatCurrency(valueChange)}
+                <span className={isPositive ? 'text-emerald-300/60' : 'text-red-300/60'}>
+                  · {isPositive ? '+' : ''}
+                  {valuePct.toFixed(2).replace('.', ',')}%
+                </span>
               </span>
             </div>
           )}
           {!loading && chartView === 'performance' && performanceData.length > 0 && (
-            <div className="flex items-baseline gap-2">
+            <div className="flex items-baseline gap-2.5">
               <p
-                className={`text-2xl font-bold tabular-nums ${
+                className={`text-2xl font-semibold tabular-nums tracking-tight ${
                   portfolioPerf >= 0 ? 'text-emerald-400' : 'text-red-400'
                 }`}
               >
                 {portfolioPerf >= 0 ? '+' : ''}
                 {portfolioPerf.toFixed(2).replace('.', ',')}%
               </p>
-              <span className="text-[11px] text-white/30">TWR im Zeitraum</span>
+              <span className="text-[10px] font-medium text-white/35 uppercase tracking-[0.14em]">
+                TWR im Zeitraum
+              </span>
             </div>
           )}
         </div>
 
         {/* Timeframes */}
-        <div className="flex gap-1">
+        <div
+          role="tablist"
+          className="inline-flex items-center gap-0.5 p-0.5 rounded-full bg-white/[0.03] border border-white/[0.05]"
+        >
           {TIMEFRAMES.map(tf => (
             <button
               key={tf}
+              role="tab"
+              aria-selected={selectedRange === tf}
               onClick={() => setSelectedRange(tf)}
-              className={`px-2.5 py-1 text-[10px] font-medium rounded-lg transition-all ${
+              className={`px-2.5 py-1 text-[10px] font-medium rounded-full transition-colors ${
                 selectedRange === tf
-                  ? 'bg-white/[0.08] text-white'
-                  : 'text-white/35 hover:text-white/40 hover:bg-white/[0.03]'
+                  ? 'bg-white text-[#06060e]'
+                  : 'text-white/45 hover:text-white/80'
               }`}
             >
               {tf}
