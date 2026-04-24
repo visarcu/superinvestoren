@@ -1152,6 +1152,39 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [loadPortfolio, depotIdParam])
 
+  // Ein komplettes Depot leeren: alle Holdings + Transaktionen löschen,
+  // Cash-Position und Broker-Kredit auf 0 setzen. Das Depot selbst bleibt
+  // bestehen (mit Namen & Broker-Type). Hilfreich vor einem kompletten
+  // Re-Import aus einer aktualisierten CSV.
+  const clearDepot = useCallback(async (portfolioId: string) => {
+    if (!portfolioId || portfolioId === 'all') {
+      throw new Error('Ungültige Depot-ID')
+    }
+
+    // 1) Holdings löschen
+    const { error: holdErr } = await supabase
+      .from('portfolio_holdings')
+      .delete()
+      .eq('portfolio_id', portfolioId)
+    if (holdErr) throw holdErr
+
+    // 2) Transaktionen löschen
+    const { error: txErr } = await supabase
+      .from('portfolio_transactions')
+      .delete()
+      .eq('portfolio_id', portfolioId)
+    if (txErr) throw txErr
+
+    // 3) Cash + Kredit zurücksetzen
+    const { error: resetErr } = await supabase
+      .from('portfolios')
+      .update({ cash_position: 0, broker_credit: 0 })
+      .eq('id', portfolioId)
+    if (resetErr) throw resetErr
+
+    await loadPortfolio(depotIdParam)
+  }, [loadPortfolio, depotIdParam])
+
   const exportToCSV = useCallback(() => {
     const headers = ['Symbol', 'Name', 'Anzahl', 'Kaufpreis', 'Aktueller Preis', 'Wert', 'G/V', 'G/V %']
     const rows = holdings.map(h => [
@@ -1225,6 +1258,7 @@ export function usePortfolio() {
     updatePortfolioName,
     updateTransaction,
     deleteTransaction,
+    clearDepot,
     exportToCSV,
   }
 }

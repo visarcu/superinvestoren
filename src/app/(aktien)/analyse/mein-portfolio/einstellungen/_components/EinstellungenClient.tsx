@@ -10,13 +10,34 @@ export default function EinstellungenClient() {
   const {
     portfolio,
     cashPosition,
+    holdings,
+    transactions,
     isAllDepotsView,
     loading,
     formatCurrency,
     updatePortfolioName,
     updateCashPosition,
     updateBrokerCredit,
+    clearDepot,
   } = usePortfolio()
+
+  const [clearConfirmOpen, setClearConfirmOpen] = useState(false)
+  const [clearing, setClearing] = useState(false)
+  const [clearError, setClearError] = useState<string | null>(null)
+
+  const handleClearDepot = async () => {
+    if (!portfolio?.id || portfolio.id === 'all') return
+    setClearing(true)
+    setClearError(null)
+    try {
+      await clearDepot(portfolio.id)
+      setClearConfirmOpen(false)
+    } catch (err) {
+      setClearError(err instanceof Error ? err.message : 'Fehler beim Leeren')
+    } finally {
+      setClearing(false)
+    }
+  }
 
   const [name, setName] = useState('')
   const [cash, setCash] = useState<string>('')
@@ -181,6 +202,76 @@ export default function EinstellungenClient() {
                   Performance-Detail öffnen →
                 </Link>
               </div>
+            </section>
+
+            {/* Gefahrenzone */}
+            <section className="mt-6 rounded-xl bg-[#0a0a12]/70 border border-red-500/[0.12] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)] p-5">
+              <h2 className="text-[13px] font-semibold text-red-300/90 tracking-tight mb-1">
+                Gefahrenzone
+              </h2>
+              <p className="text-[11px] text-white/40 mb-4 leading-relaxed">
+                Alle Positionen, Transaktionen, Dividenden, Cash und Kredit dieses
+                Depots unwiderruflich löschen. Das Depot selbst (Name + Broker) bleibt
+                erhalten — nützlich vor einem kompletten Re-Import.
+              </p>
+
+              {!clearConfirmOpen ? (
+                <button
+                  onClick={() => {
+                    setClearError(null)
+                    setClearConfirmOpen(true)
+                  }}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-red-500/[0.08] border border-red-500/[0.15] text-[12px] font-medium text-red-300 hover:bg-red-500/[0.14] transition-all"
+                >
+                  <svg
+                    className="w-3.5 h-3.5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                    />
+                  </svg>
+                  Depot leeren
+                </button>
+              ) : (
+                <div className="rounded-xl bg-red-500/[0.06] border border-red-500/[0.2] px-4 py-3.5">
+                  <p className="text-[12px] font-semibold text-red-200 mb-2">
+                    Bist du sicher?
+                  </p>
+                  <p className="text-[11px] text-white/60 mb-3 leading-relaxed">
+                    Das Depot <span className="text-white/85 font-medium">"{portfolio.name}"</span>{' '}
+                    wird zurückgesetzt:{' '}
+                    <span className="tabular-nums">{holdings.length}</span> Positionen,{' '}
+                    <span className="tabular-nums">{transactions.length}</span> Transaktionen,{' '}
+                    Cash ({formatCurrency(cashPosition)}) und Kredit werden gelöscht.{' '}
+                    Diese Aktion kann nicht rückgängig gemacht werden.
+                  </p>
+                  {clearError && (
+                    <p className="text-[11px] text-red-400 mb-3">{clearError}</p>
+                  )}
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setClearConfirmOpen(false)}
+                      disabled={clearing}
+                      className="px-3 py-1.5 rounded-full text-[12px] text-white/50 hover:text-white/80 transition-colors"
+                    >
+                      Abbrechen
+                    </button>
+                    <button
+                      onClick={handleClearDepot}
+                      disabled={clearing}
+                      className="px-4 py-1.5 rounded-full bg-red-500/90 hover:bg-red-500 text-[12px] font-semibold text-white transition-all disabled:opacity-50"
+                    >
+                      {clearing ? 'Lösche…' : `Ja, ${portfolio.name} leeren`}
+                    </button>
+                  </div>
+                </div>
+              )}
             </section>
           </div>
         )}

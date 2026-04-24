@@ -12,6 +12,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { resolveISINLocally } from '@/lib/isinResolver'
+import { stocks } from '@/data/stocks'
 
 interface ResolvedISIN {
   isin: string
@@ -72,6 +73,26 @@ function getSupabase() {
   return createClient(url, key)
 }
 
+// CUSIP-Map aus stocks.ts (DE/UK/US/JP — alle Aktien mit CUSIP-Feld).
+// CUSIP = Zeichen 2-10 einer ISIN (9 Zeichen nach dem Ländercode, vor der
+// Prüfziffer). Wird hier einmal beim ersten Request gebaut.
+let _cusipMap: Map<string, { ticker: string; name: string }> | null = null
+function getCusipMap() {
+  if (_cusipMap) return _cusipMap
+  _cusipMap = new Map()
+  for (const s of stocks) {
+    if (s.cusip) {
+      _cusipMap.set(s.cusip.toUpperCase(), { ticker: s.ticker, name: s.name })
+    }
+  }
+  return _cusipMap
+}
+
+function cusipFromIsin(isin: string): string | null {
+  if (isin.length !== 12) return null
+  return isin.substring(2, 11).toUpperCase()
+}
+
 async function resolveSingle(
   isin: string,
   hintName?: string
@@ -113,7 +134,7 @@ async function resolveSingle(
     }
   }
 
-  // 2) Production-Master
+  // 2a) Production-Master (ETFs: etfMaster + xetraETFsComplete)
   const local = resolveISINLocally(cleanIsin)
   if (local?.symbol) {
     const result: ResolvedISIN = {
@@ -126,7 +147,6 @@ async function resolveSingle(
       country: null,
       source: 'master',
     }
-    // In DB-Cache schreiben für nächstes Mal
     if (supabase) {
       const { error: upErr } = await supabase
         .from('isin_resolutions')
@@ -139,6 +159,37 @@ async function resolveSingle(
       if (upErr) console.error('[isin-search] master cache write failed:', upErr.message)
     }
     return result
+  }
+
+  // 2b) Aktien-Master (stocks.ts mit CUSIP) — für alle Aktien mit
+  // bekannter CUSIP (US/DE/UK/JP). Deckt die meisten populären Aktien ab
+  // und spart EODHD-Calls (kein API-Key-Verbrauch).
+  const cusip = cusipFromIsin(cleanIsin)
+  if (cusip) {
+    const stockMatch = getCusipMap().get(cusip)
+    if (stockMatch) {
+      const result: ResolvedISIN = {
+        isin: cleanIsin,
+        ticker: stockMatch.ticker,
+        name: stockMatch.name,
+        exchange: null,
+        currency: null,
+        type: 'Common Stock',
+        country: cleanIsin.slice(0, 2),
+        source: 'master',
+      }
+      if (supabase) {
+        await supabase.from('isin_resolutions').upsert({
+          isin: cleanIsin,
+          ticker: result.ticker,
+          name: result.name,
+          type: 'Common Stock',
+          country: result.country,
+          source: 'master',
+        })
+      }
+      return result
+    }
   }
 
   // 3) EODHD — zuerst Direktsuche per ISIN, dann Name-Fallback
