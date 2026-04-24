@@ -133,8 +133,8 @@ export async function executeImport(
   // geliefert hat); bei dividends ist der totalValue bereits netto (nach
   // Quellensteuer) — siehe TR-Parser-Fix.
   const cashDelta = transactions.reduce((sum, t) => {
-    const v = t.totalValue || t.quantity * t.price
-    const fee = Math.abs(t.fee || 0)
+    const v = (t.quantity || 0) * (t.price || 0)
+    const fee = Math.abs(t.fees || 0)
     switch (t.type) {
       case 'cash_deposit':
         return sum + v
