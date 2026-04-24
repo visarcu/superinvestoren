@@ -1,9 +1,10 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
+import NewDepotModal from '../../_components/NewDepotModal'
 
 interface DepotSummary {
   id: string
@@ -24,6 +25,10 @@ export default function DepotsClient() {
   const [depots, setDepots] = useState<DepotSummary[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [showNewDepot, setShowNewDepot] = useState(false)
+  const [reloadKey, setReloadKey] = useState(0)
+
+  const reload = useCallback(() => setReloadKey(k => k + 1), [])
 
   useEffect(() => {
     let cancelled = false
@@ -66,33 +71,54 @@ export default function DepotsClient() {
           const positionsCount = holdings?.length ?? 0
           let stockValue = 0
 
-          if (holdings && holdings.length > 0) {
-            const symbols = [...new Set(holdings.map(h => h.symbol))].join(',')
-            try {
-              const res = await fetch(`/api/v1/quotes/batch?symbols=${symbols}`)
-              if (res.ok) {
-                const data = await res.json()
-                const quoteMap: Record<string, number> = {}
-                for (const q of data.quotes || []) {
-                  if (q.price) quoteMap[q.symbol] = q.price
-                }
-                stockValue = holdings.reduce(
-                  (s, h) => s + (quoteMap[h.symbol] ?? h.purchase_price) * h.quantity,
-                  0
-                )
-              } else {
-                stockValue = holdings.reduce((s, h) => s + h.purchase_price * h.quantity, 0)
-              }
-            } catch {
-              stockValue = holdings.reduce((s, h) => s + h.purchase_price * h.quantity, 0)
-            }
+          // NaN-safe Helper: alle Holdings-Werte sind optional null/undefined
+          const safe = (v: any) => {
+            const n = Number(v)
+            return Number.isFinite(n) ? n : 0
           }
+
+          if (holdings && holdings.length > 0) {
+            const symbolList = holdings
+              .map(h => (h.symbol || '').trim())
+              .filter(Boolean)
+            const symbols = [...new Set(symbolList)].join(',')
+            let quoteMap: Record<string, number> = {}
+
+            if (symbols) {
+              try {
+                const res = await fetch(`/api/v1/quotes/batch?symbols=${symbols}`)
+                if (res.ok) {
+                  const data = await res.json()
+                  for (const q of data.quotes || []) {
+                    if (q.price && Number.isFinite(q.price)) {
+                      quoteMap[q.symbol] = Number(q.price)
+                    }
+                  }
+                }
+              } catch {
+                // fallback: purchase_price
+              }
+            }
+
+            stockValue = holdings.reduce((s, h) => {
+              const qty = safe(h.quantity)
+              if (qty === 0) return s
+              const pricePerShare =
+                quoteMap[h.symbol] ?? safe(h.purchase_price)
+              return s + safe(pricePerShare) * qty
+            }, 0)
+          }
+
+          const totalValue =
+            safe(stockValue) + safe(p.cash_position) - safe(p.broker_credit)
 
           summaries.push({
             ...p,
+            cash_position: safe(p.cash_position),
+            broker_credit: safe(p.broker_credit),
             positionsCount,
-            stockValue,
-            totalValue: stockValue + (p.cash_position ?? 0) - (p.broker_credit ?? 0),
+            stockValue: safe(stockValue),
+            totalValue: Number.isFinite(totalValue) ? totalValue : 0,
           })
         }
 
@@ -109,7 +135,7 @@ export default function DepotsClient() {
     return () => {
       cancelled = true
     }
-  }, [router])
+  }, [router, reloadKey])
 
   const total = depots.reduce((s, d) => s + d.totalValue, 0)
 
@@ -135,12 +161,12 @@ export default function DepotsClient() {
           </div>
         </div>
 
-        <Link
-          href="/analyse/portfolio/depots/neu"
+        <button
+          onClick={() => setShowNewDepot(true)}
           className="px-3 py-1.5 text-[11px] text-white bg-white/[0.08] border border-white/[0.1] rounded-lg hover:bg-white/[0.12] transition-all"
         >
           + Neues Depot
-        </Link>
+        </button>
       </header>
 
       <div className="max-w-6xl mx-auto w-full px-6 sm:px-10 py-6 pb-32">
@@ -158,12 +184,12 @@ export default function DepotsClient() {
             <p className="text-white/30 text-[12px] mt-1">
               Erstelle dein erstes Depot, um Holdings hinzuzufügen.
             </p>
-            <Link
-              href="/analyse/portfolio/depots/neu"
-              className="inline-flex items-center gap-2 mt-6 px-4 py-2 rounded-xl bg-white text-black text-[12px] font-semibold hover:bg-white/90 transition-all"
+            <button
+              onClick={() => setShowNewDepot(true)}
+              className="inline-flex items-center gap-2 mt-6 px-4 py-2 rounded-full bg-white text-black text-[12px] font-semibold hover:bg-white/90 transition-all"
             >
               + Neues Depot
-            </Link>
+            </button>
           </div>
         ) : (
           <>
@@ -243,6 +269,12 @@ export default function DepotsClient() {
           </>
         )}
       </div>
+
+      <NewDepotModal
+        open={showNewDepot}
+        onClose={() => setShowNewDepot(false)}
+        onCreated={() => reload()}
+      />
     </div>
   )
 }
