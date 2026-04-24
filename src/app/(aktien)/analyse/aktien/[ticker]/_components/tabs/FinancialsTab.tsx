@@ -9,6 +9,7 @@ import type {
   BalancePeriod,
   CashFlowPeriod,
   KPIMetric,
+  AnalystEstimate,
   ExpandedChartState,
 } from '../../_lib/types'
 
@@ -18,6 +19,7 @@ interface FinancialsTabProps {
   balance: BalancePeriod[]
   cashflow: CashFlowPeriod[]
   kpis: Record<string, KPIMetric>
+  estimates: AnalystEstimate[]
   financialPeriod: 'annual' | 'quarterly'
   setFinancialPeriod: (p: 'annual' | 'quarterly') => void
   setExpandedChart: (s: ExpandedChartState | null) => void
@@ -34,6 +36,7 @@ export default function FinancialsTab({
   balance,
   cashflow,
   kpis,
+  estimates,
   financialPeriod,
   setFinancialPeriod,
   setExpandedChart,
@@ -50,6 +53,18 @@ export default function FinancialsTab({
   const segmentKpis = Object.entries(kpis).filter(
     ([k]) => !k.startsWith('guidance_') && !k.startsWith('gaap_') && k !== 'total_revenue'
   )
+
+  // Analysten-Forecasts nur für Jahre anhängen, die ÜBER dem letzten Ist-Jahr liegen —
+  // verhindert Doppel-Bars für bereits berichtete Jahre.
+  const lastIncomeYear = income.length > 0 ? parseInt(income[income.length - 1].period, 10) : 0
+  const revenueForecasts = estimates
+    .filter(e => e.year > lastIncomeYear && e.revenue.avg !== null)
+    .slice(0, 4)
+    .map(e => ({ period: String(e.year), value: e.revenue.avg as number }))
+  const epsForecasts = estimates
+    .filter(e => e.year > lastIncomeYear && e.eps.avg !== null)
+    .slice(0, 4)
+    .map(e => ({ period: String(e.year), value: e.eps.avg as number }))
 
   return (
     <div className="w-full max-w-6xl space-y-6">
@@ -195,7 +210,16 @@ export default function FinancialsTab({
                 dataKey="revenue"
                 label="Umsatz"
                 color="#fff"
-                onExpand={() => setExpandedChart({ data: income, dataKey: 'revenue', label: 'Umsatz', color: '#fff' })}
+                forecasts={revenueForecasts}
+                onExpand={() =>
+                  setExpandedChart({
+                    data: income,
+                    dataKey: 'revenue',
+                    label: 'Umsatz',
+                    color: '#fff',
+                    forecasts: revenueForecasts,
+                  })
+                }
               />
               <ChartCard
                 data={income}
@@ -235,6 +259,7 @@ export default function FinancialsTab({
                 label="Gewinn je Aktie"
                 color="#fbbf24"
                 format="dollar"
+                forecasts={epsForecasts}
                 onExpand={() =>
                   setExpandedChart({
                     data: income,
@@ -242,6 +267,7 @@ export default function FinancialsTab({
                     label: 'Gewinn je Aktie',
                     color: '#fbbf24',
                     format: 'dollar',
+                    forecasts: epsForecasts,
                   })
                 }
               />
@@ -260,6 +286,12 @@ export default function FinancialsTab({
                 }
               />
             </div>
+            {(revenueForecasts.length > 0 || epsForecasts.length > 0) && (
+              <p className="text-[10px] text-white/25 mt-3">
+                Perioden mit Suffix <span className="text-white/40">e</span> = Analysten-Konsensus
+                (Sell-Side)
+              </p>
+            )}
           </div>
 
           {/* Segment Revenue (wenn vorhanden) */}

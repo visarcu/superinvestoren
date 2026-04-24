@@ -13,6 +13,8 @@ interface ChartCardProps {
   className?: string
   guidanceValue?: number | null
   guidanceLabel?: string
+  /** Analysten-Konsensus-Prognosen für zukünftige Perioden. Werden als dezente Dashed-Bars angehängt. */
+  forecasts?: { period: string; value: number }[]
   onExpand?: () => void
 }
 
@@ -25,17 +27,11 @@ export default function ChartCard({
   className,
   guidanceValue,
   guidanceLabel,
+  forecasts,
   onExpand,
 }: ChartCardProps) {
   let vals = data.filter(d => d[dataKey] !== null && d[dataKey] !== undefined && d[dataKey] !== 0)
   if (vals.length === 0) return null
-
-  // Für korrekte Darstellung negativer Werte: 0 muss in der Y-Achsen-Domain sein,
-  // damit Bars entweder nach oben (positiv) oder nach unten (negativ) wachsen.
-  const numericVals = vals.map(v => v[dataKey]).filter(v => typeof v === 'number') as number[]
-  const minVal = Math.min(...numericVals, 0)
-  const maxVal = Math.max(...numericVals, 0)
-  const hasNegativeValues = minVal < 0
 
   // Guidance als letzten grauen Balken hinzufügen
   if (guidanceValue) {
@@ -44,12 +40,31 @@ export default function ChartCard({
     vals = [...vals, { period: `${guidanceLabel || nextYear}*`, [dataKey]: guidanceValue, _isGuidance: true }]
   }
 
-  const latest = vals[vals.length - (guidanceValue ? 2 : 1)]?.[dataKey]
-  const prev = vals[vals.length - (guidanceValue ? 3 : 2)]?.[dataKey]
+  // Analysten-Forecasts als dezente Dashed-Bars anhängen
+  const forecastBars = forecasts?.filter(f => typeof f.value === 'number' && Number.isFinite(f.value)) ?? []
+  if (forecastBars.length > 0) {
+    vals = [
+      ...vals,
+      ...forecastBars.map(f => ({ period: `${f.period}e`, [dataKey]: f.value, _isForecast: true })),
+    ]
+  }
+
+  // Domain inkl. Forecasts berechnen (damit Prognose-Bars nicht aus dem Chart ragen)
+  const allNumericVals = vals.map(v => v[dataKey]).filter(v => typeof v === 'number') as number[]
+  const minVal = Math.min(...allNumericVals, 0)
+  const maxVal = Math.max(...allNumericVals, 0)
+  const hasNegativeValues = minVal < 0
+
+  // Growth-Berechnung: Projection-Bars (Guidance + Forecasts) überspringen,
+  // damit die Delta-Badge weiter Ist-vs-Ist vergleicht.
+  const projectionCount = (guidanceValue ? 1 : 0) + forecastBars.length
+  const latestActualIdx = vals.length - 1 - projectionCount
+  const latest = vals[latestActualIdx]?.[dataKey]
+  const prev = vals[latestActualIdx - 1]?.[dataKey]
   const growth = latest && prev ? ((latest - prev) / Math.abs(prev)) * 100 : null
 
-  // Period label for latest value
-  const latestPeriod = vals[vals.length - 1]?.period
+  // Period label für den Hero-Wert oben rechts: letztes ECHTES Period (skip Projections)
+  const latestPeriod = vals[latestActualIdx]?.period
 
   return (
     <div
@@ -120,15 +135,19 @@ export default function ChartCard({
                 if (!active || !payload?.length) return null
                 const v = payload[0].value as number
                 const isG = payload[0]?.payload?._isGuidance
+                const isF = payload[0]?.payload?._isForecast
+                const projectionTag = isG ? 'Guidance' : isF ? 'Prognose' : null
+                const projectionSub = isG ? 'Unternehmens-Prognose' : isF ? 'Analysten-Konsensus' : null
+                const muted = isG || isF
                 return (
                   <div style={TT}>
                     <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '10px' }}>
-                      {l} {isG && <span style={{ color: 'rgba(255,255,255,0.15)' }}>Guidance</span>}
+                      {l} {projectionTag && <span style={{ color: 'rgba(255,255,255,0.15)' }}>{projectionTag}</span>}
                     </p>
-                    <p style={{ color: isG ? 'rgba(255,255,255,0.4)' : '#fff', fontSize: '15px', fontWeight: 700 }}>
+                    <p style={{ color: muted ? 'rgba(255,255,255,0.4)' : '#fff', fontSize: '15px', fontWeight: 700 }}>
                       {format === 'dollar' ? `${v.toFixed(2).replace('.', ',')} $` : fmt(v)}
                     </p>
-                    {isG && <p style={{ color: 'rgba(255,255,255,0.15)', fontSize: '9px', marginTop: '2px' }}>Unternehmens-Prognose</p>}
+                    {projectionSub && <p style={{ color: 'rgba(255,255,255,0.15)', fontSize: '9px', marginTop: '2px' }}>{projectionSub}</p>}
                   </div>
                 )
               }}
@@ -143,15 +162,15 @@ export default function ChartCard({
               isAnimationActive={false}
             >
               {vals.map((v, i) => {
-                const isGuidance = v?._isGuidance
+                const isProjection = v?._isGuidance || v?._isForecast
                 return (
                   <Cell
                     key={i}
-                    fill={isGuidance ? 'rgba(255,255,255,0.08)' : color}
-                    opacity={isGuidance ? 1 : 0.75}
-                    stroke={isGuidance ? 'rgba(255,255,255,0.2)' : 'none'}
-                    strokeWidth={isGuidance ? 1 : 0}
-                    strokeDasharray={isGuidance ? '3 3' : undefined}
+                    fill={isProjection ? 'rgba(255,255,255,0.08)' : color}
+                    opacity={isProjection ? 1 : 0.75}
+                    stroke={isProjection ? 'rgba(255,255,255,0.2)' : 'none'}
+                    strokeWidth={isProjection ? 1 : 0}
+                    strokeDasharray={isProjection ? '3 3' : undefined}
                   />
                 )
               })}

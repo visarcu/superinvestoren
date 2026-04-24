@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from 'recharts'
+import { ResponsiveContainer, BarChart, Bar, Cell, XAxis, YAxis, Tooltip } from 'recharts'
 import { fmt, TT } from '../_lib/format'
 import type { ExpandedChartState } from '../_lib/types'
 
@@ -13,8 +13,24 @@ interface ExpandedChartModalProps {
 export default function ExpandedChartModal({ state, onClose }: ExpandedChartModalProps) {
   if (!state) return null
 
-  const vals = state.data.filter(d => d[state.dataKey])
-  const latestVal = vals[vals.length - 1]?.[state.dataKey]
+  // Ist-Werte + optionale Forecast-Bars mit denselben Flags wie in ChartCard,
+  // damit Styling (dashed, muted) konsistent bleibt.
+  const baseVals = state.data.filter(d => d[state.dataKey])
+  const forecastBars = (state.forecasts ?? []).filter(
+    f => typeof f.value === 'number' && Number.isFinite(f.value),
+  )
+  const vals = [
+    ...baseVals,
+    ...forecastBars.map(f => ({
+      period: `${f.period}e`,
+      [state.dataKey]: f.value,
+      _isForecast: true,
+    })),
+  ]
+
+  // Hero-Wert = letztes ECHTES Period (Projections überspringen)
+  const latestVal = baseVals[baseVals.length - 1]?.[state.dataKey]
+  const latestPeriod = baseVals[baseVals.length - 1]?.period
 
   return (
     <div className="fixed inset-0 z-[90] flex items-center justify-center p-4" onClick={onClose}>
@@ -27,6 +43,7 @@ export default function ExpandedChartModal({ state, onClose }: ExpandedChartModa
               <p className="text-3xl font-bold text-white mt-1">
                 {state.format === 'dollar' ? `${latestVal?.toFixed(2).replace('.', ',')} $` : fmt(latestVal)}
               </p>
+              {latestPeriod && <p className="text-[11px] text-white/30 mt-1">GJ {latestPeriod}</p>}
             </div>
             <button onClick={onClose} className="p-1.5 rounded-lg hover:bg-white/[0.06]" aria-label="Schließen">
               <svg
@@ -61,20 +78,47 @@ export default function ExpandedChartModal({ state, onClose }: ExpandedChartModa
                   content={({ active, payload, label: l }) => {
                     if (!active || !payload?.length) return null
                     const v = payload[0].value as number
+                    const isF = payload[0]?.payload?._isForecast
                     return (
                       <div style={TT}>
-                        <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px' }}>{l}</p>
-                        <p style={{ color: '#fff', fontSize: '18px', fontWeight: 700 }}>
+                        <p style={{ color: 'rgba(255,255,255,0.3)', fontSize: '11px' }}>
+                          {l} {isF && <span style={{ color: 'rgba(255,255,255,0.15)' }}>Prognose</span>}
+                        </p>
+                        <p style={{ color: isF ? 'rgba(255,255,255,0.4)' : '#fff', fontSize: '18px', fontWeight: 700 }}>
                           {state.format === 'dollar' ? `${v.toFixed(2).replace('.', ',')} $` : fmt(v)}
                         </p>
+                        {isF && (
+                          <p style={{ color: 'rgba(255,255,255,0.15)', fontSize: '10px', marginTop: '2px' }}>
+                            Analysten-Konsensus
+                          </p>
+                        )}
                       </div>
                     )
                   }}
                 />
-                <Bar dataKey={state.dataKey} fill={state.color} opacity={0.75} radius={[4, 4, 0, 0]} />
+                <Bar dataKey={state.dataKey} radius={[4, 4, 0, 0]} isAnimationActive={false}>
+                  {vals.map((v, i) => {
+                    const isF = v?._isForecast
+                    return (
+                      <Cell
+                        key={i}
+                        fill={isF ? 'rgba(255,255,255,0.08)' : state.color}
+                        opacity={isF ? 1 : 0.75}
+                        stroke={isF ? 'rgba(255,255,255,0.2)' : 'none'}
+                        strokeWidth={isF ? 1 : 0}
+                        strokeDasharray={isF ? '4 4' : undefined}
+                      />
+                    )
+                  })}
+                </Bar>
               </BarChart>
             </ResponsiveContainer>
           </div>
+          {forecastBars.length > 0 && (
+            <div className="px-6 pb-5 -mt-2 text-[11px] text-white/25">
+              Perioden mit Suffix <span className="text-white/40">e</span> = Analysten-Konsensus (Sell-Side)
+            </div>
+          )}
         </div>
       </div>
     </div>

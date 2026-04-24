@@ -11,6 +11,7 @@ import OverviewTab from './tabs/OverviewTab'
 import NewsTab from './tabs/NewsTab'
 import FinancialsTab from './tabs/FinancialsTab'
 import EarningsTab from './tabs/EarningsTab'
+import EstimatesTab from './tabs/EstimatesTab'
 import KpisTab from './tabs/KpisTab'
 import AiTab from './tabs/AiTab'
 import { fmt, fmtPct } from '../_lib/format'
@@ -24,6 +25,7 @@ import type {
   NewsArticle,
   KPIMetric,
   EarningsEntry,
+  AnalystEstimate,
   Quote,
   PricePoint,
   ChartTimeframe,
@@ -48,6 +50,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
   const [news, setNews] = useState<NewsArticle[]>([])
   const [kpis, setKpis] = useState<Record<string, KPIMetric>>({})
   const [earnings, setEarnings] = useState<EarningsEntry[]>([])
+  const [estimates, setEstimates] = useState<AnalystEstimate[]>([])
   const [quote, setQuote] = useState<Quote | null>(null)
   const [priceChart, setPriceChart] = useState<PricePoint[]>([])
   const [chartTimeframe, setChartTimeframe] = useState<ChartTimeframe>('1Y')
@@ -73,8 +76,9 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
       fetch(`/api/v1/kpis/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
       fetch(`/api/v1/earnings/${ticker}?limit=12`).then(r => (r.ok ? r.json() : null)).catch(() => null),
       fetch(`/api/v1/quotes/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
+      fetch(`/api/v1/analyst-estimates/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
     ])
-      .then(([p, inc, bal, cf, n, k, e, q]) => {
+      .then(([p, inc, bal, cf, n, k, e, q, est]) => {
         if (p && !p.error) setProfile(p)
         if (inc?.data) setIncome(inc.data)
         if (bal?.data) setBalance(bal.data)
@@ -85,6 +89,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
         if (n?.articles) setNews(n.articles)
         if (k?.metrics) setKpis(k.metrics)
         if (e?.earnings) setEarnings(e.earnings)
+        if (est?.estimates) setEstimates(est.estimates)
         if (q?.price)
           setQuote({
             price: q.price,
@@ -229,9 +234,33 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     const netMargin = L?.revenue && L?.netIncome ? (L.netIncome / L.revenue) * 100 : null
     const pe = quote?.price && L?.eps && L.eps > 0 ? quote.price / L.eps : null
 
+    // Forward KGV: Preis / Consensus-EPS der nächsten beiden Prognose-Jahre über dem letzten Ist-Jahr.
+    // Wenn nur ein Jahr verfügbar ist, fallback auf einzelne Anzeige.
+    const lastIncomeYear = L?.period ? parseInt(L.period, 10) : 0
+    const futureEps = estimates
+      .filter(e => e.year > lastIncomeYear && e.eps.avg !== null && (e.eps.avg as number) > 0)
+      .slice(0, 2)
+    const [nextEst, nextNextEst] = futureEps
+    const fwdPe = (eps: number | null | undefined) =>
+      quote?.price && eps && eps > 0 ? quote.price / eps : null
+    const fwdPe1 = fwdPe(nextEst?.eps.avg)
+    const fwdPe2 = fwdPe(nextNextEst?.eps.avg)
+    const fwd = (v: number | null) => (v ? v.toFixed(1).replace('.', ',') : null)
+
+    let forwardKgvLabel = 'Forward KGV'
+    let forwardKgvValue = '–'
+    if (nextEst && nextNextEst && fwdPe1 && fwdPe2) {
+      forwardKgvLabel = `Forward KGV (${nextEst.year}e | ${nextNextEst.year}e)`
+      forwardKgvValue = `${fwd(fwdPe1)} | ${fwd(fwdPe2)}`
+    } else if (nextEst && fwdPe1) {
+      forwardKgvLabel = `Forward KGV (${nextEst.year}e)`
+      forwardKgvValue = fwd(fwdPe1) || '–'
+    }
+
     const items = [
       { label: 'Marktkapitalisierung', value: quote?.marketCap ? fmt(quote.marketCap) : '–' },
       { label: 'KGV (P/E)', value: pe ? pe.toFixed(1).replace('.', ',') : '–' },
+      { label: forwardKgvLabel, value: forwardKgvValue },
       { label: 'Umsatz', value: fmt(L?.revenue || null) },
       { label: 'Nettogewinn', value: fmt(L?.netIncome || null) },
       { label: 'Gewinn/Aktie', value: L?.eps ? `${L.eps.toFixed(2).replace('.', ',')} $` : '–' },
@@ -247,7 +276,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     ].filter(m => m.value !== '–')
 
     return { metrics: items, fyLabel: L?.period ? `GJ ${L.period}` : '' }
-  }, [income, balance, cashflow, quote])
+  }, [income, balance, cashflow, quote, estimates])
 
   const startAiAnalysis = () => {
     setAiLoading(true)
@@ -299,6 +328,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
             balance={balance}
             cashflow={cashflow}
             kpis={kpis}
+            estimates={estimates}
             financialPeriod={financialPeriod}
             setFinancialPeriod={setFinancialPeriod}
             setExpandedChart={setExpandedChart}
@@ -309,6 +339,8 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
           />
         ) : tab === 'earnings' ? (
           <EarningsTab ticker={ticker} earnings={earnings} isPremium={isPremium} userLoading={userLoading} />
+        ) : tab === 'estimates' ? (
+          <EstimatesTab ticker={ticker} estimates={estimates} isPremium={isPremium} userLoading={userLoading} />
         ) : tab === 'kpis' ? (
           <KpisTab ticker={ticker} kpis={kpis} isPremium={isPremium} userLoading={userLoading} />
         ) : tab === 'ai' ? (

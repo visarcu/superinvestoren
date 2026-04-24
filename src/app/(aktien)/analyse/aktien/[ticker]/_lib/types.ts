@@ -102,7 +102,16 @@ export interface PricePoint {
 
 export type ChartTimeframe = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
 
-export type Tab = 'overview' | 'news' | 'financials' | 'earnings' | 'kpis' | 'ai'
+export type Tab = 'overview' | 'news' | 'financials' | 'earnings' | 'estimates' | 'kpis' | 'ai'
+
+export interface AnalystEstimate {
+  date: string
+  year: number
+  revenue: { low: number | null; avg: number | null; high: number | null; analystCount: number | null }
+  eps: { low: number | null; avg: number | null; high: number | null; analystCount: number | null }
+  ebitda: { low: number | null; avg: number | null; high: number | null }
+  netIncome: { low: number | null; avg: number | null; high: number | null }
+}
 
 export interface ExpandedChartState {
   data: any[]
@@ -110,4 +119,6 @@ export interface ExpandedChartState {
   label: string
   color: string
   format?: 'dollar'
+  /** Analysten-Konsensus-Prognosen – gleiche Struktur wie bei ChartCard */
+  forecasts?: { period: string; value: number }[]
 }

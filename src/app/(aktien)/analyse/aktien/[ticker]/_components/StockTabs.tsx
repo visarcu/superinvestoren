@@ -13,6 +13,7 @@ const TABS: { key: Tab; label: string }[] = [
   { key: 'news', label: 'News' },
   { key: 'financials', label: 'Financials' },
   { key: 'earnings', label: 'Earnings' },
+  { key: 'estimates', label: 'Analysten' },
   { key: 'kpis', label: 'KPIs' },
   { key: 'ai', label: 'AI Analyse' },
 ]
