@@ -1,7 +1,8 @@
 // src/components/portfolio/CSVImportModal.tsx
 // Multi-Step Import Wizard nach Parqet-Stil:
 //   Broker auswählen → Anleitung → Upload → Cash-Handling → Vorschau → Import → Fertig
-// Unterstützt: Scalable Capital (CSV), Trade Republic / Flatex / Smartbroker+ (PDF), Freedom24 (XLSX)
+// Unterstützt: Scalable Capital / Trade Republic / finanzen.net zero / Trading 212 (CSV),
+//              Trade Republic / Flatex / Smartbroker+ (PDF), Freedom24 (XLSX)
 'use client'
 
 import React, { useState, useCallback, useMemo, useRef } from 'react'
@@ -350,7 +351,12 @@ export default function CSVImportModal({
       let parsedTransactions: ParsedTransaction[]
       let uniqueISINs: string[]
 
-      if (data.format === 'scalable' || data.format === 'zero' || data.format === 'trading212') {
+      if (
+        data.format === 'scalable' ||
+        data.format === 'zero' ||
+        data.format === 'trading212' ||
+        data.format === 'traderepublic_csv'
+      ) {
         // Alle CSV-Parser liefern bereits ParsedTransaction[]
         parsedTransactions = data.transactions as ParsedTransaction[]
         uniqueISINs = (data.uniqueISINs as string[]) || []

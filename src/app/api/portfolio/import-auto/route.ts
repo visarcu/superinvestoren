@@ -15,6 +15,7 @@ import { createClient } from '@supabase/supabase-js'
 import { parseScalableCSV } from '@/lib/scalableCSVParser'
 import { parseZeroCSV, isZeroCSV } from '@/lib/zeroCSVParser'
 import { parseTrading212CSV, isTrading212CSV } from '@/lib/trading212CSVParser'
+import { parseTradeRepublicCSV, isTradeRepublicCSV } from '@/lib/tradeRepublicCSVParser'
 import { parseFlatexPDFText, type FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import { parseSmartbrokerPDFText, type SmartbrokerParsedTransaction } from '@/lib/smartbrokerPDFParser'
 import { parseTradeRepublicPDFText, type TradeRepublicParsedTransaction } from '@/lib/tradeRepublicPDFParser'
@@ -95,11 +96,24 @@ export async function POST(request: Request) {
     const firstFile = files[0]
     const ext = firstFile.name.toLowerCase().split('.').pop() ?? ''
 
-    // ===== CSV → Scalable Capital / finanzen.net Zero / Trading 212 =====
+    // ===== CSV → TR / Scalable Capital / finanzen.net Zero / Trading 212 =====
     if (ext === 'csv') {
       const text = await firstFile.text()
 
-      // Auto-Detection über Header
+      // Auto-Detection über Header — Trade Republic CSV (seit April 2026)
+      if (isTradeRepublicCSV(text)) {
+        const result = parseTradeRepublicCSV(text)
+        return NextResponse.json({
+          format: 'traderepublic_csv',
+          formatLabel: 'Trade Republic (CSV)',
+          transactions: result.transactions,
+          errors: result.skipped,
+          uniqueISINs: result.uniqueISINs,
+          stockSplits: result.stockSplits,
+          tickerRenames: result.tickerRenames,
+        })
+      }
+
       if (isTrading212CSV(text)) {
         const result = parseTrading212CSV(text)
         return NextResponse.json({

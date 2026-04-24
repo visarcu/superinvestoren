@@ -10,7 +10,7 @@ interface PortfolioAllocationProps {
   formatCurrency: (v: number) => string
 }
 
-// Fey-Farbpalette: dezenter, eher pastellig statt neon
+// Fey-Palette — pastellig, desaturiert, nie neon
 const SLICE_COLORS = [
   '#4ade80', // emerald
   '#60a5fa', // blue
@@ -26,7 +26,7 @@ const SLICE_COLORS = [
   '#818cf8', // indigo
 ]
 const REST_COLOR = 'rgba(255,255,255,0.12)'
-const CASH_COLOR = 'rgba(255,255,255,0.18)'
+const CASH_COLOR = 'rgba(255,255,255,0.22)'
 
 interface Slice {
   name: string
@@ -100,27 +100,36 @@ export default function PortfolioAllocation({
     : { name: 'Gesamt', value: total, percent: 100 }
 
   return (
-    <section className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-6 mt-6">
-      <div className="flex items-center justify-between mb-5">
-        <div>
-          <h2 className="text-[13px] font-semibold text-white/80">Verteilung</h2>
-          <p className="text-[11px] text-white/25 mt-0.5">Top {Math.min(TOP_N, holdings.length)} Positionen</p>
+    <section className="mt-6 rounded-xl bg-[#0a0a12]/70 border border-white/[0.05] shadow-[0_40px_80px_-40px_rgba(0,0,0,0.6)]">
+      <div className="px-6 py-4 flex items-center justify-between border-b border-white/[0.04]">
+        <div className="flex items-baseline gap-2.5">
+          <h2 className="text-[13px] font-semibold text-white/90 tracking-tight">Verteilung</h2>
+          <span className="text-[10px] font-medium text-white/30 uppercase tracking-[0.14em]">
+            Top {Math.min(TOP_N, holdings.length)}
+          </span>
         </div>
 
         {cashPosition > 0 && (
-          <div className="flex items-center gap-1 bg-white/[0.02] rounded-lg p-0.5">
+          <div
+            role="tablist"
+            className="inline-flex items-center gap-0.5 p-0.5 rounded-full bg-white/[0.03] border border-white/[0.05]"
+          >
             <button
+              role="tab"
+              aria-selected={!includeCash}
               onClick={() => setIncludeCash(false)}
-              className={`px-3 py-1 text-[11px] rounded-md transition-colors ${
-                !includeCash ? 'bg-white/[0.08] text-white' : 'text-white/30 hover:text-white/50'
+              className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors ${
+                !includeCash ? 'bg-white text-[#06060e]' : 'text-white/45 hover:text-white/80'
               }`}
             >
               Nur Aktien
             </button>
             <button
+              role="tab"
+              aria-selected={includeCash}
               onClick={() => setIncludeCash(true)}
-              className={`px-3 py-1 text-[11px] rounded-md transition-colors ${
-                includeCash ? 'bg-white/[0.08] text-white' : 'text-white/30 hover:text-white/50'
+              className={`px-2.5 py-1 rounded-full text-[11px] font-medium transition-colors ${
+                includeCash ? 'bg-white text-[#06060e]' : 'text-white/45 hover:text-white/80'
               }`}
             >
               Mit Cash
@@ -129,9 +138,9 @@ export default function PortfolioAllocation({
         )}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
+      <div className="p-6 grid grid-cols-1 md:grid-cols-[auto_1fr] gap-x-10 gap-y-6 items-center">
         {/* Donut */}
-        <div className="relative h-64">
+        <div className="relative h-64 w-64 mx-auto md:mx-0">
           <ResponsiveContainer width="100%" height="100%">
             <PieChart>
               <Pie
@@ -140,9 +149,9 @@ export default function PortfolioAllocation({
                 nameKey="name"
                 cx="50%"
                 cy="50%"
-                innerRadius={70}
-                outerRadius={100}
-                paddingAngle={1}
+                innerRadius={78}
+                outerRadius={110}
+                paddingAngle={1.5}
                 stroke="none"
                 onMouseEnter={(_, i) => setHoveredIdx(i)}
                 onMouseLeave={() => setHoveredIdx(null)}
@@ -151,7 +160,7 @@ export default function PortfolioAllocation({
                   <Cell
                     key={i}
                     fill={s.color}
-                    opacity={hoveredIdx === null || hoveredIdx === i ? 1 : 0.4}
+                    opacity={hoveredIdx === null || hoveredIdx === i ? 1 : 0.35}
                     style={{ transition: 'opacity 0.2s', cursor: 'pointer' }}
                   />
                 ))}
@@ -159,38 +168,55 @@ export default function PortfolioAllocation({
             </PieChart>
           </ResponsiveContainer>
           {/* Center-Label */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center">
-            <p className="text-[10px] text-white/30 uppercase tracking-wider">{centerLabel.name}</p>
-            <p className="text-xl font-bold text-white tabular-nums mt-0.5">{formatCurrency(centerLabel.value)}</p>
-            <p className="text-[11px] text-white/40 tabular-nums">{centerLabel.percent.toFixed(1).replace('.', ',')}%</p>
+          <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-6">
+            <p className="text-[10px] font-medium text-white/30 uppercase tracking-[0.14em] truncate max-w-full">
+              {centerLabel.name}
+            </p>
+            <p className="text-xl font-semibold text-white tabular-nums mt-1 tracking-tight">
+              {formatCurrency(centerLabel.value)}
+            </p>
+            <p className="text-[11px] text-white/40 tabular-nums mt-0.5">
+              {centerLabel.percent.toFixed(1).replace('.', ',')}%
+            </p>
           </div>
         </div>
 
         {/* Liste */}
-        <div className="space-y-1.5">
+        <div className="flex flex-col gap-px">
           {slices.map((s, i) => (
-            <div
+            <button
+              type="button"
               key={i}
               onMouseEnter={() => setHoveredIdx(i)}
               onMouseLeave={() => setHoveredIdx(null)}
-              className={`flex items-center justify-between px-3 py-2 rounded-lg transition-colors ${
-                hoveredIdx === i ? 'bg-white/[0.04]' : 'hover:bg-white/[0.02]'
-              }`}
+              className={`
+                flex items-center justify-between gap-3 px-3 py-2 rounded-lg text-left transition-colors
+                ${hoveredIdx === i ? 'bg-white/[0.04]' : 'hover:bg-white/[0.025]'}
+              `}
             >
               <div className="flex items-center gap-2.5 min-w-0">
-                <div className="w-2.5 h-2.5 rounded-sm flex-shrink-0" style={{ background: s.color }} />
+                <div
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ background: s.color, boxShadow: `0 0 10px ${s.color}55` }}
+                />
                 <p className="text-[12px] text-white/70 truncate">
-                  {s.symbol && <span className="font-semibold text-white/80 mr-1.5">{s.symbol}</span>}
+                  {s.symbol && (
+                    <span className="font-semibold text-white/90 mr-1.5 tracking-tight">
+                      {s.symbol}
+                    </span>
+                  )}
                   <span className={s.symbol ? 'text-white/40' : ''}>{s.name}</span>
                 </p>
               </div>
               <div className="flex items-center gap-3 flex-shrink-0">
-                <span className="text-[11px] text-white/40 tabular-nums">{formatCurrency(s.value)}</span>
+                <span className="text-[11px] text-white/35 tabular-nums">
+                  {formatCurrency(s.value)}
+                </span>
                 <span className="text-[12px] font-semibold text-white tabular-nums w-12 text-right">
                   {s.percent.toFixed(1).replace('.', ',')}%
                 </span>
               </div>
-            </div>
+            </button>
           ))}
         </div>
       </div>
