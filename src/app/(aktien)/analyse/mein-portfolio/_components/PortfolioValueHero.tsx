@@ -5,6 +5,9 @@ import React from 'react'
 interface PortfolioValueHeroProps {
   loading: boolean
   hasHoldings: boolean
+  /** Aktueller Marktwert nur der Aktienpositionen (Haupt-Hero-Zahl) */
+  stockValue: number
+  /** stockValue + cashPosition (für "inkl. Cash"-Hinweis) */
   totalValue: number
   /** Unrealisierter Kursgewinn (Kursgewinn offener Positionen) */
   totalGainLoss: number
@@ -28,6 +31,7 @@ interface PortfolioValueHeroProps {
 export default function PortfolioValueHero({
   loading,
   hasHoldings,
+  stockValue,
   totalValue,
   totalGainLoss,
   totalGainLossPercent,
@@ -73,10 +77,10 @@ export default function PortfolioValueHero({
     <div className="pt-4 pb-6">
       {/* Kontext-Label */}
       <p className="text-[10px] font-medium text-white/35 uppercase tracking-[0.14em]">
-        Gesamtwert
+        Depotwert · Aktien
       </p>
 
-      {/* Foil-Gradient Display Number */}
+      {/* Foil-Gradient Display Number: Aktien-Marktwert (ohne Cash) */}
       <div className="mt-2 flex items-baseline gap-3 flex-wrap">
         <h1
           className="
@@ -86,7 +90,7 @@ export default function PortfolioValueHero({
             [text-shadow:0_4px_24px_rgba(0,0,0,0.6)]
           "
         >
-          {formatCurrency(totalValue)}
+          {formatCurrency(stockValue)}
         </h1>
 
         {/* Heute-Chip */}

@@ -40,6 +40,7 @@ export default function PortfolioClient() {
     transactions,
     isAllDepotsView,
     totalValue,
+    stockValue,
     cashPosition,
     totalGainLoss,
     totalGainLossPercent,
@@ -184,6 +185,7 @@ export default function PortfolioClient() {
         <PortfolioValueHero
           loading={loading}
           hasHoldings={holdings.length > 0}
+          stockValue={stockValue}
           totalValue={totalValue}
           totalGainLoss={totalGainLoss}
           totalGainLossPercent={totalGainLossPercent}
