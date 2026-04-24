@@ -134,11 +134,17 @@ function mapTransactionType(row: TRRow): MappedTransactionType | null {
       case 'CUSTOMER_OUTBOUND':
         return cashSign
 
-      // Offene Auszahlungsanforderungen — TR bucht diese vor der eigentlichen Ausbuchung.
-      // Um Duplikate mit dem späteren OUTBOUND-Eintrag zu vermeiden → skippen.
+      // Auszahlungen: TR bucht diese in der CSV als _REQUEST-Variante, ohne
+      // zusätzlichen _OUTBOUND-Folge-Event. In den getesteten Exporten sind
+      // _REQUESTs die eigentliche Auszahlung (kein matching OUTBOUND folgt).
+      // Darum buchen wir sie als cash_withdrawal. Falls TR irgendwann doch
+      // sowohl REQUEST als auch OUTBOUND liefert, fängt unser Dedup-Check
+      // (date|type|symbol|qty|price) das nicht — dann müsste ein späterer
+      // Import manuell geprüft werden. Für den aktuellen TR-Export ist das
+      // der einzige Weg, die Cash-Position korrekt abzubilden.
       case 'CUSTOMER_OUTBOUND_REQUEST':
       case 'CUSTOMER_OUTPAYMENT_REQUEST':
-        return null
+        return cashSign
 
       // Promos/Aktionen (Werbeprämien, Empfehlungen, Stockperks)
       case 'REFERRAL':
@@ -445,10 +451,16 @@ export function parseTradeRepublicCSV(csvContent: string): CSVParseResult {
       isFromCorpAction: row.category === 'CORPORATE_ACTION',
     }
 
-    // Dividende: quantity=1, price=totalValue (wie bei Scalable-Parser)
+    // Dividende: quantity=1, price=totalValue netto nach Quellensteuer.
+    // TR-CSV hat amount = brutto-Ausschüttung, tax = zusätzlich abgezogene
+    // Quellensteuer (negativer Wert). Netto-Cashflow = amount - |tax|.
+    // Das ist auch die Zahl, die Parqet anzeigt und das Deutsche Tax-Reporting
+    // erwartet (was tatsächlich auf dem Konto ankam).
     if (mapped === 'dividend') {
+      const netValue = Math.max(0, Math.abs(row.amount) - Math.abs(row.tax))
       parsed.quantity = 1
-      parsed.price = totalValue
+      parsed.price = netValue
+      parsed.totalValue = netValue
       parsed.isin = row.symbol || ''
     }
 
