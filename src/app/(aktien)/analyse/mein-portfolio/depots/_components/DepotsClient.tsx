@@ -5,6 +5,8 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import NewDepotModal from '../../_components/NewDepotModal'
+import Modal from '../../_components/Modal'
+import DepotRowMenu from './DepotRowMenu'
 
 interface DepotSummary {
   id: string
@@ -27,8 +29,51 @@ export default function DepotsClient() {
   const [error, setError] = useState<string | null>(null)
   const [showNewDepot, setShowNewDepot] = useState(false)
   const [reloadKey, setReloadKey] = useState(0)
+  const [confirmAction, setConfirmAction] = useState<{
+    kind: 'clear' | 'delete'
+    depot: DepotSummary
+  } | null>(null)
+  const [actionRunning, setActionRunning] = useState(false)
+  const [actionError, setActionError] = useState<string | null>(null)
 
   const reload = useCallback(() => setReloadKey(k => k + 1), [])
+
+  const runAction = useCallback(async () => {
+    if (!confirmAction) return
+    const { kind, depot } = confirmAction
+    setActionRunning(true)
+    setActionError(null)
+    try {
+      // FK-Referenzen zuerst löschen
+      await supabase.from('portfolio_holdings').delete().eq('portfolio_id', depot.id)
+      await supabase
+        .from('portfolio_transactions')
+        .delete()
+        .eq('portfolio_id', depot.id)
+
+      if (kind === 'delete') {
+        const { error: delErr } = await supabase
+          .from('portfolios')
+          .delete()
+          .eq('id', depot.id)
+        if (delErr) throw delErr
+      } else {
+        // leeren: Cash + Kredit zurücksetzen
+        const { error: updErr } = await supabase
+          .from('portfolios')
+          .update({ cash_position: 0, broker_credit: 0 })
+          .eq('id', depot.id)
+        if (updErr) throw updErr
+      }
+
+      setConfirmAction(null)
+      reload()
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : 'Fehler beim Ausführen')
+    } finally {
+      setActionRunning(false)
+    }
+  }, [confirmAction, reload])
 
   useEffect(() => {
     let cancelled = false
@@ -206,7 +251,7 @@ export default function DepotsClient() {
               {depots.map(d => (
                 <div
                   key={d.id}
-                  className="bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.08] transition-all"
+                  className="relative bg-[#0c0c16] border border-white/[0.04] rounded-2xl p-5 hover:border-white/[0.08] transition-all"
                 >
                   <div className="flex items-start justify-between gap-4 flex-wrap">
                     <div className="flex items-center gap-3 min-w-0 flex-1">
@@ -234,18 +279,30 @@ export default function DepotsClient() {
                       </div>
                     </div>
 
-                    <div className="text-right">
-                      <p className="text-[16px] font-bold text-white tabular-nums">
-                        {d.totalValue.toLocaleString('de-DE', {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })}{' '}
-                        €
-                      </p>
-                      <p className="text-[10px] text-white/25 tabular-nums">
-                        Aktien {d.stockValue.toLocaleString('de-DE', { maximumFractionDigits: 0 })} € · Cash{' '}
-                        {(d.cash_position ?? 0).toLocaleString('de-DE', { maximumFractionDigits: 0 })} €
-                      </p>
+                    <div className="flex items-start gap-2">
+                      <div className="text-right">
+                        <p className="text-[16px] font-bold text-white tabular-nums">
+                          {d.totalValue.toLocaleString('de-DE', {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          })}{' '}
+                          €
+                        </p>
+                        <p className="text-[10px] text-white/25 tabular-nums">
+                          Aktien {d.stockValue.toLocaleString('de-DE', { maximumFractionDigits: 0 })} € · Cash{' '}
+                          {(d.cash_position ?? 0).toLocaleString('de-DE', { maximumFractionDigits: 0 })} €
+                        </p>
+                      </div>
+                      <DepotRowMenu
+                        onClear={() => {
+                          setActionError(null)
+                          setConfirmAction({ kind: 'clear', depot: d })
+                        }}
+                        onDelete={() => {
+                          setActionError(null)
+                          setConfirmAction({ kind: 'delete', depot: d })
+                        }}
+                      />
                     </div>
                   </div>
 
@@ -275,6 +332,71 @@ export default function DepotsClient() {
         onClose={() => setShowNewDepot(false)}
         onCreated={() => reload()}
       />
+
+      <Modal
+        open={!!confirmAction}
+        title={confirmAction?.kind === 'delete' ? 'Depot löschen' : 'Depot leeren'}
+        subtitle={confirmAction ? confirmAction.depot.name : ''}
+        onClose={() => !actionRunning && setConfirmAction(null)}
+        size="sm"
+      >
+        {confirmAction && (
+          <div className="space-y-4">
+            <div className="rounded-xl bg-red-500/[0.06] border border-red-500/[0.15] px-4 py-3 text-[12px] text-red-300/90 leading-relaxed">
+              {confirmAction.kind === 'delete' ? (
+                <>
+                  Das Depot <span className="font-semibold">"{confirmAction.depot.name}"</span>{' '}
+                  wird inklusive aller Positionen und Transaktionen{' '}
+                  <span className="font-semibold">unwiderruflich gelöscht</span>.
+                </>
+              ) : (
+                <>
+                  Alle Positionen, Transaktionen, Cash und Kredit dieses Depots
+                  werden gelöscht. Das Depot selbst (Name + Broker) bleibt
+                  erhalten — gut für einen sauberen Re-Import.
+                </>
+              )}
+            </div>
+
+            <div className="rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3 text-[11px] text-white/55 tabular-nums">
+              {confirmAction.depot.positionsCount}{' '}
+              {confirmAction.depot.positionsCount === 1 ? 'Position' : 'Positionen'} ·{' '}
+              {confirmAction.depot.totalValue.toLocaleString('de-DE', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}{' '}
+              €
+            </div>
+
+            {actionError && (
+              <div className="text-[12px] text-red-400 bg-red-500/[0.05] border border-red-500/[0.15] rounded-xl px-4 py-2.5">
+                {actionError}
+              </div>
+            )}
+
+            <div className="flex items-center justify-end gap-2 pt-1">
+              <button
+                onClick={() => setConfirmAction(null)}
+                disabled={actionRunning}
+                className="px-4 py-2.5 rounded-full text-[12px] text-white/40 hover:text-white/70 transition-colors"
+              >
+                Abbrechen
+              </button>
+              <button
+                onClick={runAction}
+                disabled={actionRunning}
+                className="px-5 py-2.5 rounded-full bg-red-500/90 text-white text-[12px] font-semibold hover:bg-red-500 transition-all disabled:opacity-50"
+              >
+                {actionRunning
+                  ? '…'
+                  : confirmAction.kind === 'delete'
+                    ? 'Ja, Depot löschen'
+                    : 'Ja, Depot leeren'}
+              </button>
+            </div>
+          </div>
+        )}
+      </Modal>
     </div>
   )
 }

@@ -1152,6 +1152,21 @@ export function usePortfolio() {
     await loadPortfolio(depotIdParam)
   }, [loadPortfolio, depotIdParam])
 
+  // Depot komplett löschen inkl. aller Holdings, Transaktionen und des
+  // Portfolio-Eintrags selbst. Verwendet von der Depots-Übersicht.
+  const deletePortfolio = useCallback(async (portfolioId: string) => {
+    if (!portfolioId || portfolioId === 'all') {
+      throw new Error('Ungültige Depot-ID')
+    }
+    // Reihenfolge wichtig: FK-Referenzen zuerst löschen
+    await supabase.from('portfolio_holdings').delete().eq('portfolio_id', portfolioId)
+    await supabase.from('portfolio_transactions').delete().eq('portfolio_id', portfolioId)
+    const { error } = await supabase.from('portfolios').delete().eq('id', portfolioId)
+    if (error) throw error
+
+    await loadPortfolio(depotIdParam)
+  }, [loadPortfolio, depotIdParam])
+
   // Ein komplettes Depot leeren: alle Holdings + Transaktionen löschen,
   // Cash-Position und Broker-Kredit auf 0 setzen. Das Depot selbst bleibt
   // bestehen (mit Namen & Broker-Type). Hilfreich vor einem kompletten
@@ -1259,6 +1274,7 @@ export function usePortfolio() {
     updateTransaction,
     deleteTransaction,
     clearDepot,
+    deletePortfolio,
     exportToCSV,
   }
 }
