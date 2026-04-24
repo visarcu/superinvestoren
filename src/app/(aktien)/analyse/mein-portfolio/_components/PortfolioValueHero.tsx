@@ -6,8 +6,12 @@ interface PortfolioValueHeroProps {
   loading: boolean
   hasHoldings: boolean
   totalValue: number
+  /** Unrealisierter Kursgewinn (Kursgewinn offener Positionen) */
   totalGainLoss: number
   totalGainLossPercent: number
+  /** Gesamtrendite = Kursgewinn + Realisiert + Dividenden − Gebühren */
+  totalReturn: number
+  totalReturnPercent: number
   todayChange: number
   todayChangePercent: number
   cashPosition: number
@@ -27,6 +31,8 @@ export default function PortfolioValueHero({
   totalValue,
   totalGainLoss,
   totalGainLossPercent,
+  totalReturn,
+  totalReturnPercent,
   todayChange,
   todayChangePercent,
   cashPosition,
@@ -61,7 +67,7 @@ export default function PortfolioValueHero({
   }
 
   const todayPositive = todayChange >= 0
-  const totalPositive = totalGainLoss >= 0
+  const totalPositive = totalReturn >= 0
 
   return (
     <div className="pt-4 pb-6">
@@ -119,21 +125,35 @@ export default function PortfolioValueHero({
         </div>
       </div>
 
-      {/* Gesamt-Rendite Zeile */}
-      <div className="mt-3 flex items-center gap-2 text-[12px] tabular-nums">
+      {/* Gesamt-Rendite Zeile: totalReturn = Kursgewinn + Realisiert + Dividenden − Gebühren */}
+      <div className="mt-3 flex items-center gap-2 text-[12px] tabular-nums flex-wrap">
         <span className="text-white/35">Rendite gesamt</span>
         <span
           className={`font-medium ${
             totalPositive ? 'text-emerald-400/90' : 'text-red-400/90'
           }`}
+          title="Summe aus Kursgewinn, realisiert, Dividenden abzüglich Gebühren"
         >
           {totalPositive ? '+' : ''}
-          {formatCurrency(totalGainLoss)}
+          {formatCurrency(totalReturn)}
         </span>
         <span
           className={`${totalPositive ? 'text-emerald-400/55' : 'text-red-400/55'}`}
         >
-          ({formatPercentage(totalGainLossPercent)})
+          ({formatPercentage(totalReturnPercent)})
+        </span>
+        {/* Zusätzlich der Kursgewinn als dezenter Hint */}
+        <span className="text-white/25">·</span>
+        <span className="text-white/40 text-[11px]">
+          davon Kurs:{' '}
+          <span
+            className={
+              totalGainLoss >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'
+            }
+          >
+            {totalGainLoss >= 0 ? '+' : ''}
+            {formatCurrency(totalGainLoss)}
+          </span>
         </span>
       </div>
 
