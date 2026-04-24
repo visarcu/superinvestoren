@@ -38,10 +38,49 @@ export async function executeImport(
 
   if (transactions.length === 0) return result
 
-  // 1) Transactions in DB inserten
-  const txRows = transactions.map(t => {
+  // 0) Duplikat-Check — bestehende Transaktionen im Depot laden und
+  // einen Signatur-Key pro Transaktion bilden. Wenn die Signatur bereits
+  // existiert, wird die neue Transaktion übersprungen. Verhindert, dass
+  // mehrfache Imports derselben CSV die Holdings verdoppeln.
+  //
+  // Signatur = date|type|symbol|quantity|price (mit 4 Nachkommastellen auf
+  // Qty/Price gerundet, um Floating-Point-Rauschen zu absorbieren).
+  const sig = (t: {
+    date: string
+    type: string
+    symbol: string
+    quantity: number
+    price: number
+  }) => {
+    const q = Math.round((t.quantity || 0) * 10000) / 10000
+    const p = Math.round((t.price || 0) * 10000) / 10000
+    return `${t.date}|${t.type}|${(t.symbol || '').toUpperCase()}|${q}|${p}`
+  }
+
+  const { data: existingTxs } = await supabase
+    .from('portfolio_transactions')
+    .select('date, type, symbol, quantity, price')
+    .eq('portfolio_id', portfolioId)
+
+  const existingSignatures = new Set<string>()
+  for (const t of existingTxs ?? []) {
+    existingSignatures.add(
+      sig({
+        date: String(t.date).slice(0, 10),
+        type: t.type,
+        symbol: t.symbol,
+        quantity: Number(t.quantity) || 0,
+        price: Number(t.price) || 0,
+      })
+    )
+  }
+
+  // 1) Transactions in DB inserten — Duplikate werden übersprungen
+  const txRows: any[] = []
+  let skippedDuplicates = 0
+  for (const t of transactions) {
     const symbol = (t.resolvedTicker || t.symbol || '').toUpperCase()
-    return {
+    const row = {
       portfolio_id: portfolioId,
       type: t.type,
       symbol,
@@ -52,7 +91,20 @@ export async function executeImport(
       date: t.date,
       notes: t.notes || null,
     }
-  })
+    const s = sig({ ...row, symbol })
+    if (existingSignatures.has(s)) {
+      skippedDuplicates++
+      continue
+    }
+    existingSignatures.add(s)
+    txRows.push(row)
+  }
+
+  if (skippedDuplicates > 0) {
+    result.errors.push(
+      `${skippedDuplicates} Transaktion${skippedDuplicates === 1 ? '' : 'en'} übersprungen (bereits im Depot)`
+    )
+  }
 
   // Chunk-Insert (Supabase-Limit: 1000 Zeilen/Insert, wir bleiben bei 500)
   const CHUNK = 500

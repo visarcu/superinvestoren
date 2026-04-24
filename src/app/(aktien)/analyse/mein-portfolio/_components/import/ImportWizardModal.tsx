@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useMemo, useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { usePortfolio } from '@/hooks/usePortfolio'
 import Modal from '../Modal'
 import ImportStepIndicator from './ImportStepIndicator'
@@ -36,6 +37,7 @@ const initialState: ImportState = {
 }
 
 export default function ImportWizardModal({ open, onClose }: Props) {
+  const router = useRouter()
   const { portfolio, allPortfolios, isAllDepotsView, refresh, formatCurrency } = usePortfolio()
   const [state, setState] = useState<ImportState>(initialState)
   const [processing, setProcessing] = useState(false)
@@ -71,11 +73,24 @@ export default function ImportWizardModal({ open, onClose }: Props) {
 
   const handleClose = async () => {
     if (processing || state.step === 'importing') return
-    if (state.step === 'done' && importResult && importResult.insertedTransactions > 0) {
-      await refresh()
-    }
+    const didImport =
+      state.step === 'done' &&
+      !!importResult &&
+      importResult.insertedTransactions > 0
+    const targetDepotId = selectedDepotId
+
     reset()
     onClose()
+
+    // Nach erfolgreichem Import: sicherstellen dass die aktuelle Portfolio-Ansicht
+    // das Ziel-Depot mit frischen Daten lädt. Der usePortfolio-Hook triggert sein
+    // eigenes Reload bei ?depot=-Wechsel, daher pushen wir zur Ziel-Depot-URL.
+    // router.refresh() invalidiert zusätzlich Server-Caches (Layouts).
+    if (didImport && targetDepotId) {
+      router.push(`/analyse/mein-portfolio?depot=${targetDepotId}`)
+      router.refresh()
+      await refresh()
+    }
   }
 
   const goTo = (step: WizardStep) => setState(s => ({ ...s, step }))

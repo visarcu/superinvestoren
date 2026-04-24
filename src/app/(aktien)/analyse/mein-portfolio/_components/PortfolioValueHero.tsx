@@ -182,7 +182,7 @@ export default function PortfolioValueHero({
             <HairlineDivider />
             <Stat
               label="Rendite p.a."
-              value={`${xirrPercent >= 0 ? '+' : ''}${formatPercentage(xirrPercent)}`}
+              value={formatPercentage(xirrPercent)}
               hint="XIRR"
               accent={xirrPercent >= 0 ? 'emerald' : 'red'}
             />
