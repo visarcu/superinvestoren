@@ -82,14 +82,15 @@ export default function ImportWizardModal({ open, onClose }: Props) {
     reset()
     onClose()
 
-    // Nach erfolgreichem Import: sicherstellen dass die aktuelle Portfolio-Ansicht
-    // das Ziel-Depot mit frischen Daten lädt. Der usePortfolio-Hook triggert sein
-    // eigenes Reload bei ?depot=-Wechsel, daher pushen wir zur Ziel-Depot-URL.
-    // router.refresh() invalidiert zusätzlich Server-Caches (Layouts).
+    // Nach erfolgreichem Import: harten Page-Reload zur Ziel-Depot-URL.
+    // Der React-State mit Holdings/Transaktionen wurde über refresh()/
+    // router.refresh() teils nicht synchronisiert (depotIdParam-Race), deshalb
+    // die brutale aber zuverlässige Variante via window.location — damit sieht
+    // der User sofort den frischen Stand ohne manuelles F5.
     if (didImport && targetDepotId) {
-      router.push(`/analyse/mein-portfolio?depot=${targetDepotId}`)
-      router.refresh()
-      await refresh()
+      if (typeof window !== 'undefined') {
+        window.location.href = `/analyse/mein-portfolio?depot=${targetDepotId}`
+      }
     }
   }
 
