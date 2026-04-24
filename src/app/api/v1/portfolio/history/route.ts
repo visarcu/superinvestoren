@@ -147,6 +147,33 @@ export async function POST(request: NextRequest) {
     pricesBySymbol.forEach(priceMap => priceMap.forEach((_, d) => allDates.add(d)))
     const sortedDates = Array.from(allDates).sort()
 
+    // 4b) Forward-fill der Kurse: für jedes Symbol pro Chart-Datum eine
+    // lookup-Funktion, die bei fehlendem Datum den letzten bekannten Kurs
+    // zurückgibt. Verhindert massive Drops in der Wertentwicklungs-Kurve,
+    // wenn EODHD für einzelne Tage keinen Kurs liefert (Handelsruhe,
+    // Ticker-Rename, API-Lücke bei delisted Stocks).
+    const sortedDatesBySymbol = new Map<string, string[]>()
+    pricesBySymbol.forEach((priceMap, symbol) => {
+      sortedDatesBySymbol.set(symbol, Array.from(priceMap.keys()).sort())
+    })
+
+    function getPriceForDate(symbol: string, date: string): number | null {
+      const priceMap = pricesBySymbol.get(symbol)
+      if (!priceMap) return null
+      const direct = priceMap.get(date)
+      if (direct) return direct
+      // Forward-Fill: letzten bekannten Kurs vor `date` suchen
+      const dates = sortedDatesBySymbol.get(symbol)
+      if (!dates || dates.length === 0) return null
+      for (let i = dates.length - 1; i >= 0; i--) {
+        if (dates[i] <= date) {
+          const p = priceMap.get(dates[i])
+          if (p && p > 0) return p
+        }
+      }
+      return null
+    }
+
     // 5) Erster Kauftag pro Symbol
     const firstPurchaseDateBySymbol = new Map<string, string>()
     if (useTransactions) {
@@ -168,8 +195,7 @@ export async function POST(request: NextRequest) {
       let totalInvested = 0
 
       for (const symbol of uniqueSymbols) {
-        const priceMap = pricesBySymbol.get(symbol)
-        const currentPrice = priceMap?.get(date)
+        const currentPrice = getPriceForDate(symbol, date)
         if (!currentPrice) continue
 
         const firstPurchaseDate = firstPurchaseDateBySymbol.get(symbol)

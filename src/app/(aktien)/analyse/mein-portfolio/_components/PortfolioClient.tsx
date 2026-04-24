@@ -46,6 +46,8 @@ export default function PortfolioClient() {
     totalDividends,
     totalRealizedGain,
     totalFees,
+    totalReturn,
+    totalReturnPercent,
     xirrPercent,
     realizedGainByTxId,
     loading,
@@ -185,6 +187,8 @@ export default function PortfolioClient() {
           totalValue={totalValue}
           totalGainLoss={totalGainLoss}
           totalGainLossPercent={totalGainLossPercent}
+          totalReturn={totalReturn}
+          totalReturnPercent={totalReturnPercent}
           todayChange={todayChange}
           todayChangePercent={todayChangePercent}
           cashPosition={cashPosition}
