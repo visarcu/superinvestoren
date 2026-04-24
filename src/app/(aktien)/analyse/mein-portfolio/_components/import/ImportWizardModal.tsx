@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { usePortfolio } from '@/hooks/usePortfolio'
 import Modal from '../Modal'
 import ImportStepIndicator from './ImportStepIndicator'
@@ -36,11 +36,32 @@ const initialState: ImportState = {
 }
 
 export default function ImportWizardModal({ open, onClose }: Props) {
-  const { portfolio, refresh, formatCurrency } = usePortfolio()
+  const { portfolio, allPortfolios, isAllDepotsView, refresh, formatCurrency } = usePortfolio()
   const [state, setState] = useState<ImportState>(initialState)
   const [processing, setProcessing] = useState(false)
   const [importResult, setImportResult] = useState<ImportResult | null>(null)
   const [finalTransactions, setFinalTransactions] = useState<typeof state.transactions>([])
+
+  // Ziel-Depot für den Import (kann von portfolio.id abweichen, wenn gerade
+  // "Alle Depots" aktiv ist). Default: erstes echtes Depot aus allPortfolios.
+  const [selectedDepotId, setSelectedDepotId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (!open) return
+    // Wenn Benutzer auf "Alle Depots" ist → erstes Depot als Default vorauswählen.
+    if (isAllDepotsView || portfolio?.id === 'all') {
+      if (!selectedDepotId && allPortfolios.length > 0) {
+        setSelectedDepotId(allPortfolios[0].id)
+      }
+    } else if (portfolio?.id && portfolio.id !== 'all') {
+      setSelectedDepotId(portfolio.id)
+    }
+  }, [open, isAllDepotsView, portfolio?.id, allPortfolios, selectedDepotId])
+
+  const activePortfolio = useMemo(
+    () => allPortfolios.find(p => p.id === selectedDepotId) ?? null,
+    [allPortfolios, selectedDepotId]
+  )
 
   const reset = () => {
     setState(initialState)
@@ -50,7 +71,6 @@ export default function ImportWizardModal({ open, onClose }: Props) {
 
   const handleClose = async () => {
     if (processing || state.step === 'importing') return
-    // Nach erfolgreichem Import: Portfolio neu laden
     if (state.step === 'done' && importResult && importResult.insertedTransactions > 0) {
       await refresh()
     }
@@ -102,11 +122,33 @@ export default function ImportWizardModal({ open, onClose }: Props) {
     if (target) goTo(target)
   }
 
+  // Subtitle: bei "Alle Depots" Depot-Selektor zeigen, sonst Depot-Namen
+  const showDepotSelector = (isAllDepotsView || portfolio?.id === 'all') && allPortfolios.length > 1
+
   return (
     <Modal
       open={open}
       title="Import"
-      subtitle={portfolio ? `In Depot: ${portfolio.name}` : 'Transaktionen übernehmen'}
+      subtitle={
+        showDepotSelector ? (
+          <span className="inline-flex items-center gap-1.5 text-[12px] text-white/30">
+            Ziel-Depot:
+            <select
+              value={selectedDepotId ?? ''}
+              onChange={e => setSelectedDepotId(e.target.value)}
+              className="bg-white/[0.04] border border-white/[0.06] rounded-md px-2 py-0.5 text-[12px] text-white/75 focus:outline-none focus:border-white/[0.15] transition-colors"
+            >
+              {allPortfolios.map(p => (
+                <option key={p.id} value={p.id}>
+                  {p.name}
+                </option>
+              ))}
+            </select>
+          </span>
+        ) : (
+          activePortfolio ? `In Depot: ${activePortfolio.name}` : 'Transaktionen übernehmen'
+        )
+      }
       onClose={handleClose}
       size="lg"
     >
@@ -124,13 +166,13 @@ export default function ImportWizardModal({ open, onClose }: Props) {
               <div className="flex justify-between items-center mt-6">
                 <button
                   onClick={back}
-                  className="px-4 py-2 rounded-xl text-[12px] text-white/40 hover:text-white/70 transition-colors"
+                  className="px-4 py-2 rounded-full text-[12px] text-white/40 hover:text-white/70 transition-colors"
                 >
                   Zurück
                 </button>
                 <button
                   onClick={() => goTo('upload')}
-                  className="px-5 py-2 rounded-xl bg-white text-black text-[12px] font-semibold hover:bg-white/90 transition-all"
+                  className="px-5 py-2.5 rounded-full bg-white text-black text-[12px] font-semibold hover:bg-white/90 transition-all"
                 >
                   Weiter
                 </button>
@@ -150,7 +192,7 @@ export default function ImportWizardModal({ open, onClose }: Props) {
                 <div className="mt-4">
                   <button
                     onClick={back}
-                    className="px-4 py-2 rounded-xl text-[12px] text-white/40 hover:text-white/70 transition-colors"
+                    className="px-4 py-2 rounded-full text-[12px] text-white/40 hover:text-white/70 transition-colors"
                   >
                     Zurück
                   </button>
@@ -180,11 +222,11 @@ export default function ImportWizardModal({ open, onClose }: Props) {
             />
           )}
 
-          {state.step === 'preview' && portfolio && (
+          {state.step === 'preview' && activePortfolio && (
             <ImportStepPreview
               transactions={state.transactions}
               cashMode={state.cashMode}
-              portfolioId={portfolio.id}
+              portfolioId={activePortfolio.id}
               onBack={back}
               onImport={selected => {
                 setFinalTransactions(selected)
@@ -194,10 +236,10 @@ export default function ImportWizardModal({ open, onClose }: Props) {
             />
           )}
 
-          {state.step === 'importing' && portfolio && (
+          {state.step === 'importing' && activePortfolio && (
             <ImportStepExecute
               transactions={finalTransactions}
-              portfolioId={portfolio.id}
+              portfolioId={activePortfolio.id}
               onDone={res => {
                 setImportResult(res)
                 goTo('done')
@@ -209,9 +251,11 @@ export default function ImportWizardModal({ open, onClose }: Props) {
             <ImportStepDone result={importResult} onClose={handleClose} />
           )}
 
-          {state.step === 'preview' && !portfolio && (
+          {state.step === 'preview' && !activePortfolio && (
             <div className="text-center py-12">
-              <p className="text-[12px] text-red-400">Kein Depot ausgewählt.</p>
+              <p className="text-[12px] text-red-400">
+                Bitte ein Ziel-Depot im Header auswählen.
+              </p>
             </div>
           )}
         </div>

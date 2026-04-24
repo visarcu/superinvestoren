@@ -5,7 +5,7 @@ import React, { useEffect } from 'react'
 interface ModalProps {
   open: boolean
   title: string
-  subtitle?: string
+  subtitle?: React.ReactNode
   onClose: () => void
   children: React.ReactNode
   size?: 'sm' | 'md' | 'lg'
@@ -48,7 +48,9 @@ export default function Modal({ open, title, subtitle, onClose, children, size =
         <div className="px-6 py-5 flex items-start justify-between gap-4 border-b border-white/[0.04]">
           <div>
             <h2 className="text-[16px] font-bold text-white">{title}</h2>
-            {subtitle && <p className="text-[12px] text-white/30 mt-0.5">{subtitle}</p>}
+            {subtitle && (
+              <div className="text-[12px] text-white/30 mt-0.5">{subtitle}</div>
+            )}
           </div>
           <button
             onClick={onClose}
