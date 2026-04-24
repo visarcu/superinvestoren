@@ -29,22 +29,29 @@ export default function ImportStepResolve({ transactions, onDone, onBack }: Prop
       setResolving(true)
       setError(null)
 
-      const pendingIsins = Array.from(
-        new Set(
-          transactions
-            .filter(t => t.isin && !t.symbol)
-            .map(t => t.isin as string)
-        )
-      )
+      // ISIN + Name-Hint sammeln (pro ISIN erster Name aus Tx).
+      // Der Name hilft EODHD beim Fallback falls ISIN delisted/umbenannt ist.
+      const pendingMap = new Map<string, string>()
+      for (const t of transactions) {
+        if (!t.isin || t.symbol) continue
+        if (!pendingMap.has(t.isin)) {
+          pendingMap.set(t.isin, t.name || '')
+        }
+      }
+      const pendingIsins = Array.from(pendingMap.keys())
 
       try {
         let resolutionMap: Record<string, { ticker: string; source: string }> = {}
 
         if (pendingIsins.length > 0) {
+          const pairs = pendingIsins.map(isin => ({
+            isin,
+            name: pendingMap.get(isin) || undefined,
+          }))
           const res = await fetch('/api/v1/isin-search', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ isins: pendingIsins }),
+            body: JSON.stringify({ pairs }),
           })
           if (!res.ok) throw new Error('ISIN-Resolver hat einen Fehler geliefert')
           const data = await res.json()
