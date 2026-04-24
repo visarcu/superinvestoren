@@ -209,13 +209,23 @@ export async function getFinancialData(
         .limit(1)
 
       if (!error && rows && rows.length > 0 && isFresh(rows[0].updated_at)) {
-        // Daten sind frisch – aus DB laden
-        const { data: allRows } = await db
+        // Daten sind frisch – aus DB laden.
+        // DESC ordern + limit, damit wir die NEUESTEN `years` Jahre bekommen –
+        // ASC+limit hätte die ÄLTESTEN ausgeliefert (Bug: z.B. 2007-2016 statt 2016-2025).
+        // Für annual nur FY-Rows, sonst mischen sich Quartale rein.
+        let query = db
           .from('SecFinancialData')
           .select('*')
           .eq('ticker', ticker.toUpperCase())
-          .order('fiscal_year', { ascending: true })
+          .order('fiscal_year', { ascending: false })
           .limit(years)
+        if (period === 'annual') {
+          query = query.eq('fiscal_period', 'FY')
+        }
+        const { data: descRows } = await query
+        // Chronologisch (oldest → newest) für die UI, die `income[income.length - 1]`
+        // als „latest" interpretiert.
+        const allRows = descRows ? [...descRows].reverse() : null
 
         // Nur Cache nutzen wenn genug Perioden vorhanden (mind. 80% der angefragten Jahre)
         if (allRows && allRows.length >= Math.min(years * 0.8, years - 2)) {
