@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { getImportBroker, type ImportBrokerId } from '@/lib/importBrokerConfig'
+import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 
 interface Props {
   brokerId: ImportBrokerId
@@ -14,14 +15,9 @@ export default function ImportStepInstructions({ brokerId }: Props) {
   return (
     <div>
       <div className="flex items-center gap-3 mb-5">
-        <div
-          className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 text-[12px] font-bold text-white"
-          style={{ background: broker.accentDot || '#1a1a2e' }}
-        >
-          {broker.initial}
-        </div>
+        <BrokerLogo brokerId={broker.id} size={40} />
         <div>
-          <h3 className="text-[14px] font-semibold text-white">{ins.title}</h3>
+          <h3 className="text-[14px] font-semibold text-white tracking-tight">{ins.title}</h3>
           <p className="text-[11px] text-white/30 mt-0.5">{broker.formats?.join(' · ')}</p>
         </div>
       </div>
