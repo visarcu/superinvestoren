@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { executeImport, type ImportResult } from './importExecutor'
 import type { NormalizedTransaction } from './types'
 
@@ -13,8 +13,14 @@ interface Props {
 export default function ImportStepExecute({ transactions, portfolioId, onDone }: Props) {
   const [progress, setProgress] = useState<'running' | 'done' | 'error'>('running')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  // Guard gegen React-Strict-Mode Double-Invoke in Development: useRef
+  // persistiert zwischen den beiden Mounts, verhindert zweiten executeImport.
+  const didRunRef = useRef(false)
 
   useEffect(() => {
+    if (didRunRef.current) return
+    didRunRef.current = true
+
     let cancelled = false
     async function run() {
       try {
