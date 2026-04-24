@@ -210,10 +210,17 @@ function mapTransactionType(row: TRRow): MappedTransactionType | null {
   }
 
   if (category === 'CORPORATE_ACTION') {
-    // Stornierte Corp-Actions ignorieren (TR bucht sie als "_CANCELLED"-Version
-    // nachträglich zurück — die Ursprungs-Zeile wurde vorher gar nicht erfolgreich
-    // gebucht bzw. wird durch die Stornierung ungültig).
-    if (type.endsWith('_CANCELLED')) return null
+    // Stornierte Corp-Actions: TR bucht bei einer Stornierung die Ursprungs-Zeile
+    // erneut als "_CANCELLED"-Variante mit umgekehrtem shares-Vorzeichen. Beispiel:
+    //   +0.1 STOCK_DIVIDEND  (gebucht)
+    //   -0.1 STOCK_DIVIDEND_CANCELLED  (storno, hebt die Buchung auf)
+    // Um das netto korrekt zu verrechnen, erzeugen wir für *_CANCELLED ein
+    // transfer_out mit dem abs-Wert — das zieht die Shares wieder ab.
+    if (type.endsWith('_CANCELLED')) {
+      if (shares < 0) return 'transfer_out'
+      if (shares > 0) return 'transfer_in'
+      return null
+    }
 
     switch (type) {
       case 'SPLIT':
