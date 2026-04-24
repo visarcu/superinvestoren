@@ -60,20 +60,21 @@ export const IMPORT_BROKERS: ImportBrokerInfo[] = [
     id: 'traderepublic',
     name: 'Trade Republic',
     shortName: 'Trade Republic',
-    formats: ['.pdf'],
-    accept: '.pdf',
+    formats: ['.csv', '.pdf'],
+    accept: '.csv,.pdf',
     initial: 'TR',
     accentDot: 'bg-white',
     supportsMultiFile: true,
+    isBetterThanPdf: true,
     instructions: {
-      title: 'So findest du die Abrechnungen bei Trade Republic',
+      title: 'So findest du den Transaktionsexport bei Trade Republic',
       steps: [
         'Öffne die Trade Republic App auf deinem Smartphone',
-        'Tippe auf dein Profil → "Abrechnungen"',
-        'Lade alle Wertpapierabrechnungen als PDF herunter (Kauf, Verkauf, Dividende)',
-        'Lade die PDFs hier hoch — mehrere gleichzeitig möglich',
+        'Tippe auf dein Profil → "Transaktionsexport"',
+        'Wähle den gewünschten Zeitraum und lade die CSV herunter',
+        'Lade die CSV hier hoch — alle Käufe, Verkäufe, Dividenden, Cash & Corporate Actions in einer Datei',
       ],
-      hint: 'Trade Republic bietet keinen CSV-Export. Alle PDFs lassen sich gleichzeitig hochladen — wir lesen sie automatisch aus.',
+      hint: 'Seit April 2026 bietet Trade Republic einen vollständigen CSV-Export mit allen Transaktionen. Das ist viel präziser als die Einzel-PDFs. Alternativ können PDFs hochgeladen werden.',
     },
   },
   {
@@ -241,6 +242,7 @@ export function formatToBrokerId(format: string | null | undefined): ImportBroke
   if (format.startsWith('pdf_ing')) return 'ing'
   if (format.startsWith('pdf_trading212')) return 'trading212'
   if (format.startsWith('pdf_traderepublic')) return 'traderepublic'
+  if (format === 'traderepublic_csv') return 'traderepublic'
   if (format.startsWith('pdf_smartbroker')) return 'smartbroker'
   if (format === 'flatex_depot') return 'flatex'
   if (format.startsWith('pdf_flatex')) return 'flatex'
