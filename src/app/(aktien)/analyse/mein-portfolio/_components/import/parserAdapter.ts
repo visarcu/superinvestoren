@@ -6,6 +6,7 @@
 
 import type { ImportBrokerId } from '@/lib/importBrokerConfig'
 import type { NormalizedTransaction } from './types'
+import { supabase } from '@/lib/supabaseClient'
 
 export class ParserNotImplementedError extends Error {
   constructor(brokerId: string) {
@@ -63,11 +64,18 @@ export async function parseFile(
   _brokerId: ImportBrokerId,
   file: File
 ): Promise<{ transactions: NormalizedTransaction[]; raw: any }> {
+  // Supabase-Session-Token für die authentifizierte Route
+  const { data: { session } } = await supabase.auth.getSession()
+  if (!session?.access_token) {
+    throw new Error('Nicht angemeldet. Bitte neu einloggen.')
+  }
+
   const fd = new FormData()
   fd.append('files', file)
 
   const res = await fetch('/api/portfolio/import-auto', {
     method: 'POST',
+    headers: { Authorization: `Bearer ${session.access_token}` },
     body: fd,
   })
 
