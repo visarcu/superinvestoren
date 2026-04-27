@@ -127,7 +127,7 @@ export default function FeyTopBar() {
                 {/* Menu */}
                 <div className="py-1.5">
                   {[
-                    { href: '/profile', icon: <UserIcon />, label: 'Profil' },
+                    { href: '/profil', icon: <UserIcon />, label: 'Profil' },
                     { href: '/inbox', icon: <InboxIcon />, label: 'Inbox' },
                     { href: '/notifications', icon: <BellIcon />, label: 'Benachrichtigungen' },
                     { href: '/settings', icon: <SettingsIcon />, label: 'Einstellungen' },
