@@ -2,9 +2,9 @@
 // GET /api/v1/markets/live
 //
 // Liefert Live-Quotes für die Home-Page Markets-Sektion.
-// Reihenfolge: EODHD Real-Time → Yahoo Fallback.
-// Yahoo-Fallback ist nur die Sicherheitsnetz wenn EODHD-Call scheitert (Rate-Limit,
-// Plan-Grenze für bestimmte Symbole, temporäre Störung).
+// Reihenfolge (Indizes + Crypto): FMP primär → EODHD → Yahoo Fallback
+// Reihenfolge (Commodities): FMP primär (Futures) → Yahoo → EODHD (ETF)
+// Yahoo/EODHD sind Sicherheitsnetz wenn FMP-Call scheitert.
 
 import { NextResponse } from 'next/server'
 
@@ -17,28 +17,56 @@ interface MarketPoint {
   low?: number
   /** Unix-Timestamp (Sekunden) des letzten Preises — für "vor X min"-Anzeige */
   timestamp: number
-  source: 'eodhd' | 'yahoo'
+  source: 'fmp' | 'eodhd' | 'yahoo'
 }
 
-// Home-Symbol → EODHD-Symbol + Yahoo-Symbol
-// Commodities haben `preferYahoo` weil EODHD dafür ETF-Preise (GLD, SLV, BNO) statt
-// Futures-Preise liefert — User erwartet den Spot-/Futures-Preis (Gold ~$4800, nicht
-// GLD-ETF ~$442). Indizes + Crypto → EODHD primär.
+// Home-Symbol → FMP/EODHD/Yahoo-Symbole
+// preferYahoo = Yahoo als Fallback-Vorzug (Futures statt ETF) wenn FMP fehlt
 interface SymbolMapping {
+  fmp: string | null
   eodhd: string
   yahoo: string
   preferYahoo?: boolean
 }
 const SYMBOL_MAP: Record<string, SymbolMapping> = {
-  spx:    { eodhd: 'GSPC.INDX',   yahoo: '^GSPC' },
-  ixic:   { eodhd: 'NDX.INDX',    yahoo: '^NDX' },
-  dji:    { eodhd: 'DJI.INDX',    yahoo: '^DJI' },
-  dax:    { eodhd: 'GDAXI.INDX',  yahoo: '^GDAXI' },
-  stoxx:  { eodhd: 'STOXX.INDX',  yahoo: '^STOXX' },
-  btc:    { eodhd: 'BTC-USD.CC',  yahoo: 'BTC-USD' },
-  gold:   { eodhd: 'GLD.US',      yahoo: 'GC=F', preferYahoo: true },
-  silver: { eodhd: 'SLV.US',      yahoo: 'SI=F', preferYahoo: true },
-  oil:    { eodhd: 'BNO.US',      yahoo: 'BZ=F', preferYahoo: true },
+  spx:    { fmp: '^GSPC',   eodhd: 'GSPC.INDX',   yahoo: '^GSPC' },
+  ixic:   { fmp: '^NDX',    eodhd: 'NDX.INDX',    yahoo: '^NDX' },
+  dji:    { fmp: '^DJI',    eodhd: 'DJI.INDX',    yahoo: '^DJI' },
+  dax:    { fmp: '^GDAXI',  eodhd: 'GDAXI.INDX',  yahoo: '^GDAXI' },
+  stoxx:  { fmp: '^STOXX',  eodhd: 'STOXX.INDX',  yahoo: '^STOXX' },
+  btc:    { fmp: 'BTCUSD',  eodhd: 'BTC-USD.CC',  yahoo: 'BTC-USD' },
+  gold:   { fmp: 'GCUSD',   eodhd: 'GLD.US',      yahoo: 'GC=F', preferYahoo: true },
+  silver: { fmp: 'SIUSD',   eodhd: 'SLV.US',      yahoo: 'SI=F', preferYahoo: true },
+  oil:    { fmp: 'BZUSD',   eodhd: 'BNO.US',      yahoo: 'BZ=F', preferYahoo: true },
+}
+
+async function fetchFmp(symbol: string): Promise<MarketPoint | null> {
+  const apiKey = process.env.FMP_API_KEY
+  if (!apiKey) return null
+  try {
+    const url = `https://financialmodelingprep.com/api/v3/quote/${encodeURIComponent(symbol)}?apikey=${apiKey}`
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(8000),
+      next: { revalidate: 20 },
+    })
+    if (!res.ok) return null
+    const data = await res.json()
+    const q = Array.isArray(data) ? data[0] : null
+    if (!q?.price || q.price <= 0) return null
+    const prev = q.previousClose ?? 0
+    return {
+      price: q.price,
+      change: q.change ?? 0,
+      changePct: q.changesPercentage ?? 0,
+      previousClose: prev,
+      high: q.dayHigh ?? undefined,
+      low: q.dayLow ?? undefined,
+      timestamp: typeof q.timestamp === 'number' ? q.timestamp : Math.floor(Date.now() / 1000),
+      source: 'fmp',
+    }
+  } catch {
+    return null
+  }
 }
 
 async function fetchEodhd(symbol: string): Promise<MarketPoint | null> {
@@ -104,14 +132,22 @@ async function fetchYahoo(symbol: string): Promise<MarketPoint | null> {
 export async function GET() {
   const entries = await Promise.all(
     Object.entries(SYMBOL_MAP).map(async ([key, mapping]) => {
+      // 1. FMP zuerst — der bezahlte Plan deckt Indizes, Crypto und Commodity-Futures ab
+      if (mapping.fmp) {
+        const fmp = await fetchFmp(mapping.fmp)
+        if (fmp) return [key, fmp] as const
+      }
+
+      // 2. Fallback-Reihenfolge je nach Asset-Typ
       if (mapping.preferYahoo) {
-        // Commodities: Yahoo primär (Futures-Preise), EODHD als Fallback
+        // Commodities: Yahoo (Futures), dann EODHD-ETF als letztes
         const yahoo = await fetchYahoo(mapping.yahoo)
         if (yahoo) return [key, yahoo] as const
         const eodhd = await fetchEodhd(mapping.eodhd)
         return [key, eodhd] as const
       }
-      // Indizes + Crypto: EODHD primär, Yahoo Fallback
+
+      // Indizes + Crypto: EODHD, dann Yahoo
       const eodhd = await fetchEodhd(mapping.eodhd)
       if (eodhd) return [key, eodhd] as const
       const yahoo = await fetchYahoo(mapping.yahoo)
@@ -124,6 +160,7 @@ export async function GET() {
 
   // Stats: wie viele kamen aus welcher Quelle (für Debug/Monitoring)
   const stats = {
+    fmp: Object.values(markets).filter(m => m?.source === 'fmp').length,
     eodhd: Object.values(markets).filter(m => m?.source === 'eodhd').length,
     yahoo: Object.values(markets).filter(m => m?.source === 'yahoo').length,
     unavailable: Object.values(markets).filter(m => !m).length,
