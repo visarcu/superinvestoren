@@ -90,6 +90,14 @@ export interface Quote {
   change: number
   changePercent: number
   marketCap?: number
+  /** Tageshoch */
+  dayHigh?: number | null
+  /** Tagestief */
+  dayLow?: number | null
+  /** Eröffnungskurs heute */
+  open?: number | null
+  /** Vortags-Schlusskurs */
+  previousClose?: number | null
   /** Unix-Timestamp (Sekunden) des letzten Quotes — für Market-Status-Badge */
   timestamp?: number
   source: string

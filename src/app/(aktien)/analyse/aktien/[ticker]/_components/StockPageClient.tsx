@@ -5,6 +5,7 @@ import StockHeader from './StockHeader'
 import EarningsBanner from './EarningsBanner'
 import HeroPriceChart from './HeroPriceChart'
 import KeyMetricsCard from './KeyMetricsCard'
+import StockStatsStrip from './StockStatsStrip'
 import StockTabs from './StockTabs'
 import ExpandedChartModal from './ExpandedChartModal'
 import OverviewTab from './tabs/OverviewTab'
@@ -96,6 +97,10 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
             change: q.change,
             changePercent: q.changePercent,
             marketCap: q.marketCap,
+            dayHigh: q.dayHigh,
+            dayLow: q.dayLow,
+            open: q.open,
+            previousClose: q.previousClose,
             timestamp: q.timestamp,
             source: q.source,
           })
@@ -122,6 +127,10 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
               change: q.change,
               changePercent: q.changePercent,
               marketCap: q.marketCap,
+              dayHigh: q.dayHigh,
+              dayLow: q.dayLow,
+              open: q.open,
+              previousClose: q.previousClose,
               timestamp: q.timestamp,
               source: q.source,
             })
@@ -261,7 +270,6 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     }
 
     const items = [
-      { label: 'Marktkapitalisierung', value: quote?.marketCap ? fmt(quote.marketCap) : '–' },
       { label: 'KGV (P/E)', value: pe ? pe.toFixed(1).replace('.', ',') : '–' },
       { label: forwardKgvLabel, value: forwardKgvValue },
       { label: 'Umsatz', value: fmt(L?.revenue || null) },
@@ -295,6 +303,8 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
   return (
     <div className="min-h-screen bg-[#06060e] flex flex-col">
       <StockHeader ticker={ticker} profile={profile} quote={quote} />
+
+      <StockStatsStrip quote={quote} fullPriceHistory={fullPriceHistory} />
 
       <EarningsBanner earnings={earnings} onClick={() => setTab('earnings')} />
 
