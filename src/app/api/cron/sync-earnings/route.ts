@@ -49,10 +49,12 @@ export async function GET(request: NextRequest) {
 
     console.log('🚀 Earnings Cron Sync gestartet:', new Date().toISOString())
 
-    // Hole Earnings für die nächsten 90 Tage
+    // Hole Earnings für die nächsten 60 Tage (deckt alle UI/Notification-Routen ab)
+    // Reduziert von 90 → 60 Tage zur Bandwidth-Schonung. Die Earnings für
+    // Tag 60+ landen mit dem nächsten täglichen Sync ohnehin in der DB.
     const today = new Date()
     const futureDate = new Date()
-    futureDate.setDate(futureDate.getDate() + 90)
+    futureDate.setDate(futureDate.getDate() + 60)
 
     const from = today.toISOString().split('T')[0]
     const to = futureDate.toISOString().split('T')[0]

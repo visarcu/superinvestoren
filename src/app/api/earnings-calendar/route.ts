@@ -1,5 +1,10 @@
 // API Route for Earnings Calendar - Gets earnings dates for multiple tickers
+//
+// DB-First: Liest aus der earningsCalendar-Tabelle (täglich befüllt vom
+// /api/cron/sync-earnings). FMP wird nur als Fallback aufgerufen, falls
+// die DB für den Zeitraum leer ist (z.B. Cron noch nicht gelaufen).
 import { NextRequest, NextResponse } from 'next/server'
+import { getEarningsFromDb } from '@/lib/earningsCalendarDb'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
@@ -34,61 +39,89 @@ export async function GET(request: NextRequest) {
     const tickerArray = tickers.split(',').map(t => t.trim()).filter(Boolean)
     const earningsEvents: EarningsEvent[] = []
 
-    // Only use the current earnings calendar for real upcoming events
+    // DB-First: lese die nächsten 30 Tage aus der earningsCalendar-Tabelle
+    // (gefiltert nach Tickern). Spart einen FMP-Call pro Page-Load.
     try {
-      console.log('📅 Loading current earnings from main calendar...')
-      
-      const calendarResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?apikey=${FMP_API_KEY}`,
-        { next: { revalidate: 900 } } // 15 min cache for fresh data
-      )
-      
-      if (calendarResponse.ok) {
-        const calendarData = await calendarResponse.json()
-        
-        if (Array.isArray(calendarData)) {
-          // Filter for upcoming events only (today and future)
-          const today = new Date()
-          today.setHours(0, 0, 0, 0)
-          
-          const relevantEvents = calendarData
-            .filter(event => {
-              // Must be watchlist ticker and future date
-              const eventDate = new Date(event.date)
-              return tickerArray.includes(event.symbol) && eventDate >= today
-            })
-            .slice(0, 20) // Reasonable limit
-            .map(event => {
-              const eventDate = new Date(event.date)
-              const month = eventDate.getMonth() + 1 // 1-12
-              let quarter
-              if (month >= 1 && month <= 3) quarter = 1
-              else if (month >= 4 && month <= 6) quarter = 2
-              else if (month >= 7 && month <= 9) quarter = 3
-              else quarter = 4
-              
-              const year = eventDate.getFullYear()
-              
-              return {
-                ticker: event.symbol,
-                companyName: event.symbol, // Use symbol for now
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const todayIso = today.toISOString().split('T')[0]
+      const monthAhead = new Date(today)
+      monthAhead.setDate(monthAhead.getDate() + 30)
+      const toDate = monthAhead.toISOString().split('T')[0]
+
+      const dbRows = await getEarningsFromDb(todayIso, toDate, tickerArray)
+      console.log(`📅 DB returned ${dbRows.length} earnings rows for ${tickerArray.length} tickers`)
+
+      // Map DB rows ins Response-Format
+      const buildEvent = (e: {
+        symbol: string
+        date: string
+        time: string
+        epsEstimate: number | null
+        epsActual: number | null
+        revenueEstimate: number | null
+        revenueActual: number | null
+        companyName: string | null
+      }) => {
+        const eventDate = new Date(e.date)
+        const month = eventDate.getMonth() + 1
+        const quarter = month <= 3 ? 1 : month <= 6 ? 2 : month <= 9 ? 3 : 4
+        const year = eventDate.getFullYear()
+        return {
+          ticker: e.symbol,
+          companyName: e.companyName || e.symbol,
+          date: e.date,
+          time: e.time || 'TBD',
+          quarter: `Q${quarter} ${year}`,
+          fiscalYear: year.toString(),
+          estimatedEPS: e.epsEstimate,
+          actualEPS: e.epsActual,
+          revenueEstimated: e.revenueEstimate,
+          revenueActual: e.revenueActual,
+        }
+      }
+
+      if (dbRows.length > 0) {
+        earningsEvents.push(...dbRows.slice(0, 20).map(buildEvent))
+      } else {
+        // Fallback: DB leer für diesen Zeitraum (Cron noch nicht gelaufen?) → FMP
+        console.warn('⚠️ DB-Earnings leer, fallback zu FMP')
+        const calendarResponse = await fetch(
+          `https://financialmodelingprep.com/api/v3/earning_calendar?from=${todayIso}&to=${toDate}&apikey=${FMP_API_KEY}`,
+          { next: { revalidate: 3600 } }
+        )
+        if (calendarResponse.ok) {
+          const calendarData = await calendarResponse.json()
+          if (Array.isArray(calendarData)) {
+            const relevant = calendarData
+              .filter((event: { symbol?: string; date?: string }) =>
+                event.symbol && event.date && tickerArray.includes(event.symbol) && new Date(event.date) >= today
+              )
+              .slice(0, 20)
+              .map((event: {
+                symbol: string
+                date: string
+                time?: string
+                epsEstimated?: number | string | null
+                epsActual?: number | string | null
+                revenueEstimated?: number | string | null
+                revenueActual?: number | string | null
+              }) => buildEvent({
+                symbol: event.symbol,
                 date: event.date,
                 time: event.time || 'TBD',
-                quarter: `Q${quarter} ${year}`,
-                fiscalYear: year.toString(),
-                estimatedEPS: event.epsEstimated ? parseFloat(event.epsEstimated) : null,
-                actualEPS: event.epsActual ? parseFloat(event.epsActual) : null,
-                revenueEstimated: event.revenueEstimated ? parseFloat(event.revenueEstimated) : null,
-                revenueActual: event.revenueActual ? parseFloat(event.revenueActual) : null
-              }
-            })
-          
-          earningsEvents.push(...relevantEvents)
-          console.log(`📅 Found ${relevantEvents.length} upcoming watchlist events`)
+                epsEstimate: event.epsEstimated != null ? parseFloat(String(event.epsEstimated)) : null,
+                epsActual: event.epsActual != null ? parseFloat(String(event.epsActual)) : null,
+                revenueEstimate: event.revenueEstimated != null ? parseFloat(String(event.revenueEstimated)) : null,
+                revenueActual: event.revenueActual != null ? parseFloat(String(event.revenueActual)) : null,
+                companyName: null,
+              }))
+            earningsEvents.push(...relevant)
+          }
         }
       }
     } catch (error) {
-      console.log('Calendar API failed:', error)
+      console.log('Earnings DB read failed:', error)
     }
 
     // If we still have no events, try the alternative calendar

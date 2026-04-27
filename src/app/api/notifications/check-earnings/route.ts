@@ -1,8 +1,11 @@
 // src/app/api/notifications/check-earnings/route.ts
 // Creates IN-APP notifications for upcoming earnings based on user's earnings_days_before setting
 // Email notifications are now handled separately by /api/notifications/send-weekly-earnings
+//
+// DB-First: liest Earnings aus earningsCalendar-Tabelle statt direkt von FMP.
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { getEarningsFromDb, toFmpShape } from '@/lib/earningsCalendarDb'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -109,14 +112,22 @@ async function handleEarningsCheck(queryTestUserId: string | null = null) {
     const fromDate = today.toISOString().split('T')[0]
     const toDate = maxDaysAhead.toISOString().split('T')[0]
 
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
-    )
-    const earningsData = await response.json()
+    // DB-First: erst aus der earningsCalendar-Tabelle lesen
+    const dbRows = await getEarningsFromDb(fromDate, toDate, tickers)
+    let earningsData: Array<{ symbol: string; date: string; time?: string }> = toFmpShape(dbRows)
 
-    if (!Array.isArray(earningsData)) {
-      console.error('[Earnings Cron] Invalid FMP response:', earningsData)
-      return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
+    // Fallback nur wenn DB komplett leer für diesen Range
+    if (earningsData.length === 0) {
+      console.warn('[Earnings Cron] DB empty, falling back to FMP')
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
+      )
+      const fmpData = await response.json()
+      if (!Array.isArray(fmpData)) {
+        console.error('[Earnings Cron] Invalid FMP response:', fmpData)
+        return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
+      }
+      earningsData = fmpData
     }
 
     // Filter to watchlist tickers

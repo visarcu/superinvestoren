@@ -192,14 +192,21 @@ export async function GET(request: Request) {
     const toDate = endOfWeek.toISOString().split('T')[0]
     const weekRange = formatWeekRange(startOfWeek, endOfWeek)
 
-    // Fetch earnings calendar
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
-    )
-    const earningsData = await response.json()
+    // DB-First: earningsCalendar-Tabelle statt FMP-Direct-Call
+    const { getEarningsFromDb, toFmpShape } = await import('@/lib/earningsCalendarDb')
+    const dbRows = await getEarningsFromDb(fromDate, toDate)
+    let earningsData: any[] = toFmpShape(dbRows)
 
-    if (!Array.isArray(earningsData)) {
-      return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
+    if (earningsData.length === 0) {
+      console.warn('[Preview Weekly Earnings] DB empty, falling back to FMP')
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
+      )
+      const fmpData = await response.json()
+      if (!Array.isArray(fmpData)) {
+        return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
+      }
+      earningsData = fmpData
     }
 
     // Get some sample tickers from watchlists

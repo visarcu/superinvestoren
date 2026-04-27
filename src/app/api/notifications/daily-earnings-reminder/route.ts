@@ -1,7 +1,10 @@
 // src/app/api/notifications/daily-earnings-reminder/route.ts
 // Daily cron at 08:00 UTC: notifies users with push if any portfolio stock reports earnings today or tomorrow
+//
+// DB-First: liest Earnings aus earningsCalendar-Tabelle statt direkt von FMP.
 import { NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabaseAdmin'
+import { getEarningsFromDb, toFmpShape } from '@/lib/earningsCalendarDb'
 
 interface EarningsEvent {
   symbol: string
@@ -100,17 +103,30 @@ async function handleDailyEarningsReminder(testUserId: string | null = null) {
 
     console.log(`[Daily Earnings Reminder] Fetching earnings from ${fromDate} to ${toDate}`)
 
-    const fmpResponse = await fetch(
-      `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
-    )
-    const earningsData: EarningsEvent[] = await fmpResponse.json()
+    // DB-First: erst earningsCalendar lesen
+    const dbRows = await getEarningsFromDb(fromDate, toDate)
+    let earningsData: EarningsEvent[] = toFmpShape(dbRows).map(r => ({
+      symbol: r.symbol,
+      name: r.name ?? undefined,
+      date: r.date,
+      time: r.time,
+    }))
 
-    if (!Array.isArray(earningsData)) {
-      console.error('[Daily Earnings Reminder] Invalid FMP response:', earningsData)
-      return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
+    // Fallback nur wenn DB leer
+    if (earningsData.length === 0) {
+      console.warn('[Daily Earnings Reminder] DB empty, falling back to FMP')
+      const fmpResponse = await fetch(
+        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${fromDate}&to=${toDate}&apikey=${process.env.FMP_API_KEY}`
+      )
+      const fmpData = await fmpResponse.json()
+      if (!Array.isArray(fmpData)) {
+        console.error('[Daily Earnings Reminder] Invalid FMP response:', fmpData)
+        return NextResponse.json({ error: 'Invalid FMP response' }, { status: 500 })
+      }
+      earningsData = fmpData
     }
 
-    console.log(`[Daily Earnings Reminder] FMP returned ${earningsData.length} earnings events`)
+    console.log(`[Daily Earnings Reminder] Earnings events: ${earningsData.length}`)
 
     // Separate today vs tomorrow events
     const todayEvents = earningsData.filter(e => e.date === fromDate)

@@ -1,7 +1,12 @@
 // API Route for Weekly Earnings Calendar - Fey-style all earnings for a date range
+//
+// DB-First: liest die Earnings für den angefragten Zeitraum aus der
+// earningsCalendar-Tabelle (gefüllt von /api/cron/sync-earnings, 60d-Range).
+// FMP nur als Fallback bei leerer DB.
 import { NextRequest, NextResponse } from 'next/server'
 import fs from 'fs'
 import path from 'path'
+import { getEarningsFromDb } from '@/lib/earningsCalendarDb'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
@@ -75,21 +80,46 @@ export async function GET(request: NextRequest) {
     // Load stock data for market cap enrichment
     const stockData = await loadStockData()
 
-    // Fetch earnings calendar from FMP with date range
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/earning_calendar?from=${from}&to=${to}&apikey=${FMP_API_KEY}`,
-      { next: { revalidate: 900 } } // 15 min cache
-    )
+    // DB-First: lese Earnings für den Zeitraum aus der Tabelle.
+    // Werte aus DB sind bereits numbers; FMP-Fallback liefert strings —
+    // beide werden weiter unten via parseFloatLoose normalisiert.
+    type WeeklyEvent = {
+      symbol: string
+      date: string
+      time?: string | null
+      epsEstimated?: number | string | null
+      revenueEstimated?: number | string | null
+    }
+    const dbRows = await getEarningsFromDb(from, to)
+    let data: WeeklyEvent[] = dbRows.map(r => ({
+      symbol: r.symbol,
+      date: r.date,
+      time: r.time,
+      epsEstimated: r.epsEstimate,
+      revenueEstimated: r.revenueEstimate,
+    }))
 
-    if (!response.ok) {
-      console.error('FMP API error:', response.status)
-      return NextResponse.json({ error: 'Failed to fetch earnings data' }, { status: 500 })
+    // Fallback: nur wenn DB für diesen Range keine Daten hat
+    if (data.length === 0) {
+      console.warn('⚠️ DB-Earnings leer für Range, fallback zu FMP')
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${from}&to=${to}&apikey=${FMP_API_KEY}`,
+        { next: { revalidate: 900 } }
+      )
+      if (!response.ok) {
+        console.error('FMP API error:', response.status)
+        return NextResponse.json({ error: 'Failed to fetch earnings data' }, { status: 500 })
+      }
+      const json = await response.json()
+      if (Array.isArray(json)) data = json as WeeklyEvent[]
     }
 
-    const data = await response.json()
-
-    if (!Array.isArray(data)) {
-      return NextResponse.json({ earnings: [] })
+    // Helper: Werte können number (DB) oder string (FMP) sein — beides nach number
+    const parseFloatLoose = (v: number | string | null | undefined): number | null => {
+      if (v == null) return null
+      if (typeof v === 'number') return v
+      const n = parseFloat(v)
+      return Number.isFinite(n) ? n : null
     }
 
     // Transform to our format and enrich with market cap
@@ -101,9 +131,9 @@ export async function GET(request: NextRequest) {
           symbol: event.symbol,
           name: stockInfo?.name || event.symbol,
           date: event.date,
-          time: mapTimeToCode(event.time),
-          epsEstimate: event.epsEstimated ? parseFloat(event.epsEstimated) : null,
-          revenueEstimate: event.revenueEstimated ? parseFloat(event.revenueEstimated) : null,
+          time: mapTimeToCode(event.time ?? null),
+          epsEstimate: parseFloatLoose(event.epsEstimated),
+          revenueEstimate: parseFloatLoose(event.revenueEstimated),
           marketCap: stockInfo?.marketCap || null,
         }
       })
