@@ -237,3 +237,25 @@ model FinancialStatement {
   @@index([periodEnd])
   @@index([fiscalYear, fiscalPeriod])
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Stock Splits – eigene cached Quelle (primär EODHD)
+// Splits sind historisch immutable → DB-Cache vermeidet wiederholte API-Calls
+// und ist Basis für eigene /api/v1/splits/{ticker} Veröffentlichung
+// ═══════════════════════════════════════════════════════════════════════════
+
+model StockSplit {
+  id          String   @id @default(cuid())
+  symbol      String // z.B. "NOW", "AAPL", "SAP.DE"
+  splitDate   DateTime @db.Date // Ex-Date des Splits
+  numerator   Int // z.B. 4 bei 4:1 Forward-Split
+  denominator Int // z.B. 1 bei 4:1 (numerator < denominator = Reverse-Split)
+  source      String   @default("eodhd") // "eodhd" | "fmp" | "manual"
+  fetchedAt   DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([symbol, splitDate])
+  @@index([symbol])
+  @@index([splitDate])
+}

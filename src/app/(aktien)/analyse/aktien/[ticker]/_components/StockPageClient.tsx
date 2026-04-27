@@ -138,9 +138,12 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
       .then(r => (r.ok ? r.json() : null))
       .then(d => {
         if (d?.historical) {
+          // adjClose ist split-adjustiert (EODHD adjusted_close), close ist raw.
+          // Für die Chart-Darstellung wollen wir adjustiert, sonst sehen Splits
+          // wie ein Crash aus (z.B. NOW 5:1 am 18.12.2025).
           const sorted = [...d.historical]
             .sort((a: any, b: any) => a.date.localeCompare(b.date))
-            .map((h: any) => ({ date: h.date, price: h.close }))
+            .map((h: any) => ({ date: h.date, price: h.adjClose ?? h.close }))
           setFullPriceHistory(sorted)
         }
       })
