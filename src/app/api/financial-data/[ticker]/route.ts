@@ -1,6 +1,39 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getFinancialData as getSecData } from '@/lib/sec/secDataStore'
 
+// Wrapper um fetch + next-cache. Schützt vor dem Pattern, dass FMP bei
+// Rate-Limit eine leere Response liefert und Vercel diese dann für die
+// volle TTL cached → User sieht 1h lang "Keine Daten verfügbar" obwohl
+// FMP längst wieder antwortet.
+//
+// Strategie: Bei leerer/fehlerhafter Response einmal mit cache:'no-store'
+// retry — das bustet potentiell den schlechten Cache und holt frische Daten.
+// TTL ist auf 10min reduziert (vorher 1h), damit der Worst-Case-Stuck-State
+// auf max. 10min begrenzt ist.
+async function fmpFetchSafe(url: string, ttlSeconds = 600): Promise<unknown> {
+  const r = await fetch(url, { next: { revalidate: ttlSeconds } })
+  if (!r.ok) return null
+  const data = await r.json()
+
+  const isInvalid =
+    (Array.isArray(data) && data.length === 0) ||
+    (data && typeof data === 'object' && 'Error Message' in (data as Record<string, unknown>))
+
+  if (isInvalid) {
+    console.warn(`[FMP] Empty/error response from ${url.split('?')[0].split('/').slice(-3).join('/')}, retrying without cache`)
+    try {
+      const r2 = await fetch(url, { cache: 'no-store' })
+      if (r2.ok) {
+        const data2 = await r2.json()
+        if (Array.isArray(data2) && data2.length > 0) return data2
+      }
+    } catch {
+      // Retry fehlgeschlagen — Original (leer) zurückgeben
+    }
+  }
+  return data
+}
+
 // ─── SEC → FMP Format Adapter ────────────────────────────────────────────────
 // Wandelt SEC XBRL Daten ins FMP Income-Statement Format um,
 // sodass der Client (FinancialAnalysisClient) nichts ändern muss.
@@ -157,42 +190,33 @@ export async function GET(
   try {
     const requestLimit = years * (period === 'quarterly' ? 4 : 1)
 
-    // ── Parallel: SEC XBRL + FMP laden ──────────────────────────────────
+    // ── Parallel: SEC XBRL + FMP laden (via fmpFetchSafe mit Auto-Retry) ──
     const [
       secResult,
-      incomeRes,
-      balanceRes,
-      cashFlowRes,
-      keyMetricsRes,
-      dividendsRes
+      incomeData,
+      balanceData,
+      cashFlowData,
+      keyMetricsData,
+      dividendsData
     ] = await Promise.all([
       getSecOverrides(ticker.toUpperCase(), period as 'annual' | 'quarterly', years),
-      fetch(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`, {
-        next: { revalidate: 3600 }
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`, {
-        next: { revalidate: 3600 }
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`, {
-        next: { revalidate: 3600 }
-      }),
-      fetch(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`, {
-        next: { revalidate: 3600 }
-      }),
+      fmpFetchSafe(`https://financialmodelingprep.com/api/v3/income-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`),
+      fmpFetchSafe(`https://financialmodelingprep.com/api/v3/balance-sheet-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`),
+      fmpFetchSafe(`https://financialmodelingprep.com/api/v3/cash-flow-statement/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`),
+      fmpFetchSafe(`https://financialmodelingprep.com/api/v3/key-metrics/${ticker}?period=${period}&limit=${requestLimit}&apikey=${apiKey}`),
+      // stock_dividend liefert {historical: [...]} statt array — eigene Behandlung
       fetch(`https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${ticker}?apikey=${apiKey}`, {
         next: { revalidate: 7200 }
       })
     ])
 
-    // ── FMP Responses verarbeiten ────────────────────────────────────────
-    let incomeStatements = incomeRes.ok ? await incomeRes.json() : []
-    let balanceSheets = balanceRes.ok ? await balanceRes.json() : []
-    let cashFlows = cashFlowRes.ok ? await cashFlowRes.json() : []
-    const keyMetrics = keyMetricsRes.ok ? await keyMetricsRes.json() : []
-    const dividendsData = dividendsRes.ok ? await dividendsRes.json() : null
-    const dividends = dividendsData?.historical || []
-
-    incomeStatements = Array.isArray(incomeStatements) ? incomeStatements : []
+    // ── Responses normalisieren ──────────────────────────────────────────
+    let incomeStatements: any[] = Array.isArray(incomeData) ? incomeData : []
+    let balanceSheets: any[] = Array.isArray(balanceData) ? balanceData : []
+    let cashFlows: any[] = Array.isArray(cashFlowData) ? cashFlowData : []
+    const keyMetrics: any[] = Array.isArray(keyMetricsData) ? keyMetricsData : []
+    const dividendsRaw = dividendsData.ok ? await dividendsData.json() : null
+    const dividends = dividendsRaw?.historical || []
 
     // ── SEC-Overrides anwenden (ALLE Metriken) ────────────────────────────
     const { overrides, source: secSource } = secResult
