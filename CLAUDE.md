@@ -109,4 +109,3 @@ Key environment variables needed:
 ### Offene Aufgaben
 - FinclueAI neu angehen und verbessern
 - FinancialAnalysisClient Charts optimieren: X/Y Achsen und dezentes Grid hinzufügen
-- Fehler beheben: Could not find the 'updated_at' column of 'portfolio_holdings' in the schema cache

@@ -71,6 +71,7 @@ export async function GET(
         high: p.high,
         low: p.low,
         close: p.close,
+        adjustedClose: p.adjusted_close,
         volume: p.volume,
       }))
       source = 'eodhd'
@@ -86,10 +87,12 @@ export async function GET(
       }, { status: 404 })
     }
 
+    // price = split-adjustierter Close (EODHD liefert adjusted_close nativ).
+    // Fallback auf raw close wenn adjustedClose fehlt (z.B. Finnhub-Pfad).
     const chartData = candles
       .map((c: any) => ({
         date: c.date,
-        price: c.close,
+        price: c.adjustedClose ?? c.close,
         open: c.open,
         high: c.high,
         low: c.low,
