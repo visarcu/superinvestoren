@@ -10,6 +10,19 @@ export function fmt(v: number | null | undefined): string {
   return `${v.toLocaleString('de-DE')} $`
 }
 
+/**
+ * Kompakte Variante für Tabellen — ohne $-Suffix (wird im Tabellenkopf gezeigt).
+ * Bei Zahlen <1Mio fällt auf Roh-Wert mit Tausenderpunkten zurück.
+ */
+export function fmtCompact(v: number | null | undefined): string {
+  if (v === null || v === undefined) return '–'
+  const a = Math.abs(v)
+  if (a >= 1e12) return `${(v / 1e12).toFixed(2).replace('.', ',')} Bio.`
+  if (a >= 1e9) return `${(v / 1e9).toFixed(1).replace('.', ',')} Mrd.`
+  if (a >= 1e6) return `${(v / 1e6).toFixed(0)} Mio.`
+  return v.toLocaleString('de-DE')
+}
+
 export function fmtPct(v: number | null | undefined): string {
   if (v === null || v === undefined) return '–'
   return `${v >= 0 ? '+' : ''}${v.toFixed(1).replace('.', ',')}%`

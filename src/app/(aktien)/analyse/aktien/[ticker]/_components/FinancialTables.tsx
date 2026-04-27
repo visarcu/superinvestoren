@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import type { Period, BalancePeriod, CashFlowPeriod } from '../_lib/types'
-import { fmt, fmtPct } from '../_lib/format'
+import { fmtCompact, fmtPct } from '../_lib/format'
 
 type Statement = 'income' | 'balance' | 'cashflow'
 
@@ -10,6 +10,7 @@ interface FinancialTablesProps {
   income: Period[]
   balance: BalancePeriod[]
   cashflow: CashFlowPeriod[]
+  dataSource?: 'sec-xbrl' | 'finclue-manual' | 'no-data' | null
 }
 
 interface RowDef {
@@ -178,14 +179,11 @@ function formatCell(value: number | null | undefined, row: RowDef): string {
     return fmtPct(value)
   }
   if (row.isDollar) {
-    if (Math.abs(value) >= 1e6) return fmt(value)
-    return `${value.toFixed(2).replace('.', ',')} $`
+    if (Math.abs(value) >= 1e6) return fmtCompact(value)
+    return value.toFixed(2).replace('.', ',')
   }
-  // Default: Mrd./Bio./Mio.
-  if (typeof value === 'number' && Math.abs(value) < 1e6 && row.key === 'sharesOutstanding') {
-    return value.toLocaleString('de-DE')
-  }
-  return fmt(value)
+  // Default: Mrd./Bio./Mio. (ohne $-Suffix — Currency-Hinweis steht im Tabellenkopf)
+  return fmtCompact(value)
 }
 
 function cellColorClass(value: number | null | undefined, row: RowDef): string {
@@ -232,7 +230,7 @@ function FinancialTable<T extends { period: string }>({ rows, sections, incomeRo
             {orderedRows.map(r => (
               <th
                 key={r.period}
-                className="text-right text-[11px] uppercase tracking-wider text-white/40 font-medium px-4 py-3 min-w-[88px]"
+                className="text-right text-[11px] uppercase tracking-wider text-white/40 font-medium px-4 py-3 min-w-[92px] whitespace-nowrap"
               >
                 {r.period}
               </th>
@@ -289,7 +287,7 @@ function FinancialTable<T extends { period: string }>({ rows, sections, incomeRo
                     return (
                       <td
                         key={r.period}
-                        className={`text-right px-4 py-2 ${cellColorClass(value, row)}`}
+                        className={`text-right px-4 py-2 whitespace-nowrap ${cellColorClass(value, row)}`}
                       >
                         {row.key === 'sharesOutstanding' && typeof value === 'number'
                           ? value.toLocaleString('de-DE')
@@ -311,36 +309,46 @@ function FinancialTable<T extends { period: string }>({ rows, sections, incomeRo
 // MAIN COMPONENT
 // ─────────────────────────────────────────────────────────────────
 
-export default function FinancialTables({ income, balance, cashflow }: FinancialTablesProps) {
+export default function FinancialTables({
+  income,
+  balance,
+  cashflow,
+  dataSource,
+}: FinancialTablesProps) {
   const [statement, setStatement] = useState<Statement>('income')
 
-  const tabs: { id: Statement; label: string; icon: string }[] = [
-    { id: 'income', label: 'Gewinn- & Verlustrechnung', icon: '◉' },
-    { id: 'balance', label: 'Bilanz', icon: '▤' },
-    { id: 'cashflow', label: 'Cashflow', icon: '↻' },
+  const tabs: { id: Statement; label: string }[] = [
+    { id: 'income', label: 'Gewinn- & Verlustrechnung' },
+    { id: 'balance', label: 'Bilanz' },
+    { id: 'cashflow', label: 'Cashflow' },
   ]
 
   return (
     <div className="space-y-4">
       {/* Statement Tabs */}
-      <div className="flex items-center gap-1 border-b border-white/[0.05]">
-        {tabs.map(t => {
-          const active = statement === t.id
-          return (
-            <button
-              key={t.id}
-              onClick={() => setStatement(t.id)}
-              className={`px-4 py-2.5 text-[12.5px] font-medium transition-colors relative ${
-                active ? 'text-white/85' : 'text-white/35 hover:text-white/60'
-              }`}
-            >
-              {t.label}
-              {active && (
-                <span className="absolute bottom-[-1px] left-3 right-3 h-px bg-white/85" />
-              )}
-            </button>
-          )
-        })}
+      <div className="flex items-center justify-between gap-4 border-b border-white/[0.05]">
+        <div className="flex items-center gap-1">
+          {tabs.map(t => {
+            const active = statement === t.id
+            return (
+              <button
+                key={t.id}
+                onClick={() => setStatement(t.id)}
+                className={`px-4 py-2.5 text-[12.5px] font-medium transition-colors relative ${
+                  active ? 'text-white/85' : 'text-white/35 hover:text-white/60'
+                }`}
+              >
+                {t.label}
+                {active && (
+                  <span className="absolute bottom-[-1px] left-3 right-3 h-px bg-white/85" />
+                )}
+              </button>
+            )
+          })}
+        </div>
+
+        {/* Daten-Quelle Indikator (rechts) */}
+        <DataSourceBadge source={dataSource} />
       </div>
 
       {/* Active Statement Table */}
@@ -349,6 +357,42 @@ export default function FinancialTables({ income, balance, cashflow }: Financial
       {statement === 'cashflow' && (
         <FinancialTable rows={cashflow} sections={cashflowSections} incomeRows={income} />
       )}
+
+      {/* Footer: Currency-Hinweis */}
+      <p className="text-[10.5px] text-white/25 px-1 pt-1">
+        Alle Werte in der Berichtswährung des Unternehmens · Mio./Mrd./Bio.
+      </p>
+    </div>
+  )
+}
+
+function DataSourceBadge({
+  source,
+}: {
+  source?: 'sec-xbrl' | 'finclue-manual' | 'no-data' | null
+}) {
+  if (!source || source === 'no-data') return null
+
+  if (source === 'finclue-manual') {
+    return (
+      <div
+        className="flex items-center gap-1.5 text-[10px] text-white/35 select-none mr-1"
+        title="Eigene Finclue-Daten aus dem ESEF-Jahresfinanzbericht"
+      >
+        <span className="w-1 h-1 rounded-full bg-emerald-400/80" />
+        <span className="uppercase tracking-widest font-medium">Finclue Daten</span>
+      </div>
+    )
+  }
+
+  // sec-xbrl
+  return (
+    <div
+      className="flex items-center gap-1.5 text-[10px] text-white/25 select-none mr-1"
+      title="Daten direkt aus den SEC-Filings (XBRL)"
+    >
+      <span className="w-1 h-1 rounded-full bg-white/40" />
+      <span className="uppercase tracking-widest font-medium">SEC · XBRL</span>
     </div>
   )
 }
