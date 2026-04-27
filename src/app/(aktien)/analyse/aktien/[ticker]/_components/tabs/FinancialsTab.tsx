@@ -1,8 +1,9 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import ChartCard from '../ChartCard'
 import FeyPremiumGate from '../FeyPremiumGate'
+import FinancialTables from '../FinancialTables'
 import { fmt } from '../../_lib/format'
 import type {
   Period,
@@ -45,6 +46,9 @@ export default function FinancialsTab({
   dataSource,
   dataNotice,
 }: FinancialsTabProps) {
+  // View-Toggle: Charts (Default) oder Tabellen
+  const [view, setView] = useState<'charts' | 'tables'>('charts')
+
   // Quartalsansicht ist Premium. Free-User können den Toggle anklicken,
   // sehen aber im quarterly-Mode statt der Daten das Premium-Gate.
   const showQuarterlyGate = financialPeriod === 'quarterly' && !isPremium
@@ -68,30 +72,54 @@ export default function FinancialsTab({
 
   return (
     <div className="w-full max-w-6xl space-y-6">
-      {/* Period Toggle + Daten-Quelle Indikator (dezent, Fey-Stil) */}
+      {/* Period Toggle + View Toggle + Daten-Quelle Indikator (dezent, Fey-Stil) */}
       <div className="flex items-center justify-between gap-4 flex-wrap">
-      <div className="flex items-center gap-1 bg-white/[0.02] rounded-lg p-0.5 w-fit">
-        <button
-          onClick={() => setFinancialPeriod('annual')}
-          className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
-            financialPeriod === 'annual' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
-          }`}
-        >
-          Jährlich
-        </button>
-        <button
-          onClick={() => setFinancialPeriod('quarterly')}
-          className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors flex items-center gap-1.5 ${
-            financialPeriod === 'quarterly' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
-          }`}
-        >
-          Quartalsweise
-          {!isPremium && (
-            <svg className="w-3 h-3 text-violet-400/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
-            </svg>
-          )}
-        </button>
+      <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1 bg-white/[0.02] rounded-lg p-0.5 w-fit">
+          <button
+            onClick={() => setFinancialPeriod('annual')}
+            className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
+              financialPeriod === 'annual' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
+            }`}
+          >
+            Jährlich
+          </button>
+          <button
+            onClick={() => setFinancialPeriod('quarterly')}
+            className={`px-4 py-1.5 text-[12px] font-medium rounded-md transition-colors flex items-center gap-1.5 ${
+              financialPeriod === 'quarterly' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
+            }`}
+          >
+            Quartalsweise
+            {!isPremium && (
+              <svg className="w-3 h-3 text-violet-400/60" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+              </svg>
+            )}
+          </button>
+        </div>
+
+        {/* View Toggle: Charts | Tabellen — nur in Jahres-View sinnvoll */}
+        {financialPeriod === 'annual' && (
+          <div className="flex items-center gap-1 bg-white/[0.02] rounded-lg p-0.5 w-fit">
+            <button
+              onClick={() => setView('charts')}
+              className={`px-3 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
+                view === 'charts' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
+              }`}
+            >
+              Charts
+            </button>
+            <button
+              onClick={() => setView('tables')}
+              className={`px-3 py-1.5 text-[12px] font-medium rounded-md transition-colors ${
+                view === 'tables' ? 'bg-white/[0.08] text-white' : 'text-white/25 hover:text-white/40'
+              }`}
+            >
+              Tabellen
+            </button>
+          </div>
+        )}
       </div>
 
       {/* Daten-Quelle: dezenter inline-Indikator */}
@@ -197,8 +225,13 @@ export default function FinancialsTab({
         </div>
       ) : null}
 
-      {/* Jahresansicht: SEC XBRL */}
-      {financialPeriod === 'annual' && (
+      {/* Jahresansicht — Tabellen-View */}
+      {financialPeriod === 'annual' && view === 'tables' && (
+        <FinancialTables income={income} balance={balance} cashflow={cashflow} />
+      )}
+
+      {/* Jahresansicht — Charts-View (Default) */}
+      {financialPeriod === 'annual' && view === 'charts' && (
         <>
           <div>
             <p className="text-[11px] text-white/35 uppercase tracking-widest font-medium mb-3">
