@@ -1,5 +1,12 @@
 // API Route for All Earnings Calendar - Gets all upcoming earnings
+//
+// DB-First: Liest aus der earningsCalendar-Tabelle (täglich befüllt vom
+// /api/cron/sync-earnings, Range = 60 Tage). Vorher hat diese Route
+// 4 Monate Earnings + Stable-API direkt von FMP gezogen — extrem
+// bandwidth-intensiv. FMP wird nur noch als Fallback und für die
+// Quote-basierte MarketCap-Anreicherung benötigt.
 import { NextRequest, NextResponse } from 'next/server'
+import { getEarningsFromDb } from '@/lib/earningsCalendarDb'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 
@@ -37,53 +44,55 @@ export async function GET(request: NextRequest) {
 
     const earningsEvents: EarningsEvent[] = []
 
-    // Get earnings calendar - use stable API for current + old API for future months
+    // DB-First: Earnings für die nächsten 45 Tage aus der DB lesen
     try {
-      console.log('📅 Loading current and future earnings...')
-      
-      // Method 1: Current earnings from stable API
-      const stableResponse = await fetch(
-        `https://financialmodelingprep.com/stable/earnings-calendar?apikey=${FMP_API_KEY}`,
-        { next: { revalidate: 1800 } }
-      )
-      
-      // Method 2: Future earnings from old API (for November onwards)
-      const today = new Date().toISOString().split('T')[0]
-      const nextMonths = new Date()
-      nextMonths.setMonth(nextMonths.getMonth() + 4) // Look ahead 4 months
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const todayIso = today.toISOString().split('T')[0]
+      const nextMonths = new Date(today)
+      nextMonths.setDate(nextMonths.getDate() + 45)
       const endDate = nextMonths.toISOString().split('T')[0]
-      
-      const futureResponse = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${today}&to=${endDate}&apikey=${FMP_API_KEY}`,
-        { next: { revalidate: 7200 } } // Cache future earnings for 2 hours
-      )
-      
-      let allCalendarData = []
-      
-      // Process stable API data (current earnings)
-      if (stableResponse.ok) {
-        const stableData = await stableResponse.json()
-        if (Array.isArray(stableData)) {
-          allCalendarData.push(...stableData)
-          console.log(`📊 Loaded ${stableData.length} current earnings from stable API`)
-        }
+
+      const dbRows = await getEarningsFromDb(todayIso, endDate)
+      console.log(`📅 DB returned ${dbRows.length} earnings rows`)
+
+      // FMP-shape Mapping (für minimal invasive Refactoring weiter unten).
+      // Bewusst lockerer Typ — die Folge-Logik greift teils auf Felder
+      // zu, die nur die Stable-API zurückliefert (z.B. event.eps).
+      type CalendarEvent = {
+        symbol: string
+        date: string
+        time?: string | null
+        name?: string | null
+        epsEstimated?: number | string | null
+        epsActual?: number | string | null
+        eps?: number | string | null
+        revenueEstimated?: number | string | null
+        revenueActual?: number | string | null
       }
-      
-      // Process future API data (upcoming months)
-      if (futureResponse.ok) {
-        const futureData = await futureResponse.json()
-        if (Array.isArray(futureData)) {
-          // Filter out duplicates and only keep future dates
-          const futureOnly = futureData.filter(event => {
-            const eventDate = new Date(event.date)
-            const now = new Date()
-            now.setHours(0, 0, 0, 0) // Start of today
-            return eventDate > now && !allCalendarData.some(existing => 
-              existing.symbol === event.symbol && existing.date === event.date
-            )
-          })
-          allCalendarData.push(...futureOnly)
-          console.log(`📊 Loaded ${futureOnly.length} future earnings from v3 API`)
+      let allCalendarData: CalendarEvent[] = dbRows.map(r => ({
+        symbol: r.symbol,
+        date: r.date,
+        time: r.time,
+        epsEstimated: r.epsEstimate,
+        epsActual: r.epsActual,
+        revenueEstimated: r.revenueEstimate,
+        revenueActual: r.revenueActual,
+        name: r.companyName,
+      }))
+
+      // Fallback nur wenn DB für diesen Zeitraum komplett leer ist
+      if (allCalendarData.length === 0) {
+        console.warn('⚠️ DB-Earnings leer, fallback zu FMP /v3/earning_calendar')
+        const futureResponse = await fetch(
+          `https://financialmodelingprep.com/api/v3/earning_calendar?from=${todayIso}&to=${endDate}&apikey=${FMP_API_KEY}`,
+          { next: { revalidate: 21600 } }
+        )
+        if (futureResponse.ok) {
+          const futureData = await futureResponse.json()
+          if (Array.isArray(futureData)) {
+            allCalendarData = futureData as CalendarEvent[]
+          }
         }
       }
       
@@ -173,6 +182,14 @@ export async function GET(request: NextRequest) {
           
           console.log(`🎯 Final sorted list - Top 5: ${sortedEvents.slice(0, 5).map(e => `${e.symbol} (${e.marketCap ? '$' + (e.marketCap/1000000000).toFixed(1) + 'B' : 'N/A'})`).join(', ')}`)
           
+          // Helper: DB liefert numbers, FMP-Stable liefert teilweise strings
+          const toNum = (v: number | string | null | undefined): number | null => {
+            if (v == null) return null
+            if (typeof v === 'number') return v
+            const n = parseFloat(v)
+            return Number.isFinite(n) ? n : null
+          }
+
           // Process earnings events with better company names
           for (const event of sortedEvents) {
             earningsEvents.push({
@@ -182,8 +199,8 @@ export async function GET(request: NextRequest) {
               time: event.time || 'amc', // Use API time if available, otherwise default to amc
               quarter: `Q${Math.ceil(new Date(event.date).getMonth() / 3)} ${new Date(event.date).getFullYear()}`,
               fiscalYear: new Date(event.date).getFullYear().toString(),
-              estimatedEPS: event.epsEstimated || event.eps || null, // Handle both API formats
-              actualEPS: event.epsActual || event.epsEstimated || null, // Handle both API formats
+              estimatedEPS: toNum(event.epsEstimated) ?? toNum(event.eps),
+              actualEPS: toNum(event.epsActual) ?? toNum(event.epsEstimated),
               marketCap: event.marketCap || 0
             })
           }

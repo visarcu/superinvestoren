@@ -1,8 +1,13 @@
 // Vercel Cron Job: Auto-Ingest Earnings Call Transcripts
 // Prüft welche Earnings gestern/heute stattfanden und holt die Transcripts von FMP → Pinecone
+//
+// DB-First: liest die jüngsten Earnings aus der earningsCalendar-Tabelle.
+// Die /api/cron/sync-earnings-Cron läuft 7h vorher (5 Uhr UTC), also ist
+// die DB hier (12 Uhr UTC) frisch.
 import { NextRequest, NextResponse } from 'next/server'
 import { FinancialRAGSystem, DataIngestionService } from '@/lib/ragSystem'
 import { RAG_TICKERS } from '@/lib/ragTickers'
+import { getEarningsFromDb, toFmpShape } from '@/lib/earningsCalendarDb'
 
 const FMP_API_KEY = process.env.FMP_API_KEY
 const CRON_SECRET = process.env.CRON_SECRET
@@ -26,26 +31,31 @@ export async function GET(request: NextRequest) {
 
     console.log('🎙️ Earnings Transcript Ingest gestartet:', new Date().toISOString())
 
-    // Hole Earnings der letzten 3 Tage (um Wochenenden/Verzögerungen abzufangen)
+    // Hole Earnings der letzten 2 Tage (Wochenenden via 2-Tage-Window abgedeckt)
     const today = new Date()
-    const threeDaysAgo = new Date()
-    threeDaysAgo.setDate(today.getDate() - 3)
+    const twoDaysAgo = new Date()
+    twoDaysAgo.setDate(today.getDate() - 2)
 
-    const from = threeDaysAgo.toISOString().split('T')[0]
+    const from = twoDaysAgo.toISOString().split('T')[0]
     const to = today.toISOString().split('T')[0]
 
-    const response = await fetch(
-      `https://financialmodelingprep.com/api/v3/earning_calendar?from=${from}&to=${to}&apikey=${FMP_API_KEY}`
-    )
+    // DB-First: erst earningsCalendar-Tabelle lesen
+    const dbRows = await getEarningsFromDb(from, to)
+    let allEarnings: any[] = toFmpShape(dbRows)
 
-    if (!response.ok) {
-      throw new Error(`FMP API error: ${response.status}`)
-    }
-
-    const allEarnings = await response.json()
-
-    if (!Array.isArray(allEarnings)) {
-      return NextResponse.json({ success: true, message: 'No earnings data', ingested: 0 })
+    if (allEarnings.length === 0) {
+      console.warn('[Transcripts Cron] DB empty, falling back to FMP')
+      const response = await fetch(
+        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${from}&to=${to}&apikey=${FMP_API_KEY}`
+      )
+      if (!response.ok) {
+        throw new Error(`FMP API error: ${response.status}`)
+      }
+      const fmpData = await response.json()
+      if (!Array.isArray(fmpData)) {
+        return NextResponse.json({ success: true, message: 'No earnings data', ingested: 0 })
+      }
+      allEarnings = fmpData
     }
 
     // Nur Ticker die in unserer RAG-Liste sind UND die schon Actuals haben (= Call ist vorbei)

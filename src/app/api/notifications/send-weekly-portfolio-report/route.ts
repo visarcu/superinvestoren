@@ -490,18 +490,31 @@ async function handleWeeklyPortfolioReport() {
 
     console.log(`[Weekly Portfolio Report] Got quotes for ${quoteMap.size} symbols`)
 
-    // 6. Fetch earnings preview for next week (for all user symbols)
+    // 6. Earnings preview for next week — DB-First aus earningsCalendar-Tabelle
     let earningsCalendar: EarningsPreviewItem[] = []
     try {
-      const earningsRes = await fetch(
-        `https://financialmodelingprep.com/api/v3/earning_calendar?from=${nextWeekFrom}&to=${nextWeekTo}&apikey=${process.env.FMP_API_KEY}`
-      )
-      if (earningsRes.ok) {
-        const earningsData = await earningsRes.json()
-        if (Array.isArray(earningsData)) {
-          earningsCalendar = earningsData
-            .filter((e: any) => allSymbols.includes(e.symbol))
-            .map((e: any) => ({ symbol: e.symbol, date: e.date, time: e.time || '' }))
+      const { getEarningsFromDb } = await import('@/lib/earningsCalendarDb')
+      const dbRows = await getEarningsFromDb(nextWeekFrom, nextWeekTo, allSymbols)
+
+      if (dbRows.length > 0) {
+        earningsCalendar = dbRows.map(r => ({
+          symbol: r.symbol,
+          date: r.date,
+          time: r.time || '',
+        }))
+      } else {
+        // Fallback: DB leer → FMP
+        console.warn('[Weekly Portfolio Report] DB empty, falling back to FMP')
+        const earningsRes = await fetch(
+          `https://financialmodelingprep.com/api/v3/earning_calendar?from=${nextWeekFrom}&to=${nextWeekTo}&apikey=${process.env.FMP_API_KEY}`
+        )
+        if (earningsRes.ok) {
+          const earningsData = await earningsRes.json()
+          if (Array.isArray(earningsData)) {
+            earningsCalendar = earningsData
+              .filter((e: any) => allSymbols.includes(e.symbol))
+              .map((e: any) => ({ symbol: e.symbol, date: e.date, time: e.time || '' }))
+          }
         }
       }
     } catch (e) {
