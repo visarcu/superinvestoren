@@ -227,7 +227,12 @@ export default function FinancialsTab({
 
       {/* Jahresansicht — Tabellen-View */}
       {financialPeriod === 'annual' && view === 'tables' && (
-        <FinancialTables income={income} balance={balance} cashflow={cashflow} />
+        <FinancialTables
+          income={income}
+          balance={balance}
+          cashflow={cashflow}
+          dataSource={dataSource}
+        />
       )}
 
       {/* Jahresansicht — Charts-View (Default) */}
