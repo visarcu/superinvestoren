@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import FeyWatchlistButton from './FeyWatchlistButton'
-import MarketStatusBadge from './MarketStatusBadge'
+import { MarketStatusDot, MarketStatusText } from './MarketStatusBadge'
 import type { UnternehmenProfile, Quote } from '../_lib/types'
 
 interface StockHeaderProps {
@@ -57,13 +57,16 @@ export default function StockHeader({ ticker, profile, quote }: StockHeaderProps
       </div>
 
       {/* Price + Quick Actions */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-5">
         {quote && (
           <div className="text-right">
-            <p className="text-xl font-bold text-white tabular-nums">
-              {quote.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $
-            </p>
-            <div className="flex items-center justify-end gap-1.5">
+            <div className="flex items-center justify-end gap-2.5">
+              <MarketStatusDot ticker={ticker} quoteTs={quote.timestamp} />
+              <p className="text-[22px] font-bold text-white tabular-nums leading-none">
+                {quote.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $
+              </p>
+            </div>
+            <div className="flex items-center justify-end gap-2 mt-2">
               <span
                 className={`text-[12px] font-semibold tabular-nums ${
                   quote.changePercent >= 0 ? 'text-emerald-400' : 'text-red-400'
@@ -74,22 +77,21 @@ export default function StockHeader({ ticker, profile, quote }: StockHeaderProps
               </span>
               <span
                 className={`text-[11px] tabular-nums ${
-                  quote.changePercent >= 0 ? 'text-emerald-400/50' : 'text-red-400/50'
+                  quote.changePercent >= 0 ? 'text-emerald-400/55' : 'text-red-400/55'
                 }`}
               >
                 {quote.change >= 0 ? '+' : ''}
                 {quote.change.toFixed(2).replace('.', ',')}
               </span>
+              <MarketStatusText ticker={ticker} quoteTs={quote.timestamp} />
             </div>
-            {quote.timestamp ? (
-              <div className="flex justify-end mt-1">
-                <MarketStatusBadge ticker={ticker} quoteTs={quote.timestamp} />
-              </div>
-            ) : null}
           </div>
         )}
-        <FeyWatchlistButton ticker={ticker} />
-        <MoreMenu ticker={ticker} />
+        <div className="w-px h-9 bg-white/[0.06]" aria-hidden />
+        <div className="flex items-center gap-1.5">
+          <FeyWatchlistButton ticker={ticker} />
+          <MoreMenu ticker={ticker} />
+        </div>
       </div>
     </header>
   )

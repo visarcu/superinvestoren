@@ -90,6 +90,77 @@ function isUsExtendedHours(now: Date): boolean {
   return preMarket || afterHours
 }
 
+/**
+ * Minimaler Status-Dot — nur sichtbar wenn der Markt LIVE ist.
+ * Für premium-Stock-Header neben dem Preis.
+ */
+export function MarketStatusDot({ ticker, quoteTs }: MarketStatusBadgeProps) {
+  if (!quoteTs || quoteTs <= 0) return null
+  const market = detectMarket(ticker)
+  const now = new Date()
+  const ageMin = (Date.now() / 1000 - quoteTs) / 60
+  if (!isMarketOpen(market, now) || ageMin >= 3) return null
+
+  return (
+    <span className="relative inline-flex h-2 w-2 flex-shrink-0" title="Live">
+      <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400/60 animate-ping" />
+      <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-400" />
+    </span>
+  )
+}
+
+/**
+ * Minimaler Status-Text — nur sichtbar bei nicht-live Zuständen.
+ * Rendert kompakt ohne Pill/Border, passt sich an die umgebende Zeile an.
+ */
+export function MarketStatusText({ ticker, quoteTs }: MarketStatusBadgeProps) {
+  if (!quoteTs || quoteTs <= 0) return null
+  const market = detectMarket(ticker)
+  const now = new Date()
+  const ageMin = (Date.now() / 1000 - quoteTs) / 60
+  const open = isMarketOpen(market, now)
+
+  if (open && ageMin < 3) return null
+
+  if (open && ageMin >= 3 && ageMin < 30) {
+    return (
+      <span
+        className="text-[10px] text-white/30 tabular-nums"
+        title={`Letzter Kurs vor ${Math.round(ageMin)} Minuten`}
+      >
+        verzögert
+      </span>
+    )
+  }
+
+  if (market === 'us' && !open && isUsExtendedHours(now) && ageMin < 120) {
+    const tsDate = new Date(quoteTs * 1000)
+    return (
+      <span
+        className="text-[10px] text-amber-400/60"
+        title={`Außerbörslich · ${tsDate.toLocaleString('de-DE')}`}
+      >
+        außerbörslich
+      </span>
+    )
+  }
+
+  const tsDate = new Date(quoteTs * 1000)
+  const label =
+    ageMin < 24 * 60
+      ? tsDate.toLocaleTimeString('de-DE', { hour: '2-digit', minute: '2-digit' })
+      : tsDate.toLocaleDateString('de-DE', { day: '2-digit', month: 'short' })
+
+  return (
+    <span
+      className="text-[10px] text-white/30 tabular-nums"
+      title={`Markt geschlossen — letzter Kurs ${tsDate.toLocaleString('de-DE')}`}
+    >
+      {label}
+    </span>
+  )
+}
+
 export default function MarketStatusBadge({ ticker, quoteTs }: MarketStatusBadgeProps) {
   if (!quoteTs || quoteTs <= 0) return null
 
