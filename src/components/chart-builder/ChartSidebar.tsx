@@ -138,8 +138,8 @@ export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, i
       {/* Stock Section */}
       <div className="p-4 border-b border-white/[0.06]">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider">Aktien</h3>
-          <span className="text-[10px] text-theme-muted">{state.stocks.length}/{maxStocks}</span>
+          <h3 className="text-[10.5px] font-medium text-white/35 uppercase tracking-widest">Aktien</h3>
+          <span className="text-[10.5px] text-white/30 tabular-nums">{state.stocks.length}/{maxStocks}</span>
         </div>
 
         {/* Upgrade Banner wenn Aktien-Limit erreicht */}
@@ -168,7 +168,7 @@ export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, i
               }}
               onFocus={() => setShowStockDropdown(true)}
               placeholder="Aktie suchen..."
-              className="w-full pl-9 pr-3 py-2 bg-white/[0.04] border border-white/[0.08] rounded-lg text-xs text-theme-primary placeholder-theme-muted focus:border-brand/50 focus:outline-none transition-colors"
+              className="w-full pl-9 pr-3 py-2.5 bg-white/[0.03] border border-white/[0.06] rounded-xl text-[12.5px] text-white/85 placeholder:text-white/30 focus:border-white/[0.18] focus:bg-white/[0.04] focus:outline-none transition-colors disabled:opacity-40"
               disabled={state.stocks.length >= maxStocks}
             />
           </div>
@@ -212,9 +212,9 @@ export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, i
       {/* Metric Section */}
       <div className="p-4 border-b border-white/[0.06] flex-shrink-0">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider">+ Metrik</h3>
+          <h3 className="text-[10.5px] font-medium text-white/35 uppercase tracking-widest">Metriken</h3>
           {!isPremium && (
-            <span className="text-[10px] text-theme-muted">{uniqueMetricCount}/{maxMetrics}</span>
+            <span className="text-[10.5px] text-white/30 tabular-nums">{uniqueMetricCount}/{maxMetrics}</span>
           )}
         </div>
 
@@ -249,10 +249,10 @@ export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, i
               <button
                 key={cat.key}
                 onClick={() => setActiveCategory(cat.key)}
-                className={`px-2.5 py-1 text-[10px] font-medium rounded-md whitespace-nowrap transition-all ${
+                className={`px-2.5 py-1.5 text-[10.5px] font-medium rounded-lg whitespace-nowrap transition-all ${
                   activeCategory === cat.key
-                    ? 'bg-brand/20 text-brand-light'
-                    : 'text-theme-muted hover:text-theme-secondary hover:bg-white/[0.04]'
+                    ? 'bg-white/[0.08] text-white/85'
+                    : 'text-white/35 hover:text-white/65 hover:bg-white/[0.03]'
                 }`}
               >
                 {cat.label}
@@ -305,8 +305,8 @@ export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, i
 
       {/* Active Series */}
       <div className="flex-1 overflow-y-auto p-4">
-        <h3 className="text-xs font-semibold text-theme-secondary uppercase tracking-wider mb-3">
-          Aktive Serien ({state.activeMetrics.length})
+        <h3 className="text-[10.5px] font-medium text-white/35 uppercase tracking-widest mb-3">
+          Aktive Serien <span className="text-white/25 tabular-nums normal-case">({state.activeMetrics.length})</span>
         </h3>
 
         {state.activeMetrics.length === 0 ? (

@@ -247,14 +247,21 @@ export default function ChartCanvas({
 
   if (visibleMetrics.length === 0 && !loading) {
     return (
-      <div className="h-full flex items-center justify-center">
-        <div className="text-center">
-          <svg className="w-16 h-16 mx-auto mb-4 text-theme-muted opacity-30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-            <path d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
-          </svg>
-          <p className="text-theme-secondary text-sm font-medium">Vergleich starten</p>
-          <p className="text-theme-muted text-xs mt-1">
-            Füge mindestens eine Aktie und eine Metrik hinzu
+      <div className="h-full flex items-center justify-center px-6">
+        <div className="text-center max-w-md">
+          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-white/[0.04] border border-white/[0.06] mb-5">
+            <svg className="w-7 h-7 text-white/40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+            </svg>
+          </div>
+          <p className="text-[10.5px] uppercase tracking-widest text-white/30 font-medium mb-2">
+            Bereit
+          </p>
+          <h2 className="text-[20px] font-semibold text-white/90 mb-2 tracking-tight">
+            Vergleich starten
+          </h2>
+          <p className="text-[13px] text-white/40 leading-relaxed">
+            Füge links Aktien und Metriken hinzu — oder klick auf <span className="text-white/60">„Vorlagen"</span> oben für vorgefertigte Setups.
           </p>
         </div>
       </div>
