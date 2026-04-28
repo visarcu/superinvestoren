@@ -195,14 +195,15 @@ export default function ChartSidebar({ state, dispatch, maxStocks, maxMetrics, i
           {state.stocks.map(ticker => (
             <div
               key={ticker}
-              className="flex items-center gap-1.5 px-2.5 py-1 bg-white/[0.06] border border-white/[0.08] rounded-lg text-xs"
+              className="group flex items-center gap-1.5 pl-2.5 pr-1 py-1 bg-white/[0.04] hover:bg-white/[0.06] border border-white/[0.06] hover:border-white/[0.1] rounded-lg text-[12px] transition-colors"
             >
-              <span className="font-semibold text-theme-primary">{ticker}</span>
+              <span className="font-semibold text-white/85">{ticker}</span>
               <button
                 onClick={() => removeStock(ticker)}
-                className="hover:bg-red-500/20 rounded p-0.5 transition-colors"
+                className="p-0.5 hover:bg-red-500/15 rounded transition-colors"
+                title="Entfernen"
               >
-                <XMarkIcon className="w-3 h-3 text-theme-muted hover:text-red-400" />
+                <XMarkIcon className="w-3 h-3 text-white/40 hover:text-red-400" />
               </button>
             </div>
           ))}
