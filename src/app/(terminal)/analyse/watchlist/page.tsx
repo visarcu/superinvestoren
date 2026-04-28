@@ -189,25 +189,32 @@ export default function WatchlistPage() {
 
   async function loadEarningsData(tickers: string[], userId: string) {
     try {
-      // Get earnings for the next 90 days
-      const startDate = new Date();
-      const endDate = new Date();
-      endDate.setDate(endDate.getDate() + 90);
+      // /api/v1/calendar/earnings: SEC 8-K + NASDAQ Public Calendar (keine FMP-Dependency).
+      // Response-Shape: { dates: [{ date, events: [{ ticker, company, time, epsEstimate, ... }] }] }
+      const res = await fetch(
+        `/api/v1/calendar/earnings?tickers=${tickers.join(',')}&days=90`
+      );
+      if (!res.ok) return;
 
-      const res = await fetch(`/api/earnings-calendar/week?from=${startDate.toISOString().split('T')[0]}&to=${endDate.toISOString().split('T')[0]}`);
-
-      if (res.ok) {
-        const data = await res.json();
-        // Filter to only watchlist tickers and sort by date
-        const watchlistEarnings = (data.earnings || [])
-          .filter((e: EarningsEvent) => tickers.includes(e.symbol))
-          .sort((a: EarningsEvent, b: EarningsEvent) =>
-            new Date(a.date).getTime() - new Date(b.date).getTime()
-          )
-          .slice(0, 5); // Show max 5 upcoming
-
-        setEarningsEvents(watchlistEarnings);
+      const data = await res.json();
+      const flat: EarningsEvent[] = [];
+      for (const day of data.dates || []) {
+        for (const ev of day.events || []) {
+          flat.push({
+            symbol: ev.ticker,
+            companyName: ev.company || undefined,
+            date: day.date,
+            time: ev.time || 'amc',
+            epsEstimate: ev.epsEstimate,
+          });
+        }
       }
+
+      const upcoming = flat
+        .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+        .slice(0, 5);
+
+      setEarningsEvents(upcoming);
     } catch (error) {
       console.error('Error loading earnings:', error);
     }
