@@ -65,10 +65,12 @@ export default function WatchlistScreen() {
       if (watchlistItems.length > 0) {
         const symbols = watchlistItems.map((i: any) => i.ticker).join(',');
 
-        // Quotes + Earnings parallel laden
+        // Quotes + Earnings parallel laden.
+        // Earnings: /api/v1/calendar/earnings (SEC 8-K + NASDAQ Public Calendar,
+        // keine FMP-Dependency). Response-Shape: { dates: [{ date, events: [...] }] }.
         const [qRes, eRes] = await Promise.all([
           fetch(`${BASE_URL}/api/quotes?symbols=${symbols}`),
-          fetch(`${BASE_URL}/api/earnings-calendar?tickers=${symbols}`),
+          fetch(`${BASE_URL}/api/v1/calendar/earnings?tickers=${symbols}&days=90`),
         ]);
 
         if (qRes.ok) {
@@ -77,7 +79,21 @@ export default function WatchlistScreen() {
         }
         if (eRes.ok) {
           const eData = await eRes.json();
-          setEarnings(Array.isArray(eData) ? eData.slice(0, 5) : []);
+          const flat: EarningsEvent[] = [];
+          for (const day of eData.dates || []) {
+            for (const ev of day.events || []) {
+              flat.push({
+                ticker: ev.ticker,
+                date: day.date,
+                time: ev.time || 'TBD',
+                quarter: ev.fiscalQuarter && ev.fiscalYear
+                  ? `Q${ev.fiscalQuarter} ${ev.fiscalYear}`
+                  : '',
+                estimatedEPS: ev.epsEstimate ?? null,
+              });
+            }
+          }
+          setEarnings(flat.slice(0, 5));
         }
       }
     } catch (e: any) {
