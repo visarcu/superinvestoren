@@ -22,21 +22,27 @@ const TABS: { key: Tab; label: string }[] = [
 
 export default function StockTabs({ tab, setTab }: StockTabsProps) {
   return (
-    <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 pt-1">
-      <div className="flex items-center gap-0.5 bg-white/[0.02] rounded-xl p-1 w-fit">
-        {TABS.map(t => (
-          <button
-            key={t.key}
-            onClick={() => setTab(t.key)}
-            className={`px-3.5 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
-              tab === t.key
-                ? 'bg-white/[0.08] text-white shadow-[0_1px_0_rgba(255,255,255,0.04)]'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/[0.03]'
-            }`}
-          >
-            {t.label}
-          </button>
-        ))}
+    <div className="w-full border-b border-white/[0.06] mt-4">
+      <div className="max-w-7xl mx-auto px-6 sm:px-10">
+        <div className="flex items-center gap-1 overflow-x-auto scrollbar-none">
+          {TABS.map(t => {
+            const active = tab === t.key
+            return (
+              <button
+                key={t.key}
+                onClick={() => setTab(t.key)}
+                className={`relative px-3 py-3.5 text-[13px] font-medium whitespace-nowrap transition-colors ${
+                  active ? 'text-white/90' : 'text-white/40 hover:text-white/70'
+                }`}
+              >
+                {t.label}
+                {active && (
+                  <span className="absolute bottom-[-1px] left-3 right-3 h-px bg-white/85" />
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
