@@ -3,11 +3,13 @@
 //
 // Priority:
 // 1. Eigene Logos aus /public/logos/ (manuell kuratiert, beste Qualität)
-// 2. Google Favicon API (Fallback, niedrigere Qualität)
-// 3. SVG Placeholder mit Initialen (letzter Fallback)
+// 2. FMP Image-Stock CDN (https://financialmodelingprep.com/image-stock/{TICKER}.png)
+//    Hochwertig und konsistent, Teil des FMP-Plans, kein API-Key für CDN nötig
+// 3. Google Favicon API (Fallback, niedrigere Qualität)
+// 4. SVG Placeholder mit Initialen (letzter Fallback)
 //
-// Upload:
-// Einfach Logo als {TICKER}.png oder {TICKER}.svg in /public/logos/ ablegen.
+// Upload eigener Logos:
+// {TICKER}.png oder {TICKER}.svg in /public/logos/ ablegen.
 // Z.B. /public/logos/AAPL.png, /public/logos/MSFT.svg, /public/logos/SAP.png
 
 import { NextRequest, NextResponse } from 'next/server'
@@ -70,7 +72,29 @@ export async function GET(
     }
   }
 
-  // ── 2. Google Favicon Fallback ──────────────────────────────────────
+  // ── 2. FMP Image-Stock CDN ──────────────────────────────────────────
+  // Hochwertig, konsistent, deckt fast alle gelisteten US- und DAX-Aktien ab.
+  try {
+    const fmpRes = await fetch(
+      `https://financialmodelingprep.com/image-stock/${encodeURIComponent(ticker)}.png`,
+      { signal: AbortSignal.timeout(5000) }
+    )
+    if (fmpRes.ok) {
+      const buffer = await fmpRes.arrayBuffer()
+      // Manche FMP-Logos sind nur 1x1-Platzhalter (z.B. ~200 Bytes) — überspringen
+      if (buffer.byteLength > 500) {
+        return new NextResponse(buffer, {
+          headers: {
+            'Content-Type': 'image/png',
+            'Cache-Control': 'public, max-age=2592000', // 30 Tage
+            'X-Logo-Source': 'fmp-cdn',
+          },
+        })
+      }
+    }
+  } catch {}
+
+  // ── 3. Google Favicon Fallback ──────────────────────────────────────
   const domain = DOMAINS[ticker] || `${ticker.replace('.DE', '').toLowerCase()}.com`
 
   try {
@@ -89,7 +113,7 @@ export async function GET(
     }
   } catch {}
 
-  // ── 3. SVG Placeholder ─────────────────────────────────────────────
+  // ── 4. SVG Placeholder ─────────────────────────────────────────────
   const initials = ticker.replace('.DE', '').slice(0, 2)
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}">
     <rect width="${size}" height="${size}" rx="${size * 0.2}" fill="#1a1a2e"/>
