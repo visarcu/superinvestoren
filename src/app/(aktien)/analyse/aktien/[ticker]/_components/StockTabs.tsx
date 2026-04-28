@@ -25,11 +25,15 @@ const TABS: TabDef[] = [
 export default function StockTabs() {
   const pathname = usePathname()
   const params = useParams()
-  const ticker = String(params?.ticker ?? '').toLowerCase()
+  // Raw case beibehalten — Tab-Links matchen so die aktuelle URL-Form
+  const ticker = String(params?.ticker ?? '')
   const base = `/analyse/aktien/${ticker}`
 
-  // Aktiven Tab bestimmen — letztes Path-Segment nach /aktien/{ticker}
-  const rest = pathname?.startsWith(base) ? pathname.slice(base.length).replace(/^\//, '') : ''
+  // Aktiven Tab bestimmen — case-insensitive Match weil Next.js URL-Casing
+  // bei dynamic routes nicht garantiert
+  const lowerPath = (pathname ?? '').toLowerCase()
+  const lowerBase = base.toLowerCase()
+  const rest = lowerPath.startsWith(lowerBase) ? lowerPath.slice(lowerBase.length).replace(/^\//, '') : ''
   const currentSegment = rest
 
   return (
