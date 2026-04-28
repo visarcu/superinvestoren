@@ -228,7 +228,6 @@ export default function FeyBottomNav() {
                   title="DCF-Rechner"
                   subtitle="Fair-Value berechnen"
                   href="/analyse/dcf-rechner"
-                  comingSoon
                   onNavigate={() => setToolsOpen(false)}
                 />
               </div>
