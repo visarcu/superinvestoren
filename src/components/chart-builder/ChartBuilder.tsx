@@ -33,7 +33,7 @@ export default function ChartBuilder() {
       .map(t => t.trim().toUpperCase())
       .filter(t => /^[A-Z0-9.-]{1,10}$/.test(t))
     for (const t of tickers) {
-      dispatch({ type: 'ADD_STOCK', ticker: t })
+      dispatch({ type: 'ADD_STOCK', ticker: t, name: t })
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
