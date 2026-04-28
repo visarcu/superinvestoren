@@ -211,10 +211,9 @@ export default function FeyBottomNav() {
               <div className="p-3 grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <ToolCard
                   icon={<FinderIcon />}
-                  title="Aktien-Finder"
-                  subtitle="Filtern nach Marktkap, KGV, Sektor"
-                  href="/analyse/aktien-finder"
-                  comingSoon
+                  title="Aktien-Screener"
+                  subtitle="Filtern nach Marktkap, Sektor, Beta"
+                  href="/analyse/aktien-screener"
                   onNavigate={() => setToolsOpen(false)}
                 />
                 <ToolCard
