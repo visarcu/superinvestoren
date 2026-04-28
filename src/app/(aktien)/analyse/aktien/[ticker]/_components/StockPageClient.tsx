@@ -28,6 +28,7 @@ import type {
   EarningsEntry,
   AnalystEstimate,
   Quote,
+  AftermarketQuote,
   PricePoint,
   ChartTimeframe,
   Tab,
@@ -53,6 +54,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
   const [earnings, setEarnings] = useState<EarningsEntry[]>([])
   const [estimates, setEstimates] = useState<AnalystEstimate[]>([])
   const [quote, setQuote] = useState<Quote | null>(null)
+  const [aftermarket, setAftermarket] = useState<AftermarketQuote | null>(null)
   const [priceChart, setPriceChart] = useState<PricePoint[]>([])
   const [chartTimeframe, setChartTimeframe] = useState<ChartTimeframe>('1Y')
   const [chartLoading, setChartLoading] = useState(false)
@@ -114,6 +116,26 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     if (!profile?.name) return
     addRecentTicker(ticker, profile.name)
   }, [ticker, profile?.name])
+
+  // Aftermarket-Quote laden (FMP, US-Aktien) — initial + alle 60s refreshen
+  useEffect(() => {
+    let cancelled = false
+    const load = () => {
+      fetch(`/api/v1/quotes/aftermarket/${ticker}`)
+        .then(r => (r.ok ? r.json() : null))
+        .then(d => {
+          if (cancelled) return
+          if (d && typeof d.available === 'boolean') setAftermarket(d as AftermarketQuote)
+        })
+        .catch(() => {})
+    }
+    load()
+    const id = setInterval(load, 60_000)
+    return () => {
+      cancelled = true
+      clearInterval(id)
+    }
+  }, [ticker])
 
   // Auto-refresh quote every 30 seconds
   useEffect(() => {
@@ -301,7 +323,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
     <div className="min-h-screen bg-[#06060e] flex flex-col">
       <StockHeader ticker={ticker} profile={profile} quote={quote} />
 
-      <StockStatsStrip quote={quote} fullPriceHistory={fullPriceHistory} />
+      <StockStatsStrip quote={quote} fullPriceHistory={fullPriceHistory} aftermarket={aftermarket} />
 
       <EarningsBanner earnings={earnings} onClick={() => setTab('earnings')} />
 

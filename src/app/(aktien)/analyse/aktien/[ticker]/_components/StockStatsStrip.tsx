@@ -1,12 +1,13 @@
 'use client'
 
 import React, { useMemo } from 'react'
-import type { Quote, PricePoint } from '../_lib/types'
+import type { Quote, PricePoint, AftermarketQuote } from '../_lib/types'
 import { fmt } from '../_lib/format'
 
 interface StockStatsStripProps {
   quote: Quote | null
   fullPriceHistory: PricePoint[]
+  aftermarket?: AftermarketQuote | null
 }
 
 const formatPrice = (v: number | null | undefined): string => {
@@ -56,7 +57,11 @@ function Stat({ label, children }: StatProps) {
   )
 }
 
-export default function StockStatsStrip({ quote, fullPriceHistory }: StockStatsStripProps) {
+export default function StockStatsStrip({
+  quote,
+  fullPriceHistory,
+  aftermarket,
+}: StockStatsStripProps) {
   const fiftyTwoWeek = useMemo(() => {
     if (fullPriceHistory.length === 0) return null
     const cutoff = new Date()
@@ -107,6 +112,51 @@ export default function StockStatsStrip({ quote, fullPriceHistory }: StockStatsS
         </Stat>
         <Stat label="Marktkap.">{quote.marketCap ? fmt(quote.marketCap) : '–'}</Stat>
       </div>
+
+      {/* Aftermarket-Zeile: nur wenn FMP Daten liefert */}
+      {aftermarket?.available && aftermarket.price ? <AftermarketRow am={aftermarket} /> : null}
+    </div>
+  )
+}
+
+function AftermarketRow({ am }: { am: AftermarketQuote }) {
+  if (!am.price) return null
+  const change = am.change ?? 0
+  const changePct = am.changePct ?? 0
+  const positive = change >= 0
+  const time = am.timestamp
+    ? new Date(am.timestamp * 1000).toLocaleTimeString('de-DE', {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+    : null
+
+  return (
+    <div className="flex items-center justify-end gap-2 py-2 text-[11.5px] tabular-nums">
+      <span className="w-1.5 h-1.5 rounded-full bg-amber-400/80 flex-shrink-0" />
+      <span className="text-white/35 uppercase tracking-wider text-[10px] font-medium">
+        Nachbörslich
+      </span>
+      <span className="text-white/85 font-semibold">
+        {am.price.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} $
+      </span>
+      {am.referencePrice ? (
+        <>
+          <span
+            className={`font-semibold ${positive ? 'text-emerald-400' : 'text-red-400'}`}
+          >
+            {positive ? '+' : ''}
+            {changePct.toFixed(2).replace('.', ',')}%
+          </span>
+          <span
+            className={`text-[10.5px] ${positive ? 'text-emerald-400/55' : 'text-red-400/55'}`}
+          >
+            {positive ? '+' : ''}
+            {change.toFixed(2).replace('.', ',')}
+          </span>
+        </>
+      ) : null}
+      {time ? <span className="text-white/30">· {time}</span> : null}
     </div>
   )
 }
