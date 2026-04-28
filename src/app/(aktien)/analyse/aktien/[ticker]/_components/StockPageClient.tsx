@@ -8,18 +8,10 @@ import KeyMetricsCard from './KeyMetricsCard'
 import StockStatsStrip from './StockStatsStrip'
 import StockTabs from './StockTabs'
 import ExpandedChartModal from './ExpandedChartModal'
-import OverviewTab from './tabs/OverviewTab'
-import NewsTab from './tabs/NewsTab'
-import FinancialsTab from './tabs/FinancialsTab'
-import EarningsTab from './tabs/EarningsTab'
-import EstimatesTab from './tabs/EstimatesTab'
-import KpisTab from './tabs/KpisTab'
-import InsiderTab from './tabs/InsiderTab'
-import BewertungTab from './tabs/BewertungTab'
-import AiTab from './tabs/AiTab'
 import { fmt, fmtPct } from '../_lib/format'
 import { useStockUser } from '@/lib/hooks/useStockUser'
 import { addRecentTicker } from '@/lib/recentlyViewed'
+import { StockContextProvider } from '../_lib/StockContext'
 import type {
   UnternehmenProfile,
   Period,
@@ -33,17 +25,16 @@ import type {
   AftermarketQuote,
   PricePoint,
   ChartTimeframe,
-  Tab,
   ExpandedChartState,
 } from '../_lib/types'
 
 interface StockPageClientProps {
   ticker: string
+  children: React.ReactNode
 }
 
-export default function StockPageClient({ ticker }: StockPageClientProps) {
+export default function StockPageClient({ ticker, children }: StockPageClientProps) {
   const { isPremium, loading: userLoading } = useStockUser()
-  const [tab, setTab] = useState<Tab>('overview')
   const [profile, setProfile] = useState<UnternehmenProfile | null>(null)
   const [income, setIncome] = useState<Period[]>([])
   const [balance, setBalance] = useState<BalancePeriod[]>([])
@@ -70,7 +61,6 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
   // Fetch all data
   useEffect(() => {
     setLoading(true)
-    setTab('overview')
     setQuote(null)
     Promise.all([
       fetch(`/api/v1/company/${ticker}`).then(r => (r.ok ? r.json() : null)).catch(() => null),
@@ -324,13 +314,47 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
       .finally(() => setAiLoading(false))
   }
 
+  const contextValue = {
+    ticker,
+    profile,
+    income,
+    balance,
+    cashflow,
+    financialSource,
+    financialNotice,
+    news,
+    kpis,
+    earnings,
+    estimates,
+    quote,
+    aftermarket,
+    priceChart,
+    fullPriceHistory,
+    chartTimeframe,
+    setChartTimeframe,
+    chartLoading,
+    aiAnalysis,
+    aiLoading,
+    startAiAnalysis,
+    loading,
+    expandedChart,
+    setExpandedChart,
+    financialPeriod,
+    setFinancialPeriod,
+    isPremium,
+    userLoading,
+    metrics,
+    fyLabel,
+  }
+
   return (
+    <StockContextProvider value={contextValue}>
     <div className="min-h-screen bg-[#06060e] flex flex-col">
       <StockHeader ticker={ticker} profile={profile} quote={quote} />
 
       <StockStatsStrip quote={quote} fullPriceHistory={fullPriceHistory} aftermarket={aftermarket} />
 
-      <EarningsBanner earnings={earnings} onClick={() => setTab('earnings')} />
+      <EarningsBanner earnings={earnings} ticker={ticker} />
 
       {/* HERO: Price Chart + Key Metrics */}
       <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 py-5">
@@ -346,7 +370,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
         </div>
       </div>
 
-      <StockTabs tab={tab} setTab={setTab} />
+      <StockTabs />
 
       {/* CONTENT */}
       <main className="flex-1 px-6 sm:px-10 py-10 pb-32 overflow-y-auto flex flex-col items-center">
@@ -354,49 +378,13 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
           <div className="flex items-center justify-center py-32">
             <div className="w-5 h-5 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
           </div>
-        ) : tab === 'overview' ? (
-          <OverviewTab income={income} balance={balance} cashflow={cashflow} news={news} profile={profile} />
-        ) : tab === 'news' ? (
-          <NewsTab news={news} ticker={ticker} />
-        ) : tab === 'financials' ? (
-          <FinancialsTab
-            ticker={ticker}
-            income={income}
-            balance={balance}
-            cashflow={cashflow}
-            kpis={kpis}
-            estimates={estimates}
-            financialPeriod={financialPeriod}
-            setFinancialPeriod={setFinancialPeriod}
-            setExpandedChart={setExpandedChart}
-            isPremium={isPremium}
-            userLoading={userLoading}
-            dataSource={financialSource}
-            dataNotice={financialNotice}
-          />
-        ) : tab === 'earnings' ? (
-          <EarningsTab ticker={ticker} earnings={earnings} isPremium={isPremium} userLoading={userLoading} />
-        ) : tab === 'estimates' ? (
-          <EstimatesTab ticker={ticker} estimates={estimates} isPremium={isPremium} userLoading={userLoading} />
-        ) : tab === 'kpis' ? (
-          <KpisTab ticker={ticker} kpis={kpis} isPremium={isPremium} userLoading={userLoading} />
-        ) : tab === 'insider' ? (
-          <InsiderTab ticker={ticker} isPremium={isPremium} userLoading={userLoading} />
-        ) : tab === 'bewertung' ? (
-          <BewertungTab ticker={ticker} />
-        ) : tab === 'ai' ? (
-          <AiTab
-            ticker={ticker}
-            aiAnalysis={aiAnalysis}
-            aiLoading={aiLoading}
-            startAnalysis={startAiAnalysis}
-            isPremium={isPremium}
-            userLoading={userLoading}
-          />
-        ) : null}
+        ) : (
+          children
+        )}
       </main>
 
       <ExpandedChartModal state={expandedChart} onClose={() => setExpandedChart(null)} />
     </div>
+    </StockContextProvider>
   )
 }
