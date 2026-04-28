@@ -14,6 +14,7 @@ import FinancialsTab from './tabs/FinancialsTab'
 import EarningsTab from './tabs/EarningsTab'
 import EstimatesTab from './tabs/EstimatesTab'
 import KpisTab from './tabs/KpisTab'
+import BewertungTab from './tabs/BewertungTab'
 import AiTab from './tabs/AiTab'
 import { fmt, fmtPct } from '../_lib/format'
 import { useStockUser } from '@/lib/hooks/useStockUser'
@@ -375,6 +376,8 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
           <EstimatesTab ticker={ticker} estimates={estimates} isPremium={isPremium} userLoading={userLoading} />
         ) : tab === 'kpis' ? (
           <KpisTab ticker={ticker} kpis={kpis} isPremium={isPremium} userLoading={userLoading} />
+        ) : tab === 'bewertung' ? (
+          <BewertungTab ticker={ticker} />
         ) : tab === 'ai' ? (
           <AiTab
             ticker={ticker}
