@@ -108,6 +108,18 @@ export interface PricePoint {
   price: number
 }
 
+export interface AftermarketQuote {
+  available: boolean
+  price?: number
+  size?: number | null
+  timestamp?: number | null
+  /** Schlusskurs (Reference) für Change-Berechnung */
+  referencePrice?: number | null
+  change?: number | null
+  changePct?: number | null
+  source?: 'fmp'
+}
+
 export type ChartTimeframe = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
 
 export type Tab = 'overview' | 'news' | 'financials' | 'earnings' | 'estimates' | 'kpis' | 'ai'
