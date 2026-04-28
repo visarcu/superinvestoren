@@ -30,6 +30,30 @@ const SearchIcon = () => (
   </svg>
 )
 
+const ToolsIcon = () => (
+  <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+  </svg>
+)
+
+const FinderIcon = () => (
+  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 4.5h16.5m-13.5 7.5h10.5m-7.5 7.5h4.5" />
+  </svg>
+)
+
+const CompareIcon = () => (
+  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z" />
+  </svg>
+)
+
+const DcfIcon = () => (
+  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+  </svg>
+)
+
 const PortfolioIcon = () => (
   <svg className="w-[18px] h-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
@@ -100,6 +124,7 @@ export default function FeyBottomNav() {
   const [searchLoading, setSearchLoading] = useState(false)
   const [selectedIdx, setSelectedIdx] = useState(0)
   const searchRef = useRef<HTMLInputElement>(null)
+  const [toolsOpen, setToolsOpen] = useState(false)
 
   // Cmd+K to open search
   useEffect(() => {
@@ -112,7 +137,10 @@ export default function FeyBottomNav() {
         setSelectedIdx(0)
         setTimeout(() => searchRef.current?.focus(), 50)
       }
-      if (e.key === 'Escape') setSearchOpen(false)
+      if (e.key === 'Escape') {
+        setSearchOpen(false)
+        setToolsOpen(false)
+      }
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
@@ -146,6 +174,79 @@ export default function FeyBottomNav() {
 
   return (
     <>
+      {/* ── TOOLS SHEET ──────────────────────────────────── */}
+      {toolsOpen && (
+        <div
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center"
+          onClick={() => setToolsOpen(false)}
+        >
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
+          <div
+            className="relative w-full sm:max-w-2xl mx-0 sm:mx-4 mb-0 sm:mb-0 animate-in fade-in slide-in-from-bottom-4 duration-200"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="bg-[#111119] border border-white/[0.08] rounded-t-2xl sm:rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden">
+              {/* Header */}
+              <div className="flex items-center justify-between px-5 py-4 border-b border-white/[0.05]">
+                <div>
+                  <p className="text-[10.5px] uppercase tracking-widest text-white/30 font-medium">
+                    Tools
+                  </p>
+                  <h3 className="text-[15px] font-semibold text-white/90 mt-0.5">
+                    Premium-Werkzeuge
+                  </h3>
+                </div>
+                <button
+                  onClick={() => setToolsOpen(false)}
+                  className="text-white/30 hover:text-white/60"
+                  aria-label="Schließen"
+                >
+                  <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              {/* Cards */}
+              <div className="p-3 grid grid-cols-1 sm:grid-cols-3 gap-2">
+                <ToolCard
+                  icon={<FinderIcon />}
+                  title="Aktien-Finder"
+                  subtitle="Filtern nach Marktkap, KGV, Sektor"
+                  href="/analyse/aktien-finder"
+                  comingSoon
+                  onNavigate={() => setToolsOpen(false)}
+                />
+                <ToolCard
+                  icon={<CompareIcon />}
+                  title="Vergleich"
+                  subtitle="Mehrere Aktien gegenüberstellen"
+                  href="/analyse/vergleich"
+                  comingSoon
+                  onNavigate={() => setToolsOpen(false)}
+                />
+                <ToolCard
+                  icon={<DcfIcon />}
+                  title="DCF-Rechner"
+                  subtitle="Fair-Value berechnen"
+                  href="/analyse/dcf-rechner"
+                  comingSoon
+                  onNavigate={() => setToolsOpen(false)}
+                />
+              </div>
+
+              {/* Footer hint */}
+              <div className="px-5 py-3 border-t border-white/[0.04] flex items-center gap-3 text-[10.5px] text-white/25">
+                <span className="flex items-center gap-1.5">
+                  <kbd className="bg-white/[0.04] px-1.5 py-0.5 rounded border border-white/[0.05]">ESC</kbd>
+                  Schließen
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── SEARCH MODAL (Cmd+K) ─────────────────────────── */}
       {searchOpen && (
         <div className="fixed inset-0 z-[100] flex items-start justify-center pt-[12vh]" onClick={() => setSearchOpen(false)}>
@@ -275,8 +376,82 @@ export default function FeyBottomNav() {
             <span className="text-white/35 group-hover:text-white/70 transition-colors"><SearchIcon /></span>
             <span className="text-[9px] text-white/25 group-hover:text-white/50">Suche</span>
           </button>
+          <button
+            onClick={() => setToolsOpen(true)}
+            className={`flex flex-col items-center gap-0.5 px-4 py-1.5 rounded-xl transition-all group ${
+              toolsOpen ? 'bg-white/[0.06]' : 'hover:bg-white/[0.06]'
+            }`}
+            aria-label="Tools öffnen"
+          >
+            <span className={`transition-colors ${toolsOpen ? 'text-white/70' : 'text-white/35 group-hover:text-white/70'}`}>
+              <ToolsIcon />
+            </span>
+            <span className={`text-[9px] ${toolsOpen ? 'text-white/50' : 'text-white/25 group-hover:text-white/50'}`}>
+              Tools
+            </span>
+          </button>
         </nav>
       </div>
     </>
+  )
+}
+
+// ── ToolCard ─────────────────────────────────────────────────────────
+
+function ToolCard({
+  icon,
+  title,
+  subtitle,
+  href,
+  comingSoon,
+  onNavigate,
+}: {
+  icon: React.ReactNode
+  title: string
+  subtitle: string
+  href: string
+  comingSoon?: boolean
+  onNavigate: () => void
+}) {
+  const baseClasses =
+    'group relative flex flex-col items-start gap-3 rounded-xl border bg-white/[0.015] p-4 text-left transition-all'
+
+  if (comingSoon) {
+    return (
+      <div
+        className={`${baseClasses} border-white/[0.04] cursor-not-allowed select-none`}
+        aria-disabled
+      >
+        <div className="w-10 h-10 rounded-lg bg-white/[0.04] border border-white/[0.05] flex items-center justify-center text-white/40">
+          {icon}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <p className="text-[13px] font-medium text-white/55">{title}</p>
+            <span className="text-[9px] uppercase tracking-widest text-amber-300/70 bg-amber-400/[0.06] border border-amber-400/15 rounded px-1.5 py-0.5 font-medium">
+              Bald
+            </span>
+          </div>
+          <p className="text-[11px] text-white/30 mt-1 leading-snug">{subtitle}</p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <Link
+      href={href}
+      onClick={onNavigate}
+      className={`${baseClasses} border-white/[0.06] hover:border-white/[0.14] hover:bg-white/[0.04]`}
+    >
+      <div className="w-10 h-10 rounded-lg bg-white/[0.06] border border-white/[0.08] flex items-center justify-center text-white/65 group-hover:text-white/85 transition-colors">
+        {icon}
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-[13px] font-medium text-white/85 group-hover:text-white">{title}</p>
+        <p className="text-[11px] text-white/35 mt-1 leading-snug">{subtitle}</p>
+      </div>
+      <span className="absolute right-3 top-3 text-[10px] text-white/20 group-hover:text-white/50 transition-colors">→</span>
+    </Link>
   )
 }
