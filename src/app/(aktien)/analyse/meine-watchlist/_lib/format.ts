@@ -32,7 +32,12 @@ export function formatEarningsDate(event: EarningsEvent): string {
   const date = new Date(event.date)
   const now = new Date()
   const diffDays = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-  const timeStr = event.time === 'bmo' ? '8:00' : event.time === 'amc' ? '17:00' : ''
+  // bmo/amc/dmh sind Buckets, nicht Uhrzeiten. Hardcoded "8:00"/"17:00" war
+  // irreführend (SPGI BMO ≈ 14:30 MEZ, nicht 8:00). Wir zeigen das Bucket-Label.
+  const timeStr =
+    event.time === 'bmo' ? 'vor Eröffnung' :
+    event.time === 'amc' ? 'nach Schluss' :
+    event.time === 'dmh' ? 'während Handel' : ''
 
   if (diffDays === 0) return timeStr ? `Heute · ${timeStr}` : 'Heute'
   if (diffDays === 1) return timeStr ? `Morgen · ${timeStr}` : 'Morgen'

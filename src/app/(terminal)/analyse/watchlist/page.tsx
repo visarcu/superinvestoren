@@ -307,18 +307,18 @@ export default function WatchlistPage() {
     const date = new Date(dateString);
     const now = new Date();
     const diffDays = Math.ceil((date.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
+    // bmo/amc/dmh sind Buckets, nicht Uhrzeiten. Hardcoded "8:00"/"17:00" war
+    // irreführend (SPGI BMO ≈ 14:30 MEZ, nicht 8:00). Wir zeigen das Bucket-Label.
+    const timeStr =
+      time === 'bmo' ? 'vor Eröffnung' :
+      time === 'amc' ? 'nach Schluss' :
+      time === 'dmh' ? 'während Handel' : '';
 
-    if (diffDays === 0) {
-      const timeStr = time === 'bmo' ? '8:00' : time === 'amc' ? '17:00' : '';
-      return `Heute um ${timeStr}`;
-    } else if (diffDays === 1) {
-      const timeStr = time === 'bmo' ? '8:00' : time === 'amc' ? '17:00' : '';
-      return `Morgen um ${timeStr}`;
-    } else {
-      const dateFormatted = date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
-      const timeStr = time === 'bmo' ? '8:00' : time === 'amc' ? '17:00' : '';
-      return `${dateFormatted} um ${timeStr}`;
-    }
+    if (diffDays === 0) return timeStr ? `Heute · ${timeStr}` : 'Heute';
+    if (diffDays === 1) return timeStr ? `Morgen · ${timeStr}` : 'Morgen';
+
+    const dateFormatted = date.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' });
+    return timeStr ? `${dateFormatted} · ${timeStr}` : dateFormatted;
   };
 
   const SortHeader = ({ column, label, align = 'left' }: { column: SortColumn; label: string; align?: 'left' | 'right' }) => (
