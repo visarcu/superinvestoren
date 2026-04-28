@@ -69,6 +69,29 @@ function todayIso(): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
+function mondayOf(d: Date): Date {
+  const out = new Date(d)
+  out.setHours(0, 0, 0, 0)
+  const dow = out.getDay() // 0=So
+  const diff = dow === 0 ? -6 : 1 - dow
+  out.setDate(out.getDate() + diff)
+  return out
+}
+
+function dateToIso(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function isoWeekNumber(d: Date): number {
+  const target = new Date(d)
+  target.setHours(0, 0, 0, 0)
+  // Donnerstag derselben Woche → wird für ISO-KW gebraucht
+  target.setDate(target.getDate() + 3 - ((target.getDay() + 6) % 7))
+  const firstThursday = new Date(target.getFullYear(), 0, 4)
+  const diff = target.getTime() - firstThursday.getTime()
+  return 1 + Math.round(diff / (7 * 86_400_000))
+}
+
 // Sun-Icon (BMO = Vor Börse)
 function SunIcon({ className = '' }: { className?: string }) {
   return (
@@ -92,8 +115,10 @@ function MoonIcon({ className = '' }: { className?: string }) {
 
 export default function EarningsCalendarPage() {
   const router = useRouter()
+  const [view, setView] = useState<'month' | 'week'>('month')
   const [month, setMonth] = useState(new Date().getMonth())
   const [year, setYear] = useState(new Date().getFullYear())
+  const [weekStart, setWeekStart] = useState<Date>(() => mondayOf(new Date()))
   const [filter, setFilter] = useState<FilterMode>('top')
   const [data, setData] = useState<CalendarDay[]>([])
   const [loading, setLoading] = useState(true)
@@ -136,12 +161,22 @@ export default function EarningsCalendarPage() {
     return () => { cancelled = true }
   }, [])
 
-  // ── Lade Calendar-Daten (bei Filter/Monatswechsel) ──
+  // ── Lade Calendar-Daten (bei Filter/View/Monats-/Wochenwechsel) ──
   useEffect(() => {
     setLoading(true)
-    const from = `${year}-${String(month + 1).padStart(2, '0')}-01`
-    const lastDay = new Date(year, month + 1, 0).getDate()
-    const to = `${year}-${String(month + 1).padStart(2, '0')}-${lastDay}`
+
+    let from: string
+    let to: string
+    if (view === 'week') {
+      const friday = new Date(weekStart)
+      friday.setDate(weekStart.getDate() + 4)
+      from = dateToIso(weekStart)
+      to = dateToIso(friday)
+    } else {
+      from = `${year}-${String(month + 1).padStart(2, '0')}-01`
+      const lastDay = new Date(year, month + 1, 0).getDate()
+      to = `${year}-${String(month + 1).padStart(2, '0')}-${lastDay}`
+    }
 
     const params = new URLSearchParams({ from, to, limit: '5000' })
     if (filter === 'top') {
@@ -167,7 +202,7 @@ export default function EarningsCalendarPage() {
       .then(r => (r.ok ? r.json() : { dates: [] }))
       .then(d => setData(d.dates || []))
       .finally(() => setLoading(false))
-  }, [month, year, filter, portfolioTickers, watchlistTickers])
+  }, [view, month, year, weekStart, filter, portfolioTickers, watchlistTickers])
 
   // Kalender-Grid
   const firstDayOfMonth = new Date(year, month, 1).getDay()
@@ -190,6 +225,23 @@ export default function EarningsCalendarPage() {
     if (month === 11) { setMonth(0); setYear(y => y + 1) }
     else setMonth(m => m + 1)
   }
+  const prevWeek = () => {
+    const d = new Date(weekStart)
+    d.setDate(d.getDate() - 7)
+    setWeekStart(d)
+  }
+  const nextWeek = () => {
+    const d = new Date(weekStart)
+    d.setDate(d.getDate() + 7)
+    setWeekStart(d)
+  }
+  const weekDays = useMemo(() => {
+    return Array.from({ length: 5 }).map((_, i) => {
+      const d = new Date(weekStart)
+      d.setDate(weekStart.getDate() + i)
+      return d
+    })
+  }, [weekStart])
 
   return (
     <div className="min-h-screen bg-[#06060e] flex flex-col">
@@ -211,9 +263,8 @@ export default function EarningsCalendarPage() {
         </div>
       </header>
 
-      {/* Filter-Tabs — Portfolio/Watchlist sind immer klickbar; bei leerem
-           Inhalt zeigt der Calendar einen passenden EmptyState. */}
-      <div className="px-6 sm:px-10 max-w-7xl mx-auto w-full">
+      {/* Filter-Tabs + View-Toggle */}
+      <div className="px-6 sm:px-10 max-w-7xl mx-auto w-full flex items-center justify-between gap-4 flex-wrap">
         <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
           {(['top', 'portfolio', 'watchlist', 'all'] as FilterMode[]).map(mode => (
             <button
@@ -229,21 +280,55 @@ export default function EarningsCalendarPage() {
             </button>
           ))}
         </div>
+
+        {/* View-Toggle: Monat | Woche */}
+        <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
+          <button
+            onClick={() => setView('month')}
+            className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+              view === 'month'
+                ? 'bg-white/[0.08] text-white'
+                : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'
+            }`}
+          >
+            Monat
+          </button>
+          <button
+            onClick={() => setView('week')}
+            className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+              view === 'week'
+                ? 'bg-white/[0.08] text-white'
+                : 'text-white/50 hover:text-white/80 hover:bg-white/[0.03]'
+            }`}
+          >
+            Woche
+          </button>
+        </div>
       </div>
 
-      {/* Month Navigation */}
+      {/* Navigation: Monat oder Woche */}
       <div className="px-6 sm:px-10 py-3 max-w-7xl mx-auto w-full flex items-center justify-between">
         <button
-          onClick={prevMonth}
+          onClick={view === 'month' ? prevMonth : prevWeek}
           className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors"
         >
           <svg className="w-4 h-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </button>
-        <h2 className="text-[15px] font-semibold text-white">{MONTHS[month]} {year}</h2>
+        {view === 'month' ? (
+          <h2 className="text-[15px] font-semibold text-white">{MONTHS[month]} {year}</h2>
+        ) : (
+          <div className="text-center">
+            <h2 className="text-[15px] font-semibold text-white">
+              KW {isoWeekNumber(weekStart)} ·{' '}
+              {weekStart.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })} –{' '}
+              {weekDays[4].toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </h2>
+          </div>
+        )}
         <button
-          onClick={nextMonth}
+          onClick={view === 'month' ? nextMonth : nextWeek}
           className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors"
         >
           <svg className="w-4 h-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -274,6 +359,57 @@ export default function EarningsCalendarPage() {
             hasPortfolio={portfolioTickers.length > 0}
             hasWatchlist={watchlistTickers.length > 0}
           />
+        ) : view === 'week' ? (
+          <div className="grid grid-cols-5 gap-2">
+            {weekDays.map(d => {
+              const dateStr = dateToIso(d)
+              const calDay = dayMap.get(dateStr)
+              const isToday = dateStr === today
+              const events = calDay?.events || []
+              const visible = events.slice(0, 14)
+              const hidden = events.length - visible.length
+
+              return (
+                <button
+                  key={dateStr}
+                  onClick={() => calDay && setSelectedDay(calDay)}
+                  disabled={!calDay}
+                  className={`min-h-[440px] rounded-2xl p-4 text-left transition-all flex flex-col ${
+                    isToday
+                      ? 'bg-white/[0.04] border border-white/[0.14] hover:border-white/[0.2] hover:bg-white/[0.06] cursor-pointer'
+                      : events.length > 0
+                        ? 'bg-[#0c0c16] border border-white/[0.04] hover:border-white/[0.12] hover:bg-[#10101c] cursor-pointer'
+                        : 'bg-[#0a0a12] border border-white/[0.02]'
+                  }`}
+                >
+                  <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-white/[0.04]">
+                    <div>
+                      <p className="text-[10px] text-white/30 uppercase tracking-widest font-medium">
+                        {WEEKDAYS[d.getDay() === 0 ? 6 : d.getDay() - 1]}
+                      </p>
+                      <p className={`text-[20px] font-semibold tabular-nums leading-none mt-1 ${
+                        isToday ? 'text-white' : events.length > 0 ? 'text-white/80' : 'text-white/25'
+                      }`}>
+                        {d.getDate()}
+                        {isToday && <span className="ml-2 text-[10px] font-normal text-white/40 align-middle">heute</span>}
+                      </p>
+                    </div>
+                    {events.length > 0 && (
+                      <span className="text-[11px] text-white/30 tabular-nums">{events.length}</span>
+                    )}
+                  </div>
+                  <div className="space-y-1.5 flex-1">
+                    {visible.map((e, idx) => (
+                      <WeekEventRow key={`${e.ticker}-${idx}`} event={e} />
+                    ))}
+                    {hidden > 0 && (
+                      <p className="text-[10px] text-white/30 mt-2 pl-0.5">+{hidden} weitere</p>
+                    )}
+                  </div>
+                </button>
+              )
+            })}
+          </div>
         ) : (
           <div className="grid grid-cols-5 gap-1.5">
             {/* Offset für den Wochentag des 1. */}
@@ -344,6 +480,56 @@ export default function EarningsCalendarPage() {
           }}
         />
       )}
+    </div>
+  )
+}
+
+// ── WeekEventRow ─────────────────────────────────────────────────────────────
+// Größer als DayEventRow — für die Wochenansicht mit mehr Platz pro Tag.
+
+function WeekEventRow({ event: e }: { event: EarningsEvent }) {
+  return (
+    <div className="flex items-center gap-2 py-1 px-1.5 rounded-md hover:bg-white/[0.03] transition-colors">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/api/v1/logo/${e.ticker}?size=48`}
+        alt=""
+        className="w-5 h-5 rounded-md bg-white/[0.06] object-contain flex-shrink-0"
+        onError={ev => { (ev.target as HTMLImageElement).style.opacity = '0' }}
+      />
+      <span
+        className={`text-[11.5px] font-bold tabular-nums truncate ${
+          e.result === 'beat' ? 'text-emerald-400' : e.result === 'miss' ? 'text-red-400' : 'text-white/80'
+        }`}
+      >
+        {e.ticker}
+      </span>
+      {e.time === 'bmo' ? (
+        <SunIcon className="w-3 h-3 text-amber-400/60 flex-shrink-0" />
+      ) : e.time === 'amc' ? (
+        <MoonIcon className="w-3 h-3 text-blue-400/60 flex-shrink-0" />
+      ) : null}
+      {e.result ? (
+        <span
+          className={`text-[8.5px] font-bold px-1 rounded ml-auto flex-shrink-0 ${
+            e.result === 'beat'
+              ? 'bg-emerald-500/15 text-emerald-400'
+              : e.result === 'miss'
+                ? 'bg-red-500/15 text-red-400'
+                : 'bg-white/10 text-white/50'
+          }`}
+        >
+          {e.result === 'beat' ? 'B' : e.result === 'miss' ? 'M' : '='}
+        </span>
+      ) : e.epsEstimate !== null ? (
+        <span className="text-[9px] text-white/35 tabular-nums ml-auto flex-shrink-0">
+          E {e.epsEstimate.toFixed(2).replace('.', ',')}
+        </span>
+      ) : e.marketCap ? (
+        <span className="text-[9px] text-white/30 tabular-nums ml-auto flex-shrink-0">
+          {fmtMarketCap(e.marketCap)}
+        </span>
+      ) : null}
     </div>
   )
 }
