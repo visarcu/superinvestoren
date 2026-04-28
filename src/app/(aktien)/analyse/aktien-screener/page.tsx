@@ -198,28 +198,69 @@ export default function AktienScreenerPage() {
     }
   }
 
+  // Active-Filter-Detection für Reset-Button
+  const hasActiveFilters =
+    sector !== '' || country !== '' || mcapMin !== 10_000_000_000 || betaMax !== '' || dividendMin !== ''
+
+  const resetFilters = () => {
+    setSector('')
+    setCountry('')
+    setMcapMin(10_000_000_000)
+    setBetaMax('')
+    setDividendMin('')
+    setAiQuery('')
+    setAiHint(null)
+  }
+
   return (
     <div className="min-h-screen bg-[#06060e] flex flex-col">
-      {/* Header */}
-      <header className="px-6 sm:px-10 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
-        <div className="flex items-center gap-4">
-          <Link
-            href="/analyse/home"
-            className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors"
-            aria-label="Zurück"
-          >
-            <svg className="w-4 h-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
-            </svg>
-          </Link>
-          <div>
-            <h1 className="text-lg font-bold text-white tracking-tight">Aktien-Screener</h1>
-            <p className="text-[12px] text-white/30">Filtere nach Marktkap, Sektor, Dividende</p>
+      {/* Header — Hero-Style mit größerer Typo */}
+      <header className="px-6 sm:px-10 pt-8 pb-2 max-w-7xl mx-auto w-full">
+        <div className="flex items-start justify-between gap-4">
+          <div className="flex items-start gap-4 min-w-0">
+            <Link
+              href="/analyse/home"
+              className="w-9 h-9 flex items-center justify-center rounded-xl bg-white/[0.04] hover:bg-white/[0.08] transition-colors mt-1 flex-shrink-0"
+              aria-label="Zurück"
+            >
+              <svg className="w-4 h-4 text-white/50" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+              </svg>
+            </Link>
+            <div className="min-w-0">
+              <p className="text-[10.5px] uppercase tracking-widest text-white/30 font-medium mb-1.5">
+                Tools · Aktien-Screener
+              </p>
+              <h1 className="text-[26px] font-semibold text-white tracking-tight">
+                Finde die nächste Aktie für dein Depot
+              </h1>
+              <p className="text-[13px] text-white/40 mt-1">
+                Filtere nach Marktkap, Sektor, Beta und Dividende — oder frag in natürlicher Sprache
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 flex-shrink-0 mt-1">
+            {hasActiveFilters && (
+              <button
+                onClick={resetFilters}
+                className="text-[11.5px] text-white/40 hover:text-white/80 transition-colors flex items-center gap-1.5"
+              >
+                <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0l3.181 3.183a8.25 8.25 0 0013.803-3.7M4.031 9.865a8.25 8.25 0 0113.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+                Filter zurücksetzen
+              </button>
+            )}
+            <div className="text-right">
+              <p className="text-[20px] font-semibold text-white/85 tabular-nums leading-none">
+                {loading ? '…' : sorted.length.toLocaleString('de-DE')}
+              </p>
+              <p className="text-[10px] uppercase tracking-widest text-white/30 font-medium mt-1">
+                Treffer
+              </p>
+            </div>
           </div>
         </div>
-        <p className="text-[11px] text-white/30 tabular-nums">
-          {loading ? '…' : `${sorted.length} Treffer`}
-        </p>
       </header>
 
       {/* AI-Search Bar */}
@@ -381,8 +422,8 @@ export default function AktienScreenerPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-[12.5px] tabular-nums">
                 <thead>
-                  <tr className="border-b border-white/[0.05] bg-white/[0.01]">
-                    <th className="text-left px-4 py-3 text-[10.5px] uppercase tracking-widest text-white/40 font-medium min-w-[220px]">
+                  <tr className="border-b border-white/[0.06] bg-white/[0.015]">
+                    <th className="text-left px-5 py-3.5 text-[10.5px] uppercase tracking-widest text-white/45 font-medium min-w-[240px]">
                       Aktie
                     </th>
                     <SortHeader active={sortKey === 'marketCap'} dir={sortDir} onClick={() => toggleSort('marketCap')}>
@@ -400,7 +441,7 @@ export default function AktienScreenerPage() {
                     <SortHeader active={sortKey === 'volume'} dir={sortDir} onClick={() => toggleSort('volume')}>
                       Volumen
                     </SortHeader>
-                    <th className="text-left px-4 py-3 text-[10.5px] uppercase tracking-widest text-white/40 font-medium">
+                    <th className="text-left px-5 py-3.5 text-[10.5px] uppercase tracking-widest text-white/45 font-medium">
                       Sektor
                     </th>
                   </tr>
@@ -410,41 +451,45 @@ export default function AktienScreenerPage() {
                     <tr
                       key={r.symbol}
                       onClick={() => router.push(`/analyse/aktien/${r.symbol}`)}
-                      className="border-t border-white/[0.03] hover:bg-white/[0.02] cursor-pointer transition-colors"
+                      className="border-t border-white/[0.03] hover:bg-white/[0.025] cursor-pointer transition-colors group"
                     >
-                      <td className="px-4 py-2.5">
-                        <div className="flex items-center gap-2.5 min-w-0">
+                      <td className="px-5 py-3.5">
+                        <div className="flex items-center gap-3 min-w-0">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
-                            src={`/api/v1/logo/${r.symbol}?size=48`}
+                            src={`/api/v1/logo/${r.symbol}?size=64`}
                             alt=""
-                            className="w-6 h-6 rounded-md bg-white/[0.06] object-contain flex-shrink-0"
+                            className="w-8 h-8 rounded-lg bg-white/[0.04] border border-white/[0.05] object-contain flex-shrink-0"
                             onError={ev => { (ev.target as HTMLImageElement).style.opacity = '0' }}
                           />
                           <div className="min-w-0">
-                            <p className="text-[13px] font-semibold text-white/85">{r.symbol}</p>
-                            <p className="text-[10.5px] text-white/35 truncate max-w-[180px]">{r.name}</p>
+                            <p className="text-[13.5px] font-semibold text-white/90 group-hover:text-white transition-colors">{r.symbol}</p>
+                            <p className="text-[11px] text-white/35 truncate max-w-[200px]">{r.name}</p>
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white/80 whitespace-nowrap">
+                      <td className="px-5 py-3.5 text-right text-white/85 whitespace-nowrap font-medium">
                         {fmtMcap(r.marketCap)}
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white/80 whitespace-nowrap">
+                      <td className="px-5 py-3.5 text-right text-white/80 whitespace-nowrap">
                         {fmtPrice(r.price)} $
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white/65 whitespace-nowrap">
+                      <td className="px-5 py-3.5 text-right text-white/65 whitespace-nowrap">
                         {r.beta != null ? r.beta.toFixed(2).replace('.', ',') : '–'}
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white/65 whitespace-nowrap">
-                        {r.dividendYield != null
-                          ? `${r.dividendYield.toFixed(2).replace('.', ',')}%`
-                          : '–'}
+                      <td className="px-5 py-3.5 text-right whitespace-nowrap">
+                        {r.dividendYield != null && r.dividendYield > 0 ? (
+                          <span className="text-emerald-400/85">
+                            {r.dividendYield.toFixed(2).replace('.', ',')}%
+                          </span>
+                        ) : (
+                          <span className="text-white/25">–</span>
+                        )}
                       </td>
-                      <td className="px-4 py-2.5 text-right text-white/55 whitespace-nowrap">
+                      <td className="px-5 py-3.5 text-right text-white/55 whitespace-nowrap">
                         {fmtVolume(r.volume)}
                       </td>
-                      <td className="px-4 py-2.5 text-white/45 text-[11.5px] whitespace-nowrap">
+                      <td className="px-5 py-3.5 text-white/50 text-[11.5px] whitespace-nowrap">
                         {r.sector ? SECTORS_DE[r.sector as keyof typeof SECTORS_DE] || r.sector : '–'}
                       </td>
                     </tr>
@@ -487,8 +532,8 @@ function SortHeader({
   return (
     <th
       onClick={onClick}
-      className={`text-right px-4 py-3 text-[10.5px] uppercase tracking-widest font-medium cursor-pointer select-none transition-colors ${
-        active ? 'text-white/80' : 'text-white/40 hover:text-white/65'
+      className={`text-right px-5 py-3.5 text-[10.5px] uppercase tracking-widest font-medium cursor-pointer select-none transition-colors ${
+        active ? 'text-white/85' : 'text-white/45 hover:text-white/70'
       }`}
     >
       <span className="inline-flex items-center gap-1">
