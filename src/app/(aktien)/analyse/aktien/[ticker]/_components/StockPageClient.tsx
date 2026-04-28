@@ -346,7 +346,7 @@ export default function StockPageClient({ ticker }: StockPageClientProps) {
       <StockTabs tab={tab} setTab={setTab} />
 
       {/* CONTENT */}
-      <main className="flex-1 px-6 sm:px-10 py-8 pb-24 overflow-y-auto flex flex-col items-center">
+      <main className="flex-1 px-6 sm:px-10 py-10 pb-32 overflow-y-auto flex flex-col items-center">
         {loading ? (
           <div className="flex items-center justify-center py-32">
             <div className="w-5 h-5 border-2 border-white/10 border-t-white/40 rounded-full animate-spin" />
