@@ -1,15 +1,16 @@
 'use client'
 
 import React from 'react'
+import Link from 'next/link'
 import { fmt } from '../_lib/format'
 import type { EarningsEntry } from '../_lib/types'
 
 interface EarningsBannerProps {
   earnings: EarningsEntry[]
-  onClick: () => void
+  ticker: string
 }
 
-export default function EarningsBanner({ earnings, onClick }: EarningsBannerProps) {
+export default function EarningsBanner({ earnings, ticker }: EarningsBannerProps) {
   const recentEarning = earnings.find(e => {
     const age = Date.now() - new Date(e.filingDate).getTime()
     return age < 7 * 24 * 60 * 60 * 1000
@@ -25,8 +26,8 @@ export default function EarningsBanner({ earnings, onClick }: EarningsBannerProp
 
   return (
     <div className="w-full max-w-7xl mx-auto px-6 sm:px-10 pt-4">
-      <button
-        onClick={onClick}
+      <Link
+        href={`/analyse/aktien/${ticker}/earnings`}
         className={`w-full flex items-center gap-4 px-5 py-3.5 rounded-xl border transition-all hover:scale-[1.005] ${
           isBeat
             ? 'bg-emerald-500/[0.04] border-emerald-500/10 hover:border-emerald-500/20'
@@ -80,7 +81,7 @@ export default function EarningsBanner({ earnings, onClick }: EarningsBannerProp
         >
           <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
         </svg>
-      </button>
+      </Link>
     </div>
   )
 }
