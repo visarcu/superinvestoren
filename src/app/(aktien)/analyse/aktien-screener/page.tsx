@@ -81,6 +81,14 @@ function fmtPrice(v: number | null): string {
   return v.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
 }
 
+function SparklesIcon() {
+  return (
+    <svg className="w-5 h-5 text-violet-300/85" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 00-2.456 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
+    </svg>
+  )
+}
+
 function fmtVolume(v: number | null): string {
   if (!v) return '–'
   if (v >= 1e6) return `${(v / 1e6).toFixed(1).replace('.', ',')}M`
@@ -98,6 +106,42 @@ export default function AktienScreenerPage() {
   const [results, setResults] = useState<ScreenerResult[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  // AI-Search State
+  const [aiQuery, setAiQuery] = useState<string>('')
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiHint, setAiHint] = useState<string | null>(null)
+
+  const runAiSearch = async (override?: string) => {
+    const q = (override ?? aiQuery).trim()
+    if (!q) return
+    setAiLoading(true)
+    setAiHint(null)
+    try {
+      const res = await fetch('/api/stock-finder/parse', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ query: q }),
+      })
+      if (!res.ok) throw new Error('AI-Suche fehlgeschlagen')
+      const data = await res.json()
+      const f = data.filters || {}
+
+      // Filter-State setzen (Parse-Output → unsere Filter-State)
+      setSector(typeof f.sector === 'string' ? f.sector : '')
+      setCountry(typeof f.country === 'string' ? f.country : '')
+      setMcapMin(typeof f.marketCapMin === 'number' ? f.marketCapMin : 0)
+      setBetaMax(typeof f.betaMax === 'number' ? String(f.betaMax) : '')
+      // Hinweis wenn AI thematische Suche (kann Filter allein nicht voll abbilden)
+      if (f.isThematic && f.thematicTopic) {
+        setAiHint(`Thematische Filter aktiv: „${f.thematicTopic}" — basis-Filter unten gesetzt`)
+      }
+    } catch (e) {
+      setAiHint(e instanceof Error ? e.message : 'AI-Suche fehlgeschlagen')
+    } finally {
+      setAiLoading(false)
+    }
+  }
 
   // Sortierung
   type SortKey = 'marketCap' | 'price' | 'beta' | 'dividendYield' | 'volume'
@@ -177,6 +221,74 @@ export default function AktienScreenerPage() {
           {loading ? '…' : `${sorted.length} Treffer`}
         </p>
       </header>
+
+      {/* AI-Search Bar */}
+      <div className="px-6 sm:px-10 pt-2 pb-4 max-w-7xl mx-auto w-full">
+        <div className="rounded-2xl border border-white/[0.08] bg-gradient-to-br from-white/[0.04] to-white/[0.015] p-4">
+          <div className="flex items-center gap-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-500/15 to-emerald-500/15 border border-white/[0.08] flex items-center justify-center flex-shrink-0">
+              <SparklesIcon />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="text-[10.5px] uppercase tracking-widest text-white/35 font-medium mb-1">
+                AI-Suche · Beta
+              </p>
+              <input
+                value={aiQuery}
+                onChange={e => setAiQuery(e.target.value)}
+                onKeyDown={e => {
+                  if (e.key === 'Enter') runAiSearch()
+                }}
+                placeholder='z.B. "Tech mit Dividende über 2%" oder "Halbleiter unter 100 Mrd."'
+                disabled={aiLoading}
+                className="w-full bg-transparent text-[14px] text-white/90 placeholder:text-white/25 focus:outline-none disabled:opacity-50"
+              />
+            </div>
+            <button
+              onClick={runAiSearch}
+              disabled={aiLoading || !aiQuery.trim()}
+              className="px-4 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.12] border border-white/[0.1] text-[12.5px] text-white/85 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 flex-shrink-0"
+            >
+              {aiLoading ? (
+                <>
+                  <div className="w-3.5 h-3.5 border-2 border-white/20 border-t-white/70 rounded-full animate-spin" />
+                  Übersetze…
+                </>
+              ) : (
+                <>Filter setzen →</>
+              )}
+            </button>
+          </div>
+
+          {/* Vorschläge */}
+          <div className="flex flex-wrap items-center gap-2 mt-3 pl-12">
+            {[
+              'Halbleiter mit Wachstum',
+              'Banken unter KGV 12',
+              'Mega-Cap Tech mit Dividende',
+              'Penny Stocks im S&P 500',
+            ].map(s => (
+              <button
+                key={s}
+                onClick={() => {
+                  setAiQuery(s)
+                  runAiSearch(s)
+                }}
+                disabled={aiLoading}
+                className="text-[11px] px-2.5 py-1 rounded-md bg-white/[0.03] hover:bg-white/[0.06] border border-white/[0.05] text-white/45 hover:text-white/75 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+
+          {aiHint && (
+            <p className="text-[11px] text-white/45 mt-2 pl-12">
+              <span className="text-amber-300/70">●</span> {aiHint}
+            </p>
+          )}
+        </div>
+      </div>
 
       {/* Filter-Bar */}
       <div className="px-6 sm:px-10 py-3 max-w-7xl mx-auto w-full grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
