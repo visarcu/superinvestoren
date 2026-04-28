@@ -286,7 +286,7 @@ export default function AktienScreenerPage() {
               />
             </div>
             <button
-              onClick={runAiSearch}
+              onClick={() => runAiSearch()}
               disabled={aiLoading || !aiQuery.trim()}
               className="px-4 py-2 rounded-xl bg-white/[0.08] hover:bg-white/[0.12] border border-white/[0.1] text-[12.5px] text-white/85 font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 flex-shrink-0"
             >
