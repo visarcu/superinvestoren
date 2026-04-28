@@ -221,7 +221,6 @@ export default function FeyBottomNav() {
                   title="Vergleich"
                   subtitle="Mehrere Aktien gegenüberstellen"
                   href="/analyse/vergleich"
-                  comingSoon
                   onNavigate={() => setToolsOpen(false)}
                 />
                 <ToolCard
