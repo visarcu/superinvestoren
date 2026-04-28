@@ -49,18 +49,18 @@ export default function TimeControls({
   onViewModeChange,
 }: TimeControlsProps) {
   return (
-    <div className="flex items-center gap-4 px-4 py-2 flex-wrap">
+    <div className="flex items-center gap-3 px-6 sm:px-8 py-3 flex-wrap">
       {/* Granularity */}
       {!hasPriceMetric && (
-        <div className="flex items-center bg-white/[0.03] rounded-lg p-0.5">
+        <div className="flex items-center bg-white/[0.02] border border-white/[0.05] rounded-xl p-0.5">
           {GRANULARITY_OPTIONS.map(opt => (
             <button
               key={opt.value}
               onClick={() => onGranularityChange(opt.value)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+              className={`px-3.5 py-1.5 text-[12px] font-medium rounded-lg transition-colors ${
                 granularity === opt.value
-                  ? 'bg-white/[0.1] text-theme-primary'
-                  : 'text-theme-muted hover:text-theme-secondary'
+                  ? 'bg-white/[0.08] text-white/90'
+                  : 'text-white/40 hover:text-white/70'
               }`}
             >
               {opt.label}
@@ -78,12 +78,12 @@ export default function TimeControls({
               key={opt.value}
               href={locked ? '/pricing' : undefined}
               onClick={locked ? undefined : () => onTimeRangeChange(opt.value)}
-              className={`flex items-center gap-1 px-3 py-1.5 text-xs font-medium rounded-md transition-all cursor-pointer ${
+              className={`flex items-center gap-1 px-3.5 py-1.5 text-[12px] font-medium rounded-lg transition-colors cursor-pointer ${
                 timeRange === opt.value
-                  ? 'bg-white/[0.1] text-theme-primary'
+                  ? 'bg-white/[0.08] text-white/90'
                   : locked
-                  ? 'text-theme-muted opacity-50'
-                  : 'text-theme-muted hover:text-theme-secondary'
+                  ? 'text-white/30 opacity-60'
+                  : 'text-white/40 hover:text-white/70'
               }`}
             >
               {opt.label}
@@ -101,10 +101,10 @@ export default function TimeControls({
           <button
             key={opt.value}
             onClick={() => onViewModeChange(opt.value)}
-            className={`px-3 py-1.5 text-xs font-medium rounded-md transition-all ${
+            className={`px-3.5 py-1.5 text-[12px] font-medium rounded-lg transition-colors ${
               viewMode === opt.value
-                ? 'bg-white/[0.1] text-theme-primary'
-                : 'text-theme-muted hover:text-theme-secondary'
+                ? 'bg-white/[0.08] text-white/90'
+                : 'text-white/40 hover:text-white/70'
             }`}
           >
             {opt.label}
