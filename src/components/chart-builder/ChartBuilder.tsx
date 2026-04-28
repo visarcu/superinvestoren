@@ -2,6 +2,7 @@
 'use client'
 
 import { useMemo, useState, useEffect, useCallback } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { User } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabaseClient'
 import { useChartBuilderReducer } from './useChartBuilderReducer'
@@ -20,6 +21,22 @@ export default function ChartBuilder() {
   const [isPremium, setIsPremium] = useState(false)
   const [showPresetModal, setShowPresetModal] = useState(false)
   const [showMyCharts, setShowMyCharts] = useState(false)
+
+  // Pre-fill stocks aus URL-Param (?stocks=AAPL,MSFT) — für Quick-Action aus Stock-Detail.
+  // Läuft nur einmal beim Mount.
+  const searchParams = useSearchParams()
+  useEffect(() => {
+    const stocksParam = searchParams?.get('stocks')
+    if (!stocksParam) return
+    const tickers = stocksParam
+      .split(',')
+      .map(t => t.trim().toUpperCase())
+      .filter(t => /^[A-Z0-9.-]{1,10}$/.test(t))
+    for (const t of tickers) {
+      dispatch({ type: 'ADD_STOCK', ticker: t })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   // Auth check
   useEffect(() => {

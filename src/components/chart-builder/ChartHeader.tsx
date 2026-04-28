@@ -66,7 +66,7 @@ export default function ChartHeader({
 
   // Generate auto-title from stocks and metrics
   const autoTitle = () => {
-    if (state.stocks.length === 0) return 'Chart Builder'
+    if (state.stocks.length === 0) return 'Aktien-Vergleich'
     const metricLabels = [...new Set(state.activeMetrics.map(m => {
       const parts = m.metricKey
       return parts
