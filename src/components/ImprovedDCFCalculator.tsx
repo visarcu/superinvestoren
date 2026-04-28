@@ -434,13 +434,32 @@ export default function ImprovedDCFCalculator() {
   const isDesiredReturnCashFlowValid = desiredReturnCashFlow !== '' && !isNaN(parseDE(desiredReturnCashFlow))
 
   return (
-    <div className="max-w-6xl mx-auto">
-      <h1 className="text-2xl font-semibold text-theme-primary mb-2">DCF Calculator</h1>
-      <p className="text-theme-muted mb-8">Berechne den fairen Wert einer Aktie basierend auf Earnings oder Cash Flow</p>
+    <div className="max-w-6xl mx-auto py-8">
+      {/* Hero — konsistent zum AI-Tab */}
+      {!stockData && (
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white/[0.04] text-white/60 border border-white/[0.06] rounded-full text-[12px] font-medium mb-4">
+            <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" />
+            </svg>
+            Manueller Modus
+          </div>
+          <h2 className="text-2xl font-bold text-theme-primary mb-2">
+            Klassische DCF-Analyse
+          </h2>
+          <p className="text-theme-muted max-w-2xl mx-auto">
+            Wähle eine Aktie — wir laden Finanzdaten und du passt die DCF-Annahmen
+            (Wachstum, Diskont, Terminal Value) selbst an.
+          </p>
+        </div>
+      )}
 
-      {/* Stock Search */}
-      <div className="max-w-md mb-8">
+      {/* Stock Search — konsistent zum AI-Input */}
+      <div className="max-w-xl mx-auto mb-8">
         <div className="relative">
+          <svg className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-theme-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
           <input
             type="text"
             placeholder="Ticker eingeben (z.B. AAPL, MSFT, GOOGL)"
@@ -450,18 +469,27 @@ export default function ImprovedDCFCalculator() {
               setIsSearchOpen(true)
             }}
             onFocus={() => setIsSearchOpen(true)}
-            className="w-full bg-theme-card border border-white/[0.04] rounded-lg px-4 py-3 text-theme-primary placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && searchQuery) {
+                handleSelectStock(searchQuery.toUpperCase())
+              }
+            }}
+            className="w-full bg-theme-card border border-theme rounded-xl pl-12 pr-32 py-4 text-theme-primary placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none text-lg"
           />
           <button
             onClick={() => searchQuery && handleSelectStock(searchQuery.toUpperCase())}
-            className="absolute right-2 top-2 px-4 py-1.5 bg-theme-secondary hover:bg-theme-hover text-theme-secondary rounded-md text-sm font-medium transition-colors"
+            disabled={!searchQuery}
+            className="absolute right-2 top-1/2 transform -translate-y-1/2 px-5 py-2.5 bg-brand hover:bg-brand/90 disabled:bg-theme-secondary disabled:text-theme-muted text-white rounded-lg font-medium transition-all flex items-center gap-2"
           >
-            Suchen
+            <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75z" />
+            </svg>
+            Berechnen
           </button>
 
           {isSearchOpen && filteredStocks.length > 0 && (
             <>
-              <div className="absolute top-full left-0 right-0 mt-2 bg-theme-card border border-white/[0.04] rounded-lg shadow-xl z-50 overflow-hidden">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-theme-card border border-theme rounded-xl shadow-xl z-50 overflow-hidden">
                 {filteredStocks.map(stock => (
                   <button
                     key={stock.ticker}
@@ -480,6 +508,11 @@ export default function ImprovedDCFCalculator() {
             </>
           )}
         </div>
+        {!stockData && (
+          <p className="text-center text-theme-muted text-sm mt-4">
+            Wähle eine Aktie um die DCF-Annahmen anzupassen
+          </p>
+        )}
       </div>
 
       {/* Loading State */}
