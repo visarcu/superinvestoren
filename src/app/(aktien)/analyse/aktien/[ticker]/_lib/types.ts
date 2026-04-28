@@ -122,7 +122,7 @@ export interface AftermarketQuote {
 
 export type ChartTimeframe = '1D' | '1W' | '1M' | '3M' | '1Y' | '5Y'
 
-export type Tab = 'overview' | 'news' | 'financials' | 'earnings' | 'estimates' | 'kpis' | 'bewertung' | 'ai'
+export type Tab = 'overview' | 'news' | 'financials' | 'earnings' | 'estimates' | 'kpis' | 'insider' | 'bewertung' | 'ai'
 
 export interface AnalystEstimate {
   date: string
