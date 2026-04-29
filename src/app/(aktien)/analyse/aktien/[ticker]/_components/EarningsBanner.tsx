@@ -33,15 +33,15 @@ export default function EarningsBanner({ earnings, ticker }: EarningsBannerProps
             ? 'bg-emerald-500/[0.04] border-emerald-500/10 hover:border-emerald-500/20'
             : isMiss
               ? 'bg-red-500/[0.04] border-red-500/10 hover:border-red-500/20'
-              : 'bg-blue-500/[0.04] border-blue-500/10 hover:border-blue-500/20'
+              : 'bg-[#0c0c16] border-white/[0.06] hover:border-white/[0.10]'
         }`}
       >
-        {/* Pulse dot */}
+        {/* Pulse dot — bei neutral violett (matcht Market-Insights-Akzent) */}
         <div className="relative flex-shrink-0">
-          <div className={`w-2 h-2 rounded-full ${isBeat ? 'bg-emerald-400' : isMiss ? 'bg-red-400' : 'bg-blue-400'}`} />
+          <div className={`w-2 h-2 rounded-full ${isBeat ? 'bg-emerald-400' : isMiss ? 'bg-red-400' : 'bg-violet-300'}`} />
           <div
             className={`absolute inset-0 w-2 h-2 rounded-full animate-ping ${
-              isBeat ? 'bg-emerald-400' : isMiss ? 'bg-red-400' : 'bg-blue-400'
+              isBeat ? 'bg-emerald-400' : isMiss ? 'bg-red-400' : 'bg-violet-300'
             }`}
           />
         </div>

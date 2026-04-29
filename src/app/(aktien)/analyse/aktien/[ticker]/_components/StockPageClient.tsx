@@ -8,6 +8,7 @@ import KeyMetricsCard from './KeyMetricsCard'
 import StockStatsStrip from './StockStatsStrip'
 import StockTabs from './StockTabs'
 import ExpandedChartModal from './ExpandedChartModal'
+import MarketInsightCard from './MarketInsightCard'
 import { fmt, fmtPct } from '../_lib/format'
 import { useStockUser } from '@/lib/hooks/useStockUser'
 import { addRecentTicker } from '@/lib/recentlyViewed'
@@ -367,6 +368,13 @@ export default function StockPageClient({ ticker, children }: StockPageClientPro
             chartLoading={chartLoading}
           />
           <KeyMetricsCard metrics={metrics} fyLabel={fyLabel} topNews={news[0] ?? null} />
+        </div>
+
+        {/* Market Insights — KI-generierte 3-Absatz-Analyse zum letzten Earnings-Event,
+            mit Top-News als Marktreaktion direkt darunter im selben Block.
+            Versteckt sich automatisch wenn kein Insight für den Ticker existiert. */}
+        <div className="mt-5">
+          <MarketInsightCard ticker={ticker} topNews={news[0] ?? null} />
         </div>
       </div>
 

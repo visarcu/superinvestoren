@@ -83,6 +83,10 @@
     {
       "path": "/api/cron/update-company-kpis",
       "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/generate-insights",
+      "schedule": "0 */6 * * *"
     }
   ]
 }

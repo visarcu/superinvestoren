@@ -17,6 +17,7 @@
 import { createClient } from '@supabase/supabase-js'
 import OpenAI from 'openai'
 import * as dotenv from 'dotenv'
+import { prepareForLLM, MAX_STORE_CHARS } from '../src/lib/earningsExtraction'
 dotenv.config({ path: '.env.local' })
 
 const supabase = createClient(
@@ -63,6 +64,7 @@ const COMPANIES: Record<string, { cik: string; name: string; forms?: string[] }>
   SBUX: { cik: '829224', name: 'Starbucks Corp.' },
   MCD: { cik: '63908', name: "McDonald's Corp." },
   COIN: { cik: '1679788', name: 'Coinbase Global' },
+  SPGI: { cik: '64040', name: 'S&P Global Inc.' },
 }
 
 // ─── EDGAR Helpers (reused from fetchEdgarKPIs.ts) ───────────────────────────
@@ -233,8 +235,13 @@ async function generateEarningsSummary(
   period: string,
   pressReleaseText: string
 ): Promise<{ summary: string; highlights: Record<string, any> }> {
-  // Truncate for AI processing (first 16k chars contain the key financials)
-  const truncatedText = pressReleaseText.slice(0, 16000)
+  // Boilerplate-Strip + Truncation auf MAX_LLM_CHARS (siehe earningsExtraction.ts).
+  // Wichtig: viele Filings (Spotify, IFRS-Reporter) haben EPS/Outlook erst ab ~30k Zeichen.
+  const prep = prepareForLLM(pressReleaseText)
+  const truncatedText = prep.text
+  if (prep.truncated) {
+    console.log(`    LLM-Input: ${prep.finalChars}/${prep.originalChars} chars (boilerplate-stripped: ${prep.strippedChars})`)
+  }
 
   const response = await openai.chat.completions.create({
     model: 'gpt-4o-mini',
@@ -411,7 +418,7 @@ async function processCompany(ticker: string, limit: number, summarizeOnly: bool
           period_end_date: qInfo.periodEndDate,
           accession_number: filing.accessionNumber,
           filing_url: filingUrl,
-          press_release_text: text.slice(0, 50000), // Store up to 50k chars
+          press_release_text: text.slice(0, MAX_STORE_CHARS), // Store up to 200k chars (gesamtes Filing)
           source: 'sec-edgar-8k',
           updated_at: new Date().toISOString(),
         }, { onConflict: 'ticker,period' })

@@ -14,6 +14,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import OpenAI from 'openai'
+import { prepareForLLM, MAX_STORE_CHARS } from '@/lib/earningsExtraction'
+import { generateInsightFromEarnings } from '@/lib/insightGenerator'
 
 const EDGAR_UA = 'Finclue research@finclue.de'
 
@@ -46,6 +48,7 @@ const TRACKED: Record<string, { cik: string; name: string; forms?: string[] }> =
   NKE:   { cik: '320187',  name: 'Nike, Inc.' },
   SBUX:  { cik: '829224',  name: 'Starbucks Corp.' },
   SAP:   { cik: '1000184', name: 'SAP SE', forms: ['20-F'] },
+  SPGI:  { cik: '64040',   name: 'S&P Global Inc.' },
 }
 
 // ─── SEC EDGAR Helpers ──────────────────────────────────────────────────────
@@ -188,7 +191,7 @@ Extrahiere am Ende JSON in \`\`\`json ... \`\`\`:
   "sentiment": "positiv" | "negativ" | "neutral"
 }`
       },
-      { role: 'user', content: `${period} von ${name} (${ticker}):\n\n${text.slice(0, 16000)}` }
+      { role: 'user', content: `${period} von ${name} (${ticker}):\n\n${prepareForLLM(text).text}` }
     ],
     temperature: 0.1,
     max_tokens: 2000,
@@ -318,19 +321,20 @@ export async function GET(request: NextRequest) {
           period_end_date: qInfo.endDate,
           accession_number: filing.accession,
           filing_url: pr.url,
-          press_release_text: pr.text.slice(0, 50000),
+          press_release_text: pr.text.slice(0, MAX_STORE_CHARS),
           source: 'sec-edgar-8k',
           updated_at: new Date().toISOString(),
         }, { onConflict: 'ticker,period' })
 
       // 9. AI Summary generieren
       let summaryStatus = ''
+      let earningsRowId: string | null = null
       if (process.env.OPENAI_API_KEY) {
         try {
           const { summary, highlights } = await generateSummary(
             ticker, company.name, qInfo.period, pr.text
           )
-          await supabase
+          const { data: updated } = await supabase
             .from('SecEarningsPressReleases')
             .update({
               ai_summary: summary,
@@ -340,15 +344,33 @@ export async function GET(request: NextRequest) {
             })
             .eq('ticker', ticker)
             .eq('period', qInfo.period)
+            .select('id')
+            .single()
 
+          earningsRowId = updated?.id ?? null
           summaryStatus = ' + Summary'
         } catch (e) {
           summaryStatus = ' (Summary-Fehler)'
         }
       }
 
+      // 10. Market Insight generieren (Premium-Analyse für UI-Card).
+      // Inline statt fire-and-forget — Cron hat 5min Budget, ein Insight ~5s.
+      // Bei Fehler nur loggen, Earnings sind dann trotzdem gespeichert.
+      let insightStatus = ''
+      if (earningsRowId && process.env.OPENAI_API_KEY) {
+        try {
+          await generateInsightFromEarnings(earningsRowId)
+          insightStatus = ' + Insight'
+        } catch (e) {
+          const msg = e instanceof Error ? e.message : 'unknown'
+          console.warn(`  ⚠️  Insight-Generation für ${ticker} ${qInfo.period} fehlgeschlagen: ${msg}`)
+          insightStatus = ' (Insight-Fehler)'
+        }
+      }
+
       newEarnings++
-      results.push({ ticker, status: `NEU: ${qInfo.period}${summaryStatus}`, period: qInfo.period })
+      results.push({ ticker, status: `NEU: ${qInfo.period}${summaryStatus}${insightStatus}`, period: qInfo.period })
       console.log(`  🆕 ${ticker}: ${qInfo.period} — neues Earnings Release erkannt!`)
 
       // Rate limit: SEC erlaubt max 10 req/sec
