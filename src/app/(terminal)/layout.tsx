@@ -667,7 +667,10 @@ const CommandPalette = React.memo(({
         category: 'navigation' as const
       }))
 
-      // API-Ergebnisse als Ergänzung (deduped gegen lokale Treffer)
+      // API-Ergebnisse als Ergänzung (deduped gegen lokale Treffer).
+      // Für Tickers, die NICHT in lokal stocks/ETFs sind (z.B. VUL.AX über
+      // FMP-Fallback), gibt es noch keine Detail-Page → diese linken auf
+      // Portfolio-Dashboard mit Hinweis statt ins Leere zu führen.
       const localTickers = new Set([
         ...matchingStocks.map(s => s.ticker.toUpperCase()),
         ...matchingETFs.map(e => e.symbol.toUpperCase()),
@@ -678,11 +681,9 @@ const CommandPalette = React.memo(({
         .map(r => ({
           id: `${r.type === 'etf' ? 'etf' : 'stock'}-${r.ticker}`,
           title: `${r.ticker} - ${r.name}`,
-          subtitle: r.type === 'etf'
-            ? `ETF${r.exchange ? ` • ${r.exchange}` : ''} • Aktienanalyse öffnen`
-            : `${r.exchange ? r.exchange + ' • ' : ''}Aktienanalyse öffnen`,
+          subtitle: `${r.exchange ? r.exchange + ' • ' : ''}Nur im Portfolio verfügbar`,
           icon: ChartBarIcon,
-          href: `/analyse/stocks/${r.ticker.toLowerCase()}`,
+          href: '/analyse/portfolio/dashboard',
           category: 'navigation' as const
         }))
 
