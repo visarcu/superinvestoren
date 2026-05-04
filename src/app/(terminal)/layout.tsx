@@ -572,7 +572,34 @@ const CommandPalette = React.memo(({
   allowsThemeToggle: boolean
 }) => {
   const [query, setQuery] = useState('')
+  const [apiResults, setApiResults] = useState<Array<{ ticker: string; name: string; exchange?: string; type?: 'stock' | 'etf' }>>([])
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Debounced live search via /api/v1/search-instruments
+  // (kennt etfMaster + xetraETFs + lokale stocks + SEC + FMP-Fallback +
+  // OpenFIGI für ISIN/WKN). Ergänzt die lokale Suche um internationale
+  // Wertpapiere (z.B. Vulcan Energy / VUL.AX) und ISIN/WKN-Lookups.
+  useEffect(() => {
+    if (!query || query.trim().length < 2) {
+      setApiResults([])
+      return
+    }
+    const trimmed = query.trim()
+    const isLong = trimmed.length >= 6
+    const delay = isLong ? 220 : 150
+    let cancelled = false
+    const t = setTimeout(async () => {
+      try {
+        const res = await fetch(`/api/v1/search-instruments?q=${encodeURIComponent(trimmed)}&limit=8`)
+        if (!res.ok || cancelled) return
+        const data = await res.json()
+        if (!cancelled) setApiResults(data.data || [])
+      } catch {
+        /* ignore */
+      }
+    }, delay)
+    return () => { cancelled = true; clearTimeout(t) }
+  }, [query])
 
   const commands: CommandPaletteItem[] = useMemo(() => {
     const baseCommands = [
@@ -640,11 +667,30 @@ const CommandPalette = React.memo(({
         category: 'navigation' as const
       }))
 
-      return [...stockCommands, ...etfCommands, ...baseCommands]
+      // API-Ergebnisse als Ergänzung (deduped gegen lokale Treffer)
+      const localTickers = new Set([
+        ...matchingStocks.map(s => s.ticker.toUpperCase()),
+        ...matchingETFs.map(e => e.symbol.toUpperCase()),
+      ])
+      const apiCommands = apiResults
+        .filter(r => !localTickers.has(r.ticker.toUpperCase()))
+        .slice(0, 6)
+        .map(r => ({
+          id: `${r.type === 'etf' ? 'etf' : 'stock'}-${r.ticker}`,
+          title: `${r.ticker} - ${r.name}`,
+          subtitle: r.type === 'etf'
+            ? `ETF${r.exchange ? ` • ${r.exchange}` : ''} • Aktienanalyse öffnen`
+            : `${r.exchange ? r.exchange + ' • ' : ''}Aktienanalyse öffnen`,
+          icon: ChartBarIcon,
+          href: `/analyse/stocks/${r.ticker.toLowerCase()}`,
+          category: 'navigation' as const
+        }))
+
+      return [...stockCommands, ...etfCommands, ...apiCommands, ...baseCommands]
     }
-    
+
     return baseCommands
-  }, [theme, toggleTheme, allowsThemeToggle, query])
+  }, [theme, toggleTheme, allowsThemeToggle, query, apiResults])
 
   const filteredCommands = useMemo(() => 
     commands.filter(cmd => 
