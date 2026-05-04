@@ -1,783 +1,760 @@
-// Earnings Calendar - Fey Style Week View mit Large-Cap Filter
+// /analyse/calendar – Earnings Calendar im Terminal-Layout
+//
+// Identisches Verhalten zu /analyse/kalendar (v2, /(aktien) Layout):
+//   • Filter-Tabs: Top / Portfolio / Watchlist / Alle (Top = >$10B Market Cap)
+//   • Monat- + Wochenansicht (Mo–Fr, Wochenenden ausgeblendet)
+//   • Click auf Tageskarte → Detail-Modal mit Q-Quartal, EPS-Estimate, BMO/AMC
+//
+// Datenquelle: /api/v1/calendar/earnings (SEC 8-K Item 2.02 + NASDAQ Public).
 'use client'
 
-import React, { useState, useEffect, useMemo } from 'react'
-import Link from 'next/link'
+import React, { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import {
-  CalendarIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ListBulletIcon,
-} from '@heroicons/react/24/outline'
-import Logo from '@/components/Logo'
+import Link from 'next/link'
 import { supabase } from '@/lib/supabaseClient'
 
-// Types
+// ── Types ────────────────────────────────────────────────────────────────────
+
 interface EarningsEvent {
-  symbol: string
-  name: string
-  date: string
-  time: 'bmo' | 'amc' | 'dmh' | string // before market open, after market close, during market hours
+  ticker: string
+  company: string | null
+  time: 'bmo' | 'amc' | null
+  fiscalQuarter: number | null
+  fiscalYear: number | null
   epsEstimate: number | null
+  epsActual: number | null
   revenueEstimate: number | null
+  revenueActual: number | null
   marketCap: number | null
+  result: 'beat' | 'miss' | 'meet' | null
 }
 
-type ViewMode = 'day' | 'week' | 'month'
+interface CalendarDay {
+  date: string
+  events: EarningsEvent[]
+}
 
-// Filter-Konfiguration für relevante Large-Cap Earnings
-const MIN_MARKET_CAP = 3_000_000_000 // $3 Mrd. minimum Market Cap
+type FilterMode = 'top' | 'portfolio' | 'watchlist' | 'all'
 
-// Börsen-Suffixe die wir ausschließen (asiatische/emerging markets)
-const EXCLUDED_SUFFIXES = [
-  '.T',    // Tokyo
-  '.HK',   // Hong Kong
-  '.SS',   // Shanghai
-  '.SZ',   // Shenzhen
-  '.KS',   // Korea
-  '.TW',   // Taiwan
-  '.SI',   // Singapore
-  '.BK',   // Bangkok
-  '.JK',   // Jakarta
-  '.KL',   // Kuala Lumpur
-  '.NS',   // India NSE
-  '.BO',   // India BSE
-  '.SA',   // Brazil
-  '.MX',   // Mexico
+const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr']
+const MONTHS = [
+  'Januar', 'Februar', 'März', 'April', 'Mai', 'Juni',
+  'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember',
 ]
 
-// Regex für Preferred Shares und andere Aktienklassen die wir ausschließen wollen
-// z.B. JPM-PL, BAC-PK, MS-PA, GS-PD etc.
-const PREFERRED_SHARE_PATTERN = /^[A-Z]+-(P[A-Z]?|[A-Z])$/
+const FILTER_LABELS: Record<FilterMode, string> = {
+  top: 'Top Earnings',
+  portfolio: 'Mein Portfolio',
+  watchlist: 'Watchlist',
+  all: 'Alle',
+}
 
-// Prüft ob ein Earnings-Event relevant ist (für Large-Cap Filter)
-function isRelevantEarning(event: EarningsEvent, watchlistSymbols: string[] = []): boolean {
-  // Watchlist-Aktien werden immer angezeigt (außer Preferred Shares etc.)
-  const isWatchlisted = watchlistSymbols.includes(event.symbol.toUpperCase())
+const MIN_MARKET_CAP_TOP = 10_000_000_000 // $10B = Mid+Large Caps
+const MAX_EVENTS_PER_DAY = 5
+const MAX_BIG_DAY_EVENTS = 8 // Wenn ein Tag besonders voll ist, mehr zeigen
 
-  // Ausschließen: Asiatische/Emerging Market Börsen
-  const hasExcludedSuffix = EXCLUDED_SUFFIXES.some(suffix =>
-    event.symbol.toUpperCase().endsWith(suffix.toUpperCase())
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+function fmtMarketCap(v: number | null): string {
+  if (!v) return ''
+  if (v >= 1e12) return `${(v / 1e12).toFixed(1).replace('.', ',')}T`
+  if (v >= 1e9) return `${(v / 1e9).toFixed(0)}B`
+  if (v >= 1e6) return `${(v / 1e6).toFixed(0)}M`
+  return ''
+}
+
+function todayIso(): string {
+  const d = new Date()
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function mondayOf(d: Date): Date {
+  const out = new Date(d)
+  out.setHours(0, 0, 0, 0)
+  const dow = out.getDay() // 0=So
+  const diff = dow === 0 ? -6 : 1 - dow
+  out.setDate(out.getDate() + diff)
+  return out
+}
+
+function dateToIso(d: Date): string {
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+}
+
+function isoWeekNumber(d: Date): number {
+  const target = new Date(d)
+  target.setHours(0, 0, 0, 0)
+  // Donnerstag derselben Woche → wird für ISO-KW gebraucht
+  target.setDate(target.getDate() + 3 - ((target.getDay() + 6) % 7))
+  const firstThursday = new Date(target.getFullYear(), 0, 4)
+  const diff = target.getTime() - firstThursday.getTime()
+  return 1 + Math.round(diff / (7 * 86_400_000))
+}
+
+// Sun-Icon (BMO = Vor Börse)
+function SunIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <circle cx="12" cy="12" r="3" />
+      <path strokeLinecap="round" d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
+    </svg>
   )
-  if (hasExcludedSuffix) return false
-
-  // Ausschließen: Preferred Shares und andere Aktienklassen (JPM-PL, BAC-PK, MS-PA, etc.)
-  if (PREFERRED_SHARE_PATTERN.test(event.symbol)) return false
-
-  // Ausschließen: Symbole mit Suffixen wie .DE, .L, .F (europäische Duplikate von US-Aktien)
-  if (event.symbol.includes('.')) return false
-
-  // Ausschließen: Symbole die mit 0 anfangen (oft LSE-Codes wie 0Q1F.L)
-  if (event.symbol.startsWith('0')) return false
-
-  // Watchlist-Aktien immer anzeigen (auch ohne Market Cap)
-  if (isWatchlisted) return true
-
-  // Für nicht-Watchlist-Aktien: Market Cap Filter anwenden
-  if (!event.marketCap) return false
-  if (event.marketCap < MIN_MARKET_CAP) return false
-
-  return true
 }
 
-// Sortiert Earnings nach Market Cap (größte zuerst)
-function sortByMarketCap(a: EarningsEvent, b: EarningsEvent): number {
-  const aMcap = a.marketCap || 0
-  const bMcap = b.marketCap || 0
-  return bMcap - aMcap
+// Moon-Icon (AMC = Nach Börse)
+function MoonIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+    </svg>
+  )
 }
 
-// Maximale Anzahl Earnings pro Sektion (pre/post market) bevor "mehr anzeigen"
-const DEFAULT_VISIBLE_COUNT = 8
+// ── Page ─────────────────────────────────────────────────────────────────────
 
 export default function EarningsCalendarPage() {
   const router = useRouter()
-  const [viewMode, setViewMode] = useState<ViewMode>('week')
-  const [currentDate, setCurrentDate] = useState(new Date())
-  const [rawEarnings, setRawEarnings] = useState<EarningsEvent[]>([]) // Alle Earnings ohne Filter
+  const [view, setView] = useState<'month' | 'week'>('month')
+  const [month, setMonth] = useState(new Date().getMonth())
+  const [year, setYear] = useState(new Date().getFullYear())
+  const [weekStart, setWeekStart] = useState<Date>(() => mondayOf(new Date()))
+  const [filter, setFilter] = useState<FilterMode>('top')
+  const [data, setData] = useState<CalendarDay[]>([])
   const [loading, setLoading] = useState(true)
-  const [filterWatchlist, setFilterWatchlist] = useState(false)
-  const [watchlistSymbols, setWatchlistSymbols] = useState<string[]>([])
-  const [expandedSections, setExpandedSections] = useState<Set<string>>(new Set())
+  const [selectedDay, setSelectedDay] = useState<CalendarDay | null>(null)
 
-  // Load watchlist symbols from Supabase
+  const [portfolioTickers, setPortfolioTickers] = useState<string[]>([])
+  const [watchlistTickers, setWatchlistTickers] = useState<string[]>([])
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+
+  // ── Lade Portfolio + Watchlist Tickers (einmalig) ──
   useEffect(() => {
-    async function loadWatchlist() {
-      try {
-        const { data: { session } } = await supabase.auth.getSession()
+    let cancelled = false
+    ;(async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      if (!session || cancelled) return
+      setIsLoggedIn(true)
 
-        if (!session?.user) {
-          // User not logged in, no watchlist to load
-          setWatchlistSymbols([])
-          return
-        }
-
-        const { data, error } = await supabase
-          .from('watchlists')
-          .select('ticker')
-          .eq('user_id', session.user.id)
-
-        if (error) {
-          console.error('Failed to load watchlist:', error)
-          setWatchlistSymbols([])
-          return
-        }
-
-        const symbols = (data || []).map((item: { ticker: string }) => item.ticker.toUpperCase())
-        setWatchlistSymbols(symbols)
-        console.log('Watchlist loaded:', symbols)
-      } catch (error) {
-        console.error('Failed to load watchlist:', error)
-        setWatchlistSymbols([])
+      // Portfolio
+      const { data: pf } = await supabase
+        .from('portfolios')
+        .select('id')
+        .eq('user_id', session.user.id)
+        .eq('is_default', true)
+        .single()
+      if (pf?.id && !cancelled) {
+        const { data: holds } = await supabase
+          .from('portfolio_holdings')
+          .select('symbol')
+          .eq('portfolio_id', pf.id)
+        if (holds && !cancelled) setPortfolioTickers(holds.map(h => h.symbol))
       }
-    }
-    loadWatchlist()
+
+      // Watchlist
+      const { data: wl } = await supabase
+        .from('watchlists')
+        .select('ticker')
+        .eq('user_id', session.user.id)
+      if (wl && !cancelled) setWatchlistTickers(wl.map(w => w.ticker))
+    })()
+    return () => { cancelled = true }
   }, [])
 
-  // Get week dates (Mo-Fr)
-  const weekDates = useMemo(() => {
-    const dates: Date[] = []
-    const startOfWeek = new Date(currentDate)
-    const day = startOfWeek.getDay()
-    // Adjust to Monday (day 1)
-    const diff = day === 0 ? -6 : 1 - day
-    startOfWeek.setDate(startOfWeek.getDate() + diff)
-
-    for (let i = 0; i < 5; i++) {
-      const date = new Date(startOfWeek)
-      date.setDate(startOfWeek.getDate() + i)
-      dates.push(date)
-    }
-    return dates
-  }, [currentDate])
-
-  // Get month dates for calendar grid (full weeks including previous/next month days)
-  const monthDates = useMemo(() => {
-    const year = currentDate.getFullYear()
-    const month = currentDate.getMonth()
-
-    // First day of the month
-    const firstDay = new Date(year, month, 1)
-    // Last day of the month
-    const lastDay = new Date(year, month + 1, 0)
-
-    // Start from Monday of the week containing the first day
-    const startDate = new Date(firstDay)
-    const dayOfWeek = startDate.getDay()
-    const diff = dayOfWeek === 0 ? -6 : 1 - dayOfWeek
-    startDate.setDate(startDate.getDate() + diff)
-
-    // Generate 6 weeks of dates (42 days) to cover all possible month layouts
-    const dates: Date[] = []
-    for (let i = 0; i < 42; i++) {
-      const date = new Date(startDate)
-      date.setDate(startDate.getDate() + i)
-      dates.push(date)
-    }
-
-    // Only include weeks that have at least one day in the current month
-    const weeks: Date[][] = []
-    for (let i = 0; i < 6; i++) {
-      const week = dates.slice(i * 7, (i + 1) * 7)
-      const hasCurrentMonthDay = week.some(d => d.getMonth() === month)
-      if (hasCurrentMonthDay) {
-        weeks.push(week)
-      }
-    }
-
-    return weeks
-  }, [currentDate])
-
-  // Format date for API - defined before useMemo hooks that use it
-  const formatDateAPI = (date: Date) => {
-    return date.toISOString().split('T')[0]
-  }
-
-  // Get date range for month view API calls
-  const monthDateRange = useMemo(() => {
-    if (monthDates.length === 0) return { from: '', to: '' }
-    const allDates = monthDates.flat()
-    return {
-      from: formatDateAPI(allDates[0]),
-      to: formatDateAPI(allDates[allDates.length - 1])
-    }
-  }, [monthDates])
-
-  // Load earnings data (alle Earnings, Filter wird später angewendet)
+  // ── Lade Calendar-Daten (bei Filter/View/Monats-/Wochenwechsel) ──
   useEffect(() => {
-    async function loadEarnings() {
-      setLoading(true)
-      try {
-        let from: string, to: string
+    setLoading(true)
 
-        if (viewMode === 'month') {
-          from = monthDateRange.from
-          to = monthDateRange.to
-        } else {
-          from = formatDateAPI(weekDates[0])
-          to = formatDateAPI(weekDates[4])
-        }
-
-        if (!from || !to) return
-
-        // /api/v1/calendar/earnings: SEC 8-K Item 2.02 + NASDAQ Public Calendar.
-        // Keine FMP-Dependency, kein Pgbouncer-Prepared-Statement-Bug wie bei der
-        // alten /api/earnings-calendar/week Route (Prisma + EarningsCalendar-Tabelle).
-        // Response-Shape: { dates: [{ date, events: [{ ticker, company, time, marketCap, ... }] }] }
-        // limit=5000 deckt auch Earnings-starke Wochen vollständig ab.
-        const res = await fetch(
-          `/api/v1/calendar/earnings?from=${from}&to=${to}&limit=5000`
-        )
-        if (res.ok) {
-          const data = await res.json()
-          // Flatten dates[].events[] → EarningsEvent[]
-          const flat: EarningsEvent[] = []
-          for (const day of data.dates || []) {
-            for (const ev of day.events || []) {
-              flat.push({
-                symbol: ev.ticker,
-                name: ev.company || ev.ticker,
-                date: day.date,
-                time: ev.time || 'amc',
-                epsEstimate: ev.epsEstimate ?? null,
-                revenueEstimate: ev.revenueEstimate ?? null,
-                marketCap: ev.marketCap ?? null,
-              })
-            }
-          }
-          setRawEarnings(flat)
-        }
-      } catch (error) {
-        console.error('Failed to load earnings:', error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadEarnings()
-  }, [weekDates, monthDateRange, viewMode])
-
-  // Filter für relevante Earnings (Large-Cap + Watchlist)
-  const earnings = useMemo(() => {
-    return rawEarnings.filter(event => isRelevantEarning(event, watchlistSymbols))
-  }, [rawEarnings, watchlistSymbols])
-
-  // Navigate weeks
-  const goToPreviousWeek = () => {
-    const newDate = new Date(currentDate)
-    newDate.setDate(newDate.getDate() - 7)
-    setCurrentDate(newDate)
-  }
-
-  const goToNextWeek = () => {
-    const newDate = new Date(currentDate)
-    newDate.setDate(newDate.getDate() + 7)
-    setCurrentDate(newDate)
-  }
-
-  // Navigate months
-  const goToPreviousMonth = () => {
-    const newDate = new Date(currentDate)
-    newDate.setMonth(newDate.getMonth() - 1)
-    setCurrentDate(newDate)
-  }
-
-  const goToNextMonth = () => {
-    const newDate = new Date(currentDate)
-    newDate.setMonth(newDate.getMonth() + 1)
-    setCurrentDate(newDate)
-  }
-
-  const goToToday = () => {
-    setCurrentDate(new Date())
-  }
-
-  // Navigation handlers based on view mode
-  const goToPrevious = viewMode === 'month' ? goToPreviousMonth : goToPreviousWeek
-  const goToNext = viewMode === 'month' ? goToNextMonth : goToNextWeek
-
-  // Filter earnings based on watchlist toggle
-  const filteredEarnings = useMemo(() => {
-    if (!filterWatchlist) return earnings
-    return earnings.filter(event => watchlistSymbols.includes(event.symbol.toUpperCase()))
-  }, [earnings, filterWatchlist, watchlistSymbols])
-
-  // Group earnings by date and time, sorted by revenue (for week view)
-  const groupedEarnings = useMemo(() => {
-    const groups: Record<string, { preMarket: EarningsEvent[], postMarket: EarningsEvent[] }> = {}
-
-    weekDates.forEach(date => {
-      const dateKey = formatDateAPI(date)
-      groups[dateKey] = { preMarket: [], postMarket: [] }
-    })
-
-    filteredEarnings.forEach(event => {
-      const dateKey = event.date
-      if (groups[dateKey]) {
-        if (event.time === 'bmo') {
-          groups[dateKey].preMarket.push(event)
-        } else {
-          groups[dateKey].postMarket.push(event)
-        }
-      }
-    })
-
-    // Sortiere jede Gruppe nach Revenue (größte zuerst)
-    Object.values(groups).forEach(group => {
-      group.preMarket.sort(sortByMarketCap)
-      group.postMarket.sort(sortByMarketCap)
-    })
-
-    return groups
-  }, [filteredEarnings, weekDates])
-
-  // Group earnings by date for month view
-  const monthGroupedEarnings = useMemo(() => {
-    const groups: Record<string, EarningsEvent[]> = {}
-
-    // Initialize all dates in the month view
-    monthDates.flat().forEach(date => {
-      const dateKey = formatDateAPI(date)
-      groups[dateKey] = []
-    })
-
-    filteredEarnings.forEach(event => {
-      const dateKey = event.date
-      if (groups[dateKey]) {
-        groups[dateKey].push(event)
-      }
-    })
-
-    // Sort each group by market cap
-    Object.values(groups).forEach(group => {
-      group.sort(sortByMarketCap)
-    })
-
-    return groups
-  }, [filteredEarnings, monthDates])
-
-  // Format month/year header
-  const monthYearHeader = useMemo(() => {
-    if (viewMode === 'month') {
-      return currentDate.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
-    }
-
-    const firstDate = weekDates[0]
-    const lastDate = weekDates[4]
-
-    if (firstDate.getMonth() === lastDate.getMonth()) {
-      return firstDate.toLocaleDateString('de-DE', { month: 'long', year: 'numeric' })
+    let from: string
+    let to: string
+    if (view === 'week') {
+      const friday = new Date(weekStart)
+      friday.setDate(weekStart.getDate() + 4)
+      from = dateToIso(weekStart)
+      to = dateToIso(friday)
     } else {
-      return `${firstDate.toLocaleDateString('de-DE', { month: 'short' })} - ${lastDate.toLocaleDateString('de-DE', { month: 'short', year: 'numeric' })}`
+      from = `${year}-${String(month + 1).padStart(2, '0')}-01`
+      const lastDay = new Date(year, month + 1, 0).getDate()
+      to = `${year}-${String(month + 1).padStart(2, '0')}-${lastDay}`
     }
-  }, [weekDates, viewMode, currentDate])
 
-  // Check if date is today
-  const isToday = (date: Date) => {
-    const today = new Date()
-    return date.toDateString() === today.toDateString()
-  }
-
-  // Deutsche Tagesbezeichnungen
-  const dayNames = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
-
-  // Toggle expanded state for a section
-  const toggleSection = (sectionKey: string) => {
-    setExpandedSections(prev => {
-      const next = new Set(prev)
-      if (next.has(sectionKey)) {
-        next.delete(sectionKey)
-      } else {
-        next.add(sectionKey)
+    const params = new URLSearchParams({ from, to, limit: '5000' })
+    if (filter === 'top') {
+      params.set('minMarketCap', String(MIN_MARKET_CAP_TOP))
+    } else if (filter === 'portfolio') {
+      if (portfolioTickers.length === 0) {
+        setData([])
+        setLoading(false)
+        return
       }
-      return next
-    })
+      params.set('tickers', portfolioTickers.join(','))
+    } else if (filter === 'watchlist') {
+      if (watchlistTickers.length === 0) {
+        setData([])
+        setLoading(false)
+        return
+      }
+      params.set('tickers', watchlistTickers.join(','))
+    }
+    // 'all' → keine zusätzlichen Filter
+
+    fetch(`/api/v1/calendar/earnings?${params.toString()}`)
+      .then(r => (r.ok ? r.json() : { dates: [] }))
+      .then(d => setData(d.dates || []))
+      .finally(() => setLoading(false))
+  }, [view, month, year, weekStart, filter, portfolioTickers, watchlistTickers])
+
+  // Kalender-Grid
+  const firstDayOfMonth = new Date(year, month, 1).getDay()
+  const daysInMonth = new Date(year, month + 1, 0).getDate()
+  const offset = firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1 // Mo=0
+
+  const dayMap = useMemo(() => {
+    const m = new Map<string, CalendarDay>()
+    for (const d of data) m.set(d.date, d)
+    return m
+  }, [data])
+
+  const today = todayIso()
+
+  const prevMonth = () => {
+    if (month === 0) { setMonth(11); setYear(y => y - 1) }
+    else setMonth(m => m - 1)
   }
+  const nextMonth = () => {
+    if (month === 11) { setMonth(0); setYear(y => y + 1) }
+    else setMonth(m => m + 1)
+  }
+  const prevWeek = () => {
+    const d = new Date(weekStart)
+    d.setDate(d.getDate() - 7)
+    setWeekStart(d)
+  }
+  const nextWeek = () => {
+    const d = new Date(weekStart)
+    d.setDate(d.getDate() + 7)
+    setWeekStart(d)
+  }
+  const weekDays = useMemo(() => {
+    return Array.from({ length: 5 }).map((_, i) => {
+      const d = new Date(weekStart)
+      d.setDate(weekStart.getDate() + i)
+      return d
+    })
+  }, [weekStart])
 
   return (
-    <div className="min-h-screen bg-theme-bg">
-      <div className="max-w-7xl mx-auto px-4 py-6">
+    <div className="min-h-screen flex flex-col">
+      {/* Header — kein Back-Button (Terminal-Sidebar liefert Navigation) */}
+      <header className="px-6 sm:px-10 py-4 max-w-7xl mx-auto w-full">
+        <h1 className="text-lg font-bold text-theme-primary">Earnings Kalender</h1>
+        <p className="text-[12px] text-theme-muted">Quartalszahlen-Termine</p>
+      </header>
 
-        {/* Header */}
-        <div className="flex items-center justify-between mb-6">
-          <div className="flex items-center gap-3">
-            <CalendarIcon className="w-5 h-5 text-theme-accent" />
-            <h1 className="text-xl font-semibold text-theme-primary">Earnings Kalender</h1>
-          </div>
-
-          <div className="flex items-center gap-4">
-            {/* Large Cap Info Badge */}
-            <span className="px-2 py-1 text-xs text-theme-muted bg-theme-secondary/30 rounded">
-              Large-Caps (&gt;$3 Mrd. MCap)
-            </span>
-
-            {/* View Toggle */}
-            <div className="flex items-center gap-1 bg-theme-card border border-white/[0.04] rounded-lg p-1">
-              <button
-                onClick={() => router.push('/analyse/earnings')}
-                className="flex items-center gap-1 px-2 py-1 text-xs text-theme-muted hover:text-theme-primary rounded transition-colors"
-              >
-                <ListBulletIcon className="w-4 h-4" />
-                Events
-              </button>
-              <button
-                className="flex items-center gap-1 px-2 py-1 text-xs bg-theme-accent/20 text-theme-accent rounded"
-              >
-                <CalendarIcon className="w-4 h-4" />
-                Kalender
-              </button>
-            </div>
-          </div>
+      {/* Filter-Tabs + View-Toggle */}
+      <div className="px-6 sm:px-10 max-w-7xl mx-auto w-full flex items-center justify-between gap-4 flex-wrap">
+        <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
+          {(['top', 'portfolio', 'watchlist', 'all'] as FilterMode[]).map(mode => (
+            <button
+              key={mode}
+              onClick={() => setFilter(mode)}
+              className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+                filter === mode
+                  ? 'bg-white/[0.08] text-theme-primary'
+                  : 'text-theme-muted hover:text-theme-secondary hover:bg-white/[0.03]'
+              }`}
+            >
+              {FILTER_LABELS[mode]}
+            </button>
+          ))}
         </div>
 
-        {/* Calendar Controls */}
-        <div className="flex items-center justify-between mb-6">
-          {/* Month/Year + Navigation */}
-          <div className="flex items-center gap-4">
-            <h2 className="text-lg font-medium text-theme-primary">{monthYearHeader}</h2>
-            <div className="flex items-center gap-1">
-              <button
-                onClick={goToPrevious}
-                className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
-              >
-                <ChevronLeftIcon className="w-4 h-4" />
-              </button>
-              <button
-                onClick={goToToday}
-                className="px-2 py-1 text-xs text-theme-secondary hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
-              >
-                Heute
-              </button>
-              <button
-                onClick={goToNext}
-                className="p-1.5 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded transition-colors"
-              >
-                <ChevronRightIcon className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Right side controls */}
-          <div className="flex items-center gap-4">
-            {/* Filter by watchlist */}
-            <label className="flex items-center gap-2 text-sm text-theme-secondary cursor-pointer">
-              <span>Nur Watchlist</span>
-              <div
-                onClick={() => setFilterWatchlist(!filterWatchlist)}
-                className={`relative w-9 h-5 rounded-full transition-colors cursor-pointer ${
-                  filterWatchlist ? 'bg-theme-accent' : 'bg-theme-secondary/30'
-                }`}
-              >
-                <div
-                  className={`absolute top-0.5 w-4 h-4 bg-white rounded-full transition-transform ${
-                    filterWatchlist ? 'translate-x-4' : 'translate-x-0.5'
-                  }`}
-                />
-              </div>
-            </label>
-
-            {/* View Mode Toggle */}
-            <div className="flex items-center gap-1 bg-theme-card border border-white/[0.04] rounded-lg p-1">
-              <button
-                onClick={() => setViewMode('week')}
-                className={`px-3 py-1 text-xs rounded transition-colors ${
-                  viewMode === 'week'
-                    ? 'bg-theme-hover text-theme-primary'
-                    : 'text-theme-muted hover:text-theme-primary'
-                }`}
-              >
-                Woche
-              </button>
-              <button
-                onClick={() => setViewMode('month')}
-                className={`px-3 py-1 text-xs rounded transition-colors ${
-                  viewMode === 'month'
-                    ? 'bg-theme-hover text-theme-primary'
-                    : 'text-theme-muted hover:text-theme-primary'
-                }`}
-              >
-                Monat
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Calendar Grid */}
-        <div className="bg-theme-card border border-white/[0.04] rounded-xl overflow-hidden">
-          {viewMode === 'week' ? (
-            <>
-              {/* Week View - Day Headers */}
-              <div className="grid grid-cols-5 border-b border-white/[0.04]">
-                {weekDates.map((date, index) => (
-                  <div
-                    key={index}
-                    className={`px-4 py-3 text-center border-r border-white/[0.04] last:border-r-0 ${
-                      isToday(date) ? 'bg-theme-accent/5' : ''
-                    }`}
-                  >
-                    <div className="text-xs text-theme-muted mb-1">{dayNames[index]}</div>
-                    <div className={`text-sm font-medium ${
-                      isToday(date) ? 'text-theme-accent' : 'text-theme-primary'
-                    }`}>
-                      {date.getDate()}
-                    </div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Week View - Calendar Content */}
-              {loading ? (
-                <div className="flex items-center justify-center py-20">
-                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
-                </div>
-              ) : (
-                <div className="grid grid-cols-5 min-h-[500px]">
-                  {weekDates.map((date, dayIndex) => {
-                    const dateKey = formatDateAPI(date)
-                    const dayEarnings = groupedEarnings[dateKey] || { preMarket: [], postMarket: [] }
-
-                    return (
-                      <div
-                        key={dayIndex}
-                        className={`border-r border-white/[0.04] last:border-r-0 ${
-                          isToday(date) ? 'bg-theme-accent/5' : ''
-                        }`}
-                      >
-                        {/* Pre-Market Section */}
-                        {dayEarnings.preMarket.length > 0 && (
-                          <div className="p-2">
-                            <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
-                              Vorbörslich
-                            </div>
-                            <div className="space-y-1">
-                              {(() => {
-                                const sectionKey = `${dateKey}-pre`
-                                const isExpanded = expandedSections.has(sectionKey)
-                                const items = dayEarnings.preMarket
-                                const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
-                                const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
-
-                                return (
-                                  <>
-                                    {visibleItems.map((event, i) => (
-                                      <EarningsItem key={i} event={event} />
-                                    ))}
-                                    {hiddenCount > 0 && !isExpanded && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
-                                      >
-                                        +{hiddenCount} mehr
-                                      </button>
-                                    )}
-                                    {isExpanded && hiddenCount > 0 && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
-                                      >
-                                        weniger
-                                      </button>
-                                    )}
-                                  </>
-                                )
-                              })()}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Post-Market Section */}
-                        {dayEarnings.postMarket.length > 0 && (
-                          <div className="p-2 border-t border-white/[0.02]">
-                            <div className="text-[10px] text-theme-muted uppercase tracking-wider mb-2 px-1">
-                              Nachbörslich
-                            </div>
-                            <div className="space-y-1">
-                              {(() => {
-                                const sectionKey = `${dateKey}-post`
-                                const isExpanded = expandedSections.has(sectionKey)
-                                const items = dayEarnings.postMarket
-                                const visibleItems = isExpanded ? items : items.slice(0, DEFAULT_VISIBLE_COUNT)
-                                const hiddenCount = items.length - DEFAULT_VISIBLE_COUNT
-
-                                return (
-                                  <>
-                                    {visibleItems.map((event, i) => (
-                                      <EarningsItem key={i} event={event} />
-                                    ))}
-                                    {hiddenCount > 0 && !isExpanded && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-theme-accent hover:text-theme-accent/80 transition-colors"
-                                      >
-                                        +{hiddenCount} mehr
-                                      </button>
-                                    )}
-                                    {isExpanded && hiddenCount > 0 && (
-                                      <button
-                                        onClick={() => toggleSection(sectionKey)}
-                                        className="w-full py-1 text-[10px] text-theme-muted hover:text-theme-secondary transition-colors"
-                                      >
-                                        weniger
-                                      </button>
-                                    )}
-                                  </>
-                                )
-                              })()}
-                            </div>
-                          </div>
-                        )}
-
-                        {/* Empty State */}
-                        {dayEarnings.preMarket.length === 0 && dayEarnings.postMarket.length === 0 && (
-                          <div className="flex items-center justify-center h-full text-theme-muted/30 text-xs">
-                            -
-                          </div>
-                        )}
-                      </div>
-                    )
-                  })}
-                </div>
-              )}
-            </>
-          ) : (
-            <>
-              {/* Month View - Day Headers */}
-              <div className="grid grid-cols-7 border-b border-white/[0.04]">
-                {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day, index) => (
-                  <div
-                    key={index}
-                    className="px-2 py-2 text-center border-r border-white/[0.04] last:border-r-0"
-                  >
-                    <div className="text-xs text-theme-muted">{day}</div>
-                  </div>
-                ))}
-              </div>
-
-              {/* Month View - Calendar Content */}
-              {loading ? (
-                <div className="flex items-center justify-center py-20">
-                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
-                </div>
-              ) : (
-                <div>
-                  {monthDates.map((week, weekIndex) => (
-                    <div key={weekIndex} className="grid grid-cols-7 border-b border-white/[0.04] last:border-b-0">
-                      {week.map((date, dayIndex) => {
-                        const dateKey = formatDateAPI(date)
-                        const dayEarnings = monthGroupedEarnings[dateKey] || []
-                        const isCurrentMonth = date.getMonth() === currentDate.getMonth()
-                        const isTodayDate = isToday(date)
-                        const isWeekend = dayIndex >= 5
-
-                        return (
-                          <div
-                            key={dayIndex}
-                            className={`min-h-[100px] p-1.5 border-r border-white/[0.04] last:border-r-0 ${
-                              isTodayDate ? 'bg-theme-accent/5' : ''
-                            } ${!isCurrentMonth ? 'opacity-40' : ''} ${isWeekend ? 'bg-white/[0.01]' : ''}`}
-                          >
-                            {/* Date Number */}
-                            <div className={`text-xs font-medium mb-1 ${
-                              isTodayDate
-                                ? 'text-theme-accent'
-                                : isCurrentMonth
-                                  ? 'text-theme-primary'
-                                  : 'text-theme-muted'
-                            }`}>
-                              {date.getDate()}
-                            </div>
-
-                            {/* Earnings for the day */}
-                            {dayEarnings.length > 0 && (
-                              <div className="space-y-0.5">
-                                {dayEarnings.slice(0, 3).map((event, i) => (
-                                  <Link
-                                    key={i}
-                                    href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
-                                    className="flex items-center gap-1 px-1 py-0.5 rounded hover:bg-theme-hover transition-colors group"
-                                    title={`${event.name || event.symbol} - ${event.time === 'bmo' ? 'Vorbörslich' : 'Nachbörslich'}`}
-                                  >
-                                    <Logo
-                                      ticker={event.symbol}
-                                      alt={event.symbol}
-                                      className="w-4 h-4 rounded flex-shrink-0"
-                                    />
-                                    <span className="text-[10px] text-theme-secondary group-hover:text-theme-accent truncate">
-                                      {event.symbol}
-                                    </span>
-                                  </Link>
-                                ))}
-                                {dayEarnings.length > 3 && (
-                                  <div className="text-[9px] text-theme-muted px-1">
-                                    +{dayEarnings.length - 3} mehr
-                                  </div>
-                                )}
-                              </div>
-                            )}
-                          </div>
-                        )
-                      })}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </>
-          )}
-        </div>
-
-        {/* Total Count */}
-        <div className="mt-4 text-center text-sm text-theme-muted">
-          {filteredEarnings.length} relevante Earnings {viewMode === 'week' ? 'diese Woche' : 'diesen Monat'}
-          {filterWatchlist && watchlistSymbols.length > 0 && ` (aus ${watchlistSymbols.length} Watchlist-Aktien)`}
+        {/* View-Toggle: Monat | Woche */}
+        <div className="flex gap-1 bg-white/[0.03] border border-white/[0.06] rounded-xl p-1 w-fit">
+          <button
+            onClick={() => setView('month')}
+            className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+              view === 'month'
+                ? 'bg-white/[0.08] text-theme-primary'
+                : 'text-theme-muted hover:text-theme-secondary hover:bg-white/[0.03]'
+            }`}
+          >
+            Monat
+          </button>
+          <button
+            onClick={() => setView('week')}
+            className={`px-3 py-1.5 text-[12px] font-medium rounded-lg transition-all ${
+              view === 'week'
+                ? 'bg-white/[0.08] text-theme-primary'
+                : 'text-theme-muted hover:text-theme-secondary hover:bg-white/[0.03]'
+            }`}
+          >
+            Woche
+          </button>
         </div>
       </div>
+
+      {/* Navigation: Monat oder Woche */}
+      <div className="px-6 sm:px-10 py-3 max-w-7xl mx-auto w-full flex items-center justify-between">
+        <button
+          onClick={view === 'month' ? prevMonth : prevWeek}
+          className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors"
+        >
+          <svg className="w-4 h-4 text-theme-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
+          </svg>
+        </button>
+        {view === 'month' ? (
+          <h2 className="text-[15px] font-semibold text-theme-primary">{MONTHS[month]} {year}</h2>
+        ) : (
+          <div className="text-center">
+            <h2 className="text-[15px] font-semibold text-theme-primary">
+              KW {isoWeekNumber(weekStart)} ·{' '}
+              {weekStart.toLocaleDateString('de-DE', { day: 'numeric', month: 'short' })} –{' '}
+              {weekDays[4].toLocaleDateString('de-DE', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </h2>
+          </div>
+        )}
+        <button
+          onClick={view === 'month' ? nextMonth : nextWeek}
+          className="w-8 h-8 flex items-center justify-center rounded-lg bg-white/[0.04] hover:bg-white/[0.08] transition-colors"
+        >
+          <svg className="w-4 h-4 text-theme-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Calendar Grid */}
+      <div className="px-6 sm:px-10 pb-24 max-w-7xl mx-auto w-full">
+        {/* Weekday headers */}
+        <div className="grid grid-cols-5 gap-1.5 mb-1">
+          {WEEKDAYS.map(d => (
+            <div key={d} className="text-center text-[10px] text-theme-muted py-2 font-medium uppercase tracking-wider">
+              {d}
+            </div>
+          ))}
+        </div>
+
+        {loading ? (
+          <div className="flex items-center justify-center py-32">
+            <div className="w-5 h-5 border-2 border-white/10 border-t-emerald-400 rounded-full animate-spin" />
+          </div>
+        ) : data.length === 0 ? (
+          <EmptyState
+            filter={filter}
+            isLoggedIn={isLoggedIn}
+            hasPortfolio={portfolioTickers.length > 0}
+            hasWatchlist={watchlistTickers.length > 0}
+          />
+        ) : view === 'week' ? (
+          <div className="grid grid-cols-5 gap-2">
+            {weekDays.map(d => {
+              const dateStr = dateToIso(d)
+              const calDay = dayMap.get(dateStr)
+              const isToday = dateStr === today
+              const events = calDay?.events || []
+              const visible = events.slice(0, 14)
+              const hidden = events.length - visible.length
+
+              return (
+                <button
+                  key={dateStr}
+                  onClick={() => calDay && setSelectedDay(calDay)}
+                  disabled={!calDay}
+                  className={`min-h-[440px] rounded-2xl p-4 text-left transition-all flex flex-col ${
+                    isToday
+                      ? 'bg-white/[0.04] border border-white/[0.14] hover:border-white/[0.2] hover:bg-white/[0.06] cursor-pointer'
+                      : events.length > 0
+                        ? 'bg-theme-card border border-white/[0.04] hover:border-white/[0.12] hover:bg-theme-hover cursor-pointer'
+                        : 'bg-theme-card/50 border border-white/[0.02]'
+                  }`}
+                >
+                  <div className="flex items-baseline justify-between mb-3 pb-2 border-b border-white/[0.04]">
+                    <div>
+                      <p className="text-[10px] text-theme-muted uppercase tracking-widest font-medium">
+                        {WEEKDAYS[d.getDay() === 0 ? 6 : d.getDay() - 1]}
+                      </p>
+                      <p className={`text-[20px] font-semibold tabular-nums leading-none mt-1 ${
+                        isToday ? 'text-theme-primary' : events.length > 0 ? 'text-theme-secondary' : 'text-theme-muted'
+                      }`}>
+                        {d.getDate()}
+                        {isToday && <span className="ml-2 text-[10px] font-normal text-theme-muted align-middle">heute</span>}
+                      </p>
+                    </div>
+                    {events.length > 0 && (
+                      <span className="text-[11px] text-theme-muted tabular-nums">{events.length}</span>
+                    )}
+                  </div>
+                  <div className="space-y-1.5 flex-1">
+                    {visible.map((e, idx) => (
+                      <WeekEventRow key={`${e.ticker}-${idx}`} event={e} />
+                    ))}
+                    {hidden > 0 && (
+                      <p className="text-[10px] text-theme-muted mt-2 pl-0.5">+{hidden} weitere</p>
+                    )}
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        ) : (
+          <div className="grid grid-cols-5 gap-1.5">
+            {/* Offset für den Wochentag des 1. */}
+            {Array.from({ length: Math.min(offset, 4) }).map((_, i) => (
+              <div key={`off-${i}`} className="min-h-[140px]" />
+            ))}
+
+            {/* Tage (nur Mo-Fr) */}
+            {Array.from({ length: daysInMonth }).map((_, i) => {
+              const day = i + 1
+              const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`
+              const dayOfWeek = new Date(year, month, day).getDay()
+              if (dayOfWeek === 0 || dayOfWeek === 6) return null
+
+              const calDay = dayMap.get(dateStr)
+              const isToday = dateStr === today
+              const events = calDay?.events || []
+              const eventCount = events.length
+              const showCount = eventCount > MAX_EVENTS_PER_DAY + 1 ? MAX_EVENTS_PER_DAY : Math.min(MAX_BIG_DAY_EVENTS, eventCount)
+              const visible = events.slice(0, showCount)
+              const hidden = eventCount - visible.length
+
+              return (
+                <button
+                  key={day}
+                  onClick={() => calDay && setSelectedDay(calDay)}
+                  disabled={!calDay}
+                  className={`min-h-[140px] rounded-xl p-2.5 text-left transition-all ${
+                    isToday
+                      ? 'bg-white/[0.04] border border-white/[0.14] hover:border-white/[0.2] hover:bg-white/[0.06] cursor-pointer'
+                      : eventCount > 0
+                        ? 'bg-theme-card border border-white/[0.04] hover:border-white/[0.12] hover:bg-theme-hover cursor-pointer'
+                        : 'bg-theme-card/50 border border-white/[0.02]'
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-1.5">
+                    <span className={`text-[11px] font-semibold ${isToday ? 'text-theme-primary' : eventCount > 0 ? 'text-theme-secondary' : 'text-theme-muted'}`}>
+                      {day}
+                      {isToday && <span className="ml-1 text-[9px] font-normal text-theme-muted">heute</span>}
+                    </span>
+                    {eventCount > 0 && (
+                      <span className="text-[9px] text-theme-muted tabular-nums">{eventCount}</span>
+                    )}
+                  </div>
+                  <div className="space-y-1">
+                    {visible.map((e, idx) => (
+                      <DayEventRow key={`${e.ticker}-${idx}`} event={e} />
+                    ))}
+                    {hidden > 0 && (
+                      <p className="text-[9px] text-theme-muted mt-1 pl-0.5">+{hidden} weitere</p>
+                    )}
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Day Detail Modal */}
+      {selectedDay && (
+        <DayDetailModal
+          day={selectedDay}
+          onClose={() => setSelectedDay(null)}
+          onSelectTicker={t => {
+            router.push(`/analyse/stocks/${t.toLowerCase()}`)
+            setSelectedDay(null)
+          }}
+        />
+      )}
     </div>
   )
 }
 
-// Format Market Cap for display (German)
-function formatMarketCap(marketCap: number | null): string {
-  if (!marketCap) return ''
-  if (marketCap >= 1e12) return `~${(marketCap / 1e12).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 1 })} Bio. $`
-  if (marketCap >= 1e9) return `~${(marketCap / 1e9).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mrd. $`
-  if (marketCap >= 1e6) return `~${(marketCap / 1e6).toLocaleString('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 0 })} Mio. $`
-  return `~${marketCap.toLocaleString('de-DE')} $`
+// ── WeekEventRow ─────────────────────────────────────────────────────────────
+// Größer als DayEventRow — für die Wochenansicht mit mehr Platz pro Tag.
+
+function WeekEventRow({ event: e }: { event: EarningsEvent }) {
+  return (
+    <div className="flex items-center gap-2 py-1 px-1.5 rounded-md hover:bg-white/[0.03] transition-colors">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/api/v1/logo/${e.ticker}?size=48`}
+        alt=""
+        className="w-5 h-5 rounded-md bg-white/[0.06] object-contain flex-shrink-0"
+        onError={ev => { (ev.target as HTMLImageElement).style.opacity = '0' }}
+      />
+      <span
+        className={`text-[11.5px] font-bold tabular-nums truncate ${
+          e.result === 'beat' ? 'text-emerald-400' : e.result === 'miss' ? 'text-red-400' : 'text-theme-secondary'
+        }`}
+      >
+        {e.ticker}
+      </span>
+      {e.time === 'bmo' ? (
+        <SunIcon className="w-3 h-3 text-amber-400/60 flex-shrink-0" />
+      ) : e.time === 'amc' ? (
+        <MoonIcon className="w-3 h-3 text-blue-400/60 flex-shrink-0" />
+      ) : null}
+      {e.result ? (
+        <span
+          className={`text-[8.5px] font-bold px-1 rounded ml-auto flex-shrink-0 ${
+            e.result === 'beat'
+              ? 'bg-emerald-500/15 text-emerald-400'
+              : e.result === 'miss'
+                ? 'bg-red-500/15 text-red-400'
+                : 'bg-white/10 text-theme-muted'
+          }`}
+        >
+          {e.result === 'beat' ? 'B' : e.result === 'miss' ? 'M' : '='}
+        </span>
+      ) : e.epsEstimate !== null ? (
+        <span className="text-[9px] text-theme-muted tabular-nums ml-auto flex-shrink-0">
+          E {e.epsEstimate.toFixed(2).replace('.', ',')}
+        </span>
+      ) : e.marketCap ? (
+        <span className="text-[9px] text-theme-muted tabular-nums ml-auto flex-shrink-0">
+          {fmtMarketCap(e.marketCap)}
+        </span>
+      ) : null}
+    </div>
+  )
 }
 
-// Earnings Item Component
-function EarningsItem({ event }: { event: EarningsEvent }) {
-  const marketCapText = formatMarketCap(event.marketCap)
-  const displayName = event.name && event.name !== event.symbol ? event.name : null
+// ── DayEventRow ──────────────────────────────────────────────────────────────
 
+function DayEventRow({ event: e }: { event: EarningsEvent }) {
   return (
-    <Link
-      href={`/analyse/stocks/${event.symbol.toLowerCase()}`}
-      className="flex items-center gap-2 px-2 py-1.5 rounded hover:bg-theme-hover transition-colors group"
-      title={`${event.name || event.symbol}${marketCapText ? ` • MCap: ${marketCapText}` : ''}`}
-    >
-      <Logo
-        ticker={event.symbol}
-        alt={event.symbol}
-        className="w-5 h-5 rounded flex-shrink-0"
+    <div className="flex items-center gap-1.5 group/row">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`/api/v1/logo/${e.ticker}?size=32`}
+        alt=""
+        className="w-3.5 h-3.5 rounded-sm bg-white/[0.06] object-contain flex-shrink-0"
+        onError={ev => { (ev.target as HTMLImageElement).style.opacity = '0' }}
       />
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-1.5">
-          <span className="text-xs font-medium text-theme-primary group-hover:text-theme-accent transition-colors">
-            {event.symbol}
-          </span>
-          {displayName && (
-            <span className="text-[10px] text-theme-muted truncate">
-              {displayName}
-            </span>
-          )}
-        </div>
-      </div>
-      {marketCapText && (
-        <span className="text-[9px] text-theme-muted whitespace-nowrap flex-shrink-0">
-          {marketCapText}
+      <span
+        className={`text-[10px] font-bold tabular-nums truncate ${
+          e.result === 'beat' ? 'text-emerald-400' : e.result === 'miss' ? 'text-red-400' : 'text-theme-secondary'
+        }`}
+      >
+        {e.ticker}
+      </span>
+      {e.time === 'bmo' ? (
+        <SunIcon className="w-2.5 h-2.5 text-amber-400/60 flex-shrink-0" />
+      ) : e.time === 'amc' ? (
+        <MoonIcon className="w-2.5 h-2.5 text-blue-400/60 flex-shrink-0" />
+      ) : null}
+      {e.result && (
+        <span
+          className={`text-[8px] font-bold px-1 rounded ml-auto ${
+            e.result === 'beat'
+              ? 'bg-emerald-500/15 text-emerald-400'
+              : e.result === 'miss'
+                ? 'bg-red-500/15 text-red-400'
+                : 'bg-white/10 text-theme-muted'
+          }`}
+        >
+          {e.result === 'beat' ? 'B' : e.result === 'miss' ? 'M' : '='}
         </span>
       )}
-    </Link>
+    </div>
+  )
+}
+
+// ── EmptyState ───────────────────────────────────────────────────────────────
+
+function EmptyState({
+  filter,
+  isLoggedIn,
+  hasPortfolio,
+  hasWatchlist,
+}: {
+  filter: FilterMode
+  isLoggedIn: boolean
+  hasPortfolio: boolean
+  hasWatchlist: boolean
+}) {
+  let primary = ''
+  let secondary: React.ReactNode = null
+
+  if (filter === 'portfolio') {
+    if (!isLoggedIn) {
+      primary = 'Logge dich ein, um deine Portfolio-Earnings zu sehen'
+    } else if (!hasPortfolio) {
+      primary = 'Du hast noch keine Portfolio-Aktien'
+      secondary = (
+        <Link href="/analyse/mein-portfolio" className="text-[12px] text-emerald-400/70 hover:text-emerald-400 mt-2">
+          Portfolio anlegen →
+        </Link>
+      )
+    } else {
+      primary = 'Keine Earnings für deine Portfolio-Aktien in diesem Monat'
+    }
+  } else if (filter === 'watchlist') {
+    if (!isLoggedIn) {
+      primary = 'Logge dich ein, um deine Watchlist-Earnings zu sehen'
+    } else if (!hasWatchlist) {
+      primary = 'Deine Watchlist ist leer'
+      secondary = (
+        <Link href="/analyse/meine-watchlist" className="text-[12px] text-emerald-400/70 hover:text-emerald-400 mt-2">
+          Aktien zur Watchlist hinzufügen →
+        </Link>
+      )
+    } else {
+      primary = 'Keine Earnings für deine Watchlist-Aktien in diesem Monat'
+    }
+  } else if (filter === 'top') {
+    primary = 'Keine Top-Earnings (>$10B Market Cap) in diesem Monat'
+  } else {
+    primary = 'Keine Earnings-Daten für diesen Monat'
+  }
+
+  return (
+    <div className="flex flex-col items-center justify-center py-32">
+      <p className="text-[13px] text-theme-muted">{primary}</p>
+      {secondary}
+    </div>
+  )
+}
+
+// ── Day Detail Modal ─────────────────────────────────────────────────────────
+
+function DayDetailModal({
+  day,
+  onClose,
+  onSelectTicker,
+}: {
+  day: CalendarDay
+  onClose: () => void
+  onSelectTicker: (ticker: string) => void
+}) {
+  // Sortierung: ausschließlich nach Market Cap DESC — die größten Firmen oben.
+  // Bei gleicher Market Cap (oder beide null): alphabetisch nach Ticker.
+  const sorted = useMemo(() => {
+    return [...day.events].sort((a, b) => {
+      const ma = a.marketCap || 0
+      const mb = b.marketCap || 0
+      if (ma !== mb) return mb - ma
+      return a.ticker < b.ticker ? -1 : 1
+    })
+  }, [day.events])
+
+  return (
+    <div
+      className="fixed inset-0 z-[100] flex items-start justify-center pt-[8vh]"
+      onClick={onClose}
+    >
+      <div className="absolute inset-0 bg-black/70 backdrop-blur-md" />
+      <div
+        className="relative w-full max-w-xl mx-4"
+        onClick={ev => ev.stopPropagation()}
+      >
+        <div className="bg-theme-card border border-white/[0.1] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] overflow-hidden max-h-[80vh] flex flex-col">
+          {/* Header */}
+          <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
+            <div>
+              <p className="text-[15px] font-semibold text-theme-primary">
+                {new Date(day.date).toLocaleDateString('de-DE', {
+                  weekday: 'long',
+                  day: 'numeric',
+                  month: 'long',
+                  year: 'numeric',
+                })}
+              </p>
+              <p className="text-[11px] text-theme-muted mt-0.5">
+                {day.events.length} Earnings · {day.events.filter(e => e.time === 'bmo').length} vor Börse · {day.events.filter(e => e.time === 'amc').length} nach Börse
+              </p>
+            </div>
+            <button onClick={onClose} className="text-theme-muted hover:text-theme-secondary">
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          {/* Liste */}
+          <div className="overflow-y-auto p-2 space-y-0.5">
+            {sorted.map((e, i) => (
+              <button
+                key={`${e.ticker}-${i}`}
+                onClick={() => onSelectTicker(e.ticker)}
+                className="w-full flex items-center justify-between p-3 rounded-xl bg-white/[0.02] hover:bg-white/[0.05] transition-colors text-left group"
+              >
+                <div className="flex items-center gap-3 min-w-0">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={`/api/v1/logo/${e.ticker}?size=64`}
+                    alt={e.ticker}
+                    className="w-9 h-9 rounded-lg bg-white/[0.06] object-contain flex-shrink-0"
+                    onError={ev => { (ev.target as HTMLImageElement).style.opacity = '0' }}
+                  />
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[13px] font-semibold text-theme-primary group-hover:text-theme-primary">
+                        {e.ticker}
+                      </span>
+                      {e.fiscalQuarter && e.fiscalYear && (
+                        <span className="text-[10px] text-theme-muted tabular-nums">
+                          Q{e.fiscalQuarter} {e.fiscalYear}
+                        </span>
+                      )}
+                      {e.result && (
+                        <span
+                          className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                            e.result === 'beat'
+                              ? 'bg-emerald-500/15 text-emerald-400'
+                              : e.result === 'miss'
+                                ? 'bg-red-500/15 text-red-400'
+                                : 'bg-white/10 text-theme-muted'
+                          }`}
+                        >
+                          {e.result === 'beat' ? 'Beat' : e.result === 'miss' ? 'Miss' : 'Inline'}
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-[11px] text-theme-muted truncate max-w-[280px]">
+                      {e.company || ''}
+                      {e.marketCap ? ` · ${fmtMarketCap(e.marketCap)}` : ''}
+                    </p>
+                  </div>
+                </div>
+                <div className="text-right flex-shrink-0">
+                  {e.epsActual !== null ? (
+                    <div>
+                      <p className="text-[12px] font-medium text-theme-secondary tabular-nums">
+                        EPS {e.epsActual.toFixed(2).replace('.', ',')} $
+                      </p>
+                      {e.epsEstimate !== null && (
+                        <p className="text-[10px] text-theme-muted tabular-nums">
+                          Est. {e.epsEstimate.toFixed(2).replace('.', ',')} $
+                        </p>
+                      )}
+                    </div>
+                  ) : e.epsEstimate !== null ? (
+                    <p className="text-[11px] text-theme-muted tabular-nums">
+                      Est. EPS {e.epsEstimate.toFixed(2).replace('.', ',')} $
+                    </p>
+                  ) : null}
+                  <div className="flex items-center justify-end gap-1 mt-0.5">
+                    {e.time === 'bmo' ? (
+                      <>
+                        <SunIcon className="w-3 h-3 text-amber-400/70" />
+                        <span className="text-[9px] text-amber-400/70">Vor Börse</span>
+                      </>
+                    ) : e.time === 'amc' ? (
+                      <>
+                        <MoonIcon className="w-3 h-3 text-blue-400/70" />
+                        <span className="text-[9px] text-blue-400/70">Nach Börse</span>
+                      </>
+                    ) : null}
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
