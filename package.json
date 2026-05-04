@@ -1,12 +1,11 @@
 {
   "name": "superinvestoren",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "next dev -p 3000",
     "postinstall": "prisma generate --schema=prisma/schema.prisma",
-    "prebuild": "PRISMA_CLI_BINARY_TARGETS=rhel-openssl-3.0.x prisma generate --schema=prisma/schema.prisma",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
