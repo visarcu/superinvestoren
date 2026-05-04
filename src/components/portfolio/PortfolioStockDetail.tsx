@@ -6,7 +6,6 @@ import { useSearchParams, useRouter } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
 import { getEURRate } from '@/lib/portfolioCurrency'
 import { detectTickerCurrency } from '@/lib/fmp'
-import { useCurrency } from '@/lib/CurrencyContext'
 import { perfColor } from '@/utils/formatters'
 import { calculateSymbolPerformance, type SymbolPerformance } from '@/utils/portfolioCalculations'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
@@ -44,12 +43,34 @@ interface PortfolioStockDetailProps {
   ticker: string
 }
 
+// Lokale EUR-Formatter — Portfolio-Werte sind durchgehend in EUR umgerechnet,
+// daher fix EUR hier (statt useCurrency, das initial USD als Default hat).
+const formatStockPriceEUR = (price: number): string => {
+  if (!price && price !== 0) return '–'
+  const formatted = new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(price)
+  return `${formatted} €`
+}
+
+const formatPercentageDE = (value: number, showSign = true): string => {
+  if (!value && value !== 0) return '–'
+  const formatted = new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Math.abs(value))
+  const sign = showSign && value >= 0 ? '+' : value < 0 ? '-' : ''
+  return `${sign}${formatted}%`
+}
+
 export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const portfolioId = searchParams.get('portfolioId')
   const totalValueParam = parseFloat(searchParams.get('totalValue') || '0')
-  const { formatStockPrice, formatPercentage } = useCurrency()
+  const formatStockPrice = formatStockPriceEUR
+  const formatPercentage = formatPercentageDE
 
   const [history, setHistory] = useState<{ date: string; close: number }[]>([])
   const [markers, setMarkers] = useState<PurchaseMarker[]>([])
