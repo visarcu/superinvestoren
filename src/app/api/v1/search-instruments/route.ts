@@ -25,7 +25,7 @@ interface SearchedInstrument {
   exchange?: string
   isin?: string
   type: 'stock' | 'etf'
-  source: 'etf_master' | 'etf_xetra' | 'stocks_local' | 'sec' | 'openfigi'
+  source: 'etf_master' | 'etf_xetra' | 'stocks_local' | 'sec' | 'openfigi' | 'fmp'
 }
 
 const ISIN_RE = /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/
@@ -113,12 +113,32 @@ async function resolveViaOpenFIGI(
     const matches = data?.[0]?.data
     if (!Array.isArray(matches) || matches.length === 0) return null
 
-    // Bevorzugt XETRA (GR/GY), dann LSE, dann US
-    const order = ['GR', 'GY', 'GF', 'LN', 'LS', 'US', 'UN', 'UQ', 'UW', 'UA', 'UP', 'FP', 'NA', 'SW']
+    // Bevorzugt XETRA (GR/GY), dann LSE, dann US, dann übrige
+    const order = [
+      'GR', 'GY', 'GF',
+      'LN', 'LS',
+      'US', 'UN', 'UQ', 'UW', 'UA', 'UP',
+      'FP', 'NA', 'BB', 'IM', 'SM', 'SW', 'VX', 'AV',
+      'CT', 'CN',
+      'AT', 'AU',
+      'JT', 'HK', 'SP', 'KS',
+    ]
     const suffix: Record<string, string> = {
+      // Deutsche Börsen
       GR: '.DE', GY: '.DE', GF: '.DE',
+      // UK
       LN: '.L', LS: '.L',
-      FP: '.PA', NA: '.AS', SW: '.SW',
+      // US (kein Suffix)
+      US: '', UN: '', UQ: '', UW: '', UA: '', UP: '',
+      // Europa
+      FP: '.PA', NA: '.AS', BB: '.BR',
+      IM: '.MI', SM: '.MC', SW: '.SW', VX: '.SW', AV: '.VI',
+      // Kanada
+      CT: '.TO', CN: '.TO',
+      // Australien (ASX)
+      AT: '.AX', AU: '.AX',
+      // Asien
+      JT: '.T', HK: '.HK', SP: '.SI', KS: '.KS',
     }
     let best = matches[0]
     let bestRank = order.indexOf(best.exchCode)
@@ -141,6 +161,79 @@ async function resolveViaOpenFIGI(
     }
   } catch {
     return null
+  }
+}
+
+// === FMP Name-Search Fallback ==============================================
+// Für nicht-US-Aktien außerhalb von XETRA-ETFs/lokalen-Stocks (z.B. ASX-Listings
+// wie Vulcan Energy VUL.AX). FMP /search akzeptiert Namen + Symbole und kennt
+// alle internationalen Börsen.
+
+// FMP exchangeShortName → Display-Tag (für UI-Anzeige) + Sort-Priorität.
+// Niedrigere Zahl = höhere Prio (bevorzugte Börse).
+const FMP_EXCHANGE_PRIORITY: Record<string, number> = {
+  // EU/DE bevorzugen — User sucht meist DE-Listings
+  'XETRA': 0,
+  'FRANKFURT': 1,
+  'AMSTERDAM': 2, 'EURONEXT': 2, 'PARIS': 2, 'BRUSSELS': 2, 'LISBON': 2,
+  'LONDON': 3, 'LSE': 3,
+  'SIX': 4, 'SWISS': 4,
+  'MILAN': 5, 'MADRID': 5, 'STOCKHOLM': 5, 'OSLO': 5, 'COPENHAGEN': 5, 'HELSINKI': 5, 'WIEN': 5, 'VIENNA': 5,
+  // US danach
+  'NASDAQ': 6, 'NYSE': 6, 'AMEX': 6, 'NYSE ARCA': 6, 'NASDAQ GLOBAL MARKET': 6, 'NASDAQ CAPITAL MARKET': 6,
+  // Kanada
+  'TORONTO': 7, 'TSX': 7, 'TSXV': 7,
+  // Asien-Pazifik
+  'ASX': 8, 'AUSTRALIA': 8,
+  'TOKYO': 9, 'TSE': 9,
+  'HONG KONG': 10, 'HKEX': 10,
+  'SHENZHEN': 11, 'SHANGHAI': 11, 'SINGAPORE': 11, 'KOREA': 11, 'KSE': 11, 'KOSDAQ': 11,
+}
+
+interface FMPSearchItem {
+  symbol: string
+  name: string
+  currency?: string
+  stockExchange?: string
+  exchangeShortName?: string
+}
+
+async function searchViaFMP(query: string, limit: number): Promise<SearchedInstrument[]> {
+  const apiKey = process.env.FMP_API_KEY
+  if (!apiKey) return []
+
+  try {
+    const url = `https://financialmodelingprep.com/api/v3/search?query=${encodeURIComponent(query)}&limit=20&apikey=${apiKey}`
+    const res = await fetch(url, { next: { revalidate: 3600 } })
+    if (!res.ok) return []
+    const items: FMPSearchItem[] = await res.json()
+    if (!Array.isArray(items)) return []
+
+    // Nach Börsen-Priorität sortieren, dann Symbol-Länge (kürzer = primäres Listing)
+    const ranked = items
+      .filter(it => it.symbol && it.name)
+      .map(it => {
+        const ex = (it.exchangeShortName || it.stockExchange || '').toUpperCase()
+        const priority = FMP_EXCHANGE_PRIORITY[ex] ?? 99
+        return { item: it, priority, ex }
+      })
+      .sort((a, b) => {
+        if (a.priority !== b.priority) return a.priority - b.priority
+        return a.item.symbol.length - b.item.symbol.length
+      })
+
+    // ETF-Heuristik: Name enthält "ETF"/"UCITS" oder Exchange ist klassisches Fund-Venue
+    const isEtf = (name: string) => /\b(ETF|UCITS|ETP|ETN|Exchange[\s-]Traded)\b/i.test(name)
+
+    return ranked.slice(0, limit).map(({ item, ex }) => ({
+      ticker: item.symbol,
+      name: item.name,
+      exchange: ex || undefined,
+      type: isEtf(item.name) ? 'etf' : 'stock',
+      source: 'fmp',
+    } as SearchedInstrument))
+  } catch {
+    return []
   }
 }
 
@@ -237,14 +330,26 @@ export async function GET(request: NextRequest) {
     return 0
   })
 
-  // 5) Wenn lokal nichts gefunden + Eingabe sieht aus wie ISIN/WKN → OpenFIGI
-  if (results.length === 0) {
+  // 5) Fallbacks bei zu wenigen lokalen Treffern
+  //    a) Eingabe sieht aus wie ISIN/WKN → OpenFIGI (deckt deutsche WKNs ab)
+  //    b) Sonst → FMP /search (deckt internationale Aktien ab, z.B. ASX/HK/Tokyo)
+  const needsFallback = results.length === 0 || (results.length < 3 && q.length >= 3)
+  if (needsFallback) {
     if (looksLikeISIN(q)) {
       const figi = await resolveViaOpenFIGI('ID_ISIN', q)
       if (figi) push(figi)
+      // Bei ISIN zusätzlich FMP — manche EU-ISINs werden von OpenFIGI ohne Key nicht gefunden
+      if (results.length === 0) {
+        const fmpHits = await searchViaFMP(q, 5)
+        for (const h of fmpHits) push(h)
+      }
     } else if (looksLikeWKN(q)) {
       const figi = await resolveViaOpenFIGI('ID_WERTPAPIER', q)
       if (figi) push(figi)
+    } else if (results.length === 0) {
+      // Reine Name- oder Symbol-Suche, lokal nichts → FMP
+      const fmpHits = await searchViaFMP(q, Math.min(limit, 8))
+      for (const h of fmpHits) push(h)
     }
   }
 
