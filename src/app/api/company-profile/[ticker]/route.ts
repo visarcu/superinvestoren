@@ -1,6 +1,17 @@
 // src/app/api/company-profile/[ticker]/route.ts
 import { NextRequest, NextResponse } from 'next/server'
 
+// FMP liefert für manche OTC-/Sekundär-Listings falsche Profile-Felder
+// (Website zeigt auf andere Firma, Branche stimmt nicht etc.).
+// Hier manuell überschreiben, bis FMP das fixt.
+const PROFILE_OVERRIDES: Record<string, Record<string, string>> = {
+  VULNF: {
+    website: 'https://v-er.eu',
+    industry: 'Battery Materials',
+    sector: 'Industrial Materials',
+  },
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
@@ -23,6 +34,10 @@ export async function GET(
     }
 
     const data = await response.json()
+    const override = PROFILE_OVERRIDES[ticker.toUpperCase()]
+    if (override && Array.isArray(data) && data.length > 0) {
+      data[0] = { ...data[0], ...override }
+    }
     return NextResponse.json(data)
 
   } catch (error) {
