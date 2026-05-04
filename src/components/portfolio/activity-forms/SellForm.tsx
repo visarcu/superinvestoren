@@ -41,10 +41,9 @@ export default function SellForm({
 
     setSubmitting(true)
     try {
-      const qty = parseFloat(quantity)
-      const prc = parseFloat(sellPrice)
+      const qty = parseFloat(quantity.replace(',', '.'))
+      const prc = parseFloat(sellPrice.replace(',', '.'))
 
-      // Duplikat-Prüfung
       const duplicate = await checkDuplicateTransaction({
         portfolioId,
         type: 'sell',
@@ -78,8 +77,8 @@ export default function SellForm({
     }
   }
 
-  const sellQuantity = parseFloat(quantity) || 0
-  const sellPriceNum = parseFloat(sellPrice) || 0
+  const sellQuantity = parseFloat(quantity.replace(',', '.')) || 0
+  const sellPriceNum = parseFloat(sellPrice.replace(',', '.')) || 0
   const isFullSell = selectedHolding && sellQuantity >= selectedHolding.quantity
   const gainLoss = selectedHolding && sellQuantity > 0 && sellPriceNum > 0
     ? (sellPriceNum - selectedHolding.purchase_price_display) * sellQuantity
@@ -87,124 +86,105 @@ export default function SellForm({
 
   return (
     <div className="space-y-4">
-      {/* Position waehlen */}
-      <div>
-        <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-2">Position</label>
-
-        {/* Ausgewählte Position */}
-        {selectedHolding && (
-          <div className="flex items-center gap-3 p-3 rounded-lg border border-red-500/50 bg-red-500/5">
-            <Logo ticker={selectedHolding.symbol} alt={selectedHolding.symbol} className="w-7 h-7" padding="none" />
+      <Field label="Position">
+        {selectedHolding ? (
+          <div className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-red-500/[0.06] border border-red-500/[0.15]">
+            <Logo ticker={selectedHolding.symbol} alt={selectedHolding.symbol} className="w-6 h-6" padding="none" />
             <div className="flex-1 min-w-0">
-              <span className="font-medium text-neutral-900 dark:text-white text-sm">{selectedHolding.symbol}</span>
-              <p className="text-xs text-neutral-500 truncate">{selectedHolding.name}</p>
+              <p className="text-[12px] font-semibold text-white truncate">{selectedHolding.symbol}</p>
+              <p className="text-[10px] text-white/40 truncate">{selectedHolding.name}</p>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="text-right">
-                <p className="text-sm text-neutral-900 dark:text-white">{selectedHolding.quantity} Stk.</p>
-                <p className="text-xs text-neutral-500">Ø {formatStockPrice(selectedHolding.purchase_price_display)}</p>
-              </div>
-              <button
-                onClick={() => { setSelectedHoldingId(''); setQuantity(''); setSellPrice('') }}
-                className="text-xs text-neutral-500 hover:text-neutral-300 transition-colors px-2 py-1 rounded hover:bg-neutral-800/30"
-              >
-                Ändern
-              </button>
+            <div className="text-right">
+              <p className="text-[11px] text-white/80 tabular-nums">{selectedHolding.quantity} Stk.</p>
+              <p className="text-[10px] text-white/40 tabular-nums">Ø {formatStockPrice(selectedHolding.purchase_price_display)}</p>
             </div>
+            <button
+              onClick={() => { setSelectedHoldingId(''); setQuantity(''); setSellPrice('') }}
+              className="text-[11px] text-white/40 hover:text-white/70 transition-colors px-2 py-1 rounded-lg hover:bg-white/[0.05]"
+            >
+              Ändern
+            </button>
           </div>
-        )}
-
-        {/* Auswahlliste — nur sichtbar wenn noch nichts gewählt */}
-        {!selectedHolding && (
-          <div className="space-y-1.5 max-h-48 overflow-y-auto">
+        ) : (
+          <div className="space-y-1 max-h-48 overflow-y-auto rounded-xl bg-white/[0.02] border border-white/[0.04] p-1">
             {holdings.map(h => (
               <button
                 key={h.id}
                 onClick={() => { setSelectedHoldingId(h.id); setQuantity(''); setSellPrice('') }}
-                className="w-full flex items-center gap-3 p-3 rounded-lg border border-neutral-200 dark:border-neutral-700/50 hover:border-neutral-400 dark:hover:border-neutral-600 transition-all text-left"
+                className="w-full flex items-center gap-3 p-2.5 rounded-lg hover:bg-white/[0.04] transition-colors text-left"
               >
                 <Logo ticker={h.symbol} alt={h.symbol} className="w-7 h-7" padding="none" />
                 <div className="flex-1 min-w-0">
-                  <span className="font-medium text-neutral-900 dark:text-white text-sm">{h.symbol}</span>
-                  <p className="text-xs text-neutral-500 truncate">{h.name}</p>
+                  <span className="text-[12px] font-semibold text-white">{h.symbol}</span>
+                  <p className="text-[10px] text-white/40 truncate">{h.name}</p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-neutral-900 dark:text-white">{h.quantity} Stk.</p>
-                  <p className="text-xs text-neutral-500">Ø {formatStockPrice(h.purchase_price_display)}</p>
+                  <p className="text-[11px] text-white/80 tabular-nums">{h.quantity} Stk.</p>
+                  <p className="text-[10px] text-white/40 tabular-nums">Ø {formatStockPrice(h.purchase_price_display)}</p>
                 </div>
               </button>
             ))}
           </div>
         )}
-      </div>
+      </Field>
 
       {selectedHolding && (
         <>
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">
-                Anzahl <span className="text-neutral-500">(max {selectedHolding.quantity})</span>
-              </label>
-              <input
+            <Field label="Anzahl" suffix={`max ${selectedHolding.quantity}`}>
+              <Input
                 type="number"
-                min="1"
-                max={selectedHolding.quantity}
-                step="1"
+                inputMode="decimal"
+                min="0"
+                max={selectedHolding.quantity.toString()}
+                step="any"
                 value={quantity}
-                onChange={(e) => {
-                  const val = parseFloat(e.target.value)
-                  if (val > selectedHolding.quantity) {
+                onChange={(v) => {
+                  const num = parseFloat(v.replace(',', '.'))
+                  if (!isNaN(num) && num > selectedHolding.quantity) {
                     setQuantity(selectedHolding.quantity.toString())
                   } else {
-                    setQuantity(e.target.value)
+                    setQuantity(v)
                   }
                 }}
                 placeholder={selectedHolding.quantity.toString()}
-                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-red-400 focus:border-transparent"
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Verkaufspreis (EUR)</label>
-              <input
-                type="number" min="0" step="0.01"
+            </Field>
+            <Field label="Verkaufspreis" suffix="€">
+              <Input
+                type="number"
+                inputMode="decimal"
+                step="any"
+                min="0"
                 value={sellPrice}
-                onChange={(e) => setSellPrice(e.target.value)}
+                onChange={setSellPrice}
                 placeholder="0,00"
-                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-red-400 focus:border-transparent"
               />
-            </div>
+            </Field>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Verkaufsdatum</label>
-            <input
+          <Field label="Verkaufsdatum">
+            <Input
               type="date"
               value={sellDate}
-              onChange={(e) => setSellDate(e.target.value)}
+              onChange={setSellDate}
               max={new Date().toISOString().split('T')[0]}
-              className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-red-400 focus:border-transparent"
             />
-          </div>
+          </Field>
 
-          {/* Zusammenfassung */}
           {quantity && sellPrice && (
-            <div className="bg-neutral-100 dark:bg-neutral-800/30 border border-neutral-200 dark:border-neutral-700/50 rounded-lg p-3 space-y-1.5">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-neutral-500">Erloes</span>
-                <span className="text-neutral-900 dark:text-white font-medium">
-                  {formatCurrency(sellQuantity * sellPriceNum)}
-                </span>
-              </div>
+            <div className="rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3 space-y-1.5">
+              <Row label="Erlös" value={formatCurrency(sellQuantity * sellPriceNum)} />
               {gainLoss !== null && (
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-neutral-500">G/V</span>
-                  <span className={`font-medium ${gainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
-                    {gainLoss >= 0 ? '+' : ''}{formatCurrency(gainLoss)}
-                  </span>
-                </div>
+                <Row
+                  label="Gewinn / Verlust"
+                  value={`${gainLoss >= 0 ? '+' : ''}${formatCurrency(gainLoss)}`}
+                  valueClass={gainLoss >= 0 ? 'text-emerald-400' : 'text-red-400'}
+                  bold
+                />
               )}
               {isFullSell && (
-                <p className="text-xs text-amber-400 mt-1">Position wird vollstaendig verkauft</p>
+                <p className="text-[11px] text-amber-300/80 pt-1">Position wird vollständig verkauft</p>
               )}
             </div>
           )}
@@ -212,16 +192,83 @@ export default function SellForm({
           <button
             onClick={handleSubmit}
             disabled={submitting || !quantity || !sellPrice || sellQuantity <= 0}
-            className="w-full py-2.5 bg-red-500 hover:bg-red-400 disabled:bg-neutral-300 dark:disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium"
+            className="w-full py-2.5 rounded-xl bg-red-500/90 hover:bg-red-500 text-white text-[12px] font-semibold transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {submitting ? (
-              <><ArrowPathIcon className="w-4 h-4 animate-spin" />Wird verkauft...</>
+              <><ArrowPathIcon className="w-4 h-4 animate-spin" />Wird verkauft…</>
             ) : (
               <><CheckIcon className="w-4 h-4" />{isFullSell ? 'Vollverkauf' : 'Verkaufen'}</>
             )}
           </button>
         </>
       )}
+    </div>
+  )
+}
+
+// === Shared UI =============================================================
+
+function Field({
+  label,
+  suffix,
+  children,
+}: {
+  label: string
+  suffix?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-1.5">
+        <label className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">{label}</label>
+        {suffix && <span className="text-[10px] text-white/25">{suffix}</span>}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+function Input({
+  type = 'text',
+  value,
+  onChange,
+  ...rest
+}: {
+  type?: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  inputMode?: 'decimal' | 'numeric' | 'text'
+  step?: string
+  min?: string
+  max?: string
+}) {
+  return (
+    <input
+      type={type}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      {...rest}
+      className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-red-400/50 transition-colors tabular-nums"
+    />
+  )
+}
+
+function Row({
+  label,
+  value,
+  bold,
+  valueClass,
+}: {
+  label: string
+  value: string
+  bold?: boolean
+  valueClass?: string
+}) {
+  return (
+    <div className="flex items-center justify-between text-[12px]">
+      <span className="text-white/55">{label}</span>
+      <span className={`tabular-nums ${valueClass ?? (bold ? 'text-white font-semibold' : 'text-white/80')}`}>{value}</span>
     </div>
   )
 }
