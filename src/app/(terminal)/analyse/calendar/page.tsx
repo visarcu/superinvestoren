@@ -221,11 +221,32 @@ export default function EarningsCalendarPage() {
 
         if (!from || !to) return
 
-        const res = await fetch(`/api/earnings-calendar/week?from=${from}&to=${to}`)
+        // /api/v1/calendar/earnings: SEC 8-K Item 2.02 + NASDAQ Public Calendar.
+        // Keine FMP-Dependency, kein Pgbouncer-Prepared-Statement-Bug wie bei der
+        // alten /api/earnings-calendar/week Route (Prisma + EarningsCalendar-Tabelle).
+        // Response-Shape: { dates: [{ date, events: [{ ticker, company, time, marketCap, ... }] }] }
+        // limit=5000 deckt auch Earnings-starke Wochen vollständig ab.
+        const res = await fetch(
+          `/api/v1/calendar/earnings?from=${from}&to=${to}&limit=5000`
+        )
         if (res.ok) {
           const data = await res.json()
-          // Alle Earnings laden, Filter wird in useMemo angewendet
-          setRawEarnings(data.earnings || [])
+          // Flatten dates[].events[] → EarningsEvent[]
+          const flat: EarningsEvent[] = []
+          for (const day of data.dates || []) {
+            for (const ev of day.events || []) {
+              flat.push({
+                symbol: ev.ticker,
+                name: ev.company || ev.ticker,
+                date: day.date,
+                time: ev.time || 'amc',
+                epsEstimate: ev.epsEstimate ?? null,
+                revenueEstimate: ev.revenueEstimate ?? null,
+                marketCap: ev.marketCap ?? null,
+              })
+            }
+          }
+          setRawEarnings(flat)
         }
       } catch (error) {
         console.error('Failed to load earnings:', error)
