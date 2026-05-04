@@ -97,7 +97,11 @@ export async function GET(request: NextRequest) {
     )
   } catch (error) {
     const msg = error instanceof Error ? error.message : String(error)
-    console.error('IPO Calendar API error:', msg)
-    return NextResponse.json({ error: 'Failed to fetch IPO calendar' }, { status: 500 })
+    const stack = error instanceof Error ? error.stack : undefined
+    console.error('IPO Calendar API error:', msg, stack)
+    return NextResponse.json(
+      { error: 'Failed to fetch IPO calendar', detail: msg },
+      { status: 500 },
+    )
   }
 }
