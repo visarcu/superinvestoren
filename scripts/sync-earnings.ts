@@ -3,7 +3,8 @@
 import { config } from 'dotenv'
 config({ path: '.env.local' })
 
-import { PrismaClient } from '@prisma/client'
+// Use relative path to prisma client from schema output
+import { PrismaClient } from '../prisma/node_modules/@prisma/client'
 
 const prisma = new PrismaClient()
 const FMP_API_KEY = process.env.FMP_API_KEY
