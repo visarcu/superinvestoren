@@ -351,6 +351,7 @@ const produkteLinks = [
   { href: '/superinvestor', label: 'Super-Investoren', description: 'Portfolio Tracking', icon: UsersIcon },
   { href: '/politiker', label: 'Politiker-Trades', description: 'US-Kongress Offenlegungen', icon: BuildingLibraryIcon },
   { href: '/earnings-calendar', label: 'Earnings Kalender', description: 'Quartalszahlen Termine', icon: CalendarDaysIcon },
+  { href: '/ipo-calendar', label: 'IPO Kalender', description: 'Börsengänge aus SEC EDGAR', icon: CalendarDaysIcon },
   { href: '/economic-calendar', label: 'Wirtschaftskalender', description: 'Makro-Termine', icon: GlobeAltIcon },
 ]
 
