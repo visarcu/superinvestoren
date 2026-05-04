@@ -2,6 +2,14 @@ import type { Stock } from './stocks'  // type Import!
 
 
 export const stocks: Stock[] = [
+  // Internationale OTC-Listings (US-handelbar via OTC)
+  {
+    ticker: 'VULNF',
+    name:   'Vulcan Energy Resources Limited',
+    sector: 'Industrial Materials',
+    metrics: [],
+  },
+
   // Deutsche ADRs an US-Börsen
   {
     ticker: 'DB',
