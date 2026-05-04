@@ -1,6 +1,5 @@
 // src/lib/prisma.ts
-// Import from prisma output directory as specified in schema.prisma
-import { PrismaClient } from '../../prisma/node_modules/@prisma/client'
+import { PrismaClient } from '@prisma/client'
 
 // Workaround, damit in Next.js hot-reload nicht ständig neue Clients erzeugt werden
 const globalForPrisma = global as unknown as { prisma?: PrismaClient }
