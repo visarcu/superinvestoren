@@ -11,7 +11,7 @@
  *   npx tsx scripts/fetchDividendDates.ts              # Alle konfigurierten
  */
 
-import { PrismaClient } from '../prisma/node_modules/@prisma/client/index.js'
+import { PrismaClient } from '@prisma/client'
 import OpenAI from 'openai'
 import * as dotenv from 'dotenv'
 dotenv.config({ path: '.env.local' })
