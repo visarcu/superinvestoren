@@ -33,5 +33,5 @@
     "src/global.d.ts"
 , "mailer.test.mts",
 "src/types", "scripts/delete-test-users.js", "scripts/load-news.js" ],
-  "exclude": ["node_modules", "mobile", "ios", "android"]
+  "exclude": ["node_modules", "mobile", "ios", "android", "capacitor.config.ts"]
 }
