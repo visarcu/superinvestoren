@@ -116,9 +116,11 @@ export async function GET(request: NextRequest) {
   today.setHours(0, 0, 0, 0)
   const todayIso = isoDate(today)
 
-  // Default-Reichweite: 30 Tage. Via ?days=N überschreibbar (für manuelle Runs).
+  // Default-Reichweite: 60 Tage (= ~2 Monate, deckt aktuellen + nächsten Monat
+  // im UI-Calendar zuverlässig ab). Via ?days=N überschreibbar (für manuelle
+  // Backfills). Cap 90 wegen maxDuration=300s.
   const daysParam = request.nextUrl.searchParams.get('days')
-  const days = Math.max(1, Math.min(90, parseInt(daysParam || '30')))
+  const days = Math.max(1, Math.min(90, parseInt(daysParam || '60')))
 
   let daysWithData = 0
   let totalRows = 0
@@ -137,47 +139,51 @@ export async function GET(request: NextRequest) {
       if (rows.length === 0) continue
 
       const nowIso = new Date().toISOString()
-      let saved = 0
-      for (const r of rows) {
-        if (!r.symbol) continue
-        const fp = parseFiscalQuarter(r.fiscalQuarterEnding)
-        const epsEst = parseEps(r.epsForecast)
-        const callTime = parseCallTime(r.time)
-        const marketCap = parseMarketCap(r.marketCap)
-        const isUpcoming = new Date(dateStr + 'T00:00:00') >= today
+      const isUpcoming = new Date(dateStr + 'T00:00:00') >= today
 
+      // Bulk-Upsert: alle Rows eines Tages in einem einzigen Round-Trip
+      // (vorher: N seriellen Upserts → ~50ms × 300 Rows = 15s pro Tag).
+      // Ungültige Rows (kein Ticker) werden vorab gefiltert.
+      const records = rows
+        .filter(r => r.symbol)
+        .map(r => {
+          const fp = parseFiscalQuarter(r.fiscalQuarterEnding)
+          return {
+            ticker: r.symbol!.toUpperCase(),
+            company_name: r.name ?? null,
+            date: dateStr,
+            fiscal_quarter: fp.quarter,
+            fiscal_year: fp.year,
+            eps_estimate: parseEps(r.epsForecast),
+            call_time: parseCallTime(r.time),
+            market_cap: parseMarketCap(r.marketCap),
+            is_upcoming: isUpcoming,
+            confirmed: true,
+            source: 'nasdaq-public',
+            updated_at: nowIso,
+          }
+        })
+
+      if (records.length > 0) {
         const { error } = await supabase
           .from('SecEarningsCalendar')
-          .upsert(
-            {
-              ticker: r.symbol.toUpperCase(),
-              company_name: r.name,
-              date: dateStr,
-              fiscal_quarter: fp.quarter,
-              fiscal_year: fp.year,
-              eps_estimate: epsEst,
-              call_time: callTime,
-              market_cap: marketCap,
-              is_upcoming: isUpcoming,
-              confirmed: true,
-              source: 'nasdaq-public',
-              updated_at: nowIso,
-            },
-            { onConflict: 'ticker,date' }
-          )
-        if (!error) saved++
+          .upsert(records, { onConflict: 'ticker,date' })
+        if (error) {
+          failures.push({ date: dateStr, error: `bulk-upsert: ${error.message}` })
+        } else {
+          totalSaved += records.length
+        }
       }
 
       daysWithData++
       totalRows += rows.length
-      totalSaved += saved
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err)
       failures.push({ date: dateStr, error: msg })
     }
 
-    // NASDAQ ist nicht hart rate-limited aber 250ms ist höflich
-    await new Promise(r => setTimeout(r, 250))
+    // NASDAQ verträgt 100ms gut — vorher 250ms war übervorsichtig
+    await new Promise(r => setTimeout(r, 100))
   }
 
   // Optional: alte Upcoming-Einträge deren Datum inzwischen in der Vergangenheit
