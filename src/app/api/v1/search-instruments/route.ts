@@ -18,14 +18,15 @@ import { NextRequest, NextResponse } from 'next/server'
 import { etfMaster } from '@/data/etfMaster'
 import { xetraETFs } from '@/data/xetraETFsComplete'
 import { stocks } from '@/data/stocks'
+import { searchCryptos } from '@/data/cryptos'
 
 interface SearchedInstrument {
   ticker: string
   name: string
   exchange?: string
   isin?: string
-  type: 'stock' | 'etf'
-  source: 'etf_master' | 'etf_xetra' | 'stocks_local' | 'sec' | 'openfigi' | 'fmp'
+  type: 'stock' | 'etf' | 'crypto'
+  source: 'etf_master' | 'etf_xetra' | 'stocks_local' | 'sec' | 'openfigi' | 'fmp' | 'crypto_local'
 }
 
 const ISIN_RE = /^[A-Z]{2}[A-Z0-9]{9}[0-9]$/
@@ -255,6 +256,17 @@ export async function GET(request: NextRequest) {
     if (seen.has(key)) return
     seen.add(key)
     results.push(item)
+  }
+
+  // 0) Krypto — kuratierte Top-Coins, Symbol/Name/Alias-Match
+  for (const c of searchCryptos(rawQuery, 5)) {
+    push({
+      ticker: c.symbol,
+      name: c.name,
+      exchange: 'CRYPTO',
+      type: 'crypto',
+      source: 'crypto_local',
+    })
   }
 
   // 1) etfMaster — kennt ISIN + WKN, autoritativ

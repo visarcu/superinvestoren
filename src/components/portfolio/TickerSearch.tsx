@@ -7,7 +7,25 @@ export interface SearchedStock {
   name: string
   exchange?: string
   isin?: string
-  type?: 'stock' | 'etf'
+  type?: 'stock' | 'etf' | 'crypto'
+}
+
+function TypeBadge({ type }: { type?: SearchedStock['type'] }) {
+  if (type === 'etf') {
+    return (
+      <span className="text-[8px] uppercase tracking-wider px-1 py-0.5 rounded bg-blue-500/15 text-blue-300/80 font-semibold flex-shrink-0">
+        ETF
+      </span>
+    )
+  }
+  if (type === 'crypto') {
+    return (
+      <span className="text-[8px] uppercase tracking-wider px-1 py-0.5 rounded bg-orange-500/15 text-orange-300/80 font-semibold flex-shrink-0">
+        CRYPTO
+      </span>
+    )
+  }
+  return null
 }
 
 interface TickerSearchProps {
@@ -31,7 +49,7 @@ const ACCENT: Record<NonNullable<TickerSearchProps['accent']>, string> = {
 
 export default function TickerSearch({
   onSelect,
-  placeholder = 'Ticker, Name, ISIN oder WKN…',
+  placeholder = 'Aktie, ETF, Krypto, ISIN oder WKN…',
   autoFocus,
   selected,
   onClear,
@@ -107,11 +125,7 @@ export default function TickerSearch({
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-1.5">
             <p className="text-[12px] font-semibold text-white truncate">{selected.ticker}</p>
-            {selected.type === 'etf' && (
-              <span className="text-[8px] uppercase tracking-wider px-1 py-0.5 rounded bg-blue-500/15 text-blue-300/80 font-semibold">
-                ETF
-              </span>
-            )}
+            <TypeBadge type={selected.type} />
           </div>
           <p className="text-[10px] text-white/40 truncate">{selected.name}</p>
         </div>
@@ -177,11 +191,7 @@ export default function TickerSearch({
               <div className="min-w-0 flex-1">
                 <div className="flex items-center gap-1.5">
                   <p className="text-[12px] font-semibold text-white truncate">{stock.ticker}</p>
-                  {stock.type === 'etf' && (
-                    <span className="text-[8px] uppercase tracking-wider px-1 py-0.5 rounded bg-blue-500/15 text-blue-300/80 font-semibold flex-shrink-0">
-                      ETF
-                    </span>
-                  )}
+                  <TypeBadge type={stock.type} />
                 </div>
                 <p className="text-[10px] text-white/40 truncate">{stock.name}</p>
               </div>
