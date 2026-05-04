@@ -141,11 +141,11 @@ export default function AddActivityModal({
     >
       <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
       <div
-        className="relative w-full max-w-md bg-[#0c0c16] border border-white/[0.08] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] my-auto overflow-hidden flex flex-col max-h-[min(90vh,800px)]"
+        className="relative w-full max-w-md bg-[#0c0c16] border border-white/[0.08] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] my-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.04] flex-shrink-0">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.04]">
           <div className="flex items-center gap-3 min-w-0">
             {step === 'form' && (
               <button
@@ -172,7 +172,7 @@ export default function AddActivityModal({
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto px-6 py-5">
+        <div className="px-6 py-5">
 
         {/* Step 1: Type Selection */}
         {step === 'type' && (
