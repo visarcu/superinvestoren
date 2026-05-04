@@ -18,14 +18,35 @@ interface PricePoint {
   close: number
 }
 
+// Lokaler EUR-Formatter — Portfolio-Werte sind durchgehend in EUR umgerechnet,
+// daher fix EUR hier, unabhängig vom Currency-Context (der beim ersten Render
+// noch den USD-Default hat, bevor usePortfolio setCurrency('EUR') eingreift).
+const formatEUR = (amount: number): string =>
+  amount.toLocaleString('de-DE', {
+    style: 'currency',
+    currency: 'EUR',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+
+const formatPct = (value: number, showSign = true): string => {
+  const formatted = new Intl.NumberFormat('de-DE', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  }).format(Math.abs(value))
+  const sign = showSign && value >= 0 ? '+' : value < 0 ? '-' : ''
+  return `${sign}${formatted}%`
+}
+
 export default function PortfolioStockDetailClient({ ticker }: Props) {
   const {
     transactions,
     holdings,
     loading: portfolioLoading,
-    formatCurrency,
-    formatPercentage,
   } = usePortfolio()
+
+  const formatCurrency = formatEUR
+  const formatPercentage = formatPct
 
   const [history, setHistory] = useState<PricePoint[]>([])
   const [historyLoading, setHistoryLoading] = useState(true)

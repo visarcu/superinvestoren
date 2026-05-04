@@ -5,6 +5,7 @@ export const stocks: Stock[] = [
   // Internationale OTC-Listings (US-handelbar via OTC)
   {
     ticker: 'VULNF',
+    cusip:  '',
     name:   'Vulcan Energy Resources Limited',
     sector: 'Industrial Materials',
     metrics: [],
