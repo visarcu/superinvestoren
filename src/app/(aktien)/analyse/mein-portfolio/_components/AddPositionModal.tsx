@@ -3,7 +3,7 @@
 import React, { useState } from 'react'
 import { usePortfolio } from '@/hooks/usePortfolio'
 import Modal from './Modal'
-import TickerSearch, { type SearchedStock } from './TickerSearch'
+import TickerSearch, { type SearchedStock } from '@/components/portfolio/TickerSearch'
 
 interface AddPositionModalProps {
   open: boolean

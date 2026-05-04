@@ -2,9 +2,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import SearchTickerInput from '@/components/SearchTickerInput'
-import Logo from '@/components/Logo'
-import { stocks } from '@/data/stocks'
+import TickerSearch, { type SearchedStock } from '@/components/portfolio/TickerSearch'
 import { type Holding } from '@/hooks/usePortfolio'
 import { checkDuplicateTransaction } from '@/lib/duplicateCheck'
 import {
@@ -47,7 +45,7 @@ export default function BuyForm({
   formatStockPrice,
   onSuccess,
 }: BuyFormProps) {
-  const [selectedStock, setSelectedStock] = useState<{ symbol: string; name: string } | null>(null)
+  const [selectedStock, setSelectedStock] = useState<SearchedStock | null>(null)
   const [quantity, setQuantity] = useState('')
   const [purchasePrice, setPurchasePrice] = useState('')
   const [purchaseDate, setPurchaseDate] = useState(new Date().toISOString().split('T')[0])
@@ -56,7 +54,7 @@ export default function BuyForm({
 
   // Erkennen ob die Aktie schon im Portfolio ist
   const existingHolding = selectedStock
-    ? holdings.find(h => h.symbol === selectedStock.symbol)
+    ? holdings.find(h => h.symbol === selectedStock.ticker)
     : null
 
   const isTopUp = !!existingHolding
@@ -66,21 +64,21 @@ export default function BuyForm({
 
     setSubmitting(true)
     try {
-      // Duplikat-Prüfung
-      const qty = parseFloat(quantity)
-      const prc = parseFloat(purchasePrice)
+      const qty = parseFloat(quantity.replace(',', '.'))
+      const prc = parseFloat(purchasePrice.replace(',', '.'))
+      const feeNum = parseFloat(fees.replace(',', '.')) || 0
       const duplicate = await checkDuplicateTransaction({
         portfolioId,
         type: 'buy',
-        symbol: selectedStock.symbol,
+        symbol: selectedStock.ticker,
         date: purchaseDate,
         quantity: qty,
-        price: prc + ((parseFloat(fees) || 0) / qty),
+        price: prc + (feeNum / qty),
       })
       if (duplicate) {
         const confirmed = window.confirm(
           `Eine ähnliche Transaktion existiert bereits:\n` +
-          `${selectedStock.symbol} — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(purchaseDate).toLocaleDateString('de-DE')}\n\n` +
+          `${selectedStock.ticker} — ${qty} Stk. @ ${prc.toFixed(2)}€ am ${new Date(purchaseDate).toLocaleDateString('de-DE')}\n\n` +
           `Trotzdem hinzufügen?`
         )
         if (!confirmed) {
@@ -94,15 +92,15 @@ export default function BuyForm({
           quantity: qty,
           price: prc,
           date: purchaseDate,
-          fees: parseFloat(fees) || 0
+          fees: feeNum
         })
       } else {
         await onAddPosition({
-          stock: selectedStock,
+          stock: { symbol: selectedStock.ticker, name: selectedStock.name },
           quantity: qty,
           purchasePrice: prc,
           purchaseDate,
-          fees: parseFloat(fees) || 0
+          fees: feeNum
         })
       }
       onSuccess()
@@ -113,160 +111,130 @@ export default function BuyForm({
     }
   }
 
-  // Vorschau gewichteter Durchschnitt bei Aufstockung
   const topUpPreview = isTopUp && existingHolding && quantity && purchasePrice
     ? (() => {
-        const newQty = parseFloat(quantity)
-        const newPrice = parseFloat(purchasePrice) + ((parseFloat(fees) || 0) / newQty)
+        const newQty = parseFloat(quantity.replace(',', '.'))
+        const newPrice = parseFloat(purchasePrice.replace(',', '.')) + ((parseFloat(fees.replace(',', '.')) || 0) / newQty)
         const totalQty = existingHolding.quantity + newQty
         const avgPrice = ((existingHolding.quantity * existingHolding.purchase_price) + (newQty * newPrice)) / totalQty
         return { totalQty, avgPrice }
       })()
     : null
 
+  const investAmount = quantity && purchasePrice
+    ? parseFloat(quantity.replace(',', '.')) * parseFloat(purchasePrice.replace(',', '.'))
+    : null
+  const feeAmount = fees ? parseFloat(fees.replace(',', '.')) : 0
+
   return (
     <div className="space-y-4">
       {/* Aktiensuche */}
-      <div>
-        <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-2">Aktie suchen</label>
-        <SearchTickerInput
-          onSelect={(ticker) => {
-            const stock = stocks.find(s => s.ticker === ticker)
-            if (stock) setSelectedStock({ symbol: stock.ticker, name: stock.name })
-          }}
-          placeholder="z.B. AAPL oder Apple"
-          className="w-full"
-          inputClassName="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-emerald-400 focus:border-transparent placeholder:text-neutral-400 dark:placeholder:text-neutral-500"
-          dropdownClassName="absolute z-10 w-full mt-1 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-lg shadow-lg max-h-60 overflow-y-auto"
-          itemClassName="px-4 py-3 hover:bg-neutral-100 dark:hover:bg-neutral-800/50 transition-colors border-b border-neutral-200 dark:border-neutral-800 last:border-0 text-neutral-900 dark:text-white cursor-pointer"
+      <Field label="Aktie">
+        <TickerSearch
+          selected={selectedStock}
+          onSelect={setSelectedStock}
+          onClear={() => setSelectedStock(null)}
+          accent="emerald"
+          autoFocus
         />
-      </div>
+      </Field>
 
-      {/* Ausgewaehlte Aktie */}
-      {selectedStock && (
-        <div className={`p-3 rounded-lg border ${isTopUp ? 'bg-blue-500/10 border-blue-500/30' : 'bg-emerald-500/10 border-emerald-500/30'}`}>
-          <div className="flex items-center gap-3">
-            <Logo ticker={selectedStock.symbol} alt={selectedStock.symbol} className="w-8 h-8" padding="none" />
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <span className="font-semibold text-neutral-900 dark:text-white text-sm">{selectedStock.symbol}</span>
-                {isTopUp && (
-                  <span className="text-[10px] px-1.5 py-0.5 bg-blue-500/20 text-blue-400 rounded-full font-medium">
-                    Aufstocken
-                  </span>
-                )}
-              </div>
-              <p className="text-xs text-neutral-500">{selectedStock.name}</p>
-            </div>
-            <button
-              onClick={() => setSelectedStock(null)}
-              className="text-xs text-neutral-400 hover:text-neutral-200"
-            >
-              Ändern
-            </button>
-          </div>
-          {isTopUp && existingHolding && (
-            <div className="mt-2 pt-2 border-t border-blue-500/20 flex items-center gap-2 text-xs text-blue-400">
-              <InformationCircleIcon className="w-3.5 h-3.5" />
-              <span>Bereits {existingHolding.quantity} Stk. im Portfolio (Ø {formatStockPrice(existingHolding.purchase_price_display)})</span>
-            </div>
-          )}
+      {/* Aufstock-Hinweis */}
+      {selectedStock && isTopUp && existingHolding && (
+        <div className="flex items-center gap-2 px-3 py-2 rounded-xl bg-blue-500/[0.06] border border-blue-500/[0.15] text-[11px] text-blue-300/90">
+          <InformationCircleIcon className="w-3.5 h-3.5 flex-shrink-0" />
+          <span>
+            Bereits {existingHolding.quantity} Stk. im Portfolio (Ø {formatStockPrice(existingHolding.purchase_price_display)}) — wird aufgestockt
+          </span>
         </div>
       )}
 
       {selectedStock && (
         <>
+          {/* Anzahl + Kaufpreis */}
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Anzahl</label>
-              <input
-                type="number" min="0" step="1"
+            <Field label="Anzahl">
+              <Input
+                type="number"
+                inputMode="decimal"
+                step="any"
+                min="0"
                 value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                placeholder="100"
-                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-emerald-400 focus:border-transparent"
+                onChange={setQuantity}
+                placeholder="z.B. 10"
               />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Kaufpreis (EUR)</label>
-              <input
-                type="number" min="0" step="0.01"
+            </Field>
+            <Field label="Kaufpreis je Stück" suffix="€">
+              <Input
+                type="number"
+                inputMode="decimal"
+                step="any"
+                min="0"
                 value={purchasePrice}
-                onChange={(e) => setPurchasePrice(e.target.value)}
-                placeholder="150,00"
-                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-emerald-400 focus:border-transparent"
+                onChange={setPurchasePrice}
+                placeholder="z.B. 145,30"
               />
-            </div>
+            </Field>
           </div>
 
+          {/* Datum + Gebühren */}
           <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Gebühren (EUR)</label>
-              <input
-                type="number" min="0" step="0.01"
-                value={fees}
-                onChange={(e) => setFees(e.target.value)}
-                placeholder="0,00"
-                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-emerald-400 focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Kaufdatum</label>
-              <input
+            <Field label="Kaufdatum">
+              <Input
                 type="date"
                 value={purchaseDate}
-                onChange={(e) => setPurchaseDate(e.target.value)}
+                onChange={setPurchaseDate}
                 max={new Date().toISOString().split('T')[0]}
-                className="w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 focus:ring-emerald-400 focus:border-transparent"
               />
-            </div>
+            </Field>
+            <Field label="Gebühren (optional)" suffix="€">
+              <Input
+                type="number"
+                inputMode="decimal"
+                step="any"
+                min="0"
+                value={fees}
+                onChange={setFees}
+                placeholder="0,00"
+              />
+            </Field>
           </div>
 
           {/* Zusammenfassung */}
-          {quantity && purchasePrice && (
-            <div className="bg-neutral-100 dark:bg-neutral-800/30 border border-neutral-200 dark:border-neutral-700/50 rounded-lg p-3 space-y-1.5">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-neutral-500">Investition</span>
-                <span className="text-neutral-900 dark:text-white font-medium">
-                  {formatCurrency(parseFloat(quantity) * parseFloat(purchasePrice))}
-                </span>
-              </div>
-              {fees && parseFloat(fees) > 0 && (
-                <div className="flex items-center justify-between text-sm">
-                  <span className="text-neutral-500">Gebühren</span>
-                  <span className="text-neutral-700 dark:text-neutral-300">{formatCurrency(parseFloat(fees))}</span>
-                </div>
+          {investAmount !== null && (
+            <div className="rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3 space-y-1.5">
+              <Row label="Investition" value={formatCurrency(investAmount)} />
+              {feeAmount > 0 && (
+                <Row label="Gebühren" value={formatCurrency(feeAmount)} muted />
               )}
-              <div className="flex items-center justify-between text-sm pt-1.5 border-t border-neutral-200 dark:border-neutral-700/50">
-                <span className="text-neutral-500">Gesamt</span>
-                <span className="text-neutral-900 dark:text-white font-semibold">
-                  {formatCurrency((parseFloat(quantity) * parseFloat(purchasePrice)) + (parseFloat(fees) || 0))}
-                </span>
+              <div className="pt-1.5 border-t border-white/[0.04]">
+                <Row label="Gesamt" value={formatCurrency(investAmount + feeAmount)} bold />
               </div>
-
-              {/* Aufstocken-Vorschau */}
               {topUpPreview && (
-                <div className="pt-1.5 border-t border-neutral-200 dark:border-neutral-700/50 space-y-1">
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-blue-500">Neue Gesamtmenge</span>
-                    <span className="text-neutral-900 dark:text-white font-medium">{topUpPreview.totalQty} Stk.</span>
-                  </div>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-blue-500">Neuer Ø Preis</span>
-                    <span className="text-neutral-900 dark:text-white font-medium">{formatStockPrice(topUpPreview.avgPrice)}</span>
-                  </div>
+                <div className="pt-1.5 border-t border-white/[0.04] space-y-1.5">
+                  <Row
+                    label="Neue Gesamtmenge"
+                    value={`${topUpPreview.totalQty} Stk.`}
+                    accent="blue"
+                  />
+                  <Row
+                    label="Neuer Ø Preis"
+                    value={formatStockPrice(topUpPreview.avgPrice)}
+                    accent="blue"
+                  />
                 </div>
               )}
             </div>
           )}
 
+          {/* Submit */}
           <button
             onClick={handleSubmit}
             disabled={submitting || !quantity || !purchasePrice}
-            className="w-full py-2.5 bg-emerald-500 hover:bg-emerald-400 disabled:bg-neutral-300 dark:disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium"
+            className="w-full py-2.5 rounded-xl bg-white text-black text-[12px] font-semibold hover:bg-white/90 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {submitting ? (
-              <><ArrowPathIcon className="w-4 h-4 animate-spin" />Wird hinzugefügt...</>
+              <><ArrowPathIcon className="w-4 h-4 animate-spin" />Wird hinzugefügt…</>
             ) : isTopUp ? (
               <><CheckIcon className="w-4 h-4" />Position aufstocken</>
             ) : (
@@ -275,6 +243,87 @@ export default function BuyForm({
           </button>
         </>
       )}
+    </div>
+  )
+}
+
+// === Shared UI-Bausteine (Glassmorphism) ===================================
+
+function Field({
+  label,
+  suffix,
+  children,
+}: {
+  label: string
+  suffix?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-1.5">
+        <label className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">
+          {label}
+        </label>
+        {suffix && <span className="text-[10px] text-white/25">{suffix}</span>}
+      </div>
+      {children}
+    </div>
+  )
+}
+
+function Input({
+  type = 'text',
+  value,
+  onChange,
+  ...rest
+}: {
+  type?: string
+  value: string
+  onChange: (v: string) => void
+  placeholder?: string
+  inputMode?: 'decimal' | 'numeric' | 'text'
+  step?: string
+  min?: string
+  max?: string
+}) {
+  return (
+    <input
+      type={type}
+      value={value}
+      onChange={e => onChange(e.target.value)}
+      {...rest}
+      className="w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none focus:border-emerald-400/50 transition-colors tabular-nums"
+    />
+  )
+}
+
+function Row({
+  label,
+  value,
+  bold,
+  muted,
+  accent,
+}: {
+  label: string
+  value: string
+  bold?: boolean
+  muted?: boolean
+  accent?: 'blue' | 'red'
+}) {
+  const labelColor = accent === 'blue'
+    ? 'text-blue-400/90'
+    : muted
+      ? 'text-white/40'
+      : 'text-white/55'
+  const valueColor = bold
+    ? 'text-white font-semibold'
+    : muted
+      ? 'text-white/60'
+      : 'text-white/80'
+  return (
+    <div className="flex items-center justify-between text-[12px]">
+      <span className={labelColor}>{label}</span>
+      <span className={`tabular-nums ${valueColor}`}>{value}</span>
     </div>
   )
 }

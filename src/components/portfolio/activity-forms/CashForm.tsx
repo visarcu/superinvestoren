@@ -24,12 +24,11 @@ export default function CashForm({
   const [submitting, setSubmitting] = useState(false)
 
   const isDeposit = direction === 'deposit'
-  const amountNum = parseFloat(amount) || 0
+  const amountNum = parseFloat(amount.replace(',', '.')) || 0
 
   const handleSubmit = async () => {
     if (!amount || amountNum <= 0) return
 
-    // Bei Auszahlung pruefen ob genug Cash vorhanden
     if (!isDeposit && amountNum > cashPosition) {
       alert('Nicht genug Cash-Guthaben vorhanden.')
       return
@@ -51,60 +50,57 @@ export default function CashForm({
     ? cashPosition + amountNum
     : cashPosition - amountNum
 
+  const focusClass = isDeposit ? 'focus:border-emerald-400/50' : 'focus:border-red-400/50'
+  const submitClass = isDeposit
+    ? 'bg-emerald-500/90 hover:bg-emerald-500'
+    : 'bg-red-500/90 hover:bg-red-500'
+
   return (
     <div className="space-y-4">
       {/* Aktueller Stand */}
-      <div className="bg-neutral-100 dark:bg-neutral-800/30 border border-neutral-200 dark:border-neutral-700/50 rounded-lg p-3">
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-neutral-500">Aktuelles Cash-Guthaben</span>
-          <span className="text-sm font-medium text-neutral-900 dark:text-white">{formatCurrency(cashPosition)}</span>
-        </div>
+      <div className="flex items-center justify-between px-4 py-3 rounded-xl bg-white/[0.02] border border-white/[0.04]">
+        <span className="text-[11px] uppercase tracking-wider font-semibold text-white/55">Cash-Guthaben</span>
+        <span className="text-[13px] font-semibold text-white tabular-nums">{formatCurrency(cashPosition)}</span>
       </div>
 
       <div className="grid grid-cols-2 gap-3">
-        <div>
-          <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">
-            Betrag (EUR)
-          </label>
+        <Field label="Betrag" suffix="€">
           <input
-            type="number" min="0" step="0.01"
+            type="number"
+            inputMode="decimal"
+            step="any"
+            min="0"
             value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            onChange={e => setAmount(e.target.value)}
             placeholder="0,00"
-            className={`w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 ${
-              isDeposit ? 'focus:ring-emerald-400' : 'focus:ring-red-400'
-            } focus:border-transparent`}
+            className={`w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none ${focusClass} transition-colors tabular-nums`}
           />
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-neutral-400 dark:text-neutral-400 mb-1">Datum</label>
+        </Field>
+        <Field label="Datum">
           <input
             type="date"
             value={cashDate}
-            onChange={(e) => setCashDate(e.target.value)}
+            onChange={e => setCashDate(e.target.value)}
             max={new Date().toISOString().split('T')[0]}
-            className={`w-full px-3 py-2 bg-white dark:bg-neutral-800 border border-neutral-300 dark:border-neutral-700 rounded-lg text-neutral-900 dark:text-white focus:ring-2 ${
-              isDeposit ? 'focus:ring-emerald-400' : 'focus:ring-red-400'
-            } focus:border-transparent`}
+            className={`w-full bg-white/[0.03] border border-white/[0.06] rounded-xl px-4 py-2.5 text-[13px] text-white placeholder:text-white/30 focus:outline-none ${focusClass} transition-colors tabular-nums`}
           />
-        </div>
+        </Field>
       </div>
 
-      {/* Vorschau */}
       {amountNum > 0 && (
-        <div className="bg-neutral-100 dark:bg-neutral-800/30 border border-neutral-200 dark:border-neutral-700/50 rounded-lg p-3 space-y-1.5">
-          <div className="flex items-center justify-between text-sm">
-            <span className="text-neutral-500">{isDeposit ? 'Einzahlung' : 'Auszahlung'}</span>
-            <span className={`font-medium ${isDeposit ? 'text-emerald-400' : 'text-red-400'}`}>
+        <div className="rounded-xl bg-white/[0.02] border border-white/[0.04] px-4 py-3 space-y-1.5">
+          <div className="flex items-center justify-between text-[12px]">
+            <span className="text-white/55">{isDeposit ? 'Einzahlung' : 'Auszahlung'}</span>
+            <span className={`font-semibold tabular-nums ${isDeposit ? 'text-emerald-400' : 'text-red-400'}`}>
               {isDeposit ? '+' : '-'}{formatCurrency(amountNum)}
             </span>
           </div>
-          <div className="flex items-center justify-between text-sm pt-1.5 border-t border-neutral-200 dark:border-neutral-700/50">
-            <span className="text-neutral-500">Neuer Stand</span>
-            <span className="text-neutral-900 dark:text-white font-semibold">{formatCurrency(newCashPosition)}</span>
+          <div className="pt-1.5 border-t border-white/[0.04] flex items-center justify-between text-[12px]">
+            <span className="text-white/55">Neuer Stand</span>
+            <span className="text-white font-semibold tabular-nums">{formatCurrency(newCashPosition)}</span>
           </div>
           {!isDeposit && amountNum > cashPosition && (
-            <p className="text-xs text-red-400 mt-1">Nicht genug Cash-Guthaben</p>
+            <p className="text-[11px] text-red-300 pt-1">Nicht genug Cash-Guthaben</p>
           )}
         </div>
       )}
@@ -112,18 +108,34 @@ export default function CashForm({
       <button
         onClick={handleSubmit}
         disabled={submitting || amountNum <= 0 || (!isDeposit && amountNum > cashPosition)}
-        className={`w-full py-2.5 ${
-          isDeposit
-            ? 'bg-emerald-500 hover:bg-emerald-400'
-            : 'bg-red-500 hover:bg-red-400'
-        } disabled:bg-neutral-300 dark:disabled:bg-neutral-800 disabled:cursor-not-allowed text-white rounded-lg transition-colors flex items-center justify-center gap-2 font-medium`}
+        className={`w-full py-2.5 rounded-xl text-[12px] font-semibold text-white transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${submitClass}`}
       >
         {submitting ? (
-          <><ArrowPathIcon className="w-4 h-4 animate-spin" />Wird verarbeitet...</>
+          <><ArrowPathIcon className="w-4 h-4 animate-spin" />Wird verarbeitet…</>
         ) : (
           <><CheckIcon className="w-4 h-4" />{isDeposit ? 'Einzahlung buchen' : 'Auszahlung buchen'}</>
         )}
       </button>
+    </div>
+  )
+}
+
+function Field({
+  label,
+  suffix,
+  children,
+}: {
+  label: string
+  suffix?: string
+  children: React.ReactNode
+}) {
+  return (
+    <div>
+      <div className="flex items-baseline justify-between mb-1.5">
+        <label className="text-[11px] font-semibold text-white/60 uppercase tracking-wider">{label}</label>
+        {suffix && <span className="text-[10px] text-white/25">{suffix}</span>}
+      </div>
+      {children}
     </div>
   )
 }

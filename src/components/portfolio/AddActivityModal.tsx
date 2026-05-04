@@ -135,37 +135,40 @@ export default function AddActivityModal({
   const selectedConfig = selectedType ? ACTIVITY_TYPES.find(t => t.key === selectedType) : null
 
   return (
-    <div className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 overflow-y-auto" onClick={handleClose}>
-      <div className="min-h-full flex items-center justify-center p-4">
-        <div
-          className="bg-neutral-950 rounded-2xl max-w-md w-full border border-neutral-800/80 shadow-2xl relative overflow-hidden flex flex-col max-h-[90vh]"
-          onClick={(e) => e.stopPropagation()}
-        >
+    <div
+      className="fixed inset-0 z-[100] flex items-start sm:items-center justify-center p-4 sm:p-8 overflow-y-auto"
+      onClick={handleClose}
+    >
+      <div className="absolute inset-0 bg-black/80 backdrop-blur-md" />
+      <div
+        className="relative w-full max-w-md bg-[#0c0c16] border border-white/[0.08] rounded-2xl shadow-[0_24px_80px_rgba(0,0,0,0.7)] my-auto overflow-hidden flex flex-col max-h-[min(90vh,800px)]"
+        onClick={(e) => e.stopPropagation()}
+      >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80 flex-shrink-0">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center justify-between px-6 py-5 border-b border-white/[0.04] flex-shrink-0">
+          <div className="flex items-center gap-3 min-w-0">
             {step === 'form' && (
               <button
                 onClick={handleBack}
-                className="p-1.5 -ml-1.5 hover:bg-neutral-900/60 rounded-lg transition-colors"
+                className="p-1.5 -ml-1.5 hover:bg-white/[0.06] rounded-lg transition-colors flex-shrink-0"
               >
-                <ArrowLeftIcon className="w-4 h-4 text-neutral-400 hover:text-neutral-200" />
+                <ArrowLeftIcon className="w-4 h-4 text-white/40 hover:text-white" />
               </button>
             )}
-            <div>
-              <h2 className="text-[15px] font-semibold text-white tracking-tight">
+            <div className="min-w-0">
+              <h2 className="text-[16px] font-bold text-white tracking-tight truncate">
                 {step === 'type' ? 'Aktivität hinzufügen' : selectedConfig?.label || ''}
               </h2>
-              <p className="text-[11px] text-neutral-500 mt-0.5">
+              <p className="text-[12px] text-white/30 mt-0.5 truncate">
                 {step === 'type' ? 'Wähle den Typ deiner Buchung' : selectedConfig?.description}
               </p>
             </div>
           </div>
           <button
             onClick={handleClose}
-            className="p-1.5 hover:bg-neutral-800/60 rounded-lg transition-colors flex-shrink-0"
+            className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors flex-shrink-0 text-white/40 hover:text-white"
           >
-            <XMarkIcon className="w-4.5 h-4.5 text-neutral-500 hover:text-neutral-300" />
+            <XMarkIcon className="w-5 h-5" />
           </button>
         </div>
 
@@ -185,19 +188,19 @@ export default function AddActivityModal({
                   disabled={disabled}
                   className={`group w-full flex items-center gap-3 p-3.5 rounded-xl border transition-all text-left ${
                     disabled
-                      ? 'opacity-40 cursor-not-allowed border-neutral-800/80 bg-neutral-900/30'
-                      : 'border-neutral-800/80 bg-neutral-900/40 hover:border-neutral-700 hover:bg-neutral-900/80'
+                      ? 'opacity-40 cursor-not-allowed border-white/[0.04] bg-white/[0.01]'
+                      : 'border-white/[0.06] bg-white/[0.02] hover:border-white/[0.12] hover:bg-white/[0.04]'
                   }`}
                 >
-                  <div className="w-9 h-9 rounded-lg bg-neutral-900 border border-neutral-800 flex items-center justify-center flex-shrink-0 relative">
-                    <Icon className="w-4 h-4 text-neutral-300" />
+                  <div className="w-9 h-9 rounded-lg bg-white/[0.04] border border-white/[0.06] flex items-center justify-center flex-shrink-0 relative">
+                    <Icon className="w-4 h-4 text-white/80" />
                     <span className={`absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full ${type.accentDot}`} />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <span className="font-medium text-[13px] text-white">{type.label}</span>
-                    <p className="text-[11px] text-neutral-500 mt-0.5 leading-snug">{type.description}</p>
+                    <span className="font-semibold text-[13px] text-white">{type.label}</span>
+                    <p className="text-[11px] text-white/40 mt-0.5 leading-snug">{type.description}</p>
                   </div>
-                  <ArrowLeftIcon className="w-3.5 h-3.5 text-neutral-600 rotate-180 group-hover:text-neutral-400 transition-colors flex-shrink-0" />
+                  <ArrowLeftIcon className="w-3.5 h-3.5 text-white/30 rotate-180 group-hover:text-white/70 transition-colors flex-shrink-0" />
                 </button>
               )
             })}
@@ -285,7 +288,6 @@ export default function AddActivityModal({
             onSuccess={handleSuccess}
           />
         )}
-        </div>
         </div>
       </div>
     </div>
