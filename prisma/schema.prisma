@@ -259,3 +259,35 @@ model StockSplit {
   @@index([symbol])
   @@index([splitDate])
 }
+
+// ═══════════════════════════════════════════════════════════════════════════
+// IPO Calendar – eigene Daten direkt aus SEC EDGAR (Form 424B4 + S-1)
+// 424B4 = finaler Pricing-Prospectus (Listing 1-2 Tage später)
+// S-1   = Initial Registration (geplanter IPO, kein Pricing)
+// S-1/A = Amendment zur Registration
+// Befüllt vom wöchentlichen Cron /api/cron/sync-ipos
+// ═══════════════════════════════════════════════════════════════════════════
+
+model IpoCalendar {
+  id          String   @id @default(cuid())
+  cik         String // SEC Central Index Key (10-stellig, z.B. "0002102155")
+  ticker      String? // optional, parsed aus display_names
+  companyName String
+  filingType  String // "424B4" | "S-1" | "S-1/A" | "EFFECT"
+  filingDate  DateTime @db.Date // Datum des Filings (= IPO-Date für 424B4)
+  accessionNo String   @unique // SEC Accession Number, z.B. "0001213900-26-051097"
+  filingUrl   String // Link zum Filing-Index auf sec.gov
+  status      String // "priced" (424B4) | "pending" (S-1, S-1/A) | "effective"
+  sicCode     String? // SIC Industry Code
+  bizState    String? // Geschäftssitz (z.B. "MA", "DE")
+  bizLocation String? // Stadt/Land
+  incState    String? // Incorporation State
+  source      String   @default("sec-edgar")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([filingDate])
+  @@index([status])
+  @@index([ticker])
+  @@index([cik])
+}
