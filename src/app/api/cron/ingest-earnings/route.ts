@@ -144,25 +144,36 @@ export async function GET(request: NextRequest) {
       // Bulk-Upsert: alle Rows eines Tages in einem einzigen Round-Trip
       // (vorher: N seriellen Upserts → ~50ms × 300 Rows = 15s pro Tag).
       // Ungültige Rows (kein Ticker) werden vorab gefiltert.
-      const records = rows
-        .filter(r => r.symbol)
-        .map(r => {
-          const fp = parseFiscalQuarter(r.fiscalQuarterEnding)
-          return {
-            ticker: r.symbol!.toUpperCase(),
-            company_name: r.name ?? null,
-            date: dateStr,
-            fiscal_quarter: fp.quarter,
-            fiscal_year: fp.year,
-            eps_estimate: parseEps(r.epsForecast),
-            call_time: parseCallTime(r.time),
-            market_cap: parseMarketCap(r.marketCap),
-            is_upcoming: isUpcoming,
-            confirmed: true,
-            source: 'nasdaq-public',
-            updated_at: nowIso,
-          }
-        })
+      //
+      // Dedup nach Ticker — NASDAQ liefert für manche Symbole zweimal denselben
+      // Tag (z.B. ARIS am 2026-05-06 mit nur unterschiedlichem lastYearRptDt).
+      // Postgres' ON CONFLICT DO UPDATE kann denselben Conflict-Key nicht in
+      // einem einzigen Statement zweimal updaten ("cannot affect row a second
+      // time") und würde sonst den ganzen Bulk-Upsert killen. Last-write-wins.
+      const dedup = new Map<string, ReturnType<typeof toRecord>>()
+      function toRecord(r: NasdaqRow) {
+        const fp = parseFiscalQuarter(r.fiscalQuarterEnding)
+        return {
+          ticker: r.symbol!.toUpperCase(),
+          company_name: r.name ?? null,
+          date: dateStr,
+          fiscal_quarter: fp.quarter,
+          fiscal_year: fp.year,
+          eps_estimate: parseEps(r.epsForecast),
+          call_time: parseCallTime(r.time),
+          market_cap: parseMarketCap(r.marketCap),
+          is_upcoming: isUpcoming,
+          confirmed: true,
+          source: 'nasdaq-public',
+          updated_at: nowIso,
+        }
+      }
+      for (const r of rows) {
+        if (!r.symbol) continue
+        const rec = toRecord(r)
+        dedup.set(rec.ticker, rec)
+      }
+      const records = Array.from(dedup.values())
 
       if (records.length > 0) {
         const { error } = await supabase
