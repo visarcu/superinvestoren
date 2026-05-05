@@ -36,6 +36,8 @@ interface Props {
   purchaseMarkers?: PurchaseMarker[]
   week52High?: number | null
   week52Low?: number | null
+  /** Override Währungssymbol — z.B. wenn data bereits in EUR umgerechnet wurde */
+  displayCurrency?: 'EUR' | 'USD' | 'GBP' | 'CHF'
 }
 
 const TIME_RANGES = [
@@ -56,7 +58,7 @@ const CHART_MODES = [
   { id: 'total_return', label: 'Performance' },
 ]
 
-export default function WorkingStockChart({ ticker, data, purchaseMarkers, week52High, week52Low }: Props) {
+export default function WorkingStockChart({ ticker, data, purchaseMarkers, week52High, week52Low, displayCurrency }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -97,8 +99,12 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
     return () => { cancelled = true }
   }, [selectedRange, ticker])
 
-  // Währung basierend auf Ticker erkennen (z.B. G24.DE → EUR, AAPL → USD)
-  const tickerCurrency = useMemo(() => detectTickerCurrency(ticker), [ticker])
+  // Währung basierend auf Ticker erkennen (z.B. G24.DE → EUR, AAPL → USD).
+  // displayCurrency-Prop überschreibt das, falls data bereits umgerechnet wurde.
+  const tickerCurrency = useMemo(
+    () => displayCurrency ?? detectTickerCurrency(ticker),
+    [ticker, displayCurrency]
+  )
   const currencySymbol = tickerCurrency === 'EUR' ? '€' : tickerCurrency === 'GBP' ? '£' : tickerCurrency === 'CHF' ? 'CHF' : '$'
 
   const formatStockPrice = useCallback((price: number, showCurrency: boolean = true): string => {
