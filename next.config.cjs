@@ -12,10 +12,12 @@ const nextConfig = {
     serverComponentsExternalPackages: ['pdf-parse', 'pdf-parse/lib/pdf-parse', 'xlsx', 'adm-zip', 'htmlparser2'],
     // Prisma-Engine liegt in prisma/node_modules/@prisma/client (custom output).
     // Next.js Tracing findet die .so-Binary für Linux Lambda sonst nicht.
+    // Wir tracen das ganze prisma/ Verzeichnis (inkl. node_modules + Engine-Binary).
     outputFileTracingIncludes: {
       '/**/*': [
-        './prisma/node_modules/@prisma/client/**/*',
-        './prisma/node_modules/.prisma/**/*',
+        './prisma/**/*',
+        './node_modules/.prisma/**/*',
+        './node_modules/@prisma/client/**/*',
       ],
     },
   },
