@@ -46,3 +46,6 @@ next-env.d.ts
 *.env*
 # Claude worktrees
 .claude/worktrees/
+
+# Prisma generated client (legacy custom output path)
+prisma/node_modules/
