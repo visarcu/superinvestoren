@@ -19,7 +19,8 @@
 //
 // Wird genutzt von /api/cron/sync-ipos (wöchentlich) und scripts/fetchIpoFilings.ts (manuell).
 
-import { prisma } from './prisma'
+import { supabaseAdmin } from './supabaseAdmin'
+import { randomUUID } from 'crypto'
 
 const EDGAR_FULLTEXT_URL = 'https://efts.sec.gov/LATEST/search-index'
 const USER_AGENT = 'Finclue research@finclue.de'
@@ -214,35 +215,43 @@ export async function syncIpoCalendar(daysBack = 30, maxPerForm = 100): Promise<
 
       for (const f of filings) {
         try {
-          const existing = await prisma.ipoCalendar.findUnique({
-            where: { accessionNo: f.accessionNo },
-          })
+          // Check ob existiert (über Supabase HTTP-API, nicht Prisma)
+          const { data: existing } = await supabaseAdmin
+            .from('IpoCalendar')
+            .select('id')
+            .eq('accessionNo', f.accessionNo)
+            .maybeSingle()
 
-          const dateObj = new Date(f.filingDate + 'T00:00:00.000Z')
+          const filingDateIso = f.filingDate // YYYY-MM-DD String, kompatibel mit DATE-Spalte
+          const nowIso = new Date().toISOString()
 
           if (existing) {
-            await prisma.ipoCalendar.update({
-              where: { accessionNo: f.accessionNo },
-              data: {
+            const { error: updErr } = await supabaseAdmin
+              .from('IpoCalendar')
+              .update({
                 ticker: f.ticker,
                 companyName: f.companyName,
-                filingDate: dateObj,
+                filingDate: filingDateIso,
                 status: f.status,
                 sicCode: f.sicCode,
                 bizState: f.bizState,
                 bizLocation: f.bizLocation,
                 incState: f.incState,
-              },
-            })
+                updatedAt: nowIso,
+              })
+              .eq('accessionNo', f.accessionNo)
+            if (updErr) throw new Error(updErr.message)
             result.updated += 1
           } else {
-            await prisma.ipoCalendar.create({
-              data: {
+            const { error: insErr } = await supabaseAdmin
+              .from('IpoCalendar')
+              .insert({
+                id: randomUUID(),
                 cik: f.cik,
                 ticker: f.ticker,
                 companyName: f.companyName,
                 filingType: f.filingType,
-                filingDate: dateObj,
+                filingDate: filingDateIso,
                 accessionNo: f.accessionNo,
                 filingUrl: f.filingUrl,
                 status: f.status,
@@ -251,17 +260,22 @@ export async function syncIpoCalendar(daysBack = 30, maxPerForm = 100): Promise<
                 bizLocation: f.bizLocation,
                 incState: f.incState,
                 source: 'sec-edgar',
-              },
-            })
-            result.inserted += 1
+                createdAt: nowIso,
+                updatedAt: nowIso,
+              })
+            if (insErr) {
+              if (insErr.message.includes('duplicate key') || insErr.code === '23505') {
+                result.skipped += 1
+              } else {
+                throw new Error(insErr.message)
+              }
+            } else {
+              result.inserted += 1
+            }
           }
         } catch (err) {
           const msg = err instanceof Error ? err.message : String(err)
-          if (msg.includes('Unique constraint')) {
-            result.skipped += 1
-          } else {
-            result.errors.push(`${f.accessionNo}: ${msg}`)
-          }
+          result.errors.push(`${f.accessionNo}: ${msg}`)
         }
       }
     } catch (err) {

@@ -3,9 +3,12 @@
 //
 // Source: SEC EDGAR (Form 424B4 + S-1 + S-1/A), gespeichert in IpoCalendar-Tabelle.
 // Wird täglich/wöchentlich vom Cron /api/cron/sync-ipos befüllt.
+//
+// Verwendet Supabase HTTP-API (statt Prisma/Postgres direkt), weil Vercel-Lambdas
+// keinen direkten Postgres-Port (5432) zu Supabase erreichen können.
 
 import { NextRequest, NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
+import { createClient } from '@supabase/supabase-js'
 
 interface IpoResponseItem {
   cik: string
@@ -25,6 +28,12 @@ interface IpoResponseItem {
 const STATUS_VALUES = new Set(['priced', 'pending', 'effective'])
 
 export async function GET(request: NextRequest) {
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+  if (!supabaseUrl || !supabaseKey) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 500 })
+  }
+
   try {
     const sp = request.nextUrl.searchParams
     const fromParam = sp.get('from')
@@ -47,25 +56,31 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid date format. Use YYYY-MM-DD.' }, { status: 400 })
     }
 
-    const where: Record<string, unknown> = {
-      filingDate: { gte: fromDate, lte: toDate },
-    }
+    const fromIso = fromDate.toISOString().split('T')[0]
+    const toIso = toDate.toISOString().split('T')[0]
+
+    const supabase = createClient(supabaseUrl, supabaseKey)
+    let query = supabase
+      .from('IpoCalendar')
+      .select('cik, ticker, companyName, filingType, filingDate, accessionNo, filingUrl, status, sicCode, bizState, bizLocation, source')
+      .gte('filingDate', fromIso)
+      .lte('filingDate', toIso)
+      .order('filingDate', { ascending: false })
+      .limit(limit)
+
     if (statusParam && STATUS_VALUES.has(statusParam)) {
-      where.status = statusParam
+      query = query.eq('status', statusParam)
     }
 
-    const rows = await prisma.ipoCalendar.findMany({
-      where,
-      orderBy: { filingDate: 'desc' },
-      take: limit,
-    })
+    const { data: rows, error } = await query
+    if (error) throw error
 
-    const data: IpoResponseItem[] = rows.map(r => ({
+    const data: IpoResponseItem[] = (rows || []).map(r => ({
       cik: r.cik,
       ticker: r.ticker,
       companyName: r.companyName,
       filingType: r.filingType,
-      filingDate: r.filingDate.toISOString().split('T')[0],
+      filingDate: typeof r.filingDate === 'string' ? r.filingDate.split('T')[0] : r.filingDate,
       accessionNo: r.accessionNo,
       filingUrl: r.filingUrl,
       status: r.status,
@@ -83,10 +98,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(
       {
-        range: {
-          from: fromDate.toISOString().split('T')[0],
-          to: toDate.toISOString().split('T')[0],
-        },
+        range: { from: fromIso, to: toIso },
         counts,
         data,
         source: 'sec-edgar',
