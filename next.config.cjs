@@ -10,6 +10,14 @@ const nextConfig = {
   // Next.js 13.x: experimental.serverComponentsExternalPackages (ab 14: serverExternalPackages)
   experimental: {
     serverComponentsExternalPackages: ['pdf-parse', 'pdf-parse/lib/pdf-parse', 'xlsx', 'adm-zip', 'htmlparser2'],
+    // Prisma-Engine liegt in prisma/node_modules/@prisma/client (custom output).
+    // Next.js Tracing findet die .so-Binary für Linux Lambda sonst nicht.
+    outputFileTracingIncludes: {
+      '/**/*': [
+        './prisma/node_modules/@prisma/client/**/*',
+        './prisma/node_modules/.prisma/**/*',
+      ],
+    },
   },
 
   images: {
