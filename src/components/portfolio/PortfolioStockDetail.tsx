@@ -434,6 +434,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           ticker={ticker}
           data={history}
           purchaseMarkers={chartMarkers.length > 0 ? chartMarkers : undefined}
+          displayCurrency="EUR"
         />
       ) : (
         <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-12 text-center">
