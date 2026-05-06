@@ -17,9 +17,10 @@ interface EarningsEvent {
 
 interface PortfolioEarningsPreviewProps {
   symbols: string[]
+  companyNames?: Record<string, string>
 }
 
-export default function PortfolioEarningsPreview({ symbols }: PortfolioEarningsPreviewProps) {
+export default function PortfolioEarningsPreview({ symbols, companyNames = {} }: PortfolioEarningsPreviewProps) {
   const [earnings, setEarnings] = useState<EarningsEvent[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -136,6 +137,7 @@ export default function PortfolioEarningsPreview({ symbols }: PortfolioEarningsP
         {earnings.map((event, index) => {
           const daysUntil = getDaysUntil(event.date)
           const isImminent = daysUntil === 'Heute' || daysUntil === 'Morgen'
+          const displayName = companyNames[event.ticker] || event.companyName || event.ticker
 
           return (
             <Link
@@ -144,10 +146,10 @@ export default function PortfolioEarningsPreview({ symbols }: PortfolioEarningsP
               className="flex items-center justify-between py-2.5 px-5 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/60 transition-colors group"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <Logo ticker={event.ticker} alt={event.ticker} className="w-7 h-7" padding="none" />
+                <Logo ticker={event.ticker} alt={displayName} className="w-7 h-7" padding="none" />
                 <div className="min-w-0">
                   <span className="font-medium text-white text-[13px] block truncate">
-                    {event.ticker}
+                    {displayName}
                   </span>
                   <p className="text-[11px] text-neutral-500 truncate">{event.quarter}</p>
                 </div>

@@ -986,7 +986,10 @@ export default function PortfolioHoldingsV2({ user }: PortfolioHoldingsV2Props) 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Upcoming Earnings */}
           <div className="bg-[#111111] border border-neutral-800 rounded-2xl p-6">
-            <PortfolioEarningsPreview symbols={allHoldingsFlat.map(h => h.symbol)} />
+            <PortfolioEarningsPreview
+              symbols={allHoldingsFlat.map(h => h.symbol)}
+              companyNames={Object.fromEntries(allHoldingsFlat.map(h => [h.symbol, h.name]))}
+            />
           </div>
 
           {/* Dividend Summary */}

@@ -680,7 +680,10 @@ export default function PortfolioDashboard() {
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr,1.6fr] gap-5">
                 {/* Earnings links — kompakt, clean */}
                 <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/50 overflow-hidden">
-                  <PortfolioEarningsPreview symbols={p.holdings.map(h => h.symbol)} />
+                  <PortfolioEarningsPreview
+                    symbols={p.holdings.map(h => h.symbol)}
+                    companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
+                  />
                 </div>
 
                 {/* Chart rechts — bekommt mehr Platz */}
