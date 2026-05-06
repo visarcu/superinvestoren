@@ -197,8 +197,12 @@ export default function Sidebar({
     >
       <div className={`flex h-14 items-center justify-between border-b border-theme ${sidebarCollapsed ? 'px-3' : 'px-4'}`}>
         <Link href="/" className="flex min-w-0 items-center gap-3" title="Finclue">
-          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg bg-brand text-white">
-            <img src="/logos/logo-transparent-white.svg" alt="Finclue" className="h-4 w-4" />
+          <span className="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-lg border border-theme bg-theme-secondary">
+            <img
+              src={theme === 'dark' ? '/logos/logo-transparent-white.svg' : '/logos/logo-transparent-black.svg'}
+              alt="Finclue"
+              className="h-5 w-5"
+            />
           </span>
           {!sidebarCollapsed && (
             <span className="truncate text-lg font-semibold tracking-tight text-theme-primary">
