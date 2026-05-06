@@ -705,20 +705,26 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
       
       <div className="aspect-square">
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart 
-            data={validData} 
+          <BarChart
+            data={validData}
             margin={{ top: 10, right: 10, bottom: 25, left: 40 }}
           >
+            <defs>
+              <linearGradient id={`bar-gradient-${metricKey}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor={color} stopOpacity={0.95} />
+                <stop offset="100%" stopColor={color} stopOpacity={0.55} />
+              </linearGradient>
+            </defs>
             <CartesianGrid
               strokeDasharray="3 3"
-              stroke="rgba(148, 163, 184, 0.5)"
+              stroke="rgba(255, 255, 255, 0.07)"
               horizontal={true}
               vertical={false}
             />
             <XAxis
               dataKey="label"
-              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              axisLine={false}
+              tickLine={false}
               tick={{
                 fontSize: 11,
                 fill: 'var(--text-secondary)',
@@ -728,8 +734,8 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               height={25}
             />
             <YAxis
-              axisLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
-              tickLine={{ stroke: 'var(--color-text-tertiary)', strokeWidth: 1 }}
+              axisLine={false}
+              tickLine={false}
               tick={{
                 fontSize: 10,
                 fill: 'var(--text-secondary)'
@@ -804,11 +810,10 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                 )
               }}
             />
-            <Bar 
-              dataKey={metricKey} 
-              fill={color}
-              radius={[2, 2, 0, 0]}
-              className="drop-shadow-sm"
+            <Bar
+              dataKey={metricKey}
+              fill={`url(#bar-gradient-${metricKey})`}
+              radius={[3, 3, 0, 0]}
             />
           </BarChart>
         </ResponsiveContainer>

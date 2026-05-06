@@ -8,7 +8,7 @@ export type Theme = 'light' | 'dark'
 
 // ✅ Feature Flag: Light Theme temporär deaktiviert
 // Auf false setzen um Light Theme wieder zu aktivieren
-export const LIGHT_THEME_DISABLED = false
+export const LIGHT_THEME_DISABLED = true
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>('dark')
