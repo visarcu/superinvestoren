@@ -87,11 +87,12 @@ export default function QuickStats({
   const hasCredit = brokerCredit < 0
   // Eigenkapital = Gesamtwert + Kredit (Kredit ist negativ)
   const equity = totalValue + brokerCredit
+  const statCardClass = 'bg-white dark:bg-white/[0.035] dark:backdrop-blur-xl rounded-xl p-4 border border-neutral-200 dark:border-white/[0.08] dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_18px_60px_rgba(0,0,0,0.18)]'
 
   return (
     <div className={`grid gap-4 ${hasCredit ? 'grid-cols-2 lg:grid-cols-5' : 'grid-cols-2 lg:grid-cols-4'}`}>
       {/* Gesamtwert */}
-      <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
+      <div className={statCardClass}>
         <p className="text-xs text-neutral-500 mb-1">Gesamtwert</p>
         <p className="text-xl font-bold text-neutral-900 dark:text-white">{formatCurrency(totalValue)}</p>
         <p className="text-xs text-neutral-500 mt-1">
@@ -106,7 +107,7 @@ export default function QuickStats({
 
       {/* Cash */}
       <div
-        className={`bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50 ${onCashClick ? 'cursor-pointer hover:border-neutral-300 dark:hover:border-neutral-700 transition-colors' : ''}`}
+        className={`${statCardClass} ${onCashClick ? 'cursor-pointer hover:border-neutral-300 dark:hover:border-teal-300/30 dark:hover:bg-white/[0.055] transition-colors' : ''}`}
         onClick={onCashClick}
       >
         <p className="text-xs text-neutral-500 mb-1">
@@ -121,7 +122,7 @@ export default function QuickStats({
       {/* Wertpapierkredit — nur anzeigen wenn vorhanden */}
       {hasCredit && (
         <div
-          className={`bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-red-200/30 dark:border-red-900/30 ${onCreditClick ? 'cursor-pointer hover:border-red-300/50 dark:hover:border-red-800/50 transition-colors' : ''}`}
+          className={`bg-white dark:bg-red-500/[0.035] dark:backdrop-blur-xl rounded-xl p-4 border border-red-200/30 dark:border-red-400/20 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.045),0_18px_60px_rgba(0,0,0,0.18)] ${onCreditClick ? 'cursor-pointer hover:border-red-300/50 dark:hover:border-red-400/35 dark:hover:bg-red-500/[0.06] transition-colors' : ''}`}
           onClick={onCreditClick}
         >
           <p className="text-xs text-neutral-500 mb-1">
@@ -135,7 +136,7 @@ export default function QuickStats({
       )}
 
       {/* Gesamtrendite (Unrealisiert + Realisiert + Dividenden) */}
-      <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
+      <div className={statCardClass}>
         <p className="text-xs text-neutral-500 mb-1 flex items-center">
           {hasBreakdown ? 'Gesamtrendite' : 'Gewinn / Verlust'}
           <InfoTooltip title="Gesamtrendite">
@@ -200,7 +201,7 @@ export default function QuickStats({
       </div>
 
       {/* XIRR */}
-      <div className="bg-white dark:bg-neutral-900/50 rounded-xl p-4 border border-neutral-200 dark:border-neutral-800/50">
+      <div className={statCardClass}>
         <p className="text-xs text-neutral-500 mb-1 flex items-center">
           Interner Zinsfuß (XIRR)
           <InfoTooltip title="Interner Zinsfuß (XIRR)">

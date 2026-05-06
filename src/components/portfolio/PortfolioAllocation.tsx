@@ -192,8 +192,8 @@ export default function PortfolioAllocation({
         {slices.slice(0, 12).map((s, i) => (
           <div
             key={s.symbol + i}
-            className={`flex items-center justify-between py-1.5 px-2 rounded-md cursor-pointer transition-colors ${
-              hoveredIdx === i ? 'bg-neutral-900' : 'hover:bg-neutral-900/50'
+            className={`flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer transition-colors ${
+              hoveredIdx === i ? 'bg-white/[0.06]' : 'hover:bg-white/[0.04]'
             }`}
             onMouseEnter={() => setHoveredIdx(i)}
             onMouseLeave={() => setHoveredIdx(null)}

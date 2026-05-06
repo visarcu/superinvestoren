@@ -408,10 +408,13 @@ export default function PortfolioDashboard() {
     }
   }
 
+  const displayedPortfolioValue = includeCashInTotal ? p.totalValue : p.stockValue
+  const totalReturnPositive = p.totalReturn >= 0
+
   // Loading
   if (p.loading) {
     return (
-      <div className="min-h-screen bg-dark">
+      <div className="min-h-screen bg-[#050506]">
         <div className="w-full px-6 py-6">
           <div className="animate-pulse">
             <div className="h-6 bg-neutral-800 rounded w-40 mb-2" />
@@ -426,7 +429,7 @@ export default function PortfolioDashboard() {
   // Error
   if (p.error) {
     return (
-      <div className="min-h-screen bg-dark flex items-center justify-center">
+      <div className="min-h-screen bg-[#050506] flex items-center justify-center">
         <div className="text-center max-w-md p-6">
           <ExclamationTriangleIcon className="w-10 h-10 text-red-400 mx-auto mb-4" />
           <h2 className="text-lg font-medium text-white mb-2">Fehler beim Laden</h2>
@@ -440,7 +443,7 @@ export default function PortfolioDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-[#050506] text-white">
       {/* Error Banners */}
       {(p.exchangeRateError || p.priceLoadError) && (
         <div className="w-full px-6 pt-4 space-y-2">
@@ -462,32 +465,32 @@ export default function PortfolioDashboard() {
       )}
 
       {/* Header */}
-      <div className="border-b border-neutral-800">
-        <div className="w-full px-6 py-6">
+      <div className="relative z-40 border-b border-white/[0.075] bg-[#050506]/82 backdrop-blur-2xl">
+        <div className="w-full px-6 py-7">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <h1 className="text-xl font-medium text-white">{p.portfolio?.name || 'Mein Portfolio'}</h1>
+              <h1 className="text-2xl font-semibold text-white tracking-tight">{p.portfolio?.name || 'Mein Portfolio'}</h1>
 
               {/* Depot Switcher */}
               {p.allPortfolios.length > 0 && (
                 <div className="relative">
-                  <button onClick={() => setShowDepotSwitcher(!showDepotSwitcher)} className="p-1 hover:bg-neutral-800 rounded transition-colors">
+                  <button onClick={() => setShowDepotSwitcher(!showDepotSwitcher)} className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors">
                     <ChevronDownIcon className={`w-4 h-4 text-neutral-500 transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
                   </button>
 
                   {showDepotSwitcher && (
                     <>
-                      <div className="fixed inset-0 z-10" onClick={() => setShowDepotSwitcher(false)} />
-                      <div className="absolute left-0 top-full mt-2 w-64 bg-neutral-900 border border-neutral-800 rounded-xl shadow-xl z-20 py-2 max-h-80 overflow-y-auto">
+                      <div className="fixed inset-0 z-[70]" onClick={() => setShowDepotSwitcher(false)} />
+                      <div className="terminal-glass-strong absolute left-0 top-full mt-2 w-72 rounded-2xl z-[90] py-2 max-h-80 overflow-y-auto">
                         {p.allPortfolios.length > 1 && (
                           <>
                             <Link href="/analyse/portfolio/dashboard?depot=all" onClick={() => setShowDepotSwitcher(false)}
-                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${p.portfolio?.id === 'all' ? 'bg-emerald-500/10' : ''}`}>
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.045] transition-colors ${p.portfolio?.id === 'all' ? 'bg-teal-400/10' : ''}`}>
                               <Squares2X2Icon className="w-4 h-4 text-emerald-400" />
                               <span className="text-sm text-white">Alle Depots</span>
                               {p.portfolio?.id === 'all' && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
                             </Link>
-                            <hr className="my-1 border-neutral-800" />
+                            <hr className="my-1 border-white/[0.075]" />
                           </>
                         )}
                         {p.allPortfolios.map(dp => {
@@ -495,7 +498,7 @@ export default function PortfolioDashboard() {
                           const depotTotal = depotValues.get(dp.id)
                           return (
                             <Link key={dp.id} href={`/analyse/portfolio/dashboard?depot=${dp.id}`} onClick={() => setShowDepotSwitcher(false)}
-                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors ${p.portfolio?.id === dp.id ? 'bg-emerald-500/10' : ''}`}>
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.045] transition-colors ${p.portfolio?.id === dp.id ? 'bg-teal-400/10' : ''}`}>
                               {logoId ? (
                                 <BrokerLogo brokerId={logoId} size={20} />
                               ) : (
@@ -513,9 +516,9 @@ export default function PortfolioDashboard() {
                             </Link>
                           )
                         })}
-                        <hr className="my-1 border-neutral-800" />
+                        <hr className="my-1 border-white/[0.075]" />
                         <Link href="/analyse/portfolio/depots/neu" onClick={() => setShowDepotSwitcher(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-800 transition-colors text-emerald-400">
+                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.045] transition-colors text-teal-300">
                           <PlusIcon className="w-4 h-4" />
                           <span className="text-sm">Neues Depot</span>
                         </Link>
@@ -528,7 +531,7 @@ export default function PortfolioDashboard() {
               {p.portfolio?.id !== 'all' && (
                 <button
                   onClick={() => { setNewPortfolioName(p.portfolio?.name || ''); setShowNameModal(true) }}
-                  className="p-1 hover:bg-neutral-800 rounded transition-colors opacity-0 hover:opacity-100"
+                  className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors opacity-0 hover:opacity-100"
                   title="Umbenennen"
                 >
                   <PencilIcon className="w-3.5 h-3.5 text-neutral-500" />
@@ -537,19 +540,19 @@ export default function PortfolioDashboard() {
             </div>
 
             <div className="flex items-center gap-2">
-              <button onClick={p.refresh} disabled={p.refreshing} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors disabled:opacity-50" title="Aktualisieren">
+              <button onClick={p.refresh} disabled={p.refreshing} className="terminal-input p-2 hover:bg-white/[0.06] rounded-xl transition-colors disabled:opacity-50" title="Aktualisieren">
                 <ArrowPathIcon className={`w-4 h-4 text-neutral-400 ${p.refreshing ? 'animate-spin' : ''}`} />
               </button>
               {!p.isAllDepotsView && (
-                <button onClick={() => setShowCSVImport(true)} className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 bg-neutral-800/60 hover:bg-neutral-700/60 border border-neutral-700/50 hover:border-neutral-600/50 rounded-lg transition-colors" title="Import">
+                <button onClick={() => setShowCSVImport(true)} className="terminal-input flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white hover:border-teal-300/25 rounded-xl transition-colors" title="Import">
                   <ArrowUpTrayIcon className="w-3.5 h-3.5" />
                   Import
                 </button>
               )}
-              <button onClick={p.exportToCSV} className="p-2 hover:bg-neutral-800 rounded-lg transition-colors" title="Export">
+              <button onClick={p.exportToCSV} className="terminal-input p-2 hover:bg-white/[0.06] rounded-xl transition-colors" title="Export">
                 <ArrowDownTrayIcon className="w-4 h-4 text-neutral-400" />
               </button>
-              <Link href="/analyse/portfolio/depots" className="p-2 hover:bg-neutral-800 rounded-lg transition-colors" title="Depots">
+              <Link href="/analyse/portfolio/depots" className="terminal-input p-2 hover:bg-white/[0.06] rounded-xl transition-colors" title="Depots">
                 <Squares2X2Icon className="w-4 h-4 text-neutral-400" />
               </Link>
             </div>
@@ -558,32 +561,49 @@ export default function PortfolioDashboard() {
           {/* Quick Value Display + Cash-Toggle */}
           <div className="flex items-end justify-between gap-8 flex-wrap">
             <div>
-              <p className="text-3xl font-bold text-white tracking-tight tabular-nums">
-                {p.formatCurrency(includeCashInTotal ? p.totalValue : p.stockValue)}
+              <p className="text-[10px] font-medium text-white/35 uppercase tracking-[0.14em] mb-2">
+                Portfoliowert · {includeCashInTotal ? 'Gesamt' : 'Wertpapiere'}
               </p>
-              <div className="flex items-center gap-3 mt-1">
-                <span className={`text-sm font-medium tabular-nums ${perfColor(p.totalReturn)}`}>
-                  {p.totalReturn >= 0 ? '+' : ''}{p.formatCurrency(p.totalReturn)}
+              <div className="flex items-baseline gap-3 flex-wrap">
+                <p
+                  className="
+                    text-[44px] sm:text-[54px] leading-[1.05] font-semibold tabular-nums
+                    bg-gradient-to-r from-white via-white to-white/78
+                    bg-clip-text text-transparent
+                    [text-shadow:0_4px_24px_rgba(0,0,0,0.62)]
+                  "
+                >
+                  {p.formatCurrency(displayedPortfolioValue)}
+                </p>
+              </div>
+              <div className="mt-3 flex items-center gap-2 text-[12px] tabular-nums flex-wrap">
+                <span className="text-white/35">Rendite gesamt</span>
+                <span className={`font-medium ${totalReturnPositive ? 'text-emerald-400/90' : 'text-red-400/90'}`}>
+                  {totalReturnPositive ? '+' : ''}
+                  {p.formatCurrency(p.totalReturn)}
                 </span>
-                <span className={`text-sm tabular-nums ${perfColor(p.totalReturnPercent)}`}>
-                  {p.formatPercentage(p.totalReturnPercent)}
+                <span className={totalReturnPositive ? 'text-emerald-400/55' : 'text-red-400/55'}>
+                  ({p.formatPercentage(p.totalReturnPercent)})
                 </span>
-                {p.xirrPercent !== null && (
-                  <span className={`text-xs px-1.5 py-0.5 rounded tabular-nums ${perfColor(p.xirrPercent, 'bg')}`}>
-                    XIRR: {p.xirrPercent >= 0 ? '+' : ''}{p.xirrPercent.toFixed(1)}% p.a.
+                <span className="text-white/25">·</span>
+                <span className="text-white/40 text-[11px]">
+                  davon Kurs:{' '}
+                  <span className={p.totalGainLoss >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}>
+                    {p.totalGainLoss >= 0 ? '+' : ''}
+                    {p.formatCurrency(p.totalGainLoss)}
                   </span>
-                )}
+                </span>
               </div>
             </div>
 
             {/* Cash-Toggle: nur sichtbar wenn Cash != 0 */}
             {p.cashPosition !== 0 && (
-              <div className="inline-flex items-center bg-neutral-900/50 border border-neutral-800 rounded-lg p-0.5 text-[11px] font-medium">
+              <div className="terminal-input inline-flex items-center rounded-xl p-0.5 text-[11px] font-medium">
                 <button
                   onClick={() => setIncludeCashInTotal(true)}
                   className={`px-3 py-1.5 rounded-md transition-colors ${
                     includeCashInTotal
-                      ? 'bg-neutral-800 text-white'
+                      ? 'bg-white/[0.085] text-white'
                       : 'text-neutral-500 hover:text-neutral-300'
                   }`}
                 >
@@ -593,7 +613,7 @@ export default function PortfolioDashboard() {
                   onClick={() => setIncludeCashInTotal(false)}
                   className={`px-3 py-1.5 rounded-md transition-colors ${
                     !includeCashInTotal
-                      ? 'bg-neutral-800 text-white'
+                      ? 'bg-white/[0.085] text-white'
                       : 'text-neutral-500 hover:text-neutral-300'
                   }`}
                 >
@@ -606,7 +626,7 @@ export default function PortfolioDashboard() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="flex items-center gap-6 px-6 border-b border-neutral-800">
+      <div className="relative z-10 flex items-center gap-7 px-6 border-b border-white/[0.075] bg-[#050506]/76 backdrop-blur-xl">
         {[
           { key: 'overview' as const, label: 'Übersicht', premium: false },
           { key: 'positions' as const, label: 'Positionen', premium: false },
@@ -618,9 +638,9 @@ export default function PortfolioDashboard() {
           <button
             key={tab.key}
             onClick={() => handleTabChange(tab.key)}
-            className={`py-3 text-sm font-medium border-b-2 -mb-px transition-colors flex items-center gap-1.5 ${
+            className={`py-4 text-sm font-medium border-b-2 -mb-px transition-colors flex items-center gap-1.5 ${
               activeTab === tab.key
-                ? 'text-white border-white'
+                ? 'text-white border-teal-300'
                 : 'text-neutral-500 border-transparent hover:text-neutral-300'
             }`}
           >
@@ -664,13 +684,13 @@ export default function PortfolioDashboard() {
 
             {/* Empty State - wenn noch keine Positionen */}
             {p.holdings.length === 0 && (
-              <div className="mt-6 bg-neutral-900/50 rounded-xl border border-neutral-800/50 border-dashed p-10 text-center">
-                <div className="w-14 h-14 mx-auto mb-4 bg-emerald-500/10 rounded-xl flex items-center justify-center">
-                  <BriefcaseIcon className="w-7 h-7 text-emerald-400" />
+              <div className="terminal-glass mt-6 rounded-2xl border-dashed p-10 text-center">
+                <div className="w-14 h-14 mx-auto mb-4 bg-teal-400/10 rounded-2xl flex items-center justify-center border border-teal-300/15">
+                  <BriefcaseIcon className="w-7 h-7 text-teal-300" />
                 </div>
                 <h3 className="text-lg font-medium text-white mb-2">Depot ist noch leer</h3>
                 <p className="text-sm text-neutral-500 max-w-sm mx-auto">
-                  Nutze den <span className="text-emerald-400 font-medium">+</span> Button unten rechts, um deine erste Aktivität hinzuzufügen.
+                  Nutze den <span className="text-teal-300 font-medium">+</span> Button unten rechts, um deine erste Aktivität hinzuzufügen.
                 </p>
               </div>
             )}
@@ -679,7 +699,7 @@ export default function PortfolioDashboard() {
             {p.holdings.length > 0 && (
               <div className="mt-6 grid grid-cols-1 lg:grid-cols-[1fr,1.6fr] gap-5">
                 {/* Earnings links — kompakt, clean */}
-                <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/50 overflow-hidden">
+                <div className="terminal-glass rounded-2xl overflow-hidden">
                   <PortfolioEarningsPreview
                     symbols={p.holdings.map(h => h.symbol)}
                     companyNames={Object.fromEntries(p.holdings.map(h => [h.symbol, h.name]))}
@@ -687,7 +707,7 @@ export default function PortfolioDashboard() {
                 </div>
 
                 {/* Chart rechts — bekommt mehr Platz */}
-                <div className="bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
+                <div className="terminal-glass rounded-2xl p-6">
                   <PortfolioValueChart
                     portfolioId={p.portfolio?.id || ''}
                     // Bei Alle-Depots: alle echten UUIDs übergeben, damit die API
@@ -712,7 +732,7 @@ export default function PortfolioDashboard() {
 
             {/* Allokations-Donut */}
             {p.holdings.length > 0 && (
-              <div className="mt-5 bg-neutral-900/50 rounded-xl p-6 border border-neutral-800/50">
+              <div className="terminal-glass mt-5 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-5">
                   <h3 className="text-sm font-semibold text-white tracking-tight">Allokation</h3>
                   <span className="text-[11px] text-neutral-500">
@@ -760,17 +780,17 @@ export default function PortfolioDashboard() {
               })()
 
               return (
-                <div className="mt-6">
+                <div className="terminal-glass mt-6 rounded-2xl p-4">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-sm font-medium text-neutral-400">Top Positionen</h3>
-                    <button onClick={() => setActiveTab('positions')} className="text-xs text-emerald-400 hover:text-emerald-300">
-                      Alle anzeigen →
+                    <button onClick={() => setActiveTab('positions')} className="text-xs text-teal-300 hover:text-teal-200">
+                      Alle anzeigen
                     </button>
                   </div>
                   <div className="space-y-0">
                     {topPositions.map((pos) => (
                       <div key={pos.symbol}
-                        className="flex items-center justify-between py-2.5 border-b border-neutral-800/30 cursor-pointer hover:bg-neutral-900/50 -mx-2 px-2 rounded transition-colors"
+                        className="flex items-center justify-between py-2.5 border-b border-white/[0.055] last:border-b-0 cursor-pointer hover:bg-white/[0.04] -mx-2 px-2 rounded-xl transition-colors"
                         onClick={() => {
                           const base = p.portfolio?.id
                             ? `/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${p.portfolio.id}&totalValue=${p.totalValue}`

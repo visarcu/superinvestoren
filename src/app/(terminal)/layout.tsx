@@ -14,7 +14,6 @@ import {
   SparklesIcon,
   UserCircleIcon,
   Cog6ToothIcon,
-  ArrowLeftOnRectangleIcon,
   EnvelopeIcon,
   ChevronRightIcon,
   XMarkIcon,
@@ -28,7 +27,6 @@ import {
   CalculatorIcon,
   BellIcon,
   ArrowTrendingUpIcon,
-  FunnelIcon,
   ArrowTrendingDownIcon,
   InboxIcon
 } from '@heroicons/react/24/outline'
@@ -39,6 +37,7 @@ import { useExchangeRate } from '@/hooks/useExchangeRate'
 
 import LearnSidebar from '@/components/LearnSidebar'
 import MobileNav from '@/components/MobileNav'
+import Sidebar from '@/components/layout/Sidebar'
 import Logo from '@/components/Logo'
 import { ProductTour } from '@/components/tour/ProductTour'
 import { stocks } from '@/data/stocks'
@@ -111,6 +110,7 @@ interface NavItem {
   icon: React.ComponentType<React.SVGProps<SVGSVGElement>>
   href: string
   premium?: boolean
+  isNew?: boolean
 }
 
 interface CommandPaletteItem {
@@ -126,17 +126,17 @@ interface CommandPaletteItem {
 // ===== NAVIGATION ITEMS =====
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/analyse' },
-  { id: 'compare', label: 'Aktien-Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
+  { id: 'compare', label: 'Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
   { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio/dashboard' },
   { id: 'watchlist', label: 'Watchlist', icon: BookmarkIcon, href: '/analyse/watchlist' },
-  { id: 'calendar', label: 'Earnings Kalender', icon: CalendarIcon, href: '/analyse/calendar' },
+  { id: 'calendar', label: 'Calendar', icon: CalendarIcon, href: '/analyse/calendar' },
   { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
-  { id: 'finder', label: 'Stock Finder', icon: SparklesIcon, href: '/analyse/finder' },
+  { id: 'finder', label: 'Finder', icon: SparklesIcon, href: '/analyse/finder' },
   { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },
-  { id: 'dcf', label: 'DCF Calculator', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
+  { id: 'dcf', label: 'DCF', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
   { id: 'analyst-ratings', label: 'Analyst Ratings', icon: ArrowTrendingUpIcon, href: '/analyse/analyst-ratings' },
-  { id: 'insider', label: 'Insider Trading', icon: EyeIcon, href: '/analyse/insider' },
-  { id: 'ai', label: 'Finclue AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
+  { id: 'insider', label: 'Insider', icon: EyeIcon, href: '/analyse/insider' },
+  { id: 'ai', label: 'AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
 ]
 
 const SETTINGS_ITEMS: NavItem[] = [
@@ -219,40 +219,6 @@ function useStockData(ticker: string | null) {
   return { quote, profile, loading, error }
 }
 
-function useUnreadNotifications(userId: string | null) {
-  const [unreadCount, setUnreadCount] = useState(0)
-
-  useEffect(() => {
-    if (!userId) return
-
-    async function fetchUnread() {
-      const { count } = await supabase
-        .from('notifications')
-        .select('*', { count: 'exact', head: true })
-        .eq('read', false)
-
-      setUnreadCount(count || 0)
-    }
-    fetchUnread()
-
-    const channel = supabase
-      .channel('unread-notifications')
-      .on('postgres_changes', {
-        event: '*',
-        schema: 'public',
-        table: 'notifications',
-        filter: `user_id=eq.${userId}`
-      }, () => {
-        fetchUnread()
-      })
-      .subscribe()
-
-    return () => { supabase.removeChannel(channel) }
-  }, [userId])
-
-  return unreadCount
-}
-
 // ===== COMPONENTS =====
 const GlobalLearnToggle = React.memo(() => {
   const { isLearnMode, toggleLearnMode } = useLearnMode()
@@ -275,283 +241,6 @@ const GlobalLearnToggle = React.memo(() => {
         <div className={`absolute top-0.5 w-2 h-2 bg-white rounded-full transition-all duration-200 shadow-sm ${isLearnMode ? 'left-3' : 'left-0.5'}`}></div>
       </div>
     </button>
-  )
-})
-
-// SIDEBAR WITH LABELS - FISCAL STYLE
-const CollapsedSidebar = React.memo(({
-  user,
-  pathname,
-  handleSignOut
-}: {
-  user: User
-  pathname: string
-  handleSignOut: () => void
-}) => {
-  const [showSettingsPopup, setShowSettingsPopup] = useState(false)
-  const settingsRef = useRef<HTMLDivElement>(null)
-  const { theme, toggleTheme, allowsThemeToggle } = useTheme()
-  const unreadCount = useUnreadNotifications(user?.id || null)
-
-  useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (settingsRef.current && !settingsRef.current.contains(e.target as Node)) {
-        setShowSettingsPopup(false)
-      }
-    }
-    document.addEventListener('mousedown', handleClickOutside)
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [])
-
-  const getInitials = () => {
-    if (!user?.email) return 'U'
-    return user.email.charAt(0).toUpperCase()
-  }
-
-  // Kurze Labels für die Sidebar
-  const getShortLabel = (id: string): string => {
-    const labels: Record<string, string> = {
-      'dashboard': 'Dashboard',
-      'compare': 'Vergleich',
-      'watchlist': 'Watchlist',
-      'calendar': 'Calendar',
-      'dividends': 'Dividenden',
-      'portfolio': 'Portfolio',
-      'finder': 'Finder',
-      'inbox': 'Inbox',
-      'dcf': 'DCF',
-      'insider': 'Insider',
-      'ai': 'AI',
-    }
-    return labels[id] || id
-  }
-
-  return (
-    <div className="hidden sm:flex w-[72px] bg-theme-primary flex-col items-center py-3 relative z-20 border-r border-theme">
-
-      {/* Logo */}
-      <Link href="/" className="mb-3 group">
-        <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-all ${
-          theme === 'dark'
-            ? 'bg-brand/10 border border-brand/20 group-hover:border-green-400/40 group-hover:bg-brand/20'
-            : 'bg-neutral-100 border border-neutral-300 group-hover:border-neutral-400 group-hover:bg-neutral-200'
-        }`}>
-          <img
-            src={theme === 'dark' ? '/logos/logo-transparent-white.svg' : '/logos/logo-transparent-black.svg'}
-            alt="Finclue"
-            className="w-5 h-5"
-          />
-        </div>
-      </Link>
-
-      {/* Main Navigation */}
-      <nav className="flex-1 flex flex-col items-center gap-0.5 w-full px-1.5 overflow-y-auto">
-        {NAV_ITEMS.map((item) => {
-          const Icon = item.icon
-          // Exact match for /analyse (Dashboard), prefix match for all other routes
-          const isActive = item.href === '/analyse'
-            ? pathname === '/analyse'
-            : pathname === item.href || pathname.startsWith(item.href + '/')
-          const isPremiumLocked = item.premium && !user.isPremium
-
-          return (
-            <Link
-              key={item.id}
-              href={item.href}
-              data-tour={`nav-${item.id}`}
-              className={`
-                w-full flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-150 relative group
-                ${isActive
-                  ? 'bg-brand/15 text-brand-light'
-                  : 'text-theme-muted hover:bg-theme-hover hover:text-theme-primary'
-                }
-              `}
-            >
-              {/* Active indicator */}
-              {isActive && (
-                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-6 bg-brand rounded-r-full"></div>
-              )}
-              
-              <div className="relative">
-                <Icon className="w-5 h-5" />
-                {/* Premium badge */}
-                {isPremiumLocked && (
-                  <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-yellow-400 rounded-full"></div>
-                )}
-                {/* Unread notifications badge - visible in both themes */}
-                {item.id === 'inbox' && unreadCount > 0 && (
-                  <div className="absolute -top-1.5 -right-1.5 min-w-[18px] h-[18px] px-1 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center shadow-md ring-2 ring-white dark:ring-[#0F0F11]">
-                    {unreadCount > 99 ? '99+' : unreadCount}
-                  </div>
-                )}
-              </div>
-
-              <span className={`text-[9px] mt-0.5 font-medium leading-tight ${
-                isActive ? 'text-brand-light' : 'text-theme-muted group-hover:text-theme-secondary'
-              }`}>
-                {getShortLabel(item.id)}
-              </span>
-            </Link>
-          )
-        })}
-      </nav>
-
-      {/* Divider */}
-      <div className="w-13 h-px bg-theme/20 my-2"></div>
-
-      {/* Settings Button */}
-      <div className="relative w-full px-1.5" ref={settingsRef}>
-        <button
-          onClick={() => setShowSettingsPopup(!showSettingsPopup)}
-          className={`
-            w-full flex flex-col items-center justify-center py-2 px-1 rounded-lg transition-all duration-150
-            ${showSettingsPopup
-              ? 'bg-theme-hover text-theme-primary'
-              : 'text-theme-muted hover:bg-theme-hover hover:text-theme-primary'
-            }
-          `}
-        >
-          <Cog6ToothIcon className="w-5 h-5" />
-          <span className="text-[9px] mt-0.5 font-medium">Settings</span>
-        </button>
-
-        {/* Settings Popup */}
-        {showSettingsPopup && (
-          <div className="absolute left-full ml-2 bottom-0 z-50">
-            <div className="bg-theme-card border border-theme shadow-xl rounded-xl py-2 w-48">
-              {SETTINGS_ITEMS.map((item) => {
-                const Icon = item.icon
-                const isActive = pathname === item.href
-                return (
-                  <Link
-                    key={item.id}
-                    href={item.href}
-                    onClick={() => setShowSettingsPopup(false)}
-                    className={`
-                      flex items-center gap-3 px-4 py-2 text-sm transition-colors
-                      ${isActive
-                        ? 'bg-theme-hover text-theme-primary'
-                        : 'text-theme-secondary hover:bg-theme-hover hover:text-theme-primary'
-                      }
-                    `}
-                  >
-                    <Icon className="w-4 h-4" />
-                    {item.label}
-                  </Link>
-                )
-              })}
-
-              <div className="h-px bg-theme/20 my-2"></div>
-
-              {/* Theme Section */}
-              <div className="px-3 py-2">
-                <p className="text-[10px] text-neutral-500 mb-2 font-medium uppercase tracking-wide">Design</p>
-
-                {/* Dark Theme Option */}
-                <button
-                  onClick={() => theme === 'light' && allowsThemeToggle && toggleTheme()}
-                  className={`w-full flex items-center justify-between py-1.5 px-1 rounded transition-colors ${
-                    theme === 'dark' ? 'bg-neutral-800/50' : 'hover:bg-neutral-800/30 cursor-pointer'
-                  }`}
-                >
-                  <div className="flex items-center gap-2">
-                    <MoonIcon className="w-3.5 h-3.5 text-white" />
-                    <span className="text-xs text-white font-medium">Dark</span>
-                  </div>
-                  {theme === 'dark' && (
-                    <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
-                  )}
-                </button>
-
-                {/* Light Theme Option */}
-                {!allowsThemeToggle ? (
-                  <div className="flex items-center justify-between py-1.5 px-1 mt-1 opacity-50 cursor-not-allowed">
-                    <div className="flex items-center gap-2">
-                      <SunIcon className="w-3.5 h-3.5 text-neutral-500" />
-                      <span className="text-xs text-neutral-500">Light</span>
-                    </div>
-                    <span className="text-[9px] text-amber-500 bg-amber-500/10 px-1 py-0.5 rounded">
-                      Bald
-                    </span>
-                  </div>
-                ) : (
-                  <button
-                    onClick={() => theme === 'dark' && toggleTheme()}
-                    className={`w-full flex items-center justify-between py-1.5 px-1 mt-1 rounded transition-colors ${
-                      theme === 'light' ? 'bg-neutral-800/50' : 'hover:bg-neutral-800/30 cursor-pointer'
-                    }`}
-                  >
-                    <div className="flex items-center gap-2">
-                      <SunIcon className="w-3.5 h-3.5 text-yellow-400" />
-                      <span className="text-xs text-white font-medium">Light</span>
-                    </div>
-                    {theme === 'light' && (
-                      <div className="w-1.5 h-1.5 bg-emerald-500 rounded-full"></div>
-                    )}
-                  </button>
-                )}
-              </div>
-
-              <div className="h-px bg-theme/20 my-1"></div>
-
-              <button
-                onClick={() => window.location.href = 'mailto:team@finclue.de'}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-theme-secondary hover:bg-theme-hover hover:text-theme-primary transition-colors"
-              >
-                <EnvelopeIcon className="w-4 h-4" />
-                Support
-              </button>
-
-              <div className="h-px bg-theme/20 my-2"></div>
-
-              <button
-                onClick={handleSignOut}
-                className="w-full flex items-center gap-3 px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 transition-colors"
-              >
-                <ArrowLeftOnRectangleIcon className="w-4 h-4" />
-                Abmelden
-              </button>
-            </div>
-          </div>
-        )}
-      </div>
-
-      {/* User Avatar - Theme aware */}
-      <div className="mt-2">
-        <Link href="/profile" className="flex flex-col items-center group">
-          <div className="relative">
-            <div className={`w-7 h-7 rounded-lg flex items-center justify-center font-semibold text-xs transition-colors ${
-              theme === 'dark'
-                ? 'bg-brand text-black group-hover:bg-green-400'
-                : 'bg-neutral-800 text-white group-hover:bg-neutral-700'
-            }`}>
-              {getInitials()}
-            </div>
-            {user.isPremium && (
-              <div className={`absolute -top-0.5 -right-0.5 w-2 h-2 bg-yellow-400 rounded-full border ${
-                theme === 'dark' ? 'border-[#0F0F11]' : 'border-white'
-              }`}></div>
-            )}
-          </div>
-          <span className="text-[9px] mt-0.5 font-medium text-theme-muted group-hover:text-theme-secondary">
-            {user.isPremium ? 'Premium' : 'Profil'}
-          </span>
-        </Link>
-      </div>
-
-      {/* Upgrade Button (if not premium) */}
-      {!user.isPremium && (
-        <Link
-          href="/pricing"
-          className="mt-2 flex flex-col items-center group"
-        >
-          <div className="w-7 h-7 bg-yellow-500/20 border border-yellow-500/30 rounded-lg flex items-center justify-center group-hover:bg-yellow-500/30 transition-all">
-            <SparklesIcon className="w-3.5 h-3.5 text-yellow-400" />
-          </div>
-          <span className="text-[9px] mt-0.5 font-medium text-yellow-500">Upgrade</span>
-        </Link>
-      )}
-    </div>
   )
 })
 
@@ -728,10 +417,10 @@ const CommandPalette = React.memo(({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-start justify-center pt-[15vh]">
-      <div className="bg-theme-card border border-white/[0.06] rounded-xl w-full max-w-lg mx-4 shadow-2xl">
+    <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-start justify-center pt-[15vh]">
+      <div className="terminal-glass-strong rounded-2xl w-full max-w-xl mx-4 overflow-hidden">
 
-        <div className="p-3 border-b border-white/[0.06]">
+        <div className="p-3 border-b border-white/[0.075]">
           <div className="relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-muted" />
             <input
@@ -740,11 +429,11 @@ const CommandPalette = React.memo(({
               placeholder="Aktien suchen oder AI-Frage stellen..."
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className="w-full pl-10 pr-10 py-2.5 bg-theme-input border border-white/[0.06] rounded-lg text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-white/[0.15] focus:ring-0 text-sm"
+              className="terminal-input w-full pl-10 pr-10 py-3 rounded-xl text-theme-primary placeholder:text-theme-muted focus:outline-none focus:border-teal-300/35 focus:ring-0 text-sm"
             />
             <button
               onClick={onClose}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-0.5 text-theme-muted hover:text-theme-primary rounded transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-theme-muted hover:text-theme-primary hover:bg-white/[0.05] rounded-lg transition-colors"
             >
               <XMarkIcon className="w-4 h-4" />
             </button>
@@ -777,12 +466,12 @@ const CommandPalette = React.memo(({
                     <button
                       key={command.id}
                       onClick={() => handleSelect(command)}
-                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left group ${
+                      className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent transition-all text-left group ${
                         isStock
-                          ? 'bg-brand/5 hover:bg-brand/10'
+                          ? 'bg-teal-400/[0.045] hover:bg-teal-400/[0.08] hover:border-teal-300/15'
                           : isETF
-                            ? 'bg-violet-500/5 hover:bg-violet-500/10'
-                            : 'hover:bg-theme-secondary'
+                            ? 'bg-violet-500/[0.045] hover:bg-violet-500/[0.08] hover:border-violet-300/15'
+                            : 'hover:bg-white/[0.045] hover:border-white/[0.055]'
                       }`}
                     >
                       <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
@@ -790,7 +479,7 @@ const CommandPalette = React.memo(({
                           ? 'bg-brand/20 group-hover:bg-brand/30'
                           : isETF
                             ? 'bg-violet-500/20 group-hover:bg-violet-500/30'
-                            : 'bg-theme-secondary group-hover:bg-theme-tertiary'
+                            : 'bg-white/[0.045] group-hover:bg-white/[0.075]'
                       }`}>
                         <Icon className={`w-4 h-4 ${
                           isAsset ? (isETF ? 'text-violet-400' : 'text-brand-light') : 'text-theme-muted group-hover:text-brand-light'
@@ -822,16 +511,16 @@ const CommandPalette = React.memo(({
           )}
           
           {query.length > 0 && !query.match(/^[A-Z]{1,5}$/i) && (
-            <div className="p-2 border-t border-white/[0.06]">
+            <div className="p-2 border-t border-white/[0.075]">
               <button
                 onClick={() => {
                   onNavigate(`/analyse/finclue-ai?q=${encodeURIComponent(query)}`)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all text-left group hover:bg-theme-secondary/50"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent transition-all text-left group hover:bg-white/[0.045] hover:border-white/[0.055]"
               >
-                <div className="w-8 h-8 rounded-lg bg-theme-secondary/60 group-hover:bg-blue-500/20 flex items-center justify-center">
-                  <SparklesIcon className="w-4 h-4 text-theme-muted group-hover:text-blue-400" />
+                <div className="w-8 h-8 rounded-lg bg-teal-400/10 group-hover:bg-teal-400/18 flex items-center justify-center">
+                  <SparklesIcon className="w-4 h-4 text-theme-muted group-hover:text-teal-300" />
                 </div>
                 <div className="flex-1">
                   <div className="text-sm font-medium text-theme-secondary group-hover:text-theme-primary">
@@ -843,18 +532,18 @@ const CommandPalette = React.memo(({
           )}
         </div>
 
-        <div className="p-2 border-t border-white/[0.06] flex items-center justify-between text-xs text-theme-muted">
+        <div className="p-2 border-t border-white/[0.075] flex items-center justify-between text-xs text-theme-muted">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs">↵</kbd>
+              <kbd className="px-1.5 py-0.5 bg-white/[0.045] border border-white/[0.08] rounded text-xs">↵</kbd>
               Auswählen
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 bg-white/[0.045] border border-white/[0.08] rounded text-xs">Esc</kbd>
               Schließen
             </span>
           </div>
-          <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-white/[0.08] rounded text-xs">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 bg-white/[0.045] border border-white/[0.08] rounded text-xs">⌘K</kbd>
         </div>
       </div>
     </div>
@@ -1012,7 +701,7 @@ function LayoutContent({ children }: LayoutProps) {
 
   if (loading) {
     return (
-      <div className="h-screen bg-theme-primary flex items-center justify-center">
+      <div className="h-screen bg-[#050506] flex items-center justify-center">
         <div className="text-center">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-theme-secondary text-sm">Loading Finclue...</p>
@@ -1024,7 +713,7 @@ function LayoutContent({ children }: LayoutProps) {
   if (!user) return null
 
   return (
-    <div className="h-screen bg-theme-primary flex overflow-hidden">
+    <div className="h-screen bg-[#050506] flex overflow-hidden">
       <CommandPalette 
         isOpen={showCommandPalette}
         onClose={() => setShowCommandPalette(false)}
@@ -1036,33 +725,35 @@ function LayoutContent({ children }: LayoutProps) {
       
       <LearnSidebar />
       
-      {/* COLLAPSED SIDEBAR */}
-      <CollapsedSidebar
+      <Sidebar
         user={user}
         pathname={pathname}
-        handleSignOut={handleSignOut}
+        navItems={NAV_ITEMS}
+        settingsItems={SETTINGS_ITEMS}
+        onOpenCommandPalette={() => setShowCommandPalette(true)}
+        onSignOut={handleSignOut}
       />
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col bg-theme-primary">
+      <div className="flex-1 flex flex-col bg-[#050506]">
         
         {/* TOP BAR */}
-        <div className="py-4 bg-theme-primary border-b border-white/[0.04] flex items-center px-6">
+        <div className="py-4 bg-[#050506]/88 backdrop-blur-2xl border-b border-white/[0.075] flex items-center px-6 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
           <div className="flex items-center gap-6 flex-1">
             
             {/* Search Bar */}
             <div className="flex-1 max-w-2xl">
               <button
                 onClick={() => setShowCommandPalette(true)}
-                className="w-full flex items-center gap-3 px-5 py-3.5 bg-theme-card hover:bg-theme-card border border-white/[0.04] hover:border-green-500/50 rounded-xl transition-all duration-200 group shadow-sm hover:shadow-md"
+                className="terminal-glass w-full flex items-center gap-3 px-5 py-3.5 hover:border-teal-300/35 rounded-2xl transition-all duration-200 group"
               >
-                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted group-hover:text-brand-light transition-colors" />
+                <MagnifyingGlassIcon className="w-5 h-5 text-theme-muted group-hover:text-teal-300 transition-colors" />
                 <span className="text-sm text-theme-muted group-hover:text-theme-secondary transition-colors flex-1 text-left">
                   Aktien suchen oder AI-Frage stellen...
                 </span>
                 <div className="flex items-center gap-2">
-                  <SparklesIcon className="w-4 h-4 text-brand-light/50 group-hover:text-brand-light transition-colors" />
-                  <kbd className="px-2 py-1 text-xs bg-theme-tertiary/50 border border-white/[0.08] rounded text-theme-muted">
+                  <SparklesIcon className="w-4 h-4 text-teal-300/55 group-hover:text-teal-300 transition-colors" />
+                  <kbd className="px-2 py-1 text-xs bg-white/[0.045] border border-white/[0.08] rounded-lg text-theme-muted">
                     ⌘K
                   </kbd>
                 </div>
@@ -1073,7 +764,7 @@ function LayoutContent({ children }: LayoutProps) {
           <div className="flex items-center gap-3">
             <GlobalLearnToggle />
             
-            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 bg-theme-tertiary/30 rounded-lg">
+            <div className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 terminal-input rounded-xl">
               <SignalIcon className={`w-3 h-3 ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`} />
               <span className={`text-xs font-medium ${marketStatus.status === 'Open' ? 'text-brand-light' : 'text-red-400'}`}>
                 {marketStatus.status === 'Open' ? 'Markt offen' : 'Geschlossen'}
@@ -1083,15 +774,15 @@ function LayoutContent({ children }: LayoutProps) {
             {!user.isPremium ? (
               <Link 
                 href="/pricing"
-                className="flex items-center gap-2 px-4 py-2 bg-brand hover:bg-green-400 text-black font-semibold rounded-lg text-sm transition-all shadow-sm"
+                className="flex items-center gap-2 px-4 py-2 bg-teal-300 hover:bg-teal-200 text-black font-semibold rounded-xl text-sm transition-all shadow-sm"
               >
                 <SparklesIcon className="w-4 h-4" />
                 Premium
               </Link>
             ) : (
-              <div className="flex items-center gap-2 px-3 py-1.5 bg-brand/20 rounded-lg border border-green-500/30">
-                <SparklesIcon className="w-3.5 h-3.5 text-brand-light" />
-                <span className="text-sm text-brand-light font-medium">Premium</span>
+              <div className="flex items-center gap-2 px-3 py-1.5 bg-teal-400/12 rounded-xl border border-teal-300/25">
+                <SparklesIcon className="w-3.5 h-3.5 text-teal-300" />
+                <span className="text-sm text-teal-300 font-medium">Premium</span>
               </div>
             )}
           </div>
@@ -1099,8 +790,8 @@ function LayoutContent({ children }: LayoutProps) {
 
         {/* STOCK HEADER */}
         {isStockPage && currentTicker && (
-          <div className="bg-theme-primary px-6 py-4">
-            <div className="bg-theme-card rounded-xl shadow-lg border border-white/[0.06] overflow-hidden">
+          <div className="bg-[#050506] px-6 py-4">
+            <div className="terminal-glass-strong rounded-2xl overflow-hidden">
               <div className="px-6 py-5">
                 {stockLoading ? (
                   <div className="flex items-center justify-center py-8">
@@ -1185,7 +876,7 @@ function LayoutContent({ children }: LayoutProps) {
               </div>
               
               {/* Tabs */}
-              <div className="bg-theme-secondary/5 border-t border-white/[0.04]" data-tour="stock-tabs">
+              <div className="bg-white/[0.02] border-t border-white/[0.075]" data-tour="stock-tabs">
                 <div className="px-6">
                   <nav className="flex items-center gap-1">
                     {STOCK_TABS.map((tab) => {
@@ -1212,7 +903,7 @@ function LayoutContent({ children }: LayoutProps) {
                             {tab.label}
                             {isPremiumTab && <SparklesIcon className="w-3 h-3 text-yellow-400" />}
                           </span>
-                          {isActive && <div className="absolute inset-x-0 bottom-0 h-0.5 bg-brand"></div>}
+                          {isActive && <div className="absolute inset-x-0 bottom-0 h-0.5 bg-teal-300 shadow-[0_0_16px_rgba(45,212,191,0.45)]"></div>}
                         </Link>
                       )
                     })}
@@ -1220,7 +911,7 @@ function LayoutContent({ children }: LayoutProps) {
                     {!user.isPremium && (
                       <Link 
                         href="/pricing"
-                        className="ml-auto flex items-center gap-1.5 px-4 py-2 bg-brand hover:bg-green-400 text-black rounded-lg font-semibold text-sm transition-all"
+                        className="ml-auto flex items-center gap-1.5 px-4 py-2 bg-teal-300 hover:bg-teal-200 text-black rounded-xl font-semibold text-sm transition-all"
                       >
                         <SparklesIcon className="w-4 h-4" />
                         Upgrade
@@ -1234,7 +925,7 @@ function LayoutContent({ children }: LayoutProps) {
         )}
       
         {/* CONTENT */}
-        <div className="flex-1 bg-theme-primary overflow-x-hidden has-mobile-nav">
+        <div className="flex-1 bg-[#050506] overflow-x-hidden has-mobile-nav">
           {children}
         </div>
 
@@ -1245,7 +936,7 @@ function LayoutContent({ children }: LayoutProps) {
         <ProductTour />
 
         {/* FOOTER */}
-        <div className="hidden sm:flex h-5 bg-theme-secondary/50 border-t border-white/[0.04] items-center justify-between px-3 text-xs text-theme-muted">
+        <div className="hidden sm:flex h-5 bg-white/[0.025] border-t border-white/[0.075] items-center justify-between px-3 text-xs text-theme-muted">
           <div className="flex items-center gap-2">
             <span>Market: {marketStatus.status}</span>
             <span>•</span>

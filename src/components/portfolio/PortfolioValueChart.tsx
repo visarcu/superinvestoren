@@ -181,7 +181,7 @@ export default function PortfolioValueChart({
     })
 
     return (
-      <div className="rounded-lg border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs shadow-xl">
+      <div className="terminal-glass-strong rounded-xl px-3 py-2 text-xs">
         <div className="mb-2 font-semibold text-neutral-100">{dateLabel}</div>
         <div className="space-y-1">
           <div className="flex min-w-[190px] justify-between gap-5">
@@ -206,34 +206,34 @@ export default function PortfolioValueChart({
   return (
     <div>
       {/* Chart Header */}
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex gap-2">
+      <div className="flex items-center justify-between mb-4 gap-3 flex-wrap">
+        <div className="terminal-input flex gap-1 rounded-xl p-0.5">
           <button
             onClick={() => setChartView('value')}
-            className={`px-3 py-1 text-xs rounded-full transition-colors ${
-              chartView === 'value' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
+            className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
+              chartView === 'value' ? 'bg-white/[0.085] text-white' : 'text-neutral-500 hover:text-neutral-300'
             }`}
           >
             Wertentwicklung
           </button>
           <button
             onClick={() => setChartView('performance')}
-            className={`px-3 py-1 text-xs rounded-full transition-colors ${
-              chartView === 'performance' ? 'bg-neutral-700 text-white' : 'text-neutral-500 hover:text-neutral-300'
+            className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
+              chartView === 'performance' ? 'bg-white/[0.085] text-white' : 'text-neutral-500 hover:text-neutral-300'
             }`}
           >
             Performance vs. Benchmarks (TWR)
           </button>
         </div>
 
-        <div className="flex gap-1">
+        <div className="terminal-input flex gap-1 rounded-xl p-0.5">
           {(['1M', '3M', '6M', '1Y', 'MAX'] as TimeRange[]).map(range => (
             <button
               key={range}
               onClick={() => setSelectedRange(range)}
-              className={`px-2 py-1 text-xs rounded transition-colors ${
+              className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${
                 selectedRange === range
-                  ? 'bg-neutral-700 text-white'
+                  ? 'bg-white/[0.085] text-white'
                   : 'text-neutral-500 hover:text-neutral-300'
               }`}
             >
@@ -289,16 +289,16 @@ export default function PortfolioValueChart({
               <ComposedChart data={valueData}>
                 <defs>
                   <linearGradient id="valueGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#10b981" stopOpacity={0.15} />
-                    <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                    <stop offset="5%" stopColor="#2dd4bf" stopOpacity={0.18} />
+                    <stop offset="95%" stopColor="#2dd4bf" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#262626" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" />
                 <XAxis
                   dataKey="label"
                   tick={{ fill: '#737373', fontSize: 11 }}
                   tickLine={false}
-                  axisLine={{ stroke: '#404040' }}
+                  axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
                   interval="preserveStartEnd"
                 />
                 <YAxis
@@ -318,14 +318,14 @@ export default function PortfolioValueChart({
                 <Area
                   type="monotone"
                   dataKey="value"
-                  stroke="#10b981"
+                  stroke="#2dd4bf"
                   strokeWidth={2}
                   fill="url(#valueGradient)"
                 />
                 <Line
                   type="monotone"
                   dataKey="invested"
-                  stroke="#525252"
+                  stroke="rgba(255,255,255,0.28)"
                   strokeWidth={1}
                   strokeDasharray="5 5"
                   dot={false}
@@ -341,12 +341,12 @@ export default function PortfolioValueChart({
           performanceData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={performanceData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#262626" />
+                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" />
                 <XAxis
                   dataKey="label"
                   tick={{ fill: '#737373', fontSize: 11 }}
                   tickLine={false}
-                  axisLine={{ stroke: '#404040' }}
+                  axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
                   interval="preserveStartEnd"
                 />
                 <YAxis
@@ -356,12 +356,12 @@ export default function PortfolioValueChart({
                   tickFormatter={(v) => `${v.toFixed(0)}%`}
                   width={45}
                 />
-                <ReferenceLine y={0} stroke="#404040" strokeWidth={1} />
+                <ReferenceLine y={0} stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: '#171717',
-                    border: '1px solid #404040',
-                    borderRadius: '8px',
+                    backgroundColor: 'rgba(12,12,15,0.94)',
+                    border: '1px solid rgba(255,255,255,0.1)',
+                    borderRadius: '12px',
                     fontSize: '12px'
                   }}
                   formatter={(value: number, name: string) => {
@@ -377,7 +377,7 @@ export default function PortfolioValueChart({
                 <Line
                   type="monotone"
                   dataKey="portfolioPerformance"
-                  stroke="#10b981"
+                  stroke="#2dd4bf"
                   strokeWidth={2}
                   dot={false}
                 />
