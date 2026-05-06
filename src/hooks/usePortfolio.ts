@@ -263,8 +263,11 @@ export function usePortfolio() {
   const searchParams = useSearchParams()
   const { currency, setCurrency, formatCurrency, formatStockPrice, formatPercentage } = useCurrency()
 
-  const depotIdParam = searchParams.get('depot')
-  const isAllDepotsView = depotIdParam === 'all'
+  // Ohne expliziten ?depot=… Parameter: Default auf 'all' (Sicht über alle Depots).
+  // So landet der User nicht versehentlich auf einem leeren Default-Portfolio,
+  // wenn er bereits weitere Depots angelegt hat.
+  const rawDepotIdParam = searchParams.get('depot')
+  const depotIdParam = rawDepotIdParam ?? 'all'
 
   // Core State
   const [portfolio, setPortfolio] = useState<Portfolio | null>(null)
@@ -274,6 +277,11 @@ export function usePortfolio() {
   const [loading, setLoading] = useState(true)
   const [refreshing, setRefreshing] = useState(false)
   const [error, setError] = useState<string | null>(null)
+
+  // "Alle Depots"-Sicht aus dem geladenen Portfolio ableiten — nicht aus dem URL-Param.
+  // Wenn nur ein Depot existiert, fällt loadPortfolio auch bei depot=all auf das einzelne
+  // Depot zurück; in dem Fall ist isAllDepotsView korrekt false.
+  const isAllDepotsView = portfolio?.id === 'all'
 
   // Premium State
   const [isPremium, setIsPremium] = useState(false)
