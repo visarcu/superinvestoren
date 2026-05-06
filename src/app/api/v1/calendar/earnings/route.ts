@@ -66,6 +66,10 @@ export async function GET(request: NextRequest) {
   // Mindest-Market-Cap (USD). Z.B. 10_000_000_000 = $10B = nur Mid+Large Caps.
   const minMarketCapRaw = sp.get('minMarketCap')
   const minMarketCap = minMarketCapRaw ? parseInt(minMarketCapRaw) : null
+  // Optional FMP-Augment: für Ticker, die SEC/NASDAQ nicht liefert (z.B.
+  // .DE-Werte wie VNA.DE, ALV.DE, MUV2.DE) wird FMP /v3/earning_calendar
+  // als Ergänzung gezogen. Nur sinnvoll mit ?tickers=… (Portfolio-Views).
+  const fmpFallback = sp.get('fallback') === 'fmp' && tickers.length > 0
 
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
   const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -159,6 +163,82 @@ export async function GET(request: NextRequest) {
       if (ma !== mb) return mb - ma
       return a.ticker < b.ticker ? -1 : 1
     })
+
+    // ── FMP-Augment: fehlende Ticker per FMP /v3/earning_calendar ergänzen ──
+    // SEC EDGAR + NASDAQ Public Calendar deckt nur US-Listings ab. Für
+    // EU-Werte (z.B. VNA.DE, MUV2.DE, ALV.DE) gibt's keine SEC-Filings —
+    // FMP hat eine breitere geographische Coverage, daher hier als
+    // Opt-in-Augment für Portfolio-Consumer (?fallback=fmp). Wir laden
+    // FMP nur, wenn nach SEC/NASDAQ Ticker fehlen, und mappen ins gleiche
+    // CalendarRow-Shape. Source bleibt 'fmp' für Telemetrie.
+    if (fmpFallback) {
+      const foundTickers = new Set(events.map(e => e.ticker.toUpperCase()))
+      const missing = tickers.filter(t => !foundTickers.has(t))
+      const fmpKey = process.env.FMP_API_KEY
+      if (missing.length > 0 && fmpKey) {
+        try {
+          const fmpRes = await fetch(
+            `https://financialmodelingprep.com/api/v3/earning_calendar?from=${from}&to=${to}&apikey=${fmpKey}`,
+            { next: { revalidate: 3600 } }
+          )
+          if (fmpRes.ok) {
+            const fmpData = await fmpRes.json()
+            if (Array.isArray(fmpData)) {
+              const missingSet = new Set(missing)
+              for (const item of fmpData as Array<{
+                symbol?: string
+                date?: string
+                time?: string
+                epsEstimated?: number | string | null
+                epsActual?: number | string | null
+                revenueEstimated?: number | string | null
+                revenueActual?: number | string | null
+              }>) {
+                if (!item.symbol || !item.date) continue
+                const sym = String(item.symbol).toUpperCase()
+                if (!missingSet.has(sym)) continue
+                const eventDate = new Date(item.date)
+                const month = eventDate.getMonth() + 1
+                const fmpQuarter = month <= 3 ? 1 : month <= 6 ? 2 : month <= 9 ? 3 : 4
+                events.push({
+                  ticker: sym,
+                  company_name: null,
+                  date: item.date,
+                  fiscal_quarter: `Q${fmpQuarter}`,
+                  fiscal_year: eventDate.getFullYear(),
+                  eps_actual: item.epsActual != null ? parseFloat(String(item.epsActual)) : null,
+                  eps_estimate: item.epsEstimated != null ? parseFloat(String(item.epsEstimated)) : null,
+                  revenue_actual: item.revenueActual != null ? parseFloat(String(item.revenueActual)) : null,
+                  revenue_estimate: item.revenueEstimated != null ? parseFloat(String(item.revenueEstimated)) : null,
+                  call_time: item.time || null,
+                  market_cap: null,
+                  is_upcoming: eventDate >= today,
+                  source: 'fmp',
+                })
+              }
+              // Per-Ticker Dedup (FMP kann Duplikate liefern), erstes Event je Ticker behalten
+              const fmpSeen = new Set<string>()
+              for (let i = events.length - 1; i >= 0; i--) {
+                if (events[i].source !== 'fmp') continue
+                const k = `${events[i].ticker}|${events[i].date}`
+                if (fmpSeen.has(k)) events.splice(i, 1)
+                else fmpSeen.add(k)
+              }
+              // Re-sort nachdem FMP-Events angehängt wurden
+              events.sort((a, b) => {
+                if (a.date !== b.date) return a.date < b.date ? -1 : 1
+                const ma = a.market_cap || 0
+                const mb = b.market_cap || 0
+                if (ma !== mb) return mb - ma
+                return a.ticker < b.ticker ? -1 : 1
+              })
+            }
+          }
+        } catch (err) {
+          console.warn('FMP augment failed:', err)
+        }
+      }
+    }
 
     // Gruppiere nach Datum
     const byDate = new Map<string, ReturnType<typeof toApiEvent>[]>()

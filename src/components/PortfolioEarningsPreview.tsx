@@ -44,8 +44,10 @@ export default function PortfolioEarningsPreview({ symbols, companyNames = {} }:
         const fmt = (d: Date) =>
           `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 
+        // fallback=fmp ergänzt SEC/NASDAQ-Daten um EU-Werte (z.B. VNA.DE, ALV.DE),
+        // die in unseren eigenen Quellen nicht enthalten sind.
         const response = await fetch(
-          `/api/v1/calendar/earnings?tickers=${symbols.join(',')}&from=${fmt(today)}&to=${fmt(cutoff)}&limit=200`
+          `/api/v1/calendar/earnings?tickers=${symbols.join(',')}&from=${fmt(today)}&to=${fmt(cutoff)}&limit=200&fallback=fmp`
         )
         if (response.ok) {
           const data = await response.json()
