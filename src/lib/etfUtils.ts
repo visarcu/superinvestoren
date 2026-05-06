@@ -1,7 +1,16 @@
 // src/lib/etfUtils.ts — ETF-Lookup und TER-Berechnungen
 // Priorisierung: 1) Statische etfs.ts (handkuratiert) → 2) Runtime-Cache (FMP v4 API)
 import { etfs, type ETF } from '@/data/etfs'
+import { etfMaster } from '@/data/etfMaster'
 import { getCachedETFInfo, cachedInfoToETF } from '@/lib/etfInfoCache'
+
+function inferAssetClass(category: string): ETF['assetClass'] {
+  const lower = category.toLowerCase()
+  if (lower.includes('bond') || lower.includes('fixed') || lower.includes('money market')) return 'Fixed Income'
+  if (lower.includes('commodity') || lower.includes('gold') || lower.includes('silver')) return 'Commodity'
+  if (lower.includes('mixed')) return 'Mixed'
+  return 'Equity'
+}
 
 /**
  * ETF anhand Symbol finden.
@@ -18,7 +27,24 @@ export function getETFBySymbol(symbol: string): ETF | undefined {
   )
   if (staticMatch) return staticMatch
 
-  // 2. Runtime-Cache (FMP v4 API Daten)
+  // 2. ETF-Master: kennt auch Broker/WKN-Symbole wie DBX0AN.
+  const masterMatch = etfMaster.find(
+    e => e.xetraTicker.toUpperCase() === upper ||
+         (e.wkn && e.wkn.toUpperCase() === upper)
+  )
+  if (masterMatch && masterMatch.ter > 0) {
+    return {
+      symbol: masterMatch.xetraTicker,
+      name: masterMatch.name,
+      issuer: masterMatch.issuer,
+      assetClass: inferAssetClass(masterMatch.category),
+      category: masterMatch.category,
+      isin: masterMatch.isin,
+      ter: masterMatch.ter,
+    }
+  }
+
+  // 3. Runtime-Cache (FMP v4 API Daten)
   const cached = getCachedETFInfo(upper)
   if (cached) return cachedInfoToETF(cached)
 

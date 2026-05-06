@@ -2,6 +2,7 @@
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
+import { getETFBySymbol } from '@/lib/etfUtils'
 
 // Logo.dev API Token (public key - safe to expose in client)
 const LOGO_DEV_TOKEN = process.env.NEXT_PUBLIC_LOGO_DEV_TOKEN || ''
@@ -22,6 +23,32 @@ const LOCAL_LOGOS = new Set([
   'VZ', 'ADBE', 'CMCSA', 'DHR', 'NKE', 'TXN', 'ORCL', 'NEE', 'XOM', 'NFLX',
   'CRM', 'WFC', 'RTX', 'UPS', 'INTU', 'IBM', 'AMD', 'QCOM', 'CAT', 'GS'
 ])
+
+const ETF_ISSUER_DOMAINS: Record<string, string> = {
+  amundi: 'amundietf.com',
+  ark: 'ark-funds.com',
+  fidelity: 'fidelity.com',
+  globalx: 'globalxetfs.com',
+  hsbc: 'hsbc.com',
+  invesco: 'invesco.com',
+  ishares: 'ishares.com',
+  lyxor: 'amundietf.com',
+  schwab: 'schwabassetmanagement.com',
+  spdr: 'ssga.com',
+  state_street: 'ssga.com',
+  united_states_commodity_funds: 'uscfinvestments.com',
+  vaneck: 'vaneck.com',
+  vanguard: 'vanguard.com',
+  xtrackers: 'xtrackers.com',
+}
+
+const normalizeIssuerKey = (issuer: string): string => {
+  return issuer
+    .toLowerCase()
+    .replace(/&/g, 'and')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '')
+}
 
 // Konsistente Farbe basierend auf Ticker
 const getTickerColor = (ticker: string): string => {
@@ -47,6 +74,10 @@ export default function Logo({
   const [fallbackStage, setFallbackStage] = useState(0)
 
   const upperTicker = ticker?.toUpperCase()
+  const etfInfo = upperTicker ? getETFBySymbol(upperTicker) : undefined
+  const etfIssuerDomain = etfInfo?.issuer
+    ? ETF_ISSUER_DOMAINS[normalizeIssuerKey(etfInfo.issuer)]
+    : undefined
 
   // Smart Logo URL mit Fallback-Kette
   const getLogoUrl = (): string | null => {
@@ -59,7 +90,11 @@ export default function Logo({
         if (LOCAL_LOGOS.has(upperTicker)) {
           return `/logos/${upperTicker.toLowerCase()}.svg`
         }
-        // 2. Logo.dev API (beste Abdeckung)
+        // 2. ETF-Anbieterlogo: Vanguard, Invesco, iShares, Xtrackers, ...
+        if (etfIssuerDomain && LOGO_DEV_TOKEN) {
+          return `https://img.logo.dev/${etfIssuerDomain}?token=${LOGO_DEV_TOKEN}`
+        }
+        // 3. Logo.dev API (beste Abdeckung)
         if (LOGO_DEV_TOKEN) {
           return `https://img.logo.dev/ticker/${upperTicker}?token=${LOGO_DEV_TOKEN}`
         }
