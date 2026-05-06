@@ -773,6 +773,7 @@ const CommandPalette = React.memo(({
                   const isStock = command.id.startsWith('stock-')
                   const isETF = command.id.startsWith('etf-')
                   const isAsset = isStock || isETF
+                  const assetTicker = isAsset ? command.id.replace(/^(stock|etf)-/, '') : ''
                   return (
                     <button
                       key={command.id}
@@ -785,17 +786,18 @@ const CommandPalette = React.memo(({
                             : 'hover:bg-theme-secondary'
                       }`}
                     >
-                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center transition-colors ${
-                        isStock
-                          ? 'bg-brand/20 group-hover:bg-brand/30'
-                          : isETF
-                            ? 'bg-violet-500/20 group-hover:bg-violet-500/30'
-                            : 'bg-theme-secondary group-hover:bg-theme-tertiary'
-                      }`}>
-                        <Icon className={`w-4 h-4 ${
-                          isAsset ? (isETF ? 'text-violet-400' : 'text-brand-light') : 'text-theme-muted group-hover:text-brand-light'
-                        }`} />
-                      </div>
+                      {isAsset ? (
+                        <Logo
+                          ticker={assetTicker}
+                          alt={`${assetTicker} Logo`}
+                          className="w-8 h-8 rounded-lg flex-shrink-0"
+                          padding="none"
+                        />
+                      ) : (
+                        <div className="w-8 h-8 rounded-lg bg-theme-secondary group-hover:bg-theme-tertiary flex items-center justify-center transition-colors flex-shrink-0">
+                          <Icon className="w-4 h-4 text-theme-muted group-hover:text-brand-light" />
+                        </div>
+                      )}
                       <div className="flex-1">
                         <div className="text-sm font-medium text-theme-primary">
                           {isStock ? command.title.split(' - ')[0] : command.title}
