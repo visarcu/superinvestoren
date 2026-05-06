@@ -7,19 +7,9 @@ import React, { useMemo, useState, useEffect } from 'react'
 import { type Transaction, type Holding } from '@/hooks/usePortfolio'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import Logo from '@/components/Logo'
+import DividendIncomeChart from '@/components/portfolio/DividendIncomeChart'
 import { BanknotesIcon, CalendarDaysIcon, ArrowTrendingUpIcon, ChartBarIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import {
-  ResponsiveContainer,
-  ComposedChart,
-  Bar,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  type TooltipProps,
-} from 'recharts'
 
 interface UpcomingDividend {
   ticker: string
@@ -35,45 +25,6 @@ interface DividendsTabProps {
   totalPortfolioValue: number
   formatCurrency: (amount: number) => string
   isAllDepotsView: boolean
-}
-
-type TimeRange = '12M' | '24M' | 'ALL'
-
-// ============================================================
-// Helpers: Datums-Arithmetik + Chart-Tooltip
-// ============================================================
-const MONTH_LABELS = ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
-
-function monthKey(d: Date): string {
-  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-}
-
-function ChartTooltip({
-  active,
-  payload,
-  label,
-  formatCurrency,
-}: TooltipProps<number, string> & { formatCurrency: (v: number) => string }) {
-  if (!active || !payload || payload.length === 0) return null
-  const monthly = payload.find(p => p.dataKey === 'amount')?.value as number | undefined
-  const cumulative = payload.find(p => p.dataKey === 'cumulative')?.value as number | undefined
-  return (
-    <div className="bg-neutral-900 border border-neutral-800 rounded-lg px-3 py-2 shadow-2xl">
-      <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">{label}</p>
-      {monthly !== undefined && (
-        <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
-          {formatCurrency(monthly)}
-          <span className="text-[10px] text-neutral-500 font-normal ml-1">Monat</span>
-        </p>
-      )}
-      {cumulative !== undefined && (
-        <p className="text-[11px] text-neutral-400 tabular-nums mt-0.5">
-          {formatCurrency(cumulative)}
-          <span className="text-[10px] text-neutral-500 ml-1">kumuliert</span>
-        </p>
-      )}
-    </div>
-  )
 }
 
 // ============================================================
@@ -110,7 +61,6 @@ export default function DividendsTab({
   const [showAllPayments, setShowAllPayments] = useState(false)
   const [upcomingDividends, setUpcomingDividends] = useState<UpcomingDividend[]>([])
   const [upcomingLoading, setUpcomingLoading] = useState(false)
-  const [timeRange, setTimeRange] = useState<TimeRange>('12M')
 
   // Upcoming Dividends via API
   useEffect(() => {
@@ -252,41 +202,6 @@ export default function DividendsTab({
     perHolding.sort((a, b) => b.annual - a.annual)
     return { annualExpected, perHolding }
   }, [dividendTransactions, holdings])
-
-  // ============================================================
-  // Monatlicher Chart mit kumulativer Linie (nach timeRange)
-  // ============================================================
-  const chartData = useMemo(() => {
-    if (dividendTransactions.length === 0) return []
-    const now = new Date()
-    const numMonths = timeRange === '12M' ? 12 : timeRange === '24M' ? 24 : 0
-
-    // Aggregiere pro Monat
-    const byMonth = new Map<string, number>()
-    for (const tx of dividendTransactions) {
-      const d = new Date(tx.date)
-      const k = monthKey(d)
-      byMonth.set(k, (byMonth.get(k) || 0) + tx.total_value)
-    }
-
-    // Für ALL: starte am ältesten Monat
-    const oldest = new Date(Math.min(...dividendTransactions.map(tx => new Date(tx.date).getTime())))
-    const startMonths = numMonths > 0 ? numMonths - 1 : (now.getFullYear() - oldest.getFullYear()) * 12 + (now.getMonth() - oldest.getMonth())
-
-    const months: { month: string; amount: number; cumulative: number; key: string }[] = []
-    let cumulative = 0
-    for (let i = startMonths; i >= 0; i--) {
-      const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
-      const k = monthKey(d)
-      const amount = byMonth.get(k) || 0
-      cumulative += amount
-      const label = numMonths === 0 || numMonths > 12
-        ? `${MONTH_LABELS[d.getMonth()]} ${String(d.getFullYear()).slice(2)}`
-        : `${MONTH_LABELS[d.getMonth()]}`
-      months.push({ month: label, amount, cumulative, key: k })
-    }
-    return months
-  }, [dividendTransactions, timeRange])
 
   // ============================================================
   // Gruppiert nach Symbol (für "Top-Zahler" Liste)
@@ -438,6 +353,11 @@ export default function DividendsTab({
         />
       </div>
 
+      <DividendIncomeChart
+        transactions={transactions}
+        formatCurrency={formatCurrency}
+      />
+
       {/* ================================================================
           MILESTONE-CARD: Passive Income Zielstand
       ================================================================ */}
@@ -509,86 +429,6 @@ export default function DividendsTab({
           <UpcomingDividendsList items={upcomingDividends} holdings={holdings} />
         )}
       </div>
-
-      {/* ================================================================
-          MONATS-CHART mit kumulativer Linie + Zeitraum-Toggle
-      ================================================================ */}
-      {chartData.length > 0 && (
-        <div className="bg-neutral-900/50 rounded-xl p-5 border border-neutral-800/80">
-          <div className="flex items-start justify-between mb-4">
-            <div>
-              <h3 className="text-sm font-semibold text-white tracking-tight">Monatlicher Verlauf</h3>
-              <p className="text-[11px] text-neutral-500 mt-0.5">
-                {timeRange === '12M' ? 'Letzte 12 Monate' : timeRange === '24M' ? 'Letzte 24 Monate' : 'Gesamte Historie'} · Balken = Monat · Linie = kumuliert
-              </p>
-            </div>
-            <div className="flex items-center gap-1 bg-neutral-950 border border-neutral-800 rounded-lg p-0.5">
-              {(['12M', '24M', 'ALL'] as TimeRange[]).map(r => (
-                <button
-                  key={r}
-                  onClick={() => setTimeRange(r)}
-                  className={`px-2.5 py-1 text-[11px] font-medium rounded-md transition-colors ${
-                    timeRange === r ? 'bg-neutral-800 text-white' : 'text-neutral-500 hover:text-neutral-300'
-                  }`}
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-          <div className="h-[260px] -mx-2">
-            <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={chartData} margin={{ top: 5, right: 10, left: 0, bottom: 0 }}>
-                <defs>
-                  <linearGradient id="dividendBar" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#10b981" stopOpacity={0.9} />
-                    <stop offset="100%" stopColor="#10b981" stopOpacity={0.5} />
-                  </linearGradient>
-                </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.04)" vertical={false} />
-                <XAxis
-                  dataKey="month"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#525252', fontSize: 10 }}
-                  interval="preserveStartEnd"
-                />
-                <YAxis
-                  yAxisId="left"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#525252', fontSize: 10 }}
-                  tickFormatter={v => (v === 0 ? '0' : `${v.toFixed(0)}€`)}
-                  width={48}
-                />
-                <YAxis
-                  yAxisId="right"
-                  orientation="right"
-                  axisLine={false}
-                  tickLine={false}
-                  tick={{ fill: '#525252', fontSize: 10 }}
-                  tickFormatter={v => (v === 0 ? '0' : `${(v / 1000).toFixed(1)}k`)}
-                  width={40}
-                />
-                <Tooltip
-                  cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-                  content={<ChartTooltip formatCurrency={formatCurrency} />}
-                />
-                <Bar yAxisId="left" dataKey="amount" fill="url(#dividendBar)" radius={[3, 3, 0, 0]} maxBarSize={28} />
-                <Line
-                  yAxisId="right"
-                  type="monotone"
-                  dataKey="cumulative"
-                  stroke="#a3a3a3"
-                  strokeWidth={1.5}
-                  dot={false}
-                  strokeDasharray="4 4"
-                />
-              </ComposedChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      )}
 
       {/* ================================================================
           DIVIDENDEN-ZAHLER mit Yield on Cost / Current Yield
