@@ -31,21 +31,39 @@ export default function EarningsPreviewCard({ symbols }: EarningsPreviewCardProp
     const load = async () => {
       setLoading(true)
       try {
-        const r = await fetch(`/api/earnings-calendar?tickers=${symbols.join(',')}`)
-        if (!r.ok) throw new Error('fetch failed')
-        const data: EarningsEvent[] = await r.json()
+        // /api/v1/calendar/earnings: SEC 8-K Item 2.02 + NASDAQ Public Calendar
+        // via Supabase REST. Ersetzt /api/earnings-calendar (Prisma+FMP), das in
+        // Prod am Pgbouncer-Prepared-Statement-Bug der EarningsCalendar-Query
+        // hängenblieb — gleicher Fix wie 6dc1cf71 für /analyse/calendar.
         const today = new Date()
         today.setHours(0, 0, 0, 0)
         const cutoff = new Date(today)
         cutoff.setDate(cutoff.getDate() + 14)
-        const filtered = data
-          .filter(e => {
-            const d = new Date(e.date)
-            d.setHours(0, 0, 0, 0)
-            return d >= today && d <= cutoff
-          })
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-        if (!cancelled) setEarnings(filtered.slice(0, 6))
+        const fmt = (d: Date) =>
+          `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
+        const r = await fetch(
+          `/api/v1/calendar/earnings?tickers=${symbols.join(',')}&from=${fmt(today)}&to=${fmt(cutoff)}&limit=200`
+        )
+        if (!r.ok) throw new Error('fetch failed')
+        const data = await r.json()
+        const flat: EarningsEvent[] = []
+        for (const day of data.dates || []) {
+          for (const ev of day.events || []) {
+            const quarter = ev.fiscalQuarter && ev.fiscalYear
+              ? `Q${ev.fiscalQuarter} ${ev.fiscalYear}`
+              : ''
+            flat.push({
+              ticker: ev.ticker,
+              companyName: ev.company || ev.ticker,
+              date: day.date,
+              time: ev.time || 'TBD',
+              quarter,
+              estimatedEPS: ev.epsEstimate ?? null,
+            })
+          }
+        }
+        if (!cancelled) setEarnings(flat.slice(0, 6))
       } catch {
         if (!cancelled) setEarnings([])
       } finally {

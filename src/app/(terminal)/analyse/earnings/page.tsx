@@ -90,10 +90,44 @@ export default function EarningsCalendarPage() {
 
     setEarningsLoading(true)
     try {
-      const response = await fetch(`/api/earnings-calendar?tickers=${tickers.join(',')}`)
+      // /api/v1/calendar/earnings: SEC 8-K Item 2.02 + NASDAQ Public Calendar
+      // via Supabase REST. Ersetzt /api/earnings-calendar (Prisma+FMP), das in
+      // Prod am Pgbouncer-Prepared-Statement-Bug der EarningsCalendar-Query
+      // hängenblieb — gleicher Fix wie 6dc1cf71 für /analyse/calendar.
+      const today = new Date()
+      today.setHours(0, 0, 0, 0)
+      const cutoff = new Date(today)
+      cutoff.setDate(cutoff.getDate() + 30)
+      const fmt = (d: Date) =>
+        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
+
+      const response = await fetch(
+        `/api/v1/calendar/earnings?tickers=${tickers.join(',')}&from=${fmt(today)}&to=${fmt(cutoff)}&limit=500`
+      )
 
       if (response.ok) {
-        const events = await response.json()
+        const data = await response.json()
+        // Flatten dates[].events[] → EarningsEvent[]; bereits chronologisch sortiert
+        const events: EarningsEvent[] = []
+        for (const day of data.dates || []) {
+          for (const ev of day.events || []) {
+            const quarter = ev.fiscalQuarter && ev.fiscalYear
+              ? `Q${ev.fiscalQuarter} ${ev.fiscalYear}`
+              : ''
+            events.push({
+              ticker: ev.ticker,
+              companyName: ev.company || ev.ticker,
+              date: day.date,
+              time: ev.time || 'TBD',
+              quarter,
+              fiscalYear: ev.fiscalYear ? String(ev.fiscalYear) : '',
+              estimatedEPS: ev.epsEstimate ?? null,
+              actualEPS: ev.epsActual ?? null,
+              revenueEstimated: ev.revenueEstimate ?? null,
+              revenueActual: ev.revenueActual ?? null,
+            })
+          }
+        }
         setEarningsEvents(events)
       } else {
         console.error('Failed to load earnings data')
