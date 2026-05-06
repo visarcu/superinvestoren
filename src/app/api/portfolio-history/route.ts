@@ -10,6 +10,7 @@ interface HistoricalDataPoint {
 }
 
 interface HoldingInput {
+  portfolio_id?: string
   symbol: string
   quantity: number
   purchase_date?: string
@@ -17,11 +18,14 @@ interface HoldingInput {
 }
 
 interface Transaction {
+  portfolio_id?: string
   date: string
   symbol: string
   quantity: number
   price: number
-  type: 'buy' | 'sell' | 'transfer_in' | 'transfer_out'
+  total_value?: number
+  fee?: number
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
 }
 
 // Erkennt ob ein Ticker in EUR notiert ist (FMP liefert Preise in Börsenwährung)
@@ -99,10 +103,24 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
     return []
   }
 
-  // Helper: Yahoo Finance Historical
+  // Helper: Yahoo Finance Historical — Range dynamisch aus fromDate ableiten,
+  // sonst werden bei MAX-Ansicht ältere Daten abgeschnitten (Yahoo-Default 1y).
+  const yahooRange = (() => {
+    const span = (Date.now() - new Date(fromDate).getTime()) / (1000 * 60 * 60 * 24)
+    if (span <= 5) return '5d'
+    if (span <= 31) return '1mo'
+    if (span <= 93) return '3mo'
+    if (span <= 186) return '6mo'
+    if (span <= 366) return '1y'
+    if (span <= 731) return '2y'
+    if (span <= 1827) return '5y'
+    if (span <= 3653) return '10y'
+    return 'max'
+  })()
+
   const fetchYahooHistorical = async (yahooSymbol: string) => {
     try {
-      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=2y&interval=1d&region=DE`
+      const yahooUrl = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(yahooSymbol)}?range=${yahooRange}&interval=1d&region=DE`
       const yahooRes = await fetch(yahooUrl, {
         headers: { 'User-Agent': 'Mozilla/5.0' },
         signal: AbortSignal.timeout(10000),
@@ -183,12 +201,40 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ success: true, data: [] })
     }
 
-    // Limitiere API-Aufrufe
-    const validDays = Math.min(Math.max(days, 7), 730)
+    // Limitiere API-Aufrufe — bis zu 15 Jahre erlaubt, damit MAX-Ansicht
+    // tatsächlich die volle Depot-Historie zeigt (vorher 730 Tage → Charts
+    // älterer Depots wurden auf 2 Jahre abgeschnitten).
+    const validDays = Math.min(Math.max(days, 7), 5475)
 
     const endDate = new Date()
-    const startDate = new Date()
+    let startDate = new Date()
     startDate.setDate(startDate.getDate() - validDays)
+
+    // Für MAX (>2 Jahre): wenn echte Transaktionen existieren, fromDate auf
+    // frühestes Tx-Datum minus 7 Tage Buffer setzen — sonst laden wir massig
+    // Preisdaten für Zeiträume, in denen das Depot leer war.
+    const isValidUuid = (v?: string) => !!v && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
+    const earlyValidIds = Array.isArray(portfolioIds)
+      ? portfolioIds.filter(isValidUuid)
+      : isValidUuid(portfolioId) ? [portfolioId!] : []
+
+    if (validDays > 730 && earlyValidIds.length > 0) {
+      const { data: earliestTx } = await supabase
+        .from('portfolio_transactions')
+        .select('date')
+        .in('portfolio_id', earlyValidIds)
+        .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
+        .order('date', { ascending: true })
+        .limit(1)
+
+      if (earliestTx && earliestTx.length > 0) {
+        const earliestDate = new Date(earliestTx[0].date)
+        earliestDate.setDate(earliestDate.getDate() - 7)
+        if (earliestDate > startDate) {
+          startDate = earliestDate
+        }
+      }
+    }
 
     const fromDate = startDate.toISOString().split('T')[0]
     const toDate = endDate.toISOString().split('T')[0]
@@ -199,29 +245,69 @@ export async function POST(request: NextRequest) {
     //    - 'all' als portfolioId ist kein gültiges UUID → wird ignoriert (Fallback zu Holdings)
     let transactionsBySymbol = new Map<string, Transaction[]>()
     let allTransactions: Transaction[] = []
+    let securityTransactions: Transaction[] = []
 
-    // UUIDs für DB-Query bestimmen
-    const isValidUuid = (v?: string) => !!v && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(v)
-    const validIds = Array.isArray(portfolioIds)
-      ? portfolioIds.filter(isValidUuid)
-      : isValidUuid(portfolioId) ? [portfolioId!] : []
+    // UUIDs für DB-Query (oben für Tx-Datum-Lookup bereits abgeleitet)
+    const validIds = earlyValidIds
 
     if (validIds.length > 0) {
       const { data: transactions, error: txError } = await supabase
         .from('portfolio_transactions')
-        .select('date, symbol, quantity, price, type')
+        .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type')
         .in('portfolio_id', validIds)
-        // transfer_in/out mit einbeziehen — sonst fehlen im Chart alle via
-        // Depotübertrag eingebuchten Shares (z.B. 147 VGWL in ING war nicht
-        // sichtbar, obwohl sie den Großteil des Depots ausmachten).
-        .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
+        // Alle bestandsrelevanten Buchungen plus Cash/Dividenden laden. Für die
+        // Wertentwicklung nutzen wir die Security-Buchungen; Cash/Dividenden
+        // bleiben hier verfügbar, falls die Kennzahlen später erweitert werden.
+        .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
         .order('date', { ascending: true })
 
       if (txError) {
         console.error('Error loading transactions:', txError)
       } else if (transactions) {
         allTransactions = transactions
+
+        const currentHoldingKeys = new Set<string>()
+        holdings.forEach(h => {
+          const symbol = h.symbol?.toUpperCase()
+          if (!symbol) return
+          currentHoldingKeys.add(symbol)
+          if (h.portfolio_id) currentHoldingKeys.add(`${h.portfolio_id}|${symbol}`)
+          else if (validIds.length === 1) currentHoldingKeys.add(`${validIds[0]}|${symbol}`)
+        })
+
+        const groupedSecurityTxs = new Map<string, Transaction[]>()
         transactions.forEach((tx: Transaction) => {
+          if (!tx.symbol || tx.symbol === 'CASH') return
+          if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) return
+          const key = `${tx.portfolio_id || ''}|${tx.symbol.toUpperCase()}`
+          if (!groupedSecurityTxs.has(key)) groupedSecurityTxs.set(key, [])
+          groupedSecurityTxs.get(key)!.push(tx)
+        })
+
+        groupedSecurityTxs.forEach((txs, key) => {
+          const symbol = txs[0]?.symbol?.toUpperCase()
+          if (!symbol) return
+
+          const finalShares = txs.reduce((shares, tx) => {
+            if (tx.type === 'buy' || tx.type === 'transfer_in') return shares + (Number(tx.quantity) || 0)
+            if (tx.type === 'sell' || tx.type === 'transfer_out') return shares - (Number(tx.quantity) || 0)
+            return shares
+          }, 0)
+
+          // Wenn eine Transaktionshistorie am Ende noch offene Shares hat, aber
+          // diese Position nicht in den aktuell geladenen Holdings existiert,
+          // ist sie für diesen Dashboard-Chart ein Orphan. Beispiel: alte
+          // BTCUSD/ETHUSD-Buys ohne Holding-Zeile erzeugten 18-Mio.-Spikes.
+          // Voll verkaufte historische Positionen bleiben erhalten.
+          if (finalShares > 0.0001 && !currentHoldingKeys.has(key) && !currentHoldingKeys.has(symbol)) {
+            console.warn(`[portfolio-history] Ignoring orphan open transaction position ${key} (${finalShares} shares)`)
+            return
+          }
+
+          securityTransactions.push(...txs)
+        })
+
+        securityTransactions.forEach((tx: Transaction) => {
           if (!transactionsBySymbol.has(tx.symbol)) {
             transactionsBySymbol.set(tx.symbol, [])
           }
@@ -233,7 +319,12 @@ export async function POST(request: NextRequest) {
     const useTransactions = transactionsBySymbol.size > 0
 
     // 2. Lade historische Kurse für alle Symbole
-    const uniqueSymbols = [...new Set(holdings.map(h => h.symbol))]
+    const uniqueSymbols = [...new Set([
+      ...holdings.map(h => h.symbol),
+      ...securityTransactions
+        .filter(tx => tx.symbol && tx.symbol !== 'CASH' && ['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type))
+        .map(tx => tx.symbol),
+    ])]
     const pricesBySymbol = new Map<string, Map<string, number>>()
 
     // Parallel laden (max 10 gleichzeitig)
@@ -337,14 +428,65 @@ export async function POST(request: NextRequest) {
     pricesBySymbol.forEach(priceMap => {
       priceMap.forEach((_, date) => allDates.add(date))
     })
+    securityTransactions.forEach(tx => {
+      if (tx.date) allDates.add(tx.date)
+    })
     const sortedDates = Array.from(allDates).sort()
+
+    const sortedDatesBySymbol = new Map<string, string[]>()
+    pricesBySymbol.forEach((priceMap, symbol) => {
+      sortedDatesBySymbol.set(symbol, Array.from(priceMap.keys()).sort())
+    })
+
+    function getPriceForDate(symbol: string, date: string): number | null {
+      const priceMap = pricesBySymbol.get(symbol)
+      if (!priceMap) return null
+      const direct = priceMap.get(date)
+      if (direct && direct > 0) return direct
+
+      const dates = sortedDatesBySymbol.get(symbol)
+      if (!dates || dates.length === 0) return null
+      for (let i = dates.length - 1; i >= 0; i--) {
+        if (dates[i] <= date) {
+          const price = priceMap.get(dates[i])
+          if (price && price > 0) return price
+        }
+      }
+      return null
+    }
+
+    const txValue = (tx: Transaction): number => {
+      const totalValue = Number(tx.total_value) || 0
+      if (totalValue > 0) return totalValue
+      return Math.abs((Number(tx.quantity) || 0) * (Number(tx.price) || 0))
+    }
+
+    const txFee = (tx: Transaction): number => Math.abs(Number(tx.fee) || 0)
+
+    function securityCashflowMovement(tx: Transaction): number {
+      const value = txValue(tx)
+      const fee = txFee(tx)
+
+      switch (tx.type) {
+        case 'buy':
+          return value + fee
+        case 'sell':
+          return -(value - fee)
+        case 'transfer_in':
+          return value
+        case 'transfer_out':
+          return -value
+        default:
+          return 0
+      }
+    }
 
     // 4. Tracke den ersten Kauftag pro Symbol (für korrekte Startberechnung)
     const firstPurchaseDateBySymbol = new Map<string, string>()
 
     if (useTransactions) {
       transactionsBySymbol.forEach((txs, symbol) => {
-        const firstBuy = txs.find(tx => tx.type === 'buy')
+        const firstBuy = txs.find(tx => tx.type === 'buy' || tx.type === 'transfer_in')
         if (firstBuy) {
           firstPurchaseDateBySymbol.set(symbol, firstBuy.date)
         }
@@ -371,8 +513,7 @@ export async function POST(request: NextRequest) {
       let totalInvested = 0
 
       uniqueSymbols.forEach(symbol => {
-        const priceMap = pricesBySymbol.get(symbol)
-        const currentPrice = priceMap?.get(date) // In Börsenwährung (USD, EUR oder GBX)
+        const currentPrice = getPriceForDate(symbol, date) // In Börsenwährung (USD, EUR oder GBX)
         const firstPurchaseDate = firstPurchaseDateBySymbol.get(symbol)
 
         if (!currentPrice) return
@@ -406,7 +547,7 @@ export async function POST(request: NextRequest) {
               // für totalInvested — das ist akzeptabel, der Bestand stimmt trotzdem.
               if (tx.type === 'buy' || tx.type === 'transfer_in') {
                 sharesOwned += tx.quantity
-                costBasis += tx.quantity * (tx.price || 0)
+                costBasis += txValue(tx) + (tx.type === 'buy' ? txFee(tx) : 0)
               } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
                 const avgCost = sharesOwned > 0 ? costBasis / sharesOwned : 0
                 sharesOwned -= tx.quantity
@@ -435,9 +576,13 @@ export async function POST(request: NextRequest) {
         }
       })
 
-      // Nur Tage mit Positionen hinzufügen
-      if (totalInvested > 0) {
-        const performance = ((totalValue - totalInvested) / totalInvested) * 100
+      // Parqet-ähnlich: "Zugeführtes Kapital" entspricht der Kapitalbasis
+      // der gehaltenen Wertpapiere. Verkäufe reduzieren diese Linie über die
+      // anteilige Durchschnittskostenbasis, nicht über den Verkaufserlös.
+      if (totalValue > 0 || totalInvested > 0) {
+        const performance = totalInvested > 0
+          ? ((totalValue - totalInvested) / totalInvested) * 100
+          : 0
 
         chartData.push({
           date,
@@ -483,7 +628,7 @@ export async function POST(request: NextRequest) {
     const cashflowByChartDate = new Map<string, number>()
 
     if (useTransactions) {
-      allTransactions.forEach(tx => {
+      securityTransactions.forEach(tx => {
         // Finde den nächsten Handelstag >= Transaktionsdatum
         let targetDate = tx.date
         if (!chartDates.has(targetDate)) {
@@ -493,14 +638,8 @@ export async function POST(request: NextRequest) {
         }
 
         const cf = cashflowByChartDate.get(targetDate) || 0
-        // buy + transfer_in = fiktiver positiver Cashflow (Shares erscheinen im
-        // Depot, TWR muss das als externe Einlage behandeln damit die Rendite
-        // nicht künstlich gut aussieht). Analog transfer_out zu Verkauf.
-        if (tx.type === 'buy' || tx.type === 'transfer_in') {
-          cashflowByChartDate.set(targetDate, cf + (tx.quantity * (tx.price || 0)))
-        } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-          cashflowByChartDate.set(targetDate, cf - (tx.quantity * (tx.price || 0)))
-        }
+        const externalFlow = securityCashflowMovement(tx)
+        if (externalFlow !== 0) cashflowByChartDate.set(targetDate, cf + externalFlow)
       })
     }
 

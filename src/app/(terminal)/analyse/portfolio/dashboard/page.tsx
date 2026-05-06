@@ -648,9 +648,11 @@ export default function PortfolioDashboard() {
                     // zu fallen (führte zu halbierten Chart-Werten).
                     portfolioIds={p.isAllDepotsView ? p.allPortfolios.map(ap => ap.id) : undefined}
                     holdings={p.holdings.map(h => ({
+                      portfolio_id: h.portfolio_id,
                       symbol: h.symbol,
                       quantity: h.quantity,
                       purchase_price: h.purchase_price,
+                      current_value: h.value,
                       purchase_date: h.purchase_date
                     }))}
                     cashPosition={p.cashPosition}

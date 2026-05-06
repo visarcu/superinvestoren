@@ -26,9 +26,11 @@ interface PortfolioValueChartProps {
    */
   portfolioIds?: string[]
   holdings: Array<{
+    portfolio_id?: string
     symbol: string
     quantity: number
     purchase_price: number
+    current_value?: number
     purchase_date?: string
   }>
   cashPosition: number
@@ -77,7 +79,9 @@ export default function PortfolioValueChart({
 
     setLoading(true)
 
-    const days = { '1M': 30, '3M': 90, '6M': 180, '1Y': 365, 'MAX': 730 }[selectedRange]
+    // MAX: 15 Jahre erlauben — Backend trimmt auf das erste Transaktionsdatum,
+    // sodass nur die tatsächlich relevante Historie geladen wird.
+    const days = { '1M': 30, '3M': 90, '6M': 180, '1Y': 365, 'MAX': 5475 }[selectedRange]
 
     try {
       const response = await fetch('/api/portfolio-history', {
@@ -91,6 +95,7 @@ export default function PortfolioValueChart({
           portfolioId: portfolioIds && portfolioIds.length > 0 ? undefined : portfolioId,
           portfolioIds,
           holdings: holdings.map(h => ({
+            portfolio_id: h.portfolio_id,
             symbol: h.symbol,
             quantity: h.quantity,
             purchase_date: h.purchase_date,
@@ -116,10 +121,30 @@ export default function PortfolioValueChart({
       }
 
       if (result.data) {
-        setValueData(result.data.map((d: any) => ({
+        const mappedData = result.data.map((d: any) => ({
           ...d,
           label: formatLabel(d.date)
-        })))
+        }))
+
+        const livePortfolioValue = holdings.reduce((sum, h) => sum + (Number(h.current_value) || 0), 0) + cashPosition
+        if (mappedData.length > 0 && livePortfolioValue > 0) {
+          const today = new Date().toISOString().split('T')[0]
+          const last = mappedData[mappedData.length - 1]
+          const livePoint = {
+            ...last,
+            date: today,
+            label: formatLabel(today),
+            value: Math.round(livePortfolioValue * 100) / 100,
+            performance: last.invested > 0
+              ? Math.round(((livePortfolioValue - last.invested) / last.invested) * 10000) / 100
+              : 0,
+          }
+
+          if (last.date === today) mappedData[mappedData.length - 1] = livePoint
+          else mappedData.push(livePoint)
+        }
+
+        setValueData(mappedData)
       }
 
       if (result.performanceData) {
@@ -140,6 +165,43 @@ export default function PortfolioValueChart({
   }, [fetchData])
 
   const lastPerf = performanceData.length > 0 ? performanceData[performanceData.length - 1] : null
+  const formatEuro = (value: number) =>
+    `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
+
+  const ValueTooltip = ({ active, payload }: any) => {
+    if (!active || !payload?.length) return null
+    const point = payload[0]?.payload as ValueDataPoint | undefined
+    if (!point) return null
+
+    const difference = point.value - point.invested
+    const dateLabel = new Date(point.date).toLocaleDateString('de-DE', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric'
+    })
+
+    return (
+      <div className="rounded-lg border border-neutral-700 bg-neutral-900 px-3 py-2 text-xs shadow-xl">
+        <div className="mb-2 font-semibold text-neutral-100">{dateLabel}</div>
+        <div className="space-y-1">
+          <div className="flex min-w-[190px] justify-between gap-5">
+            <span className="text-neutral-400">Portfoliowert</span>
+            <span className="tabular-nums text-neutral-100">{formatEuro(point.value)}</span>
+          </div>
+          <div className="flex min-w-[190px] justify-between gap-5">
+            <span className="text-neutral-400">Zugeführtes Kapital</span>
+            <span className="tabular-nums text-neutral-100">{formatEuro(point.invested)}</span>
+          </div>
+          <div className="flex min-w-[190px] justify-between gap-5 border-t border-neutral-800 pt-1">
+            <span className="text-neutral-400">Differenz</span>
+            <span className={`tabular-nums font-medium ${difference >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
+              {difference >= 0 ? '+' : ''}{formatEuro(difference)}
+            </span>
+          </div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div>
@@ -251,17 +313,7 @@ export default function PortfolioValueChart({
                   width={50}
                 />
                 <Tooltip
-                  contentStyle={{
-                    backgroundColor: '#171717',
-                    border: '1px solid #404040',
-                    borderRadius: '8px',
-                    fontSize: '12px'
-                  }}
-                  formatter={(value: number, name: string) => {
-                    const label = name === 'value' ? 'Wert' : 'Investiert'
-                    return [`${value.toLocaleString('de-DE', { minimumFractionDigits: 2 })} €`, label]
-                  }}
-                  labelFormatter={(label) => label}
+                  content={<ValueTooltip />}
                 />
                 <Area
                   type="monotone"
