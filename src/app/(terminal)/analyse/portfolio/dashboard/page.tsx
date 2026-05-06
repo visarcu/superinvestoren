@@ -5,6 +5,7 @@ import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { usePortfolio, type Holding } from '@/hooks/usePortfolio'
+import { detectTickerCurrency } from '@/lib/fmp'
 import QuickStats from '@/components/portfolio/QuickStats'
 import PositionsTable from '@/components/portfolio/PositionsTable'
 import AddActivityFAB from '@/components/portfolio/AddActivityFAB'
@@ -155,7 +156,9 @@ export default function PortfolioDashboard() {
 
         // Symbole sammeln deren current_price NULL/0 ist → Live-Kurse holen
         const symbolsToFetch = new Set<string>()
+        const currencies = new Set<string>()
         for (const h of data) {
+          currencies.add(detectTickerCurrency(h.symbol))
           const cp = Number(h.current_price)
           if (!cp || cp <= 0) symbolsToFetch.add(h.symbol)
         }
@@ -177,15 +180,57 @@ export default function PortfolioDashboard() {
           } catch { /* Fallback: purchase_price */ }
         }
 
+        let usdToEurRate: number | null = null
+        let gbpToEurRate: number | null = null
+
+        if (currencies.has('USD')) {
+          try {
+            const res = await fetch('/api/exchange-rate?from=USD&to=EUR')
+            if (res.ok) {
+              const json = await res.json()
+              if (json.rate && !isNaN(json.rate) && json.rate > 0) {
+                usdToEurRate = Number(json.rate)
+              }
+            }
+          } catch { /* Fallback: purchase_price */ }
+        }
+
+        if (currencies.has('GBP')) {
+          try {
+            const res = await fetch('/api/exchange-rate?from=GBP&to=EUR')
+            if (res.ok) {
+              const json = await res.json()
+              if (json.rate && !isNaN(json.rate) && json.rate > 0) {
+                gbpToEurRate = Number(json.rate)
+              }
+            }
+          } catch { /* Fallback: purchase_price */ }
+        }
+
         if (cancelled) return
 
         // Werte aggregieren: current_price > Live-Quote > purchase_price (Fallback)
+        // Rohkurse aus Quotes/DB sind nicht garantiert EUR: USD konvertieren,
+        // London-Ticker kommen als GBX/Pence und müssen erst /100 gerechnet werden.
         const map = new Map<string, number>()
         for (const h of data) {
           const cp = Number(h.current_price)
           const live = liveQuotes.get(h.symbol)
           const pp = Number(h.purchase_price)
-          const price = (cp && cp > 0) ? cp : (live && live > 0) ? live : pp
+          const rawPrice = (cp && cp > 0) ? cp : (live && live > 0) ? live : null
+          let price = pp
+
+          if (rawPrice && rawPrice > 0) {
+            const tickerCurrency = detectTickerCurrency(h.symbol)
+            if (tickerCurrency === 'EUR') {
+              price = rawPrice
+            } else if (tickerCurrency === 'USD' && usdToEurRate) {
+              price = rawPrice * usdToEurRate
+            } else if (tickerCurrency === 'GBP' && gbpToEurRate) {
+              price = (rawPrice / 100) * gbpToEurRate
+            }
+          }
+
           const value = (price || 0) * (Number(h.quantity) || 0)
           map.set(h.portfolio_id, (map.get(h.portfolio_id) || 0) + value)
         }

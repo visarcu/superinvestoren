@@ -74,6 +74,85 @@ export interface Transaction {
   broker_color?: string | null
 }
 
+const SECURITY_TRANSACTION_TYPES = new Set<Transaction['type']>([
+  'buy',
+  'sell',
+  'transfer_in',
+  'transfer_out',
+])
+
+function normalizeSymbol(symbol?: string | null): string {
+  return (symbol || '').trim().toUpperCase()
+}
+
+function portfolioSymbolKey(portfolioId: string | undefined, symbol: string): string {
+  return `${portfolioId || ''}|${normalizeSymbol(symbol)}`
+}
+
+function transactionAmount(tx: Transaction): number {
+  const totalValue = Number(tx.total_value) || 0
+  if (totalValue > 0) return totalValue
+
+  return Math.abs((Number(tx.quantity) || 0) * (Number(tx.price) || 0))
+}
+
+function isSecurityTransaction(tx: Transaction): boolean {
+  return SECURITY_TRANSACTION_TYPES.has(tx.type) && normalizeSymbol(tx.symbol) !== '' && normalizeSymbol(tx.symbol) !== 'CASH'
+}
+
+function filterPerformanceTransactions(transactions: Transaction[], holdings: Holding[]): Transaction[] {
+  if (transactions.length === 0) return transactions
+
+  const holdingKeys = new Set(
+    holdings
+      .filter(h => normalizeSymbol(h.symbol))
+      .map(h => portfolioSymbolKey(h.portfolio_id, h.symbol))
+  )
+  const holdingSymbols = new Set(
+    holdings
+      .map(h => normalizeSymbol(h.symbol))
+      .filter(Boolean)
+  )
+
+  const transactionGroups = new Map<string, Transaction[]>()
+  for (const tx of transactions) {
+    if (!isSecurityTransaction(tx)) continue
+
+    const key = portfolioSymbolKey(tx.portfolio_id, tx.symbol)
+    if (!transactionGroups.has(key)) transactionGroups.set(key, [])
+    transactionGroups.get(key)!.push(tx)
+  }
+
+  const ignoredOpenPositionKeys = new Set<string>()
+  for (const [key, txs] of transactionGroups) {
+    let finalShares = 0
+    for (const tx of txs) {
+      const quantity = Number(tx.quantity) || 0
+      if (tx.type === 'buy' || tx.type === 'transfer_in') {
+        finalShares += quantity
+      } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
+        finalShares -= quantity
+      }
+    }
+
+    if (finalShares <= 0.0001) continue
+
+    const hasPortfolioSpecificHolding = holdingKeys.has(key)
+    const hasSymbolHoldingWithoutPortfolio = !txs.some(tx => tx.portfolio_id) && holdingSymbols.has(normalizeSymbol(txs[0]?.symbol))
+
+    if (!hasPortfolioSpecificHolding && !hasSymbolHoldingWithoutPortfolio) {
+      ignoredOpenPositionKeys.add(key)
+    }
+  }
+
+  if (ignoredOpenPositionKeys.size === 0) return transactions
+
+  return transactions.filter(tx => {
+    if (!isSecurityTransaction(tx)) return true
+    return !ignoredOpenPositionKeys.has(portfolioSymbolKey(tx.portfolio_id, tx.symbol))
+  })
+}
+
 // Realisierte Gewinne & Dividenden aus Transaktionshistorie berechnen
 // Verwendet die Durchschnittskostenmethode (Average Cost Method)
 export interface RealizedGainInfo {
@@ -110,10 +189,10 @@ function calculateRealizedGains(transactions: Transaction[]): {
   const realizedGainByTxId = new Map<string, RealizedGainInfo>()
 
   for (const tx of sorted) {
-    if (tx.type === 'buy') {
+    if (tx.type === 'buy' || tx.type === 'transfer_in') {
       const pos = positions.get(tx.symbol) || { totalShares: 0, totalCost: 0 }
       pos.totalShares += tx.quantity
-      pos.totalCost += tx.quantity * tx.price
+      pos.totalCost += transactionAmount(tx)
       positions.set(tx.symbol, pos)
     } else if (tx.type === 'sell') {
       const pos = positions.get(tx.symbol)
@@ -141,8 +220,22 @@ function calculateRealizedGains(transactions: Transaction[]): {
         pos.totalCost = 0
       }
       positions.set(tx.symbol, pos)
+    } else if (tx.type === 'transfer_out') {
+      const pos = positions.get(tx.symbol)
+      if (!pos || pos.totalShares <= 0) continue
+
+      const avgCostPerShare = pos.totalCost / pos.totalShares
+      const transferredQuantity = Math.min(tx.quantity, pos.totalShares)
+
+      pos.totalShares -= transferredQuantity
+      pos.totalCost -= transferredQuantity * avgCostPerShare
+      if (pos.totalShares <= 0.0001) {
+        pos.totalShares = 0
+        pos.totalCost = 0
+      }
+      positions.set(tx.symbol, pos)
     } else if (tx.type === 'dividend') {
-      totalDividends += tx.total_value
+      totalDividends += transactionAmount(tx)
     }
   }
 
@@ -320,10 +413,15 @@ export function usePortfolio() {
     return totalInvested > 0 ? (totalGainLoss / totalInvested) * 100 : 0
   }, [totalGainLoss, totalInvested])
 
+  const performanceTransactions = useMemo(
+    () => filterPerformanceTransactions(transactions, holdings),
+    [transactions, holdings]
+  )
+
   // Realisierte Gewinne + Dividenden aus Transaktionshistorie
   const { totalRealizedGain, totalDividends, realizedGainByTxId } = useMemo(
-    () => calculateRealizedGains(transactions),
-    [transactions]
+    () => calculateRealizedGains(performanceTransactions),
+    [performanceTransactions]
   )
 
   // Historische Performance pro (symbol, portfolio_id) — für Ghost-Rows in der
@@ -336,8 +434,8 @@ export function usePortfolio() {
 
   // Gesamt-Ordergebühren
   const totalFees = useMemo(
-    () => transactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0),
-    [transactions]
+    () => performanceTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0),
+    [performanceTransactions]
   )
 
   // Gesamtrendite = Unrealisiert + Realisiert + Dividenden - Gebühren
@@ -355,30 +453,29 @@ export function usePortfolio() {
   const xirrPercent = useMemo(() => {
     const cashflows: Cashflow[] = []
 
-    if (transactions.length > 0) {
+    if (performanceTransactions.length > 0) {
       // Alle Buy/Sell/Dividend-Transaktionen als Cashflows.
       // Depotüberträge (transfer_in/out) werden als fiktive Käufe/Verkäufe zur
       // damaligen Kostenbasis eingerechnet — sonst fehlt der Anfangskapital-Fluss
       // und XIRR explodiert (Beispiel ING: zeigte +1000% p.a. statt realistischer
       // ~12%, weil 147 VGWL-Shares ohne Cashflow materialisiert wurden).
       // Genauso wie Parqet das macht.
-      transactions.forEach(tx => {
+      performanceTransactions.forEach(tx => {
         if (!tx.date) return
         const txDate = new Date(tx.date)
+        const amount = transactionAmount(tx)
 
         if (tx.type === 'buy') {
-          cashflows.push({ amount: -(tx.total_value), date: txDate })
+          cashflows.push({ amount: -amount, date: txDate })
         } else if (tx.type === 'sell') {
-          cashflows.push({ amount: tx.total_value, date: txDate })
+          cashflows.push({ amount, date: txDate })
         } else if (tx.type === 'dividend') {
-          cashflows.push({ amount: tx.total_value, date: txDate })
+          cashflows.push({ amount, date: txDate })
         } else if (tx.type === 'transfer_in') {
           // Fiktiver Kauf zur Kostenbasis am Transfer-Datum
-          const amount = tx.total_value > 0 ? tx.total_value : tx.price * tx.quantity
           if (amount > 0) cashflows.push({ amount: -amount, date: txDate })
         } else if (tx.type === 'transfer_out') {
           // Fiktiver Verkauf zum Transfer-Kurs am Transfer-Datum
-          const amount = tx.total_value > 0 ? tx.total_value : tx.price * tx.quantity
           if (amount > 0) cashflows.push({ amount, date: txDate })
         }
         // cash_deposit/cash_withdrawal ignorieren (externe Geldbewegungen)
@@ -408,7 +505,7 @@ export function usePortfolio() {
 
     const result = calculateXIRR(cashflows)
     return result !== null ? result * 100 : null
-  }, [transactions, holdings, stockValue])
+  }, [performanceTransactions, holdings, stockValue])
 
   // Load Exchange Rate
   const loadExchangeRate = useCallback(async () => {
@@ -837,13 +934,40 @@ export function usePortfolio() {
   }, [holdings, portfolio, loadPortfolio, depotIdParam])
 
   const deletePosition = useCallback(async (holdingId: string) => {
+    const holding = holdings.find(h => h.id === holdingId)
+
     const { error } = await supabase
       .from('portfolio_holdings')
       .delete()
       .eq('id', holdingId)
     if (error) throw error
+
+    if (holding?.symbol && portfolio?.id && portfolio.id !== 'all') {
+      const { data: symbolTransactions, error: txLoadError } = await supabase
+        .from('portfolio_transactions')
+        .select('id,type,quantity')
+        .eq('portfolio_id', portfolio.id)
+        .eq('symbol', holding.symbol)
+
+      if (txLoadError) throw txLoadError
+
+      const removableTypes = new Set(['buy', 'transfer_in'])
+      const canRemoveTransactions = (symbolTransactions || []).length > 0
+        && (symbolTransactions || []).every(tx => removableTypes.has(tx.type))
+
+      if (canRemoveTransactions) {
+        const transactionIds = (symbolTransactions || []).map(tx => tx.id)
+        const { error: txDeleteError } = await supabase
+          .from('portfolio_transactions')
+          .delete()
+          .in('id', transactionIds)
+
+        if (txDeleteError) throw txDeleteError
+      }
+    }
+
     await loadPortfolio(depotIdParam)
-  }, [loadPortfolio, depotIdParam])
+  }, [holdings, portfolio, loadPortfolio, depotIdParam])
 
   const topUpPosition = useCallback(async (holding: Holding, params: {
     quantity: number
