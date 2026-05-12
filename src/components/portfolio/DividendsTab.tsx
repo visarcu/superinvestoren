@@ -8,7 +8,13 @@ import { type Transaction, type Holding } from '@/hooks/usePortfolio'
 import { getBrokerDisplayName, getBrokerColor } from '@/lib/brokerConfig'
 import Logo from '@/components/Logo'
 import DividendIncomeChart from '@/components/portfolio/DividendIncomeChart'
-import { BanknotesIcon, CalendarDaysIcon, ArrowTrendingUpIcon, ChartBarIcon } from '@heroicons/react/24/outline'
+import {
+  ArrowTrendingUpIcon,
+  BanknotesIcon,
+  CalendarDaysIcon,
+  ChartBarIcon,
+  InformationCircleIcon,
+} from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
 interface UpcomingDividend {
@@ -27,22 +33,30 @@ interface DividendsTabProps {
   isAllDepotsView: boolean
 }
 
-// ============================================================
-// Sub: StatCard (kleine Kennzahl-Box)
-// ============================================================
+interface ForwardHolding {
+  symbol: string
+  annual: number
+  yieldOnCost: number
+  currentYield: number
+  method: 'per_share' | 'historical'
+  total12m: number
+}
+
 function StatCard({
   label,
   value,
   sub,
+  accent = false,
 }: {
   label: string
   value: string
   sub?: React.ReactNode
+  accent?: boolean
 }) {
   return (
-    <div className="bg-neutral-950 border border-neutral-800/80 rounded-xl p-4">
+    <div className="terminal-glass rounded-2xl p-4">
       <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">{label}</p>
-      <p className="text-[17px] font-semibold tracking-tight tabular-nums text-white">{value}</p>
+      <p className={`text-[17px] font-semibold tracking-tight tabular-nums ${accent ? 'text-teal-300' : 'text-white'}`}>{value}</p>
       {sub && <div className="text-[11px] text-neutral-500 mt-1 tabular-nums">{sub}</div>}
     </div>
   )
@@ -149,58 +163,82 @@ export default function DividendsTab({
     }
   }, [dividendTransactions, totalPortfolioValue])
 
-  // ============================================================
-  // Forward-Yield-Projektion: pro Holding die annualisierte Dividende aus
-  // der 12-Monats-Historie berechnen und mit aktueller Quantity hochrechnen.
-  //
-  // Kritischer Fix: Früher hatten wir eine Map<symbol, quantity> die bei jeder
-  // Div-Tx überschrieben wurde. Da dividendTransactions neueste-zuerst sortiert
-  // ist, blieb am Ende die Qty der ÄLTESTEN Tx stehen. Wenn der User in der
-  // Zwischenzeit nachgekauft hatte, war diese Qty viel kleiner als aktuell →
-  // perShareDiv wurde um den Faktor (aktuell / alt) überschätzt → Prognose
-  // explodierte (User berichtete 9107€ statt ~420€ — Faktor 21).
-  //
-  // Neue Logik: wir berechnen pro einzelner Div-Transaktion perShare =
-  // total_value / tx.quantity und summieren diese Stück-Dividenden über die
-  // letzten 12 Monate. Das ist robust gegen Qty-Änderungen.
-  // ============================================================
   const forwardProjection = useMemo(() => {
     if (dividendTransactions.length === 0 || holdings.length === 0) {
-      return { annualExpected: 0, perHolding: [] as Array<{ symbol: string; annual: number; yieldOnCost: number; currentYield: number }> }
+      return {
+        annualExpected: 0,
+        perHolding: [] as ForwardHolding[],
+        historicalFallbackTotal: 0,
+        perShareTotal: 0,
+        fallbackSymbols: [] as string[],
+      }
     }
 
     const now = new Date()
     const twelveMonthsAgo = new Date(now.getFullYear(), now.getMonth() - 12, now.getDate())
+    const holdingBySymbol = new Map(holdings.map(h => [h.symbol, h]))
+    const txBySymbol = new Map<string, Transaction[]>()
 
-    // Summe der Stück-Dividenden pro Symbol (über 12 M): Σ (total_value / quantity)
-    const perSymbolDivPerShare = new Map<string, number>()
     for (const tx of dividendTransactions) {
       if (new Date(tx.date) < twelveMonthsAgo) continue
-      if (tx.quantity <= 0) continue // Fallback-Divs (qty=1) würden sonst explodieren
-      const perShare = tx.total_value / tx.quantity
-      if (!isFinite(perShare) || perShare <= 0) continue
-      perSymbolDivPerShare.set(tx.symbol, (perSymbolDivPerShare.get(tx.symbol) || 0) + perShare)
+      if (!txBySymbol.has(tx.symbol)) txBySymbol.set(tx.symbol, [])
+      txBySymbol.get(tx.symbol)!.push(tx)
     }
 
-    const perHolding: Array<{ symbol: string; annual: number; yieldOnCost: number; currentYield: number }> = []
+    const perHolding: ForwardHolding[] = []
+    const fallbackSymbols: string[] = []
     let annualExpected = 0
+    let historicalFallbackTotal = 0
+    let perShareTotal = 0
 
-    for (const h of holdings) {
-      const perShareAnnual = perSymbolDivPerShare.get(h.symbol) || 0
-      if (perShareAnnual <= 0 || h.quantity <= 0) continue
+    for (const [symbol, txs] of txBySymbol.entries()) {
+      const h = holdingBySymbol.get(symbol)
+      if (!h || h.quantity <= 0) continue
 
-      const annual = perShareAnnual * h.quantity
+      const total12m = txs.reduce((sum, tx) => sum + (Number(tx.total_value) || 0), 0)
+      const validQtyTxs = txs.filter(tx => Number(tx.quantity) > 0)
+      const perShareAnnual = validQtyTxs.reduce((sum, tx) => sum + ((Number(tx.total_value) || 0) / Number(tx.quantity)), 0)
+      const perShareProjection = perShareAnnual * h.quantity
+      const maxTxQuantity = Math.max(0, ...validQtyTxs.map(tx => Number(tx.quantity) || 0))
+      const allQuantityOne = validQtyTxs.length > 0 && validQtyTxs.every(tx => Math.abs((Number(tx.quantity) || 0) - 1) < 0.0001)
+
+      // Viele Broker-Imports speichern Dividenden als Gesamtzahlung mit quantity=1.
+      // Dann ist total_value / quantity keine Stückdividende, sondern die komplette
+      // Zahlung. Eine Hochrechnung mit der heutigen Stückzahl wäre grob falsch.
+      const looksLikePlaceholderQuantity =
+        allQuantityOne && h.quantity > 1.5
+
+      const looksExtreme =
+        total12m > 0 &&
+        perShareProjection > total12m * 4 &&
+        h.quantity > Math.max(1, maxTxQuantity) * 4
+
+      const useHistorical = looksLikePlaceholderQuantity || looksExtreme || validQtyTxs.length === 0
+      const annual = useHistorical ? total12m : perShareProjection
       annualExpected += annual
+      if (useHistorical) {
+        historicalFallbackTotal += annual
+        fallbackSymbols.push(symbol)
+      } else {
+        perShareTotal += annual
+      }
 
       const costBasis = h.purchase_price_display * h.quantity
       const yieldOnCost = costBasis > 0 ? (annual / costBasis) * 100 : 0
       const currentYield = h.value > 0 ? (annual / h.value) * 100 : 0
 
-      perHolding.push({ symbol: h.symbol, annual, yieldOnCost, currentYield })
+      perHolding.push({
+        symbol,
+        annual,
+        yieldOnCost,
+        currentYield,
+        method: useHistorical ? 'historical' : 'per_share',
+        total12m,
+      })
     }
 
     perHolding.sort((a, b) => b.annual - a.annual)
-    return { annualExpected, perHolding }
+    return { annualExpected, perHolding, historicalFallbackTotal, perShareTotal, fallbackSymbols }
   }, [dividendTransactions, holdings])
 
   // ============================================================
@@ -253,7 +291,7 @@ export default function DividendsTab({
   if (dividendTransactions.length === 0) {
     return (
       <div className="space-y-5">
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+        <div className="terminal-glass rounded-2xl p-5">
           <div className="mb-4">
             <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Dividenden</h3>
             <p className="text-[11px] text-neutral-500 mt-0.5">Aus deinen aktuellen Positionen</p>
@@ -270,8 +308,8 @@ export default function DividendsTab({
           )}
         </div>
 
-        <div className="bg-neutral-900/30 rounded-xl border border-neutral-800/80 border-dashed p-10 text-center">
-          <div className="w-11 h-11 mx-auto mb-3 bg-neutral-900 border border-neutral-800 rounded-xl flex items-center justify-center">
+        <div className="terminal-glass rounded-2xl border-dashed p-10 text-center">
+          <div className="w-11 h-11 mx-auto mb-3 terminal-input rounded-2xl flex items-center justify-center">
             <BanknotesIcon className="w-5 h-5 text-neutral-400" />
           </div>
           <h3 className="text-sm font-semibold text-white mb-1 tracking-tight">Noch keine Dividenden</h3>
@@ -290,7 +328,7 @@ export default function DividendsTab({
       {/* ================================================================
           HERO: 12M-Rolling-Dividende + YoY + Forward-Projektion
       ================================================================ */}
-      <div className="bg-gradient-to-br from-emerald-500/5 via-neutral-900/50 to-neutral-900/50 border border-neutral-800/80 rounded-2xl p-6">
+      <div className="terminal-glass rounded-2xl p-6">
         <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
           <div>
             <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-2">Letzte 12 Monate · Netto nach Steuern</p>
@@ -312,11 +350,13 @@ export default function DividendsTab({
           {forwardProjection.annualExpected > 0 && (
             <div className="lg:text-right border-t lg:border-t-0 lg:border-l border-neutral-800 lg:pl-6 pt-4 lg:pt-0">
               <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-2">Prognose nächste 12 Monate</p>
-              <p className="text-[28px] lg:text-[32px] font-semibold tracking-tight text-emerald-400 tabular-nums leading-none">
+              <p className="text-[28px] lg:text-[32px] font-semibold tracking-tight text-teal-300 tabular-nums leading-none">
                 {formatCurrency(forwardProjection.annualExpected)}
               </p>
               <p className="text-[12px] text-neutral-500 mt-1">
-                basierend auf aktuellem Bestand × Historie
+                {forwardProjection.fallbackSymbols.length > 0
+                  ? 'historisch geschätzt, da Import-Stückzahlen unsicher sind'
+                  : 'basierend auf aktuellem Bestand × Stückdividende'}
               </p>
             </div>
           )}
@@ -350,6 +390,7 @@ export default function DividendsTab({
             return `${yoc.toFixed(2)} %`
           })()}
           sub="nächste 12 M / Einstandswert"
+          accent
         />
       </div>
 
@@ -362,14 +403,18 @@ export default function DividendsTab({
           MILESTONE-CARD: Passive Income Zielstand
       ================================================================ */}
       {milestones && (
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+        <div className="terminal-glass rounded-2xl p-5">
           <div className="flex items-center justify-between mb-3">
             <div>
               <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
                 <ArrowTrendingUpIcon className="w-4 h-4 text-emerald-400" />
                 Passives Einkommen
               </h3>
-              <p className="text-[11px] text-neutral-500 mt-0.5">Projektion basierend auf aktuellem Bestand</p>
+              <p className="text-[11px] text-neutral-500 mt-0.5">
+                {forwardProjection.fallbackSymbols.length > 0
+                  ? 'Konservative Projektion aus real erhaltenen Zahlungen'
+                  : 'Projektion basierend auf aktuellem Bestand'}
+              </p>
             </div>
             {milestones.next && (
               <div className="text-right">
@@ -383,7 +428,7 @@ export default function DividendsTab({
             <div className="mb-4">
               <div className="h-1.5 bg-neutral-800 rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full transition-all"
+                  className="h-full bg-gradient-to-r from-teal-400 to-emerald-400 rounded-full transition-all"
                   style={{ width: `${Math.min(100, milestones.progress)}%` }}
                 />
               </div>
@@ -394,17 +439,32 @@ export default function DividendsTab({
           )}
 
           <div className="grid grid-cols-3 gap-3">
-            <div className="bg-neutral-950 border border-neutral-800/60 rounded-lg px-3 py-2.5">
+            <div className="terminal-input rounded-xl px-3 py-2.5">
               <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Pro Tag</p>
               <p className="text-[14px] font-semibold text-white tabular-nums">{formatCurrency(milestones.daily)}</p>
             </div>
-            <div className="bg-neutral-950 border border-neutral-800/60 rounded-lg px-3 py-2.5">
+            <div className="terminal-input rounded-xl px-3 py-2.5">
               <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Pro Monat</p>
               <p className="text-[14px] font-semibold text-white tabular-nums">{formatCurrency(milestones.monthly)}</p>
             </div>
-            <div className="bg-neutral-950 border border-neutral-800/60 rounded-lg px-3 py-2.5">
+            <div className="terminal-input rounded-xl px-3 py-2.5">
               <p className="text-[10px] text-neutral-500 uppercase tracking-wider mb-1">Pro Jahr</p>
-              <p className="text-[14px] font-semibold text-emerald-400 tabular-nums">{formatCurrency(milestones.annual)}</p>
+              <p className="text-[14px] font-semibold text-teal-300 tabular-nums">{formatCurrency(milestones.annual)}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {forwardProjection.fallbackSymbols.length > 0 && (
+        <div className="terminal-glass rounded-2xl p-4">
+          <div className="flex items-start gap-3">
+            <InformationCircleIcon className="mt-0.5 h-4 w-4 flex-shrink-0 text-teal-300" />
+            <div>
+              <p className="text-sm font-medium text-neutral-100">Prognose korrigiert</p>
+              <p className="mt-1 text-[12px] leading-relaxed text-neutral-500">
+                Bei {forwardProjection.fallbackSymbols.length} Positionen wirken die Dividenden-Stückzahlen wie Import-Platzhalter.
+                Für diese Titel wird die reale Zahlung der letzten 12 Monate weitergeführt, statt sie mit der aktuellen Stückzahl hochzurechnen.
+              </p>
             </div>
           </div>
         </div>
@@ -413,7 +473,7 @@ export default function DividendsTab({
       {/* ================================================================
           ANSTEHENDE DIVIDENDEN
       ================================================================ */}
-      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-5">
+      <div className="terminal-glass rounded-2xl p-5">
         <div className="mb-4">
           <h3 className="text-sm font-semibold text-white tracking-tight">Anstehende Zahlungen</h3>
           <p className="text-[11px] text-neutral-500 mt-0.5">Aus deinen aktuellen Positionen</p>
@@ -434,8 +494,8 @@ export default function DividendsTab({
           DIVIDENDEN-ZAHLER mit Yield on Cost / Current Yield
       ================================================================ */}
       {bySymbol.length > 0 && (
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-          <div className="px-5 py-4 border-b border-neutral-800/80 flex items-center justify-between">
+        <div className="terminal-glass rounded-2xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
             <div>
               <h3 className="text-sm font-semibold text-white tracking-tight flex items-center gap-2">
                 <ChartBarIcon className="w-4 h-4 text-neutral-400" />
@@ -446,7 +506,7 @@ export default function DividendsTab({
           </div>
 
           {/* Desktop-Header */}
-          <div className="hidden md:grid grid-cols-12 gap-3 px-5 py-2 border-b border-neutral-800/80 text-[10px] text-neutral-500 uppercase tracking-wider">
+          <div className="hidden md:grid grid-cols-12 gap-3 px-5 py-2 border-b border-white/[0.06] text-[10px] text-neutral-500 uppercase tracking-wider">
             <div className="col-span-4">Titel</div>
             <div className="col-span-2 text-right">Kumuliert</div>
             <div className="col-span-2 text-right">Forward 12M</div>
@@ -462,7 +522,7 @@ export default function DividendsTab({
               return (
                 <div
                   key={item.symbol}
-                  className="px-5 py-3 grid grid-cols-12 gap-3 items-center border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors"
+                  className="px-5 py-3 grid grid-cols-12 gap-3 items-center border-b border-white/[0.055] last:border-b-0 hover:bg-white/[0.04] transition-colors"
                 >
                   {/* Titel + Logo */}
                   <div className="col-span-12 md:col-span-4 flex items-center gap-3 min-w-0">
@@ -484,10 +544,12 @@ export default function DividendsTab({
 
                   {/* Forward 12M */}
                   <div className="col-span-4 md:col-span-2 text-right">
-                    <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
+                    <p className="text-[13px] font-semibold text-teal-300 tabular-nums">
                       {forward ? formatCurrency(forward.annual) : '–'}
                     </p>
-                    <p className="text-[10px] text-neutral-500">Prognose</p>
+                    <p className="text-[10px] text-neutral-500">
+                      {forward?.method === 'historical' ? 'Historie' : 'Prognose'}
+                    </p>
                   </div>
 
                   {/* Yield on Cost */}
@@ -515,8 +577,8 @@ export default function DividendsTab({
       {/* ================================================================
           LETZTE ZAHLUNGEN
       ================================================================ */}
-      <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 overflow-hidden">
-        <div className="px-5 py-4 border-b border-neutral-800/80">
+      <div className="terminal-glass rounded-2xl overflow-hidden">
+        <div className="px-5 py-4 border-b border-white/[0.06]">
           <h3 className="text-sm font-semibold text-white tracking-tight">Letzte Zahlungen</h3>
           <p className="text-[11px] text-neutral-500 mt-0.5">Chronologisch absteigend</p>
         </div>
@@ -527,7 +589,7 @@ export default function DividendsTab({
             return (
               <div
                 key={tx.id}
-                className="px-5 py-2.5 flex items-center gap-3 border-b border-neutral-800/60 last:border-b-0 hover:bg-neutral-900/50 transition-colors"
+                className="px-5 py-2.5 flex items-center gap-3 border-b border-white/[0.055] last:border-b-0 hover:bg-white/[0.04] transition-colors"
               >
                 <Logo ticker={tx.symbol} alt={tx.symbol} className="w-7 h-7 flex-shrink-0" padding="none" />
                 <div className="flex-1 min-w-0">
@@ -548,7 +610,7 @@ export default function DividendsTab({
                     )}
                   </div>
                 </div>
-                <p className="text-[13px] font-semibold text-emerald-400 tabular-nums flex-shrink-0">
+                <p className="text-[13px] font-semibold text-teal-300 tabular-nums flex-shrink-0">
                   {formatCurrency(tx.total_value)}
                 </p>
               </div>
@@ -558,7 +620,7 @@ export default function DividendsTab({
         {dividendTransactions.length > 15 && !showAllPayments && (
           <button
             onClick={() => setShowAllPayments(true)}
-            className="w-full py-3 text-[11px] font-medium text-neutral-400 hover:text-white hover:bg-neutral-900/50 transition-colors border-t border-neutral-800/80"
+            className="w-full py-3 text-[11px] font-medium text-neutral-400 hover:text-white hover:bg-white/[0.04] transition-colors border-t border-white/[0.06]"
           >
             Alle {dividendTransactions.length} Zahlungen anzeigen
           </button>
@@ -622,7 +684,7 @@ function UpcomingDividendsList({ items, holdings }: { items: UpcomingDividend[];
             <div className="text-right flex-shrink-0">
               {expectedPayment > 0 ? (
                 <>
-                  <p className="text-[13px] font-semibold text-emerald-400 tabular-nums">
+                  <p className="text-[13px] font-semibold text-teal-300 tabular-nums">
                     ~${expectedPayment.toFixed(2)}
                   </p>
                   <p className="text-[10px] text-neutral-500">${div.dividend.toFixed(3)} × {holding?.quantity.toFixed(2)}</p>
