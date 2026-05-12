@@ -93,6 +93,7 @@ import olstein_2025_Q3 from './olstein/2025-Q3.json'
 import olstein_2025_Q4 from './olstein/2025-Q4.json'
 
 import olstein_2026_Q1 from './olstein/2026-Q1.json'
+import olstein_2026_Q2 from './olstein/2026-Q2.json'
 
 //greenberg
 import greenberg_2024_Q1 from './greenberg/2024-Q1.json'
@@ -115,7 +116,9 @@ import greenhaven_2025_Q1 from './greenhaven/2025-Q1.json'
 import greenhaven_2025_Q2 from './greenhaven/2025-Q2.json'
 import greenhaven_2025_Q3 from './greenhaven/2025-Q3.json'
 import greenhaven_2025_Q4 from './greenhaven/2025-Q4.json'
+
 import greenhaven_2026_Q1 from './greenhaven/2026-Q1.json'
+import greenhaven_2026_Q2 from './greenhaven/2026-Q2.json'
 
 
 import gregalexander_2024_Q1 from './gregalexander/2024-Q1.json'
@@ -833,7 +836,9 @@ import katz_2025_Q1 from './katz/2025-Q1.json'
 import katz_2025_Q2 from './katz/2025-Q2.json'
 import katz_2025_Q3 from './katz/2025-Q3.json'
 import katz_2025_Q4 from './katz/2025-Q4.json'
+
 import katz_2026_Q1 from './katz/2026-Q1.json'
+import katz_2026_Q2 from './katz/2026-Q2.json'
 
 //klarman
 import klarman_2024_Q2 from './klarman/2024-Q2.json'
@@ -854,7 +859,9 @@ import spier_2025_Q1 from './spier/2025-Q1.json'
 import spier_2025_Q2 from './spier/2025-Q2.json'
 import spier_2025_Q3 from './spier/2025-Q3.json'
 import spier_2025_Q4 from './spier/2025-Q4.json'
+
 import spier_2026_Q1 from './spier/2026-Q1.json'
+import spier_2026_Q2 from './spier/2026-Q2.json'
 
 //triplefrond
 import triplefrond_2024_Q2 from './triplefrond/2024-Q2.json'
@@ -1238,16 +1245,17 @@ const holdingsHistory: Record<string, Snapshot[]> = {
    ],
    olstein: [
    
-    { quarter: '2024-Q1', data: olstein_2024_Q4},
-    { quarter: '2024-Q2', data: olstein_2024_Q2},
-    { quarter: '2024-Q3', data: olstein_2024_Q3},
-    { quarter: '2024-Q4', data: olstein_2024_Q4},
-    { quarter: '2025-Q1', data: olstein_2025_Q1},
-    { quarter: '2025-Q2', data: olstein_2025_Q2},
-    { quarter: '2025-Q3', data: olstein_2025_Q3},
-    { quarter: '2025-Q4', data: olstein_2025_Q4},
+    {quarter: '2024-Q1', data: olstein_2024_Q4},
+    {quarter: '2024-Q2', data: olstein_2024_Q2},
+    {quarter: '2024-Q3', data: olstein_2024_Q3},
+    {quarter: '2024-Q4', data: olstein_2024_Q4},
+    {quarter: '2025-Q1', data: olstein_2025_Q1},
+    {quarter: '2025-Q2', data: olstein_2025_Q2},
+    {quarter: '2025-Q3', data: olstein_2025_Q3},
+    {quarter: '2025-Q4', data: olstein_2025_Q4},
 
-    { quarter: '2026-Q1', data: olstein_2026_Q1},
+    {quarter: '2026-Q1', data: olstein_2026_Q1},
+    {quarter: '2026-Q2', data: olstein_2026_Q2},
    
     // …
    ],
@@ -1294,7 +1302,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: greenhaven_2025_Q2},
     {quarter: '2025-Q3', data: greenhaven_2025_Q3},
     {quarter: '2025-Q4', data: greenhaven_2025_Q4},
+
     {quarter: '2026-Q1', data: greenhaven_2026_Q1},
+    {quarter: '2026-Q2', data: greenhaven_2026_Q2},
   
    ],
    gregalexander: [
@@ -2158,7 +2168,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q2', data: katz_2025_Q2},
     {quarter: '2025-Q3', data: katz_2025_Q3},
     {quarter: '2025-Q4', data: katz_2025_Q4},
+
     {quarter: '2026-Q1', data: katz_2026_Q1},
+    {quarter: '2026-Q2', data: katz_2026_Q2},
    ],
 
    weitz: [
@@ -2205,7 +2217,9 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q2', data: spier_2025_Q2},
     { quarter: '2025-Q3', data: spier_2025_Q3},
     { quarter: '2025-Q4', data: spier_2025_Q4},
+
     { quarter: '2026-Q1', data: spier_2026_Q1},
+    { quarter: '2026-Q2', data: spier_2026_Q2},
    ],
 
    triplefrond: [

@@ -1,0 +1,117 @@
+{
+  "form": "13F-HR",
+  "date": "2026-04-17",
+  "period": "2026-04-17",
+  "accession": "0001953324-26-000002",
+  "quarterKey": "2026-Q2",
+  "positions": [
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 97600,
+      "value": 46770000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 30,
+      "value": 21544000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 40000,
+      "value": 19986000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 65000,
+      "value": 19661000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOODYS CORP",
+      "cusip": "615369105",
+      "shares": 27000,
+      "value": 11779000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FERRARI N V",
+      "cusip": "N3167Y103",
+      "shares": 30000,
+      "value": 10016000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "DAILY JOURNAL CORP",
+      "cusip": "233912104",
+      "shares": 11500,
+      "value": 5547000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 135303000,
+  "positionsCount": 7,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 135303000
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

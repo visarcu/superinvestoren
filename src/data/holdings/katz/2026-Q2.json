@@ -1,0 +1,1489 @@
+{
+  "form": "13F-HR",
+  "date": "2026-04-22",
+  "period": "2026-04-22",
+  "accession": "0001172661-26-001524",
+  "quarterKey": "2026-Q2",
+  "positions": [
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 171359,
+      "value": 63432000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EA SERIES TRUST",
+      "cusip": "02072Q812",
+      "shares": 410346,
+      "value": 48319559,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MATRIX ADVISORS",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 143865,
+      "value": 41269125,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "PNC FINL SVCS GROUP INC",
+      "cusip": "693475105",
+      "shares": 191401,
+      "value": 39828583,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 134535,
+      "value": 39574905,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MORGAN STANLEY",
+      "cusip": "617446448",
+      "shares": 238060,
+      "value": 39177478,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 153271,
+      "value": 38898605,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PEPSICO INC",
+      "cusip": "713448108",
+      "shares": 241281,
+      "value": 37468510,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "QUALCOMM INC",
+      "cusip": "747525103",
+      "shares": 287239,
+      "value": 36990693,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "US BANCORP",
+      "cusip": "902973304",
+      "shares": 709170,
+      "value": 36883939,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "AMGEN INC",
+      "cusip": "031162100",
+      "shares": 99810,
+      "value": 35117981,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MEDTRONIC PLC",
+      "cusip": "G5960L103",
+      "shares": 375696,
+      "value": 32554077,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "BANK NEW YORK MELLON CORP",
+      "cusip": "064058100",
+      "shares": 244520,
+      "value": 29007445,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 135469,
+      "value": 28214031,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TEXAS INSTRS INC",
+      "cusip": "882508104",
+      "shares": 138263,
+      "value": 26842415,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "COMCAST CORP NEW",
+      "cusip": "20030N101",
+      "shares": 903971,
+      "value": 25952999,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "NEXTERA ENERGY INC",
+      "cusip": "65339F101",
+      "shares": 264712,
+      "value": 24586416,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TYSON FOODS INC",
+      "cusip": "902494103",
+      "shares": 375168,
+      "value": 24037041,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "GENERAC HLDGS INC",
+      "cusip": "368736104",
+      "shares": 112868,
+      "value": 22046506,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "GOLDMAN SACHS GROUP INC",
+      "cusip": "38141G104",
+      "shares": 25361,
+      "value": 21454844,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "APPLIED MATLS INC",
+      "cusip": "038222105",
+      "shares": 58533,
+      "value": 20006014,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LOCKHEED MARTIN CORP",
+      "cusip": "539830109",
+      "shares": 33055,
+      "value": 19978105,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "STARBUCKS CORP",
+      "cusip": "855244109",
+      "shares": 222580,
+      "value": 19940909,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMERICAN ELEC PWR CO INC",
+      "cusip": "025537101",
+      "shares": 148772,
+      "value": 19501074,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 32939,
+      "value": 18845110,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908363",
+      "shares": 30455,
+      "value": 18198307,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "S&P 500 ETF SHS",
+      "putCall": null
+    },
+    {
+      "name": "TARGET CORP",
+      "cusip": "87612E106",
+      "shares": 143783,
+      "value": 17426493,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "WELLS FARGO & CO",
+      "cusip": "949746101",
+      "shares": 216482,
+      "value": 17234150,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "HOME DEPOT INC",
+      "cusip": "437076102",
+      "shares": 51622,
+      "value": 16977890,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD TAX-MANAGED FDS",
+      "cusip": "921943858",
+      "shares": 260896,
+      "value": 16718197,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "VAN FTSE DEV MKT",
+      "putCall": null
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 78775,
+      "value": 16284410,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "FEDEX CORP",
+      "cusip": "31428X106",
+      "shares": 44099,
+      "value": 15707046,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD WHITEHALL FDS",
+      "cusip": "921946406",
+      "shares": 104118,
+      "value": 15419869,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "HIGH DIV YLD",
+      "putCall": null
+    },
+    {
+      "name": "LOWES COS INC",
+      "cusip": "548661107",
+      "shares": 65069,
+      "value": 15374498,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 267229,
+      "value": 12086774,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 26756,
+      "value": 11408712,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUS 1000 GRW ETF",
+      "putCall": null
+    },
+    {
+      "name": "THERMO FISHER SCIENTIFIC INC",
+      "cusip": "883556102",
+      "shares": 22547,
+      "value": 11082684,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ABBVIE INC",
+      "cusip": "00287Y109",
+      "shares": 39175,
+      "value": 8520213,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287804",
+      "shares": 67969,
+      "value": 8449179,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CORE S&P SCP ETF",
+      "putCall": null
+    },
+    {
+      "name": "PROCTER & GAMBLE CO",
+      "cusip": "742718109",
+      "shares": 50911,
+      "value": 7353606,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NIKE INC",
+      "cusip": "654106103",
+      "shares": 132752,
+      "value": 7011961,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B",
+      "putCall": null
+    },
+    {
+      "name": "CONSTELLATION BRANDS INC",
+      "cusip": "21036P108",
+      "shares": 46280,
+      "value": 6942000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "TE CONNECTIVITY PLC",
+      "cusip": "G87052109",
+      "shares": 32664,
+      "value": 6827429,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "ACCENTURE PLC IRELAND",
+      "cusip": "G1151C101",
+      "shares": 33007,
+      "value": 6544965,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CLASS A",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287499",
+      "shares": 59571,
+      "value": 5792130,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUS MID CAP ETF",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908744",
+      "shares": 29464,
+      "value": 5780856,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "VALUE ETF",
+      "putCall": null
+    },
+    {
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 11595,
+      "value": 5556324,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "STATE STR SPDR S&P MIDCAP 40",
+      "cusip": "78467Y107",
+      "shares": 5979,
+      "value": 3687642,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "UTSER1 S&PDCRP",
+      "putCall": null
+    },
+    {
+      "name": "T ROWE PRICE ETF INC",
+      "cusip": "87283Q107",
+      "shares": 76249,
+      "value": 3368681,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "PRICE BLUE CHIP",
+      "putCall": null
+    },
+    {
+      "name": "AUTOMATIC DATA PROCESSING IN",
+      "cusip": "053015103",
+      "shares": 13591,
+      "value": 2761419,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BANK AMERICA CORP",
+      "cusip": "060505104",
+      "shares": 55081,
+      "value": 2685221,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287655",
+      "shares": 10281,
+      "value": 2549741,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUSSELL 2000 ETF",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INTL EQUITY INDEX F",
+      "cusip": "922042858",
+      "shares": 45178,
+      "value": 2441875,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "FTSE EMR MKT ETF",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908629",
+      "shares": 7684,
+      "value": 2206800,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MID CAP ETF",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287200",
+      "shares": 3289,
+      "value": 2148257,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CORE S&P500 ETF",
+      "putCall": null
+    },
+    {
+      "name": "INTUIT",
+      "cusip": "461202103",
+      "shares": 3693,
+      "value": 1596779,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287465",
+      "shares": 14855,
+      "value": 1442837,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "MSCI EAFE ETF",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908736",
+      "shares": 3291,
+      "value": 1437309,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GROWTH ETF",
+      "putCall": null
+    },
+    {
+      "name": "NVIDIA CORPORATION",
+      "cusip": "67066G104",
+      "shares": 7855,
+      "value": 1369947,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287598",
+      "shares": 6306,
+      "value": 1347349,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUS 1000 VAL ETF",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 3922,
+      "value": 1127939,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908769",
+      "shares": 3134,
+      "value": 1005441,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "TOTAL STK MKT",
+      "putCall": null
+    },
+    {
+      "name": "AMERICAN EXPRESS CO",
+      "cusip": "025816109",
+      "shares": 2996,
+      "value": 906232,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INVESCO QQQ TR",
+      "cusip": "46090E103",
+      "shares": 1464,
+      "value": 844711,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "UNIT SER 1",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD SPECIALIZED FUNDS",
+      "cusip": "921908844",
+      "shares": 3267,
+      "value": 702706,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "DIV APP ETF",
+      "putCall": null
+    },
+    {
+      "name": "AFLAC INC",
+      "cusip": "001055102",
+      "shares": 6253,
+      "value": 686051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD SCOTTSDALE FDS",
+      "cusip": "92206C680",
+      "shares": 6100,
+      "value": 669109,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "VNG RUS1000GRW",
+      "putCall": null
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78468R796",
+      "shares": 12504,
+      "value": 663095,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "STATE STREET SPD",
+      "putCall": null
+    },
+    {
+      "name": "EXXON MOBIL CORP",
+      "cusip": "30231G102",
+      "shares": 3842,
+      "value": 651791,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "CAPITAL ONE FINL CORP",
+      "cusip": "14040H105",
+      "shares": 3178,
+      "value": 579763,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "46435G516",
+      "shares": 5961,
+      "value": 569991,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ESG AW MSCI EAFE",
+      "putCall": null
+    },
+    {
+      "name": "COSTCO WHOLESALE CORPORATION",
+      "cusip": "22160K105",
+      "shares": 559,
+      "value": 556568,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78464A763",
+      "shares": 3782,
+      "value": 552006,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "STATE STREET SPD",
+      "putCall": null
+    },
+    {
+      "name": "AST SPACEMOBILE INC",
+      "cusip": "00217D100",
+      "shares": 5380,
+      "value": 445841,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "CVS HEALTH CORP",
+      "cusip": "126650100",
+      "shares": 6175,
+      "value": 443489,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 984,
+      "value": 423405,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD SHS",
+      "putCall": null
+    },
+    {
+      "name": "WALMART INC",
+      "cusip": "931142103",
+      "shares": 3191,
+      "value": 396585,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "JOHNSON & JOHNSON",
+      "cusip": "478160104",
+      "shares": 1622,
+      "value": 396482,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AMPHENOL CORP",
+      "cusip": "032095101",
+      "shares": 3056,
+      "value": 386126,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 1149,
+      "value": 347368,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287507",
+      "shares": 5125,
+      "value": 346091,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CORE S&P MCP ETF",
+      "putCall": null
+    },
+    {
+      "name": "BROADCOM INC",
+      "cusip": "11135F101",
+      "shares": 1099,
+      "value": 340151,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MCDONALDS CORP",
+      "cusip": "580135101",
+      "shares": 1094,
+      "value": 339927,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "PALANTIR TECHNOLOGIES INC",
+      "cusip": "69608A108",
+      "shares": 2313,
+      "value": 338346,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287630",
+      "shares": 1765,
+      "value": 334626,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUS 2000 VAL ETF",
+      "putCall": null
+    },
+    {
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 1693,
+      "value": 320993,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NUCOR CORP",
+      "cusip": "670346105",
+      "shares": 1868,
+      "value": 315879,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "EATON CORP PLC",
+      "cusip": "G29183103",
+      "shares": 862,
+      "value": 308312,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "SELECT SECTOR SPDR TR",
+      "cusip": "81369Y803",
+      "shares": 2316,
+      "value": 307804,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "STATE STREET TEC",
+      "putCall": null
+    },
+    {
+      "name": "VANGUARD INDEX FDS",
+      "cusip": "922908751",
+      "shares": 1149,
+      "value": 300866,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SMALL CP ETF",
+      "putCall": null
+    },
+    {
+      "name": "SPDR SERIES TRUST",
+      "cusip": "78464A409",
+      "shares": 3047,
+      "value": 298332,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "STATE STREET SPD",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES INC",
+      "cusip": "46434G103",
+      "shares": 4162,
+      "value": 290313,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CORE MSCI EMKT",
+      "putCall": null
+    },
+    {
+      "name": "ELI LILLY & CO",
+      "cusip": "532457108",
+      "shares": 311,
+      "value": 285592,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "INVESCO EXCH TRADED FD TR II",
+      "cusip": "46138G649",
+      "shares": 1054,
+      "value": 250451,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "NASDAQ 100 ETF",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287622",
+      "shares": 698,
+      "value": 248781,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "RUS 1000 ETF",
+      "putCall": null
+    },
+    {
+      "name": "SKYX PLATFORMS CORP",
+      "cusip": "78471E105",
+      "shares": 201666,
+      "value": 225866,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "AON PLC",
+      "cusip": "G0403H108",
+      "shares": 648,
+      "value": 209161,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CL A",
+      "putCall": null
+    },
+    {
+      "name": "MARATHON PETE CORP",
+      "cusip": "56585A102",
+      "shares": 854,
+      "value": 208530,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "COLGATE PALMOLIVE CO",
+      "cusip": "194162103",
+      "shares": 2383,
+      "value": 203103,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MERCK & CO INC",
+      "cusip": "58933Y105",
+      "shares": 1671,
+      "value": 201005,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "SCHWAB STRATEGIC TR",
+      "cusip": "808524797",
+      "shares": 6521,
+      "value": 200052,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "US DIVIDEND EQ",
+      "putCall": null
+    },
+    {
+      "name": "COMPUGEN LTD",
+      "cusip": "M25722105",
+      "shares": 93833,
+      "value": 199864,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD",
+      "putCall": null
+    },
+    {
+      "name": "DOCGO INC",
+      "cusip": "256086109",
+      "shares": 100000,
+      "value": 62910,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "374WATER INC",
+      "cusip": "88583P203",
+      "shares": 10000,
+      "value": 28400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MARKER THERAPEUTICS INC",
+      "cusip": "57055L206",
+      "shares": 15000,
+      "value": 19500,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    }
+  ],
+  "totalValue": 1090209468,
+  "positionsCount": 105,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1090209468
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}
