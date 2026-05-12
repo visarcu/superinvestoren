@@ -41,17 +41,17 @@ import {
 
 // Skeleton for loading
 const SkeletonRow = () => (
-  <div className="flex items-center justify-between py-3 border-b border-neutral-800/50 animate-pulse">
+  <div className="flex items-center justify-between py-3 border-b border-theme animate-pulse">
     <div className="flex items-center gap-3">
-      <div className="w-8 h-8 bg-neutral-800 rounded-full" />
+      <div className="w-8 h-8 bg-theme-secondary rounded-full" />
       <div>
-        <div className="h-4 bg-neutral-800 rounded w-12 mb-1" />
-        <div className="h-3 bg-neutral-800 rounded w-20" />
+        <div className="h-4 bg-theme-secondary rounded w-12 mb-1" />
+        <div className="h-3 bg-theme-secondary rounded w-20" />
       </div>
     </div>
     <div className="flex items-center gap-4">
-      <div className="h-4 bg-neutral-800 rounded w-16" />
-      <div className="h-4 bg-neutral-800 rounded w-12" />
+      <div className="h-4 bg-theme-secondary rounded w-16" />
+      <div className="h-4 bg-theme-secondary rounded w-12" />
     </div>
   </div>
 )
@@ -61,13 +61,13 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean; on
   if (!isOpen) return null
   return (
     <div className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-neutral-900 rounded-2xl max-w-md w-full p-6 shadow-2xl border border-neutral-800">
+      <div className="terminal-glass-strong rounded-2xl max-w-md w-full p-6">
         <div className="text-center mb-6">
           <div className="w-14 h-14 mx-auto mb-4 bg-amber-500/20 rounded-xl flex items-center justify-center">
             <LockClosedIcon className="w-7 h-7 text-amber-400" />
           </div>
-          <h2 className="text-lg font-semibold text-white mb-2">Premium Feature</h2>
-          <p className="text-neutral-400 text-sm">{feature}</p>
+          <h2 className="text-lg font-semibold text-theme-primary mb-2">Premium Feature</h2>
+          <p className="text-theme-secondary text-sm">{feature}</p>
         </div>
         <div className="space-y-3 mb-6">
           {['Dividenden-Tracking & Prognosen', 'KI-Portfolio-Analyse', 'Performance-Insights & Analysen', 'Superinvestor-Overlap'].map(t => (
@@ -75,16 +75,16 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean; on
               <div className="w-5 h-5 rounded-full bg-emerald-500/20 flex items-center justify-center">
                 <CheckIcon className="w-3 h-3 text-emerald-400" />
               </div>
-              <span className="text-neutral-300">{t}</span>
+              <span className="text-theme-secondary">{t}</span>
             </div>
           ))}
         </div>
-        <div className="text-center mb-6 p-4 bg-neutral-800/50 rounded-xl">
-          <div className="text-2xl font-bold text-white">9€<span className="text-base font-normal text-neutral-400">/Monat</span></div>
-          <p className="text-xs text-neutral-500 mt-1">Jederzeit kündbar</p>
+        <div className="text-center mb-6 p-4 bg-theme-secondary rounded-xl">
+          <div className="text-2xl font-bold text-theme-primary">9€<span className="text-base font-normal text-theme-secondary">/Monat</span></div>
+          <p className="text-xs text-theme-muted mt-1">Jederzeit kündbar</p>
         </div>
         <div className="flex gap-3">
-          <button onClick={onClose} className="flex-1 px-4 py-3 text-sm font-medium bg-neutral-800 text-neutral-400 rounded-xl hover:bg-neutral-700 transition-colors">
+          <button onClick={onClose} className="flex-1 px-4 py-3 text-sm font-medium bg-theme-secondary text-theme-secondary rounded-xl hover:bg-theme-hover transition-colors">
             Später
           </button>
           <Link href="/pricing" className="flex-1 px-4 py-3 text-sm font-medium bg-emerald-500 text-white rounded-xl hover:bg-emerald-400 transition-colors text-center">
@@ -414,11 +414,11 @@ export default function PortfolioDashboard() {
   // Loading
   if (p.loading) {
     return (
-      <div className="min-h-screen bg-[#050506]">
+      <div className="min-h-screen bg-theme-primary">
         <div className="w-full px-6 py-6">
           <div className="animate-pulse">
-            <div className="h-6 bg-neutral-800 rounded w-40 mb-2" />
-            <div className="h-10 bg-neutral-800 rounded w-48 mb-8" />
+            <div className="h-6 bg-theme-secondary rounded w-40 mb-2" />
+            <div className="h-10 bg-theme-secondary rounded w-48 mb-8" />
             <div className="space-y-0">{[...Array(5)].map((_, i) => <SkeletonRow key={i} />)}</div>
           </div>
         </div>
@@ -429,11 +429,11 @@ export default function PortfolioDashboard() {
   // Error
   if (p.error) {
     return (
-      <div className="min-h-screen bg-[#050506] flex items-center justify-center">
+      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
         <div className="text-center max-w-md p-6">
           <ExclamationTriangleIcon className="w-10 h-10 text-red-400 mx-auto mb-4" />
-          <h2 className="text-lg font-medium text-white mb-2">Fehler beim Laden</h2>
-          <p className="text-neutral-400 text-sm mb-4">{p.error}</p>
+          <h2 className="text-lg font-medium text-theme-primary mb-2">Fehler beim Laden</h2>
+          <p className="text-theme-secondary text-sm mb-4">{p.error}</p>
           <button onClick={() => p.loadPortfolio(p.depotIdParam)} className="px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-white text-sm rounded-lg transition-colors">
             Erneut versuchen
           </button>
@@ -443,21 +443,21 @@ export default function PortfolioDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-[#050506] text-white">
+    <div className="min-h-screen bg-theme-primary text-theme-primary">
       {/* Error Banners */}
       {(p.exchangeRateError || p.priceLoadError) && (
         <div className="w-full px-6 pt-4 space-y-2">
           {p.exchangeRateError && (
             <div className="flex items-center gap-3 p-3 bg-amber-500/10 border border-amber-500/20 rounded-lg">
               <ExclamationTriangleIcon className="w-5 h-5 text-amber-400 flex-shrink-0" />
-              <p className="text-sm text-amber-200 flex-1">{p.exchangeRateError}</p>
+              <p className="text-sm text-amber-700 dark:text-amber-200 flex-1">{p.exchangeRateError}</p>
               <button onClick={p.loadExchangeRate} className="text-xs text-amber-400 hover:text-amber-300 underline">Erneut versuchen</button>
             </div>
           )}
           {p.priceLoadError && (
             <div className="flex items-center gap-3 p-3 bg-red-500/10 border border-red-500/20 rounded-lg">
               <ExclamationTriangleIcon className="w-5 h-5 text-red-400 flex-shrink-0" />
-              <p className="text-sm text-red-200 flex-1">{p.priceLoadError}</p>
+              <p className="text-sm text-red-700 dark:text-red-200 flex-1">{p.priceLoadError}</p>
               <button onClick={() => p.loadPortfolio(p.depotIdParam)} className="text-xs text-red-400 hover:text-red-300 underline">Erneut versuchen</button>
             </div>
           )}
@@ -465,17 +465,17 @@ export default function PortfolioDashboard() {
       )}
 
       {/* Header */}
-      <div className="relative z-40 border-b border-white/[0.075] bg-[#050506]/82 backdrop-blur-2xl">
+      <div className="relative z-40 border-b border-theme bg-theme-primary">
         <div className="w-full px-6 py-7">
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-semibold text-white tracking-tight">{p.portfolio?.name || 'Mein Portfolio'}</h1>
+              <h1 className="text-2xl font-semibold text-theme-primary tracking-tight">{p.portfolio?.name || 'Mein Portfolio'}</h1>
 
               {/* Depot Switcher */}
               {p.allPortfolios.length > 0 && (
                 <div className="relative">
-                  <button onClick={() => setShowDepotSwitcher(!showDepotSwitcher)} className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors">
-                    <ChevronDownIcon className={`w-4 h-4 text-neutral-500 transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
+                  <button onClick={() => setShowDepotSwitcher(!showDepotSwitcher)} className="p-1.5 hover:bg-theme-hover rounded-lg transition-colors">
+                    <ChevronDownIcon className={`w-4 h-4 text-theme-muted transition-transform ${showDepotSwitcher ? 'rotate-180' : ''}`} />
                   </button>
 
                   {showDepotSwitcher && (
@@ -485,12 +485,12 @@ export default function PortfolioDashboard() {
                         {p.allPortfolios.length > 1 && (
                           <>
                             <Link href="/analyse/portfolio/dashboard?depot=all" onClick={() => setShowDepotSwitcher(false)}
-                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.045] transition-colors ${p.portfolio?.id === 'all' ? 'bg-teal-400/10' : ''}`}>
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-theme-hover transition-colors ${p.portfolio?.id === 'all' ? 'bg-teal-400/10' : ''}`}>
                               <Squares2X2Icon className="w-4 h-4 text-emerald-400" />
-                              <span className="text-sm text-white">Alle Depots</span>
+                              <span className="text-sm text-theme-primary">Alle Depots</span>
                               {p.portfolio?.id === 'all' && <CheckIcon className="w-4 h-4 text-emerald-400 ml-auto" />}
                             </Link>
-                            <hr className="my-1 border-white/[0.075]" />
+                            <hr className="my-1 border-theme" />
                           </>
                         )}
                         {p.allPortfolios.map(dp => {
@@ -498,16 +498,16 @@ export default function PortfolioDashboard() {
                           const depotTotal = depotValues.get(dp.id)
                           return (
                             <Link key={dp.id} href={`/analyse/portfolio/dashboard?depot=${dp.id}`} onClick={() => setShowDepotSwitcher(false)}
-                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.045] transition-colors ${p.portfolio?.id === dp.id ? 'bg-teal-400/10' : ''}`}>
+                              className={`flex items-center gap-3 px-4 py-2.5 hover:bg-theme-hover transition-colors ${p.portfolio?.id === dp.id ? 'bg-teal-400/10' : ''}`}>
                               {logoId ? (
                                 <BrokerLogo brokerId={logoId} size={20} />
                               ) : (
                                 <BriefcaseIcon className="w-4 h-4 text-neutral-400" />
                               )}
                               <div className="flex-1 min-w-0">
-                                <span className="text-sm text-white truncate block">{dp.name}</span>
+                                <span className="text-sm text-theme-primary truncate block">{dp.name}</span>
                                 {depotTotal !== undefined && (
-                                  <span className="text-[11px] text-neutral-500 tabular-nums">
+                                  <span className="text-[11px] text-theme-muted tabular-nums">
                                     {p.formatCurrency(depotTotal)}
                                   </span>
                                 )}
@@ -516,9 +516,9 @@ export default function PortfolioDashboard() {
                             </Link>
                           )
                         })}
-                        <hr className="my-1 border-white/[0.075]" />
+                        <hr className="my-1 border-theme" />
                         <Link href="/analyse/portfolio/depots/neu" onClick={() => setShowDepotSwitcher(false)}
-                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-white/[0.045] transition-colors text-teal-300">
+                          className="flex items-center gap-3 px-4 py-2.5 hover:bg-theme-hover transition-colors text-teal-500 dark:text-teal-300">
                           <PlusIcon className="w-4 h-4" />
                           <span className="text-sm">Neues Depot</span>
                         </Link>
@@ -531,29 +531,29 @@ export default function PortfolioDashboard() {
               {p.portfolio?.id !== 'all' && (
                 <button
                   onClick={() => { setNewPortfolioName(p.portfolio?.name || ''); setShowNameModal(true) }}
-                  className="p-1.5 hover:bg-white/[0.06] rounded-lg transition-colors opacity-0 hover:opacity-100"
+                  className="p-1.5 hover:bg-theme-hover rounded-lg transition-colors opacity-0 hover:opacity-100"
                   title="Umbenennen"
                 >
-                  <PencilIcon className="w-3.5 h-3.5 text-neutral-500" />
+                  <PencilIcon className="w-3.5 h-3.5 text-theme-muted" />
                 </button>
               )}
             </div>
 
             <div className="flex items-center gap-2">
-              <button onClick={p.refresh} disabled={p.refreshing} className="terminal-input p-2 hover:bg-white/[0.06] rounded-xl transition-colors disabled:opacity-50" title="Aktualisieren">
-                <ArrowPathIcon className={`w-4 h-4 text-neutral-400 ${p.refreshing ? 'animate-spin' : ''}`} />
+              <button onClick={p.refresh} disabled={p.refreshing} className="terminal-input p-2 hover:bg-theme-hover rounded-xl transition-colors disabled:opacity-50" title="Aktualisieren">
+                <ArrowPathIcon className={`w-4 h-4 text-theme-secondary ${p.refreshing ? 'animate-spin' : ''}`} />
               </button>
               {!p.isAllDepotsView && (
-                <button onClick={() => setShowCSVImport(true)} className="terminal-input flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-neutral-300 hover:text-white hover:border-teal-300/25 rounded-xl transition-colors" title="Import">
+                <button onClick={() => setShowCSVImport(true)} className="terminal-input flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-theme-secondary hover:text-theme-primary hover:border-teal-300/25 rounded-xl transition-colors" title="Import">
                   <ArrowUpTrayIcon className="w-3.5 h-3.5" />
                   Import
                 </button>
               )}
-              <button onClick={p.exportToCSV} className="terminal-input p-2 hover:bg-white/[0.06] rounded-xl transition-colors" title="Export">
-                <ArrowDownTrayIcon className="w-4 h-4 text-neutral-400" />
+              <button onClick={p.exportToCSV} className="terminal-input p-2 hover:bg-theme-hover rounded-xl transition-colors" title="Export">
+                <ArrowDownTrayIcon className="w-4 h-4 text-theme-secondary" />
               </button>
-              <Link href="/analyse/portfolio/depots" className="terminal-input p-2 hover:bg-white/[0.06] rounded-xl transition-colors" title="Depots">
-                <Squares2X2Icon className="w-4 h-4 text-neutral-400" />
+              <Link href="/analyse/portfolio/depots" className="terminal-input p-2 hover:bg-theme-hover rounded-xl transition-colors" title="Depots">
+                <Squares2X2Icon className="w-4 h-4 text-theme-secondary" />
               </Link>
             </div>
           </div>
@@ -561,23 +561,24 @@ export default function PortfolioDashboard() {
           {/* Quick Value Display + Cash-Toggle */}
           <div className="flex items-end justify-between gap-8 flex-wrap">
             <div>
-              <p className="text-[10px] font-medium text-white/35 uppercase tracking-[0.14em] mb-2">
+              <p className="text-[10px] font-medium text-theme-muted uppercase tracking-[0.14em] mb-2">
                 Portfoliowert · {includeCashInTotal ? 'Gesamt' : 'Wertpapiere'}
               </p>
               <div className="flex items-baseline gap-3 flex-wrap">
                 <p
                   className="
                     text-[44px] sm:text-[54px] leading-[1.05] font-semibold tabular-nums
-                    bg-gradient-to-r from-white via-white to-white/78
+                    bg-gradient-to-r from-neutral-950 via-neutral-900 to-neutral-500
+                    dark:from-white dark:via-white dark:to-white/78
                     bg-clip-text text-transparent
-                    [text-shadow:0_4px_24px_rgba(0,0,0,0.62)]
+                    dark:[text-shadow:0_4px_24px_rgba(0,0,0,0.62)]
                   "
                 >
                   {p.formatCurrency(displayedPortfolioValue)}
                 </p>
               </div>
               <div className="mt-3 flex items-center gap-2 text-[12px] tabular-nums flex-wrap">
-                <span className="text-white/35">Rendite gesamt</span>
+                <span className="text-theme-muted">Rendite gesamt</span>
                 <span className={`font-medium ${totalReturnPositive ? 'text-emerald-400/90' : 'text-red-400/90'}`}>
                   {totalReturnPositive ? '+' : ''}
                   {p.formatCurrency(p.totalReturn)}
@@ -585,8 +586,8 @@ export default function PortfolioDashboard() {
                 <span className={totalReturnPositive ? 'text-emerald-400/55' : 'text-red-400/55'}>
                   ({p.formatPercentage(p.totalReturnPercent)})
                 </span>
-                <span className="text-white/25">·</span>
-                <span className="text-white/40 text-[11px]">
+                <span className="text-theme-muted">·</span>
+                <span className="text-theme-secondary text-[11px]">
                   davon Kurs:{' '}
                   <span className={p.totalGainLoss >= 0 ? 'text-emerald-400/70' : 'text-red-400/70'}>
                     {p.totalGainLoss >= 0 ? '+' : ''}
@@ -603,8 +604,8 @@ export default function PortfolioDashboard() {
                   onClick={() => setIncludeCashInTotal(true)}
                   className={`px-3 py-1.5 rounded-md transition-colors ${
                     includeCashInTotal
-                      ? 'bg-white/[0.085] text-white'
-                      : 'text-neutral-500 hover:text-neutral-300'
+                      ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                      : 'text-theme-muted hover:text-theme-secondary'
                   }`}
                 >
                   Mit Cash
@@ -613,8 +614,8 @@ export default function PortfolioDashboard() {
                   onClick={() => setIncludeCashInTotal(false)}
                   className={`px-3 py-1.5 rounded-md transition-colors ${
                     !includeCashInTotal
-                      ? 'bg-white/[0.085] text-white'
-                      : 'text-neutral-500 hover:text-neutral-300'
+                      ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                      : 'text-theme-muted hover:text-theme-secondary'
                   }`}
                 >
                   Nur Wertpapiere
@@ -626,7 +627,7 @@ export default function PortfolioDashboard() {
       </div>
 
       {/* Tab Navigation */}
-      <div className="relative z-10 flex items-center gap-7 px-6 border-b border-white/[0.075] bg-[#050506]/76 backdrop-blur-xl">
+      <div className="relative z-10 flex items-center gap-7 px-6 border-b border-theme bg-theme-primary">
         {[
           { key: 'overview' as const, label: 'Übersicht', premium: false },
           { key: 'positions' as const, label: 'Positionen', premium: false },
@@ -640,8 +641,8 @@ export default function PortfolioDashboard() {
             onClick={() => handleTabChange(tab.key)}
             className={`py-4 text-sm font-medium border-b-2 -mb-px transition-colors flex items-center gap-1.5 ${
               activeTab === tab.key
-                ? 'text-white border-teal-300'
-                : 'text-neutral-500 border-transparent hover:text-neutral-300'
+                ? 'text-theme-primary border-teal-500 dark:border-teal-300'
+                : 'text-theme-muted border-transparent hover:text-theme-secondary'
             }`}
           >
             {tab.label}
@@ -654,7 +655,7 @@ export default function PortfolioDashboard() {
       <main className="w-full px-6 py-6 pb-24">
         {/* Exchange Rate Info */}
         {p.exchangeRate && (
-          <div className="mb-4 flex items-center gap-2 text-xs text-neutral-500">
+          <div className="mb-4 flex items-center gap-2 text-xs text-theme-muted">
             <span>USD/EUR: {p.exchangeRate.toFixed(4)}</span>
             <button onClick={p.loadExchangeRate} className="text-emerald-400 hover:text-emerald-300">↻</button>
           </div>
@@ -688,8 +689,8 @@ export default function PortfolioDashboard() {
                 <div className="w-14 h-14 mx-auto mb-4 bg-teal-400/10 rounded-2xl flex items-center justify-center border border-teal-300/15">
                   <BriefcaseIcon className="w-7 h-7 text-teal-300" />
                 </div>
-                <h3 className="text-lg font-medium text-white mb-2">Depot ist noch leer</h3>
-                <p className="text-sm text-neutral-500 max-w-sm mx-auto">
+                <h3 className="text-lg font-medium text-theme-primary mb-2">Depot ist noch leer</h3>
+                <p className="text-sm text-theme-muted max-w-sm mx-auto">
                   Nutze den <span className="text-teal-300 font-medium">+</span> Button unten rechts, um deine erste Aktivität hinzuzufügen.
                 </p>
               </div>
@@ -734,8 +735,8 @@ export default function PortfolioDashboard() {
             {p.holdings.length > 0 && (
               <div className="terminal-glass mt-5 rounded-2xl p-6">
                 <div className="flex items-center justify-between mb-5">
-                  <h3 className="text-sm font-semibold text-white tracking-tight">Allokation</h3>
-                  <span className="text-[11px] text-neutral-500">
+                  <h3 className="text-sm font-semibold text-theme-primary tracking-tight">Allokation</h3>
+                  <span className="text-[11px] text-theme-muted">
                     {includeCashInTotal ? 'Inkl. Cash' : 'Nur Wertpapiere'}
                   </span>
                 </div>
@@ -782,7 +783,7 @@ export default function PortfolioDashboard() {
               return (
                 <div className="terminal-glass mt-6 rounded-2xl p-4">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-medium text-neutral-400">Top Positionen</h3>
+                    <h3 className="text-sm font-medium text-theme-secondary">Top Positionen</h3>
                     <button onClick={() => setActiveTab('positions')} className="text-xs text-teal-300 hover:text-teal-200">
                       Alle anzeigen
                     </button>
@@ -790,7 +791,7 @@ export default function PortfolioDashboard() {
                   <div className="space-y-0">
                     {topPositions.map((pos) => (
                       <div key={pos.symbol}
-                        className="flex items-center justify-between py-2.5 border-b border-white/[0.055] last:border-b-0 cursor-pointer hover:bg-white/[0.04] -mx-2 px-2 rounded-xl transition-colors"
+                        className="flex items-center justify-between py-2.5 border-b border-theme last:border-b-0 cursor-pointer hover:bg-theme-hover -mx-2 px-2 rounded-xl transition-colors"
                         onClick={() => {
                           const base = p.portfolio?.id
                             ? `/analyse/portfolio/stocks/${pos.symbol.toLowerCase()}?portfolioId=${p.portfolio.id}&totalValue=${p.totalValue}`
@@ -805,7 +806,7 @@ export default function PortfolioDashboard() {
                               {(() => {
                                 const etfInfo = getETFBySymbol(pos.symbol)
                                 const displayName = etfInfo?.name || (pos.name && pos.name !== pos.symbol ? pos.name : pos.symbol)
-                                return <span className="font-medium text-white text-sm truncate">{displayName}</span>
+                                return <span className="font-medium text-theme-primary text-sm truncate">{displayName}</span>
                               })()}
                               {superInvestorCounts[pos.symbol]?.count > 0 && (
                                 <span className="inline-flex items-center gap-0.5 px-1 py-0.5 bg-amber-500/10 text-amber-400 text-[10px] font-medium rounded-full flex-shrink-0">
@@ -814,11 +815,11 @@ export default function PortfolioDashboard() {
                                 </span>
                               )}
                             </div>
-                            <p className="text-xs text-neutral-500 truncate">{pos.symbol} · {pos.quantity.toLocaleString('de-DE')} St.</p>
+                            <p className="text-xs text-theme-muted truncate">{pos.symbol} · {pos.quantity.toLocaleString('de-DE')} St.</p>
                           </div>
                         </div>
                         <div className="text-right">
-                          <p className="text-sm font-medium text-white">{p.formatCurrency(pos.value)}</p>
+                          <p className="text-sm font-medium text-theme-primary">{p.formatCurrency(pos.value)}</p>
                           <span className={`text-xs ${perfColor(pos.gainLossPercent)}`}>
                             {pos.gainLossPercent >= 0 ? '+' : ''}{pos.gainLossPercent.toFixed(1)}%
                           </span>
@@ -905,7 +906,7 @@ export default function PortfolioDashboard() {
 
         {/* ===== MODALS ===== */}
 
-        {/* Edit Position Modal — Premium-Design (Apple-inspired dark) */}
+        {/* Edit Position Modal */}
         {editingPosition && (
           <div
             className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 overflow-y-auto"
@@ -914,18 +915,18 @@ export default function PortfolioDashboard() {
             <div className="min-h-screen flex items-center justify-center p-4">
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-neutral-950 rounded-2xl max-w-md w-full border border-neutral-800/80 shadow-2xl overflow-hidden"
+                className="terminal-glass-strong rounded-2xl max-w-md w-full overflow-hidden"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80">
+                <div className="flex items-center justify-between px-6 py-5 border-b border-theme">
                   <div>
-                    <h2 className="text-[17px] font-semibold text-white tracking-tight">Position bearbeiten</h2>
-                    <p className="text-[12px] text-neutral-500 mt-0.5">Menge, Einstandskurs oder Kaufdatum anpassen</p>
+                    <h2 className="text-[17px] font-semibold text-theme-primary tracking-tight">Position bearbeiten</h2>
+                    <p className="text-[12px] text-theme-muted mt-0.5">Menge, Einstandskurs oder Kaufdatum anpassen</p>
                   </div>
                   <button
                     onClick={() => setEditingPosition(null)}
                     disabled={saving}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-500 hover:text-white hover:bg-neutral-900 transition-colors disabled:opacity-40"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-theme-muted hover:text-theme-primary hover:bg-theme-hover transition-colors disabled:opacity-40"
                     aria-label="Schließen"
                   >
                     <XMarkIcon className="w-5 h-5" />
@@ -935,66 +936,66 @@ export default function PortfolioDashboard() {
                 {/* Body */}
                 <div className="px-6 py-5 space-y-4">
                   {/* Position */}
-                  <div className="flex items-center gap-3 rounded-xl border border-neutral-800/80 bg-neutral-900/40 px-4 py-3">
+                  <div className="flex items-center gap-3 rounded-xl border border-theme bg-theme-secondary px-4 py-3">
                     <Logo ticker={editingPosition.symbol} alt={editingPosition.symbol} className="w-10 h-10 rounded-lg" padding="none" />
                     <div className="min-w-0 flex-1">
-                      <div className="text-[14px] font-semibold text-white truncate">{editingPosition.symbol}</div>
-                      <div className="text-[12px] text-neutral-500 truncate">{editingPosition.name}</div>
+                      <div className="text-[14px] font-semibold text-theme-primary truncate">{editingPosition.symbol}</div>
+                      <div className="text-[12px] text-theme-muted truncate">{editingPosition.name}</div>
                     </div>
                   </div>
 
                   {/* Anzahl */}
                   <div>
-                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">Anzahl</label>
+                    <label className="block text-[12px] font-medium text-theme-secondary mb-2">Anzahl</label>
                     <input
                       type="number"
                       step="0.00000001"
                       value={editQuantity}
                       onChange={(e) => setEditQuantity(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                      className="w-full px-4 py-3 bg-theme-input border border-theme rounded-xl text-theme-primary text-[15px] tabular-nums placeholder:text-theme-muted focus:outline-none focus:border-teal-400/50 transition-colors"
                     />
                   </div>
 
                   {/* Einstandskurs */}
                   <div>
-                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">Einstandskurs (EUR)</label>
+                    <label className="block text-[12px] font-medium text-theme-secondary mb-2">Einstandskurs (EUR)</label>
                     <input
                       type="number"
                       step="0.01"
                       value={editPrice}
                       onChange={(e) => setEditPrice(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                      className="w-full px-4 py-3 bg-theme-input border border-theme rounded-xl text-theme-primary text-[15px] tabular-nums placeholder:text-theme-muted focus:outline-none focus:border-teal-400/50 transition-colors"
                     />
-                    <p className="mt-2 text-[11px] leading-relaxed text-neutral-500">
+                    <p className="mt-2 text-[11px] leading-relaxed text-theme-muted">
                       Bei Depotüberträgen nutzen wir automatisch den Schlusskurs am Übertragsdatum. Falls du den echten Original-Kaufkurs kennst (z.B. aus einem alten Kontoauszug), trag ihn hier ein — dann werden Rendite und Kursgewinn korrekt berechnet.
                     </p>
                   </div>
 
                   {/* Kaufdatum */}
                   <div>
-                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">Kaufdatum</label>
+                    <label className="block text-[12px] font-medium text-theme-secondary mb-2">Kaufdatum</label>
                     <input
                       type="date"
                       value={editDate}
                       onChange={(e) => setEditDate(e.target.value)}
-                      className="w-full px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                      className="w-full px-4 py-3 bg-theme-input border border-theme rounded-xl text-theme-primary text-[15px] tabular-nums placeholder:text-theme-muted focus:outline-none focus:border-teal-400/50 transition-colors"
                     />
                   </div>
                 </div>
 
                 {/* Footer */}
-                <div className="px-6 py-4 border-t border-neutral-800/80 flex gap-2">
+                <div className="px-6 py-4 border-t border-theme flex gap-2">
                   <button
                     onClick={() => setEditingPosition(null)}
                     disabled={saving}
-                    className="flex-1 py-2.5 text-[13px] font-medium text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 rounded-xl transition-colors disabled:opacity-40"
+                    className="flex-1 py-2.5 text-[13px] font-medium text-theme-secondary hover:text-theme-primary border border-theme hover:bg-theme-hover rounded-xl transition-colors disabled:opacity-40"
                   >
                     Abbrechen
                   </button>
                   <button
                     onClick={handleUpdatePosition}
                     disabled={saving}
-                    className="flex-1 py-2.5 text-[13px] font-medium bg-white text-neutral-950 hover:bg-neutral-200 disabled:bg-neutral-800 disabled:text-neutral-600 disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2"
+                    className="flex-1 py-2.5 text-[13px] font-medium bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 hover:opacity-90 disabled:bg-theme-secondary disabled:text-theme-muted disabled:cursor-not-allowed rounded-xl transition-colors flex items-center justify-center gap-2"
                   >
                     {saving ? (
                       <>
@@ -1017,64 +1018,64 @@ export default function PortfolioDashboard() {
         {/* Top Up Modal */}
         {topUpTarget && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-neutral-900 rounded-xl p-6 max-w-md w-full">
+            <div className="terminal-glass-strong rounded-xl p-6 max-w-md w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-xl font-bold text-white">Position aufstocken</h2>
-                <button onClick={() => setTopUpTarget(null)} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
-                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
+                <h2 className="text-xl font-bold text-theme-primary">Position aufstocken</h2>
+                <button onClick={() => setTopUpTarget(null)} className="p-1 hover:bg-theme-hover rounded transition-colors">
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
                 </button>
               </div>
-              <div className="bg-neutral-800/20 rounded-lg p-4 mb-4">
+              <div className="bg-theme-secondary rounded-lg p-4 mb-4">
                 <div className="flex items-center gap-3 mb-3">
                   <Logo ticker={topUpTarget.symbol} alt={topUpTarget.symbol} className="w-10 h-10" padding="none" />
                   <div>
-                    <div className="font-semibold text-white">{topUpTarget.symbol}</div>
-                    <div className="text-sm text-neutral-500">{topUpTarget.name}</div>
+                    <div className="font-semibold text-theme-primary">{topUpTarget.symbol}</div>
+                    <div className="text-sm text-theme-muted">{topUpTarget.name}</div>
                   </div>
                 </div>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
-                    <p className="text-neutral-500">Aktuelle Menge</p>
-                    <p className="font-semibold text-white">{topUpTarget.quantity} Stück</p>
+                    <p className="text-theme-muted">Aktuelle Menge</p>
+                    <p className="font-semibold text-theme-primary">{topUpTarget.quantity} Stück</p>
                   </div>
                   <div>
-                    <p className="text-neutral-500">Ø Kaufpreis</p>
-                    <p className="font-semibold text-white">{p.formatStockPrice(topUpTarget.purchase_price_display)}</p>
+                    <p className="text-theme-muted">Ø Kaufpreis</p>
+                    <p className="font-semibold text-theme-primary">{p.formatStockPrice(topUpTarget.purchase_price_display)}</p>
                   </div>
                 </div>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-1">Zusätzliche Anzahl</label>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">Zusätzliche Anzahl</label>
                   <input type="number" min="0" step="1" value={topUpQuantity} onChange={(e) => setTopUpQuantity(e.target.value)} placeholder="z.B. 5"
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                    className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-1">Kaufpreis pro Aktie (EUR)</label>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">Kaufpreis pro Aktie (EUR)</label>
                   <input type="number" min="0" step="0.01" value={topUpPrice} onChange={(e) => setTopUpPrice(e.target.value)} placeholder="z.B. 495.00"
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                    className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-1">Gebühren (optional, EUR)</label>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">Gebühren (optional, EUR)</label>
                   <input type="number" min="0" step="0.01" value={topUpFees} onChange={(e) => setTopUpFees(e.target.value)} placeholder="0.00"
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                    className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent" />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-1">Kaufdatum</label>
+                  <label className="block text-sm font-medium text-theme-secondary mb-1">Kaufdatum</label>
                   <input type="date" value={topUpDate} onChange={(e) => setTopUpDate(e.target.value)} max={new Date().toISOString().split('T')[0]}
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                    className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent" />
                 </div>
                 {topUpQuantity && topUpPrice && (
                   <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3">
                     <p className="text-sm text-emerald-400 font-medium mb-2">Nach Aufstockung:</p>
                     <div className="grid grid-cols-2 gap-2 text-sm">
                       <div>
-                        <p className="text-neutral-500">Neue Menge</p>
-                        <p className="font-semibold text-white">{(topUpTarget.quantity + parseFloat(topUpQuantity || '0')).toFixed(0)} Stück</p>
+                        <p className="text-theme-muted">Neue Menge</p>
+                        <p className="font-semibold text-theme-primary">{(topUpTarget.quantity + parseFloat(topUpQuantity || '0')).toFixed(0)} Stück</p>
                       </div>
                       <div>
-                        <p className="text-neutral-500">Neuer Ø Preis</p>
-                        <p className="font-semibold text-white">
+                        <p className="text-theme-muted">Neuer Ø Preis</p>
+                        <p className="font-semibold text-theme-primary">
                           {p.formatStockPrice(
                             ((topUpTarget.quantity * topUpTarget.purchase_price_display) +
                              (parseFloat(topUpQuantity || '0') * parseFloat(topUpPrice || '0'))) /
@@ -1091,7 +1092,7 @@ export default function PortfolioDashboard() {
                     {topUpSaving ? <><ArrowPathIcon className="w-4 h-4 animate-spin" />Aufstocken...</> : <><PlusIcon className="w-4 h-4" />Aufstocken</>}
                   </button>
                   <button onClick={() => setTopUpTarget(null)} disabled={topUpSaving}
-                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 disabled:opacity-50 text-white rounded-lg transition-colors">
+                    className="flex-1 py-2 border border-theme hover:bg-theme-hover disabled:opacity-50 text-theme-primary rounded-lg transition-colors">
                     Abbrechen
                   </button>
                 </div>
@@ -1100,7 +1101,7 @@ export default function PortfolioDashboard() {
           </div>
         )}
 
-        {/* Cash Modal — Premium-Design (Apple-inspired dark) */}
+        {/* Cash Modal */}
         {showCashModal && (
           <div
             className="fixed inset-0 bg-black/80 backdrop-blur-md z-50 overflow-y-auto"
@@ -1109,17 +1110,17 @@ export default function PortfolioDashboard() {
             <div className="min-h-screen flex items-center justify-center p-4">
               <div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-neutral-950 rounded-2xl max-w-md w-full border border-neutral-800/80 shadow-2xl overflow-hidden"
+                className="terminal-glass-strong rounded-2xl max-w-md w-full overflow-hidden"
               >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-5 border-b border-neutral-800/80">
+                <div className="flex items-center justify-between px-6 py-5 border-b border-theme">
                   <div>
-                    <h2 className="text-[17px] font-semibold text-white tracking-tight">Cash-Position</h2>
-                    <p className="text-[12px] text-neutral-500 mt-0.5">Bestand anpassen</p>
+                    <h2 className="text-[17px] font-semibold text-theme-primary tracking-tight">Cash-Position</h2>
+                    <p className="text-[12px] text-theme-muted mt-0.5">Bestand anpassen</p>
                   </div>
                   <button
                     onClick={() => setShowCashModal(false)}
-                    className="w-8 h-8 rounded-lg flex items-center justify-center text-neutral-500 hover:text-white hover:bg-neutral-900 transition-colors"
+                    className="w-8 h-8 rounded-lg flex items-center justify-center text-theme-muted hover:text-theme-primary hover:bg-theme-hover transition-colors"
                     aria-label="Schließen"
                   >
                     <XMarkIcon className="w-5 h-5" />
@@ -1129,16 +1130,16 @@ export default function PortfolioDashboard() {
                 {/* Body */}
                 <div className="px-6 py-5 space-y-5">
                   {/* Aktueller Stand */}
-                  <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/40 px-4 py-3.5">
-                    <div className="text-[11px] uppercase tracking-wider text-neutral-500 font-medium">Aktuell</div>
-                    <div className="text-[22px] font-semibold text-white tabular-nums mt-1">
+                  <div className="rounded-xl border border-theme bg-theme-secondary px-4 py-3.5">
+                    <div className="text-[11px] uppercase tracking-wider text-theme-muted font-medium">Aktuell</div>
+                    <div className="text-[22px] font-semibold text-theme-primary tabular-nums mt-1">
                       {p.formatCurrency(p.cashPosition)}
                     </div>
                   </div>
 
                   {/* Neuer Betrag */}
                   <div>
-                    <label className="block text-[12px] font-medium text-neutral-400 mb-2">
+                    <label className="block text-[12px] font-medium text-theme-secondary mb-2">
                       Neuer Cash-Betrag (EUR)
                     </label>
                     <div className="flex gap-2">
@@ -1148,13 +1149,13 @@ export default function PortfolioDashboard() {
                         value={newCashAmount}
                         onChange={(e) => setNewCashAmount(e.target.value)}
                         placeholder="0,00"
-                        className="flex-1 px-4 py-3 bg-neutral-900 border border-neutral-800 rounded-xl text-white text-[15px] tabular-nums placeholder:text-neutral-600 focus:outline-none focus:border-neutral-600 transition-colors"
+                        className="flex-1 px-4 py-3 bg-theme-input border border-theme rounded-xl text-theme-primary text-[15px] tabular-nums placeholder:text-theme-muted focus:outline-none focus:border-teal-400/50 transition-colors"
                         autoFocus
                       />
                       {p.cashPosition !== 0 && (
                         <button
                           onClick={() => setNewCashAmount('0')}
-                          className="px-3 py-3 text-[12px] font-medium text-neutral-400 border border-neutral-800 hover:border-neutral-700 hover:text-white rounded-xl transition-colors whitespace-nowrap"
+                          className="px-3 py-3 text-[12px] font-medium text-theme-secondary border border-theme hover:bg-theme-hover hover:text-theme-primary rounded-xl transition-colors whitespace-nowrap"
                         >
                           Auf 0
                         </button>
@@ -1164,9 +1165,9 @@ export default function PortfolioDashboard() {
 
                   {/* Änderungs-Preview */}
                   {newCashAmount && parseFloat(newCashAmount) !== p.cashPosition && (
-                    <div className="rounded-xl border border-neutral-800/80 bg-neutral-900/40 px-4 py-3">
+                    <div className="rounded-xl border border-theme bg-theme-secondary px-4 py-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-[12px] text-neutral-500">Änderung</span>
+                        <span className="text-[12px] text-theme-muted">Änderung</span>
                         <span
                           className={`text-[14px] font-medium tabular-nums ${
                             parseFloat(newCashAmount) > p.cashPosition ? 'text-emerald-400' : 'text-red-400'
@@ -1180,18 +1181,17 @@ export default function PortfolioDashboard() {
                   )}
                 </div>
 
-                {/* Footer — Apple-Stil: Primary = weiß, Secondary = ghost */}
-                <div className="px-6 py-4 border-t border-neutral-800/80 flex gap-2">
+                <div className="px-6 py-4 border-t border-theme flex gap-2">
                   <button
                     onClick={() => setShowCashModal(false)}
-                    className="flex-1 py-2.5 text-[13px] font-medium text-neutral-400 hover:text-white border border-neutral-800 hover:border-neutral-700 rounded-xl transition-colors"
+                    className="flex-1 py-2.5 text-[13px] font-medium text-theme-secondary hover:text-theme-primary border border-theme hover:bg-theme-hover rounded-xl transition-colors"
                   >
                     Abbrechen
                   </button>
                   <button
                     onClick={handleUpdateCash}
                     disabled={newCashAmount === '' || parseFloat(newCashAmount) === p.cashPosition}
-                    className="flex-1 py-2.5 text-[13px] font-medium bg-white text-neutral-950 hover:bg-neutral-200 disabled:bg-neutral-800 disabled:text-neutral-600 disabled:cursor-not-allowed rounded-xl transition-colors"
+                    className="flex-1 py-2.5 text-[13px] font-medium bg-neutral-950 text-white dark:bg-white dark:text-neutral-950 hover:opacity-90 disabled:bg-theme-secondary disabled:text-theme-muted disabled:cursor-not-allowed rounded-xl transition-colors"
                   >
                     Speichern
                   </button>
@@ -1204,11 +1204,11 @@ export default function PortfolioDashboard() {
         {/* Wertpapierkredit Modal */}
         {showCreditModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-neutral-900 rounded-xl p-6 max-w-sm w-full">
+            <div className="terminal-glass-strong rounded-xl p-6 max-w-sm w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-white">Wertpapierkredit</h2>
-                <button onClick={() => setShowCreditModal(false)} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
-                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
+                <h2 className="text-lg font-bold text-theme-primary">Wertpapierkredit</h2>
+                <button onClick={() => setShowCreditModal(false)} className="p-1 hover:bg-theme-hover rounded transition-colors">
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
                 </button>
               </div>
               <div className="space-y-4">
@@ -1218,22 +1218,22 @@ export default function PortfolioDashboard() {
                   </p>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Aktueller Kredit</label>
-                  <div className="p-3 bg-neutral-800/20 rounded-lg">
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">Aktueller Kredit</label>
+                  <div className="p-3 bg-theme-secondary rounded-lg">
                     <span className="text-lg font-bold text-red-400">{p.formatCurrency(p.portfolio?.broker_credit || 0)}</span>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Kreditbetrag (EUR, negativ)</label>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">Kreditbetrag (EUR, negativ)</label>
                   <input
                     type="number"
                     step="0.01"
                     value={newCreditAmount}
                     onChange={(e) => setNewCreditAmount(e.target.value)}
                     placeholder="-12502.00"
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-red-400/50 focus:border-transparent"
+                    className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-red-400/50 focus:border-transparent"
                   />
-                  <p className="text-xs text-neutral-600 mt-1.5">0 eingeben um den Kredit zu entfernen</p>
+                  <p className="text-xs text-theme-muted mt-1.5">0 eingeben um den Kredit zu entfernen</p>
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button
@@ -1247,7 +1247,7 @@ export default function PortfolioDashboard() {
                   >
                     Speichern
                   </button>
-                  <button onClick={() => setShowCreditModal(false)} className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors">
+                  <button onClick={() => setShowCreditModal(false)} className="flex-1 py-2 border border-theme hover:bg-theme-hover text-theme-primary rounded-lg transition-colors">
                     Abbrechen
                   </button>
                 </div>
@@ -1259,19 +1259,19 @@ export default function PortfolioDashboard() {
         {/* Name Modal */}
         {showNameModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-            <div className="bg-neutral-900 rounded-xl p-6 max-w-sm w-full">
+            <div className="terminal-glass-strong rounded-xl p-6 max-w-sm w-full">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-white">Portfolio umbenennen</h2>
-                <button onClick={() => setShowNameModal(false)} className="p-1 hover:bg-neutral-800/30 rounded transition-colors">
-                  <XMarkIcon className="w-5 h-5 text-neutral-400" />
+                <h2 className="text-lg font-bold text-theme-primary">Portfolio umbenennen</h2>
+                <button onClick={() => setShowNameModal(false)} className="p-1 hover:bg-theme-hover rounded transition-colors">
+                  <XMarkIcon className="w-5 h-5 text-theme-secondary" />
                 </button>
               </div>
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-neutral-400 mb-2">Portfolio-Name</label>
+                  <label className="block text-sm font-medium text-theme-secondary mb-2">Portfolio-Name</label>
                   <input type="text" value={newPortfolioName} onChange={(e) => setNewPortfolioName(e.target.value)}
                     placeholder="z.B. Hauptdepot, Sparplan, etc." maxLength={50} autoFocus
-                    className="w-full px-3 py-2 bg-neutral-800 border border-neutral-700 rounded-lg text-white focus:ring-2 focus:ring-green-400 focus:border-transparent" />
+                    className="w-full px-3 py-2 bg-theme-input border border-theme rounded-lg text-theme-primary focus:ring-2 focus:ring-green-400 focus:border-transparent" />
                 </div>
                 <div className="flex gap-3 pt-2">
                   <button onClick={handleUpdateName} disabled={!newPortfolioName.trim() || newPortfolioName.trim() === p.portfolio?.name}
@@ -1279,7 +1279,7 @@ export default function PortfolioDashboard() {
                     Speichern
                   </button>
                   <button onClick={() => setShowNameModal(false)}
-                    className="flex-1 py-2 border border-neutral-700 hover:bg-neutral-800/30 text-white rounded-lg transition-colors">
+                    className="flex-1 py-2 border border-theme hover:bg-theme-hover text-theme-primary rounded-lg transition-colors">
                     Abbrechen
                   </button>
                 </div>

@@ -230,7 +230,7 @@ const GlobalLearnToggle = React.memo(() => {
         flex items-center gap-1.5 px-2.5 py-1.5 rounded-md border transition-all duration-200 text-xs font-medium
         ${isLearnMode 
           ? 'bg-brand/20 border-green-500/40 text-brand-light shadow-sm' 
-          : 'bg-theme-tertiary/30 border-white/[0.06] text-theme-muted hover:text-theme-primary hover:border-green-500/30'
+          : 'bg-theme-secondary border-theme text-theme-muted hover:text-theme-primary hover:border-green-500/30'
         }
       `}
       title={`Lern-Modus ${isLearnMode ? 'deaktivieren' : 'aktivieren'}`}
@@ -420,7 +420,7 @@ const CommandPalette = React.memo(({
     <div className="fixed inset-0 bg-black/70 backdrop-blur-md z-50 flex items-start justify-center pt-[15vh]">
       <div className="terminal-glass-strong rounded-2xl w-full max-w-xl mx-4 overflow-hidden">
 
-        <div className="p-3 border-b border-white/[0.075]">
+        <div className="p-3 border-b border-theme">
           <div className="relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-theme-muted" />
             <input
@@ -433,7 +433,7 @@ const CommandPalette = React.memo(({
             />
             <button
               onClick={onClose}
-              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-theme-muted hover:text-theme-primary hover:bg-white/[0.05] rounded-lg transition-colors"
+              className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 text-theme-muted hover:text-theme-primary hover:bg-theme-hover rounded-lg transition-colors"
             >
               <XMarkIcon className="w-4 h-4" />
             </button>
@@ -472,7 +472,7 @@ const CommandPalette = React.memo(({
                           ? 'bg-teal-400/[0.045] hover:bg-teal-400/[0.08] hover:border-teal-300/15'
                           : isETF
                             ? 'bg-violet-500/[0.045] hover:bg-violet-500/[0.08] hover:border-violet-300/15'
-                            : 'hover:bg-white/[0.045] hover:border-white/[0.055]'
+                            : 'hover:bg-theme-hover hover:border-theme'
                       }`}
                     >
                       {isAsset ? (
@@ -483,7 +483,7 @@ const CommandPalette = React.memo(({
                           padding="none"
                         />
                       ) : (
-                        <div className="w-8 h-8 rounded-lg bg-white/[0.045] group-hover:bg-white/[0.075] flex items-center justify-center transition-colors flex-shrink-0">
+                        <div className="w-8 h-8 rounded-lg bg-theme-secondary group-hover:bg-theme-tertiary flex items-center justify-center transition-colors flex-shrink-0">
                           <Icon className="w-4 h-4 text-theme-muted group-hover:text-brand-light" />
                         </div>
                       )}
@@ -513,13 +513,13 @@ const CommandPalette = React.memo(({
           )}
           
           {query.length > 0 && !query.match(/^[A-Z]{1,5}$/i) && (
-            <div className="p-2 border-t border-white/[0.075]">
+            <div className="p-2 border-t border-theme">
               <button
                 onClick={() => {
                   onNavigate(`/analyse/finclue-ai?q=${encodeURIComponent(query)}`)
                   onClose()
                 }}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent transition-all text-left group hover:bg-white/[0.045] hover:border-white/[0.055]"
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-xl border border-transparent transition-all text-left group hover:bg-theme-hover hover:border-theme"
               >
                 <div className="w-8 h-8 rounded-lg bg-teal-400/10 group-hover:bg-teal-400/18 flex items-center justify-center">
                   <SparklesIcon className="w-4 h-4 text-theme-muted group-hover:text-teal-300" />
@@ -534,18 +534,18 @@ const CommandPalette = React.memo(({
           )}
         </div>
 
-        <div className="p-2 border-t border-white/[0.075] flex items-center justify-between text-xs text-theme-muted">
+        <div className="p-2 border-t border-theme flex items-center justify-between text-xs text-theme-muted">
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-white/[0.045] border border-white/[0.08] rounded text-xs">↵</kbd>
+              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">↵</kbd>
               Auswählen
             </span>
             <span className="flex items-center gap-1">
-              <kbd className="px-1.5 py-0.5 bg-white/[0.045] border border-white/[0.08] rounded text-xs">Esc</kbd>
+              <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">Esc</kbd>
               Schließen
             </span>
           </div>
-          <kbd className="px-1.5 py-0.5 bg-white/[0.045] border border-white/[0.08] rounded text-xs">⌘K</kbd>
+          <kbd className="px-1.5 py-0.5 bg-theme-secondary border border-theme rounded text-xs">⌘K</kbd>
         </div>
       </div>
     </div>
@@ -703,7 +703,7 @@ function LayoutContent({ children }: LayoutProps) {
 
   if (loading) {
     return (
-      <div className="h-screen bg-[#050506] flex items-center justify-center">
+      <div className="h-screen bg-theme-primary flex items-center justify-center">
         <div className="text-center">
           <div className="w-6 h-6 border-2 border-green-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
           <p className="text-theme-secondary text-sm">Loading Finclue...</p>
@@ -715,7 +715,7 @@ function LayoutContent({ children }: LayoutProps) {
   if (!user) return null
 
   return (
-    <div className="h-screen bg-[#050506] flex overflow-hidden">
+    <div className="h-screen bg-theme-primary flex overflow-hidden">
       <CommandPalette 
         isOpen={showCommandPalette}
         onClose={() => setShowCommandPalette(false)}
@@ -737,10 +737,10 @@ function LayoutContent({ children }: LayoutProps) {
       />
 
       {/* MAIN CONTENT */}
-      <div className="flex-1 flex flex-col bg-[#050506]">
+      <div className="flex-1 flex flex-col bg-theme-primary">
         
         {/* TOP BAR */}
-        <div className="py-4 bg-[#050506]/88 backdrop-blur-2xl border-b border-white/[0.075] flex items-center px-6 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
+        <div className="py-4 bg-theme-primary border-b border-theme flex items-center px-6 shadow-[var(--shadow-sm)]">
           <div className="flex items-center gap-6 flex-1">
             
             {/* Search Bar */}
@@ -755,7 +755,7 @@ function LayoutContent({ children }: LayoutProps) {
                 </span>
                 <div className="flex items-center gap-2">
                   <SparklesIcon className="w-4 h-4 text-teal-300/55 group-hover:text-teal-300 transition-colors" />
-                  <kbd className="px-2 py-1 text-xs bg-white/[0.045] border border-white/[0.08] rounded-lg text-theme-muted">
+                  <kbd className="px-2 py-1 text-xs bg-theme-secondary border border-theme rounded-lg text-theme-muted">
                     ⌘K
                   </kbd>
                 </div>
@@ -792,7 +792,7 @@ function LayoutContent({ children }: LayoutProps) {
 
         {/* STOCK HEADER */}
         {isStockPage && currentTicker && (
-          <div className="bg-[#050506] px-6 py-4">
+          <div className="bg-theme-primary px-6 py-4">
             <div className="terminal-glass-strong rounded-2xl overflow-hidden">
               <div className="px-6 py-5">
                 {stockLoading ? (
@@ -878,7 +878,7 @@ function LayoutContent({ children }: LayoutProps) {
               </div>
               
               {/* Tabs */}
-              <div className="bg-white/[0.02] border-t border-white/[0.075]" data-tour="stock-tabs">
+              <div className="bg-theme-secondary border-t border-theme" data-tour="stock-tabs">
                 <div className="px-6">
                   <nav className="flex items-center gap-1">
                     {STOCK_TABS.map((tab) => {
@@ -927,7 +927,7 @@ function LayoutContent({ children }: LayoutProps) {
         )}
       
         {/* CONTENT */}
-        <div className="flex-1 bg-[#050506] overflow-x-hidden has-mobile-nav">
+        <div className="flex-1 bg-theme-primary overflow-x-hidden has-mobile-nav">
           {children}
         </div>
 
@@ -938,7 +938,7 @@ function LayoutContent({ children }: LayoutProps) {
         <ProductTour />
 
         {/* FOOTER */}
-        <div className="hidden sm:flex h-5 bg-white/[0.025] border-t border-white/[0.075] items-center justify-between px-3 text-xs text-theme-muted">
+        <div className="hidden sm:flex h-5 bg-theme-secondary border-t border-theme items-center justify-between px-3 text-xs text-theme-muted">
           <div className="flex items-center gap-2">
             <span>Market: {marketStatus.status}</span>
             <span>•</span>

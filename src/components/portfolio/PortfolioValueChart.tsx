@@ -182,18 +182,18 @@ export default function PortfolioValueChart({
 
     return (
       <div className="terminal-glass-strong rounded-xl px-3 py-2 text-xs">
-        <div className="mb-2 font-semibold text-neutral-100">{dateLabel}</div>
+        <div className="mb-2 font-semibold text-theme-primary">{dateLabel}</div>
         <div className="space-y-1">
           <div className="flex min-w-[190px] justify-between gap-5">
-            <span className="text-neutral-400">Portfoliowert</span>
-            <span className="tabular-nums text-neutral-100">{formatEuro(point.value)}</span>
+            <span className="text-theme-secondary">Portfoliowert</span>
+            <span className="tabular-nums text-theme-primary">{formatEuro(point.value)}</span>
           </div>
           <div className="flex min-w-[190px] justify-between gap-5">
-            <span className="text-neutral-400">Zugeführtes Kapital</span>
-            <span className="tabular-nums text-neutral-100">{formatEuro(point.invested)}</span>
+            <span className="text-theme-secondary">Zugeführtes Kapital</span>
+            <span className="tabular-nums text-theme-primary">{formatEuro(point.invested)}</span>
           </div>
-          <div className="flex min-w-[190px] justify-between gap-5 border-t border-neutral-800 pt-1">
-            <span className="text-neutral-400">Differenz</span>
+          <div className="flex min-w-[190px] justify-between gap-5 border-t border-theme pt-1">
+            <span className="text-theme-secondary">Differenz</span>
             <span className={`tabular-nums font-medium ${difference >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {difference >= 0 ? '+' : ''}{formatEuro(difference)}
             </span>
@@ -211,7 +211,9 @@ export default function PortfolioValueChart({
           <button
             onClick={() => setChartView('value')}
             className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
-              chartView === 'value' ? 'bg-white/[0.085] text-white' : 'text-neutral-500 hover:text-neutral-300'
+              chartView === 'value'
+                ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                : 'text-theme-muted hover:text-theme-secondary'
             }`}
           >
             Wertentwicklung
@@ -219,7 +221,9 @@ export default function PortfolioValueChart({
           <button
             onClick={() => setChartView('performance')}
             className={`px-3 py-1.5 text-xs rounded-lg transition-colors ${
-              chartView === 'performance' ? 'bg-white/[0.085] text-white' : 'text-neutral-500 hover:text-neutral-300'
+              chartView === 'performance'
+                ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                : 'text-theme-muted hover:text-theme-secondary'
             }`}
           >
             Performance vs. Benchmarks (TWR)
@@ -233,8 +237,8 @@ export default function PortfolioValueChart({
               onClick={() => setSelectedRange(range)}
               className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${
                 selectedRange === range
-                  ? 'bg-white/[0.085] text-white'
-                  : 'text-neutral-500 hover:text-neutral-300'
+                  ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                  : 'text-theme-muted hover:text-theme-secondary'
               }`}
             >
               {range}
@@ -248,28 +252,28 @@ export default function PortfolioValueChart({
         <div className="flex flex-wrap gap-x-5 gap-y-1 mb-3">
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-emerald-400 rounded-full" />
-            <span className="text-xs text-neutral-400">Portfolio (TWR)</span>
+            <span className="text-xs text-theme-secondary">Portfolio (TWR)</span>
             <span className={`text-xs font-medium ${perfColor(lastPerf.portfolioPerformance)}`}>
               {lastPerf.portfolioPerformance >= 0 ? '+' : ''}{lastPerf.portfolioPerformance.toFixed(2)}%
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-blue-400 rounded-full" />
-            <span className="text-xs text-neutral-400">S&P 500</span>
+            <span className="text-xs text-theme-secondary">S&P 500</span>
             <span className={`text-xs font-medium ${lastPerf.spyPerformance >= 0 ? 'text-blue-400' : 'text-red-400'}`}>
               {lastPerf.spyPerformance >= 0 ? '+' : ''}{lastPerf.spyPerformance.toFixed(2)}%
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-violet-400 rounded-full" />
-            <span className="text-xs text-neutral-400">MSCI World</span>
+            <span className="text-xs text-theme-secondary">MSCI World</span>
             <span className={`text-xs font-medium ${lastPerf.msciWorldPerformance >= 0 ? 'text-violet-400' : 'text-red-400'}`}>
               {lastPerf.msciWorldPerformance >= 0 ? '+' : ''}{lastPerf.msciWorldPerformance.toFixed(2)}%
             </span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-0.5 bg-amber-400 rounded-full" />
-            <span className="text-xs text-neutral-400">FTSE All-World</span>
+            <span className="text-xs text-theme-secondary">FTSE All-World</span>
             <span className={`text-xs font-medium ${lastPerf.ftseAllWorldPerformance >= 0 ? 'text-amber-400' : 'text-red-400'}`}>
               {lastPerf.ftseAllWorldPerformance >= 0 ? '+' : ''}{lastPerf.ftseAllWorldPerformance.toFixed(2)}%
             </span>
@@ -293,12 +297,12 @@ export default function PortfolioValueChart({
                     <stop offset="95%" stopColor="#2dd4bf" stopOpacity={0} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
                 <XAxis
                   dataKey="label"
                   tick={{ fill: '#737373', fontSize: 11 }}
                   tickLine={false}
-                  axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+                  axisLine={{ stroke: 'var(--color-border)' }}
                   interval="preserveStartEnd"
                 />
                 <YAxis
@@ -325,7 +329,7 @@ export default function PortfolioValueChart({
                 <Line
                   type="monotone"
                   dataKey="invested"
-                  stroke="rgba(255,255,255,0.28)"
+                  stroke="var(--chart-axis)"
                   strokeWidth={1}
                   strokeDasharray="5 5"
                   dot={false}
@@ -341,12 +345,12 @@ export default function PortfolioValueChart({
           performanceData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={performanceData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.07)" />
+                <CartesianGrid strokeDasharray="3 3" stroke="var(--chart-grid)" />
                 <XAxis
                   dataKey="label"
                   tick={{ fill: '#737373', fontSize: 11 }}
                   tickLine={false}
-                  axisLine={{ stroke: 'rgba(255,255,255,0.1)' }}
+                  axisLine={{ stroke: 'var(--color-border)' }}
                   interval="preserveStartEnd"
                 />
                 <YAxis
@@ -356,12 +360,13 @@ export default function PortfolioValueChart({
                   tickFormatter={(v) => `${v.toFixed(0)}%`}
                   width={45}
                 />
-                <ReferenceLine y={0} stroke="rgba(255,255,255,0.12)" strokeWidth={1} />
+                <ReferenceLine y={0} stroke="var(--color-border)" strokeWidth={1} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: 'rgba(12,12,15,0.94)',
-                    border: '1px solid rgba(255,255,255,0.1)',
+                    backgroundColor: 'var(--color-bg-elevated)',
+                    border: '1px solid var(--color-border)',
                     borderRadius: '12px',
+                    color: 'var(--color-text-primary)',
                     fontSize: '12px'
                   }}
                   formatter={(value: number, name: string) => {

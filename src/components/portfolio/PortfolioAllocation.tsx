@@ -130,7 +130,7 @@ export default function PortfolioAllocation({
               innerRadius="68%"
               outerRadius="98%"
               paddingAngle={1.5}
-              stroke="#0a0a0a"
+              stroke="var(--color-bg-card)"
               strokeWidth={2}
               startAngle={90}
               endAngle={-270}
@@ -163,10 +163,10 @@ export default function PortfolioAllocation({
                 <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-0.5">
                   {hovered.symbol === 'CASH' ? 'Cash' : hovered.symbol === '...' ? 'Andere' : hovered.symbol}
                 </p>
-                <p className="text-base font-semibold text-white tracking-tight tabular-nums">
+                <p className="text-base font-semibold text-theme-primary tracking-tight tabular-nums">
                   {formatCurrency(hovered.value)}
                 </p>
-                <p className="text-[11px] text-neutral-400 tabular-nums">
+                <p className="text-[11px] text-theme-secondary tabular-nums">
                   {hovered.percent.toFixed(1)}%
                 </p>
               </>
@@ -175,7 +175,7 @@ export default function PortfolioAllocation({
                 <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-0.5">
                   {includeCash ? 'Gesamtwert' : 'Wertpapiere'}
                 </p>
-                <p className="text-lg font-semibold text-white tracking-tight tabular-nums">
+                <p className="text-lg font-semibold text-theme-primary tracking-tight tabular-nums">
                   {formatCurrency(displayedTotal)}
                 </p>
                 <p className="text-[11px] text-neutral-500 tabular-nums">
@@ -193,7 +193,7 @@ export default function PortfolioAllocation({
           <div
             key={s.symbol + i}
             className={`flex items-center justify-between py-1.5 px-2 rounded-lg cursor-pointer transition-colors ${
-              hoveredIdx === i ? 'bg-white/[0.06]' : 'hover:bg-white/[0.04]'
+              hoveredIdx === i ? 'bg-theme-hover' : 'hover:bg-theme-hover'
             }`}
             onMouseEnter={() => setHoveredIdx(i)}
             onMouseLeave={() => setHoveredIdx(null)}
@@ -204,19 +204,19 @@ export default function PortfolioAllocation({
                 style={{ backgroundColor: s.color }}
               />
               <div className="min-w-0">
-                <p className="text-[12px] font-medium text-white truncate">
+                <p className="text-[12px] font-medium text-theme-primary truncate">
                   {s.symbol === 'CASH' ? 'Cash' : s.symbol === '...' ? `Andere (${s.name.split(' ')[0]})` : s.symbol}
                 </p>
                 {!s.isCash && !s.isOther && (
-                  <p className="text-[10px] text-neutral-500 truncate">{s.name}</p>
+                  <p className="text-[10px] text-theme-muted truncate">{s.name}</p>
                 )}
               </div>
             </div>
             <div className="text-right flex-shrink-0 ml-3">
-              <p className="text-[12px] font-medium text-white tabular-nums">
+              <p className="text-[12px] font-medium text-theme-primary tabular-nums">
                 {s.percent.toFixed(1)}%
               </p>
-              <p className="text-[10px] text-neutral-500 tabular-nums">
+              <p className="text-[10px] text-theme-muted tabular-nums">
                 {formatCurrency(s.value)}
               </p>
             </div>

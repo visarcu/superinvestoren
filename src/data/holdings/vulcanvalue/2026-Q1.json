@@ -1,281 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2024-11-13",
-  "period": "2024-11-13",
-  "accession": "0001556785-24-000020",
-  "quarterKey": "2024-Q4",
+  "date": "2026-02-09",
+  "period": "2026-02-09",
+  "accession": "0001556785-26-000004",
+  "quarterKey": "2026-Q1",
   "positions": [
-    {
-      "name": "AMAZON COM INC",
-      "cusip": "023135106",
-      "shares": 2282384,
-      "value": 425276594,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "SKYWORKS SOLUTIONS INC",
-      "cusip": "83088M102",
-      "shares": 4096031,
-      "value": 404564966,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "SALESFORCE INC",
-      "cusip": "79466L302",
-      "shares": 1388214,
-      "value": 380494008,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
-      "shares": 822173,
-      "value": 353781027,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "COSTAR GROUP INC",
-      "cusip": "22160N109",
-      "shares": 4429889,
-      "value": 334190810,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "MASTERCARD INCORPORATED",
-      "cusip": "57636Q104",
-      "shares": 643679,
-      "value": 317848679,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "ALPHABET INC",
-      "cusip": "02079K107",
-      "shares": 1885741,
-      "value": 315277024,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "CARLYLE GROUP INC",
-      "cusip": "14316J108",
-      "shares": 6787368,
-      "value": 292264057,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "TRANSDIGM GROUP INC",
-      "cusip": "893641100",
-      "shares": 195116,
-      "value": 278455887,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "LIVE NATION ENTERTAINMENT IN",
-      "cusip": "538034109",
-      "shares": 2463181,
-      "value": 269693676,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "VISA INC",
-      "cusip": "92826C839",
-      "shares": 953316,
-      "value": 262114223,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "CBRE GROUP INC",
-      "cusip": "12504L109",
-      "shares": 1963480,
-      "value": 244413977,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "KKR & CO INC",
-      "cusip": "48251W104",
-      "shares": 1854111,
-      "value": 242109805,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "NICE LTD",
-      "cusip": "653656108",
-      "shares": 1004095,
-      "value": 174381179,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "QORVO INC",
-      "cusip": "74736K101",
-      "shares": 1678943,
-      "value": 173434812,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "ELEVANCE HEALTH INC",
-      "cusip": "036752103",
-      "shares": 279285,
-      "value": 145228200,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "JONES LANG LASALLE INC",
-      "cusip": "48020Q107",
-      "shares": 468134,
-      "value": 126307235,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "HEICO CORP NEW",
-      "cusip": "422806208",
-      "shares": 560263,
-      "value": 114159189,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "CARMAX INC",
-      "cusip": "143130102",
-      "shares": 1435596,
-      "value": 111086419,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "ARES MANAGEMENT CORPORATION",
-      "cusip": "03990B101",
-      "shares": 682442,
-      "value": 106351761,
+      "shares": 1141578,
+      "value": 551996,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -288,8 +22,8 @@
     {
       "name": "EVEREST GROUP LTD",
       "cusip": "G3223R108",
-      "shares": 258141,
-      "value": 101147388,
+      "shares": 1509740,
+      "value": 512288,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -300,10 +34,178 @@
       "putCall": null
     },
     {
-      "name": "SS&C TECHNOLOGIES HLDGS INC",
-      "cusip": "78467J100",
-      "shares": 1335870,
-      "value": 99134913,
+      "name": "SALESFORCE INC",
+      "cusip": "79466L302",
+      "shares": 1549871,
+      "value": 411064,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 1759935,
+      "value": 406173,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "UNITEDHEALTH GROUP INC",
+      "cusip": "91324P102",
+      "shares": 1083267,
+      "value": 357665,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "TRANSDIGM GROUP INC",
+      "cusip": "893641100",
+      "shares": 240620,
+      "value": 320028,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "COSTAR GROUP INC",
+      "cusip": "22160N109",
+      "shares": 4485021,
+      "value": 301527,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 931879,
+      "value": 292437,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "ARES MANAGEMENT CORPORATION",
+      "cusip": "03990B101",
+      "shares": 1696856,
+      "value": 274344,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 449194,
+      "value": 256409,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 727685,
+      "value": 255183,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "RYAN SPECIALTY HOLDINGS INC",
+      "cusip": "78351F107",
+      "shares": 4621079,
+      "value": 238536,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "ELEVANCE HEALTH INC",
+      "cusip": "036752103",
+      "shares": 386214,
+      "value": 135424,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "CARMAX INC",
+      "cusip": "143130102",
+      "shares": 2928832,
+      "value": 113210,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "TPG INC",
+      "cusip": "872657101",
+      "shares": 1721916,
+      "value": 110024,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -316,8 +218,8 @@
     {
       "name": "FISERV INC",
       "cusip": "337738108",
-      "shares": 444232,
-      "value": 79806279,
+      "shares": 1437643,
+      "value": 96507,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -328,10 +230,80 @@
       "putCall": null
     },
     {
-      "name": "COLLIERS INTL GROUP INC",
-      "cusip": "194693107",
-      "shares": 386904,
-      "value": 58735934,
+      "name": "QORVO INC",
+      "cusip": "74736K101",
+      "shares": 1103354,
+      "value": 93291,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "TRANSUNION",
+      "cusip": "89400J107",
+      "shares": 1062584,
+      "value": 91043,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "STANLEY BLACK & DECKER INC",
+      "cusip": "854502101",
+      "shares": 1059558,
+      "value": 78777,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "IQVIA HLDGS INC",
+      "cusip": "46266C105",
+      "shares": 323201,
+      "value": 72852,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 250065,
+      "value": 63159,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "JONES LANG LASALLE INC",
+      "cusip": "48020Q107",
+      "shares": 150625,
+      "value": 50678,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -344,204 +316,8 @@
     {
       "name": "LITTELFUSE INC",
       "cusip": "537008104",
-      "shares": 216944,
-      "value": 57544428,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "CUSHMAN WAKEFIELD PLC",
-      "cusip": "G2717B108",
-      "shares": 4075982,
-      "value": 55555635,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "ABM INDS INC",
-      "cusip": "000957100",
-      "shares": 1049464,
-      "value": 55369695,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "GENPACT LIMITED",
-      "cusip": "G3922B107",
-      "shares": 1383140,
-      "value": 54232925,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "ABBOTT LABS",
-      "cusip": "002824100",
-      "shares": 388122,
-      "value": 44249789,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "DUN & BRADSTREET HLDGS INC",
-      "cusip": "26484T106",
-      "shares": 3010945,
-      "value": 34655975,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "ITURAN LOCATION AND CONTROL",
-      "cusip": "M6158M104",
-      "shares": 1219621,
-      "value": 32730401,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "MARRIOTT INTL INC NEW",
-      "cusip": "571903202",
-      "shares": 121872,
-      "value": 30297379,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "SEALED AIR CORP NEW",
-      "cusip": "81211K100",
-      "shares": 795595,
-      "value": 28880097,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "MILLERKNOLL INC",
-      "cusip": "600544100",
-      "shares": 1110157,
-      "value": 27689925,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "VIRTUS INVT PARTNERS INC",
-      "cusip": "92828Q109",
-      "shares": 115077,
-      "value": 24102928,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "PROG HOLDINGS INC",
-      "cusip": "74319R101",
-      "shares": 463066,
-      "value": 22454077,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "TIMKEN CO",
-      "cusip": "887389104",
-      "shares": 225386,
-      "value": 18997810,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "PARK HOTELS & RESORTS INC",
-      "cusip": "700517105",
-      "shares": 1310632,
-      "value": 18807563,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "Equity",
-      "putCall": null
-    },
-    {
-      "name": "MEDPACE HLDGS INC",
-      "cusip": "58506Q109",
-      "shares": 46101,
-      "value": 15388514,
+      "shares": 192212,
+      "value": 48614,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -554,8 +330,8 @@
     {
       "name": "CROWN HLDGS INC",
       "cusip": "228368106",
-      "shares": 149619,
-      "value": 14345458,
+      "shares": 400303,
+      "value": 41232,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -566,10 +342,10 @@
       "putCall": null
     },
     {
-      "name": "ACUITY BRANDS INC",
-      "cusip": "00508Y102",
-      "shares": 46148,
-      "value": 12708792,
+      "name": "GENPACT LIMITED",
+      "cusip": "G3922B107",
+      "shares": 746570,
+      "value": 34925,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -580,10 +356,10 @@
       "putCall": null
     },
     {
-      "name": "ENERSYS",
-      "cusip": "29275Y102",
-      "shares": 120533,
-      "value": 12300350,
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 658777,
+      "value": 27866,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -594,10 +370,192 @@
       "putCall": null
     },
     {
-      "name": "SMARTRENT INC",
-      "cusip": "83193G107",
-      "shares": 1956312,
-      "value": 3384420,
+      "name": "COLLIERS INTL GROUP INC",
+      "cusip": "194693107",
+      "shares": 184403,
+      "value": 27133,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "MEDPACE HLDGS INC",
+      "cusip": "58506Q109",
+      "shares": 47306,
+      "value": 26580,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "MILLERKNOLL INC",
+      "cusip": "600544100",
+      "shares": 1389715,
+      "value": 25668,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "ITURAN LOCATION AND CONTROL",
+      "cusip": "M6158M104",
+      "shares": 540059,
+      "value": 23430,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "FORTUNE BRANDS INNOVATIONS I",
+      "cusip": "34964C106",
+      "shares": 353520,
+      "value": 17683,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "PROG HOLDINGS INC",
+      "cusip": "74319R101",
+      "shares": 599125,
+      "value": 17668,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "STANDARDAERO INC",
+      "cusip": "85423L103",
+      "shares": 473415,
+      "value": 13618,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "PARK HOTELS & RESORTS INC",
+      "cusip": "700517105",
+      "shares": 1257968,
+      "value": 13473,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "VIRTUS INVT PARTNERS INC",
+      "cusip": "92828Q109",
+      "shares": 77326,
+      "value": 12616,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "TIMKEN CO",
+      "cusip": "887389104",
+      "shares": 138434,
+      "value": 11646,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "MIDDLEBY CORP",
+      "cusip": "596278101",
+      "shares": 69825,
+      "value": 10381,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "SEALED AIR CORP NEW",
+      "cusip": "81211K100",
+      "shares": 118417,
+      "value": 4906,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "SPDR S&P 500 ETF TR",
+      "cusip": "78462F103",
+      "shares": 6023,
+      "value": 4144,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "Equity",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464287598",
+      "shares": 2748,
+      "value": 636,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -608,11 +566,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 5973954203,
-  "positionsCount": 43,
+  "totalValue": 5444834,
+  "positionsCount": 40,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 5973954203
+      "STOCK": 5444834
     },
     "percentages": {
       "STOCK": "100.0%"
