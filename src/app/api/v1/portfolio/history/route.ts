@@ -332,30 +332,45 @@ export async function POST(request: NextRequest) {
 
       if (spyHist.length > 0 && chartData.length > 0) {
         const firstPortfolioDate = chartData[0].date
-        const findFirstPrice = (history: typeof spyHist) => {
-          const first = history.find(d => d.date >= firstPortfolioDate)
-          return first?.close || history[0]?.close || 0
+        const normalizeBenchmarkHistory = (history: typeof spyHist) =>
+          [...history]
+            .filter(d => d.close > 0)
+            .sort((a, b) => a.date.localeCompare(b.date))
+
+        const spyBenchmark = normalizeBenchmarkHistory(spyHist)
+        const urthBenchmark = normalizeBenchmarkHistory(urthHist)
+        const vtBenchmark = normalizeBenchmarkHistory(vtHist)
+
+        const findPriceOnOrBefore = (history: typeof spyHist, date: string) => {
+          let price = 0
+          for (const point of history) {
+            if (point.date > date) break
+            price = point.close
+          }
+          return price
         }
-        const firstSPY = findFirstPrice(spyHist)
-        const firstURTH = findFirstPrice(urthHist)
-        const firstVT = findFirstPrice(vtHist)
 
-        const spyMap = new Map<string, number>()
-        const urthMap = new Map<string, number>()
-        const vtMap = new Map<string, number>()
-        for (const d of spyHist) spyMap.set(d.date, d.close)
-        for (const d of urthHist) urthMap.set(d.date, d.close)
-        for (const d of vtHist) vtMap.set(d.date, d.close)
+        const findPriceOnOrAfter = (history: typeof spyHist, date: string) =>
+          history.find(point => point.date >= date)?.close || 0
 
-        const calcReturn = (price: number | undefined, firstPrice: number) =>
-          price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
+        const findStartPrice = (history: typeof spyHist) =>
+          findPriceOnOrBefore(history, firstPortfolioDate) || findPriceOnOrAfter(history, firstPortfolioDate)
+
+        const firstSPY = findStartPrice(spyBenchmark)
+        const firstURTH = findStartPrice(urthBenchmark)
+        const firstVT = findStartPrice(vtBenchmark)
+
+        const calcReturn = (history: typeof spyHist, date: string, firstPrice: number) => {
+          const price = findPriceOnOrBefore(history, date)
+          return price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
+        }
 
         performanceData = chartData.map(point => ({
           date: point.date,
           portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100,
-          spyPerformance: calcReturn(spyMap.get(point.date), firstSPY),
-          msciWorldPerformance: calcReturn(urthMap.get(point.date), firstURTH),
-          ftseAllWorldPerformance: calcReturn(vtMap.get(point.date), firstVT),
+          spyPerformance: calcReturn(spyBenchmark, point.date, firstSPY),
+          msciWorldPerformance: calcReturn(urthBenchmark, point.date, firstURTH),
+          ftseAllWorldPerformance: calcReturn(vtBenchmark, point.date, firstVT),
         }))
       }
     } catch (err) {
