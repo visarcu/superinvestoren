@@ -122,19 +122,19 @@
    
    /* ===== DARK THEME - LINEAR/FEY STYLE ===== */
    .dark {
-     /* Backgrounds - deep terminal glass */
-     --color-bg-primary: #050506;
-     --color-bg-card: rgba(18, 18, 22, 0.72);
-     --color-bg-hover: rgba(255, 255, 255, 0.055);
-     --color-bg-secondary: rgba(255, 255, 255, 0.045);
-     --color-bg-tertiary: rgba(255, 255, 255, 0.075);
-     --color-bg-input: rgba(255, 255, 255, 0.045);
-     --color-bg-elevated: rgba(20, 20, 24, 0.9);
+     /* Backgrounds - Cleaner, darker like Linear/Fey */
+     --color-bg-primary: #0a0a0b;
+     --color-bg-card: #111113;
+     --color-bg-hover: #161618;
+     --color-bg-secondary: #161618;
+     --color-bg-tertiary: #1a1a1d;
+     --color-bg-input: #111113;
+     --color-bg-elevated: #161618;
 
      /* Sidebar */
-     --color-sidebar-bg: rgba(5, 5, 6, 0.88);
-     --color-sidebar-hover: rgba(255, 255, 255, 0.055);
-     --color-sidebar-active: rgba(20, 184, 166, 0.13);
+     --color-sidebar-bg: #0a0a0b;
+     --color-sidebar-hover: rgba(255, 255, 255, 0.03);
+     --color-sidebar-active: rgba(255, 255, 255, 0.06);
 
      /* Text - Consistent gray scale */
      --color-text-primary: #f4f4f5;
@@ -143,16 +143,16 @@
      --color-text-faint: #3f3f46;
 
      /* Borders - Subtle, consistent with Linear/Fey */
-     --color-border: rgba(255, 255, 255, 0.08);
-     --color-border-light: rgba(255, 255, 255, 0.055);
-     --color-border-focus: #14b8a6;
-     --color-divider: rgba(255, 255, 255, 0.075);
+     --color-border: rgba(255, 255, 255, 0.06);
+     --color-border-light: rgba(255, 255, 255, 0.04);
+     --color-border-focus: #22c55e;
+     --color-divider: rgba(255, 255, 255, 0.06);
 
      /* Primary - Brand green instead of blue */
-     --color-primary: #14b8a6;
-     --color-primary-hover: #2dd4bf;
-     --color-primary-light: #2dd4bf;
-     --color-primary-muted: rgba(20, 184, 166, 0.16);
+     --color-primary: #22c55e;
+     --color-primary-hover: #16a34a;
+     --color-primary-light: #4ade80;
+     --color-primary-muted: rgba(34, 197, 94, 0.15);
 
      /* Semantic Colors */
      --color-success: #22c55e;
@@ -184,11 +184,11 @@
 
      /* Shadows - Minimal for dark theme */
      --shadow-xs: none;
-     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.28);
-     --shadow-md: 0 14px 42px rgba(0, 0, 0, 0.28);
-     --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.44);
-     --shadow-card: 0 18px 60px rgba(0, 0, 0, 0.22);
-     --shadow-dropdown: 0 24px 80px rgba(0, 0, 0, 0.55);
+     --shadow-sm: none;
+     --shadow-md: none;
+     --shadow-lg: none;
+     --shadow-card: none;
+     --shadow-dropdown: 0 4px 12px rgba(0, 0, 0, 0.5);
    }
    
    /* ===== BASE STYLES ===== */

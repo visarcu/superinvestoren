@@ -1,4 +1,4 @@
-// lib/useTheme.ts - Dark Theme Only (Light Theme temporär deaktiviert)
+// lib/useTheme.ts - Theme handling
 'use client'
 
 import { useState, useEffect } from 'react'
@@ -6,9 +6,8 @@ import { usePathname } from 'next/navigation'
 
 export type Theme = 'light' | 'dark'
 
-// ✅ Feature Flag: Light Theme temporär deaktiviert
-// Auf false setzen um Light Theme wieder zu aktivieren
-export const LIGHT_THEME_DISABLED = true
+// Feature Flag: Light Theme kann hier bei Bedarf temporär deaktiviert werden.
+export const LIGHT_THEME_DISABLED = false
 
 export function useTheme() {
   const [theme, setTheme] = useState<Theme>('dark')
