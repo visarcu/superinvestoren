@@ -6,6 +6,7 @@ import {
   ResponsiveContainer,
   BarChart,
   Bar,
+  Cell,
   LineChart,
   Line,
   XAxis,
@@ -646,6 +647,12 @@ function MetricTooltip({ metricKey, className = "" }: { metricKey: MetricKey, cl
 }
 
 // ─── ULTRA CLEAN CHART COMPONENTS - KOMPLETT OHNE BORDERS ─────────────────────────────────────
+interface ChartForecast {
+  period: string
+  value: number
+  analystCount?: number
+}
+
 interface ChartCardProps {
   title: string
   data: any[]
@@ -655,16 +662,36 @@ interface ChartCardProps {
   onExpand: () => void
   isPremium: boolean
   period?: 'annual' | 'quarterly'
+  /** Analyst consensus values for future fiscal years. Appended as faded "e"-suffixed bars. */
+  forecasts?: ChartForecast[]
 }
 
-function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium, period }: ChartCardProps) {
+function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremium, period, forecasts }: ChartCardProps) {
   const { formatCurrency, formatAxisValueDE } = useCurrency()
 
   // ✅ DATEN VALIDIERUNG - Prüfe ob Daten für diese Metrik verfügbar sind
-  const validData = data.filter(d => {
+  const baseValid = data.filter(d => {
     const value = d[metricKey]
     return value !== undefined && value !== null && value !== 0
   })
+
+  // Annual-only: append analyst consensus bars for fiscal years past the last reported one.
+  const showForecasts = period !== 'quarterly' && forecasts && forecasts.length > 0
+  const lastActualYear = baseValid.length > 0
+    ? parseInt(String(baseValid[baseValid.length - 1].label || '').replace(/[^0-9]/g, ''), 10) || 0
+    : 0
+  const forecastRows = showForecasts
+    ? (forecasts as ChartForecast[])
+        .filter((f) => parseInt(f.period, 10) > lastActualYear)
+        .map((f) => ({
+          label: `${f.period}e`,
+          [metricKey]: f.value,
+          _isForecast: true as const,
+          _analystCount: f.analystCount,
+        }))
+    : []
+
+  const validData = forecastRows.length > 0 ? [...baseValid, ...forecastRows] : baseValid
   
   if (validData.length === 0) {
     return (
@@ -769,9 +796,13 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                 if (!active || !payload?.[0]) return null
                 const value = payload[0].value as number
                 const isQuarterly = period === 'quarterly'
+                const row: any = payload[0].payload
+                const isForecastRow = row?._isForecast === true
+                const analystCount: number | undefined = row?._analystCount
 
-                // YoY berechnen
-                const dataIndex = data.findIndex(d => d.label === label)
+                // YoY-Berechnung skipped für Forecast-Rows: deren Vergleich mit dem letzten
+                // tatsächlichen Jahr ist Konsens-vs-Ist und keine echte YoY-Veränderung.
+                const dataIndex = !isForecastRow ? data.findIndex((d) => d.label === label) : -1
                 const yoy = dataIndex >= 0 ? calculateYoYOverview(data, metricKey, dataIndex, isQuarterly) : null
                 const isPercentMetric = PERCENT_METRICS_OVERVIEW.includes(metricKey)
 
@@ -796,7 +827,12 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                   <div style={overviewTooltipStyle}>
                     <p style={{ color: '#94a3b8', fontSize: '11px', marginBottom: '3px' }}>{label}</p>
                     <p style={{ color: '#f1f5f9', fontSize: '13px', fontWeight: 600 }}>{formattedValue}</p>
-                    {yoy !== null && (
+                    {isForecastRow ? (
+                      <p style={{ color: '#fbbf24', fontSize: '10px', fontWeight: 600, marginTop: '4px' }}>
+                        Analysten-Konsensus
+                        {typeof analystCount === 'number' ? ` · ${analystCount} Analysten` : ''}
+                      </p>
+                    ) : yoy !== null ? (
                       <p style={{
                         fontSize: '11px',
                         fontWeight: 600,
@@ -805,7 +841,7 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                       }}>
                         {yoy >= 0 ? '+' : ''}{yoy.toFixed(1)}{isPercentMetric ? ' Pp.' : '%'} gg. Vj.
                       </p>
-                    )}
+                    ) : null}
                   </div>
                 )
               }}
@@ -814,7 +850,18 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
               dataKey={metricKey}
               fill={`url(#bar-gradient-${metricKey})`}
               radius={[3, 3, 0, 0]}
-            />
+            >
+              {validData.map((row, idx) => (
+                <Cell
+                  key={`cell-${idx}`}
+                  fill={`url(#bar-gradient-${metricKey})`}
+                  fillOpacity={row._isForecast ? 0.35 : 1}
+                  stroke={row._isForecast ? color : 'none'}
+                  strokeWidth={row._isForecast ? 1 : 0}
+                  strokeDasharray={row._isForecast ? '3 3' : undefined}
+                />
+              ))}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </div>
@@ -1687,6 +1734,12 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
   const [fullscreen, setFullscreen] = useState<MetricKey | null>(null)
   const [visibleCharts, setVisibleCharts] = useState<MetricKey[]>(ALL_METRICS)
   const [dataQuality, setDataQuality] = useState<string>('loading')
+  // Analyst consensus forecasts for revenue/eps (next 3-4 fiscal years).
+  // Stored per metric so ChartCard can append future-period bars.
+  const [forecasts, setForecasts] = useState<{
+    revenue: { period: string; value: number; analystCount?: number }[]
+    eps: { period: string; value: number; analystCount?: number }[]
+  }>({ revenue: [], eps: [] })
   
   // ✅ NEUE STATES FÜR PRESET SYSTEM
   const [selectedPreset, setSelectedPreset] = useState<string>('')
@@ -1859,6 +1912,52 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
       loadRealData()
     }
   }, [ticker, period, years])
+
+  // Fetch analyst consensus forecasts (annual view only — quarterly estimates aren't shown).
+  useEffect(() => {
+    if (!ticker || period !== 'annual') {
+      setForecasts({ revenue: [], eps: [] })
+      return
+    }
+
+    let cancelled = false
+    fetch(`/api/v1/analyst-estimates/${ticker}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((json) => {
+        if (cancelled || !json?.estimates) return
+
+        const currentYear = new Date().getFullYear()
+        // Keep only future fiscal years (skip already-reported ones).
+        const future = (json.estimates as any[])
+          .filter((e) => e.year >= currentYear)
+          .sort((a, b) => a.year - b.year)
+          .slice(0, 4)
+
+        setForecasts({
+          revenue: future
+            .filter((e) => typeof e?.revenue?.avg === 'number')
+            .map((e) => ({
+              period: String(e.year),
+              value: e.revenue.avg as number,
+              analystCount: e.revenue.analystCount,
+            })),
+          eps: future
+            .filter((e) => typeof e?.eps?.avg === 'number')
+            .map((e) => ({
+              period: String(e.year),
+              value: e.eps.avg as number,
+              analystCount: e.eps.analystCount,
+            })),
+        })
+      })
+      .catch(() => {
+        if (!cancelled) setForecasts({ revenue: [], eps: [] })
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [ticker, period])
 
   // ✅ SIMPLE AUTO-LOAD LAST PRESET FROM LOCALSTORAGE
   useEffect(() => {
@@ -2269,6 +2368,13 @@ function CashDebtChart({ data, onExpand, isPremium }: { data: any[], onExpand: (
                 onExpand={() => setFullscreen(metricKey)}
                 isPremium={isPremium}
                 period={period}
+                forecasts={
+                  metricKey === 'revenue'
+                    ? forecasts.revenue
+                    : metricKey === 'eps'
+                      ? forecasts.eps
+                      : undefined
+                }
               />
             )
           }
