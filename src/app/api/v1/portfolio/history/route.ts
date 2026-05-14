@@ -9,6 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { getEodhdHistorical, getEodhdFxHistory } from '@/lib/eodhdService'
+import { calculatePortfolioTwrByDate } from '@/lib/portfolioTwr'
 
 interface HoldingInput {
   symbol: string
@@ -18,11 +19,14 @@ interface HoldingInput {
 }
 
 interface Transaction {
+  portfolio_id?: string
   date: string
   symbol: string
   quantity: number
   price: number
-  type: 'buy' | 'sell' | 'transfer_in' | 'transfer_out'
+  total_value?: number
+  fee?: number
+  type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
 }
 
 // Erkennt ob ein Ticker in EUR notiert ist (DB nutzt FMP-Suffixe)
@@ -84,14 +88,16 @@ export async function POST(request: NextRequest) {
     if (validIds.length > 0) {
       const { data: txs } = await supabase
         .from('portfolio_transactions')
-        .select('date, symbol, quantity, price, type')
+        .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type')
         .in('portfolio_id', validIds)
-        .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
+        .in('type', ['buy', 'sell', 'dividend', 'cash_deposit', 'cash_withdrawal', 'transfer_in', 'transfer_out'])
         .order('date', { ascending: true })
 
       if (txs) {
         allTransactions = txs as Transaction[]
         for (const tx of allTransactions) {
+          if (!tx.symbol || tx.symbol === 'CASH') continue
+          if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) continue
           if (!transactionsBySymbol.has(tx.symbol)) transactionsBySymbol.set(tx.symbol, [])
           transactionsBySymbol.get(tx.symbol)!.push(tx)
         }
@@ -274,45 +280,17 @@ export async function POST(request: NextRequest) {
       sampledData = chartData.filter((_, i) => i % step === 0 || i === chartData.length - 1)
     }
 
-    // 8) TWR (Time-Weighted Return) gegen Cashflow-Tage
-    const chartDates = new Set(chartData.map(d => d.date))
-    const sortedChartDates = chartData.map(d => d.date)
-    const cashflowByChartDate = new Map<string, number>()
-
-    if (useTransactions) {
-      for (const tx of allTransactions) {
-        let targetDate = tx.date
-        if (!chartDates.has(targetDate)) {
-          const nextDate = sortedChartDates.find(d => d >= targetDate)
-          if (!nextDate) continue
-          targetDate = nextDate
-        }
-        const cf = cashflowByChartDate.get(targetDate) || 0
-        if (tx.type === 'buy' || tx.type === 'transfer_in') {
-          cashflowByChartDate.set(targetDate, cf + tx.quantity * (tx.price || 0))
-        } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
-          cashflowByChartDate.set(targetDate, cf - tx.quantity * (tx.price || 0))
-        }
-      }
-    }
-
-    const twrByDate = new Map<string, number>()
-    let cumulativeTWR = 1.0
-    for (let i = 0; i < chartData.length; i++) {
-      if (i === 0) {
-        twrByDate.set(chartData[i].date, 0)
-        continue
-      }
-      const prevValue = chartData[i - 1].value
-      const currentDate = chartData[i].date
-      const currentValue = chartData[i].value
-      const cashflow = cashflowByChartDate.get(currentDate) || 0
-      const adjustedStartValue = prevValue + cashflow
-      if (adjustedStartValue > 0) {
-        cumulativeTWR *= currentValue / adjustedStartValue
-      }
-      twrByDate.set(currentDate, (cumulativeTWR - 1) * 100)
-    }
+    // 8) TWR (Time-Weighted Return) gegen Cashflow-Tage.
+    // Der Helper hält die Wertentwicklungs-Chartdaten stabil. Bei plausibler
+    // Cash-Ledger-Spur werden Käufe/Verkäufe intern zwischen Cash und Bestand
+    // gebucht; Dividenden erhöhen den Return, Gebühren mindern ihn. Ohne Cash-
+    // Ledger bleibt der konservative Security-only-Fallback aktiv.
+    const twrByDate = calculatePortfolioTwrByDate({
+      chartData,
+      transactions: allTransactions,
+      cashPosition: _cashPosition,
+      useTransactions,
+    })
 
     // 9) Benchmark-Daten (SPY, URTH = MSCI World, VT = FTSE All-World)
     let performanceData: Array<{
@@ -365,6 +343,9 @@ export async function POST(request: NextRequest) {
           return price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
         }
 
+        // Benchmarks bleiben Price Return. EODHD/Yahoo liefern hier zwar teils
+        // adjusted_close, aber nicht entlang aller Fallbacks konsistent als echte
+        // Total-Return-Serie; deshalb bleibt der Benchmark-Gap-Fix unverändert.
         performanceData = chartData.map(point => ({
           date: point.date,
           portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100,

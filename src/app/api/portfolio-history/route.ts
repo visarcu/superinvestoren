@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
+import { calculatePortfolioTwrByDate } from '@/lib/portfolioTwr'
 
 interface HistoricalDataPoint {
   date: string
@@ -463,24 +464,6 @@ export async function POST(request: NextRequest) {
 
     const txFee = (tx: Transaction): number => Math.abs(Number(tx.fee) || 0)
 
-    function securityCashflowMovement(tx: Transaction): number {
-      const value = txValue(tx)
-      const fee = txFee(tx)
-
-      switch (tx.type) {
-        case 'buy':
-          return value + fee
-        case 'sell':
-          return -(value - fee)
-        case 'transfer_in':
-          return value
-        case 'transfer_out':
-          return -value
-        default:
-          return 0
-      }
-    }
-
     // 4. Tracke den ersten Kauftag pro Symbol (für korrekte Startberechnung)
     const firstPurchaseDateBySymbol = new Map<string, string>()
 
@@ -614,72 +597,22 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // 7. Berechne TWR (True Time-Weighted Return) für fairen Benchmark-Vergleich
-    // TWR eliminiert den Einfluss von Cash-Flow-Zeitpunkten
-    // Methode: Chain-Linking von täglichen Sub-Perioden-Returns
-    //   - An Tagen OHNE Transaktion: return = (V_heute / V_gestern) - 1
-    //   - An Tagen MIT Transaktion:  return = (V_heute / (V_gestern + Cashflow)) - 1
-    // TWR_kumulativ = (1+r₁) × (1+r₂) × ... × (1+rₙ) - 1
+    // 7. Berechne TWR (True Time-Weighted Return) für fairen Benchmark-Vergleich.
+    // Der Helper lässt chartData unverändert. Wenn ein plausibles Cash-Ledger
+    // vorhanden ist, werden Käufe/Verkäufe als interne Cash↔Wertpapier-Umschichtung
+    // behandelt, Dividenden erhöhen den Return und Gebühren mindern ihn. Ohne
+    // rekonstruierbares Cash-Ledger bleibt die bisherige Security-only-Logik aktiv.
+    const twrTransactions = [
+      ...securityTransactions,
+      ...allTransactions.filter(tx => !['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)),
+    ]
 
-    // Erstelle Cashflow-Map: Cashflows auf den nächsten Handelstag (chartData-Datum) zuordnen.
-    // Grund: Transaktionen können an Wochenenden/Feiertagen liegen, aber chartData hat nur Handelstage.
-    const chartDates = new Set(chartData.map(d => d.date))
-    const sortedChartDates = chartData.map(d => d.date)
-    const cashflowByChartDate = new Map<string, number>()
-
-    if (useTransactions) {
-      securityTransactions.forEach(tx => {
-        // Finde den nächsten Handelstag >= Transaktionsdatum
-        let targetDate = tx.date
-        if (!chartDates.has(targetDate)) {
-          const nextDate = sortedChartDates.find(d => d >= targetDate)
-          if (nextDate) targetDate = nextDate
-          else return // Kein passender Handelstag
-        }
-
-        const cf = cashflowByChartDate.get(targetDate) || 0
-        const externalFlow = securityCashflowMovement(tx)
-        if (externalFlow !== 0) cashflowByChartDate.set(targetDate, cf + externalFlow)
-      })
-    }
-
-    // Berechne laufende TWR über chartData
-    const twrData: Array<{ date: string; twrCumulative: number }> = []
-    let cumulativeTWR = 1.0
-
-    for (let i = 0; i < chartData.length; i++) {
-      if (i === 0) {
-        twrData.push({ date: chartData[i].date, twrCumulative: 0 })
-        continue
-      }
-
-      const prevValue = chartData[i - 1].value
-      const currentDate = chartData[i].date
-      const currentValue = chartData[i].value
-
-      // Cashflow am AKTUELLEN Tag: Wenn Aktien am heutigen Tag gekauft wurden,
-      // ist das ein externer Geldzufluss, der zum Startwert addiert werden muss.
-      // Ohne diese Korrektur würde der Kurssprung durch den Kauf fälschlicherweise
-      // als Performance gewertet werden.
-      const cashflow = cashflowByChartDate.get(currentDate) || 0
-
-      // Adjusted start value: Vorheriger Wert + Cashflow der heute eingegangen ist
-      const adjustedStartValue = prevValue + cashflow
-
-      if (adjustedStartValue > 0) {
-        const periodReturn = currentValue / adjustedStartValue
-        cumulativeTWR *= periodReturn
-      }
-
-      twrData.push({
-        date: chartData[i].date,
-        twrCumulative: (cumulativeTWR - 1) * 100 // in %
-      })
-    }
-
-    // TWR-Lookup Map
-    const twrByDate = new Map<string, number>()
-    twrData.forEach(d => twrByDate.set(d.date, d.twrCumulative))
+    const twrByDate = calculatePortfolioTwrByDate({
+      chartData,
+      transactions: twrTransactions,
+      cashPosition,
+      useTransactions,
+    })
 
     // 8. Lade Benchmark-Daten für Performance-Vergleich (in %)
     // SPY = S&P 500, URTH = MSCI World, VT = FTSE All-World
@@ -737,7 +670,11 @@ export async function POST(request: NextRequest) {
           return price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
         }
 
-        // Performance-Daten: TWR für Portfolio, Price Return für Benchmarks
+        // Performance-Daten: Portfolio-TWR vs. Benchmark Price Return.
+        // Die aktuellen Provider-Pfade liefern hier nicht konsistent echte
+        // Total-Return-Serien (FMP/Yahoo close, plus Fallbacks). Deshalb bleiben
+        // SPY/URTH/VT unverändert als Price-Return-Benchmarks; der Benchmark-Gap
+        // Forward-Fill oben bleibt bewusst erhalten.
         performanceData = chartData.map(point => ({
           date: point.date,
           portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100,
