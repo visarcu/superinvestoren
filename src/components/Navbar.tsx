@@ -19,6 +19,9 @@ import {
   CalendarDaysIcon,
   GlobeAltIcon,
   BuildingLibraryIcon,
+  ArrowRightIcon,
+  RocketLaunchIcon,
+  PresentationChartLineIcon,
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 import { stocks } from '@/data/stocks'
@@ -345,15 +348,37 @@ function NavLink({ href, children, isLightTheme = false }: { href: string; child
   )
 }
 
-// Dropdown Links Data
-const produkteLinks = [
-  { href: '/analyse', label: 'Aktien-Analyse', description: '10.000+ Aktien', icon: ChartBarIcon },
-  { href: '/superinvestor', label: 'Super-Investoren', description: 'Portfolio Tracking', icon: UsersIcon },
-  { href: '/politiker', label: 'Politiker-Trades', description: 'US-Kongress Offenlegungen', icon: BuildingLibraryIcon },
-  { href: '/earnings-calendar', label: 'Earnings Kalender', description: 'Quartalszahlen Termine', icon: CalendarDaysIcon },
-  { href: '/ipo-calendar', label: 'IPO Kalender', description: 'Börsengänge aus SEC EDGAR', icon: CalendarDaysIcon },
-  { href: '/economic-calendar', label: 'Wirtschaftskalender', description: 'Makro-Termine', icon: GlobeAltIcon },
+// Dropdown Links Data — grouped into Analyse / Kalender so the dropdown reads
+// as a "product browser" rather than a flat list. Visually monochrome by design;
+// emerald only enters on hover (icon tint) and in the footer accent.
+type ProduktLink = {
+  href: string
+  label: string
+  description: string
+  icon: typeof ChartBarIcon
+}
+
+const produkteSections: { title: string; links: ProduktLink[] }[] = [
+  {
+    title: 'Analyse',
+    links: [
+      { href: '/analyse', label: 'Aktien-Analyse', description: '10.000+ Aktien', icon: PresentationChartLineIcon },
+      { href: '/superinvestor', label: 'Super-Investoren', description: 'Portfolio Tracking', icon: UsersIcon },
+      { href: '/politiker', label: 'Politiker-Trades', description: 'US-Kongress Offenlegungen', icon: BuildingLibraryIcon },
+    ],
+  },
+  {
+    title: 'Kalender',
+    links: [
+      { href: '/earnings-calendar', label: 'Earnings Kalender', description: 'Quartalszahlen Termine', icon: CalendarDaysIcon },
+      { href: '/ipo-calendar', label: 'IPO Kalender', description: 'Börsengänge aus SEC EDGAR', icon: RocketLaunchIcon },
+      { href: '/economic-calendar', label: 'Wirtschaftskalender', description: 'Makro-Termine', icon: GlobeAltIcon },
+    ],
+  },
 ]
+
+// Flat list for the mobile drawer + any other consumer that needs a simple iterable.
+const produkteLinks: ProduktLink[] = produkteSections.flatMap((s) => s.links)
 
 export default function Navbar() {
   const [user, setUser] = useState<any>(null);
@@ -480,35 +505,80 @@ export default function Navbar() {
               }`} />
             </button>
             <div className="absolute left-0 top-full pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-              <div className={`w-72 rounded-xl shadow-2xl overflow-hidden ${
-                isLightTheme ? 'bg-white border border-gray-200' : 'bg-neutral-900 border border-neutral-800'
+              <div className={`w-[560px] rounded-2xl shadow-2xl overflow-hidden backdrop-blur-xl ${
+                isLightTheme
+                  ? 'bg-white/95 border border-gray-200'
+                  : 'bg-neutral-950/95 border border-white/[0.08]'
               }`}>
-                <div className="p-2">
-                  {produkteLinks.map((link) => {
-                    const Icon = link.icon
-                    return (
-                      <Link
-                        key={link.href}
-                        href={link.href}
-                        className={`flex items-start gap-3 px-4 py-3 rounded-lg transition-colors group/item ${
-                          isLightTheme ? 'hover:bg-gray-50' : 'hover:bg-neutral-800/50'
-                        }`}
-                      >
-                        <div className="mt-0.5">
-                          <Icon className={`w-5 h-5 transition-colors ${
-                            isLightTheme
-                              ? 'text-gray-400 group-hover/item:text-gray-600'
-                              : 'text-neutral-500 group-hover/item:text-neutral-300'
-                          }`} />
-                        </div>
-                        <div>
-                          <div className={`text-sm font-medium ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>{link.label}</div>
-                          <div className={`text-xs mt-0.5 ${isLightTheme ? 'text-gray-500' : 'text-neutral-500'}`}>{link.description}</div>
-                        </div>
-                      </Link>
-                    )
-                  })}
+                {/* Sections grid */}
+                <div className="grid grid-cols-2 gap-x-2 p-3">
+                  {produkteSections.map((section) => (
+                    <div key={section.title} className="space-y-1">
+                      <div className={`px-3 pt-2 pb-1.5 text-[10px] font-semibold tracking-[0.14em] uppercase ${
+                        isLightTheme ? 'text-gray-400' : 'text-neutral-500'
+                      }`}>
+                        {section.title}
+                      </div>
+                      {section.links.map((link) => {
+                        const Icon = link.icon
+                        return (
+                          <Link
+                            key={link.href}
+                            href={link.href}
+                            className={`group/item flex items-start gap-3 px-3 py-2.5 rounded-xl transition-colors ${
+                              isLightTheme ? 'hover:bg-gray-50' : 'hover:bg-white/[0.04]'
+                            }`}
+                          >
+                            <div
+                              className={`flex-shrink-0 w-9 h-9 rounded-lg flex items-center justify-center transition-colors ${
+                                isLightTheme
+                                  ? 'bg-gray-100 text-gray-500 group-hover/item:bg-emerald-50 group-hover/item:text-emerald-600'
+                                  : 'bg-white/[0.04] text-neutral-400 group-hover/item:bg-emerald-500/10 group-hover/item:text-emerald-400'
+                              }`}
+                            >
+                              <Icon className="w-4 h-4" strokeWidth={2} />
+                            </div>
+                            <div className="min-w-0 flex-1 pt-0.5">
+                              <div className={`text-sm font-semibold leading-tight ${
+                                isLightTheme ? 'text-gray-900' : 'text-white'
+                              }`}>
+                                {link.label}
+                              </div>
+                              <div className={`text-xs mt-1 leading-snug ${
+                                isLightTheme ? 'text-gray-500' : 'text-neutral-400'
+                              }`}>
+                                {link.description}
+                              </div>
+                            </div>
+                          </Link>
+                        )
+                      })}
+                    </div>
+                  ))}
                 </div>
+
+                {/* Footer CTA strip */}
+                <Link
+                  href="/features"
+                  className={`flex items-center justify-between px-5 py-3 border-t transition-colors group/cta ${
+                    isLightTheme
+                      ? 'border-gray-200 bg-gray-50/70 hover:bg-gray-100'
+                      : 'border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.04]'
+                  }`}
+                >
+                  <div className="flex items-center gap-2.5">
+                    <span className="relative flex h-1.5 w-1.5">
+                      <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                    </span>
+                    <span className={`text-sm font-medium ${isLightTheme ? 'text-gray-900' : 'text-white'}`}>
+                      Alle Features ansehen
+                    </span>
+                  </div>
+                  <ArrowRightIcon className={`w-4 h-4 transition-transform group-hover/cta:translate-x-0.5 ${
+                    isLightTheme ? 'text-gray-500' : 'text-neutral-400'
+                  }`} />
+                </Link>
               </div>
             </div>
           </div>
