@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import {
   HomeIcon,
@@ -70,12 +71,13 @@ function SidebarContent({ onClose }: { onClose?: () => void }) {
           href="/"
           className="flex items-center gap-2.5 text-neutral-300 hover:text-white transition-colors"
         >
-          {/* Finclue Logo */}
-          <div className="flex items-end gap-0.5">
-            <div className="w-1.5 h-3 bg-emerald-500 rounded-sm"></div>
-            <div className="w-1.5 h-4 bg-emerald-500 rounded-sm"></div>
-            <div className="w-1.5 h-5 bg-emerald-500 rounded-sm"></div>
-          </div>
+          <Image
+            src="/logos/logo-transparent-white.svg"
+            alt="Finclue Logo"
+            width={24}
+            height={24}
+            className="w-6 h-6"
+          />
           <span className="text-sm font-semibold tracking-tight">Finclue</span>
         </Link>
       </div>
