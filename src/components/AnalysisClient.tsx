@@ -19,6 +19,7 @@ import { useLearnMode } from '@/lib/LearnModeContext'
 import { useCurrency } from '@/lib/CurrencyContext'
 import OwnershipSection from '@/components/OwnershipSection'
 import MarketInsightSummary from '@/components/MarketInsightSummary'
+import StockLatestNews from '@/components/StockLatestNews'
 import StockAISidebar from '@/components/ai/StockAISidebar'
 
 // ─── Dynamische Komponentenimporte ─────────────────────────────────────────
@@ -921,9 +922,10 @@ export default function AnalysisClient({ ticker }: { ticker: string }) {
             )}
           </div>
 
-          {/* RECHTE SPALTE - MARKET INSIGHTS (2/5) */}
-          <div className="lg:col-span-2 space-y-6">
+          {/* RECHTE SPALTE - MARKET INSIGHTS + NEWS (2/5) */}
+          <div className="lg:col-span-2 space-y-4">
             <MarketInsightSummary ticker={ticker} />
+            <StockLatestNews ticker={ticker} limit={5} />
           </div>
         </div>
 
