@@ -327,7 +327,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
   return (
     <div
       ref={chartContainerRef}
-      className={`bg-theme-card rounded-xl border border-theme-light ${isFullscreen ? 'p-6' : ''}`}
+      className={`bg-theme-card rounded-xl border border-theme-light h-full flex flex-col ${isFullscreen ? 'p-6' : ''}`}
     >
       {/* Header */}
       <div className="p-5 border-b border-theme-light">
@@ -435,7 +435,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
       </div>
 
       {/* Chart - Clean minimal style like Fey */}
-      <div className={`px-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : 'h-[350px]'}`}>
+      <div className={`px-2 pb-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : 'flex-1 min-h-[350px]'}`}>
         {intradayLoading && selectedRange === '1D' ? (
           <div className="h-full flex items-center justify-center">
             <div className="animate-pulse text-theme-muted text-sm">Intraday-Daten laden...</div>
