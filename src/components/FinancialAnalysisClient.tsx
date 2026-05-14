@@ -76,9 +76,11 @@ class FinancialDataService {
       
       const filteredIncomeData = incomeData.filter((item: any) => {
         const year = item.calendarYear || parseInt(item.date?.slice(0, 4) || '0')
-        // ✅ FIX: Für Quartalsdaten auch aktuelles Jahr einschließen, für jährliche nur bis Vorjahr
-        const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
-        return year >= cutoffYear && year <= maxYear
+        // FMP only returns annual records once a fiscal year has actually been filed,
+        // so we can include currentYear directly. Excluding currentYear used to drop
+        // companies whose fiscal year ends early in the calendar year (NVDA FY2026
+        // closed 25 Jan 2026, calendarYear = 2026), making the 5J view show 4 bars.
+        return year >= cutoffYear && year <= currentYear
       })
 
       console.log(`📊 [${ticker}] Filtered to modern data (2005+): ${incomeData.length} → ${filteredIncomeData.length} periods`)
@@ -90,9 +92,8 @@ class FinancialDataService {
           const year = new Date(div.date).getFullYear().toString()
           const yearNum = parseInt(year)
           
-          // ✅ FILTER: Nur moderne Dividendendaten
-          const maxYear = period === 'quarterly' ? currentYear : currentYear - 1
-          if (yearNum >= cutoffYear && yearNum <= maxYear) {
+          // FILTER: Nur moderne Dividendendaten (siehe Filter-Kommentar oben).
+          if (yearNum >= cutoffYear && yearNum <= currentYear) {
             if (!dividendsByYear[year]) {
               dividendsByYear[year] = 0
             }
@@ -788,7 +789,13 @@ function ChartCard({ title, data, metricKey, color, gradient, onExpand, isPremiu
                 }
               }}
               width={35}
-              domain={[0, 'dataMax']}
+              domain={[
+                // Keep 0 as the natural lower bound for positive-only series so
+                // bar heights stay visually anchored, but extend below 0 when
+                // any data point (e.g. profit margin in a loss year) is negative.
+                (min: number) => (typeof min === 'number' && min < 0 ? min : 0),
+                'dataMax',
+              ]}
             />
             <RechartsTooltip
               cursor={false}
@@ -955,7 +962,12 @@ function ProfitMarginChart({ data, onExpand, isPremium, period }: { data: any[],
               tick={{ fontSize: 11, fill: 'var(--color-text-primary)', fontWeight: 500 }}
               tickFormatter={(value) => `${(value * 100).toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%`}
               width={35}
-              domain={['dataMin', 'dataMax']}
+              domain={[
+                // Anchor at 0 for positive margins (so the lowest bar still has
+                // visible height), but extend below 0 if any margin is negative.
+                (min: number) => (typeof min === 'number' && min < 0 ? min : 0),
+                'dataMax',
+              ]}
             />
             <RechartsTooltip
               cursor={false}
