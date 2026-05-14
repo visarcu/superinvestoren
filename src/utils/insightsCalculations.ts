@@ -229,7 +229,7 @@ export function getSmartLatestQuarter(): string {
   }
 
   const totalActiveInvestors = preprocessedData.activeInvestors.length
-  const requiredThreshold = Math.ceil(totalActiveInvestors * 0.3)
+  const requiredThreshold = Math.ceil(totalActiveInvestors * 0.15)
 
   const quarterCounts = new Map<string, number>()
 
