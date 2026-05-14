@@ -1,4 +1,4 @@
-// app/analyse/stocks/[ticker]/earnings/page.tsx - INSIGHTS STYLE
+// app/analyse/stocks/[ticker]/earnings/page.tsx
 'use client'
 
 import React, { useState, useEffect } from 'react'
@@ -7,7 +7,10 @@ import EarningsSummary from '@/components/EarningsSummary'
 import {
   DocumentTextIcon,
   LockClosedIcon,
-  SparklesIcon
+  SparklesIcon,
+  ArrowDownTrayIcon,
+  CalendarDaysIcon,
+  ChatBubbleLeftRightIcon
 } from '@heroicons/react/24/outline'
 import { supabase } from '@/lib/supabaseClient'
 
@@ -31,7 +34,6 @@ export default function QuartalszahlenPage() {
   const [showSummary, setShowSummary] = useState(true)
   const [isPremium, setIsPremium] = useState(false)
 
-  // Premium Status laden
   useEffect(() => {
     async function loadPremium() {
       try {
@@ -51,7 +53,6 @@ export default function QuartalszahlenPage() {
     loadPremium()
   }, [])
 
-  // Lade Transcripts
   useEffect(() => {
     async function loadTranscripts() {
       setLoading(true)
@@ -92,12 +93,10 @@ export default function QuartalszahlenPage() {
     })
   }
 
-  // Parse content für bessere Darstellung
   const formatTranscriptContent = (content: string) => {
     if (!content) return []
 
     return content.split('\n').map((line, index) => {
-      // Check if it's a speaker line
       const speakerMatch = line.match(/^([A-Za-z\s]+(?:\s[A-Z]\.\s)?[A-Za-z]+):\s(.*)/)
 
       if (speakerMatch) {
@@ -109,7 +108,6 @@ export default function QuartalszahlenPage() {
         }
       }
 
-      // Check for section headers
       if (line.match(/^(Operator|Questions and Answers|Presentation|Conference Call Participants)/)) {
         return {
           type: 'section',
@@ -126,26 +124,26 @@ export default function QuartalszahlenPage() {
     })
   }
 
-  // Loading State
   if (loading) {
     return (
-      <div className="h-full flex items-center justify-center bg-dark">
+      <div className="h-full flex items-center justify-center bg-theme-primary">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-emerald-500 mx-auto mb-3"></div>
-          <span className="text-sm text-neutral-500">Lade Earnings Calls...</span>
+          <div className="w-5 h-5 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto mb-3"></div>
+          <span className="text-sm text-theme-muted">Lade Earnings Calls...</span>
         </div>
       </div>
     )
   }
 
-  // Error State
   if (error && transcripts.length === 0) {
     return (
-      <div className="h-full flex items-center justify-center bg-dark">
+      <div className="h-full flex items-center justify-center bg-theme-primary">
         <div className="text-center">
-          <DocumentTextIcon className="w-12 h-12 text-neutral-600 mx-auto mb-4" />
-          <h2 className="text-lg font-medium text-white mb-2">Keine Earnings Calls verfügbar</h2>
-          <p className="text-neutral-500 text-sm">{error}</p>
+          <div className="w-12 h-12 bg-theme-secondary/40 rounded-full flex items-center justify-center mx-auto mb-4">
+            <DocumentTextIcon className="w-6 h-6 text-theme-muted" />
+          </div>
+          <h2 className="text-base font-medium text-theme-primary mb-2">Keine Earnings Calls verfügbar</h2>
+          <p className="text-theme-muted text-sm">{error}</p>
         </div>
       </div>
     )
@@ -153,231 +151,276 @@ export default function QuartalszahlenPage() {
 
   const formattedContent = selectedTranscript ? formatTranscriptContent(selectedTranscript.content) : []
   const wordCount = selectedTranscript ? selectedTranscript.content.split(' ').length : 0
+  const readingMinutes = Math.max(1, Math.round(wordCount / 150))
 
   return (
-    <div className="h-full flex flex-col bg-dark">
+    <div className="h-full flex flex-col bg-theme-primary">
 
-      {/* Header - Clean & Minimal */}
-      <div className="flex-shrink-0 px-6 py-4 border-b border-neutral-800">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-lg font-medium text-white">Earnings Calls & Transcripts</h1>
-            <p className="text-xs text-neutral-500 mt-0.5">Vollständige Mitschriften für {ticker}</p>
-          </div>
-        </div>
-      </div>
+      {/* Outer container with consistent padding */}
+      <div className="flex-1 flex flex-col overflow-hidden px-6 py-5 gap-5">
 
-      {/* Main Layout - 3 Spalten */}
-      <div className="flex-1 flex overflow-hidden">
+        {/* Main Grid: Sidebar + Content area */}
+        <div className="flex-1 grid gap-5 overflow-hidden grid-cols-[260px_1fr]">
 
-        {/* Left Sidebar - Event Liste */}
-        <div className="w-56 border-r border-neutral-800 flex flex-col">
-          <div className="px-4 py-3 border-b border-neutral-800">
-            <span className="text-xs font-medium text-neutral-500 uppercase tracking-wider">
-              Alle Events
-            </span>
-          </div>
-
-          <div className="flex-1 overflow-y-auto py-2">
-            {transcripts.map((transcript, index) => {
-              const isSelected = selectedTranscript?.quarter === transcript.quarter &&
-                               selectedTranscript?.year === transcript.year
-              const isLocked = false // Alle Quartale für alle User verfügbar
-
-              return (
-                <button
-                  key={`${transcript.year}-Q${transcript.quarter}`}
-                  onClick={() => setSelectedTranscript(transcript)}
-                  disabled={false}
-                  className={`w-full text-left px-4 py-2.5 transition-colors ${
-                    isSelected
-                      ? 'bg-neutral-800 border-l-2 border-emerald-500'
-                      : 'hover:bg-neutral-800/50 border-l-2 border-transparent'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <span className="text-sm font-medium text-white">
-                        Q{transcript.quarter} {transcript.year}
-                      </span>
-                      {index === 0 && (
-                        <span className="ml-2 text-xs text-emerald-400">Aktuell</span>
-                      )}
-                      <p className="text-xs text-neutral-500 mt-0.5">
-                        {formatDate(transcript.date)}
-                      </p>
-                    </div>
-
-                    {isLocked && (
-                      <LockClosedIcon className="w-3.5 h-3.5 text-neutral-600 flex-shrink-0" />
-                    )}
-                  </div>
-                </button>
-              )
-            })}
-          </div>
-        </div>
-
-        {/* Center - Main Content */}
-        <div className="flex-1 flex flex-col overflow-hidden">
-
-          {/* Content Header */}
-          <div className="flex-shrink-0 px-6 py-3 border-b border-neutral-800">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
-                <h2 className="text-base font-medium text-white">
-                  {selectedTranscript && `Q${selectedTranscript.quarter} ${selectedTranscript.year} - ${formatDate(selectedTranscript.date)}`}
-                </h2>
-                <span className="text-xs text-neutral-500">
-                  {wordCount.toLocaleString()} Wörter
+          {/* Left Sidebar - Event Liste Card */}
+          <aside className="bg-theme-card rounded-xl border border-white/[0.06] shadow-sm overflow-hidden flex flex-col">
+            <div className="px-5 py-4 border-b border-white/[0.06] flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <CalendarDaysIcon className="w-4 h-4 text-theme-muted" />
+                <span className="text-xs font-medium text-theme-primary uppercase tracking-wider">
+                  Alle Events
                 </span>
               </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setShowSummary(!showSummary)}
-                  className={`px-3 py-1.5 text-xs rounded-md transition-colors flex items-center gap-1.5 ${
-                    showSummary
-                      ? isPremium ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/10 text-amber-400'
-                      : 'bg-neutral-800 text-neutral-400 hover:text-white'
-                  }`}
-                >
-                  {isPremium ? (
-                    <SparklesIcon className="w-3.5 h-3.5" />
-                  ) : (
-                    <LockClosedIcon className="w-3.5 h-3.5" />
-                  )}
-                  AI Summary
-                </button>
-
-                <button
-                  onClick={() => {
-                    if (!selectedTranscript) return
-                    const blob = new Blob([selectedTranscript.content], { type: 'text/plain' })
-                    const url = URL.createObjectURL(blob)
-                    const a = document.createElement('a')
-                    a.href = url
-                    a.download = `${ticker}_Q${selectedTranscript.quarter}_${selectedTranscript.year}_transcript.txt`
-                    a.click()
-                    URL.revokeObjectURL(url)
-                  }}
-                  className="px-3 py-1.5 text-xs bg-neutral-800 text-neutral-400 hover:text-white rounded-md transition-colors"
-                >
-                  Download
-                </button>
-              </div>
-            </div>
-
-            {/* Tabs - subtiler */}
-            <div className="flex gap-6 mt-3">
-              <button
-                onClick={() => setActiveTab('transcript')}
-                className={`pb-2 text-sm border-b-2 transition-colors ${
-                  activeTab === 'transcript'
-                    ? 'text-white border-white'
-                    : 'text-neutral-500 border-transparent hover:text-neutral-300'
-                }`}
-              >
-                Transcript
-              </button>
-              <span className="pb-2 text-sm text-neutral-600 cursor-not-allowed">
-                Slides (Bald)
-              </span>
-              <span className="pb-2 text-sm text-neutral-600 cursor-not-allowed">
-                Report (Bald)
+              <span className="text-[10px] text-theme-muted bg-theme-secondary/50 px-1.5 py-0.5 rounded">
+                {transcripts.length}
               </span>
             </div>
-          </div>
 
-          {/* Scrollable Transcript Content */}
-          <div className="flex-1 overflow-y-auto bg-dark">
-            {selectedTranscript && (
-              <div className="px-8 py-6 max-w-4xl">
+            <div className="flex-1 overflow-y-auto py-2">
+              {transcripts.map((transcript, index) => {
+                const isSelected = selectedTranscript?.quarter === transcript.quarter &&
+                                 selectedTranscript?.year === transcript.year
 
-                {/* Original Transcript Title */}
-                <h3 className="text-xs font-medium text-neutral-500 uppercase tracking-wider mb-6">
-                  Original Transcript (Englisch)
-                </h3>
+                return (
+                  <button
+                    key={`${transcript.year}-Q${transcript.quarter}`}
+                    onClick={() => setSelectedTranscript(transcript)}
+                    className={`w-full text-left px-5 py-3 transition-all relative group ${
+                      isSelected
+                        ? 'bg-emerald-500/5'
+                        : 'hover:bg-theme-secondary/30'
+                    }`}
+                  >
+                    {isSelected && (
+                      <span className="absolute left-0 top-2 bottom-2 w-0.5 bg-emerald-500 rounded-r" />
+                    )}
 
-                {/* Speaker Formatting */}
-                <div className="space-y-4">
-                  {formattedContent.map((item) => {
-                    if (item.type === 'section') {
-                      return (
-                        <h4 key={item.key} className="text-base font-medium text-white mt-8 mb-4">
-                          {item.text}
-                        </h4>
-                      )
-                    }
-
-                    if (item.type === 'speaker') {
-                      return (
-                        <div key={item.key} className="mb-4">
-                          <p className="font-medium text-white mb-1">{item.speaker}</p>
-                          <p className="text-neutral-400 leading-relaxed">{item.text}</p>
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className={`text-sm font-semibold ${isSelected ? 'text-theme-primary' : 'text-theme-secondary group-hover:text-theme-primary'} transition-colors`}>
+                            Q{transcript.quarter} {transcript.year}
+                          </span>
+                          {index === 0 && (
+                            <span className="text-[10px] font-medium text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-md">
+                              Aktuell
+                            </span>
+                          )}
                         </div>
-                      )
-                    }
-
-                    if (item.text.trim()) {
-                      return (
-                        <p key={item.key} className="text-neutral-400 leading-relaxed">
-                          {item.text}
+                        <p className="text-xs text-theme-muted mt-0.5">
+                          {formatDate(transcript.date)}
                         </p>
-                      )
-                    }
+                      </div>
+                    </div>
+                  </button>
+                )
+              })}
+            </div>
+          </aside>
 
-                    return null
-                  })}
+          {/* Right side: Content + Summary */}
+          <div className={`grid gap-5 overflow-hidden ${showSummary && selectedTranscript ? 'grid-cols-[1fr_440px]' : 'grid-cols-1'}`}>
+
+            {/* Center - Main Transcript Card */}
+            <section className="bg-theme-card rounded-xl border border-white/[0.06] shadow-sm overflow-hidden flex flex-col">
+
+              {/* Card Header */}
+              <div className="flex-shrink-0 px-6 pt-5 pb-0 border-b border-white/[0.06]">
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div className="flex items-center gap-3 min-w-0">
+                    <div className="w-9 h-9 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center flex-shrink-0">
+                      <ChatBubbleLeftRightIcon className="w-4 h-4 text-emerald-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <h2 className="text-sm font-semibold text-theme-primary truncate">
+                        {selectedTranscript && `Q${selectedTranscript.quarter} ${selectedTranscript.year} Earnings Call`}
+                      </h2>
+                      <p className="text-xs text-theme-muted mt-0.5 truncate">
+                        {selectedTranscript && formatDate(selectedTranscript.date)}
+                        <span className="mx-2">•</span>
+                        {wordCount.toLocaleString('de-DE')} Wörter
+                        <span className="mx-2">•</span>
+                        ~{readingMinutes} Min. Lesezeit
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <button
+                      onClick={() => setShowSummary(!showSummary)}
+                      className={`hidden lg:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-md border transition-all ${
+                        showSummary
+                          ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/15'
+                          : 'bg-transparent border-white/[0.08] text-theme-muted hover:text-theme-primary hover:border-white/[0.15]'
+                      }`}
+                    >
+                      <SparklesIcon className="w-3.5 h-3.5" />
+                      KI-Zusammenfassung {showSummary ? 'aus' : 'ein'}
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        if (!selectedTranscript) return
+                        const blob = new Blob([selectedTranscript.content], { type: 'text/plain' })
+                        const url = URL.createObjectURL(blob)
+                        const a = document.createElement('a')
+                        a.href = url
+                        a.download = `${ticker}_Q${selectedTranscript.quarter}_${selectedTranscript.year}_transcript.txt`
+                        a.click()
+                        URL.revokeObjectURL(url)
+                      }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium bg-transparent border border-white/[0.08] text-theme-muted hover:text-theme-primary hover:border-white/[0.15] rounded-md transition-all"
+                    >
+                      <ArrowDownTrayIcon className="w-3.5 h-3.5" />
+                      Download
+                    </button>
+                  </div>
+                </div>
+
+                {/* Tabs */}
+                <div className="flex gap-6">
+                  <button
+                    onClick={() => setActiveTab('transcript')}
+                    className={`pb-3 text-sm font-medium border-b-2 transition-colors -mb-px ${
+                      activeTab === 'transcript'
+                        ? 'text-theme-primary border-emerald-500'
+                        : 'text-theme-muted border-transparent hover:text-theme-secondary'
+                    }`}
+                  >
+                    Transcript
+                  </button>
+                  <span className="pb-3 text-sm text-theme-muted/60 cursor-not-allowed border-b-2 border-transparent">
+                    Slides <span className="text-[10px] ml-1 opacity-70">(Bald)</span>
+                  </span>
+                  <span className="pb-3 text-sm text-theme-muted/60 cursor-not-allowed border-b-2 border-transparent">
+                    Report <span className="text-[10px] ml-1 opacity-70">(Bald)</span>
+                  </span>
                 </div>
               </div>
+
+              {/* Scrollable Transcript Content */}
+              <div className="flex-1 overflow-y-auto">
+                {selectedTranscript && (
+                  <div className="px-6 lg:px-8 py-6">
+                    <div className="flex items-center gap-2 mb-6">
+                      <span className="text-[10px] font-medium text-theme-muted uppercase tracking-wider">
+                        Original Transcript
+                      </span>
+                      <span className="text-[10px] text-theme-muted/60">•</span>
+                      <span className="text-[10px] font-medium text-theme-muted uppercase tracking-wider">
+                        Englisch
+                      </span>
+                    </div>
+
+                    <div className="space-y-6">
+                      {formattedContent.map((item) => {
+                        if (item.type === 'section') {
+                          return (
+                            <div key={item.key} className="pt-6 mt-2 first:pt-0 first:mt-0">
+                              <h4 className="text-xs font-semibold text-theme-primary uppercase tracking-wider pb-2 border-b border-white/[0.06]">
+                                {item.text}
+                              </h4>
+                            </div>
+                          )
+                        }
+
+                        if (item.type === 'speaker') {
+                          return (
+                            <div key={item.key} className="grid grid-cols-[160px_1fr] gap-6 group">
+                              <div className="flex-shrink-0">
+                                <span className="inline-flex items-center gap-2">
+                                  <span className="w-1 h-4 rounded-full bg-emerald-500/70" />
+                                  <span className="text-sm font-semibold text-emerald-400 leading-tight">
+                                    {item.speaker}
+                                  </span>
+                                </span>
+                              </div>
+                              <p className="text-sm text-theme-secondary leading-relaxed">
+                                {item.text}
+                              </p>
+                            </div>
+                          )
+                        }
+
+                        if (item.text.trim()) {
+                          return (
+                            <div key={item.key} className="grid grid-cols-[160px_1fr] gap-6">
+                              <div />
+                              <p className="text-sm text-theme-secondary leading-relaxed">
+                                {item.text}
+                              </p>
+                            </div>
+                          )
+                        }
+
+                        return null
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </section>
+
+            {/* Right Sidebar - AI Summary Card */}
+            {showSummary && selectedTranscript && (
+              <aside className="bg-theme-card rounded-xl border border-white/[0.06] shadow-sm overflow-hidden flex flex-col">
+
+                {/* Card Header */}
+                <div className="flex-shrink-0 px-5 py-4 border-b border-white/[0.06]">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-gradient-to-br from-emerald-500/20 to-emerald-500/5 border border-emerald-500/20 flex items-center justify-center">
+                        <SparklesIcon className="w-4 h-4 text-emerald-400" />
+                      </div>
+                      <div>
+                        <h3 className="text-sm font-semibold text-theme-primary">
+                          KI-Zusammenfassung
+                        </h3>
+                        <p className="text-[11px] text-theme-muted mt-0.5">
+                          Finclue AI · Q{selectedTranscript.quarter} {selectedTranscript.year}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Summary Content */}
+                <div className="flex-1 overflow-y-auto">
+                  <div className="p-5">
+                    {isPremium ? (
+                      <EarningsSummary
+                        ticker={ticker}
+                        year={selectedTranscript.year}
+                        quarter={selectedTranscript.quarter}
+                        content={selectedTranscript.content}
+                        minimal={true}
+                      />
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-12 text-center">
+                        <div className="w-12 h-12 rounded-xl bg-theme-secondary/40 border border-white/[0.06] flex items-center justify-center mb-4">
+                          <LockClosedIcon className="w-5 h-5 text-theme-muted" />
+                        </div>
+                        <p className="text-sm font-semibold text-theme-primary mb-1.5">
+                          Premium Feature
+                        </p>
+                        <p className="text-xs text-theme-muted mb-5 max-w-[240px] leading-relaxed">
+                          KI-Zusammenfassungen von Earnings Calls sind nur für Premium-Mitglieder verfügbar.
+                        </p>
+                        <a
+                          href="/pricing"
+                          className="flex items-center gap-2 px-4 py-2 bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-500/30 text-emerald-400 text-xs font-semibold rounded-lg transition-colors"
+                        >
+                          <SparklesIcon className="w-3.5 h-3.5" />
+                          Premium werden
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </aside>
             )}
           </div>
         </div>
-
-        {/* Right Sidebar - AI Summary */}
-        {showSummary && selectedTranscript && (
-          <div className="w-[400px] border-l border-neutral-800 overflow-y-auto flex-shrink-0">
-            <div className="p-6">
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center gap-2">
-                  <SparklesIcon className="w-4 h-4 text-emerald-400" />
-                  <h3 className="text-sm font-medium text-white">AI Zusammenfassung</h3>
-                </div>
-                <span className="text-xs text-neutral-600">
-                  Q{selectedTranscript.quarter} {selectedTranscript.year}
-                </span>
-              </div>
-
-              {isPremium ? (
-                <EarningsSummary
-                  ticker={ticker}
-                  year={selectedTranscript.year}
-                  quarter={selectedTranscript.quarter}
-                  content={selectedTranscript.content}
-                  minimal={true}
-                />
-              ) : (
-                <div className="flex flex-col items-center justify-center py-10 text-center">
-                  <div className="w-12 h-12 rounded-xl bg-neutral-800 border border-neutral-700 flex items-center justify-center mb-4">
-                    <LockClosedIcon className="w-5 h-5 text-neutral-500" />
-                  </div>
-                  <p className="text-sm font-medium text-white mb-1">Premium Feature</p>
-                  <p className="text-xs text-neutral-500 mb-5 max-w-[220px]">
-                    KI-Zusammenfassungen von Earnings Calls sind nur für Premium-Mitglieder verfügbar.
-                  </p>
-                  <a
-                    href="/pricing"
-                    className="flex items-center gap-2 px-4 py-2 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/30 text-amber-400 text-sm font-medium rounded-lg transition-colors"
-                  >
-                    <SparklesIcon className="w-4 h-4" />
-                    Premium werden
-                  </a>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
       </div>
     </div>
   )

@@ -2,7 +2,14 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { SparklesIcon } from '@heroicons/react/24/outline'
+import {
+  SparklesIcon,
+  ChartBarIcon,
+  CheckCircleIcon,
+  ExclamationTriangleIcon,
+  ArrowTrendingUpIcon,
+  LightBulbIcon
+} from '@heroicons/react/24/outline'
 
 interface EarningsSummaryProps {
   ticker: string
@@ -155,42 +162,58 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
       <div className="space-y-5 text-sm">
         {summary.split('\n\n').map((section, index) => {
           const lines = section.split('\n').filter(l => l.trim())
-          
-          // Kennzahlen
+
+          // Kennzahlen — blue accent
           if (section.includes('📊') || section.includes('KENNZAHLEN')) {
             return (
-              <div key={index} className="pb-4 border-b border-theme/10">
-                <h4 className="font-semibold text-theme-primary mb-3 text-sm">Kennzahlen</h4>
-                <div className="space-y-1.5">
+              <div key={index} className="pb-4 border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-md bg-blue-500/15 border border-blue-500/25 flex items-center justify-center">
+                    <ChartBarIcon className="w-3.5 h-3.5 text-blue-400" />
+                  </div>
+                  <h4 className="text-xs font-semibold text-theme-primary uppercase tracking-wider">
+                    Kennzahlen
+                  </h4>
+                </div>
+                <div className="space-y-2 pl-1">
                   {lines.slice(1).map((item, i) => {
                     if (!item.includes('•')) return null
                     const text = item.replace('•', '').trim()
-                    // Highlight wichtige Zahlen
                     const formattedText = text.replace(
                       /(\$[\d,.]+ (?:Mrd\.|Mio\.|billion|million)?|\d+[,.]?\d*%)/g,
                       '<span class="font-semibold text-theme-primary">$1</span>'
                     )
                     return (
-                      <div key={i} className="text-theme-secondary leading-relaxed" dangerouslySetInnerHTML={{ __html: `• ${formattedText}` }} />
+                      <div key={i} className="flex items-start gap-2.5 text-theme-secondary leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-400 mt-1.5 flex-shrink-0" />
+                        <span className="flex-1" dangerouslySetInnerHTML={{ __html: formattedText }} />
+                      </div>
                     )
                   })}
                 </div>
               </div>
             )
           }
-          
-          // Highlights
+
+          // Highlights — emerald accent
           if (section.includes('✅') || section.includes('POSITIVE')) {
             return (
-              <div key={index} className="pb-4 border-b border-theme/10">
-                <h4 className="font-semibold text-theme-primary mb-3 text-sm">Highlights</h4>
-                <div className="space-y-1.5">
+              <div key={index} className="pb-4 border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-md bg-emerald-500/15 border border-emerald-500/25 flex items-center justify-center">
+                    <CheckCircleIcon className="w-3.5 h-3.5 text-emerald-400" />
+                  </div>
+                  <h4 className="text-xs font-semibold text-theme-primary uppercase tracking-wider">
+                    Highlights
+                  </h4>
+                </div>
+                <div className="space-y-2 pl-1">
                   {lines.slice(1).map((item, i) => {
                     if (!item.includes('•')) return null
                     return (
-                      <div key={i} className="text-theme-secondary leading-relaxed">
-                        <span className="text-brand mr-1.5">•</span>
-                        {item.replace('•', '').trim()}
+                      <div key={i} className="flex items-start gap-2.5 text-theme-secondary leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 mt-1.5 flex-shrink-0" />
+                        <span className="flex-1">{item.replace('•', '').trim()}</span>
                       </div>
                     )
                   })}
@@ -198,19 +221,26 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
               </div>
             )
           }
-          
-          // Herausforderungen
+
+          // Herausforderungen — amber accent
           if (section.includes('⚠️') || section.includes('HERAUSFORDERUNGEN')) {
             return (
-              <div key={index} className="pb-4 border-b border-theme/10">
-                <h4 className="font-semibold text-theme-primary mb-3 text-sm">Herausforderungen</h4>
-                <div className="space-y-1.5">
+              <div key={index} className="pb-4 border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-md bg-amber-500/15 border border-amber-500/25 flex items-center justify-center">
+                    <ExclamationTriangleIcon className="w-3.5 h-3.5 text-amber-400" />
+                  </div>
+                  <h4 className="text-xs font-semibold text-theme-primary uppercase tracking-wider">
+                    Herausforderungen
+                  </h4>
+                </div>
+                <div className="space-y-2 pl-1">
                   {lines.slice(1).map((item, i) => {
                     if (!item.includes('•')) return null
                     return (
-                      <div key={i} className="text-theme-secondary leading-relaxed">
-                        <span className="text-yellow-500 mr-1.5">•</span>
-                        {item.replace('•', '').trim()}
+                      <div key={i} className="flex items-start gap-2.5 text-theme-secondary leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-amber-400 mt-1.5 flex-shrink-0" />
+                        <span className="flex-1">{item.replace('•', '').trim()}</span>
                       </div>
                     )
                   })}
@@ -218,18 +248,26 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
               </div>
             )
           }
-          
-          // Ausblick
+
+          // Ausblick — purple accent
           if (section.includes('🎯') || section.includes('GUIDANCE') || section.includes('AUSBLICK')) {
             return (
-              <div key={index} className="pb-4 border-b border-theme/10">
-                <h4 className="font-semibold text-theme-primary mb-3 text-sm">Guidance & Ausblick</h4>
-                <div className="space-y-1.5 text-theme-secondary leading-relaxed">
+              <div key={index} className="pb-4 border-b border-white/[0.06]">
+                <div className="flex items-center gap-2 mb-3">
+                  <div className="w-6 h-6 rounded-md bg-purple-500/15 border border-purple-500/25 flex items-center justify-center">
+                    <ArrowTrendingUpIcon className="w-3.5 h-3.5 text-purple-400" />
+                  </div>
+                  <h4 className="text-xs font-semibold text-theme-primary uppercase tracking-wider">
+                    Guidance & Ausblick
+                  </h4>
+                </div>
+                <div className="space-y-2 pl-1">
                   {lines.slice(1).map((item, i) => {
                     if (!item.trim()) return null
                     return (
-                      <div key={i}>
-                        • {item.replace('•', '').trim()}
+                      <div key={i} className="flex items-start gap-2.5 text-theme-secondary leading-relaxed">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-1.5 flex-shrink-0" />
+                        <span className="flex-1">{item.replace('•', '').trim()}</span>
                       </div>
                     )
                   })}
@@ -237,26 +275,33 @@ export default function EarningsSummary({ ticker, year, quarter, content, minima
               </div>
             )
           }
-          
-          // Fazit
+
+          // Fazit — emerald highlight card
           if (section.includes('💡') || section.includes('FAZIT')) {
             const fazitText = lines.find(l => !l.includes('💡') && !l.includes('FAZIT') && l.trim())
             if (!fazitText) return null
-            
+
             return (
-              <div key={index} className="p-4 bg-brand/5 border border-brand/20 rounded-lg">
-                <h4 className="font-semibold text-theme-primary mb-2 text-sm">Fazit</h4>
-                <p className="text-theme-secondary leading-relaxed">
+              <div key={index} className="p-4 bg-gradient-to-br from-emerald-500/[0.08] to-emerald-500/[0.02] border border-emerald-500/25 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="w-6 h-6 rounded-md bg-emerald-500/20 border border-emerald-500/30 flex items-center justify-center">
+                    <LightBulbIcon className="w-3.5 h-3.5 text-emerald-400" />
+                  </div>
+                  <h4 className="text-xs font-semibold text-emerald-400 uppercase tracking-wider">
+                    Fazit
+                  </h4>
+                </div>
+                <p className="text-theme-secondary leading-relaxed pl-1">
                   {fazitText}
                 </p>
               </div>
             )
           }
-          
+
           return null
         })}
-        
-        <div className="pt-4 text-xs text-theme-muted leading-relaxed">
+
+        <div className="pt-2 text-xs text-theme-muted leading-relaxed">
           Hinweis: Diese AI-generierte Zusammenfassung dient nur zur Orientierung. Bitte lesen Sie das vollständige Transcript für alle Details.
         </div>
       </div>
