@@ -6,25 +6,41 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import LoadingSpinner from '@/components/LoadingSpinner';
 import { useCurrency } from '@/lib/CurrencyContext';
 
+export type GrowthTimeframe = '3Y' | '5Y' | '10Y' | 'MAX';
+
 interface GrowthChartsProps {
   ticker: string;
+  timeframe?: GrowthTimeframe;
 }
 
 interface HistoricalGrowthData {
   year: number;
   revenue: number;
   revenueGrowth: number;
+  revenueGrowthRaw: number;
   eps: number;
   epsGrowth: number;
+  epsGrowthRaw: number;
   ebitda?: number;
   ebitdaGrowth?: number;
+  ebitdaGrowthRaw?: number;
   fcf?: number;
   fcfGrowth?: number;
+  fcfGrowthRaw?: number;
   netIncome?: number;
   netIncomeGrowth?: number;
+  netIncomeGrowthRaw?: number;
   operatingIncome?: number;
   operatingIncomeGrowth?: number;
 }
+
+// Cap extreme outlier growth rates so the Y-axis stays readable.
+// Years with near-zero prior base can produce values in the millions of %.
+const CHART_CAP_PERCENT = 300;
+const clampGrowth = (value: number) => {
+  if (!isFinite(value)) return 0;
+  return Math.max(-CHART_CAP_PERCENT, Math.min(CHART_CAP_PERCENT, value));
+};
 
 interface CAGRData {
   period: string;
@@ -35,7 +51,7 @@ interface CAGRData {
   netIncome?: number;
 }
 
-const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
+const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker, timeframe = 'MAX' }) => {
   const [loading, setLoading] = useState(true);
   const [historicalData, setHistoricalData] = useState<HistoricalGrowthData[]>([]);
   const [cagrData, setCAGRData] = useState<CAGRData[]>([]);
@@ -133,20 +149,26 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
             }
           }
 
+          const safe = (v: number) => (isFinite(v) ? v : 0);
           processedHistorical.push({
             year,
             revenue: current.revenue || 0,
-            revenueGrowth: isFinite(revenueGrowth) ? revenueGrowth : 0,
+            revenueGrowth: clampGrowth(safe(revenueGrowth)),
+            revenueGrowthRaw: safe(revenueGrowth),
             eps: current.epsdiluted || 0,
-            epsGrowth: isFinite(epsGrowth) ? epsGrowth : 0,
+            epsGrowth: clampGrowth(safe(epsGrowth)),
+            epsGrowthRaw: safe(epsGrowth),
             ebitda: current.ebitda || 0,
-            ebitdaGrowth: isFinite(ebitdaGrowth) ? ebitdaGrowth : 0,
+            ebitdaGrowth: clampGrowth(safe(ebitdaGrowth)),
+            ebitdaGrowthRaw: safe(ebitdaGrowth),
             fcf: cfData?.freeCashFlow || (cfData?.operatingCashFlow - cfData?.capitalExpenditure) || 0,
-            fcfGrowth: isFinite(fcfGrowth) ? fcfGrowth : 0,
+            fcfGrowth: clampGrowth(safe(fcfGrowth)),
+            fcfGrowthRaw: safe(fcfGrowth),
             netIncome: current.netIncome || 0,
-            netIncomeGrowth: isFinite(netIncomeGrowth) ? netIncomeGrowth : 0,
+            netIncomeGrowth: clampGrowth(safe(netIncomeGrowth)),
+            netIncomeGrowthRaw: safe(netIncomeGrowth),
             operatingIncome: current.operatingIncome || 0,
-            operatingIncomeGrowth: isFinite(operatingIncomeGrowth) ? operatingIncomeGrowth : 0
+            operatingIncomeGrowth: clampGrowth(safe(operatingIncomeGrowth))
           });
         }
       } else {
@@ -280,20 +302,34 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
           <p className="text-theme-primary font-medium mb-2 text-sm">
             {typeof label === 'number' ? `${label}` : label}
           </p>
-          {payload.map((entry: any, index: number) => (
-            <div key={index} className="flex items-center gap-2 text-sm">
-              <div
-                className="w-2 h-2 rounded-full flex-shrink-0"
-                style={{ backgroundColor: entry.color }}
-              />
-              <span className="text-theme-muted">
-                {getGermanLabel(entry.dataKey || entry.name)}:
-              </span>
-              <span className="text-theme-primary font-medium">
-                {formatPercentage(entry.value, true)}
-              </span>
-            </div>
-          ))}
+          {payload.map((entry: any, index: number) => {
+            const dataKey = entry.dataKey || entry.name;
+            const rawKey = `${dataKey}Raw`;
+            const rawValue = entry.payload?.[rawKey];
+            const displayValue = typeof rawValue === 'number' ? rawValue : entry.value;
+            const wasCapped =
+              typeof rawValue === 'number' &&
+              Math.abs(rawValue) > CHART_CAP_PERCENT;
+            return (
+              <div key={index} className="flex items-center gap-2 text-sm">
+                <div
+                  className="w-2 h-2 rounded-full flex-shrink-0"
+                  style={{ backgroundColor: entry.color }}
+                />
+                <span className="text-theme-muted">
+                  {getGermanLabel(dataKey)}:
+                </span>
+                <span className="text-theme-primary font-medium">
+                  {formatPercentage(displayValue, true)}
+                </span>
+                {wasCapped && (
+                  <span className="text-amber-400 text-[10px] ml-1">
+                    (Outlier)
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       );
     }
@@ -360,32 +396,61 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
     );
   }
 
+  // Apply timeframe filter to historical data (line + indexed charts).
+  // CAGR chart shows all periods regardless.
+  const timeframeYears: Record<GrowthTimeframe, number | null> = {
+    '3Y': 3,
+    '5Y': 5,
+    '10Y': 10,
+    'MAX': null,
+  };
+  const yearsLimit = timeframeYears[timeframe];
+  const filteredHistorical = yearsLimit !== null
+    ? historicalData.slice(-yearsLimit)
+    : historicalData;
+
+  const axisStroke = 'var(--color-text-muted)';
+  const gridStroke = 'var(--color-text-muted)';
+  const gridOpacity = 0.15;
+
   return (
-    <div className="growth-charts space-y-8">
-      
+    <div className="growth-charts space-y-5">
+
       {/* Wachstumstrend über Zeit */}
-      {historicalData.length > 0 && (
-        <div>
-          <h4 className="text-lg font-semibold text-theme-primary mb-4">
-            Wachstumstrend über Zeit (YoY)
-          </h4>
+      {filteredHistorical.length > 0 && (
+        <div className="bg-theme-card rounded-xl border border-theme-light p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-sm font-semibold text-theme-primary">
+              Wachstumstrend über Zeit (YoY)
+            </h4>
+            <span className="text-[10px] font-medium text-theme-muted uppercase tracking-wider">
+              {timeframe === 'MAX' ? 'Alle Jahre' : `Letzte ${yearsLimit} Jahre`}
+            </span>
+          </div>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <LineChart data={historicalData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-                <XAxis 
-                  dataKey="year" 
-                  stroke="#9CA3AF"
-                  fontSize={12}
+              <LineChart data={filteredHistorical} margin={{ top: 10, right: 16, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} opacity={gridOpacity} />
+                <XAxis
+                  dataKey="year"
+                  stroke={axisStroke}
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={{ stroke: gridStroke }}
                 />
-                <YAxis 
-                  stroke="#9CA3AF"
-                  fontSize={12}
+                <YAxis
+                  stroke={axisStroke}
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={false}
                   tickFormatter={(value) => `${value}%`}
-                  domain={['dataMin - 10', 'dataMax + 10']}
+                  domain={['auto', 'auto']}
                 />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend 
+                <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'var(--color-text-muted)', strokeOpacity: 0.3 }} />
+                <Legend
+                  iconType="circle"
+                  iconSize={8}
+                  wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
                   formatter={(value) => {
                     const labels: { [key: string]: string } = {
                       revenueGrowth: 'Umsatz',
@@ -393,41 +458,41 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
                       ebitdaGrowth: 'EBITDA',
                       netIncomeGrowth: 'Nettogewinn'
                     };
-                    return labels[value] || value;
+                    return <span className="text-theme-secondary">{labels[value] || value}</span>;
                   }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="revenueGrowth" 
-                  stroke="#3B82F6" 
+                <Line
+                  type="monotone"
+                  dataKey="revenueGrowth"
+                  stroke="#3B82F6"
                   strokeWidth={2}
-                  dot={{ fill: '#3B82F6', strokeWidth: 2, r: 3 }}
+                  dot={{ fill: '#3B82F6', strokeWidth: 0, r: 3 }}
                   activeDot={{ r: 5, fill: '#3B82F6' }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="epsGrowth" 
-                  stroke="#10B981" 
+                <Line
+                  type="monotone"
+                  dataKey="epsGrowth"
+                  stroke="#10B981"
                   strokeWidth={2}
-                  dot={{ fill: '#10B981', strokeWidth: 2, r: 3 }}
+                  dot={{ fill: '#10B981', strokeWidth: 0, r: 3 }}
                   activeDot={{ r: 5, fill: '#10B981' }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="ebitdaGrowth" 
-                  stroke="#F59E0B" 
+                <Line
+                  type="monotone"
+                  dataKey="ebitdaGrowth"
+                  stroke="#F59E0B"
                   strokeWidth={2}
                   strokeDasharray="5 5"
-                  dot={{ fill: '#F59E0B', strokeWidth: 2, r: 3 }}
+                  dot={{ fill: '#F59E0B', strokeWidth: 0, r: 3 }}
                   activeDot={{ r: 5, fill: '#F59E0B' }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="netIncomeGrowth" 
-                  stroke="#8B5CF6" 
+                <Line
+                  type="monotone"
+                  dataKey="netIncomeGrowth"
+                  stroke="#8B5CF6"
                   strokeWidth={2}
                   strokeDasharray="3 3"
-                  dot={{ fill: '#8B5CF6', strokeWidth: 2, r: 3 }}
+                  dot={{ fill: '#8B5CF6', strokeWidth: 0, r: 3 }}
                   activeDot={{ r: 5, fill: '#8B5CF6' }}
                 />
               </LineChart>
@@ -438,26 +503,38 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
 
       {/* CAGR Vergleich */}
       {cagrData.length > 0 && (
-        <div>
-          <h4 className="text-lg font-semibold text-theme-primary mb-4">
-            CAGR Vergleich (Compound Annual Growth Rate)
-          </h4>
+        <div className="bg-theme-card rounded-xl border border-theme-light p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-sm font-semibold text-theme-primary">
+              CAGR Vergleich
+            </h4>
+            <span className="text-[10px] font-medium text-theme-muted uppercase tracking-wider">
+              Compound Annual Growth Rate
+            </span>
+          </div>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={cagrData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-                <XAxis 
-                  dataKey="period" 
-                  stroke="#9CA3AF"
-                  fontSize={12}
+              <BarChart data={cagrData} margin={{ top: 10, right: 16, left: 0, bottom: 0 }} barCategoryGap="25%">
+                <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} opacity={gridOpacity} vertical={false} />
+                <XAxis
+                  dataKey="period"
+                  stroke={axisStroke}
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={{ stroke: gridStroke }}
                 />
-                <YAxis 
-                  stroke="#9CA3AF"
-                  fontSize={12}
+                <YAxis
+                  stroke={axisStroke}
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={false}
                   tickFormatter={(value) => `${value}%`}
                 />
-                <Tooltip content={<CustomTooltip />} />
-                <Legend 
+                <Tooltip content={<CustomTooltip />} cursor={{ fill: 'var(--color-text-muted)', fillOpacity: 0.05 }} />
+                <Legend
+                  iconType="circle"
+                  iconSize={8}
+                  wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
                   formatter={(value) => {
                     const labels: { [key: string]: string } = {
                       revenue: 'Umsatz',
@@ -465,7 +542,7 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
                       ebitda: 'EBITDA',
                       netIncome: 'Nettogewinn'
                     };
-                    return labels[value] || value;
+                    return <span className="text-theme-secondary">{labels[value] || value}</span>;
                   }}
                 />
                 <Bar dataKey="revenue" fill="#3B82F6" radius={[4, 4, 0, 0]} />
@@ -479,87 +556,98 @@ const GrowthCharts: React.FC<GrowthChartsProps> = ({ ticker }) => {
       )}
 
       {/* Absolutes Wachstum über Zeit */}
-      {historicalData.length > 0 && (
-        <div>
-          <h4 className="text-lg font-semibold text-theme-primary mb-4">
-            Absolutes Wachstum (indexiert, Basis = 100)
-          </h4>
+      {filteredHistorical.length > 0 && (
+        <div className="bg-theme-card rounded-xl border border-theme-light p-5">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-sm font-semibold text-theme-primary">
+              Absolutes Wachstum
+            </h4>
+            <span className="text-[10px] font-medium text-theme-muted uppercase tracking-wider">
+              Indexiert · Basis = 100
+            </span>
+          </div>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
-              <ComposedChart data={historicalData.map((d) => {
-                const baseYear = historicalData[0];
-                
-                // Sichere Berechnung der indexierten Werte
-                const revenueIndexed = (baseYear.revenue && baseYear.revenue !== 0 && d.revenue) 
-                  ? (d.revenue / baseYear.revenue) * 100 
-                  : 100;
-                
-                const epsIndexed = (baseYear.eps && baseYear.eps !== 0 && d.eps) 
-                  ? (d.eps / baseYear.eps) * 100 
-                  : 100;
-                
-                const netIncomeIndexed = (baseYear.netIncome && baseYear.netIncome !== 0 && d.netIncome) 
-                  ? (d.netIncome / baseYear.netIncome) * 100 
-                  : 100;
-                
-                return {
-                  ...d,
-                  revenueIndexed,
-                  epsIndexed,
-                  netIncomeIndexed
-                };
-              })}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#374151" opacity={0.3} />
-                <XAxis 
-                  dataKey="year" 
-                  stroke="#9CA3AF"
-                  fontSize={12}
+              <ComposedChart
+                data={filteredHistorical.map((d) => {
+                  const baseYear = filteredHistorical[0];
+
+                  const revenueIndexed = (baseYear.revenue && baseYear.revenue !== 0 && d.revenue)
+                    ? (d.revenue / baseYear.revenue) * 100
+                    : 100;
+
+                  const epsIndexed = (baseYear.eps && baseYear.eps !== 0 && d.eps)
+                    ? (d.eps / baseYear.eps) * 100
+                    : 100;
+
+                  const netIncomeIndexed = (baseYear.netIncome && baseYear.netIncome !== 0 && d.netIncome)
+                    ? (d.netIncome / baseYear.netIncome) * 100
+                    : 100;
+
+                  return {
+                    ...d,
+                    revenueIndexed,
+                    epsIndexed,
+                    netIncomeIndexed
+                  };
+                })}
+                margin={{ top: 10, right: 16, left: 0, bottom: 0 }}
+              >
+                <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} opacity={gridOpacity} />
+                <XAxis
+                  dataKey="year"
+                  stroke={axisStroke}
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={{ stroke: gridStroke }}
                 />
-                <YAxis 
-                  stroke="#9CA3AF"
-                  fontSize={12}
+                <YAxis
+                  stroke={axisStroke}
+                  fontSize={11}
+                  tickLine={false}
+                  axisLine={false}
                   tickFormatter={(value) => `${value}`}
                 />
-                <Tooltip content={<IndexedTooltip />} />
-                <Legend 
+                <Tooltip content={<IndexedTooltip />} cursor={{ stroke: 'var(--color-text-muted)', strokeOpacity: 0.3 }} />
+                <Legend
+                  iconType="circle"
+                  iconSize={8}
+                  wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
                   formatter={(value) => {
                     const labels: { [key: string]: string } = {
                       revenueIndexed: 'Umsatz (Index)',
                       epsIndexed: 'EPS (Index)',
                       netIncomeIndexed: 'Nettogewinn (Index)'
                     };
-                    return labels[value] || value;
+                    return <span className="text-theme-secondary">{labels[value] || value}</span>;
                   }}
                 />
-                <Area 
-                  type="monotone" 
-                  dataKey="revenueIndexed" 
-                  fill="#3B82F6" 
+                <Area
+                  type="monotone"
+                  dataKey="revenueIndexed"
+                  fill="#3B82F6"
                   stroke="#3B82F6"
-                  fillOpacity={0.3}
+                  fillOpacity={0.2}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="epsIndexed" 
-                  stroke="#10B981" 
+                <Line
+                  type="monotone"
+                  dataKey="epsIndexed"
+                  stroke="#10B981"
                   strokeWidth={2}
-                  dot={{ fill: '#10B981', r: 3 }}
+                  dot={{ fill: '#10B981', strokeWidth: 0, r: 3 }}
                 />
-                <Line 
-                  type="monotone" 
-                  dataKey="netIncomeIndexed" 
-                  stroke="#8B5CF6" 
+                <Line
+                  type="monotone"
+                  dataKey="netIncomeIndexed"
+                  stroke="#8B5CF6"
                   strokeWidth={2}
-                  dot={{ fill: '#8B5CF6', r: 3 }}
+                  dot={{ fill: '#8B5CF6', strokeWidth: 0, r: 3 }}
                 />
               </ComposedChart>
             </ResponsiveContainer>
           </div>
         </div>
       )}
-
-
-  
     </div>
   );
 };

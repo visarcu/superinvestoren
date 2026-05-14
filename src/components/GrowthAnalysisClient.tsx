@@ -10,6 +10,7 @@ import { useCurrency } from '@/lib/CurrencyContext'
 import Link from 'next/link'
 import dynamic from 'next/dynamic'
 import { LockClosedIcon } from '@heroicons/react/24/outline'
+import type { GrowthTimeframe } from '@/components/GrowthCharts'
 
 // Dynamic Chart Import
 const GrowthCharts = dynamic(
@@ -110,6 +111,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [showAllMetrics, setShowAllMetrics] = useState(false);
+  const [timeframe, setTimeframe] = useState<GrowthTimeframe>('MAX');
 
   const { isLearnMode } = useLearnMode()
   const { formatPercentage } = useCurrency()
@@ -178,10 +180,10 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
 
   // Insights/Fey Style: Farbcodierung für Wachstumswerte
   const getGrowthColor = (value?: number | null) => {
-    if (typeof value !== 'number' || isNaN(value) || value === null) return 'text-neutral-500'
+    if (typeof value !== 'number' || isNaN(value) || value === null) return 'text-theme-muted'
     if (value > 0) return 'text-emerald-400'
     if (value < 0) return 'text-red-400'
-    return 'text-white'
+    return 'text-theme-primary'
   }
 
   // Growth Grade Berechnung
@@ -193,7 +195,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       growth.fcfGrowth3Y
     ].filter(v => v !== null && v !== undefined)
 
-    if (metrics.length === 0) return { grade: '–', color: 'text-neutral-500', bgColor: 'bg-neutral-800' }
+    if (metrics.length === 0) return { grade: '–', color: 'text-theme-muted', bgColor: 'bg-theme-secondary/40' }
 
     const avgGrowth = metrics.reduce((sum, val) => sum + (val || 0), 0) / metrics.length
 
@@ -201,8 +203,8 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     if (avgGrowth > 20) return { grade: 'A', color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' }
     if (avgGrowth > 15) return { grade: 'A-', color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' }
     if (avgGrowth > 12) return { grade: 'B+', color: 'text-emerald-400', bgColor: 'bg-emerald-500/20' }
-    if (avgGrowth > 10) return { grade: 'B', color: 'text-white', bgColor: 'bg-neutral-800' }
-    if (avgGrowth > 8) return { grade: 'B-', color: 'text-white', bgColor: 'bg-neutral-800' }
+    if (avgGrowth > 10) return { grade: 'B', color: 'text-theme-primary', bgColor: 'bg-theme-secondary/40' }
+    if (avgGrowth > 8) return { grade: 'B-', color: 'text-theme-primary', bgColor: 'bg-theme-secondary/40' }
     if (avgGrowth > 6) return { grade: 'C+', color: 'text-amber-400', bgColor: 'bg-amber-500/20' }
     if (avgGrowth > 4) return { grade: 'C', color: 'text-amber-400', bgColor: 'bg-amber-500/20' }
     if (avgGrowth > 2) return { grade: 'C-', color: 'text-amber-400', bgColor: 'bg-amber-500/20' }
@@ -224,19 +226,19 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
     return (
       <div className="w-full px-6 lg:px-8 py-8">
         <div className="animate-pulse space-y-6">
-          <div className="h-5 bg-neutral-800 rounded w-48"></div>
+          <div className="h-5 bg-theme-secondary/40 rounded w-48"></div>
           <div className="flex gap-8">
             <div className="flex-1 space-y-2">
-              <div className="h-6 bg-neutral-800 rounded w-32"></div>
-              <div className="h-4 bg-neutral-800 rounded w-48"></div>
+              <div className="h-6 bg-theme-secondary/40 rounded w-32"></div>
+              <div className="h-4 bg-theme-secondary/40 rounded w-48"></div>
             </div>
-            <div className="w-16 h-10 bg-neutral-800 rounded"></div>
+            <div className="w-16 h-10 bg-theme-secondary/40 rounded"></div>
           </div>
           <div className="grid grid-cols-4 gap-8">
             {[1,2,3,4].map(i => (
               <div key={i} className="space-y-2">
-                <div className="h-4 bg-neutral-800 rounded w-24"></div>
-                <div className="h-8 bg-neutral-800 rounded w-20"></div>
+                <div className="h-4 bg-theme-secondary/40 rounded w-24"></div>
+                <div className="h-8 bg-theme-secondary/40 rounded w-20"></div>
               </div>
             ))}
           </div>
@@ -249,7 +251,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   if (error) {
     return (
       <div className="w-full px-6 lg:px-8 py-8 text-center">
-        <p className="text-neutral-500 mb-4">{error}</p>
+        <p className="text-theme-muted mb-4">{error}</p>
         <button
           onClick={loadGrowthData}
           className="text-sm text-emerald-400 hover:text-emerald-300 transition-colors"
@@ -264,7 +266,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   if (!data?.growth) {
     return (
       <div className="w-full px-6 lg:px-8 py-8 text-center">
-        <p className="text-neutral-500">Keine Wachstumsdaten verfügbar für {ticker}</p>
+        <p className="text-theme-muted">Keine Wachstumsdaten verfügbar für {ticker}</p>
       </div>
     )
   }
@@ -273,13 +275,13 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
   const growthGrade = calculateGrowthGrade(growth)
 
   return (
-    <div className="w-full px-6 lg:px-8 py-8">
+    <div className="w-full px-6 lg:px-8 py-8 space-y-6">
 
       {/* ===== HEADER - INLINE MIT GROWTH GRADE ===== */}
-      <div className="flex items-center justify-between mb-8 pb-6 border-b border-neutral-800">
+      <div className="flex items-center justify-between pb-6 border-b border-theme-light">
         <div>
-          <h1 className="text-xl font-medium text-white mb-1">Wachstumsanalyse</h1>
-          <p className="text-sm text-neutral-500">
+          <h1 className="text-xl font-medium text-theme-primary mb-1">Wachstumsanalyse</h1>
+          <p className="text-sm text-theme-muted">
             Historische und prognostizierte Wachstumsraten für {ticker}
           </p>
         </div>
@@ -292,11 +294,11 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 Growth Grade
               </span>
             </div>
-            <p className="text-xs text-neutral-500 mt-1">Basierend auf {data.dataQuality.periods} Jahren</p>
+            <p className="text-xs text-theme-muted mt-1">Basierend auf {data.dataQuality.periods} Jahren</p>
           </div>
           <button
             onClick={loadGrowthData}
-            className="text-sm text-neutral-400 hover:text-white transition-colors"
+            className="text-sm text-theme-muted hover:text-theme-primary transition-colors"
           >
             Aktualisieren
           </button>
@@ -305,97 +307,96 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
 
       {/* Learn Mode Info - Subtiler */}
       {isLearnMode && (
-        <div className="mb-8 pb-6 border-b border-neutral-800">
-          <p className="text-xs text-neutral-500 leading-relaxed">
-            <span className="text-neutral-400 font-medium">Wachstumsanalyse:</span> CAGR (Compound Annual Growth Rate)
+        <div className="bg-theme-card rounded-xl border border-theme-light p-4">
+          <p className="text-xs text-theme-muted leading-relaxed">
+            <span className="text-theme-secondary font-medium">Wachstumsanalyse:</span> CAGR (Compound Annual Growth Rate)
             glättet jährliche Schwankungen und zeigt das durchschnittliche Wachstum über mehrere Jahre.
           </p>
         </div>
       )}
 
       {/* ===== METRIC STATS - FLAT GRID OHNE BOXES ===== */}
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8 pb-8 border-b border-neutral-800">
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-6 border-b border-theme-light">
 
         {/* Umsatzwachstum */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <ChartBarIcon className="w-4 h-4 text-neutral-500" />
-            <span className="text-sm text-neutral-400">Umsatzwachstum</span>
+            <ChartBarIcon className="w-4 h-4 text-theme-muted" />
+            <span className="text-sm text-theme-secondary">Umsatzwachstum</span>
           </div>
           <p className={`text-2xl font-bold ${getGrowthColor(growth.revenueGrowth3Y)}`}>
             {formatGrowth(growth.revenueGrowth3Y)}
           </p>
-          <p className="text-xs text-neutral-500 mt-1">3Y CAGR</p>
+          <p className="text-xs text-theme-muted mt-1">3Y CAGR</p>
         </div>
 
         {/* Gewinnwachstum */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <ArrowTrendingUpIcon className="w-4 h-4 text-neutral-500" />
-            <span className="text-sm text-neutral-400">Gewinnwachstum</span>
+            <ArrowTrendingUpIcon className="w-4 h-4 text-theme-muted" />
+            <span className="text-sm text-theme-secondary">Gewinnwachstum</span>
           </div>
           <p className={`text-2xl font-bold ${getGrowthColor(growth.epsGrowth3Y)}`}>
             {formatGrowth(growth.epsGrowth3Y)}
           </p>
-          <p className="text-xs text-neutral-500 mt-1">EPS 3Y CAGR</p>
+          <p className="text-xs text-theme-muted mt-1">EPS 3Y CAGR</p>
         </div>
 
         {/* Forward EPS */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <CalendarIcon className="w-4 h-4 text-neutral-500" />
-            <span className="text-sm text-neutral-400">Prognose</span>
+            <CalendarIcon className="w-4 h-4 text-theme-muted" />
+            <span className="text-sm text-theme-secondary">Prognose</span>
           </div>
           <p className={`text-2xl font-bold ${getGrowthColor(growth.epsGrowthForward2Y)}`}>
             {formatGrowth(growth.epsGrowthForward2Y)}
           </p>
-          <p className="text-xs text-neutral-500 mt-1">Forward EPS</p>
+          <p className="text-xs text-theme-muted mt-1">Forward EPS</p>
         </div>
 
         {/* FCF Wachstum */}
         <div>
           <div className="flex items-center gap-2 mb-2">
-            <svg className="w-4 h-4 text-neutral-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-theme-muted" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <span className="text-sm text-neutral-400">FCF Wachstum</span>
+            <span className="text-sm text-theme-secondary">FCF Wachstum</span>
           </div>
           <p className={`text-2xl font-bold ${getGrowthColor(growth.fcfGrowth3Y)}`}>
             {formatGrowth(growth.fcfGrowth3Y)}
           </p>
-          <p className="text-xs text-neutral-500 mt-1">3Y CAGR</p>
+          <p className="text-xs text-theme-muted mt-1">3Y CAGR</p>
         </div>
       </div>
 
-      {/* ===== WACHSTUMSMETRIKEN IM DETAIL - CLEAN TABLE ===== */}
-      <div className="mb-8">
-        <div className="flex items-center justify-between mb-4 pb-3 border-b border-neutral-800">
-          <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider">
+      {/* ===== WACHSTUMSMETRIKEN IM DETAIL - CARD ===== */}
+      <div className="bg-theme-card rounded-xl border border-theme-light overflow-hidden">
+        <div className="flex items-center justify-between px-5 py-4 border-b border-theme-light">
+          <h3 className="text-sm font-semibold text-theme-primary">
             Wachstumsmetriken im Detail
           </h3>
           <button
             onClick={() => setShowAllMetrics(!showAllMetrics)}
-            className="text-xs text-neutral-500 hover:text-white transition-colors"
+            className="text-xs text-theme-muted hover:text-theme-primary transition-colors"
           >
             {showAllMetrics ? 'Weniger anzeigen' : 'Alle Metriken →'}
           </button>
         </div>
 
-        {/* Tabelle ohne Box-Container */}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-neutral-800">
-                <th className="text-left py-3 text-sm font-medium text-neutral-400">Metrik</th>
-                <th className="text-right py-3 text-sm font-medium text-neutral-400">1Y (YoY)</th>
-                <th className="text-right py-3 text-sm font-medium text-neutral-400">3Y CAGR</th>
-                <th className="text-right py-3 text-sm font-medium text-neutral-400">
+              <tr className="border-b border-theme-light">
+                <th className="text-left py-3 px-5 text-xs font-medium text-theme-muted uppercase tracking-wider">Metrik</th>
+                <th className="text-right py-3 px-5 text-xs font-medium text-theme-muted uppercase tracking-wider">1Y (YoY)</th>
+                <th className="text-right py-3 px-5 text-xs font-medium text-theme-muted uppercase tracking-wider">3Y CAGR</th>
+                <th className="text-right py-3 px-5 text-xs font-medium text-theme-muted uppercase tracking-wider">
                   <span className="flex items-center justify-end gap-1">
                     5Y CAGR
                     {!user?.isPremium && <LockClosedIcon className="w-3 h-3 text-amber-400" />}
                   </span>
                 </th>
-                <th className="text-right py-3 text-sm font-medium text-neutral-400">
+                <th className="text-right py-3 px-5 text-xs font-medium text-theme-muted uppercase tracking-wider">
                   <span className="flex items-center justify-end gap-1">
                     10Y CAGR
                     {!user?.isPremium && <LockClosedIcon className="w-3 h-3 text-amber-400" />}
@@ -405,25 +406,25 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
             </thead>
             <tbody>
               {/* Hauptmetriken */}
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                <td className="py-3 text-sm text-white flex items-center gap-2">
+              <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                <td className="py-3 px-5 text-sm text-theme-primary flex items-center gap-2">
                   Umsatzwachstum
                   <LearnTooltipButton term="revenue_growth" />
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.revenueGrowth1Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.revenueGrowth1Y)}`}>
                   {formatGrowth(growth.revenueGrowth1Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.revenueGrowth3Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.revenueGrowth3Y)}`}>
                   {formatGrowth(growth.revenueGrowth3Y)}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.revenueGrowth5Y)}>{formatGrowth(growth.revenueGrowth5Y)}</span>
                   ) : (
                     <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                   )}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.revenueGrowth10Y)}>{formatGrowth(growth.revenueGrowth10Y)}</span>
                   ) : (
@@ -432,25 +433,25 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                <td className="py-3 text-sm text-white flex items-center gap-2">
+              <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                <td className="py-3 px-5 text-sm text-theme-primary flex items-center gap-2">
                   EPS Wachstum
                   <LearnTooltipButton term="eps_growth" />
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.epsGrowth1Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.epsGrowth1Y)}`}>
                   {formatGrowth(growth.epsGrowth1Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.epsGrowth3Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.epsGrowth3Y)}`}>
                   {formatGrowth(growth.epsGrowth3Y)}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.epsGrowth5Y)}>{formatGrowth(growth.epsGrowth5Y)}</span>
                   ) : (
                     <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                   )}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.epsGrowth10Y)}>{formatGrowth(growth.epsGrowth10Y)}</span>
                   ) : (
@@ -459,25 +460,25 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                <td className="py-3 text-sm text-white flex items-center gap-2">
+              <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                <td className="py-3 px-5 text-sm text-theme-primary flex items-center gap-2">
                   EBITDA Wachstum
                   <LearnTooltipButton term="ebitda" />
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth1Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth1Y)}`}>
                   {formatGrowth(growth.ebitdaGrowth1Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.ebitdaGrowth3Y)}`}>
                   {formatGrowth(growth.ebitdaGrowth3Y)}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.ebitdaGrowth5Y)}>{formatGrowth(growth.ebitdaGrowth5Y)}</span>
                   ) : (
                     <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                   )}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.ebitdaGrowth10Y)}>{formatGrowth(growth.ebitdaGrowth10Y)}</span>
                   ) : (
@@ -486,25 +487,25 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                 </td>
               </tr>
 
-              <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                <td className="py-3 text-sm text-white flex items-center gap-2">
+              <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                <td className="py-3 px-5 text-sm text-theme-primary flex items-center gap-2">
                   FCF Wachstum
                   <LearnTooltipButton term="free_cash_flow" />
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.fcfGrowth1Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.fcfGrowth1Y)}`}>
                   {formatGrowth(growth.fcfGrowth1Y)}
                 </td>
-                <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.fcfGrowth3Y)}`}>
+                <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.fcfGrowth3Y)}`}>
                   {formatGrowth(growth.fcfGrowth3Y)}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.fcfGrowth5Y)}>{formatGrowth(growth.fcfGrowth5Y)}</span>
                   ) : (
                     <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                   )}
                 </td>
-                <td className="text-right py-3 text-sm font-mono">
+                <td className="text-right py-3 px-5 text-sm font-mono">
                   {user?.isPremium ? (
                     <span className={getGrowthColor(growth.fcfGrowth10Y)}>{formatGrowth(growth.fcfGrowth10Y)}</span>
                   ) : (
@@ -516,22 +517,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
               {/* Erweiterte Metriken (ausklappbar) */}
               {showAllMetrics && (
                 <>
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">Operating Income</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">Operating Income</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth1Y)}`}>
                       {formatGrowth(growth.operatingIncomeGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.operatingIncomeGrowth3Y)}`}>
                       {formatGrowth(growth.operatingIncomeGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.operatingIncomeGrowth5Y)}>{formatGrowth(growth.operatingIncomeGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.operatingIncomeGrowth10Y)}>{formatGrowth(growth.operatingIncomeGrowth10Y)}</span>
                       ) : (
@@ -540,22 +541,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">Nettogewinn</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">Nettogewinn</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth1Y)}`}>
                       {formatGrowth(growth.netIncomeGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.netIncomeGrowth3Y)}`}>
                       {formatGrowth(growth.netIncomeGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.netIncomeGrowth5Y)}>{formatGrowth(growth.netIncomeGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.netIncomeGrowth10Y)}>{formatGrowth(growth.netIncomeGrowth10Y)}</span>
                       ) : (
@@ -564,22 +565,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">CAPEX</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.capexGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">CAPEX</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.capexGrowth1Y)}`}>
                       {formatGrowth(growth.capexGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.capexGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.capexGrowth3Y)}`}>
                       {formatGrowth(growth.capexGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.capexGrowth5Y)}>{formatGrowth(growth.capexGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.capexGrowth10Y)}>{formatGrowth(growth.capexGrowth10Y)}</span>
                       ) : (
@@ -588,22 +589,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">Dividende/Aktie</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.dividendGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">Dividende/Aktie</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.dividendGrowth1Y)}`}>
                       {formatGrowth(growth.dividendGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.dividendGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.dividendGrowth3Y)}`}>
                       {formatGrowth(growth.dividendGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.dividendGrowth5Y)}>{formatGrowth(growth.dividendGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.dividendGrowth10Y)}>{formatGrowth(growth.dividendGrowth10Y)}</span>
                       ) : (
@@ -612,22 +613,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">ROE Wachstum</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.roeGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">ROE Wachstum</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.roeGrowth1Y)}`}>
                       {formatGrowth(growth.roeGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.roeGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.roeGrowth3Y)}`}>
                       {formatGrowth(growth.roeGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.roeGrowth5Y)}>{formatGrowth(growth.roeGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.roeGrowth10Y)}>{formatGrowth(growth.roeGrowth10Y)}</span>
                       ) : (
@@ -636,22 +637,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">Working Capital</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">Working Capital</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth1Y)}`}>
                       {formatGrowth(growth.workingCapitalGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.workingCapitalGrowth3Y)}`}>
                       {formatGrowth(growth.workingCapitalGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.workingCapitalGrowth5Y)}>{formatGrowth(growth.workingCapitalGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.workingCapitalGrowth10Y)}>{formatGrowth(growth.workingCapitalGrowth10Y)}</span>
                       ) : (
@@ -660,22 +661,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">Total Assets</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">Total Assets</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth1Y)}`}>
                       {formatGrowth(growth.totalAssetsGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.totalAssetsGrowth3Y)}`}>
                       {formatGrowth(growth.totalAssetsGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.totalAssetsGrowth5Y)}>{formatGrowth(growth.totalAssetsGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.totalAssetsGrowth10Y)}>{formatGrowth(growth.totalAssetsGrowth10Y)}</span>
                       ) : (
@@ -684,22 +685,22 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
                     </td>
                   </tr>
 
-                  <tr className="border-b border-neutral-800/50 hover:bg-neutral-800/20 transition-colors">
-                    <td className="py-3 text-sm text-white">Levered FCF</td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth1Y)}`}>
+                  <tr className="border-b border-theme-light last:border-b-0 hover:bg-theme-secondary/20 transition-colors">
+                    <td className="py-3 px-5 text-sm text-theme-primary">Levered FCF</td>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth1Y)}`}>
                       {formatGrowth(growth.leveredFcfGrowth1Y)}
                     </td>
-                    <td className={`text-right py-3 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth3Y)}`}>
+                    <td className={`text-right py-3 px-5 text-sm font-mono ${getGrowthColor(growth.leveredFcfGrowth3Y)}`}>
                       {formatGrowth(growth.leveredFcfGrowth3Y)}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.leveredFcfGrowth5Y)}>{formatGrowth(growth.leveredFcfGrowth5Y)}</span>
                       ) : (
                         <a href="/pricing" className="flex items-center justify-end"><LockClosedIcon className="w-3.5 h-3.5 text-amber-400/60 hover:text-amber-400 transition-colors" /></a>
                       )}
                     </td>
-                    <td className="text-right py-3 text-sm font-mono">
+                    <td className="text-right py-3 px-5 text-sm font-mono">
                       {user?.isPremium ? (
                         <span className={getGrowthColor(growth.leveredFcfGrowth10Y)}>{formatGrowth(growth.leveredFcfGrowth10Y)}</span>
                       ) : (
@@ -715,17 +716,37 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       </div>
 
       {/* ===== WACHSTUMS-CHARTS - CLEAN ===== */}
-      <div className="mb-8">
-        <h3 className="text-sm font-medium text-neutral-400 uppercase tracking-wider mb-4 pb-3 border-b border-neutral-800">
-          Wachstums-Charts
-        </h3>
-        <GrowthCharts ticker={ticker} />
+      <div className="space-y-5">
+        <div className="flex items-center justify-between">
+          <h3 className="text-sm font-semibold text-theme-primary">
+            Wachstums-Charts
+          </h3>
+
+          {/* Timeframe Pill Toggle */}
+          <div className="flex items-center gap-1 p-1 bg-theme-secondary/30 rounded-lg">
+            {(['3Y', '5Y', '10Y', 'MAX'] as const).map((period) => (
+              <button
+                key={period}
+                onClick={() => setTimeframe(period)}
+                className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all ${
+                  timeframe === period
+                    ? 'bg-theme-card text-theme-primary shadow-sm'
+                    : 'text-theme-muted hover:text-theme-secondary'
+                }`}
+              >
+                {period}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <GrowthCharts ticker={ticker} timeframe={timeframe} />
 
         {/* Upgrade Banner für Free User */}
         {!user?.isPremium && (
           <Link
             href="/pricing"
-            className="flex items-center justify-between gap-4 px-4 py-3 mt-4 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
+            className="flex items-center justify-between gap-4 px-4 py-3 bg-amber-500/10 border border-amber-500/20 rounded-lg hover:bg-amber-500/15 transition-colors"
           >
             <div className="flex items-center gap-3">
               <div className="w-7 h-7 bg-amber-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
@@ -742,7 +763,7 @@ const GrowthAnalysisClient: React.FC<GrowthAnalysisClientProps> = ({ ticker }) =
       </div>
 
       {/* ===== FOOTER - MINIMAL ===== */}
-      <p className="text-xs text-neutral-600 text-center pt-4 border-t border-neutral-800">
+      <p className="text-xs text-theme-muted text-center pt-4 border-t border-theme-light">
         Wachstumsdaten von FMP API • Letztes Update: {formatDate(data.lastUpdated)}
       </p>
     </div>

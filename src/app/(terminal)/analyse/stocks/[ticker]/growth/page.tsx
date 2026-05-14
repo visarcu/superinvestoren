@@ -39,15 +39,15 @@ export default function GrowthAnalysisPage({ params }: { params: { ticker: strin
   // Falls die Aktie nicht existiert, gib 404 aus
   if (!stock) {
     return (
-      <div className="min-h-screen bg-dark flex items-center justify-center">
+      <div className="min-h-screen bg-theme-primary flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-medium text-white mb-2">Aktie nicht gefunden</h1>
-          <p className="text-neutral-500 mb-6">
+          <h1 className="text-2xl font-medium text-theme-primary mb-2">Aktie nicht gefunden</h1>
+          <p className="text-theme-muted mb-6">
             Die Aktie mit dem Symbol "{ticker}" konnte nicht gefunden werden.
           </p>
           <Link
             href="/analyse"
-            className="inline-flex items-center gap-2 text-sm text-neutral-400 hover:text-white transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-theme-muted hover:text-theme-primary transition-colors"
           >
             <ArrowLeftIcon className="w-4 h-4" />
             Zurück zur Analyse
@@ -58,7 +58,7 @@ export default function GrowthAnalysisPage({ params }: { params: { ticker: strin
   }
 
   return (
-    <div className="min-h-screen bg-dark">
+    <div className="min-h-screen bg-theme-primary">
       <GrowthAnalysisClient ticker={ticker} />
     </div>
   )
