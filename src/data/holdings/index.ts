@@ -428,6 +428,7 @@ import russo_2025_Q3 from './russo/2025-Q3.json'
 import russo_2025_Q4 from './russo/2025-Q4.json'
 
 import russo_2026_Q1 from './russo/2026-Q1.json'
+import russo_2026_Q2 from './russo/2026-Q2.json'
 
 //armitage
 import armitage_2024_Q2 from './armitage/2024-Q2.json'
@@ -439,6 +440,7 @@ import armitage_2025_Q3 from './armitage/2025-Q3.json'
 import armitage_2025_Q4 from './armitage/2025-Q4.json'
 
 import armitage_2026_Q1 from './armitage/2026-Q1.json'
+import armitage_2026_Q2 from './armitage/2026-Q2.json'
 
 //icahn
 import icahn_2024_Q2 from './icahn/2024-Q2.json'
@@ -913,6 +915,7 @@ import whitman_2025_Q3 from './whitman/2025-Q3.json'
 import whitman_2025_Q4 from './whitman/2025-Q4.json'
 
 import whitman_2026_Q1 from './whitman/2026-Q1.json'
+import whitman_2026_Q2 from './whitman/2026-Q2.json'
 
 //patientcapital
 import patientcapital_2024_Q2 from './patientcapital/2024-Q2.json'
@@ -1712,6 +1715,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q4', data: russo_2025_Q4},
 
     { quarter: '2026-Q1', data: russo_2026_Q1},
+    { quarter: '2026-Q2', data: russo_2026_Q2},
    ],
 
    armitage: [
@@ -1724,6 +1728,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q4', data: armitage_2025_Q4},
 
     { quarter: '2026-Q1', data: armitage_2026_Q1},
+    { quarter: '2026-Q2', data: armitage_2026_Q2},
    ],
 
 
@@ -2276,6 +2281,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q4', data: whitman_2025_Q4},
 
     {quarter: '2026-Q1', data: whitman_2026_Q1},
+    {quarter: '2026-Q2', data: whitman_2026_Q2},
 
   ],
 
