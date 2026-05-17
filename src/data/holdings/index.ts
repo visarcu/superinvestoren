@@ -12,6 +12,7 @@ import gates_2025_Q3 from './gates/2025-Q3.json'
 import gates_2025_Q4 from './gates/2025-Q4.json'
 
 import gates_2026_Q1 from './gates/2026-Q1.json'
+import gates_2026_Q2 from './gates/2026-Q2.json'
 
 //Warren Buffet
 import buffett_2021_Q1 from './buffett/2021-Q1.json'
@@ -40,6 +41,7 @@ import buffett_2025_Q3 from './buffett/2025-Q3.json'
 import buffett_2025_Q4 from './buffett/2025-Q4.json'
 
 import buffett_2026_Q1 from './buffett/2026-Q1.json'
+import buffett_2026_Q2 from './buffett/2026-Q2.json'
 
 //Bill Ackman
 import ackman_2023_Q1 from './ackman/2023-Q1.json'
@@ -56,6 +58,7 @@ import ackman_2025_Q3 from './ackman/2025-Q3.json'
 import ackman_2025_Q4 from './ackman/2025-Q4.json'
 
 import ackman_2026_Q1 from './ackman/2026-Q1.json'
+import ackman_2026_Q2 from './ackman/2026-Q2.json'
 
 //Marks
 
@@ -1170,6 +1173,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q4', data: gates_2025_Q4},
 
     {quarter: '2026-Q1', data: gates_2026_Q1},
+    {quarter: '2026-Q2', data: gates_2026_Q2},
   ],
 
   buffett: [
@@ -1195,6 +1199,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     { quarter: '2025-Q4', data: buffett_2025_Q4},
 
     { quarter: '2026-Q1', data: buffett_2026_Q1},
+    { quarter: '2026-Q2', data: buffett_2026_Q2},
 
   ],
   ackman: [
@@ -1212,6 +1217,7 @@ const holdingsHistory: Record<string, Snapshot[]> = {
     {quarter: '2025-Q4', data: ackman_2025_Q4},
 
     {quarter: '2026-Q1', data: ackman_2026_Q1},
+    {quarter: '2026-Q2', data: ackman_2026_Q2},
     // …
    ],
 
