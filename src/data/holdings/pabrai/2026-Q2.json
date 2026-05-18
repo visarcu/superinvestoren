@@ -1,0 +1,61 @@
+{
+  "form": "13F-HR",
+  "date": "2026-05-14",
+  "period": "2026-05-14",
+  "accession": "0001549575-26-000009",
+  "quarterKey": "2026-Q2",
+  "positions": [
+    {
+      "name": "WARRIOR MET COAL INC",
+      "cusip": "93627C101",
+      "shares": 1810831,
+      "value": 168678908,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "TRANSOCEAN LTD",
+      "cusip": "H8817H100",
+      "shares": 20392672,
+      "value": 135203415,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "REGISTERED SHS",
+      "putCall": null
+    },
+    {
+      "name": "ALPHA METALLURGICAL RESOUR I",
+      "cusip": "020764106",
+      "shares": 579738,
+      "value": 119002819,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    }
+  ],
+  "totalValue": 422885142,
+  "positionsCount": 3,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 422885142
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
+}

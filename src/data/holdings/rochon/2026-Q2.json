@@ -1,15 +1,71 @@
 {
   "form": "13F-HR",
-  "date": "2024-10-25",
-  "period": "2024-10-25",
-  "accession": "0000814375-24-000034",
-  "quarterKey": "2024-Q4",
+  "date": "2026-05-15",
+  "period": "2026-05-15",
+  "accession": "0001641864-26-000004",
+  "quarterKey": "2026-Q2",
   "positions": [
     {
-      "name": "AERCAP HOLDINGS",
-      "cusip": "N00985106",
-      "shares": 3525307,
-      "value": 333917079000,
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 378625,
+      "value": 181437100,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC C",
+      "cusip": "02079K107",
+      "shares": 620909,
+      "value": 178113956,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 307821,
+      "value": 176113629,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "HEICO CORP NEW",
+      "cusip": "422806208",
+      "shares": 738482,
+      "value": 155886165,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "SCHWAB CHARLES CORP",
+      "cusip": "808513105",
+      "shares": 1536206,
+      "value": 144372640,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -20,10 +76,10 @@
       "putCall": null
     },
     {
-      "name": "ELDORADO GOLD",
-      "cusip": "284902509",
-      "shares": 11791381,
-      "value": 204816288000,
+      "name": "FIVE BELOW INC",
+      "cusip": "33829M101",
+      "shares": 617191,
+      "value": 141015800,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -34,10 +90,10 @@
       "putCall": null
     },
     {
-      "name": "M/I HOMES",
-      "cusip": "55305B101",
-      "shares": 1098418,
-      "value": 188224908000,
+      "name": "AMETEK INC",
+      "cusip": "031100100",
+      "shares": 612058,
+      "value": 131200753,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -48,10 +104,10 @@
       "putCall": null
     },
     {
-      "name": "JACKSON FINANCIAL INC",
-      "cusip": "46817M107",
-      "shares": 2001396,
-      "value": 182587357000,
+      "name": "MEDPACE HOLDINGS INC",
+      "cusip": "58506Q109",
+      "shares": 256081,
+      "value": 122967535,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -62,10 +118,24 @@
       "putCall": null
     },
     {
-      "name": "UNUM GROUP",
-      "cusip": "91529Y106",
-      "shares": 2921010,
-      "value": 173624834000,
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 396357,
+      "value": 119794940,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "INSTALLED BLDG PRODS INC",
+      "cusip": "45780R101",
+      "shares": 403665,
+      "value": 107031775,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -76,10 +146,10 @@
       "putCall": null
     },
     {
-      "name": "GENWORTH FINANCIAL INC",
-      "cusip": "37247D106",
-      "shares": 25015294,
-      "value": 171354764000,
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 528364,
+      "value": 104742879,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -90,10 +160,24 @@
       "putCall": null
     },
     {
-      "name": "UNITED STATES STEEL CORP",
-      "cusip": "912909108",
-      "shares": 4719845,
-      "value": 166752124000,
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 348469,
+      "value": 100205746,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
+    },
+    {
+      "name": "KEYSIGHT TECHNOLOGIES INC",
+      "cusip": "49338L103",
+      "shares": 323184,
+      "value": 91257466,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -104,10 +188,10 @@
       "putCall": null
     },
     {
-      "name": "IAMGOLD CORP",
-      "cusip": "450913108",
-      "shares": 31017123,
-      "value": 162219553000,
+      "name": "NVR INC",
+      "cusip": "62944T105",
+      "shares": 13647,
+      "value": 89931410,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -118,10 +202,10 @@
       "putCall": null
     },
     {
-      "name": "CIVITAS RESOURCES INC",
-      "cusip": "17888H103",
-      "shares": 3173902,
-      "value": 160821614000,
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 21117,
+      "value": 88909327,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -132,10 +216,10 @@
       "putCall": null
     },
     {
-      "name": "TAYLOR MORRISON HOME CORP",
-      "cusip": "87724P106",
-      "shares": 1940879,
-      "value": 136366159000,
+      "name": "AUTOMATIC DATA PROC INC",
+      "cusip": "053015103",
+      "shares": 419090,
+      "value": 85150706,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -146,10 +230,24 @@
       "putCall": null
     },
     {
-      "name": "HOWARD HUGHES HOLDINGS INC",
-      "cusip": "44267T102",
-      "shares": 1652187,
-      "value": 127928839000,
+      "name": "MARKEL CORP",
+      "cusip": "570535104",
+      "shares": 42944,
+      "value": 82197822,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COMMON STOCK",
+      "putCall": null
+    },
+    {
+      "name": "KINSALE CAPITAL GROUP IN",
+      "cusip": "49714P108",
+      "shares": 218942,
+      "value": 74803724,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -160,10 +258,10 @@
       "putCall": null
     },
     {
-      "name": "COREBRIDGE FINANCIAL INC",
-      "cusip": "21871X109",
-      "shares": 4335096,
-      "value": 126411399000,
+      "name": "BRIGHT HORIZONSFAMILY SOLUTION",
+      "cusip": "109194100",
+      "shares": 742329,
+      "value": 60967481,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -174,10 +272,10 @@
       "putCall": null
     },
     {
-      "name": "GOLAR LNG LTD",
-      "cusip": "G9456A100",
-      "shares": 3195332,
-      "value": 117460404000,
+      "name": "BANK OZK LITTLE ROCK ARK",
+      "cusip": "06417N103",
+      "shares": 1231059,
+      "value": 56493298,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -188,10 +286,10 @@
       "putCall": null
     },
     {
-      "name": "PARK HOTELS & RESORTS INC",
-      "cusip": "700517105",
-      "shares": 8077286,
-      "value": 113889733000,
+      "name": "ANALOG DEVICES INC",
+      "cusip": "032654105",
+      "shares": 171052,
+      "value": 54418483,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -202,10 +300,10 @@
       "putCall": null
     },
     {
-      "name": "EQUINOX GOLD CORP",
-      "cusip": "29446Y502",
-      "shares": 18050439,
-      "value": 109927174000,
+      "name": "ARISTA NETWORKS INC",
+      "cusip": "040413205",
+      "shares": 423361,
+      "value": 51981534,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -216,10 +314,10 @@
       "putCall": null
     },
     {
-      "name": "BEAZER HOMES USA INC",
-      "cusip": "07556Q881",
-      "shares": 3132427,
-      "value": 107035031000,
+      "name": "DISNEY WALT CO",
+      "cusip": "254687106",
+      "shares": 536514,
+      "value": 51709219,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -230,10 +328,10 @@
       "putCall": null
     },
     {
-      "name": "SIRIUSPOINT LTD",
-      "cusip": "G8192H106",
-      "shares": 6987678,
-      "value": 100203303000,
+      "name": "RESMED INC",
+      "cusip": "761152107",
+      "shares": 230005,
+      "value": 51631522,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -244,10 +342,10 @@
       "putCall": null
     },
     {
-      "name": "RADIAN GROUP INC",
-      "cusip": "750236101",
-      "shares": 2861070,
-      "value": 99250518000,
+      "name": "BROWN & BROWN",
+      "cusip": "115236101",
+      "shares": 755269,
+      "value": 49251091,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -258,10 +356,10 @@
       "putCall": null
     },
     {
-      "name": "TERNIUM SA",
-      "cusip": "880890108",
-      "shares": 2539751,
-      "value": 93742209000,
+      "name": "LITTELFUSE INC",
+      "cusip": "537008104",
+      "shares": 80719,
+      "value": 27391993,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -272,10 +370,10 @@
       "putCall": null
     },
     {
-      "name": "ALLY FINANCIAL INC",
-      "cusip": "02005N100",
-      "shares": 2515567,
-      "value": 89529030000,
+      "name": "LULULEMON ATHLETICA INC",
+      "cusip": "550021109",
+      "shares": 142600,
+      "value": 21832060,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -286,10 +384,24 @@
       "putCall": null
     },
     {
-      "name": "TUTOR PERINI CORP",
-      "cusip": "901109108",
-      "shares": 3270438,
-      "value": 88825096000,
+      "name": "SUNBELT RENTALS HLDGS IN GB SHRS",
+      "cusip": "866966104",
+      "shares": 270843,
+      "value": 17629171,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "AAON INC",
+      "cusip": "000360206",
+      "shares": 201832,
+      "value": 16701598,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -300,10 +412,10 @@
       "putCall": null
     },
     {
-      "name": "ALGOMA STEEL GROUP INC",
-      "cusip": "015658107",
-      "shares": 8062867,
-      "value": 82483129000,
+      "name": "JPMORGAN CHASE & CO",
+      "cusip": "46625H100",
+      "shares": 52298,
+      "value": 15383980,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -314,10 +426,52 @@
       "putCall": null
     },
     {
-      "name": "CITIGROUP",
-      "cusip": "172967424",
-      "shares": 1278620,
-      "value": 80041612000,
+      "name": "MASTERCARD INCORPORATED",
+      "cusip": "57636Q104",
+      "shares": 28066,
+      "value": 14023458,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "FLOOR & DECOR HLDGS INC",
+      "cusip": "339750101",
+      "shares": 231829,
+      "value": 11776913,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "TWFG INC",
+      "cusip": "87318A101",
+      "shares": 552107,
+      "value": 10153248,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A ",
+      "putCall": null
+    },
+    {
+      "name": "FERGUSON ENTERPRISES INC",
+      "cusip": "31488V107",
+      "shares": 36728,
+      "value": 8567173,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -328,10 +482,24 @@
       "putCall": null
     },
     {
-      "name": "JETBLUE AIRWAYS",
-      "cusip": "477143101",
-      "shares": 11320960,
-      "value": 74265498000,
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670108",
+      "shares": 11,
+      "value": 7899540,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "BUILDERS FIRSTSOURCE INC",
+      "cusip": "12008R107",
+      "shares": 91813,
+      "value": 7558964,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -342,10 +510,10 @@
       "putCall": null
     },
     {
-      "name": "THE MOSAIC COMPANY",
-      "cusip": "61945C103",
-      "shares": 2751580,
-      "value": 73687312000,
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 15040,
+      "value": 3817002,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -356,10 +524,24 @@
       "putCall": null
     },
     {
-      "name": "GENERAL MOTORS",
-      "cusip": "37045V100",
-      "shares": 1629573,
-      "value": 73070053000,
+      "name": "TAIWAN SEMICONDUCTOR MFG LTD",
+      "cusip": "874039100",
+      "shares": 8125,
+      "value": 2745844,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "YUM CHINA HLDGS INC",
+      "cusip": "98850P109",
+      "shares": 36036,
+      "value": 1757836,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -370,10 +552,38 @@
       "putCall": null
     },
     {
-      "name": "JEFFERIES FINANCIAL GROUP",
-      "cusip": "47233W109",
-      "shares": 1152846,
-      "value": 70957671000,
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 3876,
+      "value": 1667804,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD SHS",
+      "putCall": null
+    },
+    {
+      "name": "SPDR S&P 500 ETF",
+      "cusip": "78462F103",
+      "shares": 2474,
+      "value": 1608941,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ETF",
+      "putCall": null
+    },
+    {
+      "name": "M & T BK CORP",
+      "cusip": "55261F104",
+      "shares": 7535,
+      "value": 1557635,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -384,10 +594,10 @@
       "putCall": null
     },
     {
-      "name": "NAVIENT CORP",
-      "cusip": "63938C108",
-      "shares": 3581311,
-      "value": 55832638000,
+      "name": "INVESCO S&P500 EQ WGT ETF",
+      "cusip": "46137V357",
+      "shares": 6105,
+      "value": 1171672,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -398,10 +608,38 @@
       "putCall": null
     },
     {
-      "name": "ALLEGIANT TRAVEL CO",
-      "cusip": "01748X102",
-      "shares": 993474,
-      "value": 54700678000,
+      "name": "INVESCO EXCH TRADED FD TR II",
+      "cusip": "46138G649",
+      "shares": 4222,
+      "value": 1003232,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "UNIT SER 1",
+      "putCall": null
+    },
+    {
+      "name": "ISHARES TR",
+      "cusip": "464288752",
+      "shares": 10854,
+      "value": 982830,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "US HOME CONS ETF",
+      "putCall": null
+    },
+    {
+      "name": "BIRKENSTOCK HLDG PLC",
+      "cusip": "M2029K104",
+      "shares": 27392,
+      "value": 981455,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -412,10 +650,10 @@
       "putCall": null
     },
     {
-      "name": "AMERICAN INTERNATIONAL GROUP",
-      "cusip": "026874784",
-      "shares": 724580,
-      "value": 53061017000,
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 5006,
+      "value": 978172,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -426,10 +664,10 @@
       "putCall": null
     },
     {
-      "name": "GLOBAL SHIP LEASE INC- CL A",
-      "cusip": "Y27183600",
-      "shares": 1857529,
-      "value": 49503148000,
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 27484,
+      "value": 912469,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -440,10 +678,10 @@
       "putCall": null
     },
     {
-      "name": "CENTERRA GOLD INC",
-      "cusip": "152006102",
-      "shares": 6705304,
-      "value": 48009977000,
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 1910,
+      "value": 707025,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -454,10 +692,10 @@
       "putCall": null
     },
     {
-      "name": "RLJ LODGING TRUST",
-      "cusip": "74965L101",
-      "shares": 4855122,
-      "value": 44570020000,
+      "name": "SITEONE LANDSCAPE SUPPLY INC",
+      "cusip": "82982L103",
+      "shares": 3753,
+      "value": 499562,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -468,417 +706,25 @@
       "putCall": null
     },
     {
-      "name": "NMI HOLDINGS INC - CLASS A",
-      "cusip": "629209305",
-      "shares": 969872,
-      "value": 39949028000,
+      "name": "NOVO-NORDISK A S",
+      "cusip": "670100205",
+      "shares": 12400,
+      "value": 455700,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "COOL CO LTD",
-      "cusip": "G2415A113",
-      "shares": 3462769,
-      "value": 39094662000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "MICRON TECHNOLOGY",
-      "cusip": "595112103",
-      "shares": 361344,
-      "value": 37474986000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "HUDBAY MINERALS",
-      "cusip": "443628102",
-      "shares": 3748780,
-      "value": 34451288000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "UNIVERSAL INSURANCE HOLDINGS",
-      "cusip": "91359V107",
-      "shares": 1545676,
-      "value": 34252180000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "GALIANO GOLD INC",
-      "cusip": "36352H100",
-      "shares": 23881323,
-      "value": 33911479000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "NOMURA HOLDINGS INC",
-      "cusip": "65535H208",
-      "shares": 6471782,
-      "value": 33782702000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "CHATHAM LODGING TRUST",
-      "cusip": "16208T102",
-      "shares": 3441680,
-      "value": 29323114000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "CNA FINANCIAL CORP",
-      "cusip": "126117100",
-      "shares": 518903,
-      "value": 25395113000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "KB HOME",
-      "cusip": "48666K109",
-      "shares": 226110,
-      "value": 19375366000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "HOOKER FURNISHINGS CORP",
-      "cusip": "439038100",
-      "shares": 1015724,
-      "value": 18364290000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "KOREA ELECTRIC POWER CORP",
-      "cusip": "500631106",
-      "shares": 1484753,
-      "value": 11521683000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "INTERNATIONAL SEAWAYS",
-      "cusip": "Y41053102",
-      "shares": 203697,
-      "value": 10502617000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "MOTORCAR PARTS OF AMERICA",
-      "cusip": "620071100",
-      "shares": 1040545,
-      "value": 7689628000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "NETGEAR INC",
-      "cusip": "64111Q104",
-      "shares": 306809,
-      "value": 6154589000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "LOEWS CORP",
-      "cusip": "540424108",
-      "shares": 77624,
-      "value": 6136177000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "GUILD HOLDINGS CO- CLASS A",
-      "cusip": "40172N107",
-      "shares": 343207,
-      "value": 5707532000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "AIR FRANCE-KLM",
-      "cusip": "009119108",
-      "shares": 5328615,
-      "value": 5541760000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "ADVANSIX INC",
-      "cusip": "00773T101",
-      "shares": 176996,
-      "value": 5377138000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "KIMBALL ELECTRONICS",
-      "cusip": "49428J109",
-      "shares": 191576,
-      "value": 3546072000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "RUSSELL 1000",
-      "cusip": "464287598",
-      "shares": 17800,
-      "value": 3378440000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "TITAN INTERNATIONAL INC",
-      "cusip": "88830M102",
-      "shares": 397800,
-      "value": 3234114000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "FERROGLOBE PLC",
-      "cusip": "G33856108",
-      "shares": 625000,
-      "value": 2900000000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "BRISTOW GROUP INC",
-      "cusip": "11040G103",
-      "shares": 74373,
-      "value": 2579999000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "PERPETUA RESOURCES CORP",
-      "cusip": "714266103",
-      "shares": 265000,
-      "value": 2477750000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "DAKOTA GOLD CORP",
-      "cusip": "46655E100",
-      "shares": 305000,
-      "value": 719800000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "AZURE POWER GLOBAL LTD",
-      "cusip": "V0393H103",
-      "shares": 304467,
-      "value": 117220000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "RESOLUTE FOREST PRODUCTS - CONTINGENT VALUE RTS",
-      "cusip": "761CVR042",
-      "shares": 5866,
-      "value": 8330000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "WTS",
-      "putCall": null
-    },
-    {
-      "name": "GREAT PANTHER MINING",
-      "cusip": "39115V101",
-      "shares": 472001,
-      "value": 47000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
+      "titleOfClass": "ADR",
       "putCall": null
     }
   ],
-  "totalValue": 4238037273000,
-  "positionsCount": 62,
+  "totalValue": 2731351278,
+  "positionsCount": 51,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 4238037273000
+      "STOCK": 2731351278
     },
     "percentages": {
       "STOCK": "100.0%"
