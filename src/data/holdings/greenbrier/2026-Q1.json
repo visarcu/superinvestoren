@@ -1,15 +1,99 @@
 {
   "form": "13F-HR",
-  "date": "2024-08-14",
-  "period": "2024-08-14",
-  "accession": "0001172661-24-003364",
-  "quarterKey": "2024-Q3",
+  "date": "2026-02-13",
+  "period": "2026-02-13",
+  "accession": "0001532262-26-000002",
+  "quarterKey": "2026-Q1",
   "positions": [
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 1421438,
+      "value": 386432,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 400457,
+      "value": 264338,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "COSTCO WHSL CORP NEW",
+      "cusip": "22160K105",
+      "shares": 224059,
+      "value": 193215,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K107",
+      "shares": 466049,
+      "value": 146246,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL C",
+      "putCall": null
+    },
+    {
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 625649,
+      "value": 144412,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 455906,
+      "value": 142699,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
+    },
     {
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
-      "shares": 651700,
-      "value": 291277315000,
+      "shares": 119686,
+      "value": 57883,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -20,10 +104,10 @@
       "putCall": null
     },
     {
-      "name": "UBER TECHNOLOGIES INC",
-      "cusip": "90353T100",
-      "shares": 1243900,
-      "value": 90406652000,
+      "name": "MARKEL GROUP INC",
+      "cusip": "570535104",
+      "shares": 26578,
+      "value": 57133,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -34,10 +118,24 @@
       "putCall": null
     },
     {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 142700,
-      "value": 79275558000,
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 84614,
+      "value": 42531,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "PAYPAL HLDGS INC",
+      "cusip": "70450Y103",
+      "shares": 380012,
+      "value": 22185,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -48,122 +146,24 @@
       "putCall": null
     },
     {
-      "name": "QUANTA SVCS INC",
-      "cusip": "74762E102",
-      "shares": 290143,
-      "value": 73722435000,
+      "name": "SPOTIFY TECHNOLOGY S A",
+      "cusip": "L8681T102",
+      "shares": 35576,
+      "value": 20659,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
+      "titleOfClass": "SHS",
       "putCall": null
     },
     {
-      "name": "SHOALS TECHNOLOGIES GROUP IN",
-      "cusip": "82489W107",
-      "shares": 9642545,
-      "value": 60169481000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "DUTCH BROS INC",
-      "cusip": "26701L100",
-      "shares": 1364514,
-      "value": 56490880000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "NU HLDGS LTD",
-      "cusip": "G6683N103",
-      "shares": 2131000,
-      "value": 27468590000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "ORD SHS CL A",
-      "putCall": null
-    },
-    {
-      "name": "BUMBLE INC",
-      "cusip": "12047B105",
-      "shares": 1350000,
-      "value": 14188500000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM CL A",
-      "putCall": null
-    },
-    {
-      "name": "AMPHENOL CORP NEW",
-      "cusip": "032095101",
-      "shares": 78480,
-      "value": 5287198000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 23050,
-      "value": 3801406000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 12115,
-      "value": 3116947000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 5230,
-      "value": 1681445000,
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 349542,
+      "value": 13685,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -174,11 +174,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 706886407000,
+  "totalValue": 1491418,
   "positionsCount": 12,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 706886407000
+      "STOCK": 1491418
     },
     "percentages": {
       "STOCK": "100.0%"

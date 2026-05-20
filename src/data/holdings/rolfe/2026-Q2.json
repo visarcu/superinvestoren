@@ -1,15 +1,57 @@
 {
   "form": "13F-HR",
-  "date": "2025-05-15",
-  "period": "2025-05-15",
-  "accession": "0001340807-25-000004",
-  "quarterKey": "2025-Q2",
+  "date": "2026-05-15",
+  "period": "2026-05-15",
+  "accession": "0000859804-26-000004",
+  "quarterKey": "2026-Q2",
   "positions": [
     {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 844537,
-      "value": 139846882,
+      "name": "ALPHABET INC",
+      "cusip": "02079K305",
+      "shares": 155701,
+      "value": 44773244,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CAP STK CL A",
+      "putCall": null
+    },
+    {
+      "name": "TAIWAN SEMICONDUCTOR MANUFAC",
+      "cusip": "874039100",
+      "shares": 129353,
+      "value": 43714939,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SPONSORED ADS",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 65805,
+      "value": 37649078,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 135128,
+      "value": 34294145,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -20,10 +62,24 @@
       "putCall": null
     },
     {
-      "name": "Pegasystems Inc",
-      "cusip": "705573103",
-      "shares": 2005990,
-      "value": 139456425,
+      "name": "MOTOROLA SOLUTIONS INC",
+      "cusip": "620076307",
+      "shares": 67941,
+      "value": 29484333,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM NEW",
+      "putCall": null
+    },
+    {
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 73919,
+      "value": 27362706,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -34,10 +90,24 @@
       "putCall": null
     },
     {
-      "name": "Workday Inc",
-      "cusip": "98138H101",
-      "shares": 570833,
-      "value": 133306630,
+      "name": "VISA INC",
+      "cusip": "92826C839",
+      "shares": 83010,
+      "value": 25088996,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 5517,
+      "value": 23229839,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -48,10 +118,10 @@
       "putCall": null
     },
     {
-      "name": "Block Inc",
-      "cusip": "852234103",
-      "shares": 2268105,
-      "value": 123226145,
+      "name": "OLD DOMINION FREIGHT LINE IN",
+      "cusip": "679580100",
+      "shares": 113941,
+      "value": 22264162,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -62,10 +132,10 @@
       "putCall": null
     },
     {
-      "name": "CoStar Group",
-      "cusip": "22160N109",
-      "shares": 1133002,
-      "value": 89767748,
+      "name": "AMAZON COM INC",
+      "cusip": "023135106",
+      "shares": 99907,
+      "value": 20807631,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -76,10 +146,10 @@
       "putCall": null
     },
     {
-      "name": "Align Technology Inc",
-      "cusip": "016255101",
-      "shares": 537606,
-      "value": 85404089,
+      "name": "TRACTOR SUPPLY CO",
+      "cusip": "892356106",
+      "shares": 456094,
+      "value": 20661063,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -90,10 +160,10 @@
       "putCall": null
     },
     {
-      "name": "Etsy Inc",
-      "cusip": "29786A106",
-      "shares": 1509001,
-      "value": 71194667,
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 25192,
+      "value": 18353536,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -104,10 +174,10 @@
       "putCall": null
     },
     {
-      "name": "Wayfair Inc",
-      "cusip": "94419L101",
-      "shares": 795061,
-      "value": 25465804,
+      "name": "CHUBB LTD SWITZ",
+      "cusip": "H1467J104",
+      "shares": 53886,
+      "value": 17563173,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -118,10 +188,10 @@
       "putCall": null
     },
     {
-      "name": "Veeva Systems Inc",
-      "cusip": "922475108",
-      "shares": 104361,
-      "value": 24173138,
+      "name": "CDW CORP",
+      "cusip": "12514G108",
+      "shares": 144870,
+      "value": 17532222,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -132,10 +202,10 @@
       "putCall": null
     },
     {
-      "name": "Medpace Holdings, Inc",
-      "cusip": "58506Q109",
-      "shares": 37476,
-      "value": 11418562,
+      "name": "PROGRESSIVE CORP",
+      "cusip": "743315103",
+      "shares": 83352,
+      "value": 16523700,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -146,10 +216,10 @@
       "putCall": null
     },
     {
-      "name": "StoneX Group Inc",
-      "cusip": "861896108",
-      "shares": 109902,
-      "value": 8394315,
+      "name": "OREILLY AUTOMOTIVE INC",
+      "cusip": "67103H107",
+      "shares": 178397,
+      "value": 16467827,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -160,10 +230,10 @@
       "putCall": null
     },
     {
-      "name": "Brown & Brown Inc",
-      "cusip": "115236101",
-      "shares": 213,
-      "value": 26497,
+      "name": "COPART INC",
+      "cusip": "217204106",
+      "shares": 462749,
+      "value": 15363267,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -174,10 +244,10 @@
       "putCall": null
     },
     {
-      "name": "AMETEK Inc",
-      "cusip": "031100100",
-      "shares": 152,
-      "value": 26165,
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 32371,
+      "value": 13768529,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -188,10 +258,10 @@
       "putCall": null
     },
     {
-      "name": "HEICO Corporation Class A",
-      "cusip": "422806208",
-      "shares": 122,
-      "value": 25738,
+      "name": "EDWARDS LIFESCIENCES CORP",
+      "cusip": "28176E108",
+      "shares": 170969,
+      "value": 13691198,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -202,10 +272,24 @@
       "putCall": null
     },
     {
-      "name": "Amphenol Corporation Class A",
-      "cusip": "032095101",
-      "shares": 353,
-      "value": 23153,
+      "name": "ZOETIS INC",
+      "cusip": "98978V103",
+      "shares": 113541,
+      "value": 13421666,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "TOLL BROTHERS INC",
+      "cusip": "889478103",
+      "shares": 88275,
+      "value": 12046889,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -216,95 +300,25 @@
       "putCall": null
     },
     {
-      "name": "Kadant Inc",
-      "cusip": "48282T104",
-      "shares": 60,
-      "value": 20215,
+      "name": "ISHARES TR",
+      "cusip": "464287614",
+      "shares": 524,
+      "value": 223434,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "Verisk Analytics Inc",
-      "cusip": "92345Y106",
-      "shares": 58,
-      "value": 17262,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "Watsco Inc",
-      "cusip": "942622200",
-      "shares": 33,
-      "value": 16774,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "Tyler Technologies, Inc",
-      "cusip": "902252105",
-      "shares": 28,
-      "value": 16279,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "Moody`s Corporation",
-      "cusip": "615369105",
-      "shares": 34,
-      "value": 15833,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "Danaher Corporation",
-      "cusip": "235851102",
-      "shares": 68,
-      "value": 13940,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
+      "titleOfClass": "RUS 1000 GRW ETF",
       "putCall": null
     }
   ],
-  "totalValue": 851856261,
-  "positionsCount": 21,
+  "totalValue": 484285577,
+  "positionsCount": 22,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 851856261
+      "STOCK": 484285577
     },
     "percentages": {
       "STOCK": "100.0%"

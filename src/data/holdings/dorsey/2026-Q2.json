@@ -1,113 +1,57 @@
 {
   "form": "13F-HR",
-  "date": "2024-08-14",
-  "period": "2024-08-14",
-  "accession": "0001172661-24-003364",
-  "quarterKey": "2024-Q3",
+  "date": "2026-05-15",
+  "period": "2026-05-15",
+  "accession": "0001398344-26-009218",
+  "quarterKey": "2026-Q2",
   "positions": [
     {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 651700,
-      "value": 291277315000,
+      "name": "ASML HLDG NV",
+      "cusip": "N07059210",
+      "shares": 140295,
+      "value": 185305845,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
+      "titleOfClass": "N Y REGISTRY SHS",
       "putCall": null
     },
     {
-      "name": "UBER TECHNOLOGIES INC",
-      "cusip": "90353T100",
-      "shares": 1243900,
-      "value": 90406652000,
+      "name": "AERCAP HOLDINGS NV",
+      "cusip": "N00985106",
+      "shares": 1123489,
+      "value": 154120221,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
+      "titleOfClass": "SHS",
       "putCall": null
     },
     {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 142700,
-      "value": 79275558000,
+      "name": "SUNBELT RENTALS HOLDINGS INC",
+      "cusip": "866966104",
+      "shares": 2204996,
+      "value": 143523190,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
+      "titleOfClass": "SHS",
       "putCall": null
     },
     {
-      "name": "QUANTA SVCS INC",
-      "cusip": "74762E102",
-      "shares": 290143,
-      "value": 73722435000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "SHOALS TECHNOLOGIES GROUP IN",
-      "cusip": "82489W107",
-      "shares": 9642545,
-      "value": 60169481000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "DUTCH BROS INC",
-      "cusip": "26701L100",
-      "shares": 1364514,
-      "value": 56490880000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "NU HLDGS LTD",
-      "cusip": "G6683N103",
-      "shares": 2131000,
-      "value": 27468590000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "ORD SHS CL A",
-      "putCall": null
-    },
-    {
-      "name": "BUMBLE INC",
-      "cusip": "12047B105",
-      "shares": 1350000,
-      "value": 14188500000,
+      "name": "APPLOVIN CORP",
+      "cusip": "03831W108",
+      "shares": 316952,
+      "value": 126146896,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -118,24 +62,10 @@
       "putCall": null
     },
     {
-      "name": "AMPHENOL CORP NEW",
-      "cusip": "032095101",
-      "shares": 78480,
-      "value": 5287198000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 23050,
-      "value": 3801406000,
+      "name": "DANAHER CORP DEL",
+      "cusip": "235851102",
+      "shares": 580240,
+      "value": 110013504,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -146,10 +76,52 @@
       "putCall": null
     },
     {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 12115,
-      "value": 3116947000,
+      "name": "ROYALTY PHARMA PLC",
+      "cusip": "G7709Q104",
+      "shares": 2276570,
+      "value": 109207063,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS CLASS A",
+      "putCall": null
+    },
+    {
+      "name": "S&P GLOBAL INC",
+      "cusip": "78409V104",
+      "shares": 222683,
+      "value": 94715987,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "LIVE NATION ENTERTAINMENT IN",
+      "cusip": "538034109",
+      "shares": 607609,
+      "value": 92666449,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "META PLATFORMS INC",
+      "cusip": "30303M102",
+      "shares": 161683,
+      "value": 92503695,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -160,10 +132,24 @@
       "putCall": null
     },
     {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 5230,
-      "value": 1681445000,
+      "name": "UBER TECHNOLOGIES INC",
+      "cusip": "90353T100",
+      "shares": 1090281,
+      "value": 78423912,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "BOOKING HOLDINGS INC",
+      "cusip": "09857L108",
+      "shares": 16444,
+      "value": 69234502,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -174,11 +160,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 706886407000,
-  "positionsCount": 12,
+  "totalValue": 1255861264,
+  "positionsCount": 11,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 706886407000
+      "STOCK": 1255861264
     },
     "percentages": {
       "STOCK": "100.0%"

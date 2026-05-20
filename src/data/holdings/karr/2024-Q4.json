@@ -9,75 +9,179 @@
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 651700,
-      "value": 280426510
+      "value": 280426510000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353T100",
       "shares": 1243900,
-      "value": 93491524
+      "value": 93491524000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "QUANTA SVCS INC",
       "cusip": "74762E102",
       "shares": 290143,
-      "value": 86506135
+      "value": 86506135000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "DUTCH BROS INC",
       "cusip": "26701L100",
       "shares": 1919514,
-      "value": 61482033
+      "value": 61482033000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ADOBE INC",
       "cusip": "00724F101",
       "shares": 115700,
-      "value": 59907146
+      "value": 59907146000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "NU HLDGS LTD",
       "cusip": "G6683N103",
       "shares": 2131000,
-      "value": 29088150
+      "value": 29088150000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS CL A",
+      "putCall": null
     },
     {
       "name": "BUMBLE INC",
       "cusip": "12047B105",
       "shares": 1350000,
-      "value": 8613000
+      "value": 8613000000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM CL A",
+      "putCall": null
     },
     {
       "name": "AMPHENOL CORP NEW",
       "cusip": "032095101",
       "shares": 78480,
-      "value": 5113757
+      "value": 5113757000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "PROCTER AND GAMBLE CO",
       "cusip": "742718109",
       "shares": 23050,
-      "value": 3992260
+      "value": 3992260000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CONSTELLATION BRANDS INC",
       "cusip": "21036P108",
       "shares": 9815,
-      "value": 2529227
+      "value": 2529227000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
     },
     {
       "name": "ANSYS INC",
       "cusip": "03662Q105",
       "shares": 5230,
-      "value": 1666435
+      "value": 1666435000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "TEXAS ROADHOUSE INC",
       "cusip": "882681109",
       "shares": 1600,
-      "value": 282560
+      "value": 282560000,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
-  "totalValue": 633098737,
-  "positionsCount": 12
+  "totalValue": 633098737000,
+  "positionsCount": 12,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 633098737000
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }

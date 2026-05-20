@@ -1,15 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2024-08-14",
-  "period": "2024-08-14",
-  "accession": "0001172661-24-003364",
-  "quarterKey": "2024-Q3",
+  "date": "2026-05-15",
+  "period": "2026-05-15",
+  "accession": "0001493152-26-023724",
+  "quarterKey": "2026-Q2",
   "positions": [
     {
-      "name": "MICROSOFT CORP",
-      "cusip": "594918104",
-      "shares": 651700,
-      "value": 291277315000,
+      "name": "KIRBY CORP",
+      "cusip": "497266106",
+      "shares": 257000,
+      "value": 34150160,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -20,10 +20,10 @@
       "putCall": null
     },
     {
-      "name": "UBER TECHNOLOGIES INC",
-      "cusip": "90353T100",
-      "shares": 1243900,
-      "value": 90406652000,
+      "name": "DAUCH CORP",
+      "cusip": "024061103",
+      "shares": 3840000,
+      "value": 22771200,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -34,10 +34,38 @@
       "putCall": null
     },
     {
-      "name": "ADOBE INC",
-      "cusip": "00724F101",
-      "shares": 142700,
-      "value": 79275558000,
+      "name": "APTIV PLC",
+      "cusip": "G3265R107",
+      "shares": 322971,
+      "value": 22427106,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM SHS",
+      "putCall": null
+    },
+    {
+      "name": "WEATHERFORD INTL PLC",
+      "cusip": "G48833118",
+      "shares": 212223,
+      "value": 20072051,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "OSHKOSH CORP",
+      "cusip": "688239201",
+      "shares": 136300,
+      "value": 20064723,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -48,10 +76,38 @@
       "putCall": null
     },
     {
-      "name": "QUANTA SVCS INC",
-      "cusip": "74762E102",
-      "shares": 290143,
-      "value": 73722435000,
+      "name": "NOMAD FOODS LTD",
+      "cusip": "G6564A105",
+      "shares": 1332772,
+      "value": 12807939,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "USD ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "DOLE PLC",
+      "cusip": "G27907107",
+      "shares": 675948,
+      "value": 9659297,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ORD SHS",
+      "putCall": null
+    },
+    {
+      "name": "PVH CORPORATION",
+      "cusip": "693656100",
+      "shares": 128000,
+      "value": 8929280,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -62,80 +118,10 @@
       "putCall": null
     },
     {
-      "name": "SHOALS TECHNOLOGIES GROUP IN",
-      "cusip": "82489W107",
-      "shares": 9642545,
-      "value": 60169481000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "DUTCH BROS INC",
-      "cusip": "26701L100",
-      "shares": 1364514,
-      "value": 56490880000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "NU HLDGS LTD",
-      "cusip": "G6683N103",
-      "shares": 2131000,
-      "value": 27468590000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "ORD SHS CL A",
-      "putCall": null
-    },
-    {
-      "name": "BUMBLE INC",
-      "cusip": "12047B105",
-      "shares": 1350000,
-      "value": 14188500000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM CL A",
-      "putCall": null
-    },
-    {
-      "name": "AMPHENOL CORP NEW",
-      "cusip": "032095101",
-      "shares": 78480,
-      "value": 5287198000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "PROCTER AND GAMBLE CO",
-      "cusip": "742718109",
-      "shares": 23050,
-      "value": 3801406000,
+      "name": "ABM INDS INC",
+      "cusip": "000957100",
+      "shares": 220000,
+      "value": 8474400,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -146,24 +132,10 @@
       "putCall": null
     },
     {
-      "name": "CONSTELLATION BRANDS INC",
-      "cusip": "21036P108",
-      "shares": 12115,
-      "value": 3116947000,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "CL A",
-      "putCall": null
-    },
-    {
-      "name": "ANSYS INC",
-      "cusip": "03662Q105",
-      "shares": 5230,
-      "value": 1681445000,
+      "name": "DENTSPLY SIRONA INC",
+      "cusip": "24906P109",
+      "shares": 610000,
+      "value": 7076000,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -171,14 +143,42 @@
         "strategy": "equity"
       },
       "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "MOHAWK INDS INC",
+      "cusip": "608190104",
+      "shares": 40000,
+      "value": 3938400,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
+    },
+    {
+      "name": "NATIONAL ENERGY SERVICES REU",
+      "cusip": "G6375R107",
+      "shares": 60000,
+      "value": 1288200,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
       "putCall": null
     }
   ],
-  "totalValue": 706886407000,
+  "totalValue": 171658756,
   "positionsCount": 12,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 706886407000
+      "STOCK": 171658756
     },
     "percentages": {
       "STOCK": "100.0%"

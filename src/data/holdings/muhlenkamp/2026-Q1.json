@@ -1,15 +1,15 @@
 {
   "form": "13F-HR",
-  "date": "2025-05-15",
-  "period": "2025-05-15",
-  "accession": "0001340807-25-000004",
-  "quarterKey": "2025-Q2",
+  "date": "2026-02-04",
+  "period": "2026-02-04",
+  "accession": "0001133219-26-000001",
+  "quarterKey": "2026-Q1",
   "positions": [
     {
-      "name": "Interactive Brokers Group Inc",
-      "cusip": "45841N107",
-      "shares": 844537,
-      "value": 139846882,
+      "name": "NEWMONT CORP",
+      "cusip": "651639106",
+      "shares": 284481,
+      "value": 28405428,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -20,10 +20,10 @@
       "putCall": null
     },
     {
-      "name": "Pegasystems Inc",
-      "cusip": "705573103",
-      "shares": 2005990,
-      "value": 139456425,
+      "name": "AGNICO EAGLE MINES LTD",
+      "cusip": "008474108",
+      "shares": 151269,
+      "value": 25644634,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -34,10 +34,10 @@
       "putCall": null
     },
     {
-      "name": "Workday Inc",
-      "cusip": "98138H101",
-      "shares": 570833,
-      "value": 133306630,
+      "name": "EQT CORP",
+      "cusip": "26884L109",
+      "shares": 451127,
+      "value": 24180407,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -48,10 +48,10 @@
       "putCall": null
     },
     {
-      "name": "Block Inc",
-      "cusip": "852234103",
-      "shares": 2268105,
-      "value": 123226145,
+      "name": "MASTEC INC",
+      "cusip": "576323109",
+      "shares": 105760,
+      "value": 22989051,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -62,10 +62,10 @@
       "putCall": null
     },
     {
-      "name": "CoStar Group",
-      "cusip": "22160N109",
-      "shares": 1133002,
-      "value": 89767748,
+      "name": "MCKESSON CORP",
+      "cusip": "58155Q103",
+      "shares": 27193,
+      "value": 22306146,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -76,10 +76,24 @@
       "putCall": null
     },
     {
-      "name": "Align Technology Inc",
-      "cusip": "016255101",
-      "shares": 537606,
-      "value": 85404089,
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846209",
+      "shares": 375519,
+      "value": 20255495,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "ROYAL GOLD INC",
+      "cusip": "780287108",
+      "shares": 87928,
+      "value": 19545515,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -90,10 +104,24 @@
       "putCall": null
     },
     {
-      "name": "Etsy Inc",
-      "cusip": "29786A106",
-      "shares": 1509001,
-      "value": 71194667,
+      "name": "BERKSHIRE HATHAWAY INC DEL",
+      "cusip": "084670702",
+      "shares": 38411,
+      "value": 19307289,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL B NEW",
+      "putCall": null
+    },
+    {
+      "name": "NMI HLDGS INC",
+      "cusip": "629209305",
+      "shares": 467789,
+      "value": 19081113,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -104,10 +132,10 @@
       "putCall": null
     },
     {
-      "name": "Wayfair Inc",
-      "cusip": "94419L101",
-      "shares": 795061,
-      "value": 25465804,
+      "name": "APPLE INC",
+      "cusip": "037833100",
+      "shares": 62841,
+      "value": 17083954,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -118,10 +146,10 @@
       "putCall": null
     },
     {
-      "name": "Veeva Systems Inc",
-      "cusip": "922475108",
-      "shares": 104361,
-      "value": 24173138,
+      "name": "MICROSOFT CORP",
+      "cusip": "594918104",
+      "shares": 33005,
+      "value": 15961764,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -132,10 +160,24 @@
       "putCall": null
     },
     {
-      "name": "Medpace Holdings, Inc",
-      "cusip": "58506Q109",
-      "shares": 37476,
-      "value": 11418562,
+      "name": "BGC GROUP INC",
+      "cusip": "088929104",
+      "shares": 1759280,
+      "value": 15710370,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "CL A",
+      "putCall": null
+    },
+    {
+      "name": "WABTEC",
+      "cusip": "929740108",
+      "shares": 63301,
+      "value": 13511598,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -146,10 +188,24 @@
       "putCall": null
     },
     {
-      "name": "StoneX Group Inc",
-      "cusip": "861896108",
-      "shares": 109902,
-      "value": 8394315,
+      "name": "ICON PLC",
+      "cusip": "G4705A100",
+      "shares": 73865,
+      "value": 13459680,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS",
+      "putCall": null
+    },
+    {
+      "name": "MICROCHIP TECHNOLOGY INC",
+      "cusip": "595017104",
+      "shares": 202985,
+      "value": 12934204,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -160,10 +216,10 @@
       "putCall": null
     },
     {
-      "name": "Brown & Brown Inc",
-      "cusip": "115236101",
-      "shares": 213,
-      "value": 26497,
+      "name": "UNITED RENTALS INC",
+      "cusip": "911363109",
+      "shares": 15606,
+      "value": 12630248,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -174,10 +230,24 @@
       "putCall": null
     },
     {
-      "name": "AMETEK Inc",
-      "cusip": "031100100",
-      "shares": 152,
-      "value": 26165,
+      "name": "SLB LIMITED",
+      "cusip": "806857108",
+      "shares": 322031,
+      "value": 12359550,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM STK",
+      "putCall": null
+    },
+    {
+      "name": "TAYLOR MORRISON HOME CORP",
+      "cusip": "87724P106",
+      "shares": 158548,
+      "value": 9333721,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -188,10 +258,10 @@
       "putCall": null
     },
     {
-      "name": "HEICO Corporation Class A",
-      "cusip": "422806208",
-      "shares": 122,
-      "value": 25738,
+      "name": "CELANESE CORP DEL",
+      "cusip": "150870103",
+      "shares": 209403,
+      "value": 8853559,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -202,10 +272,52 @@
       "putCall": null
     },
     {
-      "name": "Amphenol Corporation Class A",
-      "cusip": "032095101",
-      "shares": 353,
-      "value": 23153,
+      "name": "SPDR GOLD TR",
+      "cusip": "78463V107",
+      "shares": 22301,
+      "value": 8838109,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "GOLD SHS",
+      "putCall": null
+    },
+    {
+      "name": "ALPS ETF TR",
+      "cusip": "00162Q452",
+      "shares": 176301,
+      "value": 8289673,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "ALERIAN MLP",
+      "putCall": null
+    },
+    {
+      "name": "LYONDELLBASELL INDUSTRIES N",
+      "cusip": "N53745100",
+      "shares": 185821,
+      "value": 8046049,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "SHS - A -",
+      "putCall": null
+    },
+    {
+      "name": "EQUINOX GOLD CORP",
+      "cusip": "29446Y502",
+      "shares": 518022,
+      "value": 7273029,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -216,10 +328,10 @@
       "putCall": null
     },
     {
-      "name": "Kadant Inc",
-      "cusip": "48282T104",
-      "shares": 60,
-      "value": 20215,
+      "name": "TRAVELERS COMPANIES INC",
+      "cusip": "89417E109",
+      "shares": 6627,
+      "value": 1922228,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -230,10 +342,10 @@
       "putCall": null
     },
     {
-      "name": "Verisk Analytics Inc",
-      "cusip": "92345Y106",
-      "shares": 58,
-      "value": 17262,
+      "name": "CHART INDS INC",
+      "cusip": "16115Q308",
+      "shares": 7924,
+      "value": 1634167,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -244,10 +356,10 @@
       "putCall": null
     },
     {
-      "name": "Watsco Inc",
-      "cusip": "942622200",
-      "shares": 33,
-      "value": 16774,
+      "name": "GE VERNOVA INC",
+      "cusip": "36828A101",
+      "shares": 1426,
+      "value": 931991,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -258,10 +370,10 @@
       "putCall": null
     },
     {
-      "name": "Tyler Technologies, Inc",
-      "cusip": "902252105",
-      "shares": 28,
-      "value": 16279,
+      "name": "ENTERPRISE PRODS PARTNERS L",
+      "cusip": "293792107",
+      "shares": 24855,
+      "value": 796851,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -272,39 +384,25 @@
       "putCall": null
     },
     {
-      "name": "Moody`s Corporation",
-      "cusip": "615369105",
-      "shares": 34,
-      "value": 15833,
+      "name": "RUSH ENTERPRISES INC",
+      "cusip": "781846308",
+      "shares": 9501,
+      "value": 534526,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
         "badge": "bg-blue-100 text-blue-800 border-blue-200",
         "strategy": "equity"
       },
-      "titleOfClass": "COM",
-      "putCall": null
-    },
-    {
-      "name": "Danaher Corporation",
-      "cusip": "235851102",
-      "shares": 68,
-      "value": 13940,
-      "optionType": "STOCK",
-      "typeInfo": {
-        "label": "Stock",
-        "badge": "bg-blue-100 text-blue-800 border-blue-200",
-        "strategy": "equity"
-      },
-      "titleOfClass": "COM",
+      "titleOfClass": "CL B",
       "putCall": null
     }
   ],
-  "totalValue": 851856261,
-  "positionsCount": 21,
+  "totalValue": 371820349,
+  "positionsCount": 28,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 851856261
+      "STOCK": 371820349
     },
     "percentages": {
       "STOCK": "100.0%"

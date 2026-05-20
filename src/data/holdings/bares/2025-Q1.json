@@ -9,69 +9,165 @@
       "name": "Pegasystems Inc",
       "cusip": "705573103",
       "shares": 2364949,
-      "value": 220413247
+      "value": 220413247,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Block Inc",
       "cusip": "852234103",
       "shares": 2588616,
-      "value": 220006474
+      "value": 220006474,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Interactive Brokers Group Inc",
       "cusip": "45841N107",
       "shares": 951647,
-      "value": 168127475
+      "value": 168127475,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Workday Inc",
       "cusip": "98138H101",
       "shares": 623585,
-      "value": 160903638
+      "value": 160903638,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Align Technology Inc",
       "cusip": "016255101",
       "shares": 513125,
-      "value": 106991694
+      "value": 106991694,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Etsy Inc",
       "cusip": "29786A106",
       "shares": 1891645,
-      "value": 100049104
+      "value": 100049104,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "CoStar Group",
       "cusip": "22160N109",
       "shares": 649205,
-      "value": 46476586
+      "value": 46476586,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Wayfair Inc",
       "cusip": "94419L101",
       "shares": 968349,
-      "value": 42917228
+      "value": 42917228,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Veeva Systems Inc",
       "cusip": "922475108",
       "shares": 130230,
-      "value": 27380858
+      "value": 27380858,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Twilio Inc",
       "cusip": "90138F102",
       "shares": 159045,
-      "value": 17189584
+      "value": 17189584,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     },
     {
       "name": "Despegar.com Corp",
       "cusip": "G27358103",
       "shares": 25443,
-      "value": 489778
+      "value": 489778,
+      "optionType": "STOCK",
+      "typeInfo": {
+        "label": "Stock",
+        "badge": "bg-blue-100 text-blue-800 border-blue-200",
+        "strategy": "equity"
+      },
+      "titleOfClass": "COM",
+      "putCall": null
     }
   ],
   "totalValue": 1110945666,
-  "positionsCount": 11
+  "positionsCount": 11,
+  "portfolioSummary": {
+    "byType": {
+      "STOCK": 1110945666
+    },
+    "percentages": {
+      "STOCK": "100.0%"
+    }
+  }
 }
