@@ -1,7 +1,7 @@
 // src/components/portfolio/PositionsTable.tsx
 'use client'
 
-import React, { useState, useMemo } from 'react'
+import React, { useEffect, useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Logo from '@/components/Logo'
 import { type Holding, type DepotHistoricalPerf } from '@/hooks/usePortfolio'
@@ -38,6 +38,24 @@ interface PositionsTableProps {
   historicalPerfByDepot?: Map<string, DepotHistoricalPerf>
 }
 
+type ReturnRange = 'TOTAL' | '1D' | '1W' | '1M' | '3M' | '1Y'
+type PeriodReturn = {
+  startDate: string
+  startPriceEUR: number
+  currentPriceEUR: number
+  change: number
+  changePercent: number
+}
+
+const RETURN_RANGES: Array<{ key: ReturnRange; label: string }> = [
+  { key: 'TOTAL', label: 'Seit Kauf' },
+  { key: '1D', label: '1T' },
+  { key: '1W', label: '1W' },
+  { key: '1M', label: '1M' },
+  { key: '3M', label: '3M' },
+  { key: '1Y', label: '1J' },
+]
+
 // Gruppierte Position für Alle-Depots-Ansicht
 interface GroupedPosition {
   symbol: string
@@ -73,6 +91,94 @@ export default function PositionsTable({
   const [expandedSymbols, setExpandedSymbols] = useState<Set<string>>(new Set())
   const [sortBy, setSortBy] = useState<'value' | 'gainLossPercent' | 'gainLoss'>('value')
   const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc')
+  const [returnRange, setReturnRange] = useState<ReturnRange>('TOTAL')
+  const [periodReturns, setPeriodReturns] = useState<Record<string, Partial<Record<Exclude<ReturnRange, 'TOTAL'>, PeriodReturn>>>>({})
+  const [periodReturnsLoading, setPeriodReturnsLoading] = useState(false)
+
+  useEffect(() => {
+    if (holdings.length === 0) {
+      setPeriodReturns({})
+      return
+    }
+
+    const positions = holdings
+      .filter(h => h.symbol && h.quantity > 0 && h.current_price_display > 0)
+      .map(h => ({
+        symbol: h.symbol,
+        quantity: h.quantity,
+        currentPriceEUR: h.current_price_display,
+      }))
+
+    if (positions.length === 0) {
+      setPeriodReturns({})
+      return
+    }
+
+    let cancelled = false
+    setPeriodReturnsLoading(true)
+
+    fetch('/api/portfolio/position-performance', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        positions,
+        timeframes: ['1D', '1W', '1M', '3M', '1Y'],
+      }),
+    })
+      .then(res => (res.ok ? res.json() : null))
+      .then(json => {
+        if (cancelled) return
+        setPeriodReturns(json?.data || {})
+      })
+      .catch(() => {
+        if (!cancelled) setPeriodReturns({})
+      })
+      .finally(() => {
+        if (!cancelled) setPeriodReturnsLoading(false)
+      })
+
+    return () => {
+      cancelled = true
+    }
+  }, [holdings])
+
+  const getPeriodReturn = (
+    symbol: string,
+    quantity: number,
+    currentPriceEUR: number,
+  ): PeriodReturn | null => {
+    if (returnRange === 'TOTAL') return null
+    const base = periodReturns[symbol]?.[returnRange]
+    if (!base || !base.startPriceEUR || base.startPriceEUR <= 0 || !currentPriceEUR || currentPriceEUR <= 0) {
+      return null
+    }
+
+    const changePerShare = currentPriceEUR - base.startPriceEUR
+    return {
+      ...base,
+      currentPriceEUR,
+      change: Math.round(changePerShare * quantity * 100) / 100,
+      changePercent: Math.round(((currentPriceEUR / base.startPriceEUR) - 1) * 10000) / 100,
+    }
+  }
+
+  const getHoldingReturn = (holding: Holding) => {
+    const period = getPeriodReturn(holding.symbol, holding.quantity, holding.current_price_display)
+    return {
+      amount: period?.change ?? holding.gain_loss,
+      percent: period?.changePercent ?? holding.gain_loss_percent,
+      hasPeriod: returnRange === 'TOTAL' || !!period,
+    }
+  }
+
+  const getGroupedReturn = (group: GroupedPosition) => {
+    const period = getPeriodReturn(group.symbol, group.totalQuantity, group.currentPriceDisplay)
+    return {
+      amount: period?.change ?? group.gainLoss,
+      percent: period?.changePercent ?? group.gainLossPercent,
+      hasPeriod: returnRange === 'TOTAL' || !!period,
+    }
+  }
 
   const handleSort = (col: typeof sortBy) => {
     if (sortBy === col) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
@@ -123,21 +229,21 @@ export default function PositionsTable({
     return [...groupedPositions].sort((a, b) => {
       let diff = 0
       if (sortBy === 'value') diff = b.totalValue - a.totalValue
-      else if (sortBy === 'gainLoss') diff = b.gainLoss - a.gainLoss
-      else if (sortBy === 'gainLossPercent') diff = b.gainLossPercent - a.gainLossPercent
+      else if (sortBy === 'gainLoss') diff = getGroupedReturn(b).amount - getGroupedReturn(a).amount
+      else if (sortBy === 'gainLossPercent') diff = getGroupedReturn(b).percent - getGroupedReturn(a).percent
       return sortDir === 'desc' ? diff : -diff
     })
-  }, [groupedPositions, sortBy, sortDir])
+  }, [groupedPositions, sortBy, sortDir, returnRange, periodReturns])
 
   const sortedHoldings = useMemo(() => {
     return [...holdings].sort((a, b) => {
       let diff = 0
       if (sortBy === 'value') diff = b.value - a.value
-      else if (sortBy === 'gainLoss') diff = b.gain_loss - a.gain_loss
-      else if (sortBy === 'gainLossPercent') diff = b.gain_loss_percent - a.gain_loss_percent
+      else if (sortBy === 'gainLoss') diff = getHoldingReturn(b).amount - getHoldingReturn(a).amount
+      else if (sortBy === 'gainLossPercent') diff = getHoldingReturn(b).percent - getHoldingReturn(a).percent
       return sortDir === 'desc' ? diff : -diff
     })
-  }, [holdings, sortBy, sortDir])
+  }, [holdings, sortBy, sortDir, returnRange, periodReturns])
 
   const toggleExpand = (symbol: string) => {
     setExpandedSymbols(prev => {
@@ -173,6 +279,7 @@ export default function PositionsTable({
   // Einzelne Position Row (für Nicht-Alle-Depots oder Sub-Rows)
   const renderHoldingRow = (holding: Holding, index: number, isSubRow: boolean = false) => {
     const percentage = totalValue > 0 ? (holding.value / totalValue) * 100 : 0
+    const displayReturn = getHoldingReturn(holding)
     const depotName = holding.portfolio_name
       ? getBrokerDisplayName(holding.broker_type, holding.broker_name)
       : null
@@ -271,11 +378,13 @@ export default function PositionsTable({
 
         {/* G/V */}
         <div className="col-span-2 text-right">
-          <p className={`text-sm font-medium ${perfColor(holding.gain_loss)}`}>
-            {holding.gain_loss >= 0 ? '+' : ''}{formatCurrency(holding.gain_loss)}
+          <p className={`text-sm font-medium ${displayReturn.hasPeriod ? perfColor(displayReturn.amount) : 'text-neutral-500'}`}>
+            {displayReturn.hasPeriod
+              ? `${displayReturn.amount >= 0 ? '+' : ''}${formatCurrency(displayReturn.amount)}`
+              : '–'}
           </p>
-          <span className={`text-xs ${perfColor(holding.gain_loss_percent, 'muted')}`}>
-            {formatPercentage(holding.gain_loss_percent)}
+          <span className={`text-xs ${displayReturn.hasPeriod ? perfColor(displayReturn.percent, 'muted') : 'text-neutral-600'}`}>
+            {displayReturn.hasPeriod ? formatPercentage(displayReturn.percent) : 'keine Daten'}
           </span>
         </div>
 
@@ -331,6 +440,7 @@ export default function PositionsTable({
     const ghostDepots = getGhostDepotsForSymbol(group.symbol, group.holdings)
     const hasMultipleDepots = group.holdings.length + ghostDepots.length > 1
     const percentage = totalValue > 0 ? (group.totalValue / totalValue) * 100 : 0
+    const displayReturn = getGroupedReturn(group)
 
     return (
       <div key={group.symbol}>
@@ -403,11 +513,13 @@ export default function PositionsTable({
 
           {/* G/V */}
           <div className="col-span-2 text-right">
-            <p className={`text-sm font-medium ${perfColor(group.gainLoss)}`}>
-              {group.gainLoss >= 0 ? '+' : ''}{formatCurrency(group.gainLoss)}
+            <p className={`text-sm font-medium ${displayReturn.hasPeriod ? perfColor(displayReturn.amount) : 'text-neutral-500'}`}>
+              {displayReturn.hasPeriod
+                ? `${displayReturn.amount >= 0 ? '+' : ''}${formatCurrency(displayReturn.amount)}`
+                : '–'}
             </p>
-            <span className={`text-xs ${perfColor(group.gainLossPercent, 'muted')}`}>
-              {formatPercentage(group.gainLossPercent)}
+            <span className={`text-xs ${displayReturn.hasPeriod ? perfColor(displayReturn.percent, 'muted') : 'text-neutral-600'}`}>
+              {displayReturn.hasPeriod ? formatPercentage(displayReturn.percent) : 'keine Daten'}
             </span>
           </div>
 
@@ -496,8 +608,29 @@ export default function PositionsTable({
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between gap-3 mb-4 flex-wrap">
         <h2 className="text-sm font-medium text-neutral-400">Positionen</h2>
+        <div className="flex items-center gap-2">
+          {periodReturnsLoading && returnRange !== 'TOTAL' && (
+            <span className="text-[11px] text-neutral-600">Lädt…</span>
+          )}
+          <div className="terminal-input flex gap-1 rounded-xl p-0.5">
+            {RETURN_RANGES.map(range => (
+              <button
+                key={range.key}
+                onClick={() => setReturnRange(range.key)}
+                className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${
+                  returnRange === range.key
+                    ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
+                    : 'text-theme-muted hover:text-theme-secondary'
+                }`}
+                title={range.key === 'TOTAL' ? 'Rendite seit Kauf' : `Rendite ${range.label}`}
+              >
+                {range.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Table Header */}
@@ -509,7 +642,7 @@ export default function PositionsTable({
         </button>
         <div className="col-span-1 text-right">Anteil</div>
         <button onClick={() => handleSort('gainLossPercent')} className={`col-span-2 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'gainLossPercent' || sortBy === 'gainLoss' ? 'text-neutral-300' : ''}`}>
-          G/V {sortBy === 'gainLossPercent' ? (sortDir === 'desc' ? '↓' : '↑') : sortBy === 'gainLoss' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
+          {returnRange === 'TOTAL' ? 'G/V' : `Rendite ${RETURN_RANGES.find(r => r.key === returnRange)?.label || returnRange}`} {sortBy === 'gainLossPercent' ? (sortDir === 'desc' ? '↓' : '↑') : sortBy === 'gainLoss' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
         </button>
         <div className="col-span-1"></div>
       </div>
