@@ -90,7 +90,7 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
   }, [holdings, ticker])
 
   const stockName = symbolHolding?.name || symbolTxs[0]?.name || ticker
-  const currentPriceEUR = symbolHolding?.current_price ?? 0
+  const currentPriceEUR = symbolHolding?.current_price_display ?? symbolHolding?.current_price ?? 0
 
   // Performance via Average-Cost-Method
   const performance: SymbolPerformance | null = useMemo(() => {
@@ -112,7 +112,7 @@ export default function PortfolioStockDetailClient({ ticker }: Props) {
   useEffect(() => {
     let cancelled = false
     setHistoryLoading(true)
-    fetch(`/api/v1/historical/${ticker}?days=730`)
+    fetch(`/api/v1/historical/${ticker}?days=730&convertToEUR=true`)
       .then(r => (r.ok ? r.json() : null))
       .then(data => {
         if (cancelled) return

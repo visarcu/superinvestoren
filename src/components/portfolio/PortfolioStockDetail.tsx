@@ -82,6 +82,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   const [depotBreakdowns, setDepotBreakdowns] = useState<DepotBreakdown[]>([])
   const [isMultiDepot, setIsMultiDepot] = useState(false)
   const [stockName, setStockName] = useState<string>('')
+  const [historyInEUR, setHistoryInEUR] = useState(false)
 
   const tickerCurrency = useMemo(() => detectTickerCurrency(ticker), [ticker])
   const isEURStock = tickerCurrency === 'EUR'
@@ -103,6 +104,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
     async function loadData() {
       setLoading(true)
+      setHistoryInEUR(isEURStock)
 
       try {
         // Historische Kurse + Live-Quote + Wechselkurse parallel laden
@@ -134,22 +136,41 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
         // Historische Kurse
         let historyData: { date: string; close: number }[] = []
+        let loadedHistoryInEUR = isEURStock
         if (histRes.ok) {
-          const { historical = [] } = await histRes.json()
+          const histJson = await histRes.json()
+          const { historical = [] } = histJson
+          loadedHistoryInEUR = isEURStock || histJson?._currency === 'EUR' || histJson?._converted === true
           historyData = (historical as any[])
             .slice()
             .reverse()
             .map((h: any) => ({ date: h.date, close: h.close }))
+
+          setHistoryInEUR(loadedHistoryInEUR)
+
+          const toEURPrice = (price: number | null): number | null => {
+            if (!price || price <= 0) return null
+            if (isEURStock) return price
+            if (isGBXStock && gbpEurRateResult) return (price / 100) * gbpEurRateResult
+            if (!isGBXStock && eurRateResult) return price * eurRateResult
+            if (loadedHistoryInEUR) return null
+            return price
+          }
 
           // Cross-Validierung: Prüfe ob Live-Quote plausibel ist
           // FMP liefert für EU-ETFs oft veraltete Kurse → nur verwenden wenn
           // die Abweichung zum letzten historischen Close < 10% ist
           if (livePrice && livePrice > 0 && historyData.length > 0) {
             const lastHistClose = historyData[historyData.length - 1].close
-            const deviation = Math.abs(livePrice - lastHistClose) / lastHistClose
+            const comparableLivePrice = toEURPrice(livePrice)
+            const deviation = comparableLivePrice
+              ? Math.abs(comparableLivePrice - lastHistClose) / lastHistClose
+              : Infinity
             if (deviation > 0.10) {
               // Live-Quote weicht > 10% ab → wahrscheinlich veraltet, ignorieren
               livePrice = null
+            } else {
+              livePrice = comparableLivePrice
             }
           }
 
@@ -183,7 +204,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           ? histLatestPrice
           : (livePrice && livePrice > 0 ? livePrice : 0)
         let currentPriceEUR: number
-        if (isEURStock) {
+        if (loadedHistoryInEUR) {
+          currentPriceEUR = latestPrice
+        } else if (isEURStock) {
           currentPriceEUR = latestPrice
         } else if (isGBXStock && gbpEurRateResult) {
           // .L Ticker: FMP liefert GBX (Pence) → ÷100 = GBP → ×Rate = EUR
@@ -294,7 +317,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
     loadData()
     return () => { cancelled = true }
-  }, [ticker, portfolioId, isEURStock])
+  }, [ticker, portfolioId, isEURStock, isGBXStock])
 
   // Marker aus Transaktionen erzeugen
   const chartMarkers = useMemo(() => {
@@ -357,11 +380,12 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   const currentPriceEUR = useMemo(() => {
     if (!history.length) return null
     const latestPrice = history[history.length - 1].close
+    if (historyInEUR) return latestPrice
     if (isEURStock) return latestPrice
     if (isGBXStock && gbpEurRate) return (latestPrice / 100) * gbpEurRate
     if (!eurRate) return null
     return latestPrice * eurRate
-  }, [history, eurRate, gbpEurRate, isEURStock, isGBXStock])
+  }, [history, eurRate, gbpEurRate, historyInEUR, isEURStock, isGBXStock])
 
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 })

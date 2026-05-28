@@ -111,6 +111,23 @@ function findClosestRate(rateMap: Map<string, number>, date: string): number | n
   return null
 }
 
+function isLondonTicker(ticker: string): boolean {
+  return /\.L$/i.test(ticker)
+}
+
+function convertGbxToEur(
+  historical: { date: string; close: number }[],
+  fxRates: Map<string, number>,
+): { date: string; close: number }[] {
+  return historical.map(h => {
+    const rate = findClosestRate(fxRates, h.date) || GBP_EUR_APPROX
+    return {
+      date: h.date,
+      close: Math.round((h.close / 100) * rate * 100) / 100,
+    }
+  })
+}
+
 export async function GET(
   request: NextRequest,
   { params }: { params: { ticker: string } }
@@ -126,6 +143,7 @@ export async function GET(
   // EU-Ticker Resolution: BMW → BMW.DE
   const ticker = resolveFMPTicker(rawTicker)
   const isEuropeanTicker = isEUTicker(rawTicker) || /\.(DE|L|PA|AS|MI|SW|BR|MC|VI|HE|CO|ST|OL|LS|WA|IR)$/i.test(ticker)
+  const isGbxTicker = isLondonTicker(ticker)
 
   // etfMaster hat Priorität für die Preis-Quelle
   const masterSource = resolvePriceSource(ticker) || resolvePriceSource(rawTicker)
@@ -153,8 +171,18 @@ export async function GET(
     historical: { date: string; close: number }[],
     extra: Record<string, unknown> = {},
   ) {
-    // EUR-Konvertierung: wenn angefragt und Ticker nicht in EUR notiert
-    if (convertToEUR && !isEuropeanTicker && historical.length > 0) {
+    // EUR-Konvertierung: London (.L) liefert Kurse typischerweise in GBX/Pence,
+    // nicht in GBP. Für Portfolio-Charts müssen wir daher /100 und GBP→EUR rechnen.
+    if (convertToEUR && isGbxTicker && historical.length > 0) {
+      const dates = historical.map(h => h.date).sort()
+      const from = dates[0]
+      const to = dates[dates.length - 1]
+      const fxRates = await fetchHistoricalFxRates('GBPEUR', from, to, apiKey!)
+      historical = convertGbxToEur(historical, fxRates)
+      extra._currency = 'EUR'
+      extra._converted = true
+      extra._conversion = 'GBX_EUR'
+    } else if (convertToEUR && !isEuropeanTicker && historical.length > 0) {
       const dates = historical.map(h => h.date).sort()
       const from = dates[0]
       const to = dates[dates.length - 1]
