@@ -9,7 +9,7 @@
       "name": "MICROSOFT CORP",
       "cusip": "594918104",
       "shares": 359300,
-      "value": 173764666000,
+      "value": 173764666,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -23,7 +23,7 @@
       "name": "DUTCH BROS INC",
       "cusip": "26701L100",
       "shares": 1418394,
-      "value": 86834081000,
+      "value": 86834081,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -37,7 +37,7 @@
       "name": "UBER TECHNOLOGIES INC",
       "cusip": "90353T100",
       "shares": 901900,
-      "value": 73694249000,
+      "value": 73694249,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -51,7 +51,7 @@
       "name": "AMAZON COM INC",
       "cusip": "023135106",
       "shares": 264500,
-      "value": 61051890000,
+      "value": 61051890,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -65,7 +65,7 @@
       "name": "TAIWAN SEMICONDUCTOR MFG LTD",
       "cusip": "874039100",
       "shares": 190100,
-      "value": 57769489000,
+      "value": 57769489,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -79,7 +79,7 @@
       "name": "AMPHENOL CORP NEW",
       "cusip": "032095101",
       "shares": 78480,
-      "value": 10605787000,
+      "value": 10605787,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -93,7 +93,7 @@
       "name": "WALMART INC",
       "cusip": "931142103",
       "shares": 20850,
-      "value": 2322899000,
+      "value": 2322899,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -107,7 +107,7 @@
       "name": "QUANTA SVCS INC",
       "cusip": "74762E102",
       "shares": 4110,
-      "value": 1734667000,
+      "value": 1734667,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -121,7 +121,7 @@
       "name": "PROCTER AND GAMBLE CO",
       "cusip": "742718109",
       "shares": 5250,
-      "value": 752378000,
+      "value": 752378,
       "optionType": "STOCK",
       "typeInfo": {
         "label": "Stock",
@@ -132,11 +132,11 @@
       "putCall": null
     }
   ],
-  "totalValue": 468530106000,
+  "totalValue": 468530106,
   "positionsCount": 9,
   "portfolioSummary": {
     "byType": {
-      "STOCK": 468530106000
+      "STOCK": 468530106
     },
     "percentages": {
       "STOCK": "100.0%"
