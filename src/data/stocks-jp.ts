@@ -7,6 +7,7 @@ export const stocks: Stock[] = [
   { ticker: '7203.T', cusip: '', name: 'Toyota Motor Corporation', sector: 'Consumer Cyclical', metrics: [] },
   { ticker: '7267.T', cusip: '', name: 'Honda Motor Co., Ltd.', sector: 'Consumer Cyclical', metrics: [] },
   { ticker: '9983.T', cusip: '', name: 'Fast Retailing Co., Ltd.', sector: 'Consumer Cyclical', metrics: [] },
+  { ticker: '7309.T', cusip: '', name: 'Shimano Inc.', sector: 'Consumer Cyclical', metrics: [] },
 
   // Financial Services
   { ticker: '8306.T', cusip: '', name: 'Mitsubishi UFJ Financial Group, Inc.', sector: 'Financial Services', metrics: [] },
