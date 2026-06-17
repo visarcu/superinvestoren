@@ -1140,6 +1140,17 @@ export default function MarketInsightsPage() {
                 const bigMoves: BigMove[] = [];
                 const minValueChange = 250_000_000;
                 const minPortfolioPointChange = 0.75;
+                const aggregatePositionsByTicker = (positions: Position[] | undefined) => {
+                  const map = new Map<string, { value: number }>();
+                  positions?.forEach((position: Position) => {
+                    const ticker = getTicker(position);
+                    if (!ticker) return;
+                    const current = map.get(ticker) || { value: 0 };
+                    current.value += position.value || 0;
+                    map.set(ticker, current);
+                  });
+                  return map;
+                };
 
                 Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
                   if (!snaps || snaps.length < 2) return;
@@ -1147,58 +1158,47 @@ export default function MarketInsightsPage() {
                   const recent = snaps.slice(-3);
                   if (recent.length < 2) return;
 
-                  for (let i = 1; i < recent.length; i++) {
-                    const current = recent[i].data;
-                    const previous = recent[i - 1].data;
+                  const previous = recent[0].data;
+                  const current = recent[recent.length - 1].data;
 
-                    const prevTotalValue = previous.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
-                    const currTotalValue = current.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
+                  const prevTotalValue = previous.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
+                  const currTotalValue = current.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
 
-                    if (prevTotalValue === 0 || currTotalValue === 0) continue;
+                  if (prevTotalValue === 0 || currTotalValue === 0) return;
 
-                    const prevMap = new Map<string, Position>();
-                    previous.positions?.forEach((p: Position) => {
-                      const ticker = getTicker(p);
-                      if (ticker) prevMap.set(ticker, p);
-                    });
+                  const prevMap = aggregatePositionsByTicker(previous.positions);
+                  const currMap = aggregatePositionsByTicker(current.positions);
 
-                    const currMap = new Map<string, Position>();
-                    current.positions?.forEach((p: Position) => {
-                      const ticker = getTicker(p);
-                      if (ticker) currMap.set(ticker, p);
-                    });
+                  const tickers = new Set([...prevMap.keys(), ...currMap.keys()]);
 
-                    const tickers = new Set([...prevMap.keys(), ...currMap.keys()]);
+                  tickers.forEach(ticker => {
+                    const currentPosition = currMap.get(ticker);
+                    const previousPosition = prevMap.get(ticker);
+                    const currentValue = currentPosition?.value || 0;
+                    const previousValue = previousPosition?.value || 0;
+                    const valueChange = currentValue - previousValue;
+                    const absValueChange = Math.abs(valueChange);
+                    const currentPercent = (currentValue / currTotalValue) * 100;
+                    const previousPercent = (previousValue / prevTotalValue) * 100;
+                    const portfolioPointChange = currentPercent - previousPercent;
+                    const absPortfolioPointChange = Math.abs(portfolioPointChange);
 
-                    tickers.forEach(ticker => {
-                      const currentPosition = currMap.get(ticker);
-                      const previousPosition = prevMap.get(ticker);
-                      const currentValue = currentPosition?.value || 0;
-                      const previousValue = previousPosition?.value || 0;
-                      const valueChange = currentValue - previousValue;
-                      const absValueChange = Math.abs(valueChange);
-                      const currentPercent = (currentValue / currTotalValue) * 100;
-                      const previousPercent = (previousValue / prevTotalValue) * 100;
-                      const portfolioPointChange = currentPercent - previousPercent;
-                      const absPortfolioPointChange = Math.abs(portfolioPointChange);
-
-                      if (
-                        absValueChange >= minValueChange &&
-                        absPortfolioPointChange >= minPortfolioPointChange
-                      ) {
-                        bigMoves.push({
-                          investor: investorNames[slug] || slug,
-                          ticker,
-                          type: valueChange > 0 ? 'buy' : 'sell',
-                          percentChange: absPortfolioPointChange,
-                          portfolioPointChange: absPortfolioPointChange,
-                          value: currentValue,
-                          valueChange,
-                          date: current.date
-                        });
-                      }
-                    });
-                  }
+                    if (
+                      absValueChange >= minValueChange &&
+                      absPortfolioPointChange >= minPortfolioPointChange
+                    ) {
+                      bigMoves.push({
+                        investor: investorNames[slug] || slug,
+                        ticker,
+                        type: valueChange > 0 ? 'buy' : 'sell',
+                        percentChange: absPortfolioPointChange,
+                        portfolioPointChange: absPortfolioPointChange,
+                        value: currentValue,
+                        valueChange,
+                        date: current.date
+                      });
+                    }
+                  });
                 });
 
                 bigMoves.sort((a, b) => {
