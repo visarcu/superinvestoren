@@ -22,6 +22,7 @@ import EditPositionModal from './EditPositionModal'
 import DeleteConfirmModal from './DeleteConfirmModal'
 import EditTransactionModal from './EditTransactionModal'
 import DeleteTransactionModal from './DeleteTransactionModal'
+import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
 import type { Holding, Tab, Transaction } from '../_lib/types'
 
 export interface SuperInvestorOverlap {
@@ -69,6 +70,7 @@ export default function PortfolioClient() {
   const [deleteHolding, setDeleteHolding] = useState<Holding | null>(null)
   const [editTransaction, setEditTransaction] = useState<Transaction | null>(null)
   const [deleteTransactionState, setDeleteTransactionState] = useState<Transaction | null>(null)
+  const [showRealizedGains, setShowRealizedGains] = useState(false)
 
   // Tag-Quotes (separater Quote-Stream für die "Heute"-Performance im Hero).
   const [dayChangeBySymbol, setDayChangeBySymbol] = useState<Record<string, number>>({})
@@ -202,6 +204,7 @@ export default function PortfolioClient() {
           positionsCount={holdings.length}
           formatCurrency={formatCurrency}
           formatPercentage={formatPercentage}
+          onRealizedClick={() => setShowRealizedGains(true)}
         />
 
         {!loading && holdings.length > 0 && (
@@ -323,6 +326,14 @@ export default function PortfolioClient() {
       <DeleteTransactionModal
         transaction={deleteTransactionState}
         onClose={() => setDeleteTransactionState(null)}
+      />
+      <RealizedGainsModal
+        open={showRealizedGains}
+        onClose={() => setShowRealizedGains(false)}
+        transactions={transactions}
+        realizedGainByTxId={realizedGainByTxId}
+        formatCurrency={formatCurrency}
+        formatPercentage={formatPercentage}
       />
     </div>
   )

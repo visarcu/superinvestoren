@@ -19,6 +19,7 @@ import AnalysisTab from '@/components/portfolio/AnalysisTab'
 import DividendsTab from '@/components/portfolio/DividendsTab'
 import CSVImportModal from '@/components/portfolio/CSVImportModal'
 import PortfolioAllocation from '@/components/portfolio/PortfolioAllocation'
+import RealizedGainsModal from '@/components/portfolio/RealizedGainsModal'
 import Logo from '@/components/Logo'
 import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 import { brokerTypeToLogoId } from '@/lib/brokerConfig'
@@ -102,6 +103,7 @@ export default function PortfolioDashboard() {
 
   // Superinvestor Overlap
   const [superInvestorCounts, setSuperInvestorCounts] = useState<Record<string, { count: number; investors: { name: string; slug: string }[] }>>({})
+  const [showRealizedGains, setShowRealizedGains] = useState(false)
 
   const fetchSuperInvestorOverlap = useCallback(async (holdings: { symbol: string }[]) => {
     if (holdings.length === 0) return
@@ -681,6 +683,7 @@ export default function PortfolioDashboard() {
               formatPercentage={p.formatPercentage}
               onCashClick={() => { setNewCashAmount(p.cashPosition.toString()); setShowCashModal(true) }}
               onCreditClick={() => { setNewCreditAmount((p.portfolio?.broker_credit || 0).toString()); setShowCreditModal(true) }}
+              onRealizedClick={() => setShowRealizedGains(true)}
             />
 
             {/* Empty State - wenn noch keine Positionen */}
@@ -905,6 +908,14 @@ export default function PortfolioDashboard() {
         )}
 
         {/* ===== MODALS ===== */}
+        <RealizedGainsModal
+          open={showRealizedGains}
+          onClose={() => setShowRealizedGains(false)}
+          transactions={p.transactions}
+          realizedGainByTxId={p.realizedGainByTxId}
+          formatCurrency={p.formatCurrency}
+          formatPercentage={p.formatPercentage}
+        />
 
         {/* Edit Position Modal */}
         {editingPosition && (

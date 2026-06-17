@@ -22,6 +22,7 @@ interface QuickStatsProps {
   formatPercentage: (value: number) => string
   onCashClick?: () => void
   onCreditClick?: () => void
+  onRealizedClick?: () => void
 }
 
 // Dezentes Info-Tooltip für Kennzahlen-Erklärungen
@@ -82,6 +83,7 @@ export default function QuickStats({
   formatPercentage,
   onCashClick,
   onCreditClick,
+  onRealizedClick,
 }: QuickStatsProps) {
   const hasBreakdown = totalRealizedGain !== 0 || totalDividends > 0 || totalFees > 0
   const hasCredit = brokerCredit < 0
@@ -176,12 +178,26 @@ export default function QuickStats({
                 {totalGainLoss >= 0 ? '+' : ''}{formatCurrency(totalGainLoss)}
               </span>
             </div>
-            <div className="flex justify-between text-[10px]">
-              <span className="text-neutral-500">Realisiert</span>
-              <span className={perfColor(totalRealizedGain, 'muted')}>
-                {totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(totalRealizedGain)}
-              </span>
-            </div>
+            {onRealizedClick && totalRealizedGain !== 0 ? (
+              <button
+                type="button"
+                onClick={onRealizedClick}
+                className="flex w-full justify-between rounded-md -mx-1 px-1 py-0.5 text-[10px] transition-colors hover:bg-neutral-100 dark:hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-teal-400/30"
+                title="Details zu realisierten Gewinnen anzeigen"
+              >
+                <span className="text-neutral-500">Realisiert</span>
+                <span className={perfColor(totalRealizedGain, 'muted')}>
+                  {totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(totalRealizedGain)}
+                </span>
+              </button>
+            ) : (
+              <div className="flex justify-between text-[10px]">
+                <span className="text-neutral-500">Realisiert</span>
+                <span className={perfColor(totalRealizedGain, 'muted')}>
+                  {totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(totalRealizedGain)}
+                </span>
+              </div>
+            )}
             <div className="flex justify-between text-[10px]">
               <span className="text-neutral-500">Dividenden</span>
               <span className="text-emerald-600/70 dark:text-emerald-400/70">

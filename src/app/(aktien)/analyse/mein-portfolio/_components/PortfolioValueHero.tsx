@@ -26,6 +26,7 @@ interface PortfolioValueHeroProps {
   positionsCount: number
   formatCurrency: (v: number) => string
   formatPercentage: (v: number) => string
+  onRealizedClick?: () => void
 }
 
 export default function PortfolioValueHero({
@@ -48,6 +49,7 @@ export default function PortfolioValueHero({
   positionsCount,
   formatCurrency,
   formatPercentage,
+  onRealizedClick,
 }: PortfolioValueHeroProps) {
   if (loading) {
     return (
@@ -205,6 +207,7 @@ export default function PortfolioValueHero({
               label="Realisiert"
               value={`${totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(totalRealizedGain)}`}
               accent={totalRealizedGain >= 0 ? 'emerald' : 'red'}
+              onClick={onRealizedClick}
             />
           </>
         )}
@@ -225,12 +228,14 @@ function Stat({
   hint,
   accent,
   muted,
+  onClick,
 }: {
   label: string
   value: string
   hint?: string
   accent?: 'emerald' | 'red'
   muted?: boolean
+  onClick?: () => void
 }) {
   const color = muted
     ? 'text-white/55'
@@ -239,8 +244,8 @@ function Stat({
       : accent === 'red'
         ? 'text-red-400'
         : 'text-white/90'
-  return (
-    <div className="flex flex-col">
+  const content = (
+    <>
       <span className="text-[9px] font-medium text-white/30 uppercase tracking-[0.14em]">
         {label}
         {hint && <span className="ml-1 text-white/20 normal-case tracking-normal">· {hint}</span>}
@@ -248,6 +253,25 @@ function Stat({
       <span className={`mt-1 text-[15px] font-semibold tabular-nums ${color}`}>
         {value}
       </span>
+    </>
+  )
+
+  if (onClick) {
+    return (
+      <button
+        type="button"
+        onClick={onClick}
+        className="flex flex-col rounded-lg -m-2 p-2 text-left transition-colors hover:bg-white/[0.04] focus:outline-none focus:ring-2 focus:ring-teal-300/40"
+        title="Details zu realisierten Gewinnen anzeigen"
+      >
+        {content}
+      </button>
+    )
+  }
+
+  return (
+    <div className="flex flex-col">
+      {content}
     </div>
   )
 }
