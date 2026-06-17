@@ -136,6 +136,8 @@ export interface BigMove {
   type: 'buy' | 'sell'
   percentChange: number
   value: number
+  valueChange: number
+  portfolioPointChange: number
   date: string
 }
 

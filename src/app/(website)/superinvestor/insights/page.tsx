@@ -1138,51 +1138,79 @@ export default function MarketInsightsPage() {
 
               {(() => {
                 const bigMoves: BigMove[] = [];
+                const minValueChange = 250_000_000;
+                const minPortfolioPointChange = 0.75;
 
                 Object.entries(holdingsHistory).forEach(([slug, snaps]) => {
                   if (!snaps || snaps.length < 2) return;
 
-                  const recent = snaps.slice(-2);
+                  const recent = snaps.slice(-3);
                   if (recent.length < 2) return;
 
-                  const current = recent[1].data;
-                  const previous = recent[0].data;
+                  for (let i = 1; i < recent.length; i++) {
+                    const current = recent[i].data;
+                    const previous = recent[i - 1].data;
 
-                  const prevTotalValue = previous.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
-                  const currTotalValue = current.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
+                    const prevTotalValue = previous.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
+                    const currTotalValue = current.positions?.reduce((sum, p) => sum + p.value, 0) || 0;
 
-                  if (prevTotalValue === 0 || currTotalValue === 0) return;
+                    if (prevTotalValue === 0 || currTotalValue === 0) continue;
 
-                  const prevMap = new Map<string, number>();
-                  previous.positions?.forEach((p: Position) => {
-                    const ticker = getTicker(p);
-                    if (ticker) {
-                      prevMap.set(ticker, p.value / prevTotalValue * 100);
-                    }
-                  });
+                    const prevMap = new Map<string, Position>();
+                    previous.positions?.forEach((p: Position) => {
+                      const ticker = getTicker(p);
+                      if (ticker) prevMap.set(ticker, p);
+                    });
 
-                  current.positions?.forEach((p: Position) => {
-                    const ticker = getTicker(p);
-                    if (!ticker) return;
+                    const currMap = new Map<string, Position>();
+                    current.positions?.forEach((p: Position) => {
+                      const ticker = getTicker(p);
+                      if (ticker) currMap.set(ticker, p);
+                    });
 
-                    const currentPercent = (p.value / currTotalValue) * 100;
-                    const previousPercent = prevMap.get(ticker) || 0;
-                    const change = currentPercent - previousPercent;
+                    const tickers = new Set([...prevMap.keys(), ...currMap.keys()]);
 
-                    if (Math.abs(change) > 2 && currentPercent > 1) {
-                      bigMoves.push({
-                        investor: investorNames[slug] || slug,
-                        ticker,
-                        type: change > 0 ? 'buy' : 'sell',
-                        percentChange: Math.abs(change),
-                        value: p.value,
-                        date: current.date
-                      });
-                    }
-                  });
+                    tickers.forEach(ticker => {
+                      const currentPosition = currMap.get(ticker);
+                      const previousPosition = prevMap.get(ticker);
+                      const currentValue = currentPosition?.value || 0;
+                      const previousValue = previousPosition?.value || 0;
+                      const valueChange = currentValue - previousValue;
+                      const absValueChange = Math.abs(valueChange);
+                      const currentPercent = (currentValue / currTotalValue) * 100;
+                      const previousPercent = (previousValue / prevTotalValue) * 100;
+                      const portfolioPointChange = currentPercent - previousPercent;
+                      const absPortfolioPointChange = Math.abs(portfolioPointChange);
+
+                      if (
+                        absValueChange >= minValueChange &&
+                        absPortfolioPointChange >= minPortfolioPointChange
+                      ) {
+                        bigMoves.push({
+                          investor: investorNames[slug] || slug,
+                          ticker,
+                          type: valueChange > 0 ? 'buy' : 'sell',
+                          percentChange: absPortfolioPointChange,
+                          portfolioPointChange: absPortfolioPointChange,
+                          value: currentValue,
+                          valueChange,
+                          date: current.date
+                        });
+                      }
+                    });
+                  }
                 });
 
-                bigMoves.sort((a, b) => b.percentChange - a.percentChange);
+                bigMoves.sort((a, b) => {
+                  const valueDiff = Math.abs(b.valueChange) - Math.abs(a.valueChange);
+                  if (valueDiff !== 0) return valueDiff;
+                  return b.portfolioPointChange - a.portfolioPointChange;
+                });
+
+                const formatSignedValueChange = (move: BigMove) => {
+                  const formatted = formatCurrencyGerman(move.valueChange, false);
+                  return move.valueChange > 0 ? `+${formatted}` : formatted;
+                };
 
                 return (
                   <div className="space-y-0">
@@ -1218,15 +1246,17 @@ export default function MarketInsightsPage() {
                             <div className={`text-sm font-medium ${
                               move.type === 'buy' ? 'text-emerald-400' : 'text-red-400'
                             }`}>
-                              {move.type === 'buy' ? '+' : '-'}{move.percentChange.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })}%
+                              {formatSignedValueChange(move)}
                             </div>
                             <div className="text-xs text-neutral-500">
-                              {formatCurrencyGerman(move.value, false)}
+                              {move.type === 'buy' ? '+' : '-'}
+                              {move.portfolioPointChange.toLocaleString('de-DE', { minimumFractionDigits: 1, maximumFractionDigits: 1 })} %-Pkt.
                             </div>
                           </div>
                         </Link>
                       );
-                    })}
+                    }
+                    )}
                   </div>
                 );
               })()}

@@ -80,6 +80,7 @@ export const investorNames: Record<string, string> = {
   hohn: 'Chris Hohn',
   hong: 'Dennis Hong',
   kahn: 'Kahn Brothers Group',
+  chou: 'Francis Chou',
   coleman: 'Chase Coleman',
   dalio: 'Ray Dalio',
   loeb: 'Daniel Loeb',
