@@ -249,6 +249,7 @@ function Stat({
       <span className="text-[9px] font-medium text-white/30 uppercase tracking-[0.14em]">
         {label}
         {hint && <span className="ml-1 text-white/20 normal-case tracking-normal">· {hint}</span>}
+        {onClick && <span className="ml-1 text-teal-300/60 normal-case tracking-normal">· Details</span>}
       </span>
       <span className={`mt-1 text-[15px] font-semibold tabular-nums ${color}`}>
         {value}

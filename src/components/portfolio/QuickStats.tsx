@@ -3,7 +3,7 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { perfColor } from '@/utils/formatters'
-import { InformationCircleIcon } from '@heroicons/react/24/outline'
+import { ChevronRightIcon, InformationCircleIcon } from '@heroicons/react/24/outline'
 
 interface QuickStatsProps {
   totalValue: number
@@ -182,12 +182,18 @@ export default function QuickStats({
               <button
                 type="button"
                 onClick={onRealizedClick}
-                className="flex w-full justify-between rounded-md -mx-1 px-1 py-0.5 text-[10px] transition-colors hover:bg-neutral-100 dark:hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-teal-400/30"
+                className="group flex w-full items-center justify-between rounded-md -mx-1 px-1 py-0.5 text-[10px] transition-colors hover:bg-neutral-100 dark:hover:bg-white/[0.05] focus:outline-none focus:ring-2 focus:ring-teal-400/30"
                 title="Details zu realisierten Gewinnen anzeigen"
               >
-                <span className="text-neutral-500">Realisiert</span>
-                <span className={perfColor(totalRealizedGain, 'muted')}>
+                <span className="flex items-center gap-1 text-neutral-500">
+                  Realisiert
+                  <span className="rounded-full border border-teal-400/20 px-1.5 py-px text-[9px] font-medium text-teal-400/80 opacity-90 transition-colors group-hover:border-teal-300/40 group-hover:text-teal-300">
+                    Details
+                  </span>
+                </span>
+                <span className={`flex items-center gap-0.5 ${perfColor(totalRealizedGain, 'muted')}`}>
                   {totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(totalRealizedGain)}
+                  <ChevronRightIcon className="h-3 w-3 text-neutral-500 transition-transform group-hover:translate-x-0.5 group-hover:text-teal-400" />
                 </span>
               </button>
             ) : (
