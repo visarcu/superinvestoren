@@ -21,8 +21,8 @@ const supabaseService = createClient(
 const FMP_API_KEY = process.env.FMP_API_KEY
 
 // Only notify for actions that actually change conviction.
-// "Maintains", "Reiterates" with same grade = noise.
-const NOTIFY_ACTIONS = new Set(['upgrade', 'downgrade', 'initiated', 'initiated coverage'])
+// "Initiated coverage", "Maintains", and "Reiterates" are too noisy for push/email.
+const NOTIFY_ACTIONS = new Set(['upgrade', 'downgrade'])
 
 function normalizeAction(raw: string): string {
   const s = raw.toLowerCase().trim()
@@ -85,80 +85,103 @@ async function createInAppNotification(
 const ANALYST_EMAIL_TEST_MODE = false // set true to redirect all emails to ANALYST_EMAIL_TEST_ADDRESS
 const ANALYST_EMAIL_TEST_ADDRESS = 'visi1@hotmail.de'
 
-async function sendAnalystEmail(
+function escapeHtml(value: string | undefined | null): string {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;')
+}
+
+interface AnalystDigestItem {
+  symbol: string
+  label: string
+  grading: FMPGrading
+  gradeChange: string
+}
+
+async function sendAnalystDigestEmail(
   userEmail: string,
-  symbol: string,
-  label: string,
-  grading: FMPGrading,
-  gradeChange: string,
+  items: AnalystDigestItem[],
 ) {
+  if (items.length === 0) return
+
   const toAddress = ANALYST_EMAIL_TEST_MODE ? ANALYST_EMAIL_TEST_ADDRESS : userEmail
-  const actionColor = label === 'Hochgestuft' ? '#059669' : label === 'Herabgestuft' ? '#DC2626' : '#D97706'
-  const actionBg = label === 'Hochgestuft' ? '#f0fdf4' : label === 'Herabgestuft' ? '#fef2f2' : '#fffbeb'
-  const actionBorder = label === 'Hochgestuft' ? '#bbf7d0' : label === 'Herabgestuft' ? '#fecaca' : '#fde68a'
-  const stockUrl = `https://finclue.de/analyse/stocks/${symbol.toLowerCase()}/ratings`
-  const date = new Date(grading.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })
+  const title = items.length === 1
+    ? `${items[0].symbol}: ${items[0].label} von ${items[0].grading.gradingCompany}`
+    : `${items.length} Analysten-Änderungen in deiner Watchlist`
+
+  const rows = items.map(({ symbol, label, grading, gradeChange }) => {
+    const actionColor = label === 'Hochgestuft' ? '#059669' : '#DC2626'
+    const actionBg = label === 'Hochgestuft' ? '#f0fdf4' : '#fef2f2'
+    const actionBorder = label === 'Hochgestuft' ? '#bbf7d0' : '#fecaca'
+    const stockUrl = `https://finclue.de/analyse/stocks/${symbol.toLowerCase()}/ratings`
+    const date = new Date(grading.publishedDate).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })
+    const articleLink = grading.newsURL
+      ? `<a href="${escapeHtml(grading.newsURL)}" style="color:#6b7280;font-size:12px;text-decoration:underline;">Artikel lesen</a>`
+      : ''
+
+    return `
+      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:18px;margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px;">
+          <div>
+            <h2 style="color:#111827;font-size:18px;font-weight:700;margin:0 0 4px;">${escapeHtml(symbol)}</h2>
+            <p style="color:#6b7280;font-size:13px;margin:0;">${escapeHtml(grading.gradingCompany)} · ${escapeHtml(date)}</p>
+          </div>
+          <div style="background:${actionBg};border:1px solid ${actionBorder};border-radius:999px;padding:6px 10px;white-space:nowrap;">
+            <span style="color:${actionColor};font-size:12px;font-weight:700;">${escapeHtml(label)}</span>
+          </div>
+        </div>
+
+        <div style="font-size:13px;color:#374151;line-height:1.5;margin-bottom:10px;">
+          ${grading.previousGrade && grading.newGrade && grading.previousGrade !== grading.newGrade ? `
+            <span style="color:#9ca3af;text-decoration:line-through;">${escapeHtml(grading.previousGrade)}</span>
+            <span style="color:#d1d5db;margin:0 8px;">→</span>
+            <span style="color:${actionColor};font-weight:700;">${escapeHtml(grading.newGrade)}</span>
+          ` : `
+            <span style="color:${actionColor};font-weight:700;">${escapeHtml(grading.newGrade || gradeChange || label)}</span>
+          `}
+        </div>
+
+        ${grading.newsTitle ? `
+          <p style="color:#6b7280;font-size:13px;line-height:1.5;margin:0 0 10px;">${escapeHtml(grading.newsTitle)}</p>
+        ` : ''}
+
+        <div style="display:flex;gap:14px;align-items:center;">
+          <a href="${stockUrl}" style="color:#111827;font-size:13px;font-weight:600;text-decoration:underline;">In Finclue öffnen</a>
+          ${articleLink}
+        </div>
+      </div>`
+  }).join('')
 
   const html = `<!DOCTYPE html>
 <html lang="de">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>${symbol}: ${label} | Finclue</title></head>
+<title>${escapeHtml(title)} | Finclue</title></head>
 <body style="margin:0;padding:0;background:#f9fafb;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:#111827;">
 
   <div style="max-width:600px;margin:0 auto;padding:32px 20px 16px;">
     <div style="text-align:center;margin-bottom:24px;">
       <h1 style="color:#374151;margin:0;font-size:24px;font-weight:700;">Finclue</h1>
-      <p style="color:#9ca3af;margin:4px 0 0;font-size:14px;">Analysten-Bewertung</p>
+      <p style="color:#9ca3af;margin:4px 0 0;font-size:14px;">Analysten-Updates</p>
       ${ANALYST_EMAIL_TEST_MODE ? '<p style="background:#fbbf24;color:#92400e;padding:6px 12px;border-radius:4px;font-size:12px;font-weight:500;margin:8px auto;display:inline-block;">🧪 TEST E-MAIL</p>' : ''}
     </div>
   </div>
 
   <div style="max-width:600px;margin:0 auto;background:#ffffff;border-radius:8px;box-shadow:0 1px 3px rgba(0,0,0,0.1);overflow:hidden;">
     <div style="padding:32px;">
-
-      <!-- Action Badge -->
-      <div style="background:${actionBg};border:1px solid ${actionBorder};border-radius:8px;padding:12px 16px;margin-bottom:24px;display:inline-block;">
-        <span style="color:${actionColor};font-size:13px;font-weight:700;">${label}</span>
-      </div>
-
-      <h2 style="color:#111827;font-size:22px;font-weight:700;margin:0 0 4px;">${symbol}</h2>
-      <p style="color:#6b7280;font-size:14px;margin:0 0 24px;">${grading.gradingCompany} · ${date}</p>
-
-      <!-- Grade Change Box -->
-      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px;margin-bottom:24px;">
-        <div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;margin-bottom:12px;">BEWERTUNG</div>
-        ${grading.previousGrade && grading.newGrade && grading.previousGrade !== grading.newGrade ? `
-        <div style="display:flex;align-items:center;gap:12px;">
-          <span style="color:#9ca3af;font-size:16px;text-decoration:line-through;">${grading.previousGrade}</span>
-          <span style="color:#d1d5db;font-size:18px;">→</span>
-          <span style="color:${actionColor};font-size:18px;font-weight:700;">${grading.newGrade}</span>
-        </div>` : `
-        <span style="color:${actionColor};font-size:18px;font-weight:700;">${grading.newGrade || label}</span>`}
-      </div>
-
-      ${grading.newsTitle ? `
-      <!-- Article -->
-      <div style="border:1px solid #e5e7eb;border-radius:8px;padding:20px;margin-bottom:24px;">
-        <div style="font-size:11px;font-weight:700;color:#9ca3af;letter-spacing:1px;margin-bottom:8px;">ARTIKEL</div>
-        <p style="color:#374151;font-size:14px;line-height:1.6;margin:0;">${grading.newsTitle}</p>
-      </div>` : ''}
-
-      <!-- CTAs -->
-      <div style="display:flex;gap:12px;flex-wrap:wrap;">
-        <a href="${stockUrl}" style="display:inline-block;background:#111827;color:#ffffff;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;">
-          In Finclue öffnen
-        </a>
-        ${grading.newsURL ? `
-        <a href="${grading.newsURL}" style="display:inline-block;background:#f9fafb;color:#374151;font-size:14px;font-weight:600;padding:12px 22px;border-radius:8px;text-decoration:none;border:1px solid #e5e7eb;">
-          Artikel lesen →
-        </a>` : ''}
-      </div>
+      <h2 style="color:#111827;font-size:22px;font-weight:700;margin:0 0 8px;">${escapeHtml(title)}</h2>
+      <p style="color:#6b7280;font-size:14px;line-height:1.6;margin:0 0 24px;">
+        Wir schicken nur noch Hoch- und Herabstufungen. Neue Coverage ohne Rating-Änderung wird nicht mehr per Mail oder Push gesendet.
+      </p>
+      ${rows}
     </div>
   </div>
 
   <!-- Footer -->
   <div style="max-width:600px;margin:16px auto;text-align:center;">
-    <p style="color:#9ca3af;font-size:12px;margin:0 0 6px;">Du erhältst diese E-Mail weil ${symbol} in deiner Watchlist oder deinem Portfolio ist.</p>
+    <p style="color:#9ca3af;font-size:12px;margin:0 0 6px;">Du erhältst diese E-Mail, weil diese Aktien in deiner Watchlist oder deinem Portfolio sind.</p>
     <a href="https://finclue.de/einstellungen" style="color:#6b7280;font-size:12px;">Benachrichtigungen verwalten</a>
   </div>
 
@@ -167,7 +190,7 @@ async function sendAnalystEmail(
   await resend.emails.send({
     from: 'Finclue <noreply@finclue.de>',
     to: toAddress,
-    subject: `${symbol}: ${label} von ${grading.gradingCompany}`,
+    subject: title,
     html,
   })
 }
@@ -291,6 +314,8 @@ async function handleCheck(queryTestUserId: string | null = null) {
 
   let totalNotified = 0
   let totalNew = 0
+  let totalEmailsSent = 0
+  const emailDigestByUser = new Map<string, AnalystDigestItem[]>()
 
   // ── 4. Process each symbol ────────────────────────────────────────────────
   for (const symbol of symbols) {
@@ -368,22 +393,38 @@ async function handleCheck(queryTestUserId: string | null = null) {
 
       for (const userId of usersToNotify) {
         await createInAppNotification(userId, title, message, notifData, href)
-        // Send email if user has an email
+
+        // Send at most one analyst email per user and cron run.
         const email = userEmailMap.get(userId)
         if (email) {
-          try {
-            await sendAnalystEmail(email, symbol, label, grading, gradeChange)
-          } catch (e) {
-            console.error(`[AnalystRatings] Email error for ${userId}:`, e)
-          }
+          const items = emailDigestByUser.get(userId) || []
+          items.push({ symbol, label, grading, gradeChange })
+          emailDigestByUser.set(userId, items)
         }
         totalNotified++
       }
     }
   }
 
+  for (const [userId, items] of emailDigestByUser) {
+    const email = userEmailMap.get(userId)
+    if (!email || items.length === 0) continue
+
+    try {
+      items.sort((a, b) => {
+        const actionDiff = a.label.localeCompare(b.label)
+        if (actionDiff !== 0) return actionDiff
+        return a.symbol.localeCompare(b.symbol)
+      })
+      await sendAnalystDigestEmail(email, items)
+      totalEmailsSent++
+    } catch (e) {
+      console.error(`[AnalystRatings] Digest email error for ${userId}:`, e)
+    }
+  }
+
   console.log(
-    `[AnalystRatings] Done: ${symbols.length} symbols checked, ${totalNew} new actions, ${totalNotified} notifications sent`
+    `[AnalystRatings] Done: ${symbols.length} symbols checked, ${totalNew} new actions, ${totalNotified} notifications sent, ${totalEmailsSent} emails sent`
   )
 
   return NextResponse.json({
@@ -391,6 +432,7 @@ async function handleCheck(queryTestUserId: string | null = null) {
     symbolsChecked: symbols.length,
     newActions: totalNew,
     notificationsSent: totalNotified,
+    emailsSent: totalEmailsSent,
   })
 }
 

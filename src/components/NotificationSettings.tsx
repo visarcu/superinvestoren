@@ -249,14 +249,14 @@ export default function NotificationSettings() {
           </div>
           <div>
             <h3 className="text-lg font-bold text-white">Analysten-Ratings</h3>
-            <p className="text-sm text-gray-400">Upgrades & Downgrades für deine Watchlist-Aktien</p>
+            <p className="text-sm text-gray-400">Hoch- und Herabstufungen für deine Watchlist-Aktien</p>
           </div>
         </div>
 
         <div className="flex items-center justify-between">
           <div>
             <label className="text-white font-medium">Rating-Benachrichtigungen</label>
-            <p className="text-sm text-gray-400">Sofort wenn ein Analyst eine Watchlist-Aktie hoch- oder herabstuft</p>
+            <p className="text-sm text-gray-400">Keine Alerts für neu gestartete Coverage</p>
           </div>
           <button
             onClick={() => updateSetting('analyst_ratings_enabled', !settings.analyst_ratings_enabled)}

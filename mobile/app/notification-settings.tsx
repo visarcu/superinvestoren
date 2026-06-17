@@ -233,8 +233,8 @@ export default function NotificationSettingsScreen() {
               <View style={s.rowLeft}>
                 <Ionicons name="trending-up" size={18} color="#64748B" style={s.rowIcon} />
                 <View>
-                  <Text style={s.rowLabel}>Upgrades & Downgrades</Text>
-                  <Text style={s.rowSub}>Noti bei Analyst-Bewertungsänderungen</Text>
+                  <Text style={s.rowLabel}>Hoch- & Herabstufungen</Text>
+                  <Text style={s.rowSub}>Keine Notis für neu gestartete Coverage</Text>
                 </View>
               </View>
               <Switch
