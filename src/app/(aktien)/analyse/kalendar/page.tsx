@@ -82,6 +82,16 @@ function dateToIso(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
 }
 
+function uniqueSymbols(symbols: Array<string | null | undefined>): string[] {
+  return Array.from(
+    new Set(
+      symbols
+        .map(symbol => (symbol || '').trim().toUpperCase())
+        .filter(symbol => symbol && symbol !== 'CASH')
+    )
+  )
+}
+
 function isoWeekNumber(d: Date): number {
   const target = new Date(d)
   target.setHours(0, 0, 0, 0)
@@ -136,19 +146,19 @@ export default function EarningsCalendarPage() {
       if (!session || cancelled) return
       setIsLoggedIn(true)
 
-      // Portfolio
-      const { data: pf } = await supabase
+      // Portfolio: Dashboard defaultet auf "Alle Depots", deshalb hier ebenfalls
+      // alle Depots des Users aggregieren statt nur is_default=true zu lesen.
+      const { data: portfolios } = await supabase
         .from('portfolios')
         .select('id')
         .eq('user_id', session.user.id)
-        .eq('is_default', true)
-        .single()
-      if (pf?.id && !cancelled) {
+      const portfolioIds = portfolios?.map(p => p.id).filter(Boolean) || []
+      if (portfolioIds.length > 0 && !cancelled) {
         const { data: holds } = await supabase
           .from('portfolio_holdings')
           .select('symbol')
-          .eq('portfolio_id', pf.id)
-        if (holds && !cancelled) setPortfolioTickers(holds.map(h => h.symbol))
+          .in('portfolio_id', portfolioIds)
+        if (holds && !cancelled) setPortfolioTickers(uniqueSymbols(holds.map(h => h.symbol)))
       }
 
       // Watchlist
@@ -156,7 +166,7 @@ export default function EarningsCalendarPage() {
         .from('watchlists')
         .select('ticker')
         .eq('user_id', session.user.id)
-      if (wl && !cancelled) setWatchlistTickers(wl.map(w => w.ticker))
+      if (wl && !cancelled) setWatchlistTickers(uniqueSymbols(wl.map(w => w.ticker)))
     })()
     return () => { cancelled = true }
   }, [])
