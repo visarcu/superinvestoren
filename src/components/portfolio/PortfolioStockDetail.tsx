@@ -68,6 +68,7 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   const router = useRouter()
   const searchParams = useSearchParams()
   const portfolioId = searchParams.get('portfolioId')
+  const returnTo = searchParams.get('returnTo')
   const totalValueParam = parseFloat(searchParams.get('totalValue') || '0')
   const formatStockPrice = formatStockPriceEUR
   const formatPercentage = formatPercentageDE
@@ -400,6 +401,11 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   }
 
   const handleBack = () => {
+    if (returnTo?.startsWith('/analyse/portfolio/dashboard')) {
+      router.push(returnTo)
+      return
+    }
+
     if (portfolioId) {
       router.push(`/analyse/portfolio/dashboard?depot=${portfolioId}`)
     } else {

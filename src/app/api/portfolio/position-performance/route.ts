@@ -29,6 +29,12 @@ interface PerformancePoint {
   currentPriceEUR: number
   change: number
   changePercent: number
+  sparkline?: SparklinePoint[]
+}
+
+interface SparklinePoint {
+  date: string
+  value: number
 }
 
 function normalizeSymbol(symbol: unknown): string {
@@ -87,9 +93,55 @@ function toEURPrice(
   return rawPrice * getRateForDate(usdEurMap, date, 0.92)
 }
 
+function samplePoints<T>(points: T[], maxPoints: number): T[] {
+  if (points.length <= maxPoints) return points
+
+  const result: T[] = []
+  const lastIndex = points.length - 1
+  for (let i = 0; i < maxPoints; i++) {
+    const index = Math.round((i / (maxPoints - 1)) * lastIndex)
+    result.push(points[index])
+  }
+  return result
+}
+
+function buildSparkline(
+  symbol: string,
+  history: Array<{ date: string; close: number; adjusted_close?: number }>,
+  startDate: string,
+  currentPriceEUR: number,
+  usdEurMap: Map<string, number>,
+  gbpEurMap: Map<string, number>,
+): SparklinePoint[] {
+  const points = history
+    .filter(p => p.date >= startDate && ((p.adjusted_close ?? p.close) > 0))
+    .sort((a, b) => a.date.localeCompare(b.date))
+    .map(point => {
+      const rawPrice = point.adjusted_close ?? point.close
+      const value = toEURPrice(symbol, rawPrice, point.date, usdEurMap, gbpEurMap)
+      return {
+        date: point.date,
+        value: Math.round(value * 10000) / 10000,
+      }
+    })
+    .filter(point => point.value > 0)
+
+  const today = new Date().toISOString().slice(0, 10)
+  const latest = points[points.length - 1]
+  if (currentPriceEUR > 0 && (!latest || latest.date < today)) {
+    points.push({
+      date: today,
+      value: Math.round(currentPriceEUR * 10000) / 10000,
+    })
+  }
+
+  return samplePoints(points, 28)
+}
+
 export async function POST(request: Request) {
   try {
     const body = await request.json()
+    const includeSparkline = body?.includeSparkline === true
     const requestedTimeframes: Timeframe[] = Array.isArray(body?.timeframes)
       ? body.timeframes.map((t: unknown) => String(t).toUpperCase()).filter((t: string): t is Timeframe => VALID_TIMEFRAMES.includes(t as Timeframe))
       : VALID_TIMEFRAMES
@@ -154,13 +206,26 @@ export async function POST(request: Request) {
         if (!startPriceEUR || startPriceEUR <= 0) continue
 
         const changePerShare = meta.currentPriceEUR - startPriceEUR
-        byTimeframe[timeframe] = {
+        const point: PerformancePoint = {
           startDate: startPoint.date,
           startPriceEUR: Math.round(startPriceEUR * 10000) / 10000,
           currentPriceEUR: Math.round(meta.currentPriceEUR * 10000) / 10000,
           change: Math.round(changePerShare * meta.quantity * 100) / 100,
           changePercent: Math.round(((meta.currentPriceEUR / startPriceEUR) - 1) * 10000) / 100,
         }
+
+        if (includeSparkline) {
+          point.sparkline = buildSparkline(
+            symbol,
+            history,
+            startPoint.date,
+            meta.currentPriceEUR,
+            usdEurMap,
+            gbpEurMap,
+          )
+        }
+
+        byTimeframe[timeframe] = point
       }
 
       data[symbol] = byTimeframe

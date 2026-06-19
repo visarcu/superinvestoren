@@ -3,7 +3,7 @@
 
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
 import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { usePortfolio, type Holding } from '@/hooks/usePortfolio'
 import { detectTickerCurrency } from '@/lib/fmp'
 import QuickStats from '@/components/portfolio/QuickStats'
@@ -99,6 +99,8 @@ const PremiumUpgradeModal = ({ isOpen, onClose, feature }: { isOpen: boolean; on
 
 export default function PortfolioDashboard() {
   const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
   const p = usePortfolio()
 
   // Superinvestor Overlap
@@ -271,7 +273,21 @@ export default function PortfolioDashboard() {
   }, [p.holdings, p.allPortfolios, p.portfolio?.id, allDepotHoldings])
 
   // UI State
-  const [activeTab, setActiveTab] = useState<'overview' | 'positions' | 'analysis' | 'transactions' | 'ai-analyse' | 'dividends'>('overview')
+  type PortfolioTab = 'overview' | 'positions' | 'analysis' | 'transactions' | 'ai-analyse' | 'dividends'
+  const isPortfolioTab = (value: string | null): value is PortfolioTab =>
+    value === 'overview' ||
+    value === 'positions' ||
+    value === 'analysis' ||
+    value === 'transactions' ||
+    value === 'ai-analyse' ||
+    value === 'dividends'
+
+  const getInitialTab = (): PortfolioTab => {
+    const tab = searchParams.get('tab')
+    return isPortfolioTab(tab) ? tab : 'overview'
+  }
+
+  const [activeTab, setActiveTab] = useState<PortfolioTab>(getInitialTab)
   const [showDepotSwitcher, setShowDepotSwitcher] = useState(false)
   const [showPremiumModal, setShowPremiumModal] = useState(false)
   const [premiumFeatureMessage, setPremiumFeatureMessage] = useState('')
@@ -308,6 +324,7 @@ export default function PortfolioDashboard() {
 
   // Cash-Toggle State (mit/ohne Cash im Gesamtwert)
   const [includeCashInTotal, setIncludeCashInTotal] = useState(true)
+  const queryString = searchParams.toString()
 
   // Handlers
   const handlePremiumRequired = () => {
@@ -315,7 +332,24 @@ export default function PortfolioDashboard() {
     setShowPremiumModal(true)
   }
 
-  const handleTabChange = (tab: typeof activeTab) => {
+  useEffect(() => {
+    const tab = searchParams.get('tab')
+    const nextTab = isPortfolioTab(tab) ? tab : 'overview'
+    if (nextTab !== activeTab) setActiveTab(nextTab)
+    // URL -> state sync only when the URL actually changes. Otherwise a local
+    // tab click can be overwritten before router.replace finishes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryString])
+
+  const updateTabUrl = (tab: PortfolioTab) => {
+    const params = new URLSearchParams(searchParams.toString())
+    if (tab === 'overview') params.delete('tab')
+    else params.set('tab', tab)
+    const query = params.toString()
+    router.replace(`${pathname}${query ? `?${query}` : ''}`, { scroll: false })
+  }
+
+  const handleTabChange = (tab: PortfolioTab) => {
     if (tab === 'transactions' && !p.isPremium) {
       setPremiumFeatureMessage('Portfolio-Historie ist ein Premium-Feature. Verfolge alle deine Transaktionen.')
       setShowPremiumModal(true)
@@ -332,6 +366,7 @@ export default function PortfolioDashboard() {
       return
     }
     setActiveTab(tab)
+    updateTabUrl(tab)
   }
 
   const openEditModal = (holding: Holding) => {
@@ -787,7 +822,7 @@ export default function PortfolioDashboard() {
                 <div className="terminal-glass mt-6 rounded-2xl p-4">
                   <div className="flex items-center justify-between mb-3">
                     <h3 className="text-sm font-medium text-theme-secondary">Top Positionen</h3>
-                    <button onClick={() => setActiveTab('positions')} className="text-xs text-teal-300 hover:text-teal-200">
+                    <button onClick={() => handleTabChange('positions')} className="text-xs text-teal-300 hover:text-teal-200">
                       Alle anzeigen
                     </button>
                   </div>

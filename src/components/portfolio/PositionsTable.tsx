@@ -1,8 +1,8 @@
 // src/components/portfolio/PositionsTable.tsx
 'use client'
 
-import React, { useEffect, useState, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useEffect, useState, useMemo, useCallback } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import Logo from '@/components/Logo'
 import { type Holding, type DepotHistoricalPerf } from '@/hooks/usePortfolio'
 import { perfColor } from '@/utils/formatters'
@@ -45,6 +45,7 @@ type PeriodReturn = {
   currentPriceEUR: number
   change: number
   changePercent: number
+  sparkline?: Array<{ date: string; value: number }>
 }
 
 const RETURN_RANGES: Array<{ key: ReturnRange; label: string }> = [
@@ -55,6 +56,69 @@ const RETURN_RANGES: Array<{ key: ReturnRange; label: string }> = [
   { key: '3M', label: '3M' },
   { key: '1Y', label: '1J' },
 ]
+
+const SORT_BY_VALUES = ['value', 'gainLossPercent', 'gainLoss'] as const
+type SortBy = typeof SORT_BY_VALUES[number]
+type SortDir = 'desc' | 'asc'
+
+function parseSortBy(value: string | null): SortBy {
+  return SORT_BY_VALUES.includes(value as SortBy) ? value as SortBy : 'value'
+}
+
+function parseSortDir(value: string | null): SortDir {
+  return value === 'asc' ? 'asc' : 'desc'
+}
+
+function parseReturnRange(value: string | null): ReturnRange {
+  return RETURN_RANGES.some(range => range.key === value) ? value as ReturnRange : 'TOTAL'
+}
+
+function PositionSparkline({
+  points,
+  positive,
+}: {
+  points?: Array<{ date: string; value: number }>
+  positive: boolean
+}) {
+  if (!points || points.length < 2) {
+    return <div className="h-8 text-[11px] text-neutral-700 flex items-center justify-end">–</div>
+  }
+
+  const width = 116
+  const height = 30
+  const values = points.map(point => point.value)
+  const min = Math.min(...values)
+  const max = Math.max(...values)
+  const range = max - min || 1
+  const coordinates = points.map((point, index) => {
+    const x = (index / (points.length - 1)) * width
+    const y = height - ((point.value - min) / range) * (height - 4) - 2
+    return `${x.toFixed(1)},${y.toFixed(1)}`
+  })
+  const lineColor = positive ? '#10b981' : '#ef4444'
+  const fillColor = positive ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)'
+  const areaPoints = `0,${height} ${coordinates.join(' ')} ${width},${height}`
+
+  return (
+    <svg
+      width={width}
+      height={height}
+      viewBox={`0 0 ${width} ${height}`}
+      className="ml-auto block"
+      aria-hidden="true"
+    >
+      <polyline points={areaPoints} fill={fillColor} stroke="none" />
+      <polyline
+        points={coordinates.join(' ')}
+        fill="none"
+        stroke={lineColor}
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  )
+}
 
 // Gruppierte Position für Alle-Depots-Ansicht
 interface GroupedPosition {
@@ -88,12 +152,42 @@ export default function PositionsTable({
   historicalPerfByDepot,
 }: PositionsTableProps) {
   const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const queryString = searchParams.toString()
   const [expandedSymbols, setExpandedSymbols] = useState<Set<string>>(new Set())
-  const [sortBy, setSortBy] = useState<'value' | 'gainLossPercent' | 'gainLoss'>('value')
-  const [sortDir, setSortDir] = useState<'desc' | 'asc'>('desc')
-  const [returnRange, setReturnRange] = useState<ReturnRange>('TOTAL')
+  const [sortBy, setSortBy] = useState<SortBy>(() => parseSortBy(searchParams.get('sortBy')))
+  const [sortDir, setSortDir] = useState<SortDir>(() => parseSortDir(searchParams.get('sortDir')))
+  const [returnRange, setReturnRange] = useState<ReturnRange>(() => parseReturnRange(searchParams.get('range')))
   const [periodReturns, setPeriodReturns] = useState<Record<string, Partial<Record<Exclude<ReturnRange, 'TOTAL'>, PeriodReturn>>>>({})
   const [periodReturnsLoading, setPeriodReturnsLoading] = useState(false)
+
+  useEffect(() => {
+    const nextSortBy = parseSortBy(searchParams.get('sortBy'))
+    const nextSortDir = parseSortDir(searchParams.get('sortDir'))
+    const nextRange = parseReturnRange(searchParams.get('range'))
+
+    setSortBy(current => current === nextSortBy ? current : nextSortBy)
+    setSortDir(current => current === nextSortDir ? current : nextSortDir)
+    setReturnRange(current => current === nextRange ? current : nextRange)
+    // URL -> state sync only when the URL actually changes.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryString])
+
+  const updatePortfolioQuery = useCallback((updates: Partial<{ sortBy: SortBy; sortDir: SortDir; range: ReturnRange }>) => {
+    const params = new URLSearchParams(searchParams.toString())
+    params.set('tab', 'positions')
+
+    if (updates.sortBy) params.set('sortBy', updates.sortBy)
+    if (updates.sortDir) params.set('sortDir', updates.sortDir)
+    if (updates.range) {
+      if (updates.range === 'TOTAL') params.delete('range')
+      else params.set('range', updates.range)
+    }
+
+    const next = params.toString()
+    router.replace(`${pathname}${next ? `?${next}` : ''}`, { scroll: false })
+  }, [pathname, router, searchParams])
 
   useEffect(() => {
     if (holdings.length === 0) {
@@ -123,6 +217,7 @@ export default function PositionsTable({
       body: JSON.stringify({
         positions,
         timeframes: ['1D', '1W', '1M', '3M', '1Y'],
+        includeSparkline: true,
       }),
     })
       .then(res => (res.ok ? res.json() : null))
@@ -180,9 +275,22 @@ export default function PositionsTable({
     }
   }
 
-  const handleSort = (col: typeof sortBy) => {
-    if (sortBy === col) setSortDir(d => d === 'desc' ? 'asc' : 'desc')
-    else { setSortBy(col); setSortDir('desc') }
+  const sparklineRange: Exclude<ReturnRange, 'TOTAL'> = returnRange === 'TOTAL' ? '1Y' : returnRange
+
+  const getSparkline = (symbol: string) => {
+    return periodReturns[symbol]?.[sparklineRange]?.sparkline
+  }
+
+  const handleReturnRangeChange = (range: ReturnRange) => {
+    setReturnRange(range)
+    updatePortfolioQuery({ range })
+  }
+
+  const handleSort = (col: SortBy) => {
+    const nextDir = sortBy === col && sortDir === 'desc' ? 'asc' : 'desc'
+    setSortBy(col)
+    setSortDir(nextDir)
+    updatePortfolioQuery({ sortBy: col, sortDir: nextDir })
   }
 
   // Gruppierte Positionen für Alle-Depots-Ansicht
@@ -255,10 +363,16 @@ export default function PositionsTable({
   }
 
   const handleViewStock = (symbol: string) => {
+    const returnParams = new URLSearchParams(searchParams.toString())
+    returnParams.set('tab', 'positions')
+    const returnQuery = returnParams.toString()
+    const returnTo = `${pathname}${returnQuery ? `?${returnQuery}` : ''}`
+    const encodedReturnTo = encodeURIComponent(returnTo)
+
     if (portfolioId) {
-      router.push(`/analyse/portfolio/stocks/${symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue}`)
+      router.push(`/analyse/portfolio/stocks/${symbol.toLowerCase()}?portfolioId=${portfolioId}&totalValue=${totalValue}&returnTo=${encodedReturnTo}`)
     } else {
-      router.push(`/analyse/stocks/${symbol.toLowerCase()}`)
+      router.push(`/analyse/stocks/${symbol.toLowerCase()}?returnTo=${encodedReturnTo}`)
     }
   }
 
@@ -296,7 +410,7 @@ export default function PositionsTable({
         onClick={() => handleViewStock(holding.symbol)}
       >
         {/* Aktie */}
-        <div className="col-span-4 flex items-center gap-3 min-w-0">
+        <div className="col-span-6 sm:col-span-3 flex items-center gap-3 min-w-0">
           {isSubRow ? (
             // Sub-Row: Depot-Info statt Logo
             <>
@@ -361,7 +475,7 @@ export default function PositionsTable({
         </div>
 
         {/* Wert */}
-        <div className="col-span-2 text-right">
+        <div className="col-span-3 sm:col-span-2 text-right">
           <p className={`font-medium text-sm ${isSubRow ? 'text-neutral-300' : 'text-white'}`}>{formatCurrency(holding.value)}</p>
         </div>
 
@@ -376,8 +490,18 @@ export default function PositionsTable({
           </div>
         </div>
 
+        {/* Trend */}
+        <div className="col-span-2 text-right hidden sm:block">
+          {!isSubRow && (
+            <PositionSparkline
+              points={getSparkline(holding.symbol)}
+              positive={displayReturn.percent >= 0}
+            />
+          )}
+        </div>
+
         {/* G/V */}
-        <div className="col-span-2 text-right">
+        <div className="col-span-2 sm:col-span-1 text-right">
           <p className={`text-sm font-medium ${displayReturn.hasPeriod ? perfColor(displayReturn.amount) : 'text-neutral-500'}`}>
             {displayReturn.hasPeriod
               ? `${displayReturn.amount >= 0 ? '+' : ''}${formatCurrency(displayReturn.amount)}`
@@ -450,7 +574,7 @@ export default function PositionsTable({
           onClick={() => handleViewStock(group.symbol)}
         >
           {/* Aktie */}
-          <div className="col-span-4 flex items-center gap-3 min-w-0">
+          <div className="col-span-6 sm:col-span-3 flex items-center gap-3 min-w-0">
             <span className="w-5 text-xs text-neutral-600 font-medium hidden sm:block flex-shrink-0">{index + 1}</span>
             <Logo ticker={group.symbol} alt={group.symbol} className="w-8 h-8 flex-shrink-0" padding="none" />
             <div className="min-w-0">
@@ -496,7 +620,7 @@ export default function PositionsTable({
           </div>
 
           {/* Wert */}
-          <div className="col-span-2 text-right">
+          <div className="col-span-3 sm:col-span-2 text-right">
             <p className="font-medium text-white text-sm">{formatCurrency(group.totalValue)}</p>
           </div>
 
@@ -511,8 +635,16 @@ export default function PositionsTable({
             </div>
           </div>
 
+          {/* Trend */}
+          <div className="col-span-2 text-right hidden sm:block">
+            <PositionSparkline
+              points={getSparkline(group.symbol)}
+              positive={displayReturn.percent >= 0}
+            />
+          </div>
+
           {/* G/V */}
-          <div className="col-span-2 text-right">
+          <div className="col-span-2 sm:col-span-1 text-right">
             <p className={`text-sm font-medium ${displayReturn.hasPeriod ? perfColor(displayReturn.amount) : 'text-neutral-500'}`}>
               {displayReturn.hasPeriod
                 ? `${displayReturn.amount >= 0 ? '+' : ''}${formatCurrency(displayReturn.amount)}`
@@ -564,7 +696,7 @@ export default function PositionsTable({
         className="grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 -mx-2 px-2 rounded-lg ml-4 bg-neutral-900/10 opacity-75"
       >
         {/* Depot-Info (statt Logo) */}
-        <div className="col-span-4 flex items-center gap-3 min-w-0">
+        <div className="col-span-6 sm:col-span-3 flex items-center gap-3 min-w-0">
           <div className="w-10 h-10 rounded-lg bg-neutral-900/60 border border-neutral-800 flex items-center justify-center flex-shrink-0">
             <BriefcaseIcon className="w-4 h-4 text-neutral-500" />
           </div>
@@ -575,18 +707,21 @@ export default function PositionsTable({
         </div>
 
         {/* Kurs — leer */}
-        <div className="col-span-2 text-right text-[12px] text-neutral-600">—</div>
+        <div className="col-span-2 text-right text-[12px] text-neutral-600 hidden sm:block">—</div>
 
         {/* Wert — 0 */}
-        <div className="col-span-2 text-right">
+        <div className="col-span-3 sm:col-span-2 text-right">
           <div className="text-[13px] text-neutral-500 tabular-nums">0,00 €</div>
         </div>
 
-        {/* Kursgewinn — 0 */}
-        <div className="col-span-1 text-right text-[12px] text-neutral-600">—</div>
+        {/* Anteil — leer */}
+        <div className="col-span-1 text-right text-[12px] text-neutral-600 hidden sm:block">—</div>
+
+        {/* Trend — leer */}
+        <div className="col-span-2 hidden sm:block" />
 
         {/* Dividenden / Realisiert (historisch) */}
-        <div className="col-span-2 text-right">
+        <div className="col-span-2 sm:col-span-1 text-right">
           {ghost.totalDividends > 0 && (
             <div className="text-[11px] text-emerald-500/80 tabular-nums">
               +{ghost.totalDividends.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} € Div.
@@ -618,7 +753,7 @@ export default function PositionsTable({
             {RETURN_RANGES.map(range => (
               <button
                 key={range.key}
-                onClick={() => setReturnRange(range.key)}
+                onClick={() => handleReturnRangeChange(range.key)}
                 className={`px-2.5 py-1.5 text-xs rounded-lg transition-colors ${
                   returnRange === range.key
                     ? 'bg-theme-secondary text-theme-primary dark:bg-white/[0.085] dark:text-white'
@@ -635,13 +770,14 @@ export default function PositionsTable({
 
       {/* Table Header */}
       <div className="hidden sm:grid grid-cols-12 gap-4 px-2 mb-2 text-xs text-neutral-500 font-medium">
-        <div className="col-span-4">Aktie</div>
+        <div className="col-span-3">Aktie</div>
         <div className="col-span-2 text-right">Kurs</div>
         <button onClick={() => handleSort('value')} className={`col-span-2 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'value' ? 'text-neutral-300' : ''}`}>
           Wert {sortBy === 'value' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
         </button>
         <div className="col-span-1 text-right">Anteil</div>
-        <button onClick={() => handleSort('gainLossPercent')} className={`col-span-2 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'gainLossPercent' || sortBy === 'gainLoss' ? 'text-neutral-300' : ''}`}>
+        <div className="col-span-2 text-right">Trend</div>
+        <button onClick={() => handleSort('gainLossPercent')} className={`col-span-1 text-right flex items-center justify-end gap-1 hover:text-neutral-300 transition-colors ${sortBy === 'gainLossPercent' || sortBy === 'gainLoss' ? 'text-neutral-300' : ''}`}>
           {returnRange === 'TOTAL' ? 'G/V' : `Rendite ${RETURN_RANGES.find(r => r.key === returnRange)?.label || returnRange}`} {sortBy === 'gainLossPercent' ? (sortDir === 'desc' ? '↓' : '↑') : sortBy === 'gainLoss' ? (sortDir === 'desc' ? '↓' : '↑') : '↕'}
         </button>
         <div className="col-span-1"></div>
@@ -664,7 +800,7 @@ export default function PositionsTable({
             onClick={onEditCash}
           >
             {/* Aktie */}
-            <div className="col-span-4 flex items-center gap-3">
+            <div className="col-span-6 sm:col-span-3 flex items-center gap-3">
               <span className="w-5 text-xs text-neutral-600 font-medium hidden sm:block flex-shrink-0">
                 {isAllDepotsView && groupedPositions
                   ? groupedPositions.length + 1
@@ -685,7 +821,7 @@ export default function PositionsTable({
             <div className="col-span-2 hidden sm:block" />
 
             {/* Wert */}
-            <div className="col-span-2 text-right">
+            <div className="col-span-3 sm:col-span-2 text-right">
               <p className={`font-medium text-sm ${cashPosition < 0 ? 'text-red-400' : 'text-white'}`}>
                 {formatCurrency(cashPosition)}
               </p>
@@ -711,8 +847,11 @@ export default function PositionsTable({
               })()}
             </div>
 
+            {/* Trend – leer */}
+            <div className="col-span-2 hidden sm:block" />
+
             {/* G/V – leer */}
-            <div className="col-span-2" />
+            <div className="col-span-2 sm:col-span-1" />
 
             {/* Actions – leer */}
             <div className="col-span-1" />
