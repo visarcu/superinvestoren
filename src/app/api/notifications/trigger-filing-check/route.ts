@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import fs from 'fs'
 import path from 'path'
+import { getInvestorDisplayName } from '@/lib/investor-utils'
 
 const supabaseService = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -14,91 +15,6 @@ const supabaseService = createClient(
     }
   }
 )
-
-// Helper: Investor Namen
-function getInvestorName(slug: string): string {
-  const names: Record<string, string> = {
-    'buffett': 'Warren Buffett',
-    'ackman': 'Bill Ackman',
-    'gates': 'Bill Gates',
-    'torray': 'Torray Investment Partners',
-    'davis': 'Christopher Davis',
-    'altarockpartners': 'Mark Massey',
-    'greenhaven': 'Edgar Wachenheim III',
-    'vinall': 'Robert Vinall',
-    'meridiancontrarian': 'Meridian Contrarian Fund',
-    'hawkins': 'Mason Hawkins',
-    'olstein': 'Robert Olstein',
-    'peltz': 'Nelson Peltz',
-    'gregalexander': 'Greg Alexander',
-    'miller': 'Bill Miller',
-    'tangen': 'Nicolai Tangen',
-    'burry': 'Michael Burry',
-    'pabrai': 'Mohnish Pabrai',
-    'kantesaria': 'Dev Kantesaria',
-    'greenblatt': 'Joel Greenblatt',
-    'fisher': 'Ken Fisher',
-    'soros': 'George Soros',
-    'haley': 'Connor Haley',
-    'vandenberg': 'Arnold Van Den Berg',
-    'dodgecox': 'Dodge & Cox',
-    'pzena': 'Richard Pzena',
-    'mairspower': 'Mairs & Power Inc',
-    'weitz': 'Wallace Weitz',
-    'yacktman': 'Yacktman Asset Management',
-    'gayner': 'Thomas Gayner',
-    'armitage': 'John Armitage',
-    'burn': 'Harry Burn',
-    'cantillon': 'William von Mueffling',
-    'jensen': 'Eric Schoenstein',
-    'abrams': 'David Abrams',
-    'firsteagle': 'First Eagle Investment',
-    'polen': 'Polen Capital Management',
-    'tarasoff': 'Josh Tarasoff',
-    'rochon': 'Francois Rochon',
-    'russo': 'Thomas Russo',
-    'akre': 'Chuck Akre',
-    'triplefrond': 'Triple Frond Partners',
-    'whitman': 'Marty Whitman',
-    'patientcapital': 'Samantha McLemore',
-    'klarman': 'Seth Klarman',
-    'makaira': 'Tom Bancroft',
-    'ketterer': 'Sarah Ketterer',
-    'train': 'Lindsell Train',
-    'smith': 'Terry Smith',
-    'watsa': 'Prem Watsa',
-    'lawrence': 'Bryan Lawrence',
-    'dorsey': 'Pat Dorsey',
-    'hohn': 'Chris Hohn',
-    'hong': 'Dennis Hong',
-    'kahn': 'Kahn Brothers Group',
-    'coleman': 'Chase Coleman',
-    'dalio': 'Ray Dalio',
-    'loeb': 'Daniel Loeb',
-    'tepper': 'David Tepper',
-    'icahn': 'Carl Icahn',
-    'lilu': 'Li Lu',
-    'ainslie': 'Lee Ainslie',
-    'greenberg': 'Glenn Greenberg',
-    'mandel': 'Stephen Mandel',
-    'marks': 'Howard Marks',
-    'rogers': 'John Rogers',
-    'ariel_appreciation': 'Ariel Appreciation Fund',
-    'ariel_focus': 'Ariel Focus Fund',
-    'cunniff': 'Ruane, Cunniff & Goldfarb',
-    'spier': 'Guy Spier',
-    'chou': 'Francis Chou',
-    'sosin': 'Clifford Sosin',
-    'welling': 'Glenn Welling',
-    'lou': 'Norbert Lou',
-    'munger': 'Charlie Munger',
-    'ark_investment_management': 'Catherine Wood',
-    'cunniff_sequoia': 'Sequoia Fund',
-    'katz': 'David Katz',
-    'tweedy_browne_fund_inc': 'Tweedy Browne'
-  }
-  return names[slug] || slug.charAt(0).toUpperCase() + slug.slice(1)
-}
 
 // Helper: Finde kürzlich hinzugefügte Holdings-Dateien (letzte 24h)
 function findRecentFilings(): string[] {
@@ -252,7 +168,7 @@ export async function POST(request: NextRequest) {
             .maybeSingle()
 
           if (!recentNotification) {
-            const investorName = getInvestorName(investorSlug)
+            const investorName = getInvestorDisplayName(investorSlug)
 
             // ✅ In-App Notification erstellen
             await createInAppNotification({

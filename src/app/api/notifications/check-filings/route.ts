@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import holdingsHistory from '@/data/holdings'
+import { getInvestorDisplayName } from '@/lib/investor-utils'
 
 // TEST MODE: Set to your user ID to only send notifications to yourself
 // Set to null to send to all users. Must be a valid UUID format.
@@ -73,20 +74,6 @@ async function createInAppNotification({
   } catch (error) {
     console.error('Failed to create in-app notification:', error)
   }
-}
-
-// Helper: Investor Namen
-function getInvestorName(slug: string): string {
-  const names: Record<string, string> = {
-    'buffett': 'Warren Buffett',
-    'ackman': 'Bill Ackman',
-    'gates': 'Bill Gates',
-    'burry': 'Michael Burry',
-    'soros': 'George Soros',
-    'icahn': 'Carl Icahn',
-    'spier': 'Guy Spier'
-  }
-  return names[slug] || slug
 }
 
 // Helper: Hole das neueste Filing-Datum für einen Investor
@@ -262,7 +249,7 @@ async function handleFilingCheck(queryTestUserId: string | null = null) {
               .maybeSingle()
 
             if (!existingUserNotification) {
-              const investorName = getInvestorName(investorSlug)
+              const investorName = getInvestorDisplayName(investorSlug)
 
               // ✅ In-App Notification erstellen
               await createInAppNotification({
