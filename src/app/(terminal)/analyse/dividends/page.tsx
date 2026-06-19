@@ -457,7 +457,7 @@ export default function DividendsCalendarPage() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
-            <CurrencyDollarIcon className="w-5 h-5 text-theme-accent" />
+            <CurrencyDollarIcon className="w-5 h-5 text-brand" />
             <h1 className="text-xl font-semibold text-theme-primary">Dividenden Kalender</h1>
           </div>
 
@@ -639,7 +639,7 @@ export default function DividendsCalendarPage() {
             // Year View - 4x3 Month Grid like Parqet
             loading ? (
               <div className="flex items-center justify-center py-20">
-                <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                <div className="w-6 h-6 border-2 border-brand border-t-transparent rounded-full animate-spin" />
               </div>
             ) : (
               <div className="grid grid-cols-4 gap-px bg-white/[0.04]">
@@ -651,11 +651,11 @@ export default function DividendsCalendarPage() {
                   return (
                     <div
                       key={monthIndex}
-                      className={`bg-theme-card p-4 min-h-[220px] ${isCurrentMonth ? 'ring-1 ring-inset ring-theme-accent/30' : ''}`}
+                      className={`bg-theme-card p-4 min-h-[220px] ${isCurrentMonth ? 'ring-1 ring-inset ring-brand/30' : ''}`}
                     >
                       {/* Month Header */}
                       <div className="flex items-center justify-between mb-3">
-                        <span className={`text-sm font-medium ${isCurrentMonth ? 'text-theme-accent' : 'text-theme-primary'}`}>
+                        <span className={`text-sm font-medium ${isCurrentMonth ? 'text-brand' : 'text-theme-primary'}`}>
                           {monthName}
                         </span>
                         {monthDividends.length > 0 && (
@@ -677,7 +677,7 @@ export default function DividendsCalendarPage() {
                           ))}
                           {monthDividends.length > 5 && (
                             <div className="pt-1">
-                              <span className="text-xs text-theme-accent hover:underline cursor-pointer">
+                              <span className="text-xs text-brand hover:underline cursor-pointer">
                                 Mehr anzeigen →
                               </span>
                             </div>
@@ -709,12 +709,12 @@ export default function DividendsCalendarPage() {
                   <div
                     key={index}
                     className={`px-4 py-3 text-center border-r border-white/[0.04] last:border-r-0 ${
-                      isToday(date) ? 'bg-theme-accent/5' : ''
+                      isToday(date) ? 'bg-brand/5' : ''
                     }`}
                   >
                     <div className="text-xs text-theme-muted mb-1">{dayNames[index]}</div>
                     <div className={`text-sm font-medium ${
-                      isToday(date) ? 'text-theme-accent' : 'text-theme-primary'
+                      isToday(date) ? 'text-brand' : 'text-theme-primary'
                     }`}>
                       {date.getDate()}
                     </div>
@@ -725,7 +725,7 @@ export default function DividendsCalendarPage() {
               {/* Week View - Calendar Content */}
               {loading ? (
                 <div className="flex items-center justify-center py-20">
-                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-brand border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : (
                 <div className="grid grid-cols-5 min-h-[650px]">
@@ -737,7 +737,7 @@ export default function DividendsCalendarPage() {
                       <div
                         key={dayIndex}
                         className={`border-r border-white/[0.04] last:border-r-0 ${
-                          isToday(date) ? 'bg-theme-accent/5' : ''
+                          isToday(date) ? 'bg-brand/5' : ''
                         }`}
                       >
                         {dayDividends.length > 0 ? (
@@ -779,7 +779,7 @@ export default function DividendsCalendarPage() {
               {/* Month View - Calendar Content */}
               {loading ? (
                 <div className="flex items-center justify-center py-20">
-                  <div className="w-6 h-6 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                  <div className="w-6 h-6 border-2 border-brand border-t-transparent rounded-full animate-spin" />
                 </div>
               ) : (
                 <div>
@@ -796,13 +796,13 @@ export default function DividendsCalendarPage() {
                           <div
                             key={dayIndex}
                             className={`min-h-[120px] p-2 border-r border-white/[0.04] last:border-r-0 ${
-                              isTodayDate ? 'bg-theme-accent/5' : ''
+                              isTodayDate ? 'bg-brand/5' : ''
                             } ${!isCurrentMonth ? 'opacity-40' : ''} ${isWeekend ? 'bg-white/[0.01]' : ''}`}
                           >
                             {/* Date Number */}
                             <div className={`text-xs font-medium mb-1 ${
                               isTodayDate
-                                ? 'text-theme-accent'
+                                ? 'text-brand'
                                 : isCurrentMonth
                                   ? 'text-theme-primary'
                                   : 'text-theme-muted'
@@ -832,7 +832,7 @@ export default function DividendsCalendarPage() {
                                           <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-emerald-500 rounded-full" />
                                         )}
                                       </div>
-                                      <span className={`text-[10px] truncate ${hasPortfolioData ? 'text-emerald-400' : 'text-theme-secondary'} group-hover:text-theme-accent`}>
+                                      <span className={`text-[10px] truncate ${hasPortfolioData ? 'text-emerald-400' : 'text-theme-secondary'} group-hover:text-brand`}>
                                         {event.ticker}
                                       </span>
                                     </Link>
@@ -936,7 +936,7 @@ function YearViewDividendItem({
               <div className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 bg-emerald-500 rounded-full" />
             )}
           </div>
-          <span className="text-sm text-theme-primary group-hover:text-theme-accent truncate">
+          <span className="text-sm text-theme-primary group-hover:text-brand truncate">
             {event.companyName}
           </span>
         </div>
@@ -1032,7 +1032,7 @@ function DividendItem({
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1.5">
-          <span className="text-xs font-medium text-theme-primary group-hover:text-theme-accent transition-colors">
+          <span className="text-xs font-medium text-theme-primary group-hover:text-brand transition-colors">
             {event.ticker}
           </span>
           <span className="text-[10px] text-theme-muted truncate">
@@ -1059,7 +1059,7 @@ function DividendItem({
           </>
         ) : (
           <>
-            <span className="text-[10px] text-theme-accent font-medium">
+            <span className="text-[10px] text-brand font-medium">
               {formatCurrency(event.dividend)}
             </span>
             {event.yield && (

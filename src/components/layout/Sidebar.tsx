@@ -50,6 +50,7 @@ function useUnreadNotifications(userId: string | null) {
       const { count } = await supabase
         .from('notifications')
         .select('*', { count: 'exact', head: true })
+        .eq('user_id', userId)
         .eq('read', false)
 
       setUnreadCount(count || 0)
@@ -69,7 +70,18 @@ function useUnreadNotifications(userId: string | null) {
       })
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    // Fallback for environments where Supabase realtime isn't enabled on
+    // the notifications table: the /inbox page dispatches this event after
+    // marking notifications as read so the sidebar count stays in sync.
+    const handleRefresh = () => fetchUnread()
+    window.addEventListener('notifications:updated', handleRefresh)
+    window.addEventListener('focus', handleRefresh)
+
+    return () => {
+      supabase.removeChannel(channel)
+      window.removeEventListener('notifications:updated', handleRefresh)
+      window.removeEventListener('focus', handleRefresh)
+    }
   }, [userId])
 
   return unreadCount
@@ -160,11 +172,6 @@ export default function Sidebar({
           <Icon className="h-5 w-5" />
           {premiumLocked && (
             <span className="absolute -right-1 -top-1 h-1.5 w-1.5 rounded-full bg-amber-400" />
-          )}
-          {item.id === 'inbox' && unreadCount > 0 && (
-            <span className="absolute -right-2.5 -top-2 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white shadow-sm">
-              {unreadCount > 99 ? '99+' : unreadCount}
-            </span>
           )}
         </span>
 
@@ -264,8 +271,14 @@ export default function Sidebar({
             ${sidebarCollapsed ? 'justify-center p-1' : 'gap-3 p-2'}
           `}
         >
-          <span className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-sm font-semibold text-brand-light">
+          <span className="relative flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-brand/20 text-sm font-semibold text-brand-light">
             {getInitials(user.email)}
+            {unreadCount > 0 && (
+              <span
+                className="absolute right-0 top-0 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-[var(--color-bg-primary)]"
+                aria-label={`${unreadCount} ungelesene Benachrichtigungen`}
+              />
+            )}
           </span>
 
           {!sidebarCollapsed && (
@@ -292,6 +305,7 @@ export default function Sidebar({
               {settingsItems.map((item) => {
                 const Icon = item.icon
                 const active = isActivePath(pathname, item)
+                const showUnread = item.id === 'notifications' && unreadCount > 0
                 return (
                   <Link
                     key={item.id}
@@ -306,7 +320,12 @@ export default function Sidebar({
                     `}
                   >
                     <Icon className="h-4 w-4" />
-                    {item.label}
+                    <span className="flex-1">{item.label}</span>
+                    {showUnread && (
+                      <span className="flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-red-500 px-1 text-[10px] font-bold leading-none text-white">
+                        {unreadCount > 99 ? '99+' : unreadCount}
+                      </span>
+                    )}
                   </Link>
                 )
               })}

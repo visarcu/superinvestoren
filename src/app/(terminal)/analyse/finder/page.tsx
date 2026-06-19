@@ -191,7 +191,7 @@ export default function StockFinderPage() {
         {tags.map((tag, i) => (
           <span
             key={i}
-            className="px-2 py-1 text-xs font-medium bg-theme-accent/20 text-theme-accent rounded-md"
+            className="px-2 py-1 text-xs font-medium bg-brand/20 text-brand rounded-md"
           >
             {tag}
           </span>
@@ -207,7 +207,7 @@ export default function StockFinderPage() {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-2">
-            <SparklesIcon className="w-6 h-6 text-theme-accent" />
+            <SparklesIcon className="w-6 h-6 text-brand" />
             <h1 className="text-2xl font-semibold text-theme-primary">Stock Finder</h1>
           </div>
           <p className="text-theme-secondary text-sm">
@@ -226,11 +226,11 @@ export default function StockFinderPage() {
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="z.B. Tech Aktien mit KGV unter 30..."
-              className="w-full pl-12 pr-4 py-4 bg-theme-card border border-white/10 rounded-xl text-theme-primary placeholder-theme-muted focus:outline-none focus:border-theme-accent/50 focus:ring-1 focus:ring-theme-accent/50 transition-all"
+              className="w-full pl-12 pr-4 py-4 bg-theme-card border border-white/10 rounded-xl text-theme-primary placeholder-theme-muted focus:outline-none focus:border-brand/50 focus:ring-1 focus:ring-brand/50 transition-all"
             />
             {(parsing || loading) && (
               <div className="absolute right-4 top-1/2 -translate-y-1/2">
-                <div className="w-5 h-5 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+                <div className="w-5 h-5 border-2 border-brand border-t-transparent rounded-full animate-spin" />
               </div>
             )}
           </div>
@@ -362,7 +362,7 @@ export default function StockFinderPage() {
         {(loading || parsing) && (
           <div className="bg-theme-card border border-white/[0.04] rounded-xl p-12">
             <div className="flex flex-col items-center justify-center gap-3">
-              <div className="w-8 h-8 border-2 border-theme-accent border-t-transparent rounded-full animate-spin" />
+              <div className="w-8 h-8 border-2 border-brand border-t-transparent rounded-full animate-spin" />
               <span className="text-theme-secondary text-sm">
                 {parsing ? 'Analysiere Anfrage...' : 'Lade Aktien...'}
               </span>

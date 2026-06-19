@@ -28,7 +28,6 @@ import {
   BellIcon,
   ArrowTrendingUpIcon,
   ArrowTrendingDownIcon,
-  InboxIcon
 } from '@heroicons/react/24/outline'
 import { useTheme } from '@/lib/useTheme'
 import { CurrencyProvider, useCurrency } from '@/lib/CurrencyContext'
@@ -127,14 +126,12 @@ interface CommandPaletteItem {
 const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: HomeIcon, href: '/analyse' },
   { id: 'compare', label: 'Vergleich', icon: ChartBarIcon, href: '/analyse/compare' },
-  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio/dashboard' },
+  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseIcon, href: '/analyse/portfolio/workspace?depot=all' },
   { id: 'watchlist', label: 'Watchlist', icon: BookmarkIcon, href: '/analyse/watchlist' },
   { id: 'calendar', label: 'Calendar', icon: CalendarIcon, href: '/analyse/calendar' },
   { id: 'dividends', label: 'Dividenden', icon: CurrencyDollarIcon, href: '/analyse/dividends' },
   { id: 'finder', label: 'Finder', icon: SparklesIcon, href: '/analyse/finder' },
-  { id: 'inbox', label: 'Inbox', icon: InboxIcon, href: '/inbox' },
   { id: 'dcf', label: 'DCF', icon: CalculatorIcon, href: '/analyse/dcf', premium: true },
-  { id: 'analyst-ratings', label: 'Analyst Ratings', icon: ArrowTrendingUpIcon, href: '/analyse/analyst-ratings' },
   { id: 'insider', label: 'Insider', icon: EyeIcon, href: '/analyse/insider' },
   { id: 'ai', label: 'AI', icon: SparklesIcon, href: '/analyse/finclue-ai', premium: true },
 ]
@@ -359,7 +356,7 @@ const CommandPalette = React.memo(({
       // API-Ergebnisse als Ergänzung (deduped gegen lokale Treffer).
       // Für Tickers, die NICHT in lokal stocks/ETFs sind (z.B. VUL.AX über
       // FMP-Fallback), gibt es noch keine Detail-Page → diese linken auf
-      // Portfolio-Dashboard mit Hinweis statt ins Leere zu führen.
+      // den Portfolio-Workspace mit Hinweis statt ins Leere zu führen.
       const localTickers = new Set([
         ...matchingStocks.map(s => s.ticker.toUpperCase()),
         ...matchingETFs.map(e => e.symbol.toUpperCase()),
@@ -372,7 +369,7 @@ const CommandPalette = React.memo(({
           title: `${r.ticker} - ${r.name}`,
           subtitle: `${r.exchange ? r.exchange + ' • ' : ''}Nur im Portfolio verfügbar`,
           icon: ChartBarIcon,
-          href: '/analyse/portfolio/dashboard',
+          href: '/analyse/portfolio/workspace?depot=all',
           category: 'navigation' as const
         }))
 
@@ -711,6 +708,16 @@ function LayoutContent({ children }: LayoutProps) {
   }
 
   if (!user) return null
+
+  const isPortfolioWorkspace = pathname.startsWith('/analyse/portfolio/workspace')
+
+  if (isPortfolioWorkspace) {
+    return (
+      <div className="min-h-screen bg-theme-primary text-theme-primary">
+        {children}
+      </div>
+    )
+  }
 
   return (
     <div className="h-screen bg-theme-primary flex overflow-hidden">
