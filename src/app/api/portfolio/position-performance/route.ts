@@ -4,6 +4,7 @@
 
 import { NextResponse } from 'next/server'
 import { getEodhdHistorical, getEodhdFxHistory } from '@/lib/eodhdService'
+import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
 
 const VALID_TIMEFRAMES = ['1D', '1W', '1M', '3M', '1Y'] as const
 type Timeframe = typeof VALID_TIMEFRAMES[number]
@@ -39,6 +40,10 @@ interface SparklinePoint {
 
 function normalizeSymbol(symbol: unknown): string {
   return typeof symbol === 'string' ? symbol.trim().toUpperCase() : ''
+}
+
+function getHistorySymbol(symbol: string): string {
+  return EXCHANGE_FALLBACKS[symbol]?.symbol || symbol
 }
 
 function isEURTicker(symbol: string): boolean {
@@ -176,13 +181,14 @@ export async function POST(request: Request) {
     const toDate = endDate.toISOString().slice(0, 10)
 
     const symbols = Array.from(uniquePositions.keys())
-    const needsUSD = symbols.some(symbol => !isEURTicker(symbol) && !isGBXTicker(symbol))
-    const needsGBP = symbols.some(isGBXTicker)
+    const historySymbols = symbols.map(getHistorySymbol)
+    const needsUSD = historySymbols.some(symbol => !isEURTicker(symbol) && !isGBXTicker(symbol))
+    const needsGBP = historySymbols.some(isGBXTicker)
 
     const [usdEurMap, gbpEurMap, histories] = await Promise.all([
       needsUSD ? getEodhdFxHistory('USDEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
       needsGBP ? getEodhdFxHistory('GBPEUR', fromDate, toDate) : Promise.resolve(new Map<string, number>()),
-      Promise.all(symbols.map(symbol => getEodhdHistorical(symbol, fromDate, toDate))),
+      Promise.all(historySymbols.map(symbol => getEodhdHistorical(symbol, fromDate, toDate))),
     ])
 
     const data: Record<string, Partial<Record<Timeframe, PerformancePoint>>> = {}
@@ -191,6 +197,7 @@ export async function POST(request: Request) {
       const meta = uniquePositions.get(symbol)
       if (!meta) return
 
+      const historySymbol = historySymbols[index] || symbol
       const history = histories[index] || []
       const byTimeframe: Partial<Record<Timeframe, PerformancePoint>> = {}
 
@@ -202,7 +209,7 @@ export async function POST(request: Request) {
         if (!startPoint) continue
 
         const rawStartPrice = startPoint.adjusted_close ?? startPoint.close
-        const startPriceEUR = toEURPrice(symbol, rawStartPrice, startPoint.date, usdEurMap, gbpEurMap)
+        const startPriceEUR = toEURPrice(historySymbol, rawStartPrice, startPoint.date, usdEurMap, gbpEurMap)
         if (!startPriceEUR || startPriceEUR <= 0) continue
 
         const changePerShare = meta.currentPriceEUR - startPriceEUR
@@ -216,7 +223,7 @@ export async function POST(request: Request) {
 
         if (includeSparkline) {
           point.sparkline = buildSparkline(
-            symbol,
+            historySymbol,
             history,
             startPoint.date,
             meta.currentPriceEUR,

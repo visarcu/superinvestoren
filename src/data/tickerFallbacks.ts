@@ -31,6 +31,7 @@
 export const EXCHANGE_FALLBACKS: Record<string, { symbol: string; exchange: 'EUR' | 'GBp' | 'GBP' }> = {
   // === VANGUARD ===
   'VHYL.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },   // Vanguard FTSE All-World High Div — Amsterdam
+  'VHYD.DE': { symbol: 'VHYL.AS', exchange: 'EUR' },   // Broker/Xetra Alias für Vanguard FTSE All-World High Div
   'VWRL.DE': { symbol: 'VWRL.L',  exchange: 'GBp' },   // Vanguard FTSE All-World — LSE
   'VWCE.DE': { symbol: 'VWCE.L',  exchange: 'GBp' },   // Vanguard FTSE All-World Acc — LSE
 
