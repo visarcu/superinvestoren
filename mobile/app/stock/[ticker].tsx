@@ -1738,28 +1738,46 @@ export default function StockScreen() {
                       .filter(([, v]) => v > 0)
                       .sort(([a], [b]) => a.localeCompare(b))
                       .slice(-10);
+                    const maxVal = Math.max(...entries.map(([, v]) => v));
                     const barData = entries.map(([year, val]) => ({
-                      value: val || 0.001,
+                      value: val,
                       label: year.slice(2),
                       frontColor: '#34C759',
-                      topLabelComponent: () => (
-                        <Text style={s.barTopLabel}>{fmtDE(val)} $</Text>
-                      ),
                     }));
+                    const Y_AXIS_W = 48;
+                    const CHART_PAD = 16;
+                    const CHART_W = SCREEN_WIDTH - 32 - CHART_PAD * 2;
+                    const slotW = (CHART_W - Y_AXIS_W) / barData.length;
+                    const barWidth = Math.max(12, Math.min(26, slotW - 8));
+                    const spacing = Math.max(4, slotW - barWidth);
                     return (
                       <View style={s.section}>
                         <Text style={s.sectionTitle}>JAHRES-DIVIDENDE JE AKTIE</Text>
                         <View style={s.chartCard}>
-                          <BarChart
-                            data={barData}
-                            barWidth={Math.min(32, (SCREEN_WIDTH - 80) / barData.length - 6)}
-                            spacing={Math.min(12, (SCREEN_WIDTH - 80) / barData.length - 18)}
-                            roundedTop hideRules
-                            xAxisColor="rgba(255,255,255,0.08)" yAxisColor="transparent" hideYAxisText
-                            noOfSections={3} barBorderRadius={4}
-                            xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
-                            backgroundColor="transparent" width={SCREEN_WIDTH - 56} height={130} initialSpacing={12}
-                          />
+                          <View style={{ paddingVertical: 16, paddingLeft: 4, paddingRight: 12 }}>
+                            <BarChart
+                              data={barData}
+                              barWidth={barWidth}
+                              spacing={spacing}
+                              roundedTop barBorderRadius={3}
+                              rulesType="solid"
+                              rulesColor="rgba(255,255,255,0.06)"
+                              xAxisColor="rgba(255,255,255,0.1)"
+                              yAxisColor="transparent"
+                              noOfSections={4}
+                              maxValue={maxVal * 1.15}
+                              yAxisLabelWidth={Y_AXIS_W}
+                              yAxisTextStyle={{ color: '#64748B', fontSize: 10 }}
+                              yAxisLabelSuffix=" $"
+                              formatYLabel={(v) => fmtDE(parseFloat(v), maxVal < 1 ? 2 : 1)}
+                              xAxisLabelTextStyle={{ color: '#64748B', fontSize: 10 }}
+                              backgroundColor="transparent"
+                              width={CHART_W}
+                              height={170}
+                              initialSpacing={6}
+                              endSpacing={4}
+                            />
+                          </View>
                         </View>
                       </View>
                     );

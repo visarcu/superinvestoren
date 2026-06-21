@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, ActivityIndicator, RefreshControl, StyleSheet, Modal, Pressable } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,11 +6,42 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/auth';
 import StockLogo from '../../components/StockLogo';
 import { theme, tabularStyle, perfColor } from '../../lib/theme';
+import { getBrokerConfig, getBrokerColor, getBrokerDisplayName, BrokerType } from '../../lib/brokerConfig';
+import ValueChart from '../../components/portfolio/ValueChart';
+import AllocationDonut from '../../components/portfolio/AllocationDonut';
+import TransactionsView from '../../components/portfolio/TransactionsView';
+import AIAnalysisView from '../../components/portfolio/AIAnalysisView';
+import PremiumModal from '../../components/PremiumModal';
 // Currency conversion now happens server-side in /api/portfolio/summary
 
 const BASE_URL = 'https://finclue.de';
 
-type Tab = 'positionen' | 'performance' | 'dividenden' | 'superinvestoren';
+type Tab = 'overview' | 'positionen' | 'analyse' | 'dividenden' | 'transaktionen' | 'ki';
+
+interface StockProfile {
+  symbol: string;
+  sector: string;
+  industry: string;
+  country: string;
+  currency: string;
+}
+
+// FMP-Sektoren auf Deutsch
+const SECTOR_DE: Record<string, string> = {
+  'Technology': 'Technologie',
+  'Healthcare': 'Gesundheit',
+  'Financial Services': 'Finanzen',
+  'Consumer Cyclical': 'Zyklischer Konsum',
+  'Consumer Defensive': 'Basiskonsum',
+  'Industrials': 'Industrie',
+  'Communication Services': 'Kommunikation',
+  'Energy': 'Energie',
+  'Basic Materials': 'Materialien',
+  'Real Estate': 'Immobilien',
+  'Utilities': 'Versorger',
+  'Unknown': 'Unbekannt',
+};
+function translateSector(s: string): string { return SECTOR_DE[s] || s; }
 
 function fmtDE(v: number, d = 2) {
   return Math.abs(v).toLocaleString('de-DE', { minimumFractionDigits: d, maximumFractionDigits: d });
@@ -38,8 +69,11 @@ interface DivInfo {
 }
 
 export default function PortfolioScreen() {
-  const [activeTab, setActiveTab] = useState<Tab>('positionen');
-  const [portfolioList, setPortfolioList] = useState<{ id: string; name: string }[]>([]);
+  const [activeTab, setActiveTab] = useState<Tab>('overview');
+  const [portfolioList, setPortfolioList] = useState<{
+    id: string; name: string;
+    broker_type?: BrokerType; broker_name?: string | null; broker_color?: string | null;
+  }[]>([]);
   const [selectedPortfolioId, setSelectedPortfolioId] = useState<string | null>(null); // null = all
   const [showPortfolioModal, setShowPortfolioModal] = useState(false);
   const [holdings, setHoldings] = useState<Holding[]>([]);
@@ -52,6 +86,9 @@ export default function PortfolioScreen() {
   const [siCounts, setSiCounts] = useState<Record<string, { count: number; investors: { name: string; slug: string }[] }>>({});
   const [divData, setDivData] = useState<DivInfo[]>([]);
   const [divLoading, setDivLoading] = useState(false);
+  const [profiles, setProfiles] = useState<Record<string, StockProfile>>({});
+  const [profilesLoading, setProfilesLoading] = useState(false);
+  const [showPremium, setShowPremium] = useState(false);
 
   // Period selector for summary card
   type Period = 'gesamt' | '1W' | '1M' | '3M' | 'YTD' | '1J';
@@ -84,7 +121,10 @@ export default function PortfolioScreen() {
       const userId = sessionData.session.user.id;
 
       const { data: portfolios } = await supabase
-        .from('portfolios').select('id, name').eq('user_id', userId)
+        .from('portfolios')
+        .select('id, name, broker_type, broker_name, broker_color')
+        .eq('user_id', userId)
+        .order('is_default', { ascending: false })
         .order('created_at', { ascending: true });
 
       if (!portfolios?.length) { setLoading(false); setRefreshing(false); return; }
@@ -209,6 +249,31 @@ export default function PortfolioScreen() {
     finally { setDivLoading(false); }
   }
 
+  async function loadProfiles(symbols: string[]) {
+    if (!symbols.length) return;
+    setProfilesLoading(true);
+    try {
+      const res = await fetch(`${BASE_URL}/api/portfolio/profiles`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ symbols }),
+      });
+      if (!res.ok) return;
+      const data: StockProfile[] = await res.json();
+      const map: Record<string, StockProfile> = {};
+      data.forEach(p => { map[p.symbol] = p; });
+      setProfiles(map);
+    } catch { /* silent */ }
+    finally { setProfilesLoading(false); }
+  }
+
+  // Lade Profile (Sektor) wenn Analyse-Tab geöffnet wird und Daten fehlen
+  useEffect(() => {
+    if (activeTab === 'analyse' && holdings.length > 0 && Object.keys(profiles).length === 0 && !profilesLoading) {
+      loadProfiles(holdings.map(h => h.symbol));
+    }
+  }, [activeTab, holdings.length]);
+
   async function loadPeriodPerformance(p: Period) {
     if (p === 'gesamt') { setPeriodGain(null); return; }
     setPeriodLoading(true);
@@ -254,10 +319,12 @@ export default function PortfolioScreen() {
   const siList = Object.values(siOverview).sort((a, b) => b.tickers.length - a.tickers.length);
 
   const tabs: { id: Tab; label: string; icon: string }[] = [
+    { id: 'overview', label: 'Überblick', icon: 'grid-outline' },
     { id: 'positionen', label: 'Positionen', icon: 'list' },
-    { id: 'performance', label: 'Performance', icon: 'trending-up' },
-    { id: 'dividenden', label: 'Dividenden', icon: 'cash' },
-    { id: 'superinvestoren', label: 'Superin.', icon: 'star' },
+    { id: 'analyse', label: 'Analyse', icon: 'analytics-outline' },
+    { id: 'dividenden', label: 'Dividenden', icon: 'cash-outline' },
+    { id: 'transaktionen', label: 'Transaktionen', icon: 'swap-horizontal' },
+    { id: 'ki', label: 'KI-Analyse', icon: 'sparkles-outline' },
   ];
 
   return (
@@ -301,15 +368,55 @@ export default function PortfolioScreen() {
               <View style={s.modalDivider} />
 
               {/* Individual portfolios */}
-              {portfolioList.map(p => (
-                <TouchableOpacity key={p.id} style={s.modalOption} onPress={() => switchPortfolio(p.id, p.name)}>
-                  <View style={s.modalOptionLeft}>
-                    <Ionicons name="briefcase-outline" size={20} color={theme.text.tertiary} />
-                    <Text style={s.modalOptionName}>{p.name}</Text>
+              {portfolioList.map(p => {
+                const cfg = getBrokerConfig(p.broker_type);
+                const color = getBrokerColor(p.broker_type, p.broker_color);
+                const brokerLabel = getBrokerDisplayName(p.broker_type, p.broker_name);
+                return (
+                  <TouchableOpacity key={p.id} style={s.modalOption} onPress={() => switchPortfolio(p.id, p.name)}>
+                    <View style={s.modalOptionLeft}>
+                      <View style={[s.modalBrokerDot, { backgroundColor: color }]}>
+                        <Ionicons name={cfg.ionIcon as any} size={14} color="#fff" />
+                      </View>
+                      <View style={{ flex: 1, minWidth: 0 }}>
+                        <Text style={s.modalOptionName} numberOfLines={1}>{p.name}</Text>
+                        {p.broker_type && (
+                          <Text style={s.modalOptionSub} numberOfLines={1}>{brokerLabel}</Text>
+                        )}
+                      </View>
+                    </View>
+                    {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color={theme.accent.positive} />}
+                  </TouchableOpacity>
+                );
+              })}
+
+              <View style={s.modalDivider} />
+
+              {/* Management Actions */}
+              <TouchableOpacity
+                style={s.modalOption}
+                onPress={() => { setShowPortfolioModal(false); router.push('/depots/neu'); }}
+              >
+                <View style={s.modalOptionLeft}>
+                  <View style={[s.modalBrokerDot, { backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default }]}>
+                    <Ionicons name="add" size={16} color={theme.text.secondary} />
                   </View>
-                  {selectedPortfolioId === p.id && <Ionicons name="checkmark" size={18} color={theme.accent.positive} />}
-                </TouchableOpacity>
-              ))}
+                  <Text style={s.modalOptionName}>Neues Depot anlegen</Text>
+                </View>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={s.modalOption}
+                onPress={() => { setShowPortfolioModal(false); router.push('/depots'); }}
+              >
+                <View style={s.modalOptionLeft}>
+                  <View style={[s.modalBrokerDot, { backgroundColor: theme.bg.card, borderWidth: 1, borderColor: theme.border.default }]}>
+                    <Ionicons name="settings-outline" size={14} color={theme.text.secondary} />
+                  </View>
+                  <Text style={s.modalOptionName}>Depots verwalten</Text>
+                </View>
+                <Ionicons name="chevron-forward" size={16} color={theme.text.tertiary} />
+              </TouchableOpacity>
 
               <TouchableOpacity style={s.modalCancel} onPress={() => setShowPortfolioModal(false)}>
                 <Text style={s.modalCancelText}>Abbrechen</Text>
@@ -399,6 +506,80 @@ export default function PortfolioScreen() {
             </TouchableOpacity>
           </View>
 
+        ) : activeTab === 'overview' ? (
+          /* ── ÜBERBLICK TAB ── */
+          <View style={s.list}>
+            {/* KPI Grid */}
+            <Text style={s.sectionLabel}>KENNZAHLEN</Text>
+            <View style={s.statsGrid}>
+              <View style={s.statCard}>
+                <Text style={s.statLabel}>Einstandswert</Text>
+                <Text style={s.statValue}>{fmtBig(totalCost)}</Text>
+              </View>
+              <View style={s.statCard}>
+                <Text style={s.statLabel}>Aktueller Wert</Text>
+                <Text style={s.statValue}>{fmtBig(totalValue)}</Text>
+              </View>
+              <View style={s.statCard}>
+                <Text style={s.statLabel}>Gewinn/Verlust</Text>
+                <Text style={[s.statValue, { color: perfColor(totalGain) }]}>
+                  {totalGain >= 0 ? '+' : ''}{fmtBig(totalGain)}
+                </Text>
+              </View>
+              <View style={s.statCard}>
+                <Text style={s.statLabel}>Rendite (gesamt)</Text>
+                <Text style={[s.statValue, { color: perfColor(totalGainPct) }]}>
+                  {fmtPct(totalGainPct)}
+                </Text>
+              </View>
+            </View>
+
+            {/* Value Chart */}
+            <View style={{ marginTop: 20 }}>
+              <ValueChart
+                portfolioId={selectedPortfolioId}
+                holdings={holdings.map(h => ({ symbol: h.symbol, quantity: h.quantity, purchase_price: h.purchase_price }))}
+              />
+            </View>
+
+            {/* Allocation Donut */}
+            <View style={{ marginTop: 20 }}>
+              <AllocationDonut holdings={holdings} totalValue={totalValue} />
+            </View>
+
+            {/* Top 5 Positions Preview */}
+            <Text style={[s.sectionLabel, { marginTop: 20 }]}>TOP POSITIONEN</Text>
+            <View style={s.card}>
+              {[...holdings]
+                .sort((a, b) => b.currentValue - a.currentValue)
+                .slice(0, 5)
+                .map((h, idx, arr) => (
+                  <TouchableOpacity
+                    key={h.symbol}
+                    style={[s.row, idx === arr.length - 1 && { borderBottomWidth: 0 }]}
+                    onPress={() => router.push(`/stock/${h.symbol}`)}
+                    activeOpacity={0.6}
+                  >
+                    <StockLogo ticker={h.symbol} size={32} borderRadius={8} />
+                    <View style={s.rowMid}>
+                      <Text style={s.symbol} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
+                      <Text style={s.shares} numberOfLines={1}>{fmtDE(h.weight ?? 0, 1)} % Gewichtung</Text>
+                    </View>
+                    <View style={s.rowRight}>
+                      <Text style={s.value}>{fmtCurrency(h.currentValue)}</Text>
+                      <Text style={[s.gain, { color: perfColor(h.gain) }]}>{fmtPct(h.gainPct)}</Text>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+            </View>
+            {holdings.length > 5 && (
+              <TouchableOpacity style={s.transactionBtn} onPress={() => setActiveTab('positionen')}>
+                <Text style={s.transactionBtnText}>Alle {holdings.length} Positionen anzeigen</Text>
+                <Ionicons name="arrow-forward" size={16} color={theme.text.primary} />
+              </TouchableOpacity>
+            )}
+          </View>
+
         ) : activeTab === 'positionen' ? (
           /* ── POSITIONEN TAB ── */
           <View style={s.list}>
@@ -449,72 +630,166 @@ export default function PortfolioScreen() {
             </TouchableOpacity>
           </View>
 
-        ) : activeTab === 'performance' ? (
-          /* ── PERFORMANCE TAB ── */
-          <View style={s.list}>
-            <Text style={s.sectionLabel}>PERFORMANCE ÜBERSICHT</Text>
+        ) : activeTab === 'analyse' ? (
+          /* ── ANALYSE TAB ── */
+          (() => {
+            // Konzentration & HHI
+            const sortedByWeight = [...holdings].sort((a, b) => (b.weight ?? 0) - (a.weight ?? 0));
+            const top1 = sortedByWeight.slice(0, 1).reduce((s, h) => s + (h.weight ?? 0), 0);
+            const top3 = sortedByWeight.slice(0, 3).reduce((s, h) => s + (h.weight ?? 0), 0);
+            const top5 = sortedByWeight.slice(0, 5).reduce((s, h) => s + (h.weight ?? 0), 0);
+            const top10 = sortedByWeight.slice(0, 10).reduce((s, h) => s + (h.weight ?? 0), 0);
+            const hhi = holdings.reduce((sum, h) => sum + Math.pow(h.weight ?? 0, 2), 0);
+            const divScore = Math.max(0, Math.min(100, 100 - (hhi - 1000) / 50));
+            const scoreColor = divScore >= 70 ? theme.accent.positive : divScore >= 40 ? theme.accent.warning : theme.accent.negative;
 
-            {/* Summary Stats */}
-            <View style={s.statsGrid}>
-              <View style={s.statCard}>
-                <Text style={s.statLabel}>Einstandswert</Text>
-                <Text style={s.statValue}>{fmtBig(totalCost)}</Text>
-              </View>
-              <View style={s.statCard}>
-                <Text style={s.statLabel}>Aktueller Wert</Text>
-                <Text style={s.statValue}>{fmtBig(totalValue)}</Text>
-              </View>
-              <View style={s.statCard}>
-                <Text style={s.statLabel}>Gewinn/Verlust</Text>
-                <Text style={[s.statValue, { color: totalGain >= 0 ? theme.accent.positive : theme.accent.negative }]}>
-                  {totalGain >= 0 ? '+' : ''}{fmtBig(totalGain)}
-                </Text>
-              </View>
-              <View style={s.statCard}>
-                <Text style={s.statLabel}>Rendite (gesamt)</Text>
-                <Text style={[s.statValue, { color: totalGainPct >= 0 ? theme.accent.positive : theme.accent.negative }]}>
-                  {fmtPct(totalGainPct)}
-                </Text>
-              </View>
-            </View>
+            // Sektor-Aggregation
+            const sectorMap: Record<string, number> = {};
+            holdings.forEach(h => {
+              const p = profiles[h.symbol];
+              const sector = p?.sector || 'Unknown';
+              sectorMap[sector] = (sectorMap[sector] || 0) + h.currentValue;
+            });
+            const sectorList = Object.entries(sectorMap)
+              .map(([sector, value]) => ({ sector: translateSector(sector), value, pct: totalValue > 0 ? (value / totalValue) * 100 : 0 }))
+              .sort((a, b) => b.value - a.value);
 
-            {/* Allocation */}
-            <Text style={[s.sectionLabel, { marginTop: 20 }]}>GEWICHTUNG</Text>
-            <View style={s.card}>
-              {holdings.map((h, i) => (
-                <View key={h.symbol} style={[s.allocRow, i > 0 && s.allocBorder]}>
-                  <StockLogo ticker={h.symbol} size={28} borderRadius={6} />
-                  <View style={{ flex: 1, marginLeft: 10 }}>
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
-                      <Text style={s.allocTicker} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
-                      <Text style={s.allocPct}>{fmtDE(h.weight ?? 0, 1)} %</Text>
+            // Top/Worst Performer
+            const sortedByPct = [...holdings].sort((a, b) => b.gainPct - a.gainPct);
+            const topPerf = sortedByPct.slice(0, 5);
+            const worstPerf = [...sortedByPct].reverse().slice(0, 5);
+
+            return (
+              <View style={s.list}>
+                {/* Konzentration */}
+                <Text style={s.sectionLabel}>KONZENTRATION & DIVERSIFIKATION</Text>
+                <View style={[s.card, { padding: theme.space.lg }]}>
+                  <View style={s.scoreRow}>
+                    <View style={{ flex: 1 }}>
+                      <Text style={s.scoreLabel}>Diversifikations-Score</Text>
+                      <Text style={[s.scoreValue, { color: scoreColor }]}>{Math.round(divScore)}<Text style={{ color: theme.text.tertiary, fontSize: 14 }}> / 100</Text></Text>
                     </View>
-                    <View style={s.allocBar}>
-                      <View style={[s.allocBarFill, { width: `${Math.min(h.weight ?? 0, 100)}%` as any }]} />
+                    <View style={s.scoreBarTrack}>
+                      <View style={[s.scoreBarFill, { width: `${divScore}%` as any, backgroundColor: scoreColor }]} />
                     </View>
                   </View>
+                  <View style={s.divider} />
+                  <View style={s.concGrid}>
+                    {[
+                      { label: 'Top 1', value: top1 },
+                      { label: 'Top 3', value: top3 },
+                      { label: 'Top 5', value: top5 },
+                      { label: 'Top 10', value: top10 },
+                    ].map(c => (
+                      <View key={c.label} style={s.concCell}>
+                        <Text style={s.concLabel}>{c.label}</Text>
+                        <Text style={s.concValue}>{fmtDE(c.value, 1)} %</Text>
+                      </View>
+                    ))}
+                  </View>
                 </View>
-              ))}
-            </View>
 
-            {/* Per-Position P&L */}
-            <Text style={[s.sectionLabel, { marginTop: 20 }]}>GEWINN / VERLUST JE POSITION</Text>
-            <View style={s.card}>
-              {[...holdings].sort((a, b) => b.gainPct - a.gainPct).map((h, i) => (
-                <TouchableOpacity key={h.symbol} style={[s.plRow, i > 0 && s.allocBorder]}
-                  onPress={() => router.push(`/stock/${h.symbol}`)}>
-                  <Text style={s.plTicker} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
-                  <View style={{ flex: 1 }} />
-                  <Text style={s.plAbs}>
-                    {h.gain >= 0 ? '+' : ''}{fmtCurrency(h.gain)}
-                  </Text>
-                  <Text style={[s.plPct, { color: h.gainPct >= 0 ? theme.accent.positive : theme.accent.negative }]}>
-                    {fmtPct(h.gainPct)}
-                  </Text>
-                </TouchableOpacity>
-              ))}
-            </View>
-          </View>
+                {/* Sektor-Struktur */}
+                <Text style={[s.sectionLabel, { marginTop: 20 }]}>SEKTOR-STRUKTUR</Text>
+                {profilesLoading ? (
+                  <View style={[s.card, { padding: 24, alignItems: 'center' }]}>
+                    <ActivityIndicator color={theme.accent.positive} size="small" />
+                  </View>
+                ) : sectorList.length === 0 ? (
+                  <View style={[s.card, { padding: 24, alignItems: 'center' }]}>
+                    <Text style={{ color: theme.text.tertiary, fontSize: theme.font.body }}>Keine Sektor-Daten verfügbar</Text>
+                  </View>
+                ) : (
+                  <View style={[s.card, { padding: theme.space.lg }]}>
+                    {sectorList.map((sect, i) => (
+                      <View key={sect.sector} style={[s.sectorRow, i > 0 && { marginTop: 12 }]}>
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 4 }}>
+                          <Text style={s.sectorLabel} numberOfLines={1}>{sect.sector}</Text>
+                          <Text style={s.sectorPct}>{fmtDE(sect.pct, 1)} %</Text>
+                        </View>
+                        <View style={s.sectorBar}>
+                          <View style={[s.sectorBarFill, { width: `${Math.min(sect.pct, 100)}%` as any }]} />
+                        </View>
+                      </View>
+                    ))}
+                  </View>
+                )}
+
+                {/* Top Performer */}
+                <Text style={[s.sectionLabel, { marginTop: 20 }]}>TOP PERFORMER</Text>
+                <View style={s.card}>
+                  {topPerf.map((h, i) => (
+                    <TouchableOpacity key={h.symbol} style={[s.plRow, i > 0 && s.allocBorder]}
+                      onPress={() => router.push(`/stock/${h.symbol}`)}>
+                      <StockLogo ticker={h.symbol} size={28} borderRadius={6} />
+                      <View style={{ flex: 1, marginLeft: 10, minWidth: 0 }}>
+                        <Text style={s.plTickerName} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
+                      </View>
+                      <Text style={s.plAbs}>
+                        {h.gain >= 0 ? '+' : ''}{fmtCurrency(h.gain)}
+                      </Text>
+                      <Text style={[s.plPct, { color: perfColor(h.gainPct) }]}>
+                        {fmtPct(h.gainPct)}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                {/* Worst Performer */}
+                <Text style={[s.sectionLabel, { marginTop: 20 }]}>SCHWÄCHSTE POSITIONEN</Text>
+                <View style={s.card}>
+                  {worstPerf.map((h, i) => (
+                    <TouchableOpacity key={h.symbol} style={[s.plRow, i > 0 && s.allocBorder]}
+                      onPress={() => router.push(`/stock/${h.symbol}`)}>
+                      <StockLogo ticker={h.symbol} size={28} borderRadius={6} />
+                      <View style={{ flex: 1, marginLeft: 10, minWidth: 0 }}>
+                        <Text style={s.plTickerName} numberOfLines={1}>{h.displayName || h.name || h.symbol}</Text>
+                      </View>
+                      <Text style={s.plAbs}>
+                        {h.gain >= 0 ? '+' : ''}{fmtCurrency(h.gain)}
+                      </Text>
+                      <Text style={[s.plPct, { color: perfColor(h.gainPct) }]}>
+                        {fmtPct(h.gainPct)}
+                      </Text>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+
+                {/* Superinvestor Overlap */}
+                <Text style={[s.sectionLabel, { marginTop: 20 }]}>SUPERINVESTOREN MIT DEINEN AKTIEN</Text>
+                {siList.length === 0 ? (
+                  <View style={[s.card, { padding: 24, alignItems: 'center' }]}>
+                    <Ionicons name="people-outline" size={28} color={theme.text.tertiary} />
+                    <Text style={{ color: theme.text.tertiary, fontSize: theme.font.body, marginTop: 8 }}>
+                      Keine Überschneidungen
+                    </Text>
+                  </View>
+                ) : (
+                  <View style={s.card}>
+                    {siList.map((inv, i) => (
+                      <TouchableOpacity
+                        key={inv.slug}
+                        style={[s.siRow, i === siList.length - 1 && { borderBottomWidth: 0 }]}
+                        onPress={() => router.push(`/investor/${inv.slug}`)}
+                        activeOpacity={0.7}
+                      >
+                        <View style={s.siAvatar}>
+                          <Text style={s.siAvatarText}>{inv.name.charAt(0)}</Text>
+                        </View>
+                        <View style={{ flex: 1 }}>
+                          <Text style={s.siName}>{inv.name}</Text>
+                          <Text style={s.siTickers} numberOfLines={1}>{inv.tickers.join(' · ')}</Text>
+                        </View>
+                        <View style={s.siCountBadge}>
+                          <Text style={s.siCountText}>{inv.tickers.length} {inv.tickers.length === 1 ? 'Aktie' : 'Aktien'}</Text>
+                        </View>
+                      </TouchableOpacity>
+                    ))}
+                  </View>
+                )}
+              </View>
+            );
+          })()
 
         ) : activeTab === 'dividenden' ? (
           /* ── DIVIDENDEN TAB ── */
@@ -613,34 +888,29 @@ export default function PortfolioScreen() {
             )}
           </View>
 
-        ) : (
-          /* ── SUPERINVESTOREN TAB ── */
+        ) : activeTab === 'transaktionen' ? (
+          /* ── TRANSAKTIONEN TAB ── */
           <View style={s.list}>
-            <Text style={s.sectionLabel}>SUPERINVESTOREN MIT DEINEN AKTIEN</Text>
-            {siList.length === 0 ? (
-              <View style={s.emptyState}>
-                <Ionicons name="people-outline" size={36} color={theme.text.tertiary} />
-                <Text style={s.emptyTitle}>Keine Überschneidungen</Text>
-                <Text style={s.emptyText}>Kein Superinvestor hält aktuell deine Aktien</Text>
-              </View>
-            ) : siList.map((inv) => (
-              <TouchableOpacity key={inv.slug} style={s.siRow}
-                onPress={() => router.push(`/investor/${inv.slug}`)} activeOpacity={0.7}>
-                <View style={s.siAvatar}>
-                  <Text style={s.siAvatarText}>{inv.name.charAt(0)}</Text>
-                </View>
-                <View style={{ flex: 1 }}>
-                  <Text style={s.siName}>{inv.name}</Text>
-                  <Text style={s.siTickers}>{inv.tickers.join(' · ')}</Text>
-                </View>
-                <View style={s.siCountBadge}>
-                  <Text style={s.siCountText}>{inv.tickers.length} {inv.tickers.length === 1 ? 'Aktie' : 'Aktien'}</Text>
-                </View>
-              </TouchableOpacity>
-            ))}
+            <TransactionsView portfolioId={selectedPortfolioId} />
+          </View>
+
+        ) : (
+          /* ── KI-ANALYSE TAB ── */
+          <View style={s.list}>
+            <AIAnalysisView
+              holdings={holdings.map(h => ({
+                symbol: h.symbol,
+                quantity: h.quantity,
+                value: h.currentValue,
+                gain_loss_percent: h.gainPct,
+              }))}
+              onUpgrade={() => setShowPremium(true)}
+            />
           </View>
         )}
       </ScrollView>
+
+      <PremiumModal visible={showPremium} onClose={() => setShowPremium(false)} />
     </SafeAreaView>
   );
 }
@@ -692,9 +962,13 @@ const s = StyleSheet.create({
     flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between',
     paddingHorizontal: theme.space.xl, paddingVertical: theme.space.md + 2,
   },
-  modalOptionLeft: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
+  modalOptionLeft: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md, flex: 1, minWidth: 0 },
   modalOptionName: { color: theme.text.primary, fontSize: 15, fontWeight: theme.weight.medium },
   modalOptionSub: { color: theme.text.tertiary, fontSize: theme.font.bodySm, marginTop: 1 },
+  modalBrokerDot: {
+    width: 28, height: 28, borderRadius: 7,
+    alignItems: 'center', justifyContent: 'center',
+  },
   modalDivider: { height: 1, backgroundColor: theme.border.default, marginVertical: theme.space.xs, marginHorizontal: theme.space.xl },
   modalCancel: {
     marginHorizontal: theme.space.lg, marginTop: theme.space.sm,
@@ -885,4 +1159,39 @@ const s = StyleSheet.create({
     marginTop: theme.space.md - 2, flexDirection: 'row', alignItems: 'center',
   },
   linkBtnText: { color: theme.text.inverse, fontWeight: theme.weight.semibold, fontSize: theme.font.title3 },
+
+  // Analyse: Konzentration
+  scoreRow: { flexDirection: 'row', alignItems: 'center', gap: theme.space.md },
+  scoreLabel: {
+    color: theme.text.tertiary, fontSize: theme.font.captionSm,
+    fontWeight: theme.weight.semibold, letterSpacing: theme.tracking.wide,
+    textTransform: 'uppercase', marginBottom: 4,
+  },
+  scoreValue: { fontSize: 28, fontWeight: theme.weight.bold, letterSpacing: theme.tracking.tight, ...tabularStyle },
+  scoreBarTrack: {
+    flex: 1, height: 6, borderRadius: 3,
+    backgroundColor: theme.bg.cardHover,
+    overflow: 'hidden',
+  },
+  scoreBarFill: { height: 6, borderRadius: 3 },
+  divider: { height: 1, backgroundColor: theme.border.default, marginVertical: theme.space.md },
+  concGrid: { flexDirection: 'row', gap: theme.space.md },
+  concCell: { flex: 1 },
+  concLabel: {
+    color: theme.text.tertiary, fontSize: theme.font.captionSm,
+    fontWeight: theme.weight.medium, letterSpacing: theme.tracking.wide,
+    textTransform: 'uppercase', marginBottom: 4,
+  },
+  concValue: { color: theme.text.primary, fontSize: theme.font.title2, fontWeight: theme.weight.semibold, ...tabularStyle },
+
+  // Analyse: Sektor
+  sectorRow: {},
+  sectorLabel: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.medium, flex: 1, marginRight: 8 },
+  sectorPct: { color: theme.text.tertiary, fontSize: theme.font.bodySm, fontWeight: theme.weight.semibold, ...tabularStyle },
+  sectorBar: { height: 6, backgroundColor: theme.bg.cardHover, borderRadius: 3, overflow: 'hidden' },
+  sectorBarFill: { height: 6, backgroundColor: theme.accent.positive, borderRadius: 3 },
+
+  // Analyse: Performer Rows
+  plTickerName: { color: theme.text.primary, fontSize: theme.font.body, fontWeight: theme.weight.semibold },
+
 });

@@ -84,6 +84,36 @@ export default function RootLayout() {
             headerBackTitle: '',
           }}
         />
+        <Stack.Screen
+          name="depots/index"
+          options={{
+            headerShown: true,
+            title: 'Meine Depots',
+            headerStyle: { backgroundColor: '#1C1C1E' },
+            headerTintColor: '#F8FAFC',
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name="depots/neu"
+          options={{
+            headerShown: true,
+            title: 'Neues Depot',
+            headerStyle: { backgroundColor: '#1C1C1E' },
+            headerTintColor: '#F8FAFC',
+            headerBackTitle: '',
+          }}
+        />
+        <Stack.Screen
+          name="depots/[id]/edit"
+          options={{
+            headerShown: true,
+            title: 'Depot bearbeiten',
+            headerStyle: { backgroundColor: '#1C1C1E' },
+            headerTintColor: '#F8FAFC',
+            headerBackTitle: '',
+          }}
+        />
       </Stack>
     </>
   );
