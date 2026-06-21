@@ -96,7 +96,7 @@ export default function PortfolioCheckPage() {
                 <div className="text-center py-12 bg-theme-card rounded-2xl border border-white/[0.04]">
                     <p className="text-theme-secondary mb-4">Du hast noch keine Aktien in deinem Portfolio.</p>
                     <Link
-                        href="/analyse/portfolio/dashboard"
+                        href="/analyse/portfolio/workspace?depot=all"
                         className="px-6 py-2 bg-brand text-black font-medium rounded-lg hover:bg-green-400 transition-colors"
                     >
                         Portfolio anlegen

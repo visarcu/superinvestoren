@@ -1,5 +1,5 @@
 // src/app/(terminal)/analyse/portfolio/page.tsx
-// VEREINFACHT: Leitet zum Dashboard weiter - Portfolio wird dort automatisch erstellt
+// Leitet zum Portfolio-Workspace weiter.
 'use client'
 
 import { useEffect } from 'react'
@@ -9,8 +9,7 @@ export default function PortfolioPage() {
   const router = useRouter()
 
   useEffect(() => {
-    // Portfolio wird automatisch im Dashboard erstellt
-    router.replace('/analyse/portfolio/dashboard')
+    router.replace('/analyse/portfolio/workspace?depot=all')
   }, [router])
 
   return (

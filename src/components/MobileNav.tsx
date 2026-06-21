@@ -27,7 +27,7 @@ const NAV_ITEMS = [
   },
   {
     label: 'Portfolio',
-    href: '/analyse/portfolio/dashboard',
+    href: '/analyse/portfolio/workspace?depot=all',
     icon: BriefcaseIcon,
     activeIcon: BriefcaseIconSolid,
     match: (p: string) => p.startsWith('/analyse/portfolio'),

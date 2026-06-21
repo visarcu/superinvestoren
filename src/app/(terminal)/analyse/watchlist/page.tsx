@@ -1,4 +1,4 @@
-// src/app/watchlist/page.tsx - Watchlist (nur Watchlist, Portfolio ist unter /analyse/portfolio/dashboard)
+// src/app/watchlist/page.tsx - Watchlist (Portfolio ist unter /analyse/portfolio/workspace)
 'use client';
 import { useEffect, useState, useMemo } from 'react';
 import Link from 'next/link';

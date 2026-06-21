@@ -577,6 +577,14 @@ export default function PortfolioDashboard() {
             </div>
 
             <div className="flex items-center gap-2">
+              <Link
+                href={`/analyse/portfolio/workspace?depot=${p.depotIdParam}`}
+                className="terminal-input hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-teal-400 hover:text-teal-300 hover:border-teal-300/25 rounded-xl transition-colors"
+                title="Neuen Portfolio-Workspace testen"
+              >
+                <Squares2X2Icon className="w-3.5 h-3.5" />
+                Workspace testen
+              </Link>
               <button onClick={p.refresh} disabled={p.refreshing} className="terminal-input p-2 hover:bg-theme-hover rounded-xl transition-colors disabled:opacity-50" title="Aktualisieren">
                 <ArrowPathIcon className={`w-4 h-4 text-theme-secondary ${p.refreshing ? 'animate-spin' : ''}`} />
               </button>

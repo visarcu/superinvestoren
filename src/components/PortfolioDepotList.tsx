@@ -115,7 +115,7 @@ export default function PortfolioDepotList({
       {/* Aggregated Overview */}
       {portfolios.length > 1 && (
         <Link
-          href="/analyse/portfolio/dashboard?depot=all"
+          href="/analyse/portfolio/workspace?depot=all"
           className="block py-4 border-b border-neutral-800 hover:bg-neutral-900/30 transition-colors -mx-2 px-2 rounded-lg group"
         >
           <div className="flex items-center justify-between">
@@ -215,12 +215,12 @@ export default function PortfolioDepotList({
                       />
                       <div className="absolute right-0 top-full mt-1 w-44 bg-neutral-900 border border-neutral-700 rounded-lg shadow-xl z-20 py-1">
                         <Link
-                          href={`/analyse/portfolio/dashboard?depot=${portfolio.id}`}
+                          href={`/analyse/portfolio/workspace?depot=${portfolio.id}`}
                           className="flex items-center gap-2 px-3 py-2 text-sm text-white hover:bg-neutral-800 transition-colors"
                           onClick={() => setOpenMenuId(null)}
                         >
                           <ChartBarSquareIcon className="w-4 h-4 text-neutral-400" />
-                          Dashboard öffnen
+                          Workspace öffnen
                         </Link>
                         <button
                           onClick={() => {
@@ -297,10 +297,10 @@ export default function PortfolioDepotList({
               {/* Quick Action */}
               <div className="mt-3 pl-14">
                 <Link
-                  href={`/analyse/portfolio/dashboard?depot=${portfolio.id}`}
+                  href={`/analyse/portfolio/workspace?depot=${portfolio.id}`}
                   className="inline-flex items-center gap-1 text-xs text-emerald-400 hover:text-emerald-300 transition-colors"
                 >
-                  Dashboard öffnen
+                  Workspace öffnen
                   <ArrowRightIcon className="w-3 h-3" />
                 </Link>
               </div>

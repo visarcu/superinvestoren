@@ -709,9 +709,11 @@ function LayoutContent({ children }: LayoutProps) {
 
   if (!user) return null
 
-  const isPortfolioWorkspace = pathname.startsWith('/analyse/portfolio/workspace')
+  const isPortfolioFocusRoute =
+    pathname.startsWith('/analyse/portfolio/workspace') ||
+    pathname.startsWith('/analyse/portfolio/stocks/')
 
-  if (isPortfolioWorkspace) {
+  if (isPortfolioFocusRoute) {
     return (
       <div className="min-h-screen bg-theme-primary text-theme-primary">
         {children}

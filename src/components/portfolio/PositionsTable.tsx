@@ -32,6 +32,9 @@ interface PositionsTableProps {
   isAllDepotsView: boolean
   portfolioId?: string
   superInvestorCounts?: Record<string, { count: number; investors: { name: string; slug: string }[] }>
+  readOnly?: boolean
+  returnTabParam?: string
+  returnTabValue?: string
   // Historische Performance pro (symbol, portfolio_id) für Ghost-Sub-Rows
   // (Depot hat 0 aktuelle Shares, aber historische Dividenden/Realisiert).
   // Keys: "SYMBOL|PORTFOLIO_ID"
@@ -149,6 +152,9 @@ export default function PositionsTable({
   isAllDepotsView,
   portfolioId,
   superInvestorCounts,
+  readOnly = false,
+  returnTabParam = 'tab',
+  returnTabValue = 'positions',
   historicalPerfByDepot,
 }: PositionsTableProps) {
   const router = useRouter()
@@ -176,7 +182,7 @@ export default function PositionsTable({
 
   const updatePortfolioQuery = useCallback((updates: Partial<{ sortBy: SortBy; sortDir: SortDir; range: ReturnRange }>) => {
     const params = new URLSearchParams(searchParams.toString())
-    params.set('tab', 'positions')
+    params.set(returnTabParam, returnTabValue)
 
     if (updates.sortBy) params.set('sortBy', updates.sortBy)
     if (updates.sortDir) params.set('sortDir', updates.sortDir)
@@ -187,7 +193,7 @@ export default function PositionsTable({
 
     const next = params.toString()
     router.replace(`${pathname}${next ? `?${next}` : ''}`, { scroll: false })
-  }, [pathname, router, searchParams])
+  }, [pathname, returnTabParam, returnTabValue, router, searchParams])
 
   useEffect(() => {
     if (holdings.length === 0) {
@@ -364,7 +370,7 @@ export default function PositionsTable({
 
   const handleViewStock = (symbol: string) => {
     const returnParams = new URLSearchParams(searchParams.toString())
-    returnParams.set('tab', 'positions')
+    returnParams.set(returnTabParam, returnTabValue)
     const returnQuery = returnParams.toString()
     const returnTo = `${pathname}${returnQuery ? `?${returnQuery}` : ''}`
     const encodedReturnTo = encodeURIComponent(returnTo)
@@ -514,7 +520,7 @@ export default function PositionsTable({
 
         {/* Actions */}
         <div className="col-span-1 flex items-center justify-end gap-0.5">
-          {!isAllDepotsView && !isSubRow && (
+          {!readOnly && !isAllDepotsView && !isSubRow && (
             <div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100 transition-opacity">
               <button
                 onClick={(e) => { e.stopPropagation(); onTopUpPosition(holding) }}
@@ -796,8 +802,10 @@ export default function PositionsTable({
         {/* Cash Row — auch negative Werte anzeigen (Kredit/Margin) */}
         {cashPosition !== 0 && (
           <div
-            className="group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 hover:bg-neutral-900/50 -mx-2 px-2 rounded-lg transition-colors cursor-pointer"
-            onClick={onEditCash}
+            className={`group grid grid-cols-12 gap-4 items-center py-3 border-b border-neutral-800/50 -mx-2 px-2 rounded-lg transition-colors ${
+              readOnly ? '' : 'cursor-pointer hover:bg-neutral-900/50'
+            }`}
+            onClick={readOnly ? undefined : onEditCash}
           >
             {/* Aktie */}
             <div className="col-span-6 sm:col-span-3 flex items-center gap-3">

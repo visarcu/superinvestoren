@@ -347,7 +347,7 @@ export default function NewDepotPage() {
 
             <div className="flex flex-col sm:flex-row gap-2 justify-center mt-8 max-w-md mx-auto">
               <Link
-                href={`/analyse/portfolio/dashboard?depot=${createdDepotId}`}
+                href={`/analyse/portfolio/workspace?depot=${createdDepotId}`}
                 className="flex-1 flex items-center justify-center gap-1.5 px-4 py-2.5 bg-white hover:bg-neutral-100 text-neutral-950 text-[13px] font-semibold rounded-lg transition-colors"
               >
                 Zum Depot

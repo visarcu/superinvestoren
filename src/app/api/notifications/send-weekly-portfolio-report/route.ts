@@ -288,7 +288,7 @@ function generateEmailHtml(
 
           <!-- CTA Button -->
           <div style="text-align: center; margin: 32px 0 24px 0;">
-            <a href="https://finclue.de/analyse/portfolio/dashboard"
+            <a href="https://finclue.de/analyse/portfolio/workspace?depot=all"
                target="_blank"
                rel="noopener noreferrer"
                style="display: inline-block; background: #059669; color: #ffffff; padding: 13px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 15px;">
@@ -312,7 +312,7 @@ function generateEmailHtml(
             Du erhältst diesen Bericht jeden Sonntag für dein Portfolio auf Finclue.
           </p>
           <div style="text-align: center;">
-            <a href="https://finclue.de/analyse/portfolio/dashboard" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Portfolio</a>
+            <a href="https://finclue.de/analyse/portfolio/workspace?depot=all" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Portfolio</a>
             <span style="color: #d1d5db;">•</span>
             <a href="https://finclue.de/settings" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Einstellungen</a>
             <span style="color: #d1d5db;">•</span>

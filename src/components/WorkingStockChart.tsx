@@ -38,6 +38,8 @@ interface Props {
   week52Low?: number | null
   /** Override Währungssymbol — z.B. wenn data bereits in EUR umgerechnet wurde */
   displayCurrency?: 'EUR' | 'USD' | 'GBP' | 'CHF'
+  /** Explizite Chart-Höhe für Layouts, in denen ResponsiveContainer sonst keine feste Höhe bekommt. */
+  chartHeightClass?: string
 }
 
 const TIME_RANGES = [
@@ -58,7 +60,7 @@ const CHART_MODES = [
   { id: 'total_return', label: 'Performance' },
 ]
 
-export default function WorkingStockChart({ ticker, data, purchaseMarkers, week52High, week52Low, displayCurrency }: Props) {
+export default function WorkingStockChart({ ticker, data, purchaseMarkers, week52High, week52Low, displayCurrency, chartHeightClass }: Props) {
   const [selectedRange, setSelectedRange] = useState('1Y')
   const [selectedMode, setSelectedMode] = useState('price')
   const [isFullscreen, setIsFullscreen] = useState(false)
@@ -465,7 +467,10 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
       </div>
 
       {/* Chart - Clean minimal style like Fey */}
-      <div ref={chartAreaRef} className={`px-2 pb-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : 'flex-1 min-h-[350px]'}`}>
+      <div
+        ref={chartAreaRef}
+        className={`px-2 pb-2 ${isFullscreen ? 'h-[calc(100vh-250px)]' : chartHeightClass || 'flex-1 min-h-[350px]'}`}
+      >
         {intradayLoading && selectedRange === '1D' ? (
           <div className="h-full flex items-center justify-center">
             <div className="animate-pulse text-theme-muted text-sm">Intraday-Daten laden...</div>

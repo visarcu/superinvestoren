@@ -388,6 +388,11 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
     return latestPrice * eurRate
   }, [history, eurRate, gbpEurRate, historyInEUR, isEURStock, isGBXStock])
 
+  const totalReturnPercent = useMemo(() => {
+    if (!performance || performance.totalInvested <= 0) return 0
+    return (performance.totalReturn / performance.totalInvested) * 100
+  }, [performance])
+
   const formatCurrency = (amount: number) => {
     return amount.toLocaleString('de-DE', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 })
   }
@@ -401,13 +406,13 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
   }
 
   const handleBack = () => {
-    if (returnTo?.startsWith('/analyse/portfolio/dashboard')) {
+    if (returnTo?.startsWith('/analyse/portfolio/')) {
       router.push(returnTo)
       return
     }
 
     if (portfolioId) {
-      router.push(`/analyse/portfolio/dashboard?depot=${portfolioId}`)
+      router.push(`/analyse/portfolio/workspace?depot=${portfolioId === 'all' ? 'all' : portfolioId}&view=positions`)
     } else {
       router.back()
     }
@@ -415,98 +420,155 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center min-h-[400px]">
-        <div className="w-6 h-6 border-2 border-neutral-800 border-t-white rounded-full animate-spin" />
+      <div className="flex min-h-[70vh] items-center justify-center">
+        <div className="rounded-2xl border border-white/[0.08] bg-white/[0.03] px-5 py-4 shadow-2xl shadow-black/30">
+          <div className="mx-auto h-6 w-6 animate-spin rounded-full border-2 border-neutral-800 border-t-emerald-400" />
+          <p className="mt-3 text-xs text-neutral-500">Position wird geladen...</p>
+        </div>
       </div>
     )
   }
 
   return (
-    <div className="max-w-5xl mx-auto">
-      {/* Header — schlank mit Logo, Symbol, Name, aktueller Kurs */}
-      <div className="flex items-center justify-between mb-6 gap-4 flex-wrap">
-        <div className="flex items-center gap-3 min-w-0">
-          <button
-            onClick={handleBack}
-            className="p-1.5 -ml-1.5 hover:bg-neutral-900/60 rounded-lg transition-colors"
-            aria-label="Zurück"
-          >
-            <ArrowLeftIcon className="w-4 h-4 text-neutral-400" />
-          </button>
-          <Logo ticker={ticker} alt={ticker} className="w-9 h-9" padding="none" />
-          <div className="min-w-0">
-            <h1 className="text-base font-semibold text-white tracking-tight truncate">
-              {stockName || ticker}
-            </h1>
-            <p className="text-[11px] text-neutral-500 tabular-nums">
-              {ticker}
-              {currentPriceEUR !== null && <> · {formatCurrency(currentPriceEUR)}</>}
-            </p>
-          </div>
-        </div>
-
-        {/* Performance Pill rechts */}
-        {performance && currentPriceEUR !== null && (
-          <div className="flex items-center gap-2 text-right">
-            <div>
-              <p className="text-[10px] text-neutral-500 uppercase tracking-wider">Gesamtrendite</p>
-              <p className={`text-lg font-semibold tracking-tight tabular-nums ${perfColor(performance.totalReturn)}`}>
-                {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
+    <div className="w-full space-y-5">
+      <div className="sticky top-0 z-20 -mx-4 border-b border-white/[0.06] bg-[#050505]/90 px-4 py-3 backdrop-blur-xl sm:-mx-6 sm:px-6 xl:-mx-8 xl:px-8">
+        <div className="flex items-center justify-between gap-4">
+          <div className="flex min-w-0 items-center gap-3">
+            <button
+              onClick={handleBack}
+              className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.03] text-neutral-400 transition-colors hover:border-emerald-400/30 hover:bg-emerald-400/[0.06] hover:text-white"
+              aria-label="Zurück"
+            >
+              <ArrowLeftIcon className="h-4 w-4" />
+            </button>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-emerald-400/25 bg-emerald-400/[0.07]">
+              <Logo ticker={ticker} alt={ticker} className="h-6 w-6" padding="none" />
+            </div>
+            <div className="min-w-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-emerald-300/80">
+                Portfolio Position
               </p>
+              <h1 className="truncate text-base font-semibold tracking-tight text-white">
+                {stockName || ticker}
+              </h1>
             </div>
           </div>
-        )}
+
+          <button
+            onClick={handleBack}
+            className="hidden h-10 items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.03] px-4 text-sm text-neutral-300 transition-colors hover:border-emerald-400/30 hover:bg-emerald-400/[0.06] hover:text-white sm:flex"
+          >
+            Zurück zum Portfolio
+          </button>
+        </div>
       </div>
 
-      {/* Chart */}
-      {history.length > 0 ? (
-        <WorkingStockChart
-          ticker={ticker}
-          data={history}
-          purchaseMarkers={chartMarkers.length > 0 ? chartMarkers : undefined}
-          displayCurrency="EUR"
-        />
-      ) : (
-        <div className="bg-neutral-900/50 rounded-xl border border-neutral-800/80 p-12 text-center">
-          <p className="text-[13px] text-neutral-500">Keine Kursdaten verfügbar</p>
-        </div>
-      )}
+      <section className="overflow-hidden rounded-2xl border border-white/[0.08] bg-[radial-gradient(circle_at_20%_0%,rgba(20,184,166,0.16),transparent_32%),linear-gradient(180deg,rgba(255,255,255,0.045),rgba(255,255,255,0.018))] shadow-2xl shadow-black/30">
+        <div className="flex flex-col gap-6 px-5 py-6 sm:px-7 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <div className="mb-4 flex items-center gap-3">
+              <Logo ticker={ticker} alt={ticker} className="h-12 w-12 rounded-xl" padding="none" />
+              <div className="min-w-0">
+                <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-emerald-300/80">
+                  {ticker}
+                </p>
+                <h2 className="truncate text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                  {stockName || ticker}
+                </h2>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-end gap-x-5 gap-y-2">
+              <p className="text-4xl font-semibold tracking-tight text-white tabular-nums sm:text-5xl">
+                {currentPriceEUR !== null ? formatCurrency(currentPriceEUR) : '–'}
+              </p>
+              {performance && (
+                <p className={`pb-1 text-sm font-medium tabular-nums ${perfColor(totalReturnPercent)}`}>
+                  {totalReturnPercent >= 0 ? '+' : ''}{formatPercentage(totalReturnPercent)} gesamt
+                </p>
+              )}
+              {allocation !== null && (
+                <p className="pb-1 text-sm text-neutral-500 tabular-nums">
+                  {allocation.toFixed(1)}% Portfolioanteil
+                </p>
+              )}
+            </div>
+          </div>
 
-      {/* Performance Cards — als Grid mit border-Separators */}
+          {performance && (
+            <div className="grid min-w-full grid-cols-2 gap-2 sm:min-w-[440px] lg:min-w-[520px]">
+              <div className="rounded-xl border border-white/[0.08] bg-black/25 p-4">
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Gesamtrendite</p>
+                <p className={`mt-2 text-2xl font-semibold tabular-nums ${perfColor(performance.totalReturn)}`}>
+                  {performance.totalReturn >= 0 ? '+' : ''}{formatCurrency(performance.totalReturn)}
+                </p>
+              </div>
+              <div className="rounded-xl border border-white/[0.08] bg-black/25 p-4">
+                <p className="text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Position</p>
+                <p className="mt-2 text-2xl font-semibold text-white tabular-nums">
+                  {performance.remainingQuantity > 0
+                    ? performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })
+                    : '0'}
+                </p>
+                <p className="mt-1 text-[11px] text-neutral-500">
+                  {performance.remainingQuantity > 0 ? 'Stück aktuell' : 'Position geschlossen'}
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Chart */}
+      <section className="min-h-[560px] overflow-hidden rounded-2xl border border-white/[0.08] bg-[#111111] shadow-2xl shadow-black/25">
+        {history.length > 0 ? (
+          <WorkingStockChart
+            ticker={ticker}
+            data={history}
+            purchaseMarkers={chartMarkers.length > 0 ? chartMarkers : undefined}
+            displayCurrency="EUR"
+            chartHeightClass="h-[430px] xl:h-[520px]"
+          />
+        ) : (
+          <div className="flex min-h-[520px] items-center justify-center p-10 text-center">
+            <p className="text-sm text-neutral-500">Keine Kursdaten verfügbar</p>
+          </div>
+        )}
+      </section>
+
+      {/* Performance Cards */}
       {performance && currentPriceEUR !== null && (
-        <div className="mt-5 grid grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-800/80 border border-neutral-800/80 rounded-xl overflow-hidden">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
           {/* Kursgewinn — bei geschlossener Position den realisierten Kursgewinn zeigen */}
-          <div className="bg-neutral-950 p-4">
-            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
               {performance.remainingQuantity === 0 ? 'Realisierter Kursgewinn' : 'Kursgewinn'}
             </p>
             {performance.remainingQuantity === 0 ? (
               <>
-                <p className={`text-xl font-semibold tracking-tight tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
+                <p className={`text-2xl font-semibold tracking-tight tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
                   {performance.totalRealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.totalRealizedGain)}
                 </p>
                 {performance.totalInvested > 0 && (
-                  <p className={`text-[11px] tabular-nums mt-1 ${perfColor(performance.totalRealizedGain)}`}>
+                  <p className={`mt-1 text-xs tabular-nums ${perfColor(performance.totalRealizedGain)}`}>
                     {performance.totalRealizedGain >= 0 ? '+' : ''}{((performance.totalRealizedGain / performance.totalInvested) * 100).toFixed(1)}%
                   </p>
                 )}
               </>
             ) : (
               <>
-                <p className={`text-xl font-semibold tracking-tight tabular-nums ${perfColor(performance.unrealizedGain)}`}>
+                <p className={`text-2xl font-semibold tracking-tight tabular-nums ${perfColor(performance.unrealizedGain)}`}>
                   {performance.unrealizedGain >= 0 ? '+' : ''}{formatCurrency(performance.unrealizedGain)}
                 </p>
-                <p className={`text-[11px] tabular-nums mt-1 ${perfColor(performance.unrealizedGainPercent)}`}>
+                <p className={`mt-1 text-xs tabular-nums ${perfColor(performance.unrealizedGainPercent)}`}>
                   {performance.unrealizedGainPercent >= 0 ? '+' : ''}{performance.unrealizedGainPercent.toFixed(1)}%
                 </p>
               </>
             )}
           </div>
 
-          {/* Realisierte Gewinne */}
-          <div className="bg-neutral-950 p-4">
-            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">Realisiert</p>
-            <p className={`text-xl font-semibold tracking-tight tabular-nums ${performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-600'}`}>
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Realisiert</p>
+            <p className={`text-2xl font-semibold tracking-tight tabular-nums ${performance.totalRealizedGain !== 0 ? perfColor(performance.totalRealizedGain) : 'text-neutral-600'}`}>
               {performance.totalRealizedGain !== 0
                 ? `${performance.totalRealizedGain >= 0 ? '+' : ''}${formatCurrency(performance.totalRealizedGain)}`
                 : formatCurrency(0)
@@ -514,10 +576,9 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             </p>
           </div>
 
-          {/* Dividenden */}
-          <div className="bg-neutral-950 p-4">
-            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">Dividenden</p>
-            <p className={`text-xl font-semibold tracking-tight tabular-nums ${performance.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">Dividenden</p>
+            <p className={`text-2xl font-semibold tracking-tight tabular-nums ${performance.totalDividends > 0 ? 'text-emerald-400' : 'text-neutral-600'}`}>
               {performance.totalDividends > 0
                 ? `+${formatCurrency(performance.totalDividends)}`
                 : formatCurrency(0)
@@ -525,22 +586,21 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
             </p>
           </div>
 
-          {/* Position / Wert */}
-          <div className="bg-neutral-950 p-4">
-            <p className="text-[11px] text-neutral-500 uppercase tracking-wider mb-1.5">
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-5 shadow-xl shadow-black/20">
+            <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.22em] text-neutral-500">
               {performance.remainingQuantity === 0 ? 'Status' : 'Aktueller Wert'}
             </p>
             {performance.remainingQuantity === 0 ? (
               <>
-                <p className="text-xl font-semibold text-neutral-400 tracking-tight">Geschlossen</p>
-                <p className="text-[11px] text-neutral-500 mt-1">Position verkauft</p>
+                <p className="text-2xl font-semibold tracking-tight text-neutral-400">Geschlossen</p>
+                <p className="mt-1 text-xs text-neutral-500">Position verkauft</p>
               </>
             ) : (
               <>
-                <p className="text-xl font-semibold text-white tracking-tight tabular-nums">
+                <p className="text-2xl font-semibold tracking-tight text-white tabular-nums">
                   {formatCurrency(performance.currentValue)}
                 </p>
-                <p className="text-[11px] text-neutral-500 mt-1 tabular-nums">
+                <p className="mt-1 text-xs text-neutral-500 tabular-nums">
                   {performance.remainingQuantity.toLocaleString('de-DE', { maximumFractionDigits: 4 })} Stk.
                   {allocation !== null && <> · {allocation.toFixed(1)}%</>}
                 </p>
@@ -549,7 +609,6 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           </div>
         </div>
       )}
-
       {/* Gebühren / Orderkosten */}
       {(() => {
         const totalFees = allTransactions.reduce((sum, tx) => sum + (Number(tx.fee) || 0), 0)
