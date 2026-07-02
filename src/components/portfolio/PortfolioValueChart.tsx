@@ -13,7 +13,7 @@ import {
   CartesianGrid,
   ReferenceLine
 } from 'recharts'
-import { ArrowPathIcon } from '@heroicons/react/24/outline'
+import { ArrowPathIcon, ChevronDownIcon } from '@heroicons/react/24/outline'
 import { perfColor } from '@/utils/formatters'
 
 interface PortfolioValueChartProps {
@@ -65,6 +65,23 @@ interface BenchmarkStats {
   euroDiff: number | null
 }
 
+interface AttributionBucket {
+  key: string
+  label: string
+  euroDiff: number
+  paPct: number | null
+}
+
+interface BenchmarkAttribution {
+  benchmarkLabel: string
+  totalEuroDiff: number
+  totalDiffPaPct: number | null
+  buckets: AttributionBucket[]
+  best: { symbol: string; euroDiff: number } | null
+  worst: { symbol: string; euroDiff: number } | null
+  cashDragEuro: number | null
+}
+
 interface BenchmarkComparison {
   startDate: string
   endDate: string
@@ -75,6 +92,7 @@ interface BenchmarkComparison {
     sp500: BenchmarkStats | null
     msciWorld: BenchmarkStats | null
   }
+  attribution?: BenchmarkAttribution
 }
 
 // "seit 5,2 Jahren" / "seit einem Jahr" / "in den letzten 8 Monaten"
@@ -118,6 +136,7 @@ export default function PortfolioValueChart({
   const [valueData, setValueData] = useState<ValueDataPoint[]>([])
   const [performanceData, setPerformanceData] = useState<PerformanceDataPoint[]>([])
   const [comparison, setComparison] = useState<BenchmarkComparison | null>(null)
+  const [showAttribution, setShowAttribution] = useState(false)
   const [loading, setLoading] = useState(true)
 
   const fetchData = useCallback(async () => {
@@ -248,6 +267,11 @@ export default function PortfolioValueChart({
         (b): b is BenchmarkStats => !!b
       )
     : []
+
+  const attribution =
+    comparison?.attribution && comparison.attribution.buckets.length > 0
+      ? comparison.attribution
+      : null
 
   const formatEuro = (value: number) =>
     `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
@@ -533,6 +557,79 @@ export default function PortfolioValueChart({
               </>
             )}
           </p>
+
+          {/* Attribution: exakte Zerlegung des Euro-Gaps nach Positionsgruppen */}
+          {attribution && (
+            <div className="mt-3 border-t border-white/[0.05] pt-3">
+              <button
+                type="button"
+                onClick={() => setShowAttribution(v => !v)}
+                className="flex items-center gap-1.5 text-xs text-theme-muted transition-colors hover:text-theme-secondary"
+              >
+                Woher kommt die Differenz?
+                <ChevronDownIcon
+                  className={`h-3.5 w-3.5 transition-transform ${showAttribution ? 'rotate-180' : ''}`}
+                />
+              </button>
+              {showAttribution && (
+                <div className="mt-3 space-y-1.5">
+                  {attribution.buckets.map(bucket => (
+                    <div
+                      key={bucket.key}
+                      className="flex items-baseline justify-between gap-4 text-xs"
+                    >
+                      <span className="text-theme-secondary">{bucket.label}</span>
+                      <span className="flex items-baseline gap-3 tabular-nums">
+                        {bucket.paPct !== null && (
+                          <span className={bucket.paPct >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                            {bucket.paPct >= 0 ? '+' : '−'}{formatDiffPct(bucket.paPct)} % p.a.
+                          </span>
+                        )}
+                        <span
+                          className={`font-medium ${bucket.euroDiff >= 0 ? 'text-emerald-400' : 'text-red-400'}`}
+                        >
+                          {bucket.euroDiff >= 0 ? '+' : '−'}{formatEuroApprox(bucket.euroDiff)}
+                        </span>
+                      </span>
+                    </div>
+                  ))}
+                  {(attribution.worst || attribution.best) && (
+                    <p className="pt-1.5 text-[11px] text-theme-muted">
+                      {attribution.worst && (
+                        <>
+                          Größter Kostenfaktor:{' '}
+                          <span className="text-theme-secondary">{attribution.worst.symbol}</span>{' '}
+                          <span className="tabular-nums text-red-400">
+                            −{formatEuroApprox(attribution.worst.euroDiff)}
+                          </span>
+                        </>
+                      )}
+                      {attribution.worst && attribution.best && ' · '}
+                      {attribution.best && (
+                        <>
+                          Stärkster Beitrag:{' '}
+                          <span className="text-theme-secondary">{attribution.best.symbol}</span>{' '}
+                          <span className="tabular-nums text-emerald-400">
+                            +{formatEuroApprox(attribution.best.euroDiff)}
+                          </span>
+                        </>
+                      )}
+                    </p>
+                  )}
+                  {attribution.cashDragEuro !== null && attribution.cashDragEuro >= 10 && (
+                    <p className="text-[11px] text-theme-muted">
+                      Cash-Bestand: rund{' '}
+                      <span className="tabular-nums text-theme-secondary">
+                        {formatEuroApprox(attribution.cashDragEuro)}
+                      </span>{' '}
+                      entgangene Indexrendite — zusätzlich, nicht Teil des Vergleichs oben.
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {secondaryStats.length > 0 && (
             <div className="mt-3 flex flex-wrap items-baseline gap-x-6 gap-y-1.5 border-t border-white/[0.05] pt-3">
               {secondaryStats.map(stat => {

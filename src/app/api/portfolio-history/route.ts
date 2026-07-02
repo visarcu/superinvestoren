@@ -3,7 +3,12 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
-import { calculatePortfolioTwrByDate, calculateBenchmarkComparison } from '@/lib/portfolioTwr'
+import {
+  calculatePortfolioTwrByDate,
+  calculateBenchmarkComparison,
+  calculateCashDragVsBenchmark,
+} from '@/lib/portfolioTwr'
+import { isETF } from '@/lib/etfUtils'
 
 interface HistoricalDataPoint {
   date: string
@@ -468,6 +473,13 @@ export async function POST(request: NextRequest) {
       return null
     }
 
+    // Börsenkurs → EUR (gleiche Logik wie im Tages-Loop unten)
+    function toEurPrice(symbol: string, price: number, date: string): number {
+      if (isEURTicker(symbol)) return price
+      if (isGBXTicker(symbol)) return (price / 100) * getGBPEURRateForDate(date)
+      return price * getEURRateForDate(date)
+    }
+
     const txValue = (tx: Transaction): number => {
       const totalValue = Number(tx.total_value) || 0
       if (totalValue > 0) return totalValue
@@ -516,17 +528,8 @@ export async function POST(request: NextRequest) {
         // Position existiert erst ab Kaufdatum
         if (firstPurchaseDate && date < firstPurchaseDate) return
 
-        // Kurs in EUR umrechnen
-        let currentPriceEUR: number
-        if (isEURTicker(symbol)) {
-          currentPriceEUR = currentPrice
-        } else if (isGBXTicker(symbol)) {
-          // .L Ticker: FMP liefert GBX (Pence) → ÷100 = GBP → ×Rate = EUR
-          currentPriceEUR = (currentPrice / 100) * getGBPEURRateForDate(date)
-        } else {
-          // USD und andere: über USD→EUR
-          currentPriceEUR = currentPrice * getEURRateForDate(date)
-        }
+        // Kurs in EUR umrechnen (EUR direkt, GBX ÷100 × GBP-Rate, sonst USD-Rate)
+        const currentPriceEUR = toEurPrice(symbol, currentPrice, date)
 
         if (useTransactions) {
           const txs = transactionsBySymbol.get(symbol) || []
@@ -665,6 +668,15 @@ export async function POST(request: NextRequest) {
         diffPaPct: number | null
         euroDiff: number | null
       } | null>
+      attribution?: {
+        benchmarkLabel: string
+        totalEuroDiff: number
+        totalDiffPaPct: number | null
+        buckets: Array<{ key: string; label: string; euroDiff: number; paPct: number | null }>
+        best: { symbol: string; euroDiff: number } | null
+        worst: { symbol: string; euroDiff: number } | null
+        cashDragEuro: number | null
+      }
     } | null = null
     try {
       const [spyHistory, urthHistory, vtHistory] = await Promise.all([
@@ -785,6 +797,149 @@ export async function POST(request: NextRequest) {
               sp500: buildBenchmarkStats('S&P 500', spyBenchmark),
               msciWorld: buildBenchmarkStats('MSCI World', urthBenchmark),
             },
+          }
+
+          // 8c. Attribution: Woher kommt die Differenz zum FTSE All-World?
+          // Das Schatten-Depot ist linear in den Flows, daher lässt sich der
+          // Euro-Gap exakt auf Positionen und Gebühren verteilen. Nicht
+          // zuordenbare Teile (z.B. Dividenden ohne passende Position,
+          // Rundung, Preislücken) landen im Residual "Sonstiges" — die
+          // Summe der Buckets ergibt immer den Gesamt-Gap.
+          const headlineStats = benchmarkComparison.benchmarks.ftseAllWorld
+          if (headlineStats && headlineStats.euroDiff !== null) {
+            const benchPriceAt = (date: string) =>
+              findPriceOnOrBefore(vtBenchmark, date) || findPriceOnOrAfter(vtBenchmark, date)
+            const benchEndPrice = benchPriceAt(lastDate)
+
+            if (benchEndPrice > 0) {
+              const attributionTxsBySymbol = new Map<string, Transaction[]>()
+              const sourceTxs = useTransactions ? securityTransactions : syntheticTransactions
+              sourceTxs.forEach(tx => {
+                if (!tx.symbol) return
+                if (!attributionTxsBySymbol.has(tx.symbol)) attributionTxsBySymbol.set(tx.symbol, [])
+                attributionTxsBySymbol.get(tx.symbol)!.push(tx)
+              })
+
+              const dividendsBySymbol = new Map<string, number>()
+              if (useTransactions) {
+                allTransactions.forEach(tx => {
+                  if (tx.type !== 'dividend' || !tx.symbol || tx.symbol === 'CASH') return
+                  if (!attributionTxsBySymbol.has(tx.symbol)) return
+                  dividendsBySymbol.set(tx.symbol, (dividendsBySymbol.get(tx.symbol) || 0) + txValue(tx))
+                })
+              }
+
+              const CRYPTO_SYMBOL = /^(BTC|ETH|SOL|ADA|XRP|DOGE|LTC|DOT|LINK|AVAX|BNB|MATIC)USD$/i
+
+              let feeUnits = 0
+              const positionDiffs: Array<{
+                symbol: string
+                euroDiff: number
+                group: 'stocks' | 'etfs' | 'crypto'
+              }> = []
+
+              attributionTxsBySymbol.forEach((txs, symbol) => {
+                let units = 0
+                let shares = 0
+                txs.forEach(tx => {
+                  if (tx.date > lastDate) return
+                  const p = benchPriceAt(tx.date)
+                  if (!(p > 0)) return
+                  if (tx.type === 'buy' || tx.type === 'transfer_in') {
+                    units += txValue(tx) / p
+                    shares += Number(tx.quantity) || 0
+                  } else if (tx.type === 'sell' || tx.type === 'transfer_out') {
+                    units -= txValue(tx) / p
+                    shares -= Number(tx.quantity) || 0
+                  } else {
+                    return
+                  }
+                  feeUnits += txFee(tx) / p
+                })
+
+                let actualValue = 0
+                if (shares > 0.0001) {
+                  const price = getPriceForDate(symbol, lastDate)
+                  if (price) actualValue = shares * toEurPrice(symbol, price, lastDate)
+                }
+
+                const euroDiff =
+                  actualValue + (dividendsBySymbol.get(symbol) || 0) - units * benchEndPrice
+                const group = CRYPTO_SYMBOL.test(symbol)
+                  ? ('crypto' as const)
+                  : isETF(symbol)
+                    ? ('etfs' as const)
+                    : ('stocks' as const)
+                positionDiffs.push({ symbol, euroDiff, group })
+              })
+
+              const feeCost = feeUnits * benchEndPrice
+              const groupSum = (group: 'stocks' | 'etfs' | 'crypto') =>
+                positionDiffs.filter(p => p.group === group).reduce((s, p) => s + p.euroDiff, 0)
+              const stocksDiff = groupSum('stocks')
+              const etfsDiff = groupSum('etfs')
+              const cryptoDiff = groupSum('crypto')
+              const residual = headlineStats.euroDiff - (stocksDiff + etfsDiff + cryptoDiff - feeCost)
+
+              // p.a.-Anteile proportional zum Euro-Beitrag. Nur wenn das Gap
+              // groß genug ist und die Buckets sich nicht gegenseitig aufheben —
+              // sonst würden die anteiligen Prozentwerte absurd groß.
+              const grossSum =
+                Math.abs(stocksDiff) + Math.abs(etfsDiff) + Math.abs(cryptoDiff) + Math.abs(feeCost)
+              const canSplitPa =
+                headlineStats.diffPaPct !== null &&
+                Math.abs(headlineStats.euroDiff) >= 250 &&
+                grossSum <= Math.abs(headlineStats.euroDiff) * 3
+              const paShare = (euro: number): number | null =>
+                canSplitPa
+                  ? round2(headlineStats.diffPaPct! * (euro / headlineStats.euroDiff!))
+                  : null
+
+              const buckets = [
+                { key: 'stocks', label: 'Einzelaktien', euroDiff: stocksDiff },
+                { key: 'etfs', label: 'ETFs', euroDiff: etfsDiff },
+                { key: 'crypto', label: 'Krypto', euroDiff: cryptoDiff },
+                { key: 'fees', label: 'Ordergebühren', euroDiff: -feeCost },
+                { key: 'other', label: 'Sonstiges', euroDiff: residual },
+              ]
+                .filter(b => Math.abs(b.euroDiff) >= 10)
+                .sort((a, b) => Math.abs(b.euroDiff) - Math.abs(a.euroDiff))
+                .map(b => ({
+                  key: b.key,
+                  label: b.label,
+                  euroDiff: Math.round(b.euroDiff),
+                  paPct: paShare(b.euroDiff),
+                }))
+
+              const rankedPositions = [...positionDiffs].sort((a, b) => a.euroDiff - b.euroDiff)
+              const worstPos = rankedPositions[0]
+              const bestPos = rankedPositions[rankedPositions.length - 1]
+
+              const cashDrag = useTransactions
+                ? calculateCashDragVsBenchmark({
+                    chartData,
+                    transactions: twrTransactions,
+                    cashPosition,
+                    benchmarkPrices: vtBenchmark,
+                  })
+                : null
+
+              benchmarkComparison.attribution = {
+                benchmarkLabel: 'FTSE All-World',
+                totalEuroDiff: headlineStats.euroDiff,
+                totalDiffPaPct: headlineStats.diffPaPct,
+                buckets,
+                worst:
+                  worstPos && worstPos.euroDiff <= -10
+                    ? { symbol: worstPos.symbol, euroDiff: Math.round(worstPos.euroDiff) }
+                    : null,
+                best:
+                  bestPos && bestPos.euroDiff >= 10
+                    ? { symbol: bestPos.symbol, euroDiff: Math.round(bestPos.euroDiff) }
+                    : null,
+                cashDragEuro: cashDrag !== null ? Math.round(cashDrag) : null,
+              }
+            }
           }
         }
       }

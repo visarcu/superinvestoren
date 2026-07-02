@@ -326,6 +326,88 @@ export function calculateBenchmarkComparison({
   return { benchmarkTotalReturnPct, actualFinalValue, shadowFinalValue, euroDiff }
 }
 
+/**
+ * Opportunitätskosten des Cash-Bestands gegenüber einer Benchmark.
+ *
+ * Rekonstruiert das Cash-Ledger (gleiche Plausibilitätsprüfung wie der
+ * cash-inklusive TWR) und simuliert: Was hätte der jeweilige Tagesbestand
+ * an Cash zusätzlich erwirtschaftet, wäre er durchgehend in der Benchmark
+ * investiert gewesen? Die Zusatzerträge verzinsen sich mit — exakt für
+ * „Cash täglich in den Index gefegt, alle Zahlungsströme unverändert".
+ *
+ * Gibt null zurück wenn kein plausibles Cash-Ledger existiert (dann wäre
+ * jede Cash-Aussage geraten).
+ */
+export function calculateCashDragVsBenchmark({
+  chartData,
+  transactions,
+  cashPosition,
+  benchmarkPrices,
+}: {
+  chartData: PortfolioTwrPoint[]
+  transactions: PortfolioTwrTransaction[]
+  cashPosition: number
+  benchmarkPrices: BenchmarkSeriesPoint[]
+}): number | null {
+  if (chartData.length < 2) return null
+
+  const prices = benchmarkPrices
+    .filter(p => p.close > 0)
+    .sort((a, b) => a.date.localeCompare(b.date))
+  if (prices.length < 2) return null
+
+  const sortedDates = chartData.map(point => point.date)
+  const mappedTransactions = mapTransactionsToChartDates(transactions, sortedDates)
+
+  const hasCashLedger = mappedTransactions.some(tx =>
+    tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
+  )
+  if (!hasCashLedger) return null
+
+  const cashDeltaByDate = new Map<string, number>()
+  for (const tx of mappedTransactions) {
+    addToMap(cashDeltaByDate, tx.chartDate, calculateCashDelta(tx))
+  }
+
+  let totalCashDelta = 0
+  cashDeltaByDate.forEach(delta => {
+    totalCashDelta += delta
+  })
+
+  const startingCash = (Number(cashPosition) || 0) - totalCashDelta
+  if (startingCash < -CASH_LEDGER_EPSILON) return null
+
+  const priceAt = (date: string): number => {
+    let last = 0
+    for (const p of prices) {
+      if (p.date > date) break
+      last = p.close
+    }
+    if (last > 0) return last
+    return prices.find(p => p.date >= date)?.close || 0
+  }
+
+  let cash = startingCash
+  let extraEarnings = 0
+  let prevPrice = priceAt(chartData[0].date)
+  cash += cashDeltaByDate.get(chartData[0].date) || 0
+  if (cash < -CASH_LEDGER_EPSILON) return null
+
+  for (let i = 1; i < chartData.length; i++) {
+    const price = priceAt(chartData[i].date)
+    if (prevPrice > 0 && price > 0) {
+      const growth = price / prevPrice
+      extraEarnings = extraEarnings * growth + Math.max(cash, 0) * (growth - 1)
+    }
+    if (price > 0) prevPrice = price
+
+    cash += cashDeltaByDate.get(chartData[i].date) || 0
+    if (cash < -CASH_LEDGER_EPSILON) return null
+  }
+
+  return extraEarnings
+}
+
 export function calculatePortfolioTwrByDate({
   chartData,
   transactions,
