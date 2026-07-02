@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { resolvePriceSource } from '@/lib/etfMasterLookup'
 import { EXCHANGE_FALLBACKS } from '@/data/tickerFallbacks'
-import { calculatePortfolioTwrByDate } from '@/lib/portfolioTwr'
+import { calculatePortfolioTwrByDate, calculateBenchmarkComparison } from '@/lib/portfolioTwr'
 
 interface HistoricalDataPoint {
   date: string
@@ -64,8 +64,16 @@ const GBP_EUR_APPROX = 1.17
  * die FMP nicht direkt kennt — bei einem User mit 47k in FWIA.DE führte
  * das dazu, dass der Chart 24k statt 70k zeigte.
  */
-async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: string): Promise<HistoricalDataPoint[]> {
-  const cacheKey = `${symbol}_${fromDate}_${toDate}`
+async function fetchHistoricalPrices(
+  symbol: string,
+  fromDate: string,
+  toDate: string,
+  // adjusted=true → dividendenbereinigte Kurse (Total Return) nutzen, sofern
+  // die Quelle sie liefert. Wichtig für Benchmarks: Preis-Return würde die
+  // Indexrendite um die Dividendenrendite (~1,5–2 % p.a.) unterschätzen.
+  adjusted = false
+): Promise<HistoricalDataPoint[]> {
+  const cacheKey = `${symbol}_${fromDate}_${toDate}_${adjusted ? 'adj' : 'raw'}`
   const cached = historyCache.get(cacheKey)
 
   if (cached && Date.now() - cached.timestamp < CACHE_TTL) {
@@ -91,8 +99,8 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
         const data = await response.json()
         if (data.historical && Array.isArray(data.historical) && data.historical.length > 0) {
           return data.historical
-            .map((item: { date: string; close: number }) => {
-              let close = item.close
+            .map((item: { date: string; close: number; adjClose?: number }) => {
+              let close = adjusted && item.adjClose && item.adjClose > 0 ? item.adjClose : item.close
               if (exchange === 'GBp') close = (close / 100) * GBP_EUR_APPROX
               else if (exchange === 'GBP') close = close * GBP_EUR_APPROX
               return { date: item.date, close }
@@ -131,7 +139,9 @@ async function fetchHistoricalPrices(symbol: string, fromDate: string, toDate: s
         const result = yahooData?.chart?.result?.[0]
         if (result?.timestamp?.length > 0) {
           const timestamps: number[] = result.timestamp
-          const closes: (number | null)[] = result.indicators?.quote?.[0]?.close || []
+          const rawCloses: (number | null)[] = result.indicators?.quote?.[0]?.close || []
+          const adjCloses: (number | null)[] = result.indicators?.adjclose?.[0]?.adjclose || []
+          const closes = adjusted && adjCloses.length > 0 ? adjCloses : rawCloses
           const fromTime = new Date(fromDate).getTime() / 1000
           const points: HistoricalDataPoint[] = []
           for (let i = 0; i < timestamps.length; i++) {
@@ -344,8 +354,7 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien
-    const hasUSDStocks = uniqueSymbols.some(s => !isEURTicker(s) && !isGBXTicker(s))
+    // 2b. Lade Wechselkurs-Historien für nicht-EUR Aktien und Benchmarks
     const hasGBXStocks = uniqueSymbols.some(s => isGBXTicker(s))
     const eurUsdRateByDate = new Map<string, number>() // date → USD-to-EUR rate
     const gbpEurRateByDate = new Map<string, number>() // date → GBP-to-EUR rate
@@ -353,7 +362,10 @@ export async function POST(request: NextRequest) {
     // Parallel laden wenn beide benötigt
     const fxPromises: Promise<void>[] = []
 
-    if (hasUSDStocks) {
+    // EUR/USD immer laden: selbst ohne USD-Positionen brauchen die USD-notierten
+    // Benchmarks (SPY/URTH/VT) die Umrechnung nach EUR, sonst vergleicht der
+    // Chart EUR-Depotrendite mit USD-Indexrendite und ignoriert Währungseffekte.
+    {
       fxPromises.push((async () => {
         try {
           const eurUsdHistory = await fetchHistoricalPrices('EURUSD', fromDate, toDate)
@@ -607,11 +619,28 @@ export async function POST(request: NextRequest) {
       ...allTransactions.filter(tx => !['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)),
     ]
 
+    // Holdings-Fallback (keine Transaktionen in der DB): synthetische Buys aus
+    // purchase_date/purchase_price ableiten. Ohne diese Flows würde der TWR
+    // jeden später gekauften Bestand als Kurssprung (= Fake-Rendite) werten.
+    const syntheticTransactions: Transaction[] = !useTransactions
+      ? holdings
+          .filter(h => h.purchase_date && h.quantity > 0 && (h.purchase_price || 0) > 0)
+          .map(h => ({
+            date: h.purchase_date!,
+            symbol: h.symbol,
+            quantity: h.quantity,
+            price: h.purchase_price!,
+            type: 'buy' as const,
+          }))
+      : []
+
+    const effectiveTwrTransactions = useTransactions ? twrTransactions : syntheticTransactions
+
     const twrByDate = calculatePortfolioTwrByDate({
       chartData,
-      transactions: twrTransactions,
+      transactions: effectiveTwrTransactions,
       cashPosition,
-      useTransactions,
+      useTransactions: useTransactions || syntheticTransactions.length > 0,
     })
 
     // 8. Lade Benchmark-Daten für Performance-Vergleich (in %)
@@ -623,20 +652,38 @@ export async function POST(request: NextRequest) {
       msciWorldPerformance: number
       ftseAllWorldPerformance: number
     }> = []
+    let benchmarkComparison: {
+      startDate: string
+      endDate: string
+      periodYears: number
+      portfolio: { totalReturnPct: number; annualizedPct: number | null }
+      benchmarks: Record<string, {
+        label: string
+        totalReturnPct: number
+        annualizedPct: number | null
+        diffTotalPct: number
+        diffPaPct: number | null
+        euroDiff: number | null
+      } | null>
+    } | null = null
     try {
       const [spyHistory, urthHistory, vtHistory] = await Promise.all([
-        fetchHistoricalPrices('SPY', fromDate, toDate),
-        fetchHistoricalPrices('URTH', fromDate, toDate),
-        fetchHistoricalPrices('VT', fromDate, toDate),
+        fetchHistoricalPrices('SPY', fromDate, toDate, true),
+        fetchHistoricalPrices('URTH', fromDate, toDate, true),
+        fetchHistoricalPrices('VT', fromDate, toDate, true),
       ])
 
       if (spyHistory.length > 0 && chartData.length > 0) {
         const firstPortfolioDate = chartData[0].date
 
+        // Benchmarks in EUR umrechnen: das Depot wird in EUR bewertet, also
+        // muss die Benchmark denselben Währungseffekt tragen (unhedged Sicht
+        // eines EUR-Anlegers). Kurse sind bereits dividendenbereinigt (adjClose).
         const normalizeBenchmarkHistory = (history: HistoricalDataPoint[]) =>
           [...history]
             .filter(d => d.close > 0)
             .sort((a, b) => a.date.localeCompare(b.date))
+            .map(d => ({ date: d.date, close: d.close * getEURRateForDate(d.date) }))
 
         const spyBenchmark = normalizeBenchmarkHistory(spyHistory)
         const urthBenchmark = normalizeBenchmarkHistory(urthHistory)
@@ -670,11 +717,9 @@ export async function POST(request: NextRequest) {
           return price && firstPrice ? Math.round(((price / firstPrice) - 1) * 10000) / 100 : 0
         }
 
-        // Performance-Daten: Portfolio-TWR vs. Benchmark Price Return.
-        // Die aktuellen Provider-Pfade liefern hier nicht konsistent echte
-        // Total-Return-Serien (FMP/Yahoo close, plus Fallbacks). Deshalb bleiben
-        // SPY/URTH/VT unverändert als Price-Return-Benchmarks; der Benchmark-Gap
-        // Forward-Fill oben bleibt bewusst erhalten.
+        // Performance-Daten: Portfolio-TWR vs. Benchmark Total Return in EUR —
+        // beide Seiten inkl. Dividenden und Währungseffekt, damit der Vergleich
+        // fair ist. Der Benchmark-Gap Forward-Fill oben bleibt bewusst erhalten.
         performanceData = chartData.map(point => ({
           date: point.date,
           portfolioPerformance: Math.round((twrByDate.get(point.date) || 0) * 100) / 100,
@@ -682,6 +727,66 @@ export async function POST(request: NextRequest) {
           msciWorldPerformance: calcReturn(urthBenchmark, point.date, firstURTHPrice),
           ftseAllWorldPerformance: calcReturn(vtBenchmark, point.date, firstVTPrice),
         }))
+
+        // 8b. Benchmark-Vergleich als Kennzahlen: Differenz p.a. (zeitgewichtet)
+        // und Euro-Betrag über ein Schatten-Depot (geldgewichtet, gleiche
+        // Einzahlungen zu gleichen Zeitpunkten in den Index).
+        if (chartData.length > 1) {
+          const lastDate = chartData[chartData.length - 1].date
+          const periodDays =
+            (new Date(lastDate).getTime() - new Date(firstPortfolioDate).getTime()) / 86400000
+          const periodYears = periodDays / 365.25
+          const portfolioTotalPct = twrByDate.get(lastDate) || 0
+
+          const round2 = (v: number) => Math.round(v * 100) / 100
+          // Annualisieren erst ab ~1 Jahr — kürzere Zeiträume hochzurechnen
+          // würde absurde p.a.-Werte liefern; dann zählt die Gesamt-Differenz.
+          const annualize = (totalPct: number): number | null =>
+            periodYears >= 1 && totalPct > -100
+              ? (Math.pow(1 + totalPct / 100, 1 / periodYears) - 1) * 100
+              : null
+
+          const portfolioAnnualized = annualize(portfolioTotalPct)
+
+          const buildBenchmarkStats = (
+            label: string,
+            series: Array<{ date: string; close: number }>
+          ) => {
+            const cmp = calculateBenchmarkComparison({
+              chartData,
+              transactions: effectiveTwrTransactions,
+              benchmarkPrices: series,
+            })
+            if (!cmp) return null
+            const benchAnnualized = annualize(cmp.benchmarkTotalReturnPct)
+            return {
+              label,
+              totalReturnPct: round2(cmp.benchmarkTotalReturnPct),
+              annualizedPct: benchAnnualized !== null ? round2(benchAnnualized) : null,
+              diffTotalPct: round2(portfolioTotalPct - cmp.benchmarkTotalReturnPct),
+              diffPaPct:
+                portfolioAnnualized !== null && benchAnnualized !== null
+                  ? round2(portfolioAnnualized - benchAnnualized)
+                  : null,
+              euroDiff: cmp.euroDiff !== null ? Math.round(cmp.euroDiff) : null,
+            }
+          }
+
+          benchmarkComparison = {
+            startDate: firstPortfolioDate,
+            endDate: lastDate,
+            periodYears: Math.round(periodYears * 100) / 100,
+            portfolio: {
+              totalReturnPct: round2(portfolioTotalPct),
+              annualizedPct: portfolioAnnualized !== null ? round2(portfolioAnnualized) : null,
+            },
+            benchmarks: {
+              ftseAllWorld: buildBenchmarkStats('FTSE All-World', vtBenchmark),
+              sp500: buildBenchmarkStats('S&P 500', spyBenchmark),
+              msciWorld: buildBenchmarkStats('MSCI World', urthBenchmark),
+            },
+          }
+        }
       }
     } catch (benchmarkError) {
       console.error('Error fetching benchmark data:', benchmarkError)
@@ -700,6 +805,7 @@ export async function POST(request: NextRequest) {
       success: true,
       data: sampledData, // Wertentwicklung: { date, value, invested, performance }
       performanceData: sampledPerformance, // Performance: { date, portfolioPerformance, spyPerformance } in %
+      benchmarkComparison, // Kennzahlen: Depot vs. Benchmarks (p.a.-Differenz + Euro-Betrag)
       meta: {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,

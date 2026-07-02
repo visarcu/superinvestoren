@@ -56,6 +56,56 @@ interface PerformanceDataPoint {
   label: string
 }
 
+interface BenchmarkStats {
+  label: string
+  totalReturnPct: number
+  annualizedPct: number | null
+  diffTotalPct: number
+  diffPaPct: number | null
+  euroDiff: number | null
+}
+
+interface BenchmarkComparison {
+  startDate: string
+  endDate: string
+  periodYears: number
+  portfolio: { totalReturnPct: number; annualizedPct: number | null }
+  benchmarks: {
+    ftseAllWorld: BenchmarkStats | null
+    sp500: BenchmarkStats | null
+    msciWorld: BenchmarkStats | null
+  }
+}
+
+// "seit 5,2 Jahren" / "seit einem Jahr" / "in den letzten 8 Monaten"
+function formatPeriodLabel(years: number): string {
+  if (years >= 1) {
+    const rounded = Math.round(years * 10) / 10
+    if (rounded < 1.05) return 'seit einem Jahr'
+    const str = Number.isInteger(rounded)
+      ? String(rounded)
+      : rounded.toLocaleString('de-DE', { maximumFractionDigits: 1 })
+    return `seit ${str} Jahren`
+  }
+  const months = Math.max(1, Math.round(years * 12))
+  return months === 1 ? 'im letzten Monat' : `in den letzten ${months} Monaten`
+}
+
+// Runde Euro-Beträge fürs Wording ("rund 2.500 €") — exakte Cent-Beträge
+// würden hier Scheingenauigkeit suggerieren.
+function formatEuroApprox(value: number): string {
+  const abs = Math.abs(value)
+  const rounded = abs >= 1000 ? Math.round(abs / 100) * 100 : Math.round(abs / 10) * 10
+  return `${rounded.toLocaleString('de-DE')} €`
+}
+
+function formatDiffPct(value: number): string {
+  return Math.abs(value).toLocaleString('de-DE', {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  })
+}
+
 export default function PortfolioValueChart({
   portfolioId,
   portfolioIds,
@@ -67,12 +117,14 @@ export default function PortfolioValueChart({
   const [chartView, setChartView] = useState<ChartView>('value')
   const [valueData, setValueData] = useState<ValueDataPoint[]>([])
   const [performanceData, setPerformanceData] = useState<PerformanceDataPoint[]>([])
+  const [comparison, setComparison] = useState<BenchmarkComparison | null>(null)
   const [loading, setLoading] = useState(true)
 
   const fetchData = useCallback(async () => {
     if (holdings.length === 0) {
       setValueData([])
       setPerformanceData([])
+      setComparison(null)
       setLoading(false)
       return
     }
@@ -153,6 +205,8 @@ export default function PortfolioValueChart({
           label: formatLabel(d.date)
         })))
       }
+
+      setComparison(result.benchmarkComparison || null)
     } catch (error) {
       console.error('Chart data fetch error:', error)
     } finally {
@@ -165,6 +219,39 @@ export default function PortfolioValueChart({
   }, [fetchData])
 
   const lastPerf = performanceData.length > 0 ? performanceData[performanceData.length - 1] : null
+
+  // Benchmark-Insight: Headline-Vergleich gegen FTSE All-World ("Hättest du
+  // einfach den Welt-ETF gekauft?"), S&P 500 und MSCI World als Zusatz-Chips.
+  const headlineBenchmark = comparison?.benchmarks?.ftseAllWorld ?? null
+  let insight: { text: string; positive: boolean } | null = null
+  if (comparison && headlineBenchmark) {
+    const diff = headlineBenchmark.diffPaPct ?? headlineBenchmark.diffTotalPct
+    const isPa = headlineBenchmark.diffPaPct !== null
+    const period = formatPeriodLabel(comparison.periodYears)
+    const positive = diff >= 0
+    let text: string
+    if (Math.abs(diff) < 0.05) {
+      text = `Du liegst ${period} praktisch gleichauf mit dem FTSE All-World.`
+    } else {
+      const unit = isPa ? '% p.a.' : 'Prozentpunkte'
+      text = positive
+        ? `Du hast den FTSE All-World ${period} um ${formatDiffPct(diff)} ${unit} geschlagen.`
+        : `Du hast den FTSE All-World ${period} um ${formatDiffPct(diff)} ${unit} unterperformt.`
+    }
+    if (headlineBenchmark.euroDiff !== null && Math.abs(headlineBenchmark.euroDiff) >= 10) {
+      text += headlineBenchmark.euroDiff >= 0
+        ? ` Das hat dir rund ${formatEuroApprox(headlineBenchmark.euroDiff)} zusätzlich eingebracht.`
+        : ` Das hat dich rund ${formatEuroApprox(headlineBenchmark.euroDiff)} gekostet.`
+    }
+    insight = { text, positive }
+  }
+
+  const secondaryStats = comparison
+    ? [comparison.benchmarks.sp500, comparison.benchmarks.msciWorld].filter(
+        (b): b is BenchmarkStats => !!b
+      )
+    : []
+
   const formatEuro = (value: number) =>
     `${value.toLocaleString('de-DE', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`
 
@@ -278,6 +365,7 @@ export default function PortfolioValueChart({
               {lastPerf.ftseAllWorldPerformance >= 0 ? '+' : ''}{lastPerf.ftseAllWorldPerformance.toFixed(2)}%
             </span>
           </div>
+          <span className="text-[11px] text-theme-muted">Benchmarks in EUR · Total Return</span>
         </div>
       )}
 
@@ -416,6 +504,49 @@ export default function PortfolioValueChart({
           )
         )}
       </div>
+
+      {/* Benchmark-Insight: Was hätte der Welt-ETF gebracht? */}
+      {!loading && insight && (
+        <div
+          className={`mt-4 rounded-xl border p-4 ${
+            insight.positive
+              ? 'border-emerald-400/20 bg-emerald-400/[0.05]'
+              : 'border-amber-400/20 bg-amber-400/[0.05]'
+          }`}
+        >
+          <p className={`text-sm font-medium leading-relaxed ${insight.positive ? 'text-emerald-300' : 'text-amber-300'}`}>
+            {insight.text}
+          </p>
+          {secondaryStats.length > 0 && (
+            <div className="mt-3 flex flex-wrap gap-2">
+              {secondaryStats.map(stat => {
+                const d = stat.diffPaPct ?? stat.diffTotalPct
+                const unit = stat.diffPaPct !== null ? '% p.a.' : 'Pp.'
+                return (
+                  <span
+                    key={stat.label}
+                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-theme-secondary"
+                  >
+                    {stat.label}
+                    <span className={d >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                      {d >= 0 ? '+' : '−'}{formatDiffPct(d)} {unit}
+                    </span>
+                    {stat.euroDiff !== null && Math.abs(stat.euroDiff) >= 10 && (
+                      <span className={stat.euroDiff >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                        · {stat.euroDiff >= 0 ? '+' : '−'}{formatEuroApprox(stat.euroDiff)}
+                      </span>
+                    )}
+                  </span>
+                )
+              })}
+            </div>
+          )}
+          <p className="mt-3 text-[11px] leading-relaxed text-theme-muted">
+            Benchmarks in EUR inkl. reinvestierter Dividenden (Total Return). Euro-Betrag: dieselben
+            Einzahlungen zu denselben Zeitpunkten in den Index investiert.
+          </p>
+        </div>
+      )}
     </div>
   )
 }

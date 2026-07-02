@@ -225,6 +225,107 @@ function calculateSecurityOnlyTwrByDate(
   return twrByDate
 }
 
+export interface BenchmarkSeriesPoint {
+  date: string
+  close: number
+}
+
+export interface BenchmarkComparisonResult {
+  /** Preis-Return der Benchmark-Serie über den Chart-Zeitraum in % */
+  benchmarkTotalReturnPct: number
+  /** Endwert des Depots inkl. erhaltener Dividenden in EUR */
+  actualFinalValue: number
+  /** Endwert des Schatten-Depots (gleiche Zuflüsse in die Benchmark) in EUR */
+  shadowFinalValue: number | null
+  /** actualFinalValue − shadowFinalValue; negativ = Underperformance hat Geld gekostet */
+  euroDiff: number | null
+}
+
+/**
+ * Vergleicht das Depot mit einer Benchmark-Serie (erwartet: Total-Return-Kurse
+ * in EUR, aufsteigend sortierbar).
+ *
+ * Für den Euro-Betrag wird ein Schatten-Depot simuliert: jeder externe
+ * Wertpapier-Zufluss (buy/transfer_in inkl. Gebühren — identisch zum
+ * Security-only-TWR-Flussmodell) kauft am selben Tag Benchmark-Anteile,
+ * Abflüsse (sell/transfer_out) verkaufen sie. Dividenden bleiben im echten
+ * Depot beim User (erhöhen actualFinalValue), in der Benchmark stecken sie
+ * bereits in der Total-Return-Serie. Die Differenz der Endwerte ist damit
+ * die echte, geldgewichtete Antwort auf „Was hätte derselbe Einsatz im
+ * Index gebracht?".
+ */
+export function calculateBenchmarkComparison({
+  chartData,
+  transactions,
+  benchmarkPrices,
+}: {
+  chartData: PortfolioTwrPoint[]
+  transactions: PortfolioTwrTransaction[]
+  benchmarkPrices: BenchmarkSeriesPoint[]
+}): BenchmarkComparisonResult | null {
+  if (chartData.length < 2) return null
+
+  const prices = benchmarkPrices
+    .filter(p => p.close > 0)
+    .sort((a, b) => a.date.localeCompare(b.date))
+  if (prices.length < 2) return null
+
+  const priceAt = (date: string): number => {
+    let last = 0
+    for (const p of prices) {
+      if (p.date > date) break
+      last = p.close
+    }
+    if (last > 0) return last
+    return prices.find(p => p.date >= date)?.close || 0
+  }
+
+  const startDate = chartData[0].date
+  const endDate = chartData[chartData.length - 1].date
+  const startPrice = priceAt(startDate)
+  const endPrice = priceAt(endDate)
+  if (!(startPrice > 0) || !(endPrice > 0)) return null
+
+  const benchmarkTotalReturnPct = (endPrice / startPrice - 1) * 100
+
+  let units = 0
+  let dividends = 0
+  let hasFlows = false
+
+  const sortedTxs = [...transactions]
+    .filter(tx => !!tx.date && tx.date <= endDate)
+    .sort((a, b) => a.date.localeCompare(b.date))
+
+  for (const tx of sortedTxs) {
+    if (tx.type === 'dividend') {
+      dividends += transactionAmount(tx)
+      continue
+    }
+    if (!['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)) continue
+
+    const price = priceAt(tx.date)
+    if (!(price > 0)) continue
+
+    if (tx.type === 'buy' || tx.type === 'transfer_in') {
+      units += (transactionAmount(tx) + transactionFee(tx)) / price
+      hasFlows = true
+    } else {
+      units -= (transactionAmount(tx) - transactionFee(tx)) / price
+      hasFlows = true
+    }
+  }
+
+  const actualFinalValue = chartData[chartData.length - 1].value + dividends
+  const shadowFinalValue = hasFlows ? units * endPrice : null
+  // Negatives Schatten-Depot (Abflüsse > eingezahlte Benchmark-Anteile durch
+  // Datenlücken) wäre kein sinnvoller Vergleich → dann keinen Betrag melden.
+  const euroDiff = shadowFinalValue !== null && shadowFinalValue >= 0
+    ? actualFinalValue - shadowFinalValue
+    : null
+
+  return { benchmarkTotalReturnPct, actualFinalValue, shadowFinalValue, euroDiff }
+}
+
 export function calculatePortfolioTwrByDate({
   chartData,
   transactions,
