@@ -418,10 +418,45 @@ export function usePortfolio() {
     [transactions, holdings]
   )
 
+  // Depotüberträge (teils auch Importe) ohne Kostenbasis (price=0, total_value=0)
+  // sprengen alle flussbasierten Kennzahlen: XIRR sieht die Shares als Geschenk
+  // (Endwert ohne Kapitaleinsatz → dreistellige p.a.-Werte), Realized Gains
+  // rechnen gegen Kostenbasis 0. Fehlende Beträge daher schätzen — bevorzugt
+  // über die Kostenbasis der zugehörigen Holding, sonst über den aktuellen Kurs.
+  const enrichedPerformanceTransactions = useMemo(() => {
+    if (performanceTransactions.length === 0) return performanceTransactions
+
+    const holdingBySymbol = new Map<string, Holding>()
+    holdings.forEach(h => {
+      const sym = normalizeSymbol(h.symbol)
+      if (sym && !holdingBySymbol.has(sym)) holdingBySymbol.set(sym, h)
+    })
+
+    let changed = false
+    const result = performanceTransactions.map(tx => {
+      if (!isSecurityTransaction(tx)) return tx
+      if (transactionAmount(tx) > 0) return tx
+      const quantity = Number(tx.quantity) || 0
+      if (quantity <= 0) return tx
+
+      const holding = holdingBySymbol.get(normalizeSymbol(tx.symbol))
+      if (!holding) return tx
+      const perShare = holding.purchase_price_display > 0
+        ? holding.purchase_price_display
+        : holding.quantity > 0 ? holding.value / holding.quantity : 0
+      if (perShare <= 0) return tx
+
+      changed = true
+      return { ...tx, total_value: quantity * perShare }
+    })
+
+    return changed ? result : performanceTransactions
+  }, [performanceTransactions, holdings])
+
   // Realisierte Gewinne + Dividenden aus Transaktionshistorie
   const { totalRealizedGain, totalDividends, realizedGainByTxId } = useMemo(
-    () => calculateRealizedGains(performanceTransactions),
-    [performanceTransactions]
+    () => calculateRealizedGains(enrichedPerformanceTransactions),
+    [enrichedPerformanceTransactions]
   )
 
   // Historische Performance pro (symbol, portfolio_id) — für Ghost-Rows in der
@@ -453,14 +488,15 @@ export function usePortfolio() {
   const xirrPercent = useMemo(() => {
     const cashflows: Cashflow[] = []
 
-    if (performanceTransactions.length > 0) {
+    if (enrichedPerformanceTransactions.length > 0) {
       // Alle Buy/Sell/Dividend-Transaktionen als Cashflows.
       // Depotüberträge (transfer_in/out) werden als fiktive Käufe/Verkäufe zur
       // damaligen Kostenbasis eingerechnet — sonst fehlt der Anfangskapital-Fluss
       // und XIRR explodiert (Beispiel ING: zeigte +1000% p.a. statt realistischer
       // ~12%, weil 147 VGWL-Shares ohne Cashflow materialisiert wurden).
-      // Genauso wie Parqet das macht.
-      performanceTransactions.forEach(tx => {
+      // Genauso wie Parqet das macht. Beträge kommen aus den enriched
+      // Transaktionen — Überträge ohne Kostenbasis sind dort bereits geschätzt.
+      enrichedPerformanceTransactions.forEach(tx => {
         if (!tx.date) return
         const txDate = new Date(tx.date)
         const amount = transactionAmount(tx)
@@ -505,7 +541,7 @@ export function usePortfolio() {
 
     const result = calculateXIRR(cashflows)
     return result !== null ? result * 100 : null
-  }, [performanceTransactions, holdings, stockValue])
+  }, [enrichedPerformanceTransactions, holdings, stockValue])
 
   // Load Exchange Rate
   const loadExchangeRate = useCallback(async () => {

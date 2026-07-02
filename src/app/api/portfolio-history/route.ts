@@ -488,6 +488,27 @@ export async function POST(request: NextRequest) {
 
     const txFee = (tx: Transaction): number => Math.abs(Number(tx.fee) || 0)
 
+    // Depotüberträge (und vereinzelt Importe) kommen teils ohne Kostenbasis an
+    // (price=0, total_value=0). Für den Wert-Chart ist das ok — der Bestand
+    // stimmt. Aber jede flussbasierte Rechnung (TWR, Benchmark-Schatten-Depot,
+    // Attribution, Kapital-Linie) würde die Shares als Geschenk werten: der TWR
+    // springt am Übertragstag treppenartig nach oben (+100%-Stufen) und der
+    // Benchmark-Vergleich explodiert. Fehlende Beträge daher mit dem Marktwert
+    // am Transaktionstag schätzen — die historischen Kurse sind hier geladen.
+    let estimatedFlowCount = 0
+    securityTransactions.forEach(tx => {
+      if (txValue(tx) > 0) return
+      const quantity = Number(tx.quantity) || 0
+      if (quantity <= 0 || !tx.date) return
+      const price = getPriceForDate(tx.symbol, tx.date)
+      if (!price) return
+      tx.total_value = Math.round(quantity * toEurPrice(tx.symbol, price, tx.date) * 100) / 100
+      estimatedFlowCount++
+    })
+    if (estimatedFlowCount > 0) {
+      console.log(`📊 Estimated market value for ${estimatedFlowCount} zero-amount security transactions`)
+    }
+
     // 4. Tracke den ersten Kauftag pro Symbol (für korrekte Startberechnung)
     const firstPurchaseDateBySymbol = new Map<string, string>()
 
