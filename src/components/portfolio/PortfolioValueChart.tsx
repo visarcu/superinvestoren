@@ -221,29 +221,26 @@ export default function PortfolioValueChart({
   const lastPerf = performanceData.length > 0 ? performanceData[performanceData.length - 1] : null
 
   // Benchmark-Insight: Headline-Vergleich gegen FTSE All-World ("Hättest du
-  // einfach den Welt-ETF gekauft?"), S&P 500 und MSCI World als Zusatz-Chips.
+  // einfach den Welt-ETF gekauft?"), S&P 500 und MSCI World als Zusatzzeile.
   const headlineBenchmark = comparison?.benchmarks?.ftseAllWorld ?? null
-  let insight: { text: string; positive: boolean } | null = null
+  let insight: {
+    period: string
+    diffText: string
+    positive: boolean
+    nearZero: boolean
+    euroText: string | null
+  } | null = null
   if (comparison && headlineBenchmark) {
     const diff = headlineBenchmark.diffPaPct ?? headlineBenchmark.diffTotalPct
     const isPa = headlineBenchmark.diffPaPct !== null
-    const period = formatPeriodLabel(comparison.periodYears)
-    const positive = diff >= 0
-    let text: string
-    if (Math.abs(diff) < 0.05) {
-      text = `Du liegst ${period} praktisch gleichauf mit dem FTSE All-World.`
-    } else {
-      const unit = isPa ? '% p.a.' : 'Prozentpunkte'
-      text = positive
-        ? `Du hast den FTSE All-World ${period} um ${formatDiffPct(diff)} ${unit} geschlagen.`
-        : `Du hast den FTSE All-World ${period} um ${formatDiffPct(diff)} ${unit} unterperformt.`
+    const euro = headlineBenchmark.euroDiff
+    insight = {
+      period: formatPeriodLabel(comparison.periodYears),
+      diffText: `${formatDiffPct(diff)} ${isPa ? '% p.a.' : 'Prozentpunkte'}`,
+      positive: diff >= 0,
+      nearZero: Math.abs(diff) < 0.05,
+      euroText: euro !== null && Math.abs(euro) >= 10 ? formatEuroApprox(euro) : null,
     }
-    if (headlineBenchmark.euroDiff !== null && Math.abs(headlineBenchmark.euroDiff) >= 10) {
-      text += headlineBenchmark.euroDiff >= 0
-        ? ` Das hat dir rund ${formatEuroApprox(headlineBenchmark.euroDiff)} zusätzlich eingebracht.`
-        : ` Das hat dich rund ${formatEuroApprox(headlineBenchmark.euroDiff)} gekostet.`
-    }
-    insight = { text, positive }
   }
 
   const secondaryStats = comparison
@@ -507,42 +504,58 @@ export default function PortfolioValueChart({
 
       {/* Benchmark-Insight: Was hätte der Welt-ETF gebracht? */}
       {!loading && insight && (
-        <div
-          className={`mt-4 rounded-xl border p-4 ${
-            insight.positive
-              ? 'border-emerald-400/20 bg-emerald-400/[0.05]'
-              : 'border-amber-400/20 bg-amber-400/[0.05]'
-          }`}
-        >
-          <p className={`text-sm font-medium leading-relaxed ${insight.positive ? 'text-emerald-300' : 'text-amber-300'}`}>
-            {insight.text}
+        <div className="mt-4 rounded-xl border border-white/[0.06] bg-white/[0.02] p-4">
+          <p className="mb-2 text-[10px] font-medium uppercase tracking-[0.18em] text-theme-muted">
+            Benchmark-Vergleich
+          </p>
+          <p className="text-sm leading-relaxed text-theme-secondary">
+            {insight.nearZero ? (
+              <>Du liegst {insight.period} praktisch gleichauf mit dem{' '}
+              <span className="text-theme-primary">FTSE All-World</span>.</>
+            ) : (
+              <>
+                Du hast den <span className="text-theme-primary">FTSE All-World</span>{' '}
+                {insight.period} um{' '}
+                <span className={`font-medium tabular-nums ${insight.positive ? 'text-emerald-400' : 'text-red-400'}`}>
+                  {insight.diffText}
+                </span>{' '}
+                {insight.positive ? 'geschlagen' : 'unterperformt'}.
+                {insight.euroText && (
+                  <>
+                    {' '}
+                    {insight.positive ? 'Das hat dir rund' : 'Das hat dich rund'}{' '}
+                    <span className={`font-medium tabular-nums ${insight.positive ? 'text-emerald-400' : 'text-red-400'}`}>
+                      {insight.euroText}
+                    </span>{' '}
+                    {insight.positive ? 'zusätzlich eingebracht' : 'gekostet'}.
+                  </>
+                )}
+              </>
+            )}
           </p>
           {secondaryStats.length > 0 && (
-            <div className="mt-3 flex flex-wrap gap-2">
+            <div className="mt-3 flex flex-wrap items-baseline gap-x-6 gap-y-1.5 border-t border-white/[0.05] pt-3">
               {secondaryStats.map(stat => {
                 const d = stat.diffPaPct ?? stat.diffTotalPct
                 const unit = stat.diffPaPct !== null ? '% p.a.' : 'Pp.'
                 return (
-                  <span
-                    key={stat.label}
-                    className="inline-flex items-center gap-1.5 rounded-lg border border-white/[0.07] bg-white/[0.03] px-2.5 py-1 text-[11px] text-theme-secondary"
-                  >
-                    {stat.label}
-                    <span className={d >= 0 ? 'text-emerald-400' : 'text-red-400'}>
+                  <div key={stat.label} className="flex items-baseline gap-2 text-xs">
+                    <span className="text-theme-muted">{stat.label}</span>
+                    <span className={`font-medium tabular-nums ${d >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
                       {d >= 0 ? '+' : '−'}{formatDiffPct(d)} {unit}
                     </span>
                     {stat.euroDiff !== null && Math.abs(stat.euroDiff) >= 10 && (
-                      <span className={stat.euroDiff >= 0 ? 'text-emerald-400' : 'text-red-400'}>
-                        · {stat.euroDiff >= 0 ? '+' : '−'}{formatEuroApprox(stat.euroDiff)}
+                      <span className="tabular-nums text-theme-muted">
+                        {stat.euroDiff >= 0 ? '+' : '−'}{formatEuroApprox(stat.euroDiff)}
                       </span>
                     )}
-                  </span>
+                  </div>
                 )
               })}
             </div>
           )}
-          <p className="mt-3 text-[11px] leading-relaxed text-theme-muted">
-            Benchmarks in EUR inkl. reinvestierter Dividenden (Total Return). Euro-Betrag: dieselben
+          <p className="mt-3 text-[10px] leading-relaxed text-theme-muted/70">
+            Benchmarks in EUR, inkl. reinvestierter Dividenden (Total Return) · Euro-Betrag: dieselben
             Einzahlungen zu denselben Zeitpunkten in den Index investiert.
           </p>
         </div>
