@@ -4,7 +4,7 @@
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { supabase } from '@/lib/supabaseClient'
-import { getBulkQuotes, detectTickerCurrency } from '@/lib/fmp'
+import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { getEURRate, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
 import { calculateXIRR, type Cashflow } from '@/utils/xirr'
@@ -37,6 +37,10 @@ export interface Holding {
   value: number
   gain_loss: number
   gain_loss_percent: number
+  // Tagesveränderung (letzter Handelstag) — Prozent aus der Quote,
+  // Euro-Betrag auf Basis des aktuellen EUR-Werts der Position
+  day_change_value: number
+  day_change_percent: number
   purchase_currency?: string
   // FX-Split: Kurs-Performance vs Währungs-Effekt separat (optional — benötigt
   // purchase_fx_rate in der DB und aktuelle FX-Rate). Null wenn nicht berechenbar
@@ -413,6 +417,17 @@ export function usePortfolio() {
     return totalInvested > 0 ? (totalGainLoss / totalInvested) * 100 : 0
   }, [totalGainLoss, totalInvested])
 
+  // Tagesgewinn/-verlust über alle Positionen (letzter Handelstag).
+  // Prozent bezogen auf den Depotwert von gestern (heutiger Wert − Änderung).
+  const dayGainLoss = useMemo(() => {
+    return holdings.reduce((sum, h) => sum + (h.day_change_value || 0), 0)
+  }, [holdings])
+
+  const dayGainLossPercent = useMemo(() => {
+    const previousValue = stockValue - dayGainLoss
+    return previousValue > 0 ? (dayGainLoss / previousValue) * 100 : 0
+  }, [stockValue, dayGainLoss])
+
   const performanceTransactions = useMemo(
     () => filterPerformanceTransactions(transactions, holdings),
     [transactions, holdings]
@@ -570,9 +585,15 @@ export function usePortfolio() {
 
     const symbols = holdingsData.map(h => h.symbol)
     let currentPrices: Record<string, number> = {}
+    const dayChangePctBySymbol: Record<string, number> = {}
 
     try {
-      currentPrices = await getBulkQuotes(symbols)
+      const quotes = await getBulkQuotesWithChanges(symbols)
+      currentPrices = {}
+      for (const [symbol, quote] of Object.entries(quotes)) {
+        currentPrices[symbol] = quote.price
+        dayChangePctBySymbol[symbol] = quote.changesPercentage
+      }
       const missingPrices = symbols.filter(s => !currentPrices[s] || currentPrices[s] <= 0)
       if (missingPrices.length > 0) {
         setPriceLoadError(`Kurse nicht verfügbar für: ${missingPrices.join(', ')}`)
@@ -639,6 +660,13 @@ export function usePortfolio() {
       const gainLoss = value - costBasis
       const gainLossPercent = costBasis > 0 ? (gainLoss / costBasis) * 100 : 0
 
+      // Tagesveränderung: Prozent aus der Quote (Börsenwährung), Euro-Betrag
+      // über den aktuellen EUR-Wert zurückgerechnet — so bleibt die Währungs-
+      // umrechnung konsistent (heutiger Wert − gestriger Wert in EUR).
+      const dayChangePercent = dayChangePctBySymbol[h.symbol] ?? 0
+      const dayChangeValue =
+        dayChangePercent > -100 ? value * (dayChangePercent / (100 + dayChangePercent)) : 0
+
       // FX-Split: nur berechenbar für Nicht-EUR-Positionen mit gespeicherter fx_rate
       let plExclFx: number | null = null
       let plFromFx: number | null = null
@@ -679,6 +707,8 @@ export function usePortfolio() {
         value,
         gain_loss: gainLoss,
         gain_loss_percent: gainLossPercent,
+        day_change_value: dayChangeValue,
+        day_change_percent: dayChangePercent,
         pl_excl_fx: plExclFx,
         pl_from_fx: plFromFx,
       }
@@ -1401,6 +1431,8 @@ export function usePortfolio() {
     cashPosition,
     totalGainLoss,
     totalGainLossPercent,
+    dayGainLoss,
+    dayGainLossPercent,
     totalRealizedGain,
     totalDividends,
     totalFees,

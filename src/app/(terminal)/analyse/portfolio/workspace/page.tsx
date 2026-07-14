@@ -364,6 +364,12 @@ export default function PortfolioWorkspacePage() {
                   {p.totalReturn >= 0 ? '+' : ''}{p.formatCurrency(p.totalReturn)} · {p.formatPercentage(p.totalReturnPercent)}
                 </span>
               </div>
+              <div className="mt-1.5 flex items-center gap-2 text-sm">
+                <span className="text-theme-muted">Heute</span>
+                <span className={`font-medium tabular-nums ${perfColor(p.dayGainLoss)}`}>
+                  {p.dayGainLoss >= 0 ? '+' : ''}{p.formatCurrency(p.dayGainLoss)} · {p.formatPercentage(p.dayGainLossPercent)}
+                </span>
+              </div>
             </div>
 
             <div className="grid min-w-[min(100%,520px)] grid-cols-3 gap-3">
