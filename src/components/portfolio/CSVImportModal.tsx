@@ -7,9 +7,10 @@
 
 import React, { useState, useCallback, useMemo, useRef } from 'react'
 import { supabase } from '@/lib/supabaseClient'
-import { reconstructHoldings, type ParsedTransaction, type CSVParseResult } from '@/lib/scalableCSVParser'
+import { reconstructHoldings, type ParsedTransaction, type CSVParseResult, type StockSplit, type TickerRename } from '@/lib/scalableCSVParser'
 import { resolveISINsLocally } from '@/lib/isinResolver'
 import { checkBulkDuplicates } from '@/lib/duplicateCheck'
+import { hasSplitApplied, appendSplitNote } from '@/lib/splitAdjustment'
 import type { FlatexParsedTransaction } from '@/lib/flatexPDFParser'
 import {
   IMPORT_BROKERS,
@@ -366,7 +367,11 @@ export default function CSVImportModal({
           type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out'
           isFromTransfer?: boolean
         })[]
-        uniqueISINs = [...new Set(txs.map(t => t.isin).filter(Boolean))]
+        // Split-ISINs mit auflösen: bei einem Split ohne Trades in derselben
+        // Datei (z.B. Freedom24-Report nur mit Corpactions) brauchen wir das
+        // Symbol trotzdem, um Alt-Transaktionen in der DB anzupassen.
+        const splitIsins = ((data.stockSplits as StockSplit[] | undefined) || []).map(s => s.isin)
+        uniqueISINs = [...new Set([...txs.map(t => t.isin), ...splitIsins].filter(Boolean))]
         parsedTransactions = txs.map(tx => ({
           date: tx.date,
           type: tx.type,
@@ -399,6 +404,11 @@ export default function CSVImportModal({
           skipped: 0,
           byType,
         },
+        // Erkannte Corporate Actions (TR/Scalable CSV + Freedom24 Handelsbericht):
+        // In-File-Transaktionen sind bereits angepasst; beim Import werden die
+        // Splits zusätzlich auf bereits gespeicherte DB-Daten angewendet.
+        stockSplits: (data.stockSplits as StockSplit[] | undefined) || [],
+        tickerRenames: (data.tickerRenames as TickerRename[] | undefined) || [],
       })
 
       setStep('processing')
@@ -616,14 +626,98 @@ export default function CSVImportModal({
         await supabase.from('portfolios').update({ cash_position: 0 }).eq('id', portfolioId)
       }
 
+      // === Aktiensplits auf bereits gespeicherte Daten anwenden ===
+      // Die Kurshistorie (FMP/Yahoo) ist rückwirkend split-bereinigt — Alt-
+      // Transaktionen aus früheren Imports müssen deshalb auf die neue
+      // Stückzahl-Basis (quantity × ratio, price ÷ ratio, total_value bleibt).
+      // Idempotent über Marker-Note: bereits verrechnete Zeilen werden
+      // übersprungen, ein Re-Import derselben Datei ändert nichts doppelt.
+      let dbSplitAdjustments = 0
+      if (!resetBeforeImport && parseResult.stockSplits && parseResult.stockSplits.length > 0) {
+        for (const split of parseResult.stockSplits) {
+          const symbol = isinMap.get(split.isin)?.symbol
+          if (!symbol || !(split.ratio > 0) || split.ratio === 1) continue
+
+          const { data: existingTxs, error: splitLoadError } = await supabase
+            .from('portfolio_transactions')
+            .select('id, quantity, price, notes')
+            .eq('portfolio_id', portfolioId)
+            .eq('symbol', symbol)
+            .lt('date', split.date)
+            .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
+
+          if (splitLoadError || !existingTxs) continue
+          const toAdjust = existingTxs.filter(tx => !hasSplitApplied(tx.notes, split.date))
+          if (toAdjust.length === 0) continue
+
+          for (const tx of toAdjust) {
+            const qty = Number(tx.quantity) || 0
+            const price = Number(tx.price) || 0
+            const { error: adjustError } = await supabase
+              .from('portfolio_transactions')
+              .update({
+                quantity: parseFloat((qty * split.ratio).toFixed(8)),
+                price: price > 0 ? parseFloat((price / split.ratio).toFixed(4)) : price,
+                notes: appendSplitNote(tx.notes, split.ratio, split.date),
+              })
+              .eq('id', tx.id)
+            if (adjustError) throw new Error(`Split-Anpassung für ${symbol} fehlgeschlagen: ${adjustError.message}`)
+            dbSplitAdjustments++
+          }
+
+          // Holding auf neue Stückzahl-Basis bringen. Nur wenn tatsächlich
+          // Alt-Transaktionen angepasst wurden — sonst wurde sie in einem
+          // früheren Import bereits umgestellt.
+          const { data: holdingRows } = await supabase
+            .from('portfolio_holdings')
+            .select('id, quantity, purchase_price')
+            .eq('portfolio_id', portfolioId)
+            .eq('symbol', symbol)
+          for (const holding of holdingRows || []) {
+            await supabase
+              .from('portfolio_holdings')
+              .update({
+                quantity: parseFloat(((Number(holding.quantity) || 0) * split.ratio).toFixed(8)),
+                purchase_price: parseFloat(((Number(holding.purchase_price) || 0) / split.ratio).toFixed(4)),
+              })
+              .eq('id', holding.id)
+          }
+        }
+      }
+
       const txWithSymbols = cashFilteredTransactions.filter(t => t.symbol)
+
+      // Duplikat-Check lief in der Vorschau gegen den UNANGEPASSTEN Bestand.
+      // Wurden gerade DB-Zeilen split-verrechnet, matchen die (bereits
+      // angepassten) Datei-Zeilen jetzt erst — daher frisch prüfen, sonst
+      // würden identische Alt-Käufe doppelt importiert.
+      let effectiveDuplicates = duplicateIndices
+      if (dbSplitAdjustments > 0) {
+        try {
+          effectiveDuplicates = await checkBulkDuplicates(
+            portfolioId,
+            txWithSymbols.map(tx => ({
+              type: tx.type,
+              symbol: tx.symbol!,
+              date: tx.date,
+              quantity: tx.quantity,
+              price: tx.price,
+            }))
+          )
+        } catch {
+          // Bei Fehler konservativ mit dem Vorschau-Ergebnis weitermachen
+        }
+      }
+
       // Bei Reset: alle Duplikate ignorieren (wurden ja gerade gelöscht)
       const txToImport = resetBeforeImport
         ? txWithSymbols
-        : txWithSymbols.filter((_, i) => !duplicateIndices.has(i))
+        : txWithSymbols.filter((_, i) => !effectiveDuplicates.has(i))
       setImportProgress({ current: 0, total: txToImport.length })
 
-      if (txToImport.length === 0) {
+      // Wenn nichts Neues zu importieren ist, aber Splits verrechnet wurden,
+      // ist das ein gültiges Ergebnis (Bestand wurde angepasst) — kein Abbruch.
+      if (txToImport.length === 0 && dbSplitAdjustments === 0) {
         setImportError('Keine neuen Transaktionen zum Importieren (alle sind Duplikate).')
         setStep('preview')
         setImporting(false)
@@ -747,7 +841,7 @@ export default function CSVImportModal({
       setImportResult({
         transactionsAttempted: cashFilteredTransactions.filter(t => t.symbol).length,
         transactionsSaved: savedCount,
-        duplicatesSkipped: resetBeforeImport ? 0 : duplicateIndices.size,
+        duplicatesSkipped: resetBeforeImport ? 0 : effectiveDuplicates.size,
         holdingsCreated,
         holdingsUpdated,
         cashMode,
@@ -762,7 +856,7 @@ export default function CSVImportModal({
     } finally {
       setImporting(false)
     }
-  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport])
+  }, [parseResult, cashFilteredTransactions, resolvedTransactions, portfolioId, duplicateIndices, cashMode, resetBeforeImport, isinMap])
 
   // Format helpers
   const formatCurrency = (amount: number) =>
@@ -1257,7 +1351,7 @@ export default function CSVImportModal({
                     {importSummary.stockSplits.map((s, i) => (
                       <li key={`split-${i}`} className="flex gap-1.5">
                         <span className="text-neutral-600">·</span>
-                        Aktiensplit {s.ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am {s.date} ({s.isin}) — vorherige Trades rückwirkend umgerechnet
+                        Aktiensplit {s.ratio.toFixed(2).replace(/\.?0+$/, '')}:1 am {s.date} ({s.isin}) — frühere Käufe/Verkäufe (auch bereits importierte) werden rückwirkend umgerechnet
                       </li>
                     ))}
                     {importSummary.tickerRenames.map((r, i) => (

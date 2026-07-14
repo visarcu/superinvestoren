@@ -8,15 +8,27 @@
 //   - Handelsbericht: Gebühren immer in EUR, Dividenden im "Corpactions"-Sheet
 //
 // Sheet "Trades ...":      Käufe/Verkäufe mit ISIN, Transaktionsdatum, Gebühren
-// Sheet "Corpactions ...":  Dividenden mit ISIN und Steuerinfo
+// Sheet "Corpactions ...":  Dividenden, Splits und Spin-Offs mit ISIN
 //
 // Erkennung: Sheet-Name startet mit "Trades " (nicht "ExecTrades" wie beim Steuerbericht)
 
 import type { FlatexParsedTransaction } from './flatexPDFParser'
+import type { StockSplit } from './scalableCSVParser'
+import { appendSplitNote } from './splitAdjustment'
+
+// Wie FlatexParsedTransaction, aber zusätzlich mit Transfer-Typen für
+// Spin-Off-Einbuchungen (der Import-Wizard behandelt transfer_in inkl.
+// Kursnachzug über die Historical-Price-API, falls kein Preis vorliegt).
+export type Freedom24Transaction = Omit<FlatexParsedTransaction, 'type'> & {
+  type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out'
+  isFromTransfer?: boolean
+}
 
 export interface Freedom24TradeReportResult {
-  transactions: FlatexParsedTransaction[]
+  transactions: Freedom24Transaction[]
   errors: string[]
+  /** Erkannte Aktiensplits — Alt-Transaktionen in der Datei sind bereits angepasst. */
+  stockSplits: StockSplit[]
 }
 
 /**
@@ -146,14 +158,32 @@ function parseTrades(
 }
 
 /**
- * Parst Corpactions-Sheet (Dividenden).
+ * Parst Corpactions-Sheet: Dividenden, Aktiensplits und Spin-Offs.
+ *
+ * Freedom24 bucht Corporate Actions als Wertpapier-Zeilen:
+ *   Split:    2 Zeilen gleicher ISIN, negative (alte Stücke raus) + positive
+ *             (neue Stücke rein). Kommentar: "Stock split HON.US (US...).
+ *             Record date 2026-06-26, factor: 2/1."
+ *   Spin-Off: 1 Zeile mit NEUER ISIN und positiver Stückzahl. Kommentar:
+ *             "Corporate action HON.US (US...) -> HONA.US (US...). Factor 2/1."
+ *             → wird als transfer_in der neuen Position importiert.
  */
-function parseDividends(
+function parseCorpActions(
   rows: Record<string, unknown>[],
   fxRateUsdEur: number,
-): { transactions: FlatexParsedTransaction[]; errors: string[] } {
-  const transactions: FlatexParsedTransaction[] = []
+): { transactions: Freedom24Transaction[]; errors: string[]; stockSplits: StockSplit[] } {
+  const transactions: Freedom24Transaction[] = []
   const errors: string[] = []
+  const stockSplits: StockSplit[] = []
+
+  // Split-Zeilen sammeln: Key = ISIN|Datum, Werte = positive/negative Stückzahlen
+  const splitRows = new Map<string, { isin: string; date: string; inQty: number; outQty: number; row: number }>()
+
+  const toEUR = (value: number, waehrung: string): number => {
+    if (waehrung === 'USD') return value * fxRateUsdEur
+    if (waehrung === 'GBP') return value * 1.17 // Approximation
+    return value
+  }
 
   for (let i = 0; i < rows.length; i++) {
     const row = rows[i]
@@ -163,12 +193,15 @@ function parseDividends(
     const isin     = String(row[' ISIN ']     ?? row['ISIN']     ?? '').trim()
     const datumRaw = row[' Datum ']           ?? row['Datum']
     const betrag   = parseFloat(String(row[' Betrag '] ?? row['Betrag'] ?? '0')) || 0
+    const preis    = parseFloat(String(row[' Preis '] ?? row['Preis'] ?? '0')) || 0
     const waehrung = String(row[' Währung ']  ?? row['Währung']  ?? '').trim()
     const qty      = parseFloat(String(row[' Wertpapiere zum Zeitpunkt der Fixierung '] ?? row['Wertpapiere zum Zeitpunkt der Fixierung'] ?? '0')) || 0
 
-    if (!art.includes('dividend')) continue
+    const isDividend = art.includes('dividend')
+    const isSplit    = art.includes('split')
+    const isSpinOff  = art.includes('spin')
+    if (!isDividend && !isSplit && !isSpinOff) continue
     if (!isin) continue
-    if (betrag <= 0) continue
 
     let date = ''
     if (datumRaw instanceof Date) {
@@ -177,35 +210,91 @@ function parseDividends(
       const dateStr = String(datumRaw ?? '').trim()
       const m = dateStr.match(/^(\d{4}-\d{2}-\d{2})/)
       if (m) date = m[1]
-      else { errors.push(`Dividende Zeile ${i + 2}: Ungültiges Datum.`); continue }
+      else { errors.push(`Corpactions Zeile ${i + 2}: Ungültiges Datum.`); continue }
     }
 
-    // In EUR umrechnen
-    let totalEUR = betrag
-    if (waehrung === 'USD') {
-      totalEUR = betrag * fxRateUsdEur
-    } else if (waehrung === 'GBP') {
-      totalEUR = betrag * 1.17 // Approximation
+    // Kommentar-Spalte: Name variiert je Report-Version → bekannte Keys
+    // probieren, sonst Zeilenwerte nach Corporate-Action-Text durchsuchen.
+    const comment = (() => {
+      for (const key of [' Kommentar ', 'Kommentar', ' Comment ', 'Comment', ' Anmerkung ', 'Anmerkung']) {
+        const v = row[key]
+        if (typeof v === 'string' && v.trim()) return v.trim()
+      }
+      for (const v of Object.values(row)) {
+        if (typeof v === 'string' && /stock split|corporate action/i.test(v)) return v.trim()
+      }
+      return ''
+    })()
+
+    if (isDividend) {
+      if (betrag <= 0) continue
+      transactions.push({
+        type: 'dividend',
+        name: ticker,
+        isin,
+        wkn: '',
+        quantity: qty,
+        price: 0,
+        totalValue: toEUR(betrag, waehrung),
+        fees: 0,
+        endAmount: toEUR(betrag, waehrung),
+        date,
+        currency: 'EUR',
+        exchange: 'Freedom24',
+        notes: 'Freedom24 Dividende',
+      })
+      continue
     }
+
+    if (isSplit) {
+      // Betrag = Stückzahl-Delta (negativ = alte Stücke raus, positiv = neue rein)
+      if (betrag === 0) continue
+      const key = `${isin}|${date}`
+      const entry = splitRows.get(key) || { isin, date, inQty: 0, outQty: 0, row: i + 2 }
+      if (betrag > 0) entry.inQty += betrag
+      else entry.outQty += Math.abs(betrag)
+      splitRows.set(key, entry)
+      continue
+    }
+
+    // === Spin-Off: neue Position einbuchen ===
+    if (betrag <= 0) continue // negative Spin-Off-Zeile (Storno) — nicht unterstützt
+    // Quell-ISIN aus dem Kommentar: "... HON.US (US4385162056) -> HONA.US (US43849R1059) ..."
+    const fromMatch = comment.match(/([A-Z0-9.]+)\s*\(([A-Z]{2}[0-9A-Z]{9,10})\)\s*->/)
+    const fromLabel = fromMatch ? `${fromMatch[1]} (${fromMatch[2]})` : 'Mutterposition'
+    const priceEUR = preis > 0 ? toEUR(preis, waehrung) : 0
 
     transactions.push({
-      type: 'dividend',
+      type: 'transfer_in',
       name: ticker,
       isin,
       wkn: '',
-      quantity: qty,
-      price: 0,
-      totalValue: totalEUR,
+      quantity: betrag,
+      price: priceEUR,
+      totalValue: priceEUR * betrag,
       fees: 0,
-      endAmount: totalEUR,
+      endAmount: priceEUR * betrag,
       date,
       currency: 'EUR',
       exchange: 'Freedom24',
-      notes: 'Freedom24 Dividende',
+      notes: `Freedom24 Spin-off aus ${fromLabel}`,
+      isFromTransfer: true,
     })
   }
 
-  return { transactions, errors }
+  // Split-Paare auswerten: Ratio = neue Stücke / alte Stücke
+  for (const entry of splitRows.values()) {
+    if (entry.inQty > 0 && entry.outQty > 0) {
+      stockSplits.push({ date: entry.date, isin: entry.isin, ratio: entry.inQty / entry.outQty })
+    } else {
+      errors.push(
+        `Corpactions Zeile ${entry.row}: Aktiensplit für ${entry.isin} unvollständig ` +
+        `(nur ${entry.inQty > 0 ? 'Einbuchung' : 'Ausbuchung'} gefunden) — bitte Bestand manuell prüfen.`
+      )
+    }
+  }
+
+  return { transactions, errors, stockSplits }
 }
 
 /**
@@ -215,8 +304,9 @@ export function parseFreedom24TradeReport(
   sheets: Record<string, Record<string, unknown>[]>,
   fileName: string,
 ): Freedom24TradeReportResult {
-  const allTransactions: FlatexParsedTransaction[] = []
+  const allTransactions: Freedom24Transaction[] = []
   const allErrors: string[] = []
+  const allStockSplits: StockSplit[] = []
 
   // Trades-Sheet finden
   const tradesSheetName = Object.keys(sheets).find(n => n.startsWith('Trades '))
@@ -228,7 +318,7 @@ export function parseFreedom24TradeReport(
     allErrors.push(...errors)
   }
 
-  // Corpactions-Sheet finden (Dividenden)
+  // Corpactions-Sheet finden (Dividenden, Splits, Spin-Offs)
   const corpSheetName = Object.keys(sheets).find(n => n.startsWith('Corpactions'))
   if (corpSheetName) {
     // USD/EUR-Rate aus den Trades extrahieren
@@ -242,14 +332,33 @@ export function parseFreedom24TradeReport(
       }
     }
 
-    const { transactions, errors } = parseDividends(sheets[corpSheetName], usdEurRate)
+    const { transactions, errors, stockSplits } = parseCorpActions(sheets[corpSheetName], usdEurRate)
     allTransactions.push(...transactions)
     allErrors.push(...errors)
+    allStockSplits.push(...stockSplits)
+  }
+
+  // Splits rückwirkend auf alle Stück-basierten Transaktionen in der Datei
+  // anwenden: Stück × Ratio, Preis ÷ Ratio, Gesamtwert bleibt (Kapitaleinsatz
+  // unverändert). Die Marker-Note schützt vor Doppel-Verrechnung, wenn der
+  // Import-Wizard dieselben Splits später auf DB-Bestand anwendet.
+  if (allStockSplits.length > 0) {
+    for (const tx of allTransactions) {
+      if (tx.type === 'dividend') continue
+      const applicable = allStockSplits.filter(s => s.isin === tx.isin && s.date > tx.date)
+      if (applicable.length === 0) continue
+
+      for (const split of applicable) {
+        tx.quantity = tx.quantity * split.ratio
+        if (tx.price > 0) tx.price = tx.price / split.ratio
+        tx.notes = appendSplitNote(tx.notes, split.ratio, split.date)
+      }
+    }
   }
 
   if (allTransactions.length === 0 && allErrors.length === 0) {
     allErrors.push(`Keine Transaktionen in "${fileName}" gefunden.`)
   }
 
-  return { transactions: allTransactions, errors: allErrors }
+  return { transactions: allTransactions, errors: allErrors, stockSplits: allStockSplits }
 }

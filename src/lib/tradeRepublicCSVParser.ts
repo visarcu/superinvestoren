@@ -26,6 +26,7 @@ import type {
   StockSplit,
   TickerRename,
 } from './scalableCSVParser'
+import { appendSplitNote } from './splitAdjustment'
 
 interface TRRow {
   datetime: string
@@ -588,7 +589,8 @@ function normalizeCorporateActions(transactions: ParsedTransaction[]): {
   }
 
   // Split-Ratio rückwirkend anwenden: quantity *= ratio, price /= ratio
-  // (totalValue bleibt, weil das investierte Kapital unverändert ist)
+  // (totalValue bleibt, weil das investierte Kapital unverändert ist).
+  // Marker-Note schützt beim Import vor Doppel-Verrechnung auf DB-Bestand.
   for (const split of splits) {
     for (const tx of adjusted) {
       if (tx.isin !== split.isin) continue
@@ -596,6 +598,7 @@ function normalizeCorporateActions(transactions: ParsedTransaction[]): {
       if (tx.type !== 'buy' && tx.type !== 'sell' && tx.type !== 'transfer_in' && tx.type !== 'transfer_out') continue
       tx.quantity = tx.quantity * split.ratio
       if (tx.price > 0) tx.price = tx.price / split.ratio
+      tx.notes = appendSplitNote(tx.notes, split.ratio, split.date)
     }
   }
 

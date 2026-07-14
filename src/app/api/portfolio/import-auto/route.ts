@@ -159,6 +159,8 @@ export async function POST(request: Request) {
         transactions: result.transactions,
         errors: result.skipped,
         uniqueISINs: result.uniqueISINs,
+        stockSplits: result.stockSplits,
+        tickerRenames: result.tickerRenames,
       })
     }
 
@@ -288,6 +290,7 @@ export async function POST(request: Request) {
           formatLabel: 'Freedom24 Handelsbericht',
           transactions: result.transactions,
           errors: result.errors,
+          stockSplits: result.stockSplits,
         })
       }
 

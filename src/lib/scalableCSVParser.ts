@@ -1,6 +1,8 @@
 // src/lib/scalableCSVParser.ts — Parser für Scalable Capital CSV-Export
 // Format: Semikolon-getrennt, deutsche Zahlenformatierung (Komma als Dezimalzeichen)
 
+import { appendSplitNote } from './splitAdjustment'
+
 export interface ScalableCSVRow {
   date: string          // YYYY-MM-DD
   time: string
@@ -498,11 +500,17 @@ function normalizeCorporateActions(transactions: ParsedTransaction[]): {
         return tx
       }
 
-      // Stück hoch, Preis runter, Gesamtwert bleibt
+      // Stück hoch, Preis runter, Gesamtwert bleibt. Marker-Note pro Split
+      // anhängen — schützt beim Import vor Doppel-Verrechnung auf DB-Bestand.
+      let notes = tx.notes
+      for (const s of applicableSplits) {
+        notes = appendSplitNote(notes, s.ratio, s.date)
+      }
       return {
         ...tx,
         quantity: tx.quantity * cumRatio,
         price: tx.price / cumRatio,
+        notes,
       }
     })
 
