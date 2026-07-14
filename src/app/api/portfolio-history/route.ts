@@ -329,6 +329,17 @@ export async function POST(request: NextRequest) {
           }
           transactionsBySymbol.get(tx.symbol)!.push(tx)
         })
+
+        // Innerhalb eines Tages Käufe vor Verkäufen verarbeiten. Die DB sortiert
+        // nur nach Datum — bei Same-Day-Trades ist die Reihenfolge zufällig.
+        // Würde ein Verkauf vor dem Kauf desselben Tages verarbeitet, greift
+        // die Durchschnittskosten-Reduktion ins Leere (avgCost = 0) und die
+        // Kostenbasis ("Investiertes Kapital") bleibt dauerhaft zu hoch.
+        const txPhase = (tx: Transaction) =>
+          tx.type === 'buy' || tx.type === 'transfer_in' ? 0 : 1
+        transactionsBySymbol.forEach(txs => {
+          txs.sort((a, b) => a.date.localeCompare(b.date) || txPhase(a) - txPhase(b))
+        })
       }
     }
 
@@ -595,9 +606,12 @@ export async function POST(request: NextRequest) {
         }
       })
 
-      // Parqet-ähnlich: "Zugeführtes Kapital" entspricht der Kapitalbasis
+      // Parqet-ähnlich: "Investiertes Kapital" entspricht der Kostenbasis
       // der gehaltenen Wertpapiere. Verkäufe reduzieren diese Linie über die
       // anteilige Durchschnittskostenbasis, nicht über den Verkaufserlös.
+      // Bewusst NICHT "Zugeführtes Kapital"/Einzahlungen: reinvestierte
+      // Verkaufserlöse und Dividenden erhöhen die Kostenbasis, daher kann
+      // sie über den tatsächlichen Depot-Einzahlungen liegen.
       if (totalValue > 0 || totalInvested > 0) {
         const performance = totalInvested > 0
           ? ((totalValue - totalInvested) / totalInvested) * 100

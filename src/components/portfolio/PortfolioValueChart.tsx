@@ -297,7 +297,7 @@ export default function PortfolioValueChart({
             <span className="tabular-nums text-theme-primary">{formatEuro(point.value)}</span>
           </div>
           <div className="flex min-w-[190px] justify-between gap-5">
-            <span className="text-theme-secondary">Zugeführtes Kapital</span>
+            <span className="text-theme-secondary">Investiertes Kapital</span>
             <span className="tabular-nums text-theme-primary">{formatEuro(point.invested)}</span>
           </div>
           <div className="flex min-w-[190px] justify-between gap-5 border-t border-theme pt-1">
@@ -525,6 +525,15 @@ export default function PortfolioValueChart({
           )
         )}
       </div>
+
+      {/* Erklärung der gestrichelten Linie: Kostenbasis, nicht Einzahlungen */}
+      {!loading && chartView === 'value' && valueData.length > 0 && (
+        <p className="mt-2 text-[10px] leading-relaxed text-theme-muted/70">
+          Investiertes Kapital (gestrichelt): Kaufkosten der aktuell gehaltenen Positionen inkl.
+          Gebühren (Durchschnittskostenmethode). Reinvestierte Verkaufserlöse und Dividenden
+          erhöhen diesen Wert — er kann daher über der Summe deiner Einzahlungen liegen.
+        </p>
+      )}
 
       {/* Benchmark-Insight: Was hätte der Welt-ETF gebracht? */}
       {!loading && insight && (

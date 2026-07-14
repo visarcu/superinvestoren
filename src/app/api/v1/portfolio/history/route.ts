@@ -101,6 +101,17 @@ export async function POST(request: NextRequest) {
           if (!transactionsBySymbol.has(tx.symbol)) transactionsBySymbol.set(tx.symbol, [])
           transactionsBySymbol.get(tx.symbol)!.push(tx)
         }
+
+        // Innerhalb eines Tages Käufe vor Verkäufen verarbeiten. Die DB sortiert
+        // nur nach Datum — bei Same-Day-Trades ist die Reihenfolge zufällig.
+        // Würde ein Verkauf vor dem Kauf desselben Tages verarbeitet, greift
+        // die Durchschnittskosten-Reduktion ins Leere (avgCost = 0) und die
+        // Kostenbasis ("Investiertes Kapital") bleibt dauerhaft zu hoch.
+        const txPhase = (tx: Transaction) =>
+          tx.type === 'buy' || tx.type === 'transfer_in' ? 0 : 1
+        transactionsBySymbol.forEach(symbolTxs => {
+          symbolTxs.sort((a, b) => a.date.localeCompare(b.date) || txPhase(a) - txPhase(b))
+        })
       }
     }
 
