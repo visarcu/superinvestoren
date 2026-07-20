@@ -7,6 +7,7 @@ import {
   calculatePortfolioTwrByDate,
   calculateBenchmarkComparison,
   calculateCashDragVsBenchmark,
+  calculateDepositBasedSeries,
 } from '@/lib/portfolioTwr'
 import { isETF } from '@/lib/etfUtils'
 
@@ -32,6 +33,7 @@ interface Transaction {
   total_value?: number
   fee?: number
   type: 'buy' | 'sell' | 'dividend' | 'cash_deposit' | 'cash_withdrawal' | 'transfer_in' | 'transfer_out'
+  notes?: string | null
 }
 
 // Erkennt ob ein Ticker in EUR notiert ist (FMP liefert Preise in Börsenwährung)
@@ -269,7 +271,7 @@ export async function POST(request: NextRequest) {
     if (validIds.length > 0) {
       const { data: transactions, error: txError } = await supabase
         .from('portfolio_transactions')
-        .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type')
+        .select('portfolio_id, date, symbol, quantity, price, total_value, fee, type, notes')
         .in('portfolio_id', validIds)
         // Alle bestandsrelevanten Buchungen plus Cash/Dividenden laden. Für die
         // Wertentwicklung nutzen wir die Security-Buchungen; Cash/Dividenden
@@ -638,15 +640,6 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Reduziere Datenpunkte für bessere Performance
-    let sampledData = chartData
-    if (chartData.length > 60) {
-      const step = Math.ceil(chartData.length / 60)
-      sampledData = chartData.filter((_, index) =>
-        index % step === 0 || index === chartData.length - 1
-      )
-    }
-
     // 7. Berechne TWR (True Time-Weighted Return) für fairen Benchmark-Vergleich.
     // Der Helper lässt chartData unverändert. Wenn ein plausibles Cash-Ledger
     // vorhanden ist, werden Käufe/Verkäufe als interne Cash↔Wertpapier-Umschichtung
@@ -656,6 +649,37 @@ export async function POST(request: NextRequest) {
       ...securityTransactions,
       ...allTransactions.filter(tx => !['buy', 'sell', 'transfer_in', 'transfer_out'].includes(tx.type)),
     ]
+
+    // 6b. Einzahlungsbasierte Darstellung, wenn das Cash-Ledger plausibel
+    // rekonstruierbar ist: Wert-Linie = Wertpapiere + Cash, Kapital-Linie =
+    // kumulierte Netto-Einzahlungen (+ echte Depotüberträge). Reinvestierte
+    // Verkaufserlöse und Dividenden erhöhen die Kapital-Linie damit nicht mehr.
+    // Ohne Cash-Ledger bleibt die Kostenbasis-Darstellung aktiv.
+    // WICHTIG: TWR und Benchmark-Vergleich rechnen weiter auf dem
+    // Wertpapier-only chartData — nur die ausgelieferte Chart-Serie ändert sich.
+    const depositSeries = useTransactions
+      ? calculateDepositBasedSeries({ chartData, transactions: twrTransactions, cashPosition })
+      : null
+    const investedMode: 'deposits' | 'cost_basis' = depositSeries ? 'deposits' : 'cost_basis'
+    const displayChartData = depositSeries
+      ? chartData.map(point => {
+          const value = Math.round((depositSeries.valueByDate.get(point.date) ?? point.value) * 100) / 100
+          const invested = Math.round((depositSeries.investedByDate.get(point.date) ?? point.invested) * 100) / 100
+          const performance = invested > 0
+            ? Math.round(((value - invested) / invested) * 10000) / 100
+            : 0
+          return { date: point.date, value, invested, performance }
+        })
+      : chartData
+
+    // Reduziere Datenpunkte für bessere Performance
+    let sampledData = displayChartData
+    if (displayChartData.length > 60) {
+      const step = Math.ceil(displayChartData.length / 60)
+      sampledData = displayChartData.filter((_, index) =>
+        index % step === 0 || index === displayChartData.length - 1
+      )
+    }
 
     // Holdings-Fallback (keine Transaktionen in der DB): synthetische Buys aus
     // purchase_date/purchase_price ableiten. Ohne diese Flows würde der TWR
@@ -1000,6 +1024,9 @@ export async function POST(request: NextRequest) {
         totalPoints: chartData.length,
         sampledPoints: sampledData.length,
         transactionsUsed: useTransactions,
+        // 'deposits': Wert inkl. Cash vs. kumulierte Netto-Einzahlungen.
+        // 'cost_basis': Wertpapierwert vs. Kostenbasis der Positionen.
+        investedMode,
         dateRange: {
           from: chartData[0]?.date || null,
           to: chartData[chartData.length - 1]?.date || null

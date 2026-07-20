@@ -16,12 +16,18 @@ import type { FlatexParsedTransaction } from './flatexPDFParser'
 import type { StockSplit } from './scalableCSVParser'
 import { appendSplitNote } from './splitAdjustment'
 
-// Wie FlatexParsedTransaction, aber zusätzlich mit Transfer-Typen für
-// Spin-Off-Einbuchungen (der Import-Wizard behandelt transfer_in inkl.
-// Kursnachzug über die Historical-Price-API, falls kein Preis vorliegt).
+// Wie FlatexParsedTransaction, aber zusätzlich mit Transfer- und Cash-Typen.
+// Spin-Off-Einbuchungen laufen als transfer_in (der Import-Wizard zieht den
+// Schlusskurs nach, falls kein Preis vorliegt); Banküberweisungen aus dem
+// Geldtransfer-Tab als cash_deposit/cash_withdrawal.
 export type Freedom24Transaction = Omit<FlatexParsedTransaction, 'type'> & {
-  type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out'
+  type: FlatexParsedTransaction['type'] | 'transfer_in' | 'transfer_out' | 'cash_deposit' | 'cash_withdrawal'
   isFromTransfer?: boolean
+  // Spin-off-Metadaten: der Import-Wizard nutzt sie, um die Kostenbasis der
+  // Mutterposition anteilig auf die neue Position zu übertragen.
+  corpActionType?: 'spinoff'
+  fromIsin?: string
+  fromTicker?: string
 }
 
 export interface Freedom24TradeReportResult {
@@ -279,6 +285,9 @@ function parseCorpActions(
       exchange: 'Freedom24',
       notes: `Freedom24 Spin-off aus ${fromLabel}`,
       isFromTransfer: true,
+      corpActionType: 'spinoff',
+      fromIsin: fromMatch?.[2],
+      fromTicker: fromMatch?.[1],
     })
   }
 
@@ -295,6 +304,85 @@ function parseCorpActions(
   }
 
   return { transactions, errors, stockSplits }
+}
+
+/**
+ * Parst Banküberweisungen (Ein-/Auszahlungen) aus dem Geldtransfer-Tab.
+ *
+ * Der Tab-Name variiert je Report-Version, die Zeilen sind aber eindeutig:
+ * eine Zelle enthält "Banküberweisung", dazu Datum, Betrag und Währung.
+ * Wir scannen deshalb alle Sheets zeilenweise statt auf Spaltennamen zu
+ * vertrauen. Positiver Betrag = Einzahlung, negativer = Auszahlung.
+ */
+function parseCashTransfers(
+  sheets: Record<string, Record<string, unknown>[]>,
+  fxRateUsdEur: number,
+): { transactions: Freedom24Transaction[]; errors: string[] } {
+  const transactions: Freedom24Transaction[] = []
+  const errors: string[] = []
+
+  for (const [sheetName, rows] of Object.entries(sheets)) {
+    for (let i = 0; i < rows.length; i++) {
+      const row = rows[i]
+      const values = Object.values(row)
+
+      const isTransfer = values.some(
+        v => typeof v === 'string' && /^bank(ü|ue)berweisung$/i.test(v.trim())
+      )
+      if (!isTransfer) continue
+
+      // Datum: Date-Objekt oder "YYYY-MM-DD..."-String
+      let date = ''
+      for (const v of values) {
+        if (v instanceof Date) { date = v.toISOString().slice(0, 10); break }
+        if (typeof v === 'string') {
+          const m = v.trim().match(/^(\d{4}-\d{2}-\d{2})/)
+          if (m) { date = m[1]; break }
+        }
+      }
+      if (!date) {
+        errors.push(`${sheetName} Zeile ${i + 2}: Banküberweisung ohne erkennbares Datum übersprungen.`)
+        continue
+      }
+
+      // Betrag: erste endliche Zahl ≠ 0 (Excel liefert Beträge als number)
+      let amount = 0
+      for (const v of values) {
+        const n = typeof v === 'number' ? v : NaN
+        if (Number.isFinite(n) && n !== 0) { amount = n; break }
+      }
+      if (amount === 0) {
+        errors.push(`${sheetName} Zeile ${i + 2}: Banküberweisung ohne Betrag übersprungen.`)
+        continue
+      }
+
+      const currency = values.find(
+        (v): v is string => typeof v === 'string' && /^(EUR|USD|GBP)$/.test(v.trim())
+      )?.trim() || 'EUR'
+
+      let amountEUR = Math.abs(amount)
+      if (currency === 'USD') amountEUR = amountEUR * fxRateUsdEur
+      else if (currency === 'GBP') amountEUR = amountEUR * 1.17 // Approximation
+
+      transactions.push({
+        type: amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
+        name: 'Banküberweisung',
+        isin: '',
+        wkn: '',
+        quantity: 1,
+        price: amountEUR,
+        totalValue: amountEUR,
+        fees: 0,
+        endAmount: amountEUR,
+        date,
+        currency: 'EUR',
+        exchange: 'Freedom24',
+        notes: 'Freedom24 Banküberweisung',
+      })
+    }
+  }
+
+  return { transactions, errors }
 }
 
 /**
@@ -318,24 +406,32 @@ export function parseFreedom24TradeReport(
     allErrors.push(...errors)
   }
 
+  // USD/EUR-Rate aus den Trades extrahieren (für Corpactions + Geldtransfers)
+  const tradesRows = tradesSheetName ? sheets[tradesSheetName] : []
+  let usdEurRate = 0.87 // Fallback
+  for (const row of tradesRows) {
+    const ticker = String(row[' Ticker '] ?? row['Ticker'] ?? '').trim()
+    if (ticker === 'USD/EUR') {
+      const price = parseFloat(String(row[' Preis '] ?? row['Preis'] ?? '0'))
+      if (price > 0) { usdEurRate = price; break }
+    }
+  }
+
   // Corpactions-Sheet finden (Dividenden, Splits, Spin-Offs)
   const corpSheetName = Object.keys(sheets).find(n => n.startsWith('Corpactions'))
   if (corpSheetName) {
-    // USD/EUR-Rate aus den Trades extrahieren
-    const tradesRows = tradesSheetName ? sheets[tradesSheetName] : []
-    let usdEurRate = 0.87 // Fallback
-    for (const row of tradesRows) {
-      const ticker = String(row[' Ticker '] ?? row['Ticker'] ?? '').trim()
-      if (ticker === 'USD/EUR') {
-        const price = parseFloat(String(row[' Preis '] ?? row['Preis'] ?? '0'))
-        if (price > 0) { usdEurRate = price; break }
-      }
-    }
-
     const { transactions, errors, stockSplits } = parseCorpActions(sheets[corpSheetName], usdEurRate)
     allTransactions.push(...transactions)
     allErrors.push(...errors)
     allStockSplits.push(...stockSplits)
+  }
+
+  // Banküberweisungen (Geldtransfer-Tab) — ermöglicht Cash-Ledger und damit
+  // die einzahlungsbasierte Kapital-Linie im Chart
+  {
+    const { transactions, errors } = parseCashTransfers(sheets, usdEurRate)
+    allTransactions.push(...transactions)
+    allErrors.push(...errors)
   }
 
   // Splits rückwirkend auf alle Stück-basierten Transaktionen in der Datei

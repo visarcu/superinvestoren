@@ -19,6 +19,7 @@ export interface PortfolioTwrTransaction {
   price?: number
   total_value?: number
   fee?: number
+  notes?: string | null
 }
 
 interface MappedTransaction extends PortfolioTwrTransaction {
@@ -223,6 +224,105 @@ function calculateSecurityOnlyTwrByDate(
   }
 
   return twrByDate
+}
+
+// Corporate-Action-Überträge (Splits, Spin-offs, Ticker-Umstellungen) sind
+// keine externen Kapitalflüsse — der User hat kein Geld/Wertpapier zugeführt.
+function isCorpActionTransfer(tx: PortfolioTwrTransaction): boolean {
+  const notes = (tx.notes || '').toLowerCase()
+  return (
+    notes.includes('spin-off') ||
+    notes.includes('spinoff') ||
+    notes.includes('split') ||
+    notes.includes('ticker-umstellung') ||
+    notes.includes('corp action') ||
+    notes.includes('corporate action')
+  )
+}
+
+export interface DepositBasedSeries {
+  /** Depotwert je Datum: Wertpapiere + rekonstruiertes Cash */
+  valueByDate: Map<string, number>
+  /** Kumulierte Netto-Einzahlungen (+ echte Depotüberträge) je Datum */
+  investedByDate: Map<string, number>
+}
+
+/**
+ * Einzahlungsbasierte Chart-Serie: die gestrichelte Linie zeigt das tatsächlich
+ * zugeführte Kapital (Einzahlungen − Auszahlungen, plus Depotüberträge in
+ * Wertpapierform), die Wert-Linie den Gesamtwert inkl. Cash. Die Differenz ist
+ * damit der Gesamtgewinn inkl. realisierter Gewinne und Dividenden —
+ * reinvestierte Erlöse/Dividenden blähen die Kapital-Linie nicht mehr auf.
+ *
+ * Liefert null, wenn das Cash-Ledger fehlt oder nicht plausibel rekonstruierbar
+ * ist (Start-Cash deutlich ≠ 0 oder Cash zwischenzeitlich deutlich negativ) —
+ * dann bleibt der Kostenbasis-Fallback aktiv.
+ */
+export function calculateDepositBasedSeries({
+  chartData,
+  transactions,
+  cashPosition,
+}: {
+  chartData: PortfolioTwrPoint[]
+  transactions: PortfolioTwrTransaction[]
+  cashPosition: number
+}): DepositBasedSeries | null {
+  if (chartData.length === 0) return null
+
+  const sortedDates = chartData.map(point => point.date)
+  const mapped = mapTransactionsToChartDates(transactions, sortedDates)
+
+  const hasCashLedger = mapped.some(
+    tx => tx.type === 'cash_deposit' || tx.type === 'cash_withdrawal'
+  )
+  if (!hasCashLedger) return null
+
+  const cashDeltaByDate = new Map<string, number>()
+  const flowByDate = new Map<string, number>()
+  let totalDeposits = 0
+
+  for (const tx of mapped) {
+    addToMap(cashDeltaByDate, tx.chartDate, calculateCashDelta(tx))
+
+    if (tx.type === 'cash_deposit') {
+      addToMap(flowByDate, tx.chartDate, tx.amount)
+      totalDeposits += tx.amount
+    } else if (tx.type === 'cash_withdrawal') {
+      addToMap(flowByDate, tx.chartDate, -tx.amount)
+    } else if (tx.type === 'transfer_in' && !isCorpActionTransfer(tx)) {
+      addToMap(flowByDate, tx.chartDate, tx.amount)
+    } else if (tx.type === 'transfer_out' && !isCorpActionTransfer(tx)) {
+      addToMap(flowByDate, tx.chartDate, -tx.amount)
+    }
+  }
+
+  let totalCashDelta = 0
+  cashDeltaByDate.forEach(delta => {
+    totalCashDelta += delta
+  })
+
+  // Toleranz für Rundungs-/FX-Drift: absolut klein, relativ zur Einzahlungssumme
+  const epsilon = Math.max(25, totalDeposits * 0.01)
+  const startingCash = (Number(cashPosition) || 0) - totalCashDelta
+  if (Math.abs(startingCash) > epsilon) return null
+
+  // Zwischenzeitlich oder aktuell negatives Cash ist hier KEIN Ausschluss:
+  // bei vollständigem Ledger (Start-Cash ≈ 0) ist das realer Broker-Kredit
+  // und gehört in den Depotwert. Unvollständige Ledger fallen bereits über
+  // den Start-Cash-Check raus.
+  const valueByDate = new Map<string, number>()
+  const investedByDate = new Map<string, number>()
+  let cash = startingCash
+  let invested = 0
+
+  for (const point of chartData) {
+    cash += cashDeltaByDate.get(point.date) || 0
+    invested += flowByDate.get(point.date) || 0
+    valueByDate.set(point.date, point.value + cash)
+    investedByDate.set(point.date, invested)
+  }
+
+  return { valueByDate, investedByDate }
 }
 
 export interface BenchmarkSeriesPoint {

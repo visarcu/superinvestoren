@@ -137,6 +137,9 @@ export default function PortfolioValueChart({
   const [performanceData, setPerformanceData] = useState<PerformanceDataPoint[]>([])
   const [comparison, setComparison] = useState<BenchmarkComparison | null>(null)
   const [showAttribution, setShowAttribution] = useState(false)
+  // 'deposits': Wert inkl. Cash vs. echte Einzahlungen (Cash-Ledger vorhanden).
+  // 'cost_basis': Wertpapierwert vs. Kostenbasis (Fallback ohne Cash-Daten).
+  const [investedMode, setInvestedMode] = useState<'deposits' | 'cost_basis'>('cost_basis')
   const [loading, setLoading] = useState(true)
 
   const fetchData = useCallback(async () => {
@@ -226,6 +229,7 @@ export default function PortfolioValueChart({
       }
 
       setComparison(result.benchmarkComparison || null)
+      setInvestedMode(result.meta?.investedMode === 'deposits' ? 'deposits' : 'cost_basis')
     } catch (error) {
       console.error('Chart data fetch error:', error)
     } finally {
@@ -293,15 +297,21 @@ export default function PortfolioValueChart({
         <div className="mb-2 font-semibold text-theme-primary">{dateLabel}</div>
         <div className="space-y-1">
           <div className="flex min-w-[190px] justify-between gap-5">
-            <span className="text-theme-secondary">Portfoliowert</span>
+            <span className="text-theme-secondary">
+              {investedMode === 'deposits' ? 'Depotwert (inkl. Cash)' : 'Portfoliowert'}
+            </span>
             <span className="tabular-nums text-theme-primary">{formatEuro(point.value)}</span>
           </div>
           <div className="flex min-w-[190px] justify-between gap-5">
-            <span className="text-theme-secondary">Investiertes Kapital</span>
+            <span className="text-theme-secondary">
+              {investedMode === 'deposits' ? 'Eingezahltes Kapital' : 'Investiertes Kapital'}
+            </span>
             <span className="tabular-nums text-theme-primary">{formatEuro(point.invested)}</span>
           </div>
           <div className="flex min-w-[190px] justify-between gap-5 border-t border-theme pt-1">
-            <span className="text-theme-secondary">Differenz</span>
+            <span className="text-theme-secondary">
+              {investedMode === 'deposits' ? 'Gesamtgewinn' : 'Differenz'}
+            </span>
             <span className={`tabular-nums font-medium ${difference >= 0 ? 'text-emerald-400' : 'text-red-400'}`}>
               {difference >= 0 ? '+' : ''}{formatEuro(difference)}
             </span>
@@ -526,12 +536,24 @@ export default function PortfolioValueChart({
         )}
       </div>
 
-      {/* Erklärung der gestrichelten Linie: Kostenbasis, nicht Einzahlungen */}
+      {/* Erklärung der gestrichelten Linie (je nach Datenlage) */}
       {!loading && chartView === 'value' && valueData.length > 0 && (
         <p className="mt-2 text-[10px] leading-relaxed text-theme-muted/70">
-          Investiertes Kapital (gestrichelt): Kaufkosten der aktuell gehaltenen Positionen inkl.
-          Gebühren (Durchschnittskostenmethode). Reinvestierte Verkaufserlöse und Dividenden
-          erhöhen diesen Wert — er kann daher über der Summe deiner Einzahlungen liegen.
+          {investedMode === 'deposits' ? (
+            <>
+              Eingezahltes Kapital (gestrichelt): Summe deiner Ein- und Auszahlungen inkl.
+              Depotüberträgen. Die Differenz zum Depotwert (inkl. Cash) ist dein Gesamtgewinn —
+              inklusive realisierter Gewinne und Dividenden; Reinvestitionen erhöhen diese Linie nicht.
+            </>
+          ) : (
+            <>
+              Investiertes Kapital (gestrichelt): Kaufkosten der aktuell gehaltenen Positionen inkl.
+              Gebühren (Durchschnittskostenmethode). Reinvestierte Verkaufserlöse und Dividenden
+              erhöhen diesen Wert — er kann daher über der Summe deiner Einzahlungen liegen.
+              Importierst du auch deine Ein-/Auszahlungen, zeigt die Linie stattdessen dein
+              tatsächlich eingezahltes Kapital.
+            </>
+          )}
         </p>
       )}
 
