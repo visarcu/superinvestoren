@@ -18,7 +18,7 @@
     },
     {
       "path": "/api/notifications/send-weekly-dividends",
-      "schedule": "0 7 * * 1"
+      "schedule": "55 18 * * *"
     },
     {
       "path": "/api/notifications/send-weekly-earnings",
