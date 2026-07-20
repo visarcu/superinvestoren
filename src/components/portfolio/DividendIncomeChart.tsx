@@ -192,6 +192,21 @@ export default function DividendIncomeChart({
     const rangeTransactions = dividendTransactions.filter(tx => new Date(tx.date) >= start)
     const monthCount = Math.max(1, (end.getFullYear() - start.getFullYear()) * 12 + (end.getMonth() - start.getMonth()) + 1)
 
+    // Monate VOR der ersten Dividende zählen nicht in den Durchschnitt — sonst
+    // wird der Mittelwert bei jungen Historien kleingerechnet (z.B. 4 Monate
+    // Dividenden im 12M-Fenster: Summe ÷ 12 statt ÷ 4) und widerspricht der
+    // "Ø pro Monat"-Kachel im Header, die seit der ersten Dividende rechnet.
+    const firstDividendDate = new Date(dividendTransactions[0].date)
+    const firstDividendMonth = new Date(firstDividendDate.getFullYear(), firstDividendDate.getMonth(), 1)
+    const averageStart = firstDividendMonth > start ? firstDividendMonth : start
+    const averageMonthCount = Math.max(
+      1,
+      Math.min(
+        monthCount,
+        (end.getFullYear() - averageStart.getFullYear()) * 12 + (end.getMonth() - averageStart.getMonth()) + 1
+      )
+    )
+
     if (chartView === 'monthlyYear') {
       const years = Array.from(new Set(rangeTransactions.map(tx => String(new Date(tx.date).getFullYear()))))
         .sort((a, b) => Number(a) - Number(b))
@@ -243,7 +258,7 @@ export default function DividendIncomeChart({
         series,
         data: points,
         rangeTotal,
-        monthlyAverage: rangeTotal / monthCount,
+        monthlyAverage: rangeTotal / averageMonthCount,
       }
     }
 
@@ -321,7 +336,15 @@ export default function DividendIncomeChart({
       for (let lookback = 0; lookback < 12; lookback++) {
         rolling += allByMonth.get(monthKey(addMonths(date, -lookback))) || 0
       }
-      point.ttmAverage = rolling / 12
+      // Rollierender Schnitt: bei jungen Historien nur durch die Monate seit
+      // der ersten Dividende teilen, nicht fix durch 12 — sonst liegt die
+      // Linie viel zu niedrig, solange keine 12 Monate Historie existieren.
+      const monthsSinceFirstDividend =
+        (date.getFullYear() - firstDividendMonth.getFullYear()) * 12 +
+        (date.getMonth() - firstDividendMonth.getMonth()) + 1
+      point.ttmAverage = monthsSinceFirstDividend > 0
+        ? rolling / Math.min(12, monthsSinceFirstDividend)
+        : 0
       points.push(point)
     }
 
@@ -382,7 +405,7 @@ export default function DividendIncomeChart({
         series,
         data: yearlyPoints,
         rangeTotal: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0),
-        monthlyAverage: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0) / Math.max(1, monthCount),
+        monthlyAverage: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0) / averageMonthCount,
       }
     }
 
@@ -390,7 +413,7 @@ export default function DividendIncomeChart({
       series,
       data: points,
       rangeTotal: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0),
-      monthlyAverage: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0) / Math.max(1, monthCount),
+      monthlyAverage: rangeTransactions.reduce((sum, tx) => sum + tx.total_value, 0) / averageMonthCount,
     }
   }, [chartView, dividendTransactions, selectedRange])
 
