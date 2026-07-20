@@ -445,7 +445,9 @@ export default function TransactionsList({
                                 : tx.type === 'transfer_in' ? 'bg-violet-500/10 text-violet-400'
                                   : 'bg-emerald-500/10 text-emerald-400'
                           }`}>
-                            {config?.shortLabel || config?.label}
+                            {tx.type === 'transfer_in' && (tx.notes || '').includes('Spin-off')
+                              ? 'Spin-off'
+                              : config?.shortLabel || config?.label}
                           </span>
                           {/* Depot-Badge (Alle-Depots) */}
                           {isAllDepotsView && tx.portfolio_name && (
