@@ -11,7 +11,8 @@ import {
   XMarkIcon,
   ArrowLeftIcon,
   CalendarIcon,
-  LockClosedIcon
+  LockClosedIcon,
+  BanknotesIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
@@ -24,6 +25,7 @@ interface NotificationSettings {
   earnings_enabled: boolean
   earnings_email_enabled: boolean
   earnings_days_before: number
+  dividends_email_enabled: boolean
 }
 
 export default function NotificationSettings() {
@@ -35,7 +37,8 @@ export default function NotificationSettings() {
     email_frequency: 'immediate',
     earnings_enabled: true,
     earnings_email_enabled: false,
-    earnings_days_before: 3
+    earnings_days_before: 3,
+    dividends_email_enabled: true
   })
 
   const [loading, setLoading] = useState(true)
@@ -88,7 +91,8 @@ export default function NotificationSettings() {
           email_frequency: data.email_frequency,
           earnings_enabled: data.earnings_enabled ?? true,
           earnings_email_enabled: data.earnings_email_enabled ?? false,
-          earnings_days_before: data.earnings_days_before ?? 3
+          earnings_days_before: data.earnings_days_before ?? 3,
+          dividends_email_enabled: data.dividends_email_enabled ?? true
         })
       }
     } catch (error) {
@@ -509,6 +513,33 @@ export default function NotificationSettings() {
                   </div>
                 </>
               )}
+            </div>
+          </section>
+
+          {/* Dividenden-Woche */}
+          <section className="pb-8 border-b border-neutral-200 dark:border-white/[0.06]">
+            <div className="flex items-center gap-3 mb-6">
+              <BanknotesIcon className="w-5 h-5 text-theme-muted" />
+              <div>
+                <h2 className="text-sm font-medium text-theme-primary">
+                  Dividenden-Woche
+                  {!isPremium && <span className="ml-2 text-[10px] text-theme-muted font-normal">Premium</span>}
+                </h2>
+                <p className="text-xs text-theme-muted">Wöchentliche Übersicht der Dividenden aus deinem Portfolio</p>
+              </div>
+            </div>
+
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-theme-primary">Wöchentliche E-Mail-Übersicht</p>
+                <p className="text-xs text-theme-muted">Jeden Montag, wenn diese Woche Dividenden anstehen</p>
+                {!isPremium && <PremiumHint text="Premium-Feature" />}
+              </div>
+              <SettingToggle
+                enabled={settings.dividends_email_enabled}
+                onToggle={() => updateSetting('dividends_email_enabled', !settings.dividends_email_enabled)}
+                disabled={!isPremium}
+              />
             </div>
           </section>
 

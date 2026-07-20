@@ -37,8 +37,9 @@ interface DividendEvent {
   paymentDate: string
   dividend: number
   quantity: number
-  totalPayout: number
-  currency: string
+  totalPayout: number      // in nativer Währung der Aktie
+  currency: string         // ISO-Währung der Ausschüttung (USD, EUR, GBP, ...)
+  totalPayoutEur: number | null // in EUR umgerechnet, null wenn kein FX-Kurs verfügbar
 }
 
 function formatGermanDate(dateStr: string): string {
@@ -76,10 +77,59 @@ function formatShares(quantity: number): string {
   }).format(quantity)
 }
 
+// FMP liefert für LSE-Titel Beträge in Pence (GBp/GBX) → in GBP normalisieren
+function normalizeAmount(amount: number, currency: string): { amount: number; currency: string } {
+  if (currency === 'GBp' || currency === 'GBX') {
+    return { amount: amount * 0.01, currency: 'GBP' }
+  }
+  return { amount, currency }
+}
+
+// Fallback wenn das FMP-Profil keine Währung liefert
+function fallbackCurrencyForSymbol(symbol: string): string {
+  if (symbol.endsWith('.DE') || symbol.endsWith('.F') || symbol.endsWith('.PA') || symbol.endsWith('.AS') || symbol.endsWith('.MI') || symbol.endsWith('.BR') || symbol.endsWith('.MC')) return 'EUR'
+  if (symbol.endsWith('.L')) return 'GBp'
+  if (symbol.endsWith('.SW')) return 'CHF'
+  return 'USD'
+}
+
+// Gesamtsumme: bevorzugt in EUR, sonst pro Währung aufgeschlüsselt
+function buildTotals(dividends: DividendEvent[]): {
+  totalEur: number | null
+  totalsByCurrency: Record<string, number>
+  totalLabel: string
+  isConverted: boolean
+} {
+  const totalsByCurrency: Record<string, number> = {}
+  let totalEur: number | null = 0
+  for (const d of dividends) {
+    totalsByCurrency[d.currency] = (totalsByCurrency[d.currency] || 0) + d.totalPayout
+    if (totalEur !== null && d.totalPayoutEur !== null) {
+      totalEur += d.totalPayoutEur
+    } else {
+      totalEur = null
+    }
+  }
+
+  const currencies = Object.keys(totalsByCurrency)
+  const hasForeignCurrency = currencies.some(c => c !== 'EUR')
+  const isConverted = hasForeignCurrency && totalEur !== null
+
+  let totalLabel: string
+  if (totalEur !== null) {
+    totalLabel = isConverted ? `≈ ${formatCurrency(totalEur)}` : formatCurrency(totalEur)
+  } else {
+    totalLabel = currencies.map(c => formatCurrency(totalsByCurrency[c], c)).join(' + ')
+  }
+
+  return { totalEur, totalsByCurrency, totalLabel, isConverted }
+}
+
 function generateEmailHtml(
   dividends: DividendEvent[],
   weekRange: string,
-  totalBrutto: number,
+  totalLabel: string,
+  isConverted: boolean,
   isTest: boolean
 ): string {
   const sortedDividends = [...dividends].sort(
@@ -143,8 +193,8 @@ function generateEmailHtml(
 
           <!-- Total Highlight -->
           <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px 20px; margin: 16px 0 28px 0; text-align: center;">
-            <span style="color: #059669; font-size: 28px; font-weight: 700;">${formatCurrency(totalBrutto)}</span>
-            <p style="color: #166534; font-size: 12px; margin: 4px 0 0 0;">Brutto-Dividenden (${weekRange})</p>
+            <span style="color: #059669; font-size: 28px; font-weight: 700;">${totalLabel}</span>
+            <p style="color: #166534; font-size: 12px; margin: 4px 0 0 0;">Brutto-Dividenden (${weekRange})${isConverted ? ' · in EUR umgerechnet' : ''}</p>
           </div>
 
           <!-- Dividend Table -->
@@ -180,7 +230,7 @@ function generateEmailHtml(
             <p style="color: #9ca3af; font-size: 12px; margin: 0; line-height: 1.6;">
               Bitte beachte, dass du die Aktien vor dem Ex-Dividenden-Datum halten musst, um die Dividende zu erhalten.
               In den meisten Fällen benötigt deine Bank einige Tage, um den Betrag zu verbuchen.
-              Alle Angaben ohne Gewähr.
+              ${isConverted ? 'Umrechnungen in EUR basieren auf aktuellen Wechselkursen und können vom tatsächlich gutgeschriebenen Betrag abweichen. ' : ''}Alle Angaben ohne Gewähr.
             </p>
           </div>
         </div>
@@ -189,11 +239,12 @@ function generateEmailHtml(
         <div style="background: #f9fafb; padding: 20px 32px; border-top: 1px solid #e5e7eb;">
           <p style="color: #9ca3af; font-size: 13px; margin: 0 0 8px 0; text-align: center;">
             Du erhältst diese E-Mail jeden Montag für Dividenden aus deinem Portfolio.
+            Du kannst sie in den <a href="https://finclue.de/notifications/settings" style="color: #6b7280;">Einstellungen</a> deaktivieren.
           </p>
           <div style="text-align: center;">
             <a href="https://finclue.de/analyse/portfolio/workspace?depot=all" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Portfolio</a>
             <span style="color: #d1d5db;">•</span>
-            <a href="https://finclue.de/settings" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Einstellungen</a>
+            <a href="https://finclue.de/notifications/settings" style="color: #374151; text-decoration: none; font-weight: 500; margin: 0 8px; font-size: 13px;">Einstellungen</a>
           </div>
         </div>
 
@@ -207,22 +258,92 @@ function generateEmailHtml(
   `
 }
 
-// Fetch dividend history for a single symbol from FMP
-async function fetchDividendForSymbol(symbol: string): Promise<{ symbol: string; entry: FmpDividendEntry | null }> {
+// Fetch dividend history for a single symbol from FMP.
+// Scannt die komplette Historie nach Zahlungen in der aktuellen Woche —
+// nicht nur den neuesten Eintrag, da FMP bereits angekündigte zukünftige
+// Dividenden vor einer diese Woche fälligen Zahlung listen kann.
+async function fetchDividendsForSymbol(
+  symbol: string,
+  fromDate: string,
+  toDate: string
+): Promise<{ symbol: string; entries: FmpDividendEntry[] }> {
   try {
     const res = await fetch(
       `https://financialmodelingprep.com/api/v3/historical-price-full/stock_dividend/${symbol}?apikey=${process.env.FMP_API_KEY}`
     )
-    if (!res.ok) return { symbol, entry: null }
+    if (!res.ok) return { symbol, entries: [] }
     const data = await res.json()
-    if (!data.historical || !Array.isArray(data.historical) || data.historical.length === 0) {
-      return { symbol, entry: null }
+    if (!data.historical || !Array.isArray(data.historical)) {
+      return { symbol, entries: [] }
     }
-    // Most recent dividend is first in the array
-    return { symbol, entry: data.historical[0] as FmpDividendEntry }
+    const entries = (data.historical as FmpDividendEntry[]).filter(
+      e => e && e.dividend > 0 && e.paymentDate && e.paymentDate >= fromDate && e.paymentDate <= toDate
+    )
+    return { symbol, entries }
   } catch {
-    return { symbol, entry: null }
+    return { symbol, entries: [] }
   }
+}
+
+// Währung pro Symbol aus dem FMP-Profil (Batch-Abfrage)
+async function fetchCurrencies(symbols: string[]): Promise<Map<string, string>> {
+  const currencyBySymbol = new Map<string, string>()
+  const BATCH_SIZE = 20
+
+  for (let i = 0; i < symbols.length; i += BATCH_SIZE) {
+    const batch = symbols.slice(i, i + BATCH_SIZE)
+    try {
+      const res = await fetch(
+        `https://financialmodelingprep.com/api/v3/profile/${batch.join(',')}?apikey=${process.env.FMP_API_KEY}`
+      )
+      if (!res.ok) continue
+      const data = await res.json()
+      if (!Array.isArray(data)) continue
+      for (const profile of data) {
+        if (profile?.symbol && profile?.currency) {
+          currencyBySymbol.set(profile.symbol, profile.currency)
+        }
+      }
+    } catch (e) {
+      console.error('[Weekly Dividends] Profile fetch error:', e)
+    }
+  }
+
+  for (const symbol of symbols) {
+    if (!currencyBySymbol.has(symbol)) {
+      currencyBySymbol.set(symbol, fallbackCurrencyForSymbol(symbol))
+    }
+  }
+
+  return currencyBySymbol
+}
+
+// EUR-Wechselkurse für alle benötigten Währungen (z.B. USDEUR, GBPEUR)
+async function fetchEurRates(currencies: string[]): Promise<Map<string, number>> {
+  const rates = new Map<string, number>()
+  rates.set('EUR', 1)
+
+  const needed = [...new Set(currencies)].filter(c => c !== 'EUR')
+  if (needed.length === 0) return rates
+
+  try {
+    const pairs = needed.map(c => `${c}EUR`).join(',')
+    const res = await fetch(
+      `https://financialmodelingprep.com/api/v3/quote/${pairs}?apikey=${process.env.FMP_API_KEY}`
+    )
+    if (!res.ok) return rates
+    const data = await res.json()
+    if (!Array.isArray(data)) return rates
+    for (const quote of data) {
+      if (quote?.symbol && typeof quote.price === 'number' && quote.price > 0) {
+        rates.set(quote.symbol.replace(/EUR$/, ''), quote.price)
+      }
+    }
+  } catch (e) {
+    console.error('[Weekly Dividends] FX fetch error:', e)
+  }
+
+  return rates
 }
 
 export async function GET(request: Request) {
@@ -313,6 +434,18 @@ async function handleWeeklyDividends() {
       if (profile.is_premium) premiumUserIds.add(profile.user_id)
     }
 
+    // Opt-out: Users, die die Dividenden-Mail in den Einstellungen deaktiviert haben
+    // (kein Settings-Eintrag = Default enabled)
+    const optedOutUserIds = new Set<string>()
+    const { data: settingsRows } = await supabase
+      .from('notification_settings')
+      .select('user_id, dividends_email_enabled')
+      .in('user_id', uniqueUserIds)
+
+    for (const row of settingsRows || []) {
+      if (row.dividends_email_enabled === false) optedOutUserIds.add(row.user_id)
+    }
+
     // Group holdings by user, only for premium users (or test user)
     for (const holding of allHoldings) {
       const userId = portfolioUserMap.get(holding.portfolio_id)
@@ -322,6 +455,7 @@ async function handleWeeklyDividends() {
       const isPremium = premiumUserIds.has(userId)
 
       if (!isPremium && !isTestUser) continue
+      if (optedOutUserIds.has(userId)) continue
 
       if (!userHoldings.has(userId)) {
         userHoldings.set(userId, new Map())
@@ -338,54 +472,71 @@ async function handleWeeklyDividends() {
     const allSymbols = [...new Set([...userHoldings.values()].flatMap(m => [...m.keys()]))]
     console.log(`[Weekly Dividends] Fetching dividend data for ${allSymbols.length} unique symbols...`)
 
-    const dividendBySymbol = new Map<string, FmpDividendEntry>()
+    const dividendsBySymbol = new Map<string, FmpDividendEntry[]>()
     const BATCH_SIZE = 10
 
     for (let i = 0; i < allSymbols.length; i += BATCH_SIZE) {
       const batch = allSymbols.slice(i, i + BATCH_SIZE)
-      const results = await Promise.all(batch.map(fetchDividendForSymbol))
+      const results = await Promise.all(batch.map(s => fetchDividendsForSymbol(s, fromDate, toDate)))
 
-      for (const { symbol, entry } of results) {
-        if (!entry || !entry.paymentDate || entry.dividend <= 0) continue
-        // Only include if paymentDate falls in this week
-        if (entry.paymentDate >= fromDate && entry.paymentDate <= toDate) {
-          dividendBySymbol.set(symbol, entry)
+      for (const { symbol, entries } of results) {
+        if (entries.length > 0) {
+          dividendsBySymbol.set(symbol, entries)
         }
       }
     }
 
-    console.log(`[Weekly Dividends] ${dividendBySymbol.size} symbols have a payment this week`)
+    console.log(`[Weekly Dividends] ${dividendsBySymbol.size} symbols have a payment this week`)
 
-    if (dividendBySymbol.size === 0) {
+    if (dividendsBySymbol.size === 0) {
       return NextResponse.json({ success: true, testMode: !!TEST_USER_ID, weekRange, message: 'No dividend payments this week for any held symbol', emailsSent: 0 })
     }
 
+    // 5b. Währungen der zahlenden Symbole + EUR-Wechselkurse holen
+    const payingSymbols = [...dividendsBySymbol.keys()]
+    const currencyBySymbol = await fetchCurrencies(payingSymbols)
+
+    const normalizedCurrencies = payingSymbols.map(s =>
+      normalizeAmount(0, currencyBySymbol.get(s) || 'USD').currency
+    )
+    const eurRates = await fetchEurRates(normalizedCurrencies)
+    console.log(`[Weekly Dividends] Currencies: ${[...new Set(normalizedCurrencies)].join(', ')}`)
+
     // 6. Send emails per user
     let emailsSent = 0
-    const userResults: Array<{ userId: string; email: string; dividendCount: number; totalPayout: number }> = []
+    const userResults: Array<{ userId: string; email: string; dividendCount: number; total: string }> = []
 
     for (const [userId, symbolMap] of userHoldings) {
       // Build dividend events for this user — only symbols paying this week
       const userDividends: DividendEvent[] = []
 
       for (const [symbol, quantity] of symbolMap) {
-        const entry = dividendBySymbol.get(symbol)
-        if (!entry) continue
+        const entries = dividendsBySymbol.get(symbol)
+        if (!entries) continue
 
-        userDividends.push({
-          symbol,
-          exDividendDate: entry.date,
-          paymentDate: entry.paymentDate,
-          dividend: entry.dividend,
-          quantity,
-          totalPayout: entry.dividend * quantity,
-          currency: 'USD'
-        })
+        const rawCurrency = currencyBySymbol.get(symbol) || 'USD'
+
+        for (const entry of entries) {
+          const { amount: dividend, currency } = normalizeAmount(entry.dividend, rawCurrency)
+          const totalPayout = dividend * quantity
+          const rate = eurRates.get(currency)
+
+          userDividends.push({
+            symbol,
+            exDividendDate: entry.date,
+            paymentDate: entry.paymentDate,
+            dividend,
+            quantity,
+            totalPayout,
+            currency,
+            totalPayoutEur: rate !== undefined ? totalPayout * rate : null
+          })
+        }
       }
 
       if (userDividends.length === 0) continue
 
-      const totalBrutto = userDividends.reduce((sum, d) => sum + d.totalPayout, 0)
+      const { totalEur, totalsByCurrency, totalLabel, isConverted } = buildTotals(userDividends)
 
       // Get user email
       const { data: { user } } = await supabase.auth.admin.getUserById(userId)
@@ -399,7 +550,7 @@ async function handleWeeklyDividends() {
         ? `[TEST] 💰 Deine Dividenden-Woche: ${weekRange}`
         : `💰 Deine Dividenden-Woche: ${weekRange}`
 
-      const htmlContent = generateEmailHtml(userDividends, weekRange, totalBrutto, isTest)
+      const htmlContent = generateEmailHtml(userDividends, weekRange, totalLabel, isConverted, isTest)
 
       try {
         const { error: emailError } = await resend.emails.send({
@@ -419,10 +570,10 @@ async function handleWeeklyDividends() {
           userId,
           email: user.email,
           dividendCount: userDividends.length,
-          totalPayout: totalBrutto
+          total: totalLabel
         })
 
-        console.log(`[Weekly Dividends] 📧 Email sent to ${user.email} — ${userDividends.length} dividends, ${formatCurrency(totalBrutto)}`)
+        console.log(`[Weekly Dividends] 📧 Email sent to ${user.email} — ${userDividends.length} dividends, ${totalLabel}`)
 
         // Send push notification
         try {
@@ -431,8 +582,8 @@ async function handleWeeklyDividends() {
             const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://finclue.de'
             const symbols = userDividends.map(d => d.symbol).join(', ')
             const pushBody = userDividends.length === 1
-              ? `${symbols} zahlt ${formatCurrency(totalBrutto)} diese Woche`
-              : `${userDividends.length} Dividenden diese Woche · ${formatCurrency(totalBrutto)} gesamt`
+              ? `${symbols} zahlt ${totalLabel} diese Woche`
+              : `${userDividends.length} Dividenden diese Woche · ${totalLabel} gesamt`
             await fetch(`${baseUrl}/api/notifications/push`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json', 'x-internal-secret': secret },
@@ -453,7 +604,8 @@ async function handleWeeklyDividends() {
           content: {
             dividends: userDividends,
             weekRange,
-            totalBrutto,
+            totalEur,
+            totalsByCurrency,
             dividendCount: userDividends.length
           },
           email_sent: true
@@ -471,7 +623,8 @@ async function handleWeeklyDividends() {
       testMode: !!TEST_USER_ID,
       weekRange,
       symbolsChecked: allSymbols.length,
-      symbolsPayingThisWeek: dividendBySymbol.size,
+      symbolsPayingThisWeek: dividendsBySymbol.size,
+      optedOutUsers: optedOutUserIds.size,
       emailsSent,
       userResults
     })
