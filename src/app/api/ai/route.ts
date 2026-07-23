@@ -84,6 +84,7 @@ interface RequestBody {
     exitMultiple?: number
     terminalGrowth?: number
     projectionYears?: number
+    method?: string
   }
   contextHints?: {                                                // ✅ NEW: context hints
     isHybridQuery: boolean,
@@ -1065,12 +1066,12 @@ function buildDCFValidationPrompt(
   assumptions: any,
   ragContext: string
 ): string {
-  const { growthRate, exitMultiple, terminalGrowth, projectionYears } = assumptions || {}
+  const { growthRate, exitMultiple, terminalGrowth, projectionYears, method } = assumptions || {}
 
   return `${ragContext}Du bist ein kritischer Senior-Equity-Analyst. Ein Junior-Analyst hat ein DCF-Modell für **${ticker}** erstellt und bittet dich um einen "Sanity Check" seiner Annahmen.
 
 **SEINE ANNAHMEN ERSTES JAHR:**
-• Geschätztes Wachstum: **${growthRate}%** pro Jahr (für ${projectionYears} Jahre)
+${method ? `• Bewertungsmethode: **${method}**\n` : ''}• Geschätztes Wachstum: **${growthRate}%** pro Jahr (für ${projectionYears} Jahre)
 • Ziel-Multiple (Exit PE/Yield): **${exitMultiple}**
 • Terminal Growth Rate: **${terminalGrowth}%**
 

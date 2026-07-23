@@ -28,13 +28,111 @@ interface StockData {
   fcfPerShare: number
   fcfYield: number
   fcfGrowth5Y: number
+  ocfPerShare: number
+  ocfYield: number
+  ocfGrowth5Y: number
+  fcfMultiple5YMedian: MultipleMedian | null   // Median Kurs/Free Cash Flow
+  ocfMultiple5YMedian: MultipleMedian | null   // Median Kurs/Operativer Cashflow (KCV)
   sbcImpact: number
 }
 
-type CalculatorMode = 'earnings' | 'cashflow'
+interface MultipleMedian {
+  value: number
+  years: number   // Anzahl der Jahre, die tatsächlich in den Median eingeflossen sind
+}
+
+type CalculatorMode = 'earnings' | 'cashflow' | 'opcashflow'
+
+// Fallback-Multiples, wenn FMP keine Historie liefert
+const FALLBACK_OCF_MULTIPLE = 18
+const FALLBACK_FCF_MULTIPLE = 20
 
 // Helper: Parse DE-Format input (Komma → Punkt) für parseFloat
 const parseDE = (val: string) => parseFloat(val.replace(',', '.'))
+
+// Helper: 5-Jahres-CAGR aus YoY-Wachstumsraten (geometrisches Mittel)
+const cagr5Y = (values: number[]) =>
+  values.length > 0
+    ? (Math.pow(values.reduce((a, b) => a * (1 + b), 1), 1 / values.length) - 1) * 100
+    : 0
+
+// Unter so vielen verwertbaren Jahren ist ein Median nicht aussagekräftig
+const MIN_MEDIAN_YEARS = 3
+
+// Helper: Median der historischen Bewertungsmultiples.
+// Negative Multiples (negativer Cashflow) sind als Bewertungsmassstab unbrauchbar und fliegen raus;
+// bleiben zu wenige Jahre übrig, gibt es keinen Median statt eines irreführenden Werts.
+const multipleMedian = (values: (number | undefined)[]): MultipleMedian | null => {
+  const valid = values.filter((v): v is number => v != null && !isNaN(v) && isFinite(v) && v > 0)
+  if (valid.length < MIN_MEDIAN_YEARS) return null
+
+  const sorted = [...valid].sort((a, b) => a - b)
+  const mid = Math.floor(sorted.length / 2)
+  const value = sorted.length % 2 === 0 ? (sorted[mid - 1] + sorted[mid]) / 2 : sorted[mid]
+
+  return { value, years: valid.length }
+}
+
+// Migration: früher wurde die Ziel-Rendite (in %) eingegeben, heute das Multiple.
+// Rendite 4 % → Multiple 25. Wird für gespeicherte Altwerte benötigt.
+export const yieldPercentToMultiple = (yieldPercent: number): number | null =>
+  !isFinite(yieldPercent) || yieldPercent === 0 ? null : 100 / yieldPercent
+
+interface ProjectionInput {
+  base: number          // Basiswert pro Aktie (EPS, FCF oder OCF)
+  growth: number        // Jährliches Wachstum als Dezimalzahl
+  multiple: number      // Kurs = Basiswert × Multiple (KGV bzw. 1 / Ziel-Rendite)
+  desiredReturn: number
+  currentPrice: number
+  years: number
+  decay: number
+  terminalGrowth: number
+  marginOfSafety: number
+}
+
+// Gemeinsame Projektionslogik für alle drei Modi
+const buildProjection = ({
+  base, growth, multiple, desiredReturn, currentPrice, years, decay, terminalGrowth, marginOfSafety
+}: ProjectionInput) => {
+  const projections: { year: string; value: number; price: number }[] = []
+  let projectedValue = base
+  let currentGrowth = growth
+  const currentYear = new Date().getFullYear()
+
+  for (let year = 0; year <= years; year++) {
+    projections.push({
+      year: `${currentYear + year}`,
+      value: projectedValue,
+      price: projectedValue * multiple
+    })
+
+    // Wachstum mit Decay anwenden
+    projectedValue = projectedValue * (1 + currentGrowth)
+    currentGrowth = Math.max(terminalGrowth, currentGrowth * (1 - decay))
+  }
+
+  const futureValue = projections[years].value
+  const futurePrice = projections[years].price
+
+  // CAGR ausgehend vom heutigen Kurs
+  const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
+
+  // Einstiegskurs für die gewünschte Rendite, danach Margin of Safety
+  const entryPriceRaw = futurePrice / Math.pow(1 + desiredReturn, years)
+  const entryPrice = entryPriceRaw * (1 - marginOfSafety / 100)
+  const upside = ((entryPrice - currentPrice) / currentPrice) * 100
+
+  return {
+    projections,
+    futureValue,
+    futurePrice,
+    cagr: cagr * 100,
+    entryPrice,
+    entryPriceRaw,
+    upside,
+    fairValue: entryPrice
+  }
+}
 
 export default function ImprovedDCFCalculator() {
   // Stock selection
@@ -56,8 +154,14 @@ export default function ImprovedDCFCalculator() {
   // Cash Flow mode inputs
   const [fcfInput, setFcfInput] = useState<string>('')
   const [fcfGrowthRate, setFcfGrowthRate] = useState<string>('')
-  const [targetFcfYield, setTargetFcfYield] = useState<string>('')
+  const [targetFcfMultiple, setTargetFcfMultiple] = useState<string>('')
   const [desiredReturnCashFlow, setDesiredReturnCashFlow] = useState<string>('10')
+
+  // Operating Cash Flow mode inputs
+  const [ocfInput, setOcfInput] = useState<string>('')
+  const [ocfGrowthRate, setOcfGrowthRate] = useState<string>('')
+  const [targetOcfMultiple, setTargetOcfMultiple] = useState<string>('')
+  const [desiredReturnOpCashFlow, setDesiredReturnOpCashFlow] = useState<string>('10')
 
   // Core settings (visible)
   const [projectionYears, setProjectionYears] = useState<number>(10)
@@ -129,8 +233,13 @@ export default function ImprovedDCFCalculator() {
       const { data: { session } } = await supabase.auth.getSession()
       const token = session?.access_token
 
-      const growth = mode === 'earnings' ? epsGrowthRate : fcfGrowthRate
-      const multiple = mode === 'earnings' ? targetPE : targetFcfYield
+      const growth = mode === 'earnings' ? epsGrowthRate : mode === 'cashflow' ? fcfGrowthRate : ocfGrowthRate
+      const multiple = mode === 'earnings' ? targetPE : mode === 'cashflow' ? targetFcfMultiple : targetOcfMultiple
+      const method = mode === 'earnings'
+        ? 'Earnings (EPS × Ziel-KGV)'
+        : mode === 'cashflow'
+          ? 'Free Cash Flow (FCF × Kurs/Free-Cash-Flow-Multiple)'
+          : 'Operativer Cashflow (OCF × KCV, Capex bleibt unberücksichtigt)'
 
       const response = await fetch('/api/ai', {
         method: 'POST',
@@ -147,7 +256,8 @@ export default function ImprovedDCFCalculator() {
             growthRate: parseDE(growth),
             exitMultiple: parseDE(multiple),
             terminalGrowth: parseDE(terminalGrowthRate),
-            projectionYears: projectionYears
+            projectionYears: projectionYears,
+            method
           }
         })
       })
@@ -188,37 +298,42 @@ export default function ImprovedDCFCalculator() {
   const loadStockData = async (ticker: string) => {
     setLoading(true)
     try {
-      // Fetch key metrics, quote and growth data
-      const [quoteRes, metricsRes, growthRes] = await Promise.all([
+      // Fetch key metrics, quote, growth and 5y multiple history
+      const [quoteRes, metricsRes, growthRes, historyRes] = await Promise.all([
         fetch(`/api/fmp/quote?symbol=${ticker}`),
         fetch(`/api/fmp/key-metrics-ttm?symbol=${ticker}`),
-        fetch(`/api/fmp/financial-growth?symbol=${ticker}&limit=5`)
+        fetch(`/api/fmp/financial-growth?symbol=${ticker}&limit=5`),
+        fetch(`/api/fmp/key-metrics?symbol=${ticker}&period=annual&limit=5`)
       ])
 
       const quoteData = await quoteRes.json()
       const metricsData = await metricsRes.json()
       const growthData = await growthRes.json()
+      const historyData = await historyRes.json()
 
       const quote = Array.isArray(quoteData) ? quoteData[0] : quoteData
       const metrics = Array.isArray(metricsData) ? metricsData[0] : metricsData
       const growthArray = Array.isArray(growthData) ? growthData : []
+      const historyArray = Array.isArray(historyData) ? historyData : []
 
       const price = quote?.price || 0
       const epsTTM = metrics?.netIncomePerShareTTM || quote?.eps || 0
       const peTTM = metrics?.peRatioTTM || quote?.pe || (price / epsTTM) || 0
       const fcfPerShare = metrics?.freeCashFlowPerShareTTM || 0
       const fcfYield = metrics?.freeCashFlowYieldTTM ? metrics.freeCashFlowYieldTTM * 100 : (fcfPerShare / price * 100) || 0
+      const ocfPerShare = metrics?.operatingCashFlowPerShareTTM || 0
+      const ocfYield = metrics?.pocfratioTTM ? 100 / metrics.pocfratioTTM : (price > 0 ? ocfPerShare / price * 100 : 0)
 
       // Calculate 5-year CAGR from YoY growth rates (geometric mean = CAGR)
-      const epsGrowthValues = growthArray.map((g: { epsgrowth?: number }) => g.epsgrowth).filter((v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v))
-      const epsGrowth5Y = epsGrowthValues.length > 0
-        ? (Math.pow(epsGrowthValues.reduce((a: number, b: number) => a * (1 + b), 1), 1 / epsGrowthValues.length) - 1) * 100
-        : 0
+      const isValidGrowth = (v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v)
 
-      const fcfGrowthValues = growthArray.map((g: { freeCashFlowGrowth?: number }) => g.freeCashFlowGrowth).filter((v: number | undefined): v is number => v !== undefined && v !== null && !isNaN(v))
-      const fcfGrowth5Y = fcfGrowthValues.length > 0
-        ? (Math.pow(fcfGrowthValues.reduce((a: number, b: number) => a * (1 + b), 1), 1 / fcfGrowthValues.length) - 1) * 100
-        : 0
+      const epsGrowth5Y = cagr5Y(growthArray.map((g: { epsgrowth?: number }) => g.epsgrowth).filter(isValidGrowth))
+      const fcfGrowth5Y = cagr5Y(growthArray.map((g: { freeCashFlowGrowth?: number }) => g.freeCashFlowGrowth).filter(isValidGrowth))
+      const ocfGrowth5Y = cagr5Y(growthArray.map((g: { operatingCashFlowGrowth?: number }) => g.operatingCashFlowGrowth).filter(isValidGrowth))
+
+      // Median der historischen Bewertungsmultiples (max. 5 Jahre)
+      const ocfMultiple5YMedian = multipleMedian(historyArray.map((m: { pocfratio?: number }) => m.pocfratio))
+      const fcfMultiple5YMedian = multipleMedian(historyArray.map((m: { pfcfRatio?: number }) => m.pfcfRatio))
 
       // Calculate SBC impact (Stock Based Compensation as % of FCF)
       const sbcImpact = metrics?.stockBasedCompensationToRevenueTTM ? metrics.stockBasedCompensationToRevenueTTM * -100 : 0
@@ -234,6 +349,11 @@ export default function ImprovedDCFCalculator() {
         fcfPerShare,
         fcfYield,
         fcfGrowth5Y,
+        ocfPerShare,
+        ocfYield,
+        ocfGrowth5Y,
+        fcfMultiple5YMedian,
+        ocfMultiple5YMedian,
         sbcImpact
       }
 
@@ -246,6 +366,11 @@ export default function ImprovedDCFCalculator() {
       // Pre-fill inputs with actual data
       setEpsInput(epsTTM.toFixed(2).replace('.', ','))
       setFcfInput(fcfPerShare.toFixed(2).replace('.', ','))
+      setOcfInput(ocfPerShare.toFixed(2).replace('.', ','))
+
+      // Multiples mit dem Median vorbelegen (Fallback, wenn keine belastbare Historie vorliegt)
+      setTargetFcfMultiple((fcfMultiple5YMedian?.value ?? FALLBACK_FCF_MULTIPLE).toFixed(1).replace('.', ','))
+      setTargetOcfMultiple((ocfMultiple5YMedian?.value ?? FALLBACK_OCF_MULTIPLE).toFixed(1).replace('.', ','))
 
     } catch (error) {
       console.error('Error loading stock data:', error)
@@ -267,16 +392,18 @@ export default function ImprovedDCFCalculator() {
         ? Math.max(10, Math.min(40, Math.round(currentPE * 0.9))) // 10% Abschlag auf aktuelle PE
         : Math.max(10, Math.min(35, growth * 1.5))
       setTargetPE(suggestedPE.toFixed(0))
-    } else {
+    } else if (mode === 'cashflow') {
       // Setze den echten 5Y FCF-Durchschnitt
       const growth = stockData.fcfGrowth5Y
       setFcfGrowthRate(growth.toFixed(1))
-      // Suggest FCF yield based on current yield (leicht höher = konservativer)
-      const currentYield = stockData.fcfYield
-      const suggestedYield = currentYield > 0
-        ? Math.max(2, Math.min(8, Math.round(currentYield * 1.1 * 10) / 10)) // 10% Aufschlag
-        : 4
-      setTargetFcfYield(suggestedYield.toFixed(1))
+      // Multiple auf den Median setzen
+      setTargetFcfMultiple((stockData.fcfMultiple5YMedian?.value ?? FALLBACK_FCF_MULTIPLE).toFixed(1).replace('.', ','))
+    } else {
+      // Setze den echten 5Y OCF-Durchschnitt
+      const growth = stockData.ocfGrowth5Y
+      setOcfGrowthRate(growth.toFixed(1))
+      // Multiple auf den Median setzen
+      setTargetOcfMultiple((stockData.ocfMultiple5YMedian?.value ?? FALLBACK_OCF_MULTIPLE).toFixed(1).replace('.', ','))
     }
   }
 
@@ -299,129 +426,98 @@ export default function ImprovedDCFCalculator() {
     }
 
     const eps = parseDE(epsInput)
-    let growth = parseDE(epsGrowthRate) / 100
+    const growth = parseDE(epsGrowthRate) / 100
     const pe = parseDE(targetPE)
     const desiredReturn = parseDE(desiredReturnEarnings) / 100
-    const currentPrice = stockData.price
 
     if (isNaN(eps) || isNaN(growth) || isNaN(pe) || isNaN(desiredReturn)) {
       return null
     }
 
-    // Project EPS for N years with decay
-    const projections = []
-    let projectedEps = eps
-    const currentYear = new Date().getFullYear()
-
-    for (let year = 0; year <= years; year++) {
-      const yearLabel = `${currentYear + year}`
-      const futurePrice = projectedEps * pe
-
-      projections.push({
-        year: yearLabel,
-        eps: projectedEps,
-        price: futurePrice
-      })
-
-      // Apply growth with decay
-      projectedEps = projectedEps * (1 + growth)
-      growth = Math.max(terminalGrowth, growth * (1 - decay))
-    }
-
-    // Final values
-    const futureEps = projections[years].eps
-    const futurePrice = projections[years].price
-
-    // CAGR from today's price
-    const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
-
-    // Entry price for desired return
-    const entryPriceRaw = futurePrice / Math.pow(1 + desiredReturn, years)
-
-    // Apply Margin of Safety
-    const entryPrice = entryPriceRaw * (1 - marginOfSafety / 100)
-
-    // Upside/downside
-    const upside = ((entryPrice - currentPrice) / currentPrice) * 100
-
-    return {
-      projections,
-      futureEps,
-      futurePrice,
-      cagr: cagr * 100,
-      entryPrice,
-      entryPriceRaw,
-      upside,
-      fairValue: entryPrice
-    }
+    // Kurs = EPS × Ziel-KGV
+    return buildProjection({
+      base: eps,
+      growth,
+      multiple: pe,
+      desiredReturn,
+      currentPrice: stockData.price,
+      years,
+      decay,
+      terminalGrowth,
+      marginOfSafety
+    })
   }, [stockData, epsInput, epsGrowthRate, targetPE, desiredReturnEarnings, years, decay, terminalGrowth, marginOfSafety])
 
   // Calculate Cash Flow-based projections
   const cashFlowCalculation = useMemo(() => {
-    if (!stockData || !fcfInput || !fcfGrowthRate || !targetFcfYield || !desiredReturnCashFlow) {
+    if (!stockData || !fcfInput || !fcfGrowthRate || !targetFcfMultiple || !desiredReturnCashFlow) {
       return null
     }
 
     const fcf = parseDE(fcfInput)
-    let growth = parseDE(fcfGrowthRate) / 100
-    const targetYield = parseDE(targetFcfYield) / 100
+    const growth = parseDE(fcfGrowthRate) / 100
+    const multiple = parseDE(targetFcfMultiple)
     const desiredReturn = parseDE(desiredReturnCashFlow) / 100
-    const currentPrice = stockData.price
 
-    if (isNaN(fcf) || isNaN(growth) || isNaN(targetYield) || isNaN(desiredReturn) || targetYield === 0) {
+    if (isNaN(fcf) || isNaN(growth) || isNaN(multiple) || isNaN(desiredReturn) || multiple <= 0) {
       return null
     }
 
-    // Project FCF for N years with decay
-    const projections = []
-    let projectedFcf = fcf
-    const currentYear = new Date().getFullYear()
+    // Eingabe ist das Multiple, gerechnet wird intern weiter mit der Rendite (Rendite = 1 / Multiple)
+    const targetYield = 1 / multiple
 
-    for (let year = 0; year <= years; year++) {
-      const yearLabel = `${currentYear + year}`
-      const fairPrice = projectedFcf / targetYield
+    // Kurs = FCF / Ziel-Rendite
+    return buildProjection({
+      base: fcf,
+      growth,
+      multiple: 1 / targetYield,
+      desiredReturn,
+      currentPrice: stockData.price,
+      years,
+      decay,
+      terminalGrowth,
+      marginOfSafety
+    })
+  }, [stockData, fcfInput, fcfGrowthRate, targetFcfMultiple, desiredReturnCashFlow, years, decay, terminalGrowth, marginOfSafety])
 
-      projections.push({
-        year: yearLabel,
-        fcf: projectedFcf,
-        price: fairPrice
-      })
-
-      // Apply growth with decay
-      projectedFcf = projectedFcf * (1 + growth)
-      growth = Math.max(terminalGrowth, growth * (1 - decay))
+  // Calculate Operating Cash Flow-based projections
+  const opCashFlowCalculation = useMemo(() => {
+    if (!stockData || !ocfInput || !ocfGrowthRate || !targetOcfMultiple || !desiredReturnOpCashFlow) {
+      return null
     }
 
-    // Final values
-    const futureFcf = projections[years].fcf
-    const futurePrice = projections[years].price
+    const ocf = parseDE(ocfInput)
+    const growth = parseDE(ocfGrowthRate) / 100
+    const multiple = parseDE(targetOcfMultiple)
+    const desiredReturn = parseDE(desiredReturnOpCashFlow) / 100
 
-    // CAGR from today's price
-    const cagr = Math.pow(futurePrice / currentPrice, 1 / years) - 1
-
-    // Entry price for desired return
-    const entryPriceRaw = futurePrice / Math.pow(1 + desiredReturn, years)
-
-    // Apply Margin of Safety
-    const entryPrice = entryPriceRaw * (1 - marginOfSafety / 100)
-
-    // Upside/downside
-    const upside = ((entryPrice - currentPrice) / currentPrice) * 100
-
-    return {
-      projections,
-      futureFcf,
-      futurePrice,
-      cagr: cagr * 100,
-      entryPrice,
-      entryPriceRaw,
-      upside,
-      fairValue: entryPrice
+    if (isNaN(ocf) || isNaN(growth) || isNaN(multiple) || isNaN(desiredReturn) || multiple <= 0) {
+      return null
     }
-  }, [stockData, fcfInput, fcfGrowthRate, targetFcfYield, desiredReturnCashFlow, years, decay, terminalGrowth, marginOfSafety])
+
+    // Eingabe ist das KCV, gerechnet wird intern weiter mit der Rendite (Rendite = 1 / KCV)
+    const targetYield = 1 / multiple
+
+    // Kurs = OCF / Ziel-Rendite (entspricht OCF × KCV)
+    return buildProjection({
+      base: ocf,
+      growth,
+      multiple: 1 / targetYield,
+      desiredReturn,
+      currentPrice: stockData.price,
+      years,
+      decay,
+      terminalGrowth,
+      marginOfSafety
+    })
+  }, [stockData, ocfInput, ocfGrowthRate, targetOcfMultiple, desiredReturnOpCashFlow, years, decay, terminalGrowth, marginOfSafety])
 
   // Get current calculation based on mode
-  const currentCalculation = mode === 'earnings' ? earningsCalculation : cashFlowCalculation
+  const currentCalculation = mode === 'earnings'
+    ? earningsCalculation
+    : mode === 'cashflow'
+      ? cashFlowCalculation
+      : opCashFlowCalculation
   const chartData = currentCalculation?.projections || []
 
   // Check if inputs are valid (show green checkmark)
@@ -430,8 +526,12 @@ export default function ImprovedDCFCalculator() {
   const isDesiredReturnEarningsValid = desiredReturnEarnings !== '' && !isNaN(parseDE(desiredReturnEarnings))
 
   const isFcfGrowthValid = fcfGrowthRate !== '' && !isNaN(parseDE(fcfGrowthRate))
-  const isTargetYieldValid = targetFcfYield !== '' && !isNaN(parseDE(targetFcfYield))
+  const isTargetFcfMultipleValid = targetFcfMultiple !== '' && !isNaN(parseDE(targetFcfMultiple)) && parseDE(targetFcfMultiple) > 0
   const isDesiredReturnCashFlowValid = desiredReturnCashFlow !== '' && !isNaN(parseDE(desiredReturnCashFlow))
+
+  const isOcfGrowthValid = ocfGrowthRate !== '' && !isNaN(parseDE(ocfGrowthRate))
+  const isTargetOcfMultipleValid = targetOcfMultiple !== '' && !isNaN(parseDE(targetOcfMultiple)) && parseDE(targetOcfMultiple) > 0
+  const isDesiredReturnOpCashFlowValid = desiredReturnOpCashFlow !== '' && !isNaN(parseDE(desiredReturnOpCashFlow))
 
   return (
     <div className="max-w-6xl mx-auto py-8">
@@ -536,25 +636,23 @@ export default function ImprovedDCFCalculator() {
       {/* Mode Toggle */}
       {stockData && !loading && (
         <div className="flex justify-center mb-8">
-          <div className="inline-flex bg-theme-card border border-white/[0.06] rounded-lg p-1">
-            <button
-              onClick={() => setMode('earnings')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === 'earnings'
-                ? 'bg-theme-secondary text-theme-primary shadow-sm'
-                : 'text-theme-muted hover:text-theme-primary'
-                }`}
-            >
-              Earnings
-            </button>
-            <button
-              onClick={() => setMode('cashflow')}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === 'cashflow'
-                ? 'bg-theme-secondary text-theme-primary shadow-sm'
-                : 'text-theme-muted hover:text-theme-primary'
-                }`}
-            >
-              Cash Flow
-            </button>
+          <div className="inline-flex flex-wrap justify-center gap-1 bg-theme-card border border-white/[0.06] rounded-lg p-1">
+            {([
+              { key: 'earnings', label: 'Earnings' },
+              { key: 'cashflow', label: 'Free Cash Flow' },
+              { key: 'opcashflow', label: 'Operativer Cashflow' }
+            ] as const).map(tab => (
+              <button
+                key={tab.key}
+                onClick={() => setMode(tab.key)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${mode === tab.key
+                  ? 'bg-theme-secondary text-theme-primary shadow-sm'
+                  : 'text-theme-muted hover:text-theme-primary'
+                  }`}
+              >
+                {tab.label}
+              </button>
+            ))}
           </div>
         </div>
       )}
@@ -615,7 +713,7 @@ export default function ImprovedDCFCalculator() {
                 </div>
               </div>
 
-              {mode === 'earnings' ? (
+              {mode === 'earnings' && (
                 <>
                   {/* Current Earnings Info */}
                   <div className="bg-theme-secondary rounded-lg p-4 mb-6">
@@ -722,7 +820,9 @@ export default function ImprovedDCFCalculator() {
                     <p className="text-xs text-theme-muted mt-1.5">Die jährliche Rendite, die du mit der Aktie erzielen möchtest. Der Rechner ermittelt den Preis, den du zahlen musst, um diese Rendite zu erreichen.</p>
                   </div>
                 </>
-              ) : (
+              )}
+
+              {mode === 'cashflow' && (
                 <>
                   {/* Current Cash Flow Info */}
                   <div className="bg-theme-secondary rounded-lg p-4 mb-6">
@@ -791,23 +891,38 @@ export default function ImprovedDCFCalculator() {
                     <p className="text-xs text-theme-muted mt-1.5">Die erwartete jährliche Wachstumsrate des Free Cash Flow in Prozent.</p>
                   </div>
 
-                  {/* FCF Yield */}
+                  {/* FCF Multiple */}
                   <div className="mb-5">
-                    <label className="block text-sm text-theme-secondary mb-2">Ziel FCF-Rendite</label>
+                    <label className="block text-sm text-theme-secondary mb-2">Angemessenes KCV (Kurs/Free Cash Flow)</label>
                     <div className="flex">
                       <input
                         type="text"
-                        value={targetFcfYield}
-                        onChange={(e) => setTargetFcfYield(e.target.value)}
-                        placeholder="4"
-                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+                        value={targetFcfMultiple}
+                        onChange={(e) => setTargetFcfMultiple(e.target.value)}
+                        placeholder={String(FALLBACK_FCF_MULTIPLE)}
+                        className="flex-1 border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
                       />
-                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
-                        {isTargetYieldValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
-                        %
-                      </span>
+                      {isTargetFcfMultipleValid && (
+                        <span className="inline-flex items-center px-3">
+                          <CheckIcon className="w-5 h-5 text-brand" />
+                        </span>
+                      )}
                     </div>
-                    <p className="text-xs text-theme-muted mt-1.5">Die FCF Rendite, die du für fair erachtest (typisch: 3-6%).</p>
+                    <p className="text-xs text-theme-muted mt-1.5">
+                      {isTargetFcfMultipleValid
+                        ? `Entspricht einer FCF-Rendite von ${fmtNum(100 / parseDE(targetFcfMultiple), 1)} %`
+                        : 'Das Kurs/Free-Cash-Flow-Verhältnis, das du für die Aktie als angemessen erachtest.'}
+                    </p>
+                    {stockData.fcfMultiple5YMedian && (
+                      <button
+                        onClick={() => setTargetFcfMultiple(stockData.fcfMultiple5YMedian!.value.toFixed(1).replace('.', ','))}
+                        className="mt-2 text-xs text-brand hover:underline"
+                      >
+                        {stockData.fcfMultiple5YMedian.years === 5
+                          ? '5-Jahres-Median'
+                          : `Median (${stockData.fcfMultiple5YMedian.years} J.)`}: {fmtNum(stockData.fcfMultiple5YMedian.value, 1)} — übernehmen
+                      </button>
+                    )}
                   </div>
 
                   {/* Desired Return */}
@@ -822,6 +937,129 @@ export default function ImprovedDCFCalculator() {
                       />
                       <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
                         {isDesiredReturnCashFlowValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
+                        %
+                      </span>
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">Die jährliche Rendite, die du mit der Aktie erzielen möchtest. Der Rechner ermittelt den Preis, den du zahlen musst, um diese Rendite zu erreichen.</p>
+                  </div>
+                </>
+              )}
+
+              {mode === 'opcashflow' && (
+                <>
+                  {/* Current Operating Cash Flow Info */}
+                  <div className="bg-theme-secondary rounded-lg p-4 mb-6">
+                    <div className="text-sm text-theme-muted text-center mb-3">Aktuelle Kennzahlen</div>
+                    <div className="grid grid-cols-3 gap-4 text-center">
+                      <div>
+                        <div className="text-xs text-theme-muted">OCF/Share (TTM)</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtPrice(stockData.ocfPerShare)}</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-theme-muted">OCF Yield (TTM)</div>
+                        <div className="text-lg font-semibold text-theme-primary">{fmtNum(stockData.ocfYield)}%</div>
+                      </div>
+                      <div>
+                        <div className="text-xs text-theme-muted">OCF Wachstum (5J)</div>
+                        <div className={`text-lg font-semibold ${stockData.ocfGrowth5Y >= 0 ? 'text-brand' : 'text-red-600'}`}>
+                          {fmtNum(stockData.ocfGrowth5Y, 1)}%
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Auto-fill Button */}
+                  <button
+                    onClick={handleAutoFillGrowth}
+                    className="w-full mb-4 px-4 py-2 bg-theme-secondary hover:bg-theme-hover text-theme-secondary rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-2"
+                  >
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                    5-Jahres Durchschnitt übernehmen
+                    <span className="text-xs text-theme-muted">({fmtNum(stockData.ocfGrowth5Y, 1)}%)</span>
+                  </button>
+
+                  {/* OCF Input */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">OCF/Share (TTM)</label>
+                    <div className="flex">
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-r-0 border-theme rounded-l-lg text-theme-muted">$</span>
+                      <input
+                        type="text"
+                        value={ocfInput}
+                        onChange={(e) => setOcfInput(e.target.value)}
+                        className="flex-1 border border-theme rounded-r-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">Operativer Cashflow pro Aktie der letzten 12 Monate - der Cashflow vor Investitionsausgaben.</p>
+                  </div>
+
+                  {/* OCF Growth Rate */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">OCF Wachstumsrate</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={ocfGrowthRate}
+                        onChange={(e) => setOcfGrowthRate(e.target.value)}
+                        placeholder="10"
+                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
+                        {isOcfGrowthValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
+                        %
+                      </span>
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">Die erwartete jährliche Wachstumsrate des operativen Cashflows in Prozent.</p>
+                  </div>
+
+                  {/* OCF Multiple (KCV) */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">Angemessenes KCV (Kurs/Operativer Cashflow)</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={targetOcfMultiple}
+                        onChange={(e) => setTargetOcfMultiple(e.target.value)}
+                        placeholder={String(FALLBACK_OCF_MULTIPLE)}
+                        className="flex-1 border border-theme rounded-lg px-4 py-2.5 text-theme-primary bg-theme-input placeholder-theme-muted focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      {isTargetOcfMultipleValid && (
+                        <span className="inline-flex items-center px-3">
+                          <CheckIcon className="w-5 h-5 text-brand" />
+                        </span>
+                      )}
+                    </div>
+                    <p className="text-xs text-theme-muted mt-1.5">
+                      {isTargetOcfMultipleValid
+                        ? `Entspricht einer OCF-Rendite von ${fmtNum(100 / parseDE(targetOcfMultiple), 1)} %`
+                        : 'Das Kurs/Cashflow-Verhältnis, das du für die Aktie als angemessen erachtest.'}
+                    </p>
+                    {stockData.ocfMultiple5YMedian && (
+                      <button
+                        onClick={() => setTargetOcfMultiple(stockData.ocfMultiple5YMedian!.value.toFixed(1).replace('.', ','))}
+                        className="mt-2 text-xs text-brand hover:underline"
+                      >
+                        {stockData.ocfMultiple5YMedian.years === 5
+                          ? '5-Jahres-Median'
+                          : `Median (${stockData.ocfMultiple5YMedian.years} J.)`}: {fmtNum(stockData.ocfMultiple5YMedian.value, 1)} — übernehmen
+                      </button>
+                    )}
+                  </div>
+
+                  {/* Desired Return */}
+                  <div className="mb-5">
+                    <label className="block text-sm text-theme-secondary mb-2">Gewünschte Rendite</label>
+                    <div className="flex">
+                      <input
+                        type="text"
+                        value={desiredReturnOpCashFlow}
+                        onChange={(e) => setDesiredReturnOpCashFlow(e.target.value)}
+                        className="flex-1 border border-theme rounded-l-lg px-4 py-2.5 text-theme-primary bg-theme-input focus:border-green-500 focus:ring-1 focus:ring-brand focus:outline-none"
+                      />
+                      <span className="inline-flex items-center px-3 bg-theme-secondary border border-l-0 border-theme rounded-r-lg text-theme-muted">
+                        {isDesiredReturnOpCashFlowValid && <CheckIcon className="w-5 h-5 text-brand mr-1" />}
                         %
                       </span>
                     </div>
@@ -1145,7 +1383,9 @@ export default function ImprovedDCFCalculator() {
               <p className="text-theme-muted text-sm mt-1">
                 {mode === 'earnings'
                   ? 'Die Earnings-Methode berechnet den fairen Wert basierend auf projiziertem EPS und einem Ziel-KGV. Der Fair Value zeigt, welchen Preis du zahlen solltest, um deine gewünschte Rendite zu erzielen.'
-                  : 'Die Cash Flow-Methode berechnet den fairen Wert basierend auf projiziertem Free Cash Flow und einer Ziel-FCF-Yield. Diese Methode ist besonders nützlich für Unternehmen mit stabilem Cash Flow.'
+                  : mode === 'cashflow'
+                    ? 'Die Free Cash Flow-Methode berechnet den fairen Wert basierend auf projiziertem Free Cash Flow und einem Ziel-Multiple (Kurs/Free Cash Flow). Diese Methode ist besonders nützlich für Unternehmen mit stabilem Cash Flow.'
+                    : 'Die Methode über den operativen Cashflow rechnet vor Investitionsausgaben (Capex) und eignet sich für Unternehmen, deren FCF durch hohe Investitionen verzerrt ist. Weil Capex hier nicht abgezogen wird, sollte das KCV deutlich niedriger angesetzt werden als das Kurs/Free-Cash-Flow-Multiple.'
                 }
               </p>
             </div>
