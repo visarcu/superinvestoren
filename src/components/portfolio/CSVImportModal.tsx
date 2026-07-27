@@ -820,6 +820,80 @@ export default function CSVImportModal({
       // Aufteilung im Verhältnis der Marktwerte am Spin-off-Tag; idempotent
       // über Marker-Note an der Spin-off-Einbuchung (greift auch nachträglich,
       // wenn der Spin-off bereits in einem früheren Import gelandet ist).
+      // Holding eines Symbols vollständig aus seinen DB-Transaktionen neu
+      // aufbauen (Durchschnittskosten, Käufe vor Verkäufen am selben Tag) und
+      // per upsert setzen. Idempotent — behebt Drift zwischen Transaktionen und
+      // Holdings, insbesondere fehlende Spin-off-Positionen, deren Buchung beim
+      // Re-Import als Duplikat aus dem normalen Holdings-Aufbau fiel.
+      const rebuildHoldingFromDb = async (symbol: string) => {
+        const { data: txs } = await supabase
+          .from('portfolio_transactions')
+          .select('name, isin, type, date, quantity, price, total_value, fee')
+          .eq('portfolio_id', portfolioId)
+          .eq('symbol', symbol)
+          .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
+        if (!txs || txs.length === 0) return
+
+        const phase = (t: { type: string }) => (t.type === 'buy' || t.type === 'transfer_in' ? 0 : 1)
+        const ordered = [...txs].sort((a, b) => a.date.localeCompare(b.date) || phase(a) - phase(b))
+
+        let shares = 0
+        let cost = 0
+        let name = symbol
+        let isin: string | null = null
+        let earliestDate = ordered[0].date
+        for (const t of ordered) {
+          const qty = Number(t.quantity) || 0
+          const tv = Number(t.total_value) || Math.abs(qty * (Number(t.price) || 0))
+          if (t.type === 'buy' || t.type === 'transfer_in') {
+            shares += qty
+            cost += tv + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0)
+            if (t.name) name = t.name
+            if (t.isin) isin = t.isin
+            if (t.date < earliestDate) earliestDate = t.date
+          } else {
+            const avg = shares > 0 ? cost / shares : 0
+            shares -= qty
+            cost -= qty * avg
+          }
+        }
+
+        const { data: existing } = await supabase
+          .from('portfolio_holdings')
+          .select('id')
+          .eq('portfolio_id', portfolioId)
+          .eq('symbol', symbol)
+          .maybeSingle()
+
+        if (shares <= 0.0001) {
+          // Voll verkauft/abgegeben → keine offene Position
+          if (existing) await supabase.from('portfolio_holdings').delete().eq('id', existing.id)
+          return
+        }
+
+        const avgPrice = parseFloat((cost / shares).toFixed(4))
+        const quantity = parseFloat(shares.toFixed(8))
+        if (existing) {
+          await supabase
+            .from('portfolio_holdings')
+            .update({ quantity, purchase_price: avgPrice, purchase_currency: 'EUR' })
+            .eq('id', existing.id)
+        } else {
+          await supabase
+            .from('portfolio_holdings')
+            .insert({
+              portfolio_id: portfolioId,
+              symbol,
+              name,
+              isin,
+              quantity,
+              purchase_price: avgPrice,
+              purchase_date: earliestDate,
+              purchase_currency: 'EUR',
+            })
+        }
+      }
+
       const spinoffTxs = resolvedTransactions.filter(t => t.corpActionType === 'spinoff')
       for (const spinoff of spinoffTxs) {
         try {
@@ -845,113 +919,99 @@ export default function CSVImportModal({
             .eq('date', spinoff.date)
           const childTx = (childTxs || []).find(t => (t.notes || '').includes('Spin-off'))
           if (!childTx) continue
-          if ((childTx.notes || '').includes('Kostenbasis anteilig')) continue // bereits übertragen
 
-          // Bestand + Kostenbasis der Mutter am Spin-off-Tag aus Transaktionen
-          // (Durchschnittskosten, Käufe vor Verkäufen am selben Tag)
-          const { data: parentTxs } = await supabase
-            .from('portfolio_transactions')
-            .select('id, type, date, quantity, price, total_value, fee, notes')
-            .eq('portfolio_id', portfolioId)
-            .eq('symbol', parentSymbol)
-            .lte('date', spinoff.date)
-            .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
-          if (!parentTxs || parentTxs.length === 0) continue
+          // Kostenbasis-Übertragung nur wenn noch nicht geschehen (idempotent).
+          // Die Holdings-Rekonstruktion unten läuft in JEDEM Fall — sonst fehlt
+          // die Kind-Position, wenn ihre Buchung beim Re-Import ein Duplikat war.
+          if (!(childTx.notes || '').includes('Kostenbasis anteilig')) {
+            // Bestand + Kostenbasis der Mutter am Spin-off-Tag aus Transaktionen
+            // (Durchschnittskosten, Käufe vor Verkäufen am selben Tag)
+            const { data: parentTxs } = await supabase
+              .from('portfolio_transactions')
+              .select('id, type, date, quantity, price, total_value, fee, notes')
+              .eq('portfolio_id', portfolioId)
+              .eq('symbol', parentSymbol)
+              .lte('date', spinoff.date)
+              .in('type', ['buy', 'sell', 'transfer_in', 'transfer_out'])
 
-          const phase = (t: { type: string }) => (t.type === 'buy' || t.type === 'transfer_in' ? 0 : 1)
-          const orderedParentTxs = [...parentTxs].sort(
-            (a, b) => a.date.localeCompare(b.date) || phase(a) - phase(b)
-          )
-          let parentShares = 0
-          let parentBasis = 0
-          for (const t of orderedParentTxs) {
-            const qty = Number(t.quantity) || 0
-            const tv = Number(t.total_value) || Math.abs(qty * (Number(t.price) || 0))
-            if (t.type === 'buy' || t.type === 'transfer_in') {
-              parentShares += qty
-              parentBasis += tv + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0)
-            } else {
-              const avg = parentShares > 0 ? parentBasis / parentShares : 0
-              parentShares -= qty
-              parentBasis -= qty * avg
+            const phase = (t: { type: string }) => (t.type === 'buy' || t.type === 'transfer_in' ? 0 : 1)
+            const orderedParentTxs = [...(parentTxs || [])].sort(
+              (a, b) => a.date.localeCompare(b.date) || phase(a) - phase(b)
+            )
+            let parentShares = 0
+            let parentBasis = 0
+            for (const t of orderedParentTxs) {
+              const qty = Number(t.quantity) || 0
+              const tv = Number(t.total_value) || Math.abs(qty * (Number(t.price) || 0))
+              if (t.type === 'buy' || t.type === 'transfer_in') {
+                parentShares += qty
+                parentBasis += tv + (t.type === 'buy' ? Math.abs(Number(t.fee) || 0) : 0)
+              } else {
+                const avg = parentShares > 0 ? parentBasis / parentShares : 0
+                parentShares -= qty
+                parentBasis -= qty * avg
+              }
+            }
+
+            const childQty = Number(childTx.quantity) || 0
+            const childPrice = Number(childTx.price) || 0
+            let parentPrice = 0
+            if (parentShares > 0 && parentBasis > 0 && childQty > 0 && childPrice > 0) {
+              const priceResp = await fetch('/api/portfolio/historical-prices', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ items: [{ symbol: parentSymbol, date: spinoff.date }] }),
+              })
+              if (priceResp.ok) {
+                const { results } = await priceResp.json() as { results: Record<string, number> }
+                parentPrice = results?.[`${parentSymbol}|${spinoff.date}`] || 0
+              }
+            }
+
+            if (parentPrice > 0) {
+              const childValue = childQty * childPrice
+              const parentValue = parentShares * parentPrice
+              const fraction = childValue / (parentValue + childValue)
+              if (fraction > 0 && fraction < 0.95) {
+                const pct = (fraction * 100).toFixed(1)
+                const childBasis = parentBasis * fraction
+
+                // 1) Spin-off-Einbuchung: anteilige Kostenbasis statt Marktwert
+                await supabase
+                  .from('portfolio_transactions')
+                  .update({
+                    price: parseFloat((childBasis / childQty).toFixed(4)),
+                    total_value: parseFloat(childBasis.toFixed(2)),
+                    notes: `${childTx.notes || ''} · Kostenbasis anteilig (${pct} %) von ${parentSymbol} übernommen`,
+                  })
+                  .eq('id', childTx.id)
+
+                // 2) Kauf-Transaktionen der Mutter anteilig entlasten
+                for (const t of orderedParentTxs) {
+                  if (t.type !== 'buy' && t.type !== 'transfer_in') continue
+                  if ((t.notes || '').includes(`Spin-off ${childSymbol} vom ${spinoff.date}`)) continue
+                  const tv = Number(t.total_value) || 0
+                  const price = Number(t.price) || 0
+                  await supabase
+                    .from('portfolio_transactions')
+                    .update({
+                      price: price > 0 ? parseFloat((price * (1 - fraction)).toFixed(4)) : price,
+                      total_value: tv > 0 ? parseFloat((tv * (1 - fraction)).toFixed(2)) : tv,
+                      notes: `${t.notes ? `${t.notes} · ` : ''}Spin-off ${childSymbol} vom ${spinoff.date}: Kostenbasis anteilig (−${pct} %) abgegeben`,
+                    })
+                    .eq('id', t.id)
+                }
+              }
             }
           }
-          if (parentShares <= 0 || parentBasis <= 0) continue
 
-          // Marktwerte am Spin-off-Tag: Kind aus der Einbuchung, Mutter über Schlusskurs
-          const childQty = Number(childTx.quantity) || 0
-          const childPrice = Number(childTx.price) || 0
-          if (childQty <= 0 || childPrice <= 0) continue
-
-          const priceResp = await fetch('/api/portfolio/historical-prices', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: [{ symbol: parentSymbol, date: spinoff.date }] }),
-          })
-          if (!priceResp.ok) continue
-          const { results } = await priceResp.json() as { results: Record<string, number> }
-          const parentPrice = results?.[`${parentSymbol}|${spinoff.date}`] || 0
-          if (parentPrice <= 0) continue
-
-          const childValue = childQty * childPrice
-          const parentValue = parentShares * parentPrice
-          const fraction = childValue / (parentValue + childValue)
-          if (!(fraction > 0) || fraction >= 0.95) continue
-
-          const pct = (fraction * 100).toFixed(1)
-          const childBasis = parentBasis * fraction
-
-          // 1) Spin-off-Einbuchung: anteilige Kostenbasis statt Marktwert
-          await supabase
-            .from('portfolio_transactions')
-            .update({
-              price: parseFloat((childBasis / childQty).toFixed(4)),
-              total_value: parseFloat(childBasis.toFixed(2)),
-              notes: `${childTx.notes || ''} · Kostenbasis anteilig (${pct} %) von ${parentSymbol} übernommen`,
-            })
-            .eq('id', childTx.id)
-
-          // 2) Kauf-Transaktionen der Mutter anteilig entlasten
-          for (const t of orderedParentTxs) {
-            if (t.type !== 'buy' && t.type !== 'transfer_in') continue
-            if ((t.notes || '').includes(`Spin-off ${childSymbol} vom ${spinoff.date}`)) continue
-            const tv = Number(t.total_value) || 0
-            const price = Number(t.price) || 0
-            await supabase
-              .from('portfolio_transactions')
-              .update({
-                price: price > 0 ? parseFloat((price * (1 - fraction)).toFixed(4)) : price,
-                total_value: tv > 0 ? parseFloat((tv * (1 - fraction)).toFixed(2)) : tv,
-                notes: `${t.notes ? `${t.notes} · ` : ''}Spin-off ${childSymbol} vom ${spinoff.date}: Kostenbasis anteilig (−${pct} %) abgegeben`,
-              })
-              .eq('id', t.id)
-          }
-
-          // 3) Holdings beider Positionen auf die neue Basis stellen
-          const { data: parentHoldings } = await supabase
-            .from('portfolio_holdings')
-            .select('id, purchase_price')
-            .eq('portfolio_id', portfolioId)
-            .eq('symbol', parentSymbol)
-          for (const h of parentHoldings || []) {
-            await supabase
-              .from('portfolio_holdings')
-              .update({ purchase_price: parseFloat(((Number(h.purchase_price) || 0) * (1 - fraction)).toFixed(4)) })
-              .eq('id', h.id)
-          }
-          const { data: childHoldings } = await supabase
-            .from('portfolio_holdings')
-            .select('id')
-            .eq('portfolio_id', portfolioId)
-            .eq('symbol', childSymbol)
-          for (const h of childHoldings || []) {
-            await supabase
-              .from('portfolio_holdings')
-              .update({ purchase_price: parseFloat((childBasis / childQty).toFixed(4)) })
-              .eq('id', h.id)
-          }
+          // 3) Holdings beider Positionen aus den (jetzt angepassten) DB-
+          // Transaktionen rekonstruieren — legt die Kind-Position auch an, wenn
+          // ihre Buchung beim Re-Import als Duplikat aus txToImport fiel.
+          await rebuildHoldingFromDb(parentSymbol)
+          await rebuildHoldingFromDb(childSymbol)
         } catch (spinoffError) {
-          console.warn('Spin-off-Kostenbasis konnte nicht übertragen werden:', spinoffError)
+          console.warn('Spin-off-Verarbeitung fehlgeschlagen:', spinoffError)
         }
       }
 

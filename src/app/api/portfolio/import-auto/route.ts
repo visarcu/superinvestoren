@@ -23,7 +23,7 @@ import { parseFreedom24PDFText } from '@/lib/freedom24PDFParser'
 import { parseFreedom24TaxXLSX } from '@/lib/freedom24TaxXLSXParser'
 import { parseFreedom24XLSXRows } from '@/lib/freedom24XLSXParser'
 import { parseFlatexDepotXLSX, isFlatexDepotXLSX } from '@/lib/flatexXLSXParser'
-import { parseFreedom24TradeReport, isFreedom24TradeReport } from '@/lib/freedom24TradeReportParser'
+import { parseFreedom24TradeReport, isFreedom24TradeReport, parseFreedom24CashReport, isFreedom24CashReport } from '@/lib/freedom24TradeReportParser'
 import { parseIngPDFText, isIngPDF, type IngParsedTransaction } from '@/lib/ingPDFParser'
 import { parseTrading212PDFText, isTrading212PDF } from '@/lib/trading212PDFParser'
 
@@ -291,6 +291,23 @@ export async function POST(request: Request) {
           transactions: result.transactions,
           errors: result.errors,
           stockSplits: result.stockSplits,
+        })
+      }
+
+      // Freedom24 separate Cash-Datei ("Cash In Out …", ohne Trades-Sheet):
+      // liefert nur Ein-/Auszahlungen für das Cash-Ledger / die Kapital-Linie.
+      if (isFreedom24CashReport(workbook.SheetNames)) {
+        const sheets: Record<string, Record<string, unknown>[]> = {}
+        for (const sheetName of workbook.SheetNames) {
+          const sheet = workbook.Sheets[sheetName]
+          sheets[sheetName] = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+        }
+        const result = parseFreedom24CashReport(sheets, firstFile.name)
+        return NextResponse.json({
+          format: 'freedom24_cash',
+          formatLabel: 'Freedom24 Ein-/Auszahlungen',
+          transactions: result.transactions,
+          errors: result.errors,
         })
       }
 

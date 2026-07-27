@@ -27,6 +27,7 @@ interface FullTransaction {
   fee?: number
   date: string
   portfolio_id: string
+  notes?: string | null
 }
 
 interface DepotBreakdown {
@@ -345,14 +346,25 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           type: 'buy',
         })
       } else if (tx.type === 'transfer_in') {
-        transferInCount++
-        result.push({
-          date: tx.date,
-          priceEUR: tx.price,
-          quantity: tx.quantity,
-          label: `E${transferInCount}`,
-          type: 'buy',
-        })
+        // Spin-off-Einbuchungen eigens markieren (statt generisch "Einbuchung")
+        if ((tx.notes || '').includes('Spin-off')) {
+          result.push({
+            date: tx.date,
+            priceEUR: tx.price,
+            quantity: tx.quantity,
+            label: 'SO',
+            type: 'spinoff',
+          })
+        } else {
+          transferInCount++
+          result.push({
+            date: tx.date,
+            priceEUR: tx.price,
+            quantity: tx.quantity,
+            label: `E${transferInCount}`,
+            type: 'buy',
+          })
+        }
       } else if (tx.type === 'sell') {
         sellCount++
         result.push({
@@ -372,6 +384,21 @@ export default function PortfolioStockDetail({ ticker }: PortfolioStockDetailPro
           type: 'dividend',
         })
       }
+    }
+
+    // Mutterposition eines Spin-offs: die abgespaltene Aktie hat hier keine
+    // eigene Buchung, aber die Käufe tragen die Note "Spin-off XYZ vom DATUM".
+    // Daraus je Datum einen Spin-off-Marker ableiten, damit der Zeitpunkt (an
+    // dem sich Stückzahl/Kostenbasis ändern) auch im Mutter-Chart sichtbar ist.
+    const spinoffDates = new Set<string>()
+    for (const tx of sorted) {
+      const m = tx.notes?.match(/Spin-off\s+\S+\s+vom\s+(\d{4}-\d{2}-\d{2})/)
+      if (m) spinoffDates.add(m[1])
+    }
+    for (const date of spinoffDates) {
+      if (result.some(r => r.type === 'spinoff' && r.date === date)) continue
+      // priceEUR = 0 → Marker landet auf der Kurslinie am Spin-off-Tag
+      result.push({ date, priceEUR: 0, quantity: 0, label: 'SO', type: 'spinoff' })
     }
 
     return result

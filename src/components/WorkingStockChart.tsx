@@ -26,8 +26,8 @@ export interface PurchaseMarker {
   date: string      // YYYY-MM-DD
   priceEUR: number  // Kaufpreis in EUR
   quantity: number
-  label: string     // "K1", "K2", "V1", "V2", "D1", ...
-  type?: 'buy' | 'sell' | 'dividend'  // Default: 'buy'
+  label: string     // "K1", "K2", "V1", "V2", "D1", "SO", ...
+  type?: 'buy' | 'sell' | 'dividend' | 'spinoff'  // Default: 'buy'
 }
 
 interface Props {
@@ -350,7 +350,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
         label: marker.label,
         type: marker.type || 'buy',
       }
-    }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' | 'dividend' }[]
+    }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' | 'dividend' | 'spinoff' }[]
   }, [purchaseMarkers, chartData, selectedMode, ticker])
 
   const isPositive = performanceStats && performanceStats.changePercent >= 0
@@ -596,8 +596,9 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
             {resolvedMarkers.map((marker) => {
               const isDividend = marker.type === 'dividend'
               const isSell = marker.type === 'sell'
-              const dotFill = isDividend ? '#10b981' : isSell ? '#ef4444' : '#3b82f6'
-              const dotStroke = isDividend ? '#064e3b' : isSell ? '#5f1a1a' : '#1e3a5f'
+              const isSpinoff = marker.type === 'spinoff'
+              const dotFill = isDividend ? '#10b981' : isSell ? '#ef4444' : isSpinoff ? '#a855f7' : '#3b82f6'
+              const dotStroke = isDividend ? '#064e3b' : isSell ? '#5f1a1a' : isSpinoff ? '#4a1d6e' : '#1e3a5f'
               return (
                 <ReferenceDot
                   key={marker.label}
@@ -653,6 +654,12 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
             <div className="flex items-center gap-1.5 text-xs text-theme-muted">
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
               <span>Dividende</span>
+            </div>
+          )}
+          {resolvedMarkers.some(m => m.type === 'spinoff') && (
+            <div className="flex items-center gap-1.5 text-xs text-theme-muted">
+              <div className="w-2.5 h-2.5 rounded-full bg-purple-500" />
+              <span>Spin-off</span>
             </div>
           )}
         </div>
