@@ -306,13 +306,30 @@ function parseCorpActions(
   return { transactions, errors, stockSplits }
 }
 
+// Externe Cash-Flüsse (echte Ein-/Auszahlungen aufs Verrechnungskonto).
+// BEWUSST eng gehalten: Dividenden, Steuern, Broker-/Handelsgebühren, Käufe
+// und Verkäufe kommen bereits über die Trades/Corpactions-Sheets bzw. den
+// separaten Handelsbericht — hier importiert würden sie das Cash doppelt zählen.
+const CASH_FLOW_ART = /^(bank(ü|ue)berweisung|einzahlung|auszahlung|deposit|withdrawal)$/i
+
+// Wert der "Art"-Spalte holen (Spaltennamen können mit Leerzeichen kommen);
+// ohne benannte Spalte auf einen Werte-Scan zurückfallen.
+function cashArt(row: Record<string, unknown>): string {
+  for (const key of [' Art ', 'Art', ' Type ', 'Type']) {
+    const v = row[key]
+    if (typeof v === 'string' && v.trim()) return v.trim()
+  }
+  const scan = Object.values(row).find(v => typeof v === 'string' && CASH_FLOW_ART.test(v.trim()))
+  return typeof scan === 'string' ? scan.trim() : ''
+}
+
 /**
- * Parst Banküberweisungen (Ein-/Auszahlungen) aus dem Geldtransfer-Tab.
- *
- * Der Tab-Name variiert je Report-Version, die Zeilen sind aber eindeutig:
- * eine Zelle enthält "Banküberweisung", dazu Datum, Betrag und Währung.
- * Wir scannen deshalb alle Sheets zeilenweise statt auf Spaltennamen zu
- * vertrauen. Positiver Betrag = Einzahlung, negativer = Auszahlung.
+ * Parst externe Ein-/Auszahlungen ("Banküberweisung" etc.) aus dem
+ * Geldtransfer-/Cash-Tab. Der Cash-Export kommt entweder als eigener Reiter im
+ * Handelsbericht oder als separate Datei ("Cash In Out …"); beides läuft hier
+ * durch. Spalten (" Art ", " Datum ", " Betrag ", " Währung ") können mit
+ * Leerzeichen benannt sein — wir lesen die Art gezielt und fallen sonst auf
+ * einen Werte-Scan zurück. Positiver Betrag = Einzahlung, negativer = Auszahlung.
  */
 function parseCashTransfers(
   sheets: Record<string, Record<string, unknown>[]>,
@@ -324,49 +341,62 @@ function parseCashTransfers(
   for (const [sheetName, rows] of Object.entries(sheets)) {
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i]
+      const art = cashArt(row)
+      if (!CASH_FLOW_ART.test(art)) continue
+
       const values = Object.values(row)
 
-      const isTransfer = values.some(
-        v => typeof v === 'string' && /^bank(ü|ue)berweisung$/i.test(v.trim())
-      )
-      if (!isTransfer) continue
-
-      // Datum: Date-Objekt oder "YYYY-MM-DD..."-String
+      // Datum: bevorzugt aus " Datum "-Spalte, sonst erster Datumswert
       let date = ''
-      for (const v of values) {
-        if (v instanceof Date) { date = v.toISOString().slice(0, 10); break }
-        if (typeof v === 'string') {
-          const m = v.trim().match(/^(\d{4}-\d{2}-\d{2})/)
-          if (m) { date = m[1]; break }
+      const datumCell = row[' Datum '] ?? row['Datum'] ?? row[' Date '] ?? row['Date']
+      if (datumCell instanceof Date) date = datumCell.toISOString().slice(0, 10)
+      else if (typeof datumCell === 'string') {
+        const m = datumCell.trim().match(/^(\d{4}-\d{2}-\d{2})/)
+        if (m) date = m[1]
+      }
+      if (!date) {
+        for (const v of values) {
+          if (v instanceof Date) { date = v.toISOString().slice(0, 10); break }
+          if (typeof v === 'string') {
+            const m = v.trim().match(/^(\d{4}-\d{2}-\d{2})/)
+            if (m) { date = m[1]; break }
+          }
         }
       }
       if (!date) {
-        errors.push(`${sheetName} Zeile ${i + 2}: Banküberweisung ohne erkennbares Datum übersprungen.`)
+        errors.push(`${sheetName} Zeile ${i + 2}: ${art} ohne erkennbares Datum übersprungen.`)
         continue
       }
 
-      // Betrag: erste endliche Zahl ≠ 0 (Excel liefert Beträge als number)
-      let amount = 0
-      for (const v of values) {
-        const n = typeof v === 'number' ? v : NaN
-        if (Number.isFinite(n) && n !== 0) { amount = n; break }
+      // Betrag: bevorzugt aus " Betrag "-Spalte, sonst erste endliche Zahl ≠ 0
+      let amount = NaN
+      const betragCell = row[' Betrag '] ?? row['Betrag'] ?? row[' Amount '] ?? row['Amount']
+      if (typeof betragCell === 'number' && Number.isFinite(betragCell)) amount = betragCell
+      if (!Number.isFinite(amount)) {
+        for (const v of values) {
+          if (typeof v === 'number' && Number.isFinite(v) && v !== 0) { amount = v; break }
+        }
       }
-      if (amount === 0) {
-        errors.push(`${sheetName} Zeile ${i + 2}: Banküberweisung ohne Betrag übersprungen.`)
+      if (!Number.isFinite(amount) || amount === 0) {
+        errors.push(`${sheetName} Zeile ${i + 2}: ${art} ohne Betrag übersprungen.`)
         continue
       }
 
-      const currency = values.find(
-        (v): v is string => typeof v === 'string' && /^(EUR|USD|GBP)$/.test(v.trim())
-      )?.trim() || 'EUR'
+      const currency = (() => {
+        const c = row[' Währung '] ?? row['Währung'] ?? row[' Currency '] ?? row['Currency']
+        if (typeof c === 'string' && /^(EUR|USD|GBP)$/.test(c.trim())) return c.trim()
+        const scan = values.find((v): v is string => typeof v === 'string' && /^(EUR|USD|GBP)$/.test(v.trim()))
+        return scan?.trim() || 'EUR'
+      })()
 
       let amountEUR = Math.abs(amount)
       if (currency === 'USD') amountEUR = amountEUR * fxRateUsdEur
       else if (currency === 'GBP') amountEUR = amountEUR * 1.17 // Approximation
+      amountEUR = Math.round(amountEUR * 100) / 100
 
       transactions.push({
         type: amount > 0 ? 'cash_deposit' : 'cash_withdrawal',
-        name: 'Banküberweisung',
+        name: amount > 0 ? 'Einzahlung' : 'Auszahlung',
         isin: '',
         wkn: '',
         quantity: 1,
@@ -382,6 +412,31 @@ function parseCashTransfers(
     }
   }
 
+  return { transactions, errors }
+}
+
+/**
+ * Erkennt eine separate Freedom24 Cash-Datei ("Cash In Out …") ohne Trades-Sheet.
+ */
+export function isFreedom24CashReport(sheetNames: string[]): boolean {
+  const hasCash = sheetNames.some(n => /^cash in out/i.test(n.trim()))
+  const hasTrades = sheetNames.some(n => n.startsWith('Trades ') || n.startsWith('ExecTrades'))
+  return hasCash && !hasTrades
+}
+
+/**
+ * Parst eine separate Freedom24 Cash-Datei — nur externe Ein-/Auszahlungen.
+ * (Dividenden/Steuern/Gebühren im selben Sheet kommen über den Handelsbericht
+ * und werden hier bewusst ignoriert, um Doppelzählung zu vermeiden.)
+ */
+export function parseFreedom24CashReport(
+  sheets: Record<string, Record<string, unknown>[]>,
+  fileName: string,
+): { transactions: Freedom24Transaction[]; errors: string[] } {
+  const { transactions, errors } = parseCashTransfers(sheets, 0.87)
+  if (transactions.length === 0 && errors.length === 0) {
+    errors.push(`Keine Ein-/Auszahlungen in "${fileName}" gefunden.`)
+  }
   return { transactions, errors }
 }
 
