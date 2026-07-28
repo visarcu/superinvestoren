@@ -353,6 +353,41 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
     }).filter(Boolean) as { date: string; value: number; label: string; type: 'buy' | 'sell' | 'dividend' | 'spinoff' }[]
   }, [purchaseMarkers, chartData, selectedMode, ticker])
 
+  // Y-Achsen-Bereich: Kauf-/Verkaufsmarker mit einbeziehen. Die Kurslinie ist
+  // (je nach Range) tagesgesampelt — kaufte man exakt an einem Intraday-Hoch/
+  // -Tief, kann der echte Marker-Preis über/unter allen sichtbaren Punkten
+  // liegen und würde sonst aus dem Chart fallen. Nur an der erweiterten Seite
+  // etwas Luft lassen, damit Punkt + Label nicht am Rand kleben; liegen alle
+  // Marker im Kursbereich, bleibt die Skalierung wie zuvor (dataMin/dataMax).
+  const yDomain = useMemo((): [number, number] | ['dataMin', 'dataMax'] => {
+    if (selectedMode !== 'price' || chartData.length === 0) return ['dataMin', 'dataMax']
+    let lo = Infinity
+    let hi = -Infinity
+    for (const d of chartData) {
+      const v = d[ticker]
+      if (typeof v === 'number') { lo = Math.min(lo, v); hi = Math.max(hi, v) }
+      const ma = d.ma50
+      if (typeof ma === 'number') { lo = Math.min(lo, ma); hi = Math.max(hi, ma) }
+    }
+    if (!Number.isFinite(lo) || !Number.isFinite(hi)) return ['dataMin', 'dataMax']
+
+    const dataLo = lo
+    const dataHi = hi
+    for (const m of resolvedMarkers) {
+      // Dividendenmarker tragen den Ausschüttungsbetrag (kein Kurs) — würden die
+      // Skala verzerren; nur echte Kurspreise (Kauf/Verkauf/Spin-off) einbeziehen.
+      if (m.type === 'dividend') continue
+      if (typeof m.value === 'number' && m.value > 0) { lo = Math.min(lo, m.value); hi = Math.max(hi, m.value) }
+    }
+    if (lo >= dataLo && hi <= dataHi) return ['dataMin', 'dataMax']
+
+    const range = hi - lo || Math.abs(hi) || 1
+    return [
+      lo < dataLo ? lo - range * 0.04 : lo,
+      hi > dataHi ? hi + range * 0.04 : hi,
+    ]
+  }, [selectedMode, chartData, ticker, resolvedMarkers])
+
   const isPositive = performanceStats && performanceStats.changePercent >= 0
   const chartColor = isPositive ? '#10b981' : '#ef4444'
 
@@ -508,7 +543,7 @@ export default function WorkingStockChart({ ticker, data, purchaseMarkers, week5
               interval="preserveStartEnd"
               minTickGap={80}
             />
-            <YAxis hide domain={['dataMin', 'dataMax']} />
+            <YAxis hide domain={yDomain} />
             <Tooltip content={renderTooltip} cursor={{ stroke: isDark ? '#4b5563' : '#d1d5db', strokeWidth: 1 }} />
 
             {/* Performance Label */}
