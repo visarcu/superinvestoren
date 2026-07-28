@@ -1,9 +1,11 @@
 'use client'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { usePortfolio } from '@/hooks/usePortfolio'
+import { usePortfolio, type Portfolio } from '@/hooks/usePortfolio'
+import { getBrokerColor, getBrokerDisplayName, brokerTypeToLogoId } from '@/lib/brokerConfig'
+import { BrokerLogo } from '@/components/portfolio/BrokerLogo'
 import QuickStats from '@/components/portfolio/QuickStats'
 import PositionsTable from '@/components/portfolio/PositionsTable'
 import PortfolioValueChart from '@/components/portfolio/PortfolioValueChart'
@@ -20,6 +22,8 @@ import {
   ArrowsRightLeftIcon,
   BanknotesIcon,
   BriefcaseIcon,
+  CheckIcon,
+  ChevronUpDownIcon,
   Cog6ToothIcon,
   ChartBarIcon,
   ChartPieIcon,
@@ -173,6 +177,152 @@ function PortfolioNavigation({
   )
 }
 
+function DepotSwitcher({
+  portfolios,
+  selectedDepotId,
+  selectedDepotName,
+  onSelectDepot,
+}: {
+  portfolios: Portfolio[]
+  selectedDepotId: string
+  selectedDepotName: string
+  onSelectDepot: (depotId: string) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const ref = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    function handlePointer(event: Event) {
+      if (ref.current && !ref.current.contains(event.target as Node)) setOpen(false)
+    }
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', handlePointer)
+    document.addEventListener('keydown', handleKey)
+    return () => {
+      document.removeEventListener('mousedown', handlePointer)
+      document.removeEventListener('keydown', handleKey)
+    }
+  }, [open])
+
+  const handleSelect = (depotId: string) => {
+    setOpen(false)
+    if (depotId !== selectedDepotId) onSelectDepot(depotId)
+  }
+
+  const itemBase =
+    'flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left transition-colors'
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen(value => !value)}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className="group -ml-1 inline-flex max-w-[220px] items-center gap-1 rounded-lg px-1 py-0.5 text-[11px] text-theme-muted transition-colors hover:bg-white/[0.06] hover:text-theme-primary sm:max-w-[280px]"
+      >
+        <span className="truncate">{selectedDepotName}</span>
+        <ChevronUpDownIcon className="h-3.5 w-3.5 shrink-0 text-theme-muted transition-colors group-hover:text-theme-primary" />
+      </button>
+
+      {open && (
+        <div
+          role="menu"
+          className="absolute left-0 top-full z-[60] mt-2 w-[300px] max-w-[calc(100vw-2rem)] overflow-hidden rounded-2xl border border-white/[0.09] bg-[#0b0c0d]/97 p-1.5 shadow-[0_24px_80px_rgba(0,0,0,0.5)] backdrop-blur-xl"
+        >
+          <p className="px-3 pb-1.5 pt-2 text-[10px] font-medium uppercase tracking-[0.2em] text-theme-muted">
+            Depot wechseln
+          </p>
+
+          <div className="max-h-[320px] space-y-0.5 overflow-y-auto">
+            <button
+              type="button"
+              role="menuitem"
+              onClick={() => handleSelect('all')}
+              className={`${itemBase} ${
+                selectedDepotId === 'all'
+                  ? 'bg-teal-400/10 text-teal-300'
+                  : 'text-neutral-200 hover:bg-white/[0.055]'
+              }`}
+            >
+              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.045]">
+                <Squares2X2Icon className="h-4 w-4" />
+              </span>
+              <span className="min-w-0 flex-1">
+                <span className="block truncate text-[13px] font-medium">Alle Depots</span>
+                <span className="block truncate text-[11px] text-theme-muted">Zusammengefasst</span>
+              </span>
+              {selectedDepotId === 'all' && <CheckIcon className="h-4 w-4 shrink-0 text-teal-300" />}
+            </button>
+
+            {portfolios.map(depot => {
+              const isActive = depot.id === selectedDepotId
+              const brokerColor = getBrokerColor(depot.broker_type, depot.broker_color)
+              const brokerName = getBrokerDisplayName(depot.broker_type, depot.broker_name)
+              const logoId = brokerTypeToLogoId(depot.broker_type)
+              return (
+                <button
+                  key={depot.id}
+                  type="button"
+                  role="menuitem"
+                  onClick={() => handleSelect(depot.id)}
+                  className={`${itemBase} ${
+                    isActive ? 'bg-teal-400/10 text-teal-300' : 'text-neutral-200 hover:bg-white/[0.055]'
+                  }`}
+                >
+                  {logoId ? (
+                    <BrokerLogo brokerId={logoId} size={32} />
+                  ) : (
+                    <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.045]">
+                      <span className="h-2 w-2 rounded-full" style={{ backgroundColor: brokerColor }} />
+                    </span>
+                  )}
+                  <span className="min-w-0 flex-1">
+                    <span className="block truncate text-[13px] font-medium">{depot.name}</span>
+                    {brokerName && (
+                      <span className="block truncate text-[11px] text-theme-muted">{brokerName}</span>
+                    )}
+                  </span>
+                  {isActive && <CheckIcon className="h-4 w-4 shrink-0 text-teal-300" />}
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="my-1 h-px bg-white/[0.07]" />
+
+          <Link
+            href="/analyse/portfolio/depots/neu"
+            onClick={() => setOpen(false)}
+            role="menuitem"
+            className={`${itemBase} text-[13px] font-medium text-neutral-200 hover:bg-white/[0.055]`}
+          >
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-teal-300/20 bg-teal-400/10 text-teal-300">
+              <PlusIcon className="h-4 w-4" />
+            </span>
+            Neues Depot
+          </Link>
+
+          <Link
+            href="/analyse/portfolio/depots"
+            onClick={() => setOpen(false)}
+            role="menuitem"
+            className={`${itemBase} text-[13px] font-medium text-neutral-200 hover:bg-white/[0.055]`}
+          >
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/[0.08] bg-white/[0.045] text-neutral-300">
+              <Cog6ToothIcon className="h-4 w-4" />
+            </span>
+            Depots verwalten
+          </Link>
+        </div>
+      )}
+    </div>
+  )
+}
+
 function WorkspaceSkeleton() {
   return (
     <main className="w-full px-6 py-8 pb-24">
@@ -288,7 +438,12 @@ export default function PortfolioWorkspacePage() {
                     </span>
                   )}
                 </div>
-                <p className="truncate text-[11px] text-theme-muted">{selectedDepotName}</p>
+                <DepotSwitcher
+                  portfolios={p.allPortfolios}
+                  selectedDepotId={selectedDepotId}
+                  selectedDepotName={selectedDepotName}
+                  onSelectDepot={openDepot}
+                />
               </div>
             </div>
           </div>
@@ -299,12 +454,6 @@ export default function PortfolioWorkspacePage() {
               className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.035] px-3 py-2 text-xs font-medium text-theme-muted transition-colors hover:bg-white/[0.07] hover:text-theme-primary"
             >
               Klassisches Dashboard
-            </Link>
-            <Link
-              href="/analyse/portfolio/depots"
-              className="inline-flex items-center gap-2 rounded-xl border border-white/[0.08] bg-white/[0.035] px-3 py-2 text-xs font-medium text-theme-muted transition-colors hover:bg-white/[0.07] hover:text-theme-primary"
-            >
-              Depots
             </Link>
             <Link
               href={`/analyse/portfolio/dashboard?depot=${p.depotIdParam}&tab=transactions`}
