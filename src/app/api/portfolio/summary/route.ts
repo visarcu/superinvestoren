@@ -4,6 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { detectTickerCurrency } from '@/lib/fmp'
+import { convertPriceToEur } from '@/lib/portfolioValuation'
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -108,17 +109,9 @@ export async function GET(request: NextRequest) {
     const enrichedHoldings = holdingsList.map((h: any) => {
       const apiPrice = quoteMap[h.symbol] || 0
       const tickerCur = detectTickerCurrency(h.symbol)
-      let priceEUR: number
-
-      if (tickerCur === 'EUR') {
-        priceEUR = apiPrice
-      } else if (tickerCur === 'GBP' && gbpRate) {
-        priceEUR = (apiPrice / 100) * gbpRate // GBX→GBP→EUR
-      } else if (tickerCur === 'USD' && usdRate) {
-        priceEUR = apiPrice * usdRate
-      } else {
-        priceEUR = apiPrice // Fallback (should not happen)
-      }
+      // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert,
+      // GBP kommt als GBX/Pence → ÷100 × Rate, USD × Rate, sonst unkonvertiert).
+      const priceEUR = convertPriceToEur(apiPrice, tickerCur, { usdToEurRate: usdRate, gbpToEurRate: gbpRate })
 
       const qty = h.quantity || 0
       const value = priceEUR * qty

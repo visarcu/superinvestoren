@@ -7,6 +7,7 @@ import { supabase } from '@/lib/supabaseClient'
 import { getBulkQuotesWithChanges, detectTickerCurrency } from '@/lib/fmp'
 import { useCurrency } from '@/lib/CurrencyContext'
 import { getEURRate, currencyManager, ExchangeRateError } from '@/lib/portfolioCurrency'
+import { convertPriceToEur } from '@/lib/portfolioValuation'
 import { calculateXIRR, type Cashflow } from '@/utils/xirr'
 
 // Types
@@ -636,22 +637,9 @@ export function usePortfolio() {
       const apiPrice = currentPrices[h.symbol] || 0
       const tickerCurrency = detectTickerCurrency(h.symbol)
 
-      // EUR-Aktien (z.B. .DE, .PA): API liefert bereits EUR → keine Konvertierung
-      // USD-Aktien: API liefert USD → muss in EUR konvertiert werden
-      // GBP-Aktien (.L): FMP liefert in GBX (Pence) → ÷100 für GBP → ×Rate für EUR
-      let currentPriceEUR: number
-      if (tickerCurrency === 'EUR') {
-        currentPriceEUR = apiPrice
-      } else if (tickerCurrency === 'GBP' && gbpToEurRate) {
-        // .L Ticker: FMP liefert GBX (Pence), nicht GBP!
-        // 1 GBP = 100 GBX → erst durch 100 teilen, dann in EUR konvertieren
-        currentPriceEUR = (apiPrice / 100) * gbpToEurRate
-      } else if (tickerCurrency === 'USD' && usdToEurRate) {
-        currentPriceEUR = apiPrice * usdToEurRate
-      } else {
-        // Fallback: Preis unkonvertiert verwenden
-        currentPriceEUR = apiPrice
-      }
+      // Kurs → EUR über die zentrale Bewertungslogik (EUR unverändert, GBP kommt
+      // als GBX/Pence → ÷100 × Rate, USD × Rate, sonst unkonvertiert).
+      const currentPriceEUR = convertPriceToEur(apiPrice, tickerCurrency, { usdToEurRate, gbpToEurRate })
 
       const purchasePrice = h.purchase_price || 0
       const quantity = h.quantity || 0
