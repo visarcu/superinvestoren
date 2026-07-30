@@ -13,6 +13,7 @@ import {
 import { supabase } from '@/lib/supabaseClient'
 import PortfolioDepotList, { PortfolioSummary } from '@/components/PortfolioDepotList'
 import { BrokerType } from '@/lib/brokerConfig'
+import { valuateHoldingsByPortfolio, type ValuationHolding } from '@/lib/portfolioValuation'
 
 export default function DepotsPage() {
   const router = useRouter()
@@ -43,37 +44,43 @@ export default function DepotsPage() {
         .order('created_at', { ascending: true })
 
       if (portfoliosError) throw portfoliosError
+      const portfolioRows = portfoliosData || []
 
-      const portfoliosWithStats: PortfolioSummary[] = await Promise.all(
-        (portfoliosData || []).map(async (portfolio) => {
-          const { data: holdings } = await supabase
-            .from('portfolio_holdings')
-            .select('symbol, name, quantity, purchase_price, current_price')
-            .eq('portfolio_id', portfolio.id)
+      // Holdings aller Depots in einem Query laden (kein N+1 mehr)
+      const portfolioIds = portfolioRows.map(p => p.id)
+      let holdingsRows: ValuationHolding[] = []
+      if (portfolioIds.length > 0) {
+        const { data: holdingsData } = await supabase
+          .from('portfolio_holdings')
+          .select('portfolio_id, symbol, quantity, purchase_price, current_price')
+          .in('portfolio_id', portfolioIds)
+        holdingsRows = (holdingsData || []) as ValuationHolding[]
+      }
 
-          const holdingsArray = holdings || []
-          const totalValue = holdingsArray.reduce((sum, h) => sum + (h.quantity * (h.current_price || h.purchase_price)), 0)
-          const totalCost = holdingsArray.reduce((sum, h) => sum + (h.quantity * h.purchase_price), 0)
-          const gainLoss = totalValue - totalCost
-          const gainLossPercent = totalCost > 0 ? (gainLoss / totalCost) * 100 : 0
+      // Live-Bewertung je Depot (identisch zum Workspace: Live-Kurse + EUR-Umrechnung)
+      const valuationByPortfolio = await valuateHoldingsByPortfolio(holdingsRows)
 
-          return {
-            id: portfolio.id,
-            name: portfolio.name,
-            broker_type: portfolio.broker_type as BrokerType || 'manual',
-            broker_name: portfolio.broker_name,
-            broker_color: portfolio.broker_color,
-            cash_position: portfolio.cash_position || 0,
-            is_default: portfolio.is_default || false,
-            created_at: portfolio.created_at,
-            total_value: totalValue,
-            total_cost: totalCost,
-            holdings_count: holdingsArray.length,
-            gain_loss: gainLoss,
-            gain_loss_percent: gainLossPercent
-          }
-        })
-      )
+      const portfoliosWithStats: PortfolioSummary[] = portfolioRows.map((portfolio) => {
+        const valuation = valuationByPortfolio.get(portfolio.id) || { value: 0, cost: 0, count: 0 }
+        const gainLoss = valuation.value - valuation.cost
+        const gainLossPercent = valuation.cost > 0 ? (gainLoss / valuation.cost) * 100 : 0
+
+        return {
+          id: portfolio.id,
+          name: portfolio.name,
+          broker_type: portfolio.broker_type as BrokerType || 'manual',
+          broker_name: portfolio.broker_name,
+          broker_color: portfolio.broker_color,
+          cash_position: portfolio.cash_position || 0,
+          is_default: portfolio.is_default || false,
+          created_at: portfolio.created_at,
+          total_value: valuation.value,
+          total_cost: valuation.cost,
+          holdings_count: valuation.count,
+          gain_loss: gainLoss,
+          gain_loss_percent: gainLossPercent
+        }
+      })
 
       setPortfolios(portfoliosWithStats)
     } catch (err: any) {

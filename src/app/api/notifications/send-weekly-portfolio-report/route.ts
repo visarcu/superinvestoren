@@ -3,6 +3,8 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { Resend } from 'resend'
+import { convertPriceToEur } from '@/lib/portfolioValuation'
+import { detectTickerCurrency } from '@/lib/fmp'
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -81,7 +83,7 @@ function formatWeekRange(startDate: Date, endDate: Date): string {
   return `${startDay}. ${startMonth} - ${endDay}. ${endMonth}`
 }
 
-function formatCurrency(amount: number, currency = 'USD'): string {
+function formatCurrency(amount: number, currency = 'EUR'): string {
   return new Intl.NumberFormat('de-DE', {
     style: 'currency',
     currency,
@@ -103,6 +105,20 @@ function formatShares(quantity: number): string {
     minimumFractionDigits: 0,
     maximumFractionDigits: 4
   }).format(quantity)
+}
+
+// EUR-Wechselkurs (EUR pro Einheit Fremdwährung) serverseitig über die API-Route holen.
+async function getEurRate(from: 'USD' | 'GBP'): Promise<number | null> {
+  try {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL || 'https://finclue.de'}/api/exchange-rate?from=${from}&to=EUR`
+    )
+    if (res.ok) {
+      const json = await res.json()
+      if (json.rate && !isNaN(json.rate) && json.rate > 0) return Number(json.rate)
+    }
+  } catch { /* Fallback: keine Umrechnung */ }
+  return null
 }
 
 function generatePerformerCard(holding: HoldingWithPerf, type: 'gainer' | 'loser'): string {
@@ -490,6 +506,12 @@ async function handleWeeklyPortfolioReport() {
 
     console.log(`[Weekly Portfolio Report] Got quotes for ${quoteMap.size} symbols`)
 
+    // Wechselkurse einmal holen — FMP liefert Kurse in Börsenwährung (USD, GBX/Pence
+    // bei .L, EUR bei .DE); für den Depotwert muss alles nach EUR umgerechnet werden.
+    const currencies = new Set(allSymbols.map(s => detectTickerCurrency(s)))
+    const usdToEurRate = currencies.has('USD') ? await getEurRate('USD') : null
+    const gbpToEurRate = currencies.has('GBP') ? await getEurRate('GBP') : null
+
     // 6. Earnings preview for next week — DB-First aus earningsCalendar-Tabelle
     let earningsCalendar: EarningsPreviewItem[] = []
     try {
@@ -533,8 +555,12 @@ async function handleWeeklyPortfolioReport() {
         const quote = quoteMap.get(symbol)
         if (!quote || !quote.price) continue
 
-        const currentPrice = quote.price
-        const previousClose = quote.previousClose ?? (currentPrice / (1 + quote.changesPercentage / 100))
+        // Kurse in Börsenwährung → EUR (beide Seiten mit derselben Rate, damit die
+        // wöchentliche Prozent-Veränderung unverändert = reine Kursbewegung bleibt).
+        const currency = detectTickerCurrency(symbol)
+        const rawPreviousClose = quote.previousClose ?? (quote.price / (1 + quote.changesPercentage / 100))
+        const currentPrice = convertPriceToEur(quote.price, currency, { usdToEurRate, gbpToEurRate })
+        const previousClose = convertPriceToEur(rawPreviousClose, currency, { usdToEurRate, gbpToEurRate })
         const currentValue = quantity * currentPrice
         const previousValue = quantity * previousClose
         const weeklyChangeAbs = currentValue - previousValue
