@@ -90,16 +90,23 @@ export async function GET(request: NextRequest) {
       epsEstimated?: number | string | null
       revenueEstimated?: number | string | null
     }
-    const dbRows = await getEarningsFromDb(from, to)
-    let data: WeeklyEvent[] = dbRows.map(r => ({
-      symbol: r.symbol,
-      date: r.date,
-      time: r.time,
-      epsEstimated: r.epsEstimate,
-      revenueEstimated: r.revenueEstimate,
-    }))
+    // Ist die DB nicht erreichbar, darf der öffentliche Kalender nicht ausfallen —
+    // wir behandeln den Fehler wie ein leeres Ergebnis und gehen über FMP.
+    let data: WeeklyEvent[] = []
+    try {
+      const dbRows = await getEarningsFromDb(from, to)
+      data = dbRows.map(r => ({
+        symbol: r.symbol,
+        date: r.date,
+        time: r.time,
+        epsEstimated: r.epsEstimate,
+        revenueEstimated: r.revenueEstimate,
+      }))
+    } catch (dbError) {
+      console.error('⚠️ DB-Earnings nicht lesbar, fallback zu FMP:', dbError)
+    }
 
-    // Fallback: nur wenn DB für diesen Range keine Daten hat
+    // Fallback: wenn DB für diesen Range keine Daten hat oder nicht erreichbar war
     if (data.length === 0) {
       console.warn('⚠️ DB-Earnings leer für Range, fallback zu FMP')
       const response = await fetch(
