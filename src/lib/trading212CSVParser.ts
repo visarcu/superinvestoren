@@ -137,9 +137,18 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
 
   const header = parseCSVLine(lines[0])
   const col = (name: string) => header.findIndex(h => h.trim() === name)
+  // Toleranter Spalten-Match: exakt oder mit Klammer-Suffix. Trading 212
+  // benennt die Zeitspalte je nach Export "Time" ODER "Time (UTC)" — ohne
+  // diesen Fallback bleibt idx.time = -1, das Datum jeder Zeile ist leer und
+  // der Parser überspringt still ALLE Zeilen ("Keine Transaktionen erkannt").
+  const colLoose = (name: string) => {
+    const exact = col(name)
+    if (exact >= 0) return exact
+    return header.findIndex(h => h.trim() === name || h.trim().startsWith(`${name} (`))
+  }
   const idx = {
     action: col('Action'),
-    time: col('Time'),
+    time: colLoose('Time'),
     isin: col('ISIN'),
     ticker: col('Ticker'),
     name: col('Name'),
@@ -327,6 +336,34 @@ export function parseTrading212CSV(csvText: string): Trading212CSVParseResult {
         originalType: action,
         isFromCorpAction: true,
         corpActionType: 'split',
+      })
+      byType.transfer_in = (byType.transfer_in || 0) + 1
+      continue
+    }
+
+    // Spin-off: neue Position wird eingebucht (Trading 212 liefert keinen
+    // Verweis auf die Mutterposition und keinen Kurs → price 0). Als
+    // transfer_in mit Spin-off-Markierung einbuchen, damit die Position
+    // überhaupt entsteht; die Kostenbasis lässt sich mangels Mutter-Verweis
+    // nicht automatisch übertragen und ist daher zunächst 0 (manuell prüfbar).
+    if (/^Spin off/i.test(action) && isin && shares > 0) {
+      uniqueISINs.add(isin)
+      transactions.push({
+        date,
+        type: 'transfer_in',
+        isin,
+        symbol: ticker,
+        name,
+        quantity: shares,
+        price: 0,
+        totalValue: 0,
+        fee: 0,
+        tax: 0,
+        notes: 'Trading 212 · Spin-off · Einstandskurs nicht in CSV enthalten — bitte manuell prüfen',
+        originalType: action,
+        isFromTransfer: true,
+        isFromCorpAction: true,
+        corpActionType: 'spinoff',
       })
       byType.transfer_in = (byType.transfer_in || 0) + 1
       continue
